@@ -30,9 +30,13 @@
             <code id="clr_ts">
 # namespace System.Reflection
 export class PropertyAttributes extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
-   HasDefault: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a> = 4096;
-
    None: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a> = 0;
+
+   SpecialName: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a> = 512;
+
+   RTSpecialName: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a> = 1024;
+
+   HasDefault: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a> = 4096;
 
    Reserved2: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a> = 8192;
 
@@ -42,10 +46,6 @@ export class PropertyAttributes extends <a href="/vignettes/clr/System/Enum.html
 
    ReservedMask: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a> = 62464;
 
-   RTSpecialName: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a> = 1024;
-
-   SpecialName: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a> = 512;
-
 }
 </code>
         </pre>
@@ -54,14 +54,14 @@ export class PropertyAttributes extends <a href="/vignettes/clr/System/Enum.html
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
-<li>use by <i>field</i> member <code>HasDefault</code>: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a></li>
 <li>use by <i>field</i> member <code>None</code>: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a></li>
+<li>use by <i>field</i> member <code>SpecialName</code>: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a></li>
+<li>use by <i>field</i> member <code>RTSpecialName</code>: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a></li>
+<li>use by <i>field</i> member <code>HasDefault</code>: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a></li>
 <li>use by <i>field</i> member <code>Reserved2</code>: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a></li>
 <li>use by <i>field</i> member <code>Reserved3</code>: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a></li>
 <li>use by <i>field</i> member <code>Reserved4</code>: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a></li>
 <li>use by <i>field</i> member <code>ReservedMask</code>: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a></li>
-<li>use by <i>field</i> member <code>RTSpecialName</code>: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a></li>
-<li>use by <i>field</i> member <code>SpecialName</code>: <a href="/vignettes/clr/System/Reflection/PropertyAttributes.html">PropertyAttributes</a></li>
 </ol>
 
 
