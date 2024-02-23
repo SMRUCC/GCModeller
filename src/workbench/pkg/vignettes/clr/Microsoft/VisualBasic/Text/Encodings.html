@@ -30,25 +30,16 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.Text
 export class Encodings extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # <a href="/vignettes/clr/System/Text/Encoding.html">Encoding</a>.<a href="/vignettes/clr/System/Text/Encoding.html">Default</a>: Gets an encoding for the operating system's current ANSI code page.
+   Default: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 0;
+
    ANSI: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 1;
 
    ASCII: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 10;
 
-   # <a href="/vignettes/clr/System/Text/Encoding.html">Encoding</a>.<a href="/vignettes/clr/System/Text/Encoding.html">Default</a>: Gets an encoding for the operating system's current ANSI code page.
-   Default: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 0;
-
-   # Text encoding for simplify Chinese.
-   [@desc "gb-2312"]
-   GB2312: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 17;
-
    # Alias of the value <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">UTF16</a>.
    #  (utf-16编码的别名？所以使用这个编码的效果是和<a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">UTF16</a>的效果是一样的)
    Unicode: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 11;
-
-   # VB.NET的XML文件的默认编码格式为utf-16
-   UTF16: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 15;
-
-   UTF32: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 16;
 
    UTF7: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 12;
 
@@ -58,6 +49,15 @@ export class Encodings extends <a href="/vignettes/clr/System/Enum.html">Enum</a
 
    UTF8WithoutBOM: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 14;
 
+   # VB.NET的XML文件的默认编码格式为utf-16
+   UTF16: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 15;
+
+   UTF32: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 16;
+
+   # Text encoding for simplify Chinese.
+   [@desc "gb-2312"]
+   GB2312: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a> = 17;
+
 }
 </code>
         </pre>
@@ -66,16 +66,16 @@ export class Encodings extends <a href="/vignettes/clr/System/Enum.html">Enum</a
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Default</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
 <li>use by <i>field</i> member <code>ANSI</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
 <li>use by <i>field</i> member <code>ASCII</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
-<li>use by <i>field</i> member <code>Default</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
-<li>use by <i>field</i> member <code>GB2312</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
 <li>use by <i>field</i> member <code>Unicode</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
-<li>use by <i>field</i> member <code>UTF16</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
-<li>use by <i>field</i> member <code>UTF32</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
 <li>use by <i>field</i> member <code>UTF7</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
 <li>use by <i>field</i> member <code>UTF8</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
 <li>use by <i>field</i> member <code>UTF8WithoutBOM</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
+<li>use by <i>field</i> member <code>UTF16</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
+<li>use by <i>field</i> member <code>UTF32</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
+<li>use by <i>field</i> member <code>GB2312</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Encodings.html">Encodings</a></li>
 </ol>
 
 

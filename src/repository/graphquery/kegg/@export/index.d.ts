@@ -9,6 +9,28 @@ declare namespace kegg_api {
       function onLoad(): object;
    }
    /**
+     * @param fs_dir default value Is ``/``.
+     * @param cache_dir default value Is ``./``.
+   */
+   function __query_compounds(compounds: any, fs_dir?: any, cache_dir?: any): object;
+   /**
+     * @param cache_dir default value Is ``./``.
+   */
+   function __query_map(map: any, cache_dir?: any): object;
+   /**
+     * @param fs_dir default value Is ``/``.
+     * @param cache_dir default value Is ``./``.
+   */
+   function __query_module(mid: any, fs_dir?: any, cache_dir?: any): object;
+   /**
+   */
+   function compound_brites(): object;
+   /**
+     * @param prefix default value Is ````.
+     * @param maxChars default value Is ``64``.
+   */
+   function enumeratePath(brite: any, prefix?: any, maxChars?: any): object;
+   /**
      * @param cache_dir default value Is ``null``.
    */
    function kegg_compound(id: any, cache_dir?: any): object;
@@ -25,6 +47,10 @@ declare namespace kegg_api {
    */
    function kegg_reaction(id: any, cache_dir?: any): object;
    /**
+     * @param db_file default value Is ``./kegg.db``.
+   */
+   function kegg_referencedb(db_file?: any): object;
+   /**
      * @param org default value Is ``["ko", "map", "hsa"]``.
      * @param cache default value Is ``null``.
    */
@@ -32,4 +58,20 @@ declare namespace kegg_api {
    /**
    */
    function loadReactionIDs(): object;
+   /**
+   */
+   function pathway_category(): object;
+   /**
+   */
+   function placeNULL(v: any): object;
+   /**
+   */
+   function reaction_category(): object;
+   /**
+   */
+   function reactionclass_category(): object;
+   /**
+     * @param maxChars default value Is ``32``.
+   */
+   function trimLongName(longNames: string, maxChars?: any): object;
 }

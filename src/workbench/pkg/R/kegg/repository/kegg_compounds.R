@@ -25,24 +25,24 @@ const kegg_compounds = function(rawList = FALSE) {
 #' 
 #' @return a set of the kegg compound clr object models
 #' 
-const __hds_compound_files = function(kegg_db) {
-    __hds_compound_dir(kegg_db,           "/Metabolism")
-    |> append(__hds_compound_dir(kegg_db, "/Genetic Information Processing"))
-    |> append(__hds_compound_dir(kegg_db, "/Environmental Information Processing"))
-    |> append(__hds_compound_dir(kegg_db, "/Cellular Processes"))
-    |> append(__hds_compound_dir(kegg_db, "/Organismal Systems"))
-    |> append(__hds_compound_dir(kegg_db, "/Human Diseases"))
-    |> append(__hds_compound_dir(kegg_db, "/Drug Development"))
+const __hds_compound_files = function(kegg_db, flag = "compounds", what = "kegg_compound") {
+    __hds_compound_dir(kegg_db,           flag = flag, what = what, dir = "/Metabolism")
+    |> append(__hds_compound_dir(kegg_db, flag = flag, what = what, dir = "/Genetic Information Processing"))
+    |> append(__hds_compound_dir(kegg_db, flag = flag, what = what, dir = "/Environmental Information Processing"))
+    |> append(__hds_compound_dir(kegg_db, flag = flag, what = what, dir = "/Cellular Processes"))
+    |> append(__hds_compound_dir(kegg_db, flag = flag, what = what, dir = "/Organismal Systems"))
+    |> append(__hds_compound_dir(kegg_db, flag = flag, what = what, dir = "/Human Diseases"))
+    |> append(__hds_compound_dir(kegg_db, flag = flag, what = what, dir = "/Drug Development"))
     |> which(x -> !is.null(x))
     ;
 }
 
-const __hds_compound_dir = function(kegg_db, dir) {
+const __hds_compound_dir = function(kegg_db, dir, flag = "compounds", what = "kegg_compound") {
     let files = HDS::files(kegg_db, dir = `/${dir}/`, recursive = TRUE);
 
     files = as.data.frame(files);
     files = files[files$type == "dir", ];
-    files = files[basename(files$path) == "compounds", ];
+    files = files[basename(files$path) == flag, ];
 
     # get all compounds
     files = lapply(files$path, dir -> as.data.frame(HDS::files(kegg_db, dir = `${dir}/`, recursive = TRUE))$path);
@@ -53,7 +53,7 @@ const __hds_compound_dir = function(kegg_db, dir) {
     |> groupBy("name") 
     |> sapply(d -> .Internal::first(d$files))
     |> sapply(path -> try({
-            loadXml(HDS::getText(kegg_db, fileName = path), typeof = "kegg_compound");
+            loadXml(HDS::getText(kegg_db, fileName = path), typeof = what);
         })
     )
     ;

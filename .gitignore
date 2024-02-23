@@ -404,3 +404,6 @@ src/repository/graphquery/kegg/pipeline/package_updater/map_cache.db
 
 src/workbench/pkg/.vs/pkg/v17/.wsuo
 src/repository/graphquery/kegg/tools/kegg.db
+src/workbench/pkg/test/compounds.msgpack
+src/repository/graphquery/kegg/pipeline/package_updater/KEGG_maps.msgpack
+src/workbench/pkg/test/reactions.msgpack

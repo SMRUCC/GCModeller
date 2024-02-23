@@ -54,6 +54,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Text
 Imports entry = SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry.Pathway
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -111,7 +112,13 @@ Namespace Html
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function doParseObject(html As String, schema As Type) As Object
-            Return ParseHtmlExtensions.ParseHTML(html, fs:=cache)
+            html = Strings.Trim(html).Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)
+
+            If html.StringEmpty Then
+                Return Nothing
+            Else
+                Return ParseHtmlExtensions.ParseHTML(html, fs:=cache)
+            End If
         End Function
 
         Protected Overrides Function doParseGuid(context As entry) As String
