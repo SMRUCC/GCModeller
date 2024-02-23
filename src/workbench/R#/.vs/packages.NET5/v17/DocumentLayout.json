@@ -1,7 +1,24 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\repository\\dbget.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\repository\\dbget.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\repository\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\repository\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\repository\\kegg_api.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\repository\\kegg_api.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\britekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\britekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +26,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "repository.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\repository.vb",
+              "RelativeDocumentMoniker": "kegg_kit\\repository\\repository.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\repository.vb",
+              "RelativeToolTip": "kegg_kit\\repository\\repository.vb",
+              "ViewState": "AQIAABwBAAAAAAAAAAAAALgDAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-23T09:29:08.845Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "kegg_api.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\kegg_api.vb",
+              "RelativeDocumentMoniker": "kegg_kit\\repository\\kegg_api.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\kegg_api.vb",
+              "RelativeToolTip": "kegg_kit\\repository\\kegg_api.vb",
+              "ViewState": "AQIAAEAAAAAAAAAAAAAAAJ8AAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-23T09:29:02.27Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "dbget.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\dbget.vb",
+              "RelativeDocumentMoniker": "kegg_kit\\repository\\dbget.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\dbget.vb",
+              "RelativeToolTip": "kegg_kit\\repository\\dbget.vb",
+              "ViewState": "AQIAAD0AAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-23T09:28:55.657Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "britekit.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\britekit.vb",
+              "RelativeDocumentMoniker": "kegg_kit\\britekit.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\britekit.vb",
+              "RelativeToolTip": "kegg_kit\\britekit.vb",
+              "ViewState": "AQIAAL4AAAAAAAAAAAAkwJ4AAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-23T09:27:39.182Z",
+              "EditorCaption": ""
             }
           ]
         }
