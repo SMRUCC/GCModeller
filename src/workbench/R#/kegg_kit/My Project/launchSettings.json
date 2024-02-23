@@ -6,7 +6,7 @@
     "run_dll": {
       "commandName": "Executable",
       "executablePath": "\\GCModeller\\src\\R-sharp\\App\\net6.0\\R#.exe",
-      "commandLineArgs": "\\GCModeller\\src\\repository\\graphquery\\kegg\\tools\\kegg_referencedb.R --attach \\GCModeller\\src\\workbench\\pkg "
+      "commandLineArgs": "\\GCModeller\\src\\workbench\\pkg\\test\\test_load_compounds.R --attach \\GCModeller\\src\\workbench\\pkg "
     },
     "test_pipeline": {
       "commandName": "Executable",

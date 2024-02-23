@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\kegg_kit.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\kegg_kit.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\repository\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\repository\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +18,36 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "kegg_kit.NET5",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\kegg_kit.NET5.vbproj",
+              "RelativeDocumentMoniker": "kegg_kit\\kegg_kit.NET5.vbproj",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\kegg_kit.NET5.vbproj",
+              "RelativeToolTip": "kegg_kit\\kegg_kit.NET5.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-02-23T08:47:07.983Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "repository.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\repository.vb",
+              "RelativeDocumentMoniker": "kegg_kit\\repository\\repository.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\repository.vb",
+              "RelativeToolTip": "kegg_kit\\repository\\repository.vb",
+              "ViewState": "AQIAAMcAAAAAAAAAAAAmwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-23T08:46:50.215Z",
+              "EditorCaption": ""
             }
           ]
         }
