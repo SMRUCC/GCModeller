@@ -1,21 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|e:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\html\\webquery.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\html\\webquery.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{77A3EA3A-3A66-4014-A231-12E264FB9036}|..\\..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\net\\http\\web\\webquery.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{77A3EA3A-3A66-4014-A231-12E264FB9036}|..\\..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\collection\\linq\\pipeline.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\xieguigang\\AppData\\Local\\Temp\\.vsdbgsrc\\d14cacdbcb6393ef26ba05aa89371fe7e56761358a862727f79a640459e03d34\\LargeArrayBuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -23,61 +9,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Pipeline.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Collection\\Linq\\Pipeline.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Collection\\Linq\\Pipeline.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Collection\\Linq\\Pipeline.vb",
-              "RelativeToolTip": "..\\..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Collection\\Linq\\Pipeline.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEgAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-02-23T10:34:28.083Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "WebQuery.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Net\\HTTP\\Web\\WebQuery.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Net\\HTTP\\Web\\WebQuery.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Net\\HTTP\\Web\\WebQuery.vb",
-              "RelativeToolTip": "..\\..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Net\\HTTP\\Web\\WebQuery.vb",
-              "ViewState": "AQIAANcAAAAAAAAAAIA1wO8AAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-02-23T10:34:16.861Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "WebQuery.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\WebQuery.vb",
-              "RelativeDocumentMoniker": "kegg_api\\Html\\WebQuery.vb",
-              "ToolTip": "E:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\WebQuery.vb",
-              "RelativeToolTip": "kegg_api\\Html\\WebQuery.vb",
-              "ViewState": "AQIAAFsAAAAAAAAAAAAqwHgAAAASAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-02-23T10:34:08.673Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "LargeArrayBuilder.cs",
-              "DocumentMoniker": "C:\\Users\\xieguigang\\AppData\\Local\\Temp\\.vsdbgsrc\\d14cacdbcb6393ef26ba05aa89371fe7e56761358a862727f79a640459e03d34\\LargeArrayBuilder.cs",
-              "ToolTip": "C:\\Users\\xieguigang\\AppData\\Local\\Temp\\.vsdbgsrc\\d14cacdbcb6393ef26ba05aa89371fe7e56761358a862727f79a640459e03d34\\LargeArrayBuilder.cs [\u53EA\u8BFB]",
-              "ViewState": "AQIAACQAAAAAAAAAAAAlwD0AAAACAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-23T10:33:56.04Z",
-              "EditorCaption": " [\u53EA\u8BFB]"
             }
           ]
         }
