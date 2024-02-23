@@ -61,11 +61,15 @@ declare namespace GCModeller {
       function write_rbcList(rbcList: any): object;
    }
    /**
+     * @param flag default value Is ``compounds``.
+     * @param what default value Is ``kegg_compound``.
    */
-   function __hds_compound_dir(kegg_db: any, dir: any): object;
+   function __hds_compound_dir(kegg_db: any, dir: any, flag?: any, what?: any): object;
    /**
+     * @param flag default value Is ``compounds``.
+     * @param what default value Is ``kegg_compound``.
    */
-   function __hds_compound_files(kegg_db: any): object;
+   function __hds_compound_files(kegg_db: any, flag?: any, what?: any): object;
    /**
      * @param kegg_maps default value Is ``null``.
    */
@@ -81,6 +85,9 @@ declare namespace GCModeller {
    */
    function CompoundNetwork(compoundsId: any, make.pathway_cluster?: any): object;
    eutils: any;
+   /**
+   */
+   function extract_reactions(): object;
    /**
      * @param annotations default value Is ``["GENOME_GBFF", "GENOME_FASTA", "GENOME_GFF", "RNA_FASTA", "CDS_FASTA", "PROT_FASTA", "SEQUENCE_REPORT"]``.
    */
