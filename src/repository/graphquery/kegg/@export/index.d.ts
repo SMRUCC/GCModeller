@@ -23,6 +23,14 @@ declare namespace kegg_api {
    */
    function __query_module(mid: any, fs_dir?: any, cache_dir?: any): object;
    /**
+   */
+   function compound_brites(): object;
+   /**
+     * @param prefix default value Is ````.
+     * @param maxChars default value Is ``64``.
+   */
+   function enumeratePath(brite: any, prefix?: any, maxChars?: any): object;
+   /**
      * @param cache_dir default value Is ``null``.
    */
    function kegg_compound(id: any, cache_dir?: any): object;
@@ -50,4 +58,20 @@ declare namespace kegg_api {
    /**
    */
    function loadReactionIDs(): object;
+   /**
+   */
+   function pathway_category(): object;
+   /**
+   */
+   function placeNULL(v: any): object;
+   /**
+   */
+   function reaction_category(): object;
+   /**
+   */
+   function reactionclass_category(): object;
+   /**
+     * @param maxChars default value Is ``32``.
+   */
+   function trimLongName(longNames: string, maxChars?: any): object;
 }
