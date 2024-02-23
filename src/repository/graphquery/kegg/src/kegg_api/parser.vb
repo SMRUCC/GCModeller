@@ -114,7 +114,9 @@ Public Module parser
             Return Message.InCompatibleType(GetType(IFileSystemEnvironment), cache.GetType, env)
         End If
 
-        For Each row As EntityObject In Tqdm.Wrap(br08901)
+        Dim bar As Tqdm.ProgressBar = Nothing
+
+        For Each row As EntityObject In Tqdm.Wrap(br08901, bar:=bar)
             Dim refer As New Pathway With {
                 .category = row!category,
                 .[class] = row!class,
@@ -129,7 +131,7 @@ Public Module parser
 
             Call q.FileSystem.WriteText(map.GetXml, path)
             Call q.FileSystem.Flush()
-            Call println($"[{row!name}] {path}")
+            Call bar.SetLabel($"[{row!name}] {path}")
         Next
 
         Return True
