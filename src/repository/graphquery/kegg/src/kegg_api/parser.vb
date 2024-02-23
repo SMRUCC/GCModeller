@@ -1,6 +1,7 @@
 
 Imports kegg_api.Html
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.IO
@@ -113,7 +114,7 @@ Public Module parser
             Return Message.InCompatibleType(GetType(IFileSystemEnvironment), cache.GetType, env)
         End If
 
-        For Each row As EntityObject In br08901
+        For Each row As EntityObject In Tqdm.Wrap(br08901)
             Dim refer As New Pathway With {
                 .category = row!category,
                 .[class] = row!class,

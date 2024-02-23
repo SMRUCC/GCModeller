@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|e:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +14,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "parser.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\parser.vb",
+              "RelativeDocumentMoniker": "kegg_api\\parser.vb",
+              "ToolTip": "E:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\parser.vb",
+              "RelativeToolTip": "kegg_api\\parser.vb",
+              "ViewState": "AQIAAFsAAAAAAAAAAAAYwHEAAABSAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-02-23T09:37:19.452Z",
+              "EditorCaption": ""
             }
           ]
         }
