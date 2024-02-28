@@ -117,7 +117,9 @@ Public Class JsonParser
     ''' <param name="jsonStr">
     ''' the json text content
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function will returns nothing if the given json string is empty string or "null" literal.
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function OpenJSON(jsonStr As String) As JsonElement
         If jsonStr.TextEquals("null") Then
@@ -135,10 +137,15 @@ Public Class JsonParser
     ''' <param name="json">
     ''' text data in json string format
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function will returns nothing if the given json string is empty string or "null" literal.
+    ''' </returns>
     Public Shared Function Parse(json As String) As JsonElement
-        Dim parser As New JsonParser
-        Return parser.OpenJSON(json)
+        If json.StringEmpty Then
+            Return Nothing
+        Else
+            Return New JsonParser().OpenJSON(json)
+        End If
     End Function
 
     ''' <summary>
@@ -202,6 +209,7 @@ Public Class JsonParser
 
             'add key/value pair
             sKey = parseKey(str, index)
+            sKey = sKey.Trim(sKey.First)
             ret.Add(sKey, parseValue(str, index))
             If Err.Number <> 0 Then
                 psErrors &= Err.Description & ": " & sKey & vbCrLf
