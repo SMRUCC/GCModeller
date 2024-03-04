@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.ComponentModel.Loci.Strands</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Strands {SMRUCC.genomics.ComponentModel.Loci}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Strands</h2>
+
+        <h3>Description</h3>
+
+        <p>The direction of this segment on the nucleotide sequence.<br />
+ (片段在DNA链上面的方向或者是否为互补链, KEGG网站上面的<code>cutsequence</code><br />
+ 函数之中的<code>VECTOR</code>参数也和本枚举值所表述的含义一致，<br />
+ 正义链为1，互补链为-1值)</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.ComponentModel.Loci
+export class Strands extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # The loci site was on the DNA complement strand.(这个片段在DNA链的互补链之上)
+   [@desc "-"]
+   Reverse: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a> = -1;
+
+   # I really don't know what the direction of the loci site it is.
+   [@desc "?"]
+   Unknown: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a> = 0;
+
+   # The loci site was on the DNA sequence.(这个片段在DNA链的正义链之上)
+   [@desc "+"]
+   Forward: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a> = 1;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Reverse</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a></li>
+<li>use by <i>field</i> member <code>Unknown</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a></li>
+<li>use by <i>field</i> member <code>Forward</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

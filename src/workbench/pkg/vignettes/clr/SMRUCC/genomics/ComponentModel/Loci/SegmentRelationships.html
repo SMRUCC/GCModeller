@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.ComponentModel.Loci.SegmentRelationships</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>SegmentRelationships {SMRUCC.genomics.ComponentModel.Loci}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>SegmentRelationships</h2>
+
+        <h3>Description</h3>
+
+        <p>The location relationship description enumeration for the two loci sites on the nucleotide sequence.<br />
+ (核酸链上面的位点片段之间的位置关系的描述)</p>
+
+<p>为了能够在查询的时候对输入进行叠加，在这里采取互斥</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.ComponentModel.Loci
+export class SegmentRelationships extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # There is nothing on this location.
+   Blank: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a> = -100;
+
+   # The loci is on the upstream of the target loci, but part of the loci was overlapping.
+   #  (目标位点和当前的位点重叠在一个，但是目标位点的左端是在当前位点的上游的)
+   UpStreamOverlap: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a> = 2;
+
+   DownStreamOverlap: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a> = 4;
+
+   Inside: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a> = 8;
+
+   UpStream: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a> = 16;
+
+   DownStream: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a> = 32;
+
+   # 比较的目标位点包括了当前的这个位置参照
+   Cover: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a> = 64;
+
+   # Target loci is on the same <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a> with current loci and position is also equals.
+   Equals: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a> = 128;
+
+   # 指定的位点在目标位点的内部的反向序列之上
+   InnerAntiSense: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a> = 256;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Blank</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a></li>
+<li>use by <i>field</i> member <code>UpStreamOverlap</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a></li>
+<li>use by <i>field</i> member <code>DownStreamOverlap</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a></li>
+<li>use by <i>field</i> member <code>Inside</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a></li>
+<li>use by <i>field</i> member <code>UpStream</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a></li>
+<li>use by <i>field</i> member <code>DownStream</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a></li>
+<li>use by <i>field</i> member <code>Cover</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a></li>
+<li>use by <i>field</i> member <code>Equals</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a></li>
+<li>use by <i>field</i> member <code>InnerAntiSense</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/SegmentRelationships.html">SegmentRelationships</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

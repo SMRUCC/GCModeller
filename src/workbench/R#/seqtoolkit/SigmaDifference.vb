@@ -824,7 +824,7 @@ Module SigmaDifference
             Call DataSource(Row.Idx).SetAttributeValue(String.Format("Delta({0}, {1})", Row.Idx, Row.j), Row.Delta)
         Next
 
-        Return DF
+        Return DF.csv
     End Function
 
     <ExportAPI("Partitions.Creates")>
