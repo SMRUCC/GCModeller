@@ -239,6 +239,7 @@ Namespace IO.Models
 
         ReadOnly file As String
         ReadOnly reader As StreamReader
+        ReadOnly cache As New List(Of RawTerm)
 
         Sub New(file$, Optional encoding As Encodings = Encodings.UTF8)
             If file.StringEmpty Then
@@ -277,9 +278,19 @@ Namespace IO.Models
         End Function
 
         Public Iterator Function GetRawTerms() As IEnumerable(Of RawTerm)
-            For Each block As NamedCollection(Of String) In populateLines()
-                Yield createRawTerm(block)
-            Next
+            If cache.IsNullOrEmpty Then
+                Dim term As RawTerm
+
+                For Each block As NamedCollection(Of String) In populateLines()
+                    term = createRawTerm(block)
+                    cache.Add(term)
+                    Yield term
+                Next
+            Else
+                For Each term As RawTerm In cache
+                    Yield term
+                Next
+            End If
         End Function
 
         Private Function createRawTerm(block As NamedCollection(Of String)) As RawTerm
