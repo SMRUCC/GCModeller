@@ -55,8 +55,11 @@
 Namespace Tree
 
     ''' <summary>
-    ''' A very simple orthology tree.(仅仅依靠``is_a``关系来构建出直系同源树)
+    ''' A very simple orthology tree.
     ''' </summary>
+    ''' <remarks>
+    ''' (仅仅依靠``is_a``关系来构建出直系同源树)
+    ''' </remarks>
     Public Class GenericTree
 
         Public Property ID As String
@@ -65,7 +68,11 @@ Namespace Tree
         ''' multiple inheritance? (basetype)
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' find the ancestors via this ontology lineage relationship
+        ''' </remarks>
         Public Property is_a As GenericTree()
+        Public Property direct_childrens As Dictionary(Of String, GenericTree)
 
         ''' <summary>
         ''' Additional data table

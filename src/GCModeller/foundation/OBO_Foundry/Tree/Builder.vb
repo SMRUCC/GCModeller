@@ -72,6 +72,7 @@ Namespace Tree
                 If Not v.data.ContainsKey(RawTerm.Key_is_a) Then
                     v.is_a = {}
                 Else
+                    ' get all parent id of current node v
                     Dim is_a = v.data!is_a _
                         .Select(Function(value)
                                     Return value.StringSplit("\s*!\s*").First.Trim
@@ -81,6 +82,17 @@ Namespace Tree
                     v.is_a = is_a _
                         .Select(Function(id) vertex(id)) _
                         .ToArray
+
+                    ' add childs links
+                    For Each parent_id As String In is_a
+                        Dim parent = vertex(parent_id)
+
+                        If parent.direct_childrens Is Nothing Then
+                            parent.direct_childrens = New Dictionary(Of String, GenericTree)
+                        End If
+
+                        parent.direct_childrens(v.ID) = v
+                    Next
                 End If
             Next
 
