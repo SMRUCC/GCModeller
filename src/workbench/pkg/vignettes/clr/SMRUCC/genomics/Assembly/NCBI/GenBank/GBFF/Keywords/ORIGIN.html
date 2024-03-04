@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.ORIGIN</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ORIGIN {SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ORIGIN</h2>
+
+        <h3>Description</h3>
+
+        <p>This GenBank keyword section stores the sequence data for this database.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
+export class ORIGIN extends <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/KeyWord.html">KeyWord</a> {
+   # 是整条序列的GC偏移
+   GCSkew: double;
+   Headers: string;
+   # The sequence data that stores in this GenBank database, which can be a genomics DNA sequence, protein sequence or RNA sequence.
+   #  (序列数据，类型可以包括基因组DNA序列，蛋白质序列或者RNA序列)
+   SequenceData: string;
+   # 基因组的大小
+   Size: integer;
+   Title: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/KeyWord.html">KeyWord</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/KeyWord.html">KeyWord</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
