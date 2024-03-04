@@ -77,7 +77,6 @@ Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting
 
 Namespace IO
 
@@ -86,18 +85,23 @@ Namespace IO
     ''' (第一行总是没有的，即本对象类型适用于第一行为列标题行的数据)
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class DataFrame : Inherits File
+    Public Class DataFrame
         Implements ISchema
         Implements IDataReader
         Implements IDisposable
         Implements IEnumerable(Of DynamicObjectLoader)
 
         ''' <summary>
-        ''' <see cref="current"></see>在<see cref="_innerTable"></see>之中的位置
+        ''' <see cref="current"></see>在<see cref="table"></see>之中的位置
         ''' </summary>
         ''' <remarks></remarks>
         Dim p% = -1
         Dim current As RowObject
+
+        ''' <summary>
+        ''' table data that contains no header row
+        ''' </summary>
+        Friend table As ICollection(Of RowObject)
 
         ''' <summary>
         ''' Using the first line of the csv row as the column headers in this csv file.
@@ -141,7 +145,7 @@ Namespace IO
         Public Function MeasureTypeSchema() As DataFrame
             Dim types As New List(Of Type)
 
-            For Each col As String() In Columns
+            For Each col As String() In table.GetColumns
                 types.Add(DataImports.SampleForType(col))
             Next
 
@@ -156,15 +160,14 @@ Namespace IO
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function CreateDataSource() As DynamicObjectLoader()
+            Dim rowNumbers = table.Count.Sequence
             Dim LQuery As DynamicObjectLoader() = LinqAPI.Exec(Of DynamicObjectLoader) _
                                                                                        _
             () <=
                  _
                 From i As Integer
-                In RowNumbers _
-                    .Sequence _
-                    .AsParallel
-                Let line As RowObject = _innerTable(i)
+                In rowNumbers.AsParallel
+                Let line As RowObject = table(i)
                 Select row = New DynamicObjectLoader With {
                     .lineNumber = i,
                     .RowData = line,
@@ -177,7 +180,7 @@ Namespace IO
         End Function
 
         Public Iterator Function EnumerateData() As IEnumerable(Of Dictionary(Of String, String))
-            For Each row As RowObject In _innerTable
+            For Each row As RowObject In table
                 Dim out As New Dictionary(Of String, String)
 
                 For Each key In SchemaOridinal
@@ -189,7 +192,7 @@ Namespace IO
         End Function
 
         Public Iterator Function EnumerateRowObjects() As IEnumerable(Of Object())
-            For Each row As RowObject In _innerTable
+            For Each row As RowObject In table
                 Yield row _
                     .Select(Function(str, i)
                                 Return Scripting.CTypeDynamic(str, typeSchema(i))
@@ -212,7 +215,7 @@ Namespace IO
         ''' The column headers in the csv file first row.
         ''' </summary>
         ''' <returns></returns>
-        Public Overrides ReadOnly Property Headers As RowObject
+        Public ReadOnly Property Headers As RowObject
             Get
                 Return New RowObject(columnList.Headers)
             End Get
@@ -263,7 +266,7 @@ Namespace IO
         Public Function csv() As File
             Dim file As New File
             file += New RowObject(columnList.Headers)
-            file += DirectCast(_innerTable, IEnumerable(Of RowObject))
+            file += DirectCast(table, IEnumerable(Of RowObject))
             Return file
         End Function
 
@@ -321,22 +324,23 @@ Namespace IO
         End Function
 
         ''' <summary>
-        ''' Try loading a excel csv data file as a dynamics data frame object.(尝试加载一个Csv文件为数据框对象，请注意，第一行必须要为标题行)
+        ''' Try loading a excel csv data file as a dynamics data frame object.
         ''' </summary>
         ''' <param name="path"></param>
         ''' <param name="encoding"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(尝试加载一个Csv文件为数据框对象，请注意，第一行必须要为标题行)</remarks>
         Public Overloads Shared Function Load(path As String,
                                               Optional encoding As Encoding = Nothing,
                                               Optional fast As Boolean = False,
-                                              Optional skipWhile As NamedValue(Of Func(Of String, Boolean)) = Nothing) As DataFrame
+                                              Optional skipWhile As NamedValue(Of Func(Of String, Boolean)) = Nothing,
+                                              Optional simpleRowIterators As Boolean = True) As DataFrame
             Dim file As File
 
             If fast Then
                 file = FileLoader.FastLoad(path, True, encoding, skipWhile)
             Else
-                file = File.Load(path, encoding, , skipWhile)
+                file = File.Load(path, encoding, , skipWhile, simpleRowIterator:=simpleRowIterators)
             End If
 
             Return CreateObject(file)
@@ -439,7 +443,7 @@ Namespace IO
         ''' <returns></returns>
         Public Overloads Shared Function CreateObject(headers As IEnumerable(Of String), rows As IEnumerable(Of RowObject)) As DataFrame
             Dim df As New DataFrame With {
-                ._innerTable = rows.AsList,
+                .table = rows.AsList,
                 .columnList = New HeaderSchema(headers)
             }
             Return df
@@ -451,7 +455,7 @@ Namespace IO
         ''' <param name="table"></param>
         ''' <param name="dataframe"></param>
         Private Shared Sub Initialize(table As List(Of RowObject), ByRef dataframe As DataFrame)
-            dataframe._innerTable = table.Skip(1).AsList
+            dataframe.table = table.Skip(1).AsList
             dataframe.columnList = New HeaderSchema(getColumnList(table))
         End Sub
 
@@ -461,23 +465,10 @@ Namespace IO
             Return dataframe
         End Function
 
-        Protected Friend Overrides Function __createTableVector() As RowObject()
+        Protected Friend Function __createTableVector() As RowObject()
             Dim readBuffer As New List(Of RowObject)({CType(Me.columnList.Headers, RowObject)})
-            Call readBuffer.AddRange(_innerTable)
+            Call readBuffer.AddRange(table)
             Return readBuffer.ToArray
-        End Function
-
-        Public Overrides Function Generate() As String
-            Dim sb As New StringBuilder(1024)
-            Dim head As String = New RowObject(columnList.Headers).AsLine
-
-            Call sb.AppendLine(head)
-
-            For Each row As RowObject In _innerTable
-                Call sb.AppendLine(row.AsLine)
-            Next
-
-            Return sb.ToString
         End Function
 
         ''' <summary>
@@ -550,11 +541,11 @@ Namespace IO
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overloads Function Read() As Boolean Implements IDataReader.Read, IDataReader.NextResult
-            If p = _innerTable.Count - 1 Then
+            If p = table.Count - 1 Then
                 Return False
             Else
                 p += 1
-                current = _innerTable(p)
+                current = table(p)
 
                 Return True
             End If
@@ -576,13 +567,13 @@ Namespace IO
         ''' <param name="source"></param>
         ''' <remarks></remarks>
         Public Sub CopyFrom(source As File)
-            _innerTable = source._innerTable.Skip(1).AsList
+            table = source._innerTable.Skip(1).AsList
             columnList = New HeaderSchema(source._innerTable.First)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return _innerTable(p).ToString
+            Return table(p).ToString
         End Function
 
         ''' <summary>
@@ -603,7 +594,7 @@ Namespace IO
 
             Return New DataFrame With {
                 .columnList = New HeaderSchema(columnList),
-                ._innerTable = newTable
+                .table = newTable
             }
         End Function
 
@@ -611,7 +602,7 @@ Namespace IO
             Dim schema As Dictionary(Of String, Integer) = columnList.SchemaOridinal
 
             For Each l As DynamicObjectLoader In From i As SeqValue(Of RowObject)
-                                                 In Me._innerTable.SeqIterator
+                                                 In table.SeqIterator
                                                  Let line As RowObject = i.value
                                                  Let loader = New DynamicObjectLoader With {
                                                      .lineNumber = i.i,
@@ -743,6 +734,10 @@ Namespace IO
             Return String.IsNullOrEmpty(current.Column(i))
         End Function
 
+        Public Iterator Function GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator2()
+        End Function
+
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' To detect redundant calls
 
@@ -773,6 +768,7 @@ Namespace IO
             ' TODO: uncomment the following line if Finalize() is overridden above.
             ' GC.SuppressFinalize(Me)
         End Sub
+
 #End Region
     End Class
 End Namespace
