@@ -165,6 +165,7 @@ Public Class MarkdownHTML
         End If
 
         _render = If(render, New HtmlRender)
+        _render.SetEngine(Me)
         _AllowEmptyLinkText = options.AllowEmptyLinkText
         _DisableHr = options.DisableHr
         _DisableHeaders = options.DisableHeaders
@@ -1032,13 +1033,17 @@ Public Class MarkdownHTML
     Private Function SetextHeaderEvaluator(match As Match) As String
         Dim header As String = match.Groups(1).Value
         Dim level As Integer = If(match.Groups(2).Value.StartsWith("="), 1, 2)
-        Return String.Format("<h{1}>{0}</h{1}>" & vbLf & vbLf, RunSpanGamut(header), level)
+        Dim text As String = RunSpanGamut(header)
+
+        Return _render.Header(text, level)
     End Function
 
     Private Function AtxHeaderEvaluator(match As Match) As String
         Dim header As String = match.Groups(2).Value
         Dim level As Integer = match.Groups(1).Value.Length
-        Return String.Format("<h{1}>{0}</h{1}>" & vbLf & vbLf, RunSpanGamut(header), level)
+        Dim text As String = RunSpanGamut(header)
+
+        Return _render.Header(text, level)
     End Function
 
     Const regex_horizontalRules$ = "
@@ -1063,7 +1068,7 @@ Public Class MarkdownHTML
     ''' - - -
     ''' </remarks>
     Private Function DoHorizontalRules(text As String) As String
-        Return _horizontalRules.Replace(text, "<hr" & _EmptyElementSuffix & vbLf)
+        Return _horizontalRules.Replace(text, _render.HorizontalLine)
     End Function
 
     Const regex_wholeList$ = "
@@ -1323,7 +1328,7 @@ Public Class MarkdownHTML
         span = EncodeCode(span)
         span = SaveFromAutoLinking(span)
         ' to prevent auto-linking. Not necessary in code *blocks*, but in code spans.
-        Return String.Concat("<code>", span, "</code>")
+        Return _render.CodeSpan(span)
     End Function
 #End Region
 
