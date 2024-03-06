@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.Uniprot.XML.feature</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>feature {SMRUCC.genomics.Assembly.Uniprot.XML}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>feature</h2>
+
+        <h3>Description</h3>
+
+        <p>Describes different types of sequence annotations.<br />
+ Equivalent to the flat file FT-line.<br />
+ Get by types using <a href="/vignettes/clr/Microsoft/VisualBasic/Linq/TakesExtension.html">TakesExtension</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/Linq/T.html">Takes</a>1(System.Collections.Generic.IEnumerable{<code>0},System.Boolean[])</code> extensions</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.Uniprot.XML
+export class feature {
+   description: string;
+   evidence: string;
+   ligand: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/ligand.html">ligand</a>;
+   # Describes the sequence coordinates of the annotation.
+   location: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/location.html">location</a>;
+   # Describes the original sequence in annotations that describe natural 
+   #  or artifical sequence variations.
+   original: string;
+   # string value could be one of these enumeration:
+   # 
+   # <ul>
+   # <li>by similarity</li>
+   # <li>probable</li>
+   # <li>potential</li>
+   # </ul>
+   status: string;
+   # Describes the type of a sequence annotation.
+   #  Equivalent to the flat file FT feature keys, but using full terms instead 
+   #  of acronyms.
+   type: string;
+   value: string;
+   # Describes the variant sequence in annotations that describe natural 
+   #  or artifical sequence variations.
+   variation: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>ligand</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/ligand.html">ligand</a></li>
+<li>use by <i>property</i> member <code>location</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/location.html">location</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

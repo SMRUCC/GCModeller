@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.Data.csv.IO.File</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>File {Microsoft.VisualBasic.Data.csv.IO}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>File</h2>
+
+        <h3>Description</h3>
+
+        <p>A comma character seperate table file that can be read and write in the EXCEL.<br />
+ (一个能够被Excel程序所读取的表格文件)</p>
+
+<p>csv object will enumerates all of the row objects in the @<code>F:Microsoft.VisualBasic.Data.csv.IO.File._innerTable</code>.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.Data.csv.IO
+export class File {
+   # 将本文件之中的所有列取出来，假若有任意一个列的元素的数目不够的话，则会在相应的位置之上使用空白来替换
+   Columns: <a href="/vignettes/clr/System/String.html">iterates(String[])</a>;
+   EstimatedFileSize: double;
+   # The first row in the table was using as the headers
+   Headers: <a href="/vignettes/clr/Microsoft/VisualBasic/Data/csv/IO/RowObject.html">RowObject</a>;
+   IsReadOnly: boolean;
+   # Row Counts
+   RowNumbers: integer;
+   # Get all rows in current table object
+   Rows: <a href="/vignettes/clr/Microsoft/VisualBasic/Data/csv/IO/RowObject.html">RowObject[]</a>;
+   # Get the max width number of the rows in the table.(返回表中的元素最多的一列的列数目)
+   Width: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Columns</code>: <a href="/vignettes/clr/System/String.html">iterates(String)</a></li>
+<li>use by <i>property</i> member <code>Headers</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Data/csv/IO/RowObject.html">RowObject</a></li>
+<li>use by <i>property</i> member <code>Rows</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Data/csv/IO/RowObject.html">RowObject</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.Uniprot.XML.location</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>location {SMRUCC.genomics.Assembly.Uniprot.XML}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>location</h2>
+
+        <h3>Description</h3>
+
+        <p>Describes a sequence location as either a range with a begin and end or as a <br />
+ position. The 'sequence' attribute is only used when the location is not on <br />
+ the canonical sequence displayed in the current entry.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.Uniprot.XML
+export class location {
+   # 片段的起点位置
+   begin: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/position.html">position</a>;
+   # 片段的结束位置
+   end: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/position.html">position</a>;
+   IsRegion: boolean;
+   IsSite: boolean;
+   # 单个位点的位置
+   position: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/position.html">position</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>begin</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/position.html">position</a></li>
+<li>use by <i>property</i> member <code>end</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/position.html">position</a></li>
+<li>use by <i>property</i> member <code>position</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/position.html">position</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

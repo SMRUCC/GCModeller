@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.Uniprot.XML.entry</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>entry {SMRUCC.genomics.Assembly.Uniprot.XML}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>entry</h2>
+
+        <h3>Description</h3>
+
+        <p>Describes a UniProtKB entry.<br />
+ (因为<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="#">accessions</a>可能会出现多个值，所以会需要使用<br />
+ <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">ShadowCopy</a>函数来解决实体多态的问题。<br />
+ 经过shadow copy之后可以使用主键@<code>P:SMRUCC.genomics.Assembly.Uniprot.XML.entry.accession</code>来创建字典)</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.Uniprot.XML
+export class entry {
+   # 蛋白质的唯一标识符，可以用作为字典的键名
+   accessions: string;
+   # indexed by <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/comment.html">comment</a>.<a href="#">type</a>
+   CommentList: list;
+   comments: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/comment.html">comment[]</a>;
+   created: string;
+   dataset: string;
+   # Dictionary table can be read from <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="#">xrefs</a> property
+   dbReferences: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/dbReference.html">dbReference[]</a>;
+   features: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/feature.html">feature[]</a>;
+   gene: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/gene.html">gene</a>;
+   keywords: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/value.html">value[]</a>;
+   modified: string;
+   name: string;
+   organism: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/organism.html">organism</a>;
+   protein: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/protein.html">protein</a>;
+   proteinExistence: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/value.html">value</a>;
+   references: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/reference.html">reference[]</a>;
+   # 当前的这个蛋白质的蛋白序列，在Uniprot数据库之中，蛋白记录只有蛋白序列
+   #  没有核酸序列，如果需要核酸序列，则会需要通过accession编号从nt库之中
+   #  提取出来
+   sequence: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/sequence.html">sequence</a>;
+   version: string;
+   # <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a>.<a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/dbReference.html">dbReferences</a> table
+   xrefs: list;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>CommentList</code>: list</li>
+<li>use by <i>property</i> member <code>comments</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/comment.html">comment</a></li>
+<li>use by <i>property</i> member <code>dbReferences</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/dbReference.html">dbReference</a></li>
+<li>use by <i>property</i> member <code>features</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/feature.html">feature</a></li>
+<li>use by <i>property</i> member <code>gene</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/gene.html">gene</a></li>
+<li>use by <i>property</i> member <code>keywords</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/value.html">value</a></li>
+<li>use by <i>property</i> member <code>organism</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/organism.html">organism</a></li>
+<li>use by <i>property</i> member <code>protein</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/protein.html">protein</a></li>
+<li>use by <i>property</i> member <code>proteinExistence</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/value.html">value</a></li>
+<li>use by <i>property</i> member <code>references</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/reference.html">reference</a></li>
+<li>use by <i>property</i> member <code>sequence</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/sequence.html">sequence</a></li>
+<li>use by <i>property</i> member <code>xrefs</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

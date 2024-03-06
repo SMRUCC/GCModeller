@@ -85,6 +85,10 @@ Public Class MarkdownHTML
     ReadOnly _titles As New Dictionary(Of String, String)()
     ReadOnly _htmlBlocks As New Dictionary(Of String, String)()
 
+    ''' <summary>
+    ''' default is rendering markdown to html
+    ''' </summary>
+    Dim _render As Render = New HtmlRender
     Dim _listLevel As Integer
 
     Shared ReadOnly AutoLinkPreventionMarker As String = ChrW(26) & "P"
@@ -153,12 +157,15 @@ Public Class MarkdownHTML
 #Region "Constructors"
 
     ''' <summary>
-    ''' Create a new Markdown instance and set the options from the MarkdownOptions object.
+    ''' Create a new Markdown instance and set the options from the <see cref="MarkdownOptions"/> object.
     ''' </summary>
-    Public Sub New(options As MarkdownOptions)
+    Public Sub New(options As MarkdownOptions, Optional render As Render = Nothing)
         If Not String.IsNullOrEmpty(options.EmptyElementSuffix) Then
             _EmptyElementSuffix = options.EmptyElementSuffix
         End If
+
+        _render = If(render, New HtmlRender)
+        _render.SetEngine(Me)
         _AllowEmptyLinkText = options.AllowEmptyLinkText
         _DisableHr = options.DisableHr
         _DisableHeaders = options.DisableHeaders
@@ -171,6 +178,13 @@ Public Class MarkdownHTML
         _AsteriskIntraWordEmphasis = options.AsteriskIntraWordEmphasis
     End Sub
 
+    Sub New(render As Render)
+        Call Me.New(MarkdownOptions.DefaultOption.DefaultValue, render)
+    End Sub
+
+    ''' <summary>
+    ''' using <see cref="MarkdownOptions.DefaultOption"/> options
+    ''' </summary>
     Sub New()
         Call Me.New(MarkdownOptions.DefaultOption.DefaultValue)
     End Sub
@@ -179,10 +193,9 @@ Public Class MarkdownHTML
     ''' <summary>
     ''' Transforms the provided Markdown-formatted text to HTML;  
     ''' see http://en.wikipedia.org/wiki/Markdown
-    ''' (好像这个并不支持代码高亮的格式化)
     ''' </summary>
     ''' <param name="text">
-    ''' Markdown文本
+    ''' Markdown text
     ''' </param>
     ''' <remarks>
     ''' The order in which other subs are called here is
@@ -205,18 +218,18 @@ Public Class MarkdownHTML
 
         text = HashHTMLBlocks(text)
         text = StripLinkDefinitions(text)
-        text = RunBlockGamut(text)
+        text = RunBlockGamut(text, loose:=True)
         text = Unescape(text)
 
         Call Cleanup()
 
-        Return text
+        Return _render.Document(text)
     End Function
 
     ''' <summary>
     ''' Perform transformations that form block-level tags like paragraphs, headers, and list items.
     ''' </summary>
-    Private Function RunBlockGamut(text As String, Optional unhash As Boolean = True, Optional createParagraphs As Boolean = True) As String
+    Private Function RunBlockGamut(text As String, loose As Boolean, Optional unhash As Boolean = True) As String
         ' Apply extensions
         For Each extension As ExtensionTransform In _inlineExtensions
             text = extension(text)
@@ -244,8 +257,7 @@ Public Class MarkdownHTML
         ' we're escaping the markup we've just created, so that we don't wrap
         ' <p> tags around block-level tags.
         text = HashHTMLBlocks(text)
-
-        text = FormParagraphs(text, unhash:=unhash, createParagraphs:=createParagraphs)
+        text = FormParagraphs(text, loose, unhash:=unhash)
 
         Return text
     End Function
@@ -308,9 +320,13 @@ Public Class MarkdownHTML
             Return text
         End If
 
-        For Each line In lines
+        For Each line As String In lines
+            If line.StringEmpty Then
+                Return text
+            End If
+            ' 不是table格式的，则直接返回原始文本
             If line.First <> "|"c Then
-                Return text  ' 不是table格式的，则直接返回原始文本
+                Return text
             End If
         Next
 
@@ -377,7 +393,6 @@ Public Class MarkdownHTML
 
     Private Shared _newlinesLeadingTrailing As New Regex("^\n+|\n+\z", RegexOptions.Compiled)
     Private Shared _newlinesMultiple As New Regex("\n{2,}", RegexOptions.Compiled)
-    Private Shared _leadingWhitespace As New Regex("^[ ]*", RegexOptions.Compiled)
 
     Private Shared _htmlBlockHash As New Regex(ChrW(26) & "H\d+H", RegexOptions.Compiled)
 
@@ -385,12 +400,14 @@ Public Class MarkdownHTML
     ''' splits on two or more newlines, to form "paragraphs";    
     ''' each paragraph is then unhashed (if it is a hash and unhashing isn't turned off) or wrapped in HTML p tag
     ''' </summary>
-    Private Function FormParagraphs(text As String, Optional unhash As Boolean = True, Optional createParagraphs As Boolean = True) As String
+    Private Function FormParagraphs(text As String, loose As Boolean, Optional unhash As Boolean = True) As String
         ' split on two or more newlines
         Dim grafs As String() = _newlinesMultiple.Split(_newlinesLeadingTrailing.Replace(text, ""))
 
+        Const GrafsHash As String = ChrW(26) & "H"
+
         For i As Integer = 0 To grafs.Length - 1
-            If grafs(i).Contains(ChrW(26) & "H") Then
+            If grafs(i).Contains(GrafsHash) Then
                 ' unhashify HTML blocks
                 If unhash Then
                     Dim sanityCheck As Integer = 50
@@ -416,7 +433,8 @@ Public Class MarkdownHTML
                 End If
             Else
                 ' do span level processing inside the block, then wrap result in <p> tags
-                grafs(i) = _leadingWhitespace.Replace(RunSpanGamut(grafs(i)), If(createParagraphs, "<p>", "")) & (If(createParagraphs, "</p>", ""))
+                grafs(i) = RunSpanGamut(grafs(i))
+                grafs(i) = _render.Paragraph(grafs(i), loose)
             End If
         Next
 
@@ -449,7 +467,13 @@ Public Class MarkdownHTML
         ' in other words [this] and [this[also]] and [this[also[too]]]
         ' up to _nestDepth
         If _nestedBracketsPattern Is Nothing Then
-            _nestedBracketsPattern = RepeatString(vbCr & vbLf & "                    (?>              # Atomic matching" & vbCr & vbLf & "                       [^\[\]]+      # Anything other than brackets" & vbCr & vbLf & "                     |" & vbCr & vbLf & "                       \[" & vbCr & vbLf & "                           ", _nestDepth) & RepeatString(" \]" & vbCr & vbLf & "                    )*", _nestDepth)
+            _nestedBracketsPattern = RepeatString("
+(?>              # Atomic matching
+[^\[\]]+      # Anything other than brackets
+|
+\[
+", _nestDepth) & RepeatString(" \]
+)*", _nestDepth)
         End If
         Return _nestedBracketsPattern
     End Function
@@ -525,7 +549,7 @@ Public Class MarkdownHTML
     ''' <summary>
     ''' compiling this monster regex results in worse performance. trust me.
     ''' </summary>
-    Private Shared _blocksHtml As New Regex(GetBlockPattern(), RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace)
+    Shared ReadOnly _blocksHtml As New Regex(GetBlockPattern(), RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace)
 
     ''' <summary>
     ''' First, look for nested blocks, e.g.:
@@ -625,11 +649,37 @@ Public Class MarkdownHTML
         Dim blockTagsB As String = "p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|address|script|noscript|form|fieldset|iframe|math"
 
         ' Regular expression for the content of a block tag.
-        Dim attr As String = vbCr & vbLf & "            (?>" & vbTab & vbTab & vbTab & vbTab & "            # optional tag attributes" & vbCr & vbLf & "              \s" & vbTab & vbTab & vbTab & "            # starts with whitespace" & vbCr & vbLf & "              (?>" & vbCr & vbLf & "                [^>""/]+" & vbTab & "            # text outside quotes" & vbCr & vbLf & "              |" & vbCr & vbLf & "                /+(?!>)" & vbTab & vbTab & "            # slash not followed by >" & vbCr & vbLf & "              |" & vbCr & vbLf & "                ""[^""]*""" & vbTab & vbTab & "        # text inside double quotes (tolerate >)" & vbCr & vbLf & "              |" & vbCr & vbLf & "                '[^']*'" & vbTab & "                # text inside single quotes (tolerate >)" & vbCr & vbLf & "              )*" & vbCr & vbLf & "            )?" & vbTab & vbCr & vbLf & "            "
+        Dim attr As String = "
+(?>" & vbTab & vbTab & vbTab & vbTab & "            # optional tag attributes
+\s" & vbTab & vbTab & vbTab & "            # starts with whitespace
+(?>
+[^>""/]+" & vbTab & "            # text outside quotes
+|
+/+(?!>)" & vbTab & vbTab & "            # slash not followed by >
+|
+""[^""]*""" & vbTab & vbTab & "        # text inside double quotes (tolerate >)
+|
+'[^']*'" & vbTab & "                # text inside single quotes (tolerate >)
+)*
+)?" & vbTab & vbCr & vbLf & "            "
 
         ' end of opening tag
         ' last level nested tag content
-        Dim content As String = RepeatString(vbCr & vbLf & "                (?>" & vbCr & vbLf & "                  [^<]+" & vbTab & vbTab & vbTab & "        # content without tag" & vbCr & vbLf & "                |" & vbCr & vbLf & "                  <\2" & vbTab & vbTab & vbTab & "        # nested opening tag" & vbCr & vbLf & "                    " & attr & "       # attributes" & vbCr & vbLf & "                  (?>" & vbCr & vbLf & "                      />" & vbCr & vbLf & "                  |" & vbCr & vbLf & "                      >", _nestDepth) & ".*?" & RepeatString(vbCr & vbLf & "                      </\2\s*>" & vbTab & "        # closing nested tag" & vbCr & vbLf & "                  )" & vbCr & vbLf & "                  |" & vbTab & vbTab & vbTab & vbTab & vbCr & vbLf & "                  <(?!/\2\s*>           # other tags with a different name" & vbCr & vbLf & "                  )" & vbCr & vbLf & "                )*", _nestDepth)
+        Dim content As String = RepeatString("
+(?>
+[^<]+" & vbTab & vbTab & vbTab & "        # content without tag
+|
+<\2" & vbTab & vbTab & vbTab & "        # nested opening tag
+" & attr & "       # attributes
+(?>
+/>
+|
+>", _nestDepth) & ".*?" & RepeatString("
+</\2\s*>" & vbTab & "        # closing nested tag
+)
+|" & vbTab & vbTab & vbTab & vbTab & vbCr & vbLf & "                  <(?!/\2\s*>           # other tags with a different name
+)
+)*", _nestDepth)
 
         Dim content2 As String = content.Replace("\2", "\3")
         Dim pattern$ = MarkdownHTML.pattern
@@ -892,7 +942,7 @@ Public Class MarkdownHTML
     ' This prevents the creation of horribly broken HTML when some syntax ambiguities
     ' collide. It likely still doesn't do what the user meant, but at least we're not
     ' outputting garbage.
-    Private Function EscapeImageAltText(s As String) As String
+    Friend Function EscapeImageAltText(s As String) As String
         s = EscapeBoldItalic(s)
         s = Regex.Replace(s, "[\[\]()]", Function(m) _escapeTable(m.ToString()))
         Return s
@@ -916,7 +966,7 @@ Public Class MarkdownHTML
                 title = _titles(linkID)
             End If
 
-            Return ImageTag(url, altText, title)
+            Return _render.Image(url, altText, title)
         Else
             ' If there's no such link ID, leave intact:
             Return wholeMatch
@@ -935,19 +985,7 @@ Public Class MarkdownHTML
             url = url.Substring(1, url.Length - 2)
         End If
         ' Remove <>'s surrounding URL, if present
-        Return ImageTag(url, alt, title)
-    End Function
-
-    Private Function ImageTag(url As String, altText As String, title As String) As String
-        altText = EscapeImageAltText(AttributeEncode(altText))
-        url = AttributeSafeUrl(url)
-        Dim result = String.Format("<img src=""{0}"" alt=""{1}""", url, altText)
-        If Not String.IsNullOrEmpty(title) Then
-            title = AttributeEncode(EscapeBoldItalic(title))
-            result += String.Format(" title=""{0}""", title)
-        End If
-        result += _EmptyElementSuffix
-        Return result
+        Return _render.Image(url, alt, title)
     End Function
 
     Const regex_headerSetext$ = "
@@ -993,13 +1031,17 @@ Public Class MarkdownHTML
     Private Function SetextHeaderEvaluator(match As Match) As String
         Dim header As String = match.Groups(1).Value
         Dim level As Integer = If(match.Groups(2).Value.StartsWith("="), 1, 2)
-        Return String.Format("<h{1}>{0}</h{1}>" & vbLf & vbLf, RunSpanGamut(header), level)
+        Dim text As String = RunSpanGamut(header)
+
+        Return _render.Header(text, level)
     End Function
 
     Private Function AtxHeaderEvaluator(match As Match) As String
         Dim header As String = match.Groups(2).Value
         Dim level As Integer = match.Groups(1).Value.Length
-        Return String.Format("<h{1}>{0}</h{1}>" & vbLf & vbLf, RunSpanGamut(header), level)
+        Dim text As String = RunSpanGamut(header)
+
+        Return _render.Header(text, level)
     End Function
 
     Const regex_horizontalRules$ = "
@@ -1024,7 +1066,7 @@ Public Class MarkdownHTML
     ''' - - -
     ''' </remarks>
     Private Function DoHorizontalRules(text As String) As String
-        Return _horizontalRules.Replace(text, "<hr" & _EmptyElementSuffix & vbLf)
+        Return _horizontalRules.Replace(text, _render.HorizontalLine)
     End Function
 
     Const regex_wholeList$ = "
@@ -1085,6 +1127,7 @@ Public Class MarkdownHTML
         Dim listType As String = If(Regex.IsMatch(marker, MarkerUL), "ul", "ol")
         Dim result As String
         Dim start As String = ""
+
         If listType = "ol" Then
             Dim firstNumber = Integer.Parse(marker.Substring(0, marker.Length - 1))
             If firstNumber <> 1 AndAlso firstNumber <> 0 Then
@@ -1149,10 +1192,10 @@ Public Class MarkdownHTML
                 Dim containsDoubleNewline As Boolean = endsWithDoubleNewline OrElse item.Contains(vbLf & vbLf)
 
                 Dim loose = containsDoubleNewline OrElse lastItemHadADoubleNewline
-                    ' we could correct any bad indentation here..
-                    item = RunBlockGamut(Outdent(item) & vbLf, unhash:=False, createParagraphs:=loose)
-
+                ' we could correct any bad indentation here..
+                item = RunBlockGamut(Outdent(item) & vbLf, unhash:=False, loose:=loose)
                 lastItemHadADoubleNewline = endsWithDoubleNewline
+
                 Return String.Format("<li>{0}</li>" & vbLf, item)
             End Function
 
@@ -1222,7 +1265,7 @@ Public Class MarkdownHTML
         codeBlock = EncodeCode(Outdent(codeBlock))
         codeBlock = _newlinesLeadingTrailing.Replace(codeBlock, "")
 
-        Return String.Concat(vbLf & vbLf & $"<pre><code class=""{language}"">", codeBlock, vbLf & "</code></pre>" & vbLf & vbLf)
+        Return _render.CodeBlock(code, language)
     End Function
 
     Private Function CodeBlockEvaluator(match As Match) As String
@@ -1284,7 +1327,7 @@ Public Class MarkdownHTML
         span = EncodeCode(span)
         span = SaveFromAutoLinking(span)
         ' to prevent auto-linking. Not necessary in code *blocks*, but in code spans.
-        Return String.Concat("<code>", span, "</code>")
+        Return _render.CodeSpan(span)
     End Function
 #End Region
 
@@ -1326,9 +1369,9 @@ Public Class MarkdownHTML
     ''' </summary>
     Private Function DoHardBreaks(text As String) As String
         If _AutoNewLines Then
-            text = Regex.Replace(text, "\n", String.Format("<br{0}" & vbLf, _EmptyElementSuffix))
+            text = Regex.Replace(text, "\n", _render.NewLine)
         Else
-            text = Regex.Replace(text, " {2,}\n", String.Format("<br{0}" & vbLf, _EmptyElementSuffix))
+            text = Regex.Replace(text, " {2,}\n", _render.NewLine)
         End If
         Return text
     End Function
@@ -1372,7 +1415,7 @@ Public Class MarkdownHTML
         ' trim one level of quoting
         bq = Regex.Replace(bq, "^[ ]+$", "", RegexOptions.Multiline)
         ' trim whitespace-only lines
-        bq = RunBlockGamut(bq)
+        bq = RunBlockGamut(bq, loose:=True)
         ' recurse
         bq = Regex.Replace(bq, "^", "  ", RegexOptions.Multiline)
 
@@ -1560,7 +1603,7 @@ Public Class MarkdownHTML
     ''' <summary>
     ''' escapes Bold [ * ] and Italic [ _ ] characters
     ''' </summary>
-    Private Function EscapeBoldItalic(s As String) As String
+    Friend Function EscapeBoldItalic(s As String) As String
         s = s.Replace("*", _escapeTable("*"))
         s = s.Replace("_", _escapeTable("_"))
         Return s
