@@ -35,7 +35,9 @@
         <table>
             
 <dt>file</dt>
-<dd><p>could be a file path or the HTS matrix data object</p></dd>
+<dd><p>
+ could be a file path or the HTS matrix data object
+ </p></dd>
 
         </table>
 
@@ -50,14 +52,12 @@
 
         <h3>Value</h3>
 
-        <p>A tuple list object that contains the data information<br />
- which is extract from the given file:</p>
-
-<ol>
-<li>sampleID: a character vector that contains the matrix sample information(column features name)</li>
-<li>geneID: a character vector that contains the matrix gene features information(row features name)</li>
-<li>tag: the matrix source tag label, could be the file basename if the given input file is a file path to the matrix.</li>
-</ol> the list data also has some specificied data fields: <code>list(sampleID, geneID, tag)</code>.<h4>clr value class</h4><ul><li>list</li></ul>
+        A tuple list object that contains the data information
+ which is extract from the given file:
+ 
+ 1. sampleID: a character vector that contains the matrix sample information(column features name)
+ 2. geneID: a character vector that contains the matrix gene features information(row features name)
+ 3. tag: the matrix source tag label, could be the file basename if the given input file is a file path to the matrix. the list data also has some specificied data fields: <code>list(sampleID, geneID, tag)</code>.<h4>clr value class</h4><ul><li>list</li></ul>
 
         <h3 style="display: block;">Examples</h3>
 

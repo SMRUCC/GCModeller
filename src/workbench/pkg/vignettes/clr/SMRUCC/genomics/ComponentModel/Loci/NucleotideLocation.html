@@ -22,8 +22,9 @@
 
         <h3>Description</h3>
 
-        <p>Loci segment location information on an nucleotide sequence, this object added an <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>.<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strand</a> <br />
- information on <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a> data.(会自动根据LEFT和RIGHT的值来修正属性值)</p>
+        Loci segment location information on an nucleotide sequence, this object added an <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/NucleotideLocation.html">NucleotideLocation</a>.<a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strand</a> 
+ information on <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Location.html">Location</a> data.(会自动根据LEFT和RIGHT的值来修正属性值)
+
 
         <h3>Declare</h3>        
 
@@ -50,10 +51,14 @@ export class NucleotideLocation extends <a href="/vignettes/clr/SMRUCC/genomics/
    #  这两个属性值是和具体的链的方向无关的)
    Start: integer;
    # 这个位点在哪一条DNA核酸链
+   #  
+   #  
    # 
-   # 
-   # 
-   # <pre><code class="">^( {4}[^\n]+\n*)+
+   # <pre><code class="">
+   #  Forward =  1; 
+   #  Reverse = -1; 
+   #  Unknown =  0
+   #  
    # </code></pre>
    Strand: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a>;
    Tag: <a href="/vignettes/clr/Microsoft/VisualBasic/My/JavaScript/JavaScriptObject.html">JavaScriptObject</a>;
