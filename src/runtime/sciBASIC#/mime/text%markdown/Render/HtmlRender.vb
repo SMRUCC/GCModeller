@@ -65,7 +65,7 @@
     End Function
 
     Public Overrides Function BlockQuote(text As String) As String
-        Return vbCrLf & vbCrLf & $"<blockquote>{text}</blockquote>" & vbCrLf & vbCrLf
+        Return vbLf & vbLf & $"<blockquote>{text.LineTokens.JoinBy("<br />" & vbLf)}</blockquote>" & vbLf & vbLf
     End Function
 
     Public Overrides Function List(items As IEnumerable(Of String), orderList As Boolean) As String
@@ -76,5 +76,28 @@
         Else
             Return $"<ul>{listSet.JoinBy("")}</ul>"
         End If
+    End Function
+
+    Public Overrides Function Table(head() As String, rows As IEnumerable(Of String())) As String
+        Dim bodyRows = rows _
+            .Select(Function(r)
+                        Return $"<tr>{r.Select(Function(d) $"<td>{d}</td>").JoinBy("")}</tr>"
+                    End Function) _
+            .ToArray
+
+        Return $"<table>
+
+<thead>
+<tr>{head.Select(Function(h) $"<th>{h}</th>").JoinBy("")}</tr>
+</thead>
+<tbody>
+{bodyRows.JoinBy(vbCrLf)}
+</tbody>
+
+</table>"
+    End Function
+
+    Public Overrides Function AnchorLink(url As String, text As String, title As String) As String
+        Return $"<a href='{url}' title='{title}'>{text}</a>"
     End Function
 End Class

@@ -29,12 +29,14 @@ Public Class MakrdownRender
         Call hideCodeSpan()
 
         Call RunHeader()
+        Call RunHr()
         Call RunQuoteBlock()
         Call RunList()
+        Call RunOrderList()
         Call RunImage()
         Call RunUrl()
         Call RunTable()
-        Call RunHr()
+
         Call RunBold()
         Call RunItalic()
 
@@ -89,28 +91,15 @@ Public Class MakrdownRender
         text = table.Replace(text, Function(m) TableBlock(m.Value))
     End Sub
 
-    Private Shared Function TableBlock(s As String) As String
+    Private Function TableBlock(s As String) As String
         Dim lines = s.LineTokens
         Dim headers = lines(0).Split("|"c).Select(AddressOf Strings.Trim).ToArray
         Dim bodyRows = lines.Skip(2) _
             .Select(Function(line)
                         Return line.Split("|"c).Select(AddressOf Strings.Trim).ToArray
-                    End Function) _
-            .Select(Function(r)
-                        Return $"<tr>{r.Select(Function(d) $"<td>{d}</td>").JoinBy("")}</tr>"
-                    End Function) _
-            .ToArray
+                    End Function)
 
-        Return $"<table>
-
-<thead>
-<tr>{headers.Select(Function(h) $"<th>{h}</th>").JoinBy("")}</tr>
-</thead>
-<tbody>
-{bodyRows.JoinBy(vbCrLf)}
-</tbody>
-
-</table>"
+        Return render.Table(headers, bodyRows)
     End Function
 
     ReadOnly url As New Regex("\[.*?\]\(.*?\)", RegexOptions.Compiled Or RegexOptions.Multiline)
@@ -119,14 +108,14 @@ Public Class MakrdownRender
         text = url.Replace(text, Function(m) AnchorTag(m.Value))
     End Sub
 
-    Private Shared Function AnchorTag(s As String) As String
+    Private Function AnchorTag(s As String) As String
         Static alt_r As New Regex("\[.*?\]", RegexOptions.Compiled Or RegexOptions.Multiline)
         Static url_r As New Regex("\(.*?\)", RegexOptions.Compiled Or RegexOptions.Multiline)
 
         Dim alt As String = alt_r.Match(s).Value.GetStackValue("[", "]")
         Dim url As String = url_r.Match(s).Value.GetStackValue("(", ")")
 
-        Return $"<a href='{url}' title='{alt}'>{alt}</a>"
+        Return render.AnchorLink(url, alt, alt)
     End Function
 
     ReadOnly image As New Regex("[!]\[.*?\]\(.*?\)", RegexOptions.Compiled Or RegexOptions.Multiline)
@@ -199,32 +188,50 @@ Public Class MakrdownRender
         text = italic.Replace(text, Function(m) render.Italic(TrimBold(m.Value)))
     End Sub
 
-    ReadOnly quote As New Regex("\n([>].+)+\n", RegexOptions.Compiled Or RegexOptions.Singleline)
+    ReadOnly quote As New Regex("(\n[>][^\n]*)+", RegexOptions.Compiled Or RegexOptions.Singleline)
 
     Private Sub RunQuoteBlock()
         text = quote.Replace(text, Function(m) render.BlockQuote(TrimBlockquote(m.Value)))
     End Sub
 
     Private Shared Function TrimBlockquote(s As String) As String
-        Dim lines = s.LineTokens
-        lines = lines.Select(Function(si) If(si = "", "", si.Substring(1).Trim)).ToArray
-        Return lines.JoinBy("<br />")
+        Dim lines = s.Trim(ASCII.LF, ASCII.CR, " "c).LineTokens
+        lines = lines _
+            .Select(Function(si) si.Substring(1).Trim) _
+            .ToArray
+        Return lines.JoinBy(vbLf)
     End Function
 
-    ReadOnly list1 As New Regex("\n([\+].+)+\n", RegexOptions.Compiled Or RegexOptions.Singleline)
-    ' ReadOnly list2 As New Regex("\n([\-].+)+\n", RegexOptions.Compiled Or RegexOptions.Singleline)
-    ' ReadOnly list3 As New Regex("\n([\*].+)+\n", RegexOptions.Compiled Or RegexOptions.Singleline)
+    ReadOnly list1 As New Regex("(\n[\+]\s([^\n])+)+", RegexOptions.Compiled Or RegexOptions.Singleline)
+    ReadOnly list2 As New Regex("(\n[\-]\s([^\n])+)+", RegexOptions.Compiled Or RegexOptions.Singleline)
+    ReadOnly list3 As New Regex("(\n[\*]\s([^\n])+)+", RegexOptions.Compiled Or RegexOptions.Singleline)
 
     Private Sub RunList()
         text = list1.Replace(text, Function(m) render.List(TrimListItems(m.Value), False))
-        'text = list2.Replace(text, Function(m) render.List(TrimListItems(m.Value), False))
-        'text = list3.Replace(text, Function(m) render.List(TrimListItems(m.Value), False))
+        text = list2.Replace(text, Function(m) render.List(TrimListItems(m.Value), False))
+        text = list3.Replace(text, Function(m) render.List(TrimListItems(m.Value), False))
     End Sub
 
     Private Shared Iterator Function TrimListItems(s As String) As IEnumerable(Of String)
+        s = s.Trim(ASCII.LF, ASCII.CR, " "c)
+
         For Each si As String In s.LineTokens
-            Yield If(si = "", "", si.Substring(1).Trim)
+            Yield si.Trim.Substring(1).Trim
         Next
     End Function
 
+    ReadOnly orderList As New Regex("(\n\d+\.\s[^\n]+)+", RegexOptions.Compiled Or RegexOptions.Singleline)
+    ReadOnly orderPrefix As New Regex("^\d+\.", RegexOptions.Compiled Or RegexOptions.Multiline)
+
+    Private Sub RunOrderList()
+        text = orderList.Replace(text, Function(m) render.List(TrimOrderListItems(m.Value), True))
+    End Sub
+
+    Private Iterator Function TrimOrderListItems(s As String) As IEnumerable(Of String)
+        s = s.Trim(ASCII.LF, ASCII.CR, " "c)
+
+        For Each si As String In s.LineTokens
+            Yield orderPrefix.Replace(si.Trim, "")
+        Next
+    End Function
 End Class

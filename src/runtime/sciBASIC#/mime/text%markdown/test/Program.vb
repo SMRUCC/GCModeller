@@ -93,6 +93,31 @@ _this_ _is_ _your_ _basic_ _boring_ _emphasis_
 
 **this** **is** **your** **basic** **boring** **emphasis**
 
+
+- alter list 1
+- alter list2
+- alter list3
+
+- alter list4
+- alter list``5``
+
+1.  a
+20.  b
+30. x
+40. d
+500. . g``gg``
+
+
+```
+- alter list 1
+- alter list2
+- alter list3
+
+10. a
+20. b
+30. c
+```
+
 "
 
     Sub Main(args As String())
