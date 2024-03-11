@@ -24,21 +24,36 @@
 
         <h5>GO as a Graph</h5>
 
-<p>The Structure of GO can be described In terms Of a graph, where Each GO term Is a node, And the relationships between the terms are <br />
- edges between the nodes. GO Is loosely hierarchical, With 'child' terms being more specialized than their 'parent' terms, but unlike <br />
- a strict hierarchy, a term may have more than one parent term (note that the parent/child model does not hold true for all types of <br />
- relation)</p>
 
-<p>(功能定义,term相当于一个节点，节点之间的继承关系是非严格的，即某一个子节点可能会有多个父节点)</p>
+ 
+ The Structure of GO can be described In terms Of a graph, where Each GO term Is a node, And the relationships between the terms are 
+ edges between the nodes. GO Is loosely hierarchical, With 'child' terms being more specialized than their 'parent' terms, but unlike 
+ a strict hierarchy, a term may have more than one parent term (note that the parent/child model does not hold true for all types of 
+ relation)
+ 
+ (功能定义,term相当于一个节点，节点之间的继承关系是非严格的，即某一个子节点可能会有多个父节点)
 
 <h4>Sample GO Term</h4>
 
-<p>The following Is a GO term taken from the OBO format file.</p>
 
-<p></p>
+ The following Is a GO term taken from the OBO format file.
 
-<pre><code class="">^( {4}[^\n]+\n*)+
+<pre><code class=""> id: GO : 0016049
+ name: cell growth
+ Namespace:  biological_process
+ def: "The process in which a cell irreversibly increases in size over time by accretion and biosynthetic production of matter similar to that already present." [GOC:ai]
+ subset: goslim_generic
+ subset: goslim_plant
+ subset: gosubset_prok
+ synonym: "cell expansion" RELATED []
+ synonym: "cellular growth" EXACT []
+ synonym: "growth of cell" EXACT []
+ is_a: GO:0009987 ! cellular process
+ is_a: GO:0040007 ! growth
+ relationship: part_of GO : 0008361 ! regulation of cell size
 </code></pre>
+
+
 
         <h3>Declare</h3>        
 
@@ -89,8 +104,8 @@ export class Term extends <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntol
    #  + related
    #    the terms are related In some way Not covered above
    #    e.g. cytochrome bc1 complex Is a related synonym of ubiquinol-cytochrome-c reductase activity virulence Is a related synonym of pathogenesis
-   # 
-   # Custom synonym types are also used In the ontology. For example, a number Of synonyms are designated As systematic synonyms; 
+   #  
+   #  Custom synonym types are also used In the ontology. For example, a number Of synonyms are designated As systematic synonyms; 
    #  synonyms Of this type are exact synonyms Of the term name.
    synonym: string;
    # Database cross-references, or dbxrefs, refer to identical or very similar objects in other databases. For instance, 
