@@ -116,30 +116,38 @@ Namespace PathwayMaps.RenderStyles
         End Function
 
         Public MustOverride Function getFontSize(node As Node) As Single
-        Public MustOverride Function drawNode(id$, g As IGraphics, br As Brush, radius!, center As PointF) As RectangleF
+        Public MustOverride Function drawNode(id$, g As IGraphics, br As Brush, radius!(), center As PointF) As RectangleF
         Public MustOverride Function getLabelColor(node As Node) As Color
         Public MustOverride Function getHullPolygonGroups() As NamedValue(Of String)
 
-        Protected Function getNodeLayout(id As String, radius As Single, center As PointF) As Rectangle
+        Protected Function getNodeLayout(id As String, radius As Single(), center As PointF) As Rectangle
             Dim node As Node = nodes(id)
             Dim rect As Rectangle
+            Dim size As SizeF
+
+            If radius.Length = 1 Then
+                size = New SizeF(radius(0), radius(0))
+            Else
+                size = New SizeF(radius(0), radius(1))
+            End If
 
             If node.label.IsPattern("C\d+") Then
                 ' 圆形
-                radius = radius * 0.5
+                Dim r = radius.Average * 0.5
+
                 rect = New Rectangle With {
-                    .X = center.X - radius / 2,
-                    .Y = center.Y - radius / 2,
-                    .Width = radius,
-                    .Height = radius
+                    .X = center.X - r / 2,
+                    .Y = center.Y - r / 2,
+                    .Width = size.Width,
+                    .Height = size.Height
                 }
             Else
                 ' 方形
                 rect = New Rectangle With {
-                    .X = center.X - radius / 2,
-                    .Y = center.Y - radius / 5,
-                    .Width = radius,
-                    .Height = radius / 2.5
+                    .X = center.X - size.Width / 2,
+                    .Y = center.Y - size.Height / 5,
+                    .Width = size.Width,
+                    .Height = size.Height / 2.5
                 }
             End If
 

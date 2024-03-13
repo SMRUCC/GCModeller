@@ -108,13 +108,13 @@ Namespace PathwayMaps.RenderStyles
         Dim hideCompoundCircle As Boolean = True
         Dim convexHullCategoryStyle As (allCategory As String(), categoryColors As String())
 
-        Public Overrides Function drawNode(id As String, g As IGraphics, br As Brush, radius As Single, center As PointF) As RectangleF
+        Public Overrides Function drawNode(id As String, g As IGraphics, br As Brush, radius As Single(), center As PointF) As RectangleF
             Dim node As Node = nodes(id)
             Dim rect As Rectangle = getNodeLayout(id, radius, center)
 
             If node.label.IsPattern("C\d+") Then
                 If Not hideCompoundCircle Then
-                    Call circleShadow.Circle(g, center, radius)
+                    Call circleShadow.Circle(g, center, radius.Average)
 
                     Call g.FillEllipse(br, rect)
                     Call g.DrawEllipse(New Pen(DirectCast(br, SolidBrush).Color.Alpha(200).Darken, 10), rect)
