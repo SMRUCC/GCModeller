@@ -1,20 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{8AB21F5F-95C5-4A5F-8829-54118DA02A74}|..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\KEGGGraphVisualizer.vbproj|e:\\gcmodeller\\src\\gcmodeller\\models\\networks\\kegggraphvisualizer\\styles\\blockstyle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8AB21F5F-95C5-4A5F-8829-54118DA02A74}|..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\KEGGGraphVisualizer.vbproj|e:\\gcmodeller\\src\\gcmodeller\\models\\networks\\kegggraphvisualizer\\styles\\renderstyle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8AB21F5F-95C5-4A5F-8829-54118DA02A74}|..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\KEGGGraphVisualizer.vbproj|e:\\gcmodeller\\src\\gcmodeller\\models\\networks\\kegggraphvisualizer\\styles\\plainstyle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8AB21F5F-95C5-4A5F-8829-54118DA02A74}|..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\KEGGGraphVisualizer.vbproj|e:\\gcmodeller\\src\\gcmodeller\\models\\networks\\kegggraphvisualizer\\referencemaprender.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -22,47 +9,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "BlockStyle.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\BlockStyle.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\BlockStyle.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\BlockStyle.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\BlockStyle.vb",
-              "ViewState": "AQIAAFsAAAAAAAAAAAApwGMAAAAaAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-13T08:24:50.907Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PlainStyle.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\PlainStyle.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\PlainStyle.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\PlainStyle.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\PlainStyle.vb",
-              "ViewState": "AQIAAF8AAAAAAAAAAAAIwHcAAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-13T08:22:39.746Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RenderStyle.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\RenderStyle.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\RenderStyle.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\RenderStyle.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\Styles\\RenderStyle.vb",
-              "ViewState": "AQIAAGoAAAAAAAAAAAAjwIoAAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-13T08:22:23.16Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -74,19 +22,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ReferenceMapRender.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\ReferenceMapRender.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\ReferenceMapRender.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\ReferenceMapRender.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\ReferenceMapRender.vb",
-              "ViewState": "AQIAAB0BAAAAAAAAAAAtwC0BAABdAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-13T08:22:15.301Z",
-              "EditorCaption": ""
             }
           ]
         }
