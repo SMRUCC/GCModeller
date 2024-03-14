@@ -3,6 +3,14 @@ Imports Microsoft.VisualBasic.Text
 
 Public Class Hierarchy : Inherits Tree(Of PathwayName)
 
+    Public Overrides Function ToString() As String
+        If Data Is Nothing Then
+            Return label
+        Else
+            Return Data.ToString
+        End If
+    End Function
+
     Public Shared Function LoadInternal() As Hierarchy
         Dim tree As New Hierarchy With {
             .ID = 0,
