@@ -1,525 +1,588 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8E5597A1-49BE-4955-9450-E37BDA988FEA}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>SMRUCC.genomics.Data.Reactome</RootNamespace>
-    <AssemblyName>SMRUCC.genomics.Data.Reactome</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <DefineDebug>false</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <Optimize>true</Optimize>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionExplicit>On</OptionExplicit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionCompare>Binary</OptionCompare>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionStrict>Off</OptionStrict>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionInfer>On</OptionInfer>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\x86\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Publish|x86'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'docs|x86'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|AnyCPU'">
-    <OutputPath>./bin</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x64'">
-    <OutputPath>./bin</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28UNIX-Release_X64%29|x86'">
-    <OutputPath>./bin</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|AnyCPU'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x64'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>..\..\..\..\GCModeller\bin\</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'GCModeller%28Release_X64%29|x86'">
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>./bin</OutputPath>
-    <DocumentationFile>SMRUCC.genomics.Data.Reactome.xml</DocumentationFile>
-    <Optimize>true</Optimize>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-  </ItemGroup>
-  <ItemGroup>
-    <Import Include="Microsoft.VisualBasic" />
-    <Import Include="System" />
-    <Import Include="System.Collections" />
-    <Import Include="System.Collections.Generic" />
-    <Import Include="System.Data" />
-    <Import Include="System.Diagnostics" />
-    <Import Include="System.Linq" />
-    <Import Include="System.Xml.Linq" />
-    <Import Include="System.Threading.Tasks" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="LocalMySQL\gk_current\abstractmodifiedresidue.vb" />
-    <Compile Include="LocalMySQL\gk_current\affiliation.vb" />
-    <Compile Include="LocalMySQL\gk_current\affiliation_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\blackboxevent.vb" />
-    <Compile Include="LocalMySQL\gk_current\blackboxevent_2_hasevent.vb" />
-    <Compile Include="LocalMySQL\gk_current\book.vb" />
-    <Compile Include="LocalMySQL\gk_current\book_2_chapterauthors.vb" />
-    <Compile Include="LocalMySQL\gk_current\candidateset.vb" />
-    <Compile Include="LocalMySQL\gk_current\candidateset_2_hascandidate.vb" />
-    <Compile Include="LocalMySQL\gk_current\catalystactivity.vb" />
-    <Compile Include="LocalMySQL\gk_current\catalystactivity_2_activeunit.vb" />
-    <Compile Include="LocalMySQL\gk_current\catalystactivity_2_literaturereference.vb" />
-    <Compile Include="LocalMySQL\gk_current\celltype.vb" />
-    <Compile Include="LocalMySQL\gk_current\compartment.vb" />
-    <Compile Include="LocalMySQL\gk_current\complex.vb" />
-    <Compile Include="LocalMySQL\gk_current\complex_2_entityonothercell.vb" />
-    <Compile Include="LocalMySQL\gk_current\complex_2_hascomponent.vb" />
-    <Compile Include="LocalMySQL\gk_current\complex_2_includedlocation.vb" />
-    <Compile Include="LocalMySQL\gk_current\complex_2_interactionidentifier.vb" />
-    <Compile Include="LocalMySQL\gk_current\complex_2_species.vb" />
-    <Compile Include="LocalMySQL\gk_current\concurrenteventset.vb" />
-    <Compile Include="LocalMySQL\gk_current\concurrenteventset_2_concurrentevents.vb" />
-    <Compile Include="LocalMySQL\gk_current\concurrenteventset_2_focusentity.vb" />
-    <Compile Include="LocalMySQL\gk_current\controlledvocabulary.vb" />
-    <Compile Include="LocalMySQL\gk_current\controlledvocabulary_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\crosslinkedresidue.vb" />
-    <Compile Include="LocalMySQL\gk_current\crosslinkedresidue_2_secondcoordinate.vb" />
-    <Compile Include="LocalMySQL\gk_current\databaseidentifier.vb" />
-    <Compile Include="LocalMySQL\gk_current\databaseidentifier_2_crossreference.vb" />
-    <Compile Include="LocalMySQL\gk_current\databaseobject.vb" />
-    <Compile Include="LocalMySQL\gk_current\databaseobject_2_modified.vb" />
-    <Compile Include="LocalMySQL\gk_current\datamodel.vb" />
-    <Compile Include="LocalMySQL\gk_current\definedset.vb" />
-    <Compile Include="LocalMySQL\gk_current\deletedcontrolledvocabulary.vb" />
-    <Compile Include="LocalMySQL\gk_current\depolymerisation.vb" />
-    <Compile Include="LocalMySQL\gk_current\disease.vb" />
-    <Compile Include="LocalMySQL\gk_current\edge.vb" />
-    <Compile Include="LocalMySQL\gk_current\entitycompartment.vb" />
-    <Compile Include="LocalMySQL\gk_current\entityfunctionalstatus.vb" />
-    <Compile Include="LocalMySQL\gk_current\entityfunctionalstatus_2_functionalstatus.vb" />
-    <Compile Include="LocalMySQL\gk_current\entityset.vb" />
-    <Compile Include="LocalMySQL\gk_current\entityset_2_hasmember.vb" />
-    <Compile Include="LocalMySQL\gk_current\entityset_2_species.vb" />
-    <Compile Include="LocalMySQL\gk_current\entityvertex.vb" />
-    <Compile Include="LocalMySQL\gk_current\entitywithaccessionedsequence.vb" />
-    <Compile Include="LocalMySQL\gk_current\entitywithaccessionedsequence_2_hasmodifiedresidue.vb" />
-    <Compile Include="LocalMySQL\gk_current\event.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_authored.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_compartment.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_crossreference.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_disease.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_edited.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_figure.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_inferredfrom.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_literaturereference.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_orthologousevent.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_precedingevent.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_relatedspecies.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_reviewed.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_revised.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_species.vb" />
-    <Compile Include="LocalMySQL\gk_current\event_2_summation.vb" />
-    <Compile Include="LocalMySQL\gk_current\evidencetype.vb" />
-    <Compile Include="LocalMySQL\gk_current\evidencetype_2_instanceof.vb" />
-    <Compile Include="LocalMySQL\gk_current\evidencetype_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\externalontology.vb" />
-    <Compile Include="LocalMySQL\gk_current\externalontology_2_instanceof.vb" />
-    <Compile Include="LocalMySQL\gk_current\externalontology_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\externalontology_2_synonym.vb" />
-    <Compile Include="LocalMySQL\gk_current\failedreaction.vb" />
-    <Compile Include="LocalMySQL\gk_current\figure.vb" />
-    <Compile Include="LocalMySQL\gk_current\fragmentdeletionmodification.vb" />
-    <Compile Include="LocalMySQL\gk_current\fragmentinsertionmodification.vb" />
-    <Compile Include="LocalMySQL\gk_current\fragmentmodification.vb" />
-    <Compile Include="LocalMySQL\gk_current\fragmentreplacedmodification.vb" />
-    <Compile Include="LocalMySQL\gk_current\frontpage.vb" />
-    <Compile Include="LocalMySQL\gk_current\frontpage_2_frontpageitem.vb" />
-    <Compile Include="LocalMySQL\gk_current\functionalstatus.vb" />
-    <Compile Include="LocalMySQL\gk_current\functionalstatustype.vb" />
-    <Compile Include="LocalMySQL\gk_current\functionalstatustype_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\geneticallymodifiedresidue.vb" />
-    <Compile Include="LocalMySQL\gk_current\genomeencodedentity.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_biologicalprocess.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_biologicalprocess_2_componentof.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_biologicalprocess_2_haspart.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_biologicalprocess_2_instanceof.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_biologicalprocess_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_biologicalprocess_2_negativelyregulate.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_biologicalprocess_2_positivelyregulate.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_biologicalprocess_2_regulate.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_cellularcomponent.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_cellularcomponent_2_componentof.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_cellularcomponent_2_haspart.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_cellularcomponent_2_instanceof.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_cellularcomponent_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_molecularfunction.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_molecularfunction_2_componentof.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_molecularfunction_2_ecnumber.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_molecularfunction_2_haspart.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_molecularfunction_2_instanceof.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_molecularfunction_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_molecularfunction_2_negativelyregulate.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_molecularfunction_2_positivelyregulate.vb" />
-    <Compile Include="LocalMySQL\gk_current\go_molecularfunction_2_regulate.vb" />
-    <Compile Include="LocalMySQL\gk_current\groupmodifiedresidue.vb" />
-    <Compile Include="LocalMySQL\gk_current\instanceedit.vb" />
-    <Compile Include="LocalMySQL\gk_current\instanceedit_2_author.vb" />
-    <Compile Include="LocalMySQL\gk_current\interchaincrosslinkedresidue.vb" />
-    <Compile Include="LocalMySQL\gk_current\interchaincrosslinkedresidue_2_equivalentto.vb" />
-    <Compile Include="LocalMySQL\gk_current\interchaincrosslinkedresidue_2_secondreferencesequence.vb" />
-    <Compile Include="LocalMySQL\gk_current\intrachaincrosslinkedresidue.vb" />
-    <Compile Include="LocalMySQL\gk_current\literaturereference.vb" />
-    <Compile Include="LocalMySQL\gk_current\modifiedresidue.vb" />
-    <Compile Include="LocalMySQL\gk_current\negativeregulation.vb" />
-    <Compile Include="LocalMySQL\gk_current\ontology.vb" />
-    <Compile Include="LocalMySQL\gk_current\openset.vb" />
-    <Compile Include="LocalMySQL\gk_current\otherentity.vb" />
-    <Compile Include="LocalMySQL\gk_current\parameters.vb" />
-    <Compile Include="LocalMySQL\gk_current\pathway.vb" />
-    <Compile Include="LocalMySQL\gk_current\pathwaycoordinates.vb" />
-    <Compile Include="LocalMySQL\gk_current\pathwaydiagram.vb" />
-    <Compile Include="LocalMySQL\gk_current\pathwaydiagramitem.vb" />
-    <Compile Include="LocalMySQL\gk_current\pathwaydiagram_2_representedpathway.vb" />
-    <Compile Include="LocalMySQL\gk_current\pathwayvertex.vb" />
-    <Compile Include="LocalMySQL\gk_current\pathway_2_hasevent.vb" />
-    <Compile Include="LocalMySQL\gk_current\person.vb" />
-    <Compile Include="LocalMySQL\gk_current\person_2_affiliation.vb" />
-    <Compile Include="LocalMySQL\gk_current\person_2_crossreference.vb" />
-    <Compile Include="LocalMySQL\gk_current\person_2_figure.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_compartment.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_crossreference.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_disease.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_edited.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_figure.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_inferredfrom.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_inferredto.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_literaturereference.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_reviewed.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_revised.vb" />
-    <Compile Include="LocalMySQL\gk_current\physicalentity_2_summation.vb" />
-    <Compile Include="LocalMySQL\gk_current\polymer.vb" />
-    <Compile Include="LocalMySQL\gk_current\polymerisation.vb" />
-    <Compile Include="LocalMySQL\gk_current\polymer_2_repeatedunit.vb" />
-    <Compile Include="LocalMySQL\gk_current\polymer_2_species.vb" />
-    <Compile Include="LocalMySQL\gk_current\positiveregulation.vb" />
-    <Compile Include="LocalMySQL\gk_current\psimod.vb" />
-    <Compile Include="LocalMySQL\gk_current\publication.vb" />
-    <Compile Include="LocalMySQL\gk_current\publication_2_author.vb" />
-    <Compile Include="LocalMySQL\gk_current\reaction.vb" />
-    <Compile Include="LocalMySQL\gk_current\reactioncoordinates.vb" />
-    <Compile Include="LocalMySQL\gk_current\reactionlikeevent.vb" />
-    <Compile Include="LocalMySQL\gk_current\reactionlikeevent_2_catalystactivity.vb" />
-    <Compile Include="LocalMySQL\gk_current\reactionlikeevent_2_entityfunctionalstatus.vb" />
-    <Compile Include="LocalMySQL\gk_current\reactionlikeevent_2_entityonothercell.vb" />
-    <Compile Include="LocalMySQL\gk_current\reactionlikeevent_2_input.vb" />
-    <Compile Include="LocalMySQL\gk_current\reactionlikeevent_2_normalreaction.vb" />
-    <Compile Include="LocalMySQL\gk_current\reactionlikeevent_2_output.vb" />
-    <Compile Include="LocalMySQL\gk_current\reactionlikeevent_2_requiredinputcomponent.vb" />
-    <Compile Include="LocalMySQL\gk_current\reactionvertex.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencedatabase.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencedatabase_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencednasequence.vb" />
-    <Compile Include="LocalMySQL\gk_current\referenceentity.vb" />
-    <Compile Include="LocalMySQL\gk_current\referenceentity_2_crossreference.vb" />
-    <Compile Include="LocalMySQL\gk_current\referenceentity_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\referenceentity_2_otheridentifier.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencegeneproduct.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencegeneproduct_2_chain.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencegeneproduct_2_referencegene.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencegeneproduct_2_referencetranscript.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencegroup.vb" />
-    <Compile Include="LocalMySQL\gk_current\referenceisoform.vb" />
-    <Compile Include="LocalMySQL\gk_current\referenceisoform_2_isoformparent.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencemolecule.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencernasequence.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencernasequence_2_referencegene.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencesequence.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencesequence_2_comment.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencesequence_2_description.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencesequence_2_genename.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencesequence_2_keyword.vb" />
-    <Compile Include="LocalMySQL\gk_current\referencesequence_2_secondaryidentifier.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulation.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulationtype.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulationtype_2_instanceof.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulationtype_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulation_2_containedinpathway.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulation_2_edited.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulation_2_figure.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulation_2_literaturereference.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulation_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulation_2_reviewed.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulation_2_revised.vb" />
-    <Compile Include="LocalMySQL\gk_current\regulation_2_summation.vb" />
-    <Compile Include="LocalMySQL\gk_current\replacedresidue.vb" />
-    <Compile Include="LocalMySQL\gk_current\replacedresidue_2_psimod.vb" />
-    <Compile Include="LocalMySQL\gk_current\requirement.vb" />
-    <Compile Include="LocalMySQL\gk_current\sequenceontology.vb" />
-    <Compile Include="LocalMySQL\gk_current\simpleentity.vb" />
-    <Compile Include="LocalMySQL\gk_current\species.vb" />
-    <Compile Include="LocalMySQL\gk_current\species_2_figure.vb" />
-    <Compile Include="LocalMySQL\gk_current\stableidentifier.vb" />
-    <Compile Include="LocalMySQL\gk_current\summation.vb" />
-    <Compile Include="LocalMySQL\gk_current\summation_2_literaturereference.vb" />
-    <Compile Include="LocalMySQL\gk_current\taxon.vb" />
-    <Compile Include="LocalMySQL\gk_current\taxon_2_crossreference.vb" />
-    <Compile Include="LocalMySQL\gk_current\taxon_2_name.vb" />
-    <Compile Include="LocalMySQL\gk_current\translationalmodification.vb" />
-    <Compile Include="LocalMySQL\gk_current\url.vb" />
-    <Compile Include="LocalMySQL\gk_current\vertex.vb" />
-    <Compile Include="LocalMySQL\gk_current\vertexsearchableterm.vb" />
-    <Compile Include="LocalMySQL\gk_current\vertexsearchableterm_2_termprovider.vb" />
-    <Compile Include="LocalMySQL\gk_current\vertexsearchableterm_2_vertex.vb" />
-    <Compile Include="LocalMySQL\gk_current\_attributevaluebeforechange.vb" />
-    <Compile Include="LocalMySQL\gk_current\_attributevaluebeforechange_2_previousvalue.vb" />
-    <Compile Include="LocalMySQL\gk_current\_deleted.vb" />
-    <Compile Include="LocalMySQL\gk_current\_deleted_2_deletedinstancedb_id.vb" />
-    <Compile Include="LocalMySQL\gk_current\_deleted_2_replacementinstances.vb" />
-    <Compile Include="LocalMySQL\gk_current\_instancebeforechange.vb" />
-    <Compile Include="LocalMySQL\gk_current\_instancebeforechange_2_attributevaluesbeforechange.vb" />
-    <Compile Include="LocalMySQL\gk_current\_release.vb" />
-    <Compile Include="LocalMySQL\gk_current_dn\id_to_externalidentifier.vb" />
-    <Compile Include="LocalMySQL\gk_current_dn\pathway.vb" />
-    <Compile Include="LocalMySQL\gk_current_dn\pathwayhierarchy.vb" />
-    <Compile Include="LocalMySQL\gk_current_dn\pathway_to_reactionlikeevent.vb" />
-    <Compile Include="LocalMySQL\gk_current_dn\physicalentity.vb" />
-    <Compile Include="LocalMySQL\gk_current_dn\physicalentityhierarchy.vb" />
-    <Compile Include="LocalMySQL\gk_current_dn\reactionlikeevent.vb" />
-    <Compile Include="LocalMySQL\gk_current_dn\reactionlikeevent_to_physicalentity.vb" />
-    <Compile Include="LocalMySQL\gk_stable_ids\history.vb" />
-    <Compile Include="LocalMySQL\gk_stable_ids\name.vb" />
-    <Compile Include="LocalMySQL\gk_stable_ids\reactomerelease.vb" />
-    <Compile Include="LocalMySQL\gk_stable_ids\stableidentifier.vb" />
-    <Compile Include="ObjectModels\BioSystem.vb" />
-    <Compile Include="Owl\ResourceCollection.vb" />
-    <Compile Include="Owl\Xref.vb" />
-    <Compile Include="Owl\Abstract.vb" />
-    <Compile Include="ShellScriptAPI.vb" />
-    <Compile Include="Owl\ExtractOwl.vb" />
-    <Compile Include="ObjectModels\Metabolite.vb" />
-    <Compile Include="ObjectModels\Reaction.vb" />
-    <Compile Include="LocalMySQL\Exports.vb" />
-    <Compile Include="Owl\OwlDocument.vb" />
-    <Compile Include="Owl\Nodes.vb" />
-    <Compile Include="WebServices\RESTfulAPI.vb" />
-    <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="My Project\Application.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Application.myapp</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\Resources.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="My Project\Settings.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="My Project\Resources.resx">
-      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
-      <CustomToolNamespace>My.Resources</CustomToolNamespace>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Reactome.Designer.cd" />
-    <None Include="My Project\Application.myapp">
-      <Generator>MyApplicationCodeGenerator</Generator>
-      <LastGenOutput>Application.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="My Project\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <CustomToolNamespace>My</CustomToolNamespace>
-      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\mysqli\DataSchema\DataSchema.vbproj">
-      <Project>{7a752aa2-5a30-4ac8-9142-ea23b190450e}</Project>
-      <Name>DataSchema</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-</Project>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<RootNamespace>SMRUCC.genomics.Data.Reactome</RootNamespace>
+		<TargetFrameworks>net6.0-windows;net6.0;net48;</TargetFrameworks>
+		<AssemblyName>SMRUCC.genomics.Data.Reactome</AssemblyName>
+		<Authors>xie.guigang@live.com</Authors>
+		
+		<Deterministic>false</Deterministic>
+	
+    <RepositoryType>git</RepositoryType>
+		<Platforms>AnyCPU;x64;x86</Platforms>
+		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;mzkit_win32;gcmodeller_desktop;Docker;CFD_win32;nuget_release</Configurations>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <UseApplicationFramework>True</UseApplicationFramework>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageProjectUrl>https://gcmodeller.org</PackageProjectUrl>
+    <PackageLicenseExpression>gpl3</PackageLicenseExpression>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>    
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
+	  <Optimize>False</Optimize>
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+	  <Optimize>False</Optimize>
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|AnyCPU'">
+	  <Optimize>False</Optimize>
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|x64'">
+	  <Optimize>False</Optimize>
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|x64'">
+	  <Optimize>False</Optimize>
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|x64'">
+	  <Optimize>False</Optimize>
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|x86'">
+	  <Optimize>False</Optimize>
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|x86'">
+	  <Optimize>False</Optimize>
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net48|x86'">
+	  <Optimize>False</Optimize>
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|AnyCPU'">
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net48|AnyCPU'">
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|x64'">
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|x64'">
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net48|x64'">
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|x86'">
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|x86'">
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net48|x86'">
+	  <DebugType>full</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0-windows|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0-windows|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0-windows|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net6.0-windows|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net6.0|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net48|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net6.0-windows|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net6.0|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net48|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net6.0-windows|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net6.0|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='LipidSearch|net48|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net6.0-windows|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net6.0|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net48|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net6.0-windows|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net6.0|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net48|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net6.0-windows|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net6.0|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='PlantMAT|net48|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit|net6.0-windows|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit|net6.0|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit|net48|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit|net6.0-windows|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit|net6.0|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit|net48|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit|net6.0-windows|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit|net6.0|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit|net48|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='NPSearch|net6.0-windows|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='NPSearch|net6.0|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='NPSearch|net48|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='NPSearch|net6.0-windows|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='NPSearch|net6.0|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='NPSearch|net48|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='NPSearch|net6.0-windows|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='NPSearch|net6.0|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='NPSearch|net48|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net6.0-windows|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net6.0|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net48|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net6.0-windows|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net6.0|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net48|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net6.0-windows|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net6.0|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='mzkit_win32|net48|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net6.0-windows|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net6.0|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net48|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net6.0-windows|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net6.0|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net48|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net6.0-windows|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net6.0|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net48|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Docker|net6.0-windows|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Docker|net6.0|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Docker|net48|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Docker|net6.0-windows|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Docker|net6.0|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Docker|net48|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Docker|net6.0-windows|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Docker|net6.0|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Docker|net48|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CFD_win32|net6.0-windows|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CFD_win32|net6.0|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CFD_win32|net48|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CFD_win32|net6.0-windows|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CFD_win32|net6.0|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CFD_win32|net48|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CFD_win32|net6.0-windows|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CFD_win32|net6.0|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CFD_win32|net48|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net6.0-windows|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net6.0|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net48|AnyCPU'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net6.0-windows|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net6.0|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net48|x64'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net6.0-windows|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net6.0|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='nuget_release|net48|x86'">
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="LocalMySQL\**" />
+	  <EmbeddedResource Remove="LocalMySQL\**" />
+	  <None Remove="LocalMySQL\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+	  <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+	  <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+	  <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="My Project\Resources.Designer.vb">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="My Project\Resources.resx">
+	    <CustomToolNamespace>My.Resources</CustomToolNamespace>
+	    <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+  </Project>

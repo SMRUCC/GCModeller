@@ -3,12 +3,26 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Model.SBML
+Imports SMRUCC.genomics.Model.SBML.Level3
+Imports SMRUCC.genomics.Model.SBML.SBGN
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
+Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' Systems Biology Markup Language (SBML)
+''' 
+''' a free and open data format for computational systems biology 
+''' that’s used by thousands of people worldwide.
+''' </summary>
 <Package("SBML")>
 Module SBMLTools
+
+    <ExportAPI("read.sbgn")>
+    Public Function readSBGN(file As String) As sbgnFile
+        Return sbgnFile.ReadXml(file)
+    End Function
 
     ''' <summary>
     ''' Read a sbml model file from a given file path
@@ -16,6 +30,7 @@ Module SBMLTools
     ''' <param name="file"></param>
     ''' <returns></returns>
     <ExportAPI("read.sbml")>
+    <RApiReturn(GetType(XmlFile(Of Reaction)))>
     Public Function readSBML(file As String) As Object
         Return Level3.LoadSBML(file)
     End Function
