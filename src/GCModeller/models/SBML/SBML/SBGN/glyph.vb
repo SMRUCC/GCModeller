@@ -1,4 +1,6 @@
-﻿Imports System.Xml.Serialization
+﻿Imports System.Drawing
+Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 
 Namespace SBGN
 
@@ -50,6 +52,15 @@ Namespace SBGN
         Public Overrides Function ToString() As String
             Return $"({x},{y}) {{w:{w}, h:{h}}}"
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(bbox As bbox) As RectangleF
+            If bbox Is Nothing Then
+                Return Nothing
+            Else
+                Return New RectangleF(bbox.x, bbox.y, bbox.w, bbox.h)
+            End If
+        End Operator
 
     End Class
 End Namespace
