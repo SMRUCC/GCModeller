@@ -8,7 +8,7 @@ Module Program
     End Sub
 
     Sub pathwayTree()
-        Dim tree = Hierarchy.LoadInternal
+        Dim hsa_tree = Hierarchy.LoadInternal(tax:="Homo sapiens")
 
         Pause()
     End Sub

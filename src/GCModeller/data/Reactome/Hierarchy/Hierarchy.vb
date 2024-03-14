@@ -11,7 +11,7 @@ Public Class Hierarchy : Inherits Tree(Of PathwayName)
         End If
     End Function
 
-    Public Shared Function LoadInternal() As Hierarchy
+    Public Shared Function LoadInternal(Optional tax As String = Nothing) As Hierarchy
         Dim tree As New Hierarchy With {
             .ID = 0,
             .label = "Reactome",
@@ -57,6 +57,22 @@ Public Class Hierarchy : Inherits Tree(Of PathwayName)
             If item.Parent Is Nothing Then
                 tree.Childs.Add(item.label, item)
                 item.Parent = tree
+            End If
+        Next
+
+        If tax.StringEmpty Then
+            Return tree
+        Else
+            Return FilterTax(tree, taxname:=tax)
+        End If
+    End Function
+
+    Private Shared Function FilterTax(tree As Hierarchy, taxname As String) As Hierarchy
+        For Each key As String In tree.Childs.Keys.ToArray
+            If tree(key).Data Is Nothing Then
+                tree.Childs.Remove(key)
+            ElseIf tree(key).Data.tax_name <> taxname Then
+                tree.Childs.Remove(key)
             End If
         Next
 
