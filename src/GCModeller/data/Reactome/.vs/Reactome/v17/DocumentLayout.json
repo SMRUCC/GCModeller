@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\Reactome\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{DFB35384-D261-4FD1-8367-5CFB5B5BA358}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\model\\tree\\abstracttree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A4B53927-B1A8-44F6-ADEC-47D6786406E4}|test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{A4B53927-B1A8-44F6-ADEC-47D6786406E4}|test\\test.vbproj|solutionrelative:test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -12,9 +15,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{B480786E-0F80-40CF-834A-BB6685B7D893}|..\\..\\..\\runtime\\sciBASIC#\\mime\\application%json\\JSON-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%json\\serializer\\jsonserializer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DFB35384-D261-4FD1-8367-5CFB5B5BA358}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\model\\tree\\abstracttree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B480786E-0F80-40CF-834A-BB6685B7D893}|..\\..\\..\\runtime\\sciBASIC#\\mime\\application%json\\JSON-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%json\\serializer\\objectserializer\\objectserializer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -27,7 +27,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
@@ -52,20 +52,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "AbstractTree.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\AbstractTree.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\AbstractTree.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\AbstractTree.vb",
               "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\AbstractTree.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADkAAAAXAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADoAAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-03-14T10:42:20.872Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "JSONSerializer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\Serializer\\JSONSerializer.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\mime\\application%json\\Serializer\\JSONSerializer.vb",
@@ -78,7 +78,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Hierarchy.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Hierarchy\\Hierarchy.vb",
               "RelativeDocumentMoniker": "Hierarchy\\Hierarchy.vb",
@@ -91,7 +91,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Reactome\\test\\Program.vb",
               "RelativeDocumentMoniker": "test\\Program.vb",
