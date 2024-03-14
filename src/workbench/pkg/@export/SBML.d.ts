@@ -5,6 +5,10 @@
 // ref=biosystem.SBMLTools@biosystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * Systems Biology Markup Language (SBML)
+ *  
+ *  a free and open data format for computational systems biology 
+ *  that’s used by thousands of people worldwide.
  * 
 */
 declare namespace SBML {
@@ -31,11 +35,14 @@ declare namespace SBML {
    function extract_reactions(sbml: any, json?: boolean, env?: object): any;
    module read {
       /**
+      */
+      function sbgn(file: string): object;
+      /**
        * Read a sbml model file from a given file path
        * 
        * 
         * @param file -
       */
-      function sbml(file: string): any;
+      function sbml(file: string): object;
    }
 }
