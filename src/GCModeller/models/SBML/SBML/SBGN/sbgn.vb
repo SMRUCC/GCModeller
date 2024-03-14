@@ -24,8 +24,8 @@ Namespace SBGN
 
     Public Class map
 
-        <XmlElement("glyph")>
-        Public Property glyph As glyph()
+        <XmlElement("glyph")> Public Property glyph As glyph()
+        <XmlElement("arc")> Public Property arc As arc()
 
         <XmlAttribute>
         Public Property language As String
