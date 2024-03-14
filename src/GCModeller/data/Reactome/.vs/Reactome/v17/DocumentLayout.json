@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\reactomepathways.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:reactomepathways.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\hierarchy\\pathwayname.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:hierarchy\\pathwayname.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +31,53 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ReactomePathways.txt",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\ReactomePathways.txt",
+              "RelativeDocumentMoniker": "ReactomePathways.txt",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\ReactomePathways.txt",
+              "RelativeToolTip": "ReactomePathways.txt",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2024-03-14T09:24:40.578Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "0bda4787-6f37-48be-959d-5474cbcc0f54",
+        "Display": 0,
+        "X": 172,
+        "Y": 276,
+        "Width": 1447,
+        "Height": 964,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PathwayName.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Hierarchy\\PathwayName.vb",
+              "RelativeDocumentMoniker": "Hierarchy\\PathwayName.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Hierarchy\\PathwayName.vb",
+              "RelativeToolTip": "Hierarchy\\PathwayName.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-14T09:24:04.484Z",
+              "EditorCaption": ""
             }
           ]
         }
