@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\reactomepathways.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:reactomepathways.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\hierarchy\\pathwayname.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:hierarchy\\pathwayname.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\hierarchy\\hierarchy.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:hierarchy\\hierarchy.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\reactomepathways.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:reactomepathways.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,7 +38,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "Hierarchy.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Hierarchy\\Hierarchy.vb",
+              "RelativeDocumentMoniker": "Hierarchy\\Hierarchy.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Hierarchy\\Hierarchy.vb",
+              "RelativeToolTip": "Hierarchy\\Hierarchy.vb",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAAwA8AAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-14T09:26:51.046Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "ReactomePathways.txt",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\ReactomePathways.txt",
               "RelativeDocumentMoniker": "ReactomePathways.txt",
@@ -44,39 +61,18 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
               "WhenOpened": "2024-03-14T09:24:40.578Z",
               "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "0bda4787-6f37-48be-959d-5474cbcc0f54",
-        "Display": 0,
-        "X": 172,
-        "Y": 276,
-        "Width": 1447,
-        "Height": 964,
-        "WindowState": 0
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
+            },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "PathwayName.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Hierarchy\\PathwayName.vb",
               "RelativeDocumentMoniker": "Hierarchy\\PathwayName.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Hierarchy\\PathwayName.vb",
               "RelativeToolTip": "Hierarchy\\PathwayName.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAQAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-14T09:24:04.484Z",
+              "WhenOpened": "2024-03-14T09:26:55.632Z",
               "EditorCaption": ""
             }
           ]

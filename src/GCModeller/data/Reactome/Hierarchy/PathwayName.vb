@@ -1,4 +1,6 @@
-﻿Public Class PathwayName
+﻿Imports Microsoft.VisualBasic.Text
+
+Public Class PathwayName
 
     Public Property id As String
     Public Property name As String
@@ -10,7 +12,7 @@
 
     Public Shared Iterator Function LoadInternal() As IEnumerable(Of PathwayName)
         For Each line As String In My.Resources.ReactomePathways.LineTokens
-            Dim t As String() = line.Split(vbTab)
+            Dim t As String() = line.Split(ASCII.TAB)
             Dim name As New PathwayName With {
                 .id = t(0),
                 .name = t(1),
