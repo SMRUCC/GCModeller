@@ -558,8 +558,11 @@
 
 	<ItemGroup>
 	  <Compile Remove="LocalMySQL\**" />
+	  <Compile Remove="test\**" />
 	  <EmbeddedResource Remove="LocalMySQL\**" />
+	  <EmbeddedResource Remove="test\**" />
 	  <None Remove="LocalMySQL\**" />
+	  <None Remove="test\**" />
 	</ItemGroup>
 
 	<ItemGroup>

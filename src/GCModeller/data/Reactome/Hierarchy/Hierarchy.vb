@@ -11,6 +11,7 @@ Public Class Hierarchy : Inherits Tree(Of PathwayName)
             .Parent = Nothing,
             .Childs = New Dictionary(Of String, Tree(Of PathwayName))
         }
+        Dim names = PathwayName.LoadInternal.ToDictionary(Function(p) p.id)
         Dim index As New Dictionary(Of String, Hierarchy)
         Dim t As String()
         Dim ancestor As String
@@ -26,7 +27,8 @@ Public Class Hierarchy : Inherits Tree(Of PathwayName)
                 index(ancestor) = New Hierarchy With {
                     .ID = index.Count + 1,
                     .label = ancestor,
-                    .Childs = New Dictionary(Of String, Tree(Of PathwayName))
+                    .Childs = New Dictionary(Of String, Tree(Of PathwayName)),
+                    .Data = names(.label)
                 }
             End If
             If Not index.ContainsKey(child) Then
@@ -34,7 +36,8 @@ Public Class Hierarchy : Inherits Tree(Of PathwayName)
                     .ID = index.Count + 1,
                     .label = child,
                     .Childs = New Dictionary(Of String, Tree(Of PathwayName)),
-                    .Parent = index(ancestor)
+                    .Parent = index(ancestor),
+                    .Data = names(.label)
                 }
             End If
 
