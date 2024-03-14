@@ -1,5 +1,6 @@
 Imports SMRUCC.genomics.MetabolicModel
 Imports SMRUCC.genomics.Model.Biopax.Level3
+Imports SMRUCC.genomics.Model.SBML.SBGN
 
 Module Program
 
@@ -8,7 +9,9 @@ Module Program
     End Sub
 
     Sub graph_test()
+        Dim layout = sbgnFile.ReadXml("E:\GCModeller\src\GCModeller\models\SBML\data\R-HSA-211945.sbgn")
 
+        Pause()
     End Sub
 
     Sub readerTest()

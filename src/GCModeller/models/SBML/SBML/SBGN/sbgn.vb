@@ -12,12 +12,12 @@ Namespace SBGN
     ''' 
     <XmlRoot("sbgn", [Namespace]:="http://sbgn.org/libsbgn/0.2")>
     <XmlType("sbgn", [Namespace]:="http://sbgn.org/libsbgn/0.2")>
-    Public Class sbgn
+    Public Class sbgnFile
 
         Public Property map As map
 
-        Public Shared Function ReadXml(file As String) As sbgn
-            Return file.SolveStream.LoadFromXml(GetType(sbgn))
+        Public Shared Function ReadXml(file As String) As sbgnFile
+            Return file.SolveStream.LoadFromXml(GetType(sbgnFile))
         End Function
 
     End Class
@@ -26,6 +26,9 @@ Namespace SBGN
 
         <XmlElement("glyph")>
         Public Property glyph As glyph()
+
+        <XmlAttribute>
+        Public Property language As String
 
     End Class
 
