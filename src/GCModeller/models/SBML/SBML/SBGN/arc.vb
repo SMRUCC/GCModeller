@@ -18,12 +18,20 @@ Namespace SBGN
 
         Public Property [end] As point
 
+        Public Overrides Function ToString() As String
+            Return $"{source} -> {target}"
+        End Function
+
     End Class
 
     Public Class point
 
         <XmlAttribute> Public Property x As Double
         <XmlAttribute> Public Property y As Double
+
+        Public Overrides Function ToString() As String
+            Return $"[{x},{y}]"
+        End Function
 
     End Class
 End Namespace
