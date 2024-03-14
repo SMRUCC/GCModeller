@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.Text
 
 Public Class Hierarchy : Inherits Tree(Of PathwayName)
@@ -78,5 +79,18 @@ Public Class Hierarchy : Inherits Tree(Of PathwayName)
 
         Return tree
     End Function
+
+    Public Shared Function TreeJSON(tree As Hierarchy) As String
+        Call BreakParentLoop(tree)
+        Return JSONSerializer.GetJson(tree)
+    End Function
+
+    Private Shared Sub BreakParentLoop(ByRef tree As Hierarchy)
+        tree.Parent = Nothing
+
+        For Each key As String In tree.Childs.Keys.ToArray
+            BreakParentLoop(tree(key))
+        Next
+    End Sub
 
 End Class

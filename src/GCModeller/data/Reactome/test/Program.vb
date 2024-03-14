@@ -9,6 +9,9 @@ Module Program
 
     Sub pathwayTree()
         Dim hsa_tree = Hierarchy.LoadInternal(tax:="Homo sapiens")
+        Dim json As String = Hierarchy.TreeJSON(hsa_tree)
+
+        Call Console.WriteLine(json)
 
         Pause()
     End Sub
