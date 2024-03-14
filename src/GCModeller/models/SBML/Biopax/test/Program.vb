@@ -13,6 +13,7 @@ Module Program
         Dim layout = sbgnFile.ReadXml("E:\GCModeller\src\GCModeller\models\SBML\data\R-HSA-211945.sbgn")
 
         Call Console.WriteLine(layout.GetJson)
+        Call layout.GetJson.SaveTo("E:\GCModeller\src\GCModeller\models\SBML\data\R-HSA-211945.json")
 
         Pause()
     End Sub
