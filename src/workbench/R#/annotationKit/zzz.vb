@@ -57,6 +57,7 @@ Public Class zzz
 
     Public Shared Sub onLoad()
         Call OBO_DAG.Main()
+        Call ReactomeTools.Main()
     End Sub
 End Class
 
