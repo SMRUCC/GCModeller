@@ -28,8 +28,9 @@ Namespace SBGN
 
         Private Function MeasureCanvasSize() As Double()
             Dim rects = map.glyph _
+                .SafeQuery _
                 .Select(Function(gl) CType(gl.bbox, RectangleF)) _
-                .JoinIterates(map.arc.Select(Function(a) a.GetPolygon.GetRectangle)) _
+                .JoinIterates(map.arc.SafeQuery.Select(Function(a) a.GetPolygon.GetRectangle)) _
                 .ToArray
             Dim maxX = Aggregate r As RectangleF In rects Into Max(r.Right)
             Dim maxY = Aggregate r As RectangleF In rects Into Max(r.Bottom)
