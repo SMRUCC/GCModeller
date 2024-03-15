@@ -15,7 +15,7 @@ Module Program
         Call Console.WriteLine(json)
         Call json.SaveTo("./HSA.json")
 
-        Dim json2 As String = HierarchyLink.LoadInternal("Homo sapiens").GetJson
+        Dim json2 As String = HierarchyLink.LoadInternal("Homo sapiens").Values.ToArray.GetJson
 
         Call json2.SaveTo("./HSA.json")
 

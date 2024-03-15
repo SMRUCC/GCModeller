@@ -6,8 +6,15 @@ Imports Microsoft.VisualBasic.Text
 Public Class HierarchyLink
 
     Public Property pathway As PathwayName
-    Public Property label As String
+    Public Property id As String
     Public Property childs As String()
+    Public Property parent As String
+
+    Public ReadOnly Property text As String
+        Get
+            Return pathway.name
+        End Get
+    End Property
 
     Public Shared Iterator Function CalculateRoots(tree As Dictionary(Of String, HierarchyLink)) As IEnumerable(Of String)
         Dim allChilds = tree.Values.Select(Function(a) a.childs.Indexing).ToArray
@@ -38,15 +45,16 @@ Public Class HierarchyLink
             child = t(1)
 
             If Not index.ContainsKey(ancestor) Then
-                index(ancestor) = New HierarchyLink With {.label = ancestor, .pathway = names(.label)}
+                index(ancestor) = New HierarchyLink With {.id = ancestor, .pathway = names(.id)}
                 childs(ancestor) = New List(Of String)
             End If
             If Not index.ContainsKey(child) Then
-                index(child) = New HierarchyLink With {.label = child, .pathway = names(.label)}
+                index(child) = New HierarchyLink With {.id = child, .pathway = names(.id)}
                 childs(child) = New List(Of String)
             End If
 
             childs(ancestor).Add(child)
+            index(child).parent = ancestor
         Next
 
         For Each key As String In childs.Keys
@@ -58,9 +66,19 @@ Public Class HierarchyLink
         End If
 
         index("Reactome") = New HierarchyLink With {
-            .label = "Reactome",
-            .childs = CalculateRoots(index).ToArray
+            .id = "Reactome",
+            .childs = CalculateRoots(index).ToArray,
+            .parent = "#",
+            .pathway = New PathwayName With {
+                .id = "Reactome",
+                .name = "Reactome",
+                .tax_name = "Reactome"
+            }
         }
+
+        For Each id As String In index("Reactome").childs
+            index(id).parent = "Reactome"
+        Next
 
         Return index
     End Function
@@ -70,7 +88,7 @@ Public Class HierarchyLink
         Return tree.Values _
             .Where(Function(a) a.pathway.tax_name = taxname) _
             .ToDictionary(Function(a)
-                              Return a.label
+                              Return a.id
                           End Function)
     End Function
 
