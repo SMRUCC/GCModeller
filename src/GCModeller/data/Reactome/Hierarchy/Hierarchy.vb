@@ -1,9 +1,18 @@
 ﻿Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.Text
 
 Public Class Hierarchy : Inherits Tree(Of PathwayName)
 
-    Public Shared Function LoadInternal() As Hierarchy
+    Public Overrides Function ToString() As String
+        If Data Is Nothing Then
+            Return label
+        Else
+            Return Data.ToString
+        End If
+    End Function
+
+    Public Shared Function LoadInternal(Optional tax As String = Nothing) As Hierarchy
         Dim tree As New Hierarchy With {
             .ID = 0,
             .label = "Reactome",
@@ -11,6 +20,7 @@ Public Class Hierarchy : Inherits Tree(Of PathwayName)
             .Parent = Nothing,
             .Childs = New Dictionary(Of String, Tree(Of PathwayName))
         }
+        Dim names = PathwayName.LoadInternal.ToDictionary(Function(p) p.id)
         Dim index As New Dictionary(Of String, Hierarchy)
         Dim t As String()
         Dim ancestor As String
@@ -26,7 +36,8 @@ Public Class Hierarchy : Inherits Tree(Of PathwayName)
                 index(ancestor) = New Hierarchy With {
                     .ID = index.Count + 1,
                     .label = ancestor,
-                    .Childs = New Dictionary(Of String, Tree(Of PathwayName))
+                    .Childs = New Dictionary(Of String, Tree(Of PathwayName)),
+                    .Data = names(.label)
                 }
             End If
             If Not index.ContainsKey(child) Then
@@ -34,7 +45,8 @@ Public Class Hierarchy : Inherits Tree(Of PathwayName)
                     .ID = index.Count + 1,
                     .label = child,
                     .Childs = New Dictionary(Of String, Tree(Of PathwayName)),
-                    .Parent = index(ancestor)
+                    .Parent = index(ancestor),
+                    .Data = names(.label)
                 }
             End If
 
@@ -49,7 +61,36 @@ Public Class Hierarchy : Inherits Tree(Of PathwayName)
             End If
         Next
 
+        If tax.StringEmpty Then
+            Return tree
+        Else
+            Return FilterTax(tree, taxname:=tax)
+        End If
+    End Function
+
+    Private Shared Function FilterTax(tree As Hierarchy, taxname As String) As Hierarchy
+        For Each key As String In tree.Childs.Keys.ToArray
+            If tree(key).Data Is Nothing Then
+                tree.Childs.Remove(key)
+            ElseIf tree(key).Data.tax_name <> taxname Then
+                tree.Childs.Remove(key)
+            End If
+        Next
+
         Return tree
     End Function
+
+    Public Shared Function TreeJSON(tree As Hierarchy) As String
+        Call BreakParentLoop(tree)
+        Return JSONSerializer.GetJson(tree)
+    End Function
+
+    Private Shared Sub BreakParentLoop(ByRef tree As Hierarchy)
+        tree.Parent = Nothing
+
+        For Each key As String In tree.Childs.Keys.ToArray
+            BreakParentLoop(tree(key))
+        Next
+    End Sub
 
 End Class

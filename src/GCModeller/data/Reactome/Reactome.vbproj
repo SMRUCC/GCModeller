@@ -558,14 +558,18 @@
 
 	<ItemGroup>
 	  <Compile Remove="LocalMySQL\**" />
+	  <Compile Remove="test\**" />
 	  <EmbeddedResource Remove="LocalMySQL\**" />
+	  <EmbeddedResource Remove="test\**" />
 	  <None Remove="LocalMySQL\**" />
+	  <None Remove="test\**" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
 	  <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
 	  <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+	  <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%json\JSON-netcore5.vbproj" />
 	  <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
 	</ItemGroup>
 
