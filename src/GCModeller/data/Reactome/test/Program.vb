@@ -12,6 +12,7 @@ Module Program
         Dim json As String = Hierarchy.TreeJSON(hsa_tree)
 
         Call Console.WriteLine(json)
+        Call json.SaveTo("./HSA.json")
 
         Pause()
     End Sub
