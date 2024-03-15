@@ -2,6 +2,46 @@
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.Text
 
+Public Class HierarchyLink
+
+    Public Property pathway As PathwayName
+    Public Property label As String
+    Public Property childs As String()
+
+    Public Shared Function LoadInternal(Optional tax As String = Nothing) As Dictionary(Of String, HierarchyLink)
+        Dim names = PathwayName.LoadInternal.ToDictionary(Function(p) p.id)
+        Dim index As New Dictionary(Of String, HierarchyLink)
+        Dim childs As New Dictionary(Of String, List(Of String))
+        Dim t As String()
+        Dim ancestor As String
+        Dim child As String
+
+        For Each line As String In My.Resources.ReactomePathwaysRelation.LineTokens
+            t = line.Split(ASCII.TAB)
+            ancestor = t(0)
+            child = t(1)
+
+            If Not index.ContainsKey(ancestor) Then
+                index(ancestor) = New HierarchyLink With {.label = ancestor, .pathway = names(.label)}
+                childs(ancestor) = New List(Of String)
+            End If
+            If Not index.ContainsKey(child) Then
+                index(child) = New HierarchyLink With {.label = child, .pathway = names(.label)}
+                childs(child) = New List(Of String)
+            End If
+
+            childs(ancestor).Add(child)
+        Next
+
+        For Each key As String In childs.Keys
+            index(key).childs = childs(key).ToArray
+        Next
+
+        Return index
+    End Function
+
+End Class
+
 Public Class Hierarchy : Inherits Tree(Of PathwayName)
 
     Public Overrides Function ToString() As String
