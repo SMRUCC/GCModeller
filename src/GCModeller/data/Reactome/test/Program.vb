@@ -1,3 +1,4 @@
+Imports Microsoft.VisualBasic.MIME.application.json
 Imports SMRUCC.genomics.Data.Reactome
 
 Module Program
@@ -13,6 +14,10 @@ Module Program
 
         Call Console.WriteLine(json)
         Call json.SaveTo("./HSA.json")
+
+        Dim json2 As String = HierarchyLink.LoadInternal("Homo sapiens").GetJson
+
+        Call json2.SaveTo("./HSA.json")
 
         Pause()
     End Sub

@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Data.GraphTheory
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.Text
 
@@ -8,6 +9,21 @@ Public Class HierarchyLink
     Public Property label As String
     Public Property childs As String()
 
+    Public Shared Iterator Function CalculateRoots(tree As Dictionary(Of String, HierarchyLink)) As IEnumerable(Of String)
+        Dim allChilds = tree.Values.Select(Function(a) a.childs.Indexing).ToArray
+
+        For Each key As String In tree.Keys
+            If allChilds.All(Function(i) Not key Like i) Then
+                Yield key
+            End If
+        Next
+    End Function
+
+    ''' <summary>
+    ''' generates the list data for load in jstree
+    ''' </summary>
+    ''' <param name="tax"></param>
+    ''' <returns></returns>
     Public Shared Function LoadInternal(Optional tax As String = Nothing) As Dictionary(Of String, HierarchyLink)
         Dim names = PathwayName.LoadInternal.ToDictionary(Function(p) p.id)
         Dim index As New Dictionary(Of String, HierarchyLink)
@@ -37,7 +53,25 @@ Public Class HierarchyLink
             index(key).childs = childs(key).ToArray
         Next
 
+        If Not tax.StringEmpty Then
+            index = FilterTax(index, tax)
+        End If
+
+        index("Reactome") = New HierarchyLink With {
+            .label = "Reactome",
+            .childs = CalculateRoots(index).ToArray
+        }
+
         Return index
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Private Shared Function FilterTax(tree As Dictionary(Of String, HierarchyLink), taxname As String) As Dictionary(Of String, HierarchyLink)
+        Return tree.Values _
+            .Where(Function(a) a.pathway.tax_name = taxname) _
+            .ToDictionary(Function(a)
+                              Return a.label
+                          End Function)
     End Function
 
 End Class
