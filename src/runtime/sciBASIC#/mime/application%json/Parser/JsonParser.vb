@@ -69,6 +69,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.Scripting.TokenIcer
 Imports Microsoft.VisualBasic.Text
@@ -98,6 +99,10 @@ Public Class JsonParser
     ''' single line comment
     ''' </summary>
     Dim comment_escape As Boolean
+    Dim comments As New Dictionary(Of String, String)
+    Dim comment_key As String = ""
+
+    Dim lastToken As Token
 
     ''' <summary>
     ''' The root node in json file
@@ -180,31 +185,144 @@ Public Class JsonParser
     ''' </summary>
     ''' <returns></returns>
     Private Function _parse() As JsonElement
-        Dim tokens As New List(Of Token)
+        Dim tokens As IEnumerator(Of Token) = GetTokenSequence() _
+            .ToArray _
+            .AsEnumerable _
+            .GetEnumerator
 
-        Do While Not json_str.EndRead
-            ' no hjson comment
-            ' hjson comment will be skiped
-            Call tokens.AddRange(walkChar(++json_str))
-        Loop
-
-        If tokens.Count = 0 Then
+        If Not tokens.MoveNext Then
+            ' empty collection 
             Return Nothing
-        ElseIf tokens.First.IsJsonValue Then
-            If tokens.Count = 1 Then
-                Return tokens.First.GetValue
-            Else
-                Throw New InvalidExpressionException("invalid syntax of the json document: the json literal token should be a single token value!")
-            End If
         End If
 
+        If tokens.Current.IsJsonValue Then
+            If tokens.MoveNext Then
+                Throw New InvalidExpressionException("the json literal value should be a scalar token value!")
+            Else
+                Return tokens.Current.GetValue
+            End If
+        Else
+            Return PullJson(tokens)
+        End If
+    End Function
 
+    Private Function PullJson(pull As IEnumerator(Of Token)) As JsonElement
+        Dim t As Token = pull.Current
+
+        If t Is Nothing Then
+            Return Nothing
+        End If
+
+        Select Case t.name
+            Case Token.JSONElements.Open
+                If t.text = "{" Then
+                    Return PullObject(pull)
+                Else
+                    Return PullArray(pull)
+                End If
+            Case Else
+                If t.IsJsonValue Then
+                    Return t.GetValue
+                Else
+                    Throw New InvalidProgramException("invalid json syntax: the required token should be literal, object open or array open!")
+                End If
+        End Select
+    End Function
+
+    Private Function PullObject(pull As IEnumerator(Of Token)) As JsonObject
+        Dim obj As New JsonObject
+        Dim t As Token
+        Dim key As String
+        Dim val As JsonElement
+
+        Do While pull.MoveNext
+            ' get key
+            t = pull.Current
+
+            If t Is Nothing Then
+                Throw New InvalidDataException("key should not be nothing")
+            ElseIf t = (Token.JSONElements.Close, "}") Then
+                ' empty json object {}
+                Exit Do
+            Else
+                key = t.text
+            End If
+
+            t = pull.Next
+
+            If t Is Nothing Then
+                Throw New InvalidDataException("in-complete json object document!")
+            ElseIf t.name <> Token.JSONElements.Colon Then
+                Throw New InvalidDataException("missing colon symbol for key:value pair in json object document!")
+            Else
+                pull.MoveNext()
+            End If
+
+            val = PullJson(pull)
+            obj.Add(key, val)
+            t = pull.Next
+
+            If t.name <> Token.JSONElements.Delimiter Then
+                If t = (Token.JSONElements.Close, "}") Then
+                    Exit Do
+                Else
+                    Throw New InvalidDataException("a comma delimiter or json object close symbol should be follow the end of key:value tuple!")
+                End If
+            End If
+        Loop
+
+        Return obj
+    End Function
+
+    Private Function PullArray(pull As IEnumerator(Of Token)) As JsonArray
+        Dim array As New JsonArray
+        Dim t As Token
+
+        Do While pull.MoveNext()
+            t = pull.Current
+
+            If t Is Nothing Then
+                Throw New InvalidDataException("in-complete json array!")
+            ElseIf t = (Token.JSONElements.Close, "]") Then
+                ' empty json array []
+                Exit Do
+            End If
+
+            array.Add(PullJson(pull))
+            pull.MoveNext()
+            t = pull.Current
+
+            If t Is Nothing Then
+                Throw New InvalidDataException("in-complete json array!")
+            ElseIf t.name <> Token.JSONElements.Delimiter Then
+                If t = (Token.JSONElements.Close, "]") Then
+                    Exit Do
+                Else
+                    Throw New SyntaxErrorException("the json element value should be follow a comma delimiter or close symbol of the array!")
+                End If
+            End If
+        Loop
+
+        Return array
+    End Function
+
+    Private Iterator Function GetTokenSequence() As IEnumerable(Of Token)
+        Do While Not json_str.EndRead
+            For Each t As Token In walkChar(++json_str)
+                If Not t Is Nothing Then
+                    lastToken = t
+                    Yield t
+                End If
+            Next
+        Loop
     End Function
 
     Private Iterator Function walkChar(c As Char) As IEnumerable(Of Token)
         If comment_escape Then
             If c = ASCII.CR OrElse c = ASCII.LF Then
                 comment_escape = False
+                comments(comment_key) = New String(buffer.PopAllChars)
+                comment_key = ""
             End If
         ElseIf escape <> ASCII.NUL Then
             ' is string escape
@@ -220,13 +338,29 @@ Public Class JsonParser
             Else
                 buffer += c
             End If
+        ElseIf c = "/"c Then
+            ' check hjson single comment line
+            If buffer > 0 Then
+                If buffer = "/" Then
+                    ' is single comment line
+                    buffer.Pop()
+                    comment_escape = True
+                Else
+                    Yield MeasureToken()
+                End If
+            Else
+                buffer.Add(c)
+            End If
         ElseIf c = "'"c OrElse c = """"c Then
             escape = c
             Return
         ElseIf c = ":"c Then
             ' end previous token
             ' key: value
-            Yield New Token(Token.JSONElements.Key, buffer.PopAllChars)
+            If buffer > 0 Then
+                Yield New Token(Token.JSONElements.Key, buffer.PopAllChars)
+            End If
+
             Yield New Token(Token.JSONElements.Colon, ":")
         ElseIf c = "," Then
             ' end previous token
@@ -234,6 +368,14 @@ Public Class JsonParser
             Yield New Token(Token.JSONElements.Delimiter, ",")
         ElseIf c = " "c OrElse c = ASCII.TAB OrElse c = ASCII.CR OrElse c = ASCII.LF Then
             Yield MeasureToken()
+        ElseIf c = "{"c OrElse c = "["c Then
+            ' end previous token
+            Yield MeasureToken()
+            Yield New Token(Token.JSONElements.Open, CStr(c))
+        ElseIf c = "}"c OrElse c = "]"c Then
+            ' end previous token
+            Yield MeasureToken()
+            Yield New Token(Token.JSONElements.Close, CStr(c))
         Else
             buffer += c
         End If
