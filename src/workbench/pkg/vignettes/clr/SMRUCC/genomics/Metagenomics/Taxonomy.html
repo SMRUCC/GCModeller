@@ -22,9 +22,9 @@
 
         <h3>Description</h3>
 
-        <p>A simple organism taxonomy model.</p>
+        A simple organism taxonomy model.
 
-<p>主要是用来保存csv以及Xml文件使用</p>
+主要是用来保存csv以及Xml文件使用
 
         <h3>Declare</h3>        
 
@@ -38,18 +38,14 @@ export class Taxonomy {
    family: string;
    # 6D. 属
    genus: string;
-   # <ol>
-   # <li>界</li>
-   # </ol>
+   # 1. 界
    kingdom: string;
    # 获取当前的这个分类结果值的最小分类单元的等级
    lowestLevel: <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/TaxonomyRanks.html">TaxonomyRanks</a>;
    ncbi_taxid: string;
    # 4B. 目
    order: string;
-   # <ol start="2">
-   # <li>门</li>
-   # </ol>
+   # 2. 门
    phylum: string;
    scientificName: string;
    # 7E. 种

@@ -22,7 +22,8 @@
 
         <h3>Description</h3>
 
-        <p>For convenience, we describe levels of sigma-differences for some reference examples (all values mutliplied by 1000)</p>
+        For convenience, we describe levels of sigma-differences for some reference examples (all values mutliplied by 1000)
+
 
         <h3>Declare</h3>        
 
@@ -30,23 +31,23 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998
 export class SimilarDiscriptions extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
-   # (sigma &lt;= 50; pervasively within species, human vs cow, Lactococcus lactis vs Streptococcus pyogenes).
+   # (sigma <= 50; pervasively within species, human vs cow, Lactococcus lactis vs Streptococcus pyogenes).
    [@desc "sigma <= 50; pervasively within species, human vs cow, Lactococcus lactis vs Streptococcus pyogenes"]
    Close: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/SimilarDiscriptions.html">SimilarDiscriptions</a> = 0;
 
-   # (55 &lt;= sigma &lt;= 85; human vs chicken, Escherichia coli vs Haemophilus influenzae, Synechococcus vs Anabaena).
+   # (55 <= sigma <= 85; human vs chicken, Escherichia coli vs Haemophilus influenzae, Synechococcus vs Anabaena).
    [@desc "sigma = [55, 85]; human vs chicken, Escherichia coli vs Haemophilus influenzae, Synechococcus vs Anabaena"]
    ModeratelySimilar: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/SimilarDiscriptions.html">SimilarDiscriptions</a> = 1;
 
-   # (90 &lt;= sigma &lt;= 120; human vs sea urchin, M. genitalium vs M. pneumoniae).
+   # (90 <= sigma <= 120; human vs sea urchin, M. genitalium vs M. pneumoniae).
    [@desc "sigma = [90, 120]; human vs sea urchin, M. genitalium vs M. pneumoniae"]
    WeaklySimilar: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/SimilarDiscriptions.html">SimilarDiscriptions</a> = 2;
 
-   # (125 &lt;= sigma &lt;= 145; human vs Sulfolobus, E. coli vs R. prowazekii, M. jannaschii vs M. thermoautotrophicum).
+   # (125 <= sigma <= 145; human vs Sulfolobus, E. coli vs R. prowazekii, M. jannaschii vs M. thermoautotrophicum).
    [@desc "sigma = [125, 145]; human vs Sulfolobus, E. coli vs R. prowazekii, M. jannaschii vs M. thermoautotrophicum"]
    DistantlySimilar: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/SimilarDiscriptions.html">SimilarDiscriptions</a> = 3;
 
-   # (150 &lt;= sigma &lt;= 180; human vs Drosophilia, E. coli vs Helicobacter pylori).
+   # (150 <= sigma <= 180; human vs Drosophilia, E. coli vs Helicobacter pylori).
    [@desc "sigma = [150, 180]; human vs Drosophilia, E. coli vs Helicobacter pylori"]
    Distant: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/DeltaSimilarity1998/SimilarDiscriptions.html">SimilarDiscriptions</a> = 4;
 

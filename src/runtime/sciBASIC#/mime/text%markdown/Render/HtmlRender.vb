@@ -33,11 +33,11 @@
     ''' </summary>
     ''' <returns></returns>
     Public Overrides Function HorizontalLine() As String
-        Return "<hr" & markdown.EmptyElementSuffix & vbLf
+        Return vbCrLf & vbCrLf & "<hr />" & vbCrLf & vbCrLf
     End Function
 
     Public Overrides Function NewLine() As String
-        Return String.Format("<br{0}" & vbLf, markdown.EmptyElementSuffix)
+        Return vbCrLf & "<br />" & vbCrLf
     End Function
 
     Public Overrides Function CodeBlock(code As String, lang As String) As String
@@ -45,15 +45,63 @@
     End Function
 
     Public Overrides Function Image(url As String, altText As String, title As String) As String
-        Dim result = String.Format("<img src=""{0}"" alt=""{1}""", AttributeSafeUrl(url), markdown.EscapeImageAltText(AttributeEncode(altText)))
+        Dim result = String.Format("<img src=""{0}"" alt=""{1}""", url, altText)
 
         If Not String.IsNullOrEmpty(title) Then
-            title = AttributeEncode(markdown.EscapeBoldItalic(title))
             result &= String.Format(" title=""{0}""", title)
         End If
 
-        result &= markdown.EmptyElementSuffix
+        result &= " />"
 
         Return result
+    End Function
+
+    Public Overrides Function Bold(text As String) As String
+        Return $"<strong>{text}</strong>"
+    End Function
+
+    Public Overrides Function Italic(text As String) As String
+        Return $"<em>{text}</em>"
+    End Function
+
+    Public Overrides Function BlockQuote(text As String) As String
+        Return vbLf & vbLf & $"<blockquote>{text.LineTokens.JoinBy("<br />" & vbLf)}</blockquote>" & vbLf & vbLf
+    End Function
+
+    Public Overrides Function List(items As IEnumerable(Of String), orderList As Boolean) As String
+        Dim listSet As String() = items.Select(Function(s) $"<li>{s}</li>").ToArray
+
+        If orderList Then
+            Return $"<ol>{listSet.JoinBy("")}</ol>"
+        Else
+            Return $"<ul>{listSet.JoinBy("")}</ul>"
+        End If
+    End Function
+
+    Public Overrides Function Table(head() As String, rows As IEnumerable(Of String())) As String
+        Dim bodyRows = rows _
+            .Select(Function(r)
+                        Return $"<tr>{r.Select(Function(d) $"<td>{d}</td>").JoinBy("")}</tr>"
+                    End Function) _
+            .ToArray
+
+        Return $"<table>
+
+<thead>
+<tr>{head.Select(Function(h) $"<th>{h}</th>").JoinBy("")}</tr>
+</thead>
+<tbody>
+{bodyRows.JoinBy(vbCrLf)}
+</tbody>
+
+</table>"
+    End Function
+
+    Public Overrides Function AnchorLink(url As String, text As String, title As String) As String
+        Return $"<a href='{url}' title='{title}'>{text}</a>"
+    End Function
+
+    Public Overrides Function Underline(text As String) As String
+        Return $"<u>{text}</u>"
     End Function
 End Class

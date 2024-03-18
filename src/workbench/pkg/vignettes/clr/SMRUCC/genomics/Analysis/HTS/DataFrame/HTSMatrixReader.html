@@ -22,7 +22,8 @@
 
         <h3>Description</h3>
 
-        <p>the matrix shape dimension is features in rows and the sample observation in columns</p>
+        the matrix shape dimension is features in rows and the sample observation in columns
+
 
         <h3>Declare</h3>        
 
@@ -36,11 +37,9 @@ export class HTSMatrixReader extends <a href="/vignettes/clr/SMRUCC/genomics/Ana
    SampleIDs: <a href="/vignettes/clr/System/String.html">iterates(String)</a>;
    # the matrix shape dimension is features in rows and 
    #  the sample observation in columns:
-   # 
-   # <ol>
-   # <li>nsamples: the matrix column width</li>
-   # <li>nfeature: the matrix row height</li>
-   # </ol>
+   #  
+   #  1. nsamples: the matrix column width
+   #  2. nfeature: the matrix row height
    Size: tuple[integer, integer];
    tag: string;
 }
