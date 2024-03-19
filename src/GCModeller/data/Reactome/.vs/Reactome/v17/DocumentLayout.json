@@ -1,0 +1,66 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\hierarchy\\hierarchy.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:hierarchy\\hierarchy.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A4B53927-B1A8-44F6-ADEC-47D6786406E4}|test\\test.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{A4B53927-B1A8-44F6-ADEC-47D6786406E4}|test\\test.vbproj|solutionrelative:test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Hierarchy.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Hierarchy\\Hierarchy.vb",
+              "RelativeDocumentMoniker": "Hierarchy\\Hierarchy.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Hierarchy\\Hierarchy.vb",
+              "RelativeToolTip": "Hierarchy\\Hierarchy.vb",
+              "ViewState": "AQIAACgAAAAAAAAAAAAgwFAAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-15T01:03:32.894Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\test\\Program.vb",
+              "RelativeDocumentMoniker": "test\\Program.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\test\\Program.vb",
+              "RelativeToolTip": "test\\Program.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-15T00:38:26.088Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -116,7 +116,7 @@ Namespace PathwayMaps.RenderStyles
             End If
         End Function
 
-        Public Overrides Function drawNode(id As String, g As IGraphics, br As Brush, radius As Single, center As PointF) As RectangleF
+        Public Overrides Function drawNode(id As String, g As IGraphics, br As Brush, radius As Single(), center As PointF) As RectangleF
             Return getNodeLayout(id, radius, center)
         End Function
 
