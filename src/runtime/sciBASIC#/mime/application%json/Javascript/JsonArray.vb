@@ -171,6 +171,10 @@ Namespace Javascript
         End Function
 
         Public Iterator Function AsObjects() As IEnumerable(Of JsonObject)
+            If list.IsNullOrEmpty Then
+                Return
+            End If
+
             For Each eli As JsonElement In list
                 Yield DirectCast(eli, JsonObject)
             Next
