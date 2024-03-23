@@ -1,4 +1,5 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Text.Xml.Linq
 
 ''' <summary>
 ''' the mesh Descriptor Record Set xml file
@@ -14,6 +15,10 @@ Public Class DescriptorRecordSet
 
     <XmlElement>
     Public Property DescriptorRecord As DescriptorRecord()
+
+    Public Function ReadTerms(file As String) As IEnumerable(Of DescriptorRecord)
+        Return file.LoadUltraLargeXMLDataSet(Of DescriptorRecord)()
+    End Function
 
 End Class
 
