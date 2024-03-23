@@ -37,6 +37,26 @@ Public Class DescriptorRecord
 
 End Class
 
+Public Class Term : Inherits XmlString
+
+    <XmlAttribute> Public Property ConceptPreferredTermYN As String
+    <XmlAttribute> Public Property IsPermutedTermYN As String
+    <XmlAttribute> Public Property LexicalTag As String
+    <XmlAttribute> Public Property RecordPreferredTermYN As String
+
+    Public Property TermUI As String
+    Public Property DateCreated As XmlDate
+    Public Property ThesaurusIDlist As ThesaurusID()
+
+End Class
+
+Public Class ThesaurusID
+
+    <XmlText>
+    Public Property Value As String
+
+End Class
+
 Public Class Concept
 
     <XmlAttribute>
@@ -47,6 +67,8 @@ Public Class Concept
     Public Property ScopeNote As String
     Public Property RelatedRegistryNumberList As RelatedRegistryNumber()
     Public Property ConceptRelationList As ConceptRelation()
+    Public Property CASN1Name As String
+    Public Property TermList As Term()
 
 End Class
 
