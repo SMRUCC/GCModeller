@@ -1,33 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{29F5331D-AC97-4256-86CC-1231FBF798DF}|..\\workbench\\workbench.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\workbench\\workbench.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{19C089E0-F0C5-400D-97C5-77DC8B93193C}|Knowledge_base\\kb.NET5.vbproj|G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\knowledge_base\\kb.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{19C089E0-F0C5-400D-97C5-77DC8B93193C}|Knowledge_base\\kb.NET5.vbproj|solutionrelative:knowledge_base\\kb.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AF9F42F-DE88-4405-B4D4-87663819FD00}|..\\..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\rsharp-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E17319D9-0EAB-45AB-BADF-104347D13458}|..\\..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AFC8D059-0BA7-4CEB-882B-B3929CAD4294}|..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\core.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D1203462-F42E-417B-939D-C4EB239AC6DE}|..\\..\\..\\runtime\\sciBASIC#\\Data\\Trinity\\Trinity.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data\\trinity\\trinity.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0A0D23E3-13D6-414C-A9AC-AE5E14460089}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\graph-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6F3ED30F-1AEB-42E9-88C9-F6D6A0D69DF2}|..\\..\\..\\runtime\\sciBASIC#\\www\\Microsoft.VisualBasic.Webservices.Bing\\Bing.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\www\\microsoft.visualbasic.webservices.bing\\bing.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -35,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -44,103 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "workbench.vbproj",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\workbench\\workbench.vbproj",
-              "RelativeDocumentMoniker": "..\\workbench\\workbench.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\workbench\\workbench.vbproj",
-              "RelativeToolTip": "..\\workbench\\workbench.vbproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-03-23T02:12:31.223Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "kb.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj",
-              "RelativeDocumentMoniker": "Knowledge_base\\kb.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj",
-              "RelativeToolTip": "Knowledge_base\\kb.NET5.vbproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAABEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-03-23T02:12:23.967Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Rsharp-netcore5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Rsharp-netcore5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Rsharp-netcore5.vbproj",
-              "RelativeToolTip": "..\\..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-03-23T02:12:20.839Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "R-cmd.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-03-23T02:12:17.513Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Core",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
-              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-03-23T02:12:15.898Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Trinity.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\Trinity\\Trinity.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data\\Trinity\\Trinity.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\Trinity\\Trinity.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data\\Trinity\\Trinity.NET5.vbproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-03-23T02:12:14.184Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "graph-netcore5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj",
-              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-03-23T02:12:12.856Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Bing.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\www\\Microsoft.VisualBasic.Webservices.Bing\\Bing.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\www\\Microsoft.VisualBasic.Webservices.Bing\\Bing.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\www\\Microsoft.VisualBasic.Webservices.Bing\\Bing.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\www\\Microsoft.VisualBasic.Webservices.Bing\\Bing.NET5.vbproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-03-23T02:12:10.934Z"
             }
           ]
         }
