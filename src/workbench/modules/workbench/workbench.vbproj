@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <RootNamespace>workbench</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net6.0-windows;net6.0;net48</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
+    <OutputPath>../../pkg/assembly\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
