@@ -1,0 +1,44 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{29F5331D-AC97-4256-86CC-1231FBF798DF}|..\\workbench\\workbench.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\workbench\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "pubmed.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\workbench\\pubmed.vb",
+              "RelativeDocumentMoniker": "..\\workbench\\pubmed.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\workbench\\pubmed.vb",
+              "RelativeToolTip": "..\\workbench\\pubmed.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-23T17:25:15.62Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
