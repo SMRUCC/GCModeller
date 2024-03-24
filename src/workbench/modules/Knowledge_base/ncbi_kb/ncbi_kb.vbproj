@@ -15,8 +15,4 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MeSH\MeshTree\" />
-  </ItemGroup>
-
 </Project>
