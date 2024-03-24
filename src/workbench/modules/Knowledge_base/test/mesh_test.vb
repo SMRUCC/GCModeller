@@ -6,8 +6,12 @@ Module mesh_test
 
     Sub Main()
 
-        Dim tree As Tree(Of Term) = MeSH.Tree.ParseTree("G:\GCModeller\src\workbench\pkg\data\mtrees2024.txt")
+        Dim tree As Term() = MeSH.Tree.ReadTerms("G:\GCModeller\src\workbench\pkg\data\mtrees2024.txt".OpenReadonly).ToArray
         Dim terms = MeSH.DescriptorRecordSet.ReadTerms("C:\Users\Administrator\Downloads\desc2024.xml").ToArray
+
+        tree = tree.JoinData(MeSH.DescriptorRecordSet.TreeTermIndex(terms)).ToArray
+
+
 
         Pause()
     End Sub
