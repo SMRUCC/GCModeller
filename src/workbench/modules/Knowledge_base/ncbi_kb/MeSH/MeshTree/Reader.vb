@@ -54,6 +54,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Values
@@ -61,6 +62,11 @@ Imports Microsoft.VisualBasic.Language.Values
 Namespace MeSH.Tree
 
     Public Module Reader
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ReadTerms(s As Stream) As IEnumerable(Of Term)
+            Return ReadTerms(New StreamReader(s))
+        End Function
 
         Public Function ParseTree(file As String) As Tree(Of Term)
             Using s As Stream = file.OpenReadonly

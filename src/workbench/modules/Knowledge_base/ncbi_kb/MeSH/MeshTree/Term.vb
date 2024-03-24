@@ -64,6 +64,10 @@ Namespace MeSH.Tree
     ''' </summary>
     Public Class Term : Inherits Synonym
 
+        ''' <summary>
+        ''' the mesh term name
+        ''' </summary>
+        ''' <returns></returns>
         Public Property term As String
 
         ''' <summary>
