@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.MeSH.Tree
 
@@ -10,8 +11,7 @@ Module mesh_test
         Dim terms = MeSH.DescriptorRecordSet.ReadTerms("C:\Users\Administrator\Downloads\desc2024.xml").ToArray
 
         tree = tree.JoinData(MeSH.DescriptorRecordSet.TreeTermIndex(terms)).ToArray
-
-
+        tree.GetJson.SaveTo("Z:\ncbi_mesh.json")
 
         Pause()
     End Sub
