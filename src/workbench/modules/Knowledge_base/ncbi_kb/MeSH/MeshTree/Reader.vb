@@ -62,6 +62,12 @@ Namespace MeSH.Tree
 
     Public Module Reader
 
+        Public Function ParseTree(file As String) As Tree(Of Term)
+            Using s As Stream = file.OpenReadonly
+                Return ParseTree(New StreamReader(s))
+            End Using
+        End Function
+
         Public Function ParseTree(file As StreamReader) As Tree(Of Term)
             Dim line As Value(Of String) = ""
             Dim str As String()

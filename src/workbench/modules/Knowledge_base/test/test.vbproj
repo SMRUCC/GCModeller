@@ -6,13 +6,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{299BC67C-AF08-43EA-89D4-17624B1DA081}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>test.Module1</StartupObject>
+    <StartupObject>test.mesh_test</StartupObject>
     <RootNamespace>test</RootNamespace>
     <AssemblyName>test</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -114,10 +115,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Module1.vb" />
+    <Compile Include="mesh_test.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -151,17 +154,44 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj">
+      <Project>{4af9f42f-de88-4405-b4d4-87663819fd00}</Project>
+      <Name>Rsharp-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Microsoft.VisualBasic.Webservices.Bing.vbproj">
-      <Project>{4cc91a21-9bda-45c3-a412-711711bccdd8}</Project>
-      <Name>Microsoft.VisualBasic.Webservices.Bing</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\Trinity\Trinity.NET5.vbproj">
+      <Project>{d1203462-f42e-417b-939d-c4eb239ac6de}</Project>
+      <Name>Trinity.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Knowledge_base\Knowledge_base.vbproj">
-      <Project>{93e00cb0-0e25-44cb-9d66-c18d3190a413}</Project>
-      <Name>Knowledge_base</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj">
+      <Project>{0a0d23e3-13d6-414c-a9ac-ae5e14460089}</Project>
+      <Name>graph-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj">
+      <Project>{ad14fc1b-84dd-4746-b917-0d6b2d2f42ac}</Project>
+      <Name>Math.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{afc8d059-0ba7-4ceb-882b-b3929cad4294}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Bing.NET5.vbproj">
+      <Project>{6f3ed30f-1aeb-42e9-88c9-f6d6a0d69df2}</Project>
+      <Name>Bing.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\workbench\workbench.vbproj">
+      <Project>{29f5331d-ac97-4256-86cc-1231fbf798df}</Project>
+      <Name>workbench</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Knowledge_base\kb.NET5.vbproj">
+      <Project>{19c089e0-f0c5-400d-97c5-77dc8b93193c}</Project>
+      <Name>kb.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ncbi_kb\ncbi_kb.vbproj">
+      <Project>{97bee61a-60ea-4aae-bacf-04e3655598f6}</Project>
+      <Name>ncbi_kb</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
