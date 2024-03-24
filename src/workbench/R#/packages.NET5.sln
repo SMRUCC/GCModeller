@@ -32902,8 +32902,8 @@ Global
 		{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}.Rsharp_app_release|Any CPU.Build.0 = Release|Any CPU
 		{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}.Rsharp_app_release|ARM32.ActiveCfg = Release|Any CPU
 		{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}.Rsharp_app_release|ARM32.Build.0 = Release|Any CPU
-		{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}.Rsharp_app_release|x64.ActiveCfg = Release|Any CPU
-		{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}.Rsharp_app_release|x64.Build.0 = Release|Any CPU
+		{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 		{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}.Rsharp_app_release|x86.ActiveCfg = Release|Any CPU
 		{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}.Rsharp_app_release|x86.Build.0 = Release|Any CPU
 		{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = Debug|Any CPU
