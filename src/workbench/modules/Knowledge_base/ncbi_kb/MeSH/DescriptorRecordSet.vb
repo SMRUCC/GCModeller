@@ -1,4 +1,5 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Linq
 
 Namespace MeSH
@@ -20,6 +21,15 @@ Namespace MeSH
 
         Public Shared Function ReadTerms(file As String) As IEnumerable(Of DescriptorRecord)
             Return file.LoadUltraLargeXMLDataSet(Of DescriptorRecord)()
+        End Function
+
+        ''' <summary>
+        ''' create term index by name
+        ''' </summary>
+        ''' <param name="terms"></param>
+        ''' <returns></returns>
+        Public Shared Function TreeTermIndex(terms As IEnumerable(Of DescriptorRecord)) As Dictionary(Of String, DescriptorRecord)
+            Return terms.SafeQuery.ToDictionary(Function(term) term.DescriptorName.String)
         End Function
 
     End Class
