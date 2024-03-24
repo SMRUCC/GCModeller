@@ -16,7 +16,7 @@ Public Class DescriptorRecordSet
     <XmlElement>
     Public Property DescriptorRecord As DescriptorRecord()
 
-    Public Function ReadTerms(file As String) As IEnumerable(Of DescriptorRecord)
+    Public Shared Function ReadTerms(file As String) As IEnumerable(Of DescriptorRecord)
         Return file.LoadUltraLargeXMLDataSet(Of DescriptorRecord)()
     End Function
 
