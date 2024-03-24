@@ -78,7 +78,15 @@ Namespace MeSH.Tree
         Public Property description As String
 
         Public Overrides Function ToString() As String
-            Return $"[{tree.JoinBy("->")}] {term}"
+            If isSimpleTree() Then
+                Return $"[{tree.JoinBy("->")}] {term}"
+            End If
+
+            Return $"[{accessionID}] {term} ({description})"
+        End Function
+
+        Private Function isSimpleTree() As Boolean
+            Return accessionID.StringEmpty AndAlso tree.All(Function(ti) ti.IndexOf("."c) = -1)
         End Function
 
     End Class
