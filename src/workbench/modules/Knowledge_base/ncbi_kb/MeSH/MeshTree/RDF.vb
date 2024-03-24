@@ -65,6 +65,11 @@ Namespace MeSH.Tree
     Public Class Term : Inherits Synonym
 
         Public Property term As String
+
+        ''' <summary>
+        ''' the tree path
+        ''' </summary>
+        ''' <returns></returns>
         Public Property tree As String()
         Public Property description As String
 
