@@ -41,6 +41,10 @@ Namespace MeSH
         <XmlText>
         Public Property Value As String
 
+        Public Overrides Function ToString() As String
+            Return Value
+        End Function
+
     End Class
 
     Public Class Concept
@@ -73,12 +77,20 @@ Namespace MeSH
         <XmlText>
         Public Property Value As String
 
+        Public Overrides Function ToString() As String
+            Return Value
+        End Function
+
     End Class
 
     Public Class TreeNumber
 
         <XmlText>
         Public Property Value As String
+
+        Public Overrides Function ToString() As String
+            Return Value
+        End Function
 
     End Class
 
@@ -99,6 +111,10 @@ Namespace MeSH
 
         <XmlText>
         Public Property Value As String
+
+        Public Overrides Function ToString() As String
+            Return Value
+        End Function
 
     End Class
 
