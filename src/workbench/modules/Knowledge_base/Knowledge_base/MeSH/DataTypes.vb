@@ -1,13 +1,16 @@
-﻿Public Class XmlString
+﻿Namespace MeSH
 
-    Public Property [String] As String
+    Public Class XmlString
 
-End Class
+        Public Property [String] As String
 
-Public Class XmlDate
+    End Class
 
-    Public Property Year As Integer
-    Public Property Month As Integer
-    Public Property Day As Integer
+    Public Class XmlDate
 
-End Class
+        Public Property Year As Integer
+        Public Property Month As Integer
+        Public Property Day As Integer
+
+    End Class
+End Namespace

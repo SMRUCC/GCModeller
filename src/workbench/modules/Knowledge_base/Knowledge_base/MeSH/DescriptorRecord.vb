@@ -1,115 +1,118 @@
 ﻿
 Imports System.Xml.Serialization
 
-Public Class DescriptorRecord
+Namespace MeSH
 
-    <XmlAttribute>
-    Public Property DescriptorClass As Integer
-    Public Property DescriptorUI As String
-    Public Property DescriptorName As XmlString
-    Public Property DateCreated As XmlDate
-    Public Property DateRevised As XmlDate
-    Public Property DateEstablished As XmlDate
-    Public Property AllowableQualifiersList As AllowableQualifier()
-    Public Property HistoryNote As String
-    Public Property OnlineNote As String
-    Public Property PublicMeSHNote As String
-    Public Property PreviousIndexingList As PreviousIndexing()
-    Public Property PharmacologicalActionList As PharmacologicalAction()
-    Public Property TreeNumberList As TreeNumber()
-    Public Property ConceptList As Concept()
+    Public Class DescriptorRecord
 
-End Class
+        <XmlAttribute>
+        Public Property DescriptorClass As Integer
+        Public Property DescriptorUI As String
+        Public Property DescriptorName As XmlString
+        Public Property DateCreated As XmlDate
+        Public Property DateRevised As XmlDate
+        Public Property DateEstablished As XmlDate
+        Public Property AllowableQualifiersList As AllowableQualifier()
+        Public Property HistoryNote As String
+        Public Property OnlineNote As String
+        Public Property PublicMeSHNote As String
+        Public Property PreviousIndexingList As PreviousIndexing()
+        Public Property PharmacologicalActionList As PharmacologicalAction()
+        Public Property TreeNumberList As TreeNumber()
+        Public Property ConceptList As Concept()
 
-Public Class Term : Inherits XmlString
+    End Class
 
-    <XmlAttribute> Public Property ConceptPreferredTermYN As String
-    <XmlAttribute> Public Property IsPermutedTermYN As String
-    <XmlAttribute> Public Property LexicalTag As String
-    <XmlAttribute> Public Property RecordPreferredTermYN As String
+    Public Class Term : Inherits XmlString
 
-    Public Property TermUI As String
-    Public Property DateCreated As XmlDate
-    Public Property ThesaurusIDlist As ThesaurusID()
+        <XmlAttribute> Public Property ConceptPreferredTermYN As String
+        <XmlAttribute> Public Property IsPermutedTermYN As String
+        <XmlAttribute> Public Property LexicalTag As String
+        <XmlAttribute> Public Property RecordPreferredTermYN As String
 
-End Class
+        Public Property TermUI As String
+        Public Property DateCreated As XmlDate
+        Public Property ThesaurusIDlist As ThesaurusID()
 
-Public Class ThesaurusID
+    End Class
 
-    <XmlText>
-    Public Property Value As String
+    Public Class ThesaurusID
 
-End Class
+        <XmlText>
+        Public Property Value As String
 
-Public Class Concept
+    End Class
 
-    <XmlAttribute>
-    Public Property PreferredConceptYN As String
-    Public Property ConceptUI As String
-    Public Property ConceptName As XmlString
-    Public Property RegistryNumber As String
-    Public Property ScopeNote As String
-    Public Property RelatedRegistryNumberList As RelatedRegistryNumber()
-    Public Property ConceptRelationList As ConceptRelation()
-    Public Property CASN1Name As String
-    Public Property TermList As Term()
+    Public Class Concept
 
-End Class
+        <XmlAttribute>
+        Public Property PreferredConceptYN As String
+        Public Property ConceptUI As String
+        Public Property ConceptName As XmlString
+        Public Property RegistryNumber As String
+        Public Property ScopeNote As String
+        Public Property RelatedRegistryNumberList As RelatedRegistryNumber()
+        Public Property ConceptRelationList As ConceptRelation()
+        Public Property CASN1Name As String
+        Public Property TermList As Term()
 
-Public Class ConceptRelation
+    End Class
 
-    <XmlAttribute>
-    Public Property RelationName As String
+    Public Class ConceptRelation
 
-    Public Property Concept1UI As String
-    Public Property Concept2UI As String
+        <XmlAttribute>
+        Public Property RelationName As String
 
-End Class
+        Public Property Concept1UI As String
+        Public Property Concept2UI As String
 
-Public Class RelatedRegistryNumber
+    End Class
 
-    <XmlText>
-    Public Property Value As String
+    Public Class RelatedRegistryNumber
 
-End Class
+        <XmlText>
+        Public Property Value As String
 
-Public Class TreeNumber
+    End Class
 
-    <XmlText>
-    Public Property Value As String
+    Public Class TreeNumber
 
-End Class
+        <XmlText>
+        Public Property Value As String
 
-Public Class PharmacologicalAction
+    End Class
 
-    Public Property DescriptorReferredTo As DescriptorReferredTo
+    Public Class PharmacologicalAction
 
-End Class
+        Public Property DescriptorReferredTo As DescriptorReferredTo
 
-Public Class DescriptorReferredTo
+    End Class
 
-    Public Property DescriptorUI As String
-    Public Property DescriptorName As XmlString
+    Public Class DescriptorReferredTo
 
-End Class
+        Public Property DescriptorUI As String
+        Public Property DescriptorName As XmlString
 
-Public Class PreviousIndexing
+    End Class
 
-    <XmlText>
-    Public Property Value As String
+    Public Class PreviousIndexing
 
-End Class
+        <XmlText>
+        Public Property Value As String
 
-Public Class AllowableQualifier
+    End Class
 
-    Public Property QualifierReferredTo As QualifierReferredTo
-    Public Property Abbreviation As String
+    Public Class AllowableQualifier
 
-End Class
+        Public Property QualifierReferredTo As QualifierReferredTo
+        Public Property Abbreviation As String
 
-Public Class QualifierReferredTo
+    End Class
 
-    Public Property QualifierUI As String
-    Public Property QualifierName As XmlString
+    Public Class QualifierReferredTo
 
-End Class
+        Public Property QualifierUI As String
+        Public Property QualifierName As XmlString
+
+    End Class
+End Namespace
