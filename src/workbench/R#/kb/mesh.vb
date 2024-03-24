@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.MeSH
+Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.MeSH
 
 <Package("mesh")>
 Module mesh

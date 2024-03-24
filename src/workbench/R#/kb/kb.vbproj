@@ -13,6 +13,7 @@
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\modules\Knowledge_base\Knowledge_base\kb.NET5.vbproj" />
+    <ProjectReference Include="..\..\modules\Knowledge_base\ncbi_kb\ncbi_kb.vbproj" />
   </ItemGroup>
 
 </Project>
