@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI</RootNamespace>
+    <TargetFrameworks>net6.0-windows;net6.0;net48</TargetFrameworks>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release</Configurations>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <AssemblyName>SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI</AssemblyName>
+  </PropertyGroup>
+
+</Project>
