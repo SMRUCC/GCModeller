@@ -7,6 +7,11 @@ Namespace MeSH
 
         <XmlAttribute>
         Public Property DescriptorClass As Integer
+
+        ''' <summary>
+        ''' Descriptor unique id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property DescriptorUI As String
         Public Property DescriptorName As XmlString
         Public Property DateCreated As XmlDate
@@ -20,6 +25,10 @@ Namespace MeSH
         Public Property PharmacologicalActionList As PharmacologicalAction()
         Public Property TreeNumberList As TreeNumber()
         Public Property ConceptList As Concept()
+
+        Public Overrides Function ToString() As String
+            Return $"{DescriptorUI} - {DescriptorName}"
+        End Function
 
     End Class
 
