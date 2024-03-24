@@ -86,6 +86,17 @@ Public Class BackgroundGene : Inherits Synonym
     ''' <returns></returns>
     Public Property locus_tag As NamedValue
 
+    Sub New()
+    End Sub
+
+    Sub New(id As String)
+        name = id
+        term_id = {New NamedValue(id, id)}
+        locus_tag = New NamedValue(id, id)
+        accessionID = id
+        [alias] = {}
+    End Sub
+
     Public Overrides Function ToString() As String
         Return $"{MyBase.ToString}  [{locus_tag.text}]"
     End Function

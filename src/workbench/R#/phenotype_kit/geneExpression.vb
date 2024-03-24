@@ -1350,7 +1350,8 @@ Module geneExpression
     End Function
 
     <ExportAPI("deg.class")>
-    Public Function DEGclass(deg As DEGModel(), <RRawVectorArgument> classLabel As Object) As DEGModel()
+    <RApiReturn(GetType(DEGModel))>
+    Public Function DEGclass(deg As DEGModel(), <RRawVectorArgument> classLabel As Object) As Object
         Dim classList As String() = CLRVector.asCharacter(classLabel)
         Dim getClass As Func(Of Integer, String)
 

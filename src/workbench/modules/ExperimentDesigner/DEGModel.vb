@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2d419a0a43707aa29d61d2af664d093, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\Volcano2.vb"
+﻿#Region "Microsoft.VisualBasic::448a7f5438d9e3dfb8c5c9fcdfcb77ab, GCModeller\visualize\DataVisualizationExtensions\DEGPlot\DEGModel.vb"
 
 ' Author:
 ' 
@@ -34,50 +34,40 @@
 
 ' Code Statistics:
 
-'   Total Lines: 30
-'    Code Lines: 15
-' Comment Lines: 9
-'   Blank Lines: 6
-'     File Size: 808 B
+'   Total Lines: 20
+'    Code Lines: 14
+' Comment Lines: 4
+'   Blank Lines: 2
+'     File Size: 665 B
 
 
-' Class Volcano2
+' Structure DEGModel
 ' 
-'     Constructor: (+1 Overloads) Sub New
-'     Sub: PlotInternal
+'     Properties: [class], label, logFC, pvalue, VIP
+' 
+'     Function: ToString
 ' 
 ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Public Class DEGModel : Implements IDeg
 
-''' <summary>
-''' volcano of two comparision result
-''' </summary>
-Public Class Volcano2 : Inherits Plot
-
+    Public Property label$ Implements IDeg.label
+    Public Property logFC# Implements IDeg.log2FC
+    Public Property pvalue# Implements IDeg.pvalue
     ''' <summary>
-    ''' x
+    ''' Variance importance
     ''' </summary>
-    ReadOnly compares1 As DEGModel()
-    ''' <summary>
-    ''' y
-    ''' </summary>
-    ReadOnly compares2 As DEGModel()
+    ''' <returns></returns>
+    Public Property VIP As Double
+    Public Property [class] As String
 
-    Public Sub New(compares1 As DEGModel(), compares2 As DEGModel(), theme As Theme)
-        MyBase.New(theme)
-
-        Me.compares1 = compares1
-        Me.compares2 = compares2
-    End Sub
-
-    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-
-    End Sub
+    Public Overrides Function ToString() As String
+        If [class].StringEmpty Then
+            Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"
+        Else
+            Return $"[{label} | {[class]}] log2FC={logFC}, pvalue={pvalue}"
+        End If
+    End Function
 End Class
