@@ -64,6 +64,7 @@ Namespace MeSH.Tree
 
         Public Property term As String
         Public Property tree As String()
+        Public Property description As String
 
         Public Overrides Function ToString() As String
             Return $"[{tree.JoinBy("->")}] {term}"

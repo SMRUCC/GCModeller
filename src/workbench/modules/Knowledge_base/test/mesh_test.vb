@@ -5,6 +5,7 @@ Module mesh_test
     Sub Main()
 
         Dim tree = MeSH.Tree.ParseTree("G:\GCModeller\src\workbench\pkg\data\mtrees2024.txt")
+        Dim terms = MeSH.DescriptorRecordSet.ReadTerms("C:\Users\Administrator\Downloads\desc2024.xml").ToArray
 
         Pause()
     End Sub
