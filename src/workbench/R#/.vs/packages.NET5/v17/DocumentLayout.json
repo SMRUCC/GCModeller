@@ -3,20 +3,7 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\ncbi_kb.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{11A1E42F-A454-4BDA-A568-6E62D58AD707}|..\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\knowledge_base\\kb.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{11A1E42F-A454-4BDA-A568-6E62D58AD707}|..\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\knowledge_base\\nlp\\nlpextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{11A1E42F-A454-4BDA-A568-6E62D58AD707}|..\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\knowledge_base\\wikipedia\\bingsearch.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\pubmedarticle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,65 +30,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ncbi_kb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj",
-              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj",
-              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-03-24T03:20:44.703Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "kb.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj",
-              "RelativeToolTip": "..\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAABGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-03-24T03:20:03.229Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "NLPExtensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\NLP\\NLPExtensions.vb",
-              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\Knowledge_base\\NLP\\NLPExtensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\NLP\\NLPExtensions.vb",
-              "RelativeToolTip": "..\\modules\\Knowledge_base\\Knowledge_base\\NLP\\NLPExtensions.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "PubmedArticle.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFoAAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-24T03:18:36.948Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "BingSearch.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\Wikipedia\\BingSearch.vb",
-              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\Knowledge_base\\Wikipedia\\BingSearch.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\Wikipedia\\BingSearch.vb",
-              "RelativeToolTip": "..\\modules\\Knowledge_base\\Knowledge_base\\Wikipedia\\BingSearch.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-24T03:18:15.236Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "mesh.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
-              "RelativeDocumentMoniker": "kb\\mesh.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
-              "RelativeToolTip": "kb\\mesh.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-24T02:55:10.976Z",
+              "WhenOpened": "2024-03-24T03:21:52.542Z",
               "EditorCaption": ""
             }
           ]

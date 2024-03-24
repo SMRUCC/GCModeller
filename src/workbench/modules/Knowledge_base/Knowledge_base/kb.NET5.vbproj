@@ -130,6 +130,7 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Bing.NET5.vbproj" />
+    <ProjectReference Include="..\ncbi_kb\ncbi_kb.vbproj" />
   </ItemGroup>
 
 </Project>
