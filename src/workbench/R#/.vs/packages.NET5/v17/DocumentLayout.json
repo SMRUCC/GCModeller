@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{11A1E42F-A454-4BDA-A568-6E62D58AD707}|..\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\knowledge_base\\mesh\\descriptorrecord.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -10,10 +14,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{11A1E42F-A454-4BDA-A568-6E62D58AD707}|..\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\knowledge_base\\mesh\\descriptorrecordset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\kb\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -31,7 +31,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -47,7 +47,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "DescriptorRecord.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\MeSH\\DescriptorRecord.vb",
               "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\Knowledge_base\\MeSH\\DescriptorRecord.vb",
@@ -60,7 +60,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "DescriptorRecordSet.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\MeSH\\DescriptorRecordSet.vb",
               "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\Knowledge_base\\MeSH\\DescriptorRecordSet.vb",
@@ -73,7 +73,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "DataTypes.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\MeSH\\DataTypes.vb",
               "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\Knowledge_base\\MeSH\\DataTypes.vb",
@@ -86,13 +86,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "mesh.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
               "RelativeDocumentMoniker": "kb\\mesh.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
               "RelativeToolTip": "kb\\mesh.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-03-24T02:55:10.976Z",
               "EditorCaption": ""
