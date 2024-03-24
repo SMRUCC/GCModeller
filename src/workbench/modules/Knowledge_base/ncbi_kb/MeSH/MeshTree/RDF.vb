@@ -55,12 +55,14 @@
 
 #End Region
 
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+
 Namespace MeSH.Tree
 
     ''' <summary>
     ''' the mesh tree
     ''' </summary>
-    Public Class Term
+    Public Class Term : Inherits Synonym
 
         Public Property term As String
         Public Property tree As String()
