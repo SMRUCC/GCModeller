@@ -63,6 +63,15 @@ Namespace MeSH.Tree
 
     Public Module Reader
 
+        Public Function ParseCategory(tree As String) As MeshCategory
+            Static category_chars As Dictionary(Of Char, MeshCategory) = Enums(Of MeshCategory)() _
+                .ToDictionary(Function(c)
+                                  Return MeshCategory.C.ToString.First
+                              End Function)
+
+            Return category_chars(tree.ToUpper.First)
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ReadTerms(s As Stream) As IEnumerable(Of Term)
             Return ReadTerms(New StreamReader(s))
@@ -72,6 +81,10 @@ Namespace MeSH.Tree
             Using s As Stream = file.OpenReadonly
                 Return ParseTree(New StreamReader(s))
             End Using
+        End Function
+
+        Public Function ParseTree(file As Stream) As Tree(Of Term)
+            Return ParseTree(New StreamReader(file))
         End Function
 
         Private Iterator Function ReadTerms(file As StreamReader) As IEnumerable(Of Term)
