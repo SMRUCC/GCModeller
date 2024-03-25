@@ -77,6 +77,18 @@ Namespace MeSH.Tree
         Public Property tree As String()
         Public Property description As String
 
+        Public ReadOnly Iterator Property category As IEnumerable(Of MeshCategory)
+            Get
+                If isSimpleTree() Then
+                    Yield Reader.ParseCategory(tree.First)
+                Else
+                    For Each tree As String In Me.tree
+                        Yield Reader.ParseCategory(tree)
+                    Next
+                End If
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             If isSimpleTree() Then
                 Return $"[{tree.JoinBy("->")}] {term}"

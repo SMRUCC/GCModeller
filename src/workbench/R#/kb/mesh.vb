@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.MeSH
+Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.MeSH.Tree
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -18,6 +19,11 @@ Module meshTools
     <ExportAPI("read.mesh_xml")>
     Public Function loadMeshXml(file As String) As DescriptorRecord()
         Return DescriptorRecordSet.ReadTerms(file).ToArray
+    End Function
+
+    <ExportAPI("mesh_category")>
+    Public Function mesh_category(term As MeSH.Tree.Term) As MeshCategory()
+        Return term.category.ToArray
     End Function
 
     <ExportAPI("read.mesh_tree")>
