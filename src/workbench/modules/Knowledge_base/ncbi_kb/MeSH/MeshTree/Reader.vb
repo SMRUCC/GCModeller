@@ -74,6 +74,10 @@ Namespace MeSH.Tree
             End Using
         End Function
 
+        Public Function ParseTree(file As Stream) As Tree(Of Term)
+            Return ParseTree(New StreamReader(file))
+        End Function
+
         Private Iterator Function ReadTerms(file As StreamReader) As IEnumerable(Of Term)
             Dim line As Value(Of String) = ""
             Dim str As String()
