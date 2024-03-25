@@ -44,6 +44,9 @@ Namespace MeSH.Tree
     ''' numbers are subject to change when new descriptors are added or the hierarchical 
     ''' arrangement is revised to reflect vocabulary changes.
     ''' </summary>
+    ''' <remarks>
+    ''' ABCDEFGHIJKLMNVZ
+    ''' </remarks>
     Public Enum MeshCategory
         ''' <summary>
         ''' Anatomy [A] 
