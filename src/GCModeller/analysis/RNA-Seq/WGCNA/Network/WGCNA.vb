@@ -163,9 +163,5 @@ Namespace Network
                 Next
             Next
         End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Weight).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
     End Class
 End Namespace
