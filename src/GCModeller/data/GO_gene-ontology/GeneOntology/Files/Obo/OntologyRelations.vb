@@ -128,9 +128,5 @@ Namespace OBO
                 Yield item
             Next
         End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Relationship).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
     End Class
 End Namespace
