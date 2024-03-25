@@ -11,6 +11,10 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <RTypeExport("ncbi_mesh", GetType(MeSH.Tree.Term))>
 Module meshTools
 
+    Sub Main()
+
+    End Sub
+
     <ExportAPI("read.mesh_xml")>
     Public Function loadMeshXml(file As String) As DescriptorRecord()
         Return DescriptorRecordSet.ReadTerms(file).ToArray
