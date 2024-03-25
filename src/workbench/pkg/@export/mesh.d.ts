@@ -7,6 +7,9 @@
 /**
 */
 declare namespace mesh {
+   /**
+   */
+   function mesh_category(term: object): object;
    module read {
       /**
         * @param as_tree default value Is ``true``.
