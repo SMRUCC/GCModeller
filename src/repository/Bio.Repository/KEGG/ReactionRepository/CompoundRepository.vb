@@ -203,11 +203,7 @@ Public Class CompoundRepository : Inherits XmlDataModel
     End Function
 
     Public Iterator Function GenericEnumerator() As IEnumerator(Of Compound) Implements Enumeration(Of Compound).GenericEnumerator
-        Yield GetEnumerator()
-    End Function
-
-    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Compound).GetEnumerator
-        For Each index In compoundTable.Values
+        For Each index As CompoundIndex In compoundTable.Values
             Yield index.Entity
         Next
     End Function

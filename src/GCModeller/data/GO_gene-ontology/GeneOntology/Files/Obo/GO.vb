@@ -192,9 +192,5 @@ Namespace OBO
                 Yield item
             Next
         End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Term).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
     End Class
 End Namespace
