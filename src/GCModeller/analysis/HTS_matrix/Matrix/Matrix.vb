@@ -416,10 +416,6 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
         Next
     End Function
 
-    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of DataFrameRow).GetEnumerator
-        Yield GenericEnumerator()
-    End Function
-
     Public Function ArrayPack(Optional deepcopy As Boolean = False) As Double()() Implements INumericMatrix.ArrayPack
         Dim m As Double()() = New Double(expression.Length - 1)() {}
 

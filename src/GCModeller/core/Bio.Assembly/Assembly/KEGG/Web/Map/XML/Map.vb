@@ -126,10 +126,6 @@ Namespace Assembly.KEGG.WebServices.XML
             Next
         End Function
 
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Area).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
-
         Public Overrides Iterator Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
             For Each shape As Area In shapes.mapdata
                 Dim list = shape.Names.ToArray

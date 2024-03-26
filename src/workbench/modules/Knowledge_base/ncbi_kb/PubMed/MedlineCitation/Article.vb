@@ -182,10 +182,6 @@ Namespace PubMed
                 Next
             End If
         End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Author).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
     End Class
 
     Public Class Author

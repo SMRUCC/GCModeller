@@ -260,9 +260,5 @@ Namespace Regprecise
                 Yield genome
             Next
         End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of BacteriaRegulome).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
     End Class
 End Namespace

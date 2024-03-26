@@ -156,10 +156,6 @@ Namespace ComponentModel.Annotation
             Next
         End Function
 
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of NamedValue(Of Double)).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
-
         Public Overloads Shared Widening Operator CType(profile As NamedValue(Of Double)()) As CatalogProfile
             Return New CatalogProfile With {
                 .profile = profile.ToDictionary.FlatTable,
