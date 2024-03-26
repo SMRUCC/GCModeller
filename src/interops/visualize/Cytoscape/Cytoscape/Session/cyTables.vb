@@ -63,10 +63,6 @@ Namespace Session
                 Yield item
             Next
         End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of virtualColumn).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
     End Class
 
     ''' <summary>

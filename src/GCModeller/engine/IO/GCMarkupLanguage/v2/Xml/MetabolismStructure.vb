@@ -169,10 +169,6 @@ Namespace v2
             Next
         End Function
 
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Reaction).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
-
         Public Shared Widening Operator CType(reactions As Reaction()) As ReactionGroup
             Dim twoGroup = reactions _
                 .GroupBy(Function(r) r.is_enzymatic) _

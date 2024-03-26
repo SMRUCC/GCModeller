@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{299BC67C-AF08-43EA-89D4-17624B1DA081}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>test.mesh_test</StartupObject>
+    <StartupObject>test.name_test</StartupObject>
     <RootNamespace>test</RootNamespace>
     <AssemblyName>test</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="Module1.vb" />
     <Compile Include="mesh_test.vb" />
+    <Compile Include="name_test.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -159,13 +160,25 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{913e7e7b-7b31-4d9b-b9e2-edf72c088f3d}</Project>
+      <Name>biocore-netcore5</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj">
       <Project>{4af9f42f-de88-4405-b4d4-87663819fd00}</Project>
       <Name>Rsharp-netcore5</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj">
+      <Project>{649993b2-4791-4174-b462-832f258b5a39}</Project>
+      <Name>dataframework-netcore5</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\Trinity\Trinity.NET5.vbproj">
       <Project>{d1203462-f42e-417b-939d-c4eb239ac6de}</Project>
       <Name>Trinity.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.NET5.vbproj">
+      <Project>{ff5f3da2-07f5-4ffa-b97d-37745f5fd7f8}</Project>
+      <Name>DynamicProgramming.NET5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj">
       <Project>{0a0d23e3-13d6-414c-a9ac-ae5e14460089}</Project>

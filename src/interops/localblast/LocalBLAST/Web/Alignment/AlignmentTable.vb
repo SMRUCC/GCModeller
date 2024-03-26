@@ -174,9 +174,5 @@ Namespace NCBIBlastResult.WebBlast
                 Yield hit
             Next
         End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of HitRecord).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
     End Class
 End Namespace

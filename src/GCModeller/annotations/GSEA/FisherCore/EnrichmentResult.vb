@@ -60,6 +60,11 @@ Public Class EnrichmentResult
     Public Property term As String
     Public Property name As String
     Public Property description As String
+
+    ''' <summary>
+    ''' the enriched gene id set: input id set intersect with the background cluster id set.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property geneIDs As String()
     Public Property score As Double
     Public Property pvalue As Double

@@ -97,8 +97,4 @@ Public Class AnnotationClusters : Inherits XmlDataModel
             Yield protein
         Next
     End Function
-
-    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of ProteinAnnotation).GetEnumerator
-        Yield GenericEnumerator()
-    End Function
 End Class

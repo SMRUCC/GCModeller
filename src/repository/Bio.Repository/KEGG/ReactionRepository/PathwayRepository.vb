@@ -84,8 +84,4 @@ Public Class PathwayRepository : Inherits XmlDataModel
             Yield map
         Next
     End Function
-
-    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of PathwayMap).GetEnumerator
-        Yield GenericEnumerator()
-    End Function
 End Class

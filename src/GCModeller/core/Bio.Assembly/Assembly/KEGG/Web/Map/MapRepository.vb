@@ -221,9 +221,5 @@ Namespace Assembly.KEGG.WebServices
                 Yield DirectCast(index, Map)
             Next
         End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Map).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
     End Class
 End Namespace
