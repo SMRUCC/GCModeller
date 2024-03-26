@@ -20,30 +20,4 @@ Public Module GeneName
 
 
     End Function
-
-    Private Class TextSimilar : Inherits ComparisonProvider
-
-        ReadOnly matrix As ScoreMatrix(Of Char)
-        ReadOnly symbol As GenericSymbol(Of Char) = GetGeneralCharSymbol()
-
-        Sub New(cutoff As Double)
-            MyBase.New(cutoff, cutoff / 2)
-            matrix = New ScoreMatrix(Of Char)(symbol)
-        End Sub
-
-        Public Overrides Function GetSimilarity(x As String, y As String) As Double
-            Dim gnw As New NeedlemanWunsch(Of Char)(x, y, matrix, symbol)
-            Dim best As GlobalAlign(Of Char) = gnw _
-                .Compute() _
-                .PopulateAlignments _
-                .OrderByDescending(Function(a) a.score) _
-                .FirstOrDefault
-
-            Throw New NotImplementedException
-        End Function
-
-        Public Overrides Function GetObject(id As String) As Object
-            Return id
-        End Function
-    End Class
 End Module
