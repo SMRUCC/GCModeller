@@ -3,7 +3,7 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{85D24B65-32E1-43DD-88EF-AF5B27D4A9B7}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\btree-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\binarytree\\clustertree\\btreecluste2r.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{85D24B65-32E1-43DD-88EF-AF5B27D4A9B7}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\btree-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\binarytree\\clustertree\\btreecluster.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{19C089E0-F0C5-400D-97C5-77DC8B93193C}|Knowledge_base\\kb.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\knowledge_base\\nlp\\genename.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -56,11 +56,11 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "BTreeCluste2r.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\BTreeCluste2r.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\BTreeCluste2r.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\BTreeCluste2r.vb",
-              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\BTreeCluste2r.vb",
+              "Title": "BTreeCluster.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\BTreeCluster.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\BTreeCluster.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\BTreeCluster.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\BTreeCluster.vb",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAEIAAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-03-26T08:30:17.941Z",
