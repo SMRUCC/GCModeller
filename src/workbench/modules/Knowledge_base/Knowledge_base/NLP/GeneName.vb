@@ -1,7 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.BinaryTree
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
@@ -10,19 +10,24 @@ Imports std = System.Math
 Public Module GeneName
 
     <Extension>
-    Public Iterator Function GroupBy(genes As IEnumerable(Of EntityObject), field As String, Optional cutoff As Double = 0.3) As IEnumerable(Of NamedCollection(Of EntityObject))
-        Dim tree As New AVLTree(Of String, String)(New TextSimilar(cutoff).GetComparer)
-        Dim gene_id As New Dictionary(Of String, EntityObject)
+    Public Function GroupBy(Of EntityObject As {INamedValue, DynamicPropertyBase(Of String)})(genes As IEnumerable(Of EntityObject), field As String, Optional cutoff As Double = 0.3) As IEnumerable(Of NamedCollection(Of EntityObject))
+        Return genes.GroupBy(Function(d) d(field), cutoff)
+    End Function
 
-        For Each gene As EntityObject In genes
-            gene_id.Add(gene.ID, gene)
-            tree.Add(gene(field), gene.ID)
+    <Extension>
+    Public Iterator Function GroupBy(Of T As INamedValue)(genes As IEnumerable(Of T), field As Func(Of T, String), Optional cutoff As Double = 0.3) As IEnumerable(Of NamedCollection(Of T))
+        Dim tree As New AVLTree(Of String, String)(New TextSimilar(cutoff).GetComparer)
+        Dim gene_id As New Dictionary(Of String, T)
+
+        For Each gene As T In genes
+            gene_id.Add(gene.Key, gene)
+            tree.Add(field(gene), gene.Key)
         Next
 
         Dim text_clusters = tree.root.PopulateNodes.ToArray
 
         For Each cluster As BinaryTree(Of String, String) In text_clusters
-            Yield New NamedCollection(Of EntityObject)(cluster.Key, cluster.Members.Select(Function(id) gene_id(id)))
+            Yield New NamedCollection(Of T)(cluster.Key, cluster.Members.Select(Function(id) gene_id(id)))
         Next
     End Function
 
