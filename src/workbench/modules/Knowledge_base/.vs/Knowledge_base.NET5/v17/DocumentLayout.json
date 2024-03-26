@@ -5,16 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{19C089E0-F0C5-400D-97C5-77DC8B93193C}|Knowledge_base\\kb.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\knowledge_base\\nlp\\genename.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{19C089E0-F0C5-400D-97C5-77DC8B93193C}|Knowledge_base\\kb.NET5.vbproj|solutionrelative:knowledge_base\\nlp\\genename.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AFC8D059-0BA7-4CEB-882B-B3929CAD4294}|..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\algorithm\\binarytree\\binarytree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AFC8D059-0BA7-4CEB-882B-B3929CAD4294}|..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\algorithm\\binarytree\\enumerable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{19C089E0-F0C5-400D-97C5-77DC8B93193C}|Knowledge_base\\kb.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\knowledge_base\\nlp\\nlpextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{19C089E0-F0C5-400D-97C5-77DC8B93193C}|Knowledge_base\\kb.NET5.vbproj|solutionrelative:knowledge_base\\nlp\\nlpextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -24,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -40,54 +30,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Enumerable.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\BinaryTree\\Enumerable.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\BinaryTree\\Enumerable.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\BinaryTree\\Enumerable.vb",
-              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\BinaryTree\\Enumerable.vb",
-              "ViewState": "AQIAAE4AAAAAAAAAAAAAwGcAAAAuAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-26T09:04:17.51Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BinaryTree.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\BinaryTree\\BinaryTree.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\BinaryTree\\BinaryTree.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\BinaryTree\\BinaryTree.vb",
-              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\BinaryTree\\BinaryTree.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFkAAACiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-26T09:03:41.409Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "GeneName.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\NLP\\GeneName.vb",
               "RelativeDocumentMoniker": "Knowledge_base\\NLP\\GeneName.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\NLP\\GeneName.vb",
               "RelativeToolTip": "Knowledge_base\\NLP\\GeneName.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAmAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAwAAAB8AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-03-26T08:56:03.704Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "NLPExtensions.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\NLP\\NLPExtensions.vb",
-              "RelativeDocumentMoniker": "Knowledge_base\\NLP\\NLPExtensions.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\NLP\\NLPExtensions.vb",
-              "RelativeToolTip": "Knowledge_base\\NLP\\NLPExtensions.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-26T08:56:02.876Z",
               "EditorCaption": ""
             }
           ]

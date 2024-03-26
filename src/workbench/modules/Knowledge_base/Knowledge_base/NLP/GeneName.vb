@@ -10,7 +10,7 @@ Imports std = System.Math
 Public Module GeneName
 
     <Extension>
-    Public Iterator Function GroupBy(genes As IEnumerable(Of EntityObject), field As String, Optional cutoff As Double = 0.6) As IEnumerable(Of NamedCollection(Of EntityObject))
+    Public Iterator Function GroupBy(genes As IEnumerable(Of EntityObject), field As String, Optional cutoff As Double = 0.3) As IEnumerable(Of NamedCollection(Of EntityObject))
         Dim tree As New AVLTree(Of String, String)(New TextSimilar(cutoff).GetComparer)
         Dim gene_id As New Dictionary(Of String, EntityObject)
 
