@@ -3,18 +3,14 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{85D24B65-32E1-43DD-88EF-AF5B27D4A9B7}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\btree-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\binarytree\\clustertree\\btreecluster.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{85D24B65-32E1-43DD-88EF-AF5B27D4A9B7}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\btree-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\binarytree\\newickparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{19C089E0-F0C5-400D-97C5-77DC8B93193C}|Knowledge_base\\kb.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\knowledge_base\\nlp\\genename.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{19C089E0-F0C5-400D-97C5-77DC8B93193C}|Knowledge_base\\kb.NET5.vbproj|solutionrelative:knowledge_base\\nlp\\genename.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{85D24B65-32E1-43DD-88EF-AF5B27D4A9B7}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\btree-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\binarytree\\clustertree\\clustertree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{FF5F3DA2-07F5-4FFA-B97D-37745F5FD7F8}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\DynamicProgramming.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\dynamicprogramming\\needlemanwunsch\\globalalign.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FF5F3DA2-07F5-4FFA-B97D-37745F5FD7F8}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\DynamicProgramming.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\dynamicprogramming\\needlemanwunsch\\gnw.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -23,7 +19,26 @@
       "AbsoluteMoniker": "D:0:0:{AFC8D059-0BA7-4CEB-882B-B3929CAD4294}|..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\math\\math.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FF5F3DA2-07F5-4FFA-B97D-37745F5FD7F8}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\DynamicProgramming.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\dynamicprogramming\\needlemanwunsch\\globalalign.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{85D24B65-32E1-43DD-88EF-AF5B27D4A9B7}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\btree-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\binarytree\\clustertree\\clustertree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85D24B65-32E1-43DD-88EF-AF5B27D4A9B7}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\btree-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\binarytree\\buildtree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85D24B65-32E1-43DD-88EF-AF5B27D4A9B7}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\btree-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\binarytree\\clustertree\\btreecluster.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85D24B65-32E1-43DD-88EF-AF5B27D4A9B7}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\btree-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\binarytree\\comparisonprovider\\alignmentcomparison.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85D24B65-32E1-43DD-88EF-AF5B27D4A9B7}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\btree-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\binarytree\\comparisonprovider\\comparison.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85D24B65-32E1-43DD-88EF-AF5B27D4A9B7}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\btree-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\binarytree\\comparisonprovider\\comparisonprovider.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\name_test.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -56,6 +71,71 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "NewickParser.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\NewickParser.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\NewickParser.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\NewickParser.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\NewickParser.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T08:43:27.707Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AlignmentComparison.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\AlignmentComparison.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\AlignmentComparison.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\AlignmentComparison.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\AlignmentComparison.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T08:38:49.891Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Comparison.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\Comparison.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\Comparison.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\Comparison.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\Comparison.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADgAAABcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T08:38:20.742Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ComparisonProvider.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\ComparisonProvider.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\ComparisonProvider.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\ComparisonProvider.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ComparisonProvider\\ComparisonProvider.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADYAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T08:38:10.171Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BuildTree.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\BuildTree.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\BuildTree.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\BuildTree.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\BuildTree.vb",
+              "ViewState": "AQIAAGEAAAAAAAAAAAAIwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T08:37:26.385Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "BTreeCluster.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\BTreeCluster.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\BTreeCluster.vb",
@@ -68,7 +148,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "ClusterTree.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\ClusterTree.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\BinaryTree\\ClusterTree\\ClusterTree.vb",
@@ -81,13 +161,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "Math.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Math\\Math.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Math\\Math.vb",
               "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Math\\Math.vb",
               "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Math\\Math.vb",
-              "ViewState": "AQIAABMBAAAAAAAAAAAvwDYBAAAkAAAA",
+              "ViewState": "AQIAAAUBAAAAAAAAAAAtwDYBAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-03-26T08:25:20.991Z",
               "EditorCaption": ""
@@ -106,7 +186,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "GNW.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\NeedlemanWunsch\\GNW.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\NeedlemanWunsch\\GNW.vb",
@@ -119,7 +199,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "GlobalAlign.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\NeedlemanWunsch\\GlobalAlign.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\NeedlemanWunsch\\GlobalAlign.vb",
@@ -132,19 +212,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "test",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\test.vbproj",
-              "RelativeDocumentMoniker": "test\\test.vbproj",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\test.vbproj",
-              "RelativeToolTip": "test\\test.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-03-26T08:18:17.1Z",
+              "DocumentIndex": 1,
+              "Title": "GeneName.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\NLP\\GeneName.vb",
+              "RelativeDocumentMoniker": "Knowledge_base\\NLP\\GeneName.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\NLP\\GeneName.vb",
+              "RelativeToolTip": "Knowledge_base\\NLP\\GeneName.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T08:16:54.074Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "name_test.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\name_test.vb",
               "RelativeDocumentMoniker": "test\\name_test.vb",
@@ -157,7 +238,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 13,
+              "Title": "test",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\test.vbproj",
+              "RelativeDocumentMoniker": "test\\test.vbproj",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\test.vbproj",
+              "RelativeToolTip": "test\\test.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-03-26T08:18:17.1Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "Module1.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\Module1.vb",
               "RelativeDocumentMoniker": "test\\Module1.vb",
@@ -170,7 +263,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "mesh_test.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\mesh_test.vb",
               "RelativeDocumentMoniker": "test\\mesh_test.vb",
@@ -183,20 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GeneName.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\NLP\\GeneName.vb",
-              "RelativeDocumentMoniker": "Knowledge_base\\NLP\\GeneName.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\NLP\\GeneName.vb",
-              "RelativeToolTip": "Knowledge_base\\NLP\\GeneName.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-26T08:16:54.074Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "NLPExtensions.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\NLP\\NLPExtensions.vb",
               "RelativeDocumentMoniker": "Knowledge_base\\NLP\\NLPExtensions.vb",
