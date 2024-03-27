@@ -3,12 +3,36 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\hierarchy\\hierarchy.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:hierarchy\\hierarchy.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\webservices\\restfulapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:webservices\\restfulapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A4B53927-B1A8-44F6-ADEC-47D6786406E4}|test\\test.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{A4B53927-B1A8-44F6-ADEC-47D6786406E4}|test\\test.vbproj|solutionrelative:test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\owl\\abstract.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:owl\\abstract.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\owl\\owldocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:owl\\owldocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\owl\\resourcecollection.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:owl\\resourcecollection.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\owl\\xref.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:owl\\xref.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\objectmodels\\reaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:objectmodels\\reaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\objectmodels\\metabolite.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:objectmodels\\metabolite.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\objectmodels\\biosystem.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8E5597A1-49BE-4955-9450-E37BDA988FEA}|Reactome.vbproj|solutionrelative:objectmodels\\biosystem.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,28 +58,106 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Hierarchy.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Hierarchy\\Hierarchy.vb",
-              "RelativeDocumentMoniker": "Hierarchy\\Hierarchy.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Hierarchy\\Hierarchy.vb",
-              "RelativeToolTip": "Hierarchy\\Hierarchy.vb",
-              "ViewState": "AQIAACgAAAAAAAAAAAAgwFAAAAAMAAAA",
+              "DocumentIndex": 1,
+              "Title": "Abstract.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Owl\\Abstract.vb",
+              "RelativeDocumentMoniker": "Owl\\Abstract.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Owl\\Abstract.vb",
+              "RelativeToolTip": "Owl\\Abstract.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-15T01:03:32.894Z",
+              "WhenOpened": "2024-03-26T09:40:58.781Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\test\\Program.vb",
-              "RelativeDocumentMoniker": "test\\Program.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\test\\Program.vb",
-              "RelativeToolTip": "test\\Program.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAALAAAA",
+              "DocumentIndex": 2,
+              "Title": "OwlDocument.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Owl\\OwlDocument.vb",
+              "RelativeDocumentMoniker": "Owl\\OwlDocument.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Owl\\OwlDocument.vb",
+              "RelativeToolTip": "Owl\\OwlDocument.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-15T00:38:26.088Z",
+              "WhenOpened": "2024-03-26T09:40:56.306Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ResourceCollection.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Owl\\ResourceCollection.vb",
+              "RelativeDocumentMoniker": "Owl\\ResourceCollection.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Owl\\ResourceCollection.vb",
+              "RelativeToolTip": "Owl\\ResourceCollection.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T09:40:55.281Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Xref.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Owl\\Xref.vb",
+              "RelativeDocumentMoniker": "Owl\\Xref.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Owl\\Xref.vb",
+              "RelativeToolTip": "Owl\\Xref.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T09:40:54.575Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RESTfulAPI.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\WebServices\\RESTfulAPI.vb",
+              "RelativeDocumentMoniker": "WebServices\\RESTfulAPI.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\WebServices\\RESTfulAPI.vb",
+              "RelativeToolTip": "WebServices\\RESTfulAPI.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAF4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T09:40:46.318Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Reaction.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\ObjectModels\\Reaction.vb",
+              "RelativeDocumentMoniker": "ObjectModels\\Reaction.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\ObjectModels\\Reaction.vb",
+              "RelativeToolTip": "ObjectModels\\Reaction.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T09:40:42.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Metabolite.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\ObjectModels\\Metabolite.vb",
+              "RelativeDocumentMoniker": "ObjectModels\\Metabolite.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\ObjectModels\\Metabolite.vb",
+              "RelativeToolTip": "ObjectModels\\Metabolite.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T09:40:39.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BioSystem.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\ObjectModels\\BioSystem.vb",
+              "RelativeDocumentMoniker": "ObjectModels\\BioSystem.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Reactome\\ObjectModels\\BioSystem.vb",
+              "RelativeToolTip": "ObjectModels\\BioSystem.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-03-26T09:40:39.105Z",
               "EditorCaption": ""
             }
           ]
