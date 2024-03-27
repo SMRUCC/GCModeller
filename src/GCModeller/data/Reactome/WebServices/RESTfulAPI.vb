@@ -57,7 +57,41 @@ Namespace RESTfulAPI
         End Function
     End Module
 
-    Public Class PathwayData
+    Public MustInherit Class ReactomeObject
+
+        Public Property dbId As String
+        Public Property displayName As String
+        Public Property className As String
+        Public Property schemaClass As String
+
+    End Class
+
+    Public Class PathwayData : Inherits ReactomeObject
+
+        Public Property stId As String
+        Public Property stIdVersion As String
+        Public Property isInDisease As Boolean
+        Public Property isInferred As Boolean
+        Public Property name As String()
+        Public Property releaseDate As String
+        Public Property speciesName As String
+        Public Property compartment As compartment()
+
+    End Class
+
+    Public Class compartment : Inherits ReactomeObject
+
+        Public Property accession As String
+        Public Property databaseName As String
+        Public Property definition As String
+        Public Property name As String
+        Public Property url As String
+
+    End Class
+
+    Public Class summation : Inherits ReactomeObject
+
+        Public Property text As String
 
     End Class
 End Namespace
