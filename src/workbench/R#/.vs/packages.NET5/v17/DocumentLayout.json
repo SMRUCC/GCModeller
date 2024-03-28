@@ -38,7 +38,7 @@
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\ProteinAnnotation.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\ProteinAnnotation.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\ProteinAnnotation.vb",
-              "ViewState": "AQIAAEkAAAAAAAAAAIA9wGIAAAAQAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAGIAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-03-25T11:52:30.099Z",
               "EditorCaption": ""
@@ -53,8 +53,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\TranscriptionFactors.vb",
               "ViewState": "AQIAAOwAAAAAAAAAAAAtwAUBAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-25T11:52:21.516Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-25T11:52:21.516Z"
             }
           ]
         }
