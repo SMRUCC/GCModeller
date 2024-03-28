@@ -1,14 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{A0870A07-8513-4B44-8886-6243A6BFC255}|..\\..\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\GO_Annotation.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\go_gene-ontology\\go_annotation\\proteinannotation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FA3DB933-8FEE-4593-BDEB-227EB9FF3B68}|..\\..\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\webparser\\transcriptionfactors.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -16,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -29,31 +22,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ProteinAnnotation.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\ProteinAnnotation.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\ProteinAnnotation.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\ProteinAnnotation.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\ProteinAnnotation.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAGIAAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-25T11:52:30.099Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TranscriptionFactors.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\TranscriptionFactors.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\TranscriptionFactors.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\TranscriptionFactors.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\TranscriptionFactors.vb",
-              "ViewState": "AQIAAOwAAAAAAAAAAAAtwAUBAAAUAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-03-25T11:52:21.516Z"
             }
           ]
         }
