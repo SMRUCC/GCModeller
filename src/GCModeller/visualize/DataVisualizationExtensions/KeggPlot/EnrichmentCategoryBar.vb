@@ -1,3 +1,3 @@
-﻿Module EnrichmentCategoryBar
+﻿Public Class ClassEnrichmentCategoryBar
 
-End Module
+End Class

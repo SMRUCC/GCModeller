@@ -1,3 +1,3 @@
-﻿Module EnrichmentCategoryBubble
+﻿Public Class EnrichmentCategoryBubble
 
-End Module
+End Class

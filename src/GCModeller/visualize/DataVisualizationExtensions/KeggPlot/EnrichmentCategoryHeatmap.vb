@@ -1,3 +1,3 @@
-﻿Module EnrichmentCategoryHeatmap
+﻿Public Class EnrichmentCategoryHeatmap
 
-End Module
+End Class
