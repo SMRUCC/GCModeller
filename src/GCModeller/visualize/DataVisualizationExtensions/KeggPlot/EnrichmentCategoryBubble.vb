@@ -70,6 +70,8 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
                 g.DrawLine(dashline, New PointF(left, label_pos.Y), New PointF(left + plotW, label_pos.Y))
                 g.DrawCircle(New PointF(xi, label_pos.Y), r, c)
             Next
+
+            y += termH / 2
         Next
     End Sub
 End Class

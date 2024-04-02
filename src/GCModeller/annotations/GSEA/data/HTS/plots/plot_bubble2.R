@@ -6,6 +6,9 @@ imports "visualPlot" from "visualkit";
 setwd(@dir);
 
 let enrichments = read.csv("../kegg_enrichment.xls", tsv = TRUE, check.names = FALSE, row.names = FALSE);
+let sig =  enrichments[, "FDR"] < 0.05;
+
+enrichments = enrichments[sig, ];
 
 print(enrichments);
 
