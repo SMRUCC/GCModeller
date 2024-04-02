@@ -10,5 +10,14 @@ let enrichments = read.csv("../kegg_enrichment.xls", tsv = TRUE, check.names = F
 print(enrichments);
 
 enrichments = GSEA::cast_enrichs(
-    
+    term = enrichments$pathway,
+            name = enrichments$term,
+             pvalue = enrichments[, "Raw p"] ,                                          
+                     desc = enrichments$term,
+                         score = enrichments$Impact,
+                             fdr = enrichments$FDR 
 );
+
+svg(file = "./bubble2.svg") {
+    kegg.enrichment.bubble2(enrichments);
+}
