@@ -3,31 +3,11 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{16395E03-C483-4104-A752-47A32ED9E47A}|..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\visualization\\plots\\scatter\\plot\\polygonplot2d.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\collectionset\\intersectionplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{16395E03-C483-4104-A752-47A32ED9E47A}|..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\visualization\\plots\\3d\\device\\renderengine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{16395E03-C483-4104-A752-47A32ED9E47A}|..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\visualization\\plots\\contour\\contourplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B9F695D8-E29A-42ED-8D35-F184905EB8D3}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Visualizer\\networkVisualizer.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\visualizer\\drawkdtree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{16395E03-C483-4104-A752-47A32ED9E47A}|..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\visualization\\plots\\barplot\\plots\\bidirectionbarplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategorybubble.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFBA2697-9A7A-49BF-9636-85A05B46EF75}|..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\microsoft.visualbasic.imaging\\d3js\\scale\\linear.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4B352562-978B-4BB6-B034-017085B1CF7E}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Math.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\math\\algebra\\vector\\class\\math.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -37,99 +17,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PolygonPlot2D.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\Scatter\\Plot\\PolygonPlot2D.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\Scatter\\Plot\\PolygonPlot2D.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\Scatter\\Plot\\PolygonPlot2D.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\Scatter\\Plot\\PolygonPlot2D.vb",
-              "ViewState": "AQIAAG8AAAAAAAAAAAAnwIkAAAAfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-02T07:29:29.105Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "RenderEngine.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\3D\\Device\\RenderEngine.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\3D\\Device\\RenderEngine.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\3D\\Device\\RenderEngine.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\3D\\Device\\RenderEngine.vb",
-              "ViewState": "AQIAAE8AAAAAAAAAAAApwGMAAABTAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-02T07:29:11.466Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "IntersectionPlot.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CollectionSet\\IntersectionPlot.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CollectionSet\\IntersectionPlot.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CollectionSet\\IntersectionPlot.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CollectionSet\\IntersectionPlot.vb",
-              "ViewState": "AQIAACgBAAAAAAAAAIA7wDwBAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-02T07:29:10.569Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ContourPlot.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\Contour\\ContourPlot.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\Contour\\ContourPlot.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\Contour\\ContourPlot.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\Contour\\ContourPlot.vb",
-              "ViewState": "AQIAAHUAAAAAAAAAAAApwI4AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-02T07:29:05.145Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DrawKDTree.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Visualizer\\DrawKDTree.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Visualizer\\DrawKDTree.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Visualizer\\DrawKDTree.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Visualizer\\DrawKDTree.vb",
-              "ViewState": "AQIAAEgAAAAAAAAAAAAlwFoAAAA+AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-02T07:28:56.025Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "BiDirectionBarPlot.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\Plots\\BiDirectionBarPlot.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\Plots\\BiDirectionBarPlot.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\Plots\\BiDirectionBarPlot.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\Plots\\BiDirectionBarPlot.vb",
-              "ViewState": "AQIAAEkAAAAAAAAAAAAUwF4AAABmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-02T07:28:28.58Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "linear.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\linear.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\linear.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\linear.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\linear.vb",
-              "ViewState": "AQIAAIAAAAAAAAAAAAAYwJwAAAAvAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-02T07:24:50.271Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -144,26 +33,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Math.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Algebra\\Vector\\Class\\Math.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Algebra\\Vector\\Class\\Math.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Algebra\\Vector\\Class\\Math.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Algebra\\Vector\\Class\\Math.vb",
-              "ViewState": "AQIAAHwAAAAAAAAAAAAQwJ0AAAAUAAAA",
+              "DocumentIndex": 1,
+              "Title": "GSEA.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
+              "RelativeDocumentMoniker": "gseakit\\GSEA.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
+              "RelativeToolTip": "gseakit\\GSEA.vb",
+              "ViewState": "AQIAAHoBAAAAAAAAAAAAAH8BAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-02T07:15:45.569Z",
+              "WhenOpened": "2024-04-02T07:37:00.945Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "EnrichmentCategoryBubble.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
-              "ViewState": "AQIAABkAAAAAAAAAAAAAwDEAAABuAAAA",
+              "ViewState": "AQIAABkAAAAAAAAAAAAAwEoAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-04-02T06:58:52.872Z",
               "EditorCaption": ""

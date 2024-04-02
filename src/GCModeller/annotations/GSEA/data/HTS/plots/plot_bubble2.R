@@ -15,7 +15,8 @@ enrichments = GSEA::cast_enrichs(
              pvalue = enrichments[, "Raw p"] ,                                          
                      desc = enrichments$term,
                          score = enrichments$Impact,
-                             fdr = enrichments$FDR 
+                             fdr = enrichments$FDR,
+                             enriched = enrichments$Hits
 );
 
 svg(file = "./bubble2.svg") {
