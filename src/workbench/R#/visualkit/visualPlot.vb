@@ -100,8 +100,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
-Imports REnv = SMRUCC.Rsharp.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
@@ -603,7 +602,7 @@ Module visualPlot
             enrichColors:=enrichColors,
             showBubbleBorder:=False,
             displays:=New LabelDisplayStrategy With {.displays = displays, .serialTopn = serialTopn},
-            pvalue:=-stdNum.Log10(0.05),
+            pvalue:=-std.Log10(0.05),
             unenrich:=baseColor,
             theme:=theme,
             bubbleSize:=bubbleRadius
