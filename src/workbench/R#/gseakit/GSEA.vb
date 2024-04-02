@@ -401,7 +401,7 @@ Module GSEA
                                             Optional enriched As String() = Nothing,
                                             Optional env As Environment = Nothing) As EnrichmentResult()
         If geneIDs Is Nothing Then
-            geneIDs = New list
+            geneIDs = list.empty
         End If
 
         Return term _
