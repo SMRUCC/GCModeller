@@ -60,7 +60,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
         Dim scaler As New DataScaler() With {
             .AxisTicks = (x_Ticks, {canvas.PlotRegion.Top, canvas.PlotRegion.Bottom}),
             .region = canvas.PlotRegion,
-            .X = d3js.scale.linear().range(values:={left, left + plotW}).domain(X() - x_Ticks),
+            .X = d3js.scale.linear().range(values:={left, left + plotW}).domain(x_Ticks),
             .Y = d3js.scale.constant(0)
         }
 
@@ -90,6 +90,6 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
             y += termH / 2
         Next
 
-        Call Axis.DrawX(g, axis_stroke, "-log10(p)", scaler, XAxisLayoutStyles.Bottom, 0, Nothing, theme.axisLabelCSS, Brushes.Black, CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi), Brushes.Black)
+        Call Axis.DrawX(g, axis_stroke, "-log10(p)", scaler, XAxisLayoutStyles.Bottom, 0, Nothing, theme.axisLabelCSS, Brushes.Black, CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi), Brushes.Black, htmlLabel:=False)
     End Sub
 End Class
