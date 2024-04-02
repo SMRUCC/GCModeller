@@ -114,6 +114,8 @@
   <text x="2016.679443359375" y="7992.751953125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Valine, leucine and isoleucine biosynthesis</text>
   <line x1="3874.738525390625" x2="7900" y1="7992.751953125" y2="7992.751953125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
   <path d="M 4110.121,7963.611 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #A03A67" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="100" y2="8107.14453125" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="100" width="201.26307678222656" height="8007.14453125" style="fill: #D3D3D3" />
   <text x="2140.90625" y="8308.8232421875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Carbohydrate digestion and absorption</text>
   <line x1="3874.738525390625" x2="7900" y1="8308.8232421875" y2="8308.8232421875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
   <path d="M 4066.419,8279.682 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #7B4C8C" />
@@ -132,6 +134,8 @@
   <text x="2415.6865234375" y="9362.392578125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Protein digestion and absorption</text>
   <line x1="3874.738525390625" x2="7900" y1="9362.392578125" y2="9362.392578125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
   <path d="M 6839.1724,9280.797 a 81.59574 81.59574 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="8212.501953125" y2="9476.78515625" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="8212.501953125" width="201.26307678222656" height="1264.283203125" style="fill: #D3D3D3" />
   <text x="2964.392333984375" y="9678.4638671875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Renal cell carcinoma</text>
   <line x1="3874.738525390625" x2="7900" y1="9678.4638671875" y2="9678.4638671875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
   <path d="M 4032.0327,9657.393 a 21.071428 21.071428 0 1 1 0 1 z" style="fill: #3F75B8" />
@@ -147,6 +151,8 @@
   <text x="2263.505615234375" y="10521.3193359375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Central carbon metabolism in cancer</text>
   <line x1="3874.738525390625" x2="7900" y1="10521.3193359375" y2="10521.3193359375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
   <path d="M 7810.3345,10431.653 a 89.66565 89.66565 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="9582.142578125" y2="10635.7119140625" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="9582.142578125" width="201.26307678222656" height="1053.5693359375" style="fill: #D3D3D3" />
   <text x="2126.990234375" y="10837.390625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Neuroactive ligand-receptor interaction</text>
   <line x1="3874.738525390625" x2="7900" y1="10837.390625" y2="10837.390625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
   <path d="M 3896.5015,10808.249 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #FFD408" />
@@ -162,10 +168,16 @@
   <text x="2801.71337890625" y="11680.24609375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Two-component system</text>
   <line x1="3874.738525390625" x2="7900" y1="11680.24609375" y2="11680.24609375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
   <path d="M 4574.049,11634.965 a 45.281155 45.281155 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="10741.0693359375" y2="11794.638671875" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="10741.0693359375" width="201.26307678222656" height="1053.5693359375" style="fill: #D3D3D3" />
   <text x="2559.118896484375" y="11996.3173828125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Aminoacyl-tRNA biosynthesis</text>
   <line x1="3874.738525390625" x2="7900" y1="11996.3173828125" y2="11996.3173828125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
   <path d="M 6176.3867,11922.792 a 73.52583 73.52583 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="11899.99609375" y2="12110.7099609375" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="11899.99609375" width="201.26307678222656" height="210.7138671875" style="fill: #D3D3D3" />
   <text x="2953.161865234375" y="12312.388671875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Bacterial chemotaxis</text>
   <line x1="3874.738525390625" x2="7900" y1="12312.388671875" y2="12312.388671875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
   <path d="M 4207.419,12287.282 a 25.106382 25.106382 0 1 1 0 1 z" style="fill: #CF2333" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="12216.0673828125" y2="12426.78125" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="12216.0673828125" width="201.26307678222656" height="210.7138671875" style="fill: #D3D3D3" />
 </svg>

@@ -6,6 +6,18 @@
       "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategorybubble.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{CFBA2697-9A7A-49BF-9636-85A05B46EF75}|..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\microsoft.visualbasic.imaging\\d3js\\scale\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFBA2697-9A7A-49BF-9636-85A05B46EF75}|..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\microsoft.visualbasic.imaging\\d3js\\scale\\linear.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFBA2697-9A7A-49BF-9636-85A05B46EF75}|..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\microsoft.visualbasic.imaging\\d3js\\scale\\constant.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16395E03-C483-4104-A752-47A32ED9E47A}|..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\visualization\\plots\\g\\axis\\axis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
@@ -17,8 +29,60 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 8,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "linear.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\linear.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\linear.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\linear.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\linear.vb",
+              "ViewState": "AQIAAEUAAAAAAAAAAADwv0AAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-02T07:57:30.794Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "constant.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\constant.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\constant.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\constant.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\constant.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-02T07:57:29.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\scale\\Extensions.vb",
+              "ViewState": "AQIAAEQAAAAAAAAAAAAAAGkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-02T07:56:42.432Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Axis.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\g\\Axis\\Axis.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\g\\Axis\\Axis.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\g\\Axis\\Axis.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\g\\Axis\\Axis.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEgAAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-02T07:53:32.928Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -33,7 +97,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "GSEA.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
               "RelativeDocumentMoniker": "gseakit\\GSEA.vb",
@@ -52,7 +116,7 @@
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
-              "ViewState": "AQIAABkAAAAAAAAAAAAAwD4AAABYAAAA",
+              "ViewState": "AQIAACkAAAAAAAAAAAAywF0AAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-04-02T06:58:52.872Z",
               "EditorCaption": ""
