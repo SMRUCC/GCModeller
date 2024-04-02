@@ -314,7 +314,7 @@ Namespace CollectionSet
             Dim scale = d3js.scale _
                 .linear _
                 .domain(0.0.Join(setSize.Select(Function(i) CDbl(i.Value)))) _
-                .range(New Double() {0, layout.Width - maxLabelSize.Width})
+                .range(values:=New Double() {0, layout.Width - maxLabelSize.Width})
             Dim labelSize As SizeF
             Dim labelPos As New PointF
             Dim setSizeColor As Brush = Me.setSizeBarColor.GetBrush
@@ -399,7 +399,7 @@ Namespace CollectionSet
                 .CreateAxisTicks
             Dim scaleY = d3js.scale.linear _
                 .domain(values:=yTick) _
-                .range(New Double() {0, layout.Height})
+                .range(values:=New Double() {0, layout.Height})
             Dim x As Double = layout.Left
             Dim labelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
             Dim offset As Double = boxWidth * 0.1
