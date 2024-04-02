@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
 Public Class EnrichmentCategoryBubble : Inherits Plot
 
@@ -10,6 +11,8 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
 
     Public Sub New(enrich As IEnumerable(Of EnrichmentResult), theme As Theme)
         MyBase.New(theme)
+
+        Dim kegg = htext.br08901.GetEntryDictionary
 
         Me.enrich = enrich.ToArray
     End Sub

@@ -375,6 +375,20 @@ Module GSEA
         Return image
     End Function
 
+    ''' <summary>
+    ''' convert dataset to gcmodeller enrichment result set
+    ''' </summary>
+    ''' <param name="term"></param>
+    ''' <param name="name"></param>
+    ''' <param name="pvalue"></param>
+    ''' <param name="geneIDs"></param>
+    ''' <param name="desc"></param>
+    ''' <param name="score"></param>
+    ''' <param name="fdr"></param>
+    ''' <param name="cluster"></param>
+    ''' <param name="enriched"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("cast_enrichs")>
     Public Function CreateEnrichmentObjects(term As String(),
                                             name As String(),
@@ -392,7 +406,12 @@ Module GSEA
                             .term = id,
                             .name = name(i),
                             .pvalue = pvalue(i),
-                            .geneIDs = geneIDs.getValue(Of String())(id, env)
+                            .geneIDs = geneIDs.getValue(Of String())(id, env),
+                            .FDR = fdr(i),
+                            .score = score(i),
+                            .description = desc(i),
+                            .cluster = cluster(i),
+                            .enriched = enriched(i)
                         }
                     End Function) _
             .ToArray
