@@ -19,5 +19,5 @@ enrichments = GSEA::cast_enrichs(
 );
 
 svg(file = "./bubble2.svg") {
-    kegg.enrichment.bubble2(enrichments);
+    kegg.enrichment.bubble2(enrichments, size = [8000,12000]);
 }
