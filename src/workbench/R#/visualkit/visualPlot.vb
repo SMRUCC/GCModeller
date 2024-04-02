@@ -79,6 +79,7 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.GO
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
@@ -421,6 +422,19 @@ Module visualPlot
         Next
 
         Return profiles
+    End Function
+
+    <ExportAPI("kegg.enrichment.bubble2")>
+    Public Function keggEnrichmentBubble2(terms As EnrichmentResult(),
+                                          <RRawVectorArgument>
+                                          Optional size As Object = "2700,3800",
+                                          Optional env As Environment = Nothing) As Object
+
+        Dim theme As New Theme
+        Dim app As New EnrichmentCategoryBubble(terms, theme)
+        Dim size_val = InteropArgumentHelper.getSize(size, env, "2700,3800")
+
+        Return app.Plot(size_val, driver:=env.getDriver)
     End Function
 
     ''' <summary>
