@@ -393,13 +393,17 @@ Module GSEA
     Public Function CreateEnrichmentObjects(term As String(),
                                             name As String(),
                                             pvalue As Double(),
-                                            geneIDs As list,
+                                            Optional geneIDs As list = Nothing,
                                             Optional desc As String() = Nothing,
                                             Optional score As Double() = Nothing,
                                             Optional fdr As Double() = Nothing,
                                             Optional cluster As Integer() = Nothing,
                                             Optional enriched As String() = Nothing,
                                             Optional env As Environment = Nothing) As EnrichmentResult()
+        If geneIDs Is Nothing Then
+            geneIDs = New list
+        End If
+
         Return term _
             .Select(Function(id, i)
                         Return New EnrichmentResult With {
@@ -407,11 +411,11 @@ Module GSEA
                             .name = name(i),
                             .pvalue = pvalue(i),
                             .geneIDs = geneIDs.getValue(Of String())(id, env),
-                            .FDR = fdr(i),
-                            .score = score(i),
-                            .description = desc(i),
-                            .cluster = cluster(i),
-                            .enriched = enriched(i)
+                            .FDR = fdr.ElementAtOrDefault(i),
+                            .score = score.ElementAtOrDefault(i),
+                            .description = desc.ElementAtOrDefault(i),
+                            .cluster = cluster.ElementAtOrDefault(i),
+                            .enriched = enriched.ElementAtOrDefault(i)
                         }
                     End Function) _
             .ToArray
