@@ -20,5 +20,5 @@
 + [as.KOBAS_terms](GSEA/as.KOBAS_terms.1) Convert GSEA enrichment result from GCModeller output format to KOBAS output format
 + [enrichment.go_dag](GSEA/enrichment.go_dag.1) Create network graph data for Cytoscape
 + [enrichment.draw.go_dag](GSEA/enrichment.draw.go_dag.1) 
-+ [cast_enrichs](GSEA/cast_enrichs.1) 
++ [cast_enrichs](GSEA/cast_enrichs.1) convert dataset to gcmodeller enrichment result set
 + [to_enrichment_terms](GSEA/to_enrichment_terms.1) 

@@ -31,14 +31,35 @@ declare namespace GSEA {
       function KOBAS_terms(enrichment: object, database?: string): object;
    }
    /**
-     * @param desc default value Is ``null``.
-     * @param score default value Is ``null``.
-     * @param fdr default value Is ``null``.
-     * @param cluster default value Is ``null``.
-     * @param enriched default value Is ``null``.
-     * @param env default value Is ``null``.
+    * convert dataset to gcmodeller enrichment result set
+    * 
+    * 
+     * @param term -
+     * @param name -
+     * @param pvalue -
+     * @param geneIDs -
+     * 
+     * + default value Is ``null``.
+     * @param desc -
+     * 
+     * + default value Is ``null``.
+     * @param score -
+     * 
+     * + default value Is ``null``.
+     * @param fdr -
+     * 
+     * + default value Is ``null``.
+     * @param cluster -
+     * 
+     * + default value Is ``null``.
+     * @param enriched -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function cast_enrichs(term: string, name: string, pvalue: number, geneIDs: object, desc?: string, score?: number, fdr?: number, cluster?: object, enriched?: string, env?: object): object;
+   function cast_enrichs(term: string, name: string, pvalue: number, geneIDs?: object, desc?: string, score?: number, fdr?: number, cluster?: object, enriched?: string, env?: object): object;
    module enrichment {
       module draw {
          /**
