@@ -255,6 +255,7 @@ Namespace ApplicationServices.Development.NetCoreApp
                 End If
 
                 Dim dllfile As String
+                Dim hit As Boolean = False
 
                 For Each libpath As String In external_libloc.JoinIterates(New String() {App.HOME, libdir})
                     dllfile = $"{libpath}/{dllName}"
@@ -263,12 +264,15 @@ Namespace ApplicationServices.Development.NetCoreApp
                         If Not LoadAssemblyOrCache(dllfile, strict:=False) Is Nothing Then
                             ' exit current loop for load next
                             ' project dependency module
+                            hit = True
                             Exit For
                         End If
                     End If
                 Next
 
-                Call $"missing assembly file: {dllName}...".Warning
+                If Not hit Then
+                    Call $"missing assembly file: {dllName}...".Warning
+                End If
             Next
         End Sub
 
