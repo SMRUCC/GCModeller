@@ -79,6 +79,7 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.GO
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
@@ -99,8 +100,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
-Imports REnv = SMRUCC.Rsharp.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
@@ -423,6 +423,19 @@ Module visualPlot
         Return profiles
     End Function
 
+    <ExportAPI("kegg.enrichment.bubble2")>
+    Public Function keggEnrichmentBubble2(terms As EnrichmentResult(),
+                                          <RRawVectorArgument>
+                                          Optional size As Object = "2700,3800",
+                                          Optional env As Environment = Nothing) As Object
+
+        Dim theme As New Theme
+        Dim app As New EnrichmentCategoryBubble(terms, theme)
+        Dim size_val = InteropArgumentHelper.getSize(size, env, "2700,3800")
+
+        Return app.Plot(size_val, driver:=env.getDriver)
+    End Function
+
     ''' <summary>
     ''' plot kegg enrichment result in bubble plot
     ''' </summary>
@@ -589,7 +602,7 @@ Module visualPlot
             enrichColors:=enrichColors,
             showBubbleBorder:=False,
             displays:=New LabelDisplayStrategy With {.displays = displays, .serialTopn = serialTopn},
-            pvalue:=-stdNum.Log10(0.05),
+            pvalue:=-std.Log10(0.05),
             unenrich:=baseColor,
             theme:=theme,
             bubbleSize:=bubbleRadius

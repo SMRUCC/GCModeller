@@ -375,24 +375,47 @@ Module GSEA
         Return image
     End Function
 
+    ''' <summary>
+    ''' convert dataset to gcmodeller enrichment result set
+    ''' </summary>
+    ''' <param name="term"></param>
+    ''' <param name="name"></param>
+    ''' <param name="pvalue"></param>
+    ''' <param name="geneIDs"></param>
+    ''' <param name="desc"></param>
+    ''' <param name="score"></param>
+    ''' <param name="fdr"></param>
+    ''' <param name="cluster"></param>
+    ''' <param name="enriched"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("cast_enrichs")>
     Public Function CreateEnrichmentObjects(term As String(),
                                             name As String(),
                                             pvalue As Double(),
-                                            geneIDs As list,
+                                            Optional geneIDs As list = Nothing,
                                             Optional desc As String() = Nothing,
                                             Optional score As Double() = Nothing,
                                             Optional fdr As Double() = Nothing,
                                             Optional cluster As Integer() = Nothing,
                                             Optional enriched As String() = Nothing,
                                             Optional env As Environment = Nothing) As EnrichmentResult()
+        If geneIDs Is Nothing Then
+            geneIDs = list.empty
+        End If
+
         Return term _
             .Select(Function(id, i)
                         Return New EnrichmentResult With {
                             .term = id,
                             .name = name(i),
                             .pvalue = pvalue(i),
-                            .geneIDs = geneIDs.getValue(Of String())(id, env)
+                            .geneIDs = geneIDs.getValue(Of String())(id, env),
+                            .FDR = fdr.ElementAtOrDefault(i),
+                            .score = score.ElementAtOrDefault(i),
+                            .description = desc.ElementAtOrDefault(i),
+                            .cluster = cluster.ElementAtOrDefault(i),
+                            .enriched = enriched.ElementAtOrDefault(i)
                         }
                     End Function) _
             .ToArray
