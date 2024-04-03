@@ -243,7 +243,7 @@ Namespace Tcp
             Try
                 Call acceptWorker()
             Catch ex As Exception
-
+                Call App.LogException(ex)
             End Try
         End Sub
 
@@ -326,9 +326,14 @@ Namespace Tcp
         ''' <param name="data"></param>
         ''' <remarks></remarks>
         Private Sub Send(response As Stream, data As BufferPipe)
+            Call VBDebugger.EchoLine($"send stream: {data}")
+
             ' Convert the string data to byte data using ASCII encoding.
             For Each byteData As Byte() In data.GetBlocks
-                Call response.Write(byteData, Scan0, byteData.Length)
+                For Each block As Byte() In byteData.Split(4096)
+                    Call response.Write(block, Scan0, block.Length)
+                    Call response.Flush()
+                Next
             Next
 
             Call response.Flush()
