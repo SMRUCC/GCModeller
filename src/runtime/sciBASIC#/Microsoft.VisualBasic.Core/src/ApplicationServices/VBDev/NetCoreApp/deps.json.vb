@@ -261,10 +261,14 @@ Namespace ApplicationServices.Development.NetCoreApp
                     dllfile = $"{libpath}/{dllName}"
 
                     If dllfile.FileExists Then
-                        If Not LoadAssemblyOrCache(dllfile, strict:=False) Is Nothing Then
-                            ' exit current loop for load next
-                            ' project dependency module
-                            hit = True
+                        hit = Not LoadAssemblyOrCache(dllfile, strict:=False) Is Nothing
+
+                        ' 20240403
+                        '
+                        ' exit current loop for load next 
+                        ' project dependency module
+                        ' on hit context
+                        If hit Then
                             Exit For
                         End If
                     End If
