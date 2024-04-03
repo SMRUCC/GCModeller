@@ -197,7 +197,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         End Function
 
         ''' <summary>
-        ''' KEGG pathway maps
+        ''' KEGG pathway maps category
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks>
