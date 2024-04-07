@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>cast_enrichs</title>
+    <title>convert dataset to gcmodeller enrichment result set</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
@@ -18,16 +18,17 @@
             </tr>
         </table>
 
-        <h2>cast_enrichs</h2>
+        <h2>convert dataset to gcmodeller enrichment result set</h2>
 
         <h3>Description</h3>
 
-        cast_enrichs
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>cast_enrichs</strong>(<i>term</i>, <i>name</i>, <i>pvalue</i>, <i>geneIDs</i>,
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>cast_enrichs</strong>(<i>term</i>, <i>name</i>, <i>pvalue</i>,
+    <i>geneIDs</i> = <span style='color: blue !important;'>NULL</span>,
     <i>desc</i> = <span style='color: blue !important;'>NULL</span>,
     <i>score</i> = <span style='color: blue !important;'>NULL</span>,
     <i>fdr</i> = <span style='color: blue !important;'>NULL</span>,
@@ -39,6 +40,45 @@
 
         <table>
             
+<dt>term</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>name</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>pvalue</dt>
+<dd><p>[as double]</p></dd>
+
+
+<dt>geneIDs</dt>
+<dd><p>[as list]</p></dd>
+
+
+<dt>desc</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>score</dt>
+<dd><p>[as double]</p></dd>
+
+
+<dt>fdr</dt>
+<dd><p>[as double]</p></dd>
+
+
+<dt>cluster</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>enriched</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 

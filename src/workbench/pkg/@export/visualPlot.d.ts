@@ -181,6 +181,11 @@ declare namespace visualPlot {
       function category_profile(profiles: any, top?: object, sort?: boolean, valueCut?: number, env?: object): object;
       module enrichment {
          /**
+           * @param size default value Is ``'2700,3800'``.
+           * @param env default value Is ``null``.
+         */
+         function bubble2(terms: object, size?: any, env?: object): any;
+         /**
           * plot kegg enrichment result in bubble plot
           * 
           * 
