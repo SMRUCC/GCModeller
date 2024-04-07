@@ -42,45 +42,39 @@
         <table>
             
 <dt>clusters</dt>
-<dd><p>
- a data cluster or a collection of kegg pathway model
- </p></dd>
+<dd><p>a data cluster or a collection of kegg pathway model</p></dd>
 
 
 <dt>background.size</dt>
-<dd><p>
- default value -1 or zero means auto evaluated
- . [as integer]</p></dd>
+<dd><p>default value -1 or zero means auto evaluated. [as integer]</p></dd>
 
 
 <dt>name</dt>
-<dd><p>
- the background model name
- . [as string]</p></dd>
+<dd><p>the background model name. [as string]</p></dd>
 
 
 <dt>tax.id</dt>
-<dd><p>
- ncbi taxonomy id of the target organism
- . [as string]</p></dd>
+<dd><p>ncbi taxonomy id of the target organism. [as string]</p></dd>
 
 
 <dt>desc</dt>
-<dd><p>
- the model description
- . [as string]</p></dd>
+<dd><p>the model description. [as string]</p></dd>
 
 
 <dt>is.multipleOmics</dt>
-<dd><p>`clusters`. [as boolean]</p></dd>
+<dd><p>Create a enrichment background model for run multiple omics data analysis?
+ this parameter is only works for the kegg pathway model where you are 
+ speicifc via the <strong>`clusters`</strong> parameter. [as boolean]</p></dd>
 
 
 <dt>filter.compoundId</dt>
-<dd><p>`is_multipleOmics`. [as boolean]</p></dd>
+<dd><p>do compound id filtering when target model is <strong>`is_multipleOmics`</strong>?
+ (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model). [as boolean]</p></dd>
 
 
 <dt>kegg.code</dt>
-<dd><p>`clusters`. [as string]</p></dd>
+<dd><p>the kegg organism code when the given <strong>`clusters`</strong> collection is
+ a collection of the pathway object. [as string]</p></dd>
 
 
 <dt>env</dt>

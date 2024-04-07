@@ -36,7 +36,10 @@
         <table>
             
 <dt>repository</dt>
-<dd><p>T:SMRUCC.genomics.Assembly.KEGG.WebServices.XML.Map</p></dd>
+<dd><p>repository data source could be:
+ 
+ 1. a directory of repository data for kegg reference <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/XML/Map.html">Map</a>.
+ 2. a file stream for the map vector in messagepack or HDS pack format</p></dd>
 
         </table>
 
@@ -51,14 +54,14 @@
 
         <h3>Value</h3>
 
-        a kegg reference map object vector, which can be indexed 
+        <p>a kegg reference map object vector, which can be indexed 
  via <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/PathwayBrief.html">PathwayBrief</a>.<a href="#">EntryId</a>.
  
  the data type will be dertermined by the <strong>`rawMaps`</strong> parameter:
  
  1. for raw maps TRUE: a vector of the <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/XML/Map.html">Map</a> object will be returns
  2. for raw maps FALSE: a wrapper of the kegg map collection 
-    <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/MapRepository.html">MapRepository</a> will be generates from this function<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/XML/Map.html">Map</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/MapRepository.html">MapRepository</a></li></ul>
+    <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/MapRepository.html">MapRepository</a> will be generates from this function</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/XML/Map.html">Map</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/MapRepository.html">MapRepository</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
