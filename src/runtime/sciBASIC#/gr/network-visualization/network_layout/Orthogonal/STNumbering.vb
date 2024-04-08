@@ -359,7 +359,14 @@ Namespace Orthogonal
         '  preorder: the nodes sorted in preorder according to the spanning tree
         '  L: the L values for each node (see paper referred above)
         '  s, and t are the s and t nodes: s can be set to -1 if you want it to be determined automatically
-        Public Shared Sub depthFirstSpanningTree(graph As Integer()(), treeGraph As Integer()(), ancestors As Integer()(), T As Integer(), preorder As Integer(), L As Integer(), s As Integer, pT As Integer)
+        Public Shared Sub depthFirstSpanningTree(graph As Integer()(),
+                                                 treeGraph As Integer()(),
+                                                 ancestors As Integer()(),
+                                                 T As Integer(),
+                                                 preorder As Integer(),
+                                                 L As Integer(),
+                                                 s As Integer,
+                                                 pT As Integer)
             Dim n = graph.Length
             Dim stack As List(Of Integer) = New List(Of Integer)()
             Dim parents As List(Of Integer) = New List(Of Integer)()
@@ -423,6 +430,9 @@ Namespace Orthogonal
             Next
             For v = 0 To n - 1
                 If T(v) <> v Then
+                    If T(v) < 0 Then
+                        Continue For
+                    End If
                     treeGraph(T(v))(v) = 1
                 End If
                 ancestors(v)(v) = 1

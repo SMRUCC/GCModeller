@@ -51,11 +51,9 @@
 
 Imports System.Drawing
 Imports System.IO
-Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Orthogonal
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Orthogonal.optimization
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports inode = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
@@ -63,6 +61,7 @@ Imports inode = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
 Module OrthogonalLayoutTest
 
     Sub Main()
+        ' Call test1()
         Call test2()
     End Sub
 
@@ -87,8 +86,15 @@ Module OrthogonalLayoutTest
         Call g.AddEdge("B", "F")
         Call g.AddEdge("G", "K")
 
-        Call Orthogonal.DoLayout(g)
-        Call NetworkVisualizer.DrawImage(g, "3000,3000").Save("./Orthogonal.png")
+        ' Call Orthogonal.DoLayout(g)
+        ' Call NetworkVisualizer.DrawImage(g, "3000,3000").Save("./Orthogonal.png")
+        Dim oe = g.AsGraphMatrix.RunLayoutMatrix
+
+        saveEmbedding(oe)
+
+        ' save image:
+        'If Not ReferenceEquals(outputPNGName, Nothing) Then
+        savePNG("./demo_layout222.png", oe, 100, 100, True)
 
         Pause()
     End Sub
@@ -114,53 +120,18 @@ Module OrthogonalLayoutTest
     End Sub
 
     Sub test2()
-        Dim graph As Integer()() = "E:\GCModeller\src\runtime\sciBASIC#\gr\network-visualization\network_layout\Orthogonal\examples\graph4.txt" _
+        Dim graph As Integer()() = "E:\GCModeller\src\runtime\sciBASIC#\gr\network-visualization\network_layout\Orthogonal\examples\graph3.txt" _
             .ReadAllLines _
             .Select(Function(l) l.Split(","c).AsInteger) _
             .ToArray
-        Dim numberOfAttempts As Integer = 10
-        Dim optimize As Boolean = True
-        Dim simplify As Boolean = True
-        Dim fixNonOrthogonal As Boolean = True
-        Dim disconnectedGraphSet As IList(Of IList(Of Integer)) = DisconnectedGraphs.findDisconnectedGraphs(graph)
-        Dim disconnectedEmbeddings As IList(Of OrthographicEmbeddingResult) = New List(Of OrthographicEmbeddingResult)()
-        For Each nodeSubset In disconnectedGraphSet
-            ' calculate the embedding:
-            Dim best_g_oe As OrthographicEmbeddingResult = Nothing
-            Dim g As Integer()() = DisconnectedGraphs.subgraph(graph, nodeSubset)
-            Dim comparator As SegmentLengthEmbeddingComparator = New SegmentLengthEmbeddingComparator()
-            For attempt = 0 To numberOfAttempts - 1
-                Dim g_oe As OrthographicEmbeddingResult = OrthographicEmbedding.orthographicEmbedding(g, simplify, fixNonOrthogonal)
-                If g_oe Is Nothing Then
-                    Continue For
-                End If
-                If Not g_oe.sanityCheck(False) Then
-                    Throw New Exception("The orthographic projection contains errors!")
-                End If
-                If optimize Then
-                    g_oe = OrthographicEmbeddingOptimizer.optimize(g_oe, g, comparator)
-                    If Not g_oe.sanityCheck(False) Then
-                        Throw New Exception("The orthographic projection after optimization contains errors!")
-                    End If
-                End If
-                If best_g_oe Is Nothing Then
-                    best_g_oe = g_oe
-                Else
-                    If comparator.compare(g_oe, best_g_oe) < 0 Then
-                        best_g_oe = g_oe
-                    End If
-                End If
-            Next
-            disconnectedEmbeddings.Add(best_g_oe)
-        Next
-        Dim oe As OrthographicEmbeddingResult = DisconnectedGraphs.mergeDisconnectedEmbeddingsSideBySide(disconnectedEmbeddings, disconnectedGraphSet, 1.0)
+        Dim oe = graph.RunLayoutMatrix
 
         ' save the results:
         saveEmbedding(oe)
 
         ' save image:
         'If Not ReferenceEquals(outputPNGName, Nothing) Then
-        savePNG("./demo_layout.png", oe, 10, 10, True)
+        savePNG("./demo_layout.png", oe, 100, 100, True)
         'End If
         Pause()
     End Sub

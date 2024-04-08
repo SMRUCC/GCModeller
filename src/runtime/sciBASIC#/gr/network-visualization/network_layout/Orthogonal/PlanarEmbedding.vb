@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ListExtensions
+﻿Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.ListExtensions
 
 ' 
 '  To change this license header, choose License Headers in Project Properties.
@@ -15,7 +16,11 @@ Namespace Orthogonal
     Public Class PlanarEmbedding
         Public Shared DEBUG As Integer = 0
 
-        ' This function assumes that the given graph is 2-connected
+        ''' <summary>
+        ''' This function assumes that the given graph is 2-connected
+        ''' </summary>
+        ''' <param name="graph"></param>
+        ''' <returns></returns>
         Public Shared Function planarEmbedding2Connected(graph As Integer()()) As IList(Of Integer)()
             Dim stNumbering As Integer() = Orthogonal.STNumbering.stNumbering(graph)
 
