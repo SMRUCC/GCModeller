@@ -66,26 +66,22 @@ table caption {font-size:14px;font-weight:bolder;}
                                <br /><br /><span style="color: green;">#' Tools for handling OTU table data</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "OTU_table"</span><span style="color: blue;"> from</span><span style="color: brown"> "metagenomics_kit"</span>;
                            </code>
     </p>
-    <p>Tools for handling OTU table data</p>
+    <p><p>Tools for handling OTU table data</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
-<h3>Operational taxonomic unit (OTU)</h3>
+                           <h3>Operational taxonomic unit (OTU)</h3>
 
-
-
- 
- OTU's are used to categorize bacteria based on sequence similarity.
+<p>OTU's are used to categorize bacteria based on sequence similarity.
  
  In 16S metagenomics approaches, OTUs are cluster of similar sequence variants of the 
  16S rDNA marker gene sequence. Each of these cluster is intended to represent a 
  taxonomic unit of a bacteria species or genus depending on the sequence similarity 
  threshold. Typically, OTU cluster are defined by a 97% identity threshold of the 16S 
- gene sequences to distinguish bacteria at the genus level.
+ gene sequences to distinguish bacteria at the genus level.</p>
 
- Species separation requires a higher threshold Of 98% Or 99% sequence identity, Or 
+<p>Species separation requires a higher threshold Of 98% Or 99% sequence identity, Or 
  even better the use Of exact amplicon sequence variants (ASV) instead Of OTU sequence 
- clusters.
+ clusters.</p>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -95,13 +91,9 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="OTU_table">
     <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/OTUTable.html">OTU_table: OTUTable</a>
   </td>
-  <td>
-<h3>OTU table (sequence count table)</h3>
+  <td><h3>OTU table (sequence count table)</h3>
 
-
-
- 
- A OTU table contains the number of sequences that are observed for each taxonomic 
+<p>A OTU table contains the number of sequences that are observed for each taxonomic 
  unit (OTUs) in each samples. Columns usually represent samples and rows represent
  genera or species specific taxonomic units (OTUs). OTU tables are often saved as
  BIOM formatted files.
@@ -114,7 +106,7 @@ table caption {font-size:14px;font-weight:bolder;}
  Escherichia coli And Shigella spp. share almost identical 16S rRNA gene sequences.
  
  Alternative approaches are developed To achieve higher resolution up To strain level 
- by considering larger Or complete sets Of genes.</td>
+ by considering larger Or complete sets Of genes.</p></td>
 </tr></tbody>
       </table>
       <br />
@@ -125,17 +117,17 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="relative_abundance">
     <a href="./OTU_table/relative_abundance.html">relative_abundance</a>
   </td>
-  <td>Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
+  <td><p>Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
  
  Transform abundance data into relative abundance, i.e. proportional data. This is 
  an alternative method of normalization and may not be appropriate for all datasets,
- particularly if your sequencing depth varies between samples.</td>
+ particularly if your sequencing depth varies between samples.</p></td>
 </tr>
 <tr>
   <td id="filter">
     <a href="./OTU_table/filter.html">filter</a>
   </td>
-  <td>filter the otu data which has relative abundance greater than the given threshold</td>
+  <td><p>filter the otu data which has relative abundance greater than the given threshold</p></td>
 </tr></tbody>
       </table>
     </div>

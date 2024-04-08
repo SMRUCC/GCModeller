@@ -1,6 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Orthogonal.util
-Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports std = System.Math
 
 ' 
@@ -23,12 +22,6 @@ Namespace Orthogonal
         Public edges As Boolean()()
 
         Public Shared separation As Double = 0.25
-
-        Default Public ReadOnly Property GetLayout(i As Integer) As Vector2D
-            Get
-                Return New Vector2D(x(i), y(i))
-            End Get
-        End Property
 
         Public Sub New(n As Integer)
             embedding = New OEVertex(n - 1) {}
@@ -404,19 +397,6 @@ Namespace Orthogonal
             gridAlign(1.0)
         End Sub
 
-        Public Function find(x As Double, y As Double) As Boolean
-            For i As Integer = 0 To nodeIndexes.Length - 1
-                For j As Integer = 0 To nodeIndexes.Length - 1
-                    If edges(i)(j) Then
-                        If std.Abs(Me.x(i) - x) < 0.01 AndAlso std.Abs(Me.y(i) - y) < 0.01 Then
-                            Return True
-                        End If
-                    End If
-                Next
-            Next
-
-            Return False
-        End Function
 
         Public Overridable Sub fixNonOrthogonalEdges()
             Dim repeat = True

@@ -51,65 +51,50 @@
 
 Imports System.Drawing
 Imports System.IO
-Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Orthogonal
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports inode = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
 
 Module OrthogonalLayoutTest
 
     Sub Main()
-        Call test1()
-        ' Call test2()
+        ' Call test1()
+        Call test2()
     End Sub
 
     Sub test1()
         Dim g As New NetworkGraph
 
-        For Each label As String In {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
+        For Each label As String In {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "single"}
             Call g.AddNode(New inode With {.label = label, .data = New NodeData With {.initialPostion = New FDGVector2, .size = {5, 5}}})
         Next
 
-        Call g.AddEdge("0", "1")
-        Call g.AddEdge("0", "2")
-        Call g.AddEdge("1", "2")
-
-        Call g.AddEdge("3", "4")
-        Call g.AddEdge("3", "5")
-        Call g.AddEdge("5", "4")
-
-        Call g.AddEdge("2", "6")
-        Call g.AddEdge("6", "7")
-        Call g.AddEdge("7", "8")
-        Call g.AddEdge("8", "9")
-        Call g.AddEdge("9", "5")
-
-        Call g.AddEdge("0", "9")
+        Call g.AddEdge("A", "B")
+        Call g.AddEdge("B", "C")
+        Call g.AddEdge("C", "D")
+        Call g.AddEdge("D", "E")
+        Call g.AddEdge("C", "E")
+        Call g.AddEdge("A", "E")
+        Call g.AddEdge("A", "I")
+        Call g.AddEdge("A", "J")
+        Call g.AddEdge("J", "K")
+        Call g.AddEdge("K", "H")
+        Call g.AddEdge("F", "G")
+        Call g.AddEdge("B", "F")
+        Call g.AddEdge("G", "K")
 
         ' Call Orthogonal.DoLayout(g)
-
-        Dim graph = g.AsGraphMatrix
-
-        For Each line As Integer() In graph
-            Call Console.WriteLine(line.GetJson)
-        Next
-
-        Dim oe = graph.RunLayoutMatrix
+        ' Call NetworkVisualizer.DrawImage(g, "3000,3000").Save("./Orthogonal.png")
+        Dim oe = g.AsGraphMatrix.RunLayoutMatrix
 
         saveEmbedding(oe)
 
         ' save image:
         'If Not ReferenceEquals(outputPNGName, Nothing) Then
         savePNG("./demo_layout222.png", oe, 100, 100, True)
-
-
-        g = g.DoLayout
-
-        Call NetworkVisualizer.DrawImage(g, "3000,3000").Save("./Orthogonal.png")
 
         Pause()
     End Sub
@@ -135,22 +120,19 @@ Module OrthogonalLayoutTest
     End Sub
 
     Sub test2()
-        Dim graph As Integer()() = "G:\GCModeller\src\runtime\sciBASIC#\gr\network-visualization\network_layout\Orthogonal\examples\graph4.txt" _
+        Dim graph As Integer()() = "E:\GCModeller\src\runtime\sciBASIC#\gr\network-visualization\network_layout\Orthogonal\examples\graph3.txt" _
             .ReadAllLines _
             .Select(Function(l) l.Split(","c).AsInteger) _
             .ToArray
-        Dim oe = graph.RunLayoutMatrix(numberOfAttempts:=10)
+        Dim oe = graph.RunLayoutMatrix
 
-        If Not oe Is Nothing Then
-            ' save the results:
-            saveEmbedding(oe)
+        ' save the results:
+        saveEmbedding(oe)
 
-            ' save image:
-            'If Not ReferenceEquals(outputPNGName, Nothing) Then
-            savePNG("./demo_layout.png", oe, 100, 100, True)
-            'End If
-        End If
-
+        ' save image:
+        'If Not ReferenceEquals(outputPNGName, Nothing) Then
+        savePNG("./demo_layout.png", oe, 100, 100, True)
+        'End If
         Pause()
     End Sub
 
