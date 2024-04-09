@@ -34,6 +34,10 @@ Namespace GraphEmbedding.struct
             Return iNumberOfColumns
         End Function
 
+        Public Overrides Function ToString() As String
+            Return $"[rows:{rows()}, columns:{columns()}]"
+        End Function
+
         Public Overridable Function [get](i As Integer, j As Integer) As Double
             If i < 0 OrElse i >= iNumberOfRows Then
                 Throw New Exception("get error in Matrix: RowID out of range")
@@ -64,7 +68,7 @@ Namespace GraphEmbedding.struct
             End Set
         End Property
 
-        Public Overridable Sub add(i As Integer, j As Integer, dValue As Double)
+        Public Function add(i As Integer, j As Integer, dValue As Double) As Double
             If i < 0 OrElse i >= iNumberOfRows Then
                 Throw New Exception("add error in Matrix: RowID out of range")
             End If
@@ -72,7 +76,8 @@ Namespace GraphEmbedding.struct
                 Throw New Exception("add error in Matrix: ColumnID out of range")
             End If
             pData(i)(j) += dValue
-        End Sub
+            Return pData(i)(j)
+        End Function
 
         Public Overridable Sub initializeUnif()
             Dim rd As Random = New Random(123)
@@ -178,7 +183,7 @@ Namespace GraphEmbedding.struct
         End Function
 
         Public Overridable Sub output(fnOutput As String)
-            Dim writer As StreamWriter = New StreamWriter(New FileStream(fnOutput, FileMode.Create, FileAccess.Write), Encoding.UTF8)
+            Dim writer As StreamWriter = New StreamWriter(fnOutput.Open(FileMode.OpenOrCreate, doClear:=True), Encoding.UTF8)
 
             writer.Write("iNumberOfRows: " & iNumberOfRows.ToString() & "; iNumberOfColumns: " & iNumberOfColumns.ToString() & vbLf)
             For i = 0 To iNumberOfRows - 1

@@ -1,21 +1,31 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 
 Namespace GraphEmbedding.struct
 
 
-    Public Class RuleSet
-        Private lstRules As List(Of Rule)
+    Public Class RuleSet : Implements Enumeration(Of Rule)
+
+        ReadOnly lstRules As New List(Of Rule)
+
+        Public ReadOnly Property size As Integer
+            Get
+                Return lstRules.Count
+            End Get
+        End Property
 
         Public Overridable Sub load(fnInput As String)
             Dim reader As StreamReader = New StreamReader(fnInput)
-            lstRules = New List(Of Rule)()
             Dim line = ""
+
+            lstRules.Clear()
+
             While Not String.ReferenceEquals((CSharpImpl.__Assign(line, reader.ReadLine())), Nothing)
                 Dim tokens = line.Split(ASCII.TAB)
                 Dim rule As Rule = New Rule()
                 Dim ruleString = tokens(0)
-                rule.conf = Double.Parse(tokens(1))
+                rule.confidence = Double.Parse(tokens(1))
                 Dim ruleStrings = ruleString.Split(","c)
                 rule.add(New Relation(Integer.Parse(ruleStrings(ruleStrings.Length - 1)), 1))
                 For i = 0 To ruleStrings.Length - 1 - 1
@@ -31,8 +41,11 @@ Namespace GraphEmbedding.struct
             End While
             reader.Close()
         End Sub
-        Public Overridable Function rules() As List(Of Rule)
-            Return lstRules
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of Rule) Implements Enumeration(Of Rule).GenericEnumerator
+            For Each rule As Rule In lstRules
+                Yield rule
+            Next
         End Function
 
         Private Class CSharpImpl
