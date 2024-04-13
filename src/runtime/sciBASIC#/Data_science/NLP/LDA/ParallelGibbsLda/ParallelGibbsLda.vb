@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
 
@@ -71,12 +72,12 @@ Namespace LDA
         ''' <summary>
         ''' store estimated theta matrix
         ''' </summary>
-        Private theta As Double()()
+        Public ReadOnly Property theta As Double()()
 
         ''' <summary>
         ''' store estimated phi matrix
         ''' </summary>
-        Private phi As Double()()
+        Public ReadOnly Property phi As Double()()
 
         ''' <summary>
         ''' store perplexity
@@ -84,28 +85,35 @@ Namespace LDA
         Private m_perplexity As Double = -1
 
         Public Sub New(documents As Integer()(), V As Integer)
-            Me.documents = documents
             Me.V = V
+            Me.documents = documents _
+                .Select(Function(page) page.ToArray) _
+                .ToArray
         End Sub
 
         Private Sub initial()
             Dim lM = documents.Length
+            Dim N As Integer
+            Dim topic As Integer
+
             z = New Integer(lM - 1)() {}
             nd = RectangularArray.Matrix(Of Integer)(lM, K)
             ndsum = New Integer(lM - 1) {}
             nw = RectangularArray.Matrix(Of Integer)(V, K)
             nwsum = New Integer(K - 1) {}
 
-            For m = 0 To lM - 1
-                Dim N = documents(m).Length
+            For m As Integer = 0 To lM - 1
+                N = documents(m).Length
                 z(m) = New Integer(N - 1) {}
-                For i = 0 To N - 1
-                    Dim topic = randf.Next(K)
+
+                For i As Integer = 0 To N - 1
+                    topic = randf.Next(K)
                     z(m)(i) = topic
                     nd(m)(topic) += 1
                     nw(documents(m)(i))(topic) += 1
                     nwsum(topic) += 1
                 Next
+
                 ndsum(m) = N
             Next
         End Sub
@@ -130,44 +138,40 @@ Namespace LDA
                     pieceSize = documents.Length - offset
                 End If
 
-                Console.WriteLine("Thread " & i.ToString() & ", start: " & offset.ToString() & ", end: " & (offset + pieceSize - 1).ToString())
                 gibbsWorks(i) = New GibbsWorker(Me, offset, offset + pieceSize - 1)
                 offset += pieceSize
                 i += 1
             End While
 
-            Dim it As Integer = 0
             Dim executor As New ExecutorService(gibbsWorks, workers:=threads)
+            Dim nwDelta As Integer
+            Dim wordCount As Integer
 
-            While it < iter
+            For Each it As Integer In Tqdm.Range(0, iter)
                 Call executor.Run()
 
                 ' reduce result of each thread and update global nw, nwsum array
-                For topic = 0 To K - 1
-                    Dim wordCount = 0
-                    For word = 0 To V - 1
-                        Dim nwDelta = 0
-                        For i = 0 To threads - 1
-                            nwDelta += gibbsWorks(i).nw(word)(topic) - nw(word)(topic)
+                For topic As Integer = 0 To K - 1
+                    wordCount = 0
+
+                    For word As Integer = 0 To V - 1
+                        nwDelta = 0
+
+                        For cpu_id As Integer = 0 To threads - 1
+                            nwDelta += gibbsWorks(cpu_id).nw(word)(topic) - nw(word)(topic)
                         Next
+
                         nw(word)(topic) += nwDelta
                         wordCount += nw(word)(topic)
                     Next
+
                     nwsum(topic) = wordCount
                 Next
-
-                If it Mod 10 = 0 Then
-                    Console.WriteLine("gibbs iterating [" & it.ToString() & "/" & iter.ToString() & "] ...")
-                End If
-
-                it += 1
-            End While
-
-            Console.WriteLine("Gibbs sampling off")
+            Next
 
             ' store theta and phi matrix after estimation
-            theta = calcThetaMatrix()
-            phi = calcPhiMatrix()
+            _theta = calcThetaMatrix()
+            _phi = calcPhiMatrix()
         End Sub
 
         Private Function calcThetaMatrix() As Double()()
