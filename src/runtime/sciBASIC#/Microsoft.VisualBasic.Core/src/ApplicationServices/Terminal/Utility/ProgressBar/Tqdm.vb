@@ -272,7 +272,7 @@ Namespace ApplicationServices.Terminal.ProgressBar
                     sb.Append(ChrW(27) & "[0m" & ChrW(27) & "[32m" & ChrW(27) & "[0m ")
                 End If
 
-                VBDebugger.EchoLine(sb.ToString() & New String(" "c, std.Max(0, _prevLength - sb.Length)))
+                VBDebugger.Echo(sb.ToString() & New String(" "c, std.Max(0, _prevLength - sb.Length)))
 
                 Try
                     ' if (curCursorTop > 0) {
