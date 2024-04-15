@@ -75,6 +75,7 @@ Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Text
 
 <Assembly: InternalsVisibleTo("REnv")>
 <Assembly: InternalsVisibleTo("R#")>
@@ -508,7 +509,7 @@ Public Module VBDebugger
             Call My.InnerQueue.AddToQueue(
                 Sub()
                     If Not My.redirectInfo Is Nothing Then
-                        My.Log4VB.redirectInfo(Now.ToString, str, MSG_TYPES.INF)
+                        My.Log4VB.redirectInfo(Now.ToString, str & vbBack, MSG_TYPES.INF)
                     Else
                         My.Log4VB.Print(str, ConsoleColor.White)
                     End If
