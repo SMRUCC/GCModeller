@@ -42,6 +42,7 @@
 
 'http://reactomews.oicr.on.ca:8080/ReactomeRESTfulAPI/ReactomeRESTFulAPI.html
 
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace RESTfulAPI
@@ -63,6 +64,23 @@ Namespace RESTfulAPI
         Public Property displayName As String
         Public Property className As String
         Public Property schemaClass As String
+        Public Property summation As summation()
+
+        ''' <summary>
+        ''' try to get description text from <see cref="summation"/>.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function TryGetDescription() As String
+            Dim sb As New List(Of String)
+
+            For Each desc As summation In summation.SafeQuery
+                If Not desc.text Is Nothing Then
+                    Call sb.Add(desc.text)
+                End If
+            Next
+
+            Return sb.JoinBy(vbCrLf)
+        End Function
 
     End Class
 
