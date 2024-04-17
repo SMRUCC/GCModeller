@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>FluteBuild</RootNamespace>
     <TargetFramework>net6.0</TargetFramework>
+    <OutputPath>../../tools</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
