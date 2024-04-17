@@ -32,6 +32,7 @@
 export class EnrichmentResult {
    cluster: integer;
    description: string;
+   # 我们的差异基因列表中，属于目标代谢途径的基因的数量 / 在我们的差异基因列表中，不属于当前的代谢途径的基因的数量
    enriched: string;
    FDR: double;
    # the enriched gene id set: input id set intersect with the background cluster id set.
