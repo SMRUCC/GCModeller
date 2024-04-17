@@ -58,7 +58,7 @@ Imports Flute.Http.Core.HttpOptions
 Imports Flute.Http.Core.Message
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Net.HTTP
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports ResponseHeaders = Flute.Http.Core.Message.HttpHeader.ResponseHeaders
@@ -81,8 +81,9 @@ Namespace Core
         Public srv As HttpServer
 
         Dim _inputStream As Stream
-        Dim _silent As Boolean = False
         Dim _raw As New StringBuilder
+
+        Friend ReadOnly _settings As Configuration
 
         Public outputStream As StreamWriter
 
@@ -141,12 +142,12 @@ Namespace Core
             End Get
         End Property
 
-        Public Sub New(socket As TcpClient, srv As HttpServer, MAX_POST_SIZE%, Optional silent As Boolean = True)
+        Public Sub New(socket As TcpClient, srv As HttpServer, MAX_POST_SIZE%, settings As Configuration)
             Me.socket = socket
             Me.srv = srv
             Me.MAX_POST_SIZE = MAX_POST_SIZE
             Me.MAX_POST_SIZE = -1
-            Me._silent = silent
+            Me._settings = settings
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -165,7 +166,7 @@ Namespace Core
         End Function
 
         Public Function openResponseStream() As HttpResponse
-            Return New HttpResponse(outputStream, AddressOf writeFailure)
+            Return New HttpResponse(outputStream, AddressOf writeFailure, _settings)
         End Function
 
         ''' <summary>
@@ -311,7 +312,7 @@ Namespace Core
                 http_protocol_versionstring = tokens(2)
 
                 Call _raw.AppendLine(request)
-                Call $"starting: {request}".__INFO_ECHO(_silent)
+                Call $"starting: {request}".__INFO_ECHO(_settings.silent)
             End If
 
             Return True
@@ -321,11 +322,11 @@ Namespace Core
             Dim line As String = "", s As New Value(Of String)
             Dim separator As Integer
 
-            Call NameOf(readHeaders).__DEBUG_ECHO(mute:=_silent)
+            Call NameOf(readHeaders).__DEBUG_ECHO(mute:=_settings.silent)
 
             While (s = streamReadLine(_inputStream)) IsNot Nothing
                 If s.Value.StringEmpty Then
-                    Call "got headers".__DEBUG_ECHO(mute:=_silent)
+                    Call "got headers".__DEBUG_ECHO(mute:=_settings.silent)
                     Return
                 Else
                     line = s.Value
@@ -333,7 +334,8 @@ Namespace Core
                 End If
 
                 If separator = -1 Then
-                    Throw New Exception("invalid http header line: " & line)
+                    Call ("invalid http header line: " & line).Warning
+                    Continue While
                 End If
 
                 Dim name As String = line.Substring(0, separator)
@@ -347,7 +349,7 @@ Namespace Core
                 Dim value As String = line.Substring(pos, line.Length - pos)
 
                 Call _raw.AppendLine(s.Value)
-                Call $"header: {name}:{value}".__DEBUG_ECHO(mute:=_silent)
+                Call $"header: {name}:{value}".__DEBUG_ECHO(mute:=_settings.silent)
 
                 httpHeaders(name) = value
             End While
@@ -444,7 +446,7 @@ Namespace Core
         ''' VB server script http platform
         ''' </summary>
         Public Const VBS_platform$ = "microsoft-visualbasic-servlet(*.vbs)"
-        Public Const XPoweredBy$ = "X-Powered-By: " & VBS_platform
+        Public Const XPoweredBy$ = "X-Powered-By: "
 
         Private Sub writeSuccess(content_type As String, content As Content)
             ' this is the successful HTTP response line
@@ -457,7 +459,7 @@ Namespace Core
 
             ' Call content.WriteHeader(outputStream)
 
-            Call outputStream.WriteLine(XPoweredBy)
+            Call outputStream.WriteLine(XPoweredBy & _settings.x_powered_by)
             ' 2018-1-31 
             ' The server committed a protocol violation. 
             ' Section = ResponseHeader  
@@ -502,7 +504,7 @@ Namespace Core
         ''' <summary>
         ''' 404
         ''' </summary>
-        Public Sub writeFailure(error_code%, ex As String)
+        Public Sub writeFailure(error_code As HTTP_RFC, ex As String)
             Try
                 Call writeFailureInternal(error_code, ex)
             Catch e As Exception
@@ -513,13 +515,22 @@ Namespace Core
         ''' <summary>
         ''' 404
         ''' </summary>
-        Private Sub writeFailureInternal(error_code%, ex As String)
+        Private Sub writeFailureInternal(error_code As HTTP_RFC, ex As String)
+            Static error_status As Dictionary(Of HTTP_RFC, String) = Enums(Of HTTP_RFC)() _
+                .ToDictionary(Function(c) c,
+                              Function(c)
+                                  Dim text As String = c.Description
+                                  Dim str As String = If(text.StringEmpty, c.ToString, text)
+                                  Return str
+                              End Function)
+
             ' this is an http 404 failure response
-            Call outputStream.WriteLine("HTTP/1.0 404 Not Found")
+            Call outputStream.WriteLine($"HTTP/1.0 {CLng(error_code)} " & error_status(error_code))
             ' these are the HTTP headers
             Call outputStream.WriteLine("Content-Type: text/html")
             Call outputStream.WriteLine("Connection: close")
             ' ..add your own headers here
+            Call outputStream.WriteLine(XPoweredBy & _settings.x_powered_by)
             ' this terminates the HTTP headers.
             Call outputStream.WriteLine("")
 

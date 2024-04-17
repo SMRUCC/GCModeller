@@ -58,20 +58,21 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.C
-Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Net.HTTP
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 
 Namespace Core.Message
 
-    Public Delegate Sub HttpError(code%, Msg As String)
+    Public Delegate Sub HttpError(code As HTTP_RFC, msg As String)
 
     Public Class HttpResponse : Inherits ITextWriter
         Implements IDisposable
 
         Friend ReadOnly response As StreamWriter
         Friend ReadOnly writeFailed As HttpError
+        Friend ReadOnly settings As Configuration
 
         Dim __writeHTML As Boolean = False
         Dim __writeData As Boolean = False
@@ -79,9 +80,14 @@ Namespace Core.Message
 
         Public Property AccessControlAllowOrigin As String
 
-        Sub New(rep As StreamWriter, [error] As HttpError)
+        Sub New(rep As StreamWriter, [error] As HttpError, config As Configuration)
             response = rep
             writeFailed = [error]
+            settings = config
+        End Sub
+
+        Sub New(p As HttpProcessor)
+            Call Me.New(p.outputStream, AddressOf p.writeFailure, p._settings)
         End Sub
 
         ''' <summary>
@@ -107,8 +113,7 @@ Namespace Core.Message
         End Sub
 
         Public Sub SendFile(path As String)
-            Dim contentType$ = path.FileMimeType.MIMEType
-            Call path.TransferBinary(contentType, Me)
+            Call path.TransferBinary(path.FileMimeType.MIMEType, Me)
         End Sub
 
         ''' <summary>
@@ -195,7 +200,7 @@ Namespace Core.Message
 
             Call content.WriteHeader(response)
 
-            response.WriteLine(HttpProcessor.XPoweredBy)
+            response.WriteLine(HttpProcessor.XPoweredBy & settings.x_powered_by)
 
             For Each header As KeyValuePair(Of String, String) In __customHeaders
                 response.WriteLine($"{header.Key}: {header.Value}")

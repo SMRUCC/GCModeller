@@ -32,7 +32,7 @@ Namespace Core.HttpOptions
 
         Public Sub HandlePreflightRequest(p As HttpProcessor)
             Dim request As New HttpRequest(p)
-            Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure)
+            Dim response As New HttpResponse(p.outputStream, AddressOf p.writeFailure, p._settings)
             Dim httpStream As StreamWriter = response.response
 
             Call httpStream.WriteLine($"HTTP/1.1 204 No Content")
@@ -44,7 +44,7 @@ Namespace Core.HttpOptions
             Call httpStream.WriteLine($"Access-Control-Max-Age: 86400")
             Call httpStream.WriteLine($"Vary: Accept-Encoding, Origin")
             Call httpStream.WriteLine("Connection: close")
-            Call httpStream.WriteLine(HttpProcessor.XPoweredBy)
+            Call httpStream.WriteLine(HttpProcessor.XPoweredBy & p._settings.x_powered_by)
             Call httpStream.WriteLine()
             Call httpStream.Flush()
         End Sub

@@ -39,7 +39,7 @@ Namespace FileSystem
 
                 Erase res
             Else
-                Call response.WriteError(404, path)
+                Call response.WriteError(404, "404 NOT FOUND: " & path.Replace("<", "&lt;"))
             End If
         End Sub
     End Class
