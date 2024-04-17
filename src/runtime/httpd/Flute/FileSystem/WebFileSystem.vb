@@ -1,5 +1,6 @@
+Imports System.Runtime.CompilerServices
 Imports Flute.Http.Core.Message
-Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Net.HTTP
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 
 Namespace FileSystem
@@ -12,7 +13,12 @@ Namespace FileSystem
 
         Public Property fs As FileSystem
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WebHandler(request As HttpRequest, response As HttpResponse)
+            Call HostStaticFile(fs, request, response)
+        End Sub
+
+        Public Shared Sub HostStaticFile(fs As FileSystem, request As HttpRequest, response As HttpResponse)
             Dim url As URL = request.URL
             Dim path As String = url.path
 
@@ -39,7 +45,7 @@ Namespace FileSystem
 
                 Erase res
             Else
-                Call response.WriteError(404, "404 NOT FOUND: " & path.Replace("<", "&lt;"))
+                Call response.WriteError(HTTP_RFC.RFC_NOT_FOUND, "404 NOT FOUND: " & path.Replace("<", "&lt;"))
             End If
         End Sub
     End Class

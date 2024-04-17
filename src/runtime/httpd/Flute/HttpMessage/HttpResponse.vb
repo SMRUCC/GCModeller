@@ -99,7 +99,7 @@ Namespace Core.Message
         ''' </remarks>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub WriteError(code$, message$)
+        Public Sub WriteError(code As HTTP_RFC, message$)
             Call writeFailed(code, message)
         End Sub
 
