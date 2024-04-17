@@ -70,6 +70,10 @@ Public Class EnrichmentResult
     Public Property pvalue As Double
     Public Property FDR As Double
     Public Property cluster As Integer
+    ''' <summary>
+    ''' 我们的差异基因列表中，属于目标代谢途径的基因的数量 / 在我们的差异基因列表中，不属于当前的代谢途径的基因的数量
+    ''' </summary>
+    ''' <returns></returns>
     Public Property enriched As String
 
     Public Overrides Function ToString() As String
