@@ -6,10 +6,10 @@ Public Class HttpDriver
 
     Dim responseHeader As New Dictionary(Of String, String)
     Dim methods As New Dictionary(Of String, HttpSocket.AppHandler)
-    Dim silent As Boolean
+    Dim settings As Configuration
 
-    Sub New(Optional silent As Boolean = True)
-        Me.silent = silent
+    Sub New(Optional settings As Configuration = Nothing)
+        Me.settings = settings
     End Sub
 
     Public Sub HttpMethod(method As String, handler As HttpSocket.AppHandler)
@@ -26,7 +26,7 @@ Public Class HttpDriver
         Return New HttpSocket(
             app:=AddressOf AppHandler,
             port:=port,
-            silent:=silent
+            configs:=settings
         )
     End Function
 

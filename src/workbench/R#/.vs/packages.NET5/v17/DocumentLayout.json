@@ -1,7 +1,17 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BAE91F3A-E2C6-4B2F-BF7B-02EB14C901BB}|..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\enrichment.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BAE91F3A-E2C6-4B2F-BF7B-02EB14C901BB}|..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\enrichmentresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60AA6823-471A-48F4-92A7-7F154753F99E}|..\\..\\GCModeller\\annotations\\GSEA\\GSEA\\gsea-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea\\knowledgebase\\genericbackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +19,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -20,8 +30,41 @@
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Enrichment.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
+              "ViewState": "AQIAAJ0AAAAAAAAAAAAowNIAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-17T01:05:01.652Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EnrichmentResult.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\EnrichmentResult.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\EnrichmentResult.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\EnrichmentResult.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\EnrichmentResult.vb",
+              "ViewState": "AQIAADcAAAAAAAAAAAAqwEkAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-17T01:04:41.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GenericBackground.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\KnowledgeBase\\GenericBackground.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA\\KnowledgeBase\\GenericBackground.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\KnowledgeBase\\GenericBackground.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA\\KnowledgeBase\\GenericBackground.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-17T01:04:28.745Z"
             }
           ]
         }

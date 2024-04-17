@@ -75,6 +75,8 @@ Namespace Core
         Protected Friend ReadOnly _httpListener As TcpListener
         Protected Friend ReadOnly _silent As Boolean = False
 
+        Protected _settings As Configuration
+
         ''' <summary>
         ''' The network data port of this internal http server listen.
         ''' </summary>
@@ -97,17 +99,18 @@ Namespace Core
         ''' 
         ''' </summary>
         ''' <param name="port">The network data port of this internal http server listen.</param>
-        Public Sub New(port%, Optional threads% = -1, Optional silent As Boolean = False)
-            Static defaultThreads As [Default](Of Integer) = (LQuerySchedule.Recommended_NUM_THREADS * 8).AsDefault(Function(n) CInt(n) <= 0)
+        Public Sub New(port%, Optional threads% = -1, Optional configs As Configuration = Nothing)
+            Static defaultThreads As [Default](Of Integer) = (LQuerySchedule.CPU_NUMBER).AsDefault(Function(n) CInt(n) <= 0)
 
+            Me._settings = If(configs, New Configuration)
             Me._localPort = port
             Me._httpListener = New TcpListener(IPAddress.Any, _localPort)
             Me._threadPool = New Threads.ThreadPool(threads Or defaultThreads)
             Me._BufferSize = Val(App.GetVariable("httpserver.buffer_size"))
             Me._BufferSize = If(BufferSize <= 0, 4096, BufferSize)
-            Me._silent = silent
+            Me._silent = _settings.silent
 
-            Call $"Web server threads_pool_size={_threadPool.NumOfThreads}, buffer_size={BufferSize}bytes".__INFO_ECHO(silent)
+            Call $"Web server threads_pool_size={_threadPool.NumOfThreads}, buffer_size={BufferSize}bytes".__INFO_ECHO(_settings.silent)
         End Sub
 
         ''' <summary>
