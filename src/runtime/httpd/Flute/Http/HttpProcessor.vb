@@ -141,7 +141,7 @@ Namespace Core
             End Get
         End Property
 
-        Public Sub New(socket As TcpClient, srv As HttpServer, MAX_POST_SIZE%, Optional silent As Boolean = False)
+        Public Sub New(socket As TcpClient, srv As HttpServer, MAX_POST_SIZE%, Optional silent As Boolean = True)
             Me.socket = socket
             Me.srv = srv
             Me.MAX_POST_SIZE = MAX_POST_SIZE

@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 Public Class Configuration
 
     Public Property x_powered_by As String = HttpProcessor.VBS_platform
+    Public Property silent As Boolean = True
 
     Public Shared Function Load(inifile As String) As Configuration
         If inifile.FileLength <= 0 Then
