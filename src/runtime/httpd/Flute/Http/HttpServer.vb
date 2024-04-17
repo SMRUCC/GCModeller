@@ -100,7 +100,7 @@ Namespace Core
         ''' </summary>
         ''' <param name="port">The network data port of this internal http server listen.</param>
         Public Sub New(port%, Optional threads% = -1, Optional configs As Configuration = Nothing)
-            Static defaultThreads As [Default](Of Integer) = (LQuerySchedule.Recommended_NUM_THREADS * 8).AsDefault(Function(n) CInt(n) <= 0)
+            Static defaultThreads As [Default](Of Integer) = (LQuerySchedule.CPU_NUMBER).AsDefault(Function(n) CInt(n) <= 0)
 
             Me._settings = If(configs, New Configuration)
             Me._localPort = port
