@@ -6,12 +6,25 @@ Public Class Configuration
     Public Property x_powered_by As String = HttpProcessor.VBS_platform
     Public Property silent As Boolean = True
 
+    ''' <summary>
+    ''' safe handler for load ini configuration file
+    ''' </summary>
+    ''' <param name="inifile"></param>
+    ''' <returns>
+    ''' this function returns the default configuration file if the
+    ''' given <paramref name="inifile"/> missing or invalid file format.
+    ''' </returns>
     Public Shared Function Load(inifile As String) As Configuration
         If inifile.FileLength <= 0 Then
             Return New Configuration
         End If
 
-        Return ClassMapper.LoadIni(Of Configuration)(inifile)
+        Try
+            Return ClassMapper.LoadIni(Of Configuration)(inifile)
+        Catch ex As Exception
+            Call App.LogException(ex)
+            Return New Configuration
+        End Try
     End Function
 
     Public Shared Function Save(settings As Configuration, inifile As String) As Boolean
