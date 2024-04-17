@@ -424,11 +424,13 @@ Namespace CommandLine
         ''' 可以使用 Object.GetType/GetType 关键词操作来获取所需要的类型信息)</param>
         ''' <remarks></remarks>
         Sub New(type As Type, <CallerMemberName> Optional caller As String = Nothing)
-            For Each cInfo As APIEntryPoint In __getsAllCommands(type, False)
-                If apiTable.ContainsKey(cInfo.Name.ToLower) Then
-                    Throw New Exception(cInfo.Name & " is duplicated with other command!")
+            For Each cmd As APIEntryPoint In __getsAllCommands(type, False)
+                Dim name As String = cmd.Name.ToLower
+
+                If apiTable.ContainsKey(name) Then
+                    Throw New Exception($"program's commandline argument {cmd.Name} is duplicated!")
                 Else
-                    Call apiTable.Add(cInfo.Name.ToLower, cInfo)
+                    Call apiTable.Add(name, cmd)
                 End If
             Next
 
@@ -523,10 +525,17 @@ Namespace CommandLine
 #Disable Warning
             If cmdAttr.Info.StringEmpty Then
                 ' 帮助信息的获取兼容系统的Description方法
-                cmdAttr.Info = methodInfo.Description
+                cmdAttr.Info = methodInfo.Description([default]:="")
             End If
             If cmdAttr.Usage.StringEmpty Then
-                cmdAttr.Usage = methodInfo.Usage
+                ' 20240417
+                '
+                ' trim multiple line of the commandline usage text
+                ' into one line. this is convient for copy to terminal 
+                ' and modify value to use.
+                cmdAttr.Usage = methodInfo.Usage _
+                    .TrimNewLine _
+                    .StringReplace("\s{2,}", " ")
             End If
             If cmdAttr.Example.StringEmpty Then
                 cmdAttr.Example = methodInfo.ExampleInfo
