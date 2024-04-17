@@ -62,7 +62,7 @@ Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports ResponseHeaders = Flute.Http.Core.Message.HttpHeader.ResponseHeaders
-Imports stdNum = System.Math
+Imports std = System.Math
 
 ' offered to the public domain for any use with no restriction
 ' and also with no warranty of any kind, please enjoy. - David Jeske. 
@@ -406,7 +406,7 @@ Namespace Core
                 Dim numread As i32 = 0
 
                 While to_read > 0
-                    If (numread = _inputStream.Read(buf, 0, stdNum.Min(BUF_SIZE, to_read))) = 0 Then
+                    If (numread = _inputStream.Read(buf, 0, std.Min(BUF_SIZE, to_read))) = 0 Then
                         If to_read = 0 Then
                             Exit While
                         Else
