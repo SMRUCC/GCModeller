@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FluteBuild": {
+      "commandName": "Project",
+      "commandLineArgs": "/compile /view ./views /wwwroot ./output"
+    }
+  }
+}
