@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>FluteBuild</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputPath>../../tools</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
+    <ProjectReference Include="..\WebCloud\SMRUCC.WebCloud.VBScript\Flute.Template.vbproj" />
+  </ItemGroup>
+
+</Project>
