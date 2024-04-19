@@ -46,6 +46,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Flute.Template.Interpolate
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Text
 Imports any = Microsoft.VisualBasic.Scripting
 
@@ -60,7 +61,11 @@ Public Class VBHtml
     Friend Shared ReadOnly variable As New Regex("@[_a-z][_a-z0-9]*(\.[_a-z][_a-z0-9]*)*", RegexOptions.IgnoreCase Or RegexOptions.Multiline Or RegexOptions.Compiled)
     Friend Shared ReadOnly partialIncludes As New Regex("<%= [^>]+? %>", RegexOptions.IgnoreCase Or RegexOptions.Multiline Or RegexOptions.Compiled)
     Friend Shared ReadOnly foreach As New Regex("<foreach @.+?</foreach>", RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.Compiled)
-    Friend Shared ReadOnly valueExpression As New Regex("<% @[_a-z][_a-z0-9]*.+? %>", RegexOptions.IgnoreCase Or RegexOptions.Multiline Or RegexOptions.Compiled)
+
+    ''' <summary>
+    ''' set variable value from the template file
+    ''' </summary>
+    Friend Shared ReadOnly valueExpression As New Regex("<% @[_a-z][_a-z0-9]*.+? %>", RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.Compiled)
 
     ''' <summary>
     ''' all of the key inside this dictionary is in lower case,
@@ -143,6 +148,10 @@ Public Class VBHtml
     End Sub
 
     Private Sub Render()
+        For Each symbol As NamedValue(Of Object) In VariableInterpolate.GetVariables(ToString)
+            Call AddSymbol(symbol.Name, symbol.Value)
+        Next
+
         Call IncludeInterpolate.FillIncludes(Me)
         Call VariableInterpolate.FillVariables(Me)
     End Sub

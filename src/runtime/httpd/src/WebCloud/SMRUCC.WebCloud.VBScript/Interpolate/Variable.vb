@@ -6,8 +6,12 @@ Namespace Interpolate
 
     Public Module VariableInterpolate
 
-        Public Iterator Function GetVariables(vbhtml As String) As IEnumerable(Of NamedValue(Of Object))
+        Public Iterator Function GetVariables(html As String) As IEnumerable(Of NamedValue(Of Object))
+            Dim vars As String() = VBHtml.valueExpression.Matches(html).ToArray
 
+            For Each value As String In vars
+
+            Next
         End Function
 
         Public Sub FillVariables(vbhtml As VBHtml)
