@@ -14,8 +14,10 @@ Namespace Interpolate
             Dim name As String
             Dim json As JsonElement
             Dim any As Object
+            Dim raw_str As String
 
             For Each value As String In vars
+                raw_str = value
                 value = value.GetStackValue("%", "%").Trim
                 tuple = value.GetTagValue("=", trim:=True)
                 json = JsonParser.Parse(tuple.Value)
@@ -29,7 +31,7 @@ Namespace Interpolate
                     any = json
                 End If
 
-                Yield New NamedValue(Of Object)(name, any, describ:=value)
+                Yield New NamedValue(Of Object)(name, any, describ:=raw_str)
             Next
         End Function
 

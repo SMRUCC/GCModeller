@@ -1,6 +1,6 @@
 <%= includes/head.vbhtml %>
 
-<!- index.vbhtml ->
+<!-- index.vbhtml -->
 <% @title = "this is title value assign to 'includes/head.vbhtml'" %>
 
 <p>

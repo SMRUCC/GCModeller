@@ -1,6 +1,5 @@
 ﻿Imports System.Text
 Imports System.Text.RegularExpressions
-Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace Interpolate
 

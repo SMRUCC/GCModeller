@@ -15,6 +15,8 @@ Module Program
         }
         Dim html As String = VBHtml.ReadHTML("\GCModeller\src\runtime\httpd\test\template_test\index.vbhtml", testdata)
 
+        Call Console.WriteLine(html)
+
         Pause()
     End Sub
 End Module
