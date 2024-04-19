@@ -43,6 +43,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports System.Xml
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -53,10 +54,15 @@ Imports Microsoft.VisualBasic.Text.Xml.Linq
 Imports Map = System.Collections.Generic.KeyValuePair(Of String, String)
 Imports r = System.Text.RegularExpressions.Regex
 
-Public Module vbhtml
+Public Module VBHtml2
 
-    Const PartialIncludes$ = "<%= [^>]+? %>"
-    Const ValueExpression$ = "<\?vb\s+[$].+?=\s*""[^""]*""\s+\?>"
+    ''' <summary>
+    ''' matches for the variable and its property reference
+    ''' </summary>
+    ReadOnly variable As New Regex("@[_a-z][_a-z0-9]*(\.[_a-z][_a-z0-9]*)*", RegexOptions.IgnoreCase Or RegexOptions.Multiline Or RegexOptions.Compiled)
+    ReadOnly partialIncludes As New Regex("<%= [^>]+? %>", RegexOptions.IgnoreCase Or RegexOptions.Multiline Or RegexOptions.Compiled)
+    ReadOnly foreach As New Regex("<foreach @.+?</foreach>", RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.Compiled)
+    ReadOnly valueExpression As New Regex("<% @[_a-z][_a-z0-9]*.+? %>", RegexOptions.IgnoreCase Or RegexOptions.Multiline Or RegexOptions.Compiled)
 
     ' <Scripting("*.vbhtml")>
 
@@ -102,7 +108,7 @@ Public Module vbhtml
 
     Public Function ParseVariables(html As String) As (raw$, expr As NamedValue(Of String))()
         Dim values$() = r _
-            .Matches(html, vbhtml.ValueExpression, RegexICMul) _
+            .Matches(html, VBHtml2.ValueExpression, RegexICMul) _
             .ToArray
         Dim table As (raw$, exp As NamedValue(Of String))() = values _
             .Select(Function(s)

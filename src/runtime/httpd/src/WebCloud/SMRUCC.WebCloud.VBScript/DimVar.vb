@@ -44,7 +44,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports r = System.Text.RegularExpressions.Regex
 
-Partial Module vbhtml
+Partial Module VBHtml2
 
     ''' <summary>
     ''' ```vbnet

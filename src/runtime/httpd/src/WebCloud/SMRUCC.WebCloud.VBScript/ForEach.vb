@@ -48,7 +48,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports r = System.Text.RegularExpressions.Regex
 
-Partial Module vbhtml
+Partial Module VBHtml2
 
     Const ForEachLoop$ = "<\?vb\s+For\s+.+?\s+As\s+" & PartialIncludes & "\s+\?>"
 
