@@ -1,5 +1,7 @@
 ﻿Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace Interpolate
@@ -8,9 +10,21 @@ Namespace Interpolate
 
         Public Iterator Function GetVariables(html As String) As IEnumerable(Of NamedValue(Of Object))
             Dim vars As String() = VBHtml.valueExpression.Matches(html).ToArray
+            Dim tuple As NamedValue(Of String)
+            Dim name As String
+            Dim json As JsonElement
 
             For Each value As String In vars
+                value = value.GetStackValue("%", "%").Trim
+                tuple = value.GetTagValue("=", trim:=True)
+                json = JsonParser.Parse(tuple.Value)
+                name = tuple.Name.Trim("@"c)
 
+                If TypeOf json Is JsonValue Then
+                    Yield New NamedValue(Of Object)(name, DirectCast(json, JsonValue).value)
+                Else
+                    Yield New NamedValue(Of Object)(name, json)
+                End If
             Next
         End Function
 
