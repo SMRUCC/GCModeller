@@ -54,7 +54,7 @@ Imports Microsoft.VisualBasic.Text.Xml.Linq
 Imports Map = System.Collections.Generic.KeyValuePair(Of String, String)
 Imports r = System.Text.RegularExpressions.Regex
 
-Public Module VBHtml2
+Public Module VBHtml
 
     ''' <summary>
     ''' matches for the variable and its property reference
@@ -97,7 +97,7 @@ Public Module VBHtml2
                           Function(obj) DirectCast(obj.Value, IEnumerable))
         Dim args As New InterpolateArgs With {
             .data = data,
-            .codepage = encoding.CodePage,
+            .CodePage = encoding.CodePage,
             .resource = strings,
             .variables = values,
             .wwwroot = wwwroot
@@ -141,7 +141,7 @@ Public Module VBHtml2
             .Iterates(parent, args) _
             .InterplotDimVar(parent, args)
         Dim includes$() = r _
-            .Matches(html.ToString, PartialIncludes, RegexICSng) _
+            .Matches(html.ToString, partialIncludes, RegexICSng) _
             .ToArray
         Dim table = ParseVariables(html.ToString)
         Dim strings As New Dictionary(Of String, String)
