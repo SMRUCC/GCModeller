@@ -33,7 +33,7 @@ Namespace Interpolate
                     Case "json"
                         ' read and load into variables
                         Dim json_str As String = full_path.ReadAllText
-                        Dim json As JsonElement = JsonParser.Parse(json_str)
+                        Dim json As JsonElement = JsonParser.Parse(json_str, strictVectorSyntax:=False)
 
                         If Not TypeOf json Is JsonObject Then
                             Throw New InvalidProgramException($"the resource data for interpolate in json file should be in json object key-value tuple format!")

@@ -30,7 +30,7 @@ Namespace Interpolate
                 raw_str = value
                 value = value.GetStackValue("%", "%").Trim
                 tuple = value.GetTagValue("=", trim:=True)
-                json = JsonParser.Parse(tuple.Value)
+                json = JsonParser.Parse(tuple.Value, strictVectorSyntax:=False)
                 name = tuple.Name.Trim("@"c)
                 any = AutoCastJsonValue(json)
 
