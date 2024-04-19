@@ -109,7 +109,7 @@ Public Class VBHtml
     End Function
 
     ''' <summary>
-    ''' Do html template rendering
+    ''' Do html template rendering, processing a single html template file rendering.
     ''' 
     ''' ``&lt;%= relative_path %>``
     ''' </summary>
