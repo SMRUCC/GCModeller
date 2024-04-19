@@ -3,3 +3,5 @@
 <p>
     @person.name, and age is @person.age.
 </p>
+
+<%= includes/footer.vbhtml %>

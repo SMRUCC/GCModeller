@@ -121,6 +121,10 @@ Public Class VBHtml
         End If
     End Function
 
+    Public Sub Replace(name As String, value As String)
+        html.Replace(name, value)
+    End Sub
+
     Private Sub Render()
         Call IncludeInterpolate.FillIncludes(Me)
         Call VariableInterpolate.FillVariables(Me)
