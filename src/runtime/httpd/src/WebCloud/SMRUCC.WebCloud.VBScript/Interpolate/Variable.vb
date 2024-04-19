@@ -22,6 +22,8 @@ Namespace Interpolate
 
                 If TypeOf json Is JsonValue Then
                     Yield New NamedValue(Of Object)(name, DirectCast(json, JsonValue).value)
+                ElseIf TypeOf json Is JsonArray Then
+                    Yield New NamedValue(Of Object)(name, DirectCast(json, JsonArray).ToArray)
                 Else
                     Yield New NamedValue(Of Object)(name, json)
                 End If
