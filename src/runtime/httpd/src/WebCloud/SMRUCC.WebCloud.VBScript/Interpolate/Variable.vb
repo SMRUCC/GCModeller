@@ -1,9 +1,14 @@
 ﻿Imports System.Runtime.InteropServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace Interpolate
 
     Public Module VariableInterpolate
+
+        Public Iterator Function GetVariables(vbhtml As String) As IEnumerable(Of NamedValue(Of Object))
+
+        End Function
 
         Public Sub FillVariables(vbhtml As VBHtml)
             Dim vars As String() = VBHtml.variable _

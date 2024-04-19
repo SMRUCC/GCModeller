@@ -121,6 +121,23 @@ Public Class VBHtml
         End If
     End Function
 
+    ''' <summary>
+    ''' add variable value that which is parsed from the vbhtml template
+    ''' </summary>
+    ''' <param name="name"></param>
+    ''' <param name="value"></param>
+    Public Sub AddSymbol(name As String, value As Object)
+        name = name.ToLower
+
+        ' the variable from function input always overrides the
+        ' variable from the vbhtml template parsed result,
+        ' so we check of the variable name is existsed at here
+        ' skip if the name already existed
+        If Not variables.ContainsKey(name) Then
+            Call variables.Add(name, value)
+        End If
+    End Sub
+
     Public Sub Replace(name As String, value As String)
         html.Replace(name, value)
     End Sub

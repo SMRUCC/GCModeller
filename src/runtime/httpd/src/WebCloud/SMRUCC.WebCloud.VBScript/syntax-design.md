@@ -23,10 +23,10 @@ the vbhtml template file, this is usefull when do template rendering when the te
 as:
 
 ```html
-<!- includes/head.vbhtml -->
+<!- includes/head.vbhtml ->
 <title>@title</title>
 
-<!- index.vbhtml -->
+<!- index.vbhtml ->
 <% @title = "this is title value assign to 'includes/head.vbhtml'" %>
 
 <head>
@@ -42,12 +42,14 @@ so the template that show above will be rendering as this result html file:
 </head>
 ```
 
+> note: the variable value is a json literal. and the symbol value has a lower priority when compares to the variable comes from the clr function calls.
+
 ## 3. string resource reference
 
 the string resource file is useful for a template page in multiple language, example as rendering the html page in english and chinese language:
 
 ```html
-<!- index.vbhtml -->
+<!- index.vbhtml ->
 
 <%= index.@lang.json %>
 <p>@hello</p>
@@ -65,7 +67,7 @@ and the string resource file:
 when the variable ``lang`` its value is ``zh``, then the html result rendering will be:
 
 ```html
-<!- index.vbhtml -->
+<!- index.vbhtml ->
 
 <p>你好!</p>
 ```
@@ -73,7 +75,7 @@ when the variable ``lang`` its value is ``zh``, then the html result rendering w
 otherwise for ``en``:
 
 ```html
-<!- index.vbhtml -->
+<!- index.vbhtml ->
 
 <p>Hello!</p>
 ```
