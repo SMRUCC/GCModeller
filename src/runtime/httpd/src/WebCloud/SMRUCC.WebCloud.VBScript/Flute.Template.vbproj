@@ -22,8 +22,4 @@
     <ProjectReference Include="..\..\..\..\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Reflection\" />
-  </ItemGroup>
-
 </Project>

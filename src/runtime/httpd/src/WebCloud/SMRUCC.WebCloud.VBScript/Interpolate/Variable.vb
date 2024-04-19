@@ -1,4 +1,7 @@
-﻿Namespace Interpolate
+﻿Imports System.Runtime.InteropServices
+Imports any = Microsoft.VisualBasic.Scripting
+
+Namespace Interpolate
 
     Public Module VariableInterpolate
 
@@ -8,12 +11,35 @@
                 .ToArray
 
             For Each var As String In vars.OrderByDescending(Function(name) name.Length)
-                Call FillVariable(vbhtml, var)
+                Call FillVariable(vbhtml, var.Trim("@"c))
             Next
         End Sub
 
-        Private Sub FillVariable(vbhtml As VBHtml, name As String)
+        Private Sub FillVariable(<Out> ByRef vbhtml As VBHtml, name As String)
+            Dim tokens As String() = name.Split("."c)
 
+            If Not vbhtml.HasSymbol(tokens(Scan0)) Then
+                ' skip rendering current symbol due to the reason of missing such
+                ' symbol inside the rendering source data list.
+                Return
+            End If
+
+            If tokens.Length = 1 Then
+                ' use tostring
+                vbhtml(name) = vbhtml.GetString(tokens(0))
+            Else
+                FillVariable(vbhtml, name, vbhtml.GetSymbol(tokens(0)))
+            End If
+        End Sub
+
+        Private Sub FillVariable(vbhtml As VBHtml, name As String, obj As Object)
+            Dim tokens As String() = name.Split("."c)
+
+            For Each item As String In tokens.Skip(1)
+                obj = Reflection.GetValue.Read(obj, item)
+            Next
+
+            vbhtml(name) = any.ToString(obj, "")
         End Sub
     End Module
 End Namespace

@@ -47,6 +47,7 @@ Imports System.Text.RegularExpressions
 Imports Flute.Template.Interpolate
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Text
+Imports any = Microsoft.VisualBasic.Scripting
 
 ''' <summary>
 ''' *.vbhtml
@@ -66,6 +67,17 @@ Public Class VBHtml
     ''' due to the reason of vb identifier is not case-sensitive
     ''' </summary>
     ReadOnly variables As Dictionary(Of String, Object)
+    ReadOnly assigned As New Dictionary(Of String, String)
+
+    Default Public Property Item(name As String) As String
+        Get
+            Return assigned.TryGetValue(name)
+        End Get
+        Set(value As String)
+            assigned(name) = value
+            html.Replace("@" & name, value)
+        End Set
+    End Property
 
     ''' <summary>
     ''' the file path full name of the template file
@@ -97,6 +109,16 @@ Public Class VBHtml
 
     Public Function GetSymbol(name As String) As Object
         Return variables.TryGetValue(name.ToLower)
+    End Function
+
+    Public Function GetString(name As String) As String
+        Dim key As String = name.ToLower
+
+        If variables.ContainsKey(key) Then
+            Return any.ToString(variables(key), "")
+        Else
+            Return ""
+        End If
     End Function
 
     Private Sub Render()
