@@ -122,6 +122,7 @@ Public Class VBHtml
     End Function
 
     Private Sub Render()
+        Call IncludeInterpolate.FillIncludes(Me)
         Call VariableInterpolate.FillVariables(Me)
     End Sub
 
