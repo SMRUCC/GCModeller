@@ -98,6 +98,10 @@ Public Class VBHtml
         filepath = path.GetFullPath
         html = New StringBuilder
         encoding = encodings
+
+        ' make value copy at here
+        ' for handling the case sensetity problem
+        ' vb language is not case sensity, so converts all keys to lower case at here
         variables = If(symbols, New Dictionary(Of String, Object))
         variables = variables _
             .ToDictionary(Function(var) var.Key.ToLower,
