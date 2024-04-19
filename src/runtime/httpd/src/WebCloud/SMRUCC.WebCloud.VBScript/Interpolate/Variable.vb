@@ -58,13 +58,21 @@ Namespace Interpolate
         End Sub
 
         Private Sub FillVariable(vbhtml As VBHtml, name As String, obj As Object)
+            vbhtml(name) = GetValueString(obj, name)
+        End Sub
+
+        Public Function GetValueString(obj As Object, name As String) As String
             Dim tokens As String() = name.Split("."c)
 
             For Each item As String In tokens.Skip(1)
                 obj = Reflection.GetValue.Read(obj, item)
             Next
 
-            vbhtml(name) = any.ToString(obj, "")
-        End Sub
+            If TypeOf obj Is JsonValue Then
+                Return any.ToString(DirectCast(obj, JsonValue).value, "")
+            Else
+                Return any.ToString(obj, "")
+            End If
+        End Function
     End Module
 End Namespace

@@ -1,4 +1,6 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.Text
+Imports System.Text.RegularExpressions
+Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace Interpolate
 
@@ -41,10 +43,29 @@ Namespace Interpolate
 
             If Not vbhtml.HasSymbol(var) Then
                 Return Nothing
+            Else
+                template = template.GetStackValue(">", "<")
             End If
 
+            Dim array As IEnumerable = vbhtml.GetSymbol(var)
+            Dim list As New List(Of String)
 
+            For Each item As Object In array
+                Call list.Add(toHtml(item, template))
+            Next
+
+            Return list.JoinBy(vbCrLf)
         End Function
 
+        Private Function toHtml(item As Object, template As String) As String
+            Dim html As New StringBuilder(template)
+            Dim vars = VBHtml.variable.Matches(template).ToArray
+
+            For Each var_ref As String In vars
+                Call html.Replace(var_ref, VariableInterpolate.GetValueString(item, var_ref.Trim("@"c)))
+            Next
+
+            Return html.ToString
+        End Function
     End Module
 End Namespace

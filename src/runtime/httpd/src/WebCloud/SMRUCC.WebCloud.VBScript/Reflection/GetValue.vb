@@ -1,5 +1,6 @@
 ﻿Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 
 Namespace Reflection
 
@@ -62,10 +63,23 @@ Namespace Reflection
                 Return Nothing
             End If
 
+            Dim type As Type = obj.GetType
+
+            If type Is GetType(JsonObject) Then
+                Dim json As JsonObject = DirectCast(obj, JsonObject)
+                Dim key As String = json.ObjectKeys.Where(Function(str) str.TextEquals(name)).FirstOrDefault
+
+                If key Is Nothing Then
+                    Return Nothing
+                Else
+                    Return json(key)
+                End If
+            End If
+
             Static cache As New Dictionary(Of Type, GetValue)
 
             Return cache _
-                .ComputeIfAbsent(obj.GetType, Function(t) New GetValue(t)) _
+                .ComputeIfAbsent(type, Function(t) New GetValue(t)) _
                 .GetValue(obj, name)
         End Function
     End Class
