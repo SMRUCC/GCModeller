@@ -143,6 +143,11 @@ Public Class VBHtml
         End If
     End Sub
 
+    ''' <summary>
+    ''' do string replace on <see cref="html"/> directly.
+    ''' </summary>
+    ''' <param name="name"></param>
+    ''' <param name="value"></param>
     Public Sub Replace(name As String, value As String)
         html.Replace(name, value)
     End Sub
@@ -152,6 +157,7 @@ Public Class VBHtml
             Call AddSymbol(symbol.Name, symbol.Value)
         Next
 
+        Call ForeachInterpolate.ForeachTemplate(Me)
         Call IncludeInterpolate.FillIncludes(Me)
         Call VariableInterpolate.FillVariables(Me)
     End Sub
