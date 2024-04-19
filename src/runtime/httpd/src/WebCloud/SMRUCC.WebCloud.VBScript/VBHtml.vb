@@ -154,6 +154,7 @@ Public Class VBHtml
 
     Private Sub Render()
         For Each symbol As NamedValue(Of Object) In VariableInterpolate.GetVariables(ToString)
+            Call Replace(symbol.Description, "")
             Call AddSymbol(symbol.Name, symbol.Value)
         Next
 

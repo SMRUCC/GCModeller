@@ -13,6 +13,7 @@ Namespace Interpolate
             Dim tuple As NamedValue(Of String)
             Dim name As String
             Dim json As JsonElement
+            Dim any As Object
 
             For Each value As String In vars
                 value = value.GetStackValue("%", "%").Trim
@@ -21,12 +22,14 @@ Namespace Interpolate
                 name = tuple.Name.Trim("@"c)
 
                 If TypeOf json Is JsonValue Then
-                    Yield New NamedValue(Of Object)(name, DirectCast(json, JsonValue).value)
+                    any = DirectCast(json, JsonValue).value
                 ElseIf TypeOf json Is JsonArray Then
-                    Yield New NamedValue(Of Object)(name, DirectCast(json, JsonArray).ToArray)
+                    any = DirectCast(json, JsonArray).ToArray
                 Else
-                    Yield New NamedValue(Of Object)(name, json)
+                    any = json
                 End If
+
+                Yield New NamedValue(Of Object)(name, any, describ:=value)
             Next
         End Function
 
