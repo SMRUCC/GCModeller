@@ -8,6 +8,16 @@ Namespace Interpolate
 
     Public Module VariableInterpolate
 
+        Friend Function AutoCastJsonValue(json As JsonElement) As Object
+            If TypeOf json Is JsonValue Then
+                Return DirectCast(json, JsonValue).value
+            ElseIf TypeOf json Is JsonArray Then
+                Return DirectCast(json, JsonArray).ToArray
+            Else
+                Return json
+            End If
+        End Function
+
         Public Iterator Function GetVariables(html As String) As IEnumerable(Of NamedValue(Of Object))
             Dim vars As String() = VBHtml.valueExpression.Matches(html).ToArray
             Dim tuple As NamedValue(Of String)
@@ -22,14 +32,7 @@ Namespace Interpolate
                 tuple = value.GetTagValue("=", trim:=True)
                 json = JsonParser.Parse(tuple.Value)
                 name = tuple.Name.Trim("@"c)
-
-                If TypeOf json Is JsonValue Then
-                    any = DirectCast(json, JsonValue).value
-                ElseIf TypeOf json Is JsonArray Then
-                    any = DirectCast(json, JsonArray).ToArray
-                Else
-                    any = json
-                End If
+                any = AutoCastJsonValue(json)
 
                 Yield New NamedValue(Of Object)(name, any, describ:=raw_str)
             Next

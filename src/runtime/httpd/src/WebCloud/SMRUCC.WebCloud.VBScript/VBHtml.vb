@@ -71,8 +71,8 @@ Public Class VBHtml
     ''' all of the key inside this dictionary is in lower case,
     ''' due to the reason of vb identifier is not case-sensitive
     ''' </summary>
-    ReadOnly variables As Dictionary(Of String, Object)
-    ReadOnly assigned As New Dictionary(Of String, String)
+    Friend ReadOnly variables As Dictionary(Of String, Object)
+    Friend ReadOnly assigned As New Dictionary(Of String, String)
 
     Default Public Property Item(name As String) As String
         Get
@@ -88,16 +88,14 @@ Public Class VBHtml
     ''' the file path full name of the template file
     ''' </summary>
     Public ReadOnly Property filepath As String
-    Public ReadOnly Property wwwroot As String
     Public ReadOnly Property html As StringBuilder
     Public ReadOnly Property encoding As Encoding
 
-    Friend Sub New(path As String, workdir As String,
+    Friend Sub New(path As String,
                    symbols As Dictionary(Of String, Object),
                    encodings As Encoding)
 
         filepath = path.GetFullPath
-        wwwroot = If(workdir.StringEmpty, filepath.ParentPath, workdir.GetDirectoryFullPath)
         html = New StringBuilder
         encoding = encodings
         variables = If(symbols, New Dictionary(Of String, Object))
@@ -116,6 +114,11 @@ Public Class VBHtml
         Return variables.TryGetValue(name.ToLower)
     End Function
 
+    ''' <summary>
+    ''' <see cref="GetSymbol(String)"/> as string
+    ''' </summary>
+    ''' <param name="name"></param>
+    ''' <returns></returns>
     Public Function GetString(name As String) As String
         Dim key As String = name.ToLower
 
@@ -174,15 +177,13 @@ Public Class VBHtml
     ''' ``&lt;%= relative_path %>``
     ''' </summary>
     ''' <param name="path">target template file to rendering</param>
-    ''' <param name="wwwroot">Using for reading strings resource json file.</param>
     ''' <param name="variables">Data symbols to fill onto the html template</param>
     ''' <returns></returns>
     Public Shared Function ReadHTML(path$,
                                     Optional variables As Dictionary(Of String, Object) = Nothing,
-                                    Optional wwwroot$ = Nothing,
                                     Optional encoding As Encodings = Encodings.UTF8) As String
 
-        Dim html As New VBHtml(path, wwwroot, variables, encoding.CodePage)
+        Dim html As New VBHtml(path, variables, encoding.CodePage)
         html.html.Append(path.ReadAllText(html.encoding))
         html.Render()
         Return html.ToString
