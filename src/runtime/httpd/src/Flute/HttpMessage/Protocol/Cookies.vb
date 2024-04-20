@@ -39,6 +39,8 @@
 ' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Core.Message
@@ -48,17 +50,21 @@ Namespace Core.Message
         ''' <summary>
         ''' all key names is in lower case
         ''' </summary>
-        ReadOnly cookies As Dictionary(Of String, String())
+        ReadOnly cookies As Dictionary(Of String, String)
 
         Public Function CheckCookie(name As String) As Boolean
             Return cookies.ContainsKey(name.ToLower)
         End Function
 
-        Public Function GetCookie(name As String) As String()
+        Public Function GetCookie(name As String) As String
             Return cookies.TryGetValue(name.ToLower)
         End Function
 
-        Public Shared Function GetCookies(cookies As String) As Cookies
+        Public Function GetReader() As StringReader
+            Return StringReader.WrapDictionary(cookies)
+        End Function
+
+        Public Shared Function ParseCookies(cookies As String) As Cookies
 
         End Function
 

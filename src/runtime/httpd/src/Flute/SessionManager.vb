@@ -12,7 +12,7 @@ Public Class SessionManager : Inherits ServerComponent
         Call MyBase.New(settings)
 
         If cookies.CheckCookie(CookieName) Then
-            Id = cookies.GetCookie(CookieName).FirstOrDefault
+            Id = cookies.GetCookie(CookieName)
         End If
 
         If Id.StringEmpty Then

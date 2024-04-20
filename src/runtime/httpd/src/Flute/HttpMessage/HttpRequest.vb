@@ -143,7 +143,7 @@ Namespace Core.Message
 
         Public Function GetCookies() As Cookies
             Dim cookie_str As String = HttpHeaders.TryGetValue(RequestHeaders.Cookie)
-            Dim data As Cookies = Cookies.GetCookies(cookie_str)
+            Dim data As Cookies = Cookies.ParseCookies(cookie_str)
             Return data
         End Function
 
