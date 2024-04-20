@@ -1,4 +1,6 @@
-﻿Public MustInherit Class ServerComponent
+﻿Imports Flute.Http.Configurations
+
+Public MustInherit Class ServerComponent
 
     Protected ReadOnly settings As Configuration
 

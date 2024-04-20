@@ -50,6 +50,7 @@ Imports System.Net
 Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Threading
+Imports Flute.Http.Configurations
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language

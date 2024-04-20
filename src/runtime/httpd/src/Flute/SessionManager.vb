@@ -1,4 +1,5 @@
-﻿Imports Flute.Http.Core.Message
+﻿Imports Flute.Http.Configurations
+Imports Flute.Http.Core.Message
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class SessionManager : Inherits ServerComponent
@@ -16,7 +17,7 @@ Public Class SessionManager : Inherits ServerComponent
         End If
 
         If Id.StringEmpty Then
-            Id = settings.session_id_prefix & "_" & (Now.ToString & randf.NextDouble).MD5.Substring(8, 8)
+            Id = settings.session.session_id_prefix & "_" & (Now.ToString & randf.NextDouble).MD5.Substring(8, 8)
             SetCookie = True
         End If
     End Sub
