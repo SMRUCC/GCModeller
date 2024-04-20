@@ -33,7 +33,7 @@ Namespace Configurations
         ''' </returns>
         Public Shared Function Load(inifile As String) As Configuration
             If inifile.FileLength <= 0 Then
-                Return New Configuration
+                Return [Default]()
             End If
 
             Try
@@ -45,7 +45,7 @@ Namespace Configurations
         End Function
 
         Public Shared Function Save(settings As Configuration, inifile As String) As Boolean
-            Return ClassMapper.WriteClass(settings, inifile)
+            Return ClassMapper.WriteClass(settings, inifile, clean:=True)
         End Function
 
     End Class
