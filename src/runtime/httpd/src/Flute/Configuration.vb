@@ -2,6 +2,9 @@
 Imports Flute.Http.Core
 Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 
+''' <summary>
+''' http server configuration
+''' </summary>
 <ClassName("Configuration")>
 Public Class Configuration
 
@@ -10,6 +13,15 @@ Public Class Configuration
 
     <Description("a logical value for turn the verbose echo of the debug message on.")>
     Public Property silent As Boolean = True
+
+    <Description("the prefix for the user session id.")>
+    Public Property session_id_prefix As String = "flute_www_"
+
+    <Description("the directory folder path for save the session data as files.")>
+    Public Property session_store As String = ""
+
+    <Description("enable the session?")>
+    Public Property session_enable As Boolean = True
 
     ''' <summary>
     ''' safe handler for load ini configuration file

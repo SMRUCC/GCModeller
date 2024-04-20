@@ -192,6 +192,7 @@ Namespace Core.Message
             ' these are the HTTP headers...          
             response.WriteLine("Content-Type: " & content.type)
             response.WriteLine("Connection: close")
+
             ' ..add your own headers here if you like
 
             If Not AccessControlAllowOrigin.StringEmpty Then
