@@ -74,7 +74,8 @@ Namespace ComponentModel.Ranges
 
         Public Property Value As T Implements Value(Of T).IValueOf.Value
 
-        Sub New(tag#, value As T)
+        Sub New(tag#, value As T, Optional desc As String = Nothing)
+            Me.description = desc
             Me.tag = tag
             Me.Value = value
         End Sub
