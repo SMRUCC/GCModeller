@@ -1287,7 +1287,10 @@ Module geneExpression
         If TypeOf expr Is Matrix Then
             Return DirectCast(expr, Matrix).log(base)
         Else
-            ' math log of a numeric vector
+            ' this function its function name is conflict with the math log function
+            ' in the R# base runtime environment.
+            '
+            ' do math log of a numeric vector at here.
             Return CLRVector.asNumeric(expr) _
                 .AsVector _
                 .Log(base) _
