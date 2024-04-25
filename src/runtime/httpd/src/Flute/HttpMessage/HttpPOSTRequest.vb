@@ -28,7 +28,7 @@ Namespace Core.Message
         ''' </summary>
         ''' <param name="request"></param>
         ''' <param name="inputData">一个临时文件的文件路径,POST上传的原始数据都被保存在这个临时文件中</param>
-        Sub New(request As HttpProcessor, inputData$)
+        Sub New(request As HttpProcessor, inputData$, Optional parseJSON As PostReader.JSONParser = Nothing)
             Call MyBase.New(request)
 
             If inputData.FileLength > 0 AndAlso HttpHeaders.ContainsKey(HttpHeader.RequestHeaders.ContentType) Then
@@ -36,7 +36,8 @@ Namespace Core.Message
                     inputData,
                     HttpHeaders(HttpHeader.RequestHeaders.ContentType),
                     Encoding.UTF8,
-                    HttpHeaders.TryGetValue("fileName") Or uploadfile
+                    HttpHeaders.TryGetValue("fileName") Or uploadfile,
+                    parseJSON:=parseJSON
                 )
             Else
                 POSTData = New PostReader(

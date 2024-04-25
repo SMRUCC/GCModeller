@@ -119,13 +119,13 @@ Namespace Core.HttpStream
         ''' <param name="contentType$"></param>
         ''' <param name="encoding"></param>
         ''' <param name="fileName$"></param>
-        Sub New(input$, contentType$, encoding As Encoding, Optional fileName$ = Nothing)
+        Sub New(input$, contentType$, encoding As Encoding, Optional fileName$ = Nothing, Optional parseJSON As JSONParser = Nothing)
             Me.InputStream = input
             Me.ContentType = If(contentType.StringEmpty, "application/octet-stream", contentType)
             Me.ContentEncoding = encoding
 
             If input.FileLength > 0 Then
-                Call LoadMultiPart(fileName)
+                Call LoadMultiPart(fileName, parseJSON)
             End If
         End Sub
 
@@ -139,7 +139,9 @@ Namespace Core.HttpStream
             Return InputStream.Open(doClear:=False)
         End Function
 
-        Private Sub loadjQueryPOST(fileName As String)
+        Public Delegate Function JSONParser(json_str As String) As Dictionary(Of String, Object)
+
+        Private Sub loadjQueryPOST(fileName As String, parseJSON As JSONParser)
             Using inputStream As FileStream = Me.InputStream.Open(doClear:=False)
                 ' 在这里可能存在两种情况：
                 ' 一种是jquery POST
@@ -152,10 +154,16 @@ Namespace Core.HttpStream
                         GetType(String()),
                         GetType(Double()),
                         GetType(Double),
-                        GetType(String)
+                        GetType(String),
+                        GetType(Dictionary(Of String, String)),
+                        GetType(Dictionary(Of String, String()))
                     }
 
-                    _Objects = json.LoadJSON(Of Dictionary(Of String, Object))(knownTypes:=knows)
+                    If parseJSON Is Nothing Then
+                        _Objects = json.LoadJSON(Of Dictionary(Of String, Object))(knownTypes:=knows)
+                    Else
+                        _Objects = parseJSON(json)
+                    End If
                 ElseIf ContentType = "application/x-www-form-urlencoded" Then
                     ' probably is a jquery post
                     Dim byts As Byte() = inputStream _
@@ -183,11 +191,11 @@ Namespace Core.HttpStream
         ''' <summary>
         ''' Loads the data on the form for multipart/form-data
         ''' </summary>
-        Private Sub LoadMultiPart(fileName As String)
+        Private Sub LoadMultiPart(fileName As String, parseJSON As JSONParser)
             Dim boundary As String = GetParameter(ContentType, "; boundary=")
 
             If boundary Is Nothing Then
-                Call loadjQueryPOST(fileName)
+                Call loadjQueryPOST(fileName, parseJSON)
             Else
                 Using input As Stream = Me.GetSubStream()
                     Call loadMultiPart(boundary, input)
