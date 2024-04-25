@@ -59,13 +59,13 @@ Public Class VBHtml
     ''' matches for the variable and its property reference
     ''' </summary>
     Friend Shared ReadOnly variable As New Regex("@[_a-z][_a-z0-9]*(\.[_a-z][_a-z0-9]*)*", RegexOptions.IgnoreCase Or RegexOptions.Multiline Or RegexOptions.Compiled)
-    Friend Shared ReadOnly partialIncludes As New Regex("<%= [^>]+? %>", RegexOptions.IgnoreCase Or RegexOptions.Multiline Or RegexOptions.Compiled)
+    Friend Shared ReadOnly partialIncludes As New Regex("<%= [^>]+? [%/]>", RegexOptions.IgnoreCase Or RegexOptions.Multiline Or RegexOptions.Compiled)
     Friend Shared ReadOnly foreach As New Regex("<foreach @.+?</foreach>", RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.Compiled)
 
     ''' <summary>
     ''' set variable value from the template file
     ''' </summary>
-    Friend Shared ReadOnly valueExpression As New Regex("<% @[_a-z][_a-z0-9]*.+? %>", RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.Compiled)
+    Friend Shared ReadOnly valueExpression As New Regex("<% @[_a-z][_a-z0-9]*.+? [%/]>", RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.Compiled)
 
     ''' <summary>
     ''' all of the key inside this dictionary is in lower case,
