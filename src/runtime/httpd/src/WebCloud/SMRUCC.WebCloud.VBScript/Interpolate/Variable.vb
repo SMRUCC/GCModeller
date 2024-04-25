@@ -28,7 +28,13 @@ Namespace Interpolate
 
             For Each value As String In vars
                 raw_str = value
-                value = value.GetStackValue("%", "%").Trim
+
+                If value.EndsWith("/>") Then
+                    value = value.GetStackValue("%", "/").Trim
+                Else
+                    value = value.GetStackValue("%", "%").Trim
+                End If
+
                 tuple = value.GetTagValue("=", trim:=True)
                 name = tuple.Name.Trim("@"c)
 

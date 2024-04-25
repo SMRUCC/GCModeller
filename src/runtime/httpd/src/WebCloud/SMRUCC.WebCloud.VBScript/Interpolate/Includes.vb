@@ -18,7 +18,7 @@ Namespace Interpolate
             ' each includes is also a new vbhtml template file
             ' do render and get the html text as the value
             For Each reference As String In includes
-                Dim rel_path As String = reference.GetStackValue("=", "%").Trim
+                Dim rel_path As String = reference.GetStackValue("=", If(reference.EndsWith("/>"), "/", "%")).Trim
                 Dim full_path As String = (wwwroot & "/" & InterpolateFilePath(vbhtml, rel_path)).GetFullPath
 
                 Select Case full_path.ExtensionSuffix

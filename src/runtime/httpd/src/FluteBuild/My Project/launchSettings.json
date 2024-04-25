@@ -2,7 +2,8 @@
   "profiles": {
     "FluteBuild": {
       "commandName": "Project",
-      "commandLineArgs": "/compile /view \"G:\\GCModeller\\src\\runtime\\httpd\\test\\template_test\" /wwwroot \"Z:\\New folder\" --lang=zh --person=\"{name:xxxx,age:32}\""
+      "commandLineArgs": "/compile /view \"./\" /wwwroot \"../wwwroot\" ",
+      "workingDirectory": "E:\\biodeep\\novocell\\landscape_v2\\views"
     }
   }
 }
