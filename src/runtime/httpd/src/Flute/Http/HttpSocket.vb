@@ -1,4 +1,5 @@
 ﻿Imports System.Net.Sockets
+Imports Flute.Http.Configurations
 Imports Flute.Http.Core.Message
 
 Namespace Core

@@ -54,11 +54,12 @@ Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Threading
+Imports Flute.Http.Configurations
 Imports Flute.Http.Core.HttpOptions
 Imports Flute.Http.Core.Message
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Net.HTTP
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports ResponseHeaders = Flute.Http.Core.Message.HttpHeader.ResponseHeaders

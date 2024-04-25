@@ -55,10 +55,11 @@ Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Threading
+Imports Flute.Http.Configurations
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language.C
-Imports Microsoft.VisualBasic.Net.HTTP
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
@@ -192,6 +193,7 @@ Namespace Core.Message
             ' these are the HTTP headers...          
             response.WriteLine("Content-Type: " & content.type)
             response.WriteLine("Connection: close")
+
             ' ..add your own headers here if you like
 
             If Not AccessControlAllowOrigin.StringEmpty Then

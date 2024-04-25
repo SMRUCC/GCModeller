@@ -40,17 +40,17 @@
 ' /********************************************************************************/
 
 #End Region
-
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Flute.Http.AppEngine
 Imports Flute.Http.Core.Message
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
+
 #If NET_35 Then
 Imports Microsoft.VisualBasic.Language
 #End If
-Imports Microsoft.VisualBasic.Net.Http
-Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 
 <HideModuleName> Public Module Extensions
 

@@ -30,9 +30,16 @@ Namespace Interpolate
                 raw_str = value
                 value = value.GetStackValue("%", "%").Trim
                 tuple = value.GetTagValue("=", trim:=True)
-                json = JsonParser.Parse(tuple.Value)
                 name = tuple.Name.Trim("@"c)
-                any = AutoCastJsonValue(json)
+
+                Try
+                    json = JsonParser.Parse(tuple.Value, strictVectorSyntax:=False)
+                    any = AutoCastJsonValue(json)
+                Catch ex As Exception
+                    ' is not a valid json string
+                    ' treated as plain/text string 
+                    any = tuple.Value
+                End Try
 
                 Yield New NamedValue(Of Object)(name, any, describ:=raw_str)
             Next

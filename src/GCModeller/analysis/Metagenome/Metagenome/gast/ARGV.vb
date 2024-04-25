@@ -183,14 +183,14 @@ Namespace gast
             db_host = args - "-host"
             db_name = args - "-db"
             table = args - "-table"
-            full = args.GetBoolean("-full")
+            full = args.IsTrue("-full")
             maj = args.GetValue("-maj", 66.0R)
             maxr = args.GetValue("-maxr", 200.0R)
             maxa = args.GetValue("-maxa", 15.0R)
             minp = args.GetValue("-minp", 0.8)
             wdb = args("-wdb")
             udb = args("-udb")
-            terse = args.GetBoolean("-terse")
+            terse = args.IsTrue("-terse")
         End Sub
 
         Public Overrides Function ToString() As String

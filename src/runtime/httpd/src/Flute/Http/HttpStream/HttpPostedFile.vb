@@ -79,6 +79,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Core.HttpStream
 
@@ -97,6 +98,9 @@ Namespace Core.HttpStream
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
         Public Sub New(name As String, content_type As String, base_stream As Stream, offset As Long, length As Long)
             Me.FileName = name
             Me.ContentType = content_type
@@ -105,6 +109,15 @@ Namespace Core.HttpStream
             ' 数据写入到临时文件之中
             Call SaveAs(TempPath, New SubStream(base_stream, offset, length))
         End Sub
+
+        Public Function GetJSON() As String
+            Return New Dictionary(Of String, String) From {
+                {NameOf(FileName), FileName},
+                {NameOf(TempPath), TempPath},
+                {NameOf(ContentType), ContentType},
+                {NameOf(ContentLength), ContentLength}
+            }.GetJson
+        End Function
 
         Public Function Summary() As Dictionary(Of String, String)
             Return New Dictionary(Of String, String) From {

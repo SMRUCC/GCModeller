@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Flute.Http.Configurations
 Imports Flute.Http.Core
 Imports Flute.Http.Core.Message
 
