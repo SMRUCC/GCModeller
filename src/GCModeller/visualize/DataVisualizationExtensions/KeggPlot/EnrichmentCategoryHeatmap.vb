@@ -1,8 +1,11 @@
 ﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 
@@ -12,7 +15,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
     Public Sub New(data As DataFrame, theme As Theme)
         MyBase.New(theme)
-        Me.data = data
+        Me.data = data.ZScale(byrow:=True)
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
@@ -41,7 +44,30 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         ' draw heatmap
         Dim dx = heatmap_region.Width / data.featureNames.Length
         Dim dy = heatmap_region.Height / data.rownames.Length
+        Dim boxCell As RectangleF
+        Dim heatmap As Brush() = Designer.GetColors(theme.colorSet, mapLevels) _
+            .Select(Function(c) New SolidBrush(c)) _
+            .ToArray
+        Dim range As New DoubleRange(data.features.Values.Select(Function(v) DirectCast(v.vector, Double())).IteratesALL)
+        Dim index As New DoubleRange(0, mapLevels - 1)
+        Dim vec As Func(Of Integer, Double)
+        Dim color As Integer
 
+        x = heatmap_region.Left
+        y = heatmap_region.Top
 
+        For Each col As String In data.featureNames
+            boxCell = New RectangleF(x, y, dx, dy)
+            vec = data(col).NumericGetter
+
+            For i = 0 To data.rownames.Length
+                color = range.ScaleMapping(vec(i), index)
+                boxCell = New RectangleF(x, y, dx, dy)
+                g.FillRectangle(heatmap(i), boxCell)
+                y += dy
+            Next
+
+            x += dx
+        Next
     End Sub
 End Class
