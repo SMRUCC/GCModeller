@@ -82,7 +82,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 y += dy
             Next
 
-            Call g.DrawString(col, label_font, Brushes.Black, -90, x, y)
+            Call g.DrawString(col, label_font, Brushes.Black, x, y, -90)
 
             x += dx
             y = heatmap_region.Top
