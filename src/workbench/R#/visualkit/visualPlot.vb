@@ -448,7 +448,9 @@ Module visualPlot
         Dim theme As New Theme With {
             .axisTickCSS = "font-style: normal; font-size: 6; font-family: " & FontFace.BookmanOldStyle & ";"
         }
-        Dim heatmap As New EnrichmentCategoryHeatmap(DirectCast(matrix, featureFrame), theme)
+        Dim heatmap As New EnrichmentCategoryHeatmap(DirectCast(matrix, featureFrame), theme) With {
+            .mapLevels = 30
+        }
         Dim size_str As String = InteropArgumentHelper.getSize(size, env, "3600,2700")
 
         Return heatmap.Plot(size_str.SizeParser,, env.getDriver)
