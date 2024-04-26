@@ -102,6 +102,7 @@ Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports std = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
+Imports featureFrame = Microsoft.VisualBasic.Math.DataFrame.DataFrame
 
 ''' <summary>
 ''' package module for biological analysis data visualization
@@ -434,6 +435,21 @@ Module visualPlot
         Dim size_val = InteropArgumentHelper.getSize(size, env, "2700,3800")
 
         Return app.Plot(size_val, driver:=env.getDriver)
+    End Function
+
+    <ExportAPI("class_heatmap")>
+    Public Function class_heatmap(x As dataframe, <RRawVectorArgument> Optional size As Object = "3600,2000", Optional env As Environment = Nothing) As Object
+        Dim matrix = MathDataSet.toFeatureSet(x, env)
+
+        If TypeOf matrix Is Message Then
+            Return matrix
+        End If
+
+        Dim theme As New Theme
+        Dim heatmap As New EnrichmentCategoryHeatmap(DirectCast(matrix, featureFrame), theme)
+        Dim size_str As String = InteropArgumentHelper.getSize(size, env, "3600,2000")
+
+        Return heatmap.Plot(size_str.SizeParser,, env.getDriver)
     End Function
 
     ''' <summary>
