@@ -60,7 +60,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             boxCell = New RectangleF(x, y, dx, dy)
             vec = data(col).NumericGetter
 
-            For i = 0 To data.rownames.Length
+            For i = 0 To data.rownames.Length - 1
                 color = range.ScaleMapping(vec(i), index)
                 boxCell = New RectangleF(x, y, dx, dy)
                 g.FillRectangle(heatmap(color), boxCell)
