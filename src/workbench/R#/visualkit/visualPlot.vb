@@ -438,16 +438,18 @@ Module visualPlot
     End Function
 
     <ExportAPI("class_heatmap")>
-    Public Function class_heatmap(x As dataframe, <RRawVectorArgument> Optional size As Object = "3600,2000", Optional env As Environment = Nothing) As Object
+    Public Function class_heatmap(x As dataframe, <RRawVectorArgument> Optional size As Object = "3600,2700", Optional env As Environment = Nothing) As Object
         Dim matrix = MathDataSet.toFeatureSet(x, env)
 
         If TypeOf matrix Is Message Then
             Return matrix
         End If
 
-        Dim theme As New Theme
+        Dim theme As New Theme With {
+            .axisTickCSS = "font-style: normal; font-size: 6; font-family: " & FontFace.BookmanOldStyle & ";"
+        }
         Dim heatmap As New EnrichmentCategoryHeatmap(DirectCast(matrix, featureFrame), theme)
-        Dim size_str As String = InteropArgumentHelper.getSize(size, env, "3600,2000")
+        Dim size_str As String = InteropArgumentHelper.getSize(size, env, "3600,2700")
 
         Return heatmap.Plot(size_str.SizeParser,, env.getDriver)
     End Function

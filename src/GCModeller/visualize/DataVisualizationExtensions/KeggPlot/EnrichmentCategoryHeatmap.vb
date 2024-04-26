@@ -37,5 +37,11 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             i += 1
             g.DrawString(name, label_font, Brushes.Black, New PointF(x, y))
         Next
+
+        ' draw heatmap
+        Dim dx = heatmap_region.Width / data.featureNames.Length
+        Dim dy = heatmap_region.Height / data.rownames.Length
+
+
     End Sub
 End Class
