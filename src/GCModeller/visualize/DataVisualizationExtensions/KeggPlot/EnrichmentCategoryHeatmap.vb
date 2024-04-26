@@ -1,10 +1,12 @@
 ﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.MIME.Html.CSS
@@ -13,13 +15,16 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
     ReadOnly data As DataFrame
-    ReadOnly groupd As SampleInfo()
+    ReadOnly groupd As Dictionary(Of String, SampleInfo)
+    ReadOnly metadata As DataFrame
+    ReadOnly kegg_class As String
 
-    Public Sub New(data As DataFrame, groupd As SampleInfo(), theme As Theme)
+    Public Sub New(data As DataFrame, metadata As DataFrame, groupd As SampleInfo(), theme As Theme, Optional kegg_class As String = "class")
         MyBase.New(theme)
 
+        Me.metadata = metadata
         Me.data = data.ZScale(byrow:=True)
-        Me.groupd = groupd
+        Me.groupd = groupd.ToDictionary(Function(s) s.ID)
         ' re-order column of samples by groups 
         Me.data = Me.data(groupd _
             .GroupBy(Function(s) s.sample_info) _
@@ -31,6 +36,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                                     End Function)
                     End Function) _
             .IteratesALL)
+        Me.kegg_class = kegg_class
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
@@ -67,13 +73,18 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim index As New DoubleRange(0, mapLevels - 1)
         Dim vec As Func(Of Integer, Double)
         Dim color As Integer
+        Dim [class] As String() = metadata(kegg_class).TryCast(Of String)
+        Dim class_colors As New CategoryColorProfile([class], "paper")
 
         x = heatmap_region.Left
         y = heatmap_region.Top
 
         For Each col As String In data.featureNames
-            boxCell = New RectangleF(x, y, dx, dy)
+            boxCell = New RectangleF(x, y - dy - 10, dx, dy)
             vec = data(col).NumericGetter
+
+            ' draw group color bar
+            Call g.FillRectangle(groupd(col).color.GetBrush, boxCell)
 
             For i = 0 To data.rownames.Length - 1
                 color = range.ScaleMapping(vec(i), index)
@@ -82,10 +93,20 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 y += dy
             Next
 
-            Call g.DrawString(col, label_font, Brushes.Black, x, y, -90)
+            Call g.DrawString(col, label_font, Brushes.Black, x, y + 20, 60)
 
             x += dx
             y = heatmap_region.Top
+        Next
+
+        ' draw class HC-tree
+        x = tree_region.Left
+        dx = tree_region.Width * 0.25
+
+        For i = 0 To data.rownames.Length - 1
+            boxCell = New RectangleF(x, y, dx, dy)
+            g.FillRectangle(New SolidBrush(class_colors.GetColor([class](i))), boxCell)
+            y += dy
         Next
     End Sub
 End Class
