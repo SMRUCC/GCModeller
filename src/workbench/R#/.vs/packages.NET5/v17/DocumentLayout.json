@@ -3,33 +3,22 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\sampleinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\sampleinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CFBA2697-9A7A-49BF-9636-85A05B46EF75}|..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\microsoft.visualbasic.imaging\\svg\\graphicssvg.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CFBA2697-9A7A-49BF-9636-85A05B46EF75}|..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\microsoft.visualbasic.imaging\\postscript\\graphicsps.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategoryheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\image\\gdi\u002B\\interface.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\visualkit\\visualplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|solutionrelative:visualkit\\visualplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B1EBEF3A-1422-4E52-AB3A-607BBB1D95DE}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\dataframeUtils-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\dataframe\\dataframe\\dataframe.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\image\\gdi\u002B\\graphics2d.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\image\\wmf.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\image\\gdi\u002B\\graphicstext.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16395E03-C483-4104-A752-47A32ED9E47A}|..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\visualization\\plots\\g\\axis\\components\\xaxis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\degplot\\gsvadiffbar.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75AC5F06-D5A3-4EDE-B092-C7662D9BB4EE}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\drawingdevice.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,84 +28,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "GraphicsPS.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\PostScript\\GraphicsPS.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\PostScript\\GraphicsPS.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\PostScript\\GraphicsPS.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\PostScript\\GraphicsPS.vb",
-              "ViewState": "AQIAANMDAAAAAAAAAAAAAFAAAAAAAAAA",
+              "Title": "GraphicsText.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\GraphicsText.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\GraphicsText.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\GraphicsText.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\GraphicsText.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEsAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-26T08:28:44.301Z",
+              "WhenOpened": "2024-04-26T08:43:15.575Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "GraphicsSVG.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\SVG\\GraphicsSVG.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\SVG\\GraphicsSVG.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\SVG\\GraphicsSVG.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\SVG\\GraphicsSVG.vb",
-              "ViewState": "AQIAAMYCAAAAAAAAAAApwNYCAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-26T08:24:25.825Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Wmf.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\Wmf.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\Wmf.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\Wmf.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\Wmf.vb",
-              "ViewState": "AQIAADgAAAAAAAAAAAAgwFAAAABJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-26T08:20:39.648Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
               "Title": "Graphics2D.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\Graphics2D.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\Graphics2D.vb",
               "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\Graphics2D.vb",
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\Graphics2D.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEsAAAASAAAA",
+              "ViewState": "AQIAAA0BAAAAAAAAAAA0wBwBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-26T08:19:50.954Z",
+              "WhenOpened": "2024-04-26T08:43:12.808Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "XAxis.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\g\\Axis\\Components\\XAxis.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\g\\Axis\\Components\\XAxis.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\g\\Axis\\Components\\XAxis.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\g\\Axis\\Components\\XAxis.vb",
+              "ViewState": "AQIAAKkAAAAAAAAAAADgv8cAAABGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-26T08:41:07.581Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Interface.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\Interface.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\Interface.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\Interface.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Image\\GDI\u002B\\Interface.vb",
-              "ViewState": "AQIAAO0QAAAAAAAAAAApwAYRAAAyAAAA",
+              "Title": "GSVADiffBar.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
+              "ViewState": "AQIAAFQAAAAAAAAAAAAawGEAAAAbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-26T08:16:33.777Z",
+              "WhenOpened": "2024-04-26T08:41:03.795Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "DataFrame.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataFrame\\DataFrame.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataFrame\\DataFrame.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataFrame\\DataFrame.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataFrame\\DataFrame.vb",
-              "ViewState": "AQIAAFkAAAAAAAAAAAAQwH0AAAANAAAA",
+              "DocumentIndex": 5,
+              "Title": "DrawingDevice.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
+              "ViewState": "AQIAAB0BAAAAAAAAAAAawCoBAABEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-26T08:11:07.977Z",
+              "WhenOpened": "2024-04-26T08:40:27.988Z",
               "EditorCaption": ""
             },
             {
@@ -134,38 +110,12 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "sampleInfo.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\sampleInfo.vb",
-              "RelativeDocumentMoniker": "phenotype_kit\\sampleInfo.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\sampleInfo.vb",
-              "RelativeToolTip": "phenotype_kit\\sampleInfo.vb",
-              "ViewState": "AQIAAE4BAAAAAAAAAAAiwIcBAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-26T08:08:15.753Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "visualPlot.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\visualkit\\visualPlot.vb",
-              "RelativeDocumentMoniker": "visualkit\\visualPlot.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\visualkit\\visualPlot.vb",
-              "RelativeToolTip": "visualkit\\visualPlot.vb",
-              "ViewState": "AQIAAKkBAAAAAAAAAAApwL8BAAAoAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-26T08:07:35.05Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "EnrichmentCategoryHeatmap.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
-              "ViewState": "AQIAACIAAAAAAAAAAAAAwDMAAAAbAAAA",
+              "ViewState": "AQIAADYAAAAAAAAAAAAIwDMAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-04-26T06:48:29.256Z",
               "EditorCaption": ""
