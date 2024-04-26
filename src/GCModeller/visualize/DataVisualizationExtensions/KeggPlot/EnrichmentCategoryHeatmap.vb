@@ -8,14 +8,29 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
     ReadOnly data As DataFrame
+    ReadOnly groupd As SampleInfo()
 
-    Public Sub New(data As DataFrame, theme As Theme)
+    Public Sub New(data As DataFrame, groupd As SampleInfo(), theme As Theme)
         MyBase.New(theme)
+
         Me.data = data.ZScale(byrow:=True)
+        Me.groupd = groupd
+        ' re-order column of samples by groups 
+        Me.data = Me.data(groupd _
+            .GroupBy(Function(s) s.sample_info) _
+            .Select(Function(group)
+                        Return group _
+                            .OrderBy(Function(s) s.sample_name) _
+                            .Select(Function(s)
+                                        Return s.ID
+                                    End Function)
+                    End Function) _
+            .IteratesALL)
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
@@ -67,7 +82,10 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 y += dy
             Next
 
+            Call g.DrawString(col, label_font, Brushes.Black, -90, x, y)
+
             x += dx
+            y = heatmap_region.Top
         Next
     End Sub
 End Class
