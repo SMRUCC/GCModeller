@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -9,11 +10,14 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.DataFrame
+Imports Microsoft.VisualBasic.Math.Distributions
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
+    ReadOnly rawdata As DataFrame
     ReadOnly data As DataFrame
     ReadOnly groupd As Dictionary(Of String, SampleInfo)
     ReadOnly metadata As DataFrame
@@ -22,6 +26,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     Public Sub New(data As DataFrame, metadata As DataFrame, groupd As SampleInfo(), theme As Theme, Optional kegg_class As String = "class")
         MyBase.New(theme)
 
+        Me.rawdata = data
         Me.metadata = metadata
         Me.data = data.ZScale(byrow:=True)
         Me.groupd = groupd.ToDictionary(Function(s) s.ID)
@@ -44,7 +49,9 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim label_region As New Rectangle(rect.Left, rect.Top, rect.Width * 0.2, rect.Height)
         Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.4, rect.Height)
         Dim tree_region As New Rectangle(heatmap_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
-        Dim right_region As New Rectangle(tree_region.Right, rect.Top, rect.Width - label_region.Width - heatmap_region.Width - tree_region.Width, rect.Height)
+        Dim group_heatmap_region As New Rectangle(tree_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
+        Dim mean_log_region As New Rectangle(group_heatmap_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
+        Dim vip_region As New Rectangle(mean_log_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
         Dim label_font As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
         Dim label_maxh As Single = label_region.Height / data.nsamples
 
@@ -100,13 +107,79 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Next
 
         ' draw class HC-tree
-        x = tree_region.Left
+        x = tree_region.Left + 5
         dx = tree_region.Width * 0.25
 
         For i = 0 To data.rownames.Length - 1
             boxCell = New RectangleF(x, y, dx, dy)
             g.FillRectangle(New SolidBrush(class_colors.GetColor([class](i))), boxCell)
             y += dy
+        Next
+
+
+        ' draw logp
+        Dim logp = metadata("logp").TryCast(Of Double)
+        Dim prange As New DoubleRange(logp)
+        Dim pcolors = Designer.GetColors("jet", mapLevels)
+
+        x = mean_log_region.Left
+        y = mean_log_region.Top
+
+        For i = 0 To data.rownames.Length - 1
+            boxCell = New RectangleF(x, y, dx, dy)
+            color = prange.ScaleMapping(logp(i), index)
+            g.FillRectangle(New SolidBrush(pcolors(color)), boxCell)
+            y += dy
+        Next
+
+        ' draw average VIP
+        Dim vip = metadata("VIP").TryCast(Of Double)
+        Dim vip_ticks = vip.CreateAxisTicks(ticks:=5)
+        Dim vip_scale = d3js.scale.linear.range(0, vip_region.Width).domain(values:=vip_ticks)
+        Dim vip_color As Brush = Brushes.BlueViolet
+
+        x = vip_region.Left
+        y = vip_region.Top
+
+        For i = 0 To data.rownames.Length - 1
+            boxCell = New RectangleF(x, y, vip_scale(vip(i)), dy * 0.85)
+            y += dy
+            g.FillRectangle(vip_color, boxCell)
+        Next
+
+        ' draw group heatmap
+        Dim group_heat = groupd.Values _
+            .GroupBy(Function(s) s.sample_info) _
+            .ToDictionary(Function(s) s.Key,
+                          Function(s)
+                              Dim group_data = rawdata(s.Select(Function(si) si.ID))
+                              Dim sum As Vector = Nothing
+
+                              For Each sample As FeatureVector In group_data.features.Values
+                                  sum = sum + sample.TryCast(Of Double).AsVector
+                              Next
+
+                              Return (sum / group_data.features.Count).Z.ToArray
+                          End Function)
+        Dim group_heatcolors As Color() = Designer.GetColors("red", mapLevels)
+        Dim group_range As New DoubleRange(group_heat.Values.IteratesALL)
+
+        dx = group_heatmap_region.Width / group_heat.Count
+        x = group_heatmap_region.Left
+        y = group_heatmap_region.Top
+
+        For Each group_name As String In group_heat.Keys
+            Dim mean_z = group_heat(group_name)
+
+            For i = 0 To mean_z.Length - 1
+                color = group_range.ScaleMapping(mean_z(i), index)
+                boxCell = New RectangleF(x, y, dx, dy)
+                y += dy
+                g.FillRectangle(New SolidBrush(group_heatcolors(color)), boxCell)
+            Next
+
+            x += dx
+            y = group_heatmap_region.Top
         Next
     End Sub
 End Class
