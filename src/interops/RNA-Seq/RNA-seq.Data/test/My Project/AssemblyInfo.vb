@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecafce681da872ae9b8cccd7046916a9, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//test/My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::95ea3276181dec5303a94ce2c735bece, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//test/My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-

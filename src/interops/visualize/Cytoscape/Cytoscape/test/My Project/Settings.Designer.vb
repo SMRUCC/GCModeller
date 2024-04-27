@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0340c8f1448d1bba1b0f5af9049a5c24, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//test/My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::e4977a671c103cd362a91d490f7cf92a, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//test/My Project/Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 51
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 2.96 KB
+    '     File Size: 2.95 KB
 
 
     '     Class MySettings
@@ -129,4 +129,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

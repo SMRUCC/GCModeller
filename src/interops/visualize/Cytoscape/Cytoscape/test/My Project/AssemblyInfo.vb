@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6be49e0cc61f417af56092d6f9711e5, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//test/My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::d5ab0f30a71e5255e3bcd9cca3ad1ee3, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//test/My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-
