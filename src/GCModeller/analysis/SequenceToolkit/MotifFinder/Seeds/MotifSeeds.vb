@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::838616788aa3164659e27b916d0eec81, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/MotifSeeds.vb"
+﻿#Region "Microsoft.VisualBasic::2788889523674d6208987f4a3b37710c, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/MotifSeeds.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 19
     ' Comment Lines: 11
     '   Blank Lines: 5
-    '     File Size: 1.42 KB
+    '     File Size: 1.41 KB
 
 
     ' Module MotifSeeds
@@ -84,4 +84,3 @@ Module MotifSeeds
         Return result.HSP.Where(Function(seed) seed.LengthHit <= param.maxW)
     End Function
 End Module
-

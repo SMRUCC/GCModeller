@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11b2b38c12823c938e32ba38af74b781, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/GraphScan.vb"
+﻿#Region "Microsoft.VisualBasic::b5ecdbff9ef151d1c2559c6b07d3f6be, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/GraphScan.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 30
     ' Comment Lines: 0
     '   Blank Lines: 9
-    '     File Size: 1.60 KB
+    '     File Size: 1.59 KB
 
 
     ' Class GraphScan
@@ -89,4 +89,3 @@ Public Class GraphScan : Inherits SeedScanner
         Next
     End Function
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a19d099e1a7bf88f0ac235fb59cfb83b, G:/GCModeller/src/GCModeller/data/Reactome//Hierarchy/PathwayName.vb"
+﻿#Region "Microsoft.VisualBasic::e7b848db7f879424ab6a4071d14873e8, G:/GCModeller/src/GCModeller/data/Reactome//Hierarchy/PathwayName.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 20
     ' Comment Lines: 0
     '   Blank Lines: 6
-    '     File Size: 725 B
+    '     File Size: 723 B
 
 
     ' Class PathwayName
@@ -77,4 +77,3 @@ Public Class PathwayName
     End Function
 
 End Class
-

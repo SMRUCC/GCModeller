@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be2f76203f5daf147f694d1a8a252ef8, G:/GCModeller/src/GCModeller/data/Reactome//Hierarchy/Hierarchy.vb"
+﻿#Region "Microsoft.VisualBasic::ab586a95b6a6ccfc5778ac61fb4e5e9b, G:/GCModeller/src/GCModeller/data/Reactome//Hierarchy/Hierarchy.vb"
 
     ' Author:
     ' 
@@ -245,4 +245,3 @@ Public Class Hierarchy : Inherits Tree(Of PathwayName)
     End Sub
 
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce0a27b12ffee5930f3de622a190a84c, G:/GCModeller/src/GCModeller/data/Reactome//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ec4ec3a80eee2b26812f409e8e0df82d, G:/GCModeller/src/GCModeller/data/Reactome//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 42
     ' Comment Lines: 55
     '   Blank Lines: 10
-    '     File Size: 4.90 KB
+    '     File Size: 4.89 KB
 
 
     '     Module Resources
@@ -157,4 +157,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

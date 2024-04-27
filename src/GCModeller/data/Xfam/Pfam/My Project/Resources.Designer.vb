@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::163c350774ffd660bb0f2fb896adde47, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::5d61a1358b39597d5a632af80e8a99dc, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 37
     ' Comment Lines: 39
     '   Blank Lines: 9
-    '     File Size: 3.81 KB
+    '     File Size: 3.80 KB
 
 
     '     Module Resources
@@ -135,4 +135,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

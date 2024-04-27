@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3da817bb891367ca99f5842872cc7c30, G:/GCModeller/src/GCModeller/visualize/ChromosomeMap//test/My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::9d603221485f443351a465bdf1a0293d, G:/GCModeller/src/GCModeller/visualize/ChromosomeMap//test/My Project/Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

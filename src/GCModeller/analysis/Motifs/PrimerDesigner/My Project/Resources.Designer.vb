@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8dc9ebdea5a65b9be3faf4049d58cb1, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ca40d41849ddadb1ad417abe24c8c6f2, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -287,4 +287,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

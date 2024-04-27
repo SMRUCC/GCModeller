@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da34e5660d31aae5ae9b068fb3cd2856, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/SeedScanner.vb"
+﻿#Region "Microsoft.VisualBasic::242cc894efb9380e68230112cccb616c, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/SeedScanner.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 10
     ' Comment Lines: 0
     '   Blank Lines: 6
-    '     File Size: 422 B
+    '     File Size: 420 B
 
 
     ' Class SeedScanner
@@ -65,4 +65,3 @@ Public MustInherit Class SeedScanner
 
 
 End Class
-

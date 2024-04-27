@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c0306b86f9ef2db8e2ce09424aa17b1c, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/FileName.vb"
+﻿#Region "Microsoft.VisualBasic::c6db39878282c4861d45e7dca5a829ea, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/FileName.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 112
     ' Comment Lines: 19
     '   Blank Lines: 26
-    '     File Size: 5.58 KB
+    '     File Size: 5.57 KB
 
 
     ' Module FileName
@@ -212,4 +212,3 @@ Public Class GraphSeed
         Next
     End Function
 End Class
-

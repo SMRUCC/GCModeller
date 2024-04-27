@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::890c7249cd3a60c1e46e01536c3fe640, G:/GCModeller/src/GCModeller/data/STRING//StringIndex.vb"
+﻿#Region "Microsoft.VisualBasic::6a99c684ea66e5c3c4cbb6c4e5c3afb8, G:/GCModeller/src/GCModeller/data/STRING//StringIndex.vb"
 
     ' Author:
     ' 
@@ -129,4 +129,3 @@ Public Class StringIndex
         Return sign * cor
     End Function
 End Class
-

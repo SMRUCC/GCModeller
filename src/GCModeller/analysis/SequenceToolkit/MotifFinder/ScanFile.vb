@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eeb8b523340c183dffaa1e191b95cb87, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//ScanFile.vb"
+﻿#Region "Microsoft.VisualBasic::c42019eb85e8cd99abfe7223780d65d4, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//ScanFile.vb"
 
     ' Author:
     ' 
@@ -114,4 +114,3 @@ Public Class ScanFile : Implements IDisposable
         GC.SuppressFinalize(Me)
     End Sub
 End Class
-

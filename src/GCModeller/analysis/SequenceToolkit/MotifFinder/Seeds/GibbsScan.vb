@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57e3079f9af734333f889e0844966bb5, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/GibbsScan.vb"
+﻿#Region "Microsoft.VisualBasic::886b79d7e64e693d5d5d64aa93c5db3e, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/GibbsScan.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 16
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 666 B
+    '     File Size: 664 B
 
 
     ' Class GibbsScan
@@ -70,4 +70,3 @@ Public Class GibbsScan : Inherits SeedScanner
         Next
     End Function
 End Class
-

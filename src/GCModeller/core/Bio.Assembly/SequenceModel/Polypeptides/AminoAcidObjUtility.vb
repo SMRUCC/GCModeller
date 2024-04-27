@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::12016fd7276251f10db9f083759afe33, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/Polypeptides/AminoAcidObjUtility.vb"
+﻿#Region "Microsoft.VisualBasic::2a7e16457295c1560872881b725b0ed6, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/Polypeptides/AminoAcidObjUtility.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 497
     ' Comment Lines: 0
     '   Blank Lines: 25
-    '     File Size: 11.87 KB
+    '     File Size: 11.86 KB
 
 
     '     Module AminoAcidObjUtility
@@ -572,4 +572,3 @@ Namespace SequenceModel.Polypeptides
 }
     End Module
 End Namespace
-

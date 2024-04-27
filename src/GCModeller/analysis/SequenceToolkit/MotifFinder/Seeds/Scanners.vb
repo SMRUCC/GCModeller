@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dfbc784dc87d54c9009255d80ead28b, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/Scanners.vb"
+﻿#Region "Microsoft.VisualBasic::6f15eec7894f77e9c467f8196d2cee83, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/Scanners.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 5
     ' Comment Lines: 0
     '   Blank Lines: 2
-    '     File Size: 79 B
+    '     File Size: 77 B
 
 
     ' Enum Scanners
@@ -60,4 +60,3 @@ Public Enum Scanners
     FullScan
 
 End Enum
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b80dfd87c26ed647d00348a03a58954, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/TreeScan.vb"
+﻿#Region "Microsoft.VisualBasic::b14d1f284b04f39244c9af3c869e90e6, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/TreeScan.vb"
 
     ' Author:
     ' 
@@ -120,4 +120,3 @@ Public Class TreeScan : Inherits SeedScanner
         Next
     End Function
 End Class
-

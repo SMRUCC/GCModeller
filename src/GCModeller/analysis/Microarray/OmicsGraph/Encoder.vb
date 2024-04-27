@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36769736e2913d8c31a011d37dce9278, G:/GCModeller/src/GCModeller/analysis/Microarray//OmicsGraph/Encoder.vb"
+﻿#Region "Microsoft.VisualBasic::3a129fd24a071b4051b091951813b89a, G:/GCModeller/src/GCModeller/analysis/Microarray//OmicsGraph/Encoder.vb"
 
     ' Author:
     ' 
@@ -190,4 +190,3 @@ Public Module Encoder
         Next
     End Function
 End Module
-

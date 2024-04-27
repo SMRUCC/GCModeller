@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a613420d133bf05fd3d18114ea9d5126, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Profiles/SearchProfile.vb"
+﻿#Region "Microsoft.VisualBasic::5867b606bed98762fb2fc571fe719673, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Profiles/SearchProfile.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 13
+    '   Total Lines: 12
     '    Code Lines: 12
     ' Comment Lines: 0
-    '   Blank Lines: 1
-    '     File Size: 449 B
+    '   Blank Lines: 0
+    '     File Size: 445 B
 
 
     ' Class SearchProfile
@@ -49,7 +49,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Public Class SearchProfile
     Public Property MinLength As Integer
@@ -63,4 +62,3 @@ Public Class SearchProfile
     Public Property DeltaTm As Double
     Public Property DeltaGC As Double
 End Class
-

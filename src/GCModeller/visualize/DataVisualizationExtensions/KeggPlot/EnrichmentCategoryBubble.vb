@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35a2df6502d9f4cd84058b661e4c44c5, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//KeggPlot/EnrichmentCategoryBubble.vb"
+﻿#Region "Microsoft.VisualBasic::7749bd7e3d9864ebfe8bd626fee89370, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//KeggPlot/EnrichmentCategoryBubble.vb"
 
     ' Author:
     ' 
@@ -145,4 +145,3 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
         Call Axis.DrawX(g, axis_stroke, "-log10(p)", scaler, XAxisLayoutStyles.Bottom, 0, Nothing, theme.axisLabelCSS, Brushes.Black, CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi), Brushes.Black, htmlLabel:=False)
     End Sub
 End Class
-

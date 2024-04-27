@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c3e1ad5d30375c17ed60f40dacb2dc9, G:/GCModeller/src/GCModeller/analysis/ProteinTools/ProteinMatrix//CreateMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::3f8310184b75ea47f918daa75e0d067e, G:/GCModeller/src/GCModeller/analysis/ProteinTools/ProteinMatrix//CreateMatrix.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 33
     ' Comment Lines: 4
     '   Blank Lines: 9
-    '     File Size: 1.44 KB
+    '     File Size: 1.43 KB
 
 
     ' Class CreateMatrix
@@ -98,4 +98,3 @@ Public Class CreateMatrix
     End Function
 
 End Class
-

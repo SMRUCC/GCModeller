@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31ae8a03fb9b9a6b433082bcb65be2b3, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//KeggPlot/EnrichmentCategoryBar.vb"
+﻿#Region "Microsoft.VisualBasic::0d3d78aabb7314205fe324ba1a560f36, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//KeggPlot/EnrichmentCategoryBar.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 10
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 441 B
+    '     File Size: 439 B
 
 
     ' Class ClassEnrichmentCategoryBar
@@ -63,4 +63,3 @@ Public Class ClassEnrichmentCategoryBar : Inherits Plot
         Throw New NotImplementedException()
     End Sub
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36df569f58626a29900cc9dcbc1866d0, G:/GCModeller/src/GCModeller/annotations/GSEA/FELLA//KEGGOntology.vb"
+﻿#Region "Microsoft.VisualBasic::d0ae9b6dbfd6302dba378f62576aef96, G:/GCModeller/src/GCModeller/annotations/GSEA/FELLA//KEGGOntology.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 2
     ' Comment Lines: 0
     '   Blank Lines: 1
-    '     File Size: 42 B
+    '     File Size: 40 B
 
 
     ' Module KEGGOntology
@@ -52,4 +52,3 @@
 Public Module KEGGOntology
 
 End Module
-

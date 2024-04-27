@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ad23f536208261d4184e19a3a7028ff, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract//KMers.vb"
+﻿#Region "Microsoft.VisualBasic::8a1591452def432b92e41510d24504bb, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract//KMers.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Public Class KMers
         Next
     End Function
 End Class
-

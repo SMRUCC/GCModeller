@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e03981a88146fefbeab1d203c746540f, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//KeggPlot/EnrichmentCategoryHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::13d3ede586b42f2d4b8bd7d444cc5cfb, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//KeggPlot/EnrichmentCategoryHeatmap.vb"
 
     ' Author:
     ' 
@@ -235,4 +235,3 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Next
     End Sub
 End Class
-

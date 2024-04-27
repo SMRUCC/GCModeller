@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b9989982b612ebd6bc4ef4dfbb23072, G:/GCModeller/src/GCModeller/analysis/Motifs/MotifGraph//DistanceGraph.vb"
+﻿#Region "Microsoft.VisualBasic::f17bf170cec3dba506de4d71e4a99355, G:/GCModeller/src/GCModeller/analysis/Motifs/MotifGraph//DistanceGraph.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Public Module DistanceGraph
         Next
     End Function
 End Module
-

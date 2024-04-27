@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93a168b28668052416c17ef313ccce5e, G:/GCModeller/src/GCModeller/analysis/Motifs/MotifGraph//SequenceGraph.vb"
+﻿#Region "Microsoft.VisualBasic::ea7adad839387680696a51078ec40882, G:/GCModeller/src/GCModeller/analysis/Motifs/MotifGraph//SequenceGraph.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,10 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 121
+    '   Total Lines: 120
     '    Code Lines: 72
     ' Comment Lines: 26
-    '   Blank Lines: 23
+    '   Blank Lines: 22
     '     File Size: 3.78 KB
 
 
@@ -51,7 +51,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
@@ -173,4 +172,3 @@ Public Class SequenceGraph : Implements INamedValue
     End Function
 
 End Class
-

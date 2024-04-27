@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d942fe1b03277d331cb323cc7e7f950c, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Profiles/Primer.vb"
+﻿#Region "Microsoft.VisualBasic::1e3079d9ec677980db713f7b13ade094, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Profiles/Primer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 58
     ' Comment Lines: 18
     '   Blank Lines: 13
-    '     File Size: 2.55 KB
+    '     File Size: 2.54 KB
 
 
     ' Class Primer
@@ -142,4 +142,3 @@ Public Class Primer
         End Get
     End Property
 End Class
-

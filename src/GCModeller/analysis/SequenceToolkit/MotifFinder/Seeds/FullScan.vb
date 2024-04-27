@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab6f4092b0aed9dc77d8f2038e7aa395, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/FullScan.vb"
+﻿#Region "Microsoft.VisualBasic::8e0f26bd4d04a665e9d8e76968922b01, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/FullScan.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 62
+    '   Total Lines: 61
     '    Code Lines: 41
     ' Comment Lines: 7
-    '   Blank Lines: 14
-    '     File Size: 2.18 KB
+    '   Blank Lines: 13
+    '     File Size: 2.17 KB
 
 
     ' Class FullScan
@@ -54,7 +54,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eef80b498d0a878cc9f5e3afb5067064, G:/GCModeller/src/GCModeller/analysis/HTS_matrix//File/BinaryData/HTSMatrixReader.vb"
+﻿#Region "Microsoft.VisualBasic::57de7ddbc5b71830bee6d6f6ca66215a, G:/GCModeller/src/GCModeller/analysis/HTS_matrix//File/BinaryData/HTSMatrixReader.vb"
 
     ' Author:
     ' 
@@ -228,4 +228,3 @@ Public Class HTSMatrixReader : Inherits MatrixViewer
         GC.SuppressFinalize(Me)
     End Sub
 End Class
-
