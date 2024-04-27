@@ -1,9 +1,9 @@
 ﻿proj,files,totalLines,commentLines,blankLines,lineOfCodes,class,property,method,functions,operator,size(bytes),size
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\HDS\PtfReader.vb,147,14,27,106,1,0,4,4,0,5386,5.39 KB
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\HDS\PtfWriter.vb,149,18,24,107,1,0,9,1,0,5955,5.96 KB
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\HDS\SabiorkRepository.vb,135,25,20,90,1,0,4,3,0,5258,5.26 KB
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\HDS\Rhea\RheaNetworkReader.vb,77,0,14,63,1,0,2,3,0,2774,2.77 KB
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\HDS\Rhea\RheaNetworkWriter.vb,77,13,13,51,1,0,4,0,0,2981,2.98 KB
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\HDS\PtfReader.vb,147,14,27,106,1,0,4,4,0,5384,5.38 KB
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\HDS\PtfWriter.vb,149,18,24,107,1,0,9,1,0,5953,5.95 KB
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\HDS\SabiorkRepository.vb,135,25,20,90,1,0,4,3,0,5256,5.26 KB
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\HDS\Rhea\RheaNetworkReader.vb,77,0,14,63,1,0,2,3,0,2772,2.77 KB
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\HDS\Rhea\RheaNetworkWriter.vb,77,13,13,51,1,0,4,0,0,2979,2.98 KB
 G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\Indexing\NamesFactory.vb,15,9,2,4,1,0,0,2,0,418,418 B
 G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\Indexing\NamesIndex.vb,32,4,7,21,1,0,1,1,0,945,945 B
 G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\KEGG\Extensions.vb,43,5,4,34,1,0,0,2,0,1801,1.80 KB
@@ -26,26 +26,26 @@ G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repositor
 G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\NCBI\RepositoryExtensions.vb,27,5,4,18,1,0,0,2,0,998,998 B
 G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\NCBI\WebAPI.vb,61,7,12,42,5,0,2,1,0,1963,1.96 KB
 G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\test\Module1.vb,53,3,13,37,1,0,5,0,0,1484,1.48 KB
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\test\My Project\Application.Designer.vb,13,9,2,2,0,0,0,0,0,438,438 B
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\test\My Project\AssemblyInfo.vb,35,15,7,13,0,0,0,0,0,1145,1.15 KB
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\test\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2771,2.77 KB
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\test\My Project\Settings.Designer.vb,73,9,13,51,2,2,1,0,0,2956,2.96 KB
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\test\My Project\Application.Designer.vb,12,9,1,2,0,0,0,0,0,434,434 B
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\test\My Project\AssemblyInfo.vb,35,15,7,13,0,0,0,0,0,1143,1.14 KB
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\test\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2769,2.77 KB
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\test\My Project\Settings.Designer.vb,73,9,13,51,2,2,1,0,0,2954,2.95 KB
 G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\UniProt\AnnotationCache.vb,140,7,22,111,1,0,2,2,0,5859,5.86 KB
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\UniProt\ECNumberReader.vb,125,11,20,94,1,0,3,4,0,4908,4.91 KB
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\UniProt\ECNumberWriter.vb,93,10,15,68,1,0,4,1,0,3786,3.79 KB
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\UniProt\HdsStream.vb,3,0,1,2,1,0,0,0,0,39,39 B
-G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,<project>,3165,477,473,2215,45,30,61,119,0,125777,125.78 KB
-G:\GCModeller\src\repository\graphquery\kegg\src\kegg_api\kegg_api.vbproj,kegg_api\parser.vb,139,40,17,82,1,0,0,2,0,7154,7.15 KB
-G:\GCModeller\src\repository\graphquery\kegg\src\kegg_api\kegg_api.vbproj,kegg_api\zzz.vb,10,0,4,6,1,0,1,0,0,149,149 B
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\UniProt\ECNumberReader.vb,125,11,20,94,1,0,3,4,0,4906,4.91 KB
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\UniProt\ECNumberWriter.vb,93,10,15,68,1,0,4,1,0,3784,3.78 KB
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,Bio.Repository\UniProt\HdsStream.vb,3,0,1,2,1,0,0,0,0,37,37 B
+G:\GCModeller\src\repository\Bio.Repository\repository.NET5.vbproj,<project>,3164,477,472,2215,45,30,61,119,0,125751,125.75 KB
+G:\GCModeller\src\repository\graphquery\kegg\src\kegg_api\kegg_api.vbproj,kegg_api\parser.vb,138,40,16,82,1,0,0,2,0,7150,7.15 KB
+G:\GCModeller\src\repository\graphquery\kegg\src\kegg_api\kegg_api.vbproj,kegg_api\zzz.vb,10,0,4,6,1,0,1,0,0,147,147 B
 G:\GCModeller\src\repository\graphquery\kegg\src\kegg_api\kegg_api.vbproj,kegg_api\Html\ParseMap.vb,162,12,28,122,1,0,0,6,0,6414,6.41 KB
 G:\GCModeller\src\repository\graphquery\kegg\src\kegg_api\kegg_api.vbproj,kegg_api\Html\WebQuery.vb,82,3,13,66,1,1,2,4,0,3056,3.06 KB
-G:\GCModeller\src\repository\graphquery\kegg\src\kegg_api\kegg_api.vbproj,<project>,393,55,62,276,4,1,3,12,0,16773,16.77 KB
+G:\GCModeller\src\repository\graphquery\kegg\src\kegg_api\kegg_api.vbproj,<project>,392,55,61,276,4,1,3,12,0,16767,16.77 KB
 G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,HMP_client\Download.vb,65,8,9,48,1,0,0,3,0,2310,2.31 KB
 G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,HMP_client\manifest.vb,62,8,8,46,1,7,0,2,0,2014,2.01 KB
 G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,HMP_client\metadata.vb,43,12,4,27,1,17,0,1,0,1576,1.58 KB
-G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,HMP_client\My Project\Application.Designer.vb,13,9,2,2,0,0,0,0,0,438,438 B
+G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,HMP_client\My Project\Application.Designer.vb,12,9,1,2,0,0,0,0,0,434,434 B
 G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,HMP_client\My Project\AssemblyInfo.vb,36,15,6,15,0,0,0,0,0,1201,1.20 KB
-G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,HMP_client\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2806,2.81 KB
-G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,HMP_client\My Project\Settings.Designer.vb,75,9,13,53,2,2,1,0,0,3056,3.06 KB
-G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,<project>,357,84,50,223,6,28,1,6,0,13401,13.40 KB
-../src/repository/,<root>,7830,1232,1170,5428,110,118,130,274,0,311902,311.90 KB
+G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,HMP_client\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2804,2.80 KB
+G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,HMP_client\My Project\Settings.Designer.vb,75,9,13,53,2,2,1,0,0,3054,3.05 KB
+G:\GCModeller\src\repository\HMP_client\HMP_client.NET5.vbproj,<project>,356,84,49,223,6,28,1,6,0,13393,13.39 KB
+../src/repository/,<root>,7824,1232,1164,5428,110,118,130,274,0,311822,311.82 KB

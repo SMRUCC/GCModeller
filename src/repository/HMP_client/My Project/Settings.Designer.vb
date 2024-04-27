@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::23b62ec8189ee078984ebc16f9cd59f9, G:/GCModeller/src/repository/HMP_client//My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::0219e4b4195263499f3064099c910074, G:/GCModeller/src/repository/HMP_client//My Project/Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 9
     '   Blank Lines: 13
-    '     File Size: 3.06 KB
+    '     File Size: 3.05 KB
 
 
     '     Class MySettings
@@ -131,4 +131,3 @@ Namespace My
 End Namespace
 
 #end if
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20aa4c7f49b6c42acf0b5f492ddac198, G:/GCModeller/src/repository/HMP_client//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::3ac2f04bcbb593637312bfdf502bb04d, G:/GCModeller/src/repository/HMP_client//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 32
     ' Comment Lines: 23
     '   Blank Lines: 8
-    '     File Size: 2.81 KB
+    '     File Size: 2.80 KB
 
 
     '     Module Resources
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

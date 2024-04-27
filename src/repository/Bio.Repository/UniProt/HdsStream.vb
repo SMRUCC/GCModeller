@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f782e1f34f87ea458af1670cbd0556ae, G:/GCModeller/src/repository/Bio.Repository//UniProt/HdsStream.vb"
+﻿#Region "Microsoft.VisualBasic::4bfdc2b73129a11e6dad140f4eb18ec3, G:/GCModeller/src/repository/Bio.Repository//UniProt/HdsStream.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 2
     ' Comment Lines: 0
     '   Blank Lines: 1
-    '     File Size: 39 B
+    '     File Size: 37 B
 
 
     ' Module HdsStream
@@ -52,4 +52,3 @@
 Public Module HdsStream
 
 End Module
-

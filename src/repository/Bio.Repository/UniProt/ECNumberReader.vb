@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bda7251cbeeaf1e9e934e44bf361ab8, G:/GCModeller/src/repository/Bio.Repository//UniProt/ECNumberReader.vb"
+﻿#Region "Microsoft.VisualBasic::238b42d04f8638acc65ae0fb7b74ea1b, G:/GCModeller/src/repository/Bio.Repository//UniProt/ECNumberReader.vb"
 
     ' Author:
     ' 
@@ -178,4 +178,3 @@ Public Class ECNumberReader : Implements IDisposable
         GC.SuppressFinalize(Me)
     End Sub
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05b3cd3368669e568c86484ad9689114, G:/GCModeller/src/repository/Bio.Repository//HDS/Rhea/RheaNetworkWriter.vb"
+﻿#Region "Microsoft.VisualBasic::5fa8fcc70639507fb4af77bdcb2a0127, G:/GCModeller/src/repository/Bio.Repository//HDS/Rhea/RheaNetworkWriter.vb"
 
     ' Author:
     ' 
@@ -127,4 +127,3 @@ Public Class RheaNetworkWriter : Implements IDisposable
         GC.SuppressFinalize(Me)
     End Sub
 End Class
-

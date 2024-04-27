@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfeeae7a0fdb0d31b5dce3c6029bc9db, G:/GCModeller/src/repository/Bio.Repository//HDS/PtfWriter.vb"
+﻿#Region "Microsoft.VisualBasic::38c1cac4ec593ca3b82e5d1699d3b3d3, G:/GCModeller/src/repository/Bio.Repository//HDS/PtfWriter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 107
     ' Comment Lines: 18
     '   Blank Lines: 24
-    '     File Size: 5.96 KB
+    '     File Size: 5.95 KB
 
 
     ' Class PtfWriter
@@ -202,4 +202,3 @@ Public Class PtfWriter : Implements IDisposable
         GC.SuppressFinalize(Me)
     End Sub
 End Class
-

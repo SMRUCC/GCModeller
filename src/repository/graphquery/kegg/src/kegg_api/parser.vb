@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea855efd984a9af1b88aaae9de6ead40, G:/GCModeller/src/repository/graphquery/kegg/src/kegg_api//parser.vb"
+﻿#Region "Microsoft.VisualBasic::4cca4c3872c06042e9a6df6445b8a0c5, G:/GCModeller/src/repository/graphquery/kegg/src/kegg_api//parser.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,10 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 139
+    '   Total Lines: 138
     '    Code Lines: 82
     ' Comment Lines: 40
-    '   Blank Lines: 17
+    '   Blank Lines: 16
     '     File Size: 7.15 KB
 
 
@@ -48,7 +48,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports kegg_api.Html
 Imports Microsoft.VisualBasic.ApplicationServices
@@ -188,4 +187,3 @@ Public Module parser
         Return True
     End Function
 End Module
-

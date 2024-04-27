@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd88062dbbdd5f0b8d76160114afcf35, G:/GCModeller/src/repository/Bio.Repository//test/My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::1282fef01b4eddb6a7d41566123a5eeb, G:/GCModeller/src/repository/Bio.Repository//test/My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 13
     ' Comment Lines: 15
     '   Blank Lines: 7
-    '     File Size: 1.15 KB
+    '     File Size: 1.14 KB
 
 
     ' 
@@ -81,4 +81,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa67038dcf62138dab806023e9ba2ef3, G:/GCModeller/src/repository/Bio.Repository//HDS/PtfReader.vb"
+﻿#Region "Microsoft.VisualBasic::44d364be4e82f6cfc0b56b746559d447, G:/GCModeller/src/repository/Bio.Repository//HDS/PtfReader.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 106
     ' Comment Lines: 14
     '   Blank Lines: 27
-    '     File Size: 5.39 KB
+    '     File Size: 5.38 KB
 
 
     ' Class PtfReader
@@ -200,4 +200,3 @@ Public Class PtfReader : Implements IDisposable
         GC.SuppressFinalize(Me)
     End Sub
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f825703f4269723b3d0f400ba475026, G:/GCModeller/src/repository/Bio.Repository//UniProt/ECNumberWriter.vb"
+﻿#Region "Microsoft.VisualBasic::245f400369b12a887d1ffa89aaf9b381, G:/GCModeller/src/repository/Bio.Repository//UniProt/ECNumberWriter.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 68
     ' Comment Lines: 10
     '   Blank Lines: 15
-    '     File Size: 3.79 KB
+    '     File Size: 3.78 KB
 
 
     ' Class ECNumberWriter
@@ -146,4 +146,3 @@ Public Class ECNumberWriter : Implements IDisposable
         GC.SuppressFinalize(Me)
     End Sub
 End Class
-
