@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::325834bb0b869ac77398236d000b2bf9, modules\Knowledge_base\Knowledge_base\PubMed\QueryForm.vb"
+﻿#Region "Microsoft.VisualBasic::325834bb0b869ac77398236d000b2bf9, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//PubMed/QueryForm.vb"
 
     ' Author:
     ' 

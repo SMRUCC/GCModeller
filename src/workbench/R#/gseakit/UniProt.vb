@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5795fd6aebf5586707dda331700bcae8, R#\gseakit\UniProt.vb"
+﻿#Region "Microsoft.VisualBasic::526c669b2b106372d1f36af1e529f4a4, G:/GCModeller/src/workbench/R#/gseakit//UniProt.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 109
-    '    Code Lines: 77
-    ' Comment Lines: 18
-    '   Blank Lines: 14
-    '     File Size: 4.16 KB
+    '   Total Lines: 115
+    '    Code Lines: 79
+    ' Comment Lines: 24
+    '   Blank Lines: 12
+    '     File Size: 4.42 KB
 
 
     ' Module UniProt

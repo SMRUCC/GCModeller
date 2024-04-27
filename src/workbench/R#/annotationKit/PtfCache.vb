@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e9eb85a0315f1531feb9ef10911068f, R#\annotationKit\PtfCache.vb"
+﻿#Region "Microsoft.VisualBasic::b00603ba2816840afed27b79cc49629e, G:/GCModeller/src/workbench/R#/annotationKit//PtfCache.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 238
-    '    Code Lines: 177
-    ' Comment Lines: 34
-    '   Blank Lines: 27
-    '     File Size: 9.01 KB
+    '   Total Lines: 277
+    '    Code Lines: 206
+    ' Comment Lines: 42
+    '   Blank Lines: 29
+    '     File Size: 10.90 KB
 
 
     ' Module PTFCache
@@ -327,4 +327,3 @@ Imports REnv = SMRUCC.Rsharp.Runtime
         Return Nothing
     End Function
 End Module
-

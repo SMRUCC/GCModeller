@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f310ceac389d12fcdc1eb12a20cffda0, modules\Knowledge_base\Knowledge_base\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::4db1f6ac28e606543b48070f56060c92, G:/GCModeller/src/workbench/modules/Knowledge_base/Knowledge_base//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

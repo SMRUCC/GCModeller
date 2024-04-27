@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::190c51879eee1391b305a202a9ebcc75, modules\SeqFeature\SeqFeature\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::190c51879eee1391b305a202a9ebcc75, G:/GCModeller/src/workbench/modules/SeqFeature/SeqFeature//My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ad607b3a6d782252f55a02b694bc455, modules\Knowledge_base\Knowledge_base\PubMed\eutils\eSearchResult.vb"
+﻿#Region "Microsoft.VisualBasic::614bb257f6e67c8de96489010def1ede, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//PubMed/eutils/eSearchResult.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 58
-    '    Code Lines: 48
+    '   Total Lines: 54
+    '    Code Lines: 45
     ' Comment Lines: 0
-    '   Blank Lines: 10
-    '     File Size: 1.75 KB
+    '   Blank Lines: 9
+    '     File Size: 1.58 KB
 
 
     ' Class eSearchResult
@@ -50,7 +50,7 @@
     ' 
     '     Properties: Id
     ' 
-    '     Function: GenericEnumerator, GetEnumerator, ToString
+    '     Function: GenericEnumerator, ToString
     ' 
     ' Class TranslationSet
     ' 

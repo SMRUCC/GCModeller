@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::625c91a2b19e28241ccbedbc8f5b7e67, R#\cytoscape_toolkit\automation.vb"
+﻿#Region "Microsoft.VisualBasic::be623d486cecf328d08394e91f62a145, G:/GCModeller/src/workbench/R#/cytoscape_toolkit//automation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 116
+    ' Comment Lines: 10
+    '   Blank Lines: 22
+    '     File Size: 6.71 KB
+
 
     ' Module automation
     ' 

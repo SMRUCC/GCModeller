@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25ad5d126d70ae29a2a06be8463aa98e, R#\seqtoolkit\Annotations\blastPlus.vb"
+﻿#Region "Microsoft.VisualBasic::b16fb0ce153e06ae1b4b1693ae0b7a46, G:/GCModeller/src/workbench/R#/seqtoolkit//Annotations/blastPlus.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 77
-    '    Code Lines: 42
+    '   Total Lines: 78
+    '    Code Lines: 43
     ' Comment Lines: 21
     '   Blank Lines: 14
-    '     File Size: 2.59 KB
+    '     File Size: 2.61 KB
 
 
     ' Module blastPlusInterop

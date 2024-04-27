@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4317349340c733d4f0ba31c18b8b2e90, modules\keggReport\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::4317349340c733d4f0ba31c18b8b2e90, G:/GCModeller/src/workbench/modules/keggReport//My Project/Settings.Designer.vb"
 
     ' Author:
     ' 

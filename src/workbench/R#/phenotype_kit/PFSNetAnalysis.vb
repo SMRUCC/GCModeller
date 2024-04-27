@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4334c5c607b682f6063cc25d790ea149, R#\phenotype_kit\PFSNetAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::157ff35009d3aaaff88f4db450696d03, G:/GCModeller/src/workbench/R#/phenotype_kit//PFSNetAnalysis.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 174
-    '    Code Lines: 135
-    ' Comment Lines: 17
+    '   Total Lines: 195
+    '    Code Lines: 138
+    ' Comment Lines: 35
     '   Blank Lines: 22
-    '     File Size: 8.26 KB
+    '     File Size: 8.99 KB
 
 
     ' Module PFSNetAnalysis

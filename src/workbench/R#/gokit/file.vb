@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d3bcd78a4f15fdd1bb44a8be84c512b, R#\gokit\file.vb"
+﻿#Region "Microsoft.VisualBasic::d4711b6fb8dd3c3c672150f5748815a0, G:/GCModeller/src/workbench/R#/gokit//file.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,19 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 78
+    ' Comment Lines: 10
+    '   Blank Lines: 15
+    '     File Size: 3.65 KB
+
+
     ' Module file
     ' 
-    '     Function: DAG, ReadGoObo
+    '     Function: DAG, is_a, ReadGoObo, synonym, xrefs
     ' 
     ' /********************************************************************************/
 
