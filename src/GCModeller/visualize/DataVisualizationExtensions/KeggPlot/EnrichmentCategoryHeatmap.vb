@@ -87,7 +87,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         y = heatmap_region.Top
 
         For Each col As String In data.featureNames
-            boxCell = New RectangleF(x, y - dy - 10, dx, dy)
+            boxCell = New RectangleF(x + 5, y - dy - 10, dx - 5, dy)
             vec = data(col).NumericGetter
 
             ' draw group color bar
