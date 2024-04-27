@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\obo_dag.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\obo_dag.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +31,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "OBO_DAG.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\annotationKit\\OBO_DAG.vb",
+              "RelativeDocumentMoniker": "annotationKit\\OBO_DAG.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\annotationKit\\OBO_DAG.vb",
+              "RelativeToolTip": "annotationKit\\OBO_DAG.vb",
+              "ViewState": "AQIAADgAAAAAOTMzM3MvwEkAAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-27T03:06:30.666Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BioCyc.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
+              "RelativeDocumentMoniker": "annotationKit\\BioCyc.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
+              "RelativeToolTip": "annotationKit\\BioCyc.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-27T03:06:28.376Z",
+              "EditorCaption": ""
             }
           ]
         }
