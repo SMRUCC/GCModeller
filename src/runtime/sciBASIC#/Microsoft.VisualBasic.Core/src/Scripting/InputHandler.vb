@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c6f6aceb6a0baefc6b557e7b0c1bed1, G:/GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src//Scripting/InputHandler.vb"
+﻿#Region "Microsoft.VisualBasic::d7cd3d1ab9d36ec141b0d90354a7e73e, G:/GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src//Scripting/InputHandler.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 433
+    '   Total Lines: 444
     '    Code Lines: 263
-    ' Comment Lines: 123
+    ' Comment Lines: 134
     '   Blank Lines: 47
-    '     File Size: 19.05 KB
+    '     File Size: 19.52 KB
 
 
     '     Module InputHandler
@@ -457,12 +457,23 @@ Namespace Scripting
         ''' <param name="array"></param>
         ''' <param name="type">数组里面的元素的类型</param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' please note that, this function cast type by using direct cast, without 
+        ''' any type conversion. type-mismatch error may be happends.
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function [DirectCast](array As IEnumerable, type As Type) As Array
             Return Runtime.Extensions.CreateArray(data:=array, type)
         End Function
 
+        ''' <summary>
+        ''' the given <paramref name="type"/> value should be the target 
+        ''' array element type.
+        ''' </summary>
+        ''' <param name="array"></param>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function CTypeDynamic(array As IEnumerable, type As Type) As Array
             Dim pullAll As Array

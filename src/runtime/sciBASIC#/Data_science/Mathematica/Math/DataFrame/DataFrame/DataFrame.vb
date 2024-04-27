@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7aea00a962668db43f526acdc2d38a1, G:/GCModeller/src/runtime/sciBASIC#/Data_science/Mathematica/Math/DataFrame//DataFrame/DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::5872d3744776dd3f67e0d8671738f9c4, G:/GCModeller/src/runtime/sciBASIC#/Data_science/Mathematica/Math/DataFrame//DataFrame/DataFrame.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 148
-    '    Code Lines: 96
+    '   Total Lines: 177
+    '    Code Lines: 121
     ' Comment Lines: 29
-    '   Blank Lines: 23
-    '     File Size: 4.75 KB
+    '   Blank Lines: 27
+    '     File Size: 5.83 KB
 
 
     ' Class DataFrame
@@ -47,7 +47,8 @@
     ' 
     '     Constructor: (+3 Overloads) Sub New
     ' 
-    '     Function: ArrayPack, delete, ToString, Union
+    '     Function: ArrayPack, delete, foreachRow, row, ToString
+    '               Union
     ' 
     '     Sub: (+2 Overloads) add
     ' 
@@ -58,6 +59,7 @@
 Imports System.Data
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -117,6 +119,19 @@ Public Class DataFrame : Implements INumericMatrix
         End Set
     End Property
 
+    Default Public ReadOnly Property Item(cols As IEnumerable(Of String)) As DataFrame
+        Get
+            Return New DataFrame With {
+                .rownames = rownames.ToArray,
+                .features = cols _
+                    .ToDictionary(Function(c) c,
+                                  Function(c)
+                                      Return Me(c)
+                                  End Function)
+            }
+        End Get
+    End Property
+
     Sub New()
     End Sub
 
@@ -149,6 +164,21 @@ Public Class DataFrame : Implements INumericMatrix
     Public Sub add(featureName As String, v As IEnumerable(Of Integer))
         Call features.Add(featureName, New FeatureVector(featureName, v))
     End Sub
+
+    Public Function row(i As Integer) As Object()
+        Return features.Select(Function(c) c.Value(i)).ToArray
+    End Function
+
+    Public Iterator Function foreachRow() As IEnumerable(Of NamedCollection(Of Object))
+        Dim cols = features.Select(Function(c) c.Value.Getter).ToArray
+        Dim nrow As Integer = rownames.Length
+
+        For i As Integer = 0 To nrow - 1
+#Disable Warning
+            Yield New NamedCollection(Of Object)(rownames(i), cols.Select(Function(v) v(i)))
+#Enable Warning
+        Next
+    End Function
 
     ''' <summary>
     ''' current dataframe object append the additional data 

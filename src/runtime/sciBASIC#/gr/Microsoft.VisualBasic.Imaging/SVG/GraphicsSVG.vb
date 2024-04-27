@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bed73182ac67e20a1ad3ff818a4a4a8, G:/GCModeller/src/runtime/sciBASIC#/gr/Microsoft.VisualBasic.Imaging//SVG/GraphicsSVG.vb"
+﻿#Region "Microsoft.VisualBasic::79519f8cf147ea4160b85e5b819f57ec, G:/GCModeller/src/runtime/sciBASIC#/gr/Microsoft.VisualBasic.Imaging//SVG/GraphicsSVG.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1016
-    '    Code Lines: 744
+    '   Total Lines: 1023
+    '    Code Lines: 749
     ' Comment Lines: 29
-    '   Blank Lines: 243
-    '     File Size: 47.08 KB
+    '   Blank Lines: 245
+    '     File Size: 47.38 KB
 
 
     '     Class GraphicsSVG
@@ -47,7 +47,8 @@
     ' 
     '         Constructor: (+4 Overloads) Sub New
     ' 
-    '         Function: (+3 Overloads) BeginContainer, GetContextInfo, GetNearestColor, (+8 Overloads) IsVisible, Save
+    '         Function: (+3 Overloads) BeginContainer, GetContextInfo, GetNearestColor, (+8 Overloads) IsVisible, MeasureString
+    '                   Save
     ' 
     '         Sub: AddMetafileComment, ClearCanvas, (+4 Overloads) CopyFromScreen, Dispose, (+4 Overloads) DrawArc
     '              (+3 Overloads) DrawBezier, (+2 Overloads) DrawBeziers, DrawCircle, (+4 Overloads) DrawClosedCurve, (+7 Overloads) DrawCurve
@@ -717,7 +718,14 @@ Namespace SVG
             Next
         End Sub
 
-        Public Overloads Sub DrawString(s As String, font As Font, brush As Brush, ByRef x!, ByRef y!, angle!)
+        Public Overrides Function MeasureString(text As String, font As Font) As SizeF
+            Dim css As New CSSFont(font, FontFace.SVGPointSize(font.SizeInPoints, Dpi))
+            Dim size As SizeF = gdi.MeasureString(text, font)
+
+            Return size
+        End Function
+
+        Public Overloads Overrides Sub DrawString(s As String, font As Font, brush As Brush, ByRef x!, ByRef y!, angle!)
             ' 2019-04-18 似乎SVG的scale和gdi的scale有一些不一样
             ' 在这里存在一个位置偏移的bug
             ' 在这里尝试使用font size来修正

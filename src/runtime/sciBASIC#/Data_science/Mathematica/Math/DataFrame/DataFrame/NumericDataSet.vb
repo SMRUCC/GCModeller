@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bb53e581cd51e2fe4257034fd3c40cf, G:/GCModeller/src/runtime/sciBASIC#/Data_science/Mathematica/Math/DataFrame//DataFrame/NumericDataSet.vb"
+﻿#Region "Microsoft.VisualBasic::f9377cddc2267fce265e1866458942c1, G:/GCModeller/src/runtime/sciBASIC#/Data_science/Mathematica/Math/DataFrame//DataFrame/NumericDataSet.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,17 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 70
-    '    Code Lines: 60
-    ' Comment Lines: 0
-    '   Blank Lines: 10
-    '     File Size: 2.64 KB
+    '   Total Lines: 131
+    '    Code Lines: 105
+    ' Comment Lines: 6
+    '   Blank Lines: 20
+    '     File Size: 4.53 KB
 
 
     ' Module NumericDataSet
     ' 
-    '     Function: IndexGetter, NumericGetter, NumericMatrix
+    '     Function: IndexGetter, NumericGetter, NumericMatrix, ZScale, ZScaleByCol
+    '               ZScaleByRow
     ' 
     ' /********************************************************************************/
 
@@ -53,6 +54,8 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Distributions
+Imports Microsoft.VisualBasic.Scripting
 Imports any = Microsoft.VisualBasic.Scripting
 
 Public Module NumericDataSet
@@ -118,5 +121,63 @@ Public Module NumericDataSet
         Next
     End Function
 
-End Module
+    ''' <summary>
+    ''' z-score scale of the dataframe data, usually used for the heatmap drawing
+    ''' </summary>
+    ''' <param name="df"></param>
+    ''' <param name="byrow"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ZScale(df As DataFrame, Optional byrow As Boolean = False) As DataFrame
+        If byrow Then
+            Return df.ZScaleByRow
+        Else
+            Return df.ZScaleByCol
+        End If
+    End Function
 
+    <Extension>
+    Private Function ZScaleByCol(df As DataFrame) As DataFrame
+        Dim df_z As New DataFrame With {
+            .features = New Dictionary(Of String, FeatureVector),
+            .rownames = df.rownames.ToArray
+        }
+
+        For Each name As String In df.featureNames
+            Dim v As Double() = df(name).TryCast(Of Double)
+
+            If v.Length > 1 Then
+                v = v.AsVector.Z
+            End If
+
+            df_z(name) = New FeatureVector(name, v)
+        Next
+
+        Return df_z
+    End Function
+
+    <Extension>
+    Private Function ZScaleByRow(df As DataFrame) As DataFrame
+        Dim df_z As New List(Of Double())
+        Dim v As Double()
+
+        For Each row As NamedCollection(Of Object) In df.foreachRow
+            v = row.value.CTypeDynamic(type:=GetType(Double))
+            v = v.AsVector.Z
+            df_z.Add(v)
+        Next
+
+        Dim cols As String() = df.featureNames
+        Dim z As New DataFrame With {
+            .features = New Dictionary(Of String, FeatureVector),
+            .rownames = df.rownames.ToArray
+        }
+
+        For i As Integer = 0 To cols.Length - 1
+            v = df_z.Select(Function(row) row(i)).ToArray
+            z.add(cols(i), v)
+        Next
+
+        Return z
+    End Function
+End Module

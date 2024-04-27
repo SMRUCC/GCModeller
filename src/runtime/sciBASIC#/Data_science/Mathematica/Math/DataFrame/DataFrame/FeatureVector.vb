@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb8a5b9770234b0f6a2f27e5fdaee265, G:/GCModeller/src/runtime/sciBASIC#/Data_science/Mathematica/Math/DataFrame//DataFrame/FeatureVector.vb"
+﻿#Region "Microsoft.VisualBasic::184be0541f37da381b3437ea1bc1d0c4, G:/GCModeller/src/runtime/sciBASIC#/Data_science/Mathematica/Math/DataFrame//DataFrame/FeatureVector.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 218
-    '    Code Lines: 152
+    '   Total Lines: 231
+    '    Code Lines: 164
     ' Comment Lines: 29
-    '   Blank Lines: 37
-    '     File Size: 7.37 KB
+    '   Blank Lines: 38
+    '     File Size: 7.89 KB
 
 
     ' Class FeatureVector
@@ -47,7 +47,7 @@
     ' 
     '     Constructor: (+10 Overloads) Sub New
     '     Function: [TryCast], CastTo, CheckSupports, FromGeneral, GetScalarValue
-    '               ToString
+    '               Getter, ToString
     ' 
     ' /********************************************************************************/
 
@@ -195,6 +195,17 @@ Public Class FeatureVector : Implements IReadOnlyId
         End If
     End Function
 
+    Public Function Getter() As Func(Of Integer, Object)
+        If vector Is Nothing OrElse vector.Length = 0 Then
+            Return Function() Nothing
+        ElseIf vector.Length = 1 Then
+            Dim [single] As Object = GetScalarValue()
+            Return Function() [single]
+        Else
+            Return Function(i) _vector(i)
+        End If
+    End Function
+
     Public Function [TryCast](Of T)() As T()
         If GetType(T) Is type Then
             Return DirectCast(vector, T())
@@ -211,6 +222,8 @@ Public Class FeatureVector : Implements IReadOnlyId
                             Return CastTo(Of Date, Double)(Function(d) d.UnixTimeStamp)
                         Case GetType(TimeSpan)
                             Return CastTo(Of TimeSpan, Double)(Function(d) d.TotalMilliseconds)
+                        Case GetType(String)
+                            Return CastTo(Of String, Double)(AddressOf Conversion.Val)
                     End Select
             End Select
 
