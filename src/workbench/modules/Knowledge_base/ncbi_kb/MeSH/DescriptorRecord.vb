@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87089d9fffb7f27d395a1e6962c15eb4, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//MeSH/DescriptorRecord.vb"
+﻿#Region "Microsoft.VisualBasic::4030d747d049c1620c310901f833a1d5, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//MeSH/DescriptorRecord.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,10 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 143
+    '   Total Lines: 142
     '    Code Lines: 93
     ' Comment Lines: 4
-    '   Blank Lines: 46
+    '   Blank Lines: 45
     '     File Size: 3.93 KB
 
 
@@ -107,7 +107,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Xml.Serialization
 

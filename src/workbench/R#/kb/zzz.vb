@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d70a64be1bcc5ce566acfe9786ea98a2, G:/GCModeller/src/workbench/R#/kb//zzz.vb"
+﻿#Region "Microsoft.VisualBasic::01c22c2119ff5fe38f3b01a82dbc3ee7, G:/GCModeller/src/workbench/R#/kb//zzz.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 8
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 206 B
+    '     File Size: 204 B
 
 
     ' Class zzz
@@ -60,4 +60,3 @@ Public Class zzz
         Call meshTools.Main()
     End Sub
 End Class
-

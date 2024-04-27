@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0345b4308cb7b5b938b2555a3897e56, G:/GCModeller/src/workbench/R#/rnaseq//FastQ.vb"
+﻿#Region "Microsoft.VisualBasic::aa76880784ba6483bd4892eac3c07b44, G:/GCModeller/src/workbench/R#/rnaseq//FastQ.vb"
 
     ' Author:
     ' 
@@ -145,4 +145,3 @@ Public Module FastQ
         End If
     End Function
 End Module
-

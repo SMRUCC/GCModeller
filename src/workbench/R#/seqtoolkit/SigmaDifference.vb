@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4614519f586ea418f644719c49e929c, G:/GCModeller/src/workbench/R#/seqtoolkit//SigmaDifference.vb"
+﻿#Region "Microsoft.VisualBasic::e529903ec2c47ae2578e87511ce0379b, G:/GCModeller/src/workbench/R#/seqtoolkit//SigmaDifference.vb"
 
     ' Author:
     ' 
@@ -971,4 +971,3 @@ Module SigmaDifference
         Return Df
     End Function
 End Module
-

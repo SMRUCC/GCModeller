@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31611bcf1a2ba19a73855b803abf8a89, G:/GCModeller/src/workbench/R#/kb//pubmed.vb"
+﻿#Region "Microsoft.VisualBasic::73b069155375485c4015634246b1f388, G:/GCModeller/src/workbench/R#/kb//pubmed.vb"
 
     ' Author:
     ' 
@@ -107,4 +107,3 @@ Module pubmed
             .ToArray
     End Function
 End Module
-

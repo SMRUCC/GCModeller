@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8eb5edb30dfdde89b4388a3f316142a2, G:/GCModeller/src/workbench/modules/Knowledge_base/Knowledge_base//NLP/GeneName.vb"
+﻿#Region "Microsoft.VisualBasic::e2e18320b1ab0f190a60ca65f280f8aa, G:/GCModeller/src/workbench/modules/Knowledge_base/Knowledge_base//NLP/GeneName.vb"
 
     ' Author:
     ' 
@@ -128,4 +128,3 @@ Public Module GeneName
         End Function
     End Class
 End Module
-

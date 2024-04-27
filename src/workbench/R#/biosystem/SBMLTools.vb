@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e160a09a02c087a54f50b9ed611f161, G:/GCModeller/src/workbench/R#/biosystem//SBMLTools.vb"
+﻿#Region "Microsoft.VisualBasic::8b3b536f6a1d25caab52432f25e9f3bf, G:/GCModeller/src/workbench/R#/biosystem//SBMLTools.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,10 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 215
+    '   Total Lines: 214
     '    Code Lines: 176
     ' Comment Lines: 11
-    '   Blank Lines: 28
+    '   Blank Lines: 27
     '     File Size: 10.05 KB
 
 
@@ -49,7 +49,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
@@ -265,4 +264,3 @@ Module SBMLTools
         End If
     End Function
 End Module
-

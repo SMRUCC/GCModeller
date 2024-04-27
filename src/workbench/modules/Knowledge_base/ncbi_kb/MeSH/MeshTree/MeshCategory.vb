@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b3ada643594dcd8b8baebb8ddcd4306, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//MeSH/MeshTree/MeshCategory.vb"
+﻿#Region "Microsoft.VisualBasic::37e942fb68bbbf27ce88c91c255761eb, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//MeSH/MeshTree/MeshCategory.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,10 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 116
+    '   Total Lines: 115
     '    Code Lines: 21
     ' Comment Lines: 92
-    '   Blank Lines: 3
+    '   Blank Lines: 2
     '     File Size: 4.99 KB
 
 
@@ -52,7 +52,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.ComponentModel
 
