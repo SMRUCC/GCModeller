@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5250d45938ca020ddab3f6efbe18a8ba, HMP_client\Download.vb"
+﻿#Region "Microsoft.VisualBasic::5250d45938ca020ddab3f6efbe18a8ba, G:/GCModeller/src/repository/HMP_client//Download.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 48
+    ' Comment Lines: 8
+    '   Blank Lines: 9
+    '     File Size: 2.31 KB
+
 
     ' Module Download
     ' 

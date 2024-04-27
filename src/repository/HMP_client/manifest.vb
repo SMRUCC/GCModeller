@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28480b1b6bdfcf1be0ada64291b38172, HMP_client\manifest.vb"
+﻿#Region "Microsoft.VisualBasic::28480b1b6bdfcf1be0ada64291b38172, G:/GCModeller/src/repository/HMP_client//manifest.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 46
+    ' Comment Lines: 8
+    '   Blank Lines: 8
+    '     File Size: 2.01 KB
+
 
     ' Class manifest
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93fb06629f3981628547ad820dad307d, Bio.Repository\KEGG\SSDB.vb"
+﻿#Region "Microsoft.VisualBasic::e2fa33cde0c738830be30f68f996e79b, G:/GCModeller/src/repository/Bio.Repository//KEGG/SSDB.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 44
+    ' Comment Lines: 14
+    '   Blank Lines: 12
+    '     File Size: 2.69 KB
+
 
     ' Module SSDB
     ' 

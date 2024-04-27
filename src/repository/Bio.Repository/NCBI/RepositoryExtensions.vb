@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b81b97f8625643f934b2762295902820, Bio.Repository\NCBI\RepositoryExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::b81b97f8625643f934b2762295902820, G:/GCModeller/src/repository/Bio.Repository//NCBI/RepositoryExtensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 18
+    ' Comment Lines: 5
+    '   Blank Lines: 4
+    '     File Size: 998 B
+
 
     '     Module RepositoryExtensions
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4296622d60d186264856fafb6625a92, Bio.Repository\KEGG\KEGGOrthology\OrganismModel.vb"
+﻿#Region "Microsoft.VisualBasic::1c17e20dd34a70cdbb95358fb7cbbbe9, G:/GCModeller/src/repository/Bio.Repository//KEGG/KEGGOrthology/OrganismModel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 74
+    ' Comment Lines: 29
+    '   Blank Lines: 10
+    '     File Size: 4.25 KB
+
 
     ' Class OrganismModel
     ' 

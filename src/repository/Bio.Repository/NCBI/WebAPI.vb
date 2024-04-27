@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39ec07b95489cb2ef4d62dd0c12cc01b, Bio.Repository\NCBI\WebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::39ec07b95489cb2ef4d62dd0c12cc01b, G:/GCModeller/src/repository/Bio.Repository//NCBI/WebAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 42
+    ' Comment Lines: 7
+    '   Blank Lines: 12
+    '     File Size: 1.96 KB
+
 
     ' Module DownloaderWebAPI
     ' 
