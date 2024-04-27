@@ -1,48 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::ae883b54063cf84ffc537fe9861fd14c, WebCloud\SMRUCC.HTTPInternal\Core\HttpRequest\POSTReader\PostReader.vb"
+﻿#Region "Microsoft.VisualBasic::69f5a8118ba3347526bbc6e0105e6d94, G:/GCModeller/src/runtime/httpd/src/Flute//Http/HttpStream/PostReader.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class PostReader
-' 
-'         Properties: ContentEncoding, ContentType, Files, Form, InputStream
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: GetParameter, GetSubStream
-' 
-'         Sub: loadjQueryPOST, loadMultiPart, LoadMultiPart
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 194
+    '    Code Lines: 128
+    ' Comment Lines: 40
+    '   Blank Lines: 26
+    '     File Size: 7.77 KB
+
+
+    '     Class PostReader
+    ' 
+    '         Properties: ContentEncoding, ContentType, files, Form, InputStream
+    '                     Objects
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetParameter, GetSubStream
+    '         Delegate Function
+    ' 
+    '             Sub: loadjQueryPOST, loadMultiPart, LoadMultiPart
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
