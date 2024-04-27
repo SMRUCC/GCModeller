@@ -58,6 +58,11 @@ Namespace OBO
     <HideModuleName>
     Public Module Extensions
 
+        ''' <summary>
+        ''' just create a term dictionary via its <see cref="Term.id"/>
+        ''' </summary>
+        ''' <param name="obo"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function CreateTermTable(obo As GO_OBO) As Dictionary(Of String, Term)
