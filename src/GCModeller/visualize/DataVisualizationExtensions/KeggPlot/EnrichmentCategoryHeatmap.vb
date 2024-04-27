@@ -87,7 +87,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         y = heatmap_region.Top
 
         For Each col As String In data.featureNames
-            boxCell = New RectangleF(x + 5, y - dy - 10, dx - 5, dy)
+            boxCell = New RectangleF(x, y - dy - 10, dx + 3, dy)
             vec = data(col).NumericGetter
 
             ' draw group color bar
@@ -173,7 +173,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
             For i = 0 To mean_z.Length - 1
                 color = group_range.ScaleMapping(mean_z(i), index)
-                boxCell = New RectangleF(x, y, dx, dy)
+                boxCell = New RectangleF(x, y, dx - 5, dy)
                 y += dy
                 g.FillRectangle(New SolidBrush(group_heatcolors(color)), boxCell)
             Next
