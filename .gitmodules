@@ -22,3 +22,6 @@
 	path = src/runtime/GNUplot
 	url = https://github.com/xieguigang/GNUplot.git
 	ignore = all
+[submodule "src/runtime/markdown2pdf"]
+	path = src/runtime/markdown2pdf
+	url = https://github.com/xieguigang/markdown2pdf.git
