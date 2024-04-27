@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01af36eaddee517ae264a9a38661b0b3, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb"
+﻿#Region "Microsoft.VisualBasic::01af36eaddee517ae264a9a38661b0b3, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Application/BBH/Abstract/BBHIndex.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 91
+    ' Comment Lines: 19
+    '   Blank Lines: 14
+    '     File Size: 5.04 KB
+
 
     '     Class BBHIndex
     ' 

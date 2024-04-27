@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a398921e2085e82012226207d1aaf2b0, localblast\LocalBLAST\Pipeline\COG\COG2014.vb"
+﻿#Region "Microsoft.VisualBasic::fd83f765a5a8bc32ea68cda09f6fcb09, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/COG/COG2014.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 72
+    ' Comment Lines: 13
+    '   Blank Lines: 16
+    '     File Size: 4.08 KB
+
 
     '     Module COG2014
     ' 

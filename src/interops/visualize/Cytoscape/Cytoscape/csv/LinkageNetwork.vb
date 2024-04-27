@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::074ec7c0a584f6c59d465b5432eefa8c, visualize\Cytoscape\Cytoscape\csv\LinkageNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::074ec7c0a584f6c59d465b5432eefa8c, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//csv/LinkageNetwork.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 98
+    ' Comment Lines: 11
+    '   Blank Lines: 16
+    '     File Size: 5.37 KB
+
 
     '     Module LinkageNetwork
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f3f68c7982fc2714d6c8ce7c32a2c59, localblast\CLI_tools\CLI\BBH\BBH.vb"
+﻿#Region "Microsoft.VisualBasic::d9115da3eced15aaffa0d42c9e0a3f76, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/BBH/BBH.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 475
+    '    Code Lines: 347
+    ' Comment Lines: 78
+    '   Blank Lines: 50
+    '     File Size: 24.00 KB
+
+
     ' Module CLI
     ' 
-    '     Function: __sbhHelper, BBHExport2, BBHExportFile, BBHTopBest, BlastpBBHQuery
-    '               ExportLocus, LocusSelects, MergeBBH, SBH_BBH_Batch, SBHThread
-    '               SBHTrim, SelectsMeta, VennBBH, vennBlastAll, VennCache
+    '     Function: __sbhHelper, BBHExport2, BBHExportFile, BBHTopBest, ExportLocus
+    '               LocusSelects, MergeBBH, SBH_BBH_Batch, SBHThread, SBHTrim
+    '               SelectsMeta, vennBlastAll, VennCache
     ' 
     ' /********************************************************************************/
 

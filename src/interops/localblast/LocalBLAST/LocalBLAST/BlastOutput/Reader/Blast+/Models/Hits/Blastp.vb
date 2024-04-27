@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c49cf9435bd5bc948f06ca88d2889cf6, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\Hits\Blastp.vb"
+﻿#Region "Microsoft.VisualBasic::c49cf9435bd5bc948f06ca88d2889cf6, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Reader/Blast+/Models/Hits/Blastp.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 68
+    ' Comment Lines: 8
+    '   Blank Lines: 12
+    '     File Size: 3.48 KB
+
 
     '     Class BlastpSubjectHit
     ' 

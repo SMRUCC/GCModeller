@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c868a0a0462490e3ae3b913545b196ec, visualize\Cytoscape\Cytoscape\Session\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::c868a0a0462490e3ae3b913545b196ec, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Session/NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 4
+    ' Comment Lines: 3
+    '   Blank Lines: 1
+    '     File Size: 158 B
+
 
     '     Module NamespaceDoc
     ' 

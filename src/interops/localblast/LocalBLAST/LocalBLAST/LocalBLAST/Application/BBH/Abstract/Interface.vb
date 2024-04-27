@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7b0ca27ef0b614670d74db93e9be357, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::d7b0ca27ef0b614670d74db93e9be357, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Application/BBH/Abstract/Interface.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 21
+    ' Comment Lines: 9
+    '   Blank Lines: 6
+    '     File Size: 1.28 KB
+
 
     '     Interface IBlastHit
     ' 

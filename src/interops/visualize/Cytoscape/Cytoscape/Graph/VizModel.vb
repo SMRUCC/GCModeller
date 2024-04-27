@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5330a8fced66f1c3c225d556996d6ddf, visualize\Cytoscape\Cytoscape\Graph\VizModel.vb"
+﻿#Region "Microsoft.VisualBasic::7bf9857ad893d055061201085a3095f2, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/VizModel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 99
+    ' Comment Lines: 9
+    '   Blank Lines: 16
+    '     File Size: 5.24 KB
+
 
     '     Module VizModel
     ' 

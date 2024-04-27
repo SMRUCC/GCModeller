@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b8e0ff98d8e505daa45d6aab9218256, localblast\ParallelTask\Tasks\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::5b8e0ff98d8e505daa45d6aab9218256, G:/GCModeller/src/interops/localblast/ParallelTask//Tasks/NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 4
+    ' Comment Lines: 3
+    '   Blank Lines: 1
+    '     File Size: 164 B
+
 
     '     Module NamespaceDoc
     ' 

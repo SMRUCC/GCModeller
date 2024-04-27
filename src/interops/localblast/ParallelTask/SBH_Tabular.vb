@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30ccabd1b2233a27ec9a531e66bec680, localblast\ParallelTask\SBH_Tabular.vb"
+﻿#Region "Microsoft.VisualBasic::30ccabd1b2233a27ec9a531e66bec680, G:/GCModeller/src/interops/localblast/ParallelTask//SBH_Tabular.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 65
+    ' Comment Lines: 8
+    '   Blank Lines: 4
+    '     File Size: 4.41 KB
+
 
     '     Module SBH_Tabular
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6dd96e17d3a046b89ccd414e021ebaa6, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\Blast+\CLIBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::6dd96e17d3a046b89ccd414e021ebaa6, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Program/Blast+/CLIBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 1182
+    '    Code Lines: 155
+    ' Comment Lines: 920
+    '   Blank Lines: 107
+    '     File Size: 48.80 KB
+
 
     '     Class BlastpOptionalArguments
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9834f95683e3e3e191a6cc413cfe2c99, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\LocalBLAST.vb"
+﻿#Region "Microsoft.VisualBasic::9834f95683e3e3e191a6cc413cfe2c99, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Program/LocalBLAST.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 505
+    '    Code Lines: 98
+    ' Comment Lines: 353
+    '   Blank Lines: 54
+    '     File Size: 19.87 KB
+
 
     '     Class LocalBLAST
     ' 

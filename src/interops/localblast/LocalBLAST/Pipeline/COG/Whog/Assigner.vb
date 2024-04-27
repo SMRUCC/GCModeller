@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47f9054671c2998f90fb58df3377d1b3, localblast\LocalBLAST\Pipeline\COG\Whog\Assigner.vb"
+﻿#Region "Microsoft.VisualBasic::47f9054671c2998f90fb58df3377d1b3, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/COG/Whog/Assigner.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 24
+    ' Comment Lines: 7
+    '   Blank Lines: 7
+    '     File Size: 1.34 KB
+
 
     '     Module Assigner
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dee3e552665b01713cf779ff5d553062, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\BlastX\BlastXHit.vb"
+﻿#Region "Microsoft.VisualBasic::dee3e552665b01713cf779ff5d553062, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Reader/Blast+/2.6.0+/BlastX/BlastXHit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 42
+    ' Comment Lines: 0
+    '   Blank Lines: 9
+    '     File Size: 1.79 KB
+
 
     '     Class BlastXHit
     ' 

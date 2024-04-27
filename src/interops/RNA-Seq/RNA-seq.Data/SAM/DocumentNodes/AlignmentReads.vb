@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4d584c5828264395ff50d640d4eead1, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\AlignmentReads.vb"
+﻿#Region "Microsoft.VisualBasic::b4d584c5828264395ff50d640d4eead1, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//SAM/DocumentNodes/AlignmentReads.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 412
+    '    Code Lines: 134
+    ' Comment Lines: 248
+    '   Blank Lines: 30
+    '     File Size: 19.50 KB
+
 
     '     Class AlignmentReads
     ' 

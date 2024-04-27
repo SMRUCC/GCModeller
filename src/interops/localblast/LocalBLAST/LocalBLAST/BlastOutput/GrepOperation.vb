@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f93e95e9d25e810ad151d185724f7268, localblast\LocalBLAST\LocalBLAST\BlastOutput\GrepOperation.vb"
+﻿#Region "Microsoft.VisualBasic::f93e95e9d25e810ad151d185724f7268, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/GrepOperation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 23
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 954 B
+
 
     '     Class GrepOperation
     ' 

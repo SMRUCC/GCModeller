@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c91600aa5e071405b882807f7994ba43, localblast\ParallelTask\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::c91600aa5e071405b882807f7994ba43, G:/GCModeller/src/interops/localblast/ParallelTask//Abstract.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 10
+    '    Code Lines: 1
+    ' Comment Lines: 9
+    '   Blank Lines: 0
+    '     File Size: 525 B
+
 
     ' Delegate Function
     ' 

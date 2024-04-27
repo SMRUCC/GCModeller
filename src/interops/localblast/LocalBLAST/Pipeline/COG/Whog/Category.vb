@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c83794e45d061417c18f43d2d2db7649, localblast\LocalBLAST\Pipeline\COG\Whog\Category.vb"
+﻿#Region "Microsoft.VisualBasic::c83794e45d061417c18f43d2d2db7649, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/COG/Whog/Category.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 59
+    ' Comment Lines: 0
+    '   Blank Lines: 15
+    '     File Size: 2.56 KB
+
 
     '     Class Category
     ' 

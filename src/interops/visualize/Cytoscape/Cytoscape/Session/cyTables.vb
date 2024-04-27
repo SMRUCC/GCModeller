@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1adb6881da7f3321ad4fd42a9b284469, visualize\Cytoscape\Cytoscape\Session\cyTables.vb"
+﻿#Region "Microsoft.VisualBasic::83526ae37f84846a13f15c4f807f324d, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Session/cyTables.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 24
+    ' Comment Lines: 3
+    '   Blank Lines: 8
+    '     File Size: 1.17 KB
+
+
     '     Class cyTables
     ' 
     '         Properties: virtualColumns
     ' 
-    '         Function: GenericEnumerator, GetEnumerator
+    '         Function: GenericEnumerator
     ' 
     '     Class virtualColumn
     ' 

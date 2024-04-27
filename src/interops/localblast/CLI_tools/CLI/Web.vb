@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a992e756e51d3808693892d174053f40, localblast\CLI_tools\CLI\Web.vb"
+﻿#Region "Microsoft.VisualBasic::a992e756e51d3808693892d174053f40, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/Web.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 60
+    ' Comment Lines: 0
+    '   Blank Lines: 9
+    '     File Size: 2.78 KB
+
 
     ' Module CLI
     ' 

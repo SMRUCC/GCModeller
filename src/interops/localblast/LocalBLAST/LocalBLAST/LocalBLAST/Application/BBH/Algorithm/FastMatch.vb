@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba67984fc2b635621e59dea9e7220e08, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\FastMatch.vb"
+﻿#Region "Microsoft.VisualBasic::ba67984fc2b635621e59dea9e7220e08, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Application/BBH/Algorithm/FastMatch.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 79
+    ' Comment Lines: 3
+    '   Blank Lines: 12
+    '     File Size: 4.07 KB
+
 
     '     Module FastMatch
     ' 

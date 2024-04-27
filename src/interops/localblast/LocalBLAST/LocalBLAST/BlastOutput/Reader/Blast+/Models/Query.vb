@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47be96a5c8f4dac43463598d0b502935, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\Query.vb"
+﻿#Region "Microsoft.VisualBasic::47be96a5c8f4dac43463598d0b502935, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Reader/Blast+/Models/Query.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 115
+    ' Comment Lines: 25
+    '   Blank Lines: 26
+    '     File Size: 6.50 KB
+
 
     '     Class Query
     ' 

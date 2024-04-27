@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::206536869a4a8d75f73408378fffde31, visualize\Cytoscape\Cytoscape\Graph\Xgmml\GraphIndex.vb"
+﻿#Region "Microsoft.VisualBasic::89765c198fcf133adb5dadc8f4d77989, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/Xgmml/GraphIndex.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 60
+    ' Comment Lines: 5
+    '   Blank Lines: 15
+    '     File Size: 2.85 KB
+
 
     '     Class GraphIndex
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0146d1e83116b19229119d1b5bef975, localblast\ParallelTask\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a0146d1e83116b19229119d1b5bef975, G:/GCModeller/src/interops/localblast/ParallelTask//Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 51
+    ' Comment Lines: 15
+    '   Blank Lines: 20
+    '     File Size: 3.64 KB
+
 
     ' Module Extensions
     ' 

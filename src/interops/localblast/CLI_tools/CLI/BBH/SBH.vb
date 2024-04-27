@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7605d92fabd6557e64355ff7730ff9f7, localblast\CLI_tools\CLI\BBH\SBH.vb"
+﻿#Region "Microsoft.VisualBasic::7605d92fabd6557e64355ff7730ff9f7, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/BBH/SBH.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 385
+    '    Code Lines: 313
+    ' Comment Lines: 7
+    '   Blank Lines: 65
+    '     File Size: 16.78 KB
+
 
     ' Module CLI
     ' 

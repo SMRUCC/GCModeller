@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef35222007936f86799a4ae2ec6b4f11, visualize\Cytoscape\Cytoscape\Session\CysSessionFile.vb"
+﻿#Region "Microsoft.VisualBasic::61a3693d98c0c1c25715bf9d4f29f4b5, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Session/CysSessionFile.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,19 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 215
+    '    Code Lines: 140
+    ' Comment Lines: 29
+    '   Blank Lines: 46
+    '     File Size: 8.55 KB
+
+
     '     Class CysSessionFile
+    ' 
+    '         Properties: source
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: GetCollectionKey, GetLayoutedGraph, GetNetworks, GetSessionInfo, GetViewKey

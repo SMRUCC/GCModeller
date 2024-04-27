@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38b160625324bdfc04319cd37e3a71b1, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\InitializeMethods.vb"
+﻿#Region "Microsoft.VisualBasic::38b160625324bdfc04319cd37e3a71b1, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/InteropService/InitializeMethods.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 46
+    ' Comment Lines: 29
+    '   Blank Lines: 12
+    '     File Size: 3.11 KB
+
 
     '     Module InitializeMethods
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4710b0601c001824233350a9a1255413, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\BitFLAGS.vb"
+﻿#Region "Microsoft.VisualBasic::4710b0601c001824233350a9a1255413, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//SAM/DocumentNodes/BitFLAGS.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 261
+    '    Code Lines: 66
+    ' Comment Lines: 183
+    '   Blank Lines: 12
+    '     File Size: 13.01 KB
+
 
     '     Enum BitFlags
     ' 

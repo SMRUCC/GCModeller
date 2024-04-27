@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1e529762aafbe3f08302726d33765ab, RNA-Seq\RNA-seq.Data\FastQ\OptimizationDataQuality.vb"
+﻿#Region "Microsoft.VisualBasic::b1e529762aafbe3f08302726d33765ab, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//FastQ/OptimizationDataQuality.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 47
+    ' Comment Lines: 28
+    '   Blank Lines: 12
+    '     File Size: 3.80 KB
+
 
     '     Module OptimizationDataQuality
     ' 

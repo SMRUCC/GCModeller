@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0db2f65269e4f8c537e8dd65c4350324, localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Segment.vb"
+﻿#Region "Microsoft.VisualBasic::0db2f65269e4f8c537e8dd65c4350324, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Common/Segment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 73
+    ' Comment Lines: 9
+    '   Blank Lines: 17
+    '     File Size: 3.67 KB
+
 
     '     Class HitSegment
     ' 

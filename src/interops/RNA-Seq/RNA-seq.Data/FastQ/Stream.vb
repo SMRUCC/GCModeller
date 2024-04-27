@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42b0d31e3e15013ffa93da5a1af8ff18, RNA-Seq\RNA-seq.Data\FastQ\Stream.vb"
+﻿#Region "Microsoft.VisualBasic::42b0d31e3e15013ffa93da5a1af8ff18, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//FastQ/Stream.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 30
+    ' Comment Lines: 18
+    '   Blank Lines: 13
+    '     File Size: 3.08 KB
+
 
     '     Module Stream
     ' 

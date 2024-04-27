@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb90e08d2bbd7d21292708cb7a45e25f, RNA-Seq\RNA-seq.Data\SAM\SamStream.vb"
+﻿#Region "Microsoft.VisualBasic::fb90e08d2bbd7d21292708cb7a45e25f, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//SAM/SamStream.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 47
+    ' Comment Lines: 13
+    '   Blank Lines: 14
+    '     File Size: 2.47 KB
+
 
     '     Class SAMStream
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4a01edb520f15cab7db32449b1ea2f7, localblast\LocalBLAST\Pipeline\Models\Hit.vb"
+﻿#Region "Microsoft.VisualBasic::c4a01edb520f15cab7db32449b1ea2f7, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/Models/Hit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 13
+    ' Comment Lines: 15
+    '   Blank Lines: 4
+    '     File Size: 1.10 KB
+
 
     '     Class Hit
     ' 

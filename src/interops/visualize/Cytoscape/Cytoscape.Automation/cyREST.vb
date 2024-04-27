@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::801c9d908bdb6b116e4a2012aa300e97, visualize\Cytoscape\Cytoscape.Automation\cyREST.vb"
+﻿#Region "Microsoft.VisualBasic::801c9d908bdb6b116e4a2012aa300e97, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape.Automation//cyREST.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 28
+    ' Comment Lines: 35
+    '   Blank Lines: 12
+    '     File Size: 2.98 KB
+
 
     ' Class cyREST
     ' 

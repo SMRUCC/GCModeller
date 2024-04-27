@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b5831c04ee0bed4e959dd21ed15d5c0, localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Score.vb"
+﻿#Region "Microsoft.VisualBasic::8b5831c04ee0bed4e959dd21ed15d5c0, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Common/Score.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 115
+    ' Comment Lines: 34
+    '   Blank Lines: 27
+    '     File Size: 6.82 KB
+
 
     '     Class BlastXScore
     ' 

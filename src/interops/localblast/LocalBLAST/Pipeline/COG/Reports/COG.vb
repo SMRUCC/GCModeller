@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbe0b2ac474e00591d540dd015c8641f, localblast\LocalBLAST\Pipeline\COG\Reports\COG.vb"
+﻿#Region "Microsoft.VisualBasic::fbe0b2ac474e00591d540dd015c8641f, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/COG/Reports/COG.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 53
+    ' Comment Lines: 3
+    '   Blank Lines: 9
+    '     File Size: 2.69 KB
+
 
     '     Class MGACOG
     ' 

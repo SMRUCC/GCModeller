@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fb41a312a9b10a87e18b8afbee42b66, localblast\LocalBLAST\Web\Alignment\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::6fb41a312a9b10a87e18b8afbee42b66, G:/GCModeller/src/interops/localblast/LocalBLAST//Web/Alignment/NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 4
+    ' Comment Lines: 3
+    '   Blank Lines: 1
+    '     File Size: 205 B
+
 
     '     Module NamespaceDoc
     ' 

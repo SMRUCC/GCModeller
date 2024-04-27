@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7085f420d43acd9f8f405bfb7aaa6a13, localblast\LocalBLAST\Pipeline\Models\SpeciesBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::7085f420d43acd9f8f405bfb7aaa6a13, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/Models/SpeciesBesthit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 406
+    '    Code Lines: 287
+    ' Comment Lines: 66
+    '   Blank Lines: 53
+    '     File Size: 17.18 KB
+
 
     '     Class SpeciesBesthit
     ' 

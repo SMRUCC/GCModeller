@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b91809c49d3884273c65c998dff5d5e3, localblast\LocalBLAST\Extension.vb"
+﻿#Region "Microsoft.VisualBasic::b91809c49d3884273c65c998dff5d5e3, G:/GCModeller/src/interops/localblast/LocalBLAST//Extension.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 3
+    '    Code Lines: 2
+    ' Comment Lines: 0
+    '   Blank Lines: 1
+    '     File Size: 35 B
+
 
     ' Class Extension
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80383068624b024c03968e538b8bf10c, localblast\LocalBLAST\LocalBLAST\BlastOutput\Xml\BireHits.vb"
+﻿#Region "Microsoft.VisualBasic::80383068624b024c03968e538b8bf10c, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Xml/BireHits.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 83
+    ' Comment Lines: 12
+    '   Blank Lines: 16
+    '     File Size: 4.59 KB
+
 
     '     Class Hit
     ' 
