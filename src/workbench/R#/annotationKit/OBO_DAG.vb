@@ -117,6 +117,11 @@ Module OBO_DAG
         Return GO_OBO.LoadDocument(path)
     End Function
 
+    <ExportAPI("obo_terms")>
+    Public Function getOboTerms(obo As GO_OBO) As Term()
+        Return obo.terms.ToArray
+    End Function
+
     <ExportAPI("ontologyTree")>
     Public Function ontologyTree(obo As GO_OBO) As TermTree(Of Term)
         Dim hash = obo.CreateTermTable
