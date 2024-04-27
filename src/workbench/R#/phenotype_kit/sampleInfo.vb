@@ -352,6 +352,7 @@ Module DEGSample
     Public Function sampleInfoTable(ID As String(),
                                     sample_name As String(),
                                     sample_info As String(),
+                                    Optional color As String() = Nothing,
                                     Optional env As Environment = Nothing) As Object
 
         If ID.IsNullOrEmpty OrElse
@@ -385,7 +386,8 @@ Module DEGSample
             list += New SampleInfo With {
                 .ID = ID(i),
                 .sample_name = sample_name(i),
-                .sample_info = get_group(i)
+                .sample_info = get_group(i),
+                .color = color.ElementAtOrNull(i)
             }
         Next
 
