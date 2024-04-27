@@ -303,12 +303,12 @@ declare namespace geneExpression {
     * log scale of the HTS raw matrix
     * 
     * 
-     * @param expr the HTS expression matrix object
+     * @param expr should be a HTS expression matrix object
      * @param base -
      * 
      * + default value Is ``2.718281828459045``.
    */
-   function log(expr: object, base?: number): object;
+   function log(expr: any, base?: number): object;
    /**
     * get matrix summary information
     * 

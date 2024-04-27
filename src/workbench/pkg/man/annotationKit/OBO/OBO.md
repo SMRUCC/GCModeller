@@ -4,6 +4,7 @@ The Open Biological And Biomedical Ontology (OBO) Foundry
 
 + [open.obo](OBO/open.obo.1) open the ontology obo file reader
 + [read.obo](OBO/read.obo.1) parse the gene ontology obo file
++ [obo_terms](OBO/obo_terms.1) 
 + [ontologyTree](OBO/ontologyTree.1) 
 + [ontologyNodes](OBO/ontologyNodes.1) 
 + [ontologyLeafs](OBO/ontologyLeafs.1) 
