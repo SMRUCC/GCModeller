@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fede5c27f3f9505a91ef86e02e40aacb, GCModeller\engine\Dynamics\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::fede5c27f3f9505a91ef86e02e40aacb, G:/GCModeller/src/GCModeller/engine/Dynamics//NamespaceDoc.vb"
 
     ' Author:
     ' 

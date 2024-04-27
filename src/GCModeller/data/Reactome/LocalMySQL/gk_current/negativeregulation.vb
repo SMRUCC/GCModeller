@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2aaa425bf8e7612d79d0e4947193e56, data\Reactome\LocalMySQL\gk_current\negativeregulation.vb"
+﻿#Region "Microsoft.VisualBasic::c2aaa425bf8e7612d79d0e4947193e56, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/negativeregulation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.68 KB
+
 
     ' Class negativeregulation
     ' 

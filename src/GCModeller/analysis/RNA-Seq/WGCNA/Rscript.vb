@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f71f55be0833eb62b9e18799f5a9e1ed, analysis\RNA-Seq\WGCNA\Rscript.vb"
+﻿#Region "Microsoft.VisualBasic::f71f55be0833eb62b9e18799f5a9e1ed, G:/GCModeller/src/GCModeller/analysis/RNA-Seq/WGCNA//Rscript.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 95
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 8.99 KB
+
 
     ' Module Rscript
     ' 

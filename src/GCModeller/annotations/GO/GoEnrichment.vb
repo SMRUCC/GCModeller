@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c932470eb4d17971d9a910cdd51d768, GCModeller\annotations\GO\GoEnrichment.vb"
+﻿#Region "Microsoft.VisualBasic::e22073b1ba22440215656a1739add89e, G:/GCModeller/src/GCModeller/annotations/GO//GoEnrichment.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 171
-    '    Code Lines: 116
-    ' Comment Lines: 35
-    '   Blank Lines: 20
-    '     File Size: 7.31 KB
+    '   Total Lines: 187
+    '    Code Lines: 121
+    ' Comment Lines: 44
+    '   Blank Lines: 22
+    '     File Size: 7.67 KB
 
 
     ' Module GoEnrichment
     ' 
-    '     Function: (+2 Overloads) Enrichment, GOClusters, missingGoTermWarnings
+    '     Function: (+2 Overloads) Enrichment, GOClusters, missingGoTermWarnings, PullOntologyTerms
     ' 
     ' /********************************************************************************/
 

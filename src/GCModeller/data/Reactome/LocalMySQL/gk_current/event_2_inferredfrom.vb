@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c243105cd07e0b2612acbdf90c22ced, data\Reactome\LocalMySQL\gk_current\event_2_inferredfrom.vb"
+﻿#Region "Microsoft.VisualBasic::0c243105cd07e0b2612acbdf90c22ced, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/event_2_inferredfrom.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.87 KB
+
 
     ' Class event_2_inferredfrom
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42a8d76b37551187a664674bd2cf1e04, GCModeller\analysis\SequenceToolkit\SNP\Test\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::42a8d76b37551187a664674bd2cf1e04, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SNP//Test/My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

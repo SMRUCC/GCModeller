@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1ca2df93610b80e1860ada694e60baa, GCModeller\analysis\SequenceToolkit\MotifFinder\Scanner\MotifMatch.vb"
+﻿#Region "Microsoft.VisualBasic::e1ca2df93610b80e1860ada694e60baa, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Scanner/MotifMatch.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebdca31cb6df3517afed16f3b6bdb74e, GCModeller\analysis\Metagenome\Metagenome\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ebdca31cb6df3517afed16f3b6bdb74e, G:/GCModeller/src/GCModeller/analysis/Metagenome/Metagenome//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 

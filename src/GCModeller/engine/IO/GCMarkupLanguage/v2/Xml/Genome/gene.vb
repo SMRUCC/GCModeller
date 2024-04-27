@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af6deeeee1064b4b779b2a09eb31a434, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\Genome\gene.vb"
+﻿#Region "Microsoft.VisualBasic::af6deeeee1064b4b779b2a09eb31a434, G:/GCModeller/src/GCModeller/engine/IO/GCMarkupLanguage//v2/Xml/Genome/gene.vb"
 
     ' Author:
     ' 

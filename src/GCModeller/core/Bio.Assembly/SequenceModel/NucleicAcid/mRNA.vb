@@ -1,52 +1,52 @@
-﻿#Region "Microsoft.VisualBasic::c437cfd45fdcc6dcd5874e3fff2dc139, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\mRNA.vb"
+﻿#Region "Microsoft.VisualBasic::bf8dad5b29e5ebf5559a2a0bb028aa68, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/NucleicAcid/mRNA.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 91
-'    Code Lines: 62
-' Comment Lines: 9
-'   Blank Lines: 20
-'     File Size: 3.42 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module mRNA
-' 
-'         Function: Putative_mRNA
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 62
+    ' Comment Lines: 9
+    '   Blank Lines: 21
+    '     File Size: 3.42 KB
+
+
+    '     Module mRNA
+    ' 
+    '         Function: Putative_mRNA
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

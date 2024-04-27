@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bb87f779dbafdd20b4782760c141204, GCModeller\core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::8bb87f779dbafdd20b4782760c141204, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/ELIXIR/EBI/ChEBI/EntityModel/Extensions.vb"
 
     ' Author:
     ' 

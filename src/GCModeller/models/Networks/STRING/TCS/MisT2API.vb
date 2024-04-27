@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c24c01ba364981dc31b88b5367e3a36, models\Networks\STRING\TCS\MisT2API.vb"
+﻿#Region "Microsoft.VisualBasic::2c24c01ba364981dc31b88b5367e3a36, G:/GCModeller/src/GCModeller/models/Networks/STRING//TCS/MisT2API.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 44
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 3.00 KB
+
 
     ' Module MisT2API
     ' 

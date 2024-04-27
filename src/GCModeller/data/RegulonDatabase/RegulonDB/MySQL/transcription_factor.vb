@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b90c9aa5d8524582c49806fc71f02a3d, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\transcription_factor.vb"
+﻿#Region "Microsoft.VisualBasic::b90c9aa5d8524582c49806fc71f02a3d, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/transcription_factor.vb"
 
     ' Author:
     ' 

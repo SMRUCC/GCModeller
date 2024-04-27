@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8dc95ffda2e9e6e02eb88a290f70716d, analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
+﻿#Region "Microsoft.VisualBasic::3050e1002bcc53d35019013f2f56629e, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/Utilities.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 270
+    '    Code Lines: 188
+    ' Comment Lines: 55
+    '   Blank Lines: 27
+    '     File Size: 12.75 KB
+
 
     ' Module Utilities
     ' 

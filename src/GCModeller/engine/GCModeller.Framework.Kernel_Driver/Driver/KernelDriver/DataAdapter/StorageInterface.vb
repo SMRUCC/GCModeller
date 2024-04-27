@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de63f767f3c9bb68cdfc51612d3eae55, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\DataAdapter\StorageInterface.vb"
+﻿#Region "Microsoft.VisualBasic::de63f767f3c9bb68cdfc51612d3eae55, G:/GCModeller/src/GCModeller/engine/GCModeller.Framework.Kernel_Driver//Driver/KernelDriver/DataAdapter/StorageInterface.vb"
 
     ' Author:
     ' 

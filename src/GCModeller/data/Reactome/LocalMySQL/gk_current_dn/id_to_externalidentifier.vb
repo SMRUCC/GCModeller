@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2a44d32bbce3f6203d5b0b5c4b3ec74, data\Reactome\LocalMySQL\gk_current_dn\id_to_externalidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::c2a44d32bbce3f6203d5b0b5c4b3ec74, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current_dn/id_to_externalidentifier.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 157
+    '    Code Lines: 78
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 7.24 KB
+
 
     ' Class id_to_externalidentifier
     ' 

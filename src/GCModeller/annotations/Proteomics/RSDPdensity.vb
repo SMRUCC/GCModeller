@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db624dbf80fb266732c4201d0282b198, GCModeller\annotations\Proteomics\RSDPdensity.vb"
+﻿#Region "Microsoft.VisualBasic::db624dbf80fb266732c4201d0282b198, G:/GCModeller/src/GCModeller/annotations/Proteomics//RSDPdensity.vb"
 
     ' Author:
     ' 

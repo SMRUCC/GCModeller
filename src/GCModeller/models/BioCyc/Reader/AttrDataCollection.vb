@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e6eb4bec40dd079b0cc40d1400e22bf, GCModeller\models\BioCyc\Reader\AttrDataCollection.vb"
+﻿#Region "Microsoft.VisualBasic::30e2f2faf1d1bbbfb560895c6731e9e1, G:/GCModeller/src/GCModeller/models/BioCyc//Reader/AttrDataCollection.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 44
-    '    Code Lines: 35
+    '   Total Lines: 53
+    '    Code Lines: 43
     ' Comment Lines: 0
-    '   Blank Lines: 9
-    '     File Size: 1.52 KB
+    '   Blank Lines: 10
+    '     File Size: 1.93 KB
 
 
     ' Class AttrDataCollection
@@ -46,7 +46,7 @@
     '     Properties: features, fileMeta
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: LoadFile, ToString
+    '     Function: (+2 Overloads) LoadFile, ToString
     ' 
     ' /********************************************************************************/
 

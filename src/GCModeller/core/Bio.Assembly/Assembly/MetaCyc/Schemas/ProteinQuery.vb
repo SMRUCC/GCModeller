@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a40379bec813715a1741b72776e8427, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\ProteinQuery.vb"
+﻿#Region "Microsoft.VisualBasic::9a40379bec813715a1741b72776e8427, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/Schemas/ProteinQuery.vb"
 
     ' Author:
     ' 

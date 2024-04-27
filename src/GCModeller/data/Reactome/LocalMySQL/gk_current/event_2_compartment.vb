@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b71be5ba4b9e7eb838811152a09c44e, data\Reactome\LocalMySQL\gk_current\event_2_compartment.vb"
+﻿#Region "Microsoft.VisualBasic::7b71be5ba4b9e7eb838811152a09c44e, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/event_2_compartment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.77 KB
+
 
     ' Class event_2_compartment
     ' 

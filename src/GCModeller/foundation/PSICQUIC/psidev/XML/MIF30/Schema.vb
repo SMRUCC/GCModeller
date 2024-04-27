@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6caf1fa285560766a0273c65c8a93f7, foundation\PSICQUIC\psidev\XML\MIF30\Schema.vb"
+﻿#Region "Microsoft.VisualBasic::a6caf1fa285560766a0273c65c8a93f7, G:/GCModeller/src/GCModeller/foundation/PSICQUIC/psidev//XML/MIF30/Schema.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 19
+    ' Comment Lines: 30
+    '   Blank Lines: 6
+    '     File Size: 1.89 KB
+
 
     '     Class entry
     ' 

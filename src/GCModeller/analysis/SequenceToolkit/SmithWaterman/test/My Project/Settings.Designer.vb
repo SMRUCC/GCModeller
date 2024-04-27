@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::add20debc3a7f902c9eb1e695b30254b, GCModeller\analysis\SequenceToolkit\SmithWaterman\test\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::add20debc3a7f902c9eb1e695b30254b, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SmithWaterman//test/My Project/Settings.Designer.vb"
 
     ' Author:
     ' 

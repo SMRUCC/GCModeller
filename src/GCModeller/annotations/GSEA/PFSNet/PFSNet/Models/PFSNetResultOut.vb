@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2edcf3c861bab0314dfa9dd38bd61775, GCModeller\annotations\GSEA\PFSNet\PFSNet\Models\PFSNetResultOut.vb"
+﻿#Region "Microsoft.VisualBasic::41b7aaa82f7a8319afd91d95c0b42a5c, G:/GCModeller/src/GCModeller/annotations/GSEA/PFSNet/PFSNet//Models/PFSNetResultOut.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 43
-    '    Code Lines: 15
+    '   Total Lines: 41
+    '    Code Lines: 13
     ' Comment Lines: 22
     '   Blank Lines: 6
-    '     File Size: 1.44 KB
+    '     File Size: 1.36 KB
 
 
     '     Class PFSNetResultOut

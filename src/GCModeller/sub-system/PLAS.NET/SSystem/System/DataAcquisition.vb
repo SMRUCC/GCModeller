@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c72f437014949d0c4bbfdd0aa6ad10f, GCModeller\sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
+﻿#Region "Microsoft.VisualBasic::1c72f437014949d0c4bbfdd0aa6ad10f, G:/GCModeller/src/GCModeller/sub-system/PLAS.NET/SSystem//System/DataAcquisition.vb"
 
     ' Author:
     ' 

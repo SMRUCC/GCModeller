@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13ebe91404e36db1b7b5a4cda49d97eb, data\Xfam\Pfam\Pipeline\LocalBlast\Annotation.vb"
+﻿#Region "Microsoft.VisualBasic::13ebe91404e36db1b7b5a4cda49d97eb, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/LocalBlast/Annotation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 283
+    '    Code Lines: 201
+    ' Comment Lines: 47
+    '   Blank Lines: 35
+    '     File Size: 13.25 KB
+
 
     '     Module Annotation
     ' 

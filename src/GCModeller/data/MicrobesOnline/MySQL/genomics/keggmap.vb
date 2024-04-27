@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62c266c927db8f97038185a81412044e, GCModeller\data\MicrobesOnline\MySQL\genomics\keggmap.vb"
+﻿#Region "Microsoft.VisualBasic::62c266c927db8f97038185a81412044e, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/keggmap.vb"
 
     ' Author:
     ' 

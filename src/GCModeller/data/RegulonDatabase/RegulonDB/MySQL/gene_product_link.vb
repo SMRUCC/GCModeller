@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::773462baf3aa3af61efb8f64632ae9c6, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\gene_product_link.vb"
+﻿#Region "Microsoft.VisualBasic::773462baf3aa3af61efb8f64632ae9c6, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/gene_product_link.vb"
 
     ' Author:
     ' 

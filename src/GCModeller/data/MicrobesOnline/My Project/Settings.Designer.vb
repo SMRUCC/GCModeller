@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfda636a76bd4800cdeb5b212d11d57e, GCModeller\data\MicrobesOnline\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::cfda636a76bd4800cdeb5b212d11d57e, G:/GCModeller/src/GCModeller/data/MicrobesOnline//My Project/Settings.Designer.vb"
 
     ' Author:
     ' 

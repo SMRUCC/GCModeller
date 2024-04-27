@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37497e49cd2bd79deaeb068eaa63463d, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb"
+﻿#Region "Microsoft.VisualBasic::37497e49cd2bd79deaeb068eaa63463d, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/NCBI/Database/GenBank/TabularFormat/FeatureBriefs/PTT/Rpt.vb"
 
     ' Author:
     ' 

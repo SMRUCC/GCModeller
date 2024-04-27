@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ab88914a82d06d99823ae0de19351c7, GCModeller\models\BioCyc\Workspace.vb"
+﻿#Region "Microsoft.VisualBasic::c353a42518fef07c6b1df55af0ec7e72, G:/GCModeller/src/GCModeller/models/BioCyc//Workspace.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 80
+    '   Total Lines: 83
     '    Code Lines: 60
-    ' Comment Lines: 3
+    ' Comment Lines: 6
     '   Blank Lines: 17
-    '     File Size: 2.88 KB
+    '     File Size: 2.97 KB
 
 
     ' Class Workspace

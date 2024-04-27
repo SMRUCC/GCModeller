@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c53ee2c518cf1505dfb5edf38f924f6, GCModeller\models\ncbi-BioSystems\Project\ProteinSet.vb"
+﻿#Region "Microsoft.VisualBasic::1c53ee2c518cf1505dfb5edf38f924f6, G:/GCModeller/src/GCModeller/models/ncbi-BioSystems//Project/ProteinSet.vb"
 
     ' Author:
     ' 

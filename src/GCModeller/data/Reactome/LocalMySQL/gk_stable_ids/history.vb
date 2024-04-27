@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76c5d1f5d2ec3faed80da263e85bbe36, data\Reactome\LocalMySQL\gk_stable_ids\history.vb"
+﻿#Region "Microsoft.VisualBasic::76c5d1f5d2ec3faed80da263e85bbe36, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_stable_ids/history.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 163
+    '    Code Lines: 82
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 6.93 KB
+
 
     ' Class history
     ' 

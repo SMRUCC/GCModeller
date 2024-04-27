@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb149f8f273756691ebcfe51561c3d19, data\Reactome\LocalMySQL\gk_current\parameters.vb"
+﻿#Region "Microsoft.VisualBasic::bb149f8f273756691ebcfe51561c3d19, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/parameters.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74
+    ' Comment Lines: 55
+    '   Blank Lines: 22
+    '     File Size: 5.04 KB
+
 
     ' Class parameters
     ' 

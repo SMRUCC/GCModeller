@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::006f78c33e85a01081477499ffcd4fe4, analysis\RNA-Seq\WGCNA\Network\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::d34067dee8c53f54c5e625bf3ee07d89, G:/GCModeller/src/GCModeller/analysis/RNA-Seq/WGCNA//Network/WGCNA.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 84
+    ' Comment Lines: 21
+    '   Blank Lines: 18
+    '     File Size: 4.58 KB
+
+
     '     Class WGCNAWeight
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateMatrix, createMatrixInternal, (+3 Overloads) Find, GenericEnumerator, GetEnumerator
-    '                   GetValue, Subset
+    '         Function: CreateMatrix, createMatrixInternal, (+3 Overloads) Find, GenericEnumerator, GetValue
+    '                   Subset
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1b5892d47a7f17ffc852a3a48f52635, data\Reactome\LocalMySQL\gk_current\species_2_figure.vb"
+﻿#Region "Microsoft.VisualBasic::b1b5892d47a7f17ffc852a3a48f52635, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/species_2_figure.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.34 KB
+
 
     ' Class species_2_figure
     ' 

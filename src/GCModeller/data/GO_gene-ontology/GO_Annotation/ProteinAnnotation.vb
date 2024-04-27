@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efcacb7194ab60b0bd3712eaa5ee5f0d, data\GO_gene-ontology\GO_Annotation\ProteinAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::b3e9d3c3a7a69da2415024d1eb4c15b2, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GO_Annotation//ProteinAnnotation.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 43
+    ' Comment Lines: 0
+    '   Blank Lines: 8
+    '     File Size: 1.85 KB
+
+
     ' Class ProteinAnnotation
     ' 
     '     Properties: description, GO_terms, proteinID
@@ -41,7 +51,7 @@
     ' 
     '     Properties: proteins, size
     ' 
-    '     Function: GenericEnumerator, GetEnumerator, ToAnnotationTable
+    '     Function: GenericEnumerator, ToAnnotationTable
     ' 
     ' /********************************************************************************/
 

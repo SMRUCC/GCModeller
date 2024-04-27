@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::714cd507474573aa321803ebf0d12732, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\BacteriaGenome.vb"
+﻿#Region "Microsoft.VisualBasic::714cd507474573aa321803ebf0d12732, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/WebServices/WebParser/BacteriaGenome.vb"
 
     ' Author:
     ' 

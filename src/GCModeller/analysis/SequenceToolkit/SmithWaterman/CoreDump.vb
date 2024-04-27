@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69fcbf49df0b99ff06c56ff4bcc173f1, GCModeller\analysis\SequenceToolkit\SmithWaterman\CoreDump.vb"
+﻿#Region "Microsoft.VisualBasic::69fcbf49df0b99ff06c56ff4bcc173f1, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SmithWaterman//CoreDump.vb"
 
     ' Author:
     ' 

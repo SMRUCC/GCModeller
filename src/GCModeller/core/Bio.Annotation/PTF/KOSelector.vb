@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edea355844db79b04b77580c397699aa, GCModeller\core\Bio.Annotation\PTF\KOSelector.vb"
+﻿#Region "Microsoft.VisualBasic::1302cea61b735d45185752d3400cc03d, G:/GCModeller/src/GCModeller/core/Bio.Annotation//PTF/KOSelector.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,10 @@
     ' Code Statistics:
 
     '   Total Lines: 14
-    '    Code Lines: 6
+    '    Code Lines: 7
     ' Comment Lines: 5
-    '   Blank Lines: 3
-    '     File Size: 339 B
+    '   Blank Lines: 2
+    '     File Size: 384 B
 
 
     '     Module KOSelector

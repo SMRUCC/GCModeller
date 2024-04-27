@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f93acba76ec179afa15775f44ba9099, analysis\SequenceToolkit\SequenceTools\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::2f93acba76ec179afa15775f44ba9099, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 84
+    ' Comment Lines: 5
+    '   Blank Lines: 17
+    '     File Size: 4.69 KB
+
 
     ' Module ShellScriptAPI
     ' 

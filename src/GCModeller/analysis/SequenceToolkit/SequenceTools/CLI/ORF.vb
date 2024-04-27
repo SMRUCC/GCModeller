@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b399aa36b1c44f1de375fd4a3b0fb07d, analysis\SequenceToolkit\SequenceTools\CLI\ORF.vb"
+﻿#Region "Microsoft.VisualBasic::b399aa36b1c44f1de375fd4a3b0fb07d, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/ORF.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 40
+    ' Comment Lines: 1
+    '   Blank Lines: 4
+    '     File Size: 3.13 KB
+
 
     ' Module Utilities
     ' 

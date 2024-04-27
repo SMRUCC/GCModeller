@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::383bffc475499f1d4e45e107ef6b0b43, GCModeller\engine\Compiler\AssemblyScript\Commands\metadata\Maintainer.vb"
+﻿#Region "Microsoft.VisualBasic::383bffc475499f1d4e45e107ef6b0b43, G:/GCModeller/src/GCModeller/engine/Compiler//AssemblyScript/Commands/metadata/Maintainer.vb"
 
     ' Author:
     ' 

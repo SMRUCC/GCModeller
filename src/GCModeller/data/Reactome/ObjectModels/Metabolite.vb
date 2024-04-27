@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d3448f8f46ed37e9a826d17d413f10d, data\Reactome\ObjectModels\Metabolite.vb"
+﻿#Region "Microsoft.VisualBasic::8d3448f8f46ed37e9a826d17d413f10d, G:/GCModeller/src/GCModeller/data/Reactome//ObjectModels/Metabolite.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 18
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 853 B
+
 
     '     Class Metabolite
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cccf82a64456efb0b4438dbc7377d154, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb"
+﻿#Region "Microsoft.VisualBasic::340d42868e3ba4e35968460f1b638dfa, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/NCBI/Taxonomy/Tree/TaxonomyNode.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,17 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 61
-    '    Code Lines: 31
-    ' Comment Lines: 22
-    '   Blank Lines: 8
-    '     File Size: 2.37 KB
+    '   Total Lines: 84
+    '    Code Lines: 40
+    ' Comment Lines: 34
+    '   Blank Lines: 10
+    '     File Size: 3.09 KB
 
 
     '     Class TaxonomyNode
     ' 
-    '         Properties: children, name, parent, rank, taxid
+    '         Properties: children, name, nchilds, parent, rank
+    '                     taxid
     ' 
     '         Function: RankTable, Taxonomy, ToString
     ' 

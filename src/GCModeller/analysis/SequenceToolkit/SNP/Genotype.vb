@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d6d3f1dd47d5cd44aea4bc083855486, GCModeller\analysis\SequenceToolkit\SNP\Genotype.vb"
+﻿#Region "Microsoft.VisualBasic::1d6d3f1dd47d5cd44aea4bc083855486, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SNP//Genotype.vb"
 
     ' Author:
     ' 

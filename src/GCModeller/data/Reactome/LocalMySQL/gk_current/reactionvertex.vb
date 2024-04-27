@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b0f25a3ad5ef39c2c13a26ef4ddb60b, data\Reactome\LocalMySQL\gk_current\reactionvertex.vb"
+﻿#Region "Microsoft.VisualBasic::9b0f25a3ad5ef39c2c13a26ef4ddb60b, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/reactionvertex.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.37 KB
+
 
     ' Class reactionvertex
     ' 

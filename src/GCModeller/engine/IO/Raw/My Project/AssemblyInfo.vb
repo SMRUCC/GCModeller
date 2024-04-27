@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c29a42081e4c3a0ac9c2661899fcf125, GCModeller\engine\IO\Raw\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::c29a42081e4c3a0ac9c2661899fcf125, G:/GCModeller/src/GCModeller/engine/IO/Raw//My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95c48f88d78d551bdfe2c25a2251551c, GCModeller\analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
+﻿#Region "Microsoft.VisualBasic::70c149bec1159c8378c443a93a1dac51, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/DNA_Comparative//IdentityResult.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 129
-    '    Code Lines: 91
+    '   Total Lines: 127
+    '    Code Lines: 89
     ' Comment Lines: 19
     '   Blank Lines: 19
-    '     File Size: 4.84 KB
+    '     File Size: 4.76 KB
 
 
     ' Class IdentityResult

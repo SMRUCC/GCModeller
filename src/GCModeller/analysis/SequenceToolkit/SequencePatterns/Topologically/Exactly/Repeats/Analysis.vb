@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd2d324f8d78b4d98c4898906239d483, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::bd2d324f8d78b4d98c4898906239d483, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//Topologically/Exactly/Repeats/Analysis.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f162e03bce0dad7097e86efd8e5c62a3, data\Reactome\LocalMySQL\gk_current\pathwayvertex.vb"
+﻿#Region "Microsoft.VisualBasic::f162e03bce0dad7097e86efd8e5c62a3, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/pathwayvertex.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.58 KB
+
 
     ' Class pathwayvertex
     ' 

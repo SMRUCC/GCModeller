@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab68996389ea81b9772690a474c06472, GCModeller\engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
+﻿#Region "Microsoft.VisualBasic::ab68996389ea81b9772690a474c06472, G:/GCModeller/src/GCModeller/engine/Dynamics//Core/Kinetics/Controls/KineticsControls.vb"
 
     ' Author:
     ' 

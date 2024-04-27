@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a174cf01d4b1bd91719ace2f70cd19b, GCModeller\models\SBML\Biopax\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::1a174cf01d4b1bd91719ace2f70cd19b, G:/GCModeller/src/GCModeller/models/SBML/Biopax//My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

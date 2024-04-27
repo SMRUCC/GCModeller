@@ -1,60 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::da19cc85d45f1a3ee39ad9bbe8b157c6, GCModeller\models\Networks\KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::3e59f71a2cdb8c9d7d79cdb58a6bc55e, G:/GCModeller/src/GCModeller/models/Networks/KEGG//ReactionNetwork/Builder/ReactionNetwork.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 225
-'    Code Lines: 148
-' Comment Lines: 53
-'   Blank Lines: 24
-'     File Size: 9.55 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class ReactionNetworkBuilder
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: compoundEdge, enzymeBridgedEdges
-' 
-'         Sub: createEdges
-' 
-'     Module Extensions
-' 
-'         Function: BuildModel, GetReactions
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 403
+    '    Code Lines: 259
+    ' Comment Lines: 102
+    '   Blank Lines: 42
+    '     File Size: 17.36 KB
+
+
+    '     Class ReactionNetworkBuilder
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: compoundEdge, enzymeBridgedEdges
+    ' 
+    '         Sub: createEdges
+    ' 
+    '     Module Extensions
+    ' 
+    '         Function: BuildModel, GetEnzymatic, (+2 Overloads) GetReactions, GetReactionsIgnoreEnzymes, MatchesNonEnzymatics
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

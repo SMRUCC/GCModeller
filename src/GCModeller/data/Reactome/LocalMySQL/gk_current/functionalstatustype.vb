@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::044120df02d603dfd91b1d398be72039, data\Reactome\LocalMySQL\gk_current\functionalstatustype.vb"
+﻿#Region "Microsoft.VisualBasic::044120df02d603dfd91b1d398be72039, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/functionalstatustype.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.31 KB
+
 
     ' Class functionalstatustype
     ' 

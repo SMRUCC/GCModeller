@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6afc15717d281da9ab89a18396734c6, GCModeller\data\SABIO-RK\Dumps\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::d6afc15717d281da9ab89a18396734c6, G:/GCModeller/src/GCModeller/data/SABIO-RK//Dumps/Enzyme.vb"
 
     ' Author:
     ' 

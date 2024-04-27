@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::08e11d9db7b6ba5a5cf80ce554008106, data\Reactome\LocalMySQL\gk_current\databaseobject.vb"
+﻿#Region "Microsoft.VisualBasic::08e11d9db7b6ba5a5cf80ce554008106, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/databaseobject.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 193
+    '    Code Lines: 99
+    ' Comment Lines: 72
+    '   Blank Lines: 22
+    '     File Size: 11.03 KB
+
 
     ' Class databaseobject
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::224698ab44538149f2240387bfd305d6, GCModeller\core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\names.dmp.vb"
+﻿#Region "Microsoft.VisualBasic::224698ab44538149f2240387bfd305d6, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/NCBI/Taxonomy/Tree/names.dmp.vb"
 
     ' Author:
     ' 

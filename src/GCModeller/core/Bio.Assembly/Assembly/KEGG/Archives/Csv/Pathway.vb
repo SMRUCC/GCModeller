@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::fbe52dd5e267056937334bdf6e2615f2, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::938f12a7382aa4df8bdc039ce9c4045a, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/Archives/Csv/Pathway.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 120
-'    Code Lines: 69
-' Comment Lines: 34
-'   Blank Lines: 17
-'     File Size: 4.63 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Pathway
-' 
-'         Properties: [Class], briteID, Category, EntryId, PathwayGenes
-' 
-'         Function: (+2 Overloads) CreateObjects, GenerateObject, GetPathwayGenes, LoadData
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 68
+    ' Comment Lines: 34
+    '   Blank Lines: 18
+    '     File Size: 4.82 KB
+
+
+    '     Class Pathway
+    ' 
+    '         Properties: [Class], briteID, Category, EntryId, PathwayGenes
+    ' 
+    '         Function: (+2 Overloads) CreateObjects, GenerateObject, GetCompoundSet, GetPathwayGenes, LoadData
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

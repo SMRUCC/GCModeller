@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf3704efae643f960bf1771b3b7222bc, GCModeller\analysis\SequenceToolkit\ClustalOmega\OutFmts.vb"
+﻿#Region "Microsoft.VisualBasic::cf3704efae643f960bf1771b3b7222bc, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/ClustalOmega//OutFmts.vb"
 
     ' Author:
     ' 

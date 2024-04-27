@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cf417e39b8d0fe1728e4f48d45988c3, data\Reactome\LocalMySQL\gk_current\url.vb"
+﻿#Region "Microsoft.VisualBasic::0cf417e39b8d0fe1728e4f48d45988c3, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/url.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.33 KB
+
 
     ' Class url
     ' 

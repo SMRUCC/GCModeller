@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c3ad1f27795d4dbe3a1b41260636edd, data\Reactome\LocalMySQL\gk_current\regulation_2_containedinpathway.vb"
+﻿#Region "Microsoft.VisualBasic::4c3ad1f27795d4dbe3a1b41260636edd, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/regulation_2_containedinpathway.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.53 KB
+
 
     ' Class regulation_2_containedinpathway
     ' 

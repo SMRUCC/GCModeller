@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c75e5162263207f426b6de2bbac92cf, data\Reactome\LocalMySQL\gk_current\entityset_2_hasmember.vb"
+﻿#Region "Microsoft.VisualBasic::5c75e5162263207f426b6de2bbac92cf, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/entityset_2_hasmember.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.66 KB
+
 
     ' Class entityset_2_hasmember
     ' 

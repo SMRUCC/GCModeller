@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39936511534a319013e310ab7cabd590, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\MultipleCatalogHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::efaa8cd63d387ae5da023ec809872fbd, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CatalogProfiling/Heatmap/MultipleCatalogHeatmap.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 95
-    '    Code Lines: 66
-    ' Comment Lines: 14
-    '   Blank Lines: 15
-    '     File Size: 3.72 KB
+    '   Total Lines: 109
+    '    Code Lines: 73
+    ' Comment Lines: 16
+    '   Blank Lines: 20
+    '     File Size: 4.17 KB
 
 
     '     Class MultipleCatalogHeatmap
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: getPathways
+    ' 
     '         Sub: drawColorLegends, Z
     ' 
     ' 

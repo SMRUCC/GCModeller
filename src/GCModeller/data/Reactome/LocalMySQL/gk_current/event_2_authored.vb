@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc1a83df10bea4e6b3ffed8f40e42387, data\Reactome\LocalMySQL\gk_current\event_2_authored.vb"
+﻿#Region "Microsoft.VisualBasic::cc1a83df10bea4e6b3ffed8f40e42387, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/event_2_authored.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.49 KB
+
 
     ' Class event_2_authored
     ' 

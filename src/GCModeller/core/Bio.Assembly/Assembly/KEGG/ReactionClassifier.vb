@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccdf963103baca66e6d96236a1cc962b, Bio.Repository\KEGG\ReactionRepository\ReactionClassifier.vb"
+﻿#Region "Microsoft.VisualBasic::9e5097eed25e3c76bc33d17b8337723b, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/ReactionClassifier.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 165
+    '    Code Lines: 132
+    ' Comment Lines: 19
+    '   Blank Lines: 14
+    '     File Size: 6.93 KB
+
 
     ' Class ReactionClassifier
     ' 

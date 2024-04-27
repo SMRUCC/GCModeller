@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f08d1c22b13ef7f92a88421b5fb48c8e, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Document.vb"
+﻿#Region "Microsoft.VisualBasic::f08d1c22b13ef7f92a88421b5fb48c8e, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/DBLinkBuilder/IdMapping/Document.vb"
 
     ' Author:
     ' 

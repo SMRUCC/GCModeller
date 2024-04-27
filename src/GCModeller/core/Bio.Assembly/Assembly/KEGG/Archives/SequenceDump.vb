@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fb7eed06d82ec33ed0126551996563b, GCModeller\core\Bio.Assembly\Assembly\KEGG\Archives\SequenceDump.vb"
+﻿#Region "Microsoft.VisualBasic::2fb7eed06d82ec33ed0126551996563b, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/Archives/SequenceDump.vb"
 
     ' Author:
     ' 

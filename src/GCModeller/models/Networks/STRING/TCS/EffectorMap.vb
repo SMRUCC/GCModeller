@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdf66bf531cd773a8ed30bfed9dd10c2, models\Networks\STRING\TCS\EffectorMap.vb"
+﻿#Region "Microsoft.VisualBasic::fdf66bf531cd773a8ed30bfed9dd10c2, G:/GCModeller/src/GCModeller/models/Networks/STRING//TCS/EffectorMap.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 13
+    ' Comment Lines: 4
+    '   Blank Lines: 3
+    '     File Size: 717 B
+
 
     ' Class EffectorMap
     ' 

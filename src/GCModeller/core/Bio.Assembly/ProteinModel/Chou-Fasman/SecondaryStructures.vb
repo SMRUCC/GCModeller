@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6936bef732765b7a4bd813a1ddf4eea, GCModeller\core\Bio.Assembly\ProteinModel\Chou-Fasman\SecondaryStructures.vb"
+﻿#Region "Microsoft.VisualBasic::d6936bef732765b7a4bd813a1ddf4eea, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ProteinModel/Chou-Fasman/SecondaryStructures.vb"
 
     ' Author:
     ' 

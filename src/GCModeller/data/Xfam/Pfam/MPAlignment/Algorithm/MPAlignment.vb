@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f0b0347db5c7a885abb087f121a6bca, data\Xfam\Pfam\MPAlignment\Algorithm\MPAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::513bd0bb0c4149a833ea37cef5056dd7, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//MPAlignment/Algorithm/MPAlignment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 298
+    '    Code Lines: 220
+    ' Comment Lines: 45
+    '   Blank Lines: 33
+    '     File Size: 16.39 KB
+
 
     '     Module Algorithm
     ' 

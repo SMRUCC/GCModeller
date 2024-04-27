@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be1e29e87c458980becd427abf719674, data\Reactome\LocalMySQL\gk_current\complex.vb"
+﻿#Region "Microsoft.VisualBasic::be1e29e87c458980becd427abf719674, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/complex.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 84
+    ' Comment Lines: 62
+    '   Blank Lines: 22
+    '     File Size: 7.00 KB
+
 
     ' Class complex
     ' 

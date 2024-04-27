@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bedf8b1f0b3d86054d538a8c1e2f161d, data\Reactome\LocalMySQL\gk_current\fragmentinsertionmodification.vb"
+﻿#Region "Microsoft.VisualBasic::bedf8b1f0b3d86054d538a8c1e2f161d, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/fragmentinsertionmodification.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.50 KB
+
 
     ' Class fragmentinsertionmodification
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a710efc5b9c5f25c4f866b65fd95cbab, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayTextParser.vb"
+﻿#Region "Microsoft.VisualBasic::8bcb6f13f9fc3e1c0d51e4227a761daa, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/Objects/Pathway/PathwayMap/PathwayTextParser.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 29
-    '    Code Lines: 25
+    '   Total Lines: 42
+    '    Code Lines: 37
     ' Comment Lines: 0
-    '   Blank Lines: 4
-    '     File Size: 1.21 KB
+    '   Blank Lines: 5
+    '     File Size: 1.82 KB
 
 
     '     Module PathwayTextParser
     ' 
-    '         Function: (+2 Overloads) ParsePathway
+    '         Function: (+2 Overloads) ParsePathway, ParsePathwayModule
     ' 
     ' 
     ' /********************************************************************************/

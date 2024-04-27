@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d9f154d595f501b416d529de2e273cd, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Palindrome.vb"
+﻿#Region "Microsoft.VisualBasic::1d9f154d595f501b416d529de2e273cd, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/LociFeatures/Palindrome.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 581
+    '    Code Lines: 480
+    ' Comment Lines: 44
+    '   Blank Lines: 57
+    '     File Size: 28.82 KB
+
 
     ' Module Utilities
     ' 

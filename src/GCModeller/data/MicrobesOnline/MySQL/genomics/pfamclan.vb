@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::088dd2d606d3fa8c0f730177aeafb5be, GCModeller\data\MicrobesOnline\MySQL\genomics\pfamclan.vb"
+﻿#Region "Microsoft.VisualBasic::088dd2d606d3fa8c0f730177aeafb5be, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/pfamclan.vb"
 
     ' Author:
     ' 

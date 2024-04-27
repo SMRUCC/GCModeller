@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00fb6c980961cefc949931868aa19d05, GCModeller\data\RegulonDatabase\Regprecise\RegulationFootprint.vb"
+﻿#Region "Microsoft.VisualBasic::00fb6c980961cefc949931868aa19d05, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/RegulationFootprint.vb"
 
     ' Author:
     ' 

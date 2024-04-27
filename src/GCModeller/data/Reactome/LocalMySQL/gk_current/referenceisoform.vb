@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19485b25538021dd9d4e5c9c48a5c93a, data\Reactome\LocalMySQL\gk_current\referenceisoform.vb"
+﻿#Region "Microsoft.VisualBasic::19485b25538021dd9d4e5c9c48a5c93a, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/referenceisoform.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.43 KB
+
 
     ' Class referenceisoform
     ' 

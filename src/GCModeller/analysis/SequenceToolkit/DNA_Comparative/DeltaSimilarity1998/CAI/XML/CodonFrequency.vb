@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0ed82465d6ba7d6d5722fb4a399bb33, GCModeller\analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\XML\CodonFrequency.vb"
+﻿#Region "Microsoft.VisualBasic::e0ed82465d6ba7d6d5722fb4a399bb33, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/DNA_Comparative//DeltaSimilarity1998/CAI/XML/CodonFrequency.vb"
 
     ' Author:
     ' 

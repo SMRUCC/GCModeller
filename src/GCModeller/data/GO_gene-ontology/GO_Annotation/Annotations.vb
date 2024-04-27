@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::720723439615de530b752cb92bdd4b07, data\GO_gene-ontology\GO_Annotation\Annotations.vb"
+﻿#Region "Microsoft.VisualBasic::720723439615de530b752cb92bdd4b07, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GO_Annotation//Annotations.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 49
+    ' Comment Lines: 0
+    '   Blank Lines: 10
+    '     File Size: 2.27 KB
+
 
     ' Module Annotations
     ' 

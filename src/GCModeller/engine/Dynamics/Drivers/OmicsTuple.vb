@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::475e72225775a694ad0555d24de13292, GCModeller\engine\Dynamics\Drivers\OmicsTuple.vb"
+﻿#Region "Microsoft.VisualBasic::a532af1140dc3425ba2a063105ceb8e7, G:/GCModeller/src/GCModeller/engine/Dynamics//Drivers/OmicsTuple.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 19
+    '   Total Lines: 23
     '    Code Lines: 15
-    ' Comment Lines: 0
+    ' Comment Lines: 4
     '   Blank Lines: 4
-    '     File Size: 535 B
+    '     File Size: 676 B
 
 
     '     Class OmicsTuple

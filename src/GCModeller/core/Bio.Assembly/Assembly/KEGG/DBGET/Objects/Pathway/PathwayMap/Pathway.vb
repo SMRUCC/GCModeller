@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc38a6b43ed1e79e7abf7842a5c9377b, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::4b9d0765f581d57ab07d5035d80489e4, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/Objects/Pathway/PathwayMap/Pathway.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 198
+    '   Total Lines: 192
     '    Code Lines: 126
-    ' Comment Lines: 43
+    ' Comment Lines: 37
     '   Blank Lines: 29
-    '     File Size: 7.18 KB
+    '     File Size: 7.45 KB
 
 
     '     Class Pathway
     ' 
     '         Properties: [class], briteID, compound, disease, drugs
-    '                     genes, KOpathway, modules, name, organism
-    '                     otherDBs, pathwayMap, references, related_pathways
+    '                     genes, KOpathway, modules, organism, otherDBs
+    '                     pathwayMap, references, related_pathways
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) GetCompoundCollection, GetPathwayGenes, IsContainsCompound, IsContainsGeneObject, IsContainsModule
+    '         Function: (+2 Overloads) GetCompoundCollection, GetCompoundSet, GetPathwayGenes, IsContainsCompound, IsContainsGeneObject
+    '                   IsContainsModule
     ' 
     ' 
     ' /********************************************************************************/

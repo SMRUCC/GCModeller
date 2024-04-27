@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21c4b77c869f821f1b7476e626fc24dd, GCModeller\foundation\OBO_Foundry\IO\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::21c4b77c869f821f1b7476e626fc24dd, G:/GCModeller/src/GCModeller/foundation/OBO_Foundry//IO/Writer.vb"
 
     ' Author:
     ' 

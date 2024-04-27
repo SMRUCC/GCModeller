@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5510a1b61a1a5f73797fc4b28e33fa0, GCModeller\engine\Compiler\AssemblyScript\Environment.vb"
+﻿#Region "Microsoft.VisualBasic::f5510a1b61a1a5f73797fc4b28e33fa0, G:/GCModeller/src/GCModeller/engine/Compiler//AssemblyScript/Environment.vb"
 
     ' Author:
     ' 

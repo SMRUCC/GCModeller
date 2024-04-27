@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e148f03af87d9e9d490228c27286474, foundation\PSICQUIC\psidev\XML\[xsd]net.sf.psidev.mi\Nodes\Interactor.vb"
+﻿#Region "Microsoft.VisualBasic::1e148f03af87d9e9d490228c27286474, G:/GCModeller/src/GCModeller/foundation/PSICQUIC/psidev//XML/[xsd]net.sf.psidev.mi/Nodes/Interactor.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 44
+    ' Comment Lines: 0
+    '   Blank Lines: 14
+    '     File Size: 2.05 KB
+
 
     '     Class Interactor
     ' 

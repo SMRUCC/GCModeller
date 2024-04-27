@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bb2453a5007580b085f1e29e6a2a44a, GCModeller\core\Bio.Assembly\SequenceModel\MWCalculator.vb"
+﻿#Region "Microsoft.VisualBasic::71125995c5167d63f20ce8ad80671983, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/MWCalculator.vb"
 
     ' Author:
     ' 
@@ -34,8 +34,8 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 83
-    '    Code Lines: 60
+    '   Total Lines: 84
+    '    Code Lines: 61
     ' Comment Lines: 16
     '   Blank Lines: 7
     '     File Size: 3.23 KB

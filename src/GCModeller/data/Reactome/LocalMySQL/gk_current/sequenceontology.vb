@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d812f6cef44ec415e2f385de3fa9eec0, data\Reactome\LocalMySQL\gk_current\sequenceontology.vb"
+﻿#Region "Microsoft.VisualBasic::d812f6cef44ec415e2f385de3fa9eec0, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/sequenceontology.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.64 KB
+
 
     ' Class sequenceontology
     ' 

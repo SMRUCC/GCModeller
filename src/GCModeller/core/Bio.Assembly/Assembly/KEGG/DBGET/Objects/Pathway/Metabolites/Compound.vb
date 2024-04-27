@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84c594fbb462021f5a4606d0608a1228, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::9af1b8eac9809c1612887812f6a13574, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/Objects/Pathway/Metabolites/Compound.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 111
+    '   Total Lines: 115
     '    Code Lines: 72
-    ' Comment Lines: 21
+    ' Comment Lines: 25
     '   Blank Lines: 18
-    '     File Size: 3.85 KB
+    '     File Size: 4.03 KB
 
 
     '     Class Compound

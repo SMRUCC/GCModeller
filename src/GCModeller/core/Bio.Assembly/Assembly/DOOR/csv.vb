@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49e73e46bfebb0bfd50230746de62ec4, GCModeller\core\Bio.Assembly\Assembly\DOOR\csv.vb"
+﻿#Region "Microsoft.VisualBasic::49e73e46bfebb0bfd50230746de62ec4, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/DOOR/csv.vb"
 
     ' Author:
     ' 

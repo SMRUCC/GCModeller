@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d87e4432ae52732064783db99514e816, data\STRING\PSI.vb"
+﻿#Region "Microsoft.VisualBasic::d87e4432ae52732064783db99514e816, G:/GCModeller/src/GCModeller/data/STRING//PSI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 41
+    ' Comment Lines: 3
+    '   Blank Lines: 9
+    '     File Size: 1.95 KB
+
 
     ' Module PSI
     ' 

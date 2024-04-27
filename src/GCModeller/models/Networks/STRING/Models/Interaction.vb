@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39ce11283db10975c6a9a95f0e7a1cdc, models\Networks\STRING\Models\Interaction.vb"
+﻿#Region "Microsoft.VisualBasic::39ce11283db10975c6a9a95f0e7a1cdc, G:/GCModeller/src/GCModeller/models/Networks/STRING//Models/Interaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 13
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 451 B
+
 
     '     Structure Interaction
     ' 

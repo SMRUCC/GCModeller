@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::645364469f50e49c391de0e745d0e3f4, models\Networks\Network.Regulons\RegulatesGraph\GraphNode.vb"
+﻿#Region "Microsoft.VisualBasic::645364469f50e49c391de0e745d0e3f4, G:/GCModeller/src/GCModeller/models/Networks/Network.Regulons//RegulatesGraph/GraphNode.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 12
+    ' Comment Lines: 9
+    '   Blank Lines: 6
+    '     File Size: 746 B
+
 
     '     Class Entity
     ' 

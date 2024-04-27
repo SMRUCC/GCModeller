@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ff83da89c6d481961821ba50603ded6, data\Reactome\LocalMySQL\Exports.vb"
+﻿#Region "Microsoft.VisualBasic::1ff83da89c6d481961821ba50603ded6, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/Exports.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 180
+    '    Code Lines: 0
+    ' Comment Lines: 165
+    '   Blank Lines: 15
+    '     File Size: 11.92 KB
+
 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5de593130ab45a59330857717d6d6d00, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\TransportReactions.vb"
+﻿#Region "Microsoft.VisualBasic::fcdf674fccac1b3b57f6784095de0ec3, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/Schemas/TransportReactions.vb"
 
     ' Author:
     ' 
@@ -49,7 +49,7 @@
     '         Function: CreateEquatopnExpression, GetSubstrates, GetTransportReactionExpasyEntries, GetUniqueId
     '         Class CompoundSpecies
     ' 
-    '             Properties: Compartment, Identifier, StoiChiometry
+    '             Properties: Compartment, Identifier, Stoichiometry
     ' 
     '             Constructor: (+1 Overloads) Sub New
     '             Function: GetAttributeValue, ToString

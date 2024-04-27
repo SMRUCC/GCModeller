@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::817a34e87c69e70a43ff235505616c4f, data\Reactome\LocalMySQL\gk_current\crosslinkedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::817a34e87c69e70a43ff235505616c4f, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/crosslinkedresidue.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 6.11 KB
+
 
     ' Class crosslinkedresidue
     ' 

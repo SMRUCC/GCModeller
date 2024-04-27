@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e6074b231cf96028efa80b6328b9f92, GCModeller\engine\BootstrapLoader\ProteinMatureFluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::6e6074b231cf96028efa80b6328b9f92, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//ProteinMatureFluxLoader.vb"
 
     ' Author:
     ' 

@@ -1,57 +1,67 @@
-﻿#Region "Microsoft.VisualBasic::df9de54e9b52cf69ed322574651729a7, analysis\Motifs\PrimerDesigner\Restriction_enzyme\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::8d039edda112c7f2660eecf9072269e3, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Restriction_enzyme/Enzyme.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Enzyme
-' 
-'         Properties: Cut, Enzyme, Isoschizomers, PDB, Recognition
-'                     Source
-' 
-'         Function: ToString
-' 
-'     Class Recognition
-' 
-'         Properties: Forwards, Reversed
-' 
-'         Function: ToString
-' 
-'     Class Cut
-' 
-'         Properties: Left, Right
-' 
-'         Function: __tokenParser, Parser, ToString
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 165
+    '    Code Lines: 60
+    ' Comment Lines: 90
+    '   Blank Lines: 15
+    '     File Size: 8.59 KB
+
+
+    '     Class Enzyme
+    ' 
+    '         Properties: Cut, Enzyme, Isoschizomers, PDB, Recognition
+    '                     Source
+    ' 
+    '         Function: GetCutSite, ToString
+    ' 
+    '     Class Recognition
+    ' 
+    '         Properties: Forwards, Reversed
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Cut
+    ' 
+    '         Properties: CutSite1, CutSite2, IsSingle, Reversed
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

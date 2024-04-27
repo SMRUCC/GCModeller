@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fde2d72026cc7d0a33cd87cde2ee6f1, GCModeller\models\Networks\KEGG\KOLinks.vb"
+﻿#Region "Microsoft.VisualBasic::294d500cbd8f1fd610ee629236c548f3, G:/GCModeller/src/GCModeller/models/Networks/KEGG//KOLinks.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 54
-    '    Code Lines: 34
-    ' Comment Lines: 14
-    '   Blank Lines: 6
-    '     File Size: 1.87 KB
+    '   Total Lines: 62
+    '    Code Lines: 36
+    ' Comment Lines: 21
+    '   Blank Lines: 5
+    '     File Size: 2.27 KB
 
 
     ' Class KOLinks
     ' 
     '     Properties: definition, entry, name, pathways, reactions
     ' 
-    '     Function: Build
+    '     Function: (+2 Overloads) Build
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ca9f556eb12a11c9d8736924dded225, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Reaction\ReactionCompoundTransform.vb"
+﻿#Region "Microsoft.VisualBasic::0ca9f556eb12a11c9d8736924dded225, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/Objects/Pathway/Reaction/ReactionCompoundTransform.vb"
 
     ' Author:
     ' 

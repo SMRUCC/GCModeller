@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db8320bda618429d7faeda2e7031b59e, data\Reactome\LocalMySQL\gk_current\modifiedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::db8320bda618429d7faeda2e7031b59e, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/modifiedresidue.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.62 KB
+
 
     ' Class modifiedresidue
     ' 

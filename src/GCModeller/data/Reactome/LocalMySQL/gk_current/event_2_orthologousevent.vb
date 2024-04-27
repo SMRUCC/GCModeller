@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::205788ab45736c0b450455d2189dbf96, data\Reactome\LocalMySQL\gk_current\event_2_orthologousevent.vb"
+﻿#Region "Microsoft.VisualBasic::205788ab45736c0b450455d2189dbf96, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/event_2_orthologousevent.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.25 KB
+
 
     ' Class event_2_orthologousevent
     ' 

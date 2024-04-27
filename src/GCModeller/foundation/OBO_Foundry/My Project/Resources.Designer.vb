@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a01804ce44e7f0ef7c1e179f8b74acb, GCModeller\foundation\OBO_Foundry\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::6a01804ce44e7f0ef7c1e179f8b74acb, G:/GCModeller/src/GCModeller/foundation/OBO_Foundry//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 

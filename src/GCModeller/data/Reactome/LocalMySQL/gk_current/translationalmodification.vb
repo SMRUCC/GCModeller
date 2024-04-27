@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c456beabcc0de82ebc0224e807a07ae5, data\Reactome\LocalMySQL\gk_current\translationalmodification.vb"
+﻿#Region "Microsoft.VisualBasic::c456beabcc0de82ebc0224e807a07ae5, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/translationalmodification.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 80
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 6.54 KB
+
 
     ' Class translationalmodification
     ' 

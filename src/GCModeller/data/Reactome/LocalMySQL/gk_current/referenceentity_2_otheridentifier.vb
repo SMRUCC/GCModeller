@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f565f2ec431b9ac4225d965c67c706d3, data\Reactome\LocalMySQL\gk_current\referenceentity_2_otheridentifier.vb"
+﻿#Region "Microsoft.VisualBasic::f565f2ec431b9ac4225d965c67c706d3, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/referenceentity_2_otheridentifier.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 6.49 KB
+
 
     ' Class referenceentity_2_otheridentifier
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd3e32c6a11aaa829b2b300b261443b9, data\Reactome\LocalMySQL\gk_stable_ids\reactomerelease.vb"
+﻿#Region "Microsoft.VisualBasic::cd3e32c6a11aaa829b2b300b261443b9, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_stable_ids/reactomerelease.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 154
+    '    Code Lines: 76
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.81 KB
+
 
     ' Class reactomerelease
     ' 

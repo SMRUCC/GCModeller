@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c70ebc7cef550845fe42b53876bdbd5c, GCModeller\engine\IO\Raw\GCModellerRaw\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::c70ebc7cef550845fe42b53876bdbd5c, G:/GCModeller/src/GCModeller/engine/IO/Raw//HDS/GCModellerRaw/NamespaceDoc.vb"
 
     ' Author:
     ' 

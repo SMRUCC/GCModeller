@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::555af1fc732675187301694f903887ed, data\Xfam\Pfam\Pipeline\Database\PfamEntry.vb"
+﻿#Region "Microsoft.VisualBasic::555af1fc732675187301694f903887ed, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/Database/PfamEntry.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 84
+    ' Comment Lines: 3
+    '   Blank Lines: 24
+    '     File Size: 3.78 KB
+
 
     '     Class PfamEntryHeader
     ' 

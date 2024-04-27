@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdc6ffaa2a967edaa0d599f2e4ccdb3e, data\Xfam\Pfam\PfamFamily.vb"
+﻿#Region "Microsoft.VisualBasic::cdc6ffaa2a967edaa0d599f2e4ccdb3e, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//PfamFamily.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 50
+    ' Comment Lines: 4
+    '   Blank Lines: 11
+    '     File Size: 2.34 KB
+
 
     '     Class PfamFamily
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2bd4390c17784d8eea8b35f26384baa, data\Reactome\LocalMySQL\gk_current_dn\reactionlikeevent_to_physicalentity.vb"
+﻿#Region "Microsoft.VisualBasic::b2bd4390c17784d8eea8b35f26384baa, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current_dn/reactionlikeevent_to_physicalentity.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 174
+    '    Code Lines: 77
+    ' Comment Lines: 75
+    '   Blank Lines: 22
+    '     File Size: 7.67 KB
+
 
     ' Class reactionlikeevent_to_physicalentity
     ' 

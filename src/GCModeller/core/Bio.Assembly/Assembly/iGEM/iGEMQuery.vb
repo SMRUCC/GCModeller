@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79d3afd74e9a9fa4f1bc21705fe28429, GCModeller\core\Bio.Assembly\Assembly\iGEM\iGEMQuery.vb"
+﻿#Region "Microsoft.VisualBasic::79d3afd74e9a9fa4f1bc21705fe28429, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/iGEM/iGEMQuery.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94a36c7c7782b5b3413f9f9953eca36d, GCModeller\engine\vcellkit\Modeller\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::2df7a0240cd3e116a8ca7646dedcc537, G:/GCModeller/src/GCModeller/engine/vcellkit//Modeller/Compiler.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 175
-    '    Code Lines: 112
+    '   Total Lines: 176
+    '    Code Lines: 113
     ' Comment Lines: 48
     '   Blank Lines: 15
-    '     File Size: 8.31 KB
+    '     File Size: 8.36 KB
 
 
     ' Module Compiler

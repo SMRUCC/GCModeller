@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bdabb1873c698966d3f2e5e70ee6a83f, GCModeller\analysis\SequenceToolkit\MotifFinder\TrimMotif.vb"
+﻿#Region "Microsoft.VisualBasic::9883142f626b573f0ccce20d4bd5c65b, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//TrimMotif.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 77
-    '    Code Lines: 66
+    '   Total Lines: 82
+    '    Code Lines: 70
     ' Comment Lines: 0
-    '   Blank Lines: 11
-    '     File Size: 2.55 KB
+    '   Blank Lines: 12
+    '     File Size: 2.72 KB
 
 
     ' Module TrimMotif

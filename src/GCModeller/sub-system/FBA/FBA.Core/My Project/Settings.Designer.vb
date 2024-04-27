@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::666b19671c753c888dd4253cfae2b60b, GCModeller\sub-system\FBA\FBA.Core\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::666b19671c753c888dd4253cfae2b60b, G:/GCModeller/src/GCModeller/sub-system/FBA/FBA.Core//My Project/Settings.Designer.vb"
 
     ' Author:
     ' 

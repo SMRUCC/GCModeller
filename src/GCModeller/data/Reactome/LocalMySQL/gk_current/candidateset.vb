@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfbae251118735f84ca6db95b585e8b7, data\Reactome\LocalMySQL\gk_current\candidateset.vb"
+﻿#Region "Microsoft.VisualBasic::bfbae251118735f84ca6db95b585e8b7, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/candidateset.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.57 KB
+
 
     ' Class candidateset
     ' 

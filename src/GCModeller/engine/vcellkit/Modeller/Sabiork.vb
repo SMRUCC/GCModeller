@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbeade0794c19db1c48104dc12207054, GCModeller\engine\vcellkit\Modeller\Sabiork.vb"
+﻿#Region "Microsoft.VisualBasic::fbeade0794c19db1c48104dc12207054, G:/GCModeller/src/GCModeller/engine/vcellkit//Modeller/Sabiork.vb"
 
     ' Author:
     ' 

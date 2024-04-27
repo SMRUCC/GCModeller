@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab0db068989630fba07298238d7e9454, data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_entityfunctionalstatus.vb"
+﻿#Region "Microsoft.VisualBasic::ab0db068989630fba07298238d7e9454, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/reactionlikeevent_2_entityfunctionalstatus.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 8.05 KB
+
 
     ' Class reactionlikeevent_2_entityfunctionalstatus
     ' 

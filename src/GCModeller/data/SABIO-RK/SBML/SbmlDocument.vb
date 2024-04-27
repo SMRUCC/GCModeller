@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e6ccd7f26ca68266f8f19ed51c60fae, GCModeller\data\SABIO-RK\SBML\SbmlDocument.vb"
+﻿#Region "Microsoft.VisualBasic::6e6ccd7f26ca68266f8f19ed51c60fae, G:/GCModeller/src/GCModeller/data/SABIO-RK//SBML/SbmlDocument.vb"
 
     ' Author:
     ' 

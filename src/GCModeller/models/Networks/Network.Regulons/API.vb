@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e08e93c723cf18f3d232824d21ad5b5, models\Networks\Network.Regulons\API.vb"
+﻿#Region "Microsoft.VisualBasic::1e08e93c723cf18f3d232824d21ad5b5, G:/GCModeller/src/GCModeller/models/Networks/Network.Regulons//API.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 3
+    '    Code Lines: 2
+    ' Comment Lines: 0
+    '   Blank Lines: 1
+    '     File Size: 31 B
+
 
     ' Module API
     ' 

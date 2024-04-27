@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3040218a278e760706eec97b049e498, GCModeller\models\Networks\KEGG\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::a3040218a278e760706eec97b049e498, G:/GCModeller/src/GCModeller/models/Networks/KEGG//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 

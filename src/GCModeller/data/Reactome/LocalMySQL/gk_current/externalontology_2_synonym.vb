@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ec2384a4ef52f8bfab9469b3aac8396, data\Reactome\LocalMySQL\gk_current\externalontology_2_synonym.vb"
+﻿#Region "Microsoft.VisualBasic::3ec2384a4ef52f8bfab9469b3aac8396, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/externalontology_2_synonym.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 5.94 KB
+
 
     ' Class externalontology_2_synonym
     ' 

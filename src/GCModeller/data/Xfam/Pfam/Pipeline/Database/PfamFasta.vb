@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c709e0d6d12301262eb171ab029c9e2d, data\Xfam\Pfam\Pipeline\Database\PfamFasta.vb"
+﻿#Region "Microsoft.VisualBasic::c709e0d6d12301262eb171ab029c9e2d, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/Database/PfamFasta.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 33
+    ' Comment Lines: 3
+    '   Blank Lines: 8
+    '     File Size: 1.84 KB
+
 
     '     Class PfamFasta
     ' 

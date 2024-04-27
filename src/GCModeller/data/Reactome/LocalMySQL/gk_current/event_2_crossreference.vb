@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::237fb955a0fa9da917405384868b0e92, data\Reactome\LocalMySQL\gk_current\event_2_crossreference.vb"
+﻿#Region "Microsoft.VisualBasic::237fb955a0fa9da917405384868b0e92, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/event_2_crossreference.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.06 KB
+
 
     ' Class event_2_crossreference
     ' 

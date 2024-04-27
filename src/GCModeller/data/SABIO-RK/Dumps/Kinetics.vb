@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::804bd5481e959e7e25a1bf5a33037739, GCModeller\data\SABIO-RK\Dumps\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::804bd5481e959e7e25a1bf5a33037739, G:/GCModeller/src/GCModeller/data/SABIO-RK//Dumps/Kinetics.vb"
 
     ' Author:
     ' 

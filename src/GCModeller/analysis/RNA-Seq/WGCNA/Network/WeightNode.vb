@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2543dedb8f17af8f73721140a642b89, analysis\RNA-Seq\WGCNA\Network\WeightNode.vb"
+﻿#Region "Microsoft.VisualBasic::f2543dedb8f17af8f73721140a642b89, G:/GCModeller/src/GCModeller/analysis/RNA-Seq/WGCNA//Network/WeightNode.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 43
+    ' Comment Lines: 8
+    '   Blank Lines: 7
+    '     File Size: 2.32 KB
+
 
     '     Class Weight
     ' 

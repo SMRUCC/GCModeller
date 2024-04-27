@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7cffee2ebf284e72cfdb3eb0c5c5d3f, GCModeller\foundation\OBO_Foundry\Tree\GenericTree.vb"
+﻿#Region "Microsoft.VisualBasic::2a8f1857148a54692aa6b5eb410ca77d, G:/GCModeller/src/GCModeller/foundation/OBO_Foundry//Tree/GenericTree.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 46
-    '    Code Lines: 23
-    ' Comment Lines: 17
+    '   Total Lines: 53
+    '    Code Lines: 24
+    ' Comment Lines: 23
     '   Blank Lines: 6
-    '     File Size: 1.42 KB
+    '     File Size: 1.67 KB
 
 
     '     Class GenericTree
     ' 
-    '         Properties: data, ID, is_a, name
+    '         Properties: data, direct_childrens, ID, is_a, name
     ' 
     '         Function: IsBaseType, ToString
     ' 

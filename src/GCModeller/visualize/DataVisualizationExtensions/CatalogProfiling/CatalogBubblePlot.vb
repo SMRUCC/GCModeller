@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f569e1ea057704663a97e126dd75f27, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb"
+﻿#Region "Microsoft.VisualBasic::8942596f33e4d38ba003d80241973ff2, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CatalogProfiling/CatalogBubblePlot.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 210
     ' Comment Lines: 20
     '   Blank Lines: 27
-    '     File Size: 11.01 KB
+    '     File Size: 11.02 KB
 
 
     '     Class CatalogBubblePlot

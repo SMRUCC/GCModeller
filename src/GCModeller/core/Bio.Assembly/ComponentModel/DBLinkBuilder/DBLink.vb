@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::783da44114f1b02ff1dec4852c589a40, GCModeller\core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::1bbb0e34d94b7bfa647b649a2e58fe59, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/DBLinkBuilder/DBLink.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 73
-'    Code Lines: 49
-' Comment Lines: 11
-'   Blank Lines: 13
-'     File Size: 2.58 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class DBLink
-' 
-'         Properties: DBName, Entry, link
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: CreateObject, FromTagValue, GetFormatValue, (+3 Overloads) ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 79
+    '    Code Lines: 50
+    ' Comment Lines: 15
+    '   Blank Lines: 14
+    '     File Size: 2.75 KB
+
+
+    '     Class DBLink
+    ' 
+    '         Properties: DBName, entry, link
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: CreateObject, FromTagValue, GetFormatValue, (+3 Overloads) ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

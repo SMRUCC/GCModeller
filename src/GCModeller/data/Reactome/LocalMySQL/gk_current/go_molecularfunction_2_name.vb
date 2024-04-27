@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfea280bf5956ecafa2ce89c48908d50, data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_name.vb"
+﻿#Region "Microsoft.VisualBasic::cfea280bf5956ecafa2ce89c48908d50, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_molecularfunction_2_name.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 5.81 KB
+
 
     ' Class go_molecularfunction_2_name
     ' 

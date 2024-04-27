@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87d8919fa653059fe994c30a940674ca, GCModeller\engine\Compiler\KEGG\Arguments.vb"
+﻿#Region "Microsoft.VisualBasic::87d8919fa653059fe994c30a940674ca, G:/GCModeller/src/GCModeller/engine/Compiler//KEGG/Arguments.vb"
 
     ' Author:
     ' 

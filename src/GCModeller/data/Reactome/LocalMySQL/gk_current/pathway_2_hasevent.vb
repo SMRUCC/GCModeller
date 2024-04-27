@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1962e98e487c25ede8f5f5df2fdf98f0, data\Reactome\LocalMySQL\gk_current\pathway_2_hasevent.vb"
+﻿#Region "Microsoft.VisualBasic::1962e98e487c25ede8f5f5df2fdf98f0, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/pathway_2_hasevent.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.53 KB
+
 
     ' Class pathway_2_hasevent
     ' 

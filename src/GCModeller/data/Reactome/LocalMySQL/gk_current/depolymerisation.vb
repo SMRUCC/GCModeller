@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c64df3c5630ccaeadcebca2a81b4072e, data\Reactome\LocalMySQL\gk_current\depolymerisation.vb"
+﻿#Region "Microsoft.VisualBasic::c64df3c5630ccaeadcebca2a81b4072e, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/depolymerisation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.64 KB
+
 
     ' Class depolymerisation
     ' 

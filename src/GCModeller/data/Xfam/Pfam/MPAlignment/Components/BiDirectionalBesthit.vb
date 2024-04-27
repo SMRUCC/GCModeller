@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ca047bf04802d8af725d9a8a3c01c3b, data\Xfam\Pfam\MPAlignment\Components\BiDirectionalBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::1ca047bf04802d8af725d9a8a3c01c3b, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//MPAlignment/Components/BiDirectionalBesthit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 23
+    ' Comment Lines: 0
+    '   Blank Lines: 7
+    '     File Size: 1.16 KB
+
 
     '     Class BiDirectionalBesthit
     ' 

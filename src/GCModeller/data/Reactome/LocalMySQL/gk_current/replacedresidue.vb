@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49a3547f6421cb9ce57c71a7868ae14d, data\Reactome\LocalMySQL\gk_current\replacedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::49a3547f6421cb9ce57c71a7868ae14d, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/replacedresidue.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.24 KB
+
 
     ' Class replacedresidue
     ' 

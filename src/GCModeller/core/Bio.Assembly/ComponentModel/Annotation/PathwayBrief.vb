@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3df99bda3492b84a6b500d78cd18b26e, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\PathwayBrief.vb"
+﻿#Region "Microsoft.VisualBasic::31c1302b0e00a7132bd7504cf4861121, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/Annotation/PathwayBrief.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 39
-    '    Code Lines: 24
-    ' Comment Lines: 9
-    '   Blank Lines: 6
-    '     File Size: 1.45 KB
+    '   Total Lines: 68
+    '    Code Lines: 28
+    ' Comment Lines: 32
+    '   Blank Lines: 8
+    '     File Size: 2.53 KB
 
 
     '     Class PathwayBrief
     ' 
-    '         Properties: briteID, description, EntryId
+    '         Properties: briteID, description, EntryId, name
     ' 
     '         Function: ToString
     ' 

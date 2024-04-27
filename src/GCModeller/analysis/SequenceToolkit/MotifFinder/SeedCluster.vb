@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff6cdfd422fab5e0e9a3f72e865ad463, GCModeller\analysis\SequenceToolkit\MotifFinder\SeedCluster.vb"
+﻿#Region "Microsoft.VisualBasic::e07bc25a014f4e62ed41cb696d335a9e, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//SeedCluster.vb"
 
     ' Author:
     ' 
@@ -34,17 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 172
-    '    Code Lines: 122
-    ' Comment Lines: 27
-    '   Blank Lines: 23
-    '     File Size: 5.91 KB
+    '   Total Lines: 103
+    '    Code Lines: 71
+    ' Comment Lines: 18
+    '   Blank Lines: 14
+    '     File Size: 3.58 KB
 
 
     ' Module SeedCluster
     ' 
-    '     Function: BuildAVLTreeCluster, BuildKmeansCluster, (+2 Overloads) Compare, matrixRow, ScoreTuple
-    '               ScoreVector
+    '     Function: BuildAVLTreeCluster, BuildKmeansCluster, matrixRow
     ' 
     ' /********************************************************************************/
 

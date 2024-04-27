@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad1390f48da23c61b758cff83053c8c7, data\Reactome\LocalMySQL\gk_current\entityset_2_species.vb"
+﻿#Region "Microsoft.VisualBasic::ad1390f48da23c61b758cff83053c8c7, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/entityset_2_species.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.47 KB
+
 
     ' Class entityset_2_species
     ' 

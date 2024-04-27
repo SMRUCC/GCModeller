@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ebf82726f6882e7b9b3a34573f4c9dd, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\Models.vb"
+﻿#Region "Microsoft.VisualBasic::c2a6b963b61fd4c31614cd28f24c38cc, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/Schemas/PathwayBrief/Models.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 86
-    '    Code Lines: 62
+    '   Total Lines: 90
+    '    Code Lines: 65
     ' Comment Lines: 12
-    '   Blank Lines: 12
-    '     File Size: 3.27 KB
+    '   Blank Lines: 13
+    '     File Size: 3.54 KB
 
 
     '     Class Pathway
@@ -52,7 +52,7 @@
     ' 
     '         Properties: EntryId, Is_Super_Pathway, NumOfGenes, PathwayGenes
     ' 
-    '         Function: GetPathwayGenes, ToString
+    '         Function: GetCompoundSet, GetPathwayGenes, ToString
     ' 
     ' 
     ' /********************************************************************************/

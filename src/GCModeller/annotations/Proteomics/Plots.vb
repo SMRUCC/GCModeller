@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92273ad417f769fbb8235127562b3c7f, GCModeller\annotations\Proteomics\Plots.vb"
+﻿#Region "Microsoft.VisualBasic::92273ad417f769fbb8235127562b3c7f, G:/GCModeller/src/GCModeller/annotations/Proteomics//Plots.vb"
 
     ' Author:
     ' 

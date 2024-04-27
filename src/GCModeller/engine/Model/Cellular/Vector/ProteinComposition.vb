@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51a9d20a61b4d80112c1b6e7dcc3821c, GCModeller\engine\Model\Cellular\Vector\ProteinComposition.vb"
+﻿#Region "Microsoft.VisualBasic::51a9d20a61b4d80112c1b6e7dcc3821c, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Vector/ProteinComposition.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c904d1ad9c6ee837e7b1a0fe3ca42924, GCModeller\models\Networks\Microbiome\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::c904d1ad9c6ee837e7b1a0fe3ca42924, G:/GCModeller/src/GCModeller/models/Networks/Microbiome//Enzyme.vb"
 
     ' Author:
     ' 

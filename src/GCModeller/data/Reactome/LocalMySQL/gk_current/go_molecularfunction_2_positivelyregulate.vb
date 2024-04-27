@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef1e7aea4ba7f19145015050cdef12df, data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_positivelyregulate.vb"
+﻿#Region "Microsoft.VisualBasic::ef1e7aea4ba7f19145015050cdef12df, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_molecularfunction_2_positivelyregulate.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.72 KB
+
 
     ' Class go_molecularfunction_2_positivelyregulate
     ' 

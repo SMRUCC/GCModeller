@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5067c442a879027111035d5e2b926733, GCModeller\core\Bio.Assembly\SequenceModel\Patterns\Variation.vb"
+﻿#Region "Microsoft.VisualBasic::5067c442a879027111035d5e2b926733, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/Patterns/Variation.vb"
 
     ' Author:
     ' 

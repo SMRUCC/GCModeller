@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2785ea315b41293159cd169b5245611, data\Reactome\LocalMySQL\gk_current\polymer.vb"
+﻿#Region "Microsoft.VisualBasic::b2785ea315b41293159cd169b5245611, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/polymer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 87
+    ' Comment Lines: 64
+    '   Blank Lines: 22
+    '     File Size: 7.70 KB
+
 
     ' Class polymer
     ' 

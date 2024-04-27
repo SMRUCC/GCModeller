@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a932304c2b841708e316761009cbedeb, data\STRING\tsv\InteractExports.vb"
+﻿#Region "Microsoft.VisualBasic::a932304c2b841708e316761009cbedeb, G:/GCModeller/src/GCModeller/data/STRING//tsv/InteractExports.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 32
+    ' Comment Lines: 16
+    '   Blank Lines: 6
+    '     File Size: 2.36 KB
+
 
     ' Class InteractExports
     ' 

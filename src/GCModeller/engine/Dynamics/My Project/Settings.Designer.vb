@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8530aae2931a0c6c0e910eb286e1796, GCModeller\engine\Dynamics\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::f8530aae2931a0c6c0e910eb286e1796, G:/GCModeller/src/GCModeller/engine/Dynamics//My Project/Settings.Designer.vb"
 
     ' Author:
     ' 

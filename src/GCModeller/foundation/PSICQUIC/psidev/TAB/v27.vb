@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07439946f8ed5fa41dba2277efc9ca20, foundation\PSICQUIC\psidev\TAB\v27.vb"
+﻿#Region "Microsoft.VisualBasic::07439946f8ed5fa41dba2277efc9ca20, G:/GCModeller/src/GCModeller/foundation/PSICQUIC/psidev//TAB/v27.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 52
+    ' Comment Lines: 3
+    '   Blank Lines: 4
+    '     File Size: 2.58 KB
+
 
     '     Class v27
     ' 

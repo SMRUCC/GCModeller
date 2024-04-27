@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::281dd58c5d21805c50855e51aa0cb4c7, data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_entityonothercell.vb"
+﻿#Region "Microsoft.VisualBasic::281dd58c5d21805c50855e51aa0cb4c7, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/reactionlikeevent_2_entityonothercell.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.57 KB
+
 
     ' Class reactionlikeevent_2_entityonothercell
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c282db6605a3d0ba6d77b4bb6ed2039f, foundation\PSICQUIC\psidev\XML\[xsd]net.sf.psidev.mi\MIF25.vb"
+﻿#Region "Microsoft.VisualBasic::c282db6605a3d0ba6d77b4bb6ed2039f, G:/GCModeller/src/GCModeller/foundation/PSICQUIC/psidev//XML/[xsd]net.sf.psidev.mi/MIF25.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 37
+    ' Comment Lines: 7
+    '   Blank Lines: 7
+    '     File Size: 1.78 KB
+
 
     '     Class EntrySet
     ' 

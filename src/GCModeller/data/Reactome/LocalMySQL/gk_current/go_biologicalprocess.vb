@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3345bf0d493decd3071c7c678957227e, data\Reactome\LocalMySQL\gk_current\go_biologicalprocess.vb"
+﻿#Region "Microsoft.VisualBasic::3345bf0d493decd3071c7c678957227e, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_biologicalprocess.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 83
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 7.57 KB
+
 
     ' Class go_biologicalprocess
     ' 

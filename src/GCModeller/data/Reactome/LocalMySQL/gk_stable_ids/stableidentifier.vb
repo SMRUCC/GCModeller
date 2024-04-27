@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::569a8c462305d25e182bc34bf38be8db, data\Reactome\LocalMySQL\gk_stable_ids\stableidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::569a8c462305d25e182bc34bf38be8db, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_stable_ids/stableidentifier.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 79
+    ' Comment Lines: 75
+    '   Blank Lines: 22
+    '     File Size: 7.20 KB
+
 
     ' Class stableidentifier
     ' 

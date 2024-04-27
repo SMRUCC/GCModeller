@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92e388bcdbf07b0fb7a04ec553a4d402, data\Reactome\LocalMySQL\gk_current\controlledvocabulary.vb"
+﻿#Region "Microsoft.VisualBasic::92e388bcdbf07b0fb7a04ec553a4d402, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/controlledvocabulary.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.31 KB
+
 
     ' Class controlledvocabulary
     ' 

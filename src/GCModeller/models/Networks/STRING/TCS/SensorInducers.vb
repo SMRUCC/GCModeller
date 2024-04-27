@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb8fe63aef8db823296419b474318464, models\Networks\STRING\TCS\SensorInducers.vb"
+﻿#Region "Microsoft.VisualBasic::bb8fe63aef8db823296419b474318464, G:/GCModeller/src/GCModeller/models/Networks/STRING//TCS/SensorInducers.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 15
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 635 B
+
 
     '     Class SensorInducers
     ' 

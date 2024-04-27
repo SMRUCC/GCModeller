@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a64de2d871a745dcfbf7d53a38aefdd1, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\HeaderFormats.vb"
+﻿#Region "Microsoft.VisualBasic::a64de2d871a745dcfbf7d53a38aefdd1, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/FASTA/HeaderFormats.vb"
 
     ' Author:
     ' 

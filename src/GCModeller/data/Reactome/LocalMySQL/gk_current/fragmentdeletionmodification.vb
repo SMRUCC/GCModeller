@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd4b0495d38c3a7bb938ea2d9cd3b610, data\Reactome\LocalMySQL\gk_current\fragmentdeletionmodification.vb"
+﻿#Region "Microsoft.VisualBasic::dd4b0495d38c3a7bb938ea2d9cd3b610, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/fragmentdeletionmodification.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.87 KB
+
 
     ' Class fragmentdeletionmodification
     ' 

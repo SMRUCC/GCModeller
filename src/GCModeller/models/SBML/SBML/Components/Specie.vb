@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f072bb85f805725e1b93b61c2babc62, GCModeller\models\SBML\SBML\Components\Specie.vb"
+﻿#Region "Microsoft.VisualBasic::30b8b115963f946ad4d774a0fe33eecc, G:/GCModeller/src/GCModeller/models/SBML/SBML//Components/Specie.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 24
-    '    Code Lines: 19
+    '   Total Lines: 25
+    '    Code Lines: 20
     ' Comment Lines: 0
     '   Blank Lines: 5
-    '     File Size: 808 B
+    '     File Size: 822 B
 
 
     '     Class Specie
     ' 
-    '         Properties: boundaryCondition, compartmentId, id
+    '         Properties: boundaryCondition, compartmentId, id, sboTerm
     ' 
     '         Function: ToString
     ' 
