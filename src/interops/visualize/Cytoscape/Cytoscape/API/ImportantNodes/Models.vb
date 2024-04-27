@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8013d204ac660905c6b0577d1ba32f67, visualize\Cytoscape\Cytoscape\API\ImportantNodes\Models.vb"
+﻿#Region "Microsoft.VisualBasic::8013d204ac660905c6b0577d1ba32f67, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//API/ImportantNodes/Models.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 26
+    ' Comment Lines: 10
+    '   Blank Lines: 10
+    '     File Size: 1.49 KB
+
 
     '     Class Regulations
     ' 

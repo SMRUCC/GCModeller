@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f1966fbba1f44cda361c1e0f27730f7, modules\keggReport\ReportRender.vb"
+﻿#Region "Microsoft.VisualBasic::a005e85be29acdec46a6d518f92bf905, G:/GCModeller/src/workbench/modules/keggReport//ReportRender.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 101
-    '    Code Lines: 70
-    ' Comment Lines: 20
-    '   Blank Lines: 11
-    '     File Size: 3.50 KB
+    '   Total Lines: 123
+    '    Code Lines: 87
+    ' Comment Lines: 21
+    '   Blank Lines: 15
+    '     File Size: 4.46 KB
 
 
     ' Class ReportRender
     ' 
-    '     Function: (+3 Overloads) CreateMap, Render
+    '     Function: (+3 Overloads) CreateMap, (+3 Overloads) Render
     ' 
     ' Class MapShape
     ' 

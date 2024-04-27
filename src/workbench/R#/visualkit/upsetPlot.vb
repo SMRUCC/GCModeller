@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da0f0e0945309e6417a233937cef8dad, R#\visualkit\upsetPlot.vb"
+﻿#Region "Microsoft.VisualBasic::79eed119a224d6ad29ab1268b66ae5c1, G:/GCModeller/src/workbench/R#/visualkit//upsetPlot.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 159
+    '   Total Lines: 166
     '    Code Lines: 125
-    ' Comment Lines: 7
+    ' Comment Lines: 14
     '   Blank Lines: 27
-    '     File Size: 6.90 KB
+    '     File Size: 7.15 KB
 
 
     ' Module upsetPlot

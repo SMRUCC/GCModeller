@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f6ccd8065ced863e6e8346d6d0f4246, GCModeller\engine\Model\Cellular\Vector\ChromosomeComposition.vb"
+﻿#Region "Microsoft.VisualBasic::65a54bcadbf38b5b81b0ed4ec7809ef0, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Vector/ChromosomeComposition.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 45
+    '   Total Lines: 48
     '    Code Lines: 22
-    ' Comment Lines: 16
+    ' Comment Lines: 19
     '   Blank Lines: 7
-    '     File Size: 1.47 KB
+    '     File Size: 1.55 KB
 
 
     '     Class ChromosomeComposition

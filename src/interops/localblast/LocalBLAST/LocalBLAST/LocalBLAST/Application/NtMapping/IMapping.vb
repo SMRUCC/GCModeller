@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e50eebf8d846518cc1670894abe4c835, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\IMapping.vb"
+﻿#Region "Microsoft.VisualBasic::e50eebf8d846518cc1670894abe4c835, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Application/NtMapping/IMapping.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 10
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 323 B
+
 
     '     Interface IMapping
     ' 

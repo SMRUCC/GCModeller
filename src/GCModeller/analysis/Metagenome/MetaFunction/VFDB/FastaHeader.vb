@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80ddebde7daac4c00072c50acd6c9943, GCModeller\analysis\Metagenome\MetaFunction\VFDB\FastaHeader.vb"
+﻿#Region "Microsoft.VisualBasic::80ddebde7daac4c00072c50acd6c9943, G:/GCModeller/src/GCModeller/analysis/Metagenome/MetaFunction//VFDB/FastaHeader.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a244fa1a2de1977ee111de64b89f2dc, data\Reactome\Owl\ResourceCollection.vb"
+﻿#Region "Microsoft.VisualBasic::8a244fa1a2de1977ee111de64b89f2dc, G:/GCModeller/src/GCModeller/data/Reactome//Owl/ResourceCollection.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 7
+    ' Comment Lines: 0
+    '   Blank Lines: 1
+    '     File Size: 320 B
+
 
     '     Class ResourceCollectionAttribute
     ' 

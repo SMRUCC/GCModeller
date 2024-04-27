@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14bc9a06d8415e9078c3c738d1a4ae65, data\STRING\WebAPI\APIModels.vb"
+﻿#Region "Microsoft.VisualBasic::d652d0cbe7ba006d439576b61f248ed6, G:/GCModeller/src/GCModeller/data/STRING//WebAPI/APIModels.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 344
+    '    Code Lines: 184
+    ' Comment Lines: 110
+    '   Blank Lines: 50
+    '     File Size: 12.31 KB
+
+
     '     Class APIToken
     ' 
     '         Function: ToString
     ' 
     '     Class Database
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetToken
     ' 
     '     Class Format

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bb5c23cc150589d32e25dfb4d7638e7, data\Reactome\LocalMySQL\gk_current\databaseidentifier_2_crossreference.vb"
+﻿#Region "Microsoft.VisualBasic::5bb5c23cc150589d32e25dfb4d7638e7, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/databaseidentifier_2_crossreference.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.30 KB
+
 
     ' Class databaseidentifier_2_crossreference
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6bc30ba5c2c2fa260a08ae0ff4984caa, GCModeller\models\SBML\SBML\Level3\XmlFile.vb"
+﻿#Region "Microsoft.VisualBasic::ae8f7399e5cd44a3b4c4deb1d1f7aadc, G:/GCModeller/src/GCModeller/models/SBML/SBML//Level3/XmlFile.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 80
-    '    Code Lines: 61
-    ' Comment Lines: 0
-    '   Blank Lines: 19
-    '     File Size: 2.95 KB
+    '   Total Lines: 101
+    '    Code Lines: 64
+    ' Comment Lines: 16
+    '   Blank Lines: 21
+    '     File Size: 3.57 KB
 
 
     '     Class XmlFile
@@ -61,11 +61,12 @@
     ' 
     '     Class compartment
     ' 
-    '         Properties: Constant, Size
+    '         Properties: annotation, Constant, sboTerm, Size
     ' 
     '     Class species
     ' 
     '         Properties: annotation, constant, hasOnlySubstanceUnits, initialConcentration, metaid
+    '                     notes
     ' 
     ' 
     ' /********************************************************************************/

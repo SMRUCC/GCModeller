@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c599619f1db13f2817d60143807b7661, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Form\WebForm.vb"
+﻿#Region "Microsoft.VisualBasic::cc166171b59c84702b01d6cb25b3cfd9, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/Web/Form/WebForm.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 233
-    '    Code Lines: 155
+    '   Total Lines: 273
+    '    Code Lines: 190
     ' Comment Lines: 40
-    '   Blank Lines: 38
-    '     File Size: 8.83 KB
+    '   Blank Lines: 43
+    '     File Size: 10.40 KB
 
 
     '     Class WebForm
@@ -47,8 +47,8 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: ContainsKey, doFormParse, GetEnumerator, GetEnumerator1, GetValue
-    '                   GetXmlTuples, TryGetValue
+    '         Function: ContainsKey, doFormParse, GetDBLinks, GetEnumerator, GetEnumerator1
+    '                   GetValue, GetXmlTuples, ToString, TryGetValue
     ' 
     '         Sub: (+2 Overloads) Dispose, MoveNext, pullReference
     ' 

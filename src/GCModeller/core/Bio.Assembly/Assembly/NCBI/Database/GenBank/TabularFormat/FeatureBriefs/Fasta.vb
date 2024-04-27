@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e046ec5ced68c9a94114da92e1f536a1, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::e046ec5ced68c9a94114da92e1f536a1, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/NCBI/Database/GenBank/TabularFormat/FeatureBriefs/Fasta.vb"
 
     ' Author:
     ' 

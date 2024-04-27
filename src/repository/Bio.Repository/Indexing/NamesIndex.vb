@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fedb7b213dc5c9b6c0162d89577d5ffe, Bio.Repository\Indexing\NamesIndex.vb"
+﻿#Region "Microsoft.VisualBasic::fedb7b213dc5c9b6c0162d89577d5ffe, G:/GCModeller/src/repository/Bio.Repository//Indexing/NamesIndex.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 21
+    ' Comment Lines: 4
+    '   Blank Lines: 7
+    '     File Size: 945 B
+
 
     ' Class NamesIndex
     ' 

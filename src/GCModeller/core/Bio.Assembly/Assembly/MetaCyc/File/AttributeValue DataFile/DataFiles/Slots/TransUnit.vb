@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9d75d01ffbcf710fd539d2662bc91a0, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\TransUnit.vb"
+﻿#Region "Microsoft.VisualBasic::d9d75d01ffbcf710fd539d2662bc91a0, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/File/AttributeValue DataFile/DataFiles/Slots/TransUnit.vb"
 
     ' Author:
     ' 

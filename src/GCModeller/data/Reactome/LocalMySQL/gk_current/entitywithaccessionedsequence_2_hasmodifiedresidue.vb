@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d74e87b13e21232240d0cd3a32c0dd3, data\Reactome\LocalMySQL\gk_current\entitywithaccessionedsequence_2_hasmodifiedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::5d74e87b13e21232240d0cd3a32c0dd3, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/entitywithaccessionedsequence_2_hasmodifiedresidue.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.89 KB
+
 
     ' Class entitywithaccessionedsequence_2_hasmodifiedresidue
     ' 

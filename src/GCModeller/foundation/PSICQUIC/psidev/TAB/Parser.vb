@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22e5be5f815630600b195677ffe376dd, foundation\PSICQUIC\psidev\TAB\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::22e5be5f815630600b195677ffe376dd, G:/GCModeller/src/GCModeller/foundation/PSICQUIC/psidev//TAB/Parser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 24
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 1.10 KB
+
 
     '     Module Parser
     ' 

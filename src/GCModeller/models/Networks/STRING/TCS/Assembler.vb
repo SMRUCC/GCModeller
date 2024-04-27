@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::284b0fb5487ccbb31315f6376217b12b, models\Networks\STRING\TCS\Assembler.vb"
+﻿#Region "Microsoft.VisualBasic::284b0fb5487ccbb31315f6376217b12b, G:/GCModeller/src/GCModeller/models/Networks/STRING//TCS/Assembler.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 122
+    ' Comment Lines: 12
+    '   Blank Lines: 26
+    '     File Size: 8.32 KB
+
 
     ' Class Assembler
     ' 

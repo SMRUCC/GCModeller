@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d554db02f35196bc19f110c0fbebb36f, localblast\LocalBLAST\LocalBLAST\BlastOutput\Xml\Iteration.vb"
+﻿#Region "Microsoft.VisualBasic::d554db02f35196bc19f110c0fbebb36f, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Xml/Iteration.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 60
+    ' Comment Lines: 0
+    '   Blank Lines: 11
+    '     File Size: 2.72 KB
+
 
     '     Class Iteration
     ' 

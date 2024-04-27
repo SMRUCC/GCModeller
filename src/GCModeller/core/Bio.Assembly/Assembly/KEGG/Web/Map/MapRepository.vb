@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43dc7958386a194999c5e398570df33a, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\MapRepository.vb"
+﻿#Region "Microsoft.VisualBasic::00402dc5e00de47bbd3e4e61330685fd, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/Web/Map/MapRepository.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 161
-    '    Code Lines: 119
-    ' Comment Lines: 21
+    '   Total Lines: 168
+    '    Code Lines: 120
+    ' Comment Lines: 27
     '   Blank Lines: 21
-    '     File Size: 6.47 KB
+    '     File Size: 6.81 KB
 
 
     '     Class MapRepository
@@ -47,8 +47,7 @@
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: (+2 Overloads) BuildRepository, CreateIndex, Exists, GenericEnumerator, GetAll
-    '                   GetByKey, GetEnumerator, GetMapsAuto, GetWhere, QueryMapsByMembers
-    '                   ScanMaps
+    '                   GetByKey, GetMapsAuto, GetWhere, QueryMapsByMembers, ScanMaps
     ' 
     ' 
     ' /********************************************************************************/

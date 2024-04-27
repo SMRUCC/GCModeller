@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8bfcb735248004c0e3dd29141ab3df0, GCModeller\engine\Model\Cellular\Molecule\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::18cc7bf28aa977ee370f3b2d3ea96601, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Molecule/Protein.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 24
+    '   Total Lines: 28
     '    Code Lines: 10
-    ' Comment Lines: 9
+    ' Comment Lines: 13
     '   Blank Lines: 5
-    '     File Size: 598 B
+    '     File Size: 732 B
 
 
     '     Structure Protein

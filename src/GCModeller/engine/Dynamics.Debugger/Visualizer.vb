@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::f5b403e36b2ad2286e3d6dfdd9ec13b0, GCModeller\engine\Dynamics.Debugger\Visualizer.vb"
+﻿#Region "Microsoft.VisualBasic::be26bce7b26189f140c889a660cd2038, G:/GCModeller/src/GCModeller/engine/Dynamics.Debugger//Visualizer.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 129
-'    Code Lines: 113
-' Comment Lines: 1
-'   Blank Lines: 15
-'     File Size: 5.51 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Visualizer
-' 
-'     Function: CreateTabularFormat, ToGraph
-' 
-'     Sub: addRegulations
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 135
+    ' Comment Lines: 8
+    '   Blank Lines: 21
+    '     File Size: 6.76 KB
+
+
+    ' Module Visualizer
+    ' 
+    '     Function: CreateTabularFormat, ToGraph
+    ' 
+    '     Sub: addRegulations, AttachReactionNode, ConstructCellularGraph
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

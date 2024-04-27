@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd787ead6fbb03d6a0b6b41b5cfe5604, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\PalindromeAPI.vb"
+﻿#Region "Microsoft.VisualBasic::fd787ead6fbb03d6a0b6b41b5cfe5604, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//Topologically/Palindrome/PalindromeAPI.vb"
 
     ' Author:
     ' 

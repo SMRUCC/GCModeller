@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb52178df5045203d30cfb6063d7aee4, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BiDirectionalBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::eb52178df5045203d30cfb6063d7aee4, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Application/BBH/Models/BiDirectionalBesthit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 50
+    ' Comment Lines: 36
+    '   Blank Lines: 11
+    '     File Size: 3.89 KB
+
 
     '     Class BiDirectionalBesthit
     ' 

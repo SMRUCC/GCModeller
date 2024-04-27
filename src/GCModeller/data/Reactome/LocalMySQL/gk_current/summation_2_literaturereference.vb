@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62dc26d02309aff30a2fc58a139b0238, data\Reactome\LocalMySQL\gk_current\summation_2_literaturereference.vb"
+﻿#Region "Microsoft.VisualBasic::62dc26d02309aff30a2fc58a139b0238, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/summation_2_literaturereference.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.61 KB
+
 
     ' Class summation_2_literaturereference
     ' 

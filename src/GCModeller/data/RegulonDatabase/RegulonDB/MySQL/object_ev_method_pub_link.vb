@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5599809886d2ac9ae70977090f935361, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\object_ev_method_pub_link.vb"
+﻿#Region "Microsoft.VisualBasic::5599809886d2ac9ae70977090f935361, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/object_ev_method_pub_link.vb"
 
     ' Author:
     ' 

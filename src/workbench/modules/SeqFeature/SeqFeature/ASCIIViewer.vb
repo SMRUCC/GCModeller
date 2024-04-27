@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ca4ec493bdfb4a0d1b62d91da242d32, modules\SeqFeature\SeqFeature\ASCIIViewer.vb"
+﻿#Region "Microsoft.VisualBasic::92c8fc02e20a15ae43fa03326443e3c2, G:/GCModeller/src/workbench/modules/SeqFeature/SeqFeature//ASCIIViewer.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 65
     ' Comment Lines: 22
     '   Blank Lines: 17
-    '     File Size: 3.41 KB
+    '     File Size: 3.42 KB
 
 
     ' Module ASCIIViewer

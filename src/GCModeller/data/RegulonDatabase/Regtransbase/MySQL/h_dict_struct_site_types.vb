@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70aabc0856a6c772d068dec48f5cf43f, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\h_dict_struct_site_types.vb"
+﻿#Region "Microsoft.VisualBasic::70aabc0856a6c772d068dec48f5cf43f, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/MySQL/h_dict_struct_site_types.vb"
 
     ' Author:
     ' 

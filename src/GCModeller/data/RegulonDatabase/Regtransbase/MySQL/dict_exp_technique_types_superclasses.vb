@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::12acd10b67d3058c8afe21427f296c6b, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_exp_technique_types_superclasses.vb"
+﻿#Region "Microsoft.VisualBasic::12acd10b67d3058c8afe21427f296c6b, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/MySQL/dict_exp_technique_types_superclasses.vb"
 
     ' Author:
     ' 

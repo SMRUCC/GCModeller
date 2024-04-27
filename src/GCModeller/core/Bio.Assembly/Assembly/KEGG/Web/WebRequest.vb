@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48d76b71e1b67b5d6b45e21254f64fb3, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::48d76b71e1b67b5d6b45e21254f64fb3, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/Web/WebRequest.vb"
 
     ' Author:
     ' 

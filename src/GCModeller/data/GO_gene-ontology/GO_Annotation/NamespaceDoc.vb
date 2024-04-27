@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cfd77dd71eb3a161cbe8f4ff991f79a, data\GO_gene-ontology\GO_Annotation\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::2cfd77dd71eb3a161cbe8f4ff991f79a, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GO_Annotation//NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 5
+    '    Code Lines: 2
+    ' Comment Lines: 3
+    '   Blank Lines: 0
+    '     File Size: 123 B
+
 
     ' Module NamespaceDoc
     ' 

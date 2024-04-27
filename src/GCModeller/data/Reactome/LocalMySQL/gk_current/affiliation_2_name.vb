@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ce2696283700d30b620d919bdc09719, data\Reactome\LocalMySQL\gk_current\affiliation_2_name.vb"
+﻿#Region "Microsoft.VisualBasic::3ce2696283700d30b620d919bdc09719, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/affiliation_2_name.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 5.64 KB
+
 
     ' Class affiliation_2_name
     ' 

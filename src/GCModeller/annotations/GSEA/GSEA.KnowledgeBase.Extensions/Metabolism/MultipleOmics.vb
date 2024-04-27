@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b863b01c1ec10b85c50450ad2192ac7, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\MultipleOmics.vb"
+﻿#Region "Microsoft.VisualBasic::417b63c069dfac6e46695043f05f774a, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions//Metabolism/MultipleOmics.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 53
-    '    Code Lines: 39
-    ' Comment Lines: 8
-    '   Blank Lines: 6
-    '     File Size: 1.83 KB
+    '   Total Lines: 71
+    '    Code Lines: 50
+    ' Comment Lines: 14
+    '   Blank Lines: 7
+    '     File Size: 2.63 KB
 
 
     ' Module MultipleOmics

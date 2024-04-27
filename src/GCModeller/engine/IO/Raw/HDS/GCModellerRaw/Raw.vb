@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f45b03eb0c73a8755aa1c5aecac9cf4, GCModeller\engine\IO\Raw\GCModellerRaw\Raw.vb"
+﻿#Region "Microsoft.VisualBasic::1f45b03eb0c73a8755aa1c5aecac9cf4, G:/GCModeller/src/GCModeller/engine/IO/Raw//HDS/GCModellerRaw/Raw.vb"
 
     ' Author:
     ' 

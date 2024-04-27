@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe1b860f0a6b8fd7fcc63d64163d371a, data\Reactome\LocalMySQL\gk_current\psimod.vb"
+﻿#Region "Microsoft.VisualBasic::fe1b860f0a6b8fd7fcc63d64163d371a, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/psimod.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.45 KB
+
 
     ' Class psimod
     ' 

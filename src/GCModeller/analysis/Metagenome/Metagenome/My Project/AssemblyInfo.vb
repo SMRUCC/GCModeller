@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0860148a1cd7f06bbd99f421c964623, GCModeller\analysis\Metagenome\Metagenome\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::e0860148a1cd7f06bbd99f421c964623, G:/GCModeller/src/GCModeller/analysis/Metagenome/Metagenome//My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

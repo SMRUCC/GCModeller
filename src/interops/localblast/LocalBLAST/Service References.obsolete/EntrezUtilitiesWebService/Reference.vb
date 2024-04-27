@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3d50898572c059b0f48e149c7ba7df8, localblast\LocalBLAST\Service References.obsolete\EntrezUtilitiesWebService\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::e3d50898572c059b0f48e149c7ba7df8, G:/GCModeller/src/interops/localblast/LocalBLAST//Service References.obsolete/EntrezUtilitiesWebService/Reference.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 4065
+    '    Code Lines: 3132
+    ' Comment Lines: 287
+    '   Blank Lines: 646
+    '     File Size: 155.33 KB
+
 
     '     Interface eUtilsServiceSoap
     ' 

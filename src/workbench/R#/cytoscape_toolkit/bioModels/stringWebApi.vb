@@ -1,44 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::58decc9c054717c19f0fe25b00d3ab70, data\STRING\WebAPI\StringAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e84347c6e292b2dce638e32c6c0f6d67, G:/GCModeller/src/workbench/R#/cytoscape_toolkit//bioModels/stringWebApi.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module StringAPI
-' 
-'         Properties: StitchEMBL, StringDb, StringEMBL
-' 
-'         Function: CreateURI, (+2 Overloads) DownloadInteractions
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 144
+    '    Code Lines: 86
+    ' Comment Lines: 44
+    '   Blank Lines: 14
+    '     File Size: 7.57 KB
+
+
+    ' Module stringWebApi
+    ' 
+    '     Properties: StitchEMBL, StringDb, StringEMBL
+    ' 
+    '     Function: CreateURI, (+2 Overloads) DownloadInteractions
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

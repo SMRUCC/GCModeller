@@ -1,56 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::77a488daa8099cfa7dee55ffa8942895, R#\seqtoolkit\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::52a89d0f1c565f2c000ccf3365ff132a, G:/GCModeller/src/workbench/R#/seqtoolkit//Fasta.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 464
-'    Code Lines: 349
-' Comment Lines: 63
-'   Blank Lines: 52
-'     File Size: 18.86 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Fasta
-' 
-'     Constructor: (+1 Overloads) Sub New
-' 
-'     Function: CutSequenceLinear, fasta, GetFastaSeq, MSA, openFasta
-'               readFasta, readSeq, SequenceAssembler, sizeof, Tofasta
-'               Translates, viewAssembles, viewFasta, viewMSA, writeFasta
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 471
+    '    Code Lines: 325
+    ' Comment Lines: 97
+    '   Blank Lines: 49
+    '     File Size: 18.88 KB
+
+
+    ' Module Fasta
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: CutSequenceLinear, fasta, fastaTitle, fastaTitles, MSA
+    '               openFasta, parseFasta, readFasta, readSeq, sizeof
+    '               Tofasta, Translates, translateSingleNtSeq, viewFasta, viewMSA
+    '               writeFasta
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

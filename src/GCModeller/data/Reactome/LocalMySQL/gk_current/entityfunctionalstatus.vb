@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4e9a576ac256c17ef520504653dc99a, data\Reactome\LocalMySQL\gk_current\entityfunctionalstatus.vb"
+﻿#Region "Microsoft.VisualBasic::a4e9a576ac256c17ef520504653dc99a, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/entityfunctionalstatus.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 6.29 KB
+
 
     ' Class entityfunctionalstatus
     ' 

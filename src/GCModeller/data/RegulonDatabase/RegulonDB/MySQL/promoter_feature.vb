@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fc3bc1af7d13bee69327c91fa56afaf, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\promoter_feature.vb"
+﻿#Region "Microsoft.VisualBasic::3fc3bc1af7d13bee69327c91fa56afaf, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/promoter_feature.vb"
 
     ' Author:
     ' 

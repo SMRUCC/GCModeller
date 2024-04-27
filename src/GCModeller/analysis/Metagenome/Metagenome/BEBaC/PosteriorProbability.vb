@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d13029e60e46f871516f4500ed2c65b, GCModeller\analysis\Metagenome\Metagenome\BEBaC\PosteriorProbability.vb"
+﻿#Region "Microsoft.VisualBasic::7d13029e60e46f871516f4500ed2c65b, G:/GCModeller/src/GCModeller/analysis/Metagenome/Metagenome//BEBaC/PosteriorProbability.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54cdc7a17c350a729938863acbc101d3, visualize\Cytoscape\Cytoscape\API\GraphExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::54cdc7a17c350a729938863acbc101d3, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//API/GraphExtensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 43
+    ' Comment Lines: 5
+    '   Blank Lines: 8
+    '     File Size: 2.23 KB
+
 
     '     Module GraphExtensions
     ' 

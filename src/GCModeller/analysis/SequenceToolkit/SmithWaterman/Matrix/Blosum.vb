@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::321c161cca0a079d86fc2f1f5ee4483c, GCModeller\analysis\SequenceToolkit\SmithWaterman\Matrix\Blosum.vb"
+﻿#Region "Microsoft.VisualBasic::321c161cca0a079d86fc2f1f5ee4483c, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SmithWaterman//Matrix/Blosum.vb"
 
     ' Author:
     ' 

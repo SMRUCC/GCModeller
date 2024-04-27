@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe79ea1b6f5fd8bb87b00579d677ae0c, modules\Knowledge_base\Knowledge_base\PubMed\PubmedArticle.vb"
+﻿#Region "Microsoft.VisualBasic::87591f4ea57c1219700b58b1acc72a34, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//PubMed/PubmedArticle.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 63
-    '    Code Lines: 54
-    ' Comment Lines: 0
-    '   Blank Lines: 9
-    '     File Size: 2.21 KB
+    '   Total Lines: 103
+    '    Code Lines: 51
+    ' Comment Lines: 42
+    '   Blank Lines: 10
+    '     File Size: 4.70 KB
 
 
     '     Class PubmedArticle
@@ -49,7 +49,7 @@
     ' 
     '         Properties: Keywords, Owner
     ' 
-    '         Function: GenericEnumerator, GetEnumerator
+    '         Function: GenericEnumerator
     ' 
     '     Class Keyword
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::601ae11d0cd1bb067db4fd819d92a591, models\Networks\STRING\Models\Network.vb"
+﻿#Region "Microsoft.VisualBasic::601ae11d0cd1bb067db4fd819d92a591, G:/GCModeller/src/GCModeller/models/Networks/STRING//Models/Network.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 21
+    '    Code Lines: 16
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 825 B
+
 
     '     Class Network
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57995449bab816d9aa7609068bdd944a, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\LabelDisplayStrategy.vb"
+﻿#Region "Microsoft.VisualBasic::57995449bab816d9aa7609068bdd944a, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CatalogProfiling/LabelDisplayStrategy.vb"
 
     ' Author:
     ' 

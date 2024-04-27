@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de5bdc57394c3696cbf719083dda1444, GCModeller\annotations\GO\NamespaceCategoryPlots.vb"
+﻿#Region "Microsoft.VisualBasic::de5bdc57394c3696cbf719083dda1444, G:/GCModeller/src/GCModeller/annotations/GO//NamespaceCategoryPlots.vb"
 
     ' Author:
     ' 

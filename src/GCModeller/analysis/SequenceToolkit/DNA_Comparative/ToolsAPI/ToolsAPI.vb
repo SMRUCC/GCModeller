@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fab9f4d0eb913021d68eb81b43968351, GCModeller\analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5c2e2b35b8b8c9436de97b628f85e42a, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/DNA_Comparative//ToolsAPI/ToolsAPI.vb"
 
     ' Author:
     ' 
@@ -34,27 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1088
-    '    Code Lines: 806
-    ' Comment Lines: 137
-    '   Blank Lines: 145
-    '     File Size: 56.24 KB
+    '   Total Lines: 232
+    '    Code Lines: 188
+    ' Comment Lines: 21
+    '   Blank Lines: 23
+    '     File Size: 12.55 KB
 
 
     ' Module ToolsAPI
     ' 
-    '     Function: __calculate, __calculates, __colorRender, __compile, __compileCAI
-    '               __compileCAIBIASCalculationThread, __compileSigma, __createTable, __echo, __genomeSigmaDiff
-    '               __getSequence, __group, __mergeDelta, (+2 Overloads) __process, __query
-    '               __readSeq, __readSequence, __regionMetaParser, __samples, __sigmaCompareWith
-    '               BatchCalculation, BatchCalculation2, CAI, Compile, CompileCABIAS
-    '               CompileCAIBIASCalculationThread, CompileCAIBIASCalculationThread_p, CreateChromesomePartitioningData, CreateSimplePartition, GenerateDeltaDiffReport
-    '               GenomeSigmaDifference_p, (+2 Overloads) MeasureHomogeneity, MergeDelta, PartionDataCreates, PartitioningDataFromFasta
-    '               PartitioningSigmaCompareWith, PartitionSimilarity, ReadPartitionalData, ReadPartitioningData, SaveCAI
-    '               SigmaCompareWith, SiteDataLoad, WritePartionalData
-    '     Structure Cache
+    '     Function: __compileCAIBIASCalculationThread, __createTable, __echo, __regionMetaParser, CAI
+    '               CompileCAIBIASCalculationThread_p, CreateSimplePartition, GenomeSigmaDifference_p, PartitioningDataFromFasta, SaveCAI
     ' 
-    ' 
+    ' Structure Cache
     ' 
     ' 
     ' 

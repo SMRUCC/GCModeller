@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3196e0bbbb32aa801cad068f7bcbbe77, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb"
+﻿#Region "Microsoft.VisualBasic::3885453bde53e8ff145e429661888d90, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/Objects/ReferenceMap/ReferenceMap.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 194
-    '    Code Lines: 145
+    '   Total Lines: 197
+    '    Code Lines: 147
     ' Comment Lines: 26
-    '   Blank Lines: 23
-    '     File Size: 9.59 KB
+    '   Blank Lines: 24
+    '     File Size: 9.84 KB
 
 
     '     Class ReferenceMapData
     ' 
-    '         Properties: [Class], [Module], Disease, Name, OtherDBs
-    '                     Reactions, ReferenceGenes, References
+    '         Properties: [Class], [Module], Disease, OtherDBs, Reactions
+    '                     ReferenceGenes, References
     ' 
-    '         Function: __DBLinksParser, __diseaseParser, __parserLinks, Download, (+2 Overloads) GetGeneOrthology
-    '                   GetPathwayGenes, GetReaction
+    '         Function: __DBLinksParser, __diseaseParser, __parserLinks, Download, GetCompoundSet
+    '                   (+2 Overloads) GetGeneOrthology, GetPathwayGenes, GetReaction
     ' 
     ' 
     ' /********************************************************************************/

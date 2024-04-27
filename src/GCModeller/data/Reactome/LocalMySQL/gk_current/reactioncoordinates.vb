@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1636117ff94a5899eb4002dff3f1e903, data\Reactome\LocalMySQL\gk_current\reactioncoordinates.vb"
+﻿#Region "Microsoft.VisualBasic::1636117ff94a5899eb4002dff3f1e903, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/reactioncoordinates.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 184
+    '    Code Lines: 94
+    ' Comment Lines: 68
+    '   Blank Lines: 22
+    '     File Size: 9.83 KB
+
 
     ' Class reactioncoordinates
     ' 

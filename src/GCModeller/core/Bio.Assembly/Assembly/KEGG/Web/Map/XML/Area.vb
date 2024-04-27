@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dc3d972c9f572ae835f8b45e7b9a541, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Area.vb"
+﻿#Region "Microsoft.VisualBasic::750f7469aa123f7563f1d173dac35c15, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/Web/Map/XML/Area.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 160
-    '    Code Lines: 121
-    ' Comment Lines: 23
+    '   Total Lines: 157
+    '    Code Lines: 113
+    ' Comment Lines: 28
     '   Blank Lines: 16
-    '     File Size: 6.45 KB
+    '     File Size: 6.41 KB
 
 
     '     Class Area
     ' 
-    '         Properties: [class], coords, data_coords, data_id, entry
-    '                     href, IDVector, moduleId, Names, Rectangle
-    '                     refid, shape, title, Type
+    '         Properties: [class], coords, data_id, entry, href
+    '                     IDVector, moduleId, Names, Rectangle, refid
+    '                     shape, title, Type
     ' 
-    '         Function: Parse, ToString
+    '         Function: GetPolyLine, ToString
     ' 
     ' 
     ' /********************************************************************************/

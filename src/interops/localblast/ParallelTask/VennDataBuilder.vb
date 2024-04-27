@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d321a4c725a36f6f88c77c3197bf5877, localblast\ParallelTask\VennDataBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::d321a4c725a36f6f88c77c3197bf5877, G:/GCModeller/src/interops/localblast/ParallelTask//VennDataBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 287
+    '    Code Lines: 173
+    ' Comment Lines: 76
+    '   Blank Lines: 38
+    '     File Size: 11.86 KB
+
 
     ' Module VennDataBuilder
     ' 

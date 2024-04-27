@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4500e82068c5bd0244109faa99540cf4, GCModeller\models\ncbi-BioSystems\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::4500e82068c5bd0244109faa99540cf4, G:/GCModeller/src/GCModeller/models/ncbi-BioSystems//Enzyme.vb"
 
     ' Author:
     ' 

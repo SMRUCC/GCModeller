@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d633431bc609df92143b1ab69f636d8e, localblast\LocalBLAST\Pipeline\COG\COGsUtils.vb"
+﻿#Region "Microsoft.VisualBasic::d633431bc609df92143b1ab69f636d8e, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/COG/COGsUtils.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 52
+    ' Comment Lines: 20
+    '   Blank Lines: 12
+    '     File Size: 3.23 KB
+
 
     '     Module COGsUtils
     ' 

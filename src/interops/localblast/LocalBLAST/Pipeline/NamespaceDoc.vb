@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61f0ad6bbacf71b13baff9874c0af53d, localblast\LocalBLAST\Pipeline\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::61f0ad6bbacf71b13baff9874c0af53d, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 4
+    ' Comment Lines: 3
+    '   Blank Lines: 1
+    '     File Size: 206 B
+
 
     '     Module NamespaceDoc
     ' 

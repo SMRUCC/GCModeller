@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8cf5ba0013ee51269f4493d9e8d05193, data\Reactome\LocalMySQL\gk_current\fragmentreplacedmodification.vb"
+﻿#Region "Microsoft.VisualBasic::8cf5ba0013ee51269f4493d9e8d05193, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/fragmentreplacedmodification.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.86 KB
+
 
     ' Class fragmentreplacedmodification
     ' 

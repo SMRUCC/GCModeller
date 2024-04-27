@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d1058a3f5f71ab13762d9658016374f, GCModeller\models\BioCyc\Reader\FeatureElement.vb"
+﻿#Region "Microsoft.VisualBasic::8d1058a3f5f71ab13762d9658016374f, G:/GCModeller/src/GCModeller/models/BioCyc//Reader/FeatureElement.vb"
 
     ' Author:
     ' 

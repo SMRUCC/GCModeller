@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0147a84941eec89de8d6d8d191564663, analysis\SequenceToolkit\SequenceTools\CLI\SNP\SNP.vb"
+﻿#Region "Microsoft.VisualBasic::0147a84941eec89de8d6d8d191564663, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/SNP/SNP.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 88
+    ' Comment Lines: 0
+    '   Blank Lines: 14
+    '     File Size: 4.43 KB
+
 
     ' Module Utilities
     ' 

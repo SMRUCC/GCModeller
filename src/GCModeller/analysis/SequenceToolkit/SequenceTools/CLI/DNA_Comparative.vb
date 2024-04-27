@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c373ef6009b274f7d60929853c0ff7f, analysis\SequenceToolkit\SequenceTools\CLI\DNA_Comparative.vb"
+﻿#Region "Microsoft.VisualBasic::3c373ef6009b274f7d60929853c0ff7f, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/DNA_Comparative.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 162
+    '    Code Lines: 131
+    ' Comment Lines: 12
+    '   Blank Lines: 19
+    '     File Size: 7.85 KB
+
 
     ' Module Utilities
     ' 

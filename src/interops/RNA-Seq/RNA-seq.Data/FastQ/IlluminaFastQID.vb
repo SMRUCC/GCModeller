@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4785077b96200b10a3b3c0a544abe49, RNA-Seq\RNA-seq.Data\FastQ\IlluminaFastQID.vb"
+﻿#Region "Microsoft.VisualBasic::e4785077b96200b10a3b3c0a544abe49, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//FastQ/IlluminaFastQID.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 174
+    '    Code Lines: 60
+    ' Comment Lines: 96
+    '   Blank Lines: 18
+    '     File Size: 6.47 KB
+
 
     '     Class IlluminaFastQID
     ' 

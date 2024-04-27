@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c3097f9d330e495c33a6f4ba2667fe3, GCModeller\analysis\SequenceToolkit\ClustalOmega\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::0c3097f9d330e495c33a6f4ba2667fe3, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/ClustalOmega//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 

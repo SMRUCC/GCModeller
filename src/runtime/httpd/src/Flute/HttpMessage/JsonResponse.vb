@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d529aa63d7801968f916e320db121477, WebCloud\SMRUCC.HTTPInternal\AppEngine\JsonResponse.vb"
+﻿#Region "Microsoft.VisualBasic::d3cda7cd70096b9ca5899b3fd4b4e20c, G:/GCModeller/src/runtime/httpd/src/Flute//HttpMessage/JsonResponse.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,19 @@
 
     ' Summaries:
 
-    '     Structure JsonResponse
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 13
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 406 B
+
+
+    '     Class JsonResponse
     ' 
-    '         Properties: code, message
+    '         Properties: code, info
     ' 
     '         Function: ToString
     ' 

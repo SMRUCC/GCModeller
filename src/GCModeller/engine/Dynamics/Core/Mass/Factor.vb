@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1aa90a3f7ebb623cb150eeccdb3112df, GCModeller\engine\Dynamics\Core\Mass\Factor.vb"
+﻿#Region "Microsoft.VisualBasic::1aa90a3f7ebb623cb150eeccdb3112df, G:/GCModeller/src/GCModeller/engine/Dynamics//Core/Mass/Factor.vb"
 
     ' Author:
     ' 

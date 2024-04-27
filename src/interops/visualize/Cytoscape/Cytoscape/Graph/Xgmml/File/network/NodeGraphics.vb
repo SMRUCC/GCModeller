@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::388e912ceafa0f2016e7ce85e0ba4e07, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\network\NodeGraphics.vb"
+﻿#Region "Microsoft.VisualBasic::388e912ceafa0f2016e7ce85e0ba4e07, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/Xgmml/File/network/NodeGraphics.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 58
+    ' Comment Lines: 0
+    '   Blank Lines: 11
+    '     File Size: 2.56 KB
+
 
     '     Class NodeGraphics
     ' 

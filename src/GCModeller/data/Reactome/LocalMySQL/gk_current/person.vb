@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86a6507af1e840fbfd6cf28cecb491f5, data\Reactome\LocalMySQL\gk_current\person.vb"
+﻿#Region "Microsoft.VisualBasic::86a6507af1e840fbfd6cf28cecb491f5, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/person.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 184
+    '    Code Lines: 93
+    ' Comment Lines: 69
+    '   Blank Lines: 22
+    '     File Size: 8.02 KB
+
 
     ' Class person
     ' 

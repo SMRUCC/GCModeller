@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52e259889348124bf916dd61da47f6cd, GCModeller\analysis\SequenceToolkit\ClusterMatrix\Matrix\SmithWaterman.vb"
+﻿#Region "Microsoft.VisualBasic::52e259889348124bf916dd61da47f6cd, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/ClusterMatrix//Matrix/SmithWaterman.vb"
 
     ' Author:
     ' 

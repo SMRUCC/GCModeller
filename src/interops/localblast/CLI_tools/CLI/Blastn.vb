@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63a07e24cad2e53ee749121a138298b1, localblast\CLI_tools\CLI\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::d318c7bd36a11c3a8eccc4b0b9e6d3e1, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/Blastn.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 517
+    '    Code Lines: 416
+    ' Comment Lines: 31
+    '   Blank Lines: 70
+    '     File Size: 24.31 KB
+
 
     ' Module CLI
     ' 

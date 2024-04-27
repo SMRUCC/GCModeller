@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eae865044e4565b57819cfd5b859a6f6, localblast\LocalBLAST\Pipeline\COG\Whog\Whog.vb"
+﻿#Region "Microsoft.VisualBasic::eae865044e4565b57819cfd5b859a6f6, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/COG/Whog/Whog.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 70
+    ' Comment Lines: 23
+    '   Blank Lines: 12
+    '     File Size: 3.83 KB
+
 
     '     Class WhogRepository
     ' 

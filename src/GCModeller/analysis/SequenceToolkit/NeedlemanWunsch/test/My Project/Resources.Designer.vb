@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ef0e743ca5d21766478f819ef2cf8c7, GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\test\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::5ef0e743ca5d21766478f819ef2cf8c7, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/NeedlemanWunsch//test/My Project/Resources.Designer.vb"
 
     ' Author:
     ' 

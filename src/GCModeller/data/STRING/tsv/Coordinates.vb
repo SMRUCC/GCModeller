@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20e7fb7819ebfd7162d77e336540dc7f, data\STRING\tsv\Coordinates.vb"
+﻿#Region "Microsoft.VisualBasic::20e7fb7819ebfd7162d77e336540dc7f, G:/GCModeller/src/GCModeller/data/STRING//tsv/Coordinates.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 13
+    ' Comment Lines: 4
+    '   Blank Lines: 3
+    '     File Size: 806 B
+
 
     ' Class Coordinates
     ' 

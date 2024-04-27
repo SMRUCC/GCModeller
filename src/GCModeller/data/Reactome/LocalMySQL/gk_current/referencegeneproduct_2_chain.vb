@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7868d5e23d22274112fd97d093ed045c, data\Reactome\LocalMySQL\gk_current\referencegeneproduct_2_chain.vb"
+﻿#Region "Microsoft.VisualBasic::7868d5e23d22274112fd97d093ed045c, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/referencegeneproduct_2_chain.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 5.88 KB
+
 
     ' Class referencegeneproduct_2_chain
     ' 

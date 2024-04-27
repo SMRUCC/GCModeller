@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a71ea54499017fcca4db3dcbbad4ab5b, data\Reactome\LocalMySQL\gk_current\affiliation.vb"
+﻿#Region "Microsoft.VisualBasic::a71ea54499017fcca4db3dcbbad4ab5b, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/affiliation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.06 KB
+
 
     ' Class affiliation
     ' 

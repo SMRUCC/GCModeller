@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::788e4365a290b6c8c01a4739361c3b4a, data\Reactome\LocalMySQL\gk_current\frontpage.vb"
+﻿#Region "Microsoft.VisualBasic::788e4365a290b6c8c01a4739361c3b4a, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/frontpage.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.51 KB
+
 
     ' Class frontpage
     ' 

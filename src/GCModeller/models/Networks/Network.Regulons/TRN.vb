@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8519a5c6ed0113bd6a1224556f51b37, models\Networks\Network.Regulons\TRN.vb"
+﻿#Region "Microsoft.VisualBasic::d8519a5c6ed0113bd6a1224556f51b37, G:/GCModeller/src/GCModeller/models/Networks/Network.Regulons//TRN.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 19
+    ' Comment Lines: 6
+    '   Blank Lines: 3
+    '     File Size: 1.08 KB
+
 
     ' Module TRN
     ' 

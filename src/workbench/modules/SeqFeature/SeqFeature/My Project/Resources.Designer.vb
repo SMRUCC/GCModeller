@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75fdf287977fea45bc7918387d04a9a0, modules\SeqFeature\SeqFeature\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::f1c814a1d028748f862658ec15e01c94, G:/GCModeller/src/workbench/modules/SeqFeature/SeqFeature//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -113,4 +113,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e20ad86a293225bd9e81b4a7032e76d7, R#\gokit\annotation.vb"
+﻿#Region "Microsoft.VisualBasic::e20ad86a293225bd9e81b4a7032e76d7, G:/GCModeller/src/workbench/R#/gokit//annotation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 51
+    ' Comment Lines: 7
+    '   Blank Lines: 6
+    '     File Size: 2.57 KB
+
 
     ' Module annotation
     ' 

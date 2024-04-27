@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cfb7d8b7aa1b0d66f4a30359513bbf2, GCModeller\models\BIOM\BIOM\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::3cfb7d8b7aa1b0d66f4a30359513bbf2, G:/GCModeller/src/GCModeller/models/BIOM/BIOM//My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

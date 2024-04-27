@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc838814da65584163f56d49188f6e4b, data\Reactome\LocalMySQL\gk_current\physicalentity_2_reviewed.vb"
+﻿#Region "Microsoft.VisualBasic::cc838814da65584163f56d49188f6e4b, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/physicalentity_2_reviewed.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.66 KB
+
 
     ' Class physicalentity_2_reviewed
     ' 

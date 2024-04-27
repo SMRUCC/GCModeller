@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9886ae987a49d1c45e18a6d73c845c86, data\Reactome\LocalMySQL\gk_current_dn\pathway.vb"
+﻿#Region "Microsoft.VisualBasic::9886ae987a49d1c45e18a6d73c845c86, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current_dn/pathway.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.00 KB
+
 
     ' Class pathway
     ' 

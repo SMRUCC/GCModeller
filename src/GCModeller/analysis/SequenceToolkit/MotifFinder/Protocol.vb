@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6288d424c3467c0975e1c18ff1b9fc6, GCModeller\analysis\SequenceToolkit\MotifFinder\Protocol.vb"
+﻿#Region "Microsoft.VisualBasic::f37e96d1f03cee5a102952534dcf1372, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Protocol.vb"
 
     ' Author:
     ' 
@@ -34,23 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 221
-    '    Code Lines: 158
-    ' Comment Lines: 29
-    '   Blank Lines: 34
-    '     File Size: 8.87 KB
+    '   Total Lines: 213
+    '    Code Lines: 160
+    ' Comment Lines: 25
+    '   Blank Lines: 28
+    '     File Size: 8.82 KB
 
 
     ' Module Protocol
     ' 
-    '     Function: (+2 Overloads) Consensus, motif, pairwiseSeeding, PopulateMotifs, PWM
-    '               seeding
-    '     Class TaskPayload
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: Seeding
-    ' 
-    ' 
+    '     Function: BuildMotifPWM, (+2 Overloads) Consensus, motif, (+2 Overloads) PopulateMotifs, PWM
     ' 
     ' /********************************************************************************/
 

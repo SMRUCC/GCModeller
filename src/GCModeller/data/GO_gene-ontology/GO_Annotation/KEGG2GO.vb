@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d808560bf8aaac076762108b6f5b16c, data\GO_gene-ontology\GO_Annotation\KEGG2GO.vb"
+﻿#Region "Microsoft.VisualBasic::6d808560bf8aaac076762108b6f5b16c, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GO_Annotation//KEGG2GO.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 19
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 802 B
+
 
     ' Module KEGG2GO
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55cc7e3d1c003ae217ee1220ae88f95c, Bio.Repository\KEGG\ReactionRepository\ReactionRepository.vb"
+﻿#Region "Microsoft.VisualBasic::55cc7e3d1c003ae217ee1220ae88f95c, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/ReactionRepository.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 259
+    '    Code Lines: 183
+    ' Comment Lines: 50
+    '   Blank Lines: 26
+    '     File Size: 10.26 KB
+
 
     ' Class ReactionRepository
     ' 

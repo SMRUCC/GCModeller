@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b543abb8a2dc41a55ae8c675d2f75fc, GCModeller\engine\GCModeller.Framework.Kernel_Driver\Driver\Abstract\ReactionMachine.vb"
+﻿#Region "Microsoft.VisualBasic::5b543abb8a2dc41a55ae8c675d2f75fc, G:/GCModeller/src/GCModeller/engine/GCModeller.Framework.Kernel_Driver//Driver/Abstract/ReactionMachine.vb"
 
     ' Author:
     ' 

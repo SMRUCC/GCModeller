@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba77c26be87a52140de0a203d5102d8e, GCModeller\engine\Compiler\AssemblyScript\Commands\metadata\Label.vb"
+﻿#Region "Microsoft.VisualBasic::ba77c26be87a52140de0a203d5102d8e, G:/GCModeller/src/GCModeller/engine/Compiler//AssemblyScript/Commands/metadata/Label.vb"
 
     ' Author:
     ' 

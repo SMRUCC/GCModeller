@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef97981992a36d887bc3a17d40902536, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\ProteinFeature.vb"
+﻿#Region "Microsoft.VisualBasic::ef97981992a36d887bc3a17d40902536, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/File/AttributeValue DataFile/DataFiles/Slots/ProteinFeature.vb"
 
     ' Author:
     ' 

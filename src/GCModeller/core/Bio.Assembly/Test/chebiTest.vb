@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6c3412449759186df256186e22dd6c6, GCModeller\core\Bio.Assembly\Test\chebiTest.vb"
+﻿#Region "Microsoft.VisualBasic::f6c3412449759186df256186e22dd6c6, G:/GCModeller/src/GCModeller/core/Bio.Assembly/Test//chebiTest.vb"
 
     ' Author:
     ' 

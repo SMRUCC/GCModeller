@@ -1,51 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::9094e5cee511831daa90325d92d93503, R#\phenotype_kit\magnitude.vb"
+﻿#Region "Microsoft.VisualBasic::9186d4d71519e3d8f7040ea8a0de6bba, G:/GCModeller/src/workbench/R#/phenotype_kit//magnitude.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 28
-'    Code Lines: 19
-' Comment Lines: 3
-'   Blank Lines: 6
-'     File Size: 936 B
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module magnitude
-' 
-'     Function: profiles
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 81
+    ' Comment Lines: 26
+    '   Blank Lines: 18
+    '     File Size: 4.43 KB
+
+
+    ' Module magnitude
+    ' 
+    '     Function: applyFeature, applySample, encode_seqPack, triq
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

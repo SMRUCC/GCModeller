@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b21d77b637ccd27f9c13293e61123aa, R#\TRNtoolkit\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::8b21d77b637ccd27f9c13293e61123aa, G:/GCModeller/src/workbench/R#/TRNtoolkit//WGCNA.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 47
+    ' Comment Lines: 15
+    '   Blank Lines: 11
+    '     File Size: 2.68 KB
+
 
     ' Module WGCNA
     ' 

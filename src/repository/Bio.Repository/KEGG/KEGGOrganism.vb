@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a81e78d4d15997e3608b85c813e1b35, Bio.Repository\KEGG\KEGGOrganism.vb"
+﻿#Region "Microsoft.VisualBasic::4a81e78d4d15997e3608b85c813e1b35, G:/GCModeller/src/repository/Bio.Repository//KEGG/KEGGOrganism.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 3
+    '    Code Lines: 0
+    ' Comment Lines: 2
+    '   Blank Lines: 1
+    '     File Size: 40 B
+
 
     ' 
     ' /********************************************************************************/

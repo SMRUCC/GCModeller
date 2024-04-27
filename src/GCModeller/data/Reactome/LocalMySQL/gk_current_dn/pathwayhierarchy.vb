@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15c52814f44a68630020941135be12a4, data\Reactome\LocalMySQL\gk_current_dn\pathwayhierarchy.vb"
+﻿#Region "Microsoft.VisualBasic::15c52814f44a68630020941135be12a4, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current_dn/pathwayhierarchy.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.83 KB
+
 
     ' Class pathwayhierarchy
     ' 

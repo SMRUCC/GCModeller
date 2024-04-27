@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2d6c5ca97d274a522a4cbb2e5a88f61, modules\Knowledge_base\Knowledge_base\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::b2d6c5ca97d274a522a4cbb2e5a88f61, G:/GCModeller/src/workbench/modules/Knowledge_base/Knowledge_base//My Project/Settings.Designer.vb"
 
     ' Author:
     ' 

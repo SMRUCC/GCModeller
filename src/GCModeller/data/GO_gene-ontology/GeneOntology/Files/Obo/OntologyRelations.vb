@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81edf73aaa5651d4a87fcd113cdac8d5, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\OntologyRelations.vb"
+﻿#Region "Microsoft.VisualBasic::6be2e8906e39cebdf0e203b14d065dd7, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GeneOntology//Files/Obo/OntologyRelations.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 81
-    '    Code Lines: 56
+    '   Total Lines: 77
+    '    Code Lines: 53
     ' Comment Lines: 13
-    '   Blank Lines: 12
-    '     File Size: 3.04 KB
+    '   Blank Lines: 11
+    '     File Size: 2.86 KB
 
 
     '     Class OntologyRelations
@@ -46,7 +46,7 @@
     '         Properties: is_a
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: GenericEnumerator, GetEnumerator, parseRelationships, ToString
+    '         Function: GenericEnumerator, parseRelationships, ToString
     ' 
     ' 
     ' /********************************************************************************/

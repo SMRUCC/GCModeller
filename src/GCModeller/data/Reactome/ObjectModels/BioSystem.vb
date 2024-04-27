@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50f88de8a42ef8d7b9197d22de89aab9, data\Reactome\ObjectModels\BioSystem.vb"
+﻿#Region "Microsoft.VisualBasic::50f88de8a42ef8d7b9197d22de89aab9, G:/GCModeller/src/GCModeller/data/Reactome//ObjectModels/BioSystem.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 7
+    '    Code Lines: 6
+    ' Comment Lines: 0
+    '   Blank Lines: 1
+    '     File Size: 184 B
+
 
     '     Class BioSystem
     ' 

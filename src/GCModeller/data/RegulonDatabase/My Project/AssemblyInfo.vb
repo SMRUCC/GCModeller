@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4b2504c6ca3f5be9f317c039ff93782, GCModeller\data\RegulonDatabase\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::e4b2504c6ca3f5be9f317c039ff93782, G:/GCModeller/src/GCModeller/data/RegulonDatabase//My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

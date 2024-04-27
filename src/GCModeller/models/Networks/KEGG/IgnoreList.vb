@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4cab5d916f76bf0fbc34b7ddc11209a9, GCModeller\models\Networks\KEGG\IgnoreList.vb"
+﻿#Region "Microsoft.VisualBasic::4cab5d916f76bf0fbc34b7ddc11209a9, G:/GCModeller/src/GCModeller/models/Networks/KEGG//IgnoreList.vb"
 
     ' Author:
     ' 

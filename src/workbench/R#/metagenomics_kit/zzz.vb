@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6ebc3b59ed7ad6c41625bfaa79aaaea, R#\metagenomics_kit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::a4876c71cad7217cc45866aef51f2974, G:/GCModeller/src/workbench/R#/metagenomics_kit//zzz.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 7
-    '    Code Lines: 4
+    '   Total Lines: 12
+    '    Code Lines: 9
     ' Comment Lines: 0
     '   Blank Lines: 3
-    '     File Size: 100 B
+    '     File Size: 257 B
 
 
     ' Class zzz
     ' 
-    ' 
+    '     Sub: onLoad
     ' 
     ' /********************************************************************************/
 

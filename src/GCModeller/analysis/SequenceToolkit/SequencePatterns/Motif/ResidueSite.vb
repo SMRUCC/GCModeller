@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b17df84d7f99ea3af10b259b41fdd3b4, GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\ResidueSite.vb"
+﻿#Region "Microsoft.VisualBasic::b17df84d7f99ea3af10b259b41fdd3b4, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//Motif/ResidueSite.vb"
 
     ' Author:
     ' 

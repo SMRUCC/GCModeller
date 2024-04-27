@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60fcdee20670f553e0756fcf162944c7, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\PathRoute.vb"
+﻿#Region "Microsoft.VisualBasic::60fcdee20670f553e0756fcf162944c7, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/Schemas/Reflection/PathRoute.vb"
 
     ' Author:
     ' 

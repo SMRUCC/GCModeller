@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20e186d8f63ab77a9411ece29fd091a4, R#\kegg_kit\activatorUtils.vb"
+﻿#Region "Microsoft.VisualBasic::e104052ccb05d156f31554e52deb808f, G:/GCModeller/src/workbench/R#/kegg_kit//activatorUtils.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 74
-    '    Code Lines: 67
-    ' Comment Lines: 0
-    '   Blank Lines: 7
-    '     File Size: 2.85 KB
+    '   Total Lines: 102
+    '    Code Lines: 82
+    ' Comment Lines: 8
+    '   Blank Lines: 12
+    '     File Size: 3.43 KB
 
 
     ' Module activatorUtils

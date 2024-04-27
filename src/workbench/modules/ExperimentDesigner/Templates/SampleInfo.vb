@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a82dc3f6028babfdb15027c9194ca84, modules\ExperimentDesigner\Templates\SampleInfo.vb"
+﻿#Region "Microsoft.VisualBasic::658684443107ff40b24b5e2b1c5d24ef, G:/GCModeller/src/workbench/modules/ExperimentDesigner//Templates/SampleInfo.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 40
-    '    Code Lines: 13
-    ' Comment Lines: 21
-    '   Blank Lines: 6
-    '     File Size: 1.34 KB
+    '   Total Lines: 59
+    '    Code Lines: 35
+    ' Comment Lines: 17
+    '   Blank Lines: 7
+    '     File Size: 2.03 KB
 
 
     ' Class SampleInfo
     ' 
-    '     Properties: batch, color, ID, injectionOrder, shape
+    '     Properties: batch, ID, injectionOrder
+    ' 
+    '     Constructor: (+2 Overloads) Sub New
+    '     Function: FromTagGroup
     ' 
     ' /********************************************************************************/
 

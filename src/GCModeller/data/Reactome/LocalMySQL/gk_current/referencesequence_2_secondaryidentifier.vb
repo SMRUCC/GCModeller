@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3aaf1d01bf3490ea1220b3db129d15c, data\Reactome\LocalMySQL\gk_current\referencesequence_2_secondaryidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::e3aaf1d01bf3490ea1220b3db129d15c, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/referencesequence_2_secondaryidentifier.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 6.82 KB
+
 
     ' Class referencesequence_2_secondaryidentifier
     ' 

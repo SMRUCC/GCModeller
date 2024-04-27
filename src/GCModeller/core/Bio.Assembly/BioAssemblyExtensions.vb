@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e719e4eb2ba499b14099150bae66b556, GCModeller\core\Bio.Assembly\BioAssemblyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::ffac6963292e48a048d034c56c53db9b, G:/GCModeller/src/GCModeller/core/Bio.Assembly//BioAssemblyExtensions.vb"
 
     ' Author:
     ' 
@@ -34,8 +34,8 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 214
-    '    Code Lines: 133
+    '   Total Lines: 215
+    '    Code Lines: 134
     ' Comment Lines: 63
     '   Blank Lines: 18
     '     File Size: 8.64 KB

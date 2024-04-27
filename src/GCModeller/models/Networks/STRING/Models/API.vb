@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72900123fbe09ae8810ebf8ca91a9f58, models\Networks\STRING\Models\API.vb"
+﻿#Region "Microsoft.VisualBasic::72900123fbe09ae8810ebf8ca91a9f58, G:/GCModeller/src/GCModeller/models/Networks/STRING//Models/API.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 121
+    ' Comment Lines: 10
+    '   Blank Lines: 21
+    '     File Size: 8.43 KB
+
 
     ' Module API
     ' 

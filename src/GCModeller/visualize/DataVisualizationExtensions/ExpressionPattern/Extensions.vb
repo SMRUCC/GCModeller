@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fc7317e6ca03d8f7d8d3d5ea5d3ec9f, GCModeller\visualize\DataVisualizationExtensions\ExpressionPattern\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::6fc7317e6ca03d8f7d8d3d5ea5d3ec9f, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//ExpressionPattern/Extensions.vb"
 
     ' Author:
     ' 

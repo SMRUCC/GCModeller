@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30d7f3491394b16b7ab344d94e22c150, GCModeller\core\Bio.Resources\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::30d7f3491394b16b7ab344d94e22c150, G:/GCModeller/src/GCModeller/core/Bio.Resources//My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

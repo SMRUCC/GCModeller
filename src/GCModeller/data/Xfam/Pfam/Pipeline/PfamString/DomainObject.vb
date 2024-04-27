@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5911ddd7a3c18d7d7a9d2920fcf0b0bb, data\Xfam\Pfam\Pipeline\PfamString\DomainObject.vb"
+﻿#Region "Microsoft.VisualBasic::5911ddd7a3c18d7d7a9d2920fcf0b0bb, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/PfamString/DomainObject.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 6
+    ' Comment Lines: 11
+    '   Blank Lines: 2
+    '     File Size: 669 B
+
 
     '     Class DomainObject
     ' 

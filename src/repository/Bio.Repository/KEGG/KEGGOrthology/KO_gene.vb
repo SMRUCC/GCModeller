@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec5e7632706f4bcae78ad579e0002f27, Bio.Repository\KEGG\KEGGOrthology\KO_gene.vb"
+﻿#Region "Microsoft.VisualBasic::ec5e7632706f4bcae78ad579e0002f27, G:/GCModeller/src/repository/Bio.Repository//KEGG/KEGGOrthology/KO_gene.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 12
+    ' Comment Lines: 29
+    '   Blank Lines: 3
+    '     File Size: 1.36 KB
+
 
     ' Class KO_gene
     ' 

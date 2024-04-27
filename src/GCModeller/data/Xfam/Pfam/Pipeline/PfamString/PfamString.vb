@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fffe9a0cfb156f7e9811b69edb282111, data\Xfam\Pfam\Pipeline\PfamString\PfamString.vb"
+﻿#Region "Microsoft.VisualBasic::fffe9a0cfb156f7e9811b69edb282111, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/PfamString/PfamString.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 150
+    '    Code Lines: 97
+    ' Comment Lines: 33
+    '   Blank Lines: 20
+    '     File Size: 6.27 KB
+
 
     '     Class PfamString
     ' 

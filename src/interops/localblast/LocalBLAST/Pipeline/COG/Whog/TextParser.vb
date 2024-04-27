@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac07d5066ef75a456fdbfaf550500a59, localblast\LocalBLAST\Pipeline\COG\Whog\TextParser.vb"
+﻿#Region "Microsoft.VisualBasic::8308e9ae3665dfefd56a92b21e766a03, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/COG/Whog/TextParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 42
+    ' Comment Lines: 0
+    '   Blank Lines: 8
+    '     File Size: 1.88 KB
+
 
     '     Module TextParser
     ' 

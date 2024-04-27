@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b63df3d91354e905f18cd39363b4c74, R#\seqtoolkit\Annotations\genomics.vb"
+﻿#Region "Microsoft.VisualBasic::de3287409ed7537e546aad28435d6f02, G:/GCModeller/src/workbench/R#/seqtoolkit//Annotations/genomics.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 151
-    '    Code Lines: 128
+    '   Total Lines: 153
+    '    Code Lines: 130
     ' Comment Lines: 1
     '   Blank Lines: 22
-    '     File Size: 5.68 KB
+    '     File Size: 5.81 KB
 
 
     ' Module genomics

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd277e9d5d4610c389c9b0c175be5f5e, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Styles\Translator.vb"
+﻿#Region "Microsoft.VisualBasic::dd277e9d5d4610c389c9b0c175be5f5e, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/cytoscape.js/Styles/Translator.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 78
+    ' Comment Lines: 0
+    '   Blank Lines: 13
+    '     File Size: 2.68 KB
+
 
     '     Class CSSTranslator
     ' 

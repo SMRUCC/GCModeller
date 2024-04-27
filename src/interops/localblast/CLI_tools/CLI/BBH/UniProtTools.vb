@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4985884d939f7d4e22e2303e3249f84f, localblast\CLI_tools\CLI\BBH\UniProtTools.vb"
+﻿#Region "Microsoft.VisualBasic::4985884d939f7d4e22e2303e3249f84f, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/BBH/UniProtTools.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 285
+    '    Code Lines: 227
+    ' Comment Lines: 24
+    '   Blank Lines: 34
+    '     File Size: 13.07 KB
+
 
     ' Module CLI
     ' 

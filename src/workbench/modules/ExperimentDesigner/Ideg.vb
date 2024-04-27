@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1dea82afe35a956dfcd2c05af4da60c4, GCModeller\visualize\DataVisualizationExtensions\Abstract\Ideg.vb"
+﻿#Region "Microsoft.VisualBasic::1dea82afe35a956dfcd2c05af4da60c4, G:/GCModeller/src/workbench/modules/ExperimentDesigner//Ideg.vb"
 
     ' Author:
     ' 

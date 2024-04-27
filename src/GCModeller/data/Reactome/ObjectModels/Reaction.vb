@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d0cbd7c86383c156d4827880777701b, data\Reactome\ObjectModels\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::3d0cbd7c86383c156d4827880777701b, G:/GCModeller/src/GCModeller/data/Reactome//ObjectModels/Reaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 34
+    ' Comment Lines: 1
+    '   Blank Lines: 7
+    '     File Size: 1.38 KB
+
 
     '     Class Reaction
     ' 

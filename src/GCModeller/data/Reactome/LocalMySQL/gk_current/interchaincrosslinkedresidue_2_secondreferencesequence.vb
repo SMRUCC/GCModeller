@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::187553355aa7d12366ca74b29df84396, data\Reactome\LocalMySQL\gk_current\interchaincrosslinkedresidue_2_secondreferencesequence.vb"
+﻿#Region "Microsoft.VisualBasic::187553355aa7d12366ca74b29df84396, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/interchaincrosslinkedresidue_2_secondreferencesequence.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 8.35 KB
+
 
     ' Class interchaincrosslinkedresidue_2_secondreferencesequence
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d316aa86d683bcf5be0352bad52df99, models\Networks\Network.Regulons\RegulatesGraph\RegulatesGraph.vb"
+﻿#Region "Microsoft.VisualBasic::0d316aa86d683bcf5be0352bad52df99, G:/GCModeller/src/GCModeller/models/Networks/Network.Regulons//RegulatesGraph/RegulatesGraph.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 74
+    ' Comment Lines: 0
+    '   Blank Lines: 9
+    '     File Size: 4.22 KB
+
 
     '     Module GraphAPI
     ' 

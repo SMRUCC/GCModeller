@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97ead1b23fdb5e0ea2a8b56b0a235557, data\Xfam\Pfam\MPAlignment\MotifParallelAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::97ead1b23fdb5e0ea2a8b56b0a235557, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//MPAlignment/MotifParallelAlignment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 207
+    '    Code Lines: 132
+    ' Comment Lines: 53
+    '   Blank Lines: 22
+    '     File Size: 12.12 KB
+
 
     '     Module MotifParallelAlignment
     ' 

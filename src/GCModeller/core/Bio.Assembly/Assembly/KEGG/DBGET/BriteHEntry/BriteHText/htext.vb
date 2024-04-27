@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::5d50e64f5fde0aa14f7aa325517150af, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb"
+﻿#Region "Microsoft.VisualBasic::5b78e4c4104191f1026ae4b96e1eeac6, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/BriteHEntry/BriteHText/htext.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 196
-'    Code Lines: 124
-' Comment Lines: 48
-'   Blank Lines: 24
-'     File Size: 7.83 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class htext
-' 
-'         Properties: Descript, Hierarchical, MaxDepth, Schema, Title
-' 
-'         Function: br08201, br08204, br08901, GetEntryDictionary, GetInternalResource
-'                   GetInternalResourceText, getResourceCache, ko00001, StreamParser, ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 198
+    '    Code Lines: 116
+    ' Comment Lines: 59
+    '   Blank Lines: 23
+    '     File Size: 8.08 KB
+
+
+    '     Class htext
+    ' 
+    '         Properties: Descript, Hierarchical, MaxDepth, Schema, Title
+    ' 
+    '         Function: br08201, br08204, br08901, GetEntryDictionary, GetInternalResource
+    '                   GetInternalResourceText, getResourceCache, ko00001, StreamParser, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

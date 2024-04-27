@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccf4bcd76bd6e037cc7d5a166a5a9b56, GCModeller\data\MicrobesOnline\MySQL\genomics\operon.vb"
+﻿#Region "Microsoft.VisualBasic::ccf4bcd76bd6e037cc7d5a166a5a9b56, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/operon.vb"
 
     ' Author:
     ' 

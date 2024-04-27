@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79bc99637b33079f8eff036143dec472, GCModeller\core\Bio.Assembly\SequenceModel\CutSequence.vb"
+﻿#Region "Microsoft.VisualBasic::2c22c7439a0cc0719d13d95e998c9959, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/CutSequence.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 221
-    '    Code Lines: 131
+    '   Total Lines: 227
+    '    Code Lines: 136
     ' Comment Lines: 60
-    '   Blank Lines: 30
-    '     File Size: 8.64 KB
+    '   Blank Lines: 31
+    '     File Size: 8.85 KB
 
 
     '     Module CutSequence
     ' 
-    '         Function: CutSequenceBylength, (+3 Overloads) CutSequenceCircular, (+4 Overloads) CutSequenceLinear, ReadComplement
+    '         Function: CutSequenceBylength, (+3 Overloads) CutSequenceCircular, (+4 Overloads) CutSequenceLinear, Length, ReadComplement
     ' 
     ' 
     ' /********************************************************************************/

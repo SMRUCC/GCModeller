@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::aa1a9a04c0646ceaaefaa05414616c87, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
+﻿#Region "Microsoft.VisualBasic::061d5eaf8c30af2e2323b67c09314217, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/Web/Map/LocalRender.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 311
-'    Code Lines: 206
-' Comment Lines: 66
-'   Blank Lines: 39
-'     File Size: 12.95 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class LocalRender
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: FromRepository, getAreas, GetEnumerator, GetTitle, IEnumerable_GetEnumerator
-'                   IteratesMapNames, (+3 Overloads) Rendering
-' 
-'         Sub: CompoundShapeDrawing, renderCompound, renderGenes
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 360
+    '    Code Lines: 245
+    ' Comment Lines: 68
+    '   Blank Lines: 47
+    '     File Size: 15.82 KB
+
+
+    '     Class LocalRender
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: FromRepository, getAreas, GetEnumerator, GetTitle, IEnumerable_GetEnumerator
+    '                   IteratesMapNames, (+3 Overloads) Rendering
+    ' 
+    '         Sub: CompoundShapeDrawing, renderCompound, renderGenes
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

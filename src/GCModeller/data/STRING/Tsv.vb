@@ -1,58 +1,70 @@
-﻿#Region "Microsoft.VisualBasic::a360d21ed7dadfa783e127c5af2a7504, data\STRING\Tsv.vb"
+﻿#Region "Microsoft.VisualBasic::195a46a7ff2dcff1fed9076c022839d1, G:/GCModeller/src/GCModeller/data/STRING//Tsv.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class LinkAction
-' 
-'         Properties: a_is_acting, action, item_id_a, item_id_b, mode
-'                     score
-' 
-'         Function: LoadText
-' 
-'     Class linksDetail
-' 
-'         Properties: coexpression, combined_score, cooccurence, database, experimental
-'                     fusion, neighborhood, protein1, protein2, textmining
-' 
-'         Function: IteratesLinks, LoadFile, Selects, ToString
-' 
-'     Class entrez_gene_id_vs_string
-' 
-'         Properties: Entrez_Gene_ID, STRING_Locus_ID
-' 
-'         Function: BuildMaps, BuildMapsFromFile, ToString
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 255
+    '    Code Lines: 191
+    ' Comment Lines: 34
+    '   Blank Lines: 30
+    '     File Size: 13.03 KB
+
+
+    '     Class LinkAction
+    ' 
+    '         Properties: a_is_acting, action, item_id_a, item_id_b, mode
+    '                     score
+    ' 
+    '         Function: LoadText
+    ' 
+    '     Class linksDetail
+    ' 
+    '         Properties: coexpression, coexpression_transferred, combined_score, cooccurence, database
+    '                     database_transferred, experimental, experiments, experiments_transferred, fusion
+    '                     homology, neighborhood, neighborhood_transferred, protein1, protein2
+    '                     textmining, textmining_transferred
+    ' 
+    '         Function: IteratesLinks, LoadFile, Selects, ToString
+    ' 
+    '     Class entrez_gene_id_vs_string
+    ' 
+    '         Properties: Entrez_Gene_ID, STRING_Locus_ID
+    ' 
+    '         Function: BuildMaps, BuildMapsFromFile, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

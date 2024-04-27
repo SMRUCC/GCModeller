@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19723ed0560519cb5fcc0185d8e23721, data\Reactome\LocalMySQL\gk_current\geneticallymodifiedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::19723ed0560519cb5fcc0185d8e23721, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/geneticallymodifiedresidue.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.83 KB
+
 
     ' Class geneticallymodifiedresidue
     ' 

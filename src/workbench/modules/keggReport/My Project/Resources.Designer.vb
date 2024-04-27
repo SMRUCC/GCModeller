@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b34721340c886fe0dddd4157be747894, modules\keggReport\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::4468194bd1544f4effbe292711fdb0b6, G:/GCModeller/src/workbench/modules/keggReport//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -143,4 +143,3 @@ Namespace My.Resources
         End Property
     End Module
 End Namespace
-

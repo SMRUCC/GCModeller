@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b67e287e7d13ae5fe21ee53579fa5377, visualize\Cytoscape\Cytoscape\API\ImportantNodes\ImportantNodes.vb"
+﻿#Region "Microsoft.VisualBasic::b67e287e7d13ae5fe21ee53579fa5377, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//API/ImportantNodes/ImportantNodes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 195
+    '    Code Lines: 154
+    ' Comment Lines: 20
+    '   Blank Lines: 21
+    '     File Size: 9.92 KB
+
 
     '     Module ImportantNodes
     ' 

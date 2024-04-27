@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7117cc67c81f50120eb275f9de38af83, GCModeller\visualize\ChromosomeMap\Data\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::7117cc67c81f50120eb275f9de38af83, G:/GCModeller/src/GCModeller/visualize/ChromosomeMap/Data//Extensions.vb"
 
     ' Author:
     ' 

@@ -1,54 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::b060967f0a2b4c92a027d1aabeb71951, GCModeller\core\Bio.Assembly\SequenceModel\TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::ab8fff5078e43df21230a946566144f5, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/TypeExtensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 62
-'    Code Lines: 30
-' Comment Lines: 25
-'   Blank Lines: 7
-'     File Size: 2.31 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module TypeExtensions
-' 
-'         Properties: AA, NT
-' 
-'         Function: GetSeqType, IsProteinSource
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 63
+    ' Comment Lines: 35
+    '   Blank Lines: 13
+    '     File Size: 3.89 KB
+
+
+    '     Module TypeExtensions
+    ' 
+    '         Properties: AA, NT, RNA
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetSeqType, GetVector, IsProteinSource, ParseSeqType
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

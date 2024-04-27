@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e67d318d7f156fb61b5c4f1dc973a3f, R#\gseakit\GSVA.vb"
+﻿#Region "Microsoft.VisualBasic::3dd5b4f8c4fe24ecda79ff47b948143d, G:/GCModeller/src/workbench/R#/gseakit//GSVA.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 163
-    '    Code Lines: 105
+    '   Total Lines: 164
+    '    Code Lines: 106
     ' Comment Lines: 45
     '   Blank Lines: 13
-    '     File Size: 6.55 KB
+    '     File Size: 6.62 KB
 
 
     ' Module GSVA

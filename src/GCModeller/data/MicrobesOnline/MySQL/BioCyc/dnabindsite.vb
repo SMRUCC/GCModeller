@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e736d67b5ecee8434b51b180c17248d1, GCModeller\data\MicrobesOnline\MySQL\BioCyc\dnabindsite.vb"
+﻿#Region "Microsoft.VisualBasic::e736d67b5ecee8434b51b180c17248d1, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/BioCyc/dnabindsite.vb"
 
     ' Author:
     ' 

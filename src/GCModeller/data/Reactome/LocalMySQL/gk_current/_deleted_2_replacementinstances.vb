@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb931a3d9b1aa1927cac87c9810b57bc, data\Reactome\LocalMySQL\gk_current\_deleted_2_replacementinstances.vb"
+﻿#Region "Microsoft.VisualBasic::eb931a3d9b1aa1927cac87c9810b57bc, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/_deleted_2_replacementinstances.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.68 KB
+
 
     ' Class _deleted_2_replacementinstances
     ' 

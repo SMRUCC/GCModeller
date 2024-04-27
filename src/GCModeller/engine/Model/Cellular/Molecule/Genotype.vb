@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50d663c12d86ac5b75770fea6c5e88c4, GCModeller\engine\Model\Cellular\Molecule\Genotype.vb"
+﻿#Region "Microsoft.VisualBasic::e36fd021044338d026ec5c257ea44f78, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Molecule/Genotype.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 42
+    '   Total Lines: 48
     '    Code Lines: 20
-    ' Comment Lines: 15
+    ' Comment Lines: 21
     '   Blank Lines: 7
-    '     File Size: 2.06 KB
+    '     File Size: 2.35 KB
 
 
     '     Structure Genotype

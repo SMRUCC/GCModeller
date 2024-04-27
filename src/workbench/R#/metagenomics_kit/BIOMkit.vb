@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fdba059aaf8e62ef84f16c3bdfaf9d0, R#\metagenomics_kit\BIOMkit.vb"
+﻿#Region "Microsoft.VisualBasic::cf6a55c8fee19093430b6d75f1a7a4e8, G:/GCModeller/src/workbench/R#/metagenomics_kit//BIOMkit.vb"
 
     ' Author:
     ' 
@@ -34,17 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 122
+    '   Total Lines: 134
     '    Code Lines: 99
-    ' Comment Lines: 9
+    ' Comment Lines: 21
     '   Blank Lines: 14
-    '     File Size: 4.97 KB
+    '     File Size: 5.33 KB
 
 
     ' Module BIOMkit
     ' 
-    '     Constructor: (+1 Overloads) Sub New
     '     Function: asDataFrame, getTaxonomy, readMatrix, unionBIOM
+    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 

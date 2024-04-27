@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4707f1fdce39e752cc380ab408793f9f, data\Xfam\Pfam\Pipeline\Database\Entry.vb"
+﻿#Region "Microsoft.VisualBasic::4707f1fdce39e752cc380ab408793f9f, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/Database/Entry.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 12
+    ' Comment Lines: 22
+    '   Blank Lines: 10
+    '     File Size: 1.21 KB
+
 
     '     Class Entry
     ' 

@@ -1,56 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::cb96fe5bb6f256c96f68c84335c32a4e, R#\visualkit\visualPlot.vb"
+﻿#Region "Microsoft.VisualBasic::1bee5ed5e848de35c58633c359ea033e, G:/GCModeller/src/workbench/R#/visualkit//visualPlot.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 839
-'    Code Lines: 628
-' Comment Lines: 139
-'   Blank Lines: 72
-'     File Size: 38.05 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module visualPlot
-' 
-'     Function: CategoryProfilePlots, ClassChangePlot, colorBends, delete, DEMBarPlot
-'               GoEnrichBubbles, KEGGCategoryProfile, KEGGCategoryProfilePlots, KEGGEnrichBubbles, Plot
-'               PlotCMeans3D, PlotExpressionPatterns, plotGSVA, plotSingle, toBubbles
-'               VolcanoPlot
-' 
-'     Sub: DrawSampleColorBend, Main
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 895
+    '    Code Lines: 669
+    ' Comment Lines: 145
+    '   Blank Lines: 81
+    '     File Size: 40.51 KB
+
+
+    ' Module visualPlot
+    ' 
+    '     Function: CategoryProfilePlots, class_heatmap, ClassChangePlot, colorBends, delete
+    '               DEMBarPlot, GoEnrichBubbles, KEGGCategoryProfile, KEGGCategoryProfilePlots, KEGGEnrichBubbles
+    '               keggEnrichmentBubble2, Plot, PlotCMeans3D, PlotExpressionPatterns, plotGSVA
+    '               plotSingle, toBubbles, VolcanoPlot
+    ' 
+    '     Sub: DrawSampleColorBend, Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

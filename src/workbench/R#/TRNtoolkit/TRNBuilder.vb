@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f13c45b8a7809ff0abac9fcf16bc5240, R#\TRNtoolkit\TRNBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::71596ad4b66da28dd5474d03f3cf18b5, G:/GCModeller/src/workbench/R#/TRNtoolkit//TRNBuilder.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,19 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 215
+    '    Code Lines: 126
+    ' Comment Lines: 61
+    '   Blank Lines: 28
+    '     File Size: 9.72 KB
+
+
     ' Module TRNBuilder
     ' 
-    '     Function: ParsePromoterReport, readFootprintSites, readRegulations, RegulationFootprint, RegulationFootprints
-    '               TRN, writeRegulationFootprints
+    '     Function: readFootprintSites, readRegulations, RegulationFootprint, writeRegulationFootprints
     ' 
     ' /********************************************************************************/
 

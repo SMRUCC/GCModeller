@@ -1,52 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::399a350f1a606e540781906f38670a31, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\ParseHtml.vb"
+﻿#Region "Microsoft.VisualBasic::be477e1e0ff76c9d0d10f923e765a92e, G:/GCModeller/src/repository/graphquery/kegg/src/kegg_api//Html/ParseMap.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 79
-'    Code Lines: 56
-' Comment Lines: 11
-'   Blank Lines: 12
-'     File Size: 3.01 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module ParseHtmlExtensions
-' 
-'         Function: GetEntryInfo, ParseHTML
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 162
+    '    Code Lines: 122
+    ' Comment Lines: 12
+    '   Blank Lines: 28
+    '     File Size: 6.41 KB
+
+
+    '     Module ParseHtmlExtensions
+    ' 
+    '         Function: ExtractMapSet, GetEntryInfo, HttpGetPathwayMapImage, ParseAreaData, ParseHTML
+    '                   parseShapes
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

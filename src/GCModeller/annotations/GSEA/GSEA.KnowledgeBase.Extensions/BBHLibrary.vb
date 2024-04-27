@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b62a6ff609f27e8d40e21998348e45da, GCModeller\annotations\GSEA\GSEA.KnowledgeBase.Extensions\BBHLibrary.vb"
+﻿#Region "Microsoft.VisualBasic::9ad1bb5cc5ae1e01bc1b15172da0f175, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions//BBHLibrary.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 53
     ' Comment Lines: 13
     '   Blank Lines: 8
-    '     File Size: 3.02 KB
+    '     File Size: 3.05 KB
 
 
     ' Module BBHLibrary

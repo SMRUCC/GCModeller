@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9757c2e29e34440e3e310cff2cb2030, analysis\Motifs\PrimerDesigner\Restriction_enzyme\WikiLoader.vb"
+﻿#Region "Microsoft.VisualBasic::9dc4d37dfc095690e42a2516c5feb5e1, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Restriction_enzyme/WikiLoader.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 82
+    ' Comment Lines: 8
+    '   Blank Lines: 15
+    '     File Size: 3.88 KB
+
+
     '     Module WikiLoader
     ' 
-    '         Function: __cutsParser, __enzymeParser, __isoschizomersParser, __recognitionParser, FromWiki
-    '                   HTMLParser, LoadDIR
+    '         Function: LoadResFile, ParseCutSites, ParseRecognition, PullAll, PullInternal
+    ' 
+    '     Class EnzymeTable
+    ' 
+    '         Properties: cut, enzyme, isoschizomers, organism, pdb
+    '                     recognition
     ' 
     ' 
     ' /********************************************************************************/

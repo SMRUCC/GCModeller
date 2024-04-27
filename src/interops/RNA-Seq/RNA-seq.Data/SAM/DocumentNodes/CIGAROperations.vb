@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb8f1612ebe6dafc7e96c15697163f08, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\CIGAROperations.vb"
+﻿#Region "Microsoft.VisualBasic::fb8f1612ebe6dafc7e96c15697163f08, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//SAM/DocumentNodes/CIGAROperations.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 13
+    ' Comment Lines: 36
+    '   Blank Lines: 1
+    '     File Size: 1.49 KB
+
 
     '     Enum CIGAROperations
     ' 

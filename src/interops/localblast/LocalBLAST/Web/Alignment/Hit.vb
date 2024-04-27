@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3808ad2b06004d925fe7d86a3247eeb4, localblast\LocalBLAST\Web\Alignment\Hit.vb"
+﻿#Region "Microsoft.VisualBasic::3808ad2b06004d925fe7d86a3247eeb4, G:/GCModeller/src/interops/localblast/LocalBLAST//Web/Alignment/Hit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 102
+    ' Comment Lines: 20
+    '   Blank Lines: 15
+    '     File Size: 4.95 KB
+
 
     '     Class HitRecord
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84ce5f23591b07419b9eb85971b18d9a, GCModeller\core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\QueryHandler.vb"
+﻿#Region "Microsoft.VisualBasic::84ce5f23591b07419b9eb85971b18d9a, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/NCBI/WebServiceHandler/Entrez/QueryHandler.vb"
 
     ' Author:
     ' 

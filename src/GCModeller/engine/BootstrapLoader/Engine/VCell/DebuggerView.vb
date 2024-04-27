@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d6c58c251ba293d3338609d305c0181, GCModeller\engine\BootstrapLoader\Engine\VCell\DebuggerView.vb"
+﻿#Region "Microsoft.VisualBasic::1d6c58c251ba293d3338609d305c0181, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//Engine/VCell/DebuggerView.vb"
 
     ' Author:
     ' 

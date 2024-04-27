@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::617ba5bdcacb298a402e2fcd36d5277f, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\Metabolism\Reaction\TransportationReaction.vb"
+﻿#Region "Microsoft.VisualBasic::617ba5bdcacb298a402e2fcd36d5277f, G:/GCModeller/src/GCModeller/engine/IO/GCMarkupLanguage//GCML_Documents/XmlElements/Metabolism/Reaction/TransportationReaction.vb"
 
     ' Author:
     ' 

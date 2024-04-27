@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::293181812f6aafc346c87c3e15af9040, visualize\Cytoscape\Cytoscape\Graph\Xgmml\RDFXml.vb"
+﻿#Region "Microsoft.VisualBasic::293181812f6aafc346c87c3e15af9040, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/Xgmml/RDFXml.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 22
+    ' Comment Lines: 6
+    '   Blank Lines: 6
+    '     File Size: 1.39 KB
+
 
     '     Class RDFXml
     ' 

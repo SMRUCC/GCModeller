@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::511f958996e1edb3be56219b1c0b7bcb, GCModeller\analysis\SequenceToolkit\SmithWaterman\Matrix\BlosumParser.vb"
+﻿#Region "Microsoft.VisualBasic::511f958996e1edb3be56219b1c0b7bcb, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SmithWaterman//Matrix/BlosumParser.vb"
 
     ' Author:
     ' 

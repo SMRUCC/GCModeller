@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1ce27b5411c90acbe535e0c86e339ad, models\GPML\PathVisio\Xml\Graphics.vb"
+﻿#Region "Microsoft.VisualBasic::c1ce27b5411c90acbe535e0c86e339ad, G:/GCModeller/src/GCModeller/models/GPML/PathVisio//Xml/Graphics.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 47
+    ' Comment Lines: 0
+    '   Blank Lines: 14
+    '     File Size: 2.13 KB
+
 
     '     Class Anchor
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22bcd578da3dc051522e3ba87ddb153d, localblast\CLI_tools\CLI\COGTools.vb"
+﻿#Region "Microsoft.VisualBasic::1726f396de3adaa81499f64c18d26c7d, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/COGTools.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,20 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 258
+    '    Code Lines: 201
+    ' Comment Lines: 24
+    '   Blank Lines: 33
+    '     File Size: 11.87 KB
+
+
     ' Module CLI
     ' 
     '     Function: COG_myva, COG2003_2014, COG2014_result, COGStatics, ExportDOORCogs
-    '               InstallCOGDatabase, WhogXML
+    '               WhogXML
     ' 
     ' /********************************************************************************/
 

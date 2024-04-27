@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d02b68eb31b282e32a6b3851c4b7391, localblast\CLI_tools\CLI\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::b984d11cf6f727ebad3d61721fd2d714, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/Taxonomy.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 93
+    ' Comment Lines: 2
+    '   Blank Lines: 13
+    '     File Size: 5.15 KB
+
 
     ' Module CLI
     ' 

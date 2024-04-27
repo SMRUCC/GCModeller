@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86009648d549bac29cc1d3d2eccecded, data\Reactome\LocalMySQL\gk_current\regulation_2_figure.vb"
+﻿#Region "Microsoft.VisualBasic::86009648d549bac29cc1d3d2eccecded, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/regulation_2_figure.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.39 KB
+
 
     ' Class regulation_2_figure
     ' 

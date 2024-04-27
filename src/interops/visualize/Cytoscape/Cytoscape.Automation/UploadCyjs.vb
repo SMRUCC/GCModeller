@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6dae58afa82cb2f3aa0c616d9ba88597, visualize\Cytoscape\Cytoscape.Automation\UploadCyjs.vb"
+﻿#Region "Microsoft.VisualBasic::6dae58afa82cb2f3aa0c616d9ba88597, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape.Automation//UploadCyjs.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 38
+    ' Comment Lines: 0
+    '   Blank Lines: 11
+    '     File Size: 1.58 KB
+
 
     '     Class CyjsUpload
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c19cb6d7e03ca6e998ebc5f82f5f022, data\Xfam\Pfam\Pipeline\LocalBlast\PfamHit.vb"
+﻿#Region "Microsoft.VisualBasic::6c19cb6d7e03ca6e998ebc5f82f5f022, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/LocalBlast/PfamHit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 33
+    ' Comment Lines: 15
+    '   Blank Lines: 8
+    '     File Size: 1.95 KB
+
 
     '     Class PfamHit
     ' 

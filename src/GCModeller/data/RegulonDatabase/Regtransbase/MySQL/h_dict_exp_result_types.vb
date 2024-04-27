@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56f8308f7031613a4ef4626132ff3643, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\h_dict_exp_result_types.vb"
+﻿#Region "Microsoft.VisualBasic::56f8308f7031613a4ef4626132ff3643, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/MySQL/h_dict_exp_result_types.vb"
 
     ' Author:
     ' 

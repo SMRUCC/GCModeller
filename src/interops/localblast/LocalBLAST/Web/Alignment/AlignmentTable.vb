@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0eabe67b3eeebf2ab8b34996ac44bb9, localblast\LocalBLAST\Web\Alignment\AlignmentTable.vb"
+﻿#Region "Microsoft.VisualBasic::b9af5e7f721b96cf2a61d68eb2b44b15, G:/GCModeller/src/interops/localblast/LocalBLAST//Web/Alignment/AlignmentTable.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 130
+    '    Code Lines: 79
+    ' Comment Lines: 34
+    '   Blank Lines: 17
+    '     File Size: 5.04 KB
+
+
     '     Class AlignmentTable
     ' 
     '         Properties: Database, Hits, Iteration, Program, Query
     '                     RID
     ' 
-    '         Function: __substituted2, DescriptionSubstituted, DescriptionSubstituted2, GenericEnumerator, GetEnumerator
-    '                   (+2 Overloads) Save, substituted, ToString
+    '         Function: __substituted2, DescriptionSubstituted, DescriptionSubstituted2, GenericEnumerator, (+2 Overloads) Save
+    '                   substituted, ToString
     ' 
     '         Sub: TrimLength
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c38fe73c235dcc1302b3079dce7baf48, data\Reactome\LocalMySQL\gk_current\vertexsearchableterm.vb"
+﻿#Region "Microsoft.VisualBasic::c38fe73c235dcc1302b3079dce7baf48, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/vertexsearchableterm.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 87
+    ' Comment Lines: 64
+    '   Blank Lines: 22
+    '     File Size: 8.09 KB
+
 
     ' Class vertexsearchableterm
     ' 

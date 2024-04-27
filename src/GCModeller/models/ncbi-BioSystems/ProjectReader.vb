@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::416bafab62145f63d7fd32af013a5cd5, GCModeller\models\ncbi-BioSystems\ProjectReader.vb"
+﻿#Region "Microsoft.VisualBasic::416bafab62145f63d7fd32af013a5cd5, G:/GCModeller/src/GCModeller/models/ncbi-BioSystems//ProjectReader.vb"
 
     ' Author:
     ' 

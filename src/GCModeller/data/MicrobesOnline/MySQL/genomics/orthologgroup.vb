@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf8de8cba7eb8558ee5a01d15ce1bf2d, GCModeller\data\MicrobesOnline\MySQL\genomics\orthologgroup.vb"
+﻿#Region "Microsoft.VisualBasic::cf8de8cba7eb8558ee5a01d15ce1bf2d, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/orthologgroup.vb"
 
     ' Author:
     ' 

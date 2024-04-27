@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab9886a03cccf82e0777c3a46345c3e7, visualize\Cytoscape\Cytoscape\Session\cyTable.vb"
+﻿#Region "Microsoft.VisualBasic::ab9886a03cccf82e0777c3a46345c3e7, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Session/cyTable.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 79
+    '    Code Lines: 65
+    ' Comment Lines: 0
+    '   Blank Lines: 14
+    '     File Size: 2.79 KB
+
 
     '     Class cyTable
     ' 

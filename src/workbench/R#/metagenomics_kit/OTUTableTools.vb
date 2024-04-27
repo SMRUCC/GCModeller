@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::755d58da5fe31057e3a88298b1aaf756, R#\metagenomics_kit\OTUTableTools.vb"
+﻿#Region "Microsoft.VisualBasic::cecfa8fef07a6ff47476dc632a28b5c7, G:/GCModeller/src/workbench/R#/metagenomics_kit//OTUTableTools.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 43
-    '    Code Lines: 37
-    ' Comment Lines: 0
+    '   Total Lines: 80
+    '    Code Lines: 41
+    ' Comment Lines: 33
     '   Blank Lines: 6
-    '     File Size: 1.39 KB
+    '     File Size: 3.09 KB
 
 
     ' Module OTUTableTools
@@ -129,4 +129,3 @@ Module OTUTableTools
             .ToArray
     End Function
 End Module
-

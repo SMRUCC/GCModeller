@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24145e259bc76c0b30638a545581413d, R#\TRNtoolkit\RegPrecise.vb"
+﻿#Region "Microsoft.VisualBasic::b55a81de9848ee3839d322219339b2b4, G:/GCModeller/src/workbench/R#/TRNtoolkit//RegPrecise.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,20 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 150
+    '    Code Lines: 118
+    ' Comment Lines: 14
+    '   Blank Lines: 18
+    '     File Size: 10.90 KB
+
+
     ' Module RegPrecise
     ' 
-    '     Function: exportRegPrecise, FromGenome, LoadScanner, readRegPrecise, readRegulators
-    '               readRegulome, regJoin
+    '     Function: exportRegPrecise, FromGenome, readMotifSites, readOperon, readRegPrecise
+    '               readRegulators, readRegulome, regJoin
     ' 
     ' /********************************************************************************/
 

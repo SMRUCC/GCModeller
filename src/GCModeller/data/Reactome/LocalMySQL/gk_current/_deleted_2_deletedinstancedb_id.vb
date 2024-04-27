@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::225b32fb69b3c9a25fca75da44539de7, data\Reactome\LocalMySQL\gk_current\_deleted_2_deletedinstancedb_id.vb"
+﻿#Region "Microsoft.VisualBasic::225b32fb69b3c9a25fca75da44539de7, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/_deleted_2_deletedinstancedb_id.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 6.73 KB
+
 
     ' Class _deleted_2_deletedinstancedb_id
     ' 

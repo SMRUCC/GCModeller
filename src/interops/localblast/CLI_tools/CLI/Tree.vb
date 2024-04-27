@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::151a78f8c2305adc1c0c30df4ca4837d, localblast\CLI_tools\CLI\Tree.vb"
+﻿#Region "Microsoft.VisualBasic::151a78f8c2305adc1c0c30df4ca4837d, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/Tree.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 69
+    ' Comment Lines: 0
+    '   Blank Lines: 11
+    '     File Size: 3.66 KB
+
 
     ' Module CLI
     ' 

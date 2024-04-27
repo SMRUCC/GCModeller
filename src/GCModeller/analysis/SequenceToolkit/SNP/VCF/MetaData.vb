@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f6775d35259b2962a4d5d841658095a, GCModeller\analysis\SequenceToolkit\SNP\VCF\MetaData.vb"
+﻿#Region "Microsoft.VisualBasic::6f6775d35259b2962a4d5d841658095a, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SNP//VCF/MetaData.vb"
 
     ' Author:
     ' 

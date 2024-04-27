@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60ac0e3def18ec3290c320e8f056a6af, data\Xfam\Pfam\Pipeline\LocalBlast\BlastOutputParser.vb"
+﻿#Region "Microsoft.VisualBasic::60ac0e3def18ec3290c320e8f056a6af, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/LocalBlast/BlastOutputParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 75
+    ' Comment Lines: 22
+    '   Blank Lines: 10
+    '     File Size: 4.86 KB
+
 
     '     Module BlastOutputParser
     ' 

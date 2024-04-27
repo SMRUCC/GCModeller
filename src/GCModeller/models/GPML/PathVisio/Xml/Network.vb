@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17d9200c68c99fb0d6873c1859173e72, models\GPML\PathVisio\Xml\Network.vb"
+﻿#Region "Microsoft.VisualBasic::17d9200c68c99fb0d6873c1859173e72, G:/GCModeller/src/GCModeller/models/GPML/PathVisio//Xml/Network.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 31
+    ' Comment Lines: 0
+    '   Blank Lines: 11
+    '     File Size: 1.16 KB
+
 
     '     Enum DataNodeTypes
     ' 

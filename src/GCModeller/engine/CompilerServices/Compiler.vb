@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b67b3c8b27af857134b8d8b788b0accc, GCModeller\engine\CompilerServices\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::b67b3c8b27af857134b8d8b788b0accc, G:/GCModeller/src/GCModeller/engine/CompilerServices//Compiler.vb"
 
     ' Author:
     ' 

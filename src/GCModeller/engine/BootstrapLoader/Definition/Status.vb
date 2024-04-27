@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0653bdd71379d1191c73b6c321449a6, GCModeller\engine\BootstrapLoader\Definition\Status.vb"
+﻿#Region "Microsoft.VisualBasic::a0653bdd71379d1191c73b6c321449a6, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//Definition/Status.vb"
 
     ' Author:
     ' 

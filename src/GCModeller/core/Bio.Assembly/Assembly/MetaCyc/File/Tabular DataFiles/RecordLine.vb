@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6e4ff8115b94b7a6f60af202f254dc1, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\Tabular DataFiles\RecordLine.vb"
+﻿#Region "Microsoft.VisualBasic::e6e4ff8115b94b7a6f60af202f254dc1, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/File/Tabular DataFiles/RecordLine.vb"
 
     ' Author:
     ' 

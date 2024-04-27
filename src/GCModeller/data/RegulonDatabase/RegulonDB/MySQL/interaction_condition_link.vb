@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::510ce7c6b074a041a77be6e10138b6d2, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\interaction_condition_link.vb"
+﻿#Region "Microsoft.VisualBasic::510ce7c6b074a041a77be6e10138b6d2, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/interaction_condition_link.vb"
 
     ' Author:
     ' 

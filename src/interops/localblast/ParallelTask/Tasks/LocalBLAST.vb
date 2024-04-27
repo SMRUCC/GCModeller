@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::888cc7cc8b81f52ec0be6076784b0080, localblast\ParallelTask\Tasks\LocalBLAST.vb"
+﻿#Region "Microsoft.VisualBasic::888cc7cc8b81f52ec0be6076784b0080, G:/GCModeller/src/interops/localblast/ParallelTask//Tasks/LocalBLAST.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 42
+    ' Comment Lines: 7
+    '   Blank Lines: 14
+    '     File Size: 2.52 KB
+
 
     '     Module LocalBLAST
     ' 

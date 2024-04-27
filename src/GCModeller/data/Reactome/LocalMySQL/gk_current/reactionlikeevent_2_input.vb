@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c0ee9a00a4f603b617f119946f0fc08, data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_input.vb"
+﻿#Region "Microsoft.VisualBasic::8c0ee9a00a4f603b617f119946f0fc08, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/reactionlikeevent_2_input.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.43 KB
+
 
     ' Class reactionlikeevent_2_input
     ' 

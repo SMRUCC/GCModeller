@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68fb491909087ddb6473c75911f7f7cd, localblast\CLI_tools\CLIGrouping.vb"
+﻿#Region "Microsoft.VisualBasic::68fb491909087ddb6473c75911f7f7cd, G:/GCModeller/src/interops/localblast/CLI_tools//CLIGrouping.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 11
+    '    Code Lines: 9
+    ' Comment Lines: 0
+    '   Blank Lines: 2
+    '     File Size: 477 B
+
 
     ' Class CLIGrouping
     ' 

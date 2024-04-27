@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6db33cd81dbf487b48294df55fb0d5a9, Bio.Repository\Indexing\NamesFactory.vb"
+﻿#Region "Microsoft.VisualBasic::6db33cd81dbf487b48294df55fb0d5a9, G:/GCModeller/src/repository/Bio.Repository//Indexing/NamesFactory.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 4
+    ' Comment Lines: 9
+    '   Blank Lines: 2
+    '     File Size: 418 B
+
 
     ' Interface NamesFactory
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::788ab58e4d570be079a34dd23a672164, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::788ab58e4d570be079a34dd23a672164, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/FASTA/Extensions.vb"
 
     ' Author:
     ' 

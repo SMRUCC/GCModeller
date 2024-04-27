@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fb8554fd368dff2e1f777e4742f6377, GCModeller\engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::3076da6bfa5e44f336e3375a9979f1c3, G:/GCModeller/src/GCModeller/engine/IO/GCMarkupLanguage//v2/Xml/MetabolismStructure.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 138
     ' Comment Lines: 69
     '   Blank Lines: 47
-    '     File Size: 8.66 KB
+    '     File Size: 8.60 KB
 
 
     '     Class MetabolismStructure
@@ -51,11 +51,13 @@
     ' 
     '         Properties: enzymatic, etc, size
     ' 
-    '         Function: GenericEnumerator, GetEnumerator
+    '         Function: GenericEnumerator
     ' 
     '     Class Compound
     ' 
     '         Properties: ID, mass0, name
+    ' 
+    '         Function: ToString
     ' 
     '     Class Reaction
     ' 

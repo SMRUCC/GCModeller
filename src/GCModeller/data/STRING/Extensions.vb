@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c0c0adf48c418c19813264cff2859612, data\STRING\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c0c0adf48c418c19813264cff2859612, G:/GCModeller/src/GCModeller/data/STRING//Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 114
+    ' Comment Lines: 17
+    '   Blank Lines: 20
+    '     File Size: 5.67 KB
+
 
     ' Module Extensions
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f67cebe99b1cb58888f33072cd066e18, foundation\PSICQUIC\psidev\XML\XmlCommon.vb"
+﻿#Region "Microsoft.VisualBasic::f67cebe99b1cb58888f33072cd066e18, G:/GCModeller/src/GCModeller/foundation/PSICQUIC/psidev//XML/XmlCommon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 36
+    ' Comment Lines: 57
+    '   Blank Lines: 14
+    '     File Size: 4.11 KB
+
 
     '     Class DataItem
     ' 

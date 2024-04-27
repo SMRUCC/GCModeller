@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5238dc776ac4fdb49e32afa83b1ff211, data\Reactome\LocalMySQL\gk_current\complex_2_includedlocation.vb"
+﻿#Region "Microsoft.VisualBasic::5238dc776ac4fdb49e32afa83b1ff211, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/complex_2_includedlocation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.29 KB
+
 
     ' Class complex_2_includedlocation
     ' 

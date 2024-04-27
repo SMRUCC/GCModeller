@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46e119fad5490ab426eb45c32f8090d0, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\sec_structures.vb"
+﻿#Region "Microsoft.VisualBasic::46e119fad5490ab426eb45c32f8090d0, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/MySQL/sec_structures.vb"
 
     ' Author:
     ' 

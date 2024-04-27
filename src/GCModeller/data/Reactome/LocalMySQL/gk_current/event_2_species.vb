@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2e97959099ee9ee4ebdaf040d1451ed, data\Reactome\LocalMySQL\gk_current\event_2_species.vb"
+﻿#Region "Microsoft.VisualBasic::b2e97959099ee9ee4ebdaf040d1451ed, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/event_2_species.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.39 KB
+
 
     ' Class event_2_species
     ' 

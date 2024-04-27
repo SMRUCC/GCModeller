@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90105a0d6848b4567e72ccbcb47e5e8b, GCModeller\core\Bio.Assembly\Test\KEGGRefMaps.vb"
+﻿#Region "Microsoft.VisualBasic::90105a0d6848b4567e72ccbcb47e5e8b, G:/GCModeller/src/GCModeller/core/Bio.Assembly/Test//KEGGRefMaps.vb"
 
     ' Author:
     ' 

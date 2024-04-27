@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91f4f9ed2c7013afcfe075ef57b07c50, GCModeller\visualize\DataVisualizationExtensions\CatalogProfiling\MultipleBubble.vb"
+﻿#Region "Microsoft.VisualBasic::91f4f9ed2c7013afcfe075ef57b07c50, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CatalogProfiling/MultipleBubble.vb"
 
     ' Author:
     ' 

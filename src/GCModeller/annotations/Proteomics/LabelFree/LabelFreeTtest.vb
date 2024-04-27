@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b40b48a5d2bef1852cba560ae47564cc, GCModeller\annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
+﻿#Region "Microsoft.VisualBasic::27981ee7a60bbe81381ee52293638991, G:/GCModeller/src/GCModeller/annotations/Proteomics//LabelFree/LabelFreeTtest.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 87
     ' Comment Lines: 18
     '   Blank Lines: 9
-    '     File Size: 4.66 KB
+    '     File Size: 4.67 KB
 
 
     ' Module LabelFreeTtest

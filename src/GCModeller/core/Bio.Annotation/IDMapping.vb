@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ec4746ba94d838a442f1c36f3a56123, GCModeller\core\Bio.Annotation\IDMapping.vb"
+﻿#Region "Microsoft.VisualBasic::0ec4746ba94d838a442f1c36f3a56123, G:/GCModeller/src/GCModeller/core/Bio.Annotation//IDMapping.vb"
 
     ' Author:
     ' 

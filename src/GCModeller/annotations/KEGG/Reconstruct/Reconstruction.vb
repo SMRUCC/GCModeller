@@ -1,52 +1,52 @@
-﻿#Region "Microsoft.VisualBasic::0a44bdef08f9dd677842be43230fc371, GCModeller\annotations\KEGG\Reconstruct\Reconstruction.vb"
+﻿#Region "Microsoft.VisualBasic::bd95fe1ed185dcc6a75d79f3db826a60, G:/GCModeller/src/GCModeller/annotations/KEGG//Reconstruct/Reconstruction.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 268
-'    Code Lines: 200
-' Comment Lines: 38
-'   Blank Lines: 30
-'     File Size: 10.92 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Reconstruction
-' 
-'     Function: AssignCompounds, CreateIndex, createPathwayModel, GetEnzymeNumbers, GetFluxInMaps
-'               (+2 Overloads) KEGGReconstruction
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 281
+    '    Code Lines: 211
+    ' Comment Lines: 38
+    '   Blank Lines: 32
+    '     File Size: 11.35 KB
+
+
+    ' Module Reconstruction
+    ' 
+    '     Function: AssignCompounds, CreateIndex, createPathwayModel, GetEnzymeNumbers, GetFluxInMaps
+    '               (+2 Overloads) KEGGReconstruction, PopulateIdSet
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

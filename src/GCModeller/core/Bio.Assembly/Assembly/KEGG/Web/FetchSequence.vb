@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cb995eb22e98d62cfe0dfaa020bed1c, GCModeller\core\Bio.Assembly\Assembly\KEGG\Web\FetchSequence.vb"
+﻿#Region "Microsoft.VisualBasic::6cb995eb22e98d62cfe0dfaa020bed1c, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/Web/FetchSequence.vb"
 
     ' Author:
     ' 

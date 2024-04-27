@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4381785e4798595db3cc74dafafe221f, GCModeller\analysis\Metagenome\Metagenome\OTUTable\OTUTable.vb"
+﻿#Region "Microsoft.VisualBasic::a24e18226aa0cb332abd5bdc72e0caa6, G:/GCModeller/src/GCModeller/analysis/Metagenome/Metagenome//OTUTable/OTUTable.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 73
-    '    Code Lines: 49
-    ' Comment Lines: 16
-    '   Blank Lines: 8
-    '     File Size: 2.73 KB
+    '   Total Lines: 111
+    '    Code Lines: 67
+    ' Comment Lines: 34
+    '   Blank Lines: 10
+    '     File Size: 4.48 KB
 
 
     ' Class OTUTable
     ' 
     '     Properties: taxonomy
     ' 
-    '     Function: FromOTUData, LoadSample
+    '     Function: FromOTUData, LoadSample, SumDuplicatedOTU
     ' 
     ' /********************************************************************************/
 

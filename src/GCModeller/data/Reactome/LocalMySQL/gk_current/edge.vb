@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60b557f135780f614fec5b0a6b848431, data\Reactome\LocalMySQL\gk_current\edge.vb"
+﻿#Region "Microsoft.VisualBasic::60b557f135780f614fec5b0a6b848431, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/edge.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 93
+    ' Comment Lines: 67
+    '   Blank Lines: 22
+    '     File Size: 10.12 KB
+
 
     ' Class edge
     ' 

@@ -1,51 +1,51 @@
-﻿#Region "Microsoft.VisualBasic::2ad81c001879f215f78673811532374a, R#\kegg_kit\repository\dbget.vb"
+﻿#Region "Microsoft.VisualBasic::a4a072a2444df9adfaccc3fd988084c1, G:/GCModeller/src/workbench/R#/kegg_kit//repository/dbget.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 66
-'    Code Lines: 19
-' Comment Lines: 37
-'   Blank Lines: 10
-'     File Size: 2.77 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module dbget
-' 
-'     Function: ShowOrganism
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 18
+    ' Comment Lines: 40
+    '   Blank Lines: 10
+    '     File Size: 2.77 KB
+
+
+    ' Module dbget
+    ' 
+    '     Function: ShowOrganism
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

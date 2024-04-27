@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b455f631a06d8959cfe27d806c0e36fb, GCModeller\core\Bio.Assembly\ComponentModel\Locus\Interfaces.vb"
+﻿#Region "Microsoft.VisualBasic::b455f631a06d8959cfe27d806c0e36fb, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/Locus/Interfaces.vb"
 
     ' Author:
     ' 

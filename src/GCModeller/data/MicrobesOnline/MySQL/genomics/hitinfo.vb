@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a21dff2b51daf3d7488ba07210ed00b6, GCModeller\data\MicrobesOnline\MySQL\genomics\hitinfo.vb"
+﻿#Region "Microsoft.VisualBasic::a21dff2b51daf3d7488ba07210ed00b6, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/hitinfo.vb"
 
     ' Author:
     ' 

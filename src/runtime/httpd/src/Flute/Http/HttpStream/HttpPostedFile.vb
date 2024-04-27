@@ -1,48 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::45735a9f01b293e4ec0828b5f7b653cf, WebCloud\SMRUCC.HTTPInternal\Core\HttpRequest\POSTReader\HttpPostedFile.vb"
+﻿#Region "Microsoft.VisualBasic::63c08b5a2ffd3d0a2e28b1fb2ff6af2b, G:/GCModeller/src/runtime/httpd/src/Flute//Http/HttpStream/HttpPostedFile.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class HttpPostedFile
-' 
-'         Properties: ContentLength, ContentType, FileName, TempPath
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: Summary
-' 
-'         Sub: ensureTargetNotExists, (+2 Overloads) SaveAs
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 69
+    ' Comment Lines: 40
+    '   Blank Lines: 16
+    '     File Size: 4.81 KB
+
+
+    '     Class HttpPostedFile
+    ' 
+    '         Properties: ContentLength, ContentType, FileName, TempPath
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: GetJSON, Summary
+    ' 
+    '         Sub: ensureTargetNotExists, (+2 Overloads) SaveAs
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

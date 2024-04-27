@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::416f160f6f8c2c3a4ba2e29b2db3be5c, localblast\CLI_tools\CLI\gbTools.vb"
+﻿#Region "Microsoft.VisualBasic::f98874af554829a6bfb9083682d6cf11, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/gbTools.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 432
+    '    Code Lines: 364
+    ' Comment Lines: 10
+    '   Blank Lines: 58
+    '     File Size: 20.11 KB
+
 
     ' Module CLI
     ' 

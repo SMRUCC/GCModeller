@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f895feb447c631744252b88f126a5868, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\GCML_Documents.SignalTransductions\SignalTransductionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::f895feb447c631744252b88f126a5868, G:/GCModeller/src/GCModeller/engine/IO/GCMarkupLanguage//GCML_Documents/XmlElements/GCML_Documents.SignalTransductions/SignalTransductionNetwork.vb"
 
     ' Author:
     ' 

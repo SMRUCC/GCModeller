@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1af8a61deaa2296fa0ea7fcfaaf3c700, localblast\LocalBLAST\Pipeline\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c7678cbd309ba239dc0181d79d7a01e4, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 80
+    ' Comment Lines: 12
+    '   Blank Lines: 11
+    '     File Size: 5.01 KB
+
 
     '     Module Extensions
     ' 

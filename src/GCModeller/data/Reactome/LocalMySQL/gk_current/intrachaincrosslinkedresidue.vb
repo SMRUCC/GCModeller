@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe91a6ae2f46aad435891c32b0728632, data\Reactome\LocalMySQL\gk_current\intrachaincrosslinkedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::fe91a6ae2f46aad435891c32b0728632, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/intrachaincrosslinkedresidue.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.87 KB
+
 
     ' Class intrachaincrosslinkedresidue
     ' 

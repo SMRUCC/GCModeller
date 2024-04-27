@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1b7e9408df81185286267090b856558, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Cyjs.vb"
+﻿#Region "Microsoft.VisualBasic::96898a14e0a64ed99af2a1e7bbae4649, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/cytoscape.js/Cyjs.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 244
+    '    Code Lines: 201
+    ' Comment Lines: 3
+    '   Blank Lines: 40
+    '     File Size: 9.30 KB
+
 
     '     Class Cyjs
     ' 

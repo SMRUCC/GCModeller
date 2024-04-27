@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15de7425b5cc9d3a8fd4ad9450b1929e, GCModeller\engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\SequenceModel.vb"
+﻿#Region "Microsoft.VisualBasic::15de7425b5cc9d3a8fd4ad9450b1929e, G:/GCModeller/src/GCModeller/engine/IO/GCMarkupLanguage//GCML_Documents/XmlElements/SequenceModel.vb"
 
     ' Author:
     ' 

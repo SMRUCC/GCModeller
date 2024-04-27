@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86b7ea505afc86d5ebc53fcab404600d, GCModeller\core\Bio.InteractionModel\ProteinInteractionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::86b7ea505afc86d5ebc53fcab404600d, G:/GCModeller/src/GCModeller/core/Bio.InteractionModel//ProteinInteractionNetwork.vb"
 
     ' Author:
     ' 

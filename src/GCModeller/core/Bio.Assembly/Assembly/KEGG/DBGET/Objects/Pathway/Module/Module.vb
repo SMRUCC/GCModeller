@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76b52f32439816bc4a440f724fb280e3, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb"
+﻿#Region "Microsoft.VisualBasic::23e22ee3967bbf0ff5ec8ea2ad9d2ae9, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/Objects/Pathway/Module/Module.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 176
-    '    Code Lines: 71
+    '   Total Lines: 181
+    '    Code Lines: 76
     ' Comment Lines: 90
     '   Blank Lines: 15
-    '     File Size: 9.07 KB
+    '     File Size: 9.50 KB
 
 
     '     Class [Module]
     ' 
-    '         Properties: briteID, compound, name, pathway, pathwayGenes
-    '                     reaction
+    '         Properties: briteID, compound, pathway, pathwayGenes, reaction
     ' 
-    '         Function: ContainsReaction, GetKEGGReactionIdlist, GetPathwayGenes
+    '         Function: ContainsReaction, GetCompoundSet, GetKEGGReactionIdlist, GetPathwayGenes
     ' 
     ' 
     ' /********************************************************************************/

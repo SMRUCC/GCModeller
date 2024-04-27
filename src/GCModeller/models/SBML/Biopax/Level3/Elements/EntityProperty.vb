@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f9b6ce29412b900245eacad4f328d0e, GCModeller\models\SBML\Biopax\Level3\Elements\EntityProperty.vb"
+﻿#Region "Microsoft.VisualBasic::6130f7c224adc7bb65bbcd8b3971f0e8, G:/GCModeller/src/GCModeller/models/SBML/Biopax//Level3/Elements/EntityProperty.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 167
+    '   Total Lines: 165
     '    Code Lines: 87
     ' Comment Lines: 0
-    '   Blank Lines: 80
-    '     File Size: 3.26 KB
+    '   Blank Lines: 78
+    '     File Size: 3.27 KB
 
 
     '     Class structureFormat
@@ -49,7 +49,15 @@
     ' 
     ' 
     ' 
+    '     Class [structure]
+    ' 
+    ' 
+    ' 
     '     Class molecularWeight
+    ' 
+    ' 
+    ' 
+    '     Class chemicalFormula
     ' 
     ' 
     ' 
@@ -122,14 +130,6 @@
     ' 
     ' 
     '     Class participantStoichiometry
-    ' 
-    ' 
-    ' 
-    '     Class left
-    ' 
-    ' 
-    ' 
-    '     Class right
     ' 
     ' 
     ' 

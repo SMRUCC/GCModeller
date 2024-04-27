@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42777ae1be472d64657c52b0774cbbac, GCModeller\foundation\OBO_Foundry\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::42777ae1be472d64657c52b0774cbbac, G:/GCModeller/src/GCModeller/foundation/OBO_Foundry//Extensions.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46b826914608685e054d9c2d7f482980, GCModeller\core\Bio.Assembly\LICENSE.vb"
+﻿#Region "Microsoft.VisualBasic::46b826914608685e054d9c2d7f482980, G:/GCModeller/src/GCModeller/core/Bio.Assembly//LICENSE.vb"
 
     ' Author:
     ' 

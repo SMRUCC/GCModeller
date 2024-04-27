@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::677d3d4dfd5187abac2be740c6248587, GCModeller\engine\Model\Cellular\CellularModule.vb"
+﻿#Region "Microsoft.VisualBasic::c0860bf4d4c7b8920a4166871f423453, G:/GCModeller/src/GCModeller/engine/Model//Cellular/CellularModule.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 45
+    '   Total Lines: 48
     '    Code Lines: 14
-    ' Comment Lines: 25
+    ' Comment Lines: 28
     '   Blank Lines: 6
-    '     File Size: 1.59 KB
+    '     File Size: 1.79 KB
 
 
     '     Structure CellularModule

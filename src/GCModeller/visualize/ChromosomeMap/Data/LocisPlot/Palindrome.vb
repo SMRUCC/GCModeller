@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fb87c5695612a55b4bbf1192f87ca13, GCModeller\visualize\ChromosomeMap\Data\LocisPlot\Palindrome.vb"
+﻿#Region "Microsoft.VisualBasic::5fb87c5695612a55b4bbf1192f87ca13, G:/GCModeller/src/GCModeller/visualize/ChromosomeMap/Data//LocisPlot/Palindrome.vb"
 
     ' Author:
     ' 

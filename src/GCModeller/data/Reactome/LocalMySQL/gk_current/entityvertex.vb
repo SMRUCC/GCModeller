@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c6c9b87da1efc63d2497d1fa8445ecd, data\Reactome\LocalMySQL\gk_current\entityvertex.vb"
+﻿#Region "Microsoft.VisualBasic::1c6c9b87da1efc63d2497d1fa8445ecd, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/entityvertex.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 6.57 KB
+
 
     ' Class entityvertex
     ' 

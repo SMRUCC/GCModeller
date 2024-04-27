@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4afeab892559a058bc05d7edc4f2a8f4, GCModeller\engine\Model\Cellular\Processes.vb"
+﻿#Region "Microsoft.VisualBasic::492f9513b2bc143ff16df932f8f6a901, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Processes.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 7
     ' Comment Lines: 12
     '   Blank Lines: 1
-    '     File Size: 468 B
+    '     File Size: 551 B
 
 
     '     Enum Processes

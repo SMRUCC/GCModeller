@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7770c5d15116de8e19d567c9ec1161d8, localblast\CLI_tools\Program.vb"
+﻿#Region "Microsoft.VisualBasic::7770c5d15116de8e19d567c9ec1161d8, G:/GCModeller/src/interops/localblast/CLI_tools//Program.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 10
+    '    Code Lines: 5
+    ' Comment Lines: 4
+    '   Blank Lines: 1
+    '     File Size: 216 B
+
 
     ' Module Program
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc909d11c21ac19acba75938219603e7, data\Reactome\LocalMySQL\gk_current\complex_2_entityonothercell.vb"
+﻿#Region "Microsoft.VisualBasic::cc909d11c21ac19acba75938219603e7, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/complex_2_entityonothercell.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.38 KB
+
 
     ' Class complex_2_entityonothercell
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6410bb579f55ac1d8bc70774b849d88a, GCModeller\data\SABIO-RK\test\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::6410bb579f55ac1d8bc70774b849d88a, G:/GCModeller/src/GCModeller/data/SABIO-RK//test/My Project/Resources.Designer.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc2ab67ee01dd58f835385711a1b69cf, visualize\Cytoscape\Cytoscape\test\xgmmlLoaderTest.vb"
+﻿#Region "Microsoft.VisualBasic::cc2ab67ee01dd58f835385711a1b69cf, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//test/xgmmlLoaderTest.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 18
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 793 B
+
 
     ' Module xgmmlLoaderTest
     ' 

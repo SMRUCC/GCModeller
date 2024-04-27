@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0835c3009147237c4b1c7dabc497a300, GCModeller\engine\Model\Cellular\Process\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::0835c3009147237c4b1c7dabc497a300, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Process/Kinetics.vb"
 
     ' Author:
     ' 

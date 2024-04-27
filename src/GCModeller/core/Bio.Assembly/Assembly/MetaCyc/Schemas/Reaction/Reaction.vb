@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f28e2e0e9939fa9246be1670ec2f2d5, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::403f911bc968344d0bec895fb97d0625, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/Schemas/Reaction/Reaction.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@
 
     '     Class Compound
     ' 
-    '         Properties: StoiChiometry
+    '         Properties: Stoichiometry
     ' 
     '     Class Reaction
     ' 

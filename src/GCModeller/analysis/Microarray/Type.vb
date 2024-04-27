@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8917d9bc43cd7c148b9667cd056428ae, GCModeller\analysis\Microarray\Type.vb"
+﻿#Region "Microsoft.VisualBasic::8917d9bc43cd7c148b9667cd056428ae, G:/GCModeller/src/GCModeller/analysis/Microarray//Type.vb"
 
     ' Author:
     ' 

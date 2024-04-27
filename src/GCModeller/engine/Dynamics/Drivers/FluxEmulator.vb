@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::340e30587615f319cf66eb28f1c619dd, GCModeller\engine\Dynamics\Drivers\FluxEmulator.vb"
+﻿#Region "Microsoft.VisualBasic::41c9af7cc2c65f339c95a89bca8e8aa0, G:/GCModeller/src/GCModeller/engine/Dynamics//Drivers/FluxEmulator.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 106
+    '   Total Lines: 109
     '    Code Lines: 79
-    ' Comment Lines: 6
+    ' Comment Lines: 9
     '   Blank Lines: 21
-    '     File Size: 3.80 KB
+    '     File Size: 3.90 KB
 
 
     '     Class FluxEmulator

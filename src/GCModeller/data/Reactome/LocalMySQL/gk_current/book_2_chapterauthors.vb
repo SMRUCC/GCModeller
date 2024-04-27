@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdfcbfdfc78fc355bbeb88cbf7fa5fda, data\Reactome\LocalMySQL\gk_current\book_2_chapterauthors.vb"
+﻿#Region "Microsoft.VisualBasic::cdfcbfdfc78fc355bbeb88cbf7fa5fda, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/book_2_chapterauthors.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.04 KB
+
 
     ' Class book_2_chapterauthors
     ' 

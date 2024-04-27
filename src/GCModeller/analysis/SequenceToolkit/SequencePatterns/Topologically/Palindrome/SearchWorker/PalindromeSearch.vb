@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f591ffc51de94670a5c34ef25939b381, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\PalindromeSearch.vb"
+﻿#Region "Microsoft.VisualBasic::f591ffc51de94670a5c34ef25939b381, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//Topologically/Palindrome/SearchWorker/PalindromeSearch.vb"
 
     ' Author:
     ' 

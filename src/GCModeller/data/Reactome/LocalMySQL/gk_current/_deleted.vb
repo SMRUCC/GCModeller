@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e454d692ac7b6fa4f8674c87e9572e2d, data\Reactome\LocalMySQL\gk_current\_deleted.vb"
+﻿#Region "Microsoft.VisualBasic::e454d692ac7b6fa4f8674c87e9572e2d, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/_deleted.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 80
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 6.31 KB
+
 
     ' Class _deleted
     ' 

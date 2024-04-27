@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4546dd9666d2ae1e11f126011782a053, data\Reactome\LocalMySQL\gk_current\referencesequence_2_description.vb"
+﻿#Region "Microsoft.VisualBasic::4546dd9666d2ae1e11f126011782a053, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/referencesequence_2_description.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 6.25 KB
+
 
     ' Class referencesequence_2_description
     ' 

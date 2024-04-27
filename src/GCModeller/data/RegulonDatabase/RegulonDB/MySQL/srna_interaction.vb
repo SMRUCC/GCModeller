@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc0a86bf51e496d33b65e7989e5319ae, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\srna_interaction.vb"
+﻿#Region "Microsoft.VisualBasic::dc0a86bf51e496d33b65e7989e5319ae, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/srna_interaction.vb"
 
     ' Author:
     ' 

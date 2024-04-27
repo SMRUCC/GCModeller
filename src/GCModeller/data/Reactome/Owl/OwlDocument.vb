@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::306cccb125ea904d77792f5176df768f, data\Reactome\Owl\OwlDocument.vb"
+﻿#Region "Microsoft.VisualBasic::306cccb125ea904d77792f5176df768f, G:/GCModeller/src/GCModeller/data/Reactome//Owl/OwlDocument.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 61
+    ' Comment Lines: 4
+    '   Blank Lines: 12
+    '     File Size: 4.38 KB
+
 
     '     Class DocumentFile
     ' 

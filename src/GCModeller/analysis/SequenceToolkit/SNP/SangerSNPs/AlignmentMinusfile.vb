@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa895e93399e30f524e76e08cae61abc, GCModeller\analysis\SequenceToolkit\SNP\SangerSNPs\AlignmentMinusfile.vb"
+﻿#Region "Microsoft.VisualBasic::aa895e93399e30f524e76e08cae61abc, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SNP//SangerSNPs/AlignmentMinusfile.vb"
 
     ' Author:
     ' 

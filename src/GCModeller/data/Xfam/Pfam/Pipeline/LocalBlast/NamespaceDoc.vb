@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c88e8b4174248e8918d9330e33e1c57, data\Xfam\Pfam\Pipeline\LocalBlast\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::7c88e8b4174248e8918d9330e33e1c57, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/LocalBlast/NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 4
+    ' Comment Lines: 3
+    '   Blank Lines: 1
+    '     File Size: 177 B
+
 
     '     Module NamespaceDoc
     ' 

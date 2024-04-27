@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43f851e8cadc8555c4d5808eeefa13d5, visualize\Cytoscape\Cytoscape\Graph\VizMap\visualStyle\node.vb"
+﻿#Region "Microsoft.VisualBasic::43f851e8cadc8555c4d5808eeefa13d5, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/VizMap/visualStyle/node.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 5
+    '    Code Lines: 4
+    ' Comment Lines: 0
+    '   Blank Lines: 1
+    '     File Size: 100 B
+
 
     '     Class node
     ' 

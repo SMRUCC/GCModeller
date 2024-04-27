@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f947de4eba005d8ca485c58ad58794de, visualize\Cytoscape\Cytoscape\Graph\Serialization\GraphicsMapper.vb"
+﻿#Region "Microsoft.VisualBasic::f947de4eba005d8ca485c58ad58794de, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/Serialization/GraphicsMapper.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 5
+    ' Comment Lines: 4
+    '   Blank Lines: 3
+    '     File Size: 372 B
+
 
     '     Class GraphicsMapper
     ' 

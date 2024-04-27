@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0431f76fd59429038369498d47dbbacf, RNA-Seq\RNA-seq.Data\Contig.vb"
+﻿#Region "Microsoft.VisualBasic::0431f76fd59429038369498d47dbbacf, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//Contig.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 30
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 1.17 KB
+
 
     ' Class Contig
     ' 

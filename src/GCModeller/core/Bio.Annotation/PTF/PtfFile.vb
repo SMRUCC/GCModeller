@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c0f574e40fbcdfa202a5debff83c5f0, GCModeller\core\Bio.Annotation\PTF\PtfFile.vb"
+﻿#Region "Microsoft.VisualBasic::60db764ad613edbf1601a15a9fb70211, G:/GCModeller/src/GCModeller/core/Bio.Annotation//PTF/PtfFile.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 95
-    '    Code Lines: 71
+    '   Total Lines: 91
+    '    Code Lines: 68
     ' Comment Lines: 7
-    '   Blank Lines: 17
-    '     File Size: 3.74 KB
+    '   Blank Lines: 16
+    '     File Size: 3.55 KB
 
 
     '     Class PtfFile
     ' 
     '         Properties: attributes, proteins
     ' 
-    '         Function: GenericEnumerator, GetEnumerator, (+2 Overloads) Load, ReadAnnotations, (+2 Overloads) Save
-    '                   (+2 Overloads) ToString
+    '         Function: GenericEnumerator, (+2 Overloads) Load, ReadAnnotations, (+2 Overloads) Save, (+2 Overloads) ToString
     ' 
     '         Sub: WriteStream
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3783df3b00ba977412ea6bb65bfa9d8f, GCModeller\analysis\SequenceToolkit\SmithWaterman\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::3783df3b00ba977412ea6bb65bfa9d8f, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SmithWaterman//test/Module1.vb"
 
     ' Author:
     ' 

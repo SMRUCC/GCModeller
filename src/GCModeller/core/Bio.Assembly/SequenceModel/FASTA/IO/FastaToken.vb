@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df8ddc788b53ec486b06330710b10f23, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
+﻿#Region "Microsoft.VisualBasic::00ec859e93d8fca7d7d568d88b3e946f, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/FASTA/IO/FastaToken.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 587
+    '   Total Lines: 600
     '    Code Lines: 328
-    ' Comment Lines: 177
-    '   Blank Lines: 82
-    '     File Size: 24.73 KB
+    ' Comment Lines: 189
+    '   Blank Lines: 83
+    '     File Size: 25.22 KB
 
 
     '     Class FastaSeq

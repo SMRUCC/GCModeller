@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f86987a1a0d6055124f28feea91c9f6, GCModeller\core\Bio.Assembly\ComponentModel\TabularLoader.vb"
+﻿#Region "Microsoft.VisualBasic::0f86987a1a0d6055124f28feea91c9f6, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/TabularLoader.vb"
 
     ' Author:
     ' 

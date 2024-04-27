@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e572be0c55313d97fc210110e46283c8, data\Xfam\Pfam\Pipeline\DomainAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::e572be0c55313d97fc210110e46283c8, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/DomainAnalysis.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 355
+    '    Code Lines: 269
+    ' Comment Lines: 47
+    '   Blank Lines: 39
+    '     File Size: 18.89 KB
+
 
     ' Module DomainAnalysis
     ' 

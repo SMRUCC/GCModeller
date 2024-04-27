@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3942cfa08fa119235c2abc61e5aac7a7, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::25e617376f4fed7e6be5f3f7504c2733, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/Objects/Pathway/PathwayMap/PathwayMap.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 121
-    '    Code Lines: 63
-    ' Comment Lines: 41
+    '   Total Lines: 116
+    '    Code Lines: 64
+    ' Comment Lines: 35
     '   Blank Lines: 17
-    '     File Size: 4.37 KB
+    '     File Size: 4.42 KB
 
 
     '     Class PathwayMap
     ' 
     '         Properties: brite, disease, KEGGCompound, KEGGEnzyme, KEGGGlycan
     '                     KEGGOrthology, KEGGReaction, KOpathway, Map, modules
-    '                     name
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: DownloadPathwayMap, GetCompounds, GetMapImage, GetPathwayGenes, ToPathway
+    '         Function: DownloadPathwayMap, GetCompounds, GetCompoundSet, GetMapImage, GetPathwayGenes
+    '                   ToPathway
     ' 
     ' 
     ' /********************************************************************************/

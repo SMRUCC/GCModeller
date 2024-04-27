@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f7c4d41de26ed2c77947e5cd624441e, localblast\LocalBLAST\Web\Alignment\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::3f7c4d41de26ed2c77947e5cd624441e, G:/GCModeller/src/interops/localblast/LocalBLAST//Web/Alignment/Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 39
+    ' Comment Lines: 6
+    '   Blank Lines: 8
+    '     File Size: 2.08 KB
+
 
     '     Module Extensions
     ' 

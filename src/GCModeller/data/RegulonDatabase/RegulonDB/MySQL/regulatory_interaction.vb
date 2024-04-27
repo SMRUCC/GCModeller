@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc9d9ab016ac61270a2af8aace885a16, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\regulatory_interaction.vb"
+﻿#Region "Microsoft.VisualBasic::cc9d9ab016ac61270a2af8aace885a16, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/regulatory_interaction.vb"
 
     ' Author:
     ' 

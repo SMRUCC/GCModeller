@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d434c747951046a1726c9ee26c365103, analysis\SequenceToolkit\SequenceTools\CLI\Aligner.vb"
+﻿#Region "Microsoft.VisualBasic::d434c747951046a1726c9ee26c365103, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/Aligner.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 213
+    '    Code Lines: 175
+    ' Comment Lines: 10
+    '   Blank Lines: 28
+    '     File Size: 9.38 KB
+
 
     ' Module Utilities
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19e6bffcc41859937b0dc786f9c53846, data\Reactome\LocalMySQL\gk_current\go_cellularcomponent_2_haspart.vb"
+﻿#Region "Microsoft.VisualBasic::19e6bffcc41859937b0dc786f9c53846, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_cellularcomponent_2_haspart.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.68 KB
+
 
     ' Class go_cellularcomponent_2_haspart
     ' 

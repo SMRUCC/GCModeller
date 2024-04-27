@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b151bad652e11736c9c4564318dbde10, data\Reactome\LocalMySQL\gk_current\_instancebeforechange.vb"
+﻿#Region "Microsoft.VisualBasic::b151bad652e11736c9c4564318dbde10, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/_instancebeforechange.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 80
+    ' Comment Lines: 59
+    '   Blank Lines: 22
+    '     File Size: 7.06 KB
+
 
     ' Class _instancebeforechange
     ' 
