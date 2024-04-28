@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -234,12 +235,13 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                           End Function)
         Dim group_heatcolors As Color() = Designer.GetColors(ColorBrewer.DivergingSchemes.RdYlBu7, mapLevels)
         Dim group_range As New DoubleRange(group_heat.Values.IteratesALL)
+        Dim group_tree = group_heat.Select(Function(v) New ClusterEntity(v.Key, v.Value)).RunVectorCluster
 
         dx = group_heatmap_region.Width / group_heat.Count
         x = group_heatmap_region.Left
         y = group_heatmap_region.Top
 
-        For Each group_name As String In group_heat.Keys
+        For Each group_name As String In group_tree.OrderLeafs
             Dim mean_z = group_heat(group_name)
 
             For i = 0 To mean_z.Length - 1
