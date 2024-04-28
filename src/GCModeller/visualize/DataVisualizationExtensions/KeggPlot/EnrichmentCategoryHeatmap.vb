@@ -83,9 +83,9 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
         featureTree = data.PullDataSet(Of DataSet).RunCluster
 
-        Me.rawdata = data
-        Me.metadata = metadata
-        Me.data = data.ZScale(byrow:=True)
+        Me.rawdata = data.slice(featureTree.OrderLeafs)
+        Me.metadata = metadata.slice(featureTree.OrderLeafs)
+        Me.data = rawdata.ZScale(byrow:=True)
         Me.groupd = groupd.ToDictionary(Function(s) s.ID)
         ' re-order column of samples by groups 
         Me.data = Me.data(groupd _

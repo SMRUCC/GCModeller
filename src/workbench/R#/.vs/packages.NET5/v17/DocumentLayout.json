@@ -6,20 +6,7 @@
       "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategoryheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BE816524-D9A2-4A8B-B00D-3556BADF8226}|..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\hctree.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hierarchical-clustering\\clusteringalgorithm\\defaultclusteringalgorithm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B1EBEF3A-1422-4E52-AB3A-607BBB1D95DE}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\dataframeUtils-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\dataframe\\dataframe\\numericdataset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7A5E0EB8-F726-4C01-8C8B-912ECA77F079}|..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\dataframework-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data\\dataframe\\io\\generic\\dataset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BE816524-D9A2-4A8B-B00D-3556BADF8226}|..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\hctree.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hierarchical-clustering\\clusteringalgorithm\\docluster.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\visualkit\\visualplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|solutionrelative:visualkit\\visualplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|e:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -29,45 +16,18 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DataSet.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\Generic\\DataSet.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\Generic\\DataSet.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\Generic\\DataSet.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\Generic\\DataSet.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEgAAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-28T07:57:57.331Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "NumericDataSet.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataFrame\\NumericDataSet.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataFrame\\NumericDataSet.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataFrame\\NumericDataSet.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataFrame\\NumericDataSet.vb",
-              "ViewState": "AQIAAFQAAAAAAAAAAAAIwGYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-28T07:53:19.147Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DoCluster.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DoCluster.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DoCluster.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DoCluster.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DoCluster.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFEAAAAeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-28T07:53:00.861Z",
+              "DocumentIndex": 1,
+              "Title": "R-cmd.NET5",
+              "DocumentMoniker": "E:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "ToolTip": "E:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-04-28T08:05:03.718Z",
               "EditorCaption": ""
             },
             {
@@ -78,7 +38,7 @@
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
-              "ViewState": "AQIAAC0AAAAAAAAAAAAtwD0AAAATAAAA",
+              "ViewState": "AQIAADYAAAAAAAAAAAAtwFUAAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-04-28T07:51:09.394Z",
               "EditorCaption": ""
@@ -90,32 +50,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "visualPlot.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\visualkit\\visualPlot.vb",
-              "RelativeDocumentMoniker": "visualkit\\visualPlot.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\visualkit\\visualPlot.vb",
-              "RelativeToolTip": "visualkit\\visualPlot.vb",
-              "ViewState": "AQIAALABAAAAAAAAAAAiwMkBAAAnAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-28T07:50:57.948Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DefaultClusteringAlgorithm.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DefaultClusteringAlgorithm.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DefaultClusteringAlgorithm.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DefaultClusteringAlgorithm.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DefaultClusteringAlgorithm.vb",
-              "ViewState": "AQIAAEAAAAAAAAAAAAAAAFEAAAB/AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-04-27T12:25:36.917Z",
-              "EditorCaption": ""
             }
           ]
         }
