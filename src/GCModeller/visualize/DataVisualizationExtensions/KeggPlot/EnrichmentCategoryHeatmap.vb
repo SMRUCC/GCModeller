@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -66,20 +67,21 @@ Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports dataframe = Microsoft.VisualBasic.Math.DataFrame.DataFrame
 
 Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
-    ReadOnly rawdata As DataFrame
-    ReadOnly data As DataFrame
+    ReadOnly rawdata As dataframe
+    ReadOnly data As dataframe
     ReadOnly groupd As Dictionary(Of String, SampleInfo)
-    ReadOnly metadata As DataFrame
+    ReadOnly metadata As dataframe
     ReadOnly kegg_class As String
     ReadOnly featureTree As Cluster
 
-    Public Sub New(data As DataFrame, metadata As DataFrame, groupd As SampleInfo(), theme As Theme, Optional kegg_class As String = "class")
+    Public Sub New(data As dataframe, metadata As dataframe, groupd As SampleInfo(), theme As Theme, Optional kegg_class As String = "class")
         MyBase.New(theme)
 
-        featureTree = data.NumericMatrix
+        featureTree = data.PullDataSet(Of DataSet).RunCluster
 
         Me.rawdata = data
         Me.metadata = metadata
