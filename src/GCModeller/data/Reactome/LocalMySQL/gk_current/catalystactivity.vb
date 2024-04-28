@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb5916f386d1e72918cc040f0abc4069, data\Reactome\LocalMySQL\gk_current\catalystactivity.vb"
+﻿#Region "Microsoft.VisualBasic::bb5916f386d1e72918cc040f0abc4069, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/catalystactivity.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 82
+    ' Comment Lines: 60
+    '   Blank Lines: 22
+    '     File Size: 7.39 KB
+
 
     ' Class catalystactivity
     ' 

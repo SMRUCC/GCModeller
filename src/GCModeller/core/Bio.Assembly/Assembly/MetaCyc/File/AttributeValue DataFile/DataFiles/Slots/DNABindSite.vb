@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c1492c0969a3d7f93c78e0b109a3f25, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Slots\DNABindSite.vb"
+﻿#Region "Microsoft.VisualBasic::1c1492c0969a3d7f93c78e0b109a3f25, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/File/AttributeValue DataFile/DataFiles/Slots/DNABindSite.vb"
 
     ' Author:
     ' 

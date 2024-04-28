@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cad63e6164cfa7048c73ce4b4551e960, GCModeller\annotations\GSEA\GSVA\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::674b658089195503c4bf1100313d394c, G:/GCModeller/src/GCModeller/annotations/GSEA/GSVA/test//Program.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 54
-    '    Code Lines: 48
+    '   Total Lines: 62
+    '    Code Lines: 54
     ' Comment Lines: 0
-    '   Blank Lines: 6
-    '     File Size: 2.40 KB
+    '   Blank Lines: 8
+    '     File Size: 2.51 KB
 
 
-    ' Module Program
+    ' Module Program22222
     ' 
     '     Function: createGene
     ' 
-    '     Sub: Main
+    '     Sub: Main2
     ' 
     ' Class metainfo
     ' 

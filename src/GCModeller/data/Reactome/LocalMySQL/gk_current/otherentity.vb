@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::747212ca1e14adbe5c0614a1e28f1425, data\Reactome\LocalMySQL\gk_current\otherentity.vb"
+﻿#Region "Microsoft.VisualBasic::747212ca1e14adbe5c0614a1e28f1425, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/otherentity.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.55 KB
+
 
     ' Class otherentity
     ' 

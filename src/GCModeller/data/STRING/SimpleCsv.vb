@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4117649a05288a33f3af9eabf7f5f228, data\STRING\SimpleCsv.vb"
+﻿#Region "Microsoft.VisualBasic::4117649a05288a33f3af9eabf7f5f228, G:/GCModeller/src/GCModeller/data/STRING//SimpleCsv.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 49
+    ' Comment Lines: 8
+    '   Blank Lines: 10
+    '     File Size: 2.36 KB
+
 
     '     Class PitrNode
     ' 

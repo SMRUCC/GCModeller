@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68ce675dce9870c594c21ea28cbf36b5, data\Reactome\LocalMySQL\gk_current\entityset.vb"
+﻿#Region "Microsoft.VisualBasic::68ce675dce9870c594c21ea28cbf36b5, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/entityset.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 84
+    ' Comment Lines: 62
+    '   Blank Lines: 22
+    '     File Size: 7.01 KB
+
 
     ' Class entityset
     ' 

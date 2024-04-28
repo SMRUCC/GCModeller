@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53a4766cf1eb7a7b36d36bb0d4afdb49, GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Alphabet.vb"
+﻿#Region "Microsoft.VisualBasic::53a4766cf1eb7a7b36d36bb0d4afdb49, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceLogo//SequenceLogo/Alphabet.vb"
 
     ' Author:
     ' 

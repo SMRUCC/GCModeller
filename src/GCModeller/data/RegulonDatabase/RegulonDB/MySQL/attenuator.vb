@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e8b22ed820a82851ed2693c97a15859, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\attenuator.vb"
+﻿#Region "Microsoft.VisualBasic::0e8b22ed820a82851ed2693c97a15859, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/attenuator.vb"
 
     ' Author:
     ' 

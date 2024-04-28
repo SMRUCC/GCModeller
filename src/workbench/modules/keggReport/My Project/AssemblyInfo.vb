@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1566a767f52fa83c2b805a9333e96c4d, modules\keggReport\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::1566a767f52fa83c2b805a9333e96c4d, G:/GCModeller/src/workbench/modules/keggReport//My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

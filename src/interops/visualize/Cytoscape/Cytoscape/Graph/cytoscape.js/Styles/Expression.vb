@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d3abd4c0a7a8006e5f27647498f899b, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Styles\Expression.vb"
+﻿#Region "Microsoft.VisualBasic::2d3abd4c0a7a8006e5f27647498f899b, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/cytoscape.js/Styles/Expression.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 24
+    ' Comment Lines: 8
+    '   Blank Lines: 6
+    '     File Size: 1.45 KB
+
 
     '     Delegate Function
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::377a0e5a4fbbcb5eceda0142fa7da534, GCModeller\sub-system\PLAS.NET\SSystem\Script\Models\SEquation.vb"
+﻿#Region "Microsoft.VisualBasic::377a0e5a4fbbcb5eceda0142fa7da534, G:/GCModeller/src/GCModeller/sub-system/PLAS.NET/SSystem//Script/Models/SEquation.vb"
 
     ' Author:
     ' 

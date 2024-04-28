@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c35b6ebb36747125fc23c9c27380c784, GCModeller\engine\Compiler\AssemblyScript\SyntaxTree\SyntaxParser.vb"
+﻿#Region "Microsoft.VisualBasic::c35b6ebb36747125fc23c9c27380c784, G:/GCModeller/src/GCModeller/engine/Compiler//AssemblyScript/SyntaxTree/SyntaxParser.vb"
 
     ' Author:
     ' 

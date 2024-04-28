@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::205b82149d0ec0bccd3b451ce0d5ddb6, data\Reactome\LocalMySQL\gk_current\person_2_crossreference.vb"
+﻿#Region "Microsoft.VisualBasic::205b82149d0ec0bccd3b451ce0d5ddb6, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/person_2_crossreference.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.08 KB
+
 
     ' Class person_2_crossreference
     ' 

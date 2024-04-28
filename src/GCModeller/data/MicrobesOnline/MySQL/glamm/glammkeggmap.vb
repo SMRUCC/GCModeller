@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::399c40b8dd86fe033421bd49e9c2d79e, GCModeller\data\MicrobesOnline\MySQL\glamm\glammkeggmap.vb"
+﻿#Region "Microsoft.VisualBasic::399c40b8dd86fe033421bd49e9c2d79e, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/glamm/glammkeggmap.vb"
 
     ' Author:
     ' 

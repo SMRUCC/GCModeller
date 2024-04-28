@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a364e76c432df0a356421d88db330a8, R#\seqtoolkit\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::4a364e76c432df0a356421d88db330a8, G:/GCModeller/src/workbench/R#/seqtoolkit//My Project/Resources.Designer.vb"
 
     ' Author:
     ' 

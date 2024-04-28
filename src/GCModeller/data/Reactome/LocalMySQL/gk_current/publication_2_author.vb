@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77b95655f1ec6a0b289c3cbc9cbd8557, data\Reactome\LocalMySQL\gk_current\publication_2_author.vb"
+﻿#Region "Microsoft.VisualBasic::77b95655f1ec6a0b289c3cbc9cbd8557, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/publication_2_author.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.41 KB
+
 
     ' Class publication_2_author
     ' 

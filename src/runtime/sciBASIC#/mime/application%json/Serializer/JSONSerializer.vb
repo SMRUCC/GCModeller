@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdd59b6a0114f259ead31dc6a039afec, sciBASIC#\mime\application%json\Serializer\JSONSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::ccb6c77addc6b58ec103fc71989229af, G:/GCModeller/src/runtime/sciBASIC#/mime/application%json//Serializer/JSONSerializer.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,17 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 132
-    '    Code Lines: 90
-    ' Comment Lines: 27
-    '   Blank Lines: 15
-    '     File Size: 4.77 KB
+    '   Total Lines: 158
+    '    Code Lines: 111
+    ' Comment Lines: 28
+    '   Blank Lines: 19
+    '     File Size: 5.65 KB
 
 
     ' Module JSONSerializer
     ' 
-    '     Function: (+2 Overloads) BuildJsonString, GetJson, jsonArrayString, jsonObjectString, jsonValueString
+    '     Function: (+2 Overloads) BuildJsonString, encodeString, GetJson, jsonArrayString, jsonObjectString
+    '               jsonValueString
     ' 
     ' /********************************************************************************/
 
@@ -109,6 +110,31 @@ Public Module JSONSerializer
         End Select
     End Function
 
+    Private Function encodeString(value As String, opt As JSONSerializerOptions) As String
+        If opt.unicodeEscape Then
+            Dim sb As New StringBuilder
+            Dim code As Integer
+            Dim bytes As Byte()
+
+            For Each c As Char In DirectCast(value, String)
+                code = AscW(c)
+
+                If code < 0 OrElse code > Byte.MaxValue Then
+                    sb.Append("\u")
+                    bytes = Encoding.Unicode.GetBytes(c)
+                    sb.Append(bytes(1).ToString("x"))
+                    sb.Append(bytes(0).ToString("x"))
+                Else
+                    sb.Append(c)
+                End If
+            Next
+
+            Return $"""{sb.ToString}"""
+        Else
+            Return JsonContract.GetObjectJson(GetType(String), value)
+        End If
+    End Function
+
     ''' <summary>
     ''' "..."
     ''' </summary>
@@ -128,10 +154,11 @@ Public Module JSONSerializer
         If TypeOf value Is Date AndAlso opt.unixTimestamp Then
             Return DirectCast(value, Date).UnixTimeStamp
         ElseIf TypeOf value Is String Then
-            Return JsonContract.GetObjectJson(GetType(String), value)
+            Return encodeString(value, opt)
         ElseIf TypeOf value Is Boolean Then
             Return value.ToString.ToLower
         Else
+            ' number,integer,etc
             Return any.ToString(value)
         End If
     End Function
@@ -147,7 +174,7 @@ Public Module JSONSerializer
         Dim members As New List(Of String)
 
         For Each member As NamedValue(Of JsonElement) In obj
-            members.Add($"""{member.Name}"": {member.Value.BuildJsonString(opt)}")
+            Call members.Add($"{encodeString(member.Name, opt)}: {member.Value.BuildJsonString(opt)}")
         Next
 
         If opt.indent Then

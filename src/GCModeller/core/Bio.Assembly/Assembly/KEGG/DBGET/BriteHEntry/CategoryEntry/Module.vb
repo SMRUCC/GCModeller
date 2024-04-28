@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5733e984ba8bd8a6862ca194f8d9d6a0, GCModeller\core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Module.vb"
+﻿#Region "Microsoft.VisualBasic::5733e984ba8bd8a6862ca194f8d9d6a0, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/BriteHEntry/CategoryEntry/Module.vb"
 
     ' Author:
     ' 

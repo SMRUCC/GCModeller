@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2118b4e4961debb86834f75a1a6e4974, GCModeller\data\GO_gene-ontology\GeneOntology\PseAA.vb"
+﻿#Region "Microsoft.VisualBasic::2118b4e4961debb86834f75a1a6e4974, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GeneOntology//PseAA.vb"
 
     ' Author:
     ' 

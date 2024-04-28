@@ -1,56 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::4390af87de7fa23466762ebeab219102, GCModeller\analysis\SequenceToolkit\SNP\SNP.vb"
+﻿#Region "Microsoft.VisualBasic::ead31a24b768930461eda7f1fd5964ec, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SNP//SNP.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 111
-'    Code Lines: 64
-' Comment Lines: 38
-'   Blank Lines: 9
-'     File Size: 3.48 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class SNP
-' 
-'     Properties: AminoAcidChange, CDS, CDSInterval, CDSPosition, Change
-'                 CodonChange, CodonNumber, Coverage, gene, Intervals
-'                 Left, Length, Name, note, PolymorphismType
-'                 PositionWithinCodon, product, protein_id, ProteinEffect, ReferenceFrequency
-'                 ReferenceNucleotides, Right, SignificantStrandBias, Site, StrandBias
-'                 TotalLength, VariantFrequency, VariantNucleotides, VariantRawFrequency, VariantSequences
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 63
+    ' Comment Lines: 38
+    '   Blank Lines: 9
+    '     File Size: 3.44 KB
+
+
+    ' Class SNP
+    ' 
+    '     Properties: AminoAcidChange, CDS, CDSInterval, CDSPosition, Change
+    '                 CodonChange, CodonNumber, Coverage, gene, Intervals
+    '                 Left, Length, Name, note, PolymorphismType
+    '                 PositionWithinCodon, product, protein_id, ProteinEffect, ReferenceFrequency
+    '                 ReferenceNucleotides, Right, SignificantStrandBias, Site, StrandBias
+    '                 TotalLength, VariantFrequency, VariantNucleotides, VariantRawFrequency, VariantSequences
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

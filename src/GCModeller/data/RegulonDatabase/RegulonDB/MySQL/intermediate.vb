@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fa9de908e713d62b6daf0f3c3f1dbac, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\intermediate.vb"
+﻿#Region "Microsoft.VisualBasic::5fa9de908e713d62b6daf0f3c3f1dbac, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/intermediate.vb"
 
     ' Author:
     ' 

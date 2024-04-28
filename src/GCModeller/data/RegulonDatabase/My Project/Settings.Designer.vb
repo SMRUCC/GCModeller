@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c4aae2bbea7c4ea0fbd3bbbbf93f7fe, GCModeller\data\RegulonDatabase\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::0c4aae2bbea7c4ea0fbd3bbbbf93f7fe, G:/GCModeller/src/GCModeller/data/RegulonDatabase//My Project/Settings.Designer.vb"
 
     ' Author:
     ' 

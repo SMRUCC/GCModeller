@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45d20c1b69781fa9e082eef269ba355c, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\Operation.vb"
+﻿#Region "Microsoft.VisualBasic::45d20c1b69781fa9e082eef269ba355c, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/InteropService/Operation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 65
+    ' Comment Lines: 18
+    '   Blank Lines: 12
+    '     File Size: 4.45 KB
+
 
     '     Class Operation
     ' 

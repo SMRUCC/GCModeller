@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05149978fb193b0c87103b8628cffc05, GCModeller\sub-system\FBA\FBA.Core\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::7c9b33cf9f0c0977622af354014d160f, G:/GCModeller/src/GCModeller/sub-system/FBA/FBA.Core//Matrix.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 85
+    '   Total Lines: 87
     '    Code Lines: 45
-    ' Comment Lines: 30
+    ' Comment Lines: 32
     '   Blank Lines: 10
-    '     File Size: 2.80 KB
+    '     File Size: 2.89 KB
 
 
     ' Class Matrix

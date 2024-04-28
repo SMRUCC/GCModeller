@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d45d6427a161d6a5f1b019d00cc7cae9, GCModeller\analysis\HTS_matrix\Matrix\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::ad77bb63a5dcf8faafdb8e6ccd1008a9, G:/GCModeller/src/GCModeller/analysis/HTS_matrix//Matrix/Matrix.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 309
-    '    Code Lines: 210
-    ' Comment Lines: 62
-    '   Blank Lines: 37
-    '     File Size: 10.81 KB
+    '   Total Lines: 371
+    '    Code Lines: 246
+    ' Comment Lines: 83
+    '   Blank Lines: 42
+    '     File Size: 13.15 KB
 
 
     ' Class Matrix
@@ -46,8 +46,9 @@
     '     Properties: expression, rownames, (+2 Overloads) sample, sampleID, size
     '                 tag
     ' 
-    '     Function: GenericEnumerator, GetEnumerator, (+3 Overloads) IndexOf, LoadData, MatrixAverage
-    '               Project, T, TakeSamples, ToString, TrimZeros
+    '     Function: ArrayPack, Exp, GenericEnumerator, (+3 Overloads) IndexOf, LoadData
+    '               MatrixAverage, Project, T, TakeSamples, ToString
+    '               TrimZeros
     ' 
     '     Sub: checkMatrix, eachGene
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2848a89f798c1a237bc630b9bf21c6f, R#\gseakit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::aa6b7fd57a9396835cd2a46e7c5e31b2, G:/GCModeller/src/workbench/R#/gseakit//zzz.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 11
-    '    Code Lines: 7
+    '   Total Lines: 12
+    '    Code Lines: 8
     ' Comment Lines: 0
     '   Blank Lines: 4
-    '     File Size: 173 B
+    '     File Size: 209 B
 
 
     ' Class zzz

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aedac21e12853fbace56f6bcaf64e54d, localblast\ParallelTask\BashShell.vb"
+﻿#Region "Microsoft.VisualBasic::aedac21e12853fbace56f6bcaf64e54d, G:/GCModeller/src/interops/localblast/ParallelTask//BashShell.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 52
+    ' Comment Lines: 21
+    '   Blank Lines: 10
+    '     File Size: 3.38 KB
+
 
     ' Module BashShell
     ' 

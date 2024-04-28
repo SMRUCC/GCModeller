@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a37887ac502fcbdd0b14f79580030709, R#\gseakit\KOBAS.vb"
+﻿#Region "Microsoft.VisualBasic::16a726affb663b57ae539f8be4e06a58, G:/GCModeller/src/workbench/R#/gseakit//KOBAS.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 17
+    '   Total Lines: 22
     '    Code Lines: 15
-    ' Comment Lines: 0
+    ' Comment Lines: 5
     '   Blank Lines: 2
-    '     File Size: 541 B
+    '     File Size: 702 B
 
 
     ' Module KOBAS

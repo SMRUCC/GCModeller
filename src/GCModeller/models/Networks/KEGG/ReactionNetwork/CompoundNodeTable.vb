@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3421c764a16acb96c962b4dc12ce2d17, GCModeller\models\Networks\KEGG\ReactionNetwork\CompoundNodeTable.vb"
+﻿#Region "Microsoft.VisualBasic::94db40d6e3c592d8949dc60c5b52f090, G:/GCModeller/src/GCModeller/models/Networks/KEGG//ReactionNetwork/CompoundNodeTable.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 80
-    '    Code Lines: 66
+    '   Total Lines: 88
+    '    Code Lines: 72
     ' Comment Lines: 0
-    '   Blank Lines: 14
-    '     File Size: 3.09 KB
+    '   Blank Lines: 16
+    '     File Size: 3.25 KB
 
 
     '     Class CompoundNodeTable
@@ -46,7 +46,7 @@
     '         Properties: values
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: add, containsKey, createCompoundNode
+    '         Function: add, CompoundNode, containsKey
     ' 
     ' 
     ' /********************************************************************************/

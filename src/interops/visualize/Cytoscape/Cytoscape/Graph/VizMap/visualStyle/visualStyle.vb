@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ede5846a3baf7016c61168af8e5a9db, visualize\Cytoscape\Cytoscape\Graph\VizMap\visualStyle\visualStyle.vb"
+﻿#Region "Microsoft.VisualBasic::5ede5846a3baf7016c61168af8e5a9db, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/VizMap/visualStyle/visualStyle.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 12
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 477 B
+
 
     '     Class visualStyle
     ' 

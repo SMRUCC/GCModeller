@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dcbb34987edf92868513ea00ee29830f, GCModeller\core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\TranslTable.vb"
+﻿#Region "Microsoft.VisualBasic::dcbb34987edf92868513ea00ee29830f, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/NucleicAcid/Translation/TranslTable.vb"
 
     ' Author:
     ' 

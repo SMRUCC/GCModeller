@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79390a11f87c0839e63244530041112f, GCModeller\foundation\OBO_Foundry\IO\Models\OBOFile.vb"
+﻿#Region "Microsoft.VisualBasic::962cd88cffcaa0761cb200567947d14d, G:/GCModeller/src/GCModeller/foundation/OBO_Foundry//IO/Models/OBOFile.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 293
-    '    Code Lines: 88
+    '   Total Lines: 315
+    '    Code Lines: 107
     ' Comment Lines: 182
-    '   Blank Lines: 23
-    '     File Size: 10.45 KB
+    '   Blank Lines: 26
+    '     File Size: 11.23 KB
 
 
     '     Class OBOFile
     ' 
     '         Properties: header
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: createRawTerm, GetRawTerms, populateLines, ToString
     ' 

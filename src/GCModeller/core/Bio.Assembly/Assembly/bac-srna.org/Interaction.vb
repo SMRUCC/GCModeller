@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3b0b9e0b0bc767459852f900d8927fa, GCModeller\core\Bio.Assembly\Assembly\bac-srna.org\Interaction.vb"
+﻿#Region "Microsoft.VisualBasic::b3b0b9e0b0bc767459852f900d8927fa, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/bac-srna.org/Interaction.vb"
 
     ' Author:
     ' 

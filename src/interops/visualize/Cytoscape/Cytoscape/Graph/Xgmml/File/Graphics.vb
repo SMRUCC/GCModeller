@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa99d054671721837d93fab4111bc83e, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\Graphics.vb"
+﻿#Region "Microsoft.VisualBasic::fa99d054671721837d93fab4111bc83e, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/Xgmml/File/Graphics.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 37
+    ' Comment Lines: 9
+    '   Blank Lines: 8
+    '     File Size: 2.17 KB
+
 
     '     Class Graphics
     ' 

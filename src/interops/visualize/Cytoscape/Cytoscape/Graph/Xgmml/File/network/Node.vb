@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::253e2a08a1926c5785296d147810c3f3, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\network\Node.vb"
+﻿#Region "Microsoft.VisualBasic::253e2a08a1926c5785296d147810c3f3, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/Xgmml/File/network/Node.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 23
+    ' Comment Lines: 6
+    '   Blank Lines: 6
+    '     File Size: 1.18 KB
+
 
     '     Class XGMMLnode
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af5b7867c226cc93979bcf2d085691bb, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\tRNA.vb"
+﻿#Region "Microsoft.VisualBasic::af5b7867c226cc93979bcf2d085691bb, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/File/AttributeValue DataFile/DataFiles/Files/tRNA.vb"
 
     ' Author:
     ' 

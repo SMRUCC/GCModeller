@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd659703ec5cbc2a2cfa7fc03c02ed9c, localblast\LocalBLAST\Web\AlignmentTableParser.vb"
+﻿#Region "Microsoft.VisualBasic::fd659703ec5cbc2a2cfa7fc03c02ed9c, G:/GCModeller/src/interops/localblast/LocalBLAST//Web/AlignmentTableParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 190
+    '    Code Lines: 141
+    ' Comment Lines: 33
+    '   Blank Lines: 16
+    '     File Size: 8.43 KB
+
 
     '     Module AlignmentTableParser
     ' 

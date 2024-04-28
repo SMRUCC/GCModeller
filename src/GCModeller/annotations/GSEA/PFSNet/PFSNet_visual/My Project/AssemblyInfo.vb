@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7bf414eb6bf55c5001024ac262c2b323, GCModeller\annotations\GSEA\PFSNet\PFSNet_visual\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::7bf414eb6bf55c5001024ac262c2b323, G:/GCModeller/src/GCModeller/annotations/GSEA/PFSNet/PFSNet_visual//My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

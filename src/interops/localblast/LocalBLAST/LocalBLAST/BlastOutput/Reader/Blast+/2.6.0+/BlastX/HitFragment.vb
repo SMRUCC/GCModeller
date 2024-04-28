@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5358c8da8d4ce5d7a321607ffa1c631, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\BlastX\HitFragment.vb"
+﻿#Region "Microsoft.VisualBasic::e5358c8da8d4ce5d7a321607ffa1c631, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Reader/Blast+/2.6.0+/BlastX/HitFragment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 32
+    ' Comment Lines: 14
+    '   Blank Lines: 9
+    '     File Size: 1.78 KB
+
 
     '     Class HitFragment
     ' 

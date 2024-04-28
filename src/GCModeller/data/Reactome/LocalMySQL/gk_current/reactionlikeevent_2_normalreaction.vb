@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::679b449319aaa0d2964eafb20f2f6892, data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_normalreaction.vb"
+﻿#Region "Microsoft.VisualBasic::679b449319aaa0d2964eafb20f2f6892, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/reactionlikeevent_2_normalreaction.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.29 KB
+
 
     ' Class reactionlikeevent_2_normalreaction
     ' 

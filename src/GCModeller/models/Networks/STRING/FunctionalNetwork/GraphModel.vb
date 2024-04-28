@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4787860a519fa1c614729b4bf813568d, models\Networks\STRING\FunctionalNetwork\GraphModel.vb"
+﻿#Region "Microsoft.VisualBasic::4787860a519fa1c614729b4bf813568d, G:/GCModeller/src/GCModeller/models/Networks/STRING//FunctionalNetwork/GraphModel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 41
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 1.84 KB
+
 
     ' Module GraphModel
     ' 

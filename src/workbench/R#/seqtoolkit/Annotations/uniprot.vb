@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf015831c56e423d773f23d09fcf7061, R#\seqtoolkit\Annotations\uniprot.vb"
+﻿#Region "Microsoft.VisualBasic::0eb510bccfd1ffd4debbdeca540ab798, G:/GCModeller/src/workbench/R#/seqtoolkit//Annotations/uniprot.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 301
-    '    Code Lines: 242
+    '   Total Lines: 302
+    '    Code Lines: 243
     ' Comment Lines: 32
     '   Blank Lines: 27
-    '     File Size: 14.29 KB
+    '     File Size: 14.34 KB
 
 
     ' Module uniprot

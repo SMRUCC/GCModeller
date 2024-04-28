@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::254d643e9702d97349a9851a6ff52072, data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_ecnumber.vb"
+﻿#Region "Microsoft.VisualBasic::254d643e9702d97349a9851a6ff52072, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_molecularfunction_2_ecnumber.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 6.09 KB
+
 
     ' Class go_molecularfunction_2_ecnumber
     ' 

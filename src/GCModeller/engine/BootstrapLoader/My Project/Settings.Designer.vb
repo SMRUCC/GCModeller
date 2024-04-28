@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d8acee64731ea7e634a622e5e404181, GCModeller\engine\BootstrapLoader\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::1d8acee64731ea7e634a622e5e404181, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//My Project/Settings.Designer.vb"
 
     ' Author:
     ' 

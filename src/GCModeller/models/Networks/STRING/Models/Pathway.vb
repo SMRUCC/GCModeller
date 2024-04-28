@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b9d237fe87a59e934409008420292bc, models\Networks\STRING\Models\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::6b9d237fe87a59e934409008420292bc, G:/GCModeller/src/GCModeller/models/Networks/STRING//Models/Pathway.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 27
+    ' Comment Lines: 28
+    '   Blank Lines: 7
+    '     File Size: 2.19 KB
+
 
     '     Class Pathway
     ' 

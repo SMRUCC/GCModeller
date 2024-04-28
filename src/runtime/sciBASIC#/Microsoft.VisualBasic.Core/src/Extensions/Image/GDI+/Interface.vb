@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3aab7e4b8f80677522ec27c8b3e66d41, sciBASIC#\Microsoft.VisualBasic.Core\src\Extensions\Image\GDI+\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::7a1ec8118bd67f40fb630ab229627d10, G:/GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src//Extensions/Image/GDI+/Interface.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 4496
-    '    Code Lines: 270
-    ' Comment Lines: 4176
-    '   Blank Lines: 50
-    '     File Size: 204.30 KB
+    '   Total Lines: 4469
+    '    Code Lines: 271
+    ' Comment Lines: 4143
+    '   Blank Lines: 55
+    '     File Size: 203.97 KB
 
 
     '     Class IGraphics
@@ -2232,34 +2232,23 @@ Namespace Imaging
         '   T:System.ArgumentNullException:
         '     brush is null.-or-s is null.
         Public MustOverride Sub DrawString(s As String, font As Font, brush As Brush, layoutRectangle As RectangleF)
-        '
-        ' Summary:
-        '     Draws the specified text string in the specified rectangle with the specified
-        '     System.Drawing.Brush and System.Drawing.Font objects using the formatting attributes
-        '     of the specified System.Drawing.StringFormat.
-        '
-        ' Parameters:
-        '   s:
-        '     String to draw.
-        '
-        '   font:
-        '     System.Drawing.Font that defines the text format of the string.
-        '
-        '   brush:
-        '     System.Drawing.Brush that determines the color and texture of the drawn text.
-        '
-        '   layoutRectangle:
-        '     System.Drawing.RectangleF structure that specifies the location of the drawn
-        '     text.
-        '
-        '   format:
-        '     System.Drawing.StringFormat that specifies formatting attributes, such as line
-        '     spacing and alignment, that are applied to the drawn text.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     brush is null.-or-s is null.
+
+        ''' <summary>
+        ''' Draws the specified text string in the specified rectangle with the specified
+        ''' System.Drawing.Brush and System.Drawing.Font objects using the formatting attributes
+        ''' of the specified System.Drawing.StringFormat.
+        ''' </summary>
+        ''' <param name="s">String to draw.</param>
+        ''' <param name="font">System.Drawing.Font that defines the text format of the string.</param>
+        ''' <param name="brush">System.Drawing.Brush that determines the color and texture of the drawn text.</param>
+        ''' <param name="layoutRectangle">System.Drawing.RectangleF structure that specifies the location of the drawn
+        ''' text.</param>
+        ''' <param name="format">System.Drawing.StringFormat that specifies formatting attributes, such as line
+        ''' spacing and alignment, that are applied to the drawn text.</param>
         Public MustOverride Sub DrawString(s As String, font As Font, brush As Brush, layoutRectangle As RectangleF, format As StringFormat)
+
+        Public MustOverride Sub DrawString(s As String, font As Font, brush As Brush, ByRef x As Single, ByRef y As Single, angle As Single)
+
         '
         ' Summary:
         '     Draws the specified text string at the specified location with the specified

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa5ff3dc7e6fb7591b4f4cc3a0c0ce85, GCModeller\annotations\Proteomics\DATA\Perseus.vb"
+﻿#Region "Microsoft.VisualBasic::aa5ff3dc7e6fb7591b4f4cc3a0c0ce85, G:/GCModeller/src/GCModeller/annotations/Proteomics//DATA/Perseus.vb"
 
     ' Author:
     ' 

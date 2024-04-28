@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e079b2e518e7715ae5eabe2b0754b2f, sciBASIC#\Microsoft.VisualBasic.Core\src\Scripting\MetaData\Parameter.vb"
+﻿#Region "Microsoft.VisualBasic::55efe4d57b4beb5e985b2e10c0bf628c, G:/GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src//Scripting/MetaData/Parameter.vb"
 
     ' Author:
     ' 
@@ -78,11 +78,11 @@ Namespace Scripting.MetaData
         Dim _alias As String
 
         ''' <summary>
-        ''' The alias name of this function parameter in the scripting.(脚本函数的参数的别名)
+        ''' The alias name of this function parameter in the scripting.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(脚本函数的参数的别名)</remarks>
         Public Property [Alias] As String Implements INamedValue.Key
             Get
                 If String.IsNullOrEmpty(_alias) AndAlso Not ParameterInfo Is Nothing Then

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05f44aff23f861556743184034e55c7a, data\Reactome\LocalMySQL\gk_current\regulation_2_literaturereference.vb"
+﻿#Region "Microsoft.VisualBasic::05f44aff23f861556743184034e55c7a, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/regulation_2_literaturereference.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.63 KB
+
 
     ' Class regulation_2_literaturereference
     ' 

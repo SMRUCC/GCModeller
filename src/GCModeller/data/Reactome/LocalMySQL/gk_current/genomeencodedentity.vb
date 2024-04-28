@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ab1be28961963bcfb85ae6c78f2353e, data\Reactome\LocalMySQL\gk_current\genomeencodedentity.vb"
+﻿#Region "Microsoft.VisualBasic::3ab1be28961963bcfb85ae6c78f2353e, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/genomeencodedentity.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 5.87 KB
+
 
     ' Class genomeencodedentity
     ' 

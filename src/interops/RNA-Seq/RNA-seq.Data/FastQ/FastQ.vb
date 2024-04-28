@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c19937e6cfdb5aa27267f5a35356c75a, RNA-Seq\RNA-seq.Data\FastQ\FastQ.vb"
+﻿#Region "Microsoft.VisualBasic::94b1046252803bd7683e97fe908cbae5, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//FastQ/FastQ.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 128
+    '    Code Lines: 39
+    ' Comment Lines: 78
+    '   Blank Lines: 11
+    '     File Size: 5.98 KB
+
+
     '     Class FastQ
     ' 
     '         Properties: Headers, Quality, SEQ_ID, SEQ_ID2, Title
     ' 
-    '         Function: FastaqParser, GetQualityOrder, ToString
+    '         Function: FastaqParser, (+2 Overloads) GetQualityOrder, ToString
     ' 
     ' 
     ' /********************************************************************************/

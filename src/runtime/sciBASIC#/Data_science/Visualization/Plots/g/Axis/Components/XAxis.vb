@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00cfe5d366dba7e61e9431c9eda65957, sciBASIC#\Data_science\Visualization\Plots\g\Axis\Components\XAxis.vb"
+﻿#Region "Microsoft.VisualBasic::f47c0d1dbe063c228365e23d1510d3e6, G:/GCModeller/src/runtime/sciBASIC#/Data_science/Visualization/Plots//g/Axis/Components/XAxis.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 162
     ' Comment Lines: 5
     '   Blank Lines: 23
-    '     File Size: 7.36 KB
+    '     File Size: 7.34 KB
 
 
     '     Class XAxis
@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Graphic.Axis
 
@@ -179,7 +179,7 @@ Namespace Graphic.Axis
             If TypeOf scaler Is LinearScale Then
                 ticks = axisTicks _
                     .Select(Function(tick)
-                                If stdNum.Abs(tick) <= 0.000001 Then
+                                If std.Abs(tick) <= 0.000001 Then
                                     Return (scaler(tick), "0")
                                 Else
                                     Return (scaler(tick), (tick).ToString(tickFormat))
@@ -207,7 +207,7 @@ Namespace Graphic.Axis
                     If xRotate > 0 Then
                         Call text.DrawString(labelText, tickFont, tickColor, New Point(x, ZERO.Y + d * 1.2), angle:=xRotate)
                     Else
-                        Call text.DrawString(labelText, tickFont, tickColor, New Point(x, ZERO.Y + sz.Height * stdNum.Sin(xRotate * 180 / stdNum.PI)), angle:=xRotate)
+                        Call text.DrawString(labelText, tickFont, tickColor, New Point(x, ZERO.Y + sz.Height * std.Sin(xRotate * 180 / std.PI)), angle:=xRotate)
                     End If
                 Else
                     Call g.DrawString(labelText, tickFont, tickColor, New Point(x - sz.Width / 2, ZERO.Y + d * 1.2))
@@ -231,7 +231,7 @@ Namespace Graphic.Axis
                 Dim y2 As Double = plotRegion.Bottom + ((g.Size.Height - plotRegion.Bottom) - fSize.Height) / 2
                 Dim point As New PointF With {
                     .X = (size.Width - fSize.Width) / 2 + plotRegion.Left,
-                    .Y = stdNum.Max(y1, y2)
+                    .Y = std.Max(y1, y2)
                 }
 
                 ' Call $"[X:={label}] {point.ToString}".__INFO_ECHO

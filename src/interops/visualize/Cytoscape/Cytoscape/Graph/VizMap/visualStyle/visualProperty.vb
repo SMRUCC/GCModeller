@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ea1a62b6f070ce2736029e8641216ce, visualize\Cytoscape\Cytoscape\Graph\VizMap\visualStyle\visualProperty.vb"
+﻿#Region "Microsoft.VisualBasic::6ea1a62b6f070ce2736029e8641216ce, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/VizMap/visualStyle/visualProperty.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 38
+    ' Comment Lines: 0
+    '   Blank Lines: 8
+    '     File Size: 1.83 KB
+
 
     '     Class visualProperty
     ' 

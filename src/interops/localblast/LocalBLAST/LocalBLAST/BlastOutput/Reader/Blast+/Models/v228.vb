@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e726bf365bcd6b91acd75834e10032eb, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\v228.vb"
+﻿#Region "Microsoft.VisualBasic::e726bf365bcd6b91acd75834e10032eb, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Reader/Blast+/Models/v228.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 270
+    '    Code Lines: 198
+    ' Comment Lines: 41
+    '   Blank Lines: 31
+    '     File Size: 12.41 KB
+
 
     '     Class v228
     ' 

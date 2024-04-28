@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b773ee19fe341ca83ef8e4e5f7a99ac2, GCModeller\models\Networks\KEGG\PathwayMaps\MaxGraphAsignment.vb"
+﻿#Region "Microsoft.VisualBasic::f3157769259b56f81dbb3be2243d4456, G:/GCModeller/src/GCModeller/models/Networks/KEGG//PathwayMaps/MaxGraphAsignment.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 12
     ' Comment Lines: 4
     '   Blank Lines: 7
-    '     File Size: 644 B
+    '     File Size: 648 B
 
 
     '     Class MaxGraphAsignment

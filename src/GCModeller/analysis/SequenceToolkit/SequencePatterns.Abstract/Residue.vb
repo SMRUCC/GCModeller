@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea231986b7d55966798ab45ad9ba6856, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::37f6d0a9a14723a657a41bee932365b0, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract//Residue.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,17 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 80
-    '    Code Lines: 69
+    '   Total Lines: 86
+    '    Code Lines: 74
     ' Comment Lines: 0
-    '   Blank Lines: 11
-    '     File Size: 2.23 KB
+    '   Blank Lines: 12
+    '     File Size: 2.39 KB
 
 
     ' Structure Residue
     ' 
-    '     Properties: frequency, Hi, index, isEmpty, topChar
+    '     Properties: frequency, Hi, index, isConserved, isEmpty
+    '                 topChar
     ' 
     '     Function: GetEmpty, Max, ToString
     ' 

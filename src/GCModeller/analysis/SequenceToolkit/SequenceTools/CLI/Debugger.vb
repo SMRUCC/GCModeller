@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c41134e4af6fa352dc5c9b2f2aa30aa, analysis\SequenceToolkit\SequenceTools\CLI\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::ae3d17843d409e4fa9170358428f0921, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/Debugger.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 70
+    ' Comment Lines: 0
+    '   Blank Lines: 11
+    '     File Size: 3.31 KB
+
 
     ' Module CLI
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84572d095bf88fee1e92652a1b762a4e, visualize\Cytoscape\Cytoscape\csv\csv.vb"
+﻿#Region "Microsoft.VisualBasic::84572d095bf88fee1e92652a1b762a4e, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//csv/csv.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 41
+    ' Comment Lines: 1
+    '   Blank Lines: 18
+    '     File Size: 1.92 KB
+
 
     '     Class Edge
     ' 

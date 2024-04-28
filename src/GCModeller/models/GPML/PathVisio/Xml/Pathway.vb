@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b7219bf211ea6ff4419b4ff7e46e55f, models\GPML\PathVisio\Xml\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::2b7219bf211ea6ff4419b4ff7e46e55f, G:/GCModeller/src/GCModeller/models/GPML/PathVisio//Xml/Pathway.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 19
+    ' Comment Lines: 1
+    '   Blank Lines: 9
+    '     File Size: 941 B
+
 
     '     Class Pathway
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18c170d8e7ec561638bd36d798500f6e, R#\annotationKit\UniProt.vb"
+﻿#Region "Microsoft.VisualBasic::c4c344af79f479d3055a1a01d63b2f82, G:/GCModeller/src/workbench/R#/annotationKit//UniProt.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 58
+    '   Total Lines: 57
     '    Code Lines: 44
     ' Comment Lines: 6
-    '   Blank Lines: 8
-    '     File Size: 2.07 KB
+    '   Blank Lines: 7
+    '     File Size: 2.06 KB
 
 
     ' Module UniProt
@@ -48,7 +48,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -107,4 +106,3 @@ Public Module UniProt
         Return New FastaFile(pack.QueryFasta(enzymeQuery:=enzyme))
     End Function
 End Module
-

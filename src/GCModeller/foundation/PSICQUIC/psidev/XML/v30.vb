@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a12022a11e1011188672a31c0200552, foundation\PSICQUIC\psidev\XML\v30.vb"
+﻿#Region "Microsoft.VisualBasic::4a12022a11e1011188672a31c0200552, G:/GCModeller/src/GCModeller/foundation/PSICQUIC/psidev//XML/v30.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 7
+    ' Comment Lines: 12
+    '   Blank Lines: 4
+    '     File Size: 605 B
+
 
     '     Class v30
     ' 

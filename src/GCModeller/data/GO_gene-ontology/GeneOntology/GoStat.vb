@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e8a6ce74c798514472aaba672878be1, GCModeller\data\GO_gene-ontology\GeneOntology\GoStat.vb"
+﻿#Region "Microsoft.VisualBasic::5e8a6ce74c798514472aaba672878be1, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GeneOntology//GoStat.vb"
 
     ' Author:
     ' 

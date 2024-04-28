@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2be667ba660371174088c3571bc07865, GCModeller\analysis\SequenceToolkit\SequencePatterns\Motif\MotifPattern.vb"
+﻿#Region "Microsoft.VisualBasic::ee323e7757ec6d0ea4fe8d2a497e46c0, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//Motif/MotifPattern.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 26
-    '    Code Lines: 18
-    ' Comment Lines: 3
+    '   Total Lines: 46
+    '    Code Lines: 17
+    ' Comment Lines: 24
     '   Blank Lines: 5
-    '     File Size: 880 B
+    '     File Size: 1.52 KB
 
 
     '     Class MotifPattern

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89f4f605bcaad7bac80262a88d200dfa, R#\seqtoolkit\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::89f4f605bcaad7bac80262a88d200dfa, G:/GCModeller/src/workbench/R#/seqtoolkit//My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

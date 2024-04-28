@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc835334462dcd40b70e055fb6127d6b, data\Reactome\LocalMySQL\gk_current\pathwaycoordinates.vb"
+﻿#Region "Microsoft.VisualBasic::dc835334462dcd40b70e055fb6127d6b, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/pathwaycoordinates.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 89
+    ' Comment Lines: 65
+    '   Blank Lines: 22
+    '     File Size: 7.89 KB
+
 
     ' Class pathwaycoordinates
     ' 

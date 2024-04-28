@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "FluteBuild": {
+      "commandName": "Project",
+      "commandLineArgs": "/compile /view \"./\" /wwwroot \"../wwwroot\" ",
+      "workingDirectory": "E:\\biodeep\\novocell\\landscape_v2\\views"
+    }
+  }
+}

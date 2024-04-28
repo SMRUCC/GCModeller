@@ -1,73 +1,73 @@
-﻿#Region "Microsoft.VisualBasic::3f685703b4c3f91abe28cb0ef29214cb, sciBASIC#\Microsoft.VisualBasic.Core\src\CommandLine\CommandLine.vb"
+﻿#Region "Microsoft.VisualBasic::857ab1c62ed718e0149d83067c683b06, G:/GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src//CommandLine/CommandLine.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 959
-'    Code Lines: 488
-' Comment Lines: 363
-'   Blank Lines: 108
-'     File Size: 40.07 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class CommandLine
-' 
-'         Properties: BoolFlags, cli, Count, EnvironmentVariables, IsNothing
-'                     IsNullOrEmpty, IsReadOnly, Keys, Name, ParameterList
-'                     Parameters, SingleValue, Tokens
-' 
-'         Function: Assert, CheckMissingRequiredArguments, CheckMissingRequiredParameters, Contains, ContainsParameter
-'                   GetBoolean, GetByte, GetBytes, GetChar, GetChars
-'                   GetDateTime, GetDecimal, GetDictionary, GetDouble, GetEnumerator
-'                   GetEnumerator1, GetFloat, GetFullDIRPath, GetFullFilePath, GetGuid
-'                   GetInt16, GetInt32, GetInt64, GetObject, GetOrdinal
-'                   GetString, GetValue, HavebFlag, IsNull, IsTrue
-'                   OpenHandle, OpenStreamInput, OpenStreamOutput, Parse, ParseTokens
-'                   ReadInput, (+2 Overloads) Remove, ToArgumentVector, ToString, TrimNamePrefix
-' 
-'         Sub: (+2 Overloads) Add, Clear, CopyTo
-' 
-'         Operators: (+4 Overloads) -, ^, +, <, (+2 Overloads) <=
-'                    >, (+2 Overloads) >=
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 860
+    '    Code Lines: 457
+    ' Comment Lines: 302
+    '   Blank Lines: 101
+    '     File Size: 36.84 KB
+
+
+    '     Class CommandLine
+    ' 
+    '         Properties: BoolFlags, cli, Count, EnvironmentVariables, IsNothing
+    '                     IsNullOrEmpty, IsReadOnly, Keys, Name, ParameterList
+    '                     Parameters, SingleValue, Tokens
+    ' 
+    '         Function: Assert, (+2 Overloads) BuildFromArguments, CheckMissingRequiredArguments, CheckMissingRequiredParameters, Contains
+    '                   ContainsParameter, GetDataReader, GetDictionary, GetEnumerator, GetEnumerator1
+    '                   GetFullDIRPath, GetFullFilePath, GetObject, GetOrdinal, GetSize
+    '                   (+2 Overloads) GetString, GetValue, hasKey, HavebFlag, IsTrue
+    '                   MoveNext, OpenHandle, OpenStreamInput, OpenStreamOutput, Parse
+    '                   ParseTokens, ReadInput, (+2 Overloads) Remove, ToArgumentVector, ToString
+    '                   TrimNamePrefix
+    ' 
+    '         Sub: (+2 Overloads) Add, Clear, CopyTo
+    ' 
+    '         Operators: (+4 Overloads) -, ^, +, <, (+2 Overloads) <=
+    '                    >, (+2 Overloads) >=
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Parsers
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -76,9 +76,9 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.Expressions
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser
+Imports StringReader = Microsoft.VisualBasic.ComponentModel.DataSourceModel.StringReader
 
 Namespace CommandLine
 
@@ -97,6 +97,7 @@ Namespace CommandLine
     Public Class CommandLine
         Implements ICollection(Of NamedValue(Of String))
         Implements INamedValue
+        Implements IStringGetter
 
         Friend arguments As New List(Of NamedValue(Of String))
         ''' <summary>
@@ -265,10 +266,9 @@ Namespace CommandLine
 
         ''' <summary>
         ''' See if the target logical flag argument is exists in the commandline?
-        ''' (查看命令行之中是否存在某一个逻辑开关)
         ''' </summary>
         ''' <param name="name"></param>
-        ''' <returns></returns>
+        ''' <returns>(查看命令行之中是否存在某一个逻辑开关)</returns>
         Public Function HavebFlag(name As String) As Boolean
             If Me.BoolFlags.IsNullOrEmpty Then
                 Return False
@@ -389,6 +389,10 @@ Namespace CommandLine
             Return LQuery > 50
         End Function
 
+        Private Function hasKey(name As String) As Boolean Implements IStringGetter.HasKey
+            Return ContainsParameter(name)
+        End Function
+
         ''' <summary>
         ''' Parsing the commandline string as object model
         ''' </summary>
@@ -413,7 +417,7 @@ Namespace CommandLine
         ''' <param name="failure"></param>
         ''' <returns></returns>
         Public Function Assert(name As String, Optional failure As String = "") As String
-            If GetBoolean(name) Then
+            If IsTrue(name) Then
                 Return name
             Else
                 Return failure
@@ -440,6 +444,14 @@ Namespace CommandLine
             End If
         End Function
 
+        ''' <summary>
+        ''' Gets the value Of the specified column As a Boolean.
+        ''' </summary>
+        ''' <param name="parameter">可以包含有开关参数</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' (这个函数也同时包含有开关参数的，开关参数默认为逻辑值类型，当包含有开关参数的时候，其逻辑值为True，反之函数会检查参数列表，参数不存在则为空值字符串，则也为False)
+        ''' </remarks>
         Public Function IsTrue(parameter$) As Boolean
             If Me.HavebFlag(parameter) Then
                 Return True
@@ -530,147 +542,10 @@ Namespace CommandLine
 #Region "IDataRecord Methods"
 
         ''' <summary>
-        ''' Gets the value Of the specified column As a Boolean.
-        ''' </summary>
-        ''' <param name="parameter">可以包含有开关参数</param>
-        ''' <returns></returns>
-        ''' <remarks>
-        ''' (这个函数也同时包含有开关参数的，开关参数默认为逻辑值类型，当包含有开关参数的时候，其逻辑值为True，反之函数会检查参数列表，参数不存在则为空值字符串，则也为False)
-        ''' </remarks>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetBoolean(parameter As String) As Boolean
-            Return Me.IsTrue(parameter)
-        End Function
-
-        ''' <summary>
-        ''' Gets the 8-bit unsigned Integer value Of the specified column.
-        ''' </summary>
-        ''' <param name="parameter"></param>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetByte(parameter As String) As Byte
-            Return CByte(Val(Me(parameter)))
-        End Function
-
-        ''' <summary>
-        ''' Reads a stream Of bytes from the specified column offset into the buffer As an array, starting at the given buffer offset.
-        ''' </summary>
-        ''' <returns></returns>
-        Public Function GetBytes(parameter As String) As Byte()
-            Dim tokens As String() = Me(parameter).DefaultValue.Split(","c)
-            Return (From s As String In tokens Select CByte(Val(s))).ToArray
-        End Function
-
-        ''' <summary>
-        ''' Gets the character value Of the specified column.
-        ''' </summary>
-        ''' <returns></returns>
-        Public Function GetChar(parameter As String) As Char
-            Dim s As String = Me(parameter)
-
-            If String.IsNullOrEmpty(s) Then
-                Return ASCII.NUL
-            Else
-                Return s.First
-            End If
-        End Function
-
-        ''' <summary>
-        ''' Reads a stream Of characters from the specified column offset into the buffer As an array, starting at the given buffer offset.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetChars(parameter As String) As Char()
-            Return Me(parameter)
-        End Function
-
-        ''' <summary>
-        ''' Gets the Date And time data value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetDateTime(parameter As String) As DateTime
-            Return Me(parameter).DefaultValue.ParseDateTime
-        End Function
-
-        ''' <summary>
-        ''' Gets the fixed-position numeric value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetDecimal(parameter As String) As Decimal
-            Return CDec(Val(Me(parameter).DefaultValue))
-        End Function
-
-        ''' <summary>
-        ''' Gets the Double-precision floating point number Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetDouble(parameter As String) As Double
-            Return Val(Me(parameter).DefaultValue)
-        End Function
-
-        ''' <summary>
-        ''' Gets the Single-precision floating point number Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetFloat(parameter As String) As Single
-            Return CSng(Val(Me(parameter).DefaultValue))
-        End Function
-
-        ''' <summary>
-        ''' Returns the GUID value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetGuid(parameter As String) As Guid
-            Return Guid.Parse(Me(parameter))
-        End Function
-
-        ''' <summary>
-        ''' Gets the 16-bit signed Integer value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetInt16(parameter As String) As Int16
-            Return CType(Val(Me(parameter).DefaultValue), Int16)
-        End Function
-
-        ''' <summary>
-        ''' Gets the 32-bit signed Integer value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetInt32(parameter As String) As Int32
-            Return CInt(Val(Me(parameter).DefaultValue))
-        End Function
-
-        ''' <summary>
-        ''' Gets the 64-bit signed Integer value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetInt64(parameter As String) As Int64
-            Return CLng(Val(Me(parameter).DefaultValue))
-        End Function
-
-        ''' <summary>
         ''' Return the index Of the named field. If the name is not exists in the parameter list, then a -1 value will be return.
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetOrdinal(parameter As String) As Integer
+        Public Function GetOrdinal(parameter As String) As Integer Implements IStringGetter.GetOrdinal
             Dim i% = LinqAPI.DefaultFirst(Of Integer)(-1) _
                                                           _
                 <= From entry As NamedValue(Of String)
@@ -687,18 +562,12 @@ Namespace CommandLine
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetString(parameter As String) As String
-            Return Me(parameter)
-        End Function
+        Public Function GetString(parameter As String) As String Implements IStringGetter.GetString
+            If IsTrue(parameter) Then
+                Return "true"
+            End If
 
-        ''' <summary>
-        ''' Return whether the specified field Is Set To null.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function IsNull(parameter As String) As Boolean
-            Return Not Me.ContainsParameter(parameter, False)
+            Return Me(parameter)
         End Function
 
         ''' <summary>
@@ -727,7 +596,7 @@ Namespace CommandLine
             If Not Me.ContainsParameter(name, False) Then
                 If GetType(T).Equals(GetType(Boolean)) Then
                     If HavebFlag(name) Then
-                        Return DirectCast(DirectCast(GetBoolean(name), Object), T)
+                        Return CType(CObj(True), T)
                     End If
                 End If
 
@@ -1029,6 +898,30 @@ Namespace CommandLine
 
         Public Shared Function ParseTokens(commandlineStr As String) As String()
             Return commandlineStr.GetTokens
+        End Function
+
+        Public Shared Function BuildFromArguments(args As String()) As CommandLine
+            Return Parsers.TryParse(args, False, rawInput:=args.Select(Function(s) s.CLIToken).JoinBy(" "))
+        End Function
+
+        Public Shared Function BuildFromArguments(name As String, args As String()) As CommandLine
+            Return Parsers.TryParse({name}.JoinIterates(args), False, name.CLIToken & " " & args.Select(Function(s) s.CLIToken).JoinBy(" "))
+        End Function
+
+        Public Function GetDataReader() As StringReader
+            Return New StringReader(Me)
+        End Function
+
+        Private Function GetString(ordinal As Integer) As String Implements IStringGetter.GetString
+            Return arguments(ordinal).Value
+        End Function
+
+        Private Function GetSize() As Integer Implements IStringGetter.GetSize
+            Return Count
+        End Function
+
+        Private Function MoveNext() As Boolean Implements IStringGetter.MoveNext
+            Return False
         End Function
     End Class
 End Namespace

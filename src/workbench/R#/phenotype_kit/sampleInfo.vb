@@ -1,54 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::cf00493921b672bc80f9d07a9ab7d6fc, R#\phenotype_kit\sampleInfo.vb"
+﻿#Region "Microsoft.VisualBasic::7fa1232b3b0af8c0d8f464dfc266a5d7, G:/GCModeller/src/workbench/R#/phenotype_kit//sampleInfo.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 251
-'    Code Lines: 195
-' Comment Lines: 22
-'   Blank Lines: 34
-'     File Size: 10.07 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module DEGSample
-' 
-'     Function: getSampleId, guessSampleGroups, PopulateSampleInfo, print, ReadSampleInfo
-'               sampleinfoTable, sampleInfoTable, ScanForSampleInfo, WriteSampleInfo
-' 
-'     Sub: Main
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 400
+    '    Code Lines: 285
+    ' Comment Lines: 63
+    '   Blank Lines: 52
+    '     File Size: 15.82 KB
+
+
+    ' Module DEGSample
+    ' 
+    '     Function: DesignAnalysis, getSampleId, groupColors, guessSampleGroups, PopulateSampleInfo
+    '               print, ReadSampleInfo, sampleinfoTable, sampleInfoTable, ScanForSampleInfo
+    '               WriteSampleInfo
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -352,6 +353,7 @@ Module DEGSample
     Public Function sampleInfoTable(ID As String(),
                                     sample_name As String(),
                                     sample_info As String(),
+                                    Optional color As String() = Nothing,
                                     Optional env As Environment = Nothing) As Object
 
         If ID.IsNullOrEmpty OrElse
@@ -385,7 +387,8 @@ Module DEGSample
             list += New SampleInfo With {
                 .ID = ID(i),
                 .sample_name = sample_name(i),
-                .sample_info = get_group(i)
+                .sample_info = get_group(i),
+                .color = color.ElementAtOrNull(i)
             }
         Next
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2abf1027e41a533336790294ac2dd6b0, data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_haspart.vb"
+﻿#Region "Microsoft.VisualBasic::2abf1027e41a533336790294ac2dd6b0, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_molecularfunction_2_haspart.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.68 KB
+
 
     ' Class go_molecularfunction_2_haspart
     ' 

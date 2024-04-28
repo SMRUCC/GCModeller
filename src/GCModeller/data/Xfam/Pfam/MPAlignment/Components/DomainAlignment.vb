@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::387227f32dabf2936da69c4d80e5dcce, data\Xfam\Pfam\MPAlignment\Components\DomainAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::387227f32dabf2936da69c4d80e5dcce, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//MPAlignment/Components/DomainAlignment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 26
+    ' Comment Lines: 0
+    '   Blank Lines: 5
+    '     File Size: 1.28 KB
+
 
     '     Class DomainAlignment
     ' 

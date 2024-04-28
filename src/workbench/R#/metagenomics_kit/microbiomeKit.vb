@@ -1,53 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::c1aaa082f186b99d8131c4d6f4e33956, R#\metagenomics_kit\microbiomeKit.vb"
+﻿#Region "Microsoft.VisualBasic::4ad58e1b250507453089784888fec819, G:/GCModeller/src/workbench/R#/metagenomics_kit//microbiomeKit.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 242
-'    Code Lines: 180
-' Comment Lines: 32
-'   Blank Lines: 30
-'     File Size: 10.56 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module microbiomeKit
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: asTaxonomyVector, castTable, CompoundOrigin, createEmptyCompoundOriginProfile, indexMatrix
-'               parsegreenGenesTaxonomy, predict_metagenomes, readPICRUStMatrix, similar
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 316
+    '    Code Lines: 218
+    ' Comment Lines: 59
+    '   Blank Lines: 39
+    '     File Size: 13.34 KB
+
+
+    ' Module microbiomeKit
+    ' 
+    '     Function: asTaxonomyVector, castTable, CompoundOrigin, createEmptyCompoundOriginProfile, indexMatrix
+    '               (+2 Overloads) OTUtable, parsegreenGenesTaxonomy, predict_metagenomes, readPICRUSt, readPICRUStMatrix
+    '               similar
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

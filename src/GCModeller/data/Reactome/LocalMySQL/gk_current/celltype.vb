@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::098aa93df47b3ea44536db0c1e6296d1, data\Reactome\LocalMySQL\gk_current\celltype.vb"
+﻿#Region "Microsoft.VisualBasic::098aa93df47b3ea44536db0c1e6296d1, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/celltype.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.49 KB
+
 
     ' Class celltype
     ' 

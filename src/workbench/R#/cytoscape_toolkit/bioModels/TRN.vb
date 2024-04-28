@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab9aafced8b603fbdacd3ba36acdd80b, R#\cytoscape_toolkit\bioModels\TRN.vb"
+﻿#Region "Microsoft.VisualBasic::ab9aafced8b603fbdacd3ba36acdd80b, G:/GCModeller/src/workbench/R#/cytoscape_toolkit//bioModels/TRN.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 18
+    '    Code Lines: 12
+    ' Comment Lines: 4
+    '   Blank Lines: 2
+    '     File Size: 597 B
+
 
     ' Module TRN
     ' 

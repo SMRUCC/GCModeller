@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::405b35b9f2e77446b6fa0cc3c5360033, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::b05bbfcdc9026671bc697308d229a5a6, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/WebServices/WebParser/Operon/Operon.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 60
-    '    Code Lines: 45
+    '   Total Lines: 63
+    '    Code Lines: 47
     ' Comment Lines: 4
-    '   Blank Lines: 11
-    '     File Size: 2.02 KB
+    '   Blank Lines: 12
+    '     File Size: 2.08 KB
 
 
     '     Class Operon
     ' 
-    '         Properties: ID, members
+    '         Properties: ID, members, note
     ' 
     '         Function: getCollection, getSize, PageParser, ToString
     ' 

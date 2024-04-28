@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b5a6d4ef196f02c0130477aa8c86cd47, localblast\ParallelTask\Tasks\Models.vb"
+﻿#Region "Microsoft.VisualBasic::b5a6d4ef196f02c0130477aa8c86cd47, G:/GCModeller/src/interops/localblast/ParallelTask//Tasks/Models.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 23
+    ' Comment Lines: 0
+    '   Blank Lines: 9
+    '     File Size: 977 B
+
 
     '     Class LogsPair
     ' 

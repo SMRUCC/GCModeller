@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc8dc4941ed37df4fc4e16ae4fdc0492, localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Parameter.vb"
+﻿#Region "Microsoft.VisualBasic::cc8dc4941ed37df4fc4e16ae4fdc0492, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Common/Parameter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 80
+    ' Comment Lines: 6
+    '   Blank Lines: 18
+    '     File Size: 3.96 KB
+
 
     '     Structure Parameter
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2dd8d55a5c3d6536d159d563806d6e8, GCModeller\data\GO_gene-ontology\GeneOntology\Files\Obo\GO.vb"
+﻿#Region "Microsoft.VisualBasic::f515b8817f115925b73193ffb4a0da59, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GeneOntology//Files/Obo/GO.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 143
-    '    Code Lines: 93
+    '   Total Lines: 139
+    '    Code Lines: 90
     ' Comment Lines: 27
-    '   Blank Lines: 23
-    '     File Size: 5.36 KB
+    '   Blank Lines: 22
+    '     File Size: 5.18 KB
 
 
     '     Class GO_OBO
     ' 
     '         Properties: headers, terms, typedefs
     ' 
-    '         Function: GenericEnumerator, GetEnumerator, LoadDocument, Open, ParseHeader
-    '                   ReadTerms, Save, ToString
+    '         Function: GenericEnumerator, LoadDocument, Open, ParseHeader, ReadTerms
+    '                   Save, ToString
     ' 
     '         Sub: Save, SaveTable
     ' 

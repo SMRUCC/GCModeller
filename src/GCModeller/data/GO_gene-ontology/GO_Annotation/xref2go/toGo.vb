@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a7d885e1e7ebac403853f4a5efd7328, data\GO_gene-ontology\GO_Annotation\xref2go\toGo.vb"
+﻿#Region "Microsoft.VisualBasic::8a7d885e1e7ebac403853f4a5efd7328, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GO_Annotation//xref2go/toGo.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 79
+    '    Code Lines: 37
+    ' Comment Lines: 32
+    '   Blank Lines: 10
+    '     File Size: 2.81 KB
+
 
     '     Class toGO
     ' 

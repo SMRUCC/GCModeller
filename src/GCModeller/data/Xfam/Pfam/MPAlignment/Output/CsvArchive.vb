@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f7cbd831057598253d0967c2c0d7bb3, data\Xfam\Pfam\MPAlignment\Output\CsvArchive.vb"
+﻿#Region "Microsoft.VisualBasic::7f7cbd831057598253d0967c2c0d7bb3, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//MPAlignment/Output/CsvArchive.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 65
+    ' Comment Lines: 32
+    '   Blank Lines: 10
+    '     File Size: 4.16 KB
+
 
     '     Class MPCsvArchive
     ' 

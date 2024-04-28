@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f68a50c8c6e139839a830d32d07472d, GCModeller\data\MicrobesOnline\MySQL\genomics\bindplayer.vb"
+﻿#Region "Microsoft.VisualBasic::3f68a50c8c6e139839a830d32d07472d, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/bindplayer.vb"
 
     ' Author:
     ' 

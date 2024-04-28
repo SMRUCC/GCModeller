@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67d97a05a6fb44748d7d2d3703871dc7, GCModeller\core\Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::67d97a05a6fb44748d7d2d3703871dc7, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/FASTA/Reflection/FastaTools.vb"
 
     ' Author:
     ' 

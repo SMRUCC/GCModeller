@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f807d571ab37f5d76c36ee1f387d3cf4, GCModeller\analysis\SequenceToolkit\SequencePatterns\Test\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::f807d571ab37f5d76c36ee1f387d3cf4, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//Test/My Project/Resources.Designer.vb"
 
     ' Author:
     ' 

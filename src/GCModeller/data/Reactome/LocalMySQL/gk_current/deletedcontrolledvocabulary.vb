@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd2e5cae4b88898c0fd0b21485670b38, data\Reactome\LocalMySQL\gk_current\deletedcontrolledvocabulary.vb"
+﻿#Region "Microsoft.VisualBasic::bd2e5cae4b88898c0fd0b21485670b38, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/deletedcontrolledvocabulary.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.85 KB
+
 
     ' Class deletedcontrolledvocabulary
     ' 

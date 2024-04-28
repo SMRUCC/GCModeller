@@ -1,4 +1,77 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::357ab6b74de1319da70e138eb99fe0c8, G:/GCModeller/src/repository/Bio.Repository//KEGG/Web/KEGGApi.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 82
+    ' Comment Lines: 60
+    '   Blank Lines: 18
+    '     File Size: 5.85 KB
+
+
+    ' Class KEGGApi
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: Find, (+2 Overloads) GetInformation, GetObject, getUrl, List
+    ' 
+    ' Enum operation
+    ' 
+    '     [get], conv, ddi, find, info
+    '     link, list
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' Enum database
+    ' 
+    '     [module], [variant], ag, brite, compound
+    '     dgroup, disease, drug, enzyme, genes
+    '     genome, glycan, kegg, ko, ligand
+    '     network, pathway, rclass, reaction, vg
+    '     vp
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Net.Http
 

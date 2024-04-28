@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37df9dab889c4390498fbad6e03bd078, data\Reactome\LocalMySQL\gk_current\referencedatabase_2_name.vb"
+﻿#Region "Microsoft.VisualBasic::37df9dab889c4390498fbad6e03bd078, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/referencedatabase_2_name.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 5.75 KB
+
 
     ' Class referencedatabase_2_name
     ' 

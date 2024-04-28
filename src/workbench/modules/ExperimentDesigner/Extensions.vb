@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6fc13690fbbd6d55ad6ba646ba91e40, modules\ExperimentDesigner\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::f6fc13690fbbd6d55ad6ba646ba91e40, G:/GCModeller/src/workbench/modules/ExperimentDesigner//Extensions.vb"
 
     ' Author:
     ' 

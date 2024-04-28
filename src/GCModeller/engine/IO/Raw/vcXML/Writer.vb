@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::500384d078aa4c830aaaec68b7068a9f, GCModeller\engine\IO\Raw\vcXML\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::500384d078aa4c830aaaec68b7068a9f, G:/GCModeller/src/GCModeller/engine/IO/Raw//vcXML/Writer.vb"
 
     ' Author:
     ' 

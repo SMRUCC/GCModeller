@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd83b5ce6122cca1837658d238bc8dc6, GCModeller\engine\Dynamics\Core\EnvirClone.vb"
+﻿#Region "Microsoft.VisualBasic::fd83b5ce6122cca1837658d238bc8dc6, G:/GCModeller/src/GCModeller/engine/Dynamics//Core/EnvirClone.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d260ff9df871d7ea313119db6a75625e, data\Reactome\LocalMySQL\gk_current\taxon_2_crossreference.vb"
+﻿#Region "Microsoft.VisualBasic::d260ff9df871d7ea313119db6a75625e, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/taxon_2_crossreference.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.06 KB
+
 
     ' Class taxon_2_crossreference
     ' 

@@ -35,7 +35,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>visualkit.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
+    <DefineConstants>MATH_DATASET=1</DefineConstants>
     <OutputPath>../../pkg/assembly/</OutputPath>
   </PropertyGroup>
 
@@ -76,5 +76,9 @@
 
 
   <Import Project="..\..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems" Label="Shared" />
+
+
+
+  <Import Project="..\..\..\R-sharp\Library\shares\dataframeHelper\dataframeHelper.projitems" Label="Shared" />
 
 </Project>

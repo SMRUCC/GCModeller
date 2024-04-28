@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22fea2c90f15171dec7a7d650be9ccd8, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\File\AttributeValue DataFile\DataFiles\Files\Terminators.vb"
+﻿#Region "Microsoft.VisualBasic::22fea2c90f15171dec7a7d650be9ccd8, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/File/AttributeValue DataFile/DataFiles/Files/Terminators.vb"
 
     ' Author:
     ' 

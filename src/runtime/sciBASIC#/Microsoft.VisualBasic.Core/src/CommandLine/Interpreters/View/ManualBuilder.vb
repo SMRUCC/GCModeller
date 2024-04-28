@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59475009ab323c9a72d72e2f9224dbe2, sciBASIC#\Microsoft.VisualBasic.Core\src\CommandLine\Interpreters\View\ManualBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::d5073ecb157d1fa074417dbecb583c22, G:/GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src//CommandLine/Interpreters/View/ManualBuilder.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 387
-    '    Code Lines: 281
+    '   Total Lines: 388
+    '    Code Lines: 282
     ' Comment Lines: 40
     '   Blank Lines: 66
-    '     File Size: 15.91 KB
+    '     File Size: 15.95 KB
 
 
     '     Module ManualBuilder
@@ -91,6 +91,7 @@ Namespace CommandLine.ManView
             Call Console.WriteLine()
             Call Console.Write("   ")
             Call My.Log4VB.Println($"'{api.Name}' - {infoLines.FirstOrDefault}", ConsoleColor.Yellow, ConsoleColor.DarkBlue)
+            Call VBDebugger.WaitOutput()
 
             If infoLines.Length > 1 Then
                 blank = New String(

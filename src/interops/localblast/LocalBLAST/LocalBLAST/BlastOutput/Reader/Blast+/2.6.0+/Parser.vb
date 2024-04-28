@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb831e6871353820f5a217c2e1dfcb0a, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::bb831e6871353820f5a217c2e1dfcb0a, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Reader/Blast+/2.6.0+/Parser.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 466
+    '    Code Lines: 294
+    ' Comment Lines: 93
+    '   Blank Lines: 79
+    '     File Size: 21.21 KB
+
+
     '     Module Parser
     ' 
     '         Function: __parsingInner, IsBlastn, isUltraLargeFileSize, LoadBlastOutput, ParseDbName
@@ -45,7 +55,7 @@
     ' 
     '     Properties: DefaultEncoding
     ' 
-    '     Function: [GetType], (+2 Overloads) __blockWorker, __queryParser, __tryParseBlastnOutput, __tryParseUltraLarge
+    '     Function: (+2 Overloads) __blockWorker, __queryParser, __tryParseBlastnOutput, __tryParseUltraLarge, [GetType]
     '               BuildGrepScript, doLoadDataInternal, IsBlastOut, measureParser, TryParseBlastnOutput
     '               TryParseUltraLarge
     ' 

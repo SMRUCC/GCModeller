@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0848aabbf368160681fa089bc78e3789, data\Reactome\LocalMySQL\gk_current\physicalentity_2_name.vb"
+﻿#Region "Microsoft.VisualBasic::0848aabbf368160681fa089bc78e3789, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/physicalentity_2_name.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 5.69 KB
+
 
     ' Class physicalentity_2_name
     ' 

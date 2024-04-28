@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b7d61385ccc24c3b90daad3c354538c, data\Reactome\LocalMySQL\gk_current\figure.vb"
+﻿#Region "Microsoft.VisualBasic::9b7d61385ccc24c3b90daad3c354538c, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/figure.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 4.85 KB
+
 
     ' Class figure
     ' 

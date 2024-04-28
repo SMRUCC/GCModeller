@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::618aa82a8a37948f2a104fa53021efb5, data\Reactome\LocalMySQL\gk_current\summation.vb"
+﻿#Region "Microsoft.VisualBasic::618aa82a8a37948f2a104fa53021efb5, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/summation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 4.93 KB
+
 
     ' Class summation
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fc8cf48b53f28d8fc7e56cc60cfab0d, R#\seqtoolkit\Annotations\genbankKit.vb"
+﻿#Region "Microsoft.VisualBasic::0fc8cf48b53f28d8fc7e56cc60cfab0d, G:/GCModeller/src/workbench/R#/seqtoolkit//Annotations/genbankKit.vb"
 
     ' Author:
     ' 

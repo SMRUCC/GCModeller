@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f746f6c0e34bae4f384ac53ff374cd0, data\Reactome\LocalMySQL\gk_current\compartment.vb"
+﻿#Region "Microsoft.VisualBasic::6f746f6c0e34bae4f384ac53ff374cd0, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/compartment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72
+    ' Comment Lines: 54
+    '   Blank Lines: 22
+    '     File Size: 4.55 KB
+
 
     ' Class compartment
     ' 

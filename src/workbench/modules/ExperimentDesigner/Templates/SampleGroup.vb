@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b676d372a522f480d1613a631d4b4a5c, modules\ExperimentDesigner\Templates\SampleGroup.vb"
+﻿#Region "Microsoft.VisualBasic::5c8f56ff14b8c1bdd2229dcb5a986f44, G:/GCModeller/src/workbench/modules/ExperimentDesigner//Templates/SampleGroup.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 30
-    '    Code Lines: 13
-    ' Comment Lines: 13
-    '   Blank Lines: 4
-    '     File Size: 1.03 KB
+    '   Total Lines: 42
+    '    Code Lines: 15
+    ' Comment Lines: 21
+    '   Blank Lines: 6
+    '     File Size: 1.36 KB
 
 
     ' Class SampleGroup
     ' 
-    '     Properties: sample_info, sample_name
+    '     Properties: color, sample_info, sample_name, shape
     ' 
     '     Function: ToString
     ' 
@@ -93,4 +93,3 @@ Imports Microsoft.VisualBasic.Language
         Return $"[{sample_info}] {sample_name}"
     End Function
 End Class
-

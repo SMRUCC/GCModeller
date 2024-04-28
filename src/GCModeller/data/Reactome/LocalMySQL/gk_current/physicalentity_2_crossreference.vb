@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ab8998d038baf214be859e484e77288, data\Reactome\LocalMySQL\gk_current\physicalentity_2_crossreference.vb"
+﻿#Region "Microsoft.VisualBasic::2ab8998d038baf214be859e484e77288, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/physicalentity_2_crossreference.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.23 KB
+
 
     ' Class physicalentity_2_crossreference
     ' 

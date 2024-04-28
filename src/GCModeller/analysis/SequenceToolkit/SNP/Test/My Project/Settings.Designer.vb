@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::508e0b817f61b246d2dd25e5e767e584, GCModeller\analysis\SequenceToolkit\SNP\Test\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::508e0b817f61b246d2dd25e5e767e584, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SNP//Test/My Project/Settings.Designer.vb"
 
     ' Author:
     ' 

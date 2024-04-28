@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee0d2dde5499cfd322a8bc88b84b9b60, GCModeller\data\MicrobesOnline\MySQL\genomics\keggcompound.vb"
+﻿#Region "Microsoft.VisualBasic::ee0d2dde5499cfd322a8bc88b84b9b60, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/keggcompound.vb"
 
     ' Author:
     ' 

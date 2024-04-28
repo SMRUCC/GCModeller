@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f02080b0b8b819baa36d4af2cd71e4e5, GCModeller\data\RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb"
+﻿#Region "Microsoft.VisualBasic::32b0d7d50cd0c86ee9e49d5c462dd4de, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/WebServices/WebParser/TranscriptionFactors.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 212
-    '    Code Lines: 158
+    '   Total Lines: 208
+    '    Code Lines: 155
     ' Comment Lines: 28
-    '   Blank Lines: 26
-    '     File Size: 10.46 KB
+    '   Blank Lines: 25
+    '     File Size: 10.28 KB
 
 
     '     Class TranscriptionFactors
@@ -46,8 +46,8 @@
     '         Properties: genomes, update
     ' 
     '         Function: BuildRegulatesTable, Export_TFBSInfo, FilteRegulators, GenericEnumerator, GetBacteriaGenomeProfile
-    '                   GetEnumerator, GetRegulatorId, GetRegulators, InsertRegulog, ListAllRegulators
-    '                   Load, (+2 Overloads) Save
+    '                   GetRegulatorId, GetRegulators, InsertRegulog, ListAllRegulators, Load
+    '                   (+2 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/

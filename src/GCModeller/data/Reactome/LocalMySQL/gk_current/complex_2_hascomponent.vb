@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7534ae8a7f1cc3f5cc577da901ccaa42, data\Reactome\LocalMySQL\gk_current\complex_2_hascomponent.vb"
+﻿#Region "Microsoft.VisualBasic::7534ae8a7f1cc3f5cc577da901ccaa42, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/complex_2_hascomponent.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.91 KB
+
 
     ' Class complex_2_hascomponent
     ' 

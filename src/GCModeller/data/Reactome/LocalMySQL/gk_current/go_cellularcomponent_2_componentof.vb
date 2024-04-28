@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f982cc4a309caab5278b99e5b7752203, data\Reactome\LocalMySQL\gk_current\go_cellularcomponent_2_componentof.vb"
+﻿#Region "Microsoft.VisualBasic::f982cc4a309caab5278b99e5b7752203, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_cellularcomponent_2_componentof.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.06 KB
+
 
     ' Class go_cellularcomponent_2_componentof
     ' 

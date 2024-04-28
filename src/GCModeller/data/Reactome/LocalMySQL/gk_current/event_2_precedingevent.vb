@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01af949763c1ea5c8f956e0cbae94692, data\Reactome\LocalMySQL\gk_current\event_2_precedingevent.vb"
+﻿#Region "Microsoft.VisualBasic::01af949763c1ea5c8f956e0cbae94692, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/event_2_precedingevent.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.06 KB
+
 
     ' Class event_2_precedingevent
     ' 

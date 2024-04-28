@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dea570c06dc54133168ee5dcc2aaba7, GCModeller\models\BioCyc\Models\Reflection\ElementFactory.vb"
+﻿#Region "Microsoft.VisualBasic::0dea570c06dc54133168ee5dcc2aaba7, G:/GCModeller/src/GCModeller/models/BioCyc//Models/Reflection/ElementFactory.vb"
 
     ' Author:
     ' 

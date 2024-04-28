@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54d88e6f8d02c9776b6326221d7511f2, GCModeller\analysis\SequenceToolkit\SequencePatterns\DNAOrigami\Project.vb"
+﻿#Region "Microsoft.VisualBasic::54d88e6f8d02c9776b6326221d7511f2, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//DNAOrigami/Project.vb"
 
     ' Author:
     ' 

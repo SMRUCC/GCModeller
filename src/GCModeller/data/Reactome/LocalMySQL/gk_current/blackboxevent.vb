@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0c69cc4d855a89d20f7fd57adb18d03, data\Reactome\LocalMySQL\gk_current\blackboxevent.vb"
+﻿#Region "Microsoft.VisualBasic::f0c69cc4d855a89d20f7fd57adb18d03, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/blackboxevent.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 6.07 KB
+
 
     ' Class blackboxevent
     ' 

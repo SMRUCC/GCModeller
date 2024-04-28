@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7b70b79e34f3b674ef07004b66955c6, data\Reactome\Owl\ExtractOwl.vb"
+﻿#Region "Microsoft.VisualBasic::f7b70b79e34f3b674ef07004b66955c6, G:/GCModeller/src/GCModeller/data/Reactome//Owl/ExtractOwl.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 234
+    '    Code Lines: 171
+    ' Comment Lines: 16
+    '   Blank Lines: 47
+    '     File Size: 12.73 KB
+
 
     ' Module ExtractOwl
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcf0c70dd5622326665d3f9998ee023f, GCModeller\analysis\SequenceToolkit\SequencePatterns\Topologically\SearchWorker.vb"
+﻿#Region "Microsoft.VisualBasic::fcf0c70dd5622326665d3f9998ee023f, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//Topologically/SearchWorker.vb"
 
     ' Author:
     ' 

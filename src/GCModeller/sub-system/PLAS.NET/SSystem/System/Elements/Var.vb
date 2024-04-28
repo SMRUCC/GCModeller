@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94ee7670911224ded45f6745792b3cfc, GCModeller\sub-system\PLAS.NET\SSystem\System\Elements\Var.vb"
+﻿#Region "Microsoft.VisualBasic::94ee7670911224ded45f6745792b3cfc, G:/GCModeller/src/GCModeller/sub-system/PLAS.NET/SSystem//System/Elements/Var.vb"
 
     ' Author:
     ' 

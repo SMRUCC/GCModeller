@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91577bb300ac7f5688994a0a4cf6c1d0, GCModeller\core\Bio.Assembly\ComponentModel\Locus\LociSites\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::91577bb300ac7f5688994a0a4cf6c1d0, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/Locus/LociSites/Extensions.vb"
 
     ' Author:
     ' 

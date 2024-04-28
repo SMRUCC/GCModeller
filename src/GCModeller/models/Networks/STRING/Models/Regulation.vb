@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb0850a0186416c246d062a30b724a1f, models\Networks\STRING\Models\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::cb0850a0186416c246d062a30b724a1f, G:/GCModeller/src/GCModeller/models/Networks/STRING//Models/Regulation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 15
+    ' Comment Lines: 16
+    '   Blank Lines: 4
+    '     File Size: 1.36 KB
+
 
     '     Class TFRegulation
     ' 

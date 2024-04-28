@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::222874aaa9620de60e12c6e34176715a, data\Reactome\LocalMySQL\gk_current\entitywithaccessionedsequence.vb"
+﻿#Region "Microsoft.VisualBasic::222874aaa9620de60e12c6e34176715a, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/entitywithaccessionedsequence.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 83
+    ' Comment Lines: 61
+    '   Blank Lines: 22
+    '     File Size: 7.92 KB
+
 
     ' Class entitywithaccessionedsequence
     ' 

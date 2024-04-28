@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6685dbfb688ecfc3f54c04bc45a7e5a8, localblast\LocalBLAST\Web\KeggSSDB.vb"
+﻿#Region "Microsoft.VisualBasic::6685dbfb688ecfc3f54c04bc45a7e5a8, G:/GCModeller/src/interops/localblast/LocalBLAST//Web/KeggSSDB.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 70
+    ' Comment Lines: 3
+    '   Blank Lines: 10
+    '     File Size: 3.44 KB
+
 
     '     Module KeggSSDB
     ' 

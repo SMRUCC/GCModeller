@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbf96f2f99b2f201cd0db89c977604ab, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\SubjectHit.vb"
+﻿#Region "Microsoft.VisualBasic::fbf96f2f99b2f201cd0db89c977604ab, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Reader/Blast+/Models/SubjectHit.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 172
+    '    Code Lines: 116
+    ' Comment Lines: 27
+    '   Blank Lines: 29
+    '     File Size: 6.52 KB
+
 
     '     Class SubjectHit
     ' 

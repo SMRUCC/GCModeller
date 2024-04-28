@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a2cada3a73d2a7de8c94b96b5a4885d, GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternParser.vb"
+﻿#Region "Microsoft.VisualBasic::8a2cada3a73d2a7de8c94b96b5a4885d, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract//Patterns/PatternParser.vb"
 
     ' Author:
     ' 

@@ -1,43 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::87232e3d7a33fbad4ee37d9036c4d90b, Bio.Repository\KEGG\MessagePack\KEGGMapPack.vb"
+﻿#Region "Microsoft.VisualBasic::f0be3d0229e7b090192ea5f6e6c81502, G:/GCModeller/src/repository/Bio.Repository//KEGG/MessagePack/KEGGMapPack.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class KEGGMapPack
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: GetMapSchema, GetObjectSchema, GetShapeSchema, ReadKeggDb, WriteKeggDb
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 89
+    ' Comment Lines: 21
+    '   Blank Lines: 14
+    '     File Size: 5.51 KB
+
+
+    '     Class KEGGMapPack
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetMapdataSchema, GetMapSchema, GetObjectSchema, GetShapeSchema, loadHdsPack
+    '                   ReadKeggDb, WriteKeggDb
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

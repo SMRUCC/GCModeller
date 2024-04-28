@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec56c7cce9ba8bd46634fb21a83c2b80, data\Reactome\LocalMySQL\gk_current\go_biologicalprocess_2_haspart.vb"
+﻿#Region "Microsoft.VisualBasic::ec56c7cce9ba8bd46634fb21a83c2b80, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_biologicalprocess_2_haspart.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.68 KB
+
 
     ' Class go_biologicalprocess_2_haspart
     ' 

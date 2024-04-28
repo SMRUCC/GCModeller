@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::605e2afba41d12453ab72ebb1bfb7aa6, visualize\Cytoscape\Cytoscape\Graph\VizMap\VizMap.vb"
+﻿#Region "Microsoft.VisualBasic::605e2afba41d12453ab72ebb1bfb7aa6, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/VizMap/VizMap.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 9
+    ' Comment Lines: 3
+    '   Blank Lines: 4
+    '     File Size: 508 B
+
 
     '     Class VizMap
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::748d3dd5874554de81d7842482adb22c, data\Reactome\LocalMySQL\gk_current\go_biologicalprocess_2_componentof.vb"
+﻿#Region "Microsoft.VisualBasic::748d3dd5874554de81d7842482adb22c, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_biologicalprocess_2_componentof.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.06 KB
+
 
     ' Class go_biologicalprocess_2_componentof
     ' 

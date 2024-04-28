@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c908628acf20b56d868064e6196d77c5, GCModeller\analysis\SequenceToolkit\SmithWaterman\Matrix\DNAMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::c908628acf20b56d868064e6196d77c5, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SmithWaterman//Matrix/DNAMatrix.vb"
 
     ' Author:
     ' 

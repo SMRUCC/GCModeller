@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c0c0278d9209a9a55ba43f0eaeba709, GCModeller\core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\PwyFilters.vb"
+﻿#Region "Microsoft.VisualBasic::9c0c0278d9209a9a55ba43f0eaeba709, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/Schemas/PathwayBrief/PwyFilters.vb"
 
     ' Author:
     ' 

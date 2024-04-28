@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::592a3f99f4834461cee3fa279e72fa59, GCModeller\engine\BootstrapLoader\FluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::5a101938487d55baccab6d7be21c9de7, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//FluxLoader.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 24
+    '   Total Lines: 27
     '    Code Lines: 17
-    ' Comment Lines: 0
+    ' Comment Lines: 3
     '   Blank Lines: 7
-    '     File Size: 711 B
+    '     File Size: 830 B
 
 
     '     Class FluxLoader

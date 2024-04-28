@@ -1,55 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::6042f0ec3d3ab44c2244d7da08d93dc6, GCModeller\analysis\SequenceToolkit\MotifFinder\PopulatorParameter.vb"
+﻿#Region "Microsoft.VisualBasic::5ea56fe2e7b601658fbbd810e1dedcee, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//PopulatorParameter.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 62
-'    Code Lines: 38
-' Comment Lines: 16
-'   Blank Lines: 8
-'     File Size: 2.02 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class PopulatorParameter
-' 
-'     Properties: log, maxW, minW, ScanCutoff, ScanMinW
-'                 seedingCutoff, seedOccurances
-' 
-'     Constructor: (+2 Overloads) Sub New
-'     Function: DefaultParameter, ToString
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 58
+    ' Comment Lines: 16
+    '   Blank Lines: 10
+    '     File Size: 2.91 KB
+
+
+    ' Class PopulatorParameter
+    ' 
+    '     Properties: log, maxW, minW, ScanCutoff, ScanMinW
+    '                 seedingCutoff, seedOccurances, seedScanner, significant_sites
+    ' 
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Function: DefaultParameter, GetScanner, ToString
+    ' 
+    '     Sub: logText
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d153967fc3924c74fea929b477151e2, GCModeller\visualize\DataVisualizationExtensions\CollectionSet\IntersectionPlot.vb"
+﻿#Region "Microsoft.VisualBasic::c965ef0447e9d5e35dc8e91aa785a1d1, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CollectionSet/IntersectionPlot.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 316
     ' Comment Lines: 55
     '   Blank Lines: 67
-    '     File Size: 18.99 KB
+    '     File Size: 19.00 KB
 
 
     '     Class IntersectionPlot

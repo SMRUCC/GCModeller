@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee0efea00a581dfd1209abb530ba0e11, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BHR.vb"
+﻿#Region "Microsoft.VisualBasic::ee0efea00a581dfd1209abb530ba0e11, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Application/BBH/Algorithm/BHR.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 248
+    '    Code Lines: 134
+    ' Comment Lines: 99
+    '   Blank Lines: 15
+    '     File Size: 11.93 KB
+
 
     '     Enum Levels
     ' 

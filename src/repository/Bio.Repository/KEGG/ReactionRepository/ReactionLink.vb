@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::771f06acd1126ffb469180eac87aac48, Bio.Repository\KEGG\ReactionRepository\ReactionLink.vb"
+﻿#Region "Microsoft.VisualBasic::771f06acd1126ffb469180eac87aac48, G:/GCModeller/src/repository/Bio.Repository//KEGG/ReactionRepository/ReactionLink.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 117
+    ' Comment Lines: 15
+    '   Blank Lines: 17
+    '     File Size: 8.52 KB
+
 
     '     Class ReactionLink
     ' 

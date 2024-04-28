@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1349274d8e6093dbc2f987d114cafa88, data\Reactome\LocalMySQL\gk_current\externalontology_2_instanceof.vb"
+﻿#Region "Microsoft.VisualBasic::1349274d8e6093dbc2f987d114cafa88, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/externalontology_2_instanceof.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.89 KB
+
 
     ' Class externalontology_2_instanceof
     ' 

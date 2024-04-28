@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61046dc3189af3d36cbf8d174cb3d3cb, visualize\Cytoscape\Cytoscape\Graph\VizMap\visualStyle\network.vb"
+﻿#Region "Microsoft.VisualBasic::61046dc3189af3d36cbf8d174cb3d3cb, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/VizMap/visualStyle/network.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 10
+    ' Comment Lines: 0
+    '   Blank Lines: 3
+    '     File Size: 457 B
+
 
     '     Class network
     ' 

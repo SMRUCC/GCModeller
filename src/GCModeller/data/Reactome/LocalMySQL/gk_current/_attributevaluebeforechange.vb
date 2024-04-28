@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d243469743eac4cfea2bf9f1555c860a, data\Reactome\LocalMySQL\gk_current\_attributevaluebeforechange.vb"
+﻿#Region "Microsoft.VisualBasic::d243469743eac4cfea2bf9f1555c860a, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/_attributevaluebeforechange.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 75
+    ' Comment Lines: 56
+    '   Blank Lines: 22
+    '     File Size: 5.61 KB
+
 
     ' Class _attributevaluebeforechange
     ' 

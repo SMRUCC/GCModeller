@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e2db9de04c7270205d505d3dbe633c4, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\object_external_db_link.vb"
+﻿#Region "Microsoft.VisualBasic::4e2db9de04c7270205d505d3dbe633c4, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/object_external_db_link.vb"
 
     ' Author:
     ' 

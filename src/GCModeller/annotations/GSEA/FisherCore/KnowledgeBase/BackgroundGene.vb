@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7df5a8dcf879f284d482cc281558a1e1, GCModeller\annotations\GSEA\FisherCore\KnowledgeBase\BackgroundGene.vb"
+﻿#Region "Microsoft.VisualBasic::0ec6374454bb9a765454001c7bde44ac, G:/GCModeller/src/GCModeller/annotations/GSEA/FisherCore//KnowledgeBase/BackgroundGene.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 23
-    '    Code Lines: 14
-    ' Comment Lines: 4
-    '   Blank Lines: 5
-    '     File Size: 599 B
+    '   Total Lines: 76
+    '    Code Lines: 44
+    ' Comment Lines: 19
+    '   Blank Lines: 13
+    '     File Size: 2.07 KB
 
 
     ' Class BackgroundGene
     ' 
     '     Properties: locus_tag, name, term_id
     ' 
-    '     Function: ToString
+    '     Constructor: (+2 Overloads) Sub New
+    '     Function: EnumerateAllIds, ToString, UnknownTerms
     ' 
     ' /********************************************************************************/
 

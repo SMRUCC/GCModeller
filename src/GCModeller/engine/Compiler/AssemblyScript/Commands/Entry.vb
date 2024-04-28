@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d930d6dd98113109972b4fb7eb836eb9, GCModeller\engine\Compiler\AssemblyScript\Commands\Entry.vb"
+﻿#Region "Microsoft.VisualBasic::d930d6dd98113109972b4fb7eb836eb9, G:/GCModeller/src/GCModeller/engine/Compiler//AssemblyScript/Commands/Entry.vb"
 
     ' Author:
     ' 

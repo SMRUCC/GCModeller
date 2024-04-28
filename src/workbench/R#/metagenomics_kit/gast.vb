@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::810a6fc322204ca6732aa34443222f7a, R#\metagenomics_kit\gast.vb"
+﻿#Region "Microsoft.VisualBasic::58b87238acb72125a943fc588903b81c, G:/GCModeller/src/workbench/R#/metagenomics_kit//gast.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 89
-    '    Code Lines: 60
-    ' Comment Lines: 21
+    '   Total Lines: 99
+    '    Code Lines: 63
+    ' Comment Lines: 28
     '   Blank Lines: 8
-    '     File Size: 3.48 KB
+    '     File Size: 3.94 KB
 
 
     ' Module gastTools

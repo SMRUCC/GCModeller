@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b44fbcda04e95cfc2a381190041f7e8f, GCModeller\data\MicrobesOnline\MySQL\genomics\scaffoldisactiveflag.vb"
+﻿#Region "Microsoft.VisualBasic::b44fbcda04e95cfc2a381190041f7e8f, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/scaffoldisactiveflag.vb"
 
     ' Author:
     ' 

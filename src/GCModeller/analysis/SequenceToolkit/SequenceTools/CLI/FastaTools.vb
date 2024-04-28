@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::227a588c7f77fa65d8d7034146817cc4, analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::227a588c7f77fa65d8d7034146817cc4, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/FastaTools.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 683
+    '    Code Lines: 560
+    ' Comment Lines: 26
+    '   Blank Lines: 97
+    '     File Size: 30.48 KB
+
 
     ' Module Utilities
     ' 

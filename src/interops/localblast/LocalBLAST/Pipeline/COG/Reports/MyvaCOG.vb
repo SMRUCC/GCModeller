@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21ac88be2870d2d5d179374bc2a3382f, localblast\LocalBLAST\Pipeline\COG\Reports\MyvaCOG.vb"
+﻿#Region "Microsoft.VisualBasic::21ac88be2870d2d5d179374bc2a3382f, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/COG/Reports/MyvaCOG.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 37
+    ' Comment Lines: 23
+    '   Blank Lines: 8
+    '     File Size: 2.74 KB
+
 
     '     Class MyvaCOG
     ' 

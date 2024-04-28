@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5ad3152235f0f884b42e32bf647bc69, models\Networks\STRING\TCS\TCS.vb"
+﻿#Region "Microsoft.VisualBasic::d5ad3152235f0f884b42e32bf647bc69, G:/GCModeller/src/GCModeller/models/Networks/STRING//TCS/TCS.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 25
+    '    Code Lines: 19
+    ' Comment Lines: 0
+    '   Blank Lines: 6
+    '     File Size: 1.10 KB
+
 
     '     Class TCS
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::768973a5a159e31282f035cd7b2f06d0, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\Hits\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::768973a5a159e31282f035cd7b2f06d0, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Reader/Blast+/Models/Hits/Blastn.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 79
+    ' Comment Lines: 9
+    '   Blank Lines: 18
+    '     File Size: 3.86 KB
+
 
     '     Class BlastnHit
     ' 

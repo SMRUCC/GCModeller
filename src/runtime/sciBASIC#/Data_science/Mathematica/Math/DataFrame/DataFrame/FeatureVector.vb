@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd78ad1841054af778763d8efe013046, sciBASIC#\Data_science\Mathematica\Math\DataFrame\DataFrame\FeatureVector.vb"
+﻿#Region "Microsoft.VisualBasic::184be0541f37da381b3437ea1bc1d0c4, G:/GCModeller/src/runtime/sciBASIC#/Data_science/Mathematica/Math/DataFrame//DataFrame/FeatureVector.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 156
-    '    Code Lines: 119
-    ' Comment Lines: 5
-    '   Blank Lines: 32
-    '     File Size: 5.27 KB
+    '   Total Lines: 231
+    '    Code Lines: 164
+    ' Comment Lines: 29
+    '   Blank Lines: 38
+    '     File Size: 7.89 KB
 
 
     ' Class FeatureVector
@@ -46,7 +46,8 @@
     '     Properties: isScalar, name, size, type, vector
     ' 
     '     Constructor: (+10 Overloads) Sub New
-    '     Function: [TryCast], CastTo, CheckSupports, FromGeneral, ToString
+    '     Function: [TryCast], CastTo, CheckSupports, FromGeneral, GetScalarValue
+    '               Getter, ToString
     ' 
     ' /********************************************************************************/
 
@@ -194,6 +195,17 @@ Public Class FeatureVector : Implements IReadOnlyId
         End If
     End Function
 
+    Public Function Getter() As Func(Of Integer, Object)
+        If vector Is Nothing OrElse vector.Length = 0 Then
+            Return Function() Nothing
+        ElseIf vector.Length = 1 Then
+            Dim [single] As Object = GetScalarValue()
+            Return Function() [single]
+        Else
+            Return Function(i) _vector(i)
+        End If
+    End Function
+
     Public Function [TryCast](Of T)() As T()
         If GetType(T) Is type Then
             Return DirectCast(vector, T())
@@ -210,6 +222,8 @@ Public Class FeatureVector : Implements IReadOnlyId
                             Return CastTo(Of Date, Double)(Function(d) d.UnixTimeStamp)
                         Case GetType(TimeSpan)
                             Return CastTo(Of TimeSpan, Double)(Function(d) d.TotalMilliseconds)
+                        Case GetType(String)
+                            Return CastTo(Of String, Double)(AddressOf Conversion.Val)
                     End Select
             End Select
 

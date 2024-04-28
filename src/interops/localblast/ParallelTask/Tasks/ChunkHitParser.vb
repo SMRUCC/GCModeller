@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24e301b6b441bfacf5ed9f7c3e2184f5, localblast\ParallelTask\Tasks\ChunkHitParser.vb"
+﻿#Region "Microsoft.VisualBasic::24e301b6b441bfacf5ed9f7c3e2184f5, G:/GCModeller/src/interops/localblast/ParallelTask//Tasks/ChunkHitParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 10
+    '    Code Lines: 4
+    ' Comment Lines: 4
+    '   Blank Lines: 2
+    '     File Size: 331 B
+
 
     '     Module ChunkHitParser
     ' 

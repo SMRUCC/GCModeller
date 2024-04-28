@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99f15150b711a670fb40da36ceb27881, analysis\RNA-Seq\WGCNA\WGCNAModules.vb"
+﻿#Region "Microsoft.VisualBasic::99f15150b711a670fb40da36ceb27881, G:/GCModeller/src/GCModeller/analysis/RNA-Seq/WGCNA//WGCNAModules.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 29
+    ' Comment Lines: 0
+    '   Blank Lines: 4
+    '     File Size: 1.49 KB
+
 
     ' Module WGCNAModules
     ' 

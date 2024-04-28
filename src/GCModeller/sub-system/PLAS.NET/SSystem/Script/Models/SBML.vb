@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f16775f7c4e457aa48df89b7daf384d1, GCModeller\sub-system\PLAS.NET\SSystem\Script\Models\SBML.vb"
+﻿#Region "Microsoft.VisualBasic::f16775f7c4e457aa48df89b7daf384d1, G:/GCModeller/src/GCModeller/sub-system/PLAS.NET/SSystem//Script/Models/SBML.vb"
 
     ' Author:
     ' 

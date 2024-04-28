@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d124ae632f2164588a9e55f99a6d336d, visualize\Cytoscape\Cytoscape\csv\SIF.vb"
+﻿#Region "Microsoft.VisualBasic::277cc90f374d7f3563ec28ca362e58ef, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//csv/SIF.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 13
+    ' Comment Lines: 15
+    '   Blank Lines: 4
+    '     File Size: 927 B
+
 
     '     Class SIF
     ' 

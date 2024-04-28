@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9fb79a89b872b346fa6d6d7fcd527232, analysis\SequenceToolkit\SequenceTools\CLI\SNP\calcFst.vb"
+﻿#Region "Microsoft.VisualBasic::7bc065d606628e925986ba3738178fab, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/SNP/calcFst.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,16 @@
 
     ' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: calcFst
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 0
+    ' Comment Lines: 30
+    '   Blank Lines: 7
+    '     File Size: 1.46 KB
+
+
     ' 
     ' /********************************************************************************/
 

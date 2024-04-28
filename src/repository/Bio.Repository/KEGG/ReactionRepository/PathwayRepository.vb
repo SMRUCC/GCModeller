@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a80924671571ba8944bb7a1de1958538, Bio.Repository\KEGG\ReactionRepository\PathwayRepository.vb"
+﻿#Region "Microsoft.VisualBasic::78a7616bf3ed178cbd02b6ebc4cd7724, G:/GCModeller/src/repository/Bio.Repository//KEGG/ReactionRepository/PathwayRepository.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 36
+    ' Comment Lines: 0
+    '   Blank Lines: 8
+    '     File Size: 1.55 KB
+
+
     ' Class PathwayRepository
     ' 
     '     Properties: GlobalAndOverviewMaps, PathwayMaps
     ' 
-    '     Function: GenericEnumerator, GetEnumerator, ScanModels
+    '     Function: GenericEnumerator, ScanModels
     ' 
     ' /********************************************************************************/
 

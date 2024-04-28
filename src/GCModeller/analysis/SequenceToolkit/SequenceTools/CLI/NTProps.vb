@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47c011a868ffa9a07e51f8f25c8cf478, analysis\SequenceToolkit\SequenceTools\CLI\NTProps.vb"
+﻿#Region "Microsoft.VisualBasic::47c011a868ffa9a07e51f8f25c8cf478, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/NTProps.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 300
+    '    Code Lines: 234
+    ' Comment Lines: 25
+    '   Blank Lines: 41
+    '     File Size: 13.94 KB
+
 
     ' Module Utilities
     ' 

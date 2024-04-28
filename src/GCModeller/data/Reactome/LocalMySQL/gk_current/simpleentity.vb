@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f46c8f390f2527fd1ccbf42998cc413d, data\Reactome\LocalMySQL\gk_current\simpleentity.vb"
+﻿#Region "Microsoft.VisualBasic::f46c8f390f2527fd1ccbf42998cc413d, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/simpleentity.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 82
+    ' Comment Lines: 60
+    '   Blank Lines: 22
+    '     File Size: 7.32 KB
+
 
     ' Class simpleentity
     ' 

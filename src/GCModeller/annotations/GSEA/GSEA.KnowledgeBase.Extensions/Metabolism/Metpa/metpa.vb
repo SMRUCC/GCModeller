@@ -1,4 +1,71 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+﻿#Region "Microsoft.VisualBasic::4222f1b2d526d8dc8f3a377e38896a09, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions//Metabolism/Metpa/metpa.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 51
+    ' Comment Lines: 41
+    '   Blank Lines: 13
+    '     File Size: 4.22 KB
+
+
+    '     Class metpa
+    ' 
+    '         Properties: dgrList, graphList, msetList, pathIds, pathSmps
+    '                     rbcList, unique_count
+    ' 
+    '         Function: Enrichment, GetBackground
+    ' 
+    '     Enum Topologys
+    ' 
+    '         dgr, rbc
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Interface TopologyScoreProvider
+    ' 
+    '         Function: GetScoreImpacts
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace Metabolism.Metpa
 

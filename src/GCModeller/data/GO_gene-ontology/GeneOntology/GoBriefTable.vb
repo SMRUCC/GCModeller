@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d810181b7493d4b4a3e4a76966190f9c, GCModeller\data\GO_gene-ontology\GeneOntology\GoBriefTable.vb"
+﻿#Region "Microsoft.VisualBasic::d810181b7493d4b4a3e4a76966190f9c, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GeneOntology//GoBriefTable.vb"
 
     ' Author:
     ' 

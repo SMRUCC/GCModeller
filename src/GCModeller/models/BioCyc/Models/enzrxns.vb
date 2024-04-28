@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::325e9a86f308122d8595d746f3c94b9d, GCModeller\models\BioCyc\Models\enzrxns.vb"
+﻿#Region "Microsoft.VisualBasic::325e9a86f308122d8595d746f3c94b9d, G:/GCModeller/src/GCModeller/models/BioCyc//Models/enzrxns.vb"
 
     ' Author:
     ' 

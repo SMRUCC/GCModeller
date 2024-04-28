@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c37c9200baa7db96d61de5154e89999d, GCModeller\engine\Model\Cellular\Molecule\Phenotype.vb"
+﻿#Region "Microsoft.VisualBasic::c251738d7d994057766238f350e0dec6, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Molecule/Phenotype.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 8
     ' Comment Lines: 14
     '   Blank Lines: 6
-    '     File Size: 789 B
+    '     File Size: 863 B
 
 
     '     Structure Phenotype

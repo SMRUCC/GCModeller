@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::382b26cf0140fc9a3a743e99075af9cd, GCModeller\visualize\DataVisualizationExtensions\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::382b26cf0140fc9a3a743e99075af9cd, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//My Project/AssemblyInfo.vb"
 
     ' Author:
     ' 

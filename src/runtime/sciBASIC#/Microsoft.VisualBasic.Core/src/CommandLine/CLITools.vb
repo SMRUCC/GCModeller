@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b5b0f1724d6c773888cc4358e91244da, sciBASIC#\Microsoft.VisualBasic.Core\src\CommandLine\CLITools.vb"
+﻿#Region "Microsoft.VisualBasic::7f1b8f2a20fef839bfe27f925d9c1e73, G:/GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src//CommandLine/CLITools.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 383
-    '    Code Lines: 229
+    '   Total Lines: 382
+    '    Code Lines: 228
     ' Comment Lines: 103
     '   Blank Lines: 51
-    '     File Size: 14.96 KB
+    '     File Size: 14.92 KB
 
 
     '     Module CLITools
@@ -378,7 +378,7 @@ Namespace CommandLine
             End If
 
             For Each bFlag As String In args1.BoolFlags
-                If Not args2.GetBoolean(bFlag) Then
+                If Not args2.IsTrue(bFlag) Then
                     Return False
                 End If
             Next

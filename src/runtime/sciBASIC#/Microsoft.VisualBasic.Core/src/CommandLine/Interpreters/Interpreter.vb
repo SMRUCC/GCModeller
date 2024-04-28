@@ -1,64 +1,64 @@
-﻿#Region "Microsoft.VisualBasic::c7aad64e5bc0f948b6bd738050ff874d, sciBASIC#\Microsoft.VisualBasic.Core\src\CommandLine\Interpreters\Interpreter.vb"
+﻿#Region "Microsoft.VisualBasic::7869cfbdb108e160e37726b4bb3e8e35, G:/GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src//CommandLine/Interpreters/Interpreter.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 668
-'    Code Lines: 381
-' Comment Lines: 201
-'   Blank Lines: 86
-'     File Size: 29.19 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Interpreter
-' 
-'         Properties: APIList, APINameList, Count, ExecuteEmptyCli, ExecuteFile
-'                     ExecuteNotFound, ExecuteQuery, Info, IsReadOnly, ListCommandInfo
-'                     Stack, Type
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: __getsAllCommands, apiInvoke, apiInvokeEtc, Contains, CreateEmptyCLIObject
-'                   (+3 Overloads) CreateInstance, doExecuteNonCLIInput, doLoadApiInternal, (+3 Overloads) Execute, ExistsCommand
-'                   GetAllCommands, getAPI, GetEnumerator, GetEnumerator1, GetPossibleCommand
-'                   Help, ListingRelated, (+2 Overloads) Remove, SDKdocs, ToDictionary
-'                   ToString, TryGetValue
-' 
-'         Sub: (+2 Overloads) Add, AddCommand, Clear, CopyTo, (+2 Overloads) Dispose
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 724
+    '    Code Lines: 416
+    ' Comment Lines: 215
+    '   Blank Lines: 93
+    '     File Size: 31.68 KB
+
+
+    '     Class Interpreter
+    ' 
+    '         Properties: APIList, APINameList, Count, ExecuteEmptyCli, ExecuteFile
+    '                     ExecuteNotFound, ExecuteQuery, Info, IsReadOnly, ListCommandInfo
+    '                     Stack, Type
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: __getsAllCommands, apiInvoke, apiInvokeEtc, Contains, CreateEmptyCLIObject
+    '                   (+3 Overloads) CreateInstance, doExecuteNonCLIInput, doLoadApiInternal, exec_shell_script_internal, (+3 Overloads) Execute
+    '                   ExistsCommand, GetAllCommands, getAPI, GetEnumerator, GetEnumerator1
+    '                   GetPossibleCommand, Help, invokeSpecial, ListingRelated, (+2 Overloads) Remove
+    '                   runShellScriptFile, SDKdocs, ToDictionary, ToString, TryGetValue
+    ' 
+    '         Sub: (+2 Overloads) Add, AddCommand, Clear, CopyTo, (+2 Overloads) Dispose
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -146,7 +146,7 @@ Namespace CommandLine
         ''' <remarks></remarks>
         Public Overridable Function Execute(args As CommandLine) As Integer
             If Not args.IsNullOrEmpty Then
-                Dim i As Integer = apiInvoke(args.Name, {args}, args.Parameters)
+                Dim i As Integer = apiInvoke(args, args.Parameters)
 #If DEBUG Then
                 If Stack.TextEquals("Main") Then
                     If DebuggerArgs.AutoPaused Then
@@ -193,41 +193,45 @@ Namespace CommandLine
         ''' <param name="args">就只有一个命令行对象</param>
         ''' <param name="help_argvs"></param>
         ''' <returns></returns>
-        Private Function apiInvoke(commandName$, args As Object(), help_argvs$()) As Integer
-            Dim cli As CommandLine = DirectCast(args(Scan0), CommandLine)
+        Private Function apiInvoke(args As CommandLine, help_argvs$()) As Integer
+            Dim command As String = args.Name.ToLower
 
-            If apiTable.ContainsKey(commandName.ToLower) Then
-                Return apiTable(commandName.ToLower).Execute(args)
+            If apiTable.ContainsKey(command) Then
+                Return apiTable(command).Execute(args)
+            Else
+                Return invokeSpecial(command, args, help_argvs)
             End If
+        End Function
 
-            Select Case commandName.ToLower
+        Private Function invokeSpecial(command As String, args As CommandLine, help_argvs As String()) As Integer
+            Select Case command
                 Case "??vars"
                     Call ExecuteImpl.PrintVariables()
                 Case "??history"
-                    Call ExecuteImpl.HandleShellHistory(args:=cli)
+                    Call ExecuteImpl.HandleShellHistory(args)
                 Case "?", "??", "--help"
                     If help_argvs.IsNullOrEmpty Then
                         Return Help("")
                     ElseIf (Not HasCommandName(help_argvs.First)) AndAlso Not ExecuteQuery Is Nothing Then
-                        Return ExecuteQuery(cli)
+                        Return ExecuteQuery(args)
                     Else
                         Return Help(help_argvs.First)
                     End If
                 Case "~"  ' 打印出应用程序的位置，linux里面的HOME
                     Call Console.WriteLine(App.ExecutablePath)
                 Case "man"
-                    Call ExecuteImpl.HandleProgramManual(Me, cli)
+                    Call ExecuteImpl.HandleProgramManual(Me, args)
                 Case "/linux-bash"
                     Call My.UNIX.BashShell()
                 Case "/cli.dev"
-                    Call Me.CreateCLIPipelineFile(args:=cli)
+                    Call Me.CreateCLIPipelineFile(args)
                 Case Else
-                    If InStr(commandName, "??") = 1 Then
+                    If InStr(args.Name, "??") = 1 Then
                         ' 支持类似于R语言里面的 ??帮助命令
                         ' 去除前面的两个??问号，得到查询的term
-                        Return Mid(commandName, 3).DoCall(AddressOf Help)
+                        Return Mid(args.Name, 3).DoCall(AddressOf Help)
                     Else
-                        Return apiInvokeEtc(commandName, cli)
+                        Return apiInvokeEtc(args.Name, args)
                     End If
             End Select
 
@@ -353,13 +357,13 @@ Namespace CommandLine
         Public Function Execute(CommandLineArgs As String()) As Integer
             Dim CommandName As String = CommandLineArgs.First
             Dim argvs As String() = CommandLineArgs.Skip(1).ToArray
-            Dim i As Integer = apiInvoke(CommandName, argvs, help_argvs:=argvs)
+            Dim i As Integer = apiInvoke(CommandLine.BuildFromArguments(CommandLineArgs), help_argvs:=argvs)
 
             Return i
         End Function
 
         Public Function Execute(CommandName As String, args As String()) As Integer
-            Return apiInvoke(CommandName.ToLower, args, help_argvs:=args)
+            Return apiInvoke(CommandLine.BuildFromArguments(CommandName, args), help_argvs:=args)
         End Function
 
         ''' <summary>
@@ -424,11 +428,13 @@ Namespace CommandLine
         ''' 可以使用 Object.GetType/GetType 关键词操作来获取所需要的类型信息)</param>
         ''' <remarks></remarks>
         Sub New(type As Type, <CallerMemberName> Optional caller As String = Nothing)
-            For Each cInfo As APIEntryPoint In __getsAllCommands(type, False)
-                If apiTable.ContainsKey(cInfo.Name.ToLower) Then
-                    Throw New Exception(cInfo.Name & " is duplicated with other command!")
+            For Each cmd As APIEntryPoint In __getsAllCommands(type, False)
+                Dim name As String = cmd.Name.ToLower
+
+                If apiTable.ContainsKey(name) Then
+                    Throw New Exception($"program's commandline argument {cmd.Name} is duplicated!")
                 Else
-                    Call apiTable.Add(cInfo.Name.ToLower, cInfo)
+                    Call apiTable.Add(name, cmd)
                 End If
             Next
 
@@ -523,10 +529,17 @@ Namespace CommandLine
 #Disable Warning
             If cmdAttr.Info.StringEmpty Then
                 ' 帮助信息的获取兼容系统的Description方法
-                cmdAttr.Info = methodInfo.Description
+                cmdAttr.Info = methodInfo.Description([default]:="")
             End If
             If cmdAttr.Usage.StringEmpty Then
-                cmdAttr.Usage = methodInfo.Usage
+                ' 20240417
+                '
+                ' trim multiple line of the commandline usage text
+                ' into one line. this is convient for copy to terminal 
+                ' and modify value to use.
+                cmdAttr.Usage = methodInfo.Usage _
+                    .TrimNewLine _
+                    .StringReplace("\s{2,}", " ")
             End If
             If cmdAttr.Example.StringEmpty Then
                 cmdAttr.Example = methodInfo.ExampleInfo

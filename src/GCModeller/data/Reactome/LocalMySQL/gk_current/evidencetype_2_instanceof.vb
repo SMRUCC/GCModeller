@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bce81d0643e1b2fd82037846f7be3dd1, data\Reactome\LocalMySQL\gk_current\evidencetype_2_instanceof.vb"
+﻿#Region "Microsoft.VisualBasic::bce81d0643e1b2fd82037846f7be3dd1, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/evidencetype_2_instanceof.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 6.81 KB
+
 
     ' Class evidencetype_2_instanceof
     ' 

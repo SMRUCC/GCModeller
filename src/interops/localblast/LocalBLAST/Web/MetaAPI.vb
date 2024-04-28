@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41bde5a9b3acb2b1a5571226fad8fec0, localblast\LocalBLAST\Web\MetaAPI.vb"
+﻿#Region "Microsoft.VisualBasic::41bde5a9b3acb2b1a5571226fad8fec0, G:/GCModeller/src/interops/localblast/LocalBLAST//Web/MetaAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 84
+    ' Comment Lines: 12
+    '   Blank Lines: 10
+    '     File Size: 5.30 KB
+
 
     '     Module BBHMetaAPI
     ' 

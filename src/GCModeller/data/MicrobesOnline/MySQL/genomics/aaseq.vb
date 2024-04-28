@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbbaaf23ab630916dcfc14b0b431dbb2, GCModeller\data\MicrobesOnline\MySQL\genomics\aaseq.vb"
+﻿#Region "Microsoft.VisualBasic::cbbaaf23ab630916dcfc14b0b431dbb2, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/aaseq.vb"
 
     ' Author:
     ' 

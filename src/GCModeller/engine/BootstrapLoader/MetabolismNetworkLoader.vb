@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c701908b65e0dd76789e07b4a1d5d2c0, GCModeller\engine\BootstrapLoader\MetabolismNetworkLoader.vb"
+﻿#Region "Microsoft.VisualBasic::c701908b65e0dd76789e07b4a1d5d2c0, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//MetabolismNetworkLoader.vb"
 
     ' Author:
     ' 

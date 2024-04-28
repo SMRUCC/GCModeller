@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04971cb63f5a3a377a31a1bdd79e33ab, analysis\SequenceToolkit\SequenceTools\CLIGrouping.vb"
+﻿#Region "Microsoft.VisualBasic::04971cb63f5a3a377a31a1bdd79e33ab, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLIGrouping.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 22
+    '    Code Lines: 13
+    ' Comment Lines: 0
+    '   Blank Lines: 9
+    '     File Size: 856 B
+
 
     ' Class CLIGrouping
     ' 

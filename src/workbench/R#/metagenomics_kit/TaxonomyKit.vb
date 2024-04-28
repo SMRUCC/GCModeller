@@ -1,55 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::14b5be126579d9ea48e57e383da5ad3a, R#\metagenomics_kit\TaxonomyKit.vb"
+﻿#Region "Microsoft.VisualBasic::73077d1b598e9938c708b41e9c021dda, G:/GCModeller/src/workbench/R#/metagenomics_kit//TaxonomyKit.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 397
-'    Code Lines: 276
-' Comment Lines: 78
-'   Blank Lines: 43
-'     File Size: 16.85 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module TaxonomyKit
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: (+2 Overloads) asOTUTable, buildTree, Consensus, filterLambda, Filters
-'               getOTUDataframe, InRange, Lineage, lineageTable, loadMothurTree
-'               LoadNcbiTaxonomyTree, ParseBIOMString, printTaxonomy, RangeFilter, readOTUTable
-'               TaxonomyBIOMString, TaxonomyRange, uniqueTaxonomy
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 458
+    '    Code Lines: 288
+    ' Comment Lines: 124
+    '   Blank Lines: 46
+    '     File Size: 19.19 KB
+
+
+    ' Module TaxonomyKit
+    ' 
+    '     Function: (+2 Overloads) asOTUTable, buildTree, Consensus, filterLambda, Filters
+    '               get_byRanks, getOTUDataframe, InRange, Lineage, lineageTable
+    '               loadMothurTree, LoadNcbiTaxonomyTree, ParseBIOMString, printTaxonomy, RangeFilter
+    '               ranks_list, readOTUTable, TaxonomyBIOMString, TaxonomyRange, uniqueTaxonomy
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

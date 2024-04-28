@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a72d4053b3151e21671c5137ba02799, RNA-Seq\RNA-seq.Data\FastQ\FastQFile.vb"
+﻿#Region "Microsoft.VisualBasic::53e3beb8e4433e730e97aa459a65573a, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//FastQ/FastQFile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 147
+    '    Code Lines: 103
+    ' Comment Lines: 13
+    '   Blank Lines: 31
+    '     File Size: 5.62 KB
+
 
     '     Class FastQFile
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6380120ea94f60408bc6e1a070316675, GCModeller\core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfile.vb"
+﻿#Region "Microsoft.VisualBasic::4d7403b5a2e02081e1f2293f44c53c2e, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/Annotation/Profiles/CatalogProfile.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 122
-    '    Code Lines: 87
+    '   Total Lines: 119
+    '    Code Lines: 85
     ' Comment Lines: 16
-    '   Blank Lines: 19
-    '     File Size: 4.51 KB
+    '   Blank Lines: 18
+    '     File Size: 4.43 KB
 
 
     '     Class CatalogProfile
@@ -46,8 +46,7 @@
     '         Properties: information, isEmpty, profile
     ' 
     '         Constructor: (+4 Overloads) Sub New
-    '         Function: (+2 Overloads) Add, GenericEnumerator, GetEnumerator, OrderByValues, Take
-    '                   ToString
+    '         Function: (+2 Overloads) Add, GenericEnumerator, OrderByValues, Take, ToString
     ' 
     ' 
     ' /********************************************************************************/

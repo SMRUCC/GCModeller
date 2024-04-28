@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba8071b5e594869b72b4132d2983aa3d, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\obj_name_genomes.vb"
+﻿#Region "Microsoft.VisualBasic::ba8071b5e594869b72b4132d2983aa3d, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/MySQL/obj_name_genomes.vb"
 
     ' Author:
     ' 

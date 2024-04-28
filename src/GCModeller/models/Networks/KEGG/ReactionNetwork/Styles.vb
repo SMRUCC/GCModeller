@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93186d733c1f45bce90437e7f7cd5811, GCModeller\models\Networks\KEGG\ReactionNetwork\Styles.vb"
+﻿#Region "Microsoft.VisualBasic::ff0f75271a1971a8c00b91b9976ed545, G:/GCModeller/src/GCModeller/models/Networks/KEGG//ReactionNetwork/Styles.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 68
     ' Comment Lines: 7
     '   Blank Lines: 9
-    '     File Size: 3.91 KB
+    '     File Size: 3.92 KB
 
 
     '     Module Styles

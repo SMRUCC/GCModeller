@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::020fb0da11db7c8732619377c0e01b10, data\Reactome\LocalMySQL\gk_current\concurrenteventset_2_concurrentevents.vb"
+﻿#Region "Microsoft.VisualBasic::020fb0da11db7c8732619377c0e01b10, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/concurrenteventset_2_concurrentevents.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.50 KB
+
 
     ' Class concurrenteventset_2_concurrentevents
     ' 

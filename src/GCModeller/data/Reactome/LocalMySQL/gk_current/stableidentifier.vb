@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::147e309d4eee1028ca87aba100b0f248, data\Reactome\LocalMySQL\gk_current\stableidentifier.vb"
+﻿#Region "Microsoft.VisualBasic::147e309d4eee1028ca87aba100b0f248, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/stableidentifier.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 89
+    ' Comment Lines: 65
+    '   Blank Lines: 22
+    '     File Size: 9.27 KB
+
 
     ' Class stableidentifier
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ba33fb98f461f5c336157d33883c1f6, GCModeller\data\RegulonDatabase\RegulonDB\MySQL\shine_dalgarno.vb"
+﻿#Region "Microsoft.VisualBasic::1ba33fb98f461f5c336157d33883c1f6, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/shine_dalgarno.vb"
 
     ' Author:
     ' 

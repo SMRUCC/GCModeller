@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c273ca4d9bcc1c0abe00da1a0329fa00, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\Paralog.vb"
+﻿#Region "Microsoft.VisualBasic::c273ca4d9bcc1c0abe00da1a0329fa00, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Application/Paralog.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 16
+    ' Comment Lines: 7
+    '   Blank Lines: 3
+    '     File Size: 1.08 KB
+
 
     '     Module Paralog
     ' 

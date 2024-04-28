@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b157fbf2570b96b42725de04d8426604, GCModeller\foundation\OBO_Foundry\IO\Models\RawTerm.vb"
+﻿#Region "Microsoft.VisualBasic::8f0e53130d61d52c030913283520e371, G:/GCModeller/src/GCModeller/foundation/OBO_Foundry//IO/Models/RawTerm.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 39
-    '    Code Lines: 21
+    '   Total Lines: 53
+    '    Code Lines: 34
     ' Comment Lines: 12
-    '   Blank Lines: 6
-    '     File Size: 1.33 KB
+    '   Blank Lines: 7
+    '     File Size: 2.01 KB
 
 
     '     Structure RawTerm
     ' 
     '         Properties: data, type
     ' 
-    '         Function: GetData, ToString
+    '         Function: GetData, GetValueSet, ToString
     ' 
     ' 
     ' /********************************************************************************/

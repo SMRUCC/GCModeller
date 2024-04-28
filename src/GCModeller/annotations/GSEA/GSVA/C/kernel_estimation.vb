@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef1afee280f3efa2307e001efc1ea430, GCModeller\annotations\GSEA\GSVA\C\kernel_estimation.vb"
+﻿#Region "Microsoft.VisualBasic::cba9d75bb4b65c6ee88fa6194c3ab8d9, G:/GCModeller/src/GCModeller/annotations/GSEA/GSVA//C/kernel_estimation.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 97
     ' Comment Lines: 19
     '   Blank Lines: 32
-    '     File Size: 5.07 KB
+    '     File Size: 5.09 KB
 
 
     '     Module kernel_estimation

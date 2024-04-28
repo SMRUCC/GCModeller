@@ -99,10 +99,12 @@ declare namespace sampleInfo {
      * @param ID -
      * @param sample_name -
      * @param sample_info -
+     * @param color 
+     * + default value Is ``null``.
      * @param env 
      * + default value Is ``null``.
    */
-   function sampleInfo(ID: string, sample_name: string, sample_info: string, env?: object): object;
+   function sampleInfo(ID: string, sample_name: string, sample_info: string, color?: string, env?: object): object;
    module write {
       /**
        * save sampleinfo data as csv file

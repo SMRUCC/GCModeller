@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bf8c847ee3a5aa797cccff20bba72f5, data\Reactome\LocalMySQL\gk_current\crosslinkedresidue_2_secondcoordinate.vb"
+﻿#Region "Microsoft.VisualBasic::5bf8c847ee3a5aa797cccff20bba72f5, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/crosslinkedresidue_2_secondcoordinate.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77
+    ' Comment Lines: 57
+    '   Blank Lines: 22
+    '     File Size: 6.64 KB
+
 
     ' Class crosslinkedresidue_2_secondcoordinate
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77f05793e5e1adebe116fcdfc48fde0b, Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::77f05793e5e1adebe116fcdfc48fde0b, G:/GCModeller/src/repository/Bio.Repository//KEGG/KEGGOrthology/KEGGOrthology.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 128
+    ' Comment Lines: 3
+    '   Blank Lines: 27
+    '     File Size: 5.57 KB
+
 
     ' Class KEGGOrthology
     ' 

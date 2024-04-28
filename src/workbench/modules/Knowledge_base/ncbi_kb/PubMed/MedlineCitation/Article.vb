@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d0f8c8c9e6d84e6fd30537675659677, modules\Knowledge_base\Knowledge_base\PubMed\MedlineCitation\Article.vb"
+﻿#Region "Microsoft.VisualBasic::44f7cf99697e77da57bf1696a100c032, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//PubMed/MedlineCitation/Article.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 173
-    '    Code Lines: 137
+    '   Total Lines: 169
+    '    Code Lines: 134
     ' Comment Lines: 0
-    '   Blank Lines: 36
-    '     File Size: 5.22 KB
+    '   Blank Lines: 35
+    '     File Size: 5.04 KB
 
 
     '     Class PMID
@@ -62,7 +62,7 @@
     ' 
     '         Properties: Authors, CompleteYN
     ' 
-    '         Function: GenericEnumerator, GetEnumerator, ToString
+    '         Function: GenericEnumerator, ToString
     ' 
     '     Class Author
     ' 

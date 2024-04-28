@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1db172116d3c2197abb92bf9a19cf506, RNA-Seq\RNA-seq.Data\SAM\TSSs.vb"
+﻿#Region "Microsoft.VisualBasic::1db172116d3c2197abb92bf9a19cf506, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//SAM/TSSs.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 84
+    ' Comment Lines: 14
+    '   Blank Lines: 23
+    '     File Size: 7.09 KB
+
 
     ' Module SAM_TSSs
     ' 

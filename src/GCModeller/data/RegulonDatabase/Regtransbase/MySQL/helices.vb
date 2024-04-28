@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3681dcca0720c4be6bfa783f4e8005e9, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\helices.vb"
+﻿#Region "Microsoft.VisualBasic::3681dcca0720c4be6bfa783f4e8005e9, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/MySQL/helices.vb"
 
     ' Author:
     ' 

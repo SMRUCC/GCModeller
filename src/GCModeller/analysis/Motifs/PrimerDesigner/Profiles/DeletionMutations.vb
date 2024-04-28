@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9d7f27957c1f7ad4a641d39d985c63f, analysis\Motifs\PrimerDesigner\Profiles\DeletionMutations.vb"
+﻿#Region "Microsoft.VisualBasic::d9d7f27957c1f7ad4a641d39d985c63f, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Profiles/DeletionMutations.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 3
+    '    Code Lines: 2
+    ' Comment Lines: 0
+    '   Blank Lines: 1
+    '     File Size: 43 B
+
 
     ' Class DeletionMutations
     ' 

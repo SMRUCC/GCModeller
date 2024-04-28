@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22463d90ad37262a84f4cb15213cbf39, GCModeller\core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::22463d90ad37262a84f4cb15213cbf39, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/NCBI/Database/GenBank/GBK/Keywords/Features/Feature.vb"
 
     ' Author:
     ' 

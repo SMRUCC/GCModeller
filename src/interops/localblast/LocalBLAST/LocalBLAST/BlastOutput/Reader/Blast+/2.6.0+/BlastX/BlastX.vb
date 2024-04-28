@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73d1b49805b29c189af31ece4d5eda4a, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\BlastX\BlastX.vb"
+﻿#Region "Microsoft.VisualBasic::73d1b49805b29c189af31ece4d5eda4a, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/Reader/Blast+/2.6.0+/BlastX/BlastX.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 55
+    ' Comment Lines: 7
+    '   Blank Lines: 13
+    '     File Size: 2.90 KB
+
 
     '     Class v228_BlastX
     ' 

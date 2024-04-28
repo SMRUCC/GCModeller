@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8592bd4ef912c67a425f352512b82a8, RNA-Seq\RNA-seq.Data\SAM\DocumentNodes\Tags.vb"
+﻿#Region "Microsoft.VisualBasic::a8592bd4ef912c67a425f352512b82a8, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//SAM/DocumentNodes/Tags.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 15
+    ' Comment Lines: 20
+    '   Blank Lines: 2
+    '     File Size: 1.20 KB
+
 
     '     Enum Tags
     ' 

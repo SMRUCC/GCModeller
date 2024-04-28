@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfd2e8bf43a5dc4786d7dbf94a2862b4, localblast\LocalBLAST\Pipeline\KO\KOAssignment.vb"
+﻿#Region "Microsoft.VisualBasic::cfd2e8bf43a5dc4786d7dbf94a2862b4, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/KO/KOAssignment.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 162
+    '    Code Lines: 108
+    ' Comment Lines: 35
+    '   Blank Lines: 19
+    '     File Size: 7.46 KB
+
 
     '     Module KOAssignment
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::96dc5701db6b73861a2699524599c3a0, data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_catalystactivity.vb"
+﻿#Region "Microsoft.VisualBasic::96dc5701db6b73861a2699524599c3a0, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/reactionlikeevent_2_catalystactivity.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.48 KB
+
 
     ' Class reactionlikeevent_2_catalystactivity
     ' 

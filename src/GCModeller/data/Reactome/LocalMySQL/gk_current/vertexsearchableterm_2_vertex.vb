@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b347b085eb37d11d53d01ac0680f6613, data\Reactome\LocalMySQL\gk_current\vertexsearchableterm_2_vertex.vb"
+﻿#Region "Microsoft.VisualBasic::b347b085eb37d11d53d01ac0680f6613, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/vertexsearchableterm_2_vertex.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 79
+    ' Comment Lines: 75
+    '   Blank Lines: 22
+    '     File Size: 7.24 KB
+
 
     ' Class vertexsearchableterm_2_vertex
     ' 

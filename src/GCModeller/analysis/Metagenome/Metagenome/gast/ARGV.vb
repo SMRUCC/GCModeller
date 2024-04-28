@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25e26add7437bda756a8a6f38b103296, GCModeller\analysis\Metagenome\Metagenome\gast\ARGV.vb"
+﻿#Region "Microsoft.VisualBasic::5099e478393d548be160078868c042d9, G:/GCModeller/src/GCModeller/analysis/Metagenome/Metagenome//gast/ARGV.vb"
 
     ' Author:
     ' 
@@ -38,7 +38,7 @@
     '    Code Lines: 47
     ' Comment Lines: 88
     '   Blank Lines: 7
-    '     File Size: 5.58 KB
+    '     File Size: 5.57 KB
 
 
     '     Structure ARGV
@@ -183,14 +183,14 @@ Namespace gast
             db_host = args - "-host"
             db_name = args - "-db"
             table = args - "-table"
-            full = args.GetBoolean("-full")
+            full = args.IsTrue("-full")
             maj = args.GetValue("-maj", 66.0R)
             maxr = args.GetValue("-maxr", 200.0R)
             maxa = args.GetValue("-maxa", 15.0R)
             minp = args.GetValue("-minp", 0.8)
             wdb = args("-wdb")
             udb = args("-udb")
-            terse = args.GetBoolean("-terse")
+            terse = args.IsTrue("-terse")
         End Sub
 
         Public Overrides Function ToString() As String

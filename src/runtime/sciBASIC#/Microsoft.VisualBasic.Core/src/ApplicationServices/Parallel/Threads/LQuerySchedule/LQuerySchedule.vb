@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::708662ae342ebb27208a8e66aa4233f7, sciBASIC#\Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\LQuerySchedule\LQuerySchedule.vb"
+﻿#Region "Microsoft.VisualBasic::167993104bf5e209289d3f11c031d468, G:/GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src//ApplicationServices/Parallel/Threads/LQuerySchedule/LQuerySchedule.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 187
-    '    Code Lines: 100
-    ' Comment Lines: 61
-    '   Blank Lines: 26
-    '     File Size: 8.77 KB
+    '   Total Lines: 175
+    '    Code Lines: 95
+    ' Comment Lines: 55
+    '   Blank Lines: 25
+    '     File Size: 8.32 KB
 
 
     '     Module LQuerySchedule
     ' 
-    '         Properties: CPU_NUMBER, Recommended_NUM_THREADS
+    '         Properties: CPU_NUMBER
     ' 
     '         Function: [Where], AutoConfig, DefaultConfig, (+3 Overloads) LQuery
     ' 
@@ -78,11 +78,11 @@ Namespace Parallel.Linq
     Public Module LQuerySchedule
 
         ''' <summary>
-        ''' Get the number of processors on the current machine.(获取当前的系统主机的CPU核心数)
+        ''' Get the number of processors on the current machine.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(获取当前的系统主机的CPU核心数)</remarks>
         Public ReadOnly Property CPU_NUMBER As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -108,18 +108,6 @@ Namespace Parallel.Linq
                 Return n
             End If
         End Function
-
-        ''' <summary>
-        ''' The possible recommended threads of the linq based on you machine processors number, i'm not sure...
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public ReadOnly Property Recommended_NUM_THREADS As Integer
-            Get
-                Return Environment.ProcessorCount * 10
-            End Get
-        End Property
 
         ''' <summary>
         ''' 将大量的短时间的任务进行分区，合并，然后再执行并行化，请注意，<paramref name="task"/>参数不能够使lambda表达式，否则会出现EntryNotFound的错误

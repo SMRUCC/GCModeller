@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8a56636cc0c3bf44449771f423bfffc, GCModeller\data\RegulonDatabase\Regprecise\RegulatorTable.vb"
+﻿#Region "Microsoft.VisualBasic::d8a56636cc0c3bf44449771f423bfffc, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/RegulatorTable.vb"
 
     ' Author:
     ' 

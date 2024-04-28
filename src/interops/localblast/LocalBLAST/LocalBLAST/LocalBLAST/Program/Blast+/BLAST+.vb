@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::151392de126b7c63e48e19590cf5a9a7, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\Blast+\BLAST+.vb"
+﻿#Region "Microsoft.VisualBasic::f67c764145dac12733640296867e8953, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Program/Blast+/BLAST+.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 162
+    '    Code Lines: 91
+    ' Comment Lines: 46
+    '   Blank Lines: 25
+    '     File Size: 7.09 KB
+
 
     '     Class BLASTPlus
     ' 

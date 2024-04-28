@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f407f6e3a4710ff1226f501966e077a, GCModeller\data\RegulonDatabase\Regtransbase\MySQL\dict_func_site_types.vb"
+﻿#Region "Microsoft.VisualBasic::4f407f6e3a4710ff1226f501966e077a, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/MySQL/dict_func_site_types.vb"
 
     ' Author:
     ' 

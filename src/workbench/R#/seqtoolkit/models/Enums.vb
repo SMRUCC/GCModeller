@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42698506b0f6fd5081f8fd3954d68955, R#\seqtoolkit\models\Enums.vb"
+﻿#Region "Microsoft.VisualBasic::42698506b0f6fd5081f8fd3954d68955, G:/GCModeller/src/workbench/R#/seqtoolkit//models/Enums.vb"
 
     ' Author:
     ' 

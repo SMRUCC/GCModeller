@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71ed69ac4f4690c1805490eff336f286, GCModeller\analysis\Microarray\DEGDesigner.vb"
+﻿#Region "Microsoft.VisualBasic::71ed69ac4f4690c1805490eff336f286, G:/GCModeller/src/GCModeller/analysis/Microarray//DEGDesigner.vb"
 
     ' Author:
     ' 

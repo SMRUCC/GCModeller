@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13b164510f0428b9e2bfb279bbd9b83d, data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_negativelyregulate.vb"
+﻿#Region "Microsoft.VisualBasic::13b164510f0428b9e2bfb279bbd9b83d, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_molecularfunction_2_negativelyregulate.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79
+    ' Comment Lines: 58
+    '   Blank Lines: 22
+    '     File Size: 7.72 KB
+
 
     ' Class go_molecularfunction_2_negativelyregulate
     ' 
