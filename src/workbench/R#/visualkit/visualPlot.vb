@@ -103,6 +103,7 @@ Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports std = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 Imports featureFrame = Microsoft.VisualBasic.Math.DataFrame.DataFrame
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 
 ''' <summary>
 ''' package module for biological analysis data visualization
@@ -453,7 +454,8 @@ Module visualPlot
         End If
 
         Dim theme As New Theme With {
-            .axisTickCSS = "font-style: normal; font-size: 6; font-family: " & FontFace.BookmanOldStyle & ";"
+            .axisTickCSS = "font-style: normal; font-size: 6; font-family: " & FontFace.BookmanOldStyle & ";",
+            .colorSet = ColorBrewer.DivergingSchemes.RdYlGn9
         }
         Dim heatmap As New EnrichmentCategoryHeatmap(
             data:=DirectCast(matrix, featureFrame),
