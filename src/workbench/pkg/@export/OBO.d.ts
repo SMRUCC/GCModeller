@@ -22,6 +22,9 @@ declare namespace OBO {
    function lineage_term(term: object): object;
    /**
    */
+   function obo_terms(obo: object): object;
+   /**
+   */
    function ontologyLeafs(tree: object): object;
    /**
    */

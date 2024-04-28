@@ -1,61 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::13d3ede586b42f2d4b8bd7d444cc5cfb, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//KeggPlot/EnrichmentCategoryHeatmap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 185
-    '    Code Lines: 147
-    ' Comment Lines: 8
-    '   Blank Lines: 30
-    '     File Size: 7.80 KB
+' Summaries:
 
 
-    ' Class EnrichmentCategoryHeatmap
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Sub: PlotInternal
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 185
+'    Code Lines: 147
+' Comment Lines: 8
+'   Blank Lines: 30
+'     File Size: 7.80 KB
+
+
+' Class EnrichmentCategoryHeatmap
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Sub: PlotInternal
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -66,21 +68,25 @@ Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports dataframe = Microsoft.VisualBasic.Math.DataFrame.DataFrame
 
 Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
-    ReadOnly rawdata As DataFrame
-    ReadOnly data As DataFrame
+    ReadOnly rawdata As dataframe
+    ReadOnly data As dataframe
     ReadOnly groupd As Dictionary(Of String, SampleInfo)
-    ReadOnly metadata As DataFrame
+    ReadOnly metadata As dataframe
     ReadOnly kegg_class As String
+    ReadOnly featureTree As Cluster
 
-    Public Sub New(data As DataFrame, metadata As DataFrame, groupd As SampleInfo(), theme As Theme, Optional kegg_class As String = "class")
+    Public Sub New(data As dataframe, metadata As dataframe, groupd As SampleInfo(), theme As Theme, Optional kegg_class As String = "class")
         MyBase.New(theme)
 
-        Me.rawdata = data
-        Me.metadata = metadata
-        Me.data = data.ZScale(byrow:=True)
+        featureTree = data.PullDataSet(Of DataSet).RunCluster
+
+        Me.rawdata = data.slice(featureTree.OrderLeafs)
+        Me.metadata = metadata.slice(featureTree.OrderLeafs)
+        Me.data = rawdata.ZScale(byrow:=True)
         Me.groupd = groupd.ToDictionary(Function(s) s.ID)
         ' re-order column of samples by groups 
         Me.data = Me.data(groupd _
@@ -139,7 +145,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         y = heatmap_region.Top
 
         For Each col As String In data.featureNames
-            boxCell = New RectangleF(x, y - dy - 10, dx, dy)
+            boxCell = New RectangleF(x, y - dy - 10, dx + 3, dy)
             vec = data(col).NumericGetter
 
             ' draw group color bar
@@ -152,7 +158,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 y += dy
             Next
 
-            Call g.DrawString(col, label_font, Brushes.Black, x, y + 20, 60)
+            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width / 2, y + 20, 60)
 
             x += dx
             y = heatmap_region.Top
@@ -162,12 +168,26 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         x = tree_region.Left + 5
         dx = tree_region.Width * 0.25
 
+        Call g.DrawString("Group", label_font, Brushes.Black, x, y - dy - 5)
+
         For i = 0 To data.rownames.Length - 1
             boxCell = New RectangleF(x, y, dx, dy)
             g.FillRectangle(New SolidBrush(class_colors.GetColor([class](i))), boxCell)
             y += dy
         Next
 
+        Dim treePlot As New HorizonRightToLeft With {
+            .labelFont = label_font,
+            .labelPadding = 0,
+            .linkColor = New Pen(Brushes.Black, 5),
+            .pointSize = 5,
+            .showLeafLabels = False,
+            .GetColor = Nothing,
+            .log_scale = True,
+            .log_base = 10
+        }
+
+        Call treePlot.DendrogramPlot(featureTree, g, New Rectangle(tree_region.Left + tree_region.Width * 0.3, tree_region.Top, tree_region.Width * 0.7, tree_region.Height))
 
         ' draw logp
         Dim logp = metadata("logp").TryCast(Of Double)
@@ -213,22 +233,25 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
                               Return (sum / group_data.features.Count).Z.ToArray
                           End Function)
-        Dim group_heatcolors As Color() = Designer.GetColors("red", mapLevels)
+        Dim group_heatcolors As Color() = Designer.GetColors(ColorBrewer.DivergingSchemes.RdYlBu7, mapLevels)
         Dim group_range As New DoubleRange(group_heat.Values.IteratesALL)
+        Dim group_tree = group_heat.Select(Function(v) New ClusterEntity(v.Key, v.Value)).RunVectorCluster
 
         dx = group_heatmap_region.Width / group_heat.Count
         x = group_heatmap_region.Left
         y = group_heatmap_region.Top
 
-        For Each group_name As String In group_heat.Keys
+        For Each group_name As String In group_tree.OrderLeafs
             Dim mean_z = group_heat(group_name)
 
             For i = 0 To mean_z.Length - 1
                 color = group_range.ScaleMapping(mean_z(i), index)
-                boxCell = New RectangleF(x, y, dx, dy)
+                boxCell = New RectangleF(x, y, dx - 5, dy)
                 y += dy
                 g.FillRectangle(New SolidBrush(group_heatcolors(color)), boxCell)
             Next
+
+            Call g.DrawString(group_name, label_font, Brushes.Black, x + boxCell.Width / 2, y + 10, 60)
 
             x += dx
             y = group_heatmap_region.Top

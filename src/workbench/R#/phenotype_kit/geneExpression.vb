@@ -1280,12 +1280,24 @@ Module geneExpression
     ''' <summary>
     ''' log scale of the HTS raw matrix
     ''' </summary>
-    ''' <param name="expr">the HTS expression matrix object</param>
+    ''' <param name="expr">should be a HTS expression matrix object</param>
     ''' <param name="base"></param>
     ''' <returns></returns>
     <ExportAPI("log")>
-    Public Function log(expr As Matrix, Optional base As Double = std.E) As Matrix
-        Return expr.log(base)
+    <RApiReturn(GetType(Matrix))>
+    Public Function log(<RRawVectorArgument> expr As Object, Optional base As Double = std.E) As Object
+        If TypeOf expr Is Matrix Then
+            Return DirectCast(expr, Matrix).log(base)
+        Else
+            ' this function its function name is conflict with the math log function
+            ' in the R# base runtime environment.
+            '
+            ' do math log of a numeric vector at here.
+            Return CLRVector.asNumeric(expr) _
+                .AsVector _
+                .Log(base) _
+                .ToArray
+        End If
     End Function
 
     ''' <summary>

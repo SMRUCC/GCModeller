@@ -129,9 +129,15 @@ Namespace IO
         Private Function asTable(data As String()) As Dictionary(Of String, String)
             Return data _
                 .Select(Function(s) s.GetTagValue(, trim:=True)) _
-                .ToDictionary(Function(a) a.Name,
-                              Function(a)
-                                  Return a.Value.GetStackValue("""", """")
+                .GroupBy(Function(a) a.Name) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(group)
+                                  Return group _
+                                      .Select(Function(a)
+                                                  Return a.Value.GetStackValue("""", """").Trim
+                                              End Function) _
+                                      .Where(Function(str) Not str.StringEmpty) _
+                                      .JoinBy(" ")
                               End Function)
         End Function
 

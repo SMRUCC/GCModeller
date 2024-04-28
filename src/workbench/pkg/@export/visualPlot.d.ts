@@ -39,6 +39,11 @@ declare namespace visualPlot {
       */
       function plot(profiles: object, title?: string, axis_title?: string, size?: any, tick?: number, colors?: any, dpi?: object, format?: string, env?: object): object;
    }
+   /**
+     * @param size default value Is ``'3600,2700'``.
+     * @param env default value Is ``null``.
+   */
+   function class_heatmap(x: object, metadata: object, sampleinfo: object, size?: any, env?: object): any;
    module classchange {
       /**
        * 
