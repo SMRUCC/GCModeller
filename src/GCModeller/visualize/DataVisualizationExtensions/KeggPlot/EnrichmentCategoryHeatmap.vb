@@ -173,6 +173,16 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             y += dy
         Next
 
+        Dim treePlot As New HorizonRightToLeft With {
+            .labelFont = label_font,
+            .labelPadding = 0,
+            .linkColor = New Pen(Brushes.Black, 5),
+            .pointSize = 5,
+            .showLeafLabels = False,
+            .GetColor = Nothing
+        }
+
+        Call treePlot.DendrogramPlot(featureTree, g, New Rectangle(tree_region.Left + tree_region.Width * 0.3, tree_region.Top, tree_region.Width * 0.7, tree_region.Height))
 
         ' draw logp
         Dim logp = metadata("logp").TryCast(Of Double)
