@@ -157,7 +157,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 y += dy
             Next
 
-            Call g.DrawString(col, label_font, Brushes.Black, x, y + 20, 60)
+            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width / 2, y + 20, 60)
 
             x += dx
             y = heatmap_region.Top
@@ -166,6 +166,8 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         ' draw class HC-tree
         x = tree_region.Left + 5
         dx = tree_region.Width * 0.25
+
+        Call g.DrawString("Group", label_font, Brushes.Black, x, y - dy - 5)
 
         For i = 0 To data.rownames.Length - 1
             boxCell = New RectangleF(x, y, dx, dy)
@@ -179,7 +181,9 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             .linkColor = New Pen(Brushes.Black, 5),
             .pointSize = 5,
             .showLeafLabels = False,
-            .GetColor = Nothing
+            .GetColor = Nothing,
+            .log_scale = True,
+            .log_base = 10
         }
 
         Call treePlot.DendrogramPlot(featureTree, g, New Rectangle(tree_region.Left + tree_region.Width * 0.3, tree_region.Top, tree_region.Width * 0.7, tree_region.Height))
@@ -228,7 +232,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
                               Return (sum / group_data.features.Count).Z.ToArray
                           End Function)
-        Dim group_heatcolors As Color() = Designer.GetColors("red", mapLevels)
+        Dim group_heatcolors As Color() = Designer.GetColors(ColorBrewer.DivergingSchemes.RdYlBu7, mapLevels)
         Dim group_range As New DoubleRange(group_heat.Values.IteratesALL)
 
         dx = group_heatmap_region.Width / group_heat.Count
@@ -244,6 +248,8 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 y += dy
                 g.FillRectangle(New SolidBrush(group_heatcolors(color)), boxCell)
             Next
+
+            Call g.DrawString(group_name, label_font, Brushes.Black, x + boxCell.Width / 2, y + 10, 60)
 
             x += dx
             y = group_heatmap_region.Top
