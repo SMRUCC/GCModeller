@@ -83,7 +83,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     Public Sub New(data As dataframe, metadata As dataframe, groupd As SampleInfo(), theme As Theme, Optional kegg_class As String = "class")
         MyBase.New(theme)
 
-        featureTree = data.PullDataSet(Of DataSet).RunCluster
+        featureTree = data.PullDataSet(Of DataSet).RunCluster(New PDistClusteringAlgorithm, New CompleteLinkageStrategy)
 
         Me.rawdata = data.slice(featureTree.OrderLeafs)
         Me.metadata = metadata.slice(featureTree.OrderLeafs)
