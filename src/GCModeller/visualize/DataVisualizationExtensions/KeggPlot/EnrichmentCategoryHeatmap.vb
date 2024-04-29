@@ -113,7 +113,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim vip_region As New Rectangle(mean_log_region.Right + rect.Width * 0.005, rect.Top, rect.Width * 0.05, rect.Height)
         Dim label_font As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
         Dim label_maxh As Single = label_region.Height / data.nsamples
-        Dim legend_region As New Rectangle(rect.Right + 10, rect.Top, rect.Width * 2 / 3, rect.Height)
+        Dim legend_region As New Rectangle(rect.Right + 10, rect.Top, canvas.Padding.Right * 2 / 3, rect.Height)
 
         ' draw labels on left
         Dim y As Double = label_region.Top
