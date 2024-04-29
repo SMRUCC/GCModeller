@@ -86,7 +86,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
         Me.rawdata = data.slice(featureTree.OrderLeafs)
         Me.metadata = metadata.slice(featureTree.OrderLeafs)
-        Me.data = rawdata.ZScale(byrow:=True)
+        Me.data = rawdata.Standard(byrow:=True).ZScale(byrow:=True)
         Me.groupd = groupd.ToDictionary(Function(s) s.ID)
         ' re-order column of samples by groups 
         Me.data = Me.data(groupd _
@@ -120,7 +120,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Return New dataframe With {
             .rownames = rawdata.rownames,
             .features = group_heat
-        }.ZScale(byrow:=True)
+        }.Standard(byrow:=True).ZScale(byrow:=True)
     End Function
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
@@ -219,7 +219,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             .pointSize = 5,
             .showLeafLabels = False,
             .GetColor = Nothing,
-            .log_scale = True,
+            .log_scale = False,
             .log_base = 10
         }
 
@@ -290,8 +290,8 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim group_range As New DoubleRange(group_heat.features.Values.Select(Function(v) v.TryCast(Of Double)).IteratesALL)
         Dim group_tree = group_heat.features.Select(Function(v) New ClusterEntity(v.Key, v.Value.TryCast(Of Double))).RunVectorCluster
 
-        dx = group_heatmap_region.Width / group_heat.nfeatures
-        x = group_heatmap_region.Left
+        dx = (group_heatmap_region.Width * 0.9) / group_heat.nfeatures
+        x = group_heatmap_region.Left + group_heatmap_region.Width * 0.05
         y = group_heatmap_region.Top
 
         For Each group_name As String In group_tree.OrderLeafs
