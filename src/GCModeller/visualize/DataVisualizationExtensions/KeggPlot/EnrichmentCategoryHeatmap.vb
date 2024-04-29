@@ -111,9 +111,11 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim group_heatmap_region As New Rectangle(tree_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
         Dim mean_log_region As New Rectangle(group_heatmap_region.Right, rect.Top, rect.Width * 0.025, rect.Height)
         Dim vip_region As New Rectangle(mean_log_region.Right + rect.Width * 0.005, rect.Top, rect.Width * 0.05, rect.Height)
-        Dim label_font As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+        Dim label_font As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
+        Dim tick_font As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
         Dim label_maxh As Single = label_region.Height / data.nsamples
-        Dim legend_region As New Rectangle(rect.Right + 10, rect.Top, canvas.Padding.Right * 2 / 3, rect.Height)
+        Dim legend_region As New Rectangle(rect.Right + 10, rect.Top, canvas.Padding.Right / 3, rect.Height)
+        Dim charRectangle = g.MeasureString("A", label_font)
 
         ' draw labels on left
         Dim y As Double = label_region.Top
@@ -124,7 +126,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         For Each name As String In data.rownames
             size = g.MeasureString(name, label_font)
             x = label_region.Right - size.Width
-            y = label_maxh * i + label_region.Top - size.Height / 2
+            y = label_maxh * i + label_region.Top + size.Height / 2
             i += 1
             g.DrawString(name, label_font, Brushes.Black, New PointF(x, y))
         Next
@@ -161,7 +163,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 y += dy
             Next
 
-            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width / 2, y + 20, 60)
+            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width / 2, y + 20, 90)
 
             x += dx
             y = heatmap_region.Top
