@@ -94,6 +94,11 @@ Namespace Language.Vectorization
             Return typeCache(type)
         End Function
 
+        ''' <summary>
+        ''' get property value
+        ''' </summary>
+        ''' <param name="exp$"></param>
+        ''' <returns></returns>
         Default Public Overloads Property Item(exp$) As Object
             Get
                 If exp = "Me" Then
@@ -152,6 +157,14 @@ Namespace Language.Vectorization
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function GetDynamicMemberNames() As IEnumerable(Of String)
             Return type.GetDynamicMemberNames
+        End Function
+
+        ''' <summary>
+        ''' get all property names
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetDataProperties() As IEnumerable(Of String)
+            Return type.PropertyNames.Objects
         End Function
 
         ''' <summary>
