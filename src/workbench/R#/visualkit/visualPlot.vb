@@ -442,6 +442,8 @@ Module visualPlot
     Public Function class_heatmap(x As dataframe, metadata As dataframe, sampleinfo As SampleInfo(),
                                   <RRawVectorArgument>
                                   Optional size As Object = "3600,2700",
+                                  <RRawVectorArgument>
+                                  Optional padding As Object = "padding: 300px 600px 300px 100px;",
                                   Optional env As Environment = Nothing) As Object
 
         Dim matrix = MathDataSet.toFeatureSet(x, env)
@@ -455,7 +457,8 @@ Module visualPlot
 
         Dim theme As New Theme With {
             .axisTickCSS = "font-style: normal; font-size: 6; font-family: " & FontFace.BookmanOldStyle & ";",
-            .colorSet = ColorBrewer.DivergingSchemes.RdYlGn9
+            .colorSet = ColorBrewer.DivergingSchemes.RdYlGn9,
+            .padding = InteropArgumentHelper.getPadding(padding, "padding: 300px 600px 300px 100px;")
         }
         Dim heatmap As New EnrichmentCategoryHeatmap(
             data:=DirectCast(matrix, featureFrame),
