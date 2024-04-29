@@ -250,7 +250,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim sig As String() = logp _
             .Select(Function(p)
                         If p >= 5 Then
-                            Return New String("*"c, CInt(p))
+                            Return New String("*"c, 5)
                         ElseIf p <= 0 Then
                             Return "not_sig"
                         Else
