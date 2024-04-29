@@ -256,5 +256,11 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             x += dx
             y = group_heatmap_region.Top
         Next
+
+        Dim group_tree_region As New Rectangle(group_heatmap_region.Left, group_heatmap_region.Top - 20, group_heatmap_region.Width, 20)
+        Dim plot_groupTree As New Horizon(group_tree, theme, showAllLabels:=False, showRuler:=False, showLeafLabels:=False)
+
+        Call plot_groupTree.Plot(g, group_tree_region)
+
     End Sub
 End Class

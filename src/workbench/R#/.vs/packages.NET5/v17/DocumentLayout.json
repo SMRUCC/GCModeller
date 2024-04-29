@@ -3,16 +3,19 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{74CF5719-5F1E-40A3-90F5-FEC6A340DC5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HCTreePlot.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hctreeplot\\dendrogrampanelv2.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{74CF5719-5F1E-40A3-90F5-FEC6A340DC5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HCTreePlot.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hctreeplot\\horizon.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{74CF5719-5F1E-40A3-90F5-FEC6A340DC5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HCTreePlot.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hctreeplot\\dendrogrampanel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{74CF5719-5F1E-40A3-90F5-FEC6A340DC5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HCTreePlot.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hctreeplot\\horizon.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategoryheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategoryheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{74CF5719-5F1E-40A3-90F5-FEC6A340DC5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HCTreePlot.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hctreeplot\\dendrogram.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74CF5719-5F1E-40A3-90F5-FEC6A340DC5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HCTreePlot.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hctreeplot\\dendrogrampanelv2.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BE816524-D9A2-4A8B-B00D-3556BADF8226}|..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\hctree.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hierarchical-clustering\\clusteringalgorithm\\docluster.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -35,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 248,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,14 +49,31 @@
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "Dendrogram.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\Dendrogram.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\Dendrogram.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\Dendrogram.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\Dendrogram.vb",
+              "ViewState": "AQIAAEEAAAAAAAAAAAAAwGoAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-04-29T01:09:59.575Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "DendrogramPanelV2.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\DendrogramPanelV2.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\DendrogramPanelV2.vb",
               "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\DendrogramPanelV2.vb",
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\DendrogramPanelV2.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAE4AAAAAAAAAAAAAwHEAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-04-28T09:56:18.622Z",
               "EditorCaption": ""
@@ -66,27 +86,27 @@
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\DendrogramPanel.vb",
               "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\DendrogramPanel.vb",
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\DendrogramPanel.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAEUAAAAAAAAAAAArwE0AAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-04-28T09:56:16.613Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Horizon.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\Horizon.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\Horizon.vb",
               "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\Horizon.vb",
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\Horizon.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAEIAAAAAAAAAAAAAwGUAAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-04-28T09:56:06.564Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "DoCluster.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DoCluster.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DoCluster.vb",
@@ -98,12 +118,8 @@
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "HorizonRightToLeft.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HorizonRightToLeft.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HorizonRightToLeft.vb",
@@ -116,7 +132,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "visualPlot.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\visualkit\\visualPlot.vb",
               "RelativeDocumentMoniker": "visualkit\\visualPlot.vb",
@@ -129,7 +145,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "DataFrame.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataFrame\\DataFrame.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\DataFrame\\DataFrame.vb",
@@ -142,13 +158,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "EnrichmentCategoryHeatmap.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
-              "ViewState": "AQIAAL8AAAAAAAAAAAD4v/IAAAAAAAAA",
+              "ViewState": "AQIAANoAAAAAAAAAAAD4v/4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-04-28T07:51:09.394Z",
               "EditorCaption": ""
