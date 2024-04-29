@@ -441,7 +441,13 @@ Module visualPlot
     <ExportAPI("class_heatmap")>
     Public Function class_heatmap(x As dataframe, metadata As dataframe, sampleinfo As SampleInfo(),
                                   <RRawVectorArgument>
-                                  Optional size As Object = "3600,2700",
+                                  Optional size As Object = "10000,6500",
+                                  <RRawVectorArgument>
+                                  Optional padding As Object = "padding: 300px 1600px 1200px 600px;",
+                                  Optional label_font As String = "font-style: normal; font-size: 18; font-family: " & FontFace.BookmanOldStyle & ";",
+                                  Optional tick_font As String = "font-style: normal; font-size: 12; font-family: " & FontFace.BookmanOldStyle & ";",
+                                  Optional axisStroke As String = "stroke: black; stroke-width: 5px; stroke-dash: solid;",
+                                  Optional dpi As Integer = 300,
                                   Optional env As Environment = Nothing) As Object
 
         Dim matrix = MathDataSet.toFeatureSet(x, env)
@@ -454,8 +460,11 @@ Module visualPlot
         End If
 
         Dim theme As New Theme With {
-            .axisTickCSS = "font-style: normal; font-size: 6; font-family: " & FontFace.BookmanOldStyle & ";",
-            .colorSet = ColorBrewer.DivergingSchemes.RdYlGn9
+            .axisTickCSS = tick_font,
+            .colorSet = ColorBrewer.DivergingSchemes.RdYlGn9,
+            .padding = InteropArgumentHelper.getPadding(padding, "padding: 300px 1200px 300px 100px;"),
+            .tagCSS = label_font,
+            .axisStroke = axisStroke
         }
         Dim heatmap As New EnrichmentCategoryHeatmap(
             data:=DirectCast(matrix, featureFrame),
@@ -466,7 +475,7 @@ Module visualPlot
         }
         Dim size_str As String = InteropArgumentHelper.getSize(size, env, "3600,2700")
 
-        Return heatmap.Plot(size_str.SizeParser,, env.getDriver)
+        Return heatmap.Plot(size_str.SizeParser, dpi, env.getDriver)
     End Function
 
     ''' <summary>
