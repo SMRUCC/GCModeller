@@ -65,7 +65,6 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.DataFrame
-Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
@@ -83,7 +82,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     Public Sub New(data As dataframe, metadata As dataframe, groupd As SampleInfo(), theme As Theme, Optional kegg_class As String = "class")
         MyBase.New(theme)
 
-        featureTree = data.PullDataSet(Of DataSet).RunCluster(New PDistClusteringAlgorithm, New CompleteLinkageStrategy)
+        featureTree = data.PullDataSet(Of DataSet).RunCluster(, New CompleteLinkageStrategy)
 
         Me.rawdata = data.slice(featureTree.OrderLeafs)
         Me.metadata = metadata.slice(featureTree.OrderLeafs)
