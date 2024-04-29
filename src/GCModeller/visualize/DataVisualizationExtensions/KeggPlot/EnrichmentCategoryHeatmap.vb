@@ -51,6 +51,7 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
@@ -195,16 +196,16 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
         ' draw logp
         Dim logp = metadata("logp").TryCast(Of Double)
-        Dim prange As New DoubleRange(logp)
-        Dim pcolors = Designer.GetColors("jet", mapLevels)
+        Dim pval_range As New DoubleRange(logp)
+        Dim pval_colors As SolidBrush() = Designer.GetBrushes("jet", mapLevels)
 
         x = mean_log_region.Left
         y = mean_log_region.Top
 
         For i = 0 To data.rownames.Length - 1
             boxCell = New RectangleF(x, y, dx, dy)
-            color = prange.ScaleMapping(logp(i), index)
-            g.FillRectangle(New SolidBrush(pcolors(color)), boxCell)
+            color = pval_range.ScaleMapping(logp(i), index)
+            g.FillRectangle(pval_colors(color), boxCell)
             y += dy
         Next
 
@@ -263,7 +264,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
                               Return (sum / group_data.features.Count).Z.ToArray
                           End Function)
-        Dim group_heatcolors As Color() = Designer.GetColors(ColorBrewer.DivergingSchemes.RdYlBu7, mapLevels)
+        Dim group_heatcolors As SolidBrush() = Designer.GetBrushes(ColorBrewer.DivergingSchemes.RdYlBu7, mapLevels)
         Dim group_range As New DoubleRange(group_heat.Values.IteratesALL)
         Dim group_tree = group_heat.Select(Function(v) New ClusterEntity(v.Key, v.Value)).RunVectorCluster
 
@@ -278,7 +279,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 color = group_range.ScaleMapping(mean_z(i), index)
                 boxCell = New RectangleF(x, y, dx - 5, dy)
                 y += dy
-                g.FillRectangle(New SolidBrush(group_heatcolors(color)), boxCell)
+                g.FillRectangle(group_heatcolors(color), boxCell)
             Next
 
             Call g.DrawString(group_name, label_font, Brushes.Black, x + boxCell.Width / 2, y + 10, 60)
@@ -301,15 +302,46 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         'Call g.DrawString("Scaled Intensity", label_font, Brushes.Black, scale_intensity_region.Left, scale_intensity_region.Top)
         'Call g.DrawString("Scaled Mean Intensity", label_font, Brushes.Black, group_mean_region.Left, group_mean_region.Top)
         'Call g.DrawString("-log(p)", label_font, Brushes.Black, logp_legend_region.Left, logp_legend_region.Top)
-        'Call g.DrawString("KEGG Class", label_font, Brushes.Black, kegg_class_legend.Left, kegg_class_legend.Top)
+        Call g.DrawString("KEGG Class", label_font, Brushes.Black, kegg_class_legend.Left, kegg_class_legend.Top)
+
+        x = kegg_class_legend.Left
+        y = kegg_class_legend.Top + 20
+        dy = (kegg_class_legend.Height - 20) / class_colors.size
+
+        For Each term As NamedValue(Of Color) In class_colors.GetTermColors
+            boxCell = New RectangleF(x, y, dy, dy)
+            y += dy
+            g.FillRectangle(New SolidBrush(term.Value), boxCell)
+            g.DrawString(term.Name, label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
+        Next
 
         Call New ColorMapLegend(heatmap.OfType(Of SolidBrush)) With {
             .format = "F1",
             .tickFont = label_font,
             .ticks = heatmap_ticks,
             .titleFont = label_font,
-            .title = "Scaled Intensity"
+            .title = "Scaled Intensity",
+            .tickAxisStroke = Pens.Black
         }.Draw(g, scale_intensity_region)
+
+        Call New ColorMapLegend(group_heatcolors) With {
+            .format = "F1",
+            .tickFont = label_font,
+            .ticks = group_range.CreateAxisTicks,
+            .titleFont = label_font,
+            .title = "Scaled Mean Intensity",
+            .tickAxisStroke = Pens.Black
+        }.Draw(g, group_mean_region)
+
+        Call New ColorMapLegend(pval_colors) With {
+            .format = "F1",
+            .tickFont = label_font,
+            .ticks = pval_range.CreateAxisTicks,
+            .titleFont = label_font,
+            .title = "-log(p)",
+            .tickAxisStroke = Pens.Black
+        }.Draw(g, logp_legend_region)
+
 
 
     End Sub
