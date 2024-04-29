@@ -79,14 +79,17 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     ReadOnly kegg_class As String
     ReadOnly featureTree As Cluster
 
+    ReadOnly no_class As SolidBrush = Brushes.LightGray
+
     Public Sub New(data As dataframe, metadata As dataframe, groupd As SampleInfo(), theme As Theme, Optional kegg_class As String = "class")
         MyBase.New(theme)
 
+        data = data.Log(2).ZScale(byrow:=True)
         featureTree = data.PullDataSet(Of DataSet).RunCluster(, New CompleteLinkageStrategy)
 
         Me.rawdata = data.slice(featureTree.OrderLeafs)
         Me.metadata = metadata.slice(featureTree.OrderLeafs)
-        Me.data = rawdata.Standard(byrow:=True).ZScale(byrow:=True)
+        Me.data = rawdata
         Me.groupd = groupd.ToDictionary(Function(s) s.ID)
         ' re-order column of samples by groups 
         Me.data = Me.data(groupd _
@@ -207,7 +210,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             boxCell = New RectangleF(x, y, dx, dy)
 
             If [class](i).StringEmpty Then
-                g.FillRectangle(Brushes.Gray, boxCell)
+                g.FillRectangle(no_class, boxCell)
             Else
                 g.FillRectangle(New SolidBrush(class_colors.GetColor([class](i))), boxCell)
             End If
@@ -256,8 +259,8 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         ' draw average pvalue significatent besides the vip bar plot
         Dim sig As String() = logp _
             .Select(Function(p)
-                        If p >= 5 Then
-                            Return New String("*"c, 5)
+                        If p >= 4 Then
+                            Return New String("*"c, 4)
                         ElseIf p <= 0 Then
                             Return "not_sig"
                         Else
@@ -336,17 +339,18 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         y = kegg_class_legend.Top + big_label.Height * 3.5
         dy = (kegg_class_legend.Height - 20) / class_colors.size
 
+        boxCell = New RectangleF(x, y, dy, dy)
+        y += dy * 1.25
+
+        g.FillRectangle(Brushes.Gray, boxCell)
+        g.DrawString("no class", label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
+
         For Each term As NamedValue(Of Color) In class_colors.GetTermColors
             boxCell = New RectangleF(x, y, dy, dy)
             y += dy * 1.25
 
-            If term.Name = "" Then
-                g.FillRectangle(Brushes.Gray, boxCell)
-                g.DrawString("no class", label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
-            Else
-                g.FillRectangle(New SolidBrush(term.Value), boxCell)
-                g.DrawString(term.Name, label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
-            End If
+            g.FillRectangle(New SolidBrush(term.Value), boxCell)
+            g.DrawString(term.Name, label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
         Next
 
         big_label = New Font(label_font.FontFamily, label_font.Size * 1.5)
