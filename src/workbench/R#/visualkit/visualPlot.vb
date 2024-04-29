@@ -461,7 +461,7 @@ Module visualPlot
 
         Dim theme As New Theme With {
             .axisTickCSS = tick_font,
-            .colorSet = ColorBrewer.DivergingSchemes.RdBu11,
+            .colorSet = $"rev({ColorBrewer.DivergingSchemes.RdBu11})",
             .padding = InteropArgumentHelper.getPadding(padding, "padding: 300px 1200px 300px 100px;"),
             .tagCSS = label_font,
             .axisStroke = axisStroke

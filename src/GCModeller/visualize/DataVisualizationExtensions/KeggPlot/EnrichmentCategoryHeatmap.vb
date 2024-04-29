@@ -205,7 +205,13 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
         For i = 0 To data.rownames.Length - 1
             boxCell = New RectangleF(x, y, dx, dy)
-            g.FillRectangle(New SolidBrush(class_colors.GetColor([class](i))), boxCell)
+
+            If [class](i).StringEmpty Then
+                g.FillRectangle(Brushes.Gray, boxCell)
+            Else
+                g.FillRectangle(New SolidBrush(class_colors.GetColor([class](i))), boxCell)
+            End If
+
             y += dy
         Next
 
@@ -286,7 +292,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
         ' draw group heatmap
         Dim group_heat = GetGroupHeat()
-        Dim group_heatcolors As SolidBrush() = Designer.GetBrushes(ColorBrewer.DivergingSchemes.RdYlBu7, mapLevels)
+        Dim group_heatcolors As SolidBrush() = Designer.GetBrushes(ColorBrewer.DivergingSchemes.RdYlBu7, mapLevels).Reverse.ToArray
         Dim group_range As New DoubleRange(group_heat.features.Values.Select(Function(v) v.TryCast(Of Double)).IteratesALL)
         Dim group_tree = group_heat.features.Select(Function(v) New ClusterEntity(v.Key, v.Value.TryCast(Of Double))).RunVectorCluster
 
@@ -333,8 +339,14 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         For Each term As NamedValue(Of Color) In class_colors.GetTermColors
             boxCell = New RectangleF(x, y, dy, dy)
             y += dy * 1.25
-            g.FillRectangle(New SolidBrush(term.Value), boxCell)
-            g.DrawString(term.Name, label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
+
+            If term.Name = "" Then
+                g.FillRectangle(Brushes.Gray, boxCell)
+                g.DrawString("no class", label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
+            Else
+                g.FillRectangle(New SolidBrush(term.Value), boxCell)
+                g.DrawString(term.Name, label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
+            End If
         Next
 
         big_label = New Font(label_font.FontFamily, label_font.Size * 1.5)
