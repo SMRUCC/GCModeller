@@ -441,10 +441,11 @@ Module visualPlot
     <ExportAPI("class_heatmap")>
     Public Function class_heatmap(x As dataframe, metadata As dataframe, sampleinfo As SampleInfo(),
                                   <RRawVectorArgument>
-                                  Optional size As Object = "6400,4800",
+                                  Optional size As Object = "8100,6400",
                                   <RRawVectorArgument>
-                                  Optional padding As Object = "padding: 300px 1200px 300px 100px;",
+                                  Optional padding As Object = "padding: 300px 1600px 800px 300px;",
                                   Optional label_font As String = "font-style: normal; font-size: 16; font-family: " & FontFace.BookmanOldStyle & ";",
+                                  Optional axisStroke As String = "stroke: black; stroke-width: 5px; stroke-dash: solid;",
                                   Optional dpi As Integer = 300,
                                   Optional env As Environment = Nothing) As Object
 
@@ -461,7 +462,8 @@ Module visualPlot
             .axisTickCSS = "font-style: normal; font-size: 6; font-family: " & FontFace.BookmanOldStyle & ";",
             .colorSet = ColorBrewer.DivergingSchemes.RdYlGn9,
             .padding = InteropArgumentHelper.getPadding(padding, "padding: 300px 1200px 300px 100px;"),
-            .tagCSS = label_font
+            .tagCSS = label_font,
+            .axisStroke = axisStroke
         }
         Dim heatmap As New EnrichmentCategoryHeatmap(
             data:=DirectCast(matrix, featureFrame),

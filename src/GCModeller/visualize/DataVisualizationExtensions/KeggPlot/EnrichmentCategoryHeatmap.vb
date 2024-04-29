@@ -103,19 +103,42 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Me.kegg_class = kegg_class
     End Sub
 
+    Private Function GetGroupHeat() As dataframe
+        Dim group_heat = groupd.Values _
+            .GroupBy(Function(s) s.sample_info) _
+            .ToDictionary(Function(s) s.Key,
+                          Function(s)
+                              Dim group_data = rawdata(s.Select(Function(si) si.ID))
+                              Dim sum As Vector = Nothing
+
+                              For Each sample As FeatureVector In group_data.features.Values
+                                  sum = sum + sample.TryCast(Of Double).AsVector
+                              Next
+
+                              Return FeatureVector.FromGeneral(s.Key, (sum / group_data.features.Count).ToArray)
+                          End Function)
+
+        Return New dataframe With {
+            .rownames = rawdata.rownames,
+            .features = group_heat
+        }.ZScale(byrow:=True)
+    End Function
+
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim rect As Rectangle = canvas.PlotRegion
+        Dim delta As Double = rect.Width * 0.005
         Dim label_region As New Rectangle(rect.Left, rect.Top, rect.Width * 0.2, rect.Height)
         Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.5, rect.Height)
         Dim tree_region As New Rectangle(heatmap_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
         Dim group_heatmap_region As New Rectangle(tree_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
         Dim mean_log_region As New Rectangle(group_heatmap_region.Right, rect.Top, rect.Width * 0.025, rect.Height)
-        Dim vip_region As New Rectangle(mean_log_region.Right + rect.Width * 0.005, rect.Top, rect.Width * 0.05, rect.Height)
+        Dim vip_region As New Rectangle(mean_log_region.Right + delta, rect.Top, rect.Width * 0.05, rect.Height)
         Dim label_font As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
         Dim tick_font As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
         Dim label_maxh As Single = label_region.Height / data.nsamples
         Dim legend_region As New Rectangle(rect.Right + 10, rect.Top, canvas.Padding.Right / 3, rect.Height)
         Dim charRectangle = g.MeasureString("A", label_font)
+
 
         ' draw labels on left
         Dim y As Double = label_region.Top
@@ -123,10 +146,11 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim size As SizeF
         Dim i As Integer = 0
 
+        ' draw metabolite name labels
         For Each name As String In data.rownames
             size = g.MeasureString(name, label_font)
             x = label_region.Right - size.Width
-            y = label_maxh * i + label_region.Top + size.Height / 2
+            y = label_maxh * i + label_region.Top
             i += 1
             g.DrawString(name, label_font, Brushes.Black, New PointF(x, y))
         Next
@@ -150,12 +174,13 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         y = heatmap_region.Top
 
         For Each col As String In data.featureNames
-            boxCell = New RectangleF(x, y - dy - 10, dx + 3, dy)
+            boxCell = New RectangleF(x, y - dy - delta, dx + 3, dy)
             vec = data(col).NumericGetter
 
             ' draw group color bar
             Call g.FillRectangle(groupd(col).color.GetBrush, boxCell)
 
+            ' fill heatmap column
             For i = 0 To data.rownames.Length - 1
                 color = range.ScaleMapping(vec(i), index)
                 boxCell = New RectangleF(x, y, dx, dy)
@@ -163,17 +188,21 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 y += dy
             Next
 
-            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width / 2, y + 20, 90)
+            ' draw sample label
+            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width, y + 20, 90)
 
             x += dx
             y = heatmap_region.Top
         Next
 
         ' draw class HC-tree
-        x = tree_region.Left + 5
-        dx = tree_region.Width * 0.25
+        x = tree_region.Left + delta
+        dx = tree_region.Width * 0.2
 
-        Call g.DrawString("Group", label_font, Brushes.Black, x, y - dy - 5)
+        Dim big_label As New Font(label_font.FontFamily, emSize:=label_font.Size * 2.0!)
+        Dim big_char As SizeF = g.MeasureString("A", big_label)
+
+        Call g.DrawString("Group", big_label, Brushes.Black, x, y - dy - big_char.Height / 2)
 
         For i = 0 To data.rownames.Length - 1
             boxCell = New RectangleF(x, y, dx, dy)
@@ -181,12 +210,13 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             y += dy
         Next
 
-        Call g.DrawString("KEGG Class", label_font, Brushes.Black, x + dx / 2, y, 90)
+        Call g.DrawString("KEGG Class", big_label, Brushes.Black, x + big_char.Width, y, 90)
 
+        Dim axis_line_pen As Pen = Stroke.TryParse(theme.axisStroke).GDIObject
         Dim treePlot As New HorizonRightToLeft With {
             .labelFont = label_font,
             .labelPadding = 0,
-            .linkColor = New Pen(Brushes.Black, 5),
+            .linkColor = axis_line_pen,
             .pointSize = 5,
             .showLeafLabels = False,
             .GetColor = Nothing,
@@ -253,29 +283,17 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Call g.DrawString("VIP", label_font, Brushes.Black, vip_region.Left, y + 30)
 
         ' draw group heatmap
-        Dim group_heat = groupd.Values _
-            .GroupBy(Function(s) s.sample_info) _
-            .ToDictionary(Function(s) s.Key,
-                          Function(s)
-                              Dim group_data = rawdata(s.Select(Function(si) si.ID))
-                              Dim sum As Vector = Nothing
-
-                              For Each sample As FeatureVector In group_data.features.Values
-                                  sum = sum + sample.TryCast(Of Double).AsVector
-                              Next
-
-                              Return (sum / group_data.features.Count).Z.ToArray
-                          End Function)
+        Dim group_heat = GetGroupHeat()
         Dim group_heatcolors As SolidBrush() = Designer.GetBrushes(ColorBrewer.DivergingSchemes.RdYlBu7, mapLevels)
-        Dim group_range As New DoubleRange(group_heat.Values.IteratesALL)
-        Dim group_tree = group_heat.Select(Function(v) New ClusterEntity(v.Key, v.Value)).RunVectorCluster
+        Dim group_range As New DoubleRange(group_heat.features.Values.Select(Function(v) v.TryCast(Of Double)).IteratesALL)
+        Dim group_tree = group_heat.features.Select(Function(v) New ClusterEntity(v.Key, v.Value.TryCast(Of Double))).RunVectorCluster
 
-        dx = group_heatmap_region.Width / group_heat.Count
+        dx = group_heatmap_region.Width / group_heat.nfeatures
         x = group_heatmap_region.Left
         y = group_heatmap_region.Top
 
         For Each group_name As String In group_tree.OrderLeafs
-            Dim mean_z = group_heat(group_name)
+            Dim mean_z = group_heat(group_name).TryCast(Of Double)
 
             For i = 0 To mean_z.Length - 1
                 color = group_range.ScaleMapping(mean_z(i), index)
