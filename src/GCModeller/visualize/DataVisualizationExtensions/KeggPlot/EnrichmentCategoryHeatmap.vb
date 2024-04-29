@@ -166,7 +166,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim vec As Func(Of Integer, Double)
         Dim color As Integer
         Dim [class] As String() = metadata(kegg_class).TryCast(Of String)
-        Dim class_colors As New CategoryColorProfile([class], "paper")
+        Dim class_colors As New CategoryColorProfile([class].Where(Function(str) Not str.StringEmpty), "paper")
         Dim heatmap_ticks As Double() = range.CreateAxisTicks
 
         x = heatmap_region.Left
