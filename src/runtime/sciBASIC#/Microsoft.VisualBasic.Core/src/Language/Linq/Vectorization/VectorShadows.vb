@@ -61,6 +61,7 @@
 Imports System.Dynamic
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -154,6 +155,23 @@ Namespace Language.Vectorization
             buffer = seq.ToArray
             linq = New DataValue(Of T)(buffer)
         End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <returns>
+        ''' this function returns nothing if has no name mapping
+        ''' </returns>
+        Public Function GetMapName(name As String) As String
+            Dim p As PropertyInfo = type.TryGetMember(name, caseSensitive:=False)
+
+            If p Is Nothing Then
+                Return Nothing
+            Else
+                Return p.GetAliasName
+            End If
+        End Function
 
         ''' <summary>
         ''' Returns property names and function names
