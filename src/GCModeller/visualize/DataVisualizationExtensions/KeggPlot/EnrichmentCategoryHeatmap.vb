@@ -241,6 +241,8 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             y += dy
         Next
 
+        Call g.DrawString("-log(P)", big_label, Brushes.Black, x + big_char.Height, y, 90)
+
         ' draw average VIP
         Dim vip = metadata("VIP").TryCast(Of Double)
         Dim vip_ticks = vip.CreateAxisTicks(ticks:=5)
@@ -270,17 +272,18 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Next
 
         Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+        Dim tick_char As SizeF = g.MeasureString("A", tickFont)
 
         Call g.DrawLine(Pens.Black, CSng(vip_region.Left), CSng(y), vip_region.Right, CSng(y))
 
         For Each tick As Double In vip_ticks
             x = vip_scale(tick) + vip_region.Left
 
-            Call g.DrawLine(Pens.Black, CSng(x), CSng(y), CSng(x), CSng(y + 10))
-            Call g.DrawString(tick.ToString("F1"), tickFont, Brushes.Black, x, y, 90)
+            Call g.DrawLine(Pens.Black, CSng(x), CSng(y), CSng(x), CSng(y + tick_char.Height / 2))
+            Call g.DrawString(tick.ToString("F1"), tickFont, Brushes.Black, x + tick_char.Width / 2, y + tick_char.Height / 2, 90)
         Next
 
-        Call g.DrawString("VIP", label_font, Brushes.Black, vip_region.Left, y + 30)
+        Call g.DrawString("VIP", big_label, Brushes.Black, vip_region.Left, y + tick_char.Height * 2.5)
 
         ' draw group heatmap
         Dim group_heat = GetGroupHeat()
@@ -302,7 +305,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 g.FillRectangle(group_heatcolors(color), boxCell)
             Next
 
-            Call g.DrawString(group_name, label_font, Brushes.Black, x + boxCell.Width / 2, y + 10, 60)
+            Call g.DrawString(group_name, label_font, Brushes.Black, x + boxCell.Width / 2, y + 10, 90)
 
             x += dx
             y = group_heatmap_region.Top
@@ -314,32 +317,34 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Call plot_groupTree.Plot(g, group_tree_region)
 
         ' draw legends
-        Dim scale_intensity_region As New Rectangle(legend_region.Left, legend_region.Top, legend_region.Width, legend_region.Height / 4)
-        Dim group_mean_region As New Rectangle(legend_region.Left, scale_intensity_region.Bottom, legend_region.Width, legend_region.Height / 4)
-        Dim logp_legend_region As New Rectangle(legend_region.Left, group_mean_region.Bottom, legend_region.Width, legend_region.Height / 4)
-        Dim kegg_class_legend As New Rectangle(legend_region.Left, logp_legend_region.Bottom, legend_region.Width, legend_region.Height / 4)
+        Dim scale_intensity_region As New Rectangle(legend_region.Left, legend_region.Top, legend_region.Width, legend_region.Height / 5)
+        Dim group_mean_region As New Rectangle(legend_region.Left, legend_region.Top + 1 * (legend_region.Height / 4.5), legend_region.Width, legend_region.Height / 5)
+        Dim logp_legend_region As New Rectangle(legend_region.Left, legend_region.Top + 2 * (legend_region.Height / 4.5), legend_region.Width, legend_region.Height / 5)
+        Dim kegg_class_legend As New Rectangle(legend_region.Left, legend_region.Top + 3 * (legend_region.Height / 4.5), legend_region.Width, legend_region.Height / 4)
 
         'Call g.DrawString("Scaled Intensity", label_font, Brushes.Black, scale_intensity_region.Left, scale_intensity_region.Top)
         'Call g.DrawString("Scaled Mean Intensity", label_font, Brushes.Black, group_mean_region.Left, group_mean_region.Top)
         'Call g.DrawString("-log(p)", label_font, Brushes.Black, logp_legend_region.Left, logp_legend_region.Top)
-        Call g.DrawString("KEGG Class", label_font, Brushes.Black, kegg_class_legend.Left, kegg_class_legend.Top)
+        Call g.DrawString("KEGG Class", big_label, Brushes.Black, kegg_class_legend.Left, kegg_class_legend.Top)
 
         x = kegg_class_legend.Left
-        y = kegg_class_legend.Top + 20
+        y = kegg_class_legend.Top + big_label.Height * 3.5
         dy = (kegg_class_legend.Height - 20) / class_colors.size
 
         For Each term As NamedValue(Of Color) In class_colors.GetTermColors
             boxCell = New RectangleF(x, y, dy, dy)
-            y += dy
+            y += dy * 1.25
             g.FillRectangle(New SolidBrush(term.Value), boxCell)
             g.DrawString(term.Name, label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
         Next
+
+        big_label = New Font(label_font.FontFamily, label_font.Size * 1.5)
 
         Call New ColorMapLegend(heatmap.OfType(Of SolidBrush)) With {
             .format = "F1",
             .tickFont = label_font,
             .ticks = heatmap_ticks,
-            .titleFont = label_font,
+            .titleFont = big_label,
             .title = "Scaled Intensity",
             .tickAxisStroke = Pens.Black
         }.Draw(g, scale_intensity_region)
@@ -348,7 +353,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             .format = "F1",
             .tickFont = label_font,
             .ticks = group_range.CreateAxisTicks,
-            .titleFont = label_font,
+            .titleFont = big_label,
             .title = "Scaled Mean Intensity",
             .tickAxisStroke = Pens.Black
         }.Draw(g, group_mean_region)
@@ -357,7 +362,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             .format = "F1",
             .tickFont = label_font,
             .ticks = pval_range.CreateAxisTicks,
-            .titleFont = label_font,
+            .titleFont = big_label,
             .title = "-log(p)",
             .tickAxisStroke = Pens.Black
         }.Draw(g, logp_legend_region)
