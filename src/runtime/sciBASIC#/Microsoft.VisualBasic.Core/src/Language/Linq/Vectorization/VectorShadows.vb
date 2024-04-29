@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::e14f58461701c1a2b0d3c10cd375b9b7, G:/GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src//Language/Linq/Vectorization/VectorShadows.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 344
-    '    Code Lines: 233
-    ' Comment Lines: 63
-    '   Blank Lines: 48
-    '     File Size: 13.22 KB
+' Summaries:
 
 
-    '     Class VectorShadows
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: [As], binaryOperatorSelfLeft, CreateVector, GetDynamicMemberNames, GetJson
-    '                   inspectType, TryBinaryOperation, (+2 Overloads) TryGetMember, TryInvokeMember, TrySetMember
-    '                   TryUnaryOperation
-    ' 
-    '         Sub: writeBuffer
-    ' 
-    '         Operators: \, (+2 Overloads) Like
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 344
+'    Code Lines: 233
+' Comment Lines: 63
+'   Blank Lines: 48
+'     File Size: 13.22 KB
+
+
+'     Class VectorShadows
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: [As], binaryOperatorSelfLeft, CreateVector, GetDynamicMemberNames, GetJson
+'                   inspectType, TryBinaryOperation, (+2 Overloads) TryGetMember, TryInvokeMember, TrySetMember
+'                   TryUnaryOperation
+' 
+'         Sub: writeBuffer
+' 
+'         Operators: \, (+2 Overloads) Like
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -287,7 +287,7 @@ Namespace Language.Vectorization
             Dim op As MethodInfo = vector.type.Concatenate(type, isVector)
 
             If op Is Nothing Then
-                If vector.type Is GetType(String) Then
+                If vector.type = GetType(String) Then
                     If type.ImplementInterface(GetType(IEnumerable(Of String))) Then
                         ' 如果是字符串的集合，则分别添加字符串
                         Dim out$() = New String(vector.Length - 1) {}
