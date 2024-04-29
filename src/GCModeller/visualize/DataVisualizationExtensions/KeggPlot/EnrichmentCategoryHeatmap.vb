@@ -106,11 +106,11 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim rect As Rectangle = canvas.PlotRegion
         Dim label_region As New Rectangle(rect.Left, rect.Top, rect.Width * 0.2, rect.Height)
-        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.4, rect.Height)
+        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.5, rect.Height)
         Dim tree_region As New Rectangle(heatmap_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
         Dim group_heatmap_region As New Rectangle(tree_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
         Dim mean_log_region As New Rectangle(group_heatmap_region.Right, rect.Top, rect.Width * 0.025, rect.Height)
-        Dim vip_region As New Rectangle(mean_log_region.Right + rect.Width * 0.005, rect.Top, rect.Width * 0.17, rect.Height)
+        Dim vip_region As New Rectangle(mean_log_region.Right + rect.Width * 0.005, rect.Top, rect.Width * 0.05, rect.Height)
         Dim label_font As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
         Dim label_maxh As Single = label_region.Height / data.nsamples
         Dim legend_region As New Rectangle(rect.Right + 10, rect.Top, rect.Width * 2 / 3, rect.Height)
