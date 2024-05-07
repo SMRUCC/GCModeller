@@ -10,7 +10,7 @@ Public Class RowEnumerable
     End Sub
 
     ''' <summary>
-    ''' <see cref="System.Collections.Generic.IEnumerable(OfT).GetEnumerator"/>
+    ''' <see cref="System.Collections.Generic.IEnumerable(Of T).GetEnumerator"/>
     ''' </summary>
     Public Function GetEnumerator() As RowEnumerator
         Return New RowEnumerator(Parent)
@@ -32,7 +32,7 @@ Public Class RowEnumerator
     Implements IEnumerator(Of Row)
 
     ''' <summary>
-    ''' <see cref="System.Collections.Generic.IEnumerator(OfT).CurrentProp"/>
+    ''' <see cref="System.Collections.Generic.IEnumerator(Of T).Current"/>
     ''' </summary>
     Private _CurrentProp As Row
     Private Parent As DataFrame
@@ -60,14 +60,14 @@ Public Class RowEnumerator
     End Property
 
     ''' <summary>
-    ''' <see cref="System.Collections.Generic.IEnumerator(OfT)"/>
+    ''' <see cref="System.Collections.Generic.IEnumerator(Of T)"/>
     ''' </summary>
     Public Sub Dispose() Implements IDisposable.Dispose
         Parent = Nothing
     End Sub
 
     ''' <summary>
-    ''' <see cref="System.Collections.Generic.IEnumerator(OfT)"/>
+    ''' <see cref="System.Collections.Generic.IEnumerator(Of T)"/>
     ''' </summary>
     Public Function MoveNext() As Boolean Implements IEnumerator.MoveNext
         Index += 1
@@ -80,7 +80,7 @@ Public Class RowEnumerator
     End Function
 
     ''' <summary>
-    ''' <see cref="System.Collections.Generic.IEnumerator(OfT)"/>
+    ''' <see cref="System.Collections.Generic.IEnumerator(Of T)"/>
     ''' </summary>
     Public Sub Reset() Implements IEnumerator.Reset
         Index = -1

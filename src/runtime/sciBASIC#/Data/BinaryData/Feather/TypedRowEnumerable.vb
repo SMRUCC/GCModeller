@@ -8,7 +8,7 @@ Public Class TypedRowEnumerator(Of TRow)
     Implements IEnumerator(Of TRow)
 
     ''' <summary>
-    ''' <see cref="System.Collections.Generic.IEnumerator(OfT).CurrentProp"/>
+    ''' <see cref="System.Collections.Generic.IEnumerator(Of T).Current"/>
     ''' </summary>
     Private _CurrentProp As TRow
     Private Parent As TypedDataFrameBase(Of TRow)
@@ -36,14 +36,14 @@ Public Class TypedRowEnumerator(Of TRow)
     End Sub
 
     ''' <summary>
-    ''' <see cref="System.Collections.Generic.IEnumerator(OfT)"/>
+    ''' <see cref="System.Collections.Generic.IEnumerator(Of T)"/>
     ''' </summary>
     Public Sub Dispose() Implements IDisposable.Dispose
         Parent = Nothing
     End Sub
 
     ''' <summary>
-    ''' <see cref="System.Collections.Generic.IEnumerator(OfT)"/>
+    ''' <see cref="System.Collections.Generic.IEnumerator(Of T)"/>
     ''' </summary>
     Public Function MoveNext() As Boolean Implements IEnumerator.MoveNext
         Index += 1
@@ -56,7 +56,7 @@ Public Class TypedRowEnumerator(Of TRow)
     End Function
 
     ''' <summary>
-    ''' <see cref="System.Collections.Generic.IEnumerator(OfT)"/>
+    ''' <see cref="System.Collections.Generic.IEnumerator(Of T)"/>
     ''' </summary>
     Public Sub Reset() Implements IEnumerator.Reset
         Index = -1
@@ -75,7 +75,7 @@ Public Class TypedRowEnumerable(Of TRow)
     End Sub
 
     ''' <summary>
-    ''' <see cref="System.Collections.Generic.IEnumerable(OfT).GetEnumerator"/>
+    ''' <see cref="System.Collections.Generic.IEnumerable(Of T).GetEnumerator"/>
     ''' </summary>
     Public Function GetEnumerator() As TypedRowEnumerator(Of TRow)
         Return New TypedRowEnumerator(Of TRow)(Parent)
