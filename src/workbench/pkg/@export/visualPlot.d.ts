@@ -40,10 +40,15 @@ declare namespace visualPlot {
       function plot(profiles: object, title?: string, axis_title?: string, size?: any, tick?: number, colors?: any, dpi?: object, format?: string, env?: object): object;
    }
    /**
-     * @param size default value Is ``'3600,2700'``.
+     * @param size default value Is ``'10000,6500'``.
+     * @param padding default value Is ``'padding: 300px 1600px 1200px 600px;'``.
+     * @param label_font default value Is ``'font-style: normal; font-size: 18; font-family: Bookman Old Style;'``.
+     * @param tick_font default value Is ``'font-style: normal; font-size: 12; font-family: Bookman Old Style;'``.
+     * @param axisStroke default value Is ``'stroke: black; stroke-width: 5px; stroke-dash: solid;'``.
+     * @param dpi default value Is ``300``.
      * @param env default value Is ``null``.
    */
-   function class_heatmap(x: object, metadata: object, sampleinfo: object, size?: any, env?: object): any;
+   function class_heatmap(x: object, metadata: object, sampleinfo: object, size?: any, padding?: any, label_font?: string, tick_font?: string, axisStroke?: string, dpi?: object, env?: object): any;
    module classchange {
       /**
        * 
