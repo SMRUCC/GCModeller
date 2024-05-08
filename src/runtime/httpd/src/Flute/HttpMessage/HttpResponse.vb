@@ -175,6 +175,8 @@ Namespace Core.Message
             __customHeaders(header) = value
         End Sub
 
+        Shared ReadOnly SetCookie As String = HeaderToString(HttpHeaderName.SetCookie)
+
         ''' <summary>
         ''' 将需要保存到浏览器的数据通过response header的形式返回
         ''' </summary>
@@ -182,11 +184,19 @@ Namespace Core.Message
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub SetCookies(cookies As Dictionary(Of String, String))
-            __customHeaders(HeaderToString(HttpHeaderName.SetCookie)) = (
+            __customHeaders(SetCookie) = (
                 From data As KeyValuePair(Of String, String)
                 In cookies
                 Select $"{data.Key}={data.Value}"
             ).JoinBy("; ")
+        End Sub
+
+        Public Sub SetCookies(name As String, value As String)
+            If __customHeaders.ContainsKey(SetCookie) Then
+                __customHeaders(SetCookie) &= $"; {name}={value}"
+            Else
+                __customHeaders.Add(SetCookie, $"{name}={value}")
+            End If
         End Sub
 
         Public Sub WriteHttp(contentType As String, contentLength As Integer)
