@@ -151,7 +151,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         ' draw metabolite name labels
         For Each name As String In data.rownames
             size = g.MeasureString(name, label_font)
-            x = label_region.Right - size.Width
+            x = label_region.Right - size.Width - charRectangle.Width
             y = label_maxh * i + label_region.Top
             i += 1
             g.DrawString(name, label_font, Brushes.Black, New PointF(x, y))
@@ -218,7 +218,11 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             y += dy
         Next
 
-        Call g.DrawString("KEGG Class", big_label, Brushes.Black, x + big_char.Width, y, 90)
+        If Not IsMicrosoftPlatform Then
+            Call g.DrawString("KEGG Class", big_label, Brushes.Black, x + big_char.Width * 1.5, y, 90)
+        Else
+            Call g.DrawString("KEGG Class", big_label, Brushes.Black, x + big_char.Width, y, 90)
+        End If
 
         Dim axis_line_pen As Pen = Stroke.TryParse(theme.axisStroke).GDIObject
         Dim treePlot As New HorizonRightToLeft With {
@@ -320,9 +324,9 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Next
 
         Dim group_tree_region As New Rectangle(group_heatmap_region.Left, group_heatmap_region.Top - 20, group_heatmap_region.Width, 20)
-        Dim plot_groupTree As New Horizon(group_tree, theme, showAllLabels:=False, showRuler:=False, showLeafLabels:=False)
+        'Dim plot_groupTree As New Horizon(group_tree, theme, showAllLabels:=False, showRuler:=False, showLeafLabels:=False)
 
-        Call plot_groupTree.Plot(g, group_tree_region)
+        'Call plot_groupTree.Plot(g, group_tree_region)
 
         ' draw legends
         Dim scale_intensity_region As New Rectangle(legend_region.Left, legend_region.Top, legend_region.Width, legend_region.Height / 5)
@@ -336,7 +340,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Call g.DrawString("KEGG Class", big_label, Brushes.Black, kegg_class_legend.Left, kegg_class_legend.Top)
 
         x = kegg_class_legend.Left
-        y = kegg_class_legend.Top + big_label.Height * 3.5
+        y = kegg_class_legend.Top + big_label.Height * 2
         dy = (kegg_class_legend.Height - 20) / class_colors.size
 
         boxCell = New RectangleF(x, y, dy, dy)
@@ -350,7 +354,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             y += dy * 1.25
 
             g.FillRectangle(New SolidBrush(term.Value), boxCell)
-            g.DrawString(term.Name, label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
+            g.DrawString(term.Name, label_font, Brushes.Black, boxCell.Right + charRectangle.Width / 2, boxCell.Top)
         Next
 
         big_label = New Font(label_font.FontFamily, label_font.Size * 1.5)
@@ -381,8 +385,5 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             .title = "-log(p)",
             .tickAxisStroke = Pens.Black
         }.Draw(g, logp_legend_region)
-
-
-
     End Sub
 End Class
