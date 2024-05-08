@@ -218,7 +218,11 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             y += dy
         Next
 
-        Call g.DrawString("KEGG Class", big_label, Brushes.Black, x + big_char.Width, y, 90)
+        If Not IsMicrosoftPlatform Then
+            Call g.DrawString("KEGG Class", big_label, Brushes.Black, x + big_char.Width * 1.5, y, 90)
+        Else
+            Call g.DrawString("KEGG Class", big_label, Brushes.Black, x + big_char.Width, y, 90)
+        End If
 
         Dim axis_line_pen As Pen = Stroke.TryParse(theme.axisStroke).GDIObject
         Dim treePlot As New HorizonRightToLeft With {
@@ -336,7 +340,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Call g.DrawString("KEGG Class", big_label, Brushes.Black, kegg_class_legend.Left, kegg_class_legend.Top)
 
         x = kegg_class_legend.Left
-        y = kegg_class_legend.Top + big_label.Height * 3.5
+        y = kegg_class_legend.Top + big_label.Height * 2
         dy = (kegg_class_legend.Height - 20) / class_colors.size
 
         boxCell = New RectangleF(x, y, dy, dy)
@@ -350,7 +354,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             y += dy * 1.25
 
             g.FillRectangle(New SolidBrush(term.Value), boxCell)
-            g.DrawString(term.Name, label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
+            g.DrawString(term.Name, label_font, Brushes.Black, boxCell.Right + charRectangle.Width / 2, boxCell.Top)
         Next
 
         big_label = New Font(label_font.FontFamily, label_font.Size * 1.5)
