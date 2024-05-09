@@ -62,127 +62,6 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace AprioriRules.Impl
 
-    Public Structure ItemSet : Implements IComparable(Of ItemSet)
-
-        Public Items As Integer()
-
-        Public ReadOnly Property Length As Integer
-            Get
-                Return Items.Length
-            End Get
-        End Property
-
-        Default Public ReadOnly Property Item(offset As Integer) As Integer
-            Get
-                Return Items(offset)
-            End Get
-        End Property
-
-        Sub New(scalar As Integer)
-            Items = {scalar}
-        End Sub
-
-        Sub New(items As IEnumerable(Of Integer))
-            Me.Items = items.ToArray
-        End Sub
-
-        Public Overrides Function GetHashCode() As Integer
-            If IsNullOrEmpty() Then
-                Return 0
-            End If
-
-            Dim hash As Integer = 1
-            Dim el_hash As Integer
-
-            For Each element As Integer In Items
-                el_hash = element Xor (element >> 32)
-                hash = 31 * hash + el_hash
-            Next
-
-            Return hash
-        End Function
-
-        Public Function IsNullOrEmpty() As Boolean
-            Return Items Is Nothing OrElse Items.Length = 0
-        End Function
-
-        Public Function SorterSortTokens() As ItemSet
-            Return New ItemSet With {.Items = Items.OrderBy(Function(a) a).ToArray}
-        End Function
-
-        Public Overrides Function ToString() As String
-            Return "{" & Items.JoinBy(", ") & "}"
-        End Function
-
-        Public Function Contains(i As Integer) As Boolean
-            For Each i32 As Integer In Items
-                If i32 = i Then
-                    Return True
-                End If
-            Next
-
-            Return False
-        End Function
-
-        Public Function PopLast() As ItemSet
-            Return New ItemSet(scalar:=Items.Last)
-        End Function
-
-        Public Shared Function Empty() As ItemSet
-            Return New ItemSet With {.Items = {}}
-        End Function
-
-        ''' <summary>
-        ''' GetRemaining: removes all child elements from parent
-        ''' </summary>
-        ''' <param name="child"></param>
-        ''' <returns></returns>
-        Public Function Remove(child As ItemSet) As ItemSet
-            Dim remaining As New List(Of Integer)
-
-            For Each i As Integer In Items
-                If Not child.Contains(i) Then
-                    Call remaining.Add(i)
-                End If
-            Next
-
-            Return New ItemSet(remaining)
-        End Function
-
-        Public Function Slice(start As Integer, count As Integer) As ItemSet
-            Return New ItemSet With {.Items = Items.Skip(start).Take(count).ToArray}
-        End Function
-
-        Public Overloads Shared Operator &(a As ItemSet, b As ItemSet) As ItemSet
-            Return New ItemSet With {.Items = a.Items.JoinIterates(b.Items).ToArray}
-        End Operator
-
-        Public Overloads Shared Operator =(a As ItemSet, b As ItemSet) As Boolean
-            Return a.Items.SequenceEqual(b.Items)
-        End Operator
-
-        Public Overloads Shared Operator <>(a As ItemSet, b As ItemSet) As Boolean
-            Return Not a = b
-        End Operator
-
-        Private Function GetCompareValue() As ULong
-            Dim p As ULong = 0
-
-            For i As Integer = 0 To Items.Length - 1
-                p += Items(i) * (10 ^ i)
-            Next
-
-            Return p
-        End Function
-
-        Public Function CompareTo(other As ItemSet) As Integer Implements IComparable(Of ItemSet).CompareTo
-            Dim val1 As ULong = GetCompareValue()
-            Dim val2 As ULong = other.GetCompareValue
-
-            Return val1.CompareTo(val2)
-        End Function
-    End Structure
-
     ''' <summary>
     ''' 关联分析程序（当某一种事务的样本较少的时候，将无法分析出关联性）
     ''' </summary>
@@ -203,10 +82,10 @@ Namespace AprioriRules.Impl
         <ExportAPI("Apriori.Predictions")>
         Public Function GetAssociateRules(<Parameter("Support.Min")> minSupport#,
                                           <Parameter("Confidence.Min")> minConfidence#,
-                                          <Parameter("Items")> items As IEnumerable(Of Integer),
+                                          <Parameter("Items")> items As IEnumerable(Of Item),
                                           <Parameter("Transactions")> transactions As ItemSet()) As Output
 
-            Dim frequentItems As IList(Of TransactionTokensItem) = transactions.GetL1FrequentItems(minSupport, items.Select(Function(i) New ItemSet(i)).ToArray)
+            Dim frequentItems As List(Of TransactionTokensItem) = transactions.GetL1FrequentItems(minSupport, items.Select(Function(i) New ItemSet(i)).ToArray).AsList
             Dim allFrequentItems As Dictionary(Of ItemSet, TransactionTokensItem) = frequentItems.ToDictionary(Function(obj) obj.Name)
             Dim candidates As New Dictionary(Of ItemSet, Double)()
             Dim transactionsCount As Double = transactions.Length
@@ -233,13 +112,13 @@ Namespace AprioriRules.Impl
             Call Console.WriteLine("maximal item rules...")
             Dim maximalItemSets As IList(Of ItemSet) = GetMaximalItemSets(closedItemSets)
 
-            Dim out As New Output() With {
+            Return New Output() With {
                 .StrongRules = strongRules,
                 .MaximalItemSets = maximalItemSets,
                 .ClosedItemSets = closedItemSets,
-                .FrequentItems = allFrequentItems
+                .FrequentItems = allFrequentItems,
+                .TransactionSize = transactions.Length
             }
-            Return out
         End Function
 
 #End Region
@@ -247,20 +126,19 @@ Namespace AprioriRules.Impl
 #Region "Private Internal Methods"
 
         <Extension>
-        Public Function GetL1FrequentItems(transactions As ItemSet(), minSupport#, items As ItemSet()) As List(Of TransactionTokensItem)
+        Public Function GetL1FrequentItems(transactions As ItemSet(), minSupport#, items As ItemSet()) As IEnumerable(Of TransactionTokensItem)
             Dim transactionsCount As Double = transactions.Length
-            Dim frequentItemsL1 = LinqAPI.MakeList(Of TransactionTokensItem) _
-                                                                             _
-                () <= From item As ItemSet
-                      In items.AsParallel
-                      Let support As Double = GetSupport(item, transactions)
-                      Where support / transactionsCount >= minSupport
-                      Select New TransactionTokensItem() With {
-                          .Name = item,
-                          .Support = support
-                      }
+            Dim frequentItemsL1 = From item As ItemSet
+                                  In items
+                                  Let support As Double = GetSupport(item, transactions)
+                                  Where support / transactionsCount >= minSupport
+                                  Let t = New TransactionTokensItem() With {
+                                      .Name = item,
+                                      .Support = support
+                                  }
+                                  Select t
+                                  Order By t
 
-            Call frequentItemsL1.Sort()
             Return frequentItemsL1
         End Function
 
@@ -279,7 +157,7 @@ Namespace AprioriRules.Impl
         End Function
 
         Public Function CheckIsSubset(child As ItemSet, parent As ItemSet) As Boolean
-            For Each c As Integer In child.Items
+            For Each c As Item In child.Items
                 If Not parent.Contains(c) Then
                     Return False
                 End If
@@ -292,9 +170,7 @@ Namespace AprioriRules.Impl
         <Extension>
         Public Function GenerateCandidates(frequentItems As IList(Of TransactionTokensItem), transactions As IEnumerable(Of ItemSet)) As Dictionary(Of ItemSet, Double)
             Dim parallelBuild = From i As Integer
-                                In (frequentItems.Count) _
-                                    .SeqIterator _
-                                    .AsParallel
+                                In Enumerable.Range(0, frequentItems.Count)
                                 Let firstItem As ItemSet = frequentItems(i).Name.SorterSortTokens
                                 Let candidate = frequentItems.GetCandidate(i, firstItem, transactions)
                                 Select candidate

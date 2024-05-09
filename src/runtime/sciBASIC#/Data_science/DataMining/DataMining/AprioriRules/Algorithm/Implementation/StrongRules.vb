@@ -68,7 +68,7 @@ Namespace AprioriRules.Impl
             Dim concats = LinqAPI.Exec(Of Rule()) _
                                                   _
                 () <= From item
-                      In allFrequentItems.AsParallel
+                      In allFrequentItems' .AsParallel
                       Where item.Key.Length > 1
                       Select item.concatRules()
 
@@ -83,7 +83,7 @@ Namespace AprioriRules.Impl
 
         <Extension>
         Private Function concatRules(token As KeyValuePair(Of ItemSet, TransactionTokensItem)) As Rule()
-            Dim subsetsList As IEnumerable(Of ItemSet) = GenerateSubsets(token.Key)
+            Dim subsetsList As ItemSet() = GenerateSubsets(token.Key).ToArray
             Dim list As New List(Of Rule)
 
             For Each subset As ItemSet In subsetsList
@@ -102,16 +102,16 @@ Namespace AprioriRules.Impl
 
             For i As Integer = 1 To subsetLength
                 Dim subsets As New List(Of ItemSet)()
-                GenerateSubsetsRecursive(item, i, New Integer(item.Length - 1) {}, subsets)
+                GenerateSubsetsRecursive(item, i, New Item(item.Length - 1) {}, subsets)
                 allSubsets = allSubsets.Concat(subsets)
             Next
 
             Return allSubsets
         End Function
 
-        Public Sub GenerateSubsetsRecursive(item As ItemSet, subsetLength%, temp As Integer(), subsets As IList(Of ItemSet), Optional q% = 0, Optional r% = 0)
+        Public Sub GenerateSubsetsRecursive(item As ItemSet, subsetLength%, temp As Item(), subsets As IList(Of ItemSet), Optional q% = 0, Optional r% = 0)
             If q = subsetLength Then
-                Dim sb As New List(Of Integer)
+                Dim sb As New List(Of Item)
 
                 For i As Integer = 0 To subsetLength - 1
                     sb.Add(temp(i))
