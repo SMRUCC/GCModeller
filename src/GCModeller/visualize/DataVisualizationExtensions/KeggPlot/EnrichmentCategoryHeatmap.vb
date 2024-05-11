@@ -168,7 +168,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim tree_left As Double = heatmap_region.Right + delta / 2
 
         width = std.Min(rect.Width * 0.05, 4 * charRectangle.Width)
-        Dim vip_region As New Rectangle(rect.Right - width, rect.Top, width, rect.Height)
+        Dim vip_region As New Rectangle(rect.Right - width - delta, rect.Top, width, rect.Height)
         width = rect.Width * 0.025
         Dim mean_log_region As New Rectangle(vip_region.Left - width - delta, rect.Top, width, rect.Height)
         width = std.Min(rect.Width * 0.1, 3 * charRectangle.Width * group_labels.Length)

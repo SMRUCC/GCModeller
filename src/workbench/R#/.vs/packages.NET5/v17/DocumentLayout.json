@@ -4,13 +4,6 @@
   "Documents": [
     {
       "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategoryheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\visualkit\\visualplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|solutionrelative:visualkit\\visualplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|e:\\gcmodeller\\src\\r-sharp\\library\\shares\\dataframehelper\\mathdataset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,22 +23,9 @@
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
-              "ViewState": "AQIAAJUAAAAAAAAAAAAYwLEAAAAAAAAA",
+              "ViewState": "AQIAAJUAAAAAAAAAAAAYwL4AAABFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-05-11T01:18:11.618Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MathDataSet.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\R-sharp\\Library\\shares\\dataframeHelper\\MathDataSet.vb",
-              "RelativeDocumentMoniker": "..\\..\\R-sharp\\Library\\shares\\dataframeHelper\\MathDataSet.vb",
-              "ToolTip": "E:\\GCModeller\\src\\R-sharp\\Library\\shares\\dataframeHelper\\MathDataSet.vb",
-              "RelativeToolTip": "..\\..\\R-sharp\\Library\\shares\\dataframeHelper\\MathDataSet.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB8AAABoAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-05-11T01:15:02.778Z",
               "EditorCaption": ""
             },
             {
@@ -55,23 +35,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "visualPlot.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\visualkit\\visualPlot.vb",
-              "RelativeDocumentMoniker": "visualkit\\visualPlot.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\visualkit\\visualPlot.vb",
-              "RelativeToolTip": "visualkit\\visualPlot.vb",
-              "ViewState": "AQIAAMQBAAAAAAAAAADwv+UBAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-05-11T01:13:52.039Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
