@@ -81,12 +81,38 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
     ReadOnly no_class As SolidBrush = Brushes.LightGray
 
-    Public Sub New(data As dataframe, metadata As dataframe, groupd As SampleInfo(), theme As Theme, Optional kegg_class As String = "class")
-        MyBase.New(theme)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="data">
+    ''' a dataframe object that contains the molecular expression data: 
+    ''' the row names in the dataframe is the molecule name labels and 
+    ''' all the column fields should be the expression value in different 
+    ''' samples.
+    ''' </param>
+    ''' <param name="metadata">
+    ''' the metadata for the molecules of given expression <paramref name="data"/>, should contains the metadata fields of:
+    ''' 
+    ''' 1. class: a character vector of the kegg class labels, example as pathway names, module names, or orthology labels
+    ''' 2. logp: a numeric vector of the multiple group ANOVA test pvalue its log transform result of the molecules
+    ''' 3. VIP: a numeric vector of the multiple group pls-da VIP result value for the molecules
+    ''' 
+    ''' the data field name is case-sensitive.
+    ''' </param>
+    ''' <param name="groupd"></param>
+    ''' <param name="theme"></param>
+    ''' <param name="kegg_class"></param>
+    Public Sub New(data As dataframe, metadata As dataframe,
+                   groupd As SampleInfo(),
+                   theme As Theme,
+                   Optional kegg_class As String = "class")
+
+        Call MyBase.New(theme)
 
         data = data.Log(2).ZScale(byrow:=True)
         featureTree = data.PullDataSet(Of DataSet).RunCluster(, New CompleteLinkageStrategy)
 
+        ' reorder by tree
         Me.rawdata = data.slice(featureTree.OrderLeafs)
         Me.metadata = metadata.slice(featureTree.OrderLeafs)
         Me.data = rawdata

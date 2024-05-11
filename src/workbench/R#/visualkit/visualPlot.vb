@@ -69,6 +69,7 @@ Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -98,12 +99,11 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object.Linq
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
+Imports featureFrame = Microsoft.VisualBasic.Math.DataFrame.DataFrame
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports std = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
-Imports featureFrame = Microsoft.VisualBasic.Math.DataFrame.DataFrame
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 
 ''' <summary>
 ''' package module for biological analysis data visualization
@@ -438,6 +438,34 @@ Module visualPlot
         Return app.Plot(size_val, driver:=env.getDriver)
     End Function
 
+    ''' <summary>
+    ''' plot the heatmap with kegg class information
+    ''' </summary>
+    ''' <param name="x">
+    ''' the molecule expression dataframe object, should contains the data of:
+    ''' 
+    ''' the row names in the dataframe is the molecule name labels and 
+    ''' all the column fields should be the expression value in different 
+    ''' samples.
+    ''' </param>
+    ''' <param name="metadata">
+    ''' the metadata for the molecules of given expression data <paramref name="x"/>, should contains the metadata fields of:
+    ''' 
+    ''' 1. class: a character vector of the kegg class labels, example as pathway names, module names, or orthology labels
+    ''' 2. logp: a numeric vector of the multiple group ANOVA test pvalue its log transform result of the molecules
+    ''' 3. VIP: a numeric vector of the multiple group pls-da VIP result value for the molecules
+    ''' 
+    ''' the data field name is case-sensitive.
+    ''' </param>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="size">the image size of the plot</param>
+    ''' <param name="padding">the padding of the plot region</param>
+    ''' <param name="label_font"></param>
+    ''' <param name="tick_font"></param>
+    ''' <param name="axisStroke"></param>
+    ''' <param name="dpi"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("class_heatmap")>
     Public Function class_heatmap(x As dataframe, metadata As dataframe, sampleinfo As SampleInfo(),
                                   <RRawVectorArgument>
@@ -473,7 +501,7 @@ Module visualPlot
             theme:=theme) With {
             .mapLevels = 30
         }
-        Dim size_str As String = InteropArgumentHelper.getSize(size, env, "3600,2700")
+        Dim size_str As String = InteropArgumentHelper.getSize(size, env, "10000,6500")
 
         Return heatmap.Plot(size_str.SizeParser, dpi, env.getDriver)
     End Function
