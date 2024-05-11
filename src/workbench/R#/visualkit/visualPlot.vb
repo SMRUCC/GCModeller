@@ -471,7 +471,7 @@ Module visualPlot
                                   <RRawVectorArgument>
                                   Optional size As Object = "10000,6500",
                                   <RRawVectorArgument>
-                                  Optional padding As Object = "padding: 300px 1600px 1200px 600px;",
+                                  Optional padding As Object = "padding: 300px 1600px 1200px 300px;",
                                   Optional label_font As String = "font-style: normal; font-size: 18; font-family: " & FontFace.BookmanOldStyle & ";",
                                   Optional tick_font As String = "font-style: normal; font-size: 12; font-family: " & FontFace.BookmanOldStyle & ";",
                                   Optional axisStroke As String = "stroke: black; stroke-width: 5px; stroke-dash: solid;",

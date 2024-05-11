@@ -69,6 +69,7 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports dataframe = Microsoft.VisualBasic.Math.DataFrame.DataFrame
+Imports std = System.Math
 
 Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
@@ -80,6 +81,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     ReadOnly featureTree As Cluster
 
     ReadOnly no_class As SolidBrush = Brushes.LightGray
+    ReadOnly group_labels As String()
 
     ''' <summary>
     ''' 
@@ -113,6 +115,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         featureTree = data.PullDataSet(Of DataSet).RunCluster(, New CompleteLinkageStrategy)
 
         ' reorder by tree
+        Me.group_labels = groupd.Select(Function(s) s.sample_info).Distinct.ToArray
         Me.rawdata = data.slice(featureTree.OrderLeafs)
         Me.metadata = metadata.slice(featureTree.OrderLeafs)
         Me.data = rawdata
@@ -155,18 +158,18 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim rect As Rectangle = canvas.PlotRegion
         Dim delta As Double = rect.Width * 0.005
-        Dim label_region As New Rectangle(rect.Left, rect.Top, rect.Width * 0.2, rect.Height)
-        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.5, rect.Height)
-        Dim tree_region As New Rectangle(heatmap_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
-        Dim group_heatmap_region As New Rectangle(tree_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
-        Dim mean_log_region As New Rectangle(group_heatmap_region.Right, rect.Top, rect.Width * 0.025, rect.Height)
-        Dim vip_region As New Rectangle(mean_log_region.Right + delta, rect.Top, rect.Width * 0.05, rect.Height)
         Dim label_font As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
         Dim tick_font As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+        Dim charRectangle = g.MeasureString("A", label_font)
+        Dim max_label_size As SizeF = g.MeasureString(data.rownames.MaxLengthString, label_font)
+        Dim label_region As New Rectangle(rect.Left, rect.Top, std.Max(rect.Width * 0.2, max_label_size.Width), rect.Height)
+        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.5, rect.Height)
+        Dim tree_region As New Rectangle(heatmap_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
+        Dim group_heatmap_region As New Rectangle(tree_region.Right, rect.Top, std.Min(rect.Width * 0.1, charRectangle.Width * group_labels.Length), rect.Height)
+        Dim mean_log_region As New Rectangle(group_heatmap_region.Right, rect.Top, rect.Width * 0.025, rect.Height)
+        Dim vip_region As New Rectangle(mean_log_region.Right + delta, rect.Top, rect.Width * 0.05, rect.Height)
         Dim label_maxh As Single = label_region.Height / data.nsamples
         Dim legend_region As New Rectangle(rect.Right + 10, rect.Top, canvas.Padding.Right / 3, rect.Height)
-        Dim charRectangle = g.MeasureString("A", label_font)
-
 
         ' draw labels on left
         Dim y As Double = label_region.Top
