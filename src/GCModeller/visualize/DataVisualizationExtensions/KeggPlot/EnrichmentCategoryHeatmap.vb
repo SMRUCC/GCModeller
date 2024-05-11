@@ -278,7 +278,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         ' draw logp
         Dim logp = metadata("logp").TryCast(Of Double)
         Dim pval_range As New DoubleRange(logp)
-        Dim pval_colors As SolidBrush() = Designer.GetBrushes("jet", mapLevels)
+        Dim pval_colors As SolidBrush() = Designer.GetBrushes(ScalerPalette.turbo.Description, mapLevels)
 
         x = mean_log_region.Left
         y = mean_log_region.Top
@@ -337,7 +337,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
         ' draw group heatmap
         Dim group_heat = GetGroupHeat()
-        Dim group_heatcolors As SolidBrush() = Designer.GetBrushes(ColorBrewer.DivergingSchemes.RdYlBu7, mapLevels).Reverse.ToArray
+        Dim group_heatcolors As SolidBrush() = Designer.GetBrushes(ScalerPalette.Typhoon.Description, mapLevels).Reverse.ToArray
         Dim group_range As New DoubleRange(group_heat.features.Values.Select(Function(v) v.TryCast(Of Double)).IteratesALL)
         Dim group_tree = group_heat.features.Select(Function(v) New ClusterEntity(v.Key, v.Value.TryCast(Of Double))).RunVectorCluster
 
