@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a0c43b209b7d3a4047aab292c2980bc, G:/GCModeller/src/runtime/sciBASIC#/Data_science/DataMining/DataMining//test/DBSCAN/MyCustomDatasetItem.vb"
+﻿#Region "Microsoft.VisualBasic::7341cd314f5984cc56d6cde262f924ef, G:/GCModeller/src/runtime/sciBASIC#/Data_science/DataMining/DataMining//AprioriRules/Algorithm/Entities/TransactionTokensItem.vb"
 
 ' Author:
 ' 
@@ -34,32 +34,40 @@
 
 ' Code Statistics:
 
-'   Total Lines: 12
-'    Code Lines: 9
+'   Total Lines: 24
+'    Code Lines: 16
 ' Comment Lines: 0
-'   Blank Lines: 3
-'     File Size: 247 B
+'   Blank Lines: 8
+'     File Size: 688 B
 
 
-' Class MyCustomDatasetItem
+'     Class TransactionTokensItem
 ' 
-'     Constructor: (+1 Overloads) Sub New
+'         Properties: Name, Support
+' 
+'         Function: CompareTo, ToString
+' 
 ' 
 ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.DataMining.AprioriRules.Impl
 
-Public Class MyCustomDatasetItem : Implements IReadOnlyId
+Namespace AprioriRules.Entities
 
-    Public X As Double
-    Public Y As Double
+    Public Class TransactionTokensItem : Implements IComparable(Of TransactionTokensItem)
 
-    Public Sub New(x__1 As Double, y__2 As Double)
-        X = x__1
-        Y = y__2
-    End Sub
+        Public Property Name() As ItemSet
+        Public Property Support() As Double
 
-    Public ReadOnly Property Identity As String Implements IReadOnlyId.Identity
-End Class
+        Public Overrides Function ToString() As String
+            Return String.Format("(support={0})  {1}", Support, Name)
+        End Function
+
+        Public Function CompareTo(other As TransactionTokensItem) As Integer Implements IComparable(Of TransactionTokensItem).CompareTo
+            Return Name.CompareTo(other.Name)
+        End Function
+
+    End Class
+End Namespace

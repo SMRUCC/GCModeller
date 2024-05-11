@@ -53,55 +53,74 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.AprioriRules
 Imports Microsoft.VisualBasic.DataMining.AprioriRules.Entities
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module AprioriTest
     Sub Main()
+
+        Call test2()
         Call BasicQuickTest()
 
 
 
-        Dim data = "D:\GCModeller\src\runtime\sciBASIC#\Data_science\algorithms\arules\Adult.csv" _
-            .ReadAllLines _
-            .Skip(1) _
-            .Select(Function(s) Regex.Replace(s, ",""\d+""", "").Trim(""""c).Trim("{"c, "}"c)) _
-            .ToArray
+        'Dim data = "D:\GCModeller\src\runtime\sciBASIC#\Data_science\algorithms\arules\Adult.csv" _
+        '    .ReadAllLines _
+        '    .Skip(1) _
+        '    .Select(Function(s) Regex.Replace(s, ",""\d+""", "").Trim(""""c).Trim("{"c, "}"c)) _
+        '    .ToArray
 
-        Dim datasets = data.Select(Function(s, i) New EntityObject With {.ID = i, .Properties = s.Split(","c).Select(Function(t) t.GetTagValue("=")).ToDictionary(Function(n) n.Name, Function(v) v.Value)}).ToArray
-        Dim transactions = datasets.BuildTransactions.ToArray
-        Dim encoder As New Encoding(transactions.AllItems)
-        Dim list = encoder.TransactionEncoding(transactions).ToArray
+        'Dim datasets = data.Select(Function(s, i) New EntityObject With {.ID = i, .Properties = s.Split(","c).Select(Function(t) t.GetTagValue("=")).ToDictionary(Function(n) n.Name, Function(v) v.Value)}).ToArray
+        'Dim transactions = datasets.BuildTransactions.ToArray
+        'Dim encoder As New Encoding(transactions.AllItems)
+        'Dim list = encoder.TransactionEncoding(transactions).ToArray
 
 
 
+        Pause()
+    End Sub
+
+
+    Sub test2()
+        Dim trans As Transaction() = {
+            New Transaction("ABC"),
+             New Transaction("ABD"),
+             New Transaction("ACD"),
+             New Transaction("ABCE"),
+             New Transaction("ACE"),
+             New Transaction("BDE"),
+             New Transaction("ABCD")
+        }
+
+        Dim result = trans.AnalysisTransactions(3 / 7, 5 / 7, minlen:=2)
+
+        Call result.ToString.SaveTo("./test2.html")
         Pause()
     End Sub
 
     Sub BasicQuickTest()
-        Dim database$() = {"ACD", "BCE", "ABCE", "BE"}
+        Dim database As Transaction() = {New Transaction("ACD", {"A", "C", "D"}), New Transaction("BCE", {"B", "C", "E"}), New Transaction("ABCE", {"A", "B", "C", "E"}), New Transaction("BE", {"B", "E"})}
         Dim result As Output = database.AnalysisTransactions(minSupport:=0, minConfidence:=60)
 
         Call result.ToString.SaveTo("./test.html")
-        Call result.StrongRules.Where(Function(r) r.SupportX >= 2).SaveTo("./rules.csv")
+        Call Console.WriteLine(result.StrongRules.Where(Function(r) r.SupportX >= 2).ToArray.GetJson)
 
         Pause()
     End Sub
 
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension>
-    Public Function BuildTransactions(data As IEnumerable(Of EntityObject)) As IEnumerable(Of Transaction)
-        Return data _
-            .SafeQuery _
-            .Select(Function(t)
-                        Return New Transaction With {
-                            .Name = t.ID,
-                            .Items = t.Properties.Values.ToArray
-                        }
-                    End Function)
-    End Function
+    '<MethodImpl(MethodImplOptions.AggressiveInlining)>
+    '<Extension>
+    'Public Function BuildTransactions(data As IEnumerable(Of EntityObject)) As IEnumerable(Of Transaction)
+    '    Return data _
+    '        .SafeQuery _
+    '        .Select(Function(t)
+    '                    Return New Transaction With {
+    '                        .Name = t.ID,
+    '                        .Items = t.Properties.Values.ToArray
+    '                    }
+    '                End Function)
+    'End Function
 End Module

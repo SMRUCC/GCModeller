@@ -65,18 +65,20 @@ Namespace AprioriRules.Entities
         ''' </summary>
         ''' <returns></returns>
         Public Property StrongRules() As List(Of Rule)
-        Public Property MaximalItemSets() As List(Of String)
-        Public Property ClosedItemSets() As Dictionary(Of String, Dictionary(Of String, Double))
-        Public Property FrequentItems() As Dictionary(Of String, TransactionTokensItem)
+        Public Property MaximalItemSets() As List(Of ItemSet)
+        Public Property ClosedItemSets() As Dictionary(Of ItemSet, Dictionary(Of ItemSet, Double))
+        Public Property FrequentItems() As Dictionary(Of ItemSet, TransactionTokensItem)
+        Public Property TransactionSize As Integer
 
         Public Overrides Function ToString() As String
             Dim html As New StringBuilder()
             Dim rules = StrongRules _
                 .Select(Function(rule)
                             Return <tr>
-                                       <td><%= $"{{{rule.X}}} -> {{{rule.Y}}}" %></td>
+                                       <td><%= $"{rule.X} => {rule.Y}" %></td>
                                        <td><%= rule.SupportXY %></td>
                                        <td><%= rule.SupportX %></td>
+                                       <td><%= rule.SupportXY / TransactionSize %></td>
                                        <td><%= rule.Confidence %></td>
                                    </tr>
                         End Function) _
@@ -89,6 +91,7 @@ Namespace AprioriRules.Entities
                         <th>Rules</th>
                         <th>Support(X Y)</th>
                         <th>Support(X)</th>
+                        <th>Support</th>
                         <th>Confidence</th>
                     </tr>
                 </thead>)

@@ -54,8 +54,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.DataMining.AprioriRules.Impl
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace AprioriRules.Entities
 
@@ -65,31 +64,28 @@ Namespace AprioriRules.Entities
     ''' <remarks></remarks>
     Public Class Rule : Implements IComparable(Of Rule)
 
-#Region "Member Variables"
+        ''' <summary>
+        ''' combination 
+        ''' </summary>
+        ''' <returns></returns>
+        <Column(Name:="rule.X")> Public ReadOnly Property X As ItemSet
 
-        Dim combination As String
-        Dim remaining As String
-
-#End Region
-
-#Region "Public Properties"
-
-        <Column(Name:="rule.X")> Public ReadOnly Property X As String
-            Get
-                Return combination
-            End Get
-        End Property
-
-        <Column(Name:="rule.Y")> Public ReadOnly Property Y As String
-            Get
-                Return remaining
-            End Get
-        End Property
+        ''' <summary>
+        ''' remaining
+        ''' </summary>
+        ''' <returns></returns>
+        <Column(Name:="rule.Y")> Public ReadOnly Property Y As ItemSet
 
         <Column(Name:="support(XY)")>
         Public ReadOnly Property SupportXY As Double
         <Column(Name:="support(X)")>
         Public ReadOnly Property SupportX As Double
+
+        Public ReadOnly Property length As Integer
+            Get
+                Return X.Length + Y.Length
+            End Get
+        End Property
 
         ''' <summary>
         ''' 
@@ -99,29 +95,27 @@ Namespace AprioriRules.Entities
         ''' <remarks></remarks>
         <Column(Name:="confidence")> Public ReadOnly Property Confidence As Double
 
-        Public Sub New(combination$, remaining$, confidence#, supports As (XY#, X#))
-            Me.combination = combination
-            Me.remaining = remaining
+        Public Sub New(combination As ItemSet, remaining As ItemSet, confidence#, supports As (XY#, X#))
+            Me.X = combination
+            Me.Y = remaining
             Me.Confidence = confidence
             Me.SupportX = supports.X
             Me.SupportXY = supports.XY
         End Sub
-#End Region
 
         Public Overrides Function ToString() As String
-            Return $"({SupportXY}/{SupportX} = {stdNum.Round(Confidence, 4)}) {{ {X} }} -> {{ {Y} }}"
+            Return $"({SupportXY}/{SupportX} = {std.Round(Confidence, 4)}) {X} -> {Y}"
         End Function
-
-#Region "IComparable<clssRules> Members"
 
         Public Function CompareTo(other As Rule) As Integer Implements IComparable(Of Rule).CompareTo
             Return X.CompareTo(other.X)
         End Function
-#End Region
 
         Public Overrides Function GetHashCode() As Integer
-            Dim sortedXY$ = Apriori.SorterSortTokens(X & Y)
-            Return sortedXY.GetHashCode()
+            Dim sortedXY As ItemSet = (X & Y).SorterSortTokens
+            Dim hash As Integer = sortedXY.GetHashCode()
+
+            Return hash
         End Function
 
         Public Overrides Function Equals(obj As Object) As Boolean
