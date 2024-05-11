@@ -1,18 +1,67 @@
 .\" man page create by R# package system.
 .TH VISUALPLOT 2 2000-Jan "class_heatmap" "class_heatmap"
 .SH NAME
-class_heatmap \- 
+class_heatmap \- plot the heatmap with kegg class information
 .SH SYNOPSIS
 \fIclass_heatmap(\fBx\fR as <generic> dataframe, 
 \fBmetadata\fR as <generic> dataframe, 
 \fBsampleinfo\fR as <generic> SampleInfo[], 
 \fBsize\fR as any = "10000,6500", 
-\fBpadding\fR as any = "padding: 300px 1600px 1200px 600px;", 
+\fBpadding\fR as any = "padding: 300px 1600px 1200px 300px;", 
 \fBlabel_font\fR as string = "font-style: normal; font-size: 18; font-family: Bookman Old Style;", 
 \fBtick_font\fR as string = "font-style: normal; font-size: 12; font-family: Bookman Old Style;", 
 \fBaxisStroke\fR as string = "stroke: black; stroke-width: 5px; stroke-dash: solid;", 
 \fBdpi\fR as integer = 300, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+plot the heatmap with kegg class information
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ the molecule expression dataframe object, should contains the data of:
+ 
+ the row names in the dataframe is the molecule name labels and 
+ all the column fields should be the expression value in different 
+ samples.
+. 
+.PP
+.PP
+\fBmetadata\fB \fR\- 
+ the metadata for the molecules of given expression data **`x`**, should contains the metadata fields of:
+ 
+ 1. class: a character vector of the kegg class labels, example as pathway names, module names, or orthology labels
+ 2. logp: a numeric vector of the multiple group ANOVA test pvalue its log transform result of the molecules
+ 3. VIP: a numeric vector of the multiple group pls-da VIP result value for the molecules
+ 
+ the data field name is case-sensitive.
+. 
+.PP
+.PP
+\fBsampleinfo\fB \fR\- -. 
+.PP
+.PP
+\fBsize\fB \fR\- the image size of the plot. 
+.PP
+.PP
+\fBpadding\fB \fR\- the padding of the plot region. 
+.PP
+.PP
+\fBlabel_font\fB \fR\- -. 
+.PP
+.PP
+\fBtick_font\fB \fR\- -. 
+.PP
+.PP
+\fBaxisStroke\fB \fR\- -. 
+.PP
+.PP
+\fBdpi\fB \fR\- -. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 visualPlot
 .SH FILES
