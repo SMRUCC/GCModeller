@@ -163,11 +163,11 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim charRectangle = g.MeasureString("A", label_font)
         Dim max_label_size As SizeF = g.MeasureString(data.rownames.MaxLengthString, label_font)
         Dim label_region As New Rectangle(rect.Left, rect.Top, std.Max(rect.Width * 0.2, max_label_size.Width), rect.Height)
-        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.5, rect.Height)
-        Dim tree_region As New Rectangle(heatmap_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
-        Dim group_heatmap_region As New Rectangle(tree_region.Right, rect.Top, std.Min(rect.Width * 0.1, charRectangle.Width * group_labels.Length), rect.Height)
+        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.55, rect.Height)
+        Dim tree_region As New Rectangle(heatmap_region.Right, rect.Top, rect.Width * 0.05, rect.Height)
+        Dim group_heatmap_region As New Rectangle(tree_region.Right, rect.Top, std.Min(rect.Width * 0.1, 2 * charRectangle.Width * group_labels.Length), rect.Height)
         Dim mean_log_region As New Rectangle(group_heatmap_region.Right, rect.Top, rect.Width * 0.025, rect.Height)
-        Dim vip_region As New Rectangle(mean_log_region.Right + delta, rect.Top, rect.Width * 0.05, rect.Height)
+        Dim vip_region As New Rectangle(mean_log_region.Right + delta, rect.Top, std.Min(rect.Width * 0.05, 2 * charRectangle.Width), rect.Height)
         Dim label_maxh As Single = label_region.Height / data.nsamples
         Dim legend_region As New Rectangle(rect.Right + 10, rect.Top, canvas.Padding.Right / 3, rect.Height)
 
