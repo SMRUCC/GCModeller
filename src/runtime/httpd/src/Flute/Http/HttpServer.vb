@@ -82,7 +82,9 @@ Namespace Core
         ''' <summary>
         ''' 处理连接的线程池
         ''' </summary>
-        Protected Friend ReadOnly _threadPool As Threads.ThreadPool
+        Dim _threadPool As Integer
+        Dim _accept_workers As Integer = 0
+
         Protected Friend ReadOnly _httpListener As TcpListener
         Protected Friend ReadOnly _silent As Boolean = False
 
@@ -116,12 +118,13 @@ Namespace Core
             Me._settings = If(configs, New Configuration)
             Me._localPort = port
             Me._httpListener = New TcpListener(IPAddress.Any, _localPort)
-            Me._threadPool = New Threads.ThreadPool(threads Or defaultThreads)
+            Me._threadPool = threads Or defaultThreads
             Me._BufferSize = Val(App.GetVariable("httpserver.buffer_size"))
             Me._BufferSize = If(BufferSize <= 0, 4096, BufferSize)
             Me._silent = _settings.silent
 
-            Call $"Web server threads_pool_size={_threadPool.NumOfThreads}, buffer_size={BufferSize}bytes".__INFO_ECHO(_settings.silent)
+            Call ThreadPool.SetMaxThreads(_threadPool, _threadPool)
+            Call $"Web server threads_pool_size={_threadPool}, buffer_size={BufferSize}bytes".__INFO_ECHO(_settings.silent)
         End Sub
 
         ''' <summary>
@@ -135,7 +138,6 @@ Namespace Core
 
             Try
                 _httpListener.Start(10240)
-                _threadPool.Start()
 
                 Is_active = True
             Catch ex As Exception When ex.IsSocketPortOccupied
@@ -161,10 +163,10 @@ Namespace Core
             End Try
 
             While Is_active
-                If Not _threadPool.FullCapacity Then
-                    Call _threadPool.RunTask(AddressOf accept)
+                If _accept_workers <= _threadPool Then
+                    Call RunTask(AddressOf accept)
                 Else
-                    Thread.Sleep(1)
+                    Call Thread.Sleep(1)
                 End If
             End While
 
@@ -176,11 +178,14 @@ Namespace Core
         ''' </summary>
         ''' <param name="task"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub RunTask(task As Action)
-            Call _threadPool.RunTask(task)
+        Private Sub RunTask(task As WaitCallback)
+            _accept_workers += 1
+            ThreadPool.QueueUserWorkItem(task)
         End Sub
 
-        Private Sub accept()
+        Private Sub accept(stat As Object)
+            _accept_workers -= 1
+
             Try
                 Dim s As TcpClient = _httpListener.AcceptTcpClient
                 Dim processor As HttpProcessor = getHttpProcessor(s, BufferSize)
@@ -205,7 +210,6 @@ Namespace Core
         Public Sub Shutdown()
             Is_active = False
             _httpListener.Stop()
-            _threadPool.Dispose()
         End Sub
 
         ''' <summary>
@@ -240,7 +244,7 @@ Namespace Core
         Public MustOverride Sub handleOtherMethod(p As HttpProcessor)
 
         Public Overrides Function ToString() As String
-            Return $"http://localhost:{localPort}"
+            Return $"[http://localhost:{localPort}] http_workers: {_accept_workers}"
         End Function
 
 #Region "IDisposable Support"
