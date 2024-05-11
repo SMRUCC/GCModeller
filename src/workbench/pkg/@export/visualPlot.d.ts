@@ -40,13 +40,43 @@ declare namespace visualPlot {
       function plot(profiles: object, title?: string, axis_title?: string, size?: any, tick?: number, colors?: any, dpi?: object, format?: string, env?: object): object;
    }
    /**
-     * @param size default value Is ``'10000,6500'``.
-     * @param padding default value Is ``'padding: 300px 1600px 1200px 600px;'``.
-     * @param label_font default value Is ``'font-style: normal; font-size: 18; font-family: Bookman Old Style;'``.
-     * @param tick_font default value Is ``'font-style: normal; font-size: 12; font-family: Bookman Old Style;'``.
-     * @param axisStroke default value Is ``'stroke: black; stroke-width: 5px; stroke-dash: solid;'``.
-     * @param dpi default value Is ``300``.
-     * @param env default value Is ``null``.
+    * plot the heatmap with kegg class information
+    * 
+    * 
+     * @param x the molecule expression dataframe object, should contains the data of:
+     *  
+     *  the row names in the dataframe is the molecule name labels and 
+     *  all the column fields should be the expression value in different 
+     *  samples.
+     * @param metadata the metadata for the molecules of given expression data **`x`**, should contains the metadata fields of:
+     *  
+     *  1. class: a character vector of the kegg class labels, example as pathway names, module names, or orthology labels
+     *  2. logp: a numeric vector of the multiple group ANOVA test pvalue its log transform result of the molecules
+     *  3. VIP: a numeric vector of the multiple group pls-da VIP result value for the molecules
+     *  
+     *  the data field name is case-sensitive.
+     * @param sampleinfo -
+     * @param size the image size of the plot
+     * 
+     * + default value Is ``'10000,6500'``.
+     * @param padding the padding of the plot region
+     * 
+     * + default value Is ``'padding: 300px 1600px 1200px 300px;'``.
+     * @param label_font -
+     * 
+     * + default value Is ``'font-style: normal; font-size: 18; font-family: Bookman Old Style;'``.
+     * @param tick_font -
+     * 
+     * + default value Is ``'font-style: normal; font-size: 12; font-family: Bookman Old Style;'``.
+     * @param axisStroke -
+     * 
+     * + default value Is ``'stroke: black; stroke-width: 5px; stroke-dash: solid;'``.
+     * @param dpi -
+     * 
+     * + default value Is ``300``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function class_heatmap(x: object, metadata: object, sampleinfo: object, size?: any, padding?: any, label_font?: string, tick_font?: string, axisStroke?: string, dpi?: object, env?: object): any;
    module classchange {

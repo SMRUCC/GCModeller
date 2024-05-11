@@ -69,6 +69,7 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports dataframe = Microsoft.VisualBasic.Math.DataFrame.DataFrame
+Imports std = System.Math
 
 Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
 
@@ -80,13 +81,41 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     ReadOnly featureTree As Cluster
 
     ReadOnly no_class As SolidBrush = Brushes.LightGray
+    ReadOnly group_labels As String()
 
-    Public Sub New(data As dataframe, metadata As dataframe, groupd As SampleInfo(), theme As Theme, Optional kegg_class As String = "class")
-        MyBase.New(theme)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="data">
+    ''' a dataframe object that contains the molecular expression data: 
+    ''' the row names in the dataframe is the molecule name labels and 
+    ''' all the column fields should be the expression value in different 
+    ''' samples.
+    ''' </param>
+    ''' <param name="metadata">
+    ''' the metadata for the molecules of given expression <paramref name="data"/>, should contains the metadata fields of:
+    ''' 
+    ''' 1. class: a character vector of the kegg class labels, example as pathway names, module names, or orthology labels
+    ''' 2. logp: a numeric vector of the multiple group ANOVA test pvalue its log transform result of the molecules
+    ''' 3. VIP: a numeric vector of the multiple group pls-da VIP result value for the molecules
+    ''' 
+    ''' the data field name is case-sensitive.
+    ''' </param>
+    ''' <param name="groupd"></param>
+    ''' <param name="theme"></param>
+    ''' <param name="kegg_class"></param>
+    Public Sub New(data As dataframe, metadata As dataframe,
+                   groupd As SampleInfo(),
+                   theme As Theme,
+                   Optional kegg_class As String = "class")
+
+        Call MyBase.New(theme)
 
         data = data.Log(2).ZScale(byrow:=True)
         featureTree = data.PullDataSet(Of DataSet).RunCluster(, New CompleteLinkageStrategy)
 
+        ' reorder by tree
+        Me.group_labels = groupd.Select(Function(s) s.sample_info).Distinct.ToArray
         Me.rawdata = data.slice(featureTree.OrderLeafs)
         Me.metadata = metadata.slice(featureTree.OrderLeafs)
         Me.data = rawdata
@@ -129,18 +158,26 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim rect As Rectangle = canvas.PlotRegion
         Dim delta As Double = rect.Width * 0.005
-        Dim label_region As New Rectangle(rect.Left, rect.Top, rect.Width * 0.2, rect.Height)
-        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.5, rect.Height)
-        Dim tree_region As New Rectangle(heatmap_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
-        Dim group_heatmap_region As New Rectangle(tree_region.Right, rect.Top, rect.Width * 0.1, rect.Height)
-        Dim mean_log_region As New Rectangle(group_heatmap_region.Right, rect.Top, rect.Width * 0.025, rect.Height)
-        Dim vip_region As New Rectangle(mean_log_region.Right + delta, rect.Top, rect.Width * 0.05, rect.Height)
         Dim label_font As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
         Dim tick_font As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+        Dim charRectangle = g.MeasureString("A", label_font)
+        Dim max_label_size As SizeF = g.MeasureString(data.rownames.MaxLengthString, label_font)
+        Dim width As Double
+        Dim label_region As New Rectangle(rect.Left, rect.Top, std.Max(rect.Width * 0.2, max_label_size.Width), rect.Height)
+        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.55, rect.Height)
+        Dim tree_left As Double = heatmap_region.Right + delta / 2
+
+        width = std.Min(rect.Width * 0.05, 4 * charRectangle.Width)
+        Dim vip_region As New Rectangle(rect.Right - width - delta, rect.Top, width, rect.Height)
+        width = rect.Width * 0.025
+        Dim mean_log_region As New Rectangle(vip_region.Left - width - delta, rect.Top, width, rect.Height)
+        width = std.Min(rect.Width * 0.1, 3 * charRectangle.Width * group_labels.Length)
+        Dim group_heatmap_region As New Rectangle(mean_log_region.Left - width - delta, rect.Top, width, rect.Height)
+        width = group_heatmap_region.Left - tree_left - delta
+        Dim tree_region As New Rectangle(tree_left, rect.Top, width, rect.Height)
+
         Dim label_maxh As Single = label_region.Height / data.nsamples
         Dim legend_region As New Rectangle(rect.Right + 10, rect.Top, canvas.Padding.Right / 3, rect.Height)
-        Dim charRectangle = g.MeasureString("A", label_font)
-
 
         ' draw labels on left
         Dim y As Double = label_region.Top
@@ -241,10 +278,11 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         ' draw logp
         Dim logp = metadata("logp").TryCast(Of Double)
         Dim pval_range As New DoubleRange(logp)
-        Dim pval_colors As SolidBrush() = Designer.GetBrushes("jet", mapLevels)
+        Dim pval_colors As SolidBrush() = Designer.GetBrushes(ScalerPalette.turbo.Description, mapLevels)
 
         x = mean_log_region.Left
         y = mean_log_region.Top
+        dx = mean_log_region.Width * 0.95
 
         For i = 0 To data.rownames.Length - 1
             boxCell = New RectangleF(x, y, dx, dy)
