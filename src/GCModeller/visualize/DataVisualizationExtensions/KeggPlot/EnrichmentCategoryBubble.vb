@@ -103,7 +103,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
         Dim name_label_font As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
         Dim max_string_size As SizeF = g.MeasureString(max_string, name_label_font)
         Dim left = canvas.PlotRegion.Left + max_string_size.Width
-        Dim bubble_rect_width As Single = canvas.PlotRegion.Width = max_string_size.Width
+        Dim bubble_rect_width As Single = canvas.PlotRegion.Width - max_string_size.Width
         Dim labelColor As Brush = theme.tagColor.GetBrush
         Dim y As Single = canvas.PlotRegion.Top
         Dim dashline As Pen = Stroke.TryParse(theme.gridStrokeY)
@@ -118,8 +118,8 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
         Dim axis_stroke As Pen = Stroke.TryParse(theme.axisStroke)
         Dim scaler As New DataScaler() With {
             .AxisTicks = (x_Ticks, {canvas.PlotRegion.Top, canvas.PlotRegion.Bottom}),
-            .region = canvas.PlotRegion,
-            .X = d3js.scale.linear().range(values:={left, left + plotW}).domain(x_Ticks),
+            .region = New Rectangle(left + radius.Min, top, bubble_rect_width - radius.Min, y - top),
+            .X = d3js.scale.linear().range(values:={ .region.Left, .region.Right}).domain(x_Ticks),
             .Y = d3js.scale.constant(0)
         }
         Dim categoryBarWidth As Single = 0.05 * plotW
@@ -160,9 +160,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
 
         Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
 
-        scaler.region = New Rectangle(left, top, bubble_rect_width, y - top)
-
-        Call g.DrawLine(Stroke.TryParse(theme.axisStroke).GDIObject, scaler.region.Left, scaler.region.Bottom, scaler.region.Right, scaler.region.Bottom)
+        ' Call g.DrawLine(Stroke.TryParse(theme.axisStroke).GDIObject, scaler.region.Left, scaler.region.Bottom, scaler.region.Right, scaler.region.Bottom)
         Call Axis.DrawX(g, axis_stroke, "-log10(p)", scaler, XAxisLayoutStyles.ZERO, y, Nothing, theme.axisLabelCSS,
                         Brushes.Black, tickFont,
                         Brushes.Black, htmlLabel:=False)
