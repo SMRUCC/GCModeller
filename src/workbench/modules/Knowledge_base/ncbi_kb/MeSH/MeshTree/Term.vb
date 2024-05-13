@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20f1bfe8dcb67883e7557a5c22a25076, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//MeSH/MeshTree/Term.vb"
+﻿#Region "Microsoft.VisualBasic::20f1bfe8dcb67883e7557a5c22a25076, modules\Knowledge_base\ncbi_kb\MeSH\MeshTree\Term.vb"
 
     ' Author:
     ' 

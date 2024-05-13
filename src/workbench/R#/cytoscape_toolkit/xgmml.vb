@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b31adf2eecccdc23f448cf209bcf646e, G:/GCModeller/src/workbench/R#/cytoscape_toolkit//xgmml.vb"
+﻿#Region "Microsoft.VisualBasic::b31adf2eecccdc23f448cf209bcf646e, R#\cytoscape_toolkit\xgmml.vb"
 
     ' Author:
     ' 

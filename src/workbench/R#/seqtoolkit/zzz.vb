@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2da401f4f38b21482022ced3832db85b, G:/GCModeller/src/workbench/R#/seqtoolkit//zzz.vb"
+﻿#Region "Microsoft.VisualBasic::2da401f4f38b21482022ced3832db85b, R#\seqtoolkit\zzz.vb"
 
     ' Author:
     ' 

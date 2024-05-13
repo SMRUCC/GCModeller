@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16a726affb663b57ae539f8be4e06a58, G:/GCModeller/src/workbench/R#/gseakit//KOBAS.vb"
+﻿#Region "Microsoft.VisualBasic::16a726affb663b57ae539f8be4e06a58, R#\gseakit\KOBAS.vb"
 
     ' Author:
     ' 

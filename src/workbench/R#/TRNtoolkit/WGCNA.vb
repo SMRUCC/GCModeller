@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b21d77b637ccd27f9c13293e61123aa, G:/GCModeller/src/workbench/R#/TRNtoolkit//WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::8b21d77b637ccd27f9c13293e61123aa, R#\TRNtoolkit\WGCNA.vb"
 
     ' Author:
     ' 

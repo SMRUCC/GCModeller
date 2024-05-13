@@ -145,7 +145,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
             y += termH / 2
         Next
 
-        Call Axis.DrawX(g, axis_stroke, "-log10(p)", scaler, XAxisLayoutStyles.Bottom, 0, Nothing, theme.axisLabelCSS,
+        Call Axis.DrawX(g, axis_stroke, "-log10(p)", scaler, XAxisLayoutStyles.ZERO, y, Nothing, theme.axisLabelCSS,
                         Brushes.Black, CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi),
                         Brushes.Black, htmlLabel:=False)
     End Sub

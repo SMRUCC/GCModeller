@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d645f227d669d458b42b0fbb951d8b27, G:/GCModeller/src/workbench/R#/rnaseq//AssembleResult.vb"
+﻿#Region "Microsoft.VisualBasic::d645f227d669d458b42b0fbb951d8b27, R#\rnaseq\AssembleResult.vb"
 
     ' Author:
     ' 

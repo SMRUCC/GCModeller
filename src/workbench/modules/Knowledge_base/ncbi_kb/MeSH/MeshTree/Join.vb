@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::acdb36ed6124b0bfe7af8a4dfc661b45, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//MeSH/MeshTree/Join.vb"
+﻿#Region "Microsoft.VisualBasic::acdb36ed6124b0bfe7af8a4dfc661b45, modules\Knowledge_base\ncbi_kb\MeSH\MeshTree\Join.vb"
 
     ' Author:
     ' 

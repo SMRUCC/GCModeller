@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92c8fc02e20a15ae43fa03326443e3c2, G:/GCModeller/src/workbench/modules/SeqFeature/SeqFeature//ASCIIViewer.vb"
+﻿#Region "Microsoft.VisualBasic::92c8fc02e20a15ae43fa03326443e3c2, modules\SeqFeature\SeqFeature\ASCIIViewer.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::962dcea90e40f76f925d80a6f3b2136e, G:/GCModeller/src/workbench/R#/annotationKit//BioCyc.vb"
+﻿#Region "Microsoft.VisualBasic::962dcea90e40f76f925d80a6f3b2136e, R#\annotationKit\BioCyc.vb"
 
     ' Author:
     ' 

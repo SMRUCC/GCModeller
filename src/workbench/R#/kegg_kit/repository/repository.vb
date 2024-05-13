@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cd6484a117d08cd83d21bd23ad3fb65, G:/GCModeller/src/workbench/R#/kegg_kit//repository/repository.vb"
+﻿#Region "Microsoft.VisualBasic::3cd6484a117d08cd83d21bd23ad3fb65, R#\kegg_kit\repository\repository.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea11b13fb1ac6911bdb458340bfcf84c, G:/GCModeller/src/workbench/modules/ExperimentDesigner//Templates/SampleTuple.vb"
+﻿#Region "Microsoft.VisualBasic::ea11b13fb1ac6911bdb458340bfcf84c, modules\ExperimentDesigner\Templates\SampleTuple.vb"
 
     ' Author:
     ' 

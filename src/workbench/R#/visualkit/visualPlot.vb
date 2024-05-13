@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bee5ed5e848de35c58633c359ea033e, G:/GCModeller/src/workbench/R#/visualkit//visualPlot.vb"
+﻿#Region "Microsoft.VisualBasic::f16aef973af66c9d0a02de127a595a57, R#\visualkit\visualPlot.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 895
-    '    Code Lines: 669
-    ' Comment Lines: 145
+    '   Total Lines: 939
+    '    Code Lines: 685
+    ' Comment Lines: 173
     '   Blank Lines: 81
-    '     File Size: 40.51 KB
+    '     File Size: 43.31 KB
 
 
     ' Module visualPlot

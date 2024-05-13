@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4711b6fb8dd3c3c672150f5748815a0, G:/GCModeller/src/workbench/R#/gokit//file.vb"
+﻿#Region "Microsoft.VisualBasic::d4711b6fb8dd3c3c672150f5748815a0, R#\gokit\file.vb"
 
     ' Author:
     ' 

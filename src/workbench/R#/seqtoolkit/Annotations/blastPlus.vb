@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b16fb0ce153e06ae1b4b1693ae0b7a46, G:/GCModeller/src/workbench/R#/seqtoolkit//Annotations/blastPlus.vb"
+﻿#Region "Microsoft.VisualBasic::b16fb0ce153e06ae1b4b1693ae0b7a46, R#\seqtoolkit\Annotations\blastPlus.vb"
 
     ' Author:
     ' 

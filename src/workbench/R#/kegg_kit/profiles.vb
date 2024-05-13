@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::848365570c7bdf93665057a8e57a1273, G:/GCModeller/src/workbench/R#/kegg_kit//profiles.vb"
+﻿#Region "Microsoft.VisualBasic::848365570c7bdf93665057a8e57a1273, R#\kegg_kit\profiles.vb"
 
     ' Author:
     ' 

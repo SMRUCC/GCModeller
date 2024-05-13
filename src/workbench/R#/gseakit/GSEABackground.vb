@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f8a7d712b82e837482a02a767207473, G:/GCModeller/src/workbench/R#/gseakit//GSEABackground.vb"
+﻿#Region "Microsoft.VisualBasic::9f8a7d712b82e837482a02a767207473, R#\gseakit\GSEABackground.vb"
 
     ' Author:
     ' 

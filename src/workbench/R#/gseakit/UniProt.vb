@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::526c669b2b106372d1f36af1e529f4a4, G:/GCModeller/src/workbench/R#/gseakit//UniProt.vb"
+﻿#Region "Microsoft.VisualBasic::526c669b2b106372d1f36af1e529f4a4, R#\gseakit\UniProt.vb"
 
     ' Author:
     ' 

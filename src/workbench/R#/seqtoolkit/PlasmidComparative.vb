@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1db3f4d0055d67d8e73b37c55452f34, G:/GCModeller/src/workbench/R#/seqtoolkit//PlasmidComparative.vb"
+﻿#Region "Microsoft.VisualBasic::f1db3f4d0055d67d8e73b37c55452f34, R#\seqtoolkit\PlasmidComparative.vb"
 
     ' Author:
     ' 

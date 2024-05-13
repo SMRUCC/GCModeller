@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::40e765aaccb06162e5e611998d8f2cb6, G:/GCModeller/src/workbench/R#/annotationKit//OBO_DAG.vb"
+﻿#Region "Microsoft.VisualBasic::fd04445225ccf2cc1cb7ed25c06f834d, R#\annotationKit\OBO_DAG.vb"
 
     ' Author:
     ' 
@@ -34,17 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 206
-    '    Code Lines: 155
+    '   Total Lines: 211
+    '    Code Lines: 159
     ' Comment Lines: 18
-    '   Blank Lines: 33
-    '     File Size: 7.20 KB
+    '   Blank Lines: 34
+    '     File Size: 7.34 KB
 
 
     ' Module OBO_DAG
     ' 
-    '     Function: filterObsolete, filterProperty, lineage_term, ontologyLeafs, ontologyNodes
-    '               ontologyTree, openOboFile, readOboDAG, saveObo, termTable
+    '     Function: filterObsolete, filterProperty, getOboTerms, lineage_term, ontologyLeafs
+    '               ontologyNodes, ontologyTree, openOboFile, readOboDAG, saveObo
+    '               termTable
     ' 
     '     Sub: Main
     ' 

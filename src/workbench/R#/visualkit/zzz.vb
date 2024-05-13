@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f21a2c0ec9b99758ea8e88472021f199, G:/GCModeller/src/workbench/R#/visualkit//zzz.vb"
+﻿#Region "Microsoft.VisualBasic::f21a2c0ec9b99758ea8e88472021f199, R#\visualkit\zzz.vb"
 
     ' Author:
     ' 

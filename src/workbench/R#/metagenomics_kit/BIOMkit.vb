@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf6a55c8fee19093430b6d75f1a7a4e8, G:/GCModeller/src/workbench/R#/metagenomics_kit//BIOMkit.vb"
+﻿#Region "Microsoft.VisualBasic::cf6a55c8fee19093430b6d75f1a7a4e8, R#\metagenomics_kit\BIOMkit.vb"
 
     ' Author:
     ' 

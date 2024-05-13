@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34fd24ffc49cc9a9cfdaec7d7eedb867, G:/GCModeller/src/workbench/R#/gseakit//Profiles.vb"
+﻿#Region "Microsoft.VisualBasic::34fd24ffc49cc9a9cfdaec7d7eedb867, R#\gseakit\Profiles.vb"
 
     ' Author:
     ' 
