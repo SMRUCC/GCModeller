@@ -111,7 +111,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
         Dim x_Ticks As Vector = (-enrich.Values.IteratesALL.Select(Function(ti) ti.pvalue).AsVector.Log10).CreateAxisTicks
         Dim radius_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) Val(ti.enriched)).AsVector
         Dim color_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) ti.pvalue).AsVector
-        Dim radius As New DoubleRange(0.1 * termH, termH)
+        Dim radius As New DoubleRange(0.3 * termH, termH)
         Dim colors As Brush() = Designer.GetBrushes(theme.colorSet)
         Dim colorOffset As New DoubleRange(0, colors.Length - 1)
         Dim boxFill As Brush = Brushes.LightGray
@@ -190,7 +190,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
             legend_layout.Height)
 
         Call New CircleSizeLegend With {
-            .CircleStroke = Stroke.TryParse(theme.axisStroke).GDIObject,
+            .circleStroke = Stroke.TryParse(theme.axisStroke).GDIObject,
             .radius = radiusVal _
                 .CreateAxisTicks(ticks:=5) _
                 .Select(Function(d) CInt(d)) _
@@ -199,7 +199,8 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
                 .ToArray,
             .radiusFont = tickFont,
             .title = "Count",
-            .titleFont = name_label_font
+            .titleFont = name_label_font,
+            .radius_scale = d3js.scale.linear.range(radius.Min, radius.Max).domain(radius_scaler.MinMax)
         }.Draw(g, circle_layout)
 
     End Sub
