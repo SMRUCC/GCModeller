@@ -112,7 +112,7 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
         Dim radius_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) Val(ti.enriched)).AsVector
         Dim color_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) ti.FDR).AsVector
         Dim radius As New DoubleRange(0.45 * termH, termH)
-        Dim colors As Brush() = Designer.GetBrushes(theme.colorSet)
+        Dim colors As Brush() = Designer.GetBrushes(theme.colorSet, mapLevels)
         Dim colorOffset As New DoubleRange(0, colors.Length - 1)
         Dim boxFill As Brush = Brushes.LightGray
         Dim axis_stroke As Pen = Stroke.TryParse(theme.axisStroke)
