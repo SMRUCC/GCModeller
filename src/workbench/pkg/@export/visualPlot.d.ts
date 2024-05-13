@@ -221,10 +221,20 @@ declare namespace visualPlot {
       function category_profile(profiles: any, top?: object, sort?: boolean, valueCut?: number, env?: object): object;
       module enrichment {
          /**
-           * @param size default value Is ``'2700,3800'``.
+           * @param size default value Is ``'12000,10000'``.
+           * @param padding default value Is ``'padding:300px 2500px 500px 300px;'``.
+           * @param colorset default value Is ``'YlGnBu:c9'``.
+           * @param top_n default value Is ``9``.
+           * @param mapLevels default value Is ``25``.
+           * @param label_font default value Is ``'font-style: normal; font-size: 42; font-family: Verdana;'``.
+           * @param tick_font default value Is ``'font-style: normal; font-size: 36; font-family: Verdana;'``.
+           * @param axis_stroke default value Is ``'stroke: black; stroke-width: 10px; stroke-dash: solid;'``.
+           * @param legend_title_font default value Is ``'font-style: normal; font-size: 50; font-family: Verdana;'``.
+           * @param grid_stroke default value Is ``'stroke: lightgray; stroke-width: 10px; stroke-dash: dash;'``.
+           * @param dpi default value Is ``300``.
            * @param env default value Is ``null``.
          */
-         function bubble2(terms: object, size?: any, env?: object): any;
+         function bubble2(terms: object, size?: any, padding?: any, colorset?: string, top_n?: object, mapLevels?: object, label_font?: string, tick_font?: string, axis_stroke?: string, legend_title_font?: string, grid_stroke?: string, dpi?: object, env?: object): any;
          /**
           * plot kegg enrichment result in bubble plot
           * 

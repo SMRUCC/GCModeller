@@ -112,7 +112,7 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
         Dim radius_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) Val(ti.enriched)).AsVector
         Dim color_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) ti.FDR).AsVector
         Dim radius As New DoubleRange(0.45 * termH, termH)
-        Dim colors As Brush() = Designer.GetBrushes(theme.colorSet)
+        Dim colors As Brush() = Designer.GetBrushes(theme.colorSet, mapLevels)
         Dim colorOffset As New DoubleRange(0, colors.Length - 1)
         Dim boxFill As Brush = Brushes.LightGray
         Dim axis_stroke As Pen = Stroke.TryParse(theme.axisStroke)
@@ -124,6 +124,7 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
         }
         Dim categoryBarWidth As Single = 0.05 * plotW
         Dim radiusVal As New List(Of Double)
+        Dim label_char_size As SizeF = g.MeasureString("A", name_label_font)
 
         Call Array.Reverse(colors)
 
@@ -133,7 +134,7 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
             For Each term As EnrichmentResult In enrich(category)
                 Dim label_size As SizeF = g.MeasureString(term.name, name_label_font)
                 Dim label_left = left - label_size.Width
-                Dim label_pos As New PointF(label_left, y)
+                Dim label_pos As New PointF(label_left - label_char_size.Width, y)
                 Dim r As Single = radius_scaler.ScaleMapping(Val(term.enriched), radius)
                 Dim c As Brush = colors(CInt(color_scaler.ScaleMapping(term.FDR, colorOffset)))
                 Dim xi As Single = -std.Log10(term.pvalue)

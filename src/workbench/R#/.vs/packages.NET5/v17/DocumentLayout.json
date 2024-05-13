@@ -3,6 +3,12 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategorybubble.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategoryheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\visualkit\\visualplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|solutionrelative:visualkit\\visualplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
@@ -14,8 +20,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 223,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EnrichmentCategoryHeatmap.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
+              "ViewState": "AQIAAIsAAAAAAAAAAIA9wJgAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-13T09:15:42.496Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EnrichmentCategoryBubble.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
+              "ViewState": "AQIAAGgAAAAAAAAAAAAYwIAAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-13T08:50:00.038Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -25,21 +57,21 @@
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "visualPlot.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\visualkit\\visualPlot.vb",
               "RelativeDocumentMoniker": "visualkit\\visualPlot.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\visualkit\\visualPlot.vb",
               "RelativeToolTip": "visualkit\\visualPlot.vb",
-              "ViewState": "AQIAAKMBAAAAAAAAAAApwLUBAACMAAAA",
+              "ViewState": "AQIAAPkBAAAAAAAAAAAlwAgCAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-05-13T08:45:41.827Z",
+              "WhenOpened": "2024-05-13T08:49:50.353Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
