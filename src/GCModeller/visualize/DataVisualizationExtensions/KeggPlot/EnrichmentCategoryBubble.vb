@@ -67,7 +67,7 @@ Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports std = System.Math
 
-Public Class EnrichmentCategoryBubble : Inherits Plot
+Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
 
     ReadOnly enrich As Dictionary(Of String, EnrichmentResult())
 
@@ -125,6 +125,8 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
         Dim categoryBarWidth As Single = 0.05 * plotW
         Dim radiusVal As New List(Of Double)
 
+        Call Array.Reverse(colors)
+
         For Each category As String In enrich.Keys
             Dim y0 As Single = y
 
@@ -172,6 +174,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
             canvas.Padding.Right * (2 / 3),
             canvas.PlotRegion.Height / 3)
 
+        Call Array.Reverse(colors)
         Call New ColorMapLegend(colors) With {
             .maxWidth = legend_layout.Width,
             .tickAxisStroke = axis_stroke,
