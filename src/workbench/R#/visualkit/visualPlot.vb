@@ -447,7 +447,7 @@ Module visualPlot
         Dim size_val = InteropArgumentHelper.getSize(size, env, "6000,10000")
         Dim theme As New Theme With {
             .colorSet = colorset,
-            .padding = padding,
+            .padding = padding_val,
             .axisLabelCSS = label_font,
             .axisTickCSS = tick_font,
             .axisStroke = axis_stroke,
