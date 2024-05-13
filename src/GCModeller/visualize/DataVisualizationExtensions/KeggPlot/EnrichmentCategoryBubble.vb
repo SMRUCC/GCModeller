@@ -167,6 +167,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
                         Brushes.Black, tickFont,
                         Brushes.Black, htmlLabel:=False)
 
+        Dim legendTitleFont As Font = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi)
         Dim legend_layout As New Rectangle(
             canvas.PlotRegion.Right + categoryBarWidth * 2,
             canvas.PlotRegion.Top + canvas.PlotRegion.Height / 6,
@@ -179,7 +180,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
             .tickFont = tickFont,
             .title = "Adjust p with BH",
             .ticks = color_scaler.CreateAxisTicks,
-            .titleFont = name_label_font,
+            .titleFont = legendTitleFont,
             .noblank = True
         }.Draw(g, legend_layout)
 
@@ -199,7 +200,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
                 .ToArray,
             .radiusFont = tickFont,
             .title = "Count",
-            .titleFont = name_label_font
+            .titleFont = legendTitleFont
         }.Draw(g, circle_layout)
 
     End Sub
