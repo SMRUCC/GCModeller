@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -122,6 +123,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
             .Y = d3js.scale.constant(0)
         }
         Dim categoryBarWidth As Single = 0.05 * plotW
+        Dim radiusVal As New List(Of Double)
 
         For Each category As String In enrich.Keys
             Dim y0 As Single = y
@@ -136,6 +138,8 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
 
                 xi = scaler.TranslateX(xi)
                 y += termH
+
+                radiusVal.Add(r)
                 g.DrawString(term.name, name_label_font, labelColor, label_pos)
                 g.DrawLine(dashline, New PointF(left, label_pos.Y + termH / 2), New PointF(left + plotW, label_pos.Y + termH / 2))
                 g.DrawCircle(New PointF(xi - 2, label_pos.Y + termH / 2 - 2), r + 9, Brushes.Black)
@@ -165,7 +169,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
 
         Dim legend_layout As New Rectangle(
             canvas.PlotRegion.Right + categoryBarWidth * 2,
-            canvas.PlotRegion.Top + canvas.PlotRegion.Height / 4,
+            canvas.PlotRegion.Top + canvas.PlotRegion.Height / 6,
             canvas.Padding.Right * (2 / 3),
             canvas.PlotRegion.Height / 3)
 
@@ -178,6 +182,25 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
             .titleFont = name_label_font,
             .noblank = True
         }.Draw(g, legend_layout)
+
+        Dim circle_layout As New Rectangle(
+            legend_layout.Left,
+            legend_layout.Bottom + max_string_size.Height * 2,
+            legend_layout.Width,
+            legend_layout.Height)
+
+        Call New CircleSizeLegend With {
+            .CircleStroke = Stroke.TryParse(theme.axisStroke).GDIObject,
+            .radius = radiusVal _
+                .CreateAxisTicks(ticks:=5) _
+                .Select(Function(d) CInt(d)) _
+                .Distinct _
+                .OrderBy(Function(a) a) _
+                .ToArray,
+            .radiusFont = tickFont,
+            .title = "Count",
+            .titleFont = name_label_font
+        }.Draw(g, circle_layout)
 
     End Sub
 End Class
