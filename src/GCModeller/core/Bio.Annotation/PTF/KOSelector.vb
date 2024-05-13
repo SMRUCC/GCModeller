@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1302cea61b735d45185752d3400cc03d, G:/GCModeller/src/GCModeller/core/Bio.Annotation//PTF/KOSelector.vb"
+﻿#Region "Microsoft.VisualBasic::1302cea61b735d45185752d3400cc03d, core\Bio.Annotation\PTF\KOSelector.vb"
 
     ' Author:
     ' 

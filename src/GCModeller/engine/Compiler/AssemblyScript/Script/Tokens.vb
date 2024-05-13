@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ce6e58d914f3b2ae0eafac657a37451, G:/GCModeller/src/GCModeller/engine/Compiler//AssemblyScript/Script/Tokens.vb"
+﻿#Region "Microsoft.VisualBasic::4ce6e58d914f3b2ae0eafac657a37451, engine\Compiler\AssemblyScript\Script\Tokens.vb"
 
     ' Author:
     ' 

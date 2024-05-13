@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9dc4d37dfc095690e42a2516c5feb5e1, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Restriction_enzyme/WikiLoader.vb"
+﻿#Region "Microsoft.VisualBasic::9dc4d37dfc095690e42a2516c5feb5e1, analysis\Motifs\PrimerDesigner\Restriction_enzyme\WikiLoader.vb"
 
     ' Author:
     ' 

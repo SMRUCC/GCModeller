@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c09ff0dac72147a120bd5ee1be3dd4d3, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//VectorCompares.vb"
+﻿#Region "Microsoft.VisualBasic::c09ff0dac72147a120bd5ee1be3dd4d3, analysis\SequenceToolkit\MotifFinder\VectorCompares.vb"
 
     ' Author:
     ' 

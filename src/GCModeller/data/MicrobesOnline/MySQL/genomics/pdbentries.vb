@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ed73bc971c392b4ce5dd74345083434, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/pdbentries.vb"
+﻿#Region "Microsoft.VisualBasic::7ed73bc971c392b4ce5dd74345083434, data\MicrobesOnline\MySQL\genomics\pdbentries.vb"
 
     ' Author:
     ' 

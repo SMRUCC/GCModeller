@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9906e1162d71a04a6daafbae2933d4ff, G:/GCModeller/src/GCModeller/annotations/Proteomics//iTraq/iTraqTtest.vb"
+﻿#Region "Microsoft.VisualBasic::9906e1162d71a04a6daafbae2933d4ff, annotations\Proteomics\iTraq\iTraqTtest.vb"
 
     ' Author:
     ' 

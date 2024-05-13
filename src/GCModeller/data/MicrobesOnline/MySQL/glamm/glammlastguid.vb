@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff0314eefbb23a40db71af6b7b98cc56, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/glamm/glammlastguid.vb"
+﻿#Region "Microsoft.VisualBasic::ff0314eefbb23a40db71af6b7b98cc56, data\MicrobesOnline\MySQL\glamm\glammlastguid.vb"
 
     ' Author:
     ' 

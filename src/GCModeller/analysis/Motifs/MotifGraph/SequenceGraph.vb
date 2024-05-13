@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea7adad839387680696a51078ec40882, G:/GCModeller/src/GCModeller/analysis/Motifs/MotifGraph//SequenceGraph.vb"
+﻿#Region "Microsoft.VisualBasic::ea7adad839387680696a51078ec40882, analysis\Motifs\MotifGraph\SequenceGraph.vb"
 
     ' Author:
     ' 

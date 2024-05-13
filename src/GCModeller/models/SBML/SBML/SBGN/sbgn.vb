@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e03f9b94b60c0c95e6eead8cf84aa87, G:/GCModeller/src/GCModeller/models/SBML/SBML//SBGN/sbgn.vb"
+﻿#Region "Microsoft.VisualBasic::0e03f9b94b60c0c95e6eead8cf84aa87, models\SBML\SBML\SBGN\sbgn.vb"
 
     ' Author:
     ' 

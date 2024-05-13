@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc344d5207a92aea82c787a2bb9d2684, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/WebServices/WebParser/KEGGDownloader.vb"
+﻿#Region "Microsoft.VisualBasic::fc344d5207a92aea82c787a2bb9d2684, data\RegulonDatabase\Regprecise\WebServices\WebParser\KEGGDownloader.vb"
 
     ' Author:
     ' 

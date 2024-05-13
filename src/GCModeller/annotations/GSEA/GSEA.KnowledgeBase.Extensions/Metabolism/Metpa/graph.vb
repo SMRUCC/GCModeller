@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b52465a5b8005cbb6b181270e1861357, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions//Metabolism/Metpa/graph.vb"
+﻿#Region "Microsoft.VisualBasic::b52465a5b8005cbb6b181270e1861357, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\Metpa\graph.vb"
 
     ' Author:
     ' 

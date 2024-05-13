@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71ebb621e3c80372f252064d20d9a21e, G:/GCModeller/src/GCModeller/models/Networks/KEGGGraphVisualizer//Styles/BlockStyle.vb"
+﻿#Region "Microsoft.VisualBasic::71ebb621e3c80372f252064d20d9a21e, models\Networks\KEGGGraphVisualizer\Styles\BlockStyle.vb"
 
     ' Author:
     ' 

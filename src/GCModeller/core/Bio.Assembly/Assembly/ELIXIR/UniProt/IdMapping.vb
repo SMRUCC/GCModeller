@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dfc26fc15349c21e08516ed08875c21, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/ELIXIR/UniProt/IdMapping.vb"
+﻿#Region "Microsoft.VisualBasic::0dfc26fc15349c21e08516ed08875c21, core\Bio.Assembly\Assembly\ELIXIR\UniProt\IdMapping.vb"
 
     ' Author:
     ' 

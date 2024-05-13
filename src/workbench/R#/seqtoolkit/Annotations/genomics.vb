@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de3287409ed7537e546aad28435d6f02, G:/GCModeller/src/workbench/R#/seqtoolkit//Annotations/genomics.vb"
+﻿#Region "Microsoft.VisualBasic::de3287409ed7537e546aad28435d6f02, R#\seqtoolkit\Annotations\genomics.vb"
 
     ' Author:
     ' 

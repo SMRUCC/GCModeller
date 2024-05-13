@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c17e20dd34a70cdbb95358fb7cbbbe9, G:/GCModeller/src/repository/Bio.Repository//KEGG/KEGGOrthology/OrganismModel.vb"
+﻿#Region "Microsoft.VisualBasic::1c17e20dd34a70cdbb95358fb7cbbbe9, Bio.Repository\KEGG\KEGGOrthology\OrganismModel.vb"
 
     ' Author:
     ' 

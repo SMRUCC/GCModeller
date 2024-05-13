@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc808a4dd7fd28dc84f6ae364145675d, G:/GCModeller/src/GCModeller/analysis/HTS_matrix//Matrix/DataFrameRow.vb"
+﻿#Region "Microsoft.VisualBasic::cc808a4dd7fd28dc84f6ae364145675d, analysis\HTS_matrix\Matrix\DataFrameRow.vb"
 
     ' Author:
     ' 

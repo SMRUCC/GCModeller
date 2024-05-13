@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1a74315cd0f8c8d6078852fb471c8f0, G:/GCModeller/src/GCModeller/annotations/GSEA/FELLA//Module1.vb"
+﻿#Region "Microsoft.VisualBasic::e1a74315cd0f8c8d6078852fb471c8f0, annotations\GSEA\FELLA\Module1.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8942596f33e4d38ba003d80241973ff2, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CatalogProfiling/CatalogBubblePlot.vb"
+﻿#Region "Microsoft.VisualBasic::8942596f33e4d38ba003d80241973ff2, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6079ea51af6d378be7d90bd2bdcbe92, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/product_tf_link.vb"
+﻿#Region "Microsoft.VisualBasic::d6079ea51af6d378be7d90bd2bdcbe92, data\RegulonDatabase\RegulonDB\MySQL\product_tf_link.vb"
 
     ' Author:
     ' 

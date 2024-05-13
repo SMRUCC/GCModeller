@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19f2052768cde85413e1c7630665f12b, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//Test/My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::19f2052768cde85413e1c7630665f12b, analysis\SequenceToolkit\SequencePatterns\Test\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 

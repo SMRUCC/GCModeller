@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86cccc18abad760aa8b69abba0f64125, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/gene_product_count.vb"
+﻿#Region "Microsoft.VisualBasic::86cccc18abad760aa8b69abba0f64125, data\MicrobesOnline\MySQL\genomics\gene_product_count.vb"
 
     ' Author:
     ' 

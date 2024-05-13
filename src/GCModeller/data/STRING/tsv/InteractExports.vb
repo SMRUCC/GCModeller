@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a932304c2b841708e316761009cbedeb, G:/GCModeller/src/GCModeller/data/STRING//tsv/InteractExports.vb"
+﻿#Region "Microsoft.VisualBasic::a932304c2b841708e316761009cbedeb, data\STRING\tsv\InteractExports.vb"
 
     ' Author:
     ' 

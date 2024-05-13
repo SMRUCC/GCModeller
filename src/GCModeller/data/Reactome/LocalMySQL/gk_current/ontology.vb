@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc20e838a8d62fbad98331ed845b5958, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/ontology.vb"
+﻿#Region "Microsoft.VisualBasic::bc20e838a8d62fbad98331ed845b5958, data\Reactome\LocalMySQL\gk_current\ontology.vb"
 
     ' Author:
     ' 

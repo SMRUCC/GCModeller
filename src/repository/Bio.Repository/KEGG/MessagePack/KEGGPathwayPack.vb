@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4835e13704d4b872964bbba3b075af3c, G:/GCModeller/src/repository/Bio.Repository//KEGG/MessagePack/KEGGPathwayPack.vb"
+﻿#Region "Microsoft.VisualBasic::4835e13704d4b872964bbba3b075af3c, Bio.Repository\KEGG\MessagePack\KEGGPathwayPack.vb"
 
     ' Author:
     ' 

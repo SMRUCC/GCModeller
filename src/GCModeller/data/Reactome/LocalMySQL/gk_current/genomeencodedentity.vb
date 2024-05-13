@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ab1be28961963bcfb85ae6c78f2353e, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/genomeencodedentity.vb"
+﻿#Region "Microsoft.VisualBasic::3ab1be28961963bcfb85ae6c78f2353e, data\Reactome\LocalMySQL\gk_current\genomeencodedentity.vb"
 
     ' Author:
     ' 

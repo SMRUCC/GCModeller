@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c316d68b87865363161b6afcd85b79c, G:/GCModeller/src/GCModeller/engine/vcellkit//RawXmlKit.vb"
+﻿#Region "Microsoft.VisualBasic::2c316d68b87865363161b6afcd85b79c, engine\vcellkit\RawXmlKit.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8f1b76231a36856de504e79616e3118, G:/GCModeller/src/GCModeller/analysis/Metagenome/MetaFunction//Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b8f1b76231a36856de504e79616e3118, analysis\Metagenome\MetaFunction\Extensions.vb"
 
     ' Author:
     ' 

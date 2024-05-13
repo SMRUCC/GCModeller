@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ea56fe2e7b601658fbbd810e1dedcee, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//PopulatorParameter.vb"
+﻿#Region "Microsoft.VisualBasic::5ea56fe2e7b601658fbbd810e1dedcee, analysis\SequenceToolkit\MotifFinder\PopulatorParameter.vb"
 
     ' Author:
     ' 

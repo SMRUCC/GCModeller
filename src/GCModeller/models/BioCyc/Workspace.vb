@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c353a42518fef07c6b1df55af0ec7e72, G:/GCModeller/src/GCModeller/models/BioCyc//Workspace.vb"
+﻿#Region "Microsoft.VisualBasic::c353a42518fef07c6b1df55af0ec7e72, models\BioCyc\Workspace.vb"
 
     ' Author:
     ' 

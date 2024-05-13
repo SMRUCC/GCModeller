@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc2ab67ee01dd58f835385711a1b69cf, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//test/xgmmlLoaderTest.vb"
+﻿#Region "Microsoft.VisualBasic::cc2ab67ee01dd58f835385711a1b69cf, visualize\Cytoscape\Cytoscape\test\xgmmlLoaderTest.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e0f26bd4d04a665e9d8e76968922b01, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Seeds/FullScan.vb"
+﻿#Region "Microsoft.VisualBasic::8e0f26bd4d04a665e9d8e76968922b01, analysis\SequenceToolkit\MotifFinder\Seeds\FullScan.vb"
 
     ' Author:
     ' 

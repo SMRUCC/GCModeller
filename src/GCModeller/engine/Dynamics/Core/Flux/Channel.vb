@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0555c5f8d6463128b744284f5085f38c, G:/GCModeller/src/GCModeller/engine/Dynamics//Core/Flux/Channel.vb"
+﻿#Region "Microsoft.VisualBasic::0555c5f8d6463128b744284f5085f38c, engine\Dynamics\Core\Flux\Channel.vb"
 
     ' Author:
     ' 

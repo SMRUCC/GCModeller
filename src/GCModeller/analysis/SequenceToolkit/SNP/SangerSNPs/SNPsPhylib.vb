@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca6f5ded42bf310558ae25393bd143f0, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SNP//SangerSNPs/SNPsPhylib.vb"
+﻿#Region "Microsoft.VisualBasic::ca6f5ded42bf310558ae25393bd143f0, analysis\SequenceToolkit\SNP\SangerSNPs\SNPsPhylib.vb"
 
     ' Author:
     ' 

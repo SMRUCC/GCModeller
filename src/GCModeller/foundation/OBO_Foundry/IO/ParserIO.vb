@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6793358022ef69b5d1ef8acfce6551cb, G:/GCModeller/src/GCModeller/foundation/OBO_Foundry//IO/ParserIO.vb"
+﻿#Region "Microsoft.VisualBasic::f7b01624798d7ed2049727fae1373387, foundation\OBO_Foundry\IO\ParserIO.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,11 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 126
-    '    Code Lines: 88
+    '   Total Lines: 132
+    '    Code Lines: 94
     ' Comment Lines: 21
     '   Blank Lines: 17
-    '     File Size: 5.44 KB
+    '     File Size: 5.82 KB
 
 
     '     Module ParserIO

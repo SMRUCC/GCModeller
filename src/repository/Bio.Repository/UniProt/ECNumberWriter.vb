@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::245f400369b12a887d1ffa89aaf9b381, G:/GCModeller/src/repository/Bio.Repository//UniProt/ECNumberWriter.vb"
+﻿#Region "Microsoft.VisualBasic::245f400369b12a887d1ffa89aaf9b381, Bio.Repository\UniProt\ECNumberWriter.vb"
 
     ' Author:
     ' 

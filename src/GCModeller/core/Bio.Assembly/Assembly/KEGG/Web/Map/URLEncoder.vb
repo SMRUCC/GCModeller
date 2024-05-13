@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56d31176172a30f46bf56c6f5c4c7ab9, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/Web/Map/URLEncoder.vb"
+﻿#Region "Microsoft.VisualBasic::56d31176172a30f46bf56c6f5c4c7ab9, core\Bio.Assembly\Assembly\KEGG\Web\Map\URLEncoder.vb"
 
     ' Author:
     ' 

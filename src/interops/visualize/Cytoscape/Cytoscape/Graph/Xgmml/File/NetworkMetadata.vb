@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2443f7a5cdc942f675b23b45d16b738, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/Xgmml/File/NetworkMetadata.vb"
+﻿#Region "Microsoft.VisualBasic::a2443f7a5cdc942f675b23b45d16b738, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\NetworkMetadata.vb"
 
     ' Author:
     ' 

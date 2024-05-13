@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef2eee9742af84e99ef6afb18f985189, G:/GCModeller/src/GCModeller/analysis/Metagenome/Metagenome//gast/TaxonomyTree/TaxonomyTree.vb"
+﻿#Region "Microsoft.VisualBasic::ef2eee9742af84e99ef6afb18f985189, analysis\Metagenome\Metagenome\gast\TaxonomyTree\TaxonomyTree.vb"
 
     ' Author:
     ' 

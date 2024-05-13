@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd8b9e1946612db4214fbc0e54834517, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CatalogProfiling/AbstractPlot.vb"
+﻿#Region "Microsoft.VisualBasic::cd8b9e1946612db4214fbc0e54834517, visualize\DataVisualizationExtensions\CatalogProfiling\AbstractPlot.vb"
 
     ' Author:
     ' 

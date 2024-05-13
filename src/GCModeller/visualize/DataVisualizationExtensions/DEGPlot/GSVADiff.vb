@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6b9a62b8ddde53f228d66df67af552e, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//DEGPlot/GSVADiff.vb"
+﻿#Region "Microsoft.VisualBasic::d6b9a62b8ddde53f228d66df67af552e, visualize\DataVisualizationExtensions\DEGPlot\GSVADiff.vb"
 
     ' Author:
     ' 

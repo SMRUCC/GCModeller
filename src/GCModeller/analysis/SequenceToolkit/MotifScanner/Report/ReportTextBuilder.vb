@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::98254997e675c99d86d346409fca0725, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifScanner//Report/ReportTextBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::98254997e675c99d86d346409fca0725, analysis\SequenceToolkit\MotifScanner\Report\ReportTextBuilder.vb"
 
     ' Author:
     ' 

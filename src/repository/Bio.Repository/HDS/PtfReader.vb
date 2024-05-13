@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44d364be4e82f6cfc0b56b746559d447, G:/GCModeller/src/repository/Bio.Repository//HDS/PtfReader.vb"
+﻿#Region "Microsoft.VisualBasic::44d364be4e82f6cfc0b56b746559d447, Bio.Repository\HDS\PtfReader.vb"
 
     ' Author:
     ' 

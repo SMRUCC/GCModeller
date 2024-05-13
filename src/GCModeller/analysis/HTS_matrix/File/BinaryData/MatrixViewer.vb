@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0f559e24a774c901dc3584f11343612, G:/GCModeller/src/GCModeller/analysis/HTS_matrix//File/BinaryData/MatrixViewer.vb"
+﻿#Region "Microsoft.VisualBasic::b0f559e24a774c901dc3584f11343612, analysis\HTS_matrix\File\BinaryData\MatrixViewer.vb"
 
     ' Author:
     ' 

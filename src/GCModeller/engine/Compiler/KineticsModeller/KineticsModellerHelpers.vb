@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04ec1c21023e6e41b62971a5a91986aa, G:/GCModeller/src/GCModeller/engine/Compiler//KineticsModeller/KineticsModellerHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::04ec1c21023e6e41b62971a5a91986aa, engine\Compiler\KineticsModeller\KineticsModellerHelpers.vb"
 
     ' Author:
     ' 

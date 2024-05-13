@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f885b900483245d7b7202fea80f24f8, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/BlastOutput/BLASTOutput.vb"
+﻿#Region "Microsoft.VisualBasic::0f885b900483245d7b7202fea80f24f8, localblast\LocalBLAST\LocalBLAST\BlastOutput\BLASTOutput.vb"
 
     ' Author:
     ' 

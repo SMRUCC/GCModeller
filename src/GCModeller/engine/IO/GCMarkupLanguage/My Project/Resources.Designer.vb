@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6cd818920e5a97c09161a47c6521339, G:/GCModeller/src/GCModeller/engine/IO/GCMarkupLanguage//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::d6cd818920e5a97c09161a47c6521339, engine\IO\GCMarkupLanguage\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9248e75cea2d4b6092057d18dba0c8fd, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape.Automation//Models.vb"
+﻿#Region "Microsoft.VisualBasic::9248e75cea2d4b6092057d18dba0c8fd, visualize\Cytoscape\Cytoscape.Automation\Models.vb"
 
     ' Author:
     ' 

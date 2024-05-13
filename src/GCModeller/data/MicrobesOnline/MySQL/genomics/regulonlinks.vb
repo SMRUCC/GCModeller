@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3143c5b3bd957f4edef0daa078fac30, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/regulonlinks.vb"
+﻿#Region "Microsoft.VisualBasic::a3143c5b3bd957f4edef0daa078fac30, data\MicrobesOnline\MySQL\genomics\regulonlinks.vb"
 
     ' Author:
     ' 

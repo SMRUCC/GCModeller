@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a26beab18fe806e4621a0bc45afbc5bb, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//Engine/VCell/OmicsDataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::a26beab18fe806e4621a0bc45afbc5bb, engine\BootstrapLoader\Engine\VCell\OmicsDataAdapter.vb"
 
     ' Author:
     ' 

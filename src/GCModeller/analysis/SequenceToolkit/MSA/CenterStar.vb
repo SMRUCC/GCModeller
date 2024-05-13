@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e3f341b77623a33be777a6aab4fe035, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MSA//CenterStar.vb"
+﻿#Region "Microsoft.VisualBasic::5e3f341b77623a33be777a6aab4fe035, analysis\SequenceToolkit\MSA\CenterStar.vb"
 
     ' Author:
     ' 

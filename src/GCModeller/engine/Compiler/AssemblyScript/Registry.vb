@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6af0f465c27dd1a2633d0ffe980a7e03, G:/GCModeller/src/GCModeller/engine/Compiler//AssemblyScript/Registry.vb"
+﻿#Region "Microsoft.VisualBasic::6af0f465c27dd1a2633d0ffe980a7e03, engine\Compiler\AssemblyScript\Registry.vb"
 
     ' Author:
     ' 

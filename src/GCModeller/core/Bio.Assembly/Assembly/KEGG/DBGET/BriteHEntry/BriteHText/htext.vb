@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b78e4c4104191f1026ae4b96e1eeac6, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/BriteHEntry/BriteHText/htext.vb"
+﻿#Region "Microsoft.VisualBasic::5b78e4c4104191f1026ae4b96e1eeac6, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb"
 
     ' Author:
     ' 

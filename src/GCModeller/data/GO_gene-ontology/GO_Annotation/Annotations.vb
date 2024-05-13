@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::720723439615de530b752cb92bdd4b07, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GO_Annotation//Annotations.vb"
+﻿#Region "Microsoft.VisualBasic::720723439615de530b752cb92bdd4b07, data\GO_gene-ontology\GO_Annotation\Annotations.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d65633b5d9805800ce1707cce402571b, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/Equations/DefaultTypes.vb"
+﻿#Region "Microsoft.VisualBasic::d65633b5d9805800ce1707cce402571b, core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d0f2f361f21bf1b6038e04dfd9fdb5f, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/tigrinfo.vb"
+﻿#Region "Microsoft.VisualBasic::0d0f2f361f21bf1b6038e04dfd9fdb5f, data\MicrobesOnline\MySQL\genomics\tigrinfo.vb"
 
     ' Author:
     ' 

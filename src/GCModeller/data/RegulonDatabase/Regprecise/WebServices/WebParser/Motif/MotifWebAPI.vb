@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e66c2dcf43f8111fb52ad5f929c8a908, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/WebServices/WebParser/Motif/MotifWebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e66c2dcf43f8111fb52ad5f929c8a908, data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebAPI.vb"
 
     ' Author:
     ' 

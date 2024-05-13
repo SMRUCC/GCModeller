@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f8db17539475b096f040c10f78c014b, G:/GCModeller/src/GCModeller/annotations/KEGG//KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::6f8db17539475b096f040c10f78c014b, annotations\KEGG\KEGGOrthology.vb"
 
     ' Author:
     ' 

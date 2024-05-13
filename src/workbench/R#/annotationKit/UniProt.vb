@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4c344af79f479d3055a1a01d63b2f82, G:/GCModeller/src/workbench/R#/annotationKit//UniProt.vb"
+﻿#Region "Microsoft.VisualBasic::c4c344af79f479d3055a1a01d63b2f82, R#\annotationKit\UniProt.vb"
 
     ' Author:
     ' 

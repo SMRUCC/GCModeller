@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1092d3b3b920a4703ecc878335823b27, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/DNA_Comparative//DeltaSimilarity1998/CAI/RelativeCodonBiases.vb"
+﻿#Region "Microsoft.VisualBasic::1092d3b3b920a4703ecc878335823b27, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\RelativeCodonBiases.vb"
 
     ' Author:
     ' 

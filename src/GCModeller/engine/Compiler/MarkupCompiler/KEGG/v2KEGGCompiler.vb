@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab4588f1d5a45c582494715a40130abc, G:/GCModeller/src/GCModeller/engine/Compiler//MarkupCompiler/KEGG/v2KEGGCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::ab4588f1d5a45c582494715a40130abc, engine\Compiler\MarkupCompiler\KEGG\v2KEGGCompiler.vb"
 
     ' Author:
     ' 

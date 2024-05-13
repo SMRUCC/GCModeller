@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26490ae94a83eeb1e261f8271a72a8d4, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//Soap/SOAP.vb"
+﻿#Region "Microsoft.VisualBasic::26490ae94a83eeb1e261f8271a72a8d4, RNA-Seq\RNA-seq.Data\Soap\SOAP.vb"
 
     ' Author:
     ' 

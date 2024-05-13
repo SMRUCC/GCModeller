@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c39b6addf5f9192fa575d8ab849c2d12, G:/GCModeller/src/GCModeller/engine/IO/Raw//HDS/GCModellerRaw/Writer.vb"
+﻿#Region "Microsoft.VisualBasic::c39b6addf5f9192fa575d8ab849c2d12, engine\IO\Raw\HDS\GCModellerRaw\Writer.vb"
 
     ' Author:
     ' 

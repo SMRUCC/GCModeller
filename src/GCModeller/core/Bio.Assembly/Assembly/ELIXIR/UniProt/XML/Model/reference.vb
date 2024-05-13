@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a4a93f20c87c77cd3a737161420b066, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/ELIXIR/UniProt/XML/Model/reference.vb"
+﻿#Region "Microsoft.VisualBasic::7a4a93f20c87c77cd3a737161420b066, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\reference.vb"
 
     ' Author:
     ' 

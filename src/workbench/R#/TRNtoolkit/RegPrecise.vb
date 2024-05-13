@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b55a81de9848ee3839d322219339b2b4, G:/GCModeller/src/workbench/R#/TRNtoolkit//RegPrecise.vb"
+﻿#Region "Microsoft.VisualBasic::b55a81de9848ee3839d322219339b2b4, R#\TRNtoolkit\RegPrecise.vb"
 
     ' Author:
     ' 

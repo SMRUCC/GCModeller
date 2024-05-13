@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65dc8ee42f57f1e90ba296c5890998f4, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/cytoscape.js/Styles/Selector.vb"
+﻿#Region "Microsoft.VisualBasic::65dc8ee42f57f1e90ba296c5890998f4, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Styles\Selector.vb"
 
     ' Author:
     ' 

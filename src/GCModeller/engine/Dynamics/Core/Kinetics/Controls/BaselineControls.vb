@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63069cb4570b40601c515b003a500b10, G:/GCModeller/src/GCModeller/engine/Dynamics//Core/Kinetics/Controls/BaselineControls.vb"
+﻿#Region "Microsoft.VisualBasic::63069cb4570b40601c515b003a500b10, engine\Dynamics\Core\Kinetics\Controls\BaselineControls.vb"
 
     ' Author:
     ' 

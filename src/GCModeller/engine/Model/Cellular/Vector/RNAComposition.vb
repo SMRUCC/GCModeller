@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15971589a19651f052e767859b018b17, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Vector/RNAComposition.vb"
+﻿#Region "Microsoft.VisualBasic::15971589a19651f052e767859b018b17, engine\Model\Cellular\Vector\RNAComposition.vb"
 
     ' Author:
     ' 

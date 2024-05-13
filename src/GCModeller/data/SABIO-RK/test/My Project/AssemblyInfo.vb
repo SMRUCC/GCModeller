@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24a075c52f60c10bfc45522a98662ba3, G:/GCModeller/src/GCModeller/data/SABIO-RK//test/My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::24a075c52f60c10bfc45522a98662ba3, data\SABIO-RK\test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

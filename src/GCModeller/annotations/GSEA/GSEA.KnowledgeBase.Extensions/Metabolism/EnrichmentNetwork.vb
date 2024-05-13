@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e869097551e734a401cc4300dc9bd332, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions//Metabolism/EnrichmentNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::e869097551e734a401cc4300dc9bd332, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\EnrichmentNetwork.vb"
 
     ' Author:
     ' 

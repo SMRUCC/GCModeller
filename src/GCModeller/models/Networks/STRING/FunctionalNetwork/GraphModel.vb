@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4787860a519fa1c614729b4bf813568d, G:/GCModeller/src/GCModeller/models/Networks/STRING//FunctionalNetwork/GraphModel.vb"
+﻿#Region "Microsoft.VisualBasic::4787860a519fa1c614729b4bf813568d, models\Networks\STRING\FunctionalNetwork\GraphModel.vb"
 
     ' Author:
     ' 

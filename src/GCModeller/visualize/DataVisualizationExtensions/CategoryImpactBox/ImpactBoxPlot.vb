@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a23bdd20f98864b1c10d5a631f9222e4, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CategoryImpactBox/ImpactBoxPlot.vb"
+﻿#Region "Microsoft.VisualBasic::a23bdd20f98864b1c10d5a631f9222e4, visualize\DataVisualizationExtensions\CategoryImpactBox\ImpactBoxPlot.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff07f1bbcfe5d4dfa87662af6ad266a5, G:/GCModeller/src/GCModeller/core/Bio.Assembly//MetabolicModel/KEGGConvertor.vb"
+﻿#Region "Microsoft.VisualBasic::ff07f1bbcfe5d4dfa87662af6ad266a5, core\Bio.Assembly\MetabolicModel\KEGGConvertor.vb"
 
     ' Author:
     ' 

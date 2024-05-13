@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a8bca46ed92edaf5df5214928d78e99, G:/GCModeller/src/workbench/R#/cytoscape_toolkit//kegg.vb"
+﻿#Region "Microsoft.VisualBasic::6a8bca46ed92edaf5df5214928d78e99, R#\cytoscape_toolkit\kegg.vb"
 
     ' Author:
     ' 

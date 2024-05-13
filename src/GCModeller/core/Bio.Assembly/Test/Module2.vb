@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5aca5c1e743e1b4f9357b4b605857f82, G:/GCModeller/src/GCModeller/core/Bio.Assembly/Test//Module2.vb"
+﻿#Region "Microsoft.VisualBasic::5aca5c1e743e1b4f9357b4b605857f82, core\Bio.Assembly\Test\Module2.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::758d94c9cbd5d615e13c63bf4ffedff6, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Application/NtMapping/BlastnMapping.vb"
+﻿#Region "Microsoft.VisualBasic::758d94c9cbd5d615e13c63bf4ffedff6, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\BlastnMapping.vb"
 
     ' Author:
     ' 

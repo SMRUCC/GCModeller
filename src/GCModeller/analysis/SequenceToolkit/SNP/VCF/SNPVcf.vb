@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7bcabc931c0f852b63a847577bafd85a, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SNP//VCF/SNPVcf.vb"
+﻿#Region "Microsoft.VisualBasic::7bcabc931c0f852b63a847577bafd85a, analysis\SequenceToolkit\SNP\VCF\SNPVcf.vb"
 
     ' Author:
     ' 

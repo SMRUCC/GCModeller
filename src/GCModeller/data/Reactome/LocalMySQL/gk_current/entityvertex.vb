@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c6c9b87da1efc63d2497d1fa8445ecd, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/entityvertex.vb"
+﻿#Region "Microsoft.VisualBasic::1c6c9b87da1efc63d2497d1fa8445ecd, data\Reactome\LocalMySQL\gk_current\entityvertex.vb"
 
     ' Author:
     ' 

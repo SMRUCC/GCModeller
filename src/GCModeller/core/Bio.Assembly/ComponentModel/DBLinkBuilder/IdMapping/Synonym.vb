@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e08a9b0a3d2dee7c0af38de80786697c, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/DBLinkBuilder/IdMapping/Synonym.vb"
+﻿#Region "Microsoft.VisualBasic::e08a9b0a3d2dee7c0af38de80786697c, core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Synonym.vb"
 
     ' Author:
     ' 

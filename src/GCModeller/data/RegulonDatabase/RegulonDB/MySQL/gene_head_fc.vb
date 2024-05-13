@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::506812938efc8a59711f133af275bfa3, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/gene_head_fc.vb"
+﻿#Region "Microsoft.VisualBasic::506812938efc8a59711f133af275bfa3, data\RegulonDatabase\RegulonDB\MySQL\gene_head_fc.vb"
 
     ' Author:
     ' 

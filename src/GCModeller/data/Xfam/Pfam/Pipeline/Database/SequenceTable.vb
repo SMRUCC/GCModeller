@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a98db64637c6541a22bd5f639ff20444, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/Database/SequenceTable.vb"
+﻿#Region "Microsoft.VisualBasic::a98db64637c6541a22bd5f639ff20444, data\Xfam\Pfam\Pipeline\Database\SequenceTable.vb"
 
     ' Author:
     ' 

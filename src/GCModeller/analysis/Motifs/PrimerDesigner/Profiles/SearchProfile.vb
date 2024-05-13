@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5867b606bed98762fb2fc571fe719673, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Profiles/SearchProfile.vb"
+﻿#Region "Microsoft.VisualBasic::5867b606bed98762fb2fc571fe719673, analysis\Motifs\PrimerDesigner\Profiles\SearchProfile.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c24fa38245a0275fe954ba0ce29c05e7, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/Regtransbase.vb"
+﻿#Region "Microsoft.VisualBasic::c24fa38245a0275fe954ba0ce29c05e7, data\RegulonDatabase\Regtransbase\Regtransbase.vb"
 
     ' Author:
     ' 

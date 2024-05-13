@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c0e64298dbf3d3a273abfcea82da877, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MSA//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::8c0e64298dbf3d3a273abfcea82da877, analysis\SequenceToolkit\MSA\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 

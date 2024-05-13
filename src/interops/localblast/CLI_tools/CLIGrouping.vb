@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68fb491909087ddb6473c75911f7f7cd, G:/GCModeller/src/interops/localblast/CLI_tools//CLIGrouping.vb"
+﻿#Region "Microsoft.VisualBasic::68fb491909087ddb6473c75911f7f7cd, localblast\CLI_tools\CLIGrouping.vb"
 
     ' Author:
     ' 

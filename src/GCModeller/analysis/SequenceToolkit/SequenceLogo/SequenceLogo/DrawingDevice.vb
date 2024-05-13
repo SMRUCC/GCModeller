@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fd1320c40c9f48e6a22a25065e06502, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceLogo//SequenceLogo/DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::3fd1320c40c9f48e6a22a25065e06502, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
 
     ' Author:
     ' 

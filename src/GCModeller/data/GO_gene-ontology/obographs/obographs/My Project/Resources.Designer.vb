@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af2bbe9c56a5ecf2f2c33294ed6645ef, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/obographs/obographs//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::af2bbe9c56a5ecf2f2c33294ed6645ef, data\GO_gene-ontology\obographs\obographs\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 

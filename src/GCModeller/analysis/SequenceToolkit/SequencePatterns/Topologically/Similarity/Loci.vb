@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f919ec8b33e8f97ea50bf89ca58bf25, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//Topologically/Similarity/Loci.vb"
+﻿#Region "Microsoft.VisualBasic::1f919ec8b33e8f97ea50bf89ca58bf25, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Loci.vb"
 
     ' Author:
     ' 

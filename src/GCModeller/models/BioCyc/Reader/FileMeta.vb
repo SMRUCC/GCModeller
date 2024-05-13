@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d048c815556b563136e78e7843efb5ae, G:/GCModeller/src/GCModeller/models/BioCyc//Reader/FileMeta.vb"
+﻿#Region "Microsoft.VisualBasic::d048c815556b563136e78e7843efb5ae, models\BioCyc\Reader\FileMeta.vb"
 
     ' Author:
     ' 

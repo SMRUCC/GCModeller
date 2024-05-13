@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c71c69706a9cfda86d74515244a31411, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifScanner//test/My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::c71c69706a9cfda86d74515244a31411, analysis\SequenceToolkit\MotifScanner\test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

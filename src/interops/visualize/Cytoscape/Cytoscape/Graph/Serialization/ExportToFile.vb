@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5cbe3f25fd2b9a595af489e64aad90e, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/Serialization/ExportToFile.vb"
+﻿#Region "Microsoft.VisualBasic::e5cbe3f25fd2b9a595af489e64aad90e, visualize\Cytoscape\Cytoscape\Graph\Serialization\ExportToFile.vb"
 
     ' Author:
     ' 

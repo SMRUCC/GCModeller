@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdc6ffaa2a967edaa0d599f2e4ccdb3e, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//PfamFamily.vb"
+﻿#Region "Microsoft.VisualBasic::cdc6ffaa2a967edaa0d599f2e4ccdb3e, data\Xfam\Pfam\PfamFamily.vb"
 
     ' Author:
     ' 

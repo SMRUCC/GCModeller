@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0eb510bccfd1ffd4debbdeca540ab798, G:/GCModeller/src/workbench/R#/seqtoolkit//Annotations/uniprot.vb"
+﻿#Region "Microsoft.VisualBasic::0eb510bccfd1ffd4debbdeca540ab798, R#\seqtoolkit\Annotations\uniprot.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::afc74e22b37007028fa22ba1dd0cfb21, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//DNAOrigami/ScaffoldOrthogonality.vb"
+﻿#Region "Microsoft.VisualBasic::afc74e22b37007028fa22ba1dd0cfb21, analysis\SequenceToolkit\SequencePatterns\DNAOrigami\ScaffoldOrthogonality.vb"
 
     ' Author:
     ' 

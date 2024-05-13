@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59d3688348d2b43d0df83e6a2df3b747, G:/GCModeller/src/GCModeller/analysis/Metagenome/MetaFunction//CARD/Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::59d3688348d2b43d0df83e6a2df3b747, analysis\Metagenome\MetaFunction\CARD\Fasta.vb"
 
     ' Author:
     ' 

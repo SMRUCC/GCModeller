@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af0550553acc237de31a31b2af91a6fd, G:/GCModeller/src/workbench/R#/kegg_kit//britekit.vb"
+﻿#Region "Microsoft.VisualBasic::af0550553acc237de31a31b2af91a6fd, R#\kegg_kit\britekit.vb"
 
     ' Author:
     ' 

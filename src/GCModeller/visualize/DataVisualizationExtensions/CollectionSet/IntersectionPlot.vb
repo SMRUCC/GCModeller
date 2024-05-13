@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c965ef0447e9d5e35dc8e91aa785a1d1, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CollectionSet/IntersectionPlot.vb"
+﻿#Region "Microsoft.VisualBasic::c965ef0447e9d5e35dc8e91aa785a1d1, visualize\DataVisualizationExtensions\CollectionSet\IntersectionPlot.vb"
 
     ' Author:
     ' 

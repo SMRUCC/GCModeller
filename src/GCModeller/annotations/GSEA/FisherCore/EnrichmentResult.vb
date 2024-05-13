@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::677b06e3de840934046339d8ab2c8737, G:/GCModeller/src/GCModeller/annotations/GSEA/FisherCore//EnrichmentResult.vb"
+﻿#Region "Microsoft.VisualBasic::677b06e3de840934046339d8ab2c8737, annotations\GSEA\FisherCore\EnrichmentResult.vb"
 
     ' Author:
     ' 

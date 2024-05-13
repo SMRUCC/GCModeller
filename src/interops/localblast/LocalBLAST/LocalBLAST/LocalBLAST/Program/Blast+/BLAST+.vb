@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f67c764145dac12733640296867e8953, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Program/Blast+/BLAST+.vb"
+﻿#Region "Microsoft.VisualBasic::f67c764145dac12733640296867e8953, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\Blast+\BLAST+.vb"
 
     ' Author:
     ' 

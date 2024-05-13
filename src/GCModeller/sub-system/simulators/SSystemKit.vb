@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60c017acaf9b244d62573068c0a45cf8, G:/GCModeller/src/GCModeller/sub-system/simulators//SSystemKit.vb"
+﻿#Region "Microsoft.VisualBasic::60c017acaf9b244d62573068c0a45cf8, sub-system\simulators\SSystemKit.vb"
 
     ' Author:
     ' 

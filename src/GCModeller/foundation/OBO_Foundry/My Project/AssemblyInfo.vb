@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dc70c0ce802b29bd90a92be12687d70, G:/GCModeller/src/GCModeller/foundation/OBO_Foundry//My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::4dc70c0ce802b29bd90a92be12687d70, foundation\OBO_Foundry\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

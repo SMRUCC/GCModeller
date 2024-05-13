@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::195140433168e73278501f04ff586ea0, G:/GCModeller/src/workbench/R#/seqtoolkit//patterns.vb"
+﻿#Region "Microsoft.VisualBasic::195140433168e73278501f04ff586ea0, R#\seqtoolkit\patterns.vb"
 
     ' Author:
     ' 

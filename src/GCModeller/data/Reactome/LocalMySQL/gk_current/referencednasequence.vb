@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::989eb529dc23a9dc0481e4798570cddc, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/referencednasequence.vb"
+﻿#Region "Microsoft.VisualBasic::989eb529dc23a9dc0481e4798570cddc, data\Reactome\LocalMySQL\gk_current\referencednasequence.vb"
 
     ' Author:
     ' 

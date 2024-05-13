@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7ece50a430d061b498b6d57541d71e6, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b7ece50a430d061b498b6d57541d71e6, engine\BootstrapLoader\Extensions.vb"
 
     ' Author:
     ' 

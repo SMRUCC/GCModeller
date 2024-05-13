@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e84347c6e292b2dce638e32c6c0f6d67, G:/GCModeller/src/workbench/R#/cytoscape_toolkit//bioModels/stringWebApi.vb"
+﻿#Region "Microsoft.VisualBasic::e84347c6e292b2dce638e32c6c0f6d67, R#\cytoscape_toolkit\bioModels\stringWebApi.vb"
 
     ' Author:
     ' 

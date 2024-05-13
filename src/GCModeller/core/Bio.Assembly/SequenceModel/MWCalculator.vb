@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71125995c5167d63f20ce8ad80671983, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/MWCalculator.vb"
+﻿#Region "Microsoft.VisualBasic::71125995c5167d63f20ce8ad80671983, core\Bio.Assembly\SequenceModel\MWCalculator.vb"
 
     ' Author:
     ' 

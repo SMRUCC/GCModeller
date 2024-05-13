@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c83794e45d061417c18f43d2d2db7649, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/COG/Whog/Category.vb"
+﻿#Region "Microsoft.VisualBasic::c83794e45d061417c18f43d2d2db7649, localblast\LocalBLAST\Pipeline\COG\Whog\Category.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94db40d6e3c592d8949dc60c5b52f090, G:/GCModeller/src/GCModeller/models/Networks/KEGG//ReactionNetwork/CompoundNodeTable.vb"
+﻿#Region "Microsoft.VisualBasic::94db40d6e3c592d8949dc60c5b52f090, models\Networks\KEGG\ReactionNetwork\CompoundNodeTable.vb"
 
     ' Author:
     ' 

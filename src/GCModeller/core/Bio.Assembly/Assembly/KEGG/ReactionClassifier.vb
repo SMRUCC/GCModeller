@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e5097eed25e3c76bc33d17b8337723b, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/ReactionClassifier.vb"
+﻿#Region "Microsoft.VisualBasic::9e5097eed25e3c76bc33d17b8337723b, core\Bio.Assembly\Assembly\KEGG\ReactionClassifier.vb"
 
     ' Author:
     ' 

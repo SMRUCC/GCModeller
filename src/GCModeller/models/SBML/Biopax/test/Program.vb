@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2ef6d41800bc67b2318aa438f3b3328, G:/GCModeller/src/GCModeller/models/SBML/Biopax/test//Program.vb"
+﻿#Region "Microsoft.VisualBasic::d2ef6d41800bc67b2318aa438f3b3328, models\SBML\Biopax\test\Program.vb"
 
     ' Author:
     ' 

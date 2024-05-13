@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2b53e8daa526106924bc3da3121fc9b, G:/GCModeller/src/GCModeller/models/Networks/Microbiome//My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::e2b53e8daa526106924bc3da3121fc9b, models\Networks\Microbiome\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::139aefd09fc3becd4b835e7d75db8e97, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA//KnowledgeBase/Imports/KeggPathway.vb"
+﻿#Region "Microsoft.VisualBasic::139aefd09fc3becd4b835e7d75db8e97, annotations\GSEA\GSEA\KnowledgeBase\Imports\KeggPathway.vb"
 
     ' Author:
     ' 

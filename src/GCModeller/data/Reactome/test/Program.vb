@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e22c5f17dee1e1360e71cf1ef0d32978, G:/GCModeller/src/GCModeller/data/Reactome/test//Program.vb"
+﻿#Region "Microsoft.VisualBasic::e22c5f17dee1e1360e71cf1ef0d32978, data\Reactome\test\Program.vb"
 
     ' Author:
     ' 

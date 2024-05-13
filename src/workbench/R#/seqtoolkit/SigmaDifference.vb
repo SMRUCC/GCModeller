@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e529903ec2c47ae2578e87511ce0379b, G:/GCModeller/src/workbench/R#/seqtoolkit//SigmaDifference.vb"
+﻿#Region "Microsoft.VisualBasic::e529903ec2c47ae2578e87511ce0379b, R#\seqtoolkit\SigmaDifference.vb"
 
     ' Author:
     ' 

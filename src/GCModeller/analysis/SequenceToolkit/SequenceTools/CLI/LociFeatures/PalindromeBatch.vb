@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff510ba8b05451af483e332fdac6ad24, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/LociFeatures/PalindromeBatch.vb"
+﻿#Region "Microsoft.VisualBasic::ff510ba8b05451af483e332fdac6ad24, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\PalindromeBatch.vb"
 
     ' Author:
     ' 

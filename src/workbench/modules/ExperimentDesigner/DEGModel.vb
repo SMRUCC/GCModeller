@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e18ce4308dc71b5ec58f59c387acd41, G:/GCModeller/src/workbench/modules/ExperimentDesigner//DEGModel.vb"
+﻿#Region "Microsoft.VisualBasic::5e18ce4308dc71b5ec58f59c387acd41, modules\ExperimentDesigner\DEGModel.vb"
 
     ' Author:
     ' 

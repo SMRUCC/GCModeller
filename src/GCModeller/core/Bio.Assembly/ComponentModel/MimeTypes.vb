@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de27e353187bbb834044475fe60178d4, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/MimeTypes.vb"
+﻿#Region "Microsoft.VisualBasic::de27e353187bbb834044475fe60178d4, core\Bio.Assembly\ComponentModel\MimeTypes.vb"
 
     ' Author:
     ' 

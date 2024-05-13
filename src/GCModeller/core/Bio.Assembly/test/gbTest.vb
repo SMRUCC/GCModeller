@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::520436457114201d207fa4da069ffdc5, G:/GCModeller/src/GCModeller/core/Bio.Assembly/Test//gbTest.vb"
+﻿#Region "Microsoft.VisualBasic::520436457114201d207fa4da069ffdc5, core\Bio.Assembly\Test\gbTest.vb"
 
     ' Author:
     ' 

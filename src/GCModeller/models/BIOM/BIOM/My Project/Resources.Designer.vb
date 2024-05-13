@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58e15627c98f0c4a2414e83df83a7ee6, G:/GCModeller/src/GCModeller/models/BIOM/BIOM//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::58e15627c98f0c4a2414e83df83a7ee6, models\BIOM\BIOM\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 

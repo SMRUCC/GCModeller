@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8de568650573d2af2e10150bcec748b1, G:/GCModeller/src/GCModeller/models/SBML/Biopax//Level3/Elements/SmallMolecule.vb"
+﻿#Region "Microsoft.VisualBasic::8de568650573d2af2e10150bcec748b1, models\SBML\Biopax\Level3\Elements\SmallMolecule.vb"
 
     ' Author:
     ' 

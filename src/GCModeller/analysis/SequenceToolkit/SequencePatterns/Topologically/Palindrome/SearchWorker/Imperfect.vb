@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8469710550320705ec295ff19d1a0cc1, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//Topologically/Palindrome/SearchWorker/Imperfect.vb"
+﻿#Region "Microsoft.VisualBasic::8469710550320705ec295ff19d1a0cc1, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\Imperfect.vb"
 
     ' Author:
     ' 

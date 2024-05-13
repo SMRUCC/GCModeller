@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24c00dbb3d984195a7137884fac38728, G:/GCModeller/src/GCModeller/models/SBML/Biopax//Level3/File.vb"
+﻿#Region "Microsoft.VisualBasic::24c00dbb3d984195a7137884fac38728, models\SBML\Biopax\Level3\File.vb"
 
     ' Author:
     ' 

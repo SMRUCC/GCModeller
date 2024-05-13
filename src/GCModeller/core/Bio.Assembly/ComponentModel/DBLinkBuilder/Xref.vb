@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3024ca76ea977bc51ca42978ab1f9612, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/DBLinkBuilder/Xref.vb"
+﻿#Region "Microsoft.VisualBasic::3024ca76ea977bc51ca42978ab1f9612, core\Bio.Assembly\ComponentModel\DBLinkBuilder\Xref.vb"
 
     ' Author:
     ' 

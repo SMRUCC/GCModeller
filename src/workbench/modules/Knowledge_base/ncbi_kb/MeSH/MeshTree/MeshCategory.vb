@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37e942fb68bbbf27ce88c91c255761eb, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//MeSH/MeshTree/MeshCategory.vb"
+﻿#Region "Microsoft.VisualBasic::37e942fb68bbbf27ce88c91c255761eb, modules\Knowledge_base\ncbi_kb\MeSH\MeshTree\MeshCategory.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af2a9917b044c54363748be43200f1f5, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/AnalysisResult/Effectors.vb"
+﻿#Region "Microsoft.VisualBasic::af2a9917b044c54363748be43200f1f5, data\RegulonDatabase\Regprecise\AnalysisResult\Effectors.vb"
 
     ' Author:
     ' 

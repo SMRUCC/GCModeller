@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fc3b7aebfceebd1c21002b23b4c564b, G:/GCModeller/src/GCModeller/models/BioCyc//Models/compounds.vb"
+﻿#Region "Microsoft.VisualBasic::3fc3b7aebfceebd1c21002b23b4c564b, models\BioCyc\Models\compounds.vb"
 
     ' Author:
     ' 

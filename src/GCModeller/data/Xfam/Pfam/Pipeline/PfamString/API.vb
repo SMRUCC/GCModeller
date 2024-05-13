@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::318c51362dfdb6a2e26374d7584a1e46, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/PfamString/API.vb"
+﻿#Region "Microsoft.VisualBasic::318c51362dfdb6a2e26374d7584a1e46, data\Xfam\Pfam\Pipeline\PfamString\API.vb"
 
     ' Author:
     ' 

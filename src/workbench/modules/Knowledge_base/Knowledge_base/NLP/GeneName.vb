@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2e18320b1ab0f190a60ca65f280f8aa, G:/GCModeller/src/workbench/modules/Knowledge_base/Knowledge_base//NLP/GeneName.vb"
+﻿#Region "Microsoft.VisualBasic::e2e18320b1ab0f190a60ca65f280f8aa, modules\Knowledge_base\Knowledge_base\NLP\GeneName.vb"
 
     ' Author:
     ' 

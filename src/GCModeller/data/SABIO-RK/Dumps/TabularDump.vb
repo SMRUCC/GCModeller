@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7168de394bfdb93999be662a365972de, G:/GCModeller/src/GCModeller/data/SABIO-RK//Dumps/TabularDump.vb"
+﻿#Region "Microsoft.VisualBasic::7168de394bfdb93999be662a365972de, data\SABIO-RK\Dumps\TabularDump.vb"
 
     ' Author:
     ' 

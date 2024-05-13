@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7fa1232b3b0af8c0d8f464dfc266a5d7, G:/GCModeller/src/workbench/R#/phenotype_kit//sampleInfo.vb"
+﻿#Region "Microsoft.VisualBasic::7fa1232b3b0af8c0d8f464dfc266a5d7, R#\phenotype_kit\sampleInfo.vb"
 
     ' Author:
     ' 

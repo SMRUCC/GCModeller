@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7bc065d606628e925986ba3738178fab, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/SNP/calcFst.vb"
+﻿#Region "Microsoft.VisualBasic::7bc065d606628e925986ba3738178fab, analysis\SequenceToolkit\SequenceTools\CLI\SNP\calcFst.vb"
 
     ' Author:
     ' 

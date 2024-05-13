@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8240666bf616bfab06a0204a16f6f6bc, G:/GCModeller/src/GCModeller/analysis/Metagenome/Metagenome//RelativeStatics.vb"
+﻿#Region "Microsoft.VisualBasic::8240666bf616bfab06a0204a16f6f6bc, analysis\Metagenome\Metagenome\RelativeStatics.vb"
 
     ' Author:
     ' 

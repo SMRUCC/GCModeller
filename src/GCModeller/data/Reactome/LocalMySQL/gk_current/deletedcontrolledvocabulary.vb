@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd2e5cae4b88898c0fd0b21485670b38, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/deletedcontrolledvocabulary.vb"
+﻿#Region "Microsoft.VisualBasic::bd2e5cae4b88898c0fd0b21485670b38, data\Reactome\LocalMySQL\gk_current\deletedcontrolledvocabulary.vb"
 
     ' Author:
     ' 

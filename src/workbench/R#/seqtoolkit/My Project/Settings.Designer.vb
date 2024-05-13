@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1858952152ee226e543a140005ed5b6c, G:/GCModeller/src/workbench/R#/seqtoolkit//My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::1858952152ee226e543a140005ed5b6c, R#\seqtoolkit\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 

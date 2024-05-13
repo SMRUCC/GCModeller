@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::400c9db3bc7457ddf6bc65dc3e6b217f, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/ISequenceModel.vb"
+﻿#Region "Microsoft.VisualBasic::400c9db3bc7457ddf6bc65dc3e6b217f, core\Bio.Assembly\SequenceModel\ISequenceModel.vb"
 
     ' Author:
     ' 

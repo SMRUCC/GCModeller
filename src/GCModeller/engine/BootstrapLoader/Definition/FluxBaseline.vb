@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87137babaf096348c49a70538baa6fc8, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//Definition/FluxBaseline.vb"
+﻿#Region "Microsoft.VisualBasic::87137babaf096348c49a70538baa6fc8, engine\BootstrapLoader\Definition\FluxBaseline.vb"
 
     ' Author:
     ' 

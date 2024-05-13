@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1f9dd76a4b58520a07e4a624d8a162d, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA//KnowledgeBase/Imports/CreateKEGGClusters.vb"
+﻿#Region "Microsoft.VisualBasic::e1f9dd76a4b58520a07e4a624d8a162d, annotations\GSEA\GSEA\KnowledgeBase\Imports\CreateKEGGClusters.vb"
 
     ' Author:
     ' 

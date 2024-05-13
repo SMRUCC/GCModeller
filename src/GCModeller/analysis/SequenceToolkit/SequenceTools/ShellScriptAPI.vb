@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f93acba76ec179afa15775f44ba9099, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::2f93acba76ec179afa15775f44ba9099, analysis\SequenceToolkit\SequenceTools\ShellScriptAPI.vb"
 
     ' Author:
     ' 

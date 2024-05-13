@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b779bb459c2bafcca1f6e1167702747b, G:/GCModeller/src/workbench/R#/phenotype_kit//WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::b779bb459c2bafcca1f6e1167702747b, R#\phenotype_kit\WGCNA.vb"
 
     ' Author:
     ' 

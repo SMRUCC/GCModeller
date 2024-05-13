@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22f4cc15ae4b713e69bbec727efd9094, G:/GCModeller/src/GCModeller/visualize/ChromosomeMap//DrawingModels/RenderingColor.vb"
+﻿#Region "Microsoft.VisualBasic::22f4cc15ae4b713e69bbec727efd9094, visualize\ChromosomeMap\DrawingModels\RenderingColor.vb"
 
     ' Author:
     ' 

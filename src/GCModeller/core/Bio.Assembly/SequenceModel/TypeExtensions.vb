@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab8fff5078e43df21230a946566144f5, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::ab8fff5078e43df21230a946566144f5, core\Bio.Assembly\SequenceModel\TypeExtensions.vb"
 
     ' Author:
     ' 

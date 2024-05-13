@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e104052ccb05d156f31554e52deb808f, G:/GCModeller/src/workbench/R#/kegg_kit//activatorUtils.vb"
+﻿#Region "Microsoft.VisualBasic::e104052ccb05d156f31554e52deb808f, R#\kegg_kit\activatorUtils.vb"
 
     ' Author:
     ' 

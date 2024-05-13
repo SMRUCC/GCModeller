@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b583f2f95af2dd70117e7f4f9ac94d5, G:/GCModeller/src/GCModeller/sub-system/PLAS.NET/SSystem//System/Experiments/Kicks.vb"
+﻿#Region "Microsoft.VisualBasic::5b583f2f95af2dd70117e7f4f9ac94d5, sub-system\PLAS.NET\SSystem\System\Experiments\Kicks.vb"
 
     ' Author:
     ' 

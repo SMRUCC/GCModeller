@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c64df3c5630ccaeadcebca2a81b4072e, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/depolymerisation.vb"
+﻿#Region "Microsoft.VisualBasic::c64df3c5630ccaeadcebca2a81b4072e, data\Reactome\LocalMySQL\gk_current\depolymerisation.vb"
 
     ' Author:
     ' 

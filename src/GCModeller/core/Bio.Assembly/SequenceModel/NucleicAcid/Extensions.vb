@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::117a4ac8d8d5b07abff7f4a6bd477366, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/NucleicAcid/Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::117a4ac8d8d5b07abff7f4a6bd477366, core\Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
 
     ' Author:
     ' 

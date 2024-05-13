@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a8f1857148a54692aa6b5eb410ca77d, G:/GCModeller/src/GCModeller/foundation/OBO_Foundry//Tree/GenericTree.vb"
+﻿#Region "Microsoft.VisualBasic::2a8f1857148a54692aa6b5eb410ca77d, foundation\OBO_Foundry\Tree\GenericTree.vb"
 
     ' Author:
     ' 

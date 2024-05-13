@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87591f4ea57c1219700b58b1acc72a34, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//PubMed/PubmedArticle.vb"
+﻿#Region "Microsoft.VisualBasic::87591f4ea57c1219700b58b1acc72a34, modules\Knowledge_base\ncbi_kb\PubMed\PubmedArticle.vb"
 
     ' Author:
     ' 

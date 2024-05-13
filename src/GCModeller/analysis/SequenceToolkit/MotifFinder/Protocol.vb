@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f37e96d1f03cee5a102952534dcf1372, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Protocol.vb"
+﻿#Region "Microsoft.VisualBasic::f37e96d1f03cee5a102952534dcf1372, analysis\SequenceToolkit\MotifFinder\Protocol.vb"
 
     ' Author:
     ' 

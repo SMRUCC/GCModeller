@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebb44c932e84e259bd34aed71b37b3d8, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GeneOntology//DAG/TermNode.vb"
+﻿#Region "Microsoft.VisualBasic::ebb44c932e84e259bd34aed71b37b3d8, data\GO_gene-ontology\GeneOntology\DAG\TermNode.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4467b57b649ce143495262712243e8c, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/Locus/Nucleotide/NucleotideLocation.vb"
+﻿#Region "Microsoft.VisualBasic::d4467b57b649ce143495262712243e8c, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
 
     ' Author:
     ' 

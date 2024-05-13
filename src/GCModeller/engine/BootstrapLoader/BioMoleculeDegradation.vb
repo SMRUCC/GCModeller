@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bc3947662587dd3df4033c0c8f985fd, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//BioMoleculeDegradation.vb"
+﻿#Region "Microsoft.VisualBasic::1bc3947662587dd3df4033c0c8f985fd, engine\BootstrapLoader\BioMoleculeDegradation.vb"
 
     ' Author:
     ' 

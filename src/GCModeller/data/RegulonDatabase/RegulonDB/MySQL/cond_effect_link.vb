@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91232b6ff76db953e92351a79f70e8fb, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/cond_effect_link.vb"
+﻿#Region "Microsoft.VisualBasic::91232b6ff76db953e92351a79f70e8fb, data\RegulonDatabase\RegulonDB\MySQL\cond_effect_link.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e17f8cfe3278117b20b3a9710a8de398, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//Abstract/MapModelCommon.vb"
+﻿#Region "Microsoft.VisualBasic::e17f8cfe3278117b20b3a9710a8de398, visualize\DataVisualizationExtensions\Abstract\MapModelCommon.vb"
 
     ' Author:
     ' 

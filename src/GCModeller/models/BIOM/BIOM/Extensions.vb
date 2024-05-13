@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27b3e92ca38831ef4487b9569e8e1bd1, G:/GCModeller/src/GCModeller/models/BIOM/BIOM//Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::27b3e92ca38831ef4487b9569e8e1bd1, models\BIOM\BIOM\Extensions.vb"
 
     ' Author:
     ' 

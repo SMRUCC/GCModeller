@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60db764ad613edbf1601a15a9fb70211, G:/GCModeller/src/GCModeller/core/Bio.Annotation//PTF/PtfFile.vb"
+﻿#Region "Microsoft.VisualBasic::60db764ad613edbf1601a15a9fb70211, core\Bio.Annotation\PTF\PtfFile.vb"
 
     ' Author:
     ' 

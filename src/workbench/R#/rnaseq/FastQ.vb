@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa76880784ba6483bd4892eac3c07b44, G:/GCModeller/src/workbench/R#/rnaseq//FastQ.vb"
+﻿#Region "Microsoft.VisualBasic::aa76880784ba6483bd4892eac3c07b44, R#\rnaseq\FastQ.vb"
 
     ' Author:
     ' 

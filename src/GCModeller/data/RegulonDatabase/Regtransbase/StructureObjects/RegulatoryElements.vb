@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::416a37039260ec6a28b36766488ea044, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/StructureObjects/RegulatoryElements.vb"
+﻿#Region "Microsoft.VisualBasic::416a37039260ec6a28b36766488ea044, data\RegulonDatabase\Regtransbase\StructureObjects\RegulatoryElements.vb"
 
     ' Author:
     ' 

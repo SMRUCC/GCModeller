@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e12413f423c0224df4c026d12f5667f9, G:/GCModeller/src/GCModeller/models/Networks/KEGG//Dunnart/GraphObject.vb"
+﻿#Region "Microsoft.VisualBasic::e12413f423c0224df4c026d12f5667f9, models\Networks\KEGG\Dunnart\GraphObject.vb"
 
     ' Author:
     ' 

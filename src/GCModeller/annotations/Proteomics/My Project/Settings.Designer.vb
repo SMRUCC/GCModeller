@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4cd382b0d5111e667943529dab2f8863, G:/GCModeller/src/GCModeller/annotations/Proteomics//My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::4cd382b0d5111e667943529dab2f8863, annotations\Proteomics\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 

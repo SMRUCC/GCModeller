@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94cdb731cb77d26d7fe5a26e4d26cdeb, G:/GCModeller/src/workbench/modules/Knowledge_base/Knowledge_base//My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::94cdb731cb77d26d7fe5a26e4d26cdeb, modules\Knowledge_base\Knowledge_base\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

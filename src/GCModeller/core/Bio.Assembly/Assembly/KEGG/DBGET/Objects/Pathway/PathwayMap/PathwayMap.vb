@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25e617376f4fed7e6be5f3f7504c2733, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/Objects/Pathway/PathwayMap/PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::25e617376f4fed7e6be5f3f7504c2733, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
 
     ' Author:
     ' 

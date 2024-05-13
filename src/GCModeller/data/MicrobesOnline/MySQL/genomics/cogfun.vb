@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3dc918a919b2af54fdff0a0b349d52bf, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/cogfun.vb"
+﻿#Region "Microsoft.VisualBasic::3dc918a919b2af54fdff0a0b349d52bf, data\MicrobesOnline\MySQL\genomics\cogfun.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffd08c3f79b0437b5abb9f4ff4033dc4, G:/GCModeller/src/GCModeller/engine/IO/Raw//HDS/GCModellerRaw/StorageDriver.vb"
+﻿#Region "Microsoft.VisualBasic::ffd08c3f79b0437b5abb9f4ff4033dc4, engine\IO\Raw\HDS\GCModellerRaw\StorageDriver.vb"
 
     ' Author:
     ' 

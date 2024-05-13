@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb90c705bb9879e2f5b236ae5e0fa395, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SmithWaterman//test/My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::eb90c705bb9879e2f5b236ae5e0fa395, analysis\SequenceToolkit\SmithWaterman\test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

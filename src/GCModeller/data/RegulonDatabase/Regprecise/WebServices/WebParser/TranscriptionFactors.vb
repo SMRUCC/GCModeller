@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32b0d7d50cd0c86ee9e49d5c462dd4de, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/WebServices/WebParser/TranscriptionFactors.vb"
+﻿#Region "Microsoft.VisualBasic::32b0d7d50cd0c86ee9e49d5c462dd4de, data\RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb"
 
     ' Author:
     ' 

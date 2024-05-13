@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d871d722b5268f28cfc4b540aba60e83, G:/GCModeller/src/GCModeller/models/BioCyc//Models/pathways.vb"
+﻿#Region "Microsoft.VisualBasic::d871d722b5268f28cfc4b540aba60e83, models\BioCyc\Models\pathways.vb"
 
     ' Author:
     ' 
