@@ -96,7 +96,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim plotH As Single = canvas.PlotRegion.Height
-        Dim termH As Single = plotH / (Aggregate ci In enrich Into Sum(ci.Value.Length))
+        Dim termH As Single = plotH / (enrich.Count + 1 + Aggregate ci In enrich Into Sum(ci.Value.Length))
         Dim max_string = enrich.Values.IteratesALL.Select(Function(ti) ti.name).MaxLengthString
         Dim name_label_font As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
         Dim left = canvas.PlotRegion.Left + g.MeasureString(max_string, name_label_font).Width

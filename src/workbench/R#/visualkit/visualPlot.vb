@@ -432,11 +432,12 @@ Module visualPlot
                                           <RRawVectorArgument>
                                           Optional padding As Object = "padding:500px 1000px 500px 300px;",
                                           Optional colorset As String = "jet",
+                                          Optional top_n As Integer = 9,
                                           Optional env As Environment = Nothing) As Object
 
         Dim padding_val As String = InteropArgumentHelper.getPadding(padding, [default]:="padding:500px 1000px 500px 300px;", env)
         Dim theme As New Theme With {.colorSet = colorset, .padding = padding}
-        Dim app As New EnrichmentCategoryBubble(terms, theme)
+        Dim app As New EnrichmentCategoryBubble(terms, theme, top_n:=top_n)
         Dim size_val = InteropArgumentHelper.getSize(size, env, "6000,10000")
 
         Return app.Plot(size_val, driver:=env.getDriver)
