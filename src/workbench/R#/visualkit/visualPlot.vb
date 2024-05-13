@@ -428,12 +428,16 @@ Module visualPlot
     <ExportAPI("kegg.enrichment.bubble2")>
     Public Function keggEnrichmentBubble2(terms As EnrichmentResult(),
                                           <RRawVectorArgument>
-                                          Optional size As Object = "2700,3800",
+                                          Optional size As Object = "6000,10000",
+                                          <RRawVectorArgument>
+                                          Optional padding As Object = "padding:500px 1000px 500px 300px;",
+                                          Optional colorset As String = "jet",
                                           Optional env As Environment = Nothing) As Object
 
-        Dim theme As New Theme
+        Dim padding_val As String = InteropArgumentHelper.getPadding(padding, [default]:="padding:500px 1000px 500px 300px;", env)
+        Dim theme As New Theme With {.colorSet = colorset, .padding = padding}
         Dim app As New EnrichmentCategoryBubble(terms, theme)
-        Dim size_val = InteropArgumentHelper.getSize(size, env, "2700,3800")
+        Dim size_val = InteropArgumentHelper.getSize(size, env, "6000,10000")
 
         Return app.Plot(size_val, driver:=env.getDriver)
     End Function

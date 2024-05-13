@@ -70,7 +70,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
 
     ReadOnly enrich As Dictionary(Of String, EnrichmentResult())
 
-    Public Sub New(enrich As IEnumerable(Of EnrichmentResult), theme As Theme)
+    Public Sub New(enrich As IEnumerable(Of EnrichmentResult), theme As Theme, Optional top_n As Integer = 8)
         Call MyBase.New(theme)
 
         Dim kegg = htext.br08901.GetEntryDictionary
@@ -87,7 +87,10 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
                      End Function) _
             .ToDictionary(Function(a) a.Key,
                           Function(a)
-                              Return a.ToArray
+                              Return a _
+                                 .OrderBy(Function(ti) ti.term) _
+                                 .Take(top_n) _
+                                 .ToArray
                           End Function)
     End Sub
 
@@ -142,6 +145,8 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
             y += termH / 2
         Next
 
-        Call Axis.DrawX(g, axis_stroke, "-log10(p)", scaler, XAxisLayoutStyles.Bottom, 0, Nothing, theme.axisLabelCSS, Brushes.Black, CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi), Brushes.Black, htmlLabel:=False)
+        Call Axis.DrawX(g, axis_stroke, "-log10(p)", scaler, XAxisLayoutStyles.Bottom, 0, Nothing, theme.axisLabelCSS,
+                        Brushes.Black, CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi),
+                        Brushes.Black, htmlLabel:=False)
     End Sub
 End Class
