@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be477e1e0ff76c9d0d10f923e765a92e, G:/GCModeller/src/repository/graphquery/kegg/src/kegg_api//Html/ParseMap.vb"
+﻿#Region "Microsoft.VisualBasic::be477e1e0ff76c9d0d10f923e765a92e, graphquery\kegg\src\kegg_api\Html\ParseMap.vb"
 
     ' Author:
     ' 

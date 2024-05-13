@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffcf8ef97612884cc2217f102b694c89, G:/GCModeller/src/repository/HMP_client//My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::ffcf8ef97612884cc2217f102b694c89, HMP_client\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

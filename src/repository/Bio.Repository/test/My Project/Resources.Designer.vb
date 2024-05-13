@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::06330ea748e4430c537ea963de85b17e, G:/GCModeller/src/repository/Bio.Repository//test/My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::06330ea748e4430c537ea963de85b17e, Bio.Repository\test\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 

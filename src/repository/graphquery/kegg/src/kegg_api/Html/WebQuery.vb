@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30ba65853c742c3f4507040785ad398d, G:/GCModeller/src/repository/graphquery/kegg/src/kegg_api//Html/WebQuery.vb"
+﻿#Region "Microsoft.VisualBasic::30ba65853c742c3f4507040785ad398d, graphquery\kegg\src\kegg_api\Html\WebQuery.vb"
 
     ' Author:
     ' 
