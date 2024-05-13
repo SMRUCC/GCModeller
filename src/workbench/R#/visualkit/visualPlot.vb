@@ -428,15 +428,24 @@ Module visualPlot
     <ExportAPI("kegg.enrichment.bubble2")>
     Public Function keggEnrichmentBubble2(terms As EnrichmentResult(),
                                           <RRawVectorArgument>
-                                          Optional size As Object = "6000,10000",
+                                          Optional size As Object = "16000,12000",
                                           <RRawVectorArgument>
-                                          Optional padding As Object = "padding:500px 1000px 500px 300px;",
+                                          Optional padding As Object = "padding:500px 3000px 500px 300px;",
                                           Optional colorset As String = "jet",
                                           Optional top_n As Integer = 9,
+                                          Optional label_font As String = "font-style: strong; font-size: 36; font-family: " & FontFace.Verdana & ";",
+                                          Optional tick_font As String = "font-style: normal; font-size: 32; font-family: " & FontFace.Verdana & ";",
+                                          Optional axis_stroke As String = "stroke: black; stroke-width: 9px; stroke-dash: solid;",
                                           Optional env As Environment = Nothing) As Object
 
-        Dim padding_val As String = InteropArgumentHelper.getPadding(padding, [default]:="padding:500px 1000px 500px 300px;", env)
-        Dim theme As New Theme With {.colorSet = colorset, .padding = padding}
+        Dim padding_val As String = InteropArgumentHelper.getPadding(padding, [default]:="padding:500px 2000px 500px 300px;", env)
+        Dim theme As New Theme With {
+            .colorSet = colorset,
+            .padding = padding,
+            .axisLabelCSS = label_font,
+            .axisTickCSS = tick_font,
+            .axisStroke = axis_stroke
+        }
         Dim app As New EnrichmentCategoryBubble(terms, theme, top_n:=top_n)
         Dim size_val = InteropArgumentHelper.getSize(size, env, "6000,10000")
 

@@ -96,17 +96,20 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim plotH As Single = canvas.PlotRegion.Height
+        Dim top As Single = canvas.PlotRegion.Top
         Dim termH As Single = plotH / (enrich.Count - 1 + Aggregate ci In enrich Into Sum(ci.Value.Length))
         Dim max_string = enrich.Values.IteratesALL.Select(Function(ti) ti.name).MaxLengthString
         Dim name_label_font As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
-        Dim left = canvas.PlotRegion.Left + g.MeasureString(max_string, name_label_font).Width
+        Dim max_string_size As SizeF = g.MeasureString(max_string, name_label_font)
+        Dim left = canvas.PlotRegion.Left + max_string_size.Width
+        Dim bubble_rect_width As Single = canvas.PlotRegion.Width = max_string_size.Width
         Dim labelColor As Brush = theme.tagColor.GetBrush
         Dim y As Single = canvas.PlotRegion.Top
         Dim dashline As Pen = Stroke.TryParse(theme.gridStrokeY)
         Dim plotW As Single = canvas.PlotRegion.Width - g.MeasureString(max_string, name_label_font).Width
         Dim x_Ticks As Vector = (-enrich.Values.IteratesALL.Select(Function(ti) ti.pvalue).AsVector.Log10).CreateAxisTicks
         Dim radius_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) Val(ti.enriched)).AsVector
-        Dim color_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) ti.FDR).AsVector
+        Dim color_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) ti.pvalue).AsVector
         Dim radius As New DoubleRange(0.1 * termH, termH)
         Dim colors As Brush() = Designer.GetBrushes(theme.colorSet)
         Dim colorOffset As New DoubleRange(0, colors.Length - 1)
@@ -118,6 +121,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
             .X = d3js.scale.linear().range(values:={left, left + plotW}).domain(x_Ticks),
             .Y = d3js.scale.constant(0)
         }
+        Dim categoryBarWidth As Single = 0.05 * plotW
 
         For Each category As String In enrich.Keys
             Dim y0 As Single = y
@@ -127,26 +131,53 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
                 Dim label_left = left - label_size.Width
                 Dim label_pos As New PointF(label_left, y)
                 Dim r As Single = radius_scaler.ScaleMapping(Val(term.enriched), radius)
-                Dim c As Brush = colors(CInt(color_scaler.ScaleMapping(term.FDR, colorOffset)))
+                Dim c As Brush = colors(CInt(color_scaler.ScaleMapping(term.pvalue, colorOffset)))
                 Dim xi As Single = -std.Log10(term.pvalue)
 
                 xi = scaler.TranslateX(xi)
                 y += termH
                 g.DrawString(term.name, name_label_font, labelColor, label_pos)
                 g.DrawLine(dashline, New PointF(left, label_pos.Y + termH / 2), New PointF(left + plotW, label_pos.Y + termH / 2))
+                g.DrawCircle(New PointF(xi - 2, label_pos.Y + termH / 2 - 2), r + 9, Brushes.Black)
                 g.DrawCircle(New PointF(xi, label_pos.Y + termH / 2), r, c)
             Next
 
             ' fill box
-            Dim box As New RectangleF(New PointF(left + plotW, y0), New SizeF(0.05 * plotW, y - y0))
+            Dim box As New RectangleF(New PointF(left + plotW, y0), New SizeF(categoryBarWidth, y - y0))
 
             g.DrawLine(axis_stroke, New PointF(left, y0), New PointF(left, y))
             g.FillRectangle(boxFill, box)
+            g.DrawString(category.ToUpper.First, name_label_font, Brushes.Black,
+                         box.Left + max_string_size.Height,
+                         box.Top + box.Height / 2,
+                         angle:=90)
             y += termH / 2
         Next
 
+        Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+
+        scaler.region = New Rectangle(left, top, bubble_rect_width, y - top)
+
+        Call g.DrawLine(Stroke.TryParse(theme.axisStroke).GDIObject, scaler.region.Left, scaler.region.Bottom, scaler.region.Right, scaler.region.Bottom)
         Call Axis.DrawX(g, axis_stroke, "-log10(p)", scaler, XAxisLayoutStyles.ZERO, y, Nothing, theme.axisLabelCSS,
-                        Brushes.Black, CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi),
+                        Brushes.Black, tickFont,
                         Brushes.Black, htmlLabel:=False)
+
+        Dim legend_layout As New Rectangle(
+            canvas.PlotRegion.Right + categoryBarWidth * 2,
+            canvas.PlotRegion.Top + canvas.PlotRegion.Height / 4,
+            canvas.Padding.Right * (2 / 3),
+            canvas.PlotRegion.Height / 3)
+
+        Call New ColorMapLegend(colors) With {
+            .maxWidth = legend_layout.Width,
+            .tickAxisStroke = axis_stroke,
+            .tickFont = tickFont,
+            .title = "Adjust p with BH",
+            .ticks = color_scaler.CreateAxisTicks,
+            .titleFont = name_label_font,
+            .noblank = True
+        }.Draw(g, legend_layout)
+
     End Sub
 End Class
