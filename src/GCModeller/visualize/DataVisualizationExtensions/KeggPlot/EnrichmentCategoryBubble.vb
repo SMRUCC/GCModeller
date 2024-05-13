@@ -133,8 +133,8 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
                 xi = scaler.TranslateX(xi)
                 y += termH
                 g.DrawString(term.name, name_label_font, labelColor, label_pos)
-                g.DrawLine(dashline, New PointF(left, label_pos.Y), New PointF(left + plotW, label_pos.Y))
-                g.DrawCircle(New PointF(xi, label_pos.Y), r, c)
+                g.DrawLine(dashline, New PointF(left, label_pos.Y + termH / 2), New PointF(left + plotW, label_pos.Y + termH / 2))
+                g.DrawCircle(New PointF(xi, label_pos.Y + termH / 2), r, c)
             Next
 
             ' fill box
