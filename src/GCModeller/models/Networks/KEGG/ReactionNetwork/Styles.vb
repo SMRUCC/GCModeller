@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff0f75271a1971a8c00b91b9976ed545, G:/GCModeller/src/GCModeller/models/Networks/KEGG//ReactionNetwork/Styles.vb"
+﻿#Region "Microsoft.VisualBasic::ff0f75271a1971a8c00b91b9976ed545, models\Networks\KEGG\ReactionNetwork\Styles.vb"
 
     ' Author:
     ' 

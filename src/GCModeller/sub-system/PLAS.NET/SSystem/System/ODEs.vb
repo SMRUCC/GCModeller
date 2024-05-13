@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a80767f1413b47ccb045c92ac949e510, G:/GCModeller/src/GCModeller/sub-system/PLAS.NET/SSystem//System/ODEs.vb"
+﻿#Region "Microsoft.VisualBasic::a80767f1413b47ccb045c92ac949e510, sub-system\PLAS.NET\SSystem\System\ODEs.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac3864dad1ac9d0174d3fad541777370, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/Expasy/csv/Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::ac3864dad1ac9d0174d3fad541777370, core\Bio.Assembly\Assembly\Expasy\csv\Enzyme.vb"
 
     ' Author:
     ' 

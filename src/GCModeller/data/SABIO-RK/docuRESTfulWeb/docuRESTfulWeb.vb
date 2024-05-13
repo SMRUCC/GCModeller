@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d15467c75785d65eb6a8ece9fdf24ce3, G:/GCModeller/src/GCModeller/data/SABIO-RK//docuRESTfulWeb/docuRESTfulWeb.vb"
+﻿#Region "Microsoft.VisualBasic::d15467c75785d65eb6a8ece9fdf24ce3, data\SABIO-RK\docuRESTfulWeb\docuRESTfulWeb.vb"
 
     ' Author:
     ' 

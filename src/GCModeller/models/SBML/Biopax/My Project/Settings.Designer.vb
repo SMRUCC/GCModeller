@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5678199907c8c10e4e2cc5607fbd8ed, G:/GCModeller/src/GCModeller/models/SBML/Biopax//My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::a5678199907c8c10e4e2cc5607fbd8ed, models\SBML\Biopax\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13b2e044f1db9b0357dc1caa4cd7d97f, G:/GCModeller/src/GCModeller/engine/IO/GCMarkupLanguage//v2/Assembly/ZipWriter.vb"
+﻿#Region "Microsoft.VisualBasic::13b2e044f1db9b0357dc1caa4cd7d97f, engine\IO\GCMarkupLanguage\v2\Assembly\ZipWriter.vb"
 
     ' Author:
     ' 

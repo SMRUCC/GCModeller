@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::446886c0bb2b350d4bb3f11a2c56e016, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/FastaReaders/Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::446886c0bb2b350d4bb3f11a2c56e016, data\RegulonDatabase\Regprecise\FastaReaders\Regulator.vb"
 
     ' Author:
     ' 

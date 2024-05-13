@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7742a48742a5457812f47be5632e76f7, G:/GCModeller/src/GCModeller/sub-system/PLAS.NET/SSystem//System/Elements/Equation.vb"
+﻿#Region "Microsoft.VisualBasic::7742a48742a5457812f47be5632e76f7, sub-system\PLAS.NET\SSystem\System\Elements\Equation.vb"
 
     ' Author:
     ' 

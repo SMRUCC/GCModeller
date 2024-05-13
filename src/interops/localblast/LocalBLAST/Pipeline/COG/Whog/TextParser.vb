@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8308e9ae3665dfefd56a92b21e766a03, G:/GCModeller/src/interops/localblast/LocalBLAST//Pipeline/COG/Whog/TextParser.vb"
+﻿#Region "Microsoft.VisualBasic::8308e9ae3665dfefd56a92b21e766a03, localblast\LocalBLAST\Pipeline\COG\Whog\TextParser.vb"
 
     ' Author:
     ' 

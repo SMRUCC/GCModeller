@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::890fdc629ed87499128ae4c6bc1436bc, G:/GCModeller/src/GCModeller/models/SBML/SBML//Level2/Elements/speciesReference.vb"
+﻿#Region "Microsoft.VisualBasic::890fdc629ed87499128ae4c6bc1436bc, models\SBML\SBML\Level2\Elements\speciesReference.vb"
 
     ' Author:
     ' 

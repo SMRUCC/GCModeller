@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::801c9d908bdb6b116e4a2012aa300e97, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape.Automation//cyREST.vb"
+﻿#Region "Microsoft.VisualBasic::801c9d908bdb6b116e4a2012aa300e97, visualize\Cytoscape\Cytoscape.Automation\cyREST.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed60a8e0fc9501b79cdd5c23beee29d7, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CurvesChart/Line.vb"
+﻿#Region "Microsoft.VisualBasic::ed60a8e0fc9501b79cdd5c23beee29d7, visualize\DataVisualizationExtensions\CurvesChart\Line.vb"
 
     ' Author:
     ' 

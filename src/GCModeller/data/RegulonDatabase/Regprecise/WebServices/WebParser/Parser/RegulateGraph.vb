@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05618b5e5eda8a9b602106a1004ece85, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/WebServices/WebParser/Parser/RegulateGraph.vb"
+﻿#Region "Microsoft.VisualBasic::05618b5e5eda8a9b602106a1004ece85, data\RegulonDatabase\Regprecise\WebServices\WebParser\Parser\RegulateGraph.vb"
 
     ' Author:
     ' 

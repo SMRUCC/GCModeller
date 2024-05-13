@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17376eefa1aaa5bd600918d9c36c1b4f, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/DBLinkBuilder/DBLinkBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::17376eefa1aaa5bd600918d9c36c1b4f, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinkBuilder.vb"
 
     ' Author:
     ' 

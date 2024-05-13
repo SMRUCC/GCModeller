@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d56ade461334727b31a51fba65c3820a, G:/GCModeller/src/GCModeller/models/Networks/KEGGGraphVisualizer//ReferenceMapRender.vb"
+﻿#Region "Microsoft.VisualBasic::d56ade461334727b31a51fba65c3820a, models\Networks\KEGGGraphVisualizer\ReferenceMapRender.vb"
 
     ' Author:
     ' 

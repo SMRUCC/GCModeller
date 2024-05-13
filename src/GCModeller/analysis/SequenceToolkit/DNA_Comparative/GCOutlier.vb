@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fde3df0c5ca3c0d7089847e91d6c5b2, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/DNA_Comparative//GCOutlier.vb"
+﻿#Region "Microsoft.VisualBasic::3fde3df0c5ca3c0d7089847e91d6c5b2, analysis\SequenceToolkit\DNA_Comparative\GCOutlier.vb"
 
     ' Author:
     ' 

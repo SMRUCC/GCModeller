@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f3157769259b56f81dbb3be2243d4456, G:/GCModeller/src/GCModeller/models/Networks/KEGG//PathwayMaps/MaxGraphAsignment.vb"
+﻿#Region "Microsoft.VisualBasic::f3157769259b56f81dbb3be2243d4456, models\Networks\KEGG\PathwayMaps\MaxGraphAsignment.vb"
 
     ' Author:
     ' 

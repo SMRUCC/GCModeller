@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::278d3cc5cbf19a681da658aa2ce33804, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Process/Metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::278d3cc5cbf19a681da658aa2ce33804, engine\Model\Cellular\Process\Metabolism.vb"
 
     ' Author:
     ' 

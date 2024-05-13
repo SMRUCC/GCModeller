@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc82001d7cb3638940ea18d8241f6d87, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/gwANI//Const.vb"
+﻿#Region "Microsoft.VisualBasic::bc82001d7cb3638940ea18d8241f6d87, analysis\SequenceToolkit\gwANI\Const.vb"
 
     ' Author:
     ' 

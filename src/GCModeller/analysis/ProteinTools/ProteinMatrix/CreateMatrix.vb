@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f8310184b75ea47f918daa75e0d067e, G:/GCModeller/src/GCModeller/analysis/ProteinTools/ProteinMatrix//CreateMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::3f8310184b75ea47f918daa75e0d067e, analysis\ProteinTools\ProteinMatrix\CreateMatrix.vb"
 
     ' Author:
     ' 

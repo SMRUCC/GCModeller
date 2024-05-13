@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d944961bf429abfd7326c5889e717e00, G:/GCModeller/src/GCModeller/engine/Model//My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::d944961bf429abfd7326c5889e717e00, engine\Model\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4977a671c103cd362a91d490f7cf92a, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//test/My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::e4977a671c103cd362a91d490f7cf92a, visualize\Cytoscape\Cytoscape\test\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3050e1002bcc53d35019013f2f56629e, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/Utilities.vb"
+﻿#Region "Microsoft.VisualBasic::3050e1002bcc53d35019013f2f56629e, analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
 
     ' Author:
     ' 

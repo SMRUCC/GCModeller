@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a532af1140dc3425ba2a063105ceb8e7, G:/GCModeller/src/GCModeller/engine/Dynamics//Drivers/OmicsTuple.vb"
+﻿#Region "Microsoft.VisualBasic::a532af1140dc3425ba2a063105ceb8e7, engine\Dynamics\Drivers\OmicsTuple.vb"
 
     ' Author:
     ' 

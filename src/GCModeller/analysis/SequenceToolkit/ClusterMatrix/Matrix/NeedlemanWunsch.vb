@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a693b533d7f29ca250d49a67caf8c8f8, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/ClusterMatrix//Matrix/NeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::a693b533d7f29ca250d49a67caf8c8f8, analysis\SequenceToolkit\ClusterMatrix\Matrix\NeedlemanWunsch.vb"
 
     ' Author:
     ' 

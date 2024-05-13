@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ead31a24b768930461eda7f1fd5964ec, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SNP//SNP.vb"
+﻿#Region "Microsoft.VisualBasic::ead31a24b768930461eda7f1fd5964ec, analysis\SequenceToolkit\SNP\SNP.vb"
 
     ' Author:
     ' 

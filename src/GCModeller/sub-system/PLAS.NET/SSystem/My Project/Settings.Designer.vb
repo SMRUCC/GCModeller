@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62b36df6c53e11d702eefc816fff7866, G:/GCModeller/src/GCModeller/sub-system/PLAS.NET/SSystem//My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::62b36df6c53e11d702eefc816fff7866, sub-system\PLAS.NET\SSystem\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 

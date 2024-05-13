@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b5d3745530fa09c81faf9fb3abed8b5, G:/GCModeller/src/GCModeller/annotations/GSEA/FisherCore//KnowledgeBase/Cluster.vb"
+﻿#Region "Microsoft.VisualBasic::3b5d3745530fa09c81faf9fb3abed8b5, annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab0db068989630fba07298238d7e9454, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/reactionlikeevent_2_entityfunctionalstatus.vb"
+﻿#Region "Microsoft.VisualBasic::ab0db068989630fba07298238d7e9454, data\Reactome\LocalMySQL\gk_current\reactionlikeevent_2_entityfunctionalstatus.vb"
 
     ' Author:
     ' 

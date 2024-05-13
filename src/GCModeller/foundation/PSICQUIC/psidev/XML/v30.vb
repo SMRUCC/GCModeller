@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a12022a11e1011188672a31c0200552, G:/GCModeller/src/GCModeller/foundation/PSICQUIC/psidev//XML/v30.vb"
+﻿#Region "Microsoft.VisualBasic::4a12022a11e1011188672a31c0200552, foundation\PSICQUIC\psidev\XML\v30.vb"
 
     ' Author:
     ' 

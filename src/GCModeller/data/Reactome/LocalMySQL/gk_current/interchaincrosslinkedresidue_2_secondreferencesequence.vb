@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::187553355aa7d12366ca74b29df84396, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/interchaincrosslinkedresidue_2_secondreferencesequence.vb"
+﻿#Region "Microsoft.VisualBasic::187553355aa7d12366ca74b29df84396, data\Reactome\LocalMySQL\gk_current\interchaincrosslinkedresidue_2_secondreferencesequence.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d61fd9e010b171a3f2c550e7529219cb, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/physicalentity_2_literaturereference.vb"
+﻿#Region "Microsoft.VisualBasic::d61fd9e010b171a3f2c550e7529219cb, data\Reactome\LocalMySQL\gk_current\physicalentity_2_literaturereference.vb"
 
     ' Author:
     ' 

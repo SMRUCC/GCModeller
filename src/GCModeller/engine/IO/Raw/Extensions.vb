@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b62ceff59d2b4e48b0d0b951844f06f, G:/GCModeller/src/GCModeller/engine/IO/Raw//Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::6b62ceff59d2b4e48b0d0b951844f06f, engine\IO\Raw\Extensions.vb"
 
     ' Author:
     ' 

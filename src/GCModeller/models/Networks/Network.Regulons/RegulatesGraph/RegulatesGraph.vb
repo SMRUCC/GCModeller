@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d316aa86d683bcf5be0352bad52df99, G:/GCModeller/src/GCModeller/models/Networks/Network.Regulons//RegulatesGraph/RegulatesGraph.vb"
+﻿#Region "Microsoft.VisualBasic::0d316aa86d683bcf5be0352bad52df99, models\Networks\Network.Regulons\RegulatesGraph\RegulatesGraph.vb"
 
     ' Author:
     ' 

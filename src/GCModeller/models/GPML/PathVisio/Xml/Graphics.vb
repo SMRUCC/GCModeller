@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1ce27b5411c90acbe535e0c86e339ad, G:/GCModeller/src/GCModeller/models/GPML/PathVisio//Xml/Graphics.vb"
+﻿#Region "Microsoft.VisualBasic::c1ce27b5411c90acbe535e0c86e339ad, models\GPML\PathVisio\Xml\Graphics.vb"
 
     ' Author:
     ' 

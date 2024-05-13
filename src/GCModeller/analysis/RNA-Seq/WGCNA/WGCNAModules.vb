@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99f15150b711a670fb40da36ceb27881, G:/GCModeller/src/GCModeller/analysis/RNA-Seq/WGCNA//WGCNAModules.vb"
+﻿#Region "Microsoft.VisualBasic::99f15150b711a670fb40da36ceb27881, analysis\RNA-Seq\WGCNA\WGCNAModules.vb"
 
     ' Author:
     ' 

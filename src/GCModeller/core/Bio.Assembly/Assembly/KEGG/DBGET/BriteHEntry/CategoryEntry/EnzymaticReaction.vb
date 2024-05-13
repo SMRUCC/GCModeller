@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a8ceedcbffdad5484fb47f1177fb807, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/BriteHEntry/CategoryEntry/EnzymaticReaction.vb"
+﻿#Region "Microsoft.VisualBasic::3a8ceedcbffdad5484fb47f1177fb807, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb290f08a716481eb8628061d68679bc, G:/GCModeller/src/GCModeller/engine/Compiler//AssemblyScript/Script/Scanner.vb"
+﻿#Region "Microsoft.VisualBasic::eb290f08a716481eb8628061d68679bc, engine\Compiler\AssemblyScript\Script\Scanner.vb"
 
     ' Author:
     ' 

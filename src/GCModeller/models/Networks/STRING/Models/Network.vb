@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::601ae11d0cd1bb067db4fd819d92a591, G:/GCModeller/src/GCModeller/models/Networks/STRING//Models/Network.vb"
+﻿#Region "Microsoft.VisualBasic::601ae11d0cd1bb067db4fd819d92a591, models\Networks\STRING\Models\Network.vb"
 
     ' Author:
     ' 

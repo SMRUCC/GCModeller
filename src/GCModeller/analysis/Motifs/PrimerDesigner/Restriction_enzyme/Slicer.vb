@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b23dd93d9b071606ccfa7dc90f19a080, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Restriction_enzyme/Slicer.vb"
+﻿#Region "Microsoft.VisualBasic::b23dd93d9b071606ccfa7dc90f19a080, analysis\Motifs\PrimerDesigner\Restriction_enzyme\Slicer.vb"
 
     ' Author:
     ' 

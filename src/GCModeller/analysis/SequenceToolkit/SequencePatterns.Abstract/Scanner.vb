@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d8c3f3b1da9336daf3081cb6f21bc7f, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract//Scanner.vb"
+﻿#Region "Microsoft.VisualBasic::1d8c3f3b1da9336daf3081cb6f21bc7f, analysis\SequenceToolkit\SequencePatterns.Abstract\Scanner.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55cc7e3d1c003ae217ee1220ae88f95c, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/ReactionRepository.vb"
+﻿#Region "Microsoft.VisualBasic::55cc7e3d1c003ae217ee1220ae88f95c, core\Bio.Assembly\Assembly\KEGG\ReactionRepository.vb"
 
     ' Author:
     ' 

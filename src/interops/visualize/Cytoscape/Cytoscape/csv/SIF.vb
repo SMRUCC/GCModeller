@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::277cc90f374d7f3563ec28ca362e58ef, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//csv/SIF.vb"
+﻿#Region "Microsoft.VisualBasic::277cc90f374d7f3563ec28ca362e58ef, visualize\Cytoscape\Cytoscape\csv\SIF.vb"
 
     ' Author:
     ' 

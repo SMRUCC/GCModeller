@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68b97573f24d4c15ac6ff204ae3f60f6, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/InteropService/InteropService.vb"
+﻿#Region "Microsoft.VisualBasic::68b97573f24d4c15ac6ff204ae3f60f6, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\InteropService.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::23e39976893430965ce6835e77c7a36e, G:/GCModeller/src/GCModeller/models/Networks/Microbiome//UniProt/TaxonomyRepository.vb"
+﻿#Region "Microsoft.VisualBasic::23e39976893430965ce6835e77c7a36e, models\Networks\Microbiome\UniProt\TaxonomyRepository.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::540e3756be19cf4808872171644f5119, G:/GCModeller/src/GCModeller/analysis/Microarray//Enrichment/KOBAS/EnrichmentTerm.vb"
+﻿#Region "Microsoft.VisualBasic::540e3756be19cf4808872171644f5119, analysis\Microarray\Enrichment\KOBAS\EnrichmentTerm.vb"
 
     ' Author:
     ' 

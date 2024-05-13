@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab586a95b6a6ccfc5778ac61fb4e5e9b, G:/GCModeller/src/GCModeller/data/Reactome//Hierarchy/Hierarchy.vb"
+﻿#Region "Microsoft.VisualBasic::ab586a95b6a6ccfc5778ac61fb4e5e9b, data\Reactome\Hierarchy\Hierarchy.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b91809c49d3884273c65c998dff5d5e3, G:/GCModeller/src/interops/localblast/LocalBLAST//Extension.vb"
+﻿#Region "Microsoft.VisualBasic::b91809c49d3884273c65c998dff5d5e3, localblast\LocalBLAST\Extension.vb"
 
     ' Author:
     ' 

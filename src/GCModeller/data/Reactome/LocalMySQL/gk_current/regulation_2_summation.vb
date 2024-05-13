@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::684db186733edb8cb474ed43f7ba16b1, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/regulation_2_summation.vb"
+﻿#Region "Microsoft.VisualBasic::684db186733edb8cb474ed43f7ba16b1, data\Reactome\LocalMySQL\gk_current\regulation_2_summation.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8851236c844e6a47964e928d1c70bf9f, G:/GCModeller/src/GCModeller/visualize/ChromosomeMap//PlasmidMap/DrawGene.vb"
+﻿#Region "Microsoft.VisualBasic::8851236c844e6a47964e928d1c70bf9f, visualize\ChromosomeMap\PlasmidMap\DrawGene.vb"
 
     ' Author:
     ' 

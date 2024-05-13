@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14764cb25b71aeed2f415be1f1f34380, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/NeedlemanWunsch//RunNeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::14764cb25b71aeed2f415be1f1f34380, analysis\SequenceToolkit\NeedlemanWunsch\RunNeedlemanWunsch.vb"
 
     ' Author:
     ' 

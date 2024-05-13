@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58f680e504c0786f468cb2924cea8ebd, G:/GCModeller/src/GCModeller/analysis/Microarray//Enrichment/KOBAS/Measure.vb"
+﻿#Region "Microsoft.VisualBasic::58f680e504c0786f468cb2924cea8ebd, analysis\Microarray\Enrichment\KOBAS\Measure.vb"
 
     ' Author:
     ' 

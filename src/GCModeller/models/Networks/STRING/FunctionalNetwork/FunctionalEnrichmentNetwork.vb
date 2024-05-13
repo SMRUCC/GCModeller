@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c683abda82ae15d1ebcef24381456e76, G:/GCModeller/src/GCModeller/models/Networks/STRING//FunctionalNetwork/FunctionalEnrichmentNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::c683abda82ae15d1ebcef24381456e76, models\Networks\STRING\FunctionalNetwork\FunctionalEnrichmentNetwork.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6f0adb617ec773303f8bc33cd4774c3, G:/GCModeller/src/GCModeller/visualize/ChromosomeMap//DrawingModels/ChromesomeDrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::b6f0adb617ec773303f8bc33cd4774c3, visualize\ChromosomeMap\DrawingModels\ChromesomeDrawingModel.vb"
 
     ' Author:
     ' 

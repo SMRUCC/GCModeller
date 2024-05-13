@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58b6af7a5e941bb8f0f23db7c424b391, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//DEGPlot/ClassChanges.vb"
+﻿#Region "Microsoft.VisualBasic::58b6af7a5e941bb8f0f23db7c424b391, visualize\DataVisualizationExtensions\DEGPlot\ClassChanges.vb"
 
     ' Author:
     ' 

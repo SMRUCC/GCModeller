@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2cfd77dd71eb3a161cbe8f4ff991f79a, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GO_Annotation//NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::2cfd77dd71eb3a161cbe8f4ff991f79a, data\GO_gene-ontology\GO_Annotation\NamespaceDoc.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6130f7c224adc7bb65bbcd8b3971f0e8, G:/GCModeller/src/GCModeller/models/SBML/Biopax//Level3/Elements/EntityProperty.vb"
+﻿#Region "Microsoft.VisualBasic::6130f7c224adc7bb65bbcd8b3971f0e8, models\SBML\Biopax\Level3\Elements\EntityProperty.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b95216588974056fafc72ff8a85f7c90, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/DNA_Comparative//ToolsAPI/SiteSigma.vb"
+﻿#Region "Microsoft.VisualBasic::b95216588974056fafc72ff8a85f7c90, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\SiteSigma.vb"
 
     ' Author:
     ' 

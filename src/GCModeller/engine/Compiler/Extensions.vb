@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e572cf54a67563ed43652efd618ae726, G:/GCModeller/src/GCModeller/engine/Compiler//Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e572cf54a67563ed43652efd618ae726, engine\Compiler\Extensions.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2efb3d0259455b5714857537824f0ec, G:/GCModeller/src/GCModeller/foundation/OBO_Foundry//IO/Reflection/Field.vb"
+﻿#Region "Microsoft.VisualBasic::b2efb3d0259455b5714857537824f0ec, foundation\OBO_Foundry\IO\Reflection\Field.vb"
 
     ' Author:
     ' 

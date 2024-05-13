@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4d70cb9e662b42cf5dce136582d6b70, G:/GCModeller/src/GCModeller/analysis/Microarray//Enrichment/IGO_term.vb"
+﻿#Region "Microsoft.VisualBasic::f4d70cb9e662b42cf5dce136582d6b70, analysis\Microarray\Enrichment\IGO_term.vb"
 
     ' Author:
     ' 

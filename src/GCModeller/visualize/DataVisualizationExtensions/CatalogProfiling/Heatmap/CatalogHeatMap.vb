@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f3cebe1e9de9278e96dbcb4c82a0411, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CatalogProfiling/Heatmap/CatalogHeatMap.vb"
+﻿#Region "Microsoft.VisualBasic::3f3cebe1e9de9278e96dbcb4c82a0411, visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogHeatMap.vb"
 
     ' Author:
     ' 

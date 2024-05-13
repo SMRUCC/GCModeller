@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::57ec68789208df6d31c7ab135c3e3b4f, G:/GCModeller/src/GCModeller/data/Rhea//TextParser.vb"
+﻿#Region "Microsoft.VisualBasic::57ec68789208df6d31c7ab135c3e3b4f, data\Rhea\TextParser.vb"
 
     ' Author:
     ' 

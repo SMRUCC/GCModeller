@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c6c8e2c2b92525b8a54e86238fdc572, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MSA//GlobalAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::6c6c8e2c2b92525b8a54e86238fdc572, analysis\SequenceToolkit\MSA\GlobalAlignment.vb"
 
     ' Author:
     ' 

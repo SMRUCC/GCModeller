@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9af5e7f721b96cf2a61d68eb2b44b15, G:/GCModeller/src/interops/localblast/LocalBLAST//Web/Alignment/AlignmentTable.vb"
+﻿#Region "Microsoft.VisualBasic::b9af5e7f721b96cf2a61d68eb2b44b15, localblast\LocalBLAST\Web\Alignment\AlignmentTable.vb"
 
     ' Author:
     ' 

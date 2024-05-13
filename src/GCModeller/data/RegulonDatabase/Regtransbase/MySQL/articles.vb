@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af38303887f38a1dccae60ff733ac482, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/MySQL/articles.vb"
+﻿#Region "Microsoft.VisualBasic::af38303887f38a1dccae60ff733ac482, data\RegulonDatabase\Regtransbase\MySQL\articles.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d434c747951046a1726c9ee26c365103, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/Aligner.vb"
+﻿#Region "Microsoft.VisualBasic::d434c747951046a1726c9ee26c365103, analysis\SequenceToolkit\SequenceTools\CLI\Aligner.vb"
 
     ' Author:
     ' 

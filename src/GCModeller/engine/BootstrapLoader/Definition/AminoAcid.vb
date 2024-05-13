@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e620a6ab8533d5b8cd537866b8dc419, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//Definition/AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::5e620a6ab8533d5b8cd537866b8dc419, engine\BootstrapLoader\Definition\AminoAcid.vb"
 
     ' Author:
     ' 

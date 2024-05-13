@@ -1,52 +1,52 @@
-﻿#Region "Microsoft.VisualBasic::7749bd7e3d9864ebfe8bd626fee89370, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//KeggPlot/EnrichmentCategoryBubble.vb"
+﻿#Region "Microsoft.VisualBasic::7a1adcb4558da313757510fb55204714, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryBubble.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 95
-    '    Code Lines: 81
-    ' Comment Lines: 1
-    '   Blank Lines: 13
-    '     File Size: 4.86 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    ' Class EnrichmentCategoryBubble
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Sub: PlotInternal
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 100
+'    Code Lines: 86
+' Comment Lines: 1
+'   Blank Lines: 13
+'     File Size: 5.11 KB
+
+
+' Class EnrichmentCategoryBubble
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Sub: PlotInternal
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -96,7 +96,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim plotH As Single = canvas.PlotRegion.Height
-        Dim termH As Single = plotH / (enrich.Count + 1 + Aggregate ci In enrich Into Sum(ci.Value.Length))
+        Dim termH As Single = plotH / (enrich.Count - 1 + Aggregate ci In enrich Into Sum(ci.Value.Length))
         Dim max_string = enrich.Values.IteratesALL.Select(Function(ti) ti.name).MaxLengthString
         Dim name_label_font As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
         Dim left = canvas.PlotRegion.Left + g.MeasureString(max_string, name_label_font).Width

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3503e92f460f1908613cfaa634dba434, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/Locus/LociSites/TagSite.vb"
+﻿#Region "Microsoft.VisualBasic::3503e92f460f1908613cfaa634dba434, core\Bio.Assembly\ComponentModel\Locus\LociSites\TagSite.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::631b715c7e0f817fb7437e53af615f5d, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/FASTA/IO/KSeq.vb"
+﻿#Region "Microsoft.VisualBasic::631b715c7e0f817fb7437e53af615f5d, core\Bio.Assembly\SequenceModel\FASTA\IO\KSeq.vb"
 
     ' Author:
     ' 

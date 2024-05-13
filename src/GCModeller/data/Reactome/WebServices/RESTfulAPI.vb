@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e76345c86c0e52ff32f75f1be07f20e6, G:/GCModeller/src/GCModeller/data/Reactome//WebServices/RESTfulAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e76345c86c0e52ff32f75f1be07f20e6, data\Reactome\WebServices\RESTfulAPI.vb"
 
     ' Author:
     ' 

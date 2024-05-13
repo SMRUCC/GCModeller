@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f087af8696ca959a61cd1323c5401e00, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns//Motif/MotifLog.vb"
+﻿#Region "Microsoft.VisualBasic::f087af8696ca959a61cd1323c5401e00, analysis\SequenceToolkit\SequencePatterns\Motif\MotifLog.vb"
 
     ' Author:
     ' 

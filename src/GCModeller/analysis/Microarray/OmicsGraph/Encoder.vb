@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a129fd24a071b4051b091951813b89a, G:/GCModeller/src/GCModeller/analysis/Microarray//OmicsGraph/Encoder.vb"
+﻿#Region "Microsoft.VisualBasic::3a129fd24a071b4051b091951813b89a, analysis\Microarray\OmicsGraph\Encoder.vb"
 
     ' Author:
     ' 

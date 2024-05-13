@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46f647066b2cc926eb5589e486a35179, G:/GCModeller/src/GCModeller/visualize/ChromosomeMap//ChromesomeMapAPI.vb"
+﻿#Region "Microsoft.VisualBasic::46f647066b2cc926eb5589e486a35179, visualize\ChromosomeMap\ChromesomeMapAPI.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f2b817ea185769751ce47f5a7458421, G:/GCModeller/src/GCModeller/data/SABIO-RK//SBML/kineticLaw.vb"
+﻿#Region "Microsoft.VisualBasic::7f2b817ea185769751ce47f5a7458421, data\SABIO-RK\SBML\kineticLaw.vb"
 
     ' Author:
     ' 

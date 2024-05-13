@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::defa7e06053b50045f745fe73afac34b, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifScanner//Consensus/ConsensusScanner.vb"
+﻿#Region "Microsoft.VisualBasic::defa7e06053b50045f745fe73afac34b, analysis\SequenceToolkit\MotifScanner\Consensus\ConsensusScanner.vb"
 
     ' Author:
     ' 

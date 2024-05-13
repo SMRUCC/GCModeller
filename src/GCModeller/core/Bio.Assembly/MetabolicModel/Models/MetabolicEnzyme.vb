@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4fd6b63b4974607d14281a595a838f7, G:/GCModeller/src/GCModeller/core/Bio.Assembly//MetabolicModel/Models/MetabolicEnzyme.vb"
+﻿#Region "Microsoft.VisualBasic::f4fd6b63b4974607d14281a595a838f7, core\Bio.Assembly\MetabolicModel\Models\MetabolicEnzyme.vb"
 
     ' Author:
     ' 

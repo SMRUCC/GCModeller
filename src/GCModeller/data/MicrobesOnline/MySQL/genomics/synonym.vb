@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::958977a487cf9dfc21d5119bf598df2f, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/synonym.vb"
+﻿#Region "Microsoft.VisualBasic::958977a487cf9dfc21d5119bf598df2f, data\MicrobesOnline\MySQL\genomics\synonym.vb"
 
     ' Author:
     ' 

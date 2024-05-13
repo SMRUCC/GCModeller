@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b984d11cf6f727ebad3d61721fd2d714, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::b984d11cf6f727ebad3d61721fd2d714, localblast\CLI_tools\CLI\Taxonomy.vb"
 
     ' Author:
     ' 

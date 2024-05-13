@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ac836f0d4a8dfa21ab271ac3f1de073, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract//Patterns/Tokens.vb"
+﻿#Region "Microsoft.VisualBasic::3ac836f0d4a8dfa21ab271ac3f1de073, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Tokens.vb"
 
     ' Author:
     ' 

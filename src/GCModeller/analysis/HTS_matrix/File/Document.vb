@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00b55f1fec6a2a0b28194328da43d3c1, G:/GCModeller/src/GCModeller/analysis/HTS_matrix//File/Document.vb"
+﻿#Region "Microsoft.VisualBasic::00b55f1fec6a2a0b28194328da43d3c1, analysis\HTS_matrix\File\Document.vb"
 
     ' Author:
     ' 

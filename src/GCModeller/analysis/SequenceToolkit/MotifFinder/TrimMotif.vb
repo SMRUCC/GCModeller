@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9883142f626b573f0ccce20d4bd5c65b, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//TrimMotif.vb"
+﻿#Region "Microsoft.VisualBasic::9883142f626b573f0ccce20d4bd5c65b, analysis\SequenceToolkit\MotifFinder\TrimMotif.vb"
 
     ' Author:
     ' 

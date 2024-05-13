@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27981ee7a60bbe81381ee52293638991, G:/GCModeller/src/GCModeller/annotations/Proteomics//LabelFree/LabelFreeTtest.vb"
+﻿#Region "Microsoft.VisualBasic::27981ee7a60bbe81381ee52293638991, annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
 
     ' Author:
     ' 

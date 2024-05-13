@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab971203855c4b9d025aa8169ee528bf, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA//KnowledgeBase/MetaEnrich.vb"
+﻿#Region "Microsoft.VisualBasic::ab971203855c4b9d025aa8169ee528bf, annotations\GSEA\GSEA\KnowledgeBase\MetaEnrich.vb"
 
     ' Author:
     ' 

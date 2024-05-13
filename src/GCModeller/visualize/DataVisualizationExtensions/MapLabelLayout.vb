@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1d4340af6455740d001ec9405453845, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//MapLabelLayout.vb"
+﻿#Region "Microsoft.VisualBasic::a1d4340af6455740d001ec9405453845, visualize\DataVisualizationExtensions\MapLabelLayout.vb"
 
     ' Author:
     ' 

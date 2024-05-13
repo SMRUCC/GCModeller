@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6690d41c98ef26561b00ddda0ed7931, G:/GCModeller/src/GCModeller/engine/IO/GCMarkupLanguage//v2/Xml/Genome/replicon.vb"
+﻿#Region "Microsoft.VisualBasic::f6690d41c98ef26561b00ddda0ed7931, engine\IO\GCMarkupLanguage\v2\Xml\Genome\replicon.vb"
 
     ' Author:
     ' 

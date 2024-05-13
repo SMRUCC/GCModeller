@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d92dc2e02af7f52a5a7fd8cfdce2ab23, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA//My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::d92dc2e02af7f52a5a7fd8cfdce2ab23, annotations\GSEA\GSEA\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 

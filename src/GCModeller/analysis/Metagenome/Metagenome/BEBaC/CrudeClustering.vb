@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8f71f194ec8b7f1281ccbbc98b7c9ac, G:/GCModeller/src/GCModeller/analysis/Metagenome/Metagenome//BEBaC/CrudeClustering.vb"
+﻿#Region "Microsoft.VisualBasic::c8f71f194ec8b7f1281ccbbc98b7c9ac, analysis\Metagenome\Metagenome\BEBaC\CrudeClustering.vb"
 
     ' Author:
     ' 

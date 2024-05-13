@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8b7e01e320f8b2a92f288acb768045a, G:/GCModeller/src/GCModeller/core/Bio.Annotation//PTF/ProteinAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::a8b7e01e320f8b2a92f288acb768045a, core\Bio.Annotation\PTF\ProteinAnnotation.vb"
 
     ' Author:
     ' 

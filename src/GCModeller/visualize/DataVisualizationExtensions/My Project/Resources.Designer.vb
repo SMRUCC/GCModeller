@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85ea827cf9a965b7107cd4c69bb3ddf6, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::85ea827cf9a965b7107cd4c69bb3ddf6, visualize\DataVisualizationExtensions\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 

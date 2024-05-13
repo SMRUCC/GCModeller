@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a56d7a63de4ca6be6646a02d3e41eabb, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA//KnowledgeBase/KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::a56d7a63de4ca6be6646a02d3e41eabb, annotations\GSEA\GSEA\KnowledgeBase\KEGG.vb"
 
     ' Author:
     ' 

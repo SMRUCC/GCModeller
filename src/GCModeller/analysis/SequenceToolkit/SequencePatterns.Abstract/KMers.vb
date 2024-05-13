@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a1591452def432b92e41510d24504bb, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract//KMers.vb"
+﻿#Region "Microsoft.VisualBasic::8a1591452def432b92e41510d24504bb, analysis\SequenceToolkit\SequencePatterns.Abstract\KMers.vb"
 
     ' Author:
     ' 

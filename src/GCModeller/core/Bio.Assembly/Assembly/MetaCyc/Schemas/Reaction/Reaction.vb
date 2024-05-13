@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::403f911bc968344d0bec895fb97d0625, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/MetaCyc/Schemas/Reaction/Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::403f911bc968344d0bec895fb97d0625, core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\Reaction.vb"
 
     ' Author:
     ' 

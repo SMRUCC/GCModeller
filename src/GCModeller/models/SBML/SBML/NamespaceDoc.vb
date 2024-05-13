@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab46c5da4e0f16d192c55832a2d0f562, G:/GCModeller/src/GCModeller/models/SBML/SBML//NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::ab46c5da4e0f16d192c55832a2d0f562, models\SBML\SBML\NamespaceDoc.vb"
 
     ' Author:
     ' 

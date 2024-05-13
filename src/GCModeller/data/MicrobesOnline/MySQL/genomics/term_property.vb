@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::342a0328f4ef437a5a7856588b356ef7, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/term_property.vb"
+﻿#Region "Microsoft.VisualBasic::342a0328f4ef437a5a7856588b356ef7, data\MicrobesOnline\MySQL\genomics\term_property.vb"
 
     ' Author:
     ' 

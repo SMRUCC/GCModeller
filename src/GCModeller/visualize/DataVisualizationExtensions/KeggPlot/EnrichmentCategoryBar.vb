@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d3d78aabb7314205fe324ba1a560f36, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//KeggPlot/EnrichmentCategoryBar.vb"
+﻿#Region "Microsoft.VisualBasic::0d3d78aabb7314205fe324ba1a560f36, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryBar.vb"
 
     ' Author:
     ' 

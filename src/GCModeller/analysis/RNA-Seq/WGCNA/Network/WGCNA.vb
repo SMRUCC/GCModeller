@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d34067dee8c53f54c5e625bf3ee07d89, G:/GCModeller/src/GCModeller/analysis/RNA-Seq/WGCNA//Network/WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::d34067dee8c53f54c5e625bf3ee07d89, analysis\RNA-Seq\WGCNA\Network\WGCNA.vb"
 
     ' Author:
     ' 

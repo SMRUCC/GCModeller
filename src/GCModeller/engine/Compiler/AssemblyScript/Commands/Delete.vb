@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fdffd6c349b156f680798c3b748e129e, G:/GCModeller/src/GCModeller/engine/Compiler//AssemblyScript/Commands/Delete.vb"
+﻿#Region "Microsoft.VisualBasic::fdffd6c349b156f680798c3b748e129e, engine\Compiler\AssemblyScript\Commands\Delete.vb"
 
     ' Author:
     ' 

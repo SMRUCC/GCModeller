@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::564b428f2f835ab1e5a94bed9e746782, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CatalogProfiling/DAScorePlot.vb"
+﻿#Region "Microsoft.VisualBasic::564b428f2f835ab1e5a94bed9e746782, visualize\DataVisualizationExtensions\CatalogProfiling\DAScorePlot.vb"
 
     ' Author:
     ' 

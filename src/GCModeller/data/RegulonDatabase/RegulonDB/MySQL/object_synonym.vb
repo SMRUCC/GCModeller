@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e03c67d1ae83418fd1bd8d942f58891, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/object_synonym.vb"
+﻿#Region "Microsoft.VisualBasic::4e03c67d1ae83418fd1bd8d942f58891, data\RegulonDatabase\RegulonDB\MySQL\object_synonym.vb"
 
     ' Author:
     ' 

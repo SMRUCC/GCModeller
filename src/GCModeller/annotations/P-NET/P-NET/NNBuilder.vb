@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eff1eb5d3c0af2974767d95f46de03fa, G:/GCModeller/src/GCModeller/annotations/P-NET/P-NET//NNBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::eff1eb5d3c0af2974767d95f46de03fa, annotations\P-NET\P-NET\NNBuilder.vb"
 
     ' Author:
     ' 

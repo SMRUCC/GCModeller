@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4ced4b5b162429ddf33d23d8f5fc6fa, G:/GCModeller/src/GCModeller/visualize/ChromosomeMap//FootPrintMap/TSSs.vb"
+﻿#Region "Microsoft.VisualBasic::c4ced4b5b162429ddf33d23d8f5fc6fa, visualize\ChromosomeMap\FootPrintMap\TSSs.vb"
 
     ' Author:
     ' 

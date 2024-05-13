@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cba9d75bb4b65c6ee88fa6194c3ab8d9, G:/GCModeller/src/GCModeller/annotations/GSEA/GSVA//C/kernel_estimation.vb"
+﻿#Region "Microsoft.VisualBasic::cba9d75bb4b65c6ee88fa6194c3ab8d9, annotations\GSEA\GSVA\C\kernel_estimation.vb"
 
     ' Author:
     ' 

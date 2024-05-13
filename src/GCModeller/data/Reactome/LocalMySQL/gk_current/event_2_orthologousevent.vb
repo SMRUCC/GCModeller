@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::205788ab45736c0b450455d2189dbf96, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/event_2_orthologousevent.vb"
+﻿#Region "Microsoft.VisualBasic::205788ab45736c0b450455d2189dbf96, data\Reactome\LocalMySQL\gk_current\event_2_orthologousevent.vb"
 
     ' Author:
     ' 

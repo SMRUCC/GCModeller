@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2651fea6ca00af2d65a7ef2a1efdff4c, G:/GCModeller/src/GCModeller/annotations/Proteomics//LabelFree/SignificanceAB.vb"
+﻿#Region "Microsoft.VisualBasic::2651fea6ca00af2d65a7ef2a1efdff4c, annotations\Proteomics\LabelFree\SignificanceAB.vb"
 
     ' Author:
     ' 

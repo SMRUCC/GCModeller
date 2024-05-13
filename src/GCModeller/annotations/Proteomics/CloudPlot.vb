@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d87f44d64327af5848cc69f79ae0785, G:/GCModeller/src/GCModeller/annotations/Proteomics//CloudPlot.vb"
+﻿#Region "Microsoft.VisualBasic::3d87f44d64327af5848cc69f79ae0785, annotations\Proteomics\CloudPlot.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4043db64ae6d36c3c629d743ef61a12, G:/GCModeller/src/GCModeller/models/SBML/Biopax//Level3/ResourceReader.vb"
+﻿#Region "Microsoft.VisualBasic::b4043db64ae6d36c3c629d743ef61a12, models\SBML\Biopax\Level3\ResourceReader.vb"
 
     ' Author:
     ' 

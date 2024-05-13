@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de472a2adf3ffc75b5f3e22c7af286ba, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/gene_product_ancestor.vb"
+﻿#Region "Microsoft.VisualBasic::de472a2adf3ffc75b5f3e22c7af286ba, data\MicrobesOnline\MySQL\genomics\gene_product_ancestor.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::178e1d6a5c9830a0467cf85dd03a943c, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MSA//MSAOutput.vb"
+﻿#Region "Microsoft.VisualBasic::178e1d6a5c9830a0467cf85dd03a943c, analysis\SequenceToolkit\MSA\MSAOutput.vb"
 
     ' Author:
     ' 

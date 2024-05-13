@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f7e9c0d1ed58b61112f7819685a9b2a, G:/GCModeller/src/GCModeller/models/SBML/SBML//Level3/annotation.vb"
+﻿#Region "Microsoft.VisualBasic::3f7e9c0d1ed58b61112f7819685a9b2a, models\SBML\SBML\Level3\annotation.vb"
 
     ' Author:
     ' 

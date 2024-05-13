@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68dfd2ee899c01a26db842ae7952dc90, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions//Metabolism/Metpa/pathSmps.vb"
+﻿#Region "Microsoft.VisualBasic::68dfd2ee899c01a26db842ae7952dc90, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\Metpa\pathSmps.vb"
 
     ' Author:
     ' 

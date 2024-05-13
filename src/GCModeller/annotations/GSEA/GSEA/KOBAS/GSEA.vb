@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13f24510a930824155598c91e8fc7b87, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA//KOBAS/GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::13f24510a930824155598c91e8fc7b87, annotations\GSEA\GSEA\KOBAS\GSEA.vb"
 
     ' Author:
     ' 

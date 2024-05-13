@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0431f76fd59429038369498d47dbbacf, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//Contig.vb"
+﻿#Region "Microsoft.VisualBasic::0431f76fd59429038369498d47dbbacf, RNA-Seq\RNA-seq.Data\Contig.vb"
 
     ' Author:
     ' 

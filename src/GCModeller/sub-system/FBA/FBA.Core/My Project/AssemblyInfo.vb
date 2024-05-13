@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4036f1e5fec204d4d3e66e65bac0a0fb, G:/GCModeller/src/GCModeller/sub-system/FBA/FBA.Core//My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::4036f1e5fec204d4d3e66e65bac0a0fb, sub-system\FBA\FBA.Core\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

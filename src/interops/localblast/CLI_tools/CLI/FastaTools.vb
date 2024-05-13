@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7eef05cf9a0afd39c5f2ad51bbd3c500, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::7eef05cf9a0afd39c5f2ad51bbd3c500, localblast\CLI_tools\CLI\FastaTools.vb"
 
     ' Author:
     ' 

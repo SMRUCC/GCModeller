@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31dedb578ea039f53ebef6bb1995c070, G:/GCModeller/src/GCModeller/models/Networks/KEGG//SimpleBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::31dedb578ea039f53ebef6bb1995c070, models\Networks\KEGG\SimpleBuilder.vb"
 
     ' Author:
     ' 

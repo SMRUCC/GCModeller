@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d0ccd6dc919e92a42b66efaa35e2fc4, G:/GCModeller/src/GCModeller/models/Networks/KEGG//KEGGMap/PathwayMapNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::6d0ccd6dc919e92a42b66efaa35e2fc4, models\Networks\KEGG\KEGGMap\PathwayMapNetwork.vb"
 
     ' Author:
     ' 

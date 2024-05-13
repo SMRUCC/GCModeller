@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::357db2e3ebbdc92fbbbd0dfcb72bb3c6, G:/GCModeller/src/GCModeller/data/SABIO-RK//docuRESTfulWeb/QueryFields.vb"
+﻿#Region "Microsoft.VisualBasic::357db2e3ebbdc92fbbbd0dfcb72bb3c6, data\SABIO-RK\docuRESTfulWeb\QueryFields.vb"
 
     ' Author:
     ' 

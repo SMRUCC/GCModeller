@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb5d4159a04c7d285fb00cdc8b95caf1, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regprecise/Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::cb5d4159a04c7d285fb00cdc8b95caf1, data\RegulonDatabase\Regprecise\Compiler.vb"
 
     ' Author:
     ' 

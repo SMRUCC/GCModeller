@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62a610b25533aa6d5bd2405475c2398c, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/Database/NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::62a610b25533aa6d5bd2405475c2398c, data\Xfam\Pfam\Pipeline\Database\NamespaceDoc.vb"
 
     ' Author:
     ' 

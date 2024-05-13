@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ad1bb5cc5ae1e01bc1b15172da0f175, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions//BBHLibrary.vb"
+﻿#Region "Microsoft.VisualBasic::9ad1bb5cc5ae1e01bc1b15172da0f175, annotations\GSEA\GSEA.KnowledgeBase.Extensions\BBHLibrary.vb"
 
     ' Author:
     ' 

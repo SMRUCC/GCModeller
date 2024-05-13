@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d97d12dfcb428fb0f6a6f614d119970, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ContextModel/Promoter/PrefixLength.vb"
+﻿#Region "Microsoft.VisualBasic::7d97d12dfcb428fb0f6a6f614d119970, core\Bio.Assembly\ContextModel\Promoter\PrefixLength.vb"
 
     ' Author:
     ' 

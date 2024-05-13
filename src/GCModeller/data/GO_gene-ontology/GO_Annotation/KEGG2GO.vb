@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d808560bf8aaac076762108b6f5b16c, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GO_Annotation//KEGG2GO.vb"
+﻿#Region "Microsoft.VisualBasic::6d808560bf8aaac076762108b6f5b16c, data\GO_gene-ontology\GO_Annotation\KEGG2GO.vb"
 
     ' Author:
     ' 

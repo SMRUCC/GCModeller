@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c9b33cf9f0c0977622af354014d160f, G:/GCModeller/src/GCModeller/sub-system/FBA/FBA.Core//Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::7c9b33cf9f0c0977622af354014d160f, sub-system\FBA\FBA.Core\Matrix.vb"
 
     ' Author:
     ' 

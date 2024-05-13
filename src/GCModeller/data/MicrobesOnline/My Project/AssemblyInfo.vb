@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a309d93337b02035e4acdaeeeb75011, G:/GCModeller/src/GCModeller/data/MicrobesOnline//My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::7a309d93337b02035e4acdaeeeb75011, data\MicrobesOnline\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

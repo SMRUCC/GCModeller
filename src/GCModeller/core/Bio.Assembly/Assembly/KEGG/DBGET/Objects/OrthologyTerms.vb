@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f08657d6bb658699655a40ce1de490ad, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/DBGET/Objects/OrthologyTerms.vb"
+﻿#Region "Microsoft.VisualBasic::f08657d6bb658699655a40ce1de490ad, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\OrthologyTerms.vb"
 
     ' Author:
     ' 

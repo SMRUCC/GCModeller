@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d022ac1ad7ada383c54e5a0db1b9f75, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CatalogProfiling/BubbleTerm.vb"
+﻿#Region "Microsoft.VisualBasic::5d022ac1ad7ada383c54e5a0db1b9f75, visualize\DataVisualizationExtensions\CatalogProfiling\BubbleTerm.vb"
 
     ' Author:
     ' 

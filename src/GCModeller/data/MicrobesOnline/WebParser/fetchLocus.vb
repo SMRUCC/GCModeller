@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de3aae553d20c38490682bca8ccc790c, G:/GCModeller/src/GCModeller/data/MicrobesOnline//WebParser/fetchLocus.vb"
+﻿#Region "Microsoft.VisualBasic::de3aae553d20c38490682bca8ccc790c, data\MicrobesOnline\WebParser\fetchLocus.vb"
 
     ' Author:
     ' 

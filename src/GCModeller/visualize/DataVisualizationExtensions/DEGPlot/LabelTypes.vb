@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5456002c101cb357435e225c4bb149c9, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//DEGPlot/LabelTypes.vb"
+﻿#Region "Microsoft.VisualBasic::5456002c101cb357435e225c4bb149c9, visualize\DataVisualizationExtensions\DEGPlot\LabelTypes.vb"
 
     ' Author:
     ' 

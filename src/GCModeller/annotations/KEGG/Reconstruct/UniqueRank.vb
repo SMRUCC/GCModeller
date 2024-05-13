@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5319c0e74051d0dce00a8e619d33acc4, G:/GCModeller/src/GCModeller/annotations/KEGG//Reconstruct/UniqueRank.vb"
+﻿#Region "Microsoft.VisualBasic::5319c0e74051d0dce00a8e619d33acc4, annotations\KEGG\Reconstruct\UniqueRank.vb"
 
     ' Author:
     ' 
