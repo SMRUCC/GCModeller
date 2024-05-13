@@ -110,7 +110,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
         Dim plotW As Single = canvas.PlotRegion.Width - g.MeasureString(max_string, name_label_font).Width
         Dim x_Ticks As Vector = (-enrich.Values.IteratesALL.Select(Function(ti) ti.pvalue).AsVector.Log10).CreateAxisTicks
         Dim radius_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) Val(ti.enriched)).AsVector
-        Dim color_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) ti.pvalue).AsVector
+        Dim color_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) ti.FDR).AsVector
         Dim radius As New DoubleRange(0.3 * termH, termH)
         Dim colors As Brush() = Designer.GetBrushes(theme.colorSet)
         Dim colorOffset As New DoubleRange(0, colors.Length - 1)
@@ -133,7 +133,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
                 Dim label_left = left - label_size.Width
                 Dim label_pos As New PointF(label_left, y)
                 Dim r As Single = radius_scaler.ScaleMapping(Val(term.enriched), radius)
-                Dim c As Brush = colors(CInt(color_scaler.ScaleMapping(term.pvalue, colorOffset)))
+                Dim c As Brush = colors(CInt(color_scaler.ScaleMapping(term.FDR, colorOffset)))
                 Dim xi As Single = -std.Log10(term.pvalue)
 
                 xi = scaler.TranslateX(xi)
@@ -199,8 +199,7 @@ Public Class EnrichmentCategoryBubble : Inherits Plot
                 .ToArray,
             .radiusFont = tickFont,
             .title = "Count",
-            .titleFont = name_label_font,
-            .radius_scale = d3js.scale.linear.range(radius.Min, radius.Max).domain(radius_scaler.MinMax)
+            .titleFont = name_label_font
         }.Draw(g, circle_layout)
 
     End Sub
