@@ -180,7 +180,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim tree_region As New Rectangle(tree_left, rect.Top, width, rect.Height)
 
         Dim label_maxh As Single = label_region.Height / data.nsamples
-        Dim legend_region As New Rectangle(rect.Right + 10, rect.Top, canvas.Padding.Right / 3, rect.Height)
+        Dim legend_region As New Rectangle(rect.Right + delta, rect.Top, canvas.Padding.Right / 3, rect.Height)
 
         ' draw labels on left
         Dim y As Double = label_region.Top
