@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af2dddbb8524fad28b67dfc3f06f1cf1, G:/GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src//Extensions/Image/Bitmap/BitmapBuffer.vb"
+﻿#Region "Microsoft.VisualBasic::af2dddbb8524fad28b67dfc3f06f1cf1, Microsoft.VisualBasic.Core\src\Extensions\Image\Bitmap\BitmapBuffer.vb"
 
     ' Author:
     ' 
@@ -65,7 +65,7 @@ Imports System.Drawing.Imaging
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Imaging.BitmapImage
 
@@ -428,7 +428,7 @@ Namespace Imaging.BitmapImage
             ' Get the address of the first line.
             Dim ptr As IntPtr = bmpData.Scan0
             ' Declare an array to hold the bytes of the bitmap.
-            Dim bytes As Integer = stdNum.Abs(bmpData.Stride) * curBitmap.Height
+            Dim bytes As Integer = std.Abs(bmpData.Stride) * curBitmap.Height
             Dim pixels As Integer = curBitmap.Width * curBitmap.Height
             Dim channels As Integer
 
