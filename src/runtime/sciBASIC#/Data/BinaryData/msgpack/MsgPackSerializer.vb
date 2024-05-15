@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::1ed63d32be0f358b373082d50fcbf07f, G:/GCModeller/src/runtime/sciBASIC#/Data/BinaryData/msgpack//MsgPackSerializer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 379
-    '    Code Lines: 308
-    ' Comment Lines: 0
-    '   Blank Lines: 71
-    '     File Size: 15.70 KB
+' Summaries:
 
 
-    ' Class MsgPackSerializer
-    ' 
-    '     Constructor: (+2 Overloads) Sub New
-    ' 
-    '     Function: (+8 Overloads) Deserialize, (+2 Overloads) DeserializeObject, DeserializeObjectType, GetInfo, GetSerializer
-    '               IsGenericDictionary, IsGenericList, IsSerializableGenericCollection, (+2 Overloads) Serialize, (+2 Overloads) SerializeObject
-    ' 
-    '     Sub: (+2 Overloads) BuildMap, (+2 Overloads) Serialize, (+2 Overloads) SerializeObject
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 379
+'    Code Lines: 308
+' Comment Lines: 0
+'   Blank Lines: 71
+'     File Size: 15.70 KB
+
+
+' Class MsgPackSerializer
+' 
+'     Constructor: (+2 Overloads) Sub New
+' 
+'     Function: (+8 Overloads) Deserialize, (+2 Overloads) DeserializeObject, DeserializeObjectType, GetInfo, GetSerializer
+'               IsGenericDictionary, IsGenericList, IsSerializableGenericCollection, (+2 Overloads) Serialize, (+2 Overloads) SerializeObject
+' 
+'     Sub: (+2 Overloads) BuildMap, (+2 Overloads) Serialize, (+2 Overloads) SerializeObject
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -86,6 +86,16 @@ Public Class MsgPackSerializer
     Private Shared Function GetInfo(type As Type) As TypeInfo
         Dim info As TypeInfo = Nothing
 
+#If MTA Then
+        ' thread unsafe
+
+        If Not typeInfos.TryGetValue(type, info) Then
+            info = New TypeInfo(type)
+            typeInfos(type) = info
+        End If
+#Else
+        ' thread safe for winform application
+
         ' 20240511 typeInfos is a global shared object that contains the type
         ' schema cache for read messagepack data. multiple thread may cased
         ' the null reference error at here.
@@ -97,6 +107,7 @@ Public Class MsgPackSerializer
                 typeInfos(type) = info
             End If
         End SyncLock
+#End If
 
         Return info
     End Function
