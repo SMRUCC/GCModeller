@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1126535e323b1ebed6d9108498e15bb, G:/GCModeller/src/GCModeller/engine/IO/GCMarkupLanguage//EquationGenerator.vb"
+﻿#Region "Microsoft.VisualBasic::b1126535e323b1ebed6d9108498e15bb, engine\IO\GCMarkupLanguage\EquationGenerator.vb"
 
     ' Author:
     ' 

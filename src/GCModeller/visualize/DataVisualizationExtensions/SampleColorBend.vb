@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78bcb0fea517e0b3ede23acf5695e806, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//SampleColorBend.vb"
+﻿#Region "Microsoft.VisualBasic::78bcb0fea517e0b3ede23acf5695e806, visualize\DataVisualizationExtensions\SampleColorBend.vb"
 
     ' Author:
     ' 

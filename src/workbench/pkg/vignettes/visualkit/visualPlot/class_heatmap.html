@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>class_heatmap</title>
+    <title>plot the heatmap with kegg class information</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
@@ -18,18 +18,18 @@
             </tr>
         </table>
 
-        <h2>class_heatmap</h2>
+        <h2>plot the heatmap with kegg class information</h2>
 
         <h3>Description</h3>
 
-        class_heatmap
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>class_heatmap</strong>(<i>x</i>, <i>metadata</i>, <i>sampleinfo</i>,
     <i>size</i> = <span style='color: brown;'><strong>"10000,6500"</strong></span>,
-    <i>padding</i> = <span style='color: brown;'><strong>"padding: 300px 1600px 1200px 600px;"</strong></span>,
+    <i>padding</i> = <span style='color: brown;'><strong>"padding: 300px 1600px 1200px 300px;"</strong></span>,
     <i>label.font</i> = <span style='color: brown;'><strong>"font-style: normal; font-size: 18; font-family: Bookman Old Style;"</strong></span>,
     <i>tick.font</i> = <span style='color: brown;'><strong>"font-style: normal; font-size: 12; font-family: Bookman Old Style;"</strong></span>,
     <i>axisStroke</i> = <span style='color: brown;'><strong>"stroke: black; stroke-width: 5px; stroke-dash: solid;"</strong></span>,
@@ -40,6 +40,55 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>the molecule expression dataframe object, should contains the data of:
+ 
+ the row names in the dataframe is the molecule name labels and 
+ all the column fields should be the expression value in different 
+ samples. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
+
+
+<dt>metadata</dt>
+<dd><p>the metadata for the molecules of given expression data <strong>`x`</strong>, should contains the metadata fields of:
+ 
+ 1. class: a character vector of the kegg class labels, example as pathway names, module names, or orthology labels
+ 2. logp: a numeric vector of the multiple group ANOVA test pvalue its log transform result of the molecules
+ 3. VIP: a numeric vector of the multiple group pls-da VIP result value for the molecules
+ 
+ the data field name is case-sensitive. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
+
+
+<dt>sampleinfo</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
+
+
+<dt>size</dt>
+<dd><p>the image size of the plot</p></dd>
+
+
+<dt>padding</dt>
+<dd><p>the padding of the plot region</p></dd>
+
+
+<dt>label.font</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>tick.font</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>axisStroke</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>dpi</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 

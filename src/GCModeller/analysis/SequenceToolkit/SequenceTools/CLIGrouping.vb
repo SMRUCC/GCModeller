@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04971cb63f5a3a377a31a1bdd79e33ab, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLIGrouping.vb"
+﻿#Region "Microsoft.VisualBasic::04971cb63f5a3a377a31a1bdd79e33ab, analysis\SequenceToolkit\SequenceTools\CLIGrouping.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4aebf2d8133e2a4199be06bd6686c88d, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/NeedlemanWunsch//GapPenalty.vb"
+﻿#Region "Microsoft.VisualBasic::4aebf2d8133e2a4199be06bd6686c88d, analysis\SequenceToolkit\NeedlemanWunsch\GapPenalty.vb"
 
     ' Author:
     ' 

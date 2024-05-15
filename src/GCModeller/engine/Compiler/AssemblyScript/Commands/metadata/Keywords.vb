@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecbe1f4d0d0dec962e9b9c0de39ab68b, G:/GCModeller/src/GCModeller/engine/Compiler//AssemblyScript/Commands/metadata/Keywords.vb"
+﻿#Region "Microsoft.VisualBasic::ecbe1f4d0d0dec962e9b9c0de39ab68b, engine\Compiler\AssemblyScript\Commands\metadata\Keywords.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::877a23414a9763efafbaea02efd983dd, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceLogo//ClustalVisual.vb"
+﻿#Region "Microsoft.VisualBasic::877a23414a9763efafbaea02efd983dd, analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
 
     ' Author:
     ' 

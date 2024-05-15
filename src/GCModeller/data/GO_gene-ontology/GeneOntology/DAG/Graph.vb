@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4ac51d1167bd8b2877d5e6d56dc9967, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GeneOntology//DAG/Graph.vb"
+﻿#Region "Microsoft.VisualBasic::b4ac51d1167bd8b2877d5e6d56dc9967, data\GO_gene-ontology\GeneOntology\DAG\Graph.vb"
 
     ' Author:
     ' 

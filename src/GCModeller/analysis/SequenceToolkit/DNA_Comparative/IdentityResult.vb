@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70c149bec1159c8378c443a93a1dac51, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/DNA_Comparative//IdentityResult.vb"
+﻿#Region "Microsoft.VisualBasic::70c149bec1159c8378c443a93a1dac51, analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
 
     ' Author:
     ' 

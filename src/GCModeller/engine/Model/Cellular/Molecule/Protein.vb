@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18cc7bf28aa977ee370f3b2d3ea96601, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Molecule/Protein.vb"
+﻿#Region "Microsoft.VisualBasic::18cc7bf28aa977ee370f3b2d3ea96601, engine\Model\Cellular\Molecule\Protein.vb"
 
     ' Author:
     ' 

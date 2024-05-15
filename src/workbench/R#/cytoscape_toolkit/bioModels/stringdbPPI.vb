@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff0e53545c8e9fd51b5900d4276487ef, G:/GCModeller/src/workbench/R#/cytoscape_toolkit//bioModels/stringdbPPI.vb"
+﻿#Region "Microsoft.VisualBasic::ff0e53545c8e9fd51b5900d4276487ef, R#\cytoscape_toolkit\bioModels\stringdbPPI.vb"
 
     ' Author:
     ' 

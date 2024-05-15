@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e36fd021044338d026ec5c257ea44f78, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Molecule/Genotype.vb"
+﻿#Region "Microsoft.VisualBasic::e36fd021044338d026ec5c257ea44f78, engine\Model\Cellular\Molecule\Genotype.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e22073b1ba22440215656a1739add89e, G:/GCModeller/src/GCModeller/annotations/GO//GoEnrichment.vb"
+﻿#Region "Microsoft.VisualBasic::e22073b1ba22440215656a1739add89e, annotations\GO\GoEnrichment.vb"
 
     ' Author:
     ' 

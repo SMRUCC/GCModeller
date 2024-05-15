@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::476c08a1297fa0dc010e61f3c75fb724, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Process/Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::476c08a1297fa0dc010e61f3c75fb724, engine\Model\Cellular\Process\Regulation.vb"
 
     ' Author:
     ' 

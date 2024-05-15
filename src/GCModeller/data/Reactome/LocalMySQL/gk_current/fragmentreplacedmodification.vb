@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8cf5ba0013ee51269f4493d9e8d05193, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/fragmentreplacedmodification.vb"
+﻿#Region "Microsoft.VisualBasic::8cf5ba0013ee51269f4493d9e8d05193, data\Reactome\LocalMySQL\gk_current\fragmentreplacedmodification.vb"
 
     ' Author:
     ' 

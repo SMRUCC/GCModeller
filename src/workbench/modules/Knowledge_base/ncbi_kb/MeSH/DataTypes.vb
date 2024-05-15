@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20308eb909ec98f34b930c64ba04fb41, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//MeSH/DataTypes.vb"
+﻿#Region "Microsoft.VisualBasic::20308eb909ec98f34b930c64ba04fb41, modules\Knowledge_base\ncbi_kb\MeSH\DataTypes.vb"
 
     ' Author:
     ' 

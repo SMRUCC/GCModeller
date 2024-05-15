@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45fe80463d3ef80256a8040283030a0d, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/Equations/Equivalence.vb"
+﻿#Region "Microsoft.VisualBasic::45fe80463d3ef80256a8040283030a0d, core\Bio.Assembly\ComponentModel\Equations\Equivalence.vb"
 
     ' Author:
     ' 

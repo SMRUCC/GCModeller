@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee1cf95bcd79b673115df1798a31385f, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Extension.vb"
+﻿#Region "Microsoft.VisualBasic::ee1cf95bcd79b673115df1798a31385f, data\RegulonDatabase\Extension.vb"
 
     ' Author:
     ' 

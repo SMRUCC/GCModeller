@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab7a023aa75a61e436796721e7b7f901, G:/GCModeller/src/GCModeller/engine/IO/GCMarkupLanguage//My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::ab7a023aa75a61e436796721e7b7f901, engine\IO\GCMarkupLanguage\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

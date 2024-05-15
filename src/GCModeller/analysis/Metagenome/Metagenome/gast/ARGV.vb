@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5099e478393d548be160078868c042d9, G:/GCModeller/src/GCModeller/analysis/Metagenome/Metagenome//gast/ARGV.vb"
+﻿#Region "Microsoft.VisualBasic::5099e478393d548be160078868c042d9, analysis\Metagenome\Metagenome\gast\ARGV.vb"
 
     ' Author:
     ' 

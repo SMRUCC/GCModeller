@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ac2f04bcbb593637312bfdf502bb04d, G:/GCModeller/src/repository/HMP_client//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::3ac2f04bcbb593637312bfdf502bb04d, HMP_client\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 

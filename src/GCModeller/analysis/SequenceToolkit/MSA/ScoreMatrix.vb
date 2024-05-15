@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff29406ac4c3712de319862fffd07503, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MSA//ScoreMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::ff29406ac4c3712de319862fffd07503, analysis\SequenceToolkit\MSA\ScoreMatrix.vb"
 
     ' Author:
     ' 

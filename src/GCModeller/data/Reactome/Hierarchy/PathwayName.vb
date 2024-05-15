@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7b848db7f879424ab6a4071d14873e8, G:/GCModeller/src/GCModeller/data/Reactome//Hierarchy/PathwayName.vb"
+﻿#Region "Microsoft.VisualBasic::e7b848db7f879424ab6a4071d14873e8, data\Reactome\Hierarchy\PathwayName.vb"
 
     ' Author:
     ' 

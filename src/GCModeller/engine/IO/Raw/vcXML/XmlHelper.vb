@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e9217e2bf03f0ca9f2d7d4345ad03ec, G:/GCModeller/src/GCModeller/engine/IO/Raw//vcXML/XmlHelper.vb"
+﻿#Region "Microsoft.VisualBasic::5e9217e2bf03f0ca9f2d7d4345ad03ec, engine\IO\Raw\vcXML\XmlHelper.vb"
 
     ' Author:
     ' 

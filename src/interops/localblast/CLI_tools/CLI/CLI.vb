@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7819844f7257d1aaba72c2554ec66455, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/CLI.vb"
+﻿#Region "Microsoft.VisualBasic::7819844f7257d1aaba72c2554ec66455, localblast\CLI_tools\CLI\CLI.vb"
 
     ' Author:
     ' 

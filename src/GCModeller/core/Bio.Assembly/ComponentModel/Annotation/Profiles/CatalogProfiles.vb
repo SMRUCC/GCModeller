@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9394b79421c469730803961539463335, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/Annotation/Profiles/CatalogProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::9394b79421c469730803961539463335, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfiles.vb"
 
     ' Author:
     ' 

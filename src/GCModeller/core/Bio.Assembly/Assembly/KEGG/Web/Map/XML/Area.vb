@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::750f7469aa123f7563f1d173dac35c15, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/Web/Map/XML/Area.vb"
+﻿#Region "Microsoft.VisualBasic::750f7469aa123f7563f1d173dac35c15, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Area.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::858fc6f9731b608ef9d7e2acbaed4097, G:/GCModeller/src/repository/Bio.Repository//KEGG/MessagePack/ReactionClassPack.vb"
+﻿#Region "Microsoft.VisualBasic::858fc6f9731b608ef9d7e2acbaed4097, Bio.Repository\KEGG\MessagePack\ReactionClassPack.vb"
 
     ' Author:
     ' 

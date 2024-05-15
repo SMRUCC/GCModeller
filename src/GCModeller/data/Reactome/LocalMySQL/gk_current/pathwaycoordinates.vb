@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc835334462dcd40b70e055fb6127d6b, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/pathwaycoordinates.vb"
+﻿#Region "Microsoft.VisualBasic::dc835334462dcd40b70e055fb6127d6b, data\Reactome\LocalMySQL\gk_current\pathwaycoordinates.vb"
 
     ' Author:
     ' 

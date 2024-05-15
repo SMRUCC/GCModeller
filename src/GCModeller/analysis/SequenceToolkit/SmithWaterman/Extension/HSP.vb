@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c1ca6b9860acf98d928c68a788f29da, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SmithWaterman//Extension/HSP.vb"
+﻿#Region "Microsoft.VisualBasic::4c1ca6b9860acf98d928c68a788f29da, analysis\SequenceToolkit\SmithWaterman\Extension\HSP.vb"
 
     ' Author:
     ' 

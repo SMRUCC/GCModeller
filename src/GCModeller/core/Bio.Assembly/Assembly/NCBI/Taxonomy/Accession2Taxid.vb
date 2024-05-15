@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::824216e5ec159753fbe59ae8c086e6a9, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/NCBI/Taxonomy/Accession2Taxid.vb"
+﻿#Region "Microsoft.VisualBasic::824216e5ec159753fbe59ae8c086e6a9, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
 
     ' Author:
     ' 

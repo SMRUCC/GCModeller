@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5019940e0bdad2d44b94f77b6d1b10ca, G:/GCModeller/src/GCModeller/engine/vcellkit//Debugger/Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::5019940e0bdad2d44b94f77b6d1b10ca, engine\vcellkit\Debugger\Debugger.vb"
 
     ' Author:
     ' 

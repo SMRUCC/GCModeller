@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b02a1bf87f72f6e398043d8328b4b978, G:/GCModeller/src/GCModeller/annotations/Proteomics//ProteinGroups.vb"
+﻿#Region "Microsoft.VisualBasic::b02a1bf87f72f6e398043d8328b4b978, annotations\Proteomics\ProteinGroups.vb"
 
     ' Author:
     ' 

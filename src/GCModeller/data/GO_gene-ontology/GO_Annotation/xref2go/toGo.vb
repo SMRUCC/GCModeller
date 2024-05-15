@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a7d885e1e7ebac403853f4a5efd7328, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GO_Annotation//xref2go/toGo.vb"
+﻿#Region "Microsoft.VisualBasic::8a7d885e1e7ebac403853f4a5efd7328, data\GO_gene-ontology\GO_Annotation\xref2go\toGo.vb"
 
     ' Author:
     ' 

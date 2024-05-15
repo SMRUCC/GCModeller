@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a419be799859b231fefc0c62825a58b4, G:/GCModeller/src/GCModeller/models/SBML/Biopax//Biopax/Ontology.vb"
+﻿#Region "Microsoft.VisualBasic::a419be799859b231fefc0c62825a58b4, models\SBML\Biopax\Biopax\Ontology.vb"
 
     ' Author:
     ' 

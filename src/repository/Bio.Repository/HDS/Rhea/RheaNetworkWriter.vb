@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fa8fcc70639507fb4af77bdcb2a0127, G:/GCModeller/src/repository/Bio.Repository//HDS/Rhea/RheaNetworkWriter.vb"
+﻿#Region "Microsoft.VisualBasic::5fa8fcc70639507fb4af77bdcb2a0127, Bio.Repository\HDS\Rhea\RheaNetworkWriter.vb"
 
     ' Author:
     ' 

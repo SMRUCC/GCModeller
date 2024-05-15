@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7126460b611bbdbcf5ee6459f0e131ac, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/scaffoldposchunks.vb"
+﻿#Region "Microsoft.VisualBasic::7126460b611bbdbcf5ee6459f0e131ac, data\MicrobesOnline\MySQL\genomics\scaffoldposchunks.vb"
 
     ' Author:
     ' 

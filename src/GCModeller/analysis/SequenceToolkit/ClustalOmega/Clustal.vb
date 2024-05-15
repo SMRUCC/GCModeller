@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35d55cb8c03f6262b9a43b94aa1110d7, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/ClustalOmega//Clustal.vb"
+﻿#Region "Microsoft.VisualBasic::35d55cb8c03f6262b9a43b94aa1110d7, analysis\SequenceToolkit\ClustalOmega\Clustal.vb"
 
     ' Author:
     ' 

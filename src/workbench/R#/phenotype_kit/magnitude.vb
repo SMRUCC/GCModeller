@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9186d4d71519e3d8f7040ea8a0de6bba, G:/GCModeller/src/workbench/R#/phenotype_kit//magnitude.vb"
+﻿#Region "Microsoft.VisualBasic::9186d4d71519e3d8f7040ea8a0de6bba, R#\phenotype_kit\magnitude.vb"
 
     ' Author:
     ' 

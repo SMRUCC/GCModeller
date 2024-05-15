@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83d5f71b8f13a0aa7fab025f573d7f70, G:/GCModeller/src/interops/localblast/ParallelTask//NCBILocalBlast.vb"
+﻿#Region "Microsoft.VisualBasic::83d5f71b8f13a0aa7fab025f573d7f70, localblast\ParallelTask\NCBILocalBlast.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d433fb656f6aac29ae700b352aad239, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//MPAlignment/Output/MPAlignmentOutput.vb"
+﻿#Region "Microsoft.VisualBasic::6d433fb656f6aac29ae700b352aad239, data\Xfam\Pfam\MPAlignment\Output\MPAlignmentOutput.vb"
 
     ' Author:
     ' 

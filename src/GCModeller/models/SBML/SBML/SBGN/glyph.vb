@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c38b8f4b80c167f9b3b24ec271cbd5d, G:/GCModeller/src/GCModeller/models/SBML/SBML//SBGN/glyph.vb"
+﻿#Region "Microsoft.VisualBasic::5c38b8f4b80c167f9b3b24ec271cbd5d, models\SBML\SBML\SBGN\glyph.vb"
 
     ' Author:
     ' 

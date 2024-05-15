@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::760f45e1c7ab6fa54642b889d7c70ce5, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/obographs/obographs//EnrichmentVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::760f45e1c7ab6fa54642b889d7c70ce5, data\GO_gene-ontology\obographs\obographs\EnrichmentVisualize.vb"
 
     ' Author:
     ' 

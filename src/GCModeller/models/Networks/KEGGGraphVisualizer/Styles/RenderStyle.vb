@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::947e6d29b8d54680e1543729c23fdac0, G:/GCModeller/src/GCModeller/models/Networks/KEGGGraphVisualizer//Styles/RenderStyle.vb"
+﻿#Region "Microsoft.VisualBasic::947e6d29b8d54680e1543729c23fdac0, models\Networks\KEGGGraphVisualizer\Styles\RenderStyle.vb"
 
     ' Author:
     ' 

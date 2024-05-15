@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae3d17843d409e4fa9170358428f0921, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::ae3d17843d409e4fa9170358428f0921, analysis\SequenceToolkit\SequenceTools\CLI\Debugger.vb"
 
     ' Author:
     ' 

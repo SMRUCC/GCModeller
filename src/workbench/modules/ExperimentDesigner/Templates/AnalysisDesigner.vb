@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::546150f5409f0531110dfd4779c34e26, G:/GCModeller/src/workbench/modules/ExperimentDesigner//Templates/AnalysisDesigner.vb"
+﻿#Region "Microsoft.VisualBasic::546150f5409f0531110dfd4779c34e26, modules\ExperimentDesigner\Templates\AnalysisDesigner.vb"
 
     ' Author:
     ' 

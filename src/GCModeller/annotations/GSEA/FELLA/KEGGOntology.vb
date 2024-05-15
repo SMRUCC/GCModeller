@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0ae9b6dbfd6302dba378f62576aef96, G:/GCModeller/src/GCModeller/annotations/GSEA/FELLA//KEGGOntology.vb"
+﻿#Region "Microsoft.VisualBasic::d0ae9b6dbfd6302dba378f62576aef96, annotations\GSEA\FELLA\KEGGOntology.vb"
 
     ' Author:
     ' 

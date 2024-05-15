@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4876c71cad7217cc45866aef51f2974, G:/GCModeller/src/workbench/R#/metagenomics_kit//zzz.vb"
+﻿#Region "Microsoft.VisualBasic::a4876c71cad7217cc45866aef51f2974, R#\metagenomics_kit\zzz.vb"
 
     ' Author:
     ' 

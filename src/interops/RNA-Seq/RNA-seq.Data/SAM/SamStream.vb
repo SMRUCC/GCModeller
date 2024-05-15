@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb90e08d2bbd7d21292708cb7a45e25f, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//SAM/SamStream.vb"
+﻿#Region "Microsoft.VisualBasic::fb90e08d2bbd7d21292708cb7a45e25f, RNA-Seq\RNA-seq.Data\SAM\SamStream.vb"
 
     ' Author:
     ' 

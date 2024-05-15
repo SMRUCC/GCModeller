@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71596ad4b66da28dd5474d03f3cf18b5, G:/GCModeller/src/workbench/R#/TRNtoolkit//TRNBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::71596ad4b66da28dd5474d03f3cf18b5, R#\TRNtoolkit\TRNBuilder.vb"
 
     ' Author:
     ' 

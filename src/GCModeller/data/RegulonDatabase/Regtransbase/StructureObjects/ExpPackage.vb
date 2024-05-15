@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cd33aedef16973ea98062adaba4b35c, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/StructureObjects/ExpPackage.vb"
+﻿#Region "Microsoft.VisualBasic::0cd33aedef16973ea98062adaba4b35c, data\RegulonDatabase\Regtransbase\StructureObjects\ExpPackage.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e1b7d07b2e3749d5f029b52b057f7b5, G:/GCModeller/src/workbench/R#/visualkit//chromosome_map.vb"
+﻿#Region "Microsoft.VisualBasic::0e1b7d07b2e3749d5f029b52b057f7b5, R#\visualkit\chromosome_map.vb"
 
     ' Author:
     ' 

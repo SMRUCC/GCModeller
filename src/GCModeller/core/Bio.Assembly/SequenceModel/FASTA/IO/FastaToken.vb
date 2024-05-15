@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00ec859e93d8fca7d7d568d88b3e946f, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/FASTA/IO/FastaToken.vb"
+﻿#Region "Microsoft.VisualBasic::00ec859e93d8fca7d7d568d88b3e946f, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87fb3367b6274af78c3340eff4a4d5e3, G:/GCModeller/src/GCModeller/engine/Dynamics//Core/Mass/MassRoles.vb"
+﻿#Region "Microsoft.VisualBasic::87fb3367b6274af78c3340eff4a4d5e3, engine\Dynamics\Core\Mass\MassRoles.vb"
 
     ' Author:
     ' 

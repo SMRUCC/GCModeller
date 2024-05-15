@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::417b63c069dfac6e46695043f05f774a, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA.KnowledgeBase.Extensions//Metabolism/MultipleOmics.vb"
+﻿#Region "Microsoft.VisualBasic::417b63c069dfac6e46695043f05f774a, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\MultipleOmics.vb"
 
     ' Author:
     ' 

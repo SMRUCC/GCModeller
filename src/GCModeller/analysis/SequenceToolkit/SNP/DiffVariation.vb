@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c8204412d459c1fcd157c85b3d735a5, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SNP//DiffVariation.vb"
+﻿#Region "Microsoft.VisualBasic::9c8204412d459c1fcd157c85b3d735a5, analysis\SequenceToolkit\SNP\DiffVariation.vb"
 
     ' Author:
     ' 

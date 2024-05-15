@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16d7fca837755ac48292e9697e84acd5, G:/GCModeller/src/GCModeller/engine/Model//Cellular/Process/CentralDogma.vb"
+﻿#Region "Microsoft.VisualBasic::16d7fca837755ac48292e9697e84acd5, engine\Model\Cellular\Process\CentralDogma.vb"
 
     ' Author:
     ' 

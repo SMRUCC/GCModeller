@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c697f79fcd1dfbd6197d23d46ad5257d, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/ClusterMatrix//CoreTree.vb"
+﻿#Region "Microsoft.VisualBasic::c697f79fcd1dfbd6197d23d46ad5257d, analysis\SequenceToolkit\ClusterMatrix\CoreTree.vb"
 
     ' Author:
     ' 

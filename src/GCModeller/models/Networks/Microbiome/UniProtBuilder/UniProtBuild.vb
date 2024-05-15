@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78ecb4a82cbf204120787d9e783b88b6, G:/GCModeller/src/GCModeller/models/Networks/Microbiome//UniProtBuilder/UniProtBuild.vb"
+﻿#Region "Microsoft.VisualBasic::78ecb4a82cbf204120787d9e783b88b6, models\Networks\Microbiome\UniProtBuilder\UniProtBuild.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d07fe660f5266d5830f4074c7eacbde3, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/transcriptseq.vb"
+﻿#Region "Microsoft.VisualBasic::d07fe660f5266d5830f4074c7eacbde3, data\MicrobesOnline\MySQL\genomics\transcriptseq.vb"
 
     ' Author:
     ' 

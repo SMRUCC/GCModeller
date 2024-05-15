@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27b57f1d2cda1c8722ca5dd6cd6217ee, G:/GCModeller/src/GCModeller/models/BioCyc//Models/Reflection/AttributeField.vb"
+﻿#Region "Microsoft.VisualBasic::27b57f1d2cda1c8722ca5dd6cd6217ee, models\BioCyc\Models\Reflection\AttributeField.vb"
 
     ' Author:
     ' 

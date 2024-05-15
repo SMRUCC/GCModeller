@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::273055d277c2d8ce24351e444260ec8e, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/conformation_effector_link.vb"
+﻿#Region "Microsoft.VisualBasic::273055d277c2d8ce24351e444260ec8e, data\RegulonDatabase\RegulonDB\MySQL\conformation_effector_link.vb"
 
     ' Author:
     ' 

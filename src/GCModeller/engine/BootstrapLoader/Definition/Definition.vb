@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::735fdeee85d23ea2e6c8059dfd0b97dd, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//Definition/Definition.vb"
+﻿#Region "Microsoft.VisualBasic::735fdeee85d23ea2e6c8059dfd0b97dd, engine\BootstrapLoader\Definition\Definition.vb"
 
     ' Author:
     ' 

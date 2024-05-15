@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7f4a0318f2a49e21a9a1372056f6206, G:/GCModeller/src/GCModeller/models/SBML/Biopax//Level3/Elements/PathwayStep.vb"
+﻿#Region "Microsoft.VisualBasic::e7f4a0318f2a49e21a9a1372056f6206, models\SBML\Biopax\Level3\Elements\PathwayStep.vb"
 
     ' Author:
     ' 

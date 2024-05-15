@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1726f396de3adaa81499f64c18d26c7d, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/COGTools.vb"
+﻿#Region "Microsoft.VisualBasic::1726f396de3adaa81499f64c18d26c7d, localblast\CLI_tools\CLI\COGTools.vb"
 
     ' Author:
     ' 

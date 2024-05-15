@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50f88de8a42ef8d7b9197d22de89aab9, G:/GCModeller/src/GCModeller/data/Reactome//ObjectModels/BioSystem.vb"
+﻿#Region "Microsoft.VisualBasic::50f88de8a42ef8d7b9197d22de89aab9, data\Reactome\ObjectModels\BioSystem.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf64d48c9924ca094597635156cdee57, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/acl.vb"
+﻿#Region "Microsoft.VisualBasic::cf64d48c9924ca094597635156cdee57, data\MicrobesOnline\MySQL\genomics\acl.vb"
 
     ' Author:
     ' 

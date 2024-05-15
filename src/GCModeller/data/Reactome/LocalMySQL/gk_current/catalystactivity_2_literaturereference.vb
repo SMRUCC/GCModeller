@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d6261c3391eb50f337ad7be645bb895, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/catalystactivity_2_literaturereference.vb"
+﻿#Region "Microsoft.VisualBasic::3d6261c3391eb50f337ad7be645bb895, data\Reactome\LocalMySQL\gk_current\catalystactivity_2_literaturereference.vb"
 
     ' Author:
     ' 

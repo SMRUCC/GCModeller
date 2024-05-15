@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8253ed63a6cab5c3a676df90cecfb156, G:/GCModeller/src/GCModeller/core/Bio.Annotation//GFF/FeatureKeys.vb"
+﻿#Region "Microsoft.VisualBasic::8253ed63a6cab5c3a676df90cecfb156, core\Bio.Annotation\GFF\FeatureKeys.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47ec604a5471e8b5785f54bec9be58a9, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SNP//SangerSNPs/DefineConstants.vb"
+﻿#Region "Microsoft.VisualBasic::47ec604a5471e8b5785f54bec9be58a9, analysis\SequenceToolkit\SNP\SangerSNPs\DefineConstants.vb"
 
     ' Author:
     ' 

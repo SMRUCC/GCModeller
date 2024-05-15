@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa9dd77f03f4e425a9ec94f6e090db07, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//ExpressionPattern/Reader.vb"
+﻿#Region "Microsoft.VisualBasic::fa9dd77f03f4e425a9ec94f6e090db07, visualize\DataVisualizationExtensions\ExpressionPattern\Reader.vb"
 
     ' Author:
     ' 

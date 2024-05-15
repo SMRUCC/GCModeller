@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31c1302b0e00a7132bd7504cf4861121, G:/GCModeller/src/GCModeller/core/Bio.Assembly//ComponentModel/Annotation/PathwayBrief.vb"
+﻿#Region "Microsoft.VisualBasic::31c1302b0e00a7132bd7504cf4861121, core\Bio.Assembly\ComponentModel\Annotation\PathwayBrief.vb"
 
     ' Author:
     ' 

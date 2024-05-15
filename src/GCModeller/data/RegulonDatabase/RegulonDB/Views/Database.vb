@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a49ec9f7a56a7e49c233a8969a155ce, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/Views/Database.vb"
+﻿#Region "Microsoft.VisualBasic::3a49ec9f7a56a7e49c233a8969a155ce, data\RegulonDatabase\RegulonDB\Views\Database.vb"
 
     ' Author:
     ' 

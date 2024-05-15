@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed2fdb26306c20aa1b3074f094cc4d8a, G:/GCModeller/src/repository/HMP_client//metadata.vb"
+﻿#Region "Microsoft.VisualBasic::ed2fdb26306c20aa1b3074f094cc4d8a, HMP_client\metadata.vb"
 
     ' Author:
     ' 

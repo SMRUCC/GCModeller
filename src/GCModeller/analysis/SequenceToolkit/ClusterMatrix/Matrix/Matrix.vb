@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0fe26bc0c0512fb771a3d8bf679e933, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/ClusterMatrix//Matrix/Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::f0fe26bc0c0512fb771a3d8bf679e933, analysis\SequenceToolkit\ClusterMatrix\Matrix\Matrix.vb"
 
     ' Author:
     ' 

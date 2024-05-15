@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c90d8d17b2dc97ef1a066fe64bfbfc19, G:/GCModeller/src/GCModeller/engine/GCModeller.Framework.Kernel_Driver//DataServices/StorageInterface/DataSerials(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::c90d8d17b2dc97ef1a066fe64bfbfc19, engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\DataSerials(Of T).vb"
 
     ' Author:
     ' 

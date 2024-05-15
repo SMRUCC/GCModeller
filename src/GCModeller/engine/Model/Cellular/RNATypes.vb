@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f1929257b9161e93dade9a0ca047880, G:/GCModeller/src/GCModeller/engine/Model//Cellular/RNATypes.vb"
+﻿#Region "Microsoft.VisualBasic::6f1929257b9161e93dade9a0ca047880, engine\Model\Cellular\RNATypes.vb"
 
     ' Author:
     ' 

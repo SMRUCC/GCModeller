@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81643fb14582fbccdcaef2664ae61730, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/MySQL/genome2ncbitaxon.vb"
+﻿#Region "Microsoft.VisualBasic::81643fb14582fbccdcaef2664ae61730, data\RegulonDatabase\Regtransbase\MySQL\genome2ncbitaxon.vb"
 
     ' Author:
     ' 

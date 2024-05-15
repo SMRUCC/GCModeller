@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a99c684ea66e5c3c4cbb6c4e5c3afb8, G:/GCModeller/src/GCModeller/data/STRING//StringIndex.vb"
+﻿#Region "Microsoft.VisualBasic::6a99c684ea66e5c3c4cbb6c4e5c3afb8, data\STRING\StringIndex.vb"
 
     ' Author:
     ' 

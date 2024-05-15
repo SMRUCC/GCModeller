@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9697118c45157661550dd11ebd94e21f, G:/GCModeller/src/workbench/R#/seqtoolkit//Annotations/workflows.vb"
+﻿#Region "Microsoft.VisualBasic::9697118c45157661550dd11ebd94e21f, R#\seqtoolkit\Annotations\workflows.vb"
 
     ' Author:
     ' 

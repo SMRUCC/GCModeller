@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::916bdff5f59c8124390d4189737fa15a, G:/GCModeller/src/interops/visualize/Cytoscape/Cytoscape//Graph/Xgmml/GraphExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::916bdff5f59c8124390d4189737fa15a, visualize\Cytoscape\Cytoscape\Graph\Xgmml\GraphExtensions.vb"
 
     ' Author:
     ' 

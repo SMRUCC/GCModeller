@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a0d741f25970efb600753c175473570, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifScanner//MotifTree.vb"
+﻿#Region "Microsoft.VisualBasic::7a0d741f25970efb600753c175473570, analysis\SequenceToolkit\MotifScanner\MotifTree.vb"
 
     ' Author:
     ' 

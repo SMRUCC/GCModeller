@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e472cd75798b6eddc73a314fc07ea3be, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/WebServices/TranscriptionFactorFamily.vb"
+﻿#Region "Microsoft.VisualBasic::e472cd75798b6eddc73a314fc07ea3be, data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
 
     ' Author:
     ' 

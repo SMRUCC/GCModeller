@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::741708e2626c56e152834d2c90c324a7, G:/GCModeller/src/GCModeller/models/Networks/KEGG//CompoundSupportsEvidence.vb"
+﻿#Region "Microsoft.VisualBasic::741708e2626c56e152834d2c90c324a7, models\Networks\KEGG\CompoundSupportsEvidence.vb"
 
     ' Author:
     ' 

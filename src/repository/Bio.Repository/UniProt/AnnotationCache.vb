@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b29ab0d42762e2e369128e8fe88a5e7, G:/GCModeller/src/repository/Bio.Repository//UniProt/AnnotationCache.vb"
+﻿#Region "Microsoft.VisualBasic::2b29ab0d42762e2e369128e8fe88a5e7, Bio.Repository\UniProt\AnnotationCache.vb"
 
     ' Author:
     ' 

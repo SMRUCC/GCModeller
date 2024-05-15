@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d652d0cbe7ba006d439576b61f248ed6, G:/GCModeller/src/GCModeller/data/STRING//WebAPI/APIModels.vb"
+﻿#Region "Microsoft.VisualBasic::d652d0cbe7ba006d439576b61f248ed6, data\STRING\WebAPI\APIModels.vb"
 
     ' Author:
     ' 

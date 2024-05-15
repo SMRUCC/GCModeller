@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9756ff99afbb6fdb2a1f77527fdc0f50, G:/GCModeller/src/GCModeller/engine/Dynamics//My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::9756ff99afbb6fdb2a1f77527fdc0f50, engine\Dynamics\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

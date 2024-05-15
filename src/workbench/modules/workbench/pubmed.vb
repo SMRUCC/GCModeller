@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9026f7eacb7597b21d3f6f775326661a, G:/GCModeller/src/workbench/modules/workbench//pubmed.vb"
+﻿#Region "Microsoft.VisualBasic::9026f7eacb7597b21d3f6f775326661a, modules\workbench\pubmed.vb"
 
     ' Author:
     ' 

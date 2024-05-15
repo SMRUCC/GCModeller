@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5aee9705fd095882995af3c9a0bbca2e, G:/GCModeller/src/GCModeller/models/BioCyc//Reader/AttrValDatFile.vb"
+﻿#Region "Microsoft.VisualBasic::5aee9705fd095882995af3c9a0bbca2e, models\BioCyc\Reader\AttrValDatFile.vb"
 
     ' Author:
     ' 

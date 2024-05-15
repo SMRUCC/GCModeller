@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bbacdaad1a98eddfea1114ac3d6775b4, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/vertex.vb"
+﻿#Region "Microsoft.VisualBasic::bbacdaad1a98eddfea1114ac3d6775b4, data\Reactome\LocalMySQL\gk_current\vertex.vb"
 
     ' Author:
     ' 

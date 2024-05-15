@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::027f4e5c3f85e43195caf8b9a61d02c1, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/NCBI/Database/GenBank/TabularFormat/FeatureBriefs/PTT/PTTFileWriter.vb"
+﻿#Region "Microsoft.VisualBasic::027f4e5c3f85e43195caf8b9a61d02c1, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTFileWriter.vb"
 
     ' Author:
     ' 

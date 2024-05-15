@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8e00e2ad73f2b3390fa25fc450d6e3d, G:/GCModeller/src/GCModeller/engine/vcellkit//Modeller/Enzymatic.vb"
+﻿#Region "Microsoft.VisualBasic::c8e00e2ad73f2b3390fa25fc450d6e3d, engine\vcellkit\Modeller\Enzymatic.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63fc2938cb064e7ee13b1df19c46e91b, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//test/Program.vb"
+﻿#Region "Microsoft.VisualBasic::63fc2938cb064e7ee13b1df19c46e91b, RNA-Seq\RNA-seq.Data\test\Program.vb"
 
     ' Author:
     ' 

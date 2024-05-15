@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d603221485f443351a465bdf1a0293d, G:/GCModeller/src/GCModeller/visualize/ChromosomeMap//test/My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::9d603221485f443351a465bdf1a0293d, visualize\ChromosomeMap\test\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 

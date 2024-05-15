@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0be3d0229e7b090192ea5f6e6c81502, G:/GCModeller/src/repository/Bio.Repository//KEGG/MessagePack/KEGGMapPack.vb"
+﻿#Region "Microsoft.VisualBasic::f0be3d0229e7b090192ea5f6e6c81502, Bio.Repository\KEGG\MessagePack\KEGGMapPack.vb"
 
     ' Author:
     ' 

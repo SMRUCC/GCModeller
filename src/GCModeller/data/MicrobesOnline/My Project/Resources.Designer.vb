@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15cf4378341047612aee04d560372f8a, G:/GCModeller/src/GCModeller/data/MicrobesOnline//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::15cf4378341047612aee04d560372f8a, data\MicrobesOnline\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 

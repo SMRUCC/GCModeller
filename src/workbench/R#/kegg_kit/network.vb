@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75abb30cb0308c471a6ce085f99650cd, G:/GCModeller/src/workbench/R#/kegg_kit//network.vb"
+﻿#Region "Microsoft.VisualBasic::75abb30cb0308c471a6ce085f99650cd, R#\kegg_kit\network.vb"
 
     ' Author:
     ' 

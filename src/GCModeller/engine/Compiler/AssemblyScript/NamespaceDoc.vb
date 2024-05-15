@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ca3acb0f28deefbb58cd6129055ac5f, G:/GCModeller/src/GCModeller/engine/Compiler//AssemblyScript/NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::5ca3acb0f28deefbb58cd6129055ac5f, engine\Compiler\AssemblyScript\NamespaceDoc.vb"
 
     ' Author:
     ' 

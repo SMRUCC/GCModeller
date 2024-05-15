@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c624bc2532a46d4510c0094b2ff15a58, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Application/BBH/Algorithm/BBHParser.vb"
+﻿#Region "Microsoft.VisualBasic::c624bc2532a46d4510c0094b2ff15a58, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
 
     ' Author:
     ' 

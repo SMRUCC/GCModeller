@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52a89d0f1c565f2c000ccf3365ff132a, G:/GCModeller/src/workbench/R#/seqtoolkit//Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::52a89d0f1c565f2c000ccf3365ff132a, R#\seqtoolkit\Fasta.vb"
 
     ' Author:
     ' 

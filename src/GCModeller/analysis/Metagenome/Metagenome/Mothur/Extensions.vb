@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4fecba039ba3cc2cd16a8de460eeccf7, G:/GCModeller/src/GCModeller/analysis/Metagenome/Metagenome//Mothur/Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::4fecba039ba3cc2cd16a8de460eeccf7, analysis\Metagenome\Metagenome\Mothur\Extensions.vb"
 
     ' Author:
     ' 

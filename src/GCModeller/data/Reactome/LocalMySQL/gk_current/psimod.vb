@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe1b860f0a6b8fd7fcc63d64163d371a, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/psimod.vb"
+﻿#Region "Microsoft.VisualBasic::fe1b860f0a6b8fd7fcc63d64163d371a, data\Reactome\LocalMySQL\gk_current\psimod.vb"
 
     ' Author:
     ' 

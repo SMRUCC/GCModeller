@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd95fe1ed185dcc6a75d79f3db826a60, G:/GCModeller/src/GCModeller/annotations/KEGG//Reconstruct/Reconstruction.vb"
+﻿#Region "Microsoft.VisualBasic::bd95fe1ed185dcc6a75d79f3db826a60, annotations\KEGG\Reconstruct\Reconstruction.vb"
 
     ' Author:
     ' 

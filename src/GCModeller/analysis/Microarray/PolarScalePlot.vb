@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec9614aee34c9b39000a623c9a3af585, G:/GCModeller/src/GCModeller/analysis/Microarray//PolarScalePlot.vb"
+﻿#Region "Microsoft.VisualBasic::ec9614aee34c9b39000a623c9a3af585, analysis\Microarray\PolarScalePlot.vb"
 
     ' Author:
     ' 

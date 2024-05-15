@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::357ab6b74de1319da70e138eb99fe0c8, G:/GCModeller/src/repository/Bio.Repository//KEGG/Web/KEGGApi.vb"
+﻿#Region "Microsoft.VisualBasic::357ab6b74de1319da70e138eb99fe0c8, Bio.Repository\KEGG\Web\KEGGApi.vb"
 
     ' Author:
     ' 

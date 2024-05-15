@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6cdab20f934c384bb6977a3b90f3654, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/ELIXIR/NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::c6cdab20f934c384bb6977a3b90f3654, core\Bio.Assembly\Assembly\ELIXIR\NamespaceDoc.vb"
 
     ' Author:
     ' 

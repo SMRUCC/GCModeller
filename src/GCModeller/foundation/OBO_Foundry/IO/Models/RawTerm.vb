@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f0e53130d61d52c030913283520e371, G:/GCModeller/src/GCModeller/foundation/OBO_Foundry//IO/Models/RawTerm.vb"
+﻿#Region "Microsoft.VisualBasic::8f0e53130d61d52c030913283520e371, foundation\OBO_Foundry\IO\Models\RawTerm.vb"
 
     ' Author:
     ' 

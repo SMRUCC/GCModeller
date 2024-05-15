@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffcde4d324d1cd720a042e0d9037aac9, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Restriction_enzyme/TranslatePatterns.vb"
+﻿#Region "Microsoft.VisualBasic::ffcde4d324d1cd720a042e0d9037aac9, analysis\Motifs\PrimerDesigner\Restriction_enzyme\TranslatePatterns.vb"
 
     ' Author:
     ' 

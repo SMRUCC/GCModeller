@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::305b574d9bdfe06d2c391ce3f53cdb22, G:/GCModeller/src/GCModeller/analysis/Metagenome/Metagenome//BEBaC/3-mer.vb"
+﻿#Region "Microsoft.VisualBasic::305b574d9bdfe06d2c391ce3f53cdb22, analysis\Metagenome\Metagenome\BEBaC\3-mer.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4a39f36458f3097622649e78ceb4aa8, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//16sAssembler.vb"
+﻿#Region "Microsoft.VisualBasic::e4a39f36458f3097622649e78ceb4aa8, RNA-Seq\RNA-seq.Data\16sAssembler.vb"
 
     ' Author:
     ' 

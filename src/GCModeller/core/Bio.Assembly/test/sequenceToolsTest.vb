@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2542e098f9a63de60ea2660649edd7d1, G:/GCModeller/src/GCModeller/core/Bio.Assembly/Test//sequenceToolsTest.vb"
+﻿#Region "Microsoft.VisualBasic::2542e098f9a63de60ea2660649edd7d1, core\Bio.Assembly\Test\sequenceToolsTest.vb"
 
     ' Author:
     ' 

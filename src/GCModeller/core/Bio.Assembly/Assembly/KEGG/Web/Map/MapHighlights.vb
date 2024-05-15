@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc31e5181a77bacaf4c88d439e333117, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/KEGG/Web/Map/MapHighlights.vb"
+﻿#Region "Microsoft.VisualBasic::fc31e5181a77bacaf4c88d439e333117, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapHighlights.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::219c7c88d54e0735dd5b3dfd33d86152, G:/GCModeller/src/workbench/R#/annotationKit//zzz.vb"
+﻿#Region "Microsoft.VisualBasic::219c7c88d54e0735dd5b3dfd33d86152, R#\annotationKit\zzz.vb"
 
     ' Author:
     ' 

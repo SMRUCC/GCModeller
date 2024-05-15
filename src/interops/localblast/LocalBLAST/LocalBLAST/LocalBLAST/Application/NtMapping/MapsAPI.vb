@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8df896f14aeea2f7bf73750f21efe4a4, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Application/NtMapping/MapsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::8df896f14aeea2f7bf73750f21efe4a4, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\MapsAPI.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67b94da2b8fc49372f8b02505cefbbfd, G:/GCModeller/src/GCModeller/data/GO_gene-ontology/GeneOntology//DAG/Axioms.vb"
+﻿#Region "Microsoft.VisualBasic::67b94da2b8fc49372f8b02505cefbbfd, data\GO_gene-ontology\GeneOntology\DAG\Axioms.vb"
 
     ' Author:
     ' 

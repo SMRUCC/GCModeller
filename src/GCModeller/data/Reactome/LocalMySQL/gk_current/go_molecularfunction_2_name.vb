@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfea280bf5956ecafa2ce89c48908d50, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_molecularfunction_2_name.vb"
+﻿#Region "Microsoft.VisualBasic::cfea280bf5956ecafa2ce89c48908d50, data\Reactome\LocalMySQL\gk_current\go_molecularfunction_2_name.vb"
 
     ' Author:
     ' 

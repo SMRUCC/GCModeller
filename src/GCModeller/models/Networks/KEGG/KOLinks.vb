@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::294d500cbd8f1fd610ee629236c548f3, G:/GCModeller/src/GCModeller/models/Networks/KEGG//KOLinks.vb"
+﻿#Region "Microsoft.VisualBasic::294d500cbd8f1fd610ee629236c548f3, models\Networks\KEGG\KOLinks.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d243469743eac4cfea2bf9f1555c860a, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/_attributevaluebeforechange.vb"
+﻿#Region "Microsoft.VisualBasic::d243469743eac4cfea2bf9f1555c860a, data\Reactome\LocalMySQL\gk_current\_attributevaluebeforechange.vb"
 
     ' Author:
     ' 

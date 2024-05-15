@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::06cd3b6e829fd0ce64b159bfae34ac25, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//Definition/NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::06cd3b6e829fd0ce64b159bfae34ac25, engine\BootstrapLoader\Definition\NucleicAcid.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::daa7e5308ec98c5e309de3f38405493b, G:/GCModeller/src/GCModeller/analysis/Motifs/PrimerDesigner//Designer.vb"
+﻿#Region "Microsoft.VisualBasic::daa7e5308ec98c5e309de3f38405493b, analysis\Motifs\PrimerDesigner\Designer.vb"
 
     ' Author:
     ' 

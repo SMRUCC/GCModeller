@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4985884d939f7d4e22e2303e3249f84f, G:/GCModeller/src/interops/localblast/CLI_tools//CLI/BBH/UniProtTools.vb"
+﻿#Region "Microsoft.VisualBasic::4985884d939f7d4e22e2303e3249f84f, localblast\CLI_tools\CLI\BBH\UniProtTools.vb"
 
     ' Author:
     ' 

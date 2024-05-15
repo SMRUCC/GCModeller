@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d0cbd7c86383c156d4827880777701b, G:/GCModeller/src/GCModeller/data/Reactome//ObjectModels/Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::3d0cbd7c86383c156d4827880777701b, data\Reactome\ObjectModels\Reaction.vb"
 
     ' Author:
     ' 

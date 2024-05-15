@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a15f46dd67e930f97876c5e9a480fdb, G:/GCModeller/src/GCModeller/foundation/PSICQUIC/psidev//XML/[xsd]net.sf.psidev.mi/Nodes/Entry.vb"
+﻿#Region "Microsoft.VisualBasic::7a15f46dd67e930f97876c5e9a480fdb, foundation\PSICQUIC\psidev\XML\[xsd]net.sf.psidev.mi\Nodes\Entry.vb"
 
     ' Author:
     ' 

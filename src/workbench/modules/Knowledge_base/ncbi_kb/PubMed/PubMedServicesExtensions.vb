@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0b374610379e77827054dbc9da2c667, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//PubMed/PubMedServicesExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::e0b374610379e77827054dbc9da2c667, modules\Knowledge_base\ncbi_kb\PubMed\PubMedServicesExtensions.vb"
 
     ' Author:
     ' 

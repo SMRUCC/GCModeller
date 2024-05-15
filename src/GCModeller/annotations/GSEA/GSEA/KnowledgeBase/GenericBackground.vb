@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ef23fddc221f41c58076e6c0f8a0e1e, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA//KnowledgeBase/GenericBackground.vb"
+﻿#Region "Microsoft.VisualBasic::5ef23fddc221f41c58076e6c0f8a0e1e, annotations\GSEA\GSEA\KnowledgeBase\GenericBackground.vb"
 
     ' Author:
     ' 

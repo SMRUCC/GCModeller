@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec4ec3a80eee2b26812f409e8e0df82d, G:/GCModeller/src/GCModeller/data/Reactome//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ec4ec3a80eee2b26812f409e8e0df82d, data\Reactome\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 

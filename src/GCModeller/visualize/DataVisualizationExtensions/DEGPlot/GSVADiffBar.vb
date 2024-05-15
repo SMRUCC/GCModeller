@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86281cb672db747da81971985a461c92, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//DEGPlot/GSVADiffBar.vb"
+﻿#Region "Microsoft.VisualBasic::86281cb672db747da81971985a461c92, visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
 
     ' Author:
     ' 

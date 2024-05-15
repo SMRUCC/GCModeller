@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e588d996d78b09ded8f7483ebb6dab6a, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Scanner/MotifNeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::e588d996d78b09ded8f7483ebb6dab6a, analysis\SequenceToolkit\MotifFinder\Scanner\MotifNeedlemanWunsch.vb"
 
     ' Author:
     ' 

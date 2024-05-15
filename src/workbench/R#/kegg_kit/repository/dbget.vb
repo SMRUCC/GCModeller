@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4a072a2444df9adfaccc3fd988084c1, G:/GCModeller/src/workbench/R#/kegg_kit//repository/dbget.vb"
+﻿#Region "Microsoft.VisualBasic::a4a072a2444df9adfaccc3fd988084c1, R#\kegg_kit\repository\dbget.vb"
 
     ' Author:
     ' 

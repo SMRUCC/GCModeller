@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1f026125530fa188045b852439588c3, G:/GCModeller/src/GCModeller/models/Networks/KEGG//PathwayMaps/ReferenceMap.vb"
+﻿#Region "Microsoft.VisualBasic::f1f026125530fa188045b852439588c3, models\Networks\KEGG\PathwayMaps\ReferenceMap.vb"
 
     ' Author:
     ' 

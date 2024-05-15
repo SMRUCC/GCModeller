@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::06aef8cb0cacf879a003a80a37a8263d, G:/GCModeller/src/GCModeller/visualize/DataVisualizationExtensions//CollectionSet/FactorGroup.vb"
+﻿#Region "Microsoft.VisualBasic::06aef8cb0cacf879a003a80a37a8263d, visualize\DataVisualizationExtensions\CollectionSet\FactorGroup.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfd7bb9321a2fe45be89b61a4fb33a43, G:/GCModeller/src/GCModeller/models/Networks/KEGG//ReactionNetwork/EnzymaticInformation.vb"
+﻿#Region "Microsoft.VisualBasic::bfd7bb9321a2fe45be89b61a4fb33a43, models\Networks\KEGG\ReactionNetwork\EnzymaticInformation.vb"
 
     ' Author:
     ' 

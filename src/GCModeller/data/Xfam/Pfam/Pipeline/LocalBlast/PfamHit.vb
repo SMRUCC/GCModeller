@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c19cb6d7e03ca6e998ebc5f82f5f022, G:/GCModeller/src/GCModeller/data/Xfam/Pfam//Pipeline/LocalBlast/PfamHit.vb"
+﻿#Region "Microsoft.VisualBasic::6c19cb6d7e03ca6e998ebc5f82f5f022, data\Xfam\Pfam\Pipeline\LocalBlast\PfamHit.vb"
 
     ' Author:
     ' 

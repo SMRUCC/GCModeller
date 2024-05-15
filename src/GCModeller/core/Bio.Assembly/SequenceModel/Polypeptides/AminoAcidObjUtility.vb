@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a7e16457295c1560872881b725b0ed6, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/Polypeptides/AminoAcidObjUtility.vb"
+﻿#Region "Microsoft.VisualBasic::2a7e16457295c1560872881b725b0ed6, core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcidObjUtility.vb"
 
     ' Author:
     ' 

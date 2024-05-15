@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6eea190fabfe241e0555e416c8f62164, G:/GCModeller/src/GCModeller/models/Networks/Network.Regulons//RegulatesGraph/TFNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::6eea190fabfe241e0555e416c8f62164, models\Networks\Network.Regulons\RegulatesGraph\TFNetwork.vb"
 
     ' Author:
     ' 

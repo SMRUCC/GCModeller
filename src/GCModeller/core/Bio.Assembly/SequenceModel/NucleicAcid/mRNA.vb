@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf8dad5b29e5ebf5559a2a0bb028aa68, G:/GCModeller/src/GCModeller/core/Bio.Assembly//SequenceModel/NucleicAcid/mRNA.vb"
+﻿#Region "Microsoft.VisualBasic::bf8dad5b29e5ebf5559a2a0bb028aa68, core\Bio.Assembly\SequenceModel\NucleicAcid\mRNA.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47c011a868ffa9a07e51f8f25c8cf478, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/NTProps.vb"
+﻿#Region "Microsoft.VisualBasic::47c011a868ffa9a07e51f8f25c8cf478, analysis\SequenceToolkit\SequenceTools\CLI\NTProps.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60be93f6b0400b2bb90bb7f425bc4821, G:/GCModeller/src/GCModeller/core/Bio.Annotation//GFF/GFF.vb"
+﻿#Region "Microsoft.VisualBasic::60be93f6b0400b2bb90bb7f425bc4821, core\Bio.Annotation\GFF\GFF.vb"
 
     ' Author:
     ' 

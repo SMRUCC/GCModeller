@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94b1046252803bd7683e97fe908cbae5, G:/GCModeller/src/interops/RNA-Seq/RNA-seq.Data//FastQ/FastQ.vb"
+﻿#Region "Microsoft.VisualBasic::94b1046252803bd7683e97fe908cbae5, RNA-Seq\RNA-seq.Data\FastQ\FastQ.vb"
 
     ' Author:
     ' 

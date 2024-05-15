@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49a3547f6421cb9ce57c71a7868ae14d, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/replacedresidue.vb"
+﻿#Region "Microsoft.VisualBasic::49a3547f6421cb9ce57c71a7868ae14d, data\Reactome\LocalMySQL\gk_current\replacedresidue.vb"
 
     ' Author:
     ' 

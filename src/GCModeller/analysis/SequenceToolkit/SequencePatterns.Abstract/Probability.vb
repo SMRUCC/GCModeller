@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5019dcba748908a216296427d1ff95e5, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequencePatterns.Abstract//Probability.vb"
+﻿#Region "Microsoft.VisualBasic::5019dcba748908a216296427d1ff95e5, analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
 
     ' Author:
     ' 

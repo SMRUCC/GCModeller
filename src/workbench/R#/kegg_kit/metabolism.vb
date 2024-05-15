@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c3174b9215a20e7916eb45a4ec0270a, G:/GCModeller/src/workbench/R#/kegg_kit//metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::3c3174b9215a20e7916eb45a4ec0270a, R#\kegg_kit\metabolism.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7838ef2c2c29157ffa5ac1bdb181ddd1, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_biologicalprocess_2_name.vb"
+﻿#Region "Microsoft.VisualBasic::7838ef2c2c29157ffa5ac1bdb181ddd1, data\Reactome\LocalMySQL\gk_current\go_biologicalprocess_2_name.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0c69cc4d855a89d20f7fd57adb18d03, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/blackboxevent.vb"
+﻿#Region "Microsoft.VisualBasic::f0c69cc4d855a89d20f7fd57adb18d03, data\Reactome\LocalMySQL\gk_current\blackboxevent.vb"
 
     ' Author:
     ' 

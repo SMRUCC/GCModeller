@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47ee5a74a491555ea2187cdb85769547, G:/GCModeller/src/GCModeller/engine/GCModeller.Framework.Kernel_Driver//Driver/KernelDriver/KernelDriver.vb"
+﻿#Region "Microsoft.VisualBasic::47ee5a74a491555ea2187cdb85769547, engine\GCModeller.Framework.Kernel_Driver\Driver\KernelDriver\KernelDriver.vb"
 
     ' Author:
     ' 

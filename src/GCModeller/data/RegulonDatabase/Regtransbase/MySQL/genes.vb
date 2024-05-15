@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f3a370a0cd7090c7c166cde18df7172, G:/GCModeller/src/GCModeller/data/RegulonDatabase//Regtransbase/MySQL/genes.vb"
+﻿#Region "Microsoft.VisualBasic::7f3a370a0cd7090c7c166cde18df7172, data\RegulonDatabase\Regtransbase\MySQL\genes.vb"
 
     ' Author:
     ' 

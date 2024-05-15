@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88c8406b05b3e458167d27bdf8d655e0, G:/GCModeller/src/GCModeller/data/Rhea//Compound.vb"
+﻿#Region "Microsoft.VisualBasic::88c8406b05b3e458167d27bdf8d655e0, data\Rhea\Compound.vb"
 
     ' Author:
     ' 

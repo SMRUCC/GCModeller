@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd56ac80004b6bcf1b3fe4df3561f591, G:/GCModeller/src/GCModeller/data/RegulonDatabase//RegulonDB/MySQL/alignment.vb"
+﻿#Region "Microsoft.VisualBasic::dd56ac80004b6bcf1b3fe4df3561f591, data\RegulonDatabase\RegulonDB\MySQL\alignment.vb"
 
     ' Author:
     ' 

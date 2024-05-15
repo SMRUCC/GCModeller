@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1cd03461ce270225766f823f73bda745, G:/GCModeller/src/GCModeller/models/ncbi-BioSystems//Project/Project.vb"
+﻿#Region "Microsoft.VisualBasic::1cd03461ce270225766f823f73bda745, models\ncbi-BioSystems\Project\Project.vb"
 
     ' Author:
     ' 

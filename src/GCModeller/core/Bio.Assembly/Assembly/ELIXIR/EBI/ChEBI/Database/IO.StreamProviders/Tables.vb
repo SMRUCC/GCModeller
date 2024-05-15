@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76ed38aa781610d639e29c70669165e8, G:/GCModeller/src/GCModeller/core/Bio.Assembly//Assembly/ELIXIR/EBI/ChEBI/Database/IO.StreamProviders/Tables.vb"
+﻿#Region "Microsoft.VisualBasic::76ed38aa781610d639e29c70669165e8, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
 
     ' Author:
     ' 

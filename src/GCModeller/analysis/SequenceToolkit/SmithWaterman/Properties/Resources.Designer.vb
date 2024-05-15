@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7242c8b48aded959a4dd05ab967c8e50, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SmithWaterman//Properties/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::7242c8b48aded959a4dd05ab967c8e50, analysis\SequenceToolkit\SmithWaterman\Properties\Resources.Designer.vb"
 
     ' Author:
     ' 

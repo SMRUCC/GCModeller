@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c94223f4b777969b3fabc721fdcdeeca, G:/GCModeller/src/GCModeller/annotations/GSEA/GSEA//KnowledgeBase/Imports/UniProtModel.vb"
+﻿#Region "Microsoft.VisualBasic::c94223f4b777969b3fabc721fdcdeeca, annotations\GSEA\GSEA\KnowledgeBase\Imports\UniProtModel.vb"
 
     ' Author:
     ' 

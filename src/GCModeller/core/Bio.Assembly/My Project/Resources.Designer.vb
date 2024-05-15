@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f190da6ecf0f0f9c1940996b2474c2e6, G:/GCModeller/src/GCModeller/core/Bio.Assembly//My Project/Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::f190da6ecf0f0f9c1940996b2474c2e6, core\Bio.Assembly\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 

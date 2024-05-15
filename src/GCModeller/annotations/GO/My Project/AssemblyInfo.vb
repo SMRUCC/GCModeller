@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39ea133488a8feef3a2dfe0fe81f5b86, G:/GCModeller/src/GCModeller/annotations/GO//My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::39ea133488a8feef3a2dfe0fe81f5b86, annotations\GO\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

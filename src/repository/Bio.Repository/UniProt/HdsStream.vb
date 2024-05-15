@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4bfdc2b73129a11e6dad140f4eb18ec3, G:/GCModeller/src/repository/Bio.Repository//UniProt/HdsStream.vb"
+﻿#Region "Microsoft.VisualBasic::4bfdc2b73129a11e6dad140f4eb18ec3, Bio.Repository\UniProt\HdsStream.vb"
 
     ' Author:
     ' 

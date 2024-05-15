@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9e192b187c01fefaae5810a77f8d2f6, G:/GCModeller/src/GCModeller/engine/BootstrapLoader//Engine/MassTable.vb"
+﻿#Region "Microsoft.VisualBasic::a9e192b187c01fefaae5810a77f8d2f6, engine\BootstrapLoader\Engine\MassTable.vb"
 
     ' Author:
     ' 

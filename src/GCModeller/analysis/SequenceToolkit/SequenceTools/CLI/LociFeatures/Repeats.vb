@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16b307f2b67c75579e3e7418ac24a800, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/SequenceTools//CLI/LociFeatures/Repeats.vb"
+﻿#Region "Microsoft.VisualBasic::16b307f2b67c75579e3e7418ac24a800, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Repeats.vb"
 
     ' Author:
     ' 

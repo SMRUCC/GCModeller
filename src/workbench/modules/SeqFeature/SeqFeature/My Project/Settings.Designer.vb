@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a72caa98b80d337e0431b7f535a7786, G:/GCModeller/src/workbench/modules/SeqFeature/SeqFeature//My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::1a72caa98b80d337e0431b7f535a7786, modules\SeqFeature\SeqFeature\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 

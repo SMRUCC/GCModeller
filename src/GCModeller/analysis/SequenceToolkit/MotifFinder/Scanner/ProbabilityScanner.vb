@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0bcab52bc6fe829c25bbe8634e2a728, G:/GCModeller/src/GCModeller/analysis/SequenceToolkit/MotifFinder//Scanner/ProbabilityScanner.vb"
+﻿#Region "Microsoft.VisualBasic::b0bcab52bc6fe829c25bbe8634e2a728, analysis\SequenceToolkit\MotifFinder\Scanner\ProbabilityScanner.vb"
 
     ' Author:
     ' 

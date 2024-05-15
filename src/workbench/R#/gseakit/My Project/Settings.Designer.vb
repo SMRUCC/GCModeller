@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1e839641362273f8c716f7fd0e1eb72, G:/GCModeller/src/workbench/R#/gseakit//My Project/Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::a1e839641362273f8c716f7fd0e1eb72, R#\gseakit\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 

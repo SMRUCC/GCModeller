@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76357f34bd09f6c4a1c3ddd66b042e4a, G:/GCModeller/src/workbench/modules/Knowledge_base/ncbi_kb//MeSH/DescriptorRecordSet.vb"
+﻿#Region "Microsoft.VisualBasic::76357f34bd09f6c4a1c3ddd66b042e4a, modules\Knowledge_base\ncbi_kb\MeSH\DescriptorRecordSet.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d399097a8c31caf169b1e138853217d2, G:/GCModeller/src/workbench/R#/gseakit//My Project/AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::d399097a8c31caf169b1e138853217d2, R#\gseakit\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 

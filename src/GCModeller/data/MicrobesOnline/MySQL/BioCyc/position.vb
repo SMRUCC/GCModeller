@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::441ffdead62e01fe2d28f84fd202e1ed, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/BioCyc/position.vb"
+﻿#Region "Microsoft.VisualBasic::441ffdead62e01fe2d28f84fd202e1ed, data\MicrobesOnline\MySQL\BioCyc\position.vb"
 
     ' Author:
     ' 

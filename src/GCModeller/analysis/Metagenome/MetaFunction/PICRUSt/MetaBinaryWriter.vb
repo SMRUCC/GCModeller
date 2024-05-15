@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01f5ea9819a0e5fc85de5d30ff579561, G:/GCModeller/src/GCModeller/analysis/Metagenome/MetaFunction//PICRUSt/MetaBinaryWriter.vb"
+﻿#Region "Microsoft.VisualBasic::01f5ea9819a0e5fc85de5d30ff579561, analysis\Metagenome\MetaFunction\PICRUSt\MetaBinaryWriter.vb"
 
     ' Author:
     ' 

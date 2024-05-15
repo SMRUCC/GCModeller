@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba67984fc2b635621e59dea9e7220e08, G:/GCModeller/src/interops/localblast/LocalBLAST//LocalBLAST/LocalBLAST/Application/BBH/Algorithm/FastMatch.vb"
+﻿#Region "Microsoft.VisualBasic::ba67984fc2b635621e59dea9e7220e08, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\FastMatch.vb"
 
     ' Author:
     ' 

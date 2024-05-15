@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51c9ea5f2b193774d17471479f80437c, G:/GCModeller/src/GCModeller/data/Reactome//Owl/Xref.vb"
+﻿#Region "Microsoft.VisualBasic::51c9ea5f2b193774d17471479f80437c, data\Reactome\Owl\Xref.vb"
 
     ' Author:
     ' 

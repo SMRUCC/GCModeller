@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf87dc2693caadf89027200847646028, G:/GCModeller/src/workbench/modules/ExperimentDesigner//DataAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::cf87dc2693caadf89027200847646028, modules\ExperimentDesigner\DataAnalysis.vb"
 
     ' Author:
     ' 

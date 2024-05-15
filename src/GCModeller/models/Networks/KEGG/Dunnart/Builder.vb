@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52b5102d080128894635970507eb71a8, G:/GCModeller/src/GCModeller/models/Networks/KEGG//Dunnart/Builder.vb"
+﻿#Region "Microsoft.VisualBasic::52b5102d080128894635970507eb71a8, models\Networks\KEGG\Dunnart\Builder.vb"
 
     ' Author:
     ' 

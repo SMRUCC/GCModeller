@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9599ed3b84f4a7cc497363de48a8262d, G:/GCModeller/src/GCModeller/analysis/Motifs/MotifGraph//Builder.vb"
+﻿#Region "Microsoft.VisualBasic::9599ed3b84f4a7cc497363de48a8262d, analysis\Motifs\MotifGraph\Builder.vb"
 
     ' Author:
     ' 

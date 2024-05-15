@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d3448f8f46ed37e9a826d17d413f10d, G:/GCModeller/src/GCModeller/data/Reactome//ObjectModels/Metabolite.vb"
+﻿#Region "Microsoft.VisualBasic::8d3448f8f46ed37e9a826d17d413f10d, data\Reactome\ObjectModels\Metabolite.vb"
 
     ' Author:
     ' 

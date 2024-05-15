@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dfbdd1ecbfe2c3092367c41c099e24a, G:/GCModeller/src/workbench/R#/rnaseq//zzz.vb"
+﻿#Region "Microsoft.VisualBasic::4dfbdd1ecbfe2c3092367c41c099e24a, R#\rnaseq\zzz.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f17bf170cec3dba506de4d71e4a99355, G:/GCModeller/src/GCModeller/analysis/Motifs/MotifGraph//DistanceGraph.vb"
+﻿#Region "Microsoft.VisualBasic::f17bf170cec3dba506de4d71e4a99355, analysis\Motifs\MotifGraph\DistanceGraph.vb"
 
     ' Author:
     ' 

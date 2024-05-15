@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b51c0df1ee86d1996ce2e81c82ac5049, G:/GCModeller/src/GCModeller/annotations/Proteomics//DEP.vb"
+﻿#Region "Microsoft.VisualBasic::b51c0df1ee86d1996ce2e81c82ac5049, annotations\Proteomics\DEP.vb"
 
     ' Author:
     ' 

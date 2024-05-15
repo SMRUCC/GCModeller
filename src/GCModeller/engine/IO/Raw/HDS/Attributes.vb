@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::423e18bba3a6e13868acc443d2b47600, G:/GCModeller/src/GCModeller/engine/IO/Raw//HDS/Attributes.vb"
+﻿#Region "Microsoft.VisualBasic::423e18bba3a6e13868acc443d2b47600, engine\IO\Raw\HDS\Attributes.vb"
 
     ' Author:
     ' 

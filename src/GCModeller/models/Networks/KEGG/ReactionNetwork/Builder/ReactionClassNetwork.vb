@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dddcb7c817a6490fb1bd114b892bb47, G:/GCModeller/src/GCModeller/models/Networks/KEGG//ReactionNetwork/Builder/ReactionClassNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::0dddcb7c817a6490fb1bd114b892bb47, models\Networks\KEGG\ReactionNetwork\Builder\ReactionClassNetwork.vb"
 
     ' Author:
     ' 

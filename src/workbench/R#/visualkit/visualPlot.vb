@@ -1,56 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::1bee5ed5e848de35c58633c359ea033e, G:/GCModeller/src/workbench/R#/visualkit//visualPlot.vb"
+﻿#Region "Microsoft.VisualBasic::f16aef973af66c9d0a02de127a595a57, R#\visualkit\visualPlot.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 895
-    '    Code Lines: 669
-    ' Comment Lines: 145
-    '   Blank Lines: 81
-    '     File Size: 40.51 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    ' Module visualPlot
-    ' 
-    '     Function: CategoryProfilePlots, class_heatmap, ClassChangePlot, colorBends, delete
-    '               DEMBarPlot, GoEnrichBubbles, KEGGCategoryProfile, KEGGCategoryProfilePlots, KEGGEnrichBubbles
-    '               keggEnrichmentBubble2, Plot, PlotCMeans3D, PlotExpressionPatterns, plotGSVA
-    '               plotSingle, toBubbles, VolcanoPlot
-    ' 
-    '     Sub: DrawSampleColorBend, Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 939
+'    Code Lines: 685
+' Comment Lines: 173
+'   Blank Lines: 81
+'     File Size: 43.31 KB
+
+
+' Module visualPlot
+' 
+'     Function: CategoryProfilePlots, class_heatmap, ClassChangePlot, colorBends, delete
+'               DEMBarPlot, GoEnrichBubbles, KEGGCategoryProfile, KEGGCategoryProfilePlots, KEGGEnrichBubbles
+'               keggEnrichmentBubble2, Plot, PlotCMeans3D, PlotExpressionPatterns, plotGSVA
+'               plotSingle, toBubbles, VolcanoPlot
+' 
+'     Sub: DrawSampleColorBend, Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -69,6 +69,8 @@ Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.ColorBrewer
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -98,12 +100,11 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object.Linq
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
+Imports featureFrame = Microsoft.VisualBasic.Math.DataFrame.DataFrame
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports std = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
-Imports featureFrame = Microsoft.VisualBasic.Math.DataFrame.DataFrame
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 
 ''' <summary>
 ''' package module for biological analysis data visualization
@@ -428,22 +429,73 @@ Module visualPlot
     <ExportAPI("kegg.enrichment.bubble2")>
     Public Function keggEnrichmentBubble2(terms As EnrichmentResult(),
                                           <RRawVectorArgument>
-                                          Optional size As Object = "2700,3800",
+                                          Optional size As Object = "12000,10000",
+                                          <RRawVectorArgument>
+                                          Optional padding As Object = "padding:300px 2500px 500px 300px;",
+                                          Optional colorset As String = SequentialSchemes.YlGnBu9,
+                                          Optional top_n As Integer = 9,
+                                          Optional mapLevels As Integer = 25,
+                                          Optional label_font As String = "font-style: normal; font-size: 42; font-family: " & FontFace.Verdana & ";",
+                                          Optional tick_font As String = "font-style: normal; font-size: 36; font-family: " & FontFace.Verdana & ";",
+                                          Optional axis_stroke As String = "stroke: black; stroke-width: 10px; stroke-dash: solid;",
+                                          Optional legend_title_font As String = "font-style: normal; font-size: 50; font-family: " & FontFace.Verdana & ";",
+                                          Optional grid_stroke As String = "stroke: lightgray; stroke-width: 10px; stroke-dash: dash;",
+                                          Optional dpi As Integer = 300,
                                           Optional env As Environment = Nothing) As Object
 
-        Dim theme As New Theme
-        Dim app As New EnrichmentCategoryBubble(terms, theme)
-        Dim size_val = InteropArgumentHelper.getSize(size, env, "2700,3800")
+        Dim padding_val As String = InteropArgumentHelper.getPadding(padding, [default]:="padding:500px 2000px 500px 300px;", env)
+        Dim size_val = InteropArgumentHelper.getSize(size, env, "6000,10000")
+        Dim theme As New Theme With {
+            .colorSet = colorset,
+            .padding = padding_val,
+            .axisLabelCSS = label_font,
+            .axisTickCSS = tick_font,
+            .axisStroke = axis_stroke,
+            .legendTitleCSS = legend_title_font,
+            .gridStrokeX = grid_stroke,
+            .gridStrokeY = grid_stroke
+        }
+        Dim app As New EnrichmentCategoryBubble(terms, theme, top_n:=top_n) With {
+            .mapLevels = mapLevels
+        }
 
-        Return app.Plot(size_val, driver:=env.getDriver)
+        Return app.Plot(size_val, dpi, driver:=env.getDriver)
     End Function
 
+    ''' <summary>
+    ''' plot the heatmap with kegg class information
+    ''' </summary>
+    ''' <param name="x">
+    ''' the molecule expression dataframe object, should contains the data of:
+    ''' 
+    ''' the row names in the dataframe is the molecule name labels and 
+    ''' all the column fields should be the expression value in different 
+    ''' samples.
+    ''' </param>
+    ''' <param name="metadata">
+    ''' the metadata for the molecules of given expression data <paramref name="x"/>, should contains the metadata fields of:
+    ''' 
+    ''' 1. class: a character vector of the kegg class labels, example as pathway names, module names, or orthology labels
+    ''' 2. logp: a numeric vector of the multiple group ANOVA test pvalue its log transform result of the molecules
+    ''' 3. VIP: a numeric vector of the multiple group pls-da VIP result value for the molecules
+    ''' 
+    ''' the data field name is case-sensitive.
+    ''' </param>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="size">the image size of the plot</param>
+    ''' <param name="padding">the padding of the plot region</param>
+    ''' <param name="label_font"></param>
+    ''' <param name="tick_font"></param>
+    ''' <param name="axisStroke"></param>
+    ''' <param name="dpi"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("class_heatmap")>
     Public Function class_heatmap(x As dataframe, metadata As dataframe, sampleinfo As SampleInfo(),
                                   <RRawVectorArgument>
                                   Optional size As Object = "10000,6500",
                                   <RRawVectorArgument>
-                                  Optional padding As Object = "padding: 300px 1600px 1200px 600px;",
+                                  Optional padding As Object = "padding: 300px 1600px 1200px 300px;",
                                   Optional label_font As String = "font-style: normal; font-size: 18; font-family: " & FontFace.BookmanOldStyle & ";",
                                   Optional tick_font As String = "font-style: normal; font-size: 12; font-family: " & FontFace.BookmanOldStyle & ";",
                                   Optional axisStroke As String = "stroke: black; stroke-width: 5px; stroke-dash: solid;",
@@ -473,7 +525,7 @@ Module visualPlot
             theme:=theme) With {
             .mapLevels = 30
         }
-        Dim size_str As String = InteropArgumentHelper.getSize(size, env, "3600,2700")
+        Dim size_str As String = InteropArgumentHelper.getSize(size, env, "10000,6500")
 
         Return heatmap.Plot(size_str.SizeParser, dpi, env.getDriver)
     End Function

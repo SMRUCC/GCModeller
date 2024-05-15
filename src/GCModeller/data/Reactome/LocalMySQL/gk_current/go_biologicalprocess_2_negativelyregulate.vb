@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b007180a4d58e0d5f4dd5804ebe6769, G:/GCModeller/src/GCModeller/data/Reactome//LocalMySQL/gk_current/go_biologicalprocess_2_negativelyregulate.vb"
+﻿#Region "Microsoft.VisualBasic::7b007180a4d58e0d5f4dd5804ebe6769, data\Reactome\LocalMySQL\gk_current\go_biologicalprocess_2_negativelyregulate.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::551802d04ad7b047559ebbacdef6bbe6, G:/GCModeller/src/GCModeller/annotations/GO//EnrichBubbles.vb"
+﻿#Region "Microsoft.VisualBasic::551802d04ad7b047559ebbacdef6bbe6, annotations\GO\EnrichBubbles.vb"
 
     ' Author:
     ' 

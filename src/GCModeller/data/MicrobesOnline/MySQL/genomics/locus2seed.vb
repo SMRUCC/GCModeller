@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e6cf89996ef0533bacd5be3e4c38ffb, G:/GCModeller/src/GCModeller/data/MicrobesOnline//MySQL/genomics/locus2seed.vb"
+﻿#Region "Microsoft.VisualBasic::1e6cf89996ef0533bacd5be3e4c38ffb, data\MicrobesOnline\MySQL\genomics\locus2seed.vb"
 
     ' Author:
     ' 
