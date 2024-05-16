@@ -161,6 +161,10 @@ Namespace Core
             Me._settings = settings
         End Sub
 
+        Public Function GetSettings() As Configuration
+            Return _settings
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteData(data As Byte())
             Call outputStream.BaseStream.Write(data, Scan0, data.Length)

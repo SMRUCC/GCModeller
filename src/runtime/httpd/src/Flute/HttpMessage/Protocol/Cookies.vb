@@ -82,5 +82,9 @@ Namespace Core.Message
             Return cookies.Keys.AsEnumerable.GetJson
         End Function
 
+        Public Function ToJSON() As String
+            Return cookies.GetJson
+        End Function
+
     End Class
 End Namespace

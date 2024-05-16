@@ -210,13 +210,13 @@ Namespace Core.HttpStream
                 Call loadjQueryPOST(fileName, parseJSON)
             Else
                 Using input As Stream = Me.GetSubStream()
-                    Call loadMultiPart(boundary, input)
+                    Call loadMultiPart(boundary, input, New ContentOutput With {.files = files, .form = Form}, ContentEncoding)
                 End Using
             End If
         End Sub
 
-        Private Sub loadMultiPart(boundary$, input As Stream)
-            Dim multi_part As New HttpMultipart(input, boundary, ContentEncoding)
+        Public Shared Sub loadMultiPart(boundary$, input As Stream, load As ContentOutput, Optional contentEncoding As Encoding = Nothing)
+            Dim multi_part As New HttpMultipart(input, boundary, contentEncoding)
             Dim read As New Value(Of StreamElement)
             Dim str As String
 
@@ -229,8 +229,8 @@ Namespace Core.HttpStream
                     input.Position = data.Start
                     input.Read(copy, 0, CInt(data.Length))
 
-                    str = ContentEncoding.GetString(copy)
-                    Call Form.Add(data.Name, str)
+                    str = contentEncoding.GetString(copy)
+                    load.form.Add(data.Name, str)
                 Else
                     '
                     ' We use a substream, as in 2.x we will support large uploads streamed to disk,
@@ -242,13 +242,20 @@ Namespace Core.HttpStream
                         data.Start,
                         data.Length)
 
-                    If Not files.ContainsKey(data.Name) Then
-                        files.Add(data.Name, New List(Of HttpPostedFile))
+                    If Not load.files.ContainsKey(data.Name) Then
+                        load.files.Add(data.Name, New List(Of HttpPostedFile))
                     End If
 
-                    files(data.Name) += [sub]
+                    load.files(data.Name) += [sub]
                 End If
             End While
         End Sub
+
+        Public Class ContentOutput
+
+            Public form As NameValueCollection
+            Public files As Dictionary(Of String, List(Of HttpPostedFile))
+
+        End Class
     End Class
 End Namespace
