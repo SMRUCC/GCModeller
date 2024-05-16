@@ -60,7 +60,7 @@ Namespace Core.Message
         ''' <summary>
         ''' all key names is in lower case
         ''' </summary>
-        ReadOnly cookies As Dictionary(Of String, String)
+        Dim cookies As Dictionary(Of String, String)
 
         Public Function CheckCookie(name As String) As Boolean
             Return cookies.ContainsKey(name.ToLower)
@@ -70,12 +70,30 @@ Namespace Core.Message
             Return cookies.TryGetValue(name.ToLower)
         End Function
 
+        Public Sub SetValue(name As String, value As String)
+            cookies(name) = value
+        End Sub
+
         Public Function GetReader() As StringReader
             Return StringReader.WrapDictionary(cookies)
         End Function
 
         Public Shared Function ParseCookies(cookies As String) As Cookies
+            If cookies.StringEmpty Then
+                Return New Cookies With {
+                    .cookies = New Dictionary(Of String, String)
+                }
+            Else
+                Dim t As String() = cookies.StringSplit("; ")
+                Dim kv = t.Select(Function(ti) ti.GetTagValue("=", trim:=True)) _
+                    .GroupBy(Function(ti) ti.Name.ToLower) _
+                    .ToDictionary(Function(ti) ti.Key,
+                                  Function(ti)
+                                      Return ti.Select(Function(s) s.Value).JoinBy("; ")
+                                  End Function)
 
+                Return New Cookies With {.cookies = kv}
+            End If
         End Function
 
         Public Overrides Function ToString() As String
