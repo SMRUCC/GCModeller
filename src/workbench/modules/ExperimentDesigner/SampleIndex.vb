@@ -42,4 +42,10 @@ Public Class SampleIndex
             .ToArray
     End Function
 
+    Public Function GetSampleColor(sample_id As IEnumerable(Of String)) As String()
+        Return sample_id _
+            .Select(Function(id) m_sampleindex(id).color) _
+            .ToArray
+    End Function
+
 End Class
