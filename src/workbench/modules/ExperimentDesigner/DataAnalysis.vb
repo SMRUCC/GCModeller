@@ -106,6 +106,10 @@ Public Class DataAnalysis
         End Get
     End Property
 
+    Sub New(samples As IEnumerable(Of SampleInfo))
+        designs = DataGroup.CreateDataGroups(samples).ToArray
+    End Sub
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return designs.Keys.JoinBy(" vs ")

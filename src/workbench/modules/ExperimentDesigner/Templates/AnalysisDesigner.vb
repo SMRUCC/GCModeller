@@ -75,19 +75,27 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Public Class AnalysisDesigner
 
     ''' <summary>
-    ''' 对照组
+    ''' the group label of controls.
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 对照组
+    ''' </remarks>
     <XmlAttribute("control")>
     Public Property controls As String
+
     ''' <summary>
-    ''' 处理组
+    ''' the group label of treatments. 
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 处理组
+    ''' </remarks>
     <XmlAttribute("treatment")>
     Public Property treatment As String
+
     ''' <summary>
-    ''' 用户备注信息，这个属性不会被使用
+    ''' 用户备注信息，这个属性一般不会被使用
     ''' </summary>
     ''' <returns></returns>
     <XmlText>
