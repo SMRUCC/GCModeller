@@ -1,7 +1,41 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\sampleindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\dataanalysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\templates\\samplegroup.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\templates\\time_series.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\templates\\sampletuple.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\templates\\sampleinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\templates\\analysisdesigner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\degmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\ideg.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\samplenames.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,15 +43,162 @@
       "DocumentGroups": [
         {
           "DockedWidth": 223,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SampleIndex.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\SampleIndex.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\SampleIndex.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\SampleIndex.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\SampleIndex.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-19T00:50:05.408Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Time_series.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\Time_series.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\Templates\\Time_series.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\Time_series.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\Templates\\Time_series.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-19T00:49:48.738Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SampleTuple.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleTuple.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\Templates\\SampleTuple.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleTuple.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\Templates\\SampleTuple.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-19T00:49:45.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SampleInfo.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "ViewState": "AQIAAEIAAAAAAAAAAADwvwAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-19T00:49:42.193Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SampleGroup.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleGroup.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\Templates\\SampleGroup.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleGroup.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\Templates\\SampleGroup.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-19T00:48:19.953Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AnalysisDesigner.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\AnalysisDesigner.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\Templates\\AnalysisDesigner.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\AnalysisDesigner.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\Templates\\AnalysisDesigner.vb",
+              "ViewState": "AQIAADwAAAAAAAAAAAAAAGEAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-19T00:47:02.705Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DataAnalysis.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "ViewState": "AQIAAEUAAAAAAAAAAAAuwGEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-19T00:46:41.617Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DEGModel.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\DEGModel.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\DEGModel.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\DEGModel.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\DEGModel.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-19T00:46:38.849Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Extensions.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\Extensions.vb",
+              "ViewState": "AQIAACoBAAAAAAAAAAAkwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-19T00:45:58.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Ideg.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Ideg.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\Ideg.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Ideg.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\Ideg.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADkAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-19T00:45:25.409Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "SampleNames.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\SampleNames.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\SampleNames.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\SampleNames.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\SampleNames.vb",
+              "ViewState": "AQIAAD8AAAAAAAAAAADwv1EAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-19T00:45:06.848Z",
+              "EditorCaption": ""
             }
           ]
         }
