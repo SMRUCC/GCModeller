@@ -82,7 +82,9 @@ Namespace AprioriRules.Impl
                                           <Parameter("Items")> items As IEnumerable(Of Item),
                                           <Parameter("Transactions")> transactions As ItemSet()) As Output
 
-            Dim frequentItems As List(Of TransactionTokensItem) = transactions.GetL1FrequentItems(minSupport, items.Select(Function(i) New ItemSet(i)).ToArray).AsList
+            Dim frequentItems As List(Of TransactionTokensItem) = transactions _
+                .GetL1FrequentItems(minSupport, items.Select(Function(i) New ItemSet(i)).ToArray) _
+                .AsList
             Dim allFrequentItems As Dictionary(Of ItemSet, TransactionTokensItem) = frequentItems.ToDictionary(Function(obj) obj.Name)
             Dim candidates As New Dictionary(Of ItemSet, Double)()
             Dim transactionsCount As Double = transactions.Length
@@ -114,7 +116,7 @@ Namespace AprioriRules.Impl
         Public Function GetL1FrequentItems(transactions As ItemSet(), minSupport#, items As ItemSet()) As IEnumerable(Of TransactionTokensItem)
             Dim transactionsCount As Double = transactions.Length
             Dim frequentItemsL1 = From item As ItemSet
-                                  In items
+                                  In items.AsParallel
                                   Let support As Double = GetSupport(item, transactions)
                                   Where support / transactionsCount >= minSupport
                                   Let t = New TransactionTokensItem() With {
