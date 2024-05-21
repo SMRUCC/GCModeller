@@ -122,7 +122,7 @@ Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.DataStorage.FeatherFormat.Impl
 
 ''' <summary>
-''' Utility class for addressing a <see cref="TypedDataFrameBase(OfTRowType)"/> rows.
+''' Utility class for addressing a <see cref="TypedDataFrameBase(Of TRowType)"/> rows.
 ''' </summary>
 Public Class TypedRowMap(Of TRow)
     Private Parent As TypedDataFrameBase(Of TRow)
@@ -250,7 +250,7 @@ Public MustInherit Class TypedDataFrameBase(Of TRowType)
     ''' <summary>
     ''' Return the value at the given row and column indexes.
     ''' 
-    ''' Will throw if the index is out of bounds.  Use <see cref="TryGetValue(Long,Long,Value)"/> for non-throwing gets.
+    ''' Will throw if the index is out of bounds.  Use <see cref="TryGetValue"/> for non-throwing gets.
     ''' </summary>
     Default Public ReadOnly Property Item(rowIndex As Long, columnIndex As Long) As Value Implements IDataFrame.Item
         Get
@@ -261,7 +261,7 @@ Public MustInherit Class TypedDataFrameBase(Of TRowType)
     ''' <summary>
     ''' Return the value at the given row index in the column with the given name.
     ''' 
-    ''' Will throw if the index is out of bounds or the column is not found.  Use <see cref="TryGetValue(Long,String,Value)"/> for non-throwing gets.
+    ''' Will throw if the index is out of bounds or the column is not found.  Use <see cref="TryGetValue"/> for non-throwing gets.
     ''' </summary>
     Default Public ReadOnly Property Item(rowIndex As Long, columnName As String) As Value Implements IDataFrame.Item
         Get
@@ -326,7 +326,8 @@ Public MustInherit Class TypedDataFrameBase(Of TRowType)
     End Function
 
     Friend Function TryGetRowTranslated(translatedRowIndex As Long, <Out> ByRef row As TRowType) As Boolean
-        Dim dynRow As Row
+        Dim dynRow As Row = Nothing
+
         If Not Inner.TryGetRowTranslated(translatedRowIndex, dynRow) Then
             row = Nothing
             Return False
@@ -369,7 +370,7 @@ Public NotInheritable Class TypedDataFrame(Of TCol1)
     End Sub
 
     ''' <summary>
-    ''' <see cref="TypedDataFrameBase(OfTRowType).MapRow(Row)"/>
+    ''' <see cref="TypedDataFrameBase(Of TRowType).MapRow(Row)"/>
     ''' </summary>
     Protected Friend Overrides Function MapRow(row As Row) As TypedRow(Of TCol1)
         Return New TypedRow(Of TCol1)(row)
@@ -420,7 +421,7 @@ Public NotInheritable Class TypedDataFrameType(Of TCol1, TCol2)
     End Sub
 
     ''' <summary>
-    ''' <see cref="TypedDataFrameBase(OfTRowType).MapRow(Row)"/>
+    ''' <see cref="TypedDataFrameBase(Of TRowType).MapRow(Row)"/>
     ''' </summary>
     Protected Friend Overrides Function MapRow(row As Row) As TypedRowType(Of TCol1, TCol2)
         Return New TypedRowType(Of TCol1, TCol2)(row)
@@ -486,7 +487,7 @@ Public NotInheritable Class TypedDataFrameType1(Of TCol1, TCol2, TCol3)
     End Sub
 
     ''' <summary>
-    ''' <see cref="TypedDataFrameBase(OfTRowType).MapRow(Row)"/>
+    ''' <see cref="TypedDataFrameBase(Of TRowType).MapRow(Row)"/>
     ''' </summary>
     Protected Friend Overrides Function MapRow(row As Row) As TypedRowType1(Of TCol1, TCol2, TCol3)
         Return New TypedRowType1(Of TCol1, TCol2, TCol3)(row)
@@ -568,7 +569,7 @@ Public NotInheritable Class TypedDataFrameType2(Of TCol1, TCol2, TCol3, TCol4)
     End Sub
 
     ''' <summary>
-    ''' <see cref="TypedDataFrameBase(OfTRowType).MapRow(Row)"/>
+    ''' <see cref="TypedDataFrameBase(Of TRowType).MapRow(Row)"/>
     ''' </summary>
     Protected Friend Overrides Function MapRow(row As Row) As TypedRowType2(Of TCol1, TCol2, TCol3, TCol4)
         Return New TypedRowType2(Of TCol1, TCol2, TCol3, TCol4)(row)
@@ -666,7 +667,7 @@ Public NotInheritable Class TypedDataFrameType3(Of TCol1, TCol2, TCol3, TCol4, T
     End Sub
 
     ''' <summary>
-    ''' <see cref="TypedDataFrameBase(OfTRowType).MapRow(Row)"/>
+    ''' <see cref="TypedDataFrameBase(Of TRowType).MapRow(Row)"/>
     ''' </summary>
     Protected Friend Overrides Function MapRow(row As Row) As TypedRowType3(Of TCol1, TCol2, TCol3, TCol4, TCol5)
         Return New TypedRowType3(Of TCol1, TCol2, TCol3, TCol4, TCol5)(row)
@@ -1022,35 +1023,35 @@ Public NotInheritable Class TypedDataFrameType6(Of TCol1, TCol2, TCol3, TCol4, T
 
     Friend Sub New(inner As DataFrame)
         MyBase.New(inner)
-        Dim inner1 As Column
+        Dim inner1 As Column = Nothing
         inner.TryGetColumnTranslated(0, inner1)
         Column1 = New TypedColumn(Of TCol1)(inner1)
 
-        Dim inner2 As Column
+        Dim inner2 As Column = Nothing
         inner.TryGetColumnTranslated(1, inner2)
         Column2 = New TypedColumn(Of TCol2)(inner2)
 
-        Dim inner3 As Column
+        Dim inner3 As Column = Nothing
         inner.TryGetColumnTranslated(2, inner3)
         Column3 = New TypedColumn(Of TCol3)(inner3)
 
-        Dim inner4 As Column
+        Dim inner4 As Column = Nothing
         inner.TryGetColumnTranslated(3, inner4)
         Column4 = New TypedColumn(Of TCol4)(inner4)
 
-        Dim inner5 As Column
+        Dim inner5 As Column = Nothing
         inner.TryGetColumnTranslated(4, inner5)
         Column5 = New TypedColumn(Of TCol5)(inner5)
 
-        Dim inner6 As Column
+        Dim inner6 As Column = Nothing
         inner.TryGetColumnTranslated(5, inner6)
         Column6 = New TypedColumn(Of TCol6)(inner6)
 
-        Dim inner7 As Column
+        Dim inner7 As Column = Nothing
         inner.TryGetColumnTranslated(6, inner7)
         Column7 = New TypedColumn(Of TCol7)(inner7)
 
-        Dim inner8 As Column
+        Dim inner8 As Column = Nothing
         inner.TryGetColumnTranslated(7, inner8)
         Column8 = New TypedColumn(Of TCol8)(inner8)
     End Sub
