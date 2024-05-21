@@ -170,12 +170,12 @@ Namespace AprioriRules.Impl
 
             Call VBDebugger.EchoLine("parallel build of the candidates...")
 
-            Dim candidates = parallelBuild _
-                .IteratesALL _
-                .ToDictionary(Function(item) item.Key,
-                              Function(item)
-                                  Return item.Value
-                              End Function)
+            Dim candidates As New Dictionary(Of ItemSet, Double)
+
+            For Each item In parallelBuild.ToArray.IteratesALL
+                candidates(item.Key) = item.Value
+            Next
+
             Return candidates
         End Function
 
