@@ -172,6 +172,8 @@ Namespace AprioriRules.Impl
 
             Dim candidates As New Dictionary(Of ItemSet, Double)
 
+            ' 20240521
+            ' ArgumentException: An item with the same key has already been added. Key: {10182_[M+CH3OH+H]+, 1024_[M-H]-}
             For Each item In parallelBuild.ToArray.IteratesALL
                 candidates(item.Key) = item.Value
             Next
