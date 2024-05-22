@@ -101,6 +101,8 @@ Namespace Core.Message
             End Get
         End Property
 
+        Dim m_cookies As Cookies
+
         ''' <summary>
         ''' Get from <see cref="URL"/>
         ''' </summary>
@@ -146,9 +148,11 @@ Namespace Core.Message
         End Function
 
         Public Function GetCookies() As Cookies
-            Dim cookie_str As String = HttpHeaders.TryGetValue(RequestHeaders.Cookie)
-            Dim data As Cookies = Cookies.ParseCookies(cookie_str)
-            Return data
+            If m_cookies Is Nothing Then
+                m_cookies = Cookies.ParseCookies(HttpHeaders.TryGetValue(RequestHeaders.Cookie))
+            End If
+
+            Return m_cookies
         End Function
 
         Public Overridable Function HasValue(name As String) As Boolean

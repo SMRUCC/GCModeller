@@ -36,14 +36,14 @@ Public Class SessionFile
             End Using
             Using s As New FileStream(datafile, FileMode.Open)
                 s.Seek(lastBlock.nextBlock, SeekOrigin.Begin)
-                s.Write(data)
+                s.Write(data, 0, data.Length)
                 s.Flush()
             End Using
         ElseIf data.Length = region.size Then
             ' overrides
             Using s As New BinaryDataWriter(New FileStream(datafile, FileMode.Open), Encoding.ASCII)
                 s.Seek(region.position, SeekOrigin.Begin)
-                s.Write(data)
+                s.Write(data, 0, data.Length)
                 s.Flush()
             End Using
         ElseIf data.Length < region.size Then
@@ -55,7 +55,7 @@ Public Class SessionFile
             End Using
             Using s As New BinaryDataWriter(New FileStream(datafile, FileMode.Open), Encoding.ASCII)
                 s.Seek(region.position, SeekOrigin.Begin)
-                s.Write(data)
+                s.Write(data, 0, data.Length)
                 s.Flush()
             End Using
         Else
@@ -65,7 +65,7 @@ Public Class SessionFile
             Using s As New BinaryDataWriter(New FileStream(datafile, FileMode.Open), Encoding.ASCII)
                 s.Seek(s.BaseStream.Length, SeekOrigin.Begin)
                 dataOffset = s.Position
-                s.Write(data)
+                s.Write(data, 0, data.Length)
                 s.Flush()
             End Using
             Using s As New BinaryDataWriter(New FileStream(keyfile, FileMode.Open), Encoding.ASCII)
