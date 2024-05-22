@@ -95,7 +95,7 @@ Namespace AprioriRules.Impl
                 frequentItems = candidates.GetFrequentItems(minSupport, transactionsCount)
 
                 For Each item As TransactionTokensItem In frequentItems
-                    Call allFrequentItems.Add(item.Name, item)
+                    allFrequentItems(item.Name) = item
                 Next
 
                 Call VBDebugger.EchoLine($" ..... {frequentItems.Count} / {allFrequentItems.Count}")
