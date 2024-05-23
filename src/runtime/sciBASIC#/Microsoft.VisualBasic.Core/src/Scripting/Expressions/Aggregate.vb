@@ -63,6 +63,8 @@ Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Namespace Scripting.Expressions
 
     Public Enum Aggregates
+        Invalid
+
         Min
         Max
         ''' <summary>
@@ -85,6 +87,10 @@ Namespace Scripting.Expressions
             aggregateFlags("average") = Aggregates.Mean
             aggregateFlags("avg") = Aggregates.Mean
         End Sub
+
+        Public Function ParseFlag(name As String) As Aggregates
+            Return aggregateFlags.TryGetValue(LCase(name), [default]:=Aggregates.Invalid)
+        End Function
 
         ''' <summary>
         ''' Get ``Aggregate`` function by term.
