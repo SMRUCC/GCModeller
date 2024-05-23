@@ -5,7 +5,7 @@ Public Module group_test
 
     Sub RunGroup()
         Dim asc_chars = ASCII.AlphaNumericTable.Keys.Select(Function(c) c.ToString).ToArray
-        Dim chars = Enumerable.Range(0, 170000).Select(Function(a) randf.Next(asc_chars)).ToArray
+        Dim chars = Enumerable.Range(0, 700000).Select(Function(a) randf.Next(asc_chars)).ToArray
 
         Dim groupBy = chars.GroupBy(Function(s) s).ToDictionary(Function(s) s.Key, Function(s) s.Count)
         Dim dict_group As New Dictionary(Of String, List(Of String))
