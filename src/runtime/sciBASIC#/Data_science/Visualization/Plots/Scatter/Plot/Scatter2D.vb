@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45020c57ca884d13ea38cec53503d5b6, Data_science\Visualization\Plots\Scatter\Plot\Scatter2D.vb"
+﻿#Region "Microsoft.VisualBasic::d3dcf86f35a02778421af668124198fe, Data_science\Visualization\Plots\Scatter\Plot\Scatter2D.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 282
-    '    Code Lines: 216
-    ' Comment Lines: 27
-    '   Blank Lines: 39
-    '     File Size: 12.13 KB
+    '   Total Lines: 306
+    '    Code Lines: 222 (72.55%)
+    ' Comment Lines: 42 (13.73%)
+    '    - Xml Docs: 64.29%
+    ' 
+    '   Blank Lines: 42 (13.73%)
+    '     File Size: 13.23 KB
 
 
     '     Class Scatter2D
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: DrawScatter, GetDataScaler
+    '         Function: (+2 Overloads) DrawScatter, GetDataScaler
     ' 
     '         Sub: PlotInternal
     ' 
@@ -199,6 +201,30 @@ Namespace Plots
             }
         End Function
 
+        Public Shared Function DrawScatter(g As IGraphics, cluster As SerialData, scaler As DataScaler,
+                                           Optional fillPie As Boolean = True,
+                                           Optional strokeCss As Stroke = Nothing) As IEnumerable(Of PointF)
+
+            Dim color As Brush = New SolidBrush(cluster.color)
+
+            Return DrawScatter(g, cluster.pts, scaler, fillPie, cluster.shape, cluster.pointSize, Function(a) color, strokeCss)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="scatter"></param>
+        ''' <param name="scaler"></param>
+        ''' <param name="fillPie"></param>
+        ''' <param name="shape"></param>
+        ''' <param name="pointSize"></param>
+        ''' <param name="getPointBrush"></param>
+        ''' <param name="strokeCss"></param>
+        ''' <returns>
+        ''' this function will populate out a collection of the translated points 
+        ''' for draw hull polygon if needed.
+        ''' </returns>
         Public Shared Iterator Function DrawScatter(g As IGraphics,
                                                     scatter As IEnumerable(Of PointData),
                                                     scaler As DataScaler,

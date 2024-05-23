@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10135370b700349295912b41274ce29b, Data\BinaryData\Feather\Impl\IRow.vb"
+﻿#Region "Microsoft.VisualBasic::9d4e9607afc9e8796d990df89034e490, Data\BinaryData\Feather\Impl\IRow.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 21
-    '    Code Lines: 16
-    ' Comment Lines: 0
-    '   Blank Lines: 5
-    '     File Size: 951 B
+    '    Code Lines: 16 (76.19%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (23.81%)
+    '     File Size: 949 B
 
 
     '     Interface IRow
@@ -75,4 +77,3 @@ Namespace Impl
         Sub GetRange(columnSourceIndex As Long, length As Integer, ByRef array As Value(), destinationIndex As Integer)
     End Interface
 End Namespace
-

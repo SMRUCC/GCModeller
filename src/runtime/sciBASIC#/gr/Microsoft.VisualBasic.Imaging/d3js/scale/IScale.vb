@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fefaaca1a8066ba0fc93d76f473c8efd, gr\Microsoft.VisualBasic.Imaging\d3js\scale\IScale.vb"
+﻿#Region "Microsoft.VisualBasic::8d3f493bf5afd96dd5d3c3ec7a9493c1, gr\Microsoft.VisualBasic.Imaging\d3js\scale\IScale.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 138
-    '    Code Lines: 61
-    ' Comment Lines: 58
-    '   Blank Lines: 19
-    '     File Size: 5.35 KB
+    '   Total Lines: 140
+    '    Code Lines: 61 (43.57%)
+    ' Comment Lines: 60 (42.86%)
+    '    - Xml Docs: 98.33%
+    ' 
+    '   Blank Lines: 19 (13.57%)
+    '     File Size: 5.40 KB
 
 
     '     Class Scaler
@@ -164,10 +166,12 @@ Namespace d3js.scale
         ''' domain value to the second range value, and so on. If there are fewer elements in the range 
         ''' than in the domain, the scale will reuse values from the start of the range. If range is 
         ''' not specified, this method returns the current range.
-        ''' (设置绘图的实际的像素区间)
         ''' </summary>
         ''' <param name="values"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (设置绘图的实际的像素区间)
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Function range(Optional values As IEnumerable(Of Double) = Nothing) As T
             _range = (values Or defaultRange).Range

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa9b4acda25702dd9e543160ad9e394f, Data\BinaryData\Feather\ProxyDataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::cdc3e8748db4d7f6ef5f4c8bd2d454b3, Data\BinaryData\Feather\ProxyDataFrame.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 264
-    '    Code Lines: 138
-    ' Comment Lines: 95
-    '   Blank Lines: 31
+    '    Code Lines: 138 (52.27%)
+    ' Comment Lines: 95 (35.98%)
+    '    - Xml Docs: 86.32%
+    ' 
+    '   Blank Lines: 31 (11.74%)
     '     File Size: 9.51 KB
 
 
@@ -323,4 +325,3 @@ Public NotInheritable Class ProxyDataFrame(Of TProxyType)
         Return Mapper(row, toRet)
     End Function
 End Class
-

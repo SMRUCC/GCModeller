@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11a7007158d3fbc3ec8006d95f76043d, Data\BinaryData\Feather\Impl\Flatbuffers\IFlatbufferObject.vb"
+﻿#Region "Microsoft.VisualBasic::a77279fefc0374bc033de2e71d8009f8, Data\BinaryData\Feather\Impl\Flatbuffers\IFlatbufferObject.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 26
-    '    Code Lines: 6
-    ' Comment Lines: 17
-    '   Blank Lines: 3
-    '     File Size: 929 B
+    '    Code Lines: 6 (23.08%)
+    ' Comment Lines: 17 (65.38%)
+    '    - Xml Docs: 17.65%
+    ' 
+    '   Blank Lines: 3 (11.54%)
+    '     File Size: 927 B
 
 
     '     Interface IFlatbufferObject
@@ -78,4 +80,3 @@ Namespace FlatBuffers
         ReadOnly Property ByteBuffer As ByteBuffer
     End Interface
 End Namespace
-

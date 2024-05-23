@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5641f656258ca8bb3113a4cb17b0f026, Data\BinaryData\Feather\Impl\Metadata\Type.vb"
+﻿#Region "Microsoft.VisualBasic::59d017cd9c9a541c087e8847d51f5945, Data\BinaryData\Feather\Impl\Metadata\Type.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 26
-    '    Code Lines: 21
-    ' Comment Lines: 1
-    '   Blank Lines: 4
-    '     File Size: 507 B
+    '    Code Lines: 21 (80.77%)
+    ' Comment Lines: 1 (3.85%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (15.38%)
+    '     File Size: 505 B
 
 
     '     Enum Type
@@ -79,4 +81,3 @@ Namespace Impl.FbsMetadata
 
 
 End Namespace
-

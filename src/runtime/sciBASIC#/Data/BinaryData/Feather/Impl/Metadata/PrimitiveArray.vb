@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd46130444ab313babb576874efde4b6, Data\BinaryData\Feather\Impl\Metadata\PrimitiveArray.vb"
+﻿#Region "Microsoft.VisualBasic::fd3b4c240fd02837f1b1042215a3e37c, Data\BinaryData\Feather\Impl\Metadata\PrimitiveArray.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 111
-    '    Code Lines: 97
-    ' Comment Lines: 6
-    '   Blank Lines: 8
+    '    Code Lines: 97 (87.39%)
+    ' Comment Lines: 6 (5.41%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 8 (7.21%)
     '     File Size: 4.84 KB
 
 
@@ -167,4 +169,3 @@ Namespace Impl.FbsMetadata
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07d0a0bbbf1015e1ffd2644a049d439c, Data\BinaryData\Feather\ColumnEnumerable.vb"
+﻿#Region "Microsoft.VisualBasic::ebfc179a2953377680e9dbf0a653d107, Data\BinaryData\Feather\ColumnEnumerable.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 88
-    '    Code Lines: 53
-    ' Comment Lines: 21
-    '   Blank Lines: 14
+    '    Code Lines: 53 (60.23%)
+    ' Comment Lines: 21 (23.86%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (15.91%)
     '     File Size: 2.60 KB
 
 
@@ -148,4 +150,3 @@ Public Class ColumnEnumerator
         Index = -1
     End Sub
 End Class
-

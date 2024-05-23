@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c16a0c5a65e8d3754092216f0117813, Data\BinaryData\Feather\Impl\Metadata.vb"
+﻿#Region "Microsoft.VisualBasic::36bbfff6650bbd53ad3214a67474223e, Data\BinaryData\Feather\Impl\Metadata.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 6
-    '    Code Lines: 6
-    ' Comment Lines: 0
-    '   Blank Lines: 0
-    '     File Size: 163 B
+    '    Code Lines: 6 (100.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 0 (0.00%)
+    '     File Size: 161 B
 
 
     '     Class Metadata
@@ -56,4 +58,3 @@ Namespace Impl
         Public Property Columns As ColumnSpec()
     End Class
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76adb13ef1d7dc7b8ca7e236a6a320c8, Data\BinaryData\Feather\Value.vb"
+﻿#Region "Microsoft.VisualBasic::7be2324ea88806e5ef1a106ce1101276, Data\BinaryData\Feather\Value.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 2109
-    '    Code Lines: 1592
-    ' Comment Lines: 64
-    '   Blank Lines: 453
+    '    Code Lines: 1592 (75.49%)
+    ' Comment Lines: 64 (3.03%)
+    '    - Xml Docs: 60.94%
+    ' 
+    '   Blank Lines: 453 (21.48%)
     '     File Size: 83.27 KB
 
 
@@ -2163,4 +2165,3 @@ Public Class Value
         Return CategoryEquals(a, b)
     End Function
 End Class
-

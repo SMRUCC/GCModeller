@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::958c568fbe6501264a7d00fb55c968f5, Data\BinaryData\Feather\Impl\IColumn.vb"
+﻿#Region "Microsoft.VisualBasic::3c5b6baf20a2d41a29c7182cba947175, Data\BinaryData\Feather\Impl\IColumn.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 33
-    '    Code Lines: 26
-    ' Comment Lines: 0
-    '   Blank Lines: 7
+    '    Code Lines: 26 (78.79%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (21.21%)
     '     File Size: 1.58 KB
 
 
@@ -87,4 +89,3 @@ Namespace Impl
         Function TryGetValueCell(rowIndex As Long, <Out> ByRef value As Value) As Boolean
     End Interface
 End Namespace
-

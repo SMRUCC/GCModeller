@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c572dca268b20152ee644eb70b3dc332, Data\BinaryData\Feather\Impl\Metadata\TimestampMetadata.vb"
+﻿#Region "Microsoft.VisualBasic::20eff7b09e7e9a4d9e1c2a11060d49d4, Data\BinaryData\Feather\Impl\Metadata\TimestampMetadata.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 72
-    '    Code Lines: 60
-    ' Comment Lines: 3
-    '   Blank Lines: 9
-    '     File Size: 3.14 KB
+    '    Code Lines: 60 (83.33%)
+    ' Comment Lines: 3 (4.17%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 9 (12.50%)
+    '     File Size: 3.13 KB
 
 
     '     Class TimestampMetadata
@@ -126,4 +128,3 @@ Namespace Impl.FbsMetadata
 
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bc74fb830b377ea381d36695e990f9d, Microsoft.VisualBasic.Core\src\Net\HTTP\URL.vb"
+﻿#Region "Microsoft.VisualBasic::f6d7d111ae2420059241bea021642933, Microsoft.VisualBasic.Core\src\Net\HTTP\URL.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 179
-    '    Code Lines: 132
-    ' Comment Lines: 25
-    '   Blank Lines: 22
-    '     File Size: 6.62 KB
+    '   Total Lines: 199
+    '    Code Lines: 149 (74.87%)
+    ' Comment Lines: 25 (12.56%)
+    '    - Xml Docs: 72.00%
+    ' 
+    '   Blank Lines: 25 (12.56%)
+    '     File Size: 7.35 KB
 
 
     '     Class URL
@@ -48,7 +50,7 @@
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: BuildUrl, GetValues, Parse, ToString, UrlQueryString
+    '         Function: BuildUrl, GetValues, Parse, (+2 Overloads) ToString, UrlQueryString
     ' 
     '         Sub: Parser
     ' 
@@ -57,6 +59,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -130,8 +133,27 @@ Namespace Net.Http
             Return query.Select(Function(q) q.Value.Select(Function(val) $"{q.Key}={UrlEncode(val)}")).IteratesALL.JoinBy("&")
         End Function
 
+        Public Overloads Function ToString(addHostName As Boolean) As String
+            Dim host_prefix As String = $"{protocol}{hostName}:{port}"
+            Dim url As String = $"/{path}?{UrlQueryString()}#{hashcode}".Trim("#"c, "?"c)
+            Dim is_file As Boolean = (Not path.StringEmpty) AndAlso
+                (path.Last <> "/"c) AndAlso
+                (Not path.ExtensionSuffix.StringEmpty)
+
+            If is_file Then
+                url = "/" & url.Trim("/"c)
+            End If
+
+            If addHostName Then
+                Return host_prefix & url
+            Else
+                Return url
+            End If
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return $"{protocol}{hostName}:{port}/{path}?{UrlQueryString()}#{hashcode}"
+            Return ToString(addHostName:=True)
         End Function
 
         Private Shared Sub Parser(url As String,

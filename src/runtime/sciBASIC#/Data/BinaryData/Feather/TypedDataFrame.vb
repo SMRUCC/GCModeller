@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e4a1ed1251f17581cb3798ba97fd020, Data\BinaryData\Feather\TypedDataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::ff0f552a302a6021ea06fefb7f5562dd, Data\BinaryData\Feather\TypedDataFrame.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 944
-    '    Code Lines: 592
-    ' Comment Lines: 237
-    '   Blank Lines: 115
-    '     File Size: 30.92 KB
+    '   Total Lines: 945
+    '    Code Lines: 592 (62.65%)
+    ' Comment Lines: 237 (25.08%)
+    '    - Xml Docs: 96.20%
+    ' 
+    '   Blank Lines: 116 (12.28%)
+    '     File Size: 30.98 KB
 
 
     ' Class TypedRowMap
@@ -1063,4 +1065,3 @@ Public NotInheritable Class TypedDataFrameType6(Of TCol1, TCol2, TCol3, TCol4, T
         Return New TypedRowType6(Of TCol1, TCol2, TCol3, TCol4, TCol5, TCol6, TCol7, TCol8)(row)
     End Function
 End Class
-

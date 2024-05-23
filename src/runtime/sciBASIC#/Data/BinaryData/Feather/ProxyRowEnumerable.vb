@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74c1deb684a914ee14d53ac451e54955, Data\BinaryData\Feather\ProxyRowEnumerable.vb"
+﻿#Region "Microsoft.VisualBasic::8abb11e1bf0c90abfd71f19c1d3c553d, Data\BinaryData\Feather\ProxyRowEnumerable.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 91
-    '    Code Lines: 55
-    ' Comment Lines: 21
-    '   Blank Lines: 15
+    '    Code Lines: 55 (60.44%)
+    ' Comment Lines: 21 (23.08%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (16.48%)
     '     File Size: 2.80 KB
 
 
@@ -151,4 +153,3 @@ Public Class ProxyRowEnumerator(Of TProxyType)
         Index = -1
     End Sub
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dd46c090f71e377df3076e1132bcb42, Data\BinaryData\Feather\DataFrame.Mapping.vb"
+﻿#Region "Microsoft.VisualBasic::c375f4f7ecb300642b6cee7366f9b3bb, Data\BinaryData\Feather\DataFrame.Mapping.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 686
-    '    Code Lines: 448
-    ' Comment Lines: 124
-    '   Blank Lines: 114
+    '    Code Lines: 448 (65.31%)
+    ' Comment Lines: 124 (18.08%)
+    '    - Xml Docs: 74.19%
+    ' 
+    '   Blank Lines: 114 (16.62%)
     '     File Size: 31.09 KB
 
 
@@ -736,4 +738,3 @@ Partial Public Class DataFrame
         Return True
     End Function
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa7ba46b01c2161062f0e64ced158c0b, Data\BinaryData\Feather\Impl\EnumMapper.vb"
+﻿#Region "Microsoft.VisualBasic::d99a17e89261a847799e906959bdebb9, Data\BinaryData\Feather\Impl\EnumMapper.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 58
-    '    Code Lines: 50
-    ' Comment Lines: 1
-    '   Blank Lines: 7
+    '    Code Lines: 50 (86.21%)
+    ' Comment Lines: 1 (1.72%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (12.07%)
     '     File Size: 2.51 KB
 
 
@@ -109,4 +111,3 @@ Namespace Impl
         End Function
     End Class
 End Namespace
-

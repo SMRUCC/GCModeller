@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34eb303dc126b0c43747c9800ad89fd4, Data\BinaryData\Feather\TypedRowEnumerable.vb"
+﻿#Region "Microsoft.VisualBasic::66ce701c92c51145fab8515ef341fd48, Data\BinaryData\Feather\TypedRowEnumerable.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 91
-    '    Code Lines: 55
-    ' Comment Lines: 21
-    '   Blank Lines: 15
-    '     File Size: 2.70 KB
+    '    Code Lines: 55 (60.44%)
+    ' Comment Lines: 21 (23.08%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (16.48%)
+    '     File Size: 2.69 KB
 
 
     ' Class TypedRowEnumerator
@@ -151,4 +153,3 @@ Public Class TypedRowEnumerable(Of TRow)
         Return GetEnumerator()
     End Function
 End Class
-

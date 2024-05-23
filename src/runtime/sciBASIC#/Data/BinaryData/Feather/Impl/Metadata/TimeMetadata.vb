@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf3bdc134a87c1c61a970f22ed0ddd05, Data\BinaryData\Feather\Impl\Metadata\TimeMetadata.vb"
+﻿#Region "Microsoft.VisualBasic::004f3199b8c82527bfd9a55dc92c9a8c, Data\BinaryData\Feather\Impl\Metadata\TimeMetadata.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 56
-    '    Code Lines: 47
-    ' Comment Lines: 1
-    '   Blank Lines: 8
+    '    Code Lines: 47 (83.93%)
+    ' Comment Lines: 1 (1.79%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (14.29%)
     '     File Size: 2.28 KB
 
 
@@ -110,4 +112,3 @@ Namespace Impl.FbsMetadata
 
 
 End Namespace
-

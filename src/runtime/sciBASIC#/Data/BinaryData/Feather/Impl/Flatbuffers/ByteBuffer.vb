@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8985222371daf8cb9fe8b756d5860f3b, Data\BinaryData\Feather\Impl\Flatbuffers\ByteBuffer.vb"
+﻿#Region "Microsoft.VisualBasic::85bad879db0daed513d5733afa583538, Data\BinaryData\Feather\Impl\Flatbuffers\ByteBuffer.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 263
-    '    Code Lines: 183
-    ' Comment Lines: 37
-    '   Blank Lines: 43
+    '    Code Lines: 183 (69.58%)
+    ' Comment Lines: 37 (14.07%)
+    '    - Xml Docs: 8.11%
+    ' 
+    '   Blank Lines: 43 (16.35%)
     '     File Size: 10.13 KB
 
 
@@ -323,4 +325,3 @@ Namespace FlatBuffers
 #End If
     End Class
 End Namespace
-

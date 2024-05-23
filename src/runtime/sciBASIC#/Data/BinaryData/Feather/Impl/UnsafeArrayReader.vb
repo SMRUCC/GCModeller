@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::339ac62392fa35348059872eeb247db2, Data\BinaryData\Feather\Impl\UnsafeArrayReader.vb"
+﻿#Region "Microsoft.VisualBasic::f5c511fb8ed973f8a87c1779c11f41a4, Data\BinaryData\Feather\Impl\UnsafeArrayReader.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 31
-    '    Code Lines: 25
-    ' Comment Lines: 0
-    '   Blank Lines: 6
-    '     File Size: 1.75 KB
+    '    Code Lines: 25 (80.65%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (19.35%)
+    '     File Size: 1.74 KB
 
 
     '     Class UnsafeArrayReader
@@ -82,4 +84,3 @@ Namespace Impl
         End Sub
     End Class
 End Namespace
-

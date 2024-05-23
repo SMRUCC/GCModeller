@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9524e6ad4bc151e89905e83dbfcff0a6, Data\BinaryData\Feather\Impl\EnumDetails.vb"
+﻿#Region "Microsoft.VisualBasic::188d2802ba35a021821cac63880aeb07, Data\BinaryData\Feather\Impl\EnumDetails.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 118
-    '    Code Lines: 96
-    ' Comment Lines: 3
-    '   Blank Lines: 19
-    '     File Size: 5.34 KB
+    '    Code Lines: 96 (81.36%)
+    ' Comment Lines: 3 (2.54%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 19 (16.10%)
+    '     File Size: 5.33 KB
 
 
     '     Module EnumDetails
@@ -169,4 +171,3 @@ Namespace Impl
         End Function
     End Module
 End Namespace
-

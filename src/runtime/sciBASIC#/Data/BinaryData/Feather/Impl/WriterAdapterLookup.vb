@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17254d0a0d7fecde20c5b659459315f6, Data\BinaryData\Feather\Impl\WriterAdapterLookup.vb"
+﻿#Region "Microsoft.VisualBasic::ad981123c51e4cb0cd4c632f75e13303, Data\BinaryData\Feather\Impl\WriterAdapterLookup.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 329
-    '    Code Lines: 261
-    ' Comment Lines: 9
-    '   Blank Lines: 59
-    '     File Size: 21.41 KB
+    '    Code Lines: 261 (79.33%)
+    ' Comment Lines: 9 (2.74%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 59 (17.93%)
+    '     File Size: 21.40 KB
 
 
     '     Module WriterAdapterLookup
@@ -403,4 +405,3 @@ Namespace Impl
         End Function
     End Module
 End Namespace
-

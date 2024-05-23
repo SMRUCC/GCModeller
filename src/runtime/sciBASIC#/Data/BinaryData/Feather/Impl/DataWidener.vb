@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c0a3ba070f7ea3f34b6f2d815e305d80, Data\BinaryData\Feather\Impl\DataWidener.vb"
+﻿#Region "Microsoft.VisualBasic::3e3471ec89e44460827bc74b957f74c1, Data\BinaryData\Feather\Impl\DataWidener.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 1191
-    '    Code Lines: 957
-    ' Comment Lines: 5
-    '   Blank Lines: 229
+    '    Code Lines: 957 (80.35%)
+    ' Comment Lines: 5 (0.42%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 229 (19.23%)
     '     File Size: 43.37 KB
 
 
@@ -1248,4 +1250,3 @@ Namespace Impl
         End Function
     End Module
 End Namespace
-

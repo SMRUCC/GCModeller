@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a65edb106cd2e36ba384432a33596994, Data\BinaryData\Feather\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::bad0c2c879e73568aab99b69e83032a4, Data\BinaryData\Feather\DataFrame.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 634
-    '    Code Lines: 419
-    ' Comment Lines: 102
-    '   Blank Lines: 113
+    '    Code Lines: 419 (66.09%)
+    ' Comment Lines: 102 (16.09%)
+    '    - Xml Docs: 77.45%
+    ' 
+    '   Blank Lines: 113 (17.82%)
     '     File Size: 24.59 KB
 
 
@@ -694,4 +696,3 @@ Partial Public Class DataFrame
         Return (boolByte And bitMask) <> 0
     End Function
 End Class
-

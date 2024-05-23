@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10ae7a4aa78e92a49cff836812e0305c, Data\BinaryData\Feather\Impl\ValueCaster.vb"
+﻿#Region "Microsoft.VisualBasic::e9925c404af2a94c25633997d3552f4c, Data\BinaryData\Feather\Impl\ValueCaster.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 63
-    '    Code Lines: 49
-    ' Comment Lines: 0
-    '   Blank Lines: 14
+    '    Code Lines: 49 (77.78%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (22.22%)
     '     File Size: 2.94 KB
 
 
@@ -114,4 +116,3 @@ Namespace Impl
         End Function
     End Class
 End Namespace
-

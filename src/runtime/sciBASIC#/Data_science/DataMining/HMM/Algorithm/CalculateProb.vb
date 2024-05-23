@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b269572ddb20e9b52d4e244c892a1b6d, Data_science\DataMining\HMM\Algorithm\CalculateProb.vb"
+﻿#Region "Microsoft.VisualBasic::b269572ddb20e9b52d4e244c892a1b6d, Data_science\DataMining\HMM\Algorithm\calculateProb.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 31
-    '    Code Lines: 25
-    ' Comment Lines: 0
-    '   Blank Lines: 6
+    '    Code Lines: 25 (80.65%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (19.35%)
     '     File Size: 1.09 KB
 
 

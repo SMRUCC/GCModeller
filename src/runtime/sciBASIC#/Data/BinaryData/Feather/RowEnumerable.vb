@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::501c89262cf4145dba905d4e1750d6bf, Data\BinaryData\Feather\RowEnumerable.vb"
+﻿#Region "Microsoft.VisualBasic::3dbaf6be001f327deb8c29f944e5ba22, Data\BinaryData\Feather\RowEnumerable.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 88
-    '    Code Lines: 53
-    ' Comment Lines: 21
-    '   Blank Lines: 14
+    '    Code Lines: 53 (60.23%)
+    ' Comment Lines: 21 (23.86%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (15.91%)
     '     File Size: 2.49 KB
 
 
@@ -148,4 +150,3 @@ Public Class RowEnumerator
         Index = -1
     End Sub
 End Class
-

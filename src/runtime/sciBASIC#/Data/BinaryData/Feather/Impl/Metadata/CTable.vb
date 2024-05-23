@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::687a5435d10cf5ac33f52b4167f2c968, Data\BinaryData\Feather\Impl\Metadata\CTable.vb"
+﻿#Region "Microsoft.VisualBasic::9c08259a6843320a706719233e4cae9e, Data\BinaryData\Feather\Impl\Metadata\CTable.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 125
-    '    Code Lines: 110
-    ' Comment Lines: 4
-    '   Blank Lines: 11
+    '    Code Lines: 110 (88.00%)
+    ' Comment Lines: 4 (3.20%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 11 (8.80%)
     '     File Size: 5.53 KB
 
 
@@ -182,4 +184,3 @@ Namespace Impl.FbsMetadata
 
 
 End Namespace
-

@@ -121,7 +121,12 @@ Namespace Core.Message
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Redirect(url As String)
-            Call WriteHTML(<script>window.location='%s';</script>, url)
+            Call response.WriteLine($"HTTP/1.0 302 Found")
+            Call response.WriteLine($"Location: {url}")
+
+            ' this terminates the HTTP headers.. everything after this is HTTP body..
+            Call response.WriteLine()
+            Call response.Flush()
         End Sub
 
         Public Sub WriteHeader(MIMEType As String, contentLength As Integer)

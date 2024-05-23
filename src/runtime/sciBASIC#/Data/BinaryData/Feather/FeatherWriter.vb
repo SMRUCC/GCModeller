@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53dc92f60eb7212c25cd21786e9fc5df, Data\BinaryData\Feather\FeatherWriter.vb"
+﻿#Region "Microsoft.VisualBasic::d1576f2c5f82aca3cfc9d62f6ee3f227, Data\BinaryData\Feather\FeatherWriter.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 3538
-    '    Code Lines: 2679
-    ' Comment Lines: 121
-    '   Blank Lines: 738
+    '    Code Lines: 2679 (75.72%)
+    ' Comment Lines: 121 (3.42%)
+    '    - Xml Docs: 53.72%
+    ' 
+    '   Blank Lines: 738 (20.86%)
     '     File Size: 119.26 KB
 
 
@@ -3615,4 +3617,3 @@ inferFromUntyped:
         MyBase.Finalize()
     End Sub
 End Class
-

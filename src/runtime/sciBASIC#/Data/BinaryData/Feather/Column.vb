@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52ae50ad96bfe8d17df97cefee195bb4, Data\BinaryData\Feather\Column.vb"
+﻿#Region "Microsoft.VisualBasic::c604876f095d575c37a6a1b6a4956eb7, Data\BinaryData\Feather\Column.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 526
-    '    Code Lines: 281
-    ' Comment Lines: 174
-    '   Blank Lines: 71
+    '    Code Lines: 281 (53.42%)
+    ' Comment Lines: 174 (33.08%)
+    '    - Xml Docs: 85.63%
+    ' 
+    '   Blank Lines: 71 (13.50%)
     '     File Size: 20.71 KB
 
 
@@ -596,4 +598,3 @@ Public Class Column
         Return False
     End Function
 End Class
-

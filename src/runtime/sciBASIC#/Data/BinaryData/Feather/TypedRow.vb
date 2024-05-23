@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c78ce2cff18dc2a2c4474bac2ca1b6f0, Data\BinaryData\Feather\TypedRow.vb"
+﻿#Region "Microsoft.VisualBasic::570956fcb17cc3dde7ff89a359b3c7ac, Data\BinaryData\Feather\TypedRow.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 1636
-    '    Code Lines: 831
-    ' Comment Lines: 619
-    '   Blank Lines: 186
-    '     File Size: 57.98 KB
+    '    Code Lines: 831 (50.79%)
+    ' Comment Lines: 619 (37.84%)
+    '    - Xml Docs: 97.42%
+    ' 
+    '   Blank Lines: 186 (11.37%)
+    '     File Size: 57.90 KB
 
 
     ' Class TypedRowValueEnumerator
@@ -1784,4 +1786,3 @@ Public Class TypedRowType6(Of TCol1, TCol2, TCol3, TCol4, TCol5, TCol6, TCol7, T
         Return row.ToArray()
     End Operator
 End Class
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::08e84a86ec4d652c53ba0b377734b9db, Microsoft.VisualBasic.Core\src\Extensions\Collection\CollectionValueGetter.vb"
+﻿#Region "Microsoft.VisualBasic::692db43f81ac4719bb9a876537f551fc, Microsoft.VisualBasic.Core\src\Extensions\Collection\CollectionValueGetter.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 347
-    '    Code Lines: 193
-    ' Comment Lines: 122
-    '   Blank Lines: 32
-    '     File Size: 12.62 KB
+    '   Total Lines: 358
+    '    Code Lines: 202 (56.42%)
+    ' Comment Lines: 122 (34.08%)
+    '    - Xml Docs: 92.62%
+    ' 
+    '   Blank Lines: 34 (9.50%)
+    '     File Size: 12.93 KB
 
 
     ' Module CollectionValueGetter
     ' 
     '     Function: [Get], AsEnumerable, ElementAtOrDefault, ElementAtOrNull, FirstNotEmpty
     '               GetItem, GetValueOrDefault, GetValueOrNull, NotNull, (+3 Overloads) TryGetValue
-    '               (+2 Overloads) TryPopOut
+    '               (+2 Overloads) TryPopOut, Values
     ' 
     ' /********************************************************************************/
 
@@ -396,5 +398,16 @@ Public Module CollectionValueGetter
 
         Dim value As Object = propertyInfo.GetValue(obj, Nothing)
         Return DirectCast(value, TProp)
+    End Function
+
+    <Extension>
+    Public Iterator Function Values(Of T)(x As IEnumerable(Of Value(Of T).IValueOf)) As IEnumerable(Of T)
+        If x Is Nothing Then
+            Return
+        End If
+
+        For Each item As Value(Of T).IValueOf In x
+            Yield item.Value
+        Next
     End Function
 End Module

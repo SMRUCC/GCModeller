@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa617ce374852856b95e46efd669a417, mime\text%html\CSS\Padding.vb"
+﻿#Region "Microsoft.VisualBasic::6dcf175406f9a05b30786a98d82af6d7, mime\text%html\CSS\Padding.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 300
-    '    Code Lines: 162
-    ' Comment Lines: 102
-    '   Blank Lines: 36
-    '     File Size: 11.81 KB
+    '    Code Lines: 162 (54.00%)
+    ' Comment Lines: 102 (34.00%)
+    '    - Xml Docs: 98.04%
+    ' 
+    '   Blank Lines: 36 (12.00%)
+    '     File Size: 11.89 KB
 
 
     '     Structure Padding
@@ -179,9 +181,9 @@ Namespace CSS
         End Sub
 
         ''' <summary>
-        ''' 
+        ''' create padding object with a given layout pixels vector: top, right, bottom, left
         ''' </summary>
-        ''' <param name="layoutVector%"><see cref="LayoutVector"/></param>
+        ''' <param name="layoutVector"><see cref="LayoutVector"/></param>
         Sub New(layoutVector%())
             Top = layoutVector(0)
             Right = layoutVector(1)

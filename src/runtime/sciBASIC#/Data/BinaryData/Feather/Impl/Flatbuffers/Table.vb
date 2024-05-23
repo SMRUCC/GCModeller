@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8a4e6f9c909a2d976e55118ec33be76, Data\BinaryData\Feather\Impl\Flatbuffers\Table.vb"
+﻿#Region "Microsoft.VisualBasic::96ea4687767e7a21b081031eb0fe8c99, Data\BinaryData\Feather\Impl\Flatbuffers\Table.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 141
-    '    Code Lines: 93
-    ' Comment Lines: 29
-    '   Blank Lines: 19
-    '     File Size: 6.06 KB
+    '    Code Lines: 93 (65.96%)
+    ' Comment Lines: 29 (20.57%)
+    '    - Xml Docs: 10.34%
+    ' 
+    '   Blank Lines: 19 (13.48%)
+    '     File Size: 6.05 KB
 
 
     '     Class Table
@@ -194,4 +196,3 @@ Namespace FlatBuffers
         End Function
     End Class
 End Namespace
-

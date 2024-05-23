@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d3172d42eed3fcdce389d44fd12b8d1, mime\application%json\Serializer\JSONSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::797367acc97ccc8605a547cb3d38f582, mime\application%json\Serializer\JSONSerializer.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 183
-    '    Code Lines: 126
-    ' Comment Lines: 33
-    '   Blank Lines: 24
-    '     File Size: 6.48 KB
+    '   Total Lines: 186
+    '    Code Lines: 129 (69.35%)
+    ' Comment Lines: 33 (17.74%)
+    '    - Xml Docs: 87.88%
+    ' 
+    '   Blank Lines: 24 (12.90%)
+    '     File Size: 6.63 KB
 
 
     ' Module JSONSerializer
@@ -140,6 +142,7 @@ Public Module JSONSerializer
             Dim sb As New StringBuilder
             Dim code As Integer
             Dim bytes As Byte()
+            Dim b1, b0 As String
 
             For Each c As Char In DirectCast(value, String)
                 code = AscW(c)
@@ -147,8 +150,10 @@ Public Module JSONSerializer
                 If code < 0 OrElse code > Byte.MaxValue Then
                     sb.Append("\u")
                     bytes = Encoding.Unicode.GetBytes(c)
-                    sb.Append(bytes(1).ToString("x"))
-                    sb.Append(bytes(0).ToString("x"))
+                    b1 = bytes(1).ToString("x")
+                    b0 = bytes(0).ToString("x")
+                    sb.Append(If(b1.Length < 2, "0" & b1, b1))
+                    sb.Append(If(b0.Length < 2, "0" & b0, b0))
                 Else
                     sb.Append(c)
                 End If

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bc449afbd2e33b661357b411574bd60, Data\BinaryData\Feather\Impl\Flatbuffers\FlatBufferBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::b20eadfb1fe869349b8d96137805d35d, Data\BinaryData\Feather\Impl\Flatbuffers\FlatBufferBuilder.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 703
-    '    Code Lines: 352
-    ' Comment Lines: 267
-    '   Blank Lines: 84
+    '    Code Lines: 352 (50.07%)
+    ' Comment Lines: 267 (37.98%)
+    '    - Xml Docs: 75.66%
+    ' 
+    '   Blank Lines: 84 (11.95%)
     '     File Size: 28.52 KB
 
 
@@ -765,4 +767,3 @@ endLoop:
 End Namespace
 
 ' @}
-

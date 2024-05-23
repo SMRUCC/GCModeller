@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69fc43bd7c9d048ae7cfb7384f4cc1c1, Data\BinaryData\Feather\Impl\Metadata\Column.vb"
+﻿#Region "Microsoft.VisualBasic::157243095247e0832d96186a7c7d10bc, Data\BinaryData\Feather\Impl\Metadata\Column.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 102
-    '    Code Lines: 91
-    ' Comment Lines: 2
-    '   Blank Lines: 9
+    '    Code Lines: 91 (89.22%)
+    ' Comment Lines: 2 (1.96%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 9 (8.82%)
     '     File Size: 4.66 KB
 
 
@@ -158,4 +160,3 @@ Namespace Impl.FbsMetadata
 
 
 End Namespace
-

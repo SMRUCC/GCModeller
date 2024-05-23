@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1dabcc2ac1448d272a3e27174fa1db8a, Data\BinaryData\Feather\Row.vb"
+﻿#Region "Microsoft.VisualBasic::086dbe62950a074e8024d00302544e60, Data\BinaryData\Feather\Row.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 502
-    '    Code Lines: 287
-    ' Comment Lines: 127
-    '   Blank Lines: 88
-    '     File Size: 24.82 KB
+    '    Code Lines: 287 (57.17%)
+    ' Comment Lines: 127 (25.30%)
+    '    - Xml Docs: 88.19%
+    ' 
+    '   Blank Lines: 88 (17.53%)
+    '     File Size: 24.83 KB
 
 
     ' Class RowValueEnumerator
@@ -569,4 +571,3 @@ Public Class Row
         Return value.UnsafeCast(Of T)(category)
     End Function
 End Class
-

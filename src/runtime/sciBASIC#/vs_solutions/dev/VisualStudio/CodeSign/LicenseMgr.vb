@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d6070a351bcfca1469daef5d71ba290, vs_solutions\dev\VisualStudio\CodeSign\LicenseMgr.vb"
+﻿#Region "Microsoft.VisualBasic::6329133c61e7b05001662c3b7f78d092, vs_solutions\dev\VisualStudio\CodeSign\LicenseMgr.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 202
-    '    Code Lines: 137
-    ' Comment Lines: 27
-    '   Blank Lines: 38
-    '     File Size: 7.69 KB
+    '   Total Lines: 204
+    '    Code Lines: 139 (68.14%)
+    ' Comment Lines: 27 (13.24%)
+    '    - Xml Docs: 85.19%
+    ' 
+    '   Blank Lines: 38 (18.63%)
+    '     File Size: 8.06 KB
 
 
     '     Module LicenseMgr
@@ -198,9 +200,11 @@ THE SOFTWARE.",
             sb.AppendLine($"    ' Code Statistics:")
             sb.AppendLine()
             sb.AppendLine($"    '   Total Lines: {stat.totalLines}")
-            sb.AppendLine($"    '    Code Lines: {stat.lineOfCodes}")
-            sb.AppendLine($"    ' Comment Lines: {stat.commentLines}")
-            sb.AppendLine($"    '   Blank Lines: {stat.blankLines}")
+            sb.AppendLine($"    '    Code Lines: {stat.lineOfCodes} ({(stat.lineOfCodes / stat.totalLines * 100).ToString("F2")}%)")
+            sb.AppendLine($"    ' Comment Lines: {stat.commentLines} ({(stat.commentLines / stat.totalLines * 100).ToString("F2")}%)")
+            sb.AppendLine($"    '    - Xml Docs: {If(stat.commentLines = 0, 0, stat.xml_comments / stat.commentLines * 100).ToString("F2")}%")
+            sb.AppendLine($"    ' ")
+            sb.AppendLine($"    '   Blank Lines: {stat.blankLines} ({(stat.blankLines / stat.totalLines * 100).ToString("F2")}%)")
             sb.AppendLine($"    '     File Size: {StringFormats.Lanudry(stat.size)}")
 
             sb.AppendLine()

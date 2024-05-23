@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e6679463bd5981ea494cfe90e94969d, Data\BinaryData\Feather\Impl\ColumnSpec.vb"
+﻿#Region "Microsoft.VisualBasic::63d9ee372e640979d7879ed48a573262, Data\BinaryData\Feather\Impl\ColumnSpec.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 626
-    '    Code Lines: 459
-    ' Comment Lines: 20
-    '   Blank Lines: 147
+    '    Code Lines: 459 (73.32%)
+    ' Comment Lines: 20 (3.19%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 147 (23.48%)
     '     File Size: 27.61 KB
 
 
@@ -720,4 +722,3 @@ Namespace Impl
         End Function
     End Module
 End Namespace
-

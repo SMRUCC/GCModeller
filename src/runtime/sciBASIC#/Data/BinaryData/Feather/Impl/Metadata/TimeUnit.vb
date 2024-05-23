@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::589ea8c3f3f3f502c9ede726b64eb8b1, Data\BinaryData\Feather\Impl\Metadata\TimeUnit.vb"
+﻿#Region "Microsoft.VisualBasic::8bdc50d92172691f341ee3f2cd8f8276, Data\BinaryData\Feather\Impl\Metadata\TimeUnit.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 13
-    '    Code Lines: 8
-    ' Comment Lines: 1
-    '   Blank Lines: 4
-    '     File Size: 264 B
+    '    Code Lines: 8 (61.54%)
+    ' Comment Lines: 1 (7.69%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (30.77%)
+    '     File Size: 262 B
 
 
     '     Enum TimeUnit
@@ -66,4 +68,3 @@ Namespace Impl.FbsMetadata
 
 
 End Namespace
-

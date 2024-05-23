@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91daf71e126c50871042198140a92109, Data\BinaryData\Feather\Impl\SyntheticEnum.vb"
+﻿#Region "Microsoft.VisualBasic::62c8a642405d076576d8ecd112e4b85b, Data\BinaryData\Feather\Impl\SyntheticEnum.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 81
-    '    Code Lines: 62
-    ' Comment Lines: 1
-    '   Blank Lines: 18
+    '    Code Lines: 62 (76.54%)
+    ' Comment Lines: 1 (1.23%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 18 (22.22%)
     '     File Size: 3.17 KB
 
 
@@ -138,4 +140,3 @@ Namespace Impl
         End Function
     End Module
 End Namespace
-

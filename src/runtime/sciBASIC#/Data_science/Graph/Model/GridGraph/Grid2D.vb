@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fce35b6b16139052a9740498ab186a97, Data_science\Graph\Model\GridGraph\Grid2D.vb"
+﻿#Region "Microsoft.VisualBasic::7dbc5322cf2041aef3cc06e13486a7a8, Data_science\Graph\Model\GridGraph\Grid2D.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 312
-    '    Code Lines: 190
-    ' Comment Lines: 85
-    '   Blank Lines: 37
-    '     File Size: 12.16 KB
+    '   Total Lines: 317
+    '    Code Lines: 194 (61.20%)
+    ' Comment Lines: 85 (26.81%)
+    '    - Xml Docs: 96.47%
+    ' 
+    '   Blank Lines: 38 (11.99%)
+    '     File Size: 12.46 KB
 
 
     '     Class Grid
@@ -47,7 +49,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: Blank, Cells, (+4 Overloads) Create, CreateReadOnly, EnumerateData
+    '         Function: Blank, Cells, (+4 Overloads) Create, (+2 Overloads) CreateReadOnly, EnumerateData
     '                   GetData, LineScans, (+2 Overloads) Query, ShuffleAll
     ' 
     '         Sub: Add
@@ -280,6 +282,11 @@ Namespace GridGraph
                     End If
                 Next
             Next
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function CreateReadOnly(data As IEnumerable(Of T), getSpatial As Func(Of T, Point)) As Grid(Of T)
+            Return CreateReadOnly(data.Select(Function(i) New GridCell(Of T)(getSpatial(i), i)))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

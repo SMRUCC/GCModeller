@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c6ef3952c0d2212ff8eef0ec3f2ee78, Data\BinaryData\Feather\Impl\MultiStreamProvider.vb"
+﻿#Region "Microsoft.VisualBasic::3fad016ed8f234bc593d6c0eb6513723, Data\BinaryData\Feather\Impl\MultiStreamProvider.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 274
-    '    Code Lines: 220
-    ' Comment Lines: 2
-    '   Blank Lines: 52
+    '    Code Lines: 220 (80.29%)
+    ' Comment Lines: 2 (0.73%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 52 (18.98%)
     '     File Size: 9.55 KB
 
 
@@ -347,4 +349,3 @@ copy:
         End Sub
     End Class
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8b60e7f321d9cf7c0eaee12a70edc0c, Data\BinaryData\Feather\Impl\Flatbuffers\Offset.vb"
+﻿#Region "Microsoft.VisualBasic::4be37ad8d67f1e7bc15875bd6689eb8d, Data\BinaryData\Feather\Impl\Flatbuffers\Offset.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 53
-    '    Code Lines: 29
-    ' Comment Lines: 17
-    '   Blank Lines: 7
+    '    Code Lines: 29 (54.72%)
+    ' Comment Lines: 17 (32.08%)
+    '    - Xml Docs: 17.65%
+    ' 
+    '   Blank Lines: 7 (13.21%)
     '     File Size: 1.77 KB
 
 
@@ -114,4 +116,3 @@ Namespace FlatBuffers
         End Function
     End Structure
 End Namespace
-

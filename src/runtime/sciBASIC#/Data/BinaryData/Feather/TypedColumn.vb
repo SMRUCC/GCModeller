@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e4659ca6a77716ec2cd76a90f1303e4, Data\BinaryData\Feather\TypedColumn.vb"
+﻿#Region "Microsoft.VisualBasic::0e03a3fcda40608dd31b02202736650e, Data\BinaryData\Feather\TypedColumn.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 447
-    '    Code Lines: 217
-    ' Comment Lines: 174
-    '   Blank Lines: 56
-    '     File Size: 17.06 KB
+    '    Code Lines: 217 (48.55%)
+    ' Comment Lines: 174 (38.93%)
+    '    - Xml Docs: 87.93%
+    ' 
+    '   Blank Lines: 56 (12.53%)
+    '     File Size: 17.01 KB
 
 
     ' Class TypedColumnEnumerator
@@ -516,4 +518,3 @@ Public Class TypedColumn(Of TColumnType)
         Return col.ToArray()
     End Operator
 End Class
-
