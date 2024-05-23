@@ -59,7 +59,15 @@ Imports Microsoft.VisualBasic.DataMining.UMAP
 Imports Microsoft.VisualBasic.Language
 Imports std = System.Math
 
-Public Module UmapGraph
+''' <summary>
+''' create network model based on umap result for data visualization
+''' </summary>
+Public Module UMAPGraph
+
+    <Extension>
+    Public Function CreateGraph(umap As UMAPProject, Optional threshold As Double = 0) As NetworkGraph
+
+    End Function
 
     <Extension>
     Public Function CreateGraph(umap As Umap, uid As String(),
@@ -68,13 +76,9 @@ Public Module UmapGraph
 
         Dim matrix = umap.GetGraph.ToArray
         Dim g As New NetworkGraph
-        Dim points As PointF() = Nothing
+        Dim points As PointF() = umap.GetPoint2D
         Dim data As NodeData = Nothing
         Dim index As i32 = Scan0
-
-        If umap.dimension = 2 Then
-            points = umap.GetPoint2D
-        End If
 
         If labels Is Nothing Then
             labels = uid
