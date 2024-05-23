@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e46e64266c17d052e94915097844226, Microsoft.VisualBasic.Core\src\Data\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::04e4724dc9ff7f3dbecf3f750acd4817, Microsoft.VisualBasic.Core\src\Data\Abstract.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 33
-    '    Code Lines: 15
-    ' Comment Lines: 13
-    '   Blank Lines: 5
-    '     File Size: 1.12 KB
+    '   Total Lines: 48
+    '    Code Lines: 15 (31.25%)
+    ' Comment Lines: 28 (58.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (10.42%)
+    '     File Size: 1.62 KB
 
 
     '     Enum PropertyAccess
@@ -67,10 +69,25 @@
 
 Namespace ComponentModel.DataSourceModel
 
+    ''' <summary>
+    ''' the data access
+    ''' </summary>
     Public Enum PropertyAccess As Byte
+        ''' <summary>
+        ''' no data access
+        ''' </summary>
         NotSure = 0
+        ''' <summary>
+        ''' data can be read from the clr object(get/readonly property)
+        ''' </summary>
         Readable = 2
+        ''' <summary>
+        ''' data can be write to the clr object(set/writeonly property)
+        ''' </summary>
         Writeable = 4
+        ''' <summary>
+        ''' data can be read and write to the clr object(get/set)
+        ''' </summary>
         ReadWrite = Readable + Writeable
     End Enum
 

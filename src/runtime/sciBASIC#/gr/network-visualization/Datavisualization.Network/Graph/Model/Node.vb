@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 213
-    '    Code Lines: 108
-    ' Comment Lines: 85
-    '   Blank Lines: 20
+    '    Code Lines: 108 (50.70%)
+    ' Comment Lines: 85 (39.91%)
+    '    - Xml Docs: 48.24%
+    ' 
+    '   Blank Lines: 20 (9.39%)
     '     File Size: 7.93 KB
 
 
@@ -129,6 +131,24 @@ Namespace Graph
         Public ReadOnly Property text As String
             Get
                 Return data.label
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <returns>
+        ''' returns nothing if the node meta <see cref="data"/> is nothing orelse 
+        ''' node data contains no such given key name.
+        ''' </returns>
+        Default Public ReadOnly Property Metadata(name As String) As String
+            Get
+                If data Is Nothing Then
+                    Return Nothing
+                Else
+                    Return data.ItemValue(name)
+                End If
             End Get
         End Property
 

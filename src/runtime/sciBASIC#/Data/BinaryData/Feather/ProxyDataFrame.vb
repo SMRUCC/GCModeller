@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c955e412944ed546f638afb68f7b20b2, Data\BinaryData\Feather\ProxyDataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::cdc3e8748db4d7f6ef5f4c8bd2d454b3, Data\BinaryData\Feather\ProxyDataFrame.vb"
 
     ' Author:
     ' 
@@ -35,9 +35,11 @@
     ' Code Statistics:
 
     '   Total Lines: 264
-    '    Code Lines: 138
-    ' Comment Lines: 95
-    '   Blank Lines: 31
+    '    Code Lines: 138 (52.27%)
+    ' Comment Lines: 95 (35.98%)
+    '    - Xml Docs: 86.32%
+    ' 
+    '   Blank Lines: 31 (11.74%)
     '     File Size: 9.51 KB
 
 
@@ -63,7 +65,7 @@ Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.DataStorage.FeatherFormat.Impl
 
 ''' <summary>
-''' Utility class for addressing a <see cref="ProxyDataFrame(OfTProxyType)"/>'s rows.
+''' Utility class for addressing a <see cref="ProxyDataFrame(Of TProxyType)"/>'s rows.
 ''' </summary>
 Public Class ProxyRowMap(Of TProxyType)
     Private Parent As ProxyDataFrame(Of TProxyType)

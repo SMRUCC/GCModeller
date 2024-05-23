@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bebf160fe1a0b8edb89ecb0241a57610, Data_science\DataMining\DataMining\AprioriRules\Algorithm\ItemSet.vb"
+﻿#Region "Microsoft.VisualBasic::41a62e8ca23286d534368fb294144320, Data_science\DataMining\DataMining\AprioriRules\Algorithm\ItemSet.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 145
-    '    Code Lines: 106
-    ' Comment Lines: 5
-    '   Blank Lines: 34
-    '     File Size: 4.52 KB
+    '   Total Lines: 144
+    '    Code Lines: 105 (72.92%)
+    ' Comment Lines: 5 (3.47%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 34 (23.61%)
+    '     File Size: 4.48 KB
 
 
     '     Structure ItemSet
@@ -56,7 +58,6 @@
 
 #End Region
 
-Imports System.Diagnostics.CodeAnalysis
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Linq.JoinExtensions

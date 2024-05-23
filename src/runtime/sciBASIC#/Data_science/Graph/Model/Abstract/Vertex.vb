@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3234442abe4a1584fe0af5d58f10afe8, Data_science\Graph\Model\Abstract\Vertex.vb"
+﻿#Region "Microsoft.VisualBasic::a611dc7d0e0d07934e4a7004e34c16b5, Data_science\Graph\Model\Abstract\Vertex.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 55
-    '    Code Lines: 30
-    ' Comment Lines: 17
-    '   Blank Lines: 8
-    '     File Size: 1.64 KB
+    '   Total Lines: 60
+    '    Code Lines: 34 (56.67%)
+    ' Comment Lines: 17 (28.33%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 9 (15.00%)
+    '     File Size: 1.75 KB
 
 
     ' Class Vertex
     ' 
     '     Properties: ID, label
     ' 
-    '     Constructor: (+2 Overloads) Sub New
+    '     Constructor: (+3 Overloads) Sub New
     ' 
     '     Function: Equals, ToString
     ' 
@@ -87,6 +89,11 @@ Public Class Vertex : Implements INamedValue
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Sub New(id As Integer)
         Me.ID = id
+    End Sub
+
+    Sub New(id As Integer, label As String)
+        Me.ID = id
+        Me.label = label
     End Sub
 
     Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign

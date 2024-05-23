@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2162d91c6cffb42b34a1b2d5726c1146, Data_science\Graph\Model\Abstract\Edge.vb"
+﻿#Region "Microsoft.VisualBasic::fc49ca692a0c6a47abaa777a5a272f7b, Data_science\Graph\Model\Abstract\Edge.vb"
 
     ' Author:
     ' 
@@ -35,10 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 68
-    '    Code Lines: 30
-    ' Comment Lines: 31
-    '   Blank Lines: 7
-    '     File Size: 2.25 KB
+    '    Code Lines: 30 (44.12%)
+    ' Comment Lines: 31 (45.59%)
+    '    - Xml Docs: 70.97%
+    ' 
+    '   Blank Lines: 7 (10.29%)
+    '     File Size: 2.27 KB
 
 
     ' Class Edge
@@ -116,6 +118,6 @@ Public Class Edge(Of Vertex As V) : Implements INamedValue
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
-        Return $"({GetHashCode()}) {U} => {V}"
+        Return $"({GetHashCode()}) {U} => {V} [w:{weight}]"
     End Function
 End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5034a42bc6c840190f026af56dbb23ba, Data_science\DataMining\DataMining\AprioriRules\Algorithm\Implementation\Apriori.vb"
+﻿#Region "Microsoft.VisualBasic::276ec9e332bdf19cf48d24c507434455, Data_science\DataMining\DataMining\AprioriRules\Algorithm\Implementation\Apriori.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 228
-    '    Code Lines: 179
-    ' Comment Lines: 5
-    '   Blank Lines: 44
-    '     File Size: 10.76 KB
+    '   Total Lines: 230
+    '    Code Lines: 177 (76.96%)
+    ' Comment Lines: 7 (3.04%)
+    '    - Xml Docs: 57.14%
+    ' 
+    '   Blank Lines: 46 (20.00%)
+    '     File Size: 10.82 KB
 
 
     '     Module Apriori
@@ -95,7 +97,7 @@ Namespace AprioriRules.Impl
                 frequentItems = candidates.GetFrequentItems(minSupport, transactionsCount)
 
                 For Each item As TransactionTokensItem In frequentItems
-                    Call allFrequentItems.Add(item.Name, item)
+                    allFrequentItems(item.Name) = item
                 Next
 
                 Call VBDebugger.EchoLine($" ..... {frequentItems.Count} / {allFrequentItems.Count}")
@@ -170,12 +172,14 @@ Namespace AprioriRules.Impl
 
             Call VBDebugger.EchoLine("parallel build of the candidates...")
 
-            Dim candidates = parallelBuild _
-                .IteratesALL _
-                .ToDictionary(Function(item) item.Key,
-                              Function(item)
-                                  Return item.Value
-                              End Function)
+            Dim candidates As New Dictionary(Of ItemSet, Double)
+
+            ' 20240521
+            ' ArgumentException: An item with the same key has already been added. Key: {10182_[M+CH3OH+H]+, 1024_[M-H]-}
+            For Each item In parallelBuild.ToArray.IteratesALL
+                candidates(item.Key) = item.Value
+            Next
+
             Return candidates
         End Function
 
