@@ -1,62 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::4d6bc921628f335a8fd00d905643d9e4, R#\phenotype_kit\geneExpression.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 1399
-    '    Code Lines: 854
-    ' Comment Lines: 417
-    '   Blank Lines: 128
-    '     File Size: 56.51 KB
+' Summaries:
 
 
-    ' Module geneExpression
-    ' 
-    '     Function: add_gauss, Aggregate, applyPCA, average, castGenericRows
-    '               cmeans, CMeans3D, CmeansPattern, createDEGModels, createVectorList
-    '               DEGclass, depDataTable, dimensionNotAgree, dims, exp
-    '               expDataTable, filter, filterNaN, filterZeroGenes, filterZeroSamples
-    '               geneId, GetCmeansPattern, GetCmeansPatternA, getFuzzyPatternMembers, getMatrixInformation
-    '               joinSamples, loadExpression, loadFromDataFrame, loadFromGenericDataSet, loadMatrixView
-    '               log, matrixSummary, ranking, readBinaryMatrix, readPattern
-    '               relative, representatives, savePattern, setGeneIDs, setSampleIDs
-    '               setTag, setZero, splitCMeansClusters, toClusters, totalSumNorm
-    '               tr, Ttest, uniqueGeneId, writeMatrix, zscore
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 1399
+'    Code Lines: 854
+' Comment Lines: 417
+'   Blank Lines: 128
+'     File Size: 56.51 KB
+
+
+' Module geneExpression
+' 
+'     Function: add_gauss, Aggregate, applyPCA, average, castGenericRows
+'               cmeans, CMeans3D, CmeansPattern, createDEGModels, createVectorList
+'               DEGclass, depDataTable, dimensionNotAgree, dims, exp
+'               expDataTable, filter, filterNaN, filterZeroGenes, filterZeroSamples
+'               geneId, GetCmeansPattern, GetCmeansPatternA, getFuzzyPatternMembers, getMatrixInformation
+'               joinSamples, loadExpression, loadFromDataFrame, loadFromGenericDataSet, loadMatrixView
+'               log, matrixSummary, ranking, readBinaryMatrix, readPattern
+'               relative, representatives, savePattern, setGeneIDs, setSampleIDs
+'               setTag, setZero, splitCMeansClusters, toClusters, totalSumNorm
+'               tr, Ttest, uniqueGeneId, writeMatrix, zscore
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -66,6 +66,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
@@ -692,7 +693,7 @@ Module geneExpression
         Dim geneId As String() = m.expression _
             .Select(Function(gene) gene.geneID) _
             .ToArray
-        Dim unique As String() = If(makeNames, geneId.makeNames(unique:=True), geneId.uniqueNames)
+        Dim unique As String() = If(makeNames, geneId.makeNames(unique:=True), geneId.UniqueNames)
 
         For i As Integer = 0 To unique.Length - 1
             m(i).geneID = unique(i)
