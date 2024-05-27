@@ -53,34 +53,38 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.DataMining.UMAP
 Imports Microsoft.VisualBasic.Language
-Imports stdNum = System.Math
+Imports std = System.Math
 
-Public Module UmapGraph
+''' <summary>
+''' create network model based on umap result for data visualization
+''' </summary>
+Public Module UMAPGraph
 
     <Extension>
-    Public Function CreateGraph(umap As Umap, uid As String(),
-                                Optional labels As String() = Nothing,
-                                Optional threshold As Double = 0) As NetworkGraph
+    Public Function CreateGraph(umap As UMAPProject, Optional threshold As Double = 0) As NetworkGraph
+        Return BuildGraph(umap.graph, umap.embedding, umap.labels.UniqueNames, umap.labels, umap.clusters, threshold)
+    End Function
 
-        Dim matrix = umap.GetGraph.ToArray
+    Private Function BuildGraph(matrix As Double()(), embedding As Double()(), uid As String(), labels As String(), clusters As String(), threshold As Double) As NetworkGraph
         Dim g As New NetworkGraph
-        Dim points As PointF() = Nothing
+        Dim points As PointF() = embedding _
+            .Select(Function(v) New PointF(v(0), v(1))) _
+            .ToArray
         Dim data As NodeData = Nothing
         Dim index As i32 = Scan0
-
-        If umap.dimension = 2 Then
-            points = umap.GetPoint2D
-        End If
 
         If labels Is Nothing Then
             labels = uid
         End If
 
         Dim getLabel As Func(Of String) = Function() labels(index)
+        Dim has_clusters As Boolean = Not clusters.IsNullOrEmpty
 
         For Each label As String In uid
             data = New NodeData With {
@@ -88,6 +92,9 @@ Public Module UmapGraph
                 .origID = getLabel()
             }
 
+            If has_clusters Then
+                data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = clusters(index)
+            End If
             If Not points Is Nothing Then
                 data.initialPostion = New FDGVector2(points(++index))
             Else
@@ -99,12 +106,20 @@ Public Module UmapGraph
 
         For i As Integer = 0 To matrix.Length - 1
             For j As Integer = 0 To matrix(i).Length - 1
-                If i <> j AndAlso stdNum.Abs(matrix(i)(j)) >= threshold Then
+                If i <> j AndAlso std.Abs(matrix(i)(j)) > threshold Then
                     Call g.CreateEdge(uid(i), uid(j), weight:=matrix(i)(j))
                 End If
             Next
         Next
 
         Return g
+    End Function
+
+    <Extension>
+    Public Function CreateGraph(umap As Umap, uid As String(),
+                                Optional labels As String() = Nothing,
+                                Optional threshold As Double = 0) As NetworkGraph
+
+        Return BuildGraph(umap.GetGraph.ToArray, umap.GetEmbedding, uid, labels, Nothing, threshold)
     End Function
 End Module
