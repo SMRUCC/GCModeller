@@ -48,6 +48,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Xml.Serialization
@@ -224,6 +225,10 @@ Visit http://GCModeller.org/ for more information.
             FileIO.FileSystem.DeleteFile(FilePath, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.DeletePermanently)
 
             Return Me.GetXml.SaveTo(FilePath, Encoding Or UTF8)
+        End Function
+
+        Private Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Throw New NotImplementedException
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
