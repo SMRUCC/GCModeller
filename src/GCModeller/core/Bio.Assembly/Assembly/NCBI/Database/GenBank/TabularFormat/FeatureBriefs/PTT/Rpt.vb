@@ -1,59 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::37497e49cd2bd79deaeb068eaa63463d, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 104
-    '    Code Lines: 79
-    ' Comment Lines: 12
-    '   Blank Lines: 13
-    '     File Size: 4.60 KB
+' Summaries:
 
 
-    '     Class Rpt
-    ' 
-    '         Properties: Accession, CDSCount, GeneticCode, GI, NumberOfGenes
-    '                     Others, ProteinCount, PseudoCDSCount, PseudoGeneCount, Publications
-    '                     RNACount, Size, Taxid, Taxname, Total
-    ' 
-    '         Function: CopyTo, GetValue, Load, (+2 Overloads) Save, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 104
+'    Code Lines: 79
+' Comment Lines: 12
+'   Blank Lines: 13
+'     File Size: 4.60 KB
+
+
+'     Class Rpt
+' 
+'         Properties: Accession, CDSCount, GeneticCode, GI, NumberOfGenes
+'                     Others, ProteinCount, PseudoCDSCount, PseudoGeneCount, Publications
+'                     RNACount, Size, Taxid, Taxname, Total
+' 
+'         Function: CopyTo, GetValue, Load, (+2 Overloads) Save, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
@@ -151,6 +152,15 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Throw New NotImplementedException()
+        End Function
+
+        Public Function Save(file As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(file, encoding)
+                Throw New NotImplementedException
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(FilePath As String, Optional Encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

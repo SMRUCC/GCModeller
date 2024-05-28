@@ -251,10 +251,18 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
 #Region "IO Operations"
 
         Public Function Save(path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Using file As New StreamWriter(path.Open(FileMode.OpenOrCreate, doClear:=True), encoding)
-                Call WriteDocument(file)
-                Return True
+            Using file = path.Open(FileMode.OpenOrCreate, doClear:=True)
+                Return Save(file, encoding)
             End Using
+        End Function
+
+        Public Function Save(file As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(file, encoding)
+                Call WriteDocument(wr)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         ''' <summary>

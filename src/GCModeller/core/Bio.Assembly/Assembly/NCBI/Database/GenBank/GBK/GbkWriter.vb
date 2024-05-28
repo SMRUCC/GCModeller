@@ -256,15 +256,8 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <returns></returns>
         <ExportAPI("Write.GBK")>
         <Extension>
-        Public Function WriteGenbank(gb As GenBank.GBFF.File, path$, Optional encoding As Encoding = Nothing) As Boolean
-            Dim doc As String = gb.CreateDoc()
-            Return doc.SaveTo(path, encoding)
-        End Function
-
-        <ExportAPI("Write.GBK")>
-        <Extension>
         Public Function WriteGenbank(gb As GenBank.GBFF.File, path$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
-            Return gb.WriteGenbank(path, encoding.CodePage)
+            Return gb.Save(path, encoding.CodePage)
         End Function
     End Module
 End Namespace

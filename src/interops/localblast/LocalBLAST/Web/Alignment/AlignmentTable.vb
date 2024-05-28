@@ -1,61 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::b9af5e7f721b96cf2a61d68eb2b44b15, localblast\LocalBLAST\Web\Alignment\AlignmentTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 130
-    '    Code Lines: 79
-    ' Comment Lines: 34
-    '   Blank Lines: 17
-    '     File Size: 5.04 KB
+' Summaries:
 
 
-    '     Class AlignmentTable
-    ' 
-    '         Properties: Database, Hits, Iteration, Program, Query
-    '                     RID
-    ' 
-    '         Function: __substituted2, DescriptionSubstituted, DescriptionSubstituted2, GenericEnumerator, (+2 Overloads) Save
-    '                   substituted, ToString
-    ' 
-    '         Sub: TrimLength
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 130
+'    Code Lines: 79
+' Comment Lines: 34
+'   Blank Lines: 17
+'     File Size: 5.04 KB
+
+
+'     Class AlignmentTable
+' 
+'         Properties: Database, Hits, Iteration, Program, Query
+'                     RID
+' 
+'         Function: __substituted2, DescriptionSubstituted, DescriptionSubstituted2, GenericEnumerator, (+2 Overloads) Save
+'                   substituted, ToString
+' 
+'         Sub: TrimLength
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
@@ -115,7 +116,7 @@ Namespace NCBIBlastResult.WebBlast
 
         Private Shared Function substituted(hitEntry As HitRecord, giTable As Dictionary(Of String, gbEntryBrief)) As HitRecord
             Dim entry = LinqAPI.DefaultFirst(Of gbEntryBrief) <=
- _
+                                                                _
                 From id As String
                 In hitEntry.GI
                 Where giTable.ContainsKey(id)
@@ -173,6 +174,15 @@ Namespace NCBIBlastResult.WebBlast
         ''' <returns></returns>
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return Me.GetXml.SaveTo(Path, encoding)
+        End Function
+
+        Private Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

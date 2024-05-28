@@ -59,6 +59,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Imaging
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
@@ -288,12 +289,22 @@ Namespace Configuration
         End Function
 
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Dim Text As String = Me.ToConfigDoc
-            Return Text.SaveTo(Path, encoding)
+            Using s As Stream = Path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Return Save(s, encoding)
+            End Using
         End Function
 
         Public Overrides Function ToString() As String
             Return Me.ToConfigDoc
+        End Function
+
+        Private Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.ToConfigDoc)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

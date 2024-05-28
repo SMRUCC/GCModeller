@@ -1,61 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::6461a11b2fc739651fe5a727c76dee24, core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 267
-    '    Code Lines: 206
-    ' Comment Lines: 36
-    '   Blank Lines: 25
-    '     File Size: 11.32 KB
+' Summaries:
 
 
-    '     Class DbFile
-    ' 
-    '         Properties: BuildTime, FastaUrl, FilePath, Id, MimeType
-    '                     SmpData
-    ' 
-    '         Function: ContainsId, ContainsId_p, (+2 Overloads) ExportFASTA, FindByTabId, PreLoad
-    '                   (+2 Overloads) Save, Takes, ToString
-    ' 
-    '         Sub: (+2 Overloads) __buildDb, BuildDb
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 267
+'    Code Lines: 206
+' Comment Lines: 36
+'   Blank Lines: 25
+'     File Size: 11.32 KB
+
+
+'     Class DbFile
+' 
+'         Properties: BuildTime, FastaUrl, FilePath, Id, MimeType
+'                     SmpData
+' 
+'         Function: ContainsId, ContainsId_p, (+2 Overloads) ExportFASTA, FindByTabId, PreLoad
+'                   (+2 Overloads) Save, Takes, ToString
+' 
+'         Sub: (+2 Overloads) __buildDb, BuildDb
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
@@ -316,6 +317,15 @@ Here, we report on the progress of the curation effort and associated improvemen
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return Me.GetXml.SaveTo(FilePath Or Me.FilePath.When(FilePath.StringEmpty), Encoding)
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

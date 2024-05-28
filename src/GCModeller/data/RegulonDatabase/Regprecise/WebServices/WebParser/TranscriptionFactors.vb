@@ -1,59 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::32b0d7d50cd0c86ee9e49d5c462dd4de, data\RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 208
-    '    Code Lines: 155
-    ' Comment Lines: 28
-    '   Blank Lines: 25
-    '     File Size: 10.28 KB
+' Summaries:
 
 
-    '     Class TranscriptionFactors
-    ' 
-    '         Properties: genomes, update
-    ' 
-    '         Function: BuildRegulatesTable, Export_TFBSInfo, FilteRegulators, GenericEnumerator, GetBacteriaGenomeProfile
-    '                   GetRegulatorId, GetRegulators, InsertRegulog, ListAllRegulators, Load
-    '                   (+2 Overloads) Save
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 208
+'    Code Lines: 155
+' Comment Lines: 28
+'   Blank Lines: 25
+'     File Size: 10.28 KB
+
+
+'     Class TranscriptionFactors
+' 
+'         Properties: genomes, update
+' 
+'         Function: BuildRegulatesTable, Export_TFBSInfo, FilteRegulators, GenericEnumerator, GetBacteriaGenomeProfile
+'                   GetRegulatorId, GetRegulators, InsertRegulog, ListAllRegulators, Load
+'                   (+2 Overloads) Save
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
@@ -88,6 +89,15 @@ Namespace Regprecise
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return Me.GetXml.SaveTo(FilePath, Encoding)
+        End Function
+
+        Private Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

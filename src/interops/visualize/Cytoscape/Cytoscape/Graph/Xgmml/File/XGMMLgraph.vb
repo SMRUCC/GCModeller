@@ -55,6 +55,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
@@ -201,6 +202,15 @@ Namespace CytoscapeGraphView.XGMML.File
         ''' <remarks></remarks>
         Public Function Save(FilePath As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return RDFXml.WriteXml(Me, Encodings.UTF8.CodePage, FilePath)
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(RDFXml.XmlDocumentText(Me))
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
