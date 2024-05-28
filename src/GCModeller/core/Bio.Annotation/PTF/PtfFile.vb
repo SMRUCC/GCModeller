@@ -133,6 +133,16 @@ Namespace Ptf
             Return True
         End Function
 
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using output As New StreamWriter(s, encoding) With {
+                .NewLine = ASCII.LF
+            }
+                Call Document.writeTabular(Me, output)
+            End Using
+
+            Return True
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(path, encoding.CodePage)
