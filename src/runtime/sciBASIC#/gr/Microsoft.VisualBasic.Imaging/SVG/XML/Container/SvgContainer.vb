@@ -128,8 +128,15 @@ Namespace SVG.XML
         End Function
 
         Public Iterator Function GetElements() As IEnumerable(Of SvgElement)
-            For i As Integer = 0 To Element.ChildNodes.Count - 1
-                Yield SvgElement.Create(DirectCast(Element.ChildNodes(i), XmlElement))
+            Dim list As XmlNodeList = Element.ChildNodes
+            Dim node As XmlElement
+
+            For i As Integer = 0 To list.Count - 1
+                node = TryCast(Element.ChildNodes(i), XmlElement)
+
+                If Not node Is Nothing Then
+                    Yield SvgElement.Create(node)
+                End If
             Next
         End Function
     End Class
