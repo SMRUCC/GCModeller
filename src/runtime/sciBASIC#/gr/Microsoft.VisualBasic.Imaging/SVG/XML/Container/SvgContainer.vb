@@ -131,6 +131,27 @@ Namespace SVG.XML
             Dim list As XmlNodeList = Element.ChildNodes
             Dim node As XmlElement
 
+            ' 20240528
+            '  Error in <globalEnvironment> -> R_invoke$pathway_highlights -> for_loop_[[1]: "gut_microbiome"] -> for_loop_[[1]: "lysine"] -> "findText"(&svg_map, &text_str, "ignore.cas...)(&svg_map, &text_str, "ignore.cas...) -> findText
+            '   1. InvalidCastException: Unable to cast object of type 'System.Xml.XmlSignificantWhitespace' to type 'System.Xml.XmlElement'.
+            '   2. stackFrames:
+            '    at Microsoft.VisualBasic.Imaging.SVG.XML.SvgContainer.GetElements()+MoveNext()
+            '    at R_graphics.grSVG.findText(SvgDocument svg, String text, Boolean ignore_case)
+            '
+            '    for (let ["text"] in Call SVG::"findText"(&svg_map, &text_str, "ignore.case" <- True)) %do% {
+            '        # forloop_internal
+            '        <in_memory> forloop_internal:
+            '    Call "text_style"(&text, "color" <- &highlights[&text_str], "strong" <- True);
+            '    }
+            '    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            '
+            ' SVG.R#_clr_interop::.findText at [graphics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]:line &Hx0abc64302
+            ' biodeepdb_v3.call_function."findText"(&svg_map, &text_str, "ignore.cas...)(&svg_map, &text_str, "ignore.cas...) at pathway_highlights.R:line 16
+            ' biodeepdb_v3.forloop.for_loop_[[1]: "lysine"] at pathway_highlights.R:line 15
+            ' biodeepdb_v3.forloop.for_loop_[[1]: "gut_microbiome"] at pathway_highlights.R:line 4
+            ' biodeepdb_v3.declare_function.R_invoke$pathway_highlights at pathway_highlights.R:line 1
+            ' SMRUCC/R#.global.<globalEnvironment> at <globalEnvironment>:line n/a
+
             For i As Integer = 0 To list.Count - 1
                 node = TryCast(Element.ChildNodes(i), XmlElement)
 
