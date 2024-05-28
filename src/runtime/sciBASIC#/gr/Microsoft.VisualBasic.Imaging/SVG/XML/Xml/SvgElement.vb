@@ -324,6 +324,12 @@ Namespace SVG.XML
                 Case "clipPath" : Return New SvgClipPath(e)
                 Case "marker" : Return New SvgMarker(e)
 
+                Case "style" : Return New SvgStyle(e)
+                Case "font" : Return New SvgFont(e)
+                Case "font-face" : Return New SvgFontFace(e)
+                Case "missing-glyph" : Return New SvgMissingGlyph(e)
+                Case "metadata" : Return New SvgMetadata(e)
+
                 Case Else
                     Throw New NotImplementedException(e.Name)
             End Select
