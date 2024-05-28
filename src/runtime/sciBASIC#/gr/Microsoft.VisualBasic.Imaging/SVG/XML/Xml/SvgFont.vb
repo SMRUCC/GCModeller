@@ -30,6 +30,20 @@ Namespace SVG.XML
 
     End Class
 
+    Public Class SvgGlyph : Inherits SvgElement
+
+        Public Sub New(element As XmlElement)
+            MyBase.New(element)
+        End Sub
+
+        Friend Overloads Shared Function Create(parent As XmlElement) As SvgGlyph
+            Dim element = parent.OwnerDocument.CreateElement("glyph")
+            parent.AppendChild(element)
+            Return New SvgGlyph(element)
+        End Function
+
+    End Class
+
     Public Class SvgMissingGlyph : Inherits SvgElement
 
         Public Sub New(element As XmlElement)
