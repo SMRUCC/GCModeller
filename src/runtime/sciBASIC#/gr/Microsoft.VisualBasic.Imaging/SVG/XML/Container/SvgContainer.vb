@@ -156,6 +156,10 @@ Namespace SVG.XML
                 node = TryCast(Element.ChildNodes(i), XmlElement)
 
                 If Not node Is Nothing Then
+                    If node.Name = "i:pgf" Then
+                        Continue For
+                    End If
+
                     Yield SvgElement.Create(node)
                 End If
             Next

@@ -329,6 +329,9 @@ Namespace SVG.XML
                 Case "font-face" : Return New SvgFontFace(e)
                 Case "missing-glyph" : Return New SvgMissingGlyph(e)
                 Case "metadata" : Return New SvgMetadata(e)
+                Case "foreignObject" : Return New SvgForeignObject(e)
+
+                Case "switch" : Return New SvgSwitch(e)
 
                 Case Else
                     Throw New NotImplementedException(e.Name)
