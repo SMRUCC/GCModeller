@@ -321,7 +321,7 @@ Namespace SVG.XML
                 Case "title" : Return New SvgTitle(e)
 
                 Case "g" : Return New SvgGroup(e)
-                Case "clipPath" : Return New SvgClipPath(e)
+                Case "clippath" : Return New SvgClipPath(e)
                 Case "marker" : Return New SvgMarker(e)
 
                 Case "style" : Return New SvgStyle(e)
@@ -330,7 +330,7 @@ Namespace SVG.XML
                 Case "missing-glyph" : Return New SvgMissingGlyph(e)
                 Case "glyph" : Return New SvgGlyph(e)
                 Case "metadata" : Return New SvgMetadata(e)
-                Case "foreignObject" : Return New SvgForeignObject(e)
+                Case "foreignobject" : Return New SvgForeignObject(e)
 
                 Case "switch" : Return New SvgSwitch(e)
 
