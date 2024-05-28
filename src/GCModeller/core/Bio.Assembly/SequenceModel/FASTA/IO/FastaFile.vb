@@ -455,6 +455,16 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             End Try
         End Function
 
+        Public Overloads Function Save(lineBreak As Integer, s As Stream, encoding As Encoding) As Boolean
+            Using writer As New StreamWriter(s, encoding)
+                For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=lineBreak))
+                    Call writer.WriteLine(seq)
+                Next
+            End Using
+
+            Return True
+        End Function
+
         ''' <summary>
         ''' Save the fasta file into the local filesystem.
         ''' </summary>
