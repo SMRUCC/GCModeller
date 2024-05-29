@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ff2706777195dec54f86dbec9b542d1, Microsoft.VisualBasic.Core\test\test\group_test.vb"
+﻿#Region "Microsoft.VisualBasic::efa6f09c0496565601a66da72f3ba44d, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\UnixMan\ManFile\ManIndex.vb"
 
     ' Author:
     ' 
@@ -34,47 +34,43 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 27
-    '    Code Lines: 18 (66.67%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 20
+    '    Code Lines: 12 (60.00%)
+    ' Comment Lines: 3 (15.00%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (33.33%)
-    '     File Size: 879 B
+    '   Blank Lines: 5 (25.00%)
+    '     File Size: 591 B
 
 
-    ' Module group_test
+    '     Class ManIndex
     ' 
-    '     Sub: RunGroup
+    '         Properties: [date], category, index, keyword, title
+    ' 
+    '         Function: ToString
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Text
-Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
-Public Module group_test
+Namespace ApplicationServices.Terminal.Utility
 
-    Sub RunGroup()
-        Dim asc_chars = ASCII.AlphaNumericTable.Keys.Select(Function(c) c.ToString).ToArray
-        Dim chars = Enumerable.Range(0, 700000).Select(Function(a) randf.Next(asc_chars)).ToArray
+    ''' <summary>
+    ''' the document index
+    ''' </summary>
+    Public Class ManIndex
 
-        Dim groupBy = chars.GroupBy(Function(s) s).ToDictionary(Function(s) s.Key, Function(s) s.Count)
-        Dim dict_group As New Dictionary(Of String, List(Of String))
+        Public Property index As String
+        Public Property category As Integer
+        Public Property [date] As Date = Now
+        Public Property keyword As String
+        Public Property title As String
 
-        For Each c As String In chars
-            If Not dict_group.ContainsKey(c) Then
-                dict_group.Add(c, New List(Of String))
-            End If
+        Public Overrides Function ToString() As String
+            Return $".TH {Strings.UCase(index)} {category} {[date].ToString("yyyy-MMM")} ""{keyword}"" ""{title}"""
+        End Function
 
-            dict_group(c).Add(c)
-        Next
-
-        Dim groupByDict = dict_group.ToDictionary(Function(c) c.Key, Function(c) c.Value.Count)
-
-
-        Pause()
-    End Sub
-
-End Module
+    End Class
+End Namespace
