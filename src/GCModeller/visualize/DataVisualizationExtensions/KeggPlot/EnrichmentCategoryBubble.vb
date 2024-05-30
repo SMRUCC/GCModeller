@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports std = System.Math
@@ -100,7 +101,8 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
         Dim top As Single = canvas.PlotRegion.Top
         Dim termH As Single = plotH / (enrich.Count - 1 + Aggregate ci In enrich Into Sum(ci.Value.Length))
         Dim max_string = enrich.Values.IteratesALL.Select(Function(ti) ti.name).MaxLengthString
-        Dim name_label_font As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim name_label_font As Font = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
         Dim max_string_size As SizeF = g.MeasureString(max_string, name_label_font)
         Dim left = canvas.PlotRegion.Left + max_string_size.Width
         Dim bubble_rect_width As Single = canvas.PlotRegion.Width - max_string_size.Width
@@ -161,14 +163,14 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
             y += termH / 2
         Next
 
-        Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+        Dim tickFont As Font = css.GetFont(theme.axisTickCSS)
 
         ' Call g.DrawLine(Stroke.TryParse(theme.axisStroke).GDIObject, scaler.region.Left, scaler.region.Bottom, scaler.region.Right, scaler.region.Bottom)
         Call Axis.DrawX(g, axis_stroke, "-log10(p)", scaler, XAxisLayoutStyles.ZERO, y, Nothing, theme.axisLabelCSS,
                         Brushes.Black, tickFont,
                         Brushes.Black, htmlLabel:=False)
 
-        Dim legendTitleFont As Font = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi)
+        Dim legendTitleFont As Font = css.GetFont(theme.legendTitleCSS)
         Dim legend_layout As New Rectangle(
             canvas.PlotRegion.Right + categoryBarWidth * 2,
             canvas.PlotRegion.Top + canvas.PlotRegion.Height / 6,

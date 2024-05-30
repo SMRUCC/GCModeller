@@ -79,6 +79,7 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
 Imports std = System.Math
@@ -311,9 +312,10 @@ Public Class VolcanoPlot : Inherits Plot
                           Function(br)
                               Return DirectCast(New SolidBrush(br.Value), Brush)
                           End Function)
-        Dim labelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(ppi)
-        Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(ppi)
-        Dim ticksFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(ppi)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
+        Dim titleFont As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
+        Dim ticksFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
         Dim thresholdPen As Pen = Stroke.TryParse(theme.lineStroke).GDIObject
         Dim point As PointF
         Dim px!, py!

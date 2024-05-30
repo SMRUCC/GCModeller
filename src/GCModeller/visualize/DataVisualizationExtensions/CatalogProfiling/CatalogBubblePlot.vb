@@ -71,7 +71,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports std = System.Math
 
 Namespace CatalogProfiling
 
@@ -86,7 +87,7 @@ Namespace CatalogProfiling
         ''' and the un-enriched terms. default value of 
         ''' this cutoff is -log10(0.05)
         ''' </summary>
-        ReadOnly pvalue As Double = -stdNum.Log10(0.05)
+        ReadOnly pvalue As Double = -std.Log10(0.05)
         ReadOnly unenrich As Color
         ReadOnly bubbleResize As DoubleRange
 
@@ -249,7 +250,8 @@ Namespace CatalogProfiling
             Call g.DrawImageUnscaled(plot, New Point)
             Call DrawBubbleLegends(g, serials, region)
 
-            Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim titleFont As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
             Dim fsize As SizeF = g.MeasureString(main, titleFont)
             Dim tloc As New PointF With {
                 .X = (region.Size.Width - fsize.Width) / 2,
@@ -287,9 +289,10 @@ Namespace CatalogProfiling
                             }
                         End Function) _
                 .ToArray
-            Dim legendFont As Font = CSSFont.TryParse(legendFontStyle).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim legendFont As Font = css.GetFont(CSSFont.TryParse(legendFontStyle))
             Dim cSize As SizeF = g.MeasureString("0", legendFont)
-            Dim legendSize As New SizeF(stdNum.Max(cSize.Width, cSize.Height), stdNum.Max(cSize.Width, cSize.Height))
+            Dim legendSize As New SizeF(std.Max(cSize.Width, cSize.Height), std.Max(cSize.Width, cSize.Height))
             Dim maxWidth As Single = legends _
                 .Select(Function(l)
                             Return g.MeasureString(l.title, legendFont).Width

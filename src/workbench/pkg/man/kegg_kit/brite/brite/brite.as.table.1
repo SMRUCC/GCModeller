@@ -17,6 +17,13 @@ Convert the kegg brite htext tree to plant table
 .PP
 \fBentryId_pattern\fB \fR\- -. 
 .PP
+.SH EXAMPLES
+.PP
+let brite = brite::parse("ko00001");
+ let df = brite.as.table(brite);
+ 
+ print(df, max.print = 6);
+.PP
 .SH SEE ALSO
 brite
 .SH FILES

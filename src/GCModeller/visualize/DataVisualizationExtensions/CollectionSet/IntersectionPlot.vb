@@ -66,7 +66,8 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports std = System.Math
 
 Namespace CollectionSet
 
@@ -107,7 +108,8 @@ Namespace CollectionSet
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim plotRect As Rectangle = canvas.PlotRegion
-            Dim labelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
             Dim maxLabelSize As SizeF = g.MeasureString(collections.collectionSetLabels.MaxLengthString, labelFont)
             Dim hideLabels As Boolean = False
             Dim totalHeight As Double = collections.collectionSetLabels.Length * (maxLabelSize.Height * 1.125)
@@ -157,7 +159,8 @@ Namespace CollectionSet
         Private Sub drawClassLegends(g As IGraphics, canvas As GraphicsRegion)
             Dim legends As New List(Of LegendObject)
             Dim maxwidth As Integer = -1
-            Dim font As Font = CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim font As Font = css.GetFont(CSSFont.TryParse(theme.legendLabelCSS))
             Dim defaultColor As String = collections.compares.color.ToHtmlColor
 
             For Each classKey As String In classColors.Keys
@@ -168,7 +171,7 @@ Namespace CollectionSet
                     .title = classKey
                 }.DoCall(AddressOf legends.Add)
 
-                maxwidth = stdNum.Max(g.MeasureString(classKey, font).Width, maxwidth)
+                maxwidth = std.Max(g.MeasureString(classKey, font).Width, maxwidth)
             Next
 
             Call New LegendObject With {
@@ -178,10 +181,10 @@ Namespace CollectionSet
                 .title = "No Class"
             }.DoCall(AddressOf legends.Add)
 
-            maxwidth = stdNum.Max(g.MeasureString(legends.Last.title, font).Width, maxwidth)
+            maxwidth = std.Max(g.MeasureString(legends.Last.title, font).Width, maxwidth)
             theme.legendLayout = New Absolute With {
                 .x = canvas.Width - maxwidth * 1.25,
-                .y = stdNum.Max(200, canvas.Padding.Top)
+                .y = std.Max(200, canvas.Padding.Top)
             }
 
             Call DrawLegends(g, legends.ToArray, showBorder:=True, canvas:=canvas)
@@ -208,7 +211,7 @@ Namespace CollectionSet
             boxWidth = widthPerGroup ' / dotsPerGroup
             boxHeight = layout.Height / collectionSetLabels.Length
 
-            Dim pointSize As Double = stdNum.Min(boxWidth, boxHeight) / 3
+            Dim pointSize As Double = std.Min(boxWidth, boxHeight) / 3
             Dim gray As New SolidBrush("LightGray".TranslateColor)
             Dim linkStroke As Pen = Stroke.TryParse(theme.lineStroke)
             Dim x As Double = layout.Left + pointSize
@@ -348,13 +351,14 @@ Namespace CollectionSet
             Dim a As New PointF(layout.Right - maxLabelSize.Width, y)
             Dim b As New PointF(layout.Left, y)
             Dim pen As Pen = Stroke.TryParse(theme.axisStroke)
-            Dim width As Double = stdNum.Abs(a.X - b.X)
+            Dim width As Double = std.Abs(a.X - b.X)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
 
-            labelFont = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+            labelFont = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
             g.DrawLine(pen, a, b)
 
             For Each tick As Double In New DoubleRange(0.Join(setSize.Values)).CreateAxisTicks(ticks:=3, decimalDigits:=0)
-                If stdNum.Abs(tick) < 0.01 Then
+                If std.Abs(tick) < 0.01 Then
                     tick = 0
                 End If
 
@@ -373,7 +377,7 @@ Namespace CollectionSet
 
             Dim dTick = labelSize.Height * 1.125
 
-            labelFont = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
+            labelFont = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
             labelSize = g.MeasureString(setSizeLabel, labelFont)
             labelPos = New PointF(b.X + (width - labelSize.Width) / 2, y + dTick)
 
@@ -401,7 +405,8 @@ Namespace CollectionSet
                 .domain(values:=yTick) _
                 .range(values:=New Double() {0, layout.Height})
             Dim x As Double = layout.Left
-            Dim labelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
             Dim offset As Double = boxWidth * 0.1
             Dim pen As Pen = Stroke.TryParse(theme.axisStroke)
             Dim yscale As New YScaler(False) With {
@@ -413,7 +418,7 @@ Namespace CollectionSet
             Call g.DrawY(pen, "Intersection Size", yscale, 0, yTick, YAxisLayoutStyles.Left,
                          New Point(0, -boxHeight),
                          theme.axisLabelCSS, Brushes.Black,
-                         CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi), Brushes.Black,
+                         css.GetFont(CSSFont.TryParse(theme.axisTickCSS)), Brushes.Black,
                          htmlLabel:=False,
                          tickFormat:="F0"
             )

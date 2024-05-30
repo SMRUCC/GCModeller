@@ -1,52 +1,52 @@
 ﻿#Region "Microsoft.VisualBasic::86281cb672db747da81971985a461c92, visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 116
-    '    Code Lines: 95
-    ' Comment Lines: 7
-    '   Blank Lines: 14
-    '     File Size: 4.36 KB
+' Summaries:
 
 
-    ' Class GSVADiffBar
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Sub: PlotInternal
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 116
+'    Code Lines: 95
+' Comment Lines: 7
+'   Blank Lines: 14
+'     File Size: 4.36 KB
+
+
+' Class GSVADiffBar
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Sub: PlotInternal
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,7 +60,9 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports std = System.Math
 
 Public Class GSVADiffBar : Inherits Plot
 
@@ -83,7 +85,7 @@ Public Class GSVADiffBar : Inherits Plot
         Dim rect As Rectangle = canvas.PlotRegion
         Dim stroke As New Pen(Brushes.Black, 3)
         Dim t As Double() = diff _
-            .Select(Function(d) stdNum.Abs(d.t)) _
+            .Select(Function(d) std.Abs(d.t)) _
             .Where(Function(n) Not n.IsNaNImaginary) _
             .Max _
             .SymmetricalRange _
@@ -93,8 +95,9 @@ Public Class GSVADiffBar : Inherits Plot
             .domain(values:=t) _
             .range(integers:={rect.Left, rect.Right})
         Dim axisPen As Pen = CSS.Stroke.TryParse(theme.axisStroke).GDIObject
+        Dim env As CSSEnvirnment = g.LoadEnvironment
         Dim axisTickStroke As Pen = CSS.Stroke.TryParse(theme.axisTickStroke).GDIObject
-        Dim axisTickFont As Font = CSS.CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+        Dim axisTickFont As Font = env.GetFont(theme.axisTickCSS)
         Dim axis As New XAxis(
             plotRegion:=rect,
             scaler:=scaleX,
@@ -122,7 +125,7 @@ Public Class GSVADiffBar : Inherits Plot
         Dim zeroX As Double = scaleX(0)
         Dim bar As Rectangle
         Dim color As Brush
-        Dim labelFont As Font = CSS.CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
+        Dim labelFont As Font = env.GetFont(CSSFont.TryParse(theme.tagCSS))
         Dim labelPos As PointF
         Dim labelSize As SizeF
         Dim labelColor As Brush
@@ -146,7 +149,7 @@ Public Class GSVADiffBar : Inherits Plot
                 labelPos = New PointF(zeroX, y - labelSize.Height / 2)
             End If
 
-            If stdNum.Abs(line.t) < cut Then
+            If std.Abs(line.t) < cut Then
                 color = notsigColor
                 labelColor = notsigColor
             Else

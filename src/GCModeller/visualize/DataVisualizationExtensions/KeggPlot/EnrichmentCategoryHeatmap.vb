@@ -70,6 +70,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports dataframe = Microsoft.VisualBasic.Math.DataFrame.DataFrame
 Imports std = System.Math
@@ -161,8 +162,9 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim rect As Rectangle = canvas.PlotRegion
         Dim delta As Double = rect.Width * 0.005
-        Dim label_font As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
-        Dim tick_font As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim label_font As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
+        Dim tick_font As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
         Dim charRectangle = g.MeasureString("A", label_font)
         Dim max_label_size As SizeF = g.MeasureString(data.rownames.MaxLengthString, label_font)
         Dim width As Double
@@ -324,7 +326,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             g.DrawString(sig(i), label_font, Brushes.Black, x, boxCell.Top)
         Next
 
-        Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+        Dim tickFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
         Dim tick_char As SizeF = g.MeasureString("A", tickFont)
 
         Call g.DrawLine(Pens.Black, CSng(vip_region.Left), CSng(y), vip_region.Right, CSng(y))

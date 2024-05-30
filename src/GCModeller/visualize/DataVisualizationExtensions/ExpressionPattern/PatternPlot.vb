@@ -70,6 +70,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports DashStyle = System.Drawing.Drawing2D.DashStyle
 
@@ -133,15 +134,16 @@ Namespace ExpressionPattern
             Dim y! = canvas.PlotRegion.Top + ih / 2
             Dim padding As String
             Dim clusterTagId As Integer
-            Dim clusterTagFont As Font = CSSFont.TryParse(clusterLabelStyle).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim clusterTagFont As Font = css.GetFont(CSSFont.TryParse(clusterLabelStyle))
             Dim tagPos As PointF
             Dim levels As New Value(Of DoubleRange)
             Dim legendLayout As Rectangle
             Dim designer As SolidBrush() = colors _
                 .Select(Function(c) New SolidBrush(c)) _
                 .ToArray
-            Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleStyle).GDIObject(g.Dpi)
-            Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle).GDIObject(g.Dpi)
+            Dim legendTitleFont As Font = css.GetFont(CSSFont.TryParse(legendTitleStyle))
+            Dim legendTickFont As Font = css.GetFont(CSSFont.TryParse(legendTickStyle))
             Dim tickFormat As String
             Dim left As Double = canvas.PlotRegion.Left + iw / 6
             Dim topMembers As Integer = If(

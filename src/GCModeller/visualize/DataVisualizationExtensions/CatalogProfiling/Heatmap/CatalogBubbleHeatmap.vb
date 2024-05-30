@@ -61,10 +61,10 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports std = System.Math
 
 Namespace CatalogProfiling
 
@@ -98,7 +98,8 @@ Namespace CatalogProfiling
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim pathways As String() = getPathways(-1, 30).Values.IteratesALL.Distinct.ToArray
-            Dim pathwayNameFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim pathwayNameFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
             Dim pad = g.MeasureString("A", pathwayNameFont)
             Dim labelSize As SizeF
             Dim pvalues As DoubleRange = multiples _
@@ -135,8 +136,8 @@ Namespace CatalogProfiling
             Dim dx As Double = region.Width / matrix.Length
             Dim dy As Double = region.Height / pathways.Length
             Dim cellSize As New SizeF With {
-                .Width = stdNum.Min(dx, dy),
-                .Height = stdNum.Min(dx, dy)
+                .Width = std.Min(dx, dy),
+                .Height = std.Min(dx, dy)
             }
             Dim x, y As Double
             Dim gridStroke As Pen = Stroke.TryParse(theme.gridStrokeX).GDIObject
