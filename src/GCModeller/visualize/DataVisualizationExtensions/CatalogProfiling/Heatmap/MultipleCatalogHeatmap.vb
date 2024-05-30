@@ -65,6 +65,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace CatalogProfiling
 
@@ -139,14 +140,15 @@ Namespace CatalogProfiling
         End Sub
 
         Protected Sub drawColorLegends(pvalues As DoubleRange, right As Double, ByRef g As IGraphics, canvas As GraphicsRegion, Optional y As Double = Double.NaN)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
             Dim maps As New ColorMapLegend(palette:=theme.colorSet, mapLevels) With {
                 .format = "F2",
                 .noblank = False,
                 .tickAxisStroke = Stroke.TryParse(theme.legendTickAxisStroke).GDIObject,
-                .tickFont = CSSFont.TryParse(theme.legendTickCSS).GDIObject(g.Dpi),
+                .tickFont = css.GetFont(CSSFont.TryParse(theme.legendTickCSS)),
                 .ticks = pvalues.CreateAxisTicks,
                 .title = "Z-score(-log10(pvalue))",
-                .titleFont = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi),
+                .titleFont = css.GetFont(CSSFont.TryParse(theme.legendTitleCSS)),
                 .unmapColor = colorMissing,
                 .ruleOffset = 5,
                 .legendOffsetLeft = 5

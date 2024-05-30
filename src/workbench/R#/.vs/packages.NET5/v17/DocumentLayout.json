@@ -3,16 +3,7 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\degplot\\volcano.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\samplecolorbend.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\degplot\\classchanges.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\degplot\\gsvadiffbar.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\catalogprofiling\\heatmap\\multiplecatalogheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,53 +30,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Volcano.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEQAAAAWAAAA",
+              "Title": "MultipleCatalogHeatmap.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\MultipleCatalogHeatmap.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\MultipleCatalogHeatmap.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\MultipleCatalogHeatmap.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\MultipleCatalogHeatmap.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADwAAAAbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-05-30T08:51:43.56Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SampleColorBend.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\SampleColorBend.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\SampleColorBend.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\SampleColorBend.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\SampleColorBend.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADgAAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-05-30T08:51:18.513Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ClassChanges.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\ClassChanges.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\ClassChanges.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\ClassChanges.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\ClassChanges.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADsAAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-05-30T08:50:11.512Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "GSVADiffBar.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADsAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-05-30T08:49:15.137Z",
+              "WhenOpened": "2024-05-30T08:53:28.53Z",
               "EditorCaption": ""
             }
           ]
