@@ -84,6 +84,7 @@ Namespace Imaging
     ''' <summary>
     ''' 这个对象是<see cref="Graphics2D"/>以及<see cref="Wmf"/>公用的基础类型
     ''' </summary>
+    ''' <remarks>the gdi+ graphics canvas base model</remarks>
     Public MustInherit Class GDICanvas : Inherits IGraphics
         Implements IDisposable
 
@@ -123,19 +124,6 @@ Namespace Imaging
 
         Sub New()
         End Sub
-
-#Region "Default canvas style values"
-        ''' <summary>
-        ''' Default pen for drawing
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property Stroke As Pen
-        ''' <summary>
-        ''' Default font value for text drawing
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property Font As Font
-#End Region
 
 #Region "Implements Class Graphics"
 
