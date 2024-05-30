@@ -1,7 +1,23 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8AB21F5F-95C5-4A5F-8829-54118DA02A74}|..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\KEGGGraphVisualizer.vbproj|e:\\gcmodeller\\src\\gcmodeller\\models\\networks\\kegggraphvisualizer\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8AB21F5F-95C5-4A5F-8829-54118DA02A74}|..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\KEGGGraphVisualizer.vbproj|e:\\gcmodeller\\src\\gcmodeller\\models\\networks\\kegggraphvisualizer\\functionalnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\catalogprofiling\\heatmap\\catalogbubbleheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\catalogprofiling\\heatmap\\catalogheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\catalogprofiling\\catalogbubbleplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +25,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 223,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +38,71 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "zzz.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\zzz.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\zzz.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\zzz.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\zzz.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-30T08:47:57.859Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FunctionalNetwork.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\FunctionalNetwork.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\FunctionalNetwork.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\FunctionalNetwork.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\KEGGGraphVisualizer\\FunctionalNetwork.vb",
+              "ViewState": "AQIAAM4AAAAAAAAAAAAIwOsAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-30T08:47:16.659Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CatalogBubblePlot.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\CatalogBubblePlot.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\CatalogBubblePlot.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\CatalogBubblePlot.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\CatalogBubblePlot.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEIAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-30T08:46:01.081Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CatalogHeatMap.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogHeatMap.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogHeatMap.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogHeatMap.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogHeatMap.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADgAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-30T08:45:28.379Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CatalogBubbleHeatmap.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogBubbleHeatmap.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogBubbleHeatmap.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogBubbleHeatmap.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogBubbleHeatmap.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADsAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-05-30T08:44:58.658Z",
+              "EditorCaption": ""
             }
           ]
         }
