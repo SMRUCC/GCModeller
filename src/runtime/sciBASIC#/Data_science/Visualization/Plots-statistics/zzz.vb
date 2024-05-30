@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5f76f287ce015b15285e8098d7701b1, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\UnixMan\ManFile\ManIndex.vb"
+﻿#Region "Microsoft.VisualBasic::7ba8109b5ebff3963c6ebc50fbc484f1, Data_science\Visualization\Plots\zzz.vb"
 
     ' Author:
     ' 
@@ -34,42 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 19
-    '    Code Lines: 12 (63.16%)
-    ' Comment Lines: 3 (15.79%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 3
+    '    Code Lines: 2 (66.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 4 (21.05%)
-    '     File Size: 589 B
+    '   Blank Lines: 1 (33.33%)
+    '     File Size: 84 B
 
 
-    '     Class ManIndex
-    ' 
-    '         Properties: [date], category, index, keyword, title
-    ' 
-    '         Function: ToString
-    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace ApplicationServices.Terminal.Utility
+Imports System.Diagnostics.CodeAnalysis
 
-    ''' <summary>
-    ''' the document index
-    ''' </summary>
-    Public Class ManIndex
-
-        Public Property index As String
-        Public Property category As Integer
-        Public Property [date] As Date = Now
-        Public Property keyword As String
-        Public Property title As String
-
-        Public Overrides Function ToString() As String
-            Return $".TH {Strings.UCase(index)} {category} {[date].ToString("yyyy-MMM")} ""{keyword}"" ""{title}"""
-        End Function
-
-    End Class
-End Namespace
+<Assembly: SuppressMessage("", "CA1416")>
