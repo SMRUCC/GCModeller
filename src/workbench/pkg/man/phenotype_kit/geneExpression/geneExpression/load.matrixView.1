@@ -12,6 +12,11 @@ Load the HTS matrix into a lazy matrix viewer
 .PP
 \fBmat\fB \fR\- -. 
 .PP
+.SH EXAMPLES
+.PP
+let expr_mat = load.expr(file = "./rawdata.csv");
+ let view = load.matrixView(mat = expr_mat);
+.PP
 .SH SEE ALSO
 geneExpression
 .SH FILES
