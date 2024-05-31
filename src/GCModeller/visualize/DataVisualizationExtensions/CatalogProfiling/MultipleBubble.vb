@@ -227,12 +227,12 @@ Namespace CatalogProfiling
             Dim paint As SolidBrush
             Dim sampleColors As Dictionary(Of String, SolidBrush) = getSampleColors()
 
-            Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, region)
+            Call g.DrawRectangle(css.GetPen(Stroke.TryParse(theme.axisStroke)), region)
 
             ' draw axis
             Call Axis.DrawX(
                 g:=g,
-                pen:=Stroke.TryParse(theme.axisStroke).GDIObject,
+                pen:=css.GetPen(Stroke.TryParse(theme.axisStroke)),
                 label:=xlabel,
                 scaler:=New DataScaler With {.AxisTicks = (pvalueTicks.AsVector, Nothing), .region = region, .X = xscale, .Y = Nothing},
                 layout:=XAxisLayoutStyles.Bottom,

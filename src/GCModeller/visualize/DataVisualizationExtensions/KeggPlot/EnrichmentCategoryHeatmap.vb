@@ -266,7 +266,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             Call g.DrawString("KEGG Class", big_label, Brushes.Black, x + big_char.Width, y, 90)
         End If
 
-        Dim axis_line_pen As Pen = Stroke.TryParse(theme.axisStroke).GDIObject
+        Dim axis_line_pen As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
         Dim treePlot As New HorizonRightToLeft With {
             .labelFont = label_font,
             .labelPadding = 0,

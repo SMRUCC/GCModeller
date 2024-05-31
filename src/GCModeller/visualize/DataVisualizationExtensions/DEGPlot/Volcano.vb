@@ -316,7 +316,7 @@ Public Class VolcanoPlot : Inherits Plot
         Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
         Dim titleFont As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
         Dim ticksFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
-        Dim thresholdPen As Pen = Stroke.TryParse(theme.lineStroke).GDIObject
+        Dim thresholdPen As Pen = css.GetPen(Stroke.TryParse(theme.lineStroke))
         Dim point As PointF
         Dim px!, py!
         Dim up%, down%

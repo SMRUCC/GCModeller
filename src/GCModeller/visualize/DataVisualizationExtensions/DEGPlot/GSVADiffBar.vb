@@ -94,9 +94,9 @@ Public Class GSVADiffBar : Inherits Plot
             .linear() _
             .domain(values:=t) _
             .range(integers:={rect.Left, rect.Right})
-        Dim axisPen As Pen = CSS.Stroke.TryParse(theme.axisStroke).GDIObject
         Dim env As CSSEnvirnment = g.LoadEnvironment
-        Dim axisTickStroke As Pen = CSS.Stroke.TryParse(theme.axisTickStroke).GDIObject
+        Dim axisPen As Pen = env.GetPen(CSS.Stroke.TryParse(theme.axisStroke))
+        Dim axisTickStroke As Pen = env.GetPen(CSS.Stroke.TryParse(theme.axisTickStroke))
         Dim axisTickFont As Font = env.GetFont(theme.axisTickCSS)
         Dim axis As New XAxis(
             plotRegion:=rect,

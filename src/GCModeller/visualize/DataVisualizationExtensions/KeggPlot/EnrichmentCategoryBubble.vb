@@ -108,7 +108,7 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
         Dim bubble_rect_width As Single = canvas.PlotRegion.Width - max_string_size.Width
         Dim labelColor As Brush = theme.tagColor.GetBrush
         Dim y As Single = canvas.PlotRegion.Top
-        Dim dashline As Pen = Stroke.TryParse(theme.gridStrokeY)
+        Dim dashline As Pen = css.GetPen(Stroke.TryParse(theme.gridStrokeY))
         Dim plotW As Single = canvas.PlotRegion.Width - g.MeasureString(max_string, name_label_font).Width
         Dim x_Ticks As Vector = (-enrich.Values.IteratesALL.Select(Function(ti) ti.pvalue).AsVector.Log10).CreateAxisTicks
         Dim radius_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) Val(ti.enriched)).AsVector
@@ -117,7 +117,7 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
         Dim colors As Brush() = Designer.GetBrushes(theme.colorSet, mapLevels)
         Dim colorOffset As New DoubleRange(0, colors.Length - 1)
         Dim boxFill As Brush = Brushes.LightGray
-        Dim axis_stroke As Pen = Stroke.TryParse(theme.axisStroke)
+        Dim axis_stroke As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
         Dim scaler As New DataScaler() With {
             .AxisTicks = (x_Ticks, {canvas.PlotRegion.Top, canvas.PlotRegion.Bottom}),
             .region = New Rectangle(left + radius.Min, top, bubble_rect_width - radius.Min, y - top),
@@ -195,7 +195,7 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
             legend_layout.Height)
 
         Call New CircleSizeLegend With {
-            .circleStroke = Stroke.TryParse(theme.axisStroke).GDIObject,
+            .circleStroke = css.GetPen(Stroke.TryParse(theme.axisStroke)),
             .radius = radiusVal _
                 .CreateAxisTicks(ticks:=5) _
                 .Select(Function(d) CInt(d)) _

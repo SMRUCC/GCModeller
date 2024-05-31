@@ -160,7 +160,7 @@ Namespace CatalogProfiling
                 ' Dim v As New List(Of Double)
 
                 Call g.FillRectangle(colorMissing.GetBrush, block)
-                Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, block)
+                Call g.DrawRectangle(css.GetPen(Stroke.TryParse(theme.axisStroke)), block)
 
                 For Each id As String In pathIds
                     x = region.Left
