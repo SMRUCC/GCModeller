@@ -61,9 +61,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-#If netcore5 = 0 Then
-Imports RDotNet.Extensions.VisualBasic.API
-#End If
 
 ''' <summary>
 ''' iTraq质谱实验结果的质量检验分析
@@ -126,12 +123,13 @@ Public Module RSDPdensity
 
             Dim ticksX = .Select(Function(pt) CDbl(pt.X)).CreateAxisTicks.AsVector
             Dim ticksY = .Select(Function(pt) CDbl(pt.Y)).CreateAxisTicks.AsVector
+            Dim css As CSSEnvirnment = CSSEnvirnment.Empty(100)
 
             ' 分别绘制出P值和RSD值得临界值线
             ' P直线是横向的，即(0,P) (maxX,P)
             ' RSD线是竖向的，即(RSD,minY) (RSD, maxY)
             Dim P = P_threshold
-            Dim line As Pen = Stroke.TryParse(lineStroke).GDIObject
+            Dim line As Pen = css.GetPen(Stroke.TryParse(lineStroke))
             Dim xMax# = {1, ticksX.Max}.Max
 
             Dim Pa As New PointF(0!, P)
