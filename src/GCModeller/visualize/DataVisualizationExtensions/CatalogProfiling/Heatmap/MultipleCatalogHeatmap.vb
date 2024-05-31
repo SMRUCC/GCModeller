@@ -144,7 +144,7 @@ Namespace CatalogProfiling
             Dim maps As New ColorMapLegend(palette:=theme.colorSet, mapLevels) With {
                 .format = "F2",
                 .noblank = False,
-                .tickAxisStroke = Stroke.TryParse(theme.legendTickAxisStroke).GDIObject,
+                .tickAxisStroke = css.GetPen(Stroke.TryParse(theme.legendTickAxisStroke)),
                 .tickFont = css.GetFont(CSSFont.TryParse(theme.legendTickCSS)),
                 .ticks = pvalues.CreateAxisTicks,
                 .title = "Z-score(-log10(pvalue))",

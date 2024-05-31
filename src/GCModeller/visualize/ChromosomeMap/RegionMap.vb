@@ -104,7 +104,7 @@ Public Module RegionMap
                     ' 如果都绘制在一条线上面的画，则会绘制一条水平的参考线
                     Dim left As New Point(margin.Left, top + 100 + geneShapeHeight / 2)
                     Dim right As New Point(width - margin.Right, left.Y)
-                    Dim refLineStroke As Pen = Stroke.TryParse(referenceLineStroke)
+                    Dim refLineStroke As Pen = css.GetPen(Stroke.TryParse(referenceLineStroke))
 
                     Call g.DrawLine(refLineStroke, left, right)
                 End If

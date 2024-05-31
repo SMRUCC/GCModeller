@@ -213,7 +213,8 @@ Namespace CollectionSet
 
             Dim pointSize As Double = std.Min(boxWidth, boxHeight) / 3
             Dim gray As New SolidBrush("LightGray".TranslateColor)
-            Dim linkStroke As Pen = Stroke.TryParse(theme.lineStroke)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim linkStroke As Pen = css.GetPen(Stroke.TryParse(theme.lineStroke))
             Dim x As Double = layout.Left + pointSize
             Dim allData As Dictionary(Of String, NamedCollection(Of String)) = collections.allData
             Dim labelIndex As Index(Of String) = collectionSetLabels
@@ -348,11 +349,11 @@ Namespace CollectionSet
             y += 5
 
             ' draw axis
+            Dim css As CSSEnvirnment = g.LoadEnvironment
             Dim a As New PointF(layout.Right - maxLabelSize.Width, y)
             Dim b As New PointF(layout.Left, y)
-            Dim pen As Pen = Stroke.TryParse(theme.axisStroke)
+            Dim pen As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
             Dim width As Double = std.Abs(a.X - b.X)
-            Dim css As CSSEnvirnment = g.LoadEnvironment
 
             labelFont = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
             g.DrawLine(pen, a, b)
@@ -408,7 +409,7 @@ Namespace CollectionSet
             Dim css As CSSEnvirnment = g.LoadEnvironment
             Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
             Dim offset As Double = boxWidth * 0.1
-            Dim pen As Pen = Stroke.TryParse(theme.axisStroke)
+            Dim pen As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
             Dim yscale As New YScaler(False) With {
                 .region = layout,
                 .Y = scaleY

@@ -61,6 +61,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace PathwayMaps.RenderStyles
 
@@ -102,7 +103,7 @@ Namespace PathwayMaps.RenderStyles
             Return 32
         End Function
 
-        Dim reactionShapeStroke As Pen
+        Dim reactionShapeStroke As Stroke
         Dim rectShadow As New Shadow(10, 30, 1.125, 1.25)
         Dim circleShadow As New Shadow(130, 45, 2, 2)
         Dim hideCompoundCircle As Boolean = True
@@ -111,6 +112,7 @@ Namespace PathwayMaps.RenderStyles
         Public Overrides Function drawNode(id As String, g As IGraphics, br As Brush, radius As Single(), center As PointF) As RectangleF
             Dim node As Node = nodes(id)
             Dim rect As Rectangle = getNodeLayout(id, radius, center)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
 
             If node.label.IsPattern("C\d+") Then
                 If Not hideCompoundCircle Then
@@ -124,7 +126,7 @@ Namespace PathwayMaps.RenderStyles
 
                 Call rectShadow.RoundRectangle(g, rect, 30)
                 Call g.FillPath(br, RoundRect.GetRoundedRectPath(rect, 30))
-                Call g.DrawPath(reactionShapeStroke, RoundRect.GetRoundedRectPath(rect, 30))
+                Call g.DrawPath(css.GetPen(reactionShapeStroke), RoundRect.GetRoundedRectPath(rect, 30))
             End If
 
             Return rect

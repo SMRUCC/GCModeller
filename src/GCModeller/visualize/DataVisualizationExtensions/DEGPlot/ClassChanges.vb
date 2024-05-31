@@ -101,14 +101,14 @@ Public Class ClassChanges : Inherits Plot
         Dim plotregion As Rectangle = canvas.PlotRegion
         Dim y As Double = degClass.Length
         Dim x As Double
-        Dim axisStroke As Pen = Stroke.TryParse(theme.axisStroke)
-        Dim tickStroke As Pen = Stroke.TryParse(theme.axisTickStroke)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim axisStroke As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
+        Dim tickStroke As Pen = css.GetPen(Stroke.TryParse(theme.axisTickStroke))
         Dim a As PointF
         Dim b As PointF
         Dim xscale = d3js.scale.linear.domain(values:=xTicks).range(integers:={plotregion.Left, plotregion.Right})
         Dim labelText As String
         Dim labelSize As SizeF
-        Dim css As CSSEnvirnment = g.LoadEnvironment
         Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
         Dim tickPadding As Double = g.MeasureString("0", labelFont).Height / 2
         Dim dh As Double = plotregion.Height / degClass.Length

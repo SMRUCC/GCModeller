@@ -140,11 +140,11 @@ Namespace CatalogProfiling
                 .Height = std.Min(dx, dy)
             }
             Dim x, y As Double
-            Dim gridStroke As Pen = Stroke.TryParse(theme.gridStrokeX).GDIObject
+            Dim gridStroke As Pen = css.GetPen(Stroke.TryParse(theme.gridStrokeX))
 
             x = region.Left + dx / 2
             y = region.Top + dy / 2
-            g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, region)
+            g.DrawRectangle(css.GetPen(Stroke.TryParse(theme.axisStroke)), region)
 
             For Each sample In multiples
                 Call g.DrawLine(gridStroke, New PointF(x, region.Top), New PointF(x, region.Bottom))
@@ -155,7 +155,7 @@ Namespace CatalogProfiling
                 x = region.Left + dx / 2
 
                 Call g.DrawLine(gridStroke, New PointF(region.Left, y), New PointF(region.Right, y))
-                Call g.DrawLine(Stroke.TryParse(theme.axisStroke).GDIObject, New PointF(region.Left, y), New PointF(region.Left - pad.Width / 2, y))
+                Call g.DrawLine(css.GetPen(Stroke.TryParse(theme.axisStroke)), New PointF(region.Left, y), New PointF(region.Left - pad.Width / 2, y))
 
                 For Each sample In matrix
                     Dim bubble As BubbleTerm = sample.Value.TryGetValue(pid)
