@@ -57,6 +57,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.MIME.Html.Render.CSS
@@ -98,6 +99,84 @@ Namespace CSS
             _baseLine = stroke
 
             Return Me
+        End Function
+
+        Public Function GetSize(size As CSSsize) As SizeF
+            Return New SizeF(
+                GetValue(New CssLength(size.width)),
+                GetValue(New CssLength(size.height))
+            )
+        End Function
+
+        Public Shared Function GetValue(size As CssLength) As Single
+            Select Case size.Unit
+                Case CssUnit.None, CssUnit.Pixels, CssUnit.Points : Return size.Number
+                Case Else
+                    Throw New NotImplementedException(size.ToString)
+            End Select
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="stroke"></param>
+        ''' <param name="allowNull">
+        ''' unlike the function <see cref="GetPen(Stroke)"/> may returns the value of <see cref="baseLine"/> 
+        ''' if the given stroke value is nothing, this function will returns nothing directly if 
+        ''' this parameter value set to TRUE.
+        ''' </param>
+        ''' <returns></returns>
+        Public Function GetPen(stroke As Stroke, allowNull As Boolean) As Pen
+            If allowNull Then
+                If stroke Is Nothing Then
+                    Return Nothing
+                Else
+                    Return GetPen(stroke)
+                End If
+            Else
+                Return GetPen(stroke)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="stroke"></param>
+        ''' <returns>
+        ''' this function may handling of the <paramref name="stroke"/> null value 
+        ''' as the default <see cref="baseLine"/> style.
+        ''' </returns>
+        Public Function GetPen(stroke As Stroke) As Pen
+            If stroke Is Nothing Then
+                Return baseLine
+            End If
+
+            Dim style As DashStyle = GetDashStyle(stroke)
+            Dim size As New CssLength(stroke.width)
+            Dim width As Single
+
+            Select Case size.Unit
+                Case CssUnit.Ems : width = baseLine.Width * size.Number
+                Case CssUnit.None, CssUnit.Pixels, CssUnit.Points : width = size.Number
+                Case Else
+                    Throw New NotImplementedException(stroke.width)
+            End Select
+
+            Return New Pen(stroke.fill.GetBrush, width) With {
+                .DashStyle = style
+            }
+        End Function
+
+        Public Function GetDashStyle(css As Stroke) As DashStyle
+            If css Is Nothing AndAlso baseLine Is Nothing Then
+                Return Nothing
+            ElseIf baseLine Is Nothing Then
+                Return css.dash
+            ElseIf css Is Nothing Then
+                Return baseLine.DashStyle
+            Else
+                Return css.dash
+            End If
         End Function
 
         Public Function GetFontByScale(em As Single) As Font
