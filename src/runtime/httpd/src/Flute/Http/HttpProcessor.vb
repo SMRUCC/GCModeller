@@ -234,7 +234,12 @@ Namespace Core
             }
 
             Try
-                Call processHttpRequest()
+                Dim flag = processHttpRequest()
+
+                If flag IsNot Nothing AndAlso Not flag Then
+                    ' http header parser error!
+                    Call writeFailure(HTTP_RFC.RFC_INTERNAL_SERVER_ERROR, "Invalid request header data!")
+                End If
             Catch e As Exception
                 Call e.PrintException
                 writeFailure(HTTP_RFC.RFC_INTERNAL_SERVER_ERROR, e.ToString)
@@ -267,13 +272,12 @@ Namespace Core
         ''' <summary>
         ''' 在这个方法之中完成对一次http请求的解析到相对应的API处理的完整过程，当这个方法执行完毕之后就会关闭socket断开与浏览器的连接了
         ''' </summary>
-        Private Sub processHttpRequest()
+        Private Function processHttpRequest() As Boolean?
             ' 解析http请求
             If Not parseRequest() Then
                 ' 没有解析到请求的头部，则不会再做进一步的处理了，直接退出断开连接
                 ' 不在抛出错误了，因为抛出错误的整个处理过程开销比较大
-                Call $"[{socket.Client.RemoteEndPoint.ToString}] Empty request header, this request will not be processed!".Warning
-                Return
+                Return False
             Else
                 Call readHeaders()
             End If
@@ -288,7 +292,9 @@ Namespace Core
             Else
                 Call srv.handleOtherMethod(Me)
             End If
-        End Sub
+
+            Return Nothing
+        End Function
 
         ''' <summary>
         ''' 对于非法的header格式会直接抛出错误，对于空的请求则会返回False
@@ -319,7 +325,6 @@ Namespace Core
             Dim tokens As String() = request.Split(" "c)
 
             If tokens.Length <> 3 Then
-                Call ("invalid http request line: " & request).PrintException
                 Return False
             Else
                 http_method = tokens(0).ToUpper()
@@ -337,11 +342,8 @@ Namespace Core
             Dim line As String = "", s As New Value(Of String)
             Dim separator As Integer
 
-            Call NameOf(readHeaders).__DEBUG_ECHO(mute:=_settings.silent)
-
             While (s = streamReadLine(_inputStream)) IsNot Nothing
                 If s.Value.StringEmpty Then
-                    Call "got headers".__DEBUG_ECHO(mute:=_settings.silent)
                     Return
                 Else
                     line = s.Value
@@ -349,7 +351,6 @@ Namespace Core
                 End If
 
                 If separator = -1 Then
-                    Call ("invalid http header line: " & line).Warning
                     Continue While
                 End If
 
@@ -363,9 +364,7 @@ Namespace Core
 
                 Dim value As String = line.Substring(pos, line.Length - pos)
 
-                Call _raw.AppendLine(s.Value)
-                Call $"header: {name}:{value}".__DEBUG_ECHO(mute:=_settings.silent)
-
+                _raw.AppendLine(s.Value)
                 httpHeaders(name) = value
             End While
         End Sub
