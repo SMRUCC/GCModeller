@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccaa35be97abab677cc17970dabbf5a8, Data_science\Visualization\Plots\Scatter\Bubble.vb"
+﻿#Region "Microsoft.VisualBasic::6a345151789c09336f261d7c60382c45, Data_science\Visualization\Plots\Scatter\Bubble.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 333
-    '    Code Lines: 270 (81.08%)
-    ' Comment Lines: 21 (6.31%)
+    '   Total Lines: 334
+    '    Code Lines: 272 (81.44%)
+    ' Comment Lines: 21 (6.29%)
     '    - Xml Docs: 80.95%
     ' 
-    '   Blank Lines: 42 (12.61%)
-    '     File Size: 13.60 KB
+    '   Blank Lines: 41 (12.28%)
+    '     File Size: 13.74 KB
 
 
     ' Class Bubble
@@ -69,7 +69,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports std = System.Math
 
 ''' <summary>
 ''' the bubble plots
@@ -77,7 +78,7 @@ Imports stdNum = System.Math
 Public Class Bubble : Inherits Plot
 
     Private Shared Function logRadius(R#) As Double
-        Return stdNum.Log(R + 1) + 1
+        Return std.Log(R + 1) + 1
     End Function
 
     ReadOnly usingLogRadius As New [Default](Of Func(Of Double, Double))(AddressOf logRadius)
@@ -185,6 +186,7 @@ Public Class Bubble : Inherits Plot
                             End If
                         End Function
         Dim device As IGraphics = g
+        Dim css As CSSEnvirnment = g.LoadEnvironment
 
         If Not (s.color.IsEmpty) Then
             b = New SolidBrush(s.color)
@@ -213,7 +215,8 @@ Public Class Bubble : Inherits Plot
                     Call g.DrawCircle(pt.pt, r, bubblePen, fill:=False)
                 End If
             Else
-                Call Stroke.TryParse(pt.stroke).GDIObject _
+                Call css _
+                    .GetPen(Stroke.TryParse(pt.stroke)) _
                     .DoCall(Sub(pen)
                                 Call device.DrawCircle(pt.pt, r, pen, fill:=False)
                             End Sub)
@@ -240,9 +243,10 @@ Public Class Bubble : Inherits Plot
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim mapper As Mapper
+        Dim css As CSSEnvirnment = g.LoadEnvironment
         Dim rangeData As New Scaling(data, False)
-        Dim tagLabelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
-        Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(g.Dpi)
+        Dim tagLabelFont As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
+        Dim titleFont As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
 
         If xAxis.StringEmpty Then
             ' 任意一个位空值就会使用普通的axis数据计算方法
@@ -295,11 +299,7 @@ Public Class Bubble : Inherits Plot
             XtickFormat:=If(mapper.xAxis.Max > 0.01, "F2", "G2")
         )
 
-        Dim bubblePen As Pen = Nothing
-
-        If Not bubbleBorder Is Nothing Then
-            bubblePen = bubbleBorder.GDIObject
-        End If
+        Dim bubblePen As Pen = css.GetPen(bubbleBorder, allowNull:=True)
 
         For Each s As SerialData In data
             Call Bubble.Plot(g, s, scaler, tagLabelFont, labels, anchors, bubblePen, scale)
@@ -338,7 +338,8 @@ Public Class Bubble : Inherits Plot
     End Sub
 
     Private Sub drawLegend(g As IGraphics, canvas As GraphicsRegion)
-        Dim legendLabelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
+        Dim env As CSSEnvirnment = g.LoadEnvironment
+        Dim legendLabelFont As Font = env.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
         Dim maxSize! = data _
             .Select(Function(s) s.title) _
             .Select(Function(str) g.MeasureString(str, legendLabelFont).Width) _

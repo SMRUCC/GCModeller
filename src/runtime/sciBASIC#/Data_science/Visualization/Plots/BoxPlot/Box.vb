@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4e40e25520176971167dc3d54ceea1f, Data_science\Visualization\Plots\BoxPlot\Box.vb"
+﻿#Region "Microsoft.VisualBasic::ee75f892dd6ac311899aad9702d46cef, Data_science\Visualization\Plots\BoxPlot\Box.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 241
-    '    Code Lines: 178 (73.86%)
-    ' Comment Lines: 23 (9.54%)
+    '   Total Lines: 239
+    '    Code Lines: 176 (73.64%)
+    ' Comment Lines: 23 (9.62%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 40 (16.60%)
-    '     File Size: 10.58 KB
+    '   Blank Lines: 40 (16.74%)
+    '     File Size: 10.54 KB
 
 
     '     Class Box
@@ -68,12 +68,12 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace BoxPlot
 
@@ -96,10 +96,10 @@ Namespace BoxPlot
         End Sub
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-            Dim ppi As Integer = g.Dpi
-            Dim yAxisLabelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(ppi)
-            Dim groupLabelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(ppi)
-            Dim tickLabelFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(ppi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim yAxisLabelFont As Font = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
+            Dim groupLabelFont As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
+            Dim tickLabelFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
             Dim regionStroke As String = theme.lineStroke
             Dim colors As LoopArray(Of SolidBrush) = Designer _
                 .GetColors(theme.colorSet) _
@@ -146,16 +146,14 @@ Namespace BoxPlot
             }
 
             If Not regionStroke.StringEmpty Then
-                Call g.DrawRectangle(
-                        Stroke.TryParse(regionStroke).GDIObject,
-                        plotRegion)
+                Call g.DrawRectangle(css.GetPen(Stroke.TryParse(regionStroke)), plotRegion)
             End If
 
             ' x0在盒子的左边
             Dim x0! = canvas.Padding.Left + leftPart + interval
             Dim y0!
             Dim labelSize As SizeF
-            Dim tickPen As Pen = Stroke.TryParse(regionStroke).GDIObject
+            Dim tickPen As Pen = css.GetPen(Stroke.TryParse(regionStroke))
 
             ' 绘制盒子
             ' 当不填充盒子的时候，使用的线条和点的颜色都是彩色的

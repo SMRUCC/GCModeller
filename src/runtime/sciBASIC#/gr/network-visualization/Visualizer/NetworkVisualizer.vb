@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8005febb21c59ef5c0f0f0c1f91a71c3, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
+﻿#Region "Microsoft.VisualBasic::8a7fc2cf667377d44c96978ac1b8cdde, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 455
-    '    Code Lines: 317 (69.67%)
-    ' Comment Lines: 85 (18.68%)
+    '   Total Lines: 458
+    '    Code Lines: 320 (69.87%)
+    ' Comment Lines: 85 (18.56%)
     '    - Xml Docs: 72.94%
     ' 
-    '   Blank Lines: 53 (11.65%)
-    '     File Size: 21.83 KB
+    '   Blank Lines: 53 (11.57%)
+    '     File Size: 22.00 KB
 
 
     ' Module NetworkVisualizer
@@ -90,6 +90,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports std = System.Math
 
@@ -243,13 +244,14 @@ Public Module NetworkVisualizer
 
         Call "Initialize gdi objects...".__INFO_ECHO
 
-        Dim stroke As Pen = CSS.Stroke.TryParse(nodeStroke)?.GDIObject
-        Dim baseFont As Font = CSSFont.TryParse(
+        Dim env As CSSEnvirnment = CSSEnvirnment.Empty(ppi)
+        Dim stroke As Pen = env.GetPen(CSS.Stroke.TryParse(nodeStroke), allowNull:=True)
+        Dim baseFont As Font = env.GetFont(CSSFont.TryParse(
             labelFontBase, New CSSFont With {
                 .family = FontFace.MicrosoftYaHei,
                 .size = 12,
                 .style = FontStyle.Regular
-            }).GDIObject(ppi)
+            }))
 
         Call "Initialize variables, done!".__INFO_ECHO
 
@@ -330,7 +332,7 @@ Public Module NetworkVisualizer
             fontSizeValue:=fontSizeMapper,
             defaultColor:=defaultColor.TranslateColor,
             stroke:=stroke,
-            baseFont:=baseFont,
+            baseFontCss:=baseFont,
             scalePos:=scalePos,
             throwEx:=throwEx,
             getDisplayLabel:=getNodeLabel,
@@ -437,7 +439,8 @@ Public Module NetworkVisualizer
                      End Function) _
             .ToArray
         Dim colors As LoopArray(Of Color) = Designer.GetColors(hullPolygonGroups.Description Or "set1:c8".AsDefault)
-        Dim convexHullLabelFont As Font = CSSFont.TryParse(convexHullLabelFontCSS$).GDIObject(g.Dpi)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim convexHullLabelFont As Font = css.GetFont(CSSFont.TryParse(convexHullLabelFontCSS$))
         Dim singleGroupKey As String = Nothing
 
         If hullPolygonGroups.Value.StringEmpty Then

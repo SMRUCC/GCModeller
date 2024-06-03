@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::437bdba436aec0cbec4b3168e9b8f7b4, mime\text%html\Render\CSS\CssBox.vb"
+﻿#Region "Microsoft.VisualBasic::68db9a0e06fcc11fae40db5d18158053, mime\text%html\Render\CSS\CssBox.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 3166
-    '    Code Lines: 2180 (68.86%)
+    '   Total Lines: 3167
+    '    Code Lines: 2181 (68.87%)
     ' Comment Lines: 463 (14.62%)
     '    - Xml Docs: 81.86%
     ' 
-    '   Blank Lines: 523 (16.52%)
+    '   Blank Lines: 523 (16.51%)
     '     File Size: 109.94 KB
 
 
@@ -97,8 +97,9 @@ Imports System.Reflection
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports rect = System.Drawing.Rectangle
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Render.CSS
 
@@ -1318,7 +1319,7 @@ Namespace Render.CSS
 
                     If len.HasError Then
                         computedValue = _defaults("font-size")
-                    ElseIf len.Unit = CssLength.CssUnit.Ems AndAlso ParentBox IsNot Nothing Then
+                    ElseIf len.Unit = CssUnit.Ems AndAlso ParentBox IsNot Nothing Then
                         computedValue = len.ConvertEmToPoints(ParentBox.ActualFont.SizeInPoints).ToString()
                     Else
                         computedValue = len.ToString()
@@ -2615,12 +2616,12 @@ Namespace Render.CSS
         ''' <returns></returns>
         Friend Function GetMaximumBottom(startBox As CssBox, currentMaxBottom As Single) As Single
             For Each line As CssLineBox In startBox.Rectangles.Keys
-                currentMaxBottom = stdNum.Max(currentMaxBottom, startBox.Rectangles(line).Bottom)
+                currentMaxBottom = std.Max(currentMaxBottom, startBox.Rectangles(line).Bottom)
             Next
 
             For Each b As CssBox In startBox.Boxes
-                currentMaxBottom = stdNum.Max(currentMaxBottom, b.ActualBottom)
-                currentMaxBottom = stdNum.Max(currentMaxBottom, GetMaximumBottom(b, currentMaxBottom))
+                currentMaxBottom = std.Max(currentMaxBottom, b.ActualBottom)
+                currentMaxBottom = std.Max(currentMaxBottom, GetMaximumBottom(b, currentMaxBottom))
             Next
 
             Return currentMaxBottom
@@ -2734,7 +2735,7 @@ Namespace Render.CSS
         ''' <returns>Maximum of margins</returns>
         Private Function MarginCollapse(a As CssBox, b As CssBox) As Single
 
-            Return stdNum.Max(If(a Is Nothing, 0, a.ActualMarginBottom), If(b Is Nothing, 0, b.ActualMarginTop))
+            Return std.Max(If(a Is Nothing, 0, a.ActualMarginBottom), If(b Is Nothing, 0, b.ActualMarginTop))
         End Function
 
         ''' <summary>
@@ -2804,7 +2805,7 @@ Namespace Render.CSS
                         Next
 
                         If lastOne IsNot Nothing Then
-                            ActualBottom = stdNum.Max(ActualBottom, lastOne.ActualBottom + lastOne.ActualMarginBottom + ActualPaddingBottom)
+                            ActualBottom = std.Max(ActualBottom, lastOne.ActualBottom + lastOne.ActualMarginBottom + ActualPaddingBottom)
                         End If
                     End If
                     '#End Region
@@ -2813,8 +2814,8 @@ Namespace Render.CSS
 
             If InitialContainer IsNot Nothing Then
                 InitialContainer.MaximumSize = New SizeF(
-                    stdNum.Max(InitialContainer.MaximumSize.Width, ActualRight),
-                    stdNum.Max(InitialContainer.MaximumSize.Height, ActualBottom))
+                    std.Max(InitialContainer.MaximumSize.Width, ActualRight),
+                    std.Max(InitialContainer.MaximumSize.Height, ActualBottom))
             End If
         End Sub
 
@@ -2914,7 +2915,7 @@ Namespace Render.CSS
         Private Function NoEms(length As String) As String
             Dim len As New CssLength(length)
 
-            If len.Unit = CssLength.CssUnit.Ems Then
+            If len.Unit = CssUnit.Ems Then
                 length = len.ConvertEmToPixels(GetEmHeight()).ToString()
             End If
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::492e67fc809447d63680984dd0d8a374, Data_science\Visualization\Plots-statistics\TimeTrends\TimeTrends.vb"
+﻿#Region "Microsoft.VisualBasic::1897072bb62516806b71383266916a24, Data_science\Visualization\Plots-statistics\TimeTrends\TimeTrends.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 320
-    '    Code Lines: 243 (75.94%)
-    ' Comment Lines: 35 (10.94%)
+    '   Total Lines: 321
+    '    Code Lines: 245 (76.32%)
+    ' Comment Lines: 35 (10.90%)
     '    - Xml Docs: 91.43%
     ' 
-    '   Blank Lines: 42 (13.12%)
-    '     File Size: 14.04 KB
+    '   Blank Lines: 41 (12.77%)
+    '     File Size: 14.20 KB
 
 
     ' Module TimeTrends
@@ -71,6 +71,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Public Module TimeTrends
 
@@ -154,15 +155,7 @@ Public Module TimeTrends
             .CreateAxisTicks(5)
         Dim rangePoly As (min As List(Of PointF), max As List(Of PointF))
 
-        Dim valueLabelFont As Font = CSSFont.TryParse(valueLabelFontCSS).GDIObject(ppi)
-        Dim tickLabelFont As Font = CSSFont.TryParse(tickLabelFontCSS).GDIObject(ppi)
-        Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject(ppi)
-        Dim subTitleFont As Font = CSSFont.TryParse(subTitleFontCSS).GDIObject(ppi)
-
         Dim lineStyle As New Pen(lineColor.TranslateColor, lineWidth)
-        Dim axisPen As Pen = Stroke.TryParse(axisStrokeCSS).GDIObject
-        Dim yTickPen As Pen = Stroke.TryParse(yTickStrokeCSS).GDIObject
-        Dim rgPen As Pen = Stroke.TryParse(rangeStroke).GDIObject
         Dim rgColor As Color = rangeColor _
             .TranslateColor _
             .Alpha(255 * rangeOpacity)
@@ -180,6 +173,14 @@ Public Module TimeTrends
                 Dim labelSize As SizeF
                 Dim labelText$
                 Dim maxLabelXWidth!
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim valueLabelFont As Font = css.GetFont(CSSFont.TryParse(valueLabelFontCSS))
+                Dim tickLabelFont As Font = css.GetFont(CSSFont.TryParse(tickLabelFontCSS))
+                Dim titleFont As Font = css.GetFont(CSSFont.TryParse(titleFontCSS))
+                Dim subTitleFont As Font = css.GetFont(CSSFont.TryParse(subTitleFontCSS))
+                Dim axisPen As Pen = css.GetPen(Stroke.TryParse(axisStrokeCSS))
+                Dim yTickPen As Pen = css.GetPen(Stroke.TryParse(yTickStrokeCSS))
+                Dim rgPen As Pen = css.GetPen(Stroke.TryParse(rangeStroke))
 
                 ' 绘制Y坐标轴
                 For Each yVal As Double In yTicks

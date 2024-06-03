@@ -71,6 +71,7 @@ Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Public Module FunctionalNetwork
@@ -241,7 +242,8 @@ Public Module FunctionalNetwork
 
         ' 在图片的左下角加入代谢途径的名称
         Using g As Graphics2D = image.CreateCanvas2D(directAccess:=True)
-            Dim font As Font = CSSFont.TryParse(KEGGNameFont).GDIObject(ppi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim font As Font = css.GetFont(CSSFont.TryParse(KEGGNameFont))
             Dim dy = 5
             Dim X = margin
             Dim Y = g.Height - (font.Height + dy) * KEGGColors.Count - margin

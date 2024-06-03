@@ -59,9 +59,9 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace CatalogProfiling
 
@@ -87,8 +87,9 @@ Namespace CatalogProfiling
         ''' <param name="canvas"></param>
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim pathways As Dictionary(Of String, String()) = getPathways(10, -1)
-            Dim pathwayNameFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
-            Dim categoryFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim pathwayNameFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
+            Dim categoryFont As Font = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
             Dim labelHeight As Double = g.MeasureString("A", categoryFont).Height
             Dim pvalues As DoubleRange = multiples _
                 .Select(Function(v) v.Value.Values) _
@@ -159,7 +160,7 @@ Namespace CatalogProfiling
                 ' Dim v As New List(Of Double)
 
                 Call g.FillRectangle(colorMissing.GetBrush, block)
-                Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, block)
+                Call g.DrawRectangle(css.GetPen(Stroke.TryParse(theme.axisStroke)), block)
 
                 For Each id As String In pathIds
                     x = region.Left

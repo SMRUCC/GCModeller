@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d055e26e87c71dddaf3531018336432f, Data_science\Visualization\Plots\3D\Plot\Scatter3D.vb"
+﻿#Region "Microsoft.VisualBasic::a1f79a7d1625253085702c555a4ed873, Data_science\Visualization\Plots\3D\Plot\Scatter3D.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 162
-    '    Code Lines: 128 (79.01%)
-    ' Comment Lines: 15 (9.26%)
+    '   Total Lines: 163
+    '    Code Lines: 130 (79.75%)
+    ' Comment Lines: 15 (9.20%)
     '    - Xml Docs: 60.00%
     ' 
-    '   Blank Lines: 19 (11.73%)
-    '     File Size: 6.56 KB
+    '   Blank Lines: 18 (11.04%)
+    '     File Size: 6.65 KB
 
 
     '     Class Scatter3D
@@ -71,6 +71,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace Plot3D.Impl
 
@@ -102,11 +103,9 @@ Namespace Plot3D.Impl
             Me.showHull = showHull
             Me.hullAlpha = hullAlpha
             Me.hullBspline = hullBspline
-
-            Call populateModels(100)
         End Sub
 
-        Private Iterator Function populateModels(ppi As Integer) As IEnumerable(Of Element3D)
+        Private Iterator Function populateModels(css As CSSEnvirnment) As IEnumerable(Of Element3D)
             Dim points As Point3D() = serials _
                 .Select(Function(s) s.Points.Values) _
                 .IteratesALL _
@@ -122,11 +121,12 @@ Namespace Plot3D.Impl
             End With
 
             ' 然后生成底部的网格
-            For Each line As Line In Grids.Grid1(X, Y, (X(1) - X(0), Y(1) - Y(0)), Z.Min)
+            For Each line As Line In Grids.Grid1(css, X, Y, (X(1) - X(0), Y(1) - Y(0)), Z.Min)
                 Yield line
             Next
 
             For Each item As Element3D In AxisDraw.Axis(
+                    css,
                     xrange:=X, yrange:=Y, zrange:=Z,
                     labelFontCss:=theme.axisLabelCSS,
                     labels:=(xlabel, ylabel, zlabel),
@@ -180,7 +180,8 @@ Namespace Plot3D.Impl
                             }
                         End Function) _
                 .ToArray
-            Dim font As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim font As Font = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
             Dim region As Rectangle = canvas.PlotRegion
 
             ' 绘制图例？？
@@ -199,7 +200,7 @@ Namespace Plot3D.Impl
             Dim labelColor As New SolidBrush(theme.tagColor.TranslateColor)
 
             ' 要先绘制三维图形，要不然会将图例遮住的
-            Call populateModels(g.Dpi).RenderAs3DChart(
+            Call populateModels(css).RenderAs3DChart(
                 canvas:=g,
                 camera:=camera,
                 region:=canvas,

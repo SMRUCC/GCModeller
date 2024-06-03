@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf613f4b927640496e090bcedde9a1e9, mime\text%html\CSS\CSSEnvirnment.vb"
+﻿#Region "Microsoft.VisualBasic::d1b5dd2a09ac72a95054d07f6eaf8889, mime\text%html\CSS\CSSEnvirnment.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 23
-    '    Code Lines: 16 (69.57%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 186
+    '    Code Lines: 122 (65.59%)
+    ' Comment Lines: 38 (20.43%)
+    '    - Xml Docs: 94.74%
     ' 
-    '   Blank Lines: 7 (30.43%)
-    '     File Size: 606 B
+    '   Blank Lines: 26 (13.98%)
+    '     File Size: 6.71 KB
 
 
     '     Class CSSEnvirnment
     ' 
-    '         Properties: baseFont, baseLine
+    '         Properties: baseFont, baseLine, canvas, dpi
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetFontByScale
+    '         Function: Empty, GetDashStyle, (+2 Overloads) GetFont, GetFontByScale, GetFontFamily
+    '                   GetFontStyle, (+2 Overloads) GetPen, GetSize, GetValue, SetBaseStyles
     ' 
     ' 
     ' /********************************************************************************/
@@ -56,18 +57,127 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.MIME.Html.Render.CSS
 
 Namespace CSS
 
     Public Class CSSEnvirnment
 
+        ''' <summary>
+        ''' the base font style of the canvas
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property baseFont As Font
+        ''' <summary>
+        ''' the base stroke line style of the canvas
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property baseLine As Pen
 
-        Sub New(basefont As Font, baseline As Pen)
-            Me.baseFont = basefont
-            Me.baseLine = baseline
+        ''' <summary>
+        ''' bugs fixed for config dpi value on unix mono platform 
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property dpi As Integer = 100
+
+        ''' <summary>
+        ''' the canvas size [width,height].
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property canvas As Size
+
+        Sub New(canvas As Size, Optional dpi As Integer = 100)
+            Me.canvas = canvas
+            Me.dpi = dpi
         End Sub
+
+        Public Function SetBaseStyles(Optional font As Font = Nothing, Optional stroke As Pen = Nothing) As CSSEnvirnment
+            _baseFont = font
+            _baseLine = stroke
+
+            Return Me
+        End Function
+
+        Public Function GetSize(size As CSSsize) As SizeF
+            Return New SizeF(
+                GetValue(New CssLength(size.width)),
+                GetValue(New CssLength(size.height))
+            )
+        End Function
+
+        Public Shared Function GetValue(size As CssLength) As Single
+            Select Case size.Unit
+                Case CssUnit.None, CssUnit.Pixels, CssUnit.Points : Return size.Number
+                Case Else
+                    Throw New NotImplementedException(size.ToString)
+            End Select
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="stroke"></param>
+        ''' <param name="allowNull">
+        ''' unlike the function <see cref="GetPen(Stroke)"/> may returns the value of <see cref="baseLine"/> 
+        ''' if the given stroke value is nothing, this function will returns nothing directly if 
+        ''' this parameter value set to TRUE.
+        ''' </param>
+        ''' <returns></returns>
+        Public Function GetPen(stroke As Stroke, allowNull As Boolean) As Pen
+            If allowNull Then
+                If stroke Is Nothing Then
+                    Return Nothing
+                Else
+                    Return GetPen(stroke)
+                End If
+            Else
+                Return GetPen(stroke)
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="stroke"></param>
+        ''' <returns>
+        ''' this function may handling of the <paramref name="stroke"/> null value 
+        ''' as the default <see cref="baseLine"/> style.
+        ''' </returns>
+        Public Function GetPen(stroke As Stroke) As Pen
+            If stroke Is Nothing Then
+                Return baseLine
+            End If
+
+            Dim style As DashStyle = GetDashStyle(stroke)
+            Dim size As New CssLength(stroke.width)
+            Dim width As Single
+
+            Select Case size.Unit
+                Case CssUnit.Ems : width = baseLine.Width * size.Number
+                Case CssUnit.None, CssUnit.Pixels, CssUnit.Points : width = size.Number
+                Case Else
+                    Throw New NotImplementedException(stroke.width)
+            End Select
+
+            Return New Pen(stroke.fill.GetBrush, width) With {
+                .DashStyle = style
+            }
+        End Function
+
+        Public Function GetDashStyle(css As Stroke) As DashStyle
+            If css Is Nothing AndAlso baseLine Is Nothing Then
+                Return Nothing
+            ElseIf baseLine Is Nothing Then
+                Return css.dash
+            ElseIf css Is Nothing Then
+                Return baseLine.DashStyle
+            Else
+                Return css.dash
+            End If
+        End Function
 
         Public Function GetFontByScale(em As Single) As Font
             Dim newSize As Single = em * baseFont.Size
@@ -76,5 +186,59 @@ Namespace CSS
             Return newFont
         End Function
 
+        Public Function GetFontFamily(css As CSSFont) As String
+            If css Is Nothing AndAlso baseFont Is Nothing Then
+                Return Nothing
+            ElseIf baseFont Is Nothing Then
+                Return css.family
+            ElseIf css Is Nothing OrElse css.family.StringEmpty Then
+                Return baseFont.Name
+            Else
+                Return css.family
+            End If
+        End Function
+
+        Public Function GetFontStyle(css As CSSFont) As FontStyle
+            If css Is Nothing AndAlso baseFont Is Nothing Then
+                Return FontStyle.Regular
+            ElseIf baseFont Is Nothing Then
+                Return css.style
+            ElseIf css Is Nothing Then
+                Return baseFont.Style
+            Else
+                Return css.style
+            End If
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetFont(css As String) As Font
+            Return GetFont(css:=CSSFont.TryParse(css))
+        End Function
+
+        ''' <summary>
+        ''' Initializes a new <see cref="Font"/> using a specified size and style.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetFont(css As CSSFont) As Font
+            Dim size As New CssLength(css.size)
+            Dim size_val As Single
+            Dim familyName As String = GetFontFamily(css)
+            Dim style As FontStyle = GetFontStyle(css)
+
+            Select Case size.Unit
+                Case CssUnit.Ems : size_val = size.Number * baseFont.Size
+                Case CssUnit.Pixels, CssUnit.Points, CssUnit.None : size_val = size.Number
+                Case Else
+                    Throw New NotImplementedException($"the given css length({size.ToString}) has not been implemented!")
+            End Select
+
+            size_val = FontFace.PointSizeScale(size_val, dpiResolution:=dpi)
+
+            Return New Font(familyName, size_val, style)
+        End Function
+
+        Public Shared Function Empty(Optional ppi As Integer = 100) As CSSEnvirnment
+            Return New CSSEnvirnment(Nothing, ppi)
+        End Function
     End Class
 End Namespace

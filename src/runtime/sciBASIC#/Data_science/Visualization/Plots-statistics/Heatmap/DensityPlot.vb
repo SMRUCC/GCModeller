@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5dae9f36534d4ca05764e35eb48fb3d7, Data_science\Visualization\Plots-statistics\Heatmap\DensityPlot.vb"
+﻿#Region "Microsoft.VisualBasic::045ca262a1affffea37bfa7c673f1b95, Data_science\Visualization\Plots-statistics\Heatmap\DensityPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 208
-    '    Code Lines: 172 (82.69%)
-    ' Comment Lines: 22 (10.58%)
+    '   Total Lines: 210
+    '    Code Lines: 174 (82.86%)
+    ' Comment Lines: 22 (10.48%)
     '    - Xml Docs: 81.82%
     ' 
-    '   Blank Lines: 14 (6.73%)
-    '     File Size: 9.52 KB
+    '   Blank Lines: 14 (6.67%)
+    '     File Size: 9.63 KB
 
 
     '     Module DensityPlot
@@ -68,6 +68,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Heatmap
@@ -191,9 +192,10 @@ Namespace Heatmap
                     .IteratesALL _
                     .Range _
                     .CreateAxisTicks
-                Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleFontCSS).GDIObject(g.Dpi)
-                Dim legendTickFont As Font = CSSFont.TryParse(legendTickFontCSS).GDIObject(g.Dpi)
-                Dim legendTickStroke As Pen = Stroke.TryParse(legendTickStrokeCSS).GDIObject
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim legendTitleFont As Font = css.GetFont(CSSFont.TryParse(legendTitleFontCSS))
+                Dim legendTickFont As Font = css.GetFont(CSSFont.TryParse(legendTickFontCSS))
+                Dim legendTickStroke As Pen = css.GetPen(Stroke.TryParse(legendTickStrokeCSS))
 
                 Call Legends.ColorMapLegend(
                     g, legendLayout, designer, rangeTicks,

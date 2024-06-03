@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e30b2e1b7afffdecc4f6b87419cb550, mime\text%html\Parser\CSS\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::7f997cedcde30264300280072f888317, mime\text%html\Parser\CSS\Parser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 203
-    '    Code Lines: 131 (64.53%)
-    ' Comment Lines: 47 (23.15%)
-    '    - Xml Docs: 87.23%
+    '   Total Lines: 206
+    '    Code Lines: 131 (63.59%)
+    ' Comment Lines: 50 (24.27%)
+    '    - Xml Docs: 88.00%
     ' 
-    '   Blank Lines: 25 (12.32%)
-    '     File Size: 7.52 KB
+    '   Blank Lines: 25 (12.14%)
+    '     File Size: 7.63 KB
 
 
     '     Module CssParser
@@ -166,6 +166,9 @@ Namespace Language.CSS
         ''' </summary>
         ''' <param name="style">the style text inside an element node selector</param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' all of the css property name is in lower case.
+        ''' </remarks>
         Public Function ParseStyle(style As String) As Selector
             Dim properties = Strings.Trim(style) _
                 .GetProperty() _
@@ -233,7 +236,7 @@ Namespace Language.CSS
                     Dim propertyName$ = Nothing, propertyValue$ = Nothing
 
                     If t(0) <> "" Then
-                        propertyName = RemoveWhitespace(t(0))
+                        propertyName = RemoveWhitespace(t(0)).ToLower
                     End If
                     If t(1) <> "" Then
                         propertyValue = RemoveWitespaceFormStartAndEnd(t(1))
@@ -246,7 +249,7 @@ Namespace Language.CSS
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function RemoveWhitespace(input As String) As String
-            Return New String(input.ToCharArray().Where(Function(c) Not [Char].IsWhiteSpace(c)).ToArray())
+            Return New String(input.ToCharArray().Where(Function(c) Not Char.IsWhiteSpace(c)).ToArray())
         End Function
 
         Private Function RemoveWitespaceFormStartAndEnd(input As String) As String

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86087c7012e823081b7feba55f8b2d95, Data_science\Visualization\Plots\BarPlot\Plots\PlotAlignmentGroup.vb"
+﻿#Region "Microsoft.VisualBasic::f22b4ee56808f8febedbff0718a91cf1, Data_science\Visualization\Plots\BarPlot\Plots\PlotAlignmentGroup.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 536
-    '    Code Lines: 368 (68.66%)
-    ' Comment Lines: 77 (14.37%)
+    '   Total Lines: 540
+    '    Code Lines: 369 (68.33%)
+    ' Comment Lines: 77 (14.26%)
     '    - Xml Docs: 10.39%
     ' 
-    '   Blank Lines: 91 (16.98%)
-    '     File Size: 23.20 KB
+    '   Blank Lines: 94 (17.41%)
+    '     File Size: 23.34 KB
 
 
     '     Class PlotAlignmentGroup
@@ -68,9 +68,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text.Nudge
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
@@ -78,8 +76,9 @@ Imports Microsoft.VisualBasic.Imaging.SVG
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports FontStyle = System.Drawing.FontStyle
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace BarPlot
 
@@ -148,7 +147,8 @@ Namespace BarPlot
             Dim position As Point
             Dim sz As Size
             Dim rect As Rectangle
-            Dim highlightPen As Pen = Stroke.TryParse(theme.lineStroke).GDIObject
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim highlightPen As Pen = css.GetPen(Stroke.TryParse(theme.lineStroke))
             Dim paddingTop = canvas.Padding.Top
             Dim paddingBottom = canvas.Padding.Bottom
             Dim height As Double
@@ -235,6 +235,9 @@ Namespace BarPlot
             Dim scaleX = d3js.scale.linear().domain(values:={xrange.Min, xrange.Max}).range(values:={rect.Left, rect.Right})
             Dim scaleY = d3js.scale.linear().domain(values:={0, yrange.Max}).range(values:={0, rect.Height / 2})
             Dim ymid! = rect.Height / 2 + canvas.Padding.Top
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+
+            css.SetBaseStyles(New Font(FontFace.MicrosoftYaHei, 12.0!))
 
             With rect
                 Dim axisPen As New Pen(Color.Black, 2)
@@ -246,7 +249,7 @@ Namespace BarPlot
                 '}
                 Dim dt! = 15
                 Dim tickPen As New Pen(Color.Black, 1)
-                Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 12.0!)).GDIObject(g.Dpi)
+                Dim tickFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS, ))
                 Dim drawlabel = Sub(c As IGraphics, label$)
                                     Dim tsize = c.MeasureString(label, tickFont)
                                     Dim pos As New PointF(.Left - dt - tsize.Width, y - tsize.Height / 2)
@@ -284,7 +287,9 @@ Namespace BarPlot
                     Call drawlabel(g, label)
                 Next
 
-                Dim labelFont As Font = CSSFont.TryParse(theme.axisLabelCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 12.0!, FontStyle.Bold)).GDIObject(g.Dpi)
+                css.SetBaseStyles(New Font(FontFace.MicrosoftYaHei, 12.0!, FontStyle.Bold))
+
+                Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS, ))
                 Dim labSize As SizeF = g.MeasureString(Me.ylabel, labelFont)
                 Dim labPos As PointF
 
@@ -342,9 +347,9 @@ Namespace BarPlot
                 End If
 
                 If Not idTag Is Nothing Then
-                    Dim titleFont As Font = CSSFont _
-                            .TryParse(theme.mainCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
-                            .GDIObject(g.Dpi)
+                    css.SetBaseStyles(New Font(FontFace.MicrosoftYaHei, 16.0!))
+
+                    Dim titleFont As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS, ))
 
                     ' 绘制右下角的编号标签
                     Dim titleSize = g.MeasureString(idTag, titleFont)
@@ -369,7 +374,8 @@ Namespace BarPlot
             Dim rect As RectangleF
             Dim y As Double
             Dim left!
-            Dim xCSSFont As Font = CSSFont.TryParse(XAxisLabelCss).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim xCSSFont As Font = css.GetFont(CSSFont.TryParse(XAxisLabelCss))
             Dim xsz As SizeF
             Dim xpos As PointF
             Dim xlabel$
@@ -504,9 +510,8 @@ Namespace BarPlot
 
         Private Sub DrawLegendTitleRegion(g As IGraphics, rect As Rectangle)
             Dim box As Rectangle
-            Dim legendFont As Font = CSSFont _
-                .TryParse(theme.legendLabelCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
-                .GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment.SetBaseStyles(New Font(FontFace.MicrosoftYaHei, 16.0!))
+            Dim legendFont As Font = css.GetFont(CSSFont.TryParse(theme.legendLabelCSS, ))
             Dim Y = 3
             Dim fHeight As Single = g.MeasureString("1", legendFont).Height
 
@@ -534,10 +539,9 @@ Namespace BarPlot
                     .width = 2
                 })
 
+            Dim css = g.LoadEnvironment.SetBaseStyles(New Font(FontFace.MicrosoftYaHei, 16.0!))
             Dim box As Rectangle
-            Dim legendFont As Font = CSSFont _
-                .TryParse(theme.legendLabelCSS, [default]:=New Font(FontFace.MicrosoftYaHei, 16.0!)) _
-                .GDIObject(g.Dpi)
+            Dim legendFont As Font = css.GetFont(CSSFont.TryParse(theme.legendLabelCSS, ))
 
             y = 3
 
@@ -584,7 +588,7 @@ Namespace BarPlot
                            Dim e#
 
                            For Each n In highlights
-                               e = stdNum.Abs(n - x)
+                               e = std.Abs(n - x)
 
                                If e <= err Then
                                    Return (e, n, True)

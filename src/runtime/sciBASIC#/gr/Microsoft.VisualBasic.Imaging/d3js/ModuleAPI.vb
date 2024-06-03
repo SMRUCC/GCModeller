@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d74122cace1213a8d034d726989ab43, gr\Microsoft.VisualBasic.Imaging\d3js\ModuleAPI.vb"
+﻿#Region "Microsoft.VisualBasic::f6c1fdf0dbe2163a9e66199aed943368, gr\Microsoft.VisualBasic.Imaging\d3js\ModuleAPI.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 86
-    '    Code Lines: 68 (79.07%)
-    ' Comment Lines: 9 (10.47%)
+    '   Total Lines: 85
+    '    Code Lines: 67 (78.82%)
+    ' Comment Lines: 9 (10.59%)
     '    - Xml Docs: 88.89%
     ' 
-    '   Blank Lines: 9 (10.47%)
-    '     File Size: 3.60 KB
+    '   Blank Lines: 9 (10.59%)
+    '     File Size: 3.53 KB
 
 
     '     Module ModuleAPI
@@ -57,9 +57,11 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace d3js
 
+    <HideModuleName>
     Public Module ModuleAPI
 
         Public Function forcedirectedLabeler(Optional ejectFactor As Integer = 6,
@@ -119,22 +121,19 @@ Namespace d3js
         End Function
 
         <Extension>
-        Public Function Label(g As Graphics2D, labels As IEnumerable(Of String), Optional fontCSS$ = CSSFont.Win7Normal) As IEnumerable(Of Label)
-            Dim font As Font = CSSFont _
-                .TryParse(fontCSS) _
-                .GDIObject(g.Dpi)
+        Public Iterator Function Label(g As Graphics2D, labels As IEnumerable(Of String), Optional fontCSS$ = CSSFont.Win7Normal) As IEnumerable(Of Label)
+            Dim font As Font = g.LoadEnvironment.GetFont(CSSFont.TryParse(fontCSS))
+            Dim size As SizeF
 
-            Return labels _
-                .SafeQuery _
-                .Select(Function(s$)
-                            Dim size As SizeF = g.MeasureString(s, font)
+            For Each s As String In labels.SafeQuery
+                size = g.MeasureString(s, font)
 
-                            Return New Label With {
-                                .text = s,
-                                .width = size.Width,
-                                .height = size.Height
-                            }
-                        End Function)
+                Yield New Label With {
+                    .text = s,
+                    .width = size.Width,
+                    .height = size.Height
+                }
+            Next
         End Function
     End Module
 End Namespace

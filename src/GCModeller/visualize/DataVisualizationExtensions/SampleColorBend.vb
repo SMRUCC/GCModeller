@@ -57,8 +57,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Public Module SampleColorBend
@@ -106,7 +106,8 @@ Public Module SampleColorBend
                     Optional labelFontCSS$ = CSSFont.PlotSmallTitle）
 
         Dim boxSize As Single
-        Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject(g.Dpi)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim labelFont As Font = css.GetFont(CSSFont.TryParse(labelFontCSS))
 
         If horizontal Then
             boxSize = layout.Width / geneExpression.Length

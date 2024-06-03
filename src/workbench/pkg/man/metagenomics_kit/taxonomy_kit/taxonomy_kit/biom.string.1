@@ -22,6 +22,13 @@ cast taxonomy object to biom style taxonomy string
 .PP
 \fBenv\fB \fR\- -. 
 .PP
+.SH EXAMPLES
+.PP
+# parse the string as taxonomy object
+ let tax = biom_string.parse(["k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"]);
+ # then convert back the taxonomy object as the string content
+ print(biom.string(tax));
+.PP
 .SH SEE ALSO
 taxonomy_kit
 .SH FILES

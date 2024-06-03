@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22de4c90ad4e7282c1e325855f34d753, Data_science\Visualization\Plots-statistics\Heatmap\Internal.vb"
+﻿#Region "Microsoft.VisualBasic::76448d9202dc063f7b3ca653041e6659, Data_science\Visualization\Plots-statistics\Heatmap\Internal.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 392
-    '    Code Lines: 279 (71.17%)
-    ' Comment Lines: 59 (15.05%)
+    '   Total Lines: 394
+    '    Code Lines: 281 (71.32%)
+    ' Comment Lines: 59 (14.97%)
     '    - Xml Docs: 54.24%
     ' 
-    '   Blank Lines: 54 (13.78%)
-    '     File Size: 18.70 KB
+    '   Blank Lines: 54 (13.71%)
+    '     File Size: 18.76 KB
 
 
     '     Module Internal
@@ -66,15 +66,15 @@ Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Heatmap
 
@@ -94,13 +94,14 @@ Namespace Heatmap
         ''' <param name="v"></param>
         ''' <param name="base#"></param>
         ''' <returns></returns>
-        <Extension> Public Function Log(v As Vector, base#) As Vector
+        <Extension>
+        Public Function Log(v As Vector, base#) As Vector
             Return v _
                 .Select(Function(x)
                             If x = 0R Then
                                 Return 0
                             Else
-                                Return stdNum.Sign(x) * stdNum.Log(x, base)
+                                Return std.Sign(x) * std.Log(x, base)
                             End If
                         End Function) _
                 .AsVector
@@ -275,6 +276,7 @@ Namespace Heatmap
                         .Location = New Point(left, top),
                         .Size = legendSize
                     }
+                    Dim css As CSSEnvirnment = g.LoadEnvironment
 
                     If legendLayout = Layouts.Horizon Then
                         ' legend位于整个图片的左上角
@@ -282,10 +284,10 @@ Namespace Heatmap
                     Else
                         ' legend位于整个图片的右上角
                         Call Legends.ColorMapLegend(g, llayout, colors, ticks,
-                                                    CSSFont.TryParse(CSSFont.Win7LargerNormal).GDIObject(g.Dpi),
+                                                    css.GetFont(CSSFont.TryParse(CSSFont.Win7LargerNormal)),
                                                     legendTitle,
-                                                    CSSFont.TryParse(CSSFont.Win7Normal).GDIObject(g.Dpi),
-                                                    Stroke.TryParse(Stroke.StrongHighlightStroke))
+                                                    css.GetFont(CSSFont.TryParse(CSSFont.Win7Normal)),
+                                                    css.GetPen(Stroke.TryParse(Stroke.StrongHighlightStroke)))
                     End If
 
                     ' 宽度与最大行标签宽度相减得到矩阵的绘制宽度
@@ -423,8 +425,8 @@ Namespace Heatmap
 
                         For Each key$ In keys
                             Dim sz = g.MeasureString(key$, colLabelFont) ' 得到斜边的长度
-                            Dim dx! = sz.Width * stdNum.Cos(angle) + sz.Height / 2
-                            Dim dy! = sz.Width * stdNum.Sin(angle) + (sz.Width / 2) * stdNum.Cos(angle) - sz.Height
+                            Dim dx! = sz.Width * std.Cos(angle) + sz.Height / 2
+                            Dim dy! = sz.Width * std.Sin(angle) + (sz.Width / 2) * std.Cos(angle) - sz.Height
                             Dim pos As New PointF(left - dx, top - dy)
 
                             Call text.DrawString(key$, colLabelFont, Brushes.Black, pos, angle, format)

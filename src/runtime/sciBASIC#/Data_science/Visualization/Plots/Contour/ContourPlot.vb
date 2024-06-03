@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b52297be53f0d4c63aac3020bf50165, Data_science\Visualization\Plots\Contour\ContourPlot.vb"
+﻿#Region "Microsoft.VisualBasic::51bc34c1d0f0294c7bb79dd45a3f03cd, Data_science\Visualization\Plots\Contour\ContourPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 101
-    '    Code Lines: 79 (78.22%)
+    '   Total Lines: 103
+    '    Code Lines: 81 (78.64%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 22 (21.78%)
-    '     File Size: 4.17 KB
+    '   Blank Lines: 22 (21.36%)
+    '     File Size: 4.28 KB
 
 
     '     Class ContourPlot
@@ -66,6 +66,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.MarchingSquares
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace Contour
 
@@ -148,10 +149,11 @@ Namespace Contour
                 Next
             End If
 
+            Dim css As CSSEnvirnment = g.LoadEnvironment
             Dim layout As New Rectangle(rect.Right + 10, rect.Top, canvas.Padding.Right / 3 * 2, rect.Height / 3 * 2)
-            Dim legendTitleFont As Font = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi)
-            Dim tickFont As Font = CSSFont.TryParse(theme.legendTickCSS).GDIObject(g.Dpi)
-            Dim tickStroke As Pen = Stroke.TryParse(theme.legendTickAxisStroke)
+            Dim legendTitleFont As Font = css.GetFont(CSSFont.TryParse(theme.legendTitleCSS))
+            Dim tickFont As Font = css.GetFont(CSSFont.TryParse(theme.legendTickCSS))
+            Dim tickStroke As Pen = css.GetPen(Stroke.TryParse(theme.legendTickAxisStroke))
 
             Call g.ColorMapLegend(layout, colors, level_cutoff, legendTitleFont, title:=legendTitle, tickFont, tickStroke)
         End Sub

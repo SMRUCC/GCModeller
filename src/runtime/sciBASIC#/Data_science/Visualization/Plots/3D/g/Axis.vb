@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f60aedae5c1bd772273f9f5dfba3dab5, Data_science\Visualization\Plots\3D\g\Axis.vb"
+﻿#Region "Microsoft.VisualBasic::0e7252414a40c35c8b18e15c9358f65c, Data_science\Visualization\Plots\3D\g\Axis.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 62
-    '    Code Lines: 47 (75.81%)
-    ' Comment Lines: 7 (11.29%)
+    '   Total Lines: 65
+    '    Code Lines: 50 (76.92%)
+    ' Comment Lines: 7 (10.77%)
     '    - Xml Docs: 42.86%
     ' 
-    '   Blank Lines: 8 (12.90%)
-    '     File Size: 2.77 KB
+    '   Blank Lines: 8 (12.31%)
+    '     File Size: 2.88 KB
 
 
     '     Module AxisDraw
@@ -54,6 +54,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plot3D.Device
 Imports Microsoft.VisualBasic.Imaging
@@ -68,7 +69,9 @@ Namespace Plot3D.Model
     ''' </summary>
     Public Module AxisDraw
 
-        Public Function Axis(xrange As DoubleRange,
+        <Extension>
+        Public Function Axis(css As CSSEnvirnment,
+                             xrange As DoubleRange,
                              yrange As DoubleRange,
                              zrange As DoubleRange,
                              labelFontCss As String,
@@ -85,7 +88,7 @@ Namespace Plot3D.Model
             Dim X As New Point3D With {.X = xrange.Min, .Y = yrange.Min, .Z = zrange.Min}
             Dim Y As New Point3D With {.X = xrange.Max, .Y = yrange.Max, .Z = zrange.Min}
             Dim Z As New Point3D With {.X = xrange.Max, .Y = yrange.Min, .Z = zrange.Max}
-            Dim color As Pen = Stroke.TryParse(strokeCSS).GDIObject
+            Dim color As Pen = css.GetPen(Stroke.TryParse(strokeCSS))
             Dim bigArrow As AdjustableArrowCap
 
             With arrowFactor.FloatSizeParser

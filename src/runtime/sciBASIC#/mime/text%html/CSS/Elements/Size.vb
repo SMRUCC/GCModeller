@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c56bbd1072ce11db8b2dc93fc4f9f22, mime\text%html\CSS\Fill.vb"
+﻿#Region "Microsoft.VisualBasic::fb5af354a84253b94fa6152ee679a41f, mime\text%html\CSS\Elements\Size.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 13
-    '    Code Lines: 6 (46.15%)
-    ' Comment Lines: 3 (23.08%)
+    '   Total Lines: 32
+    '    Code Lines: 21 (65.62%)
+    ' Comment Lines: 3 (9.38%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 4 (30.77%)
-    '     File Size: 263 B
+    '   Blank Lines: 8 (25.00%)
+    '     File Size: 680 B
 
 
-    '     Class Fill
+    '     Class CSSsize
     ' 
-    '         Properties: fill
+    '         Properties: height, width
+    ' 
+    '         Constructor: (+4 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/
@@ -57,11 +59,30 @@ Imports System.Drawing
 Namespace CSS
 
     ''' <summary>
-    ''' <see cref="Brush"/>: <see cref="SolidBrush"/> and <see cref="TextureBrush"/>
+    ''' parse the width and height data from the css style string
     ''' </summary>
-    Public Class Fill
+    Public Class CSSsize
 
-        Public Property fill As String
+        Public Property width As String
+        Public Property height As String
+
+        Sub New()
+        End Sub
+
+        Sub New(size As CSSsize)
+            width = size.width
+            height = size.height
+        End Sub
+
+        Sub New(size As Size)
+            width = size.Width
+            height = size.Height
+        End Sub
+
+        Sub New(size As SizeF)
+            width = size.Width
+            height = size.Height
+        End Sub
 
     End Class
 End Namespace

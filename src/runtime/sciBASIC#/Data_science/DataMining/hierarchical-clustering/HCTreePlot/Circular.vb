@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83b4d43249766aa52ed6d9a724447399, Data_science\DataMining\hierarchical-clustering\HCTreePlot\Circular.vb"
+﻿#Region "Microsoft.VisualBasic::af1c6ff2b79840416007e6ac8130d923, Data_science\DataMining\hierarchical-clustering\HCTreePlot\Circular.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 141
-    '    Code Lines: 112 (79.43%)
-    ' Comment Lines: 5 (3.55%)
+    '   Total Lines: 145
+    '    Code Lines: 116 (80.00%)
+    ' Comment Lines: 5 (3.45%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 24 (17.02%)
-    '     File Size: 6.16 KB
+    '   Blank Lines: 24 (16.55%)
+    '     File Size: 6.38 KB
 
 
     ' Class Circular
@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports std = System.Math
 
 Public Class Circular : Inherits DendrogramPanel
@@ -94,18 +95,19 @@ Public Class Circular : Inherits DendrogramPanel
             .linear() _
             .domain(values:=axisTicks) _
             .range(integers:={0, maxRadius})
+        Dim css As CSSEnvirnment = g.LoadEnvironment
 
         ' 绘制距离标尺
         Dim outer = scaleR(axisTicks.Max)
         Dim inner = scaleR(0)
-        Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+        Dim tickFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
         Dim tickFontHeight As Single = g.MeasureString("0", tickFont).Height
         Dim dh As Double = tickFontHeight / 3
         Dim tickLable As String
         Dim tickLabelSize As SizeF
         Dim labelPadding As Integer
         Dim charWidth As Integer = g.MeasureString("0", labelFont).Width
-        Dim axisPen As Pen = Stroke.TryParse(theme.axisStroke)
+        Dim axisPen As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
         Dim angle As Double = 0
         Dim r As Double
 
@@ -146,6 +148,8 @@ Public Class Circular : Inherits DendrogramPanel
         Dim orders As Cluster() = partition.Children.OrderBy(Function(a) a.Leafs).ToArray
         Dim x = plotRegion.Left + plotRegion.Right - scaleX(partition.DistanceValue)
         Dim angle As Integer
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim linkColor As Pen = css.GetPen(Me.linkColor)
 
         If partition.isLeaf Then
             angle = i * unitAngle + unitAngle

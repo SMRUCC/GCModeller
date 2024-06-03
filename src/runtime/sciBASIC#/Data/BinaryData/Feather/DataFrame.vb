@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bad0c2c879e73568aab99b69e83032a4, Data\BinaryData\Feather\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::c166c538ca7034f4126bd7190b684bde, Data\BinaryData\Feather\DataFrame.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 77.45%
     ' 
     '   Blank Lines: 113 (17.82%)
-    '     File Size: 24.59 KB
+    '     File Size: 24.52 KB
 
 
     ' Class DataFrame
@@ -185,7 +185,7 @@ Partial Public Class DataFrame
     ''' <summary>
     ''' Return the row at the given index.
     ''' 
-    ''' Will throw if the index is out of bounds.  Use <see cref="TryGetRow(Long,Row)"/> for non-throwing gets.
+    ''' Will throw if the index is out of bounds.  Use <see cref="TryGetRow"/> for non-throwing gets.
     ''' </summary>
     Default Public ReadOnly Property Item(rowIndex As Long) As Row
         Get
@@ -196,7 +196,7 @@ Partial Public Class DataFrame
     ''' <summary>
     ''' Return the column with the given name.
     ''' 
-    ''' Will throw if the name is not found.  Use <see cref="TryGetColumn(String,Column)"/> for non-throwing gets.
+    ''' Will throw if the name is not found.  Use <see cref="TryGetColumn"/> for non-throwing gets.
     ''' </summary>
     Default Public ReadOnly Property Item(columnName As String) As Column
         Get
@@ -207,7 +207,7 @@ Partial Public Class DataFrame
     ''' <summary>
     ''' Return the value at the given row and column indexes.
     ''' 
-    ''' Will throw if the index is out of bounds.  Use <see cref="TryGetValue(Long,Long,Value)"/> for non-throwing gets.
+    ''' Will throw if the index is out of bounds.  Use <see cref="TryGetValue"/> for non-throwing gets.
     ''' </summary>
     Default Public ReadOnly Property Item(rowIndex As Long, columnIndex As Long) As Value Implements IDataFrame.Item
         Get
@@ -239,7 +239,7 @@ Partial Public Class DataFrame
     ''' <summary>
     ''' Return the value at the given row index in the column with the given name.
     ''' 
-    ''' Will throw if the index is out of bounds or the column is not found.  Use <see cref="TryGetValue(Long,String,Value)"/> for non-throwing gets.
+    ''' Will throw if the index is out of bounds or the column is not found.  Use <see cref="TryGetValue"/> for non-throwing gets.
     ''' </summary>
     Default Public ReadOnly Property Item(rowIndex As Long, columnName As String) As Value Implements IDataFrame.Item
         Get

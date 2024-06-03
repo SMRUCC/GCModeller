@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39f83863340862db60ce02ce25e37a6e, Data_science\Visualization\Plots\g\Axis\Components\XAxis.vb"
+﻿#Region "Microsoft.VisualBasic::5e031bb7ab004297d43155f3fb45844b, Data_science\Visualization\Plots\g\Axis\Components\XAxis.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 204
-    '    Code Lines: 162 (79.41%)
-    ' Comment Lines: 19 (9.31%)
+    '   Total Lines: 205
+    '    Code Lines: 163 (79.51%)
+    ' Comment Lines: 19 (9.27%)
     '    - Xml Docs: 63.16%
     ' 
-    '   Blank Lines: 23 (11.27%)
-    '     File Size: 7.79 KB
+    '   Blank Lines: 23 (11.22%)
+    '     File Size: 7.84 KB
 
 
     '     Class XAxis
@@ -56,9 +56,9 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js.scale
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports std = System.Math
 
@@ -241,7 +241,8 @@ Namespace Graphic.Axis
 
                 Call g.DrawImageUnscaled(labelImage, point)
             Else
-                Dim font As Font = CSSFont.TryParse(labelFont).GDIObject(g.Dpi)
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim font As Font = css.GetFont(CSSFont.TryParse(labelFont))
                 Dim fSize As SizeF = g.MeasureString(label, font)
                 Dim y1 As Double = zero.Y + tickFont.Height * 2
                 Dim y2 As Double = zero.Y + fSize.Height

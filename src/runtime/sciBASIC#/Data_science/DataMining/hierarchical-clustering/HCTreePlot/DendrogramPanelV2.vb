@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::423f9246c4ddf8cf98a650208b9cb4e2, Data_science\DataMining\hierarchical-clustering\HCTreePlot\DendrogramPanelV2.vb"
+﻿#Region "Microsoft.VisualBasic::3376b388a8efe2d26832cff91492de80, Data_science\DataMining\hierarchical-clustering\HCTreePlot\DendrogramPanelV2.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 159
-    '    Code Lines: 124 (77.99%)
-    ' Comment Lines: 8 (5.03%)
+    '   Total Lines: 163
+    '    Code Lines: 128 (78.53%)
+    ' Comment Lines: 8 (4.91%)
     '    - Xml Docs: 37.50%
     ' 
-    '   Blank Lines: 27 (16.98%)
-    '     File Size: 7.01 KB
+    '   Blank Lines: 27 (16.56%)
+    '     File Size: 7.23 KB
 
 
     ' Class DendrogramPanelV2
@@ -65,6 +65,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports std = System.Math
 
 ''' <summary>
@@ -98,6 +99,7 @@ Public Class DendrogramPanelV2 : Inherits DendrogramPanel
         ' 每一个样本点都平分一段长度
         Dim unitWidth As Double = plotRegion.Height / hist.Leafs
         Dim axisTicks As Double()
+        Dim css As CSSEnvirnment = g.LoadEnvironment
 
         If hist.DistanceValue <= 0.1 Then
             axisTicks = {0, hist.DistanceValue}.Range.CreateAxisTicks(decimalDigits:=-1)
@@ -105,7 +107,7 @@ Public Class DendrogramPanelV2 : Inherits DendrogramPanel
             axisTicks = {0, hist.DistanceValue}.Range.CreateAxisTicks
         End If
 
-        labelFont = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
+        labelFont = css.GetFont(CSSFont.TryParse(theme.tagCSS))
 
         Dim scaleX As d3js.scale.LinearScale = d3js.scale _
             .linear() _
@@ -117,14 +119,14 @@ Public Class DendrogramPanelV2 : Inherits DendrogramPanel
         Dim right = plotRegion.Left + plotRegion.Right - scaleX(0)
         Dim y = plotRegion.Top + unitWidth - unitWidth / 2
         Dim x!
-        Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+        Dim tickFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
         Dim tickFontHeight As Single = g.MeasureString("0", tickFont).Height
         Dim dh As Double = tickFontHeight / 3
         Dim tickLable As String
         Dim tickLabelSize As SizeF
         Dim labelPadding As Integer
         Dim charWidth As Integer = g.MeasureString("0", labelFont).Width
-        Dim axisPen As Pen = Stroke.TryParse(theme.axisStroke)
+        Dim axisPen As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
 
         If classinfo.IsNullOrEmpty Then
             labelPadding = g.MeasureString("0", labelFont).Width / 2
@@ -161,6 +163,8 @@ Public Class DendrogramPanelV2 : Inherits DendrogramPanel
         Dim orders As Cluster() = partition.Children.OrderBy(Function(a) a.Leafs).ToArray
         Dim x = plotRegion.Left + plotRegion.Right - scaleX(partition.DistanceValue)
         Dim y As Integer
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim linkColor As Pen = css.GetPen(Me.linkColor)
 
         If partition.isLeaf Then
             y = plotRegion.Top + i * unitWidth + unitWidth

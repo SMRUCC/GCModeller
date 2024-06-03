@@ -54,6 +54,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
@@ -88,8 +89,6 @@ Public Module RegionMap
         Dim startLength% = 0
         Dim preRight#
         Dim level%
-        Dim locusTagFont As Font = CSSFont.TryParse(locusTagFontCSS).GDIObject(dpi)
-        Dim legendFont As Font = CSSFont.TryParse(legendFontCSS).GDIObject(dpi)
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim width = region.Width
@@ -97,12 +96,15 @@ Public Module RegionMap
                 Dim margin As Padding = region.Padding
                 Dim scaleFactor# = (width - margin.Horizontal) / model.Size
                 Dim pos As Point
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim locusTagFont As Font = css.GetFont(CSSFont.TryParse(locusTagFontCSS))
+                Dim legendFont As Font = css.GetFont(CSSFont.TryParse(legendFontCSS))
 
                 If disableLevelSkip Then
                     ' 如果都绘制在一条线上面的画，则会绘制一条水平的参考线
                     Dim left As New Point(margin.Left, top + 100 + geneShapeHeight / 2)
                     Dim right As New Point(width - margin.Right, left.Y)
-                    Dim refLineStroke As Pen = Stroke.TryParse(referenceLineStroke)
+                    Dim refLineStroke As Pen = css.GetPen(Stroke.TryParse(referenceLineStroke))
 
                     Call g.DrawLine(refLineStroke, left, right)
                 End If

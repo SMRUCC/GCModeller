@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::065bc54c84c1c5ade719cc20a12641bd, gr\network-visualization\Visualizer\DrawKDTree.vb"
+﻿#Region "Microsoft.VisualBasic::05647091e5d940071d623dd0d3099fc0, gr\network-visualization\Visualizer\DrawKDTree.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 136
-    '    Code Lines: 108 (79.41%)
-    ' Comment Lines: 4 (2.94%)
+    '   Total Lines: 138
+    '    Code Lines: 110 (79.71%)
+    ' Comment Lines: 4 (2.90%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 24 (17.65%)
-    '     File Size: 5.44 KB
+    '   Blank Lines: 24 (17.39%)
+    '     File Size: 5.55 KB
 
 
     ' Class DrawKDTree
@@ -68,13 +68,14 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Public Class DrawKDTree : Inherits Plot
 
     ReadOnly tree As KdTree(Of Point2D)
     ReadOnly query As NamedValue(Of PointF)()
     ReadOnly k As Integer
-    ReadOnly linePen As Pen
+    ReadOnly linePenCss As Stroke
 
     Public Sub New(tree As KdTree(Of Point2D), query As NamedValue(Of PointF)(), k As Integer, theme As Theme)
         MyBase.New(theme)
@@ -82,7 +83,7 @@ Public Class DrawKDTree : Inherits Plot
         Me.tree = tree
         Me.query = query
         Me.k = k
-        Me.linePen = Stroke.TryParse(theme.lineStroke).GDIObject
+        Me.linePenCss = Stroke.TryParse(theme.lineStroke)
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
@@ -128,6 +129,7 @@ Public Class DrawKDTree : Inherits Plot
     Private Sub render(g As IGraphics, scaler As DataScaler, root As KdTreeNode(Of Point2D))
         Dim pos As PointF, pos2 As PointF
         Dim c As PointF
+        Dim linePen As Pen = g.LoadEnvironment.GetPen(linePenCss)
 
         pos = root.data.PointF
         pos = scaler.Translate(pos.X, pos.Y)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::adac4ef038e6c4ab8a1d831171223a3b, Data_science\Visualization\Plots-statistics\Heatmap\CorrelationTriangle.vb"
+﻿#Region "Microsoft.VisualBasic::96c3efeb38f4ea078455610d9a598a4f, Data_science\Visualization\Plots-statistics\Heatmap\CorrelationTriangle.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 215
-    '    Code Lines: 175 (81.40%)
-    ' Comment Lines: 17 (7.91%)
+    '   Total Lines: 216
+    '    Code Lines: 175 (81.02%)
+    ' Comment Lines: 17 (7.87%)
     '    - Xml Docs: 35.29%
     ' 
-    '   Blank Lines: 23 (10.70%)
-    '     File Size: 10.80 KB
+    '   Blank Lines: 24 (11.11%)
+    '     File Size: 10.76 KB
 
 
     '     Class CorrelationTriangle
@@ -71,15 +71,14 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports std = System.Math
 
 Namespace Heatmap
 
     Public Class CorrelationTriangle : Inherits Plot
 
-        Dim valuelabelFont As Font
-        Dim rowLabelFont As Font
-        Dim gridBrush As Pen
+        Dim gridBrush As Stroke
         Dim colors As SolidBrush()
         Dim drawValueLabel As Boolean
         Dim variantSize As Boolean
@@ -93,6 +92,9 @@ Namespace Heatmap
         End Sub
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim valuelabelFont As Font = css.GetFont(theme.tagCSS)
+            Dim rowLabelFont As Font = css.GetFont(theme.axisLabelCSS)
             Dim keys$() = cor.data.keys
             Dim maxLabelSize = cor.data.keys _
                 .MaxLengthString _
@@ -107,7 +109,7 @@ Namespace Heatmap
             Dim dh! = dStep.Height - gridBrush.Width
             Dim legendSize = plotRegion.Width / 5
             ' 每一个方格的大小是不变的
-            Dim r! = stdNum.Max(dw, dh)
+            Dim r! = std.Max(dw, dh)
             Dim dr!
             Dim blockSize As New SizeF With {.Width = r, .Height = r}
             Dim i% = 1
@@ -115,7 +117,7 @@ Namespace Heatmap
             Dim radius As DoubleRange = {0R, r}
             Dim getRadius = Function(corr#) As Double
                                 If variantSize Then
-                                    Return cor.range.ScaleMapping(stdNum.Abs(corr), radius)
+                                    Return cor.range.ScaleMapping(std.Abs(corr), radius)
                                 Else
                                     Return blockSize.Width
                                 End If
@@ -131,10 +133,10 @@ Namespace Heatmap
             ' legend位于整个图片的右上角
             Call Legends.ColorMapLegend(
                 g, llayout, colors, AxisScalling.CreateAxisTicks(data:={-1, 1}),
-                titleFont:=CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi),
+                titleFont:=css.GetFont(theme.legendTitleCSS),
                 title:=legendTitle,
-                tickFont:=CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi),
-                tickAxisStroke:=Stroke.TryParse(Stroke.StrongHighlightStroke)
+                tickFont:=css.GetFont(theme.legendLabelCSS),
+                tickAxisStroke:=css.GetPen(Stroke.TryParse(Stroke.StrongHighlightStroke))
             )
 
             ' 在这里绘制具体的矩阵
@@ -180,7 +182,7 @@ Namespace Heatmap
                     End If
 
                     If gridDraw Then
-                        Call g.DrawRectangle(gridBrush, rect)
+                        Call g.DrawRectangle(css.GetPen(gridBrush), rect)
                     End If
                     If Not labelbrush Is Nothing Then
 
@@ -242,9 +244,8 @@ Namespace Heatmap
                                               Optional driver As Drivers = Drivers.Default,
                                               Optional ppi As Integer = 100) As GraphicsData
 
-            Dim valuelabelFont As Font = CSSFont.TryParse(valuelabelFontCSS).GDIObject(ppi)
-            Dim gridBrush As Pen = Stroke.TryParse(gridCSS).GDIObject
-            Dim rowLabelFont As Font = CSSFont.TryParse(rowLabelFontStyle).GDIObject(ppi)
+
+            Dim gridBrush As Stroke = Stroke.TryParse(gridCSS)
             Dim keys$() = data.keys
             Dim colors As SolidBrush() = Designer.GetColors(mapName, mapLevels).Reverse.GetBrushes
             Dim cor As New CorrelationData(data, range)
@@ -254,15 +255,15 @@ Namespace Heatmap
                 .legendTitleCSS = legendFont,
                 .padding = padding,
                 .background = bg,
-                .legendLabelCSS = legendLabelFont
+                .legendLabelCSS = legendLabelFont,
+                .tagCSS = valuelabelFontCSS,
+                .axisLabelCSS = rowLabelFontStyle
             }
 
             Return New CorrelationTriangle(cor, theme) With {
                 .colors = colors,
                 .gridBrush = gridBrush,
                 .main = mainTitle,
-                .rowLabelFont = rowLabelFont,
-                .valuelabelFont = valuelabelFont,
                 .drawValueLabel = drawValueLabel,
                 .variantSize = variantSize,
                 .mapLevels = mapLevels,

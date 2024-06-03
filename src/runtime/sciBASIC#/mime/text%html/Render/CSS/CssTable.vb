@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3be713a89836a5b6e7c45905528fc5cc, mime\text%html\Render\CSS\CssTable.vb"
+﻿#Region "Microsoft.VisualBasic::7cc5c7660b1214a5bed1feeba3247310, mime\text%html\Render\CSS\CssTable.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 876
-    '    Code Lines: 521 (59.47%)
-    ' Comment Lines: 205 (23.40%)
+    '   Total Lines: 877
+    '    Code Lines: 522 (59.52%)
+    ' Comment Lines: 205 (23.38%)
     '    - Xml Docs: 69.76%
     ' 
-    '   Blank Lines: 150 (17.12%)
+    '   Blank Lines: 150 (17.10%)
     '     File Size: 32.14 KB
 
 
@@ -71,6 +71,7 @@
 
 Imports System.Drawing
 Imports System.Math
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace Render.CSS
 
@@ -479,7 +480,7 @@ Namespace Render.CSS
                         If len.IsPercentage Then
                             'Get width as a percentage
                             ColumnWidths(i) = CssValue.ParseNumber(Columns(i).Width, availCellSpace)
-                        ElseIf len.Unit = CssLength.CssUnit.Pixels OrElse len.Unit = CssLength.CssUnit.None Then
+                        ElseIf len.Unit = CssUnit.Pixels OrElse len.Unit = CssUnit.None Then
                             'Get width as an absolute-pixel value
                             ColumnWidths(i) = len.Number
                         End If
@@ -505,7 +506,7 @@ Namespace Render.CSS
                                 If len.IsPercentage Then
                                     'Get width as a percentage
                                     flen = CssValue.ParseNumber(row.Boxes(i).Width, availCellSpace)
-                                ElseIf len.Unit = CssLength.CssUnit.Pixels OrElse len.Unit = CssLength.CssUnit.None Then
+                                ElseIf len.Unit = CssUnit.Pixels OrElse len.Unit = CssUnit.None Then
                                     'Get width as an absolute-pixel value
                                     flen = len.Number
                                 End If

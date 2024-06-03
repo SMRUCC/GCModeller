@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::368131d3d1469bdb6f31f58c47810254, Data_science\Visualization\Plots\BarPlot\LevelBarplot.vb"
+﻿#Region "Microsoft.VisualBasic::6ec0ea59982cd8785b5b886adb6b40e1, Data_science\Visualization\Plots\BarPlot\LevelBarplot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 183
-    '    Code Lines: 150 (81.97%)
-    ' Comment Lines: 8 (4.37%)
+    '   Total Lines: 185
+    '    Code Lines: 152 (82.16%)
+    ' Comment Lines: 8 (4.32%)
     '    - Xml Docs: 37.50%
     ' 
-    '   Blank Lines: 25 (13.66%)
-    '     File Size: 8.71 KB
+    '   Blank Lines: 25 (13.51%)
+    '     File Size: 8.85 KB
 
 
     '     Module LevelBarplot
@@ -65,8 +65,9 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Legends
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace BarPlot
 
@@ -104,10 +105,6 @@ Namespace BarPlot
                              Optional nolabelTrim As Boolean = False,
                              Optional ppi As Integer = 100) As GraphicsData
 
-            Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject(ppi)
-            Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject(ppi)
-            Dim tickFont As Font = CSSFont.TryParse(tickFontCSS).GDIObject(ppi)
-            Dim valueTitleFont As Font = CSSFont.TryParse(valueTitleFontCSS).GDIObject(ppi)
             Dim trim As Func(Of String, String)
 
             If nolabelTrim Then
@@ -125,10 +122,15 @@ Namespace BarPlot
                 .ToArray
             Dim colorIndex As DoubleRange = {0.0, colors.Length - 1}
             Dim indexScaler As DoubleRange = data.Select(Function(i) i.Value).ToArray
-            Dim pen As Pen = Stroke.TryParse(chartBoxStroke).GDIObject
 
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
+                    Dim css As CSSEnvirnment = g.LoadEnvironment
+                    Dim pen As Pen = css.GetPen(Stroke.TryParse(chartBoxStroke))
+                    Dim titleFont As Font = css.GetFont(CSSFont.TryParse(titleFontCSS))
+                    Dim labelFont As Font = css.GetFont(CSSFont.TryParse(labelFontCSS))
+                    Dim tickFont As Font = css.GetFont(CSSFont.TryParse(tickFontCSS))
+                    Dim valueTitleFont As Font = css.GetFont(CSSFont.TryParse(valueTitleFontCSS))
                     Dim maxLabelSize As SizeF = g.MeasureString(maxLengthLabel, labelFont)
                     Dim plotRegion As Rectangle = region.PlotRegion
                     Dim pos As PointF
@@ -145,7 +147,7 @@ Namespace BarPlot
 
                     pos = New PointF With {
                         .X = plotRegion.Left + (plotRegion.Width - titleSize.Width) / 2,
-                        .Y = plotRegion.Top - titleSize.Height - stdNum.Min(10, titleSize.Height / 2)
+                        .Y = plotRegion.Top - titleSize.Height - std.Min(10, titleSize.Height / 2)
                     }
 
                     Call g.DrawString(title, titleFont, Brushes.Black, pos)

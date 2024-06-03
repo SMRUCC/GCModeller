@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::afc765eb5bde9c63991845de2bb1c3a5, mime\text%html\Render\CSS\CssBoxWord.vb"
+﻿#Region "Microsoft.VisualBasic::4943cd413342032c18c9e4f2746f746c, mime\text%html\Render\CSS\CssBoxWord.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 194
-    '    Code Lines: 105 (54.12%)
-    ' Comment Lines: 56 (28.87%)
+    '   Total Lines: 195
+    '    Code Lines: 106 (54.36%)
+    ' Comment Lines: 56 (28.72%)
     '    - Xml Docs: 96.43%
     ' 
-    '   Blank Lines: 33 (17.01%)
-    '     File Size: 5.86 KB
+    '   Blank Lines: 33 (16.92%)
+    '     File Size: 5.88 KB
 
 
     '     Class CssBoxWord
@@ -60,6 +60,7 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace Render.CSS
 
@@ -134,13 +135,13 @@ Namespace Render.CSS
                 If Value IsNot Nothing Then
                     Dim w As New CssLength(OwnerBox.Width)
                     Dim h As New CssLength(OwnerBox.Height)
-                    If w.Number > 0 AndAlso w.Unit = CssLength.CssUnit.Pixels Then
+                    If w.Number > 0 AndAlso w.Unit = CssUnit.Pixels Then
                         Width = w.Number
                     Else
                         Width = Value.Width
                     End If
 
-                    If h.Number > 0 AndAlso h.Unit = CssLength.CssUnit.Pixels Then
+                    If h.Number > 0 AndAlso h.Unit = CssUnit.Pixels Then
 
                         Height = h.Number
                     Else

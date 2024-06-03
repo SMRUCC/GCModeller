@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62c8a642405d076576d8ecd112e4b85b, Data\BinaryData\Feather\Impl\SyntheticEnum.vb"
+﻿#Region "Microsoft.VisualBasic::296007a8292600fbb1699639b1842be1, Data\BinaryData\Feather\Impl\SyntheticEnum.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 18 (22.22%)
-    '     File Size: 3.17 KB
+    '     File Size: 3.18 KB
 
 
     '     Module SyntheticEnum
@@ -112,7 +112,7 @@ Namespace Impl
 
             ' assumed low contention
             SyncLock SyntheticEnumLookup
-                Dim syntheticEnum As Type
+                Dim syntheticEnum As Type = Nothing
                 If SyntheticEnumLookup.TryGetValue(key, syntheticEnum) Then Return syntheticEnum
                 syntheticEnum = CreateSyntheticEnum(inOrder)
                 SyntheticEnumLookup(key) = syntheticEnum

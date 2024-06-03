@@ -70,6 +70,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports FontStyle = System.Drawing.FontStyle
 
 Namespace CatalogProfiling
@@ -137,8 +138,9 @@ Namespace CatalogProfiling
             Dim r As Double
             Dim paint As SolidBrush = Brushes.Black
             Dim pos As PointF
-            Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
-            Dim labelFont As Font = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim tickFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
+            Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.legendTitleCSS))
 
             g.DrawString(title, labelFont, Brushes.Black, New PointF(x - impacts.ScaleMapping(values.Max, radius) * 2, y))
             y += g.MeasureString("A", labelFont).Height * 1.5
@@ -190,8 +192,9 @@ Namespace CatalogProfiling
                 Return
             End If
 
+            Dim css As CSSEnvirnment = g.LoadEnvironment
             Dim fontsize As SizeF
-            Dim pathwayLabelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
+            Dim pathwayLabelFont As Font = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
             Dim categoryFont As New Font(pathwayLabelFont.Name, CSng(pathwayLabelFont.Size * 1.25), FontStyle.Bold)
             Dim viz As IGraphics = g
             Dim maxLabel As SizeF = categories _
@@ -224,12 +227,12 @@ Namespace CatalogProfiling
             Dim paint As SolidBrush
             Dim sampleColors As Dictionary(Of String, SolidBrush) = getSampleColors()
 
-            Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, region)
+            Call g.DrawRectangle(css.GetPen(Stroke.TryParse(theme.axisStroke)), region)
 
             ' draw axis
             Call Axis.DrawX(
                 g:=g,
-                pen:=Stroke.TryParse(theme.axisStroke).GDIObject,
+                pen:=css.GetPen(Stroke.TryParse(theme.axisStroke)),
                 label:=xlabel,
                 scaler:=New DataScaler With {.AxisTicks = (pvalueTicks.AsVector, Nothing), .region = region, .X = xscale, .Y = Nothing},
                 layout:=XAxisLayoutStyles.Bottom,
@@ -237,7 +240,7 @@ Namespace CatalogProfiling
                 offset:=Nothing,
                 labelFont:=theme.axisLabelCSS,
                 labelColor:=Brushes.Black,
-                tickFont:=CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi),
+                tickFont:=css.GetFont(theme.axisTickCSS),
                 tickColor:=Brushes.Black,
                 htmlLabel:=False
             )

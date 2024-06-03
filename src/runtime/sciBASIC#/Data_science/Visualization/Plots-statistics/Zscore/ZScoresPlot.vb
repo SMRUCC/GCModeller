@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f16c422848b9754bade0974ab3e5924, Data_science\Visualization\Plots-statistics\Zscore\ZScoresPlot.vb"
+﻿#Region "Microsoft.VisualBasic::0a9cf73d9f8b5cbd3791122c8bb64445, Data_science\Visualization\Plots-statistics\Zscore\ZScoresPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 160
-    '    Code Lines: 132 (82.50%)
-    ' Comment Lines: 6 (3.75%)
+    '   Total Lines: 162
+    '    Code Lines: 134 (82.72%)
+    ' Comment Lines: 6 (3.70%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 22 (13.75%)
-    '     File Size: 7.00 KB
+    '   Blank Lines: 22 (13.58%)
+    '     File Size: 7.09 KB
 
 
     ' Class ZScoresPlot
@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Public Class ZScoresPlot : Inherits Plot
 
@@ -91,14 +92,15 @@ Public Class ZScoresPlot : Inherits Plot
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-        Dim serialLabelFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(g.Dpi)
-        Dim legendLabelFont As Font = CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi)
-        Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(g.Dpi)
-        Dim tickFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim serialLabelFont As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
+        Dim legendLabelFont As Font = css.GetFont(CSSFont.TryParse(theme.legendLabelCSS))
+        Dim titleFont As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
+        Dim tickFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
         Dim maxSerialLabelSize As SizeF = g.MeasureString(maxSerialsLabel, serialLabelFont)
         Dim maxLegendLabelSize As SizeF = g.MeasureString(maxGroupLabel, legendLabelFont)
         Dim pointSize As New SizeF(theme.pointSize, theme.pointSize)
-        Dim axisStroke As Pen = Stroke.TryParse(theme.axisStroke).GDIObject
+        Dim axisStroke As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
 
         ' 计算出layout信息
         Dim plotWidth% = canvas.PlotRegion.Width _
@@ -114,9 +116,9 @@ Public Class ZScoresPlot : Inherits Plot
                                    + 5 _
                                    + range.ScaleMapping(Z, plotWidthRange)
                 End Function
-        Dim dy! = plotHeight / (Data.serials.Length)
+        Dim dy! = plotHeight / (data.serials.Length)
         Dim yTop! = canvas.Padding.Top
-        Dim left! = X(Range.Min)
+        Dim left! = X(range.Min)
         Dim labelSize As SizeF
         Dim labelPosition As PointF
         Dim pt As PointF
@@ -128,7 +130,7 @@ Public Class ZScoresPlot : Inherits Plot
                            New PointF(left + plotWidth, yTop + plotHeight))
 
         If displayZERO Then
-            Dim zeroPen As Pen = Stroke.TryParse(theme.lineStroke).GDIObject
+            Dim zeroPen As Pen = css.GetPen(Stroke.TryParse(theme.lineStroke))
 
             g.DrawLine(zeroPen,
                                New PointF(X(0), yTop),
@@ -136,7 +138,7 @@ Public Class ZScoresPlot : Inherits Plot
         End If
 
         ' 绘制出每一个系列的点和相应的标签字符串
-        For Each serial As DataSet In Data.serials
+        For Each serial As DataSet In data.serials
             Dim labelY = yTop + (dy - serialLabelFont.Height) / 2
             Dim yPoints! = yTop + (dy - theme.pointSize) / 2
 
@@ -145,7 +147,7 @@ Public Class ZScoresPlot : Inherits Plot
             g.DrawString(serial.ID, serialLabelFont, Brushes.Black, labelPosition)
 
             For Each group As KeyValuePair(Of String, String()) In groups
-                Dim color As New SolidBrush(Colors(group.Key))
+                Dim color As New SolidBrush(colors(group.Key))
 
                 For Each Z As Double In serial(group.Value) _
                             .Where(Function(n)
@@ -190,7 +192,7 @@ Public Class ZScoresPlot : Inherits Plot
                     .X = X(range.Max) + (canvas.Padding.Right - maxWidth) / 2,
                     .Y = yTop + (plotHeight - legendHeight) / 2
                 }
-        Dim shapes = Data.shapes
+        Dim shapes = data.shapes
         Dim legends = groups _
                     .Keys _
                     .Select(Function(label)

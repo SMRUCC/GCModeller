@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7a614ab167f252cf28257439f57a764, Data_science\Visualization\Plots\BarPlot\Plots\BiDirectionBarPlot.vb"
+﻿#Region "Microsoft.VisualBasic::a918ecf7dd57daee62e8fb2179b2b34f, Data_science\Visualization\Plots\BarPlot\Plots\BiDirectionBarPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 159
-    '    Code Lines: 114 (71.70%)
-    ' Comment Lines: 11 (6.92%)
+    '   Total Lines: 161
+    '    Code Lines: 116 (72.05%)
+    ' Comment Lines: 11 (6.83%)
     '    - Xml Docs: 27.27%
     ' 
-    '   Blank Lines: 34 (21.38%)
-    '     File Size: 7.44 KB
+    '   Blank Lines: 34 (21.12%)
+    '     File Size: 7.53 KB
 
 
     '     Class BiDirectionBarPlot
@@ -56,14 +56,15 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Data
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports std = System.Math
 
 Namespace BarPlot
 
@@ -88,7 +89,8 @@ Namespace BarPlot
             Dim rect As Rectangle = canvas.PlotRegion
             Dim dh As Double = rect.Height / data.size
             Dim barHeight As Double = dh * 0.7
-            Dim labelFont As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
             Dim maxLen As Double = g.MeasureString(data.samples.Select(Function(d) d.tag).MaxLengthString, labelFont).Width
             Dim boxLeft As Double = rect.Left + maxLen
             Dim boxWidth As Double = rect.Right - boxLeft
@@ -98,20 +100,20 @@ Namespace BarPlot
 
             rect = New Rectangle(boxLeft, rect.Top, rect.Width - (boxLeft - rect.Left), rect.Height)
 
-            Call g.DrawRectangle(Stroke.TryParse(theme.axisStroke).GDIObject, rect)
-            Call g.DrawLine(Stroke.TryParse(theme.gridStrokeY).GDIObject, New PointF(center, rect.Top), New PointF(center, rect.Bottom))
+            Call g.DrawRectangle(css.GetPen(Stroke.TryParse(theme.axisStroke)), rect)
+            Call g.DrawLine(css.GetPen(Stroke.TryParse(theme.gridStrokeY)), New PointF(center, rect.Top), New PointF(center, rect.Bottom))
 
             Dim y As Double = rect.Top - dh + dh * 0.15
             Dim charWidth As Single = g.MeasureString("X", labelFont).Width
 
             ' draw main title
-            Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(g.Dpi)
+            Dim titleFont As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
             Dim labelSize As SizeF = g.MeasureString(main, titleFont)
             Dim labelPos As New PointF With {
                 .X = rect.Left + (rect.Width - labelSize.Width) / 2,
                 .Y = (canvas.Padding.Top - labelSize.Height) / 2
             }
-            Dim tickLabelFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+            Dim tickLabelFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
 
             Call g.DrawString(main, titleFont, Brushes.Black, labelPos)
 
@@ -149,7 +151,7 @@ Namespace BarPlot
             Dim ticks As Double() = data.samples.Select(Function(d) d.data).IteratesALL.CreateAxisTicks(ticks:=3)
 
             y = rect.Bottom + 10
-            labelFont = CSSFont.TryParse(theme.axisTickCSS).GDIObject(g.Dpi)
+            labelFont = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
             labelSize = g.MeasureString(0, labelFont)
 
             ' draw ZERO
@@ -167,7 +169,7 @@ Namespace BarPlot
             g.DrawLine(Pens.Black, New PointF(x, y), New PointF(x, rect.Bottom))
 
             For Each tick As Double In ticks
-                If stdNum.Abs(tick) < 0.1 Then
+                If std.Abs(tick) < 0.1 Then
                     Continue For
                 End If
 
@@ -188,7 +190,7 @@ Namespace BarPlot
                 g.DrawLine(Pens.Black, New PointF(center - offset, y), New PointF(center - offset, rect.Bottom))
             Next
 
-            labelFont = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
+            labelFont = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
             labelSize = g.MeasureString(xlabel, labelFont)
             labelPos = New Point With {
                 .X = rect.Left + (rect.Width - labelSize.Width) / 2,

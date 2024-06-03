@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d97ec9be1f514d20db881ba2bfcffef, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Legend\Legend.vb"
+﻿#Region "Microsoft.VisualBasic::0e5e3bf5e5056213bfd4f9dda9ef0525, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Legend\Legend.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 344
-    '    Code Lines: 242 (70.35%)
-    ' Comment Lines: 51 (14.83%)
+    '   Total Lines: 342
+    '    Code Lines: 240 (70.18%)
+    ' Comment Lines: 51 (14.91%)
     '    - Xml Docs: 78.43%
     ' 
-    '   Blank Lines: 51 (14.83%)
-    '     File Size: 14.12 KB
+    '   Blank Lines: 51 (14.91%)
+    '     File Size: 14.14 KB
 
 
     '     Module Legends
@@ -343,10 +343,7 @@ Namespace Drawing2D.Colors
                         labelFontCSS)
                 End Sub
 
-            Return g.GraphicsPlots(
-                size, padding,
-                "transparent",
-                plotInternal)
+            Return g.GraphicsPlots(size, padding, "transparent", plotInternal)
         End Function
 
         <Extension>
@@ -359,7 +356,8 @@ Namespace Drawing2D.Colors
                                          Optional AxisStroke$ = Stroke.AxisStroke,
                                          Optional scientificNotation As Boolean = False)
 
-            Dim font As Font = CSSFont.TryParse(labelFontCSS).GDIObject(g.Dpi)
+            Dim env As CSSEnvirnment = New CSSEnvirnment(g.Size, g.Dpi)
+            Dim font As Font = env.GetFont(CSSFont.TryParse(labelFontCSS))
             Dim l = designer.Length
             Dim dx = region.Width / l
             Dim h = region.Height * (2 / 3)
@@ -379,7 +377,7 @@ Namespace Drawing2D.Colors
 
             With region
 
-                g.DrawLine(Stroke.TryParse(AxisStroke).GDIObject, New Point(.Left, y), New Point(x, y))
+                g.DrawLine(env.GetPen(Stroke.TryParse(AxisStroke)), New Point(.Left, y), New Point(x, y))
                 y += 5
 
                 For Each i As SeqValue(Of Double) In ticks _

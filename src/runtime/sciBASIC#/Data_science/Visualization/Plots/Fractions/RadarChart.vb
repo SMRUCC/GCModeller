@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86c3798794d16153fed93a164beffd05, Data_science\Visualization\Plots\Fractions\RadarChart.vb"
+﻿#Region "Microsoft.VisualBasic::1fb3a706b21e88e15bc66c48dbc10a4b, Data_science\Visualization\Plots\Fractions\RadarChart.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 398
-    '    Code Lines: 254 (63.82%)
-    ' Comment Lines: 93 (23.37%)
+    '   Total Lines: 400
+    '    Code Lines: 256 (64.00%)
+    ' Comment Lines: 93 (23.25%)
     '    - Xml Docs: 45.16%
     ' 
-    '   Blank Lines: 51 (12.81%)
-    '     File Size: 20.13 KB
+    '   Blank Lines: 51 (12.75%)
+    '     File Size: 20.25 KB
 
 
     '     Module RadarChart
@@ -71,8 +71,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Interpolation
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Fractions
 
@@ -185,8 +186,6 @@ Namespace Fractions
                                        .Distinct _
                                        .ToArray
             Dim dDegree# = 360 / directions.Length
-            Dim axisPen As Pen = Stroke.TryParse(axisStrokeStyle).GDIObject
-            Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject(ppi)
             Dim regionFillColor As New SolidBrush(regionFill.TranslateColor)
 
             If axisRange Is Nothing Then
@@ -201,7 +200,10 @@ Namespace Fractions
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
                     Dim plotRect = region.PlotRegion
                     Dim center As PointF = plotRect.Centre
-                    Dim radius As DoubleRange = {0, stdNum.Min(plotRect.Width, plotRect.Height) / 2}
+                    Dim css As CSSEnvirnment = g.LoadEnvironment
+                    Dim axisPen As Pen = css.GetPen(Stroke.TryParse(axisStrokeStyle))
+                    Dim labelFont As Font = css.GetFont(CSSFont.TryParse(labelFontCSS))
+                    Dim radius As DoubleRange = {0, std.Min(plotRect.Width, plotRect.Height) / 2}
                     Dim serial As NamedValue(Of FractionData())
                     Dim r#
                     Dim alpha! = -90

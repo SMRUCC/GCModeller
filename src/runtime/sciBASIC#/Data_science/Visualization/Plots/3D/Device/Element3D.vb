@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a72bb6ce28682f8b427d4b26e3f44d1, Data_science\Visualization\Plots\3D\Device\Element3D.vb"
+﻿#Region "Microsoft.VisualBasic::1a6a92fcf3e93dd38552f6f8965abe72, Data_science\Visualization\Plots\3D\Device\Element3D.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 206
-    '    Code Lines: 146 (70.87%)
-    ' Comment Lines: 18 (8.74%)
+    '   Total Lines: 208
+    '    Code Lines: 148 (71.15%)
+    ' Comment Lines: 18 (8.65%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 42 (20.39%)
-    '     File Size: 7.68 KB
+    '   Blank Lines: 42 (20.19%)
+    '     File Size: 7.79 KB
 
 
     '     Class Element3D
@@ -107,6 +107,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace Plot3D.Device
 
@@ -211,7 +212,8 @@ Namespace Plot3D.Device
         Public Overrides Sub Draw(g As IGraphics, rect As GraphicsRegion, scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale)
             Dim praw As PointF = GetPosition(rect.Size)
             Dim pscale As New PointF(scaleX(praw.X), scaleY(praw.Y))
-            Dim font As Font = CSSFont.TryParse(FontCss).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim font As Font = css.GetFont(CSSFont.TryParse(FontCss))
 
             Call g.DrawString(Text, font, Color, pscale)
         End Sub

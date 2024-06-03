@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cebc3b825a25663efe4643332599591a, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Triangle.vb"
+﻿#Region "Microsoft.VisualBasic::376ca2acfde7da317e468fb9a7b23c0c, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Triangle.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 80
-    '    Code Lines: 53 (66.25%)
-    ' Comment Lines: 14 (17.50%)
+    '   Total Lines: 82
+    '    Code Lines: 55 (67.07%)
+    ' Comment Lines: 14 (17.07%)
     '    - Xml Docs: 92.86%
     ' 
-    '   Blank Lines: 13 (16.25%)
-    '     File Size: 2.83 KB
+    '   Blank Lines: 13 (15.85%)
+    '     File Size: 2.94 KB
 
 
     '     Class Triangle
@@ -62,6 +62,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace Drawing2D.Shapes
 
@@ -110,6 +111,7 @@ Namespace Drawing2D.Shapes
                                          Optional border As Stroke = Nothing,
                                          Optional reversed As Boolean = False)
             Dim t As New GraphicsPath
+            Dim css As CSSEnvirnment = g.LoadEnvironment
 
             If Not reversed Then
                 Dim a As New Point(topLeft.X + size.Width / 2, topLeft.Y)
@@ -134,7 +136,7 @@ Namespace Drawing2D.Shapes
             Call g.FillPath(br Or BlackBrush, t)
 
             If Not border Is Nothing Then
-                Call g.DrawPath(border.GDIObject, t)
+                Call g.DrawPath(css.GetPen(border), t)
             End If
         End Sub
     End Class

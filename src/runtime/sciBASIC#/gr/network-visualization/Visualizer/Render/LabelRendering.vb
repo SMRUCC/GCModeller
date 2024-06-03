@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44ede704f9c2114c4165c22cbb333ffc, gr\network-visualization\Visualizer\Render\LabelRendering.vb"
+﻿#Region "Microsoft.VisualBasic::8e1cd21e10df5156eda5a1fc3113b06b, gr\network-visualization\Visualizer\Render\LabelRendering.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 131
-    '    Code Lines: 106 (80.92%)
-    ' Comment Lines: 8 (6.11%)
+    '   Total Lines: 133
+    '    Code Lines: 108 (81.20%)
+    ' Comment Lines: 8 (6.02%)
     '    - Xml Docs: 37.50%
     ' 
-    '   Blank Lines: 17 (12.98%)
-    '     File Size: 5.10 KB
+    '   Blank Lines: 17 (12.78%)
+    '     File Size: 5.22 KB
 
 
     ' Class LabelRendering
@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports std = System.Math
 
 ''' <summary>
@@ -94,8 +95,9 @@ Friend Class LabelRendering
 
     Public Sub renderLabels(g As IGraphics, labelList As IEnumerable(Of LayoutLabel))
         Dim labels As New List(Of LayoutLabel)(labelList)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
         Dim defaultLabelColor As New SolidBrush(defaultLabelColorValue.TranslateColor)
-        Dim labelTextStroke As Pen = Stroke.TryParse(labelTextStrokeCSS)
+        Dim labelTextStroke As Pen = css.GetPen(Stroke.TryParse(labelTextStrokeCSS))
 
         ' 小于等于零的时候表示不进行布局计算
         If iteration > 0 Then

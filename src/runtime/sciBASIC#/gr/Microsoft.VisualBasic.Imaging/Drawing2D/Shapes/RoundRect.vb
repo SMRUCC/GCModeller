@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbc7e10ca0dcb92228513fcdd8536730, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\RoundRect.vb"
+﻿#Region "Microsoft.VisualBasic::1be2df1dbeccd85b7b36585b684a6a00, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\RoundRect.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 67
-    '    Code Lines: 42 (62.69%)
-    ' Comment Lines: 15 (22.39%)
+    '   Total Lines: 69
+    '    Code Lines: 44 (63.77%)
+    ' Comment Lines: 15 (21.74%)
     '    - Xml Docs: 93.33%
     ' 
-    '   Blank Lines: 10 (14.93%)
-    '     File Size: 2.34 KB
+    '   Blank Lines: 10 (14.49%)
+    '     File Size: 2.48 KB
 
 
     '     Class RoundRect
@@ -57,6 +57,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace Drawing2D.Shapes
 
@@ -86,12 +87,13 @@ Namespace Drawing2D.Shapes
 
             Dim rect As New RectangleF(topLeft, size)
             Dim path As GraphicsPath = GetRoundedRectPath(rect, radius)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
 
             If Not br Is Nothing Then
                 Call g.FillPath(br, path)
             End If
             If Not border Is Nothing Then
-                Call g.DrawPath(border, path)
+                Call g.DrawPath(css.GetPen(border, allowNull:=True), path)
             End If
         End Sub
 

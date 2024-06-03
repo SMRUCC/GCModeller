@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3769f376effdde50e6dfcc6310c7463, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Box.vb"
+﻿#Region "Microsoft.VisualBasic::8077259137ee67ef646302f5526d6bf2, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Box.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 27
-    '    Code Lines: 20 (74.07%)
+    '   Total Lines: 29
+    '    Code Lines: 22 (75.86%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 7 (25.93%)
-    '     File Size: 933 B
+    '   Blank Lines: 7 (24.14%)
+    '     File Size: 1.02 KB
 
 
     '     Class Box
@@ -57,6 +57,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace Drawing2D.Shapes
 
@@ -73,11 +74,12 @@ Namespace Drawing2D.Shapes
                                         size As Size,
                                         Optional br As Brush = Nothing,
                                         Optional border As Stroke = Nothing)
+            Dim css = g.LoadEnvironment
 
             Call g.FillRectangle(br Or BlackBrush, New Rectangle(topLeft, size))
 
             If Not border Is Nothing Then
-                Call g.DrawRectangle(border.GDIObject, New Rectangle(topLeft, size))
+                Call g.DrawRectangle(css.GetPen(border), New Rectangle(topLeft, size))
             End If
         End Sub
     End Class

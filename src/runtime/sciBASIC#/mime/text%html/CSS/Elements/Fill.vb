@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8abc330ba1f0750b87805c735deb2a13, mime\text%html\CSS\Size.vb"
+﻿#Region "Microsoft.VisualBasic::7d7664673cdf5ef46bb3d41e53184916, mime\text%html\CSS\Elements\Fill.vb"
 
     ' Author:
     ' 
@@ -34,30 +34,45 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 9
-    '    Code Lines: 6 (66.67%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 22
+    '    Code Lines: 13 (59.09%)
+    ' Comment Lines: 3 (13.64%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 3 (33.33%)
-    '     File Size: 158 B
+    '   Blank Lines: 6 (27.27%)
+    '     File Size: 513 B
 
 
-    '     Class CSSsize
+    '     Class Fill
     ' 
-    '         Properties: height, width
+    '         Properties: fill
+    ' 
+    '         Function: CreateBrush, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
+Imports Microsoft.VisualBasic.Imaging
+
 Namespace CSS
 
-    Public Class CSSsize
+    ''' <summary>
+    ''' <see cref="Brush"/>: <see cref="SolidBrush"/> and <see cref="TextureBrush"/>
+    ''' </summary>
+    Public Class Fill
 
-        Public Property width As Double
-        Public Property height As Double
+        Public Property fill As String
+
+        Public Overrides Function ToString() As String
+            Return fill
+        End Function
+
+        Public Function CreateBrush() As Brush
+            Return fill.GetBrush
+        End Function
 
     End Class
 End Namespace

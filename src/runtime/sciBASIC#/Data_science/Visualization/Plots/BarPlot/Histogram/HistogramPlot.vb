@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54da5a8b8c54f55b523564241ed8eb76, Data_science\Visualization\Plots\BarPlot\Histogram\HistogramPlot.vb"
+﻿#Region "Microsoft.VisualBasic::6c5a34d4e2ecf9ed0ff7ab3f389a9bdd, Data_science\Visualization\Plots\BarPlot\Histogram\HistogramPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 154
-    '    Code Lines: 126 (81.82%)
-    ' Comment Lines: 2 (1.30%)
+    '   Total Lines: 155
+    '    Code Lines: 127 (81.94%)
+    ' Comment Lines: 2 (1.29%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 26 (16.88%)
-    '     File Size: 6.46 KB
+    '   Blank Lines: 26 (16.77%)
+    '     File Size: 6.49 KB
 
 
     '     Class HistogramPlot
@@ -68,7 +68,7 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace BarPlot.Histogram
 
@@ -134,6 +134,7 @@ Namespace BarPlot.Histogram
             Dim X, Y As d3js.scale.LinearScale
             Dim XTicks#() = groups.XRange.CreateAxisTicks
             Dim YTicks#() = groups.YRange.CreateAxisTicks
+            Dim css As CSSEnvirnment = g.LoadEnvironment
 
             With canvas.PlotRegion
                 If Not xAxis.StringEmpty Then
@@ -169,12 +170,12 @@ Namespace BarPlot.Histogram
             )
 
             If Not main.StringEmpty Then
-                Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(g.Dpi)
+                Dim titleFont As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
                 Dim titleSize As SizeF = g.MeasureString(main, titleFont)
                 Dim titlePos As New PointF With {
-                            .X = region.Left + (region.Width - titleSize.Width) / 2,
-                            .Y = region.Top - titleSize.Height * 1.125
-                        }
+                    .X = region.Left + (region.Width - titleSize.Width) / 2,
+                    .Y = region.Top - titleSize.Height * 1.125
+                }
 
                 Call g.DrawString(main, titleFont, Brushes.Black, titlePos)
             End If

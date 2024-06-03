@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8148bc260b8c24426e8144382079ef46, Data_science\Visualization\Plots-statistics\HistStackedBarplot.vb"
+﻿#Region "Microsoft.VisualBasic::e62349e6c52601639afbdb67ef8b74cf, Data_science\Visualization\Plots-statistics\HistStackedBarplot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 156
-    '    Code Lines: 121 (77.56%)
-    ' Comment Lines: 16 (10.26%)
+    '   Total Lines: 158
+    '    Code Lines: 123 (77.85%)
+    ' Comment Lines: 16 (10.13%)
     '    - Xml Docs: 50.00%
     ' 
-    '   Blank Lines: 19 (12.18%)
-    '     File Size: 6.82 KB
+    '   Blank Lines: 19 (12.03%)
+    '     File Size: 6.93 KB
 
 
     ' Module HistStackedBarplot
@@ -66,6 +66,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Public Module HistStackedBarplot
@@ -123,6 +124,7 @@ Public Module HistStackedBarplot
                     .Width = MeasureWidthOrHeight(treeWidth, plotRegion.Width),
                     .Height = plotRegion.Height
                 }
+                Dim css As CSSEnvirnment = g.LoadEnvironment
 
                 ' 首先绘制出层次聚类树
                 ' rowKeys得到的是sample的从上到下的绘图顺序
@@ -134,7 +136,7 @@ Public Module HistStackedBarplot
 
                 Dim left! = treeRegion.Right + dtreeBar
                 Dim top! = treeRegion.Top
-                Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleFontCSS).GDIObject(g.Dpi)
+                Dim legendTitleFont As Font = css.GetFont(CSSFont.TryParse(legendTitleFontCSS))
                 Dim maxLabelSize As SizeF = data _
                     .Serials _
                     .Keys _

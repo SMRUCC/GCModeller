@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b561c85dacd9d283f0722a9c1792ba14, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
+﻿#Region "Microsoft.VisualBasic::7b5fbb9c6091bdc9150b38f4c8a5d222, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 112
-    '    Code Lines: 81 (72.32%)
-    ' Comment Lines: 13 (11.61%)
+    '   Total Lines: 115
+    '    Code Lines: 83 (72.17%)
+    ' Comment Lines: 13 (11.30%)
     '    - Xml Docs: 92.31%
     ' 
-    '   Blank Lines: 18 (16.07%)
-    '     File Size: 3.97 KB
+    '   Blank Lines: 19 (16.52%)
+    '     File Size: 4.08 KB
 
 
     '     Class Circle
@@ -65,6 +65,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports stdNum = System.Math
 
 Namespace Drawing2D.Shapes
@@ -152,6 +153,8 @@ Namespace Drawing2D.Shapes
             Call g.FillPie(br Or BlackBrush, rect, 0, 360)
 
             If Not border Is Nothing Then
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+
                 rect = New RectangleF With {
                     .X = center.X - radius - border.width,
                     .Y = center.Y - radius - border.width,
@@ -163,7 +166,7 @@ Namespace Drawing2D.Shapes
                 Call g.DrawCircle(
                     centra:=rect.Centre,
                     r:=radius,
-                    color:=border.GDIObject,
+                    color:=css.GetPen(border),
                     fill:=False
                 )
             End If

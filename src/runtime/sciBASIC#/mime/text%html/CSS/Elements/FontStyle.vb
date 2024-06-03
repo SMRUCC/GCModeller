@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9531ab72762e57ecc69f7df88792b996, mime\text%html\CSS\FontStyle.vb"
+﻿#Region "Microsoft.VisualBasic::b0286eaf191bd7d8346bf4b7002aa87b, mime\text%html\CSS\Elements\FontStyle.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 330
-    '    Code Lines: 193 (58.48%)
-    ' Comment Lines: 102 (30.91%)
-    '    - Xml Docs: 90.20%
+    '   Total Lines: 310
+    '    Code Lines: 181 (58.39%)
+    ' Comment Lines: 95 (30.65%)
+    '    - Xml Docs: 89.47%
     ' 
-    '   Blank Lines: 35 (10.61%)
-    '     File Size: 15.20 KB
+    '   Blank Lines: 34 (10.97%)
+    '     File Size: 14.26 KB
 
 
     '     Class CSSFont
     ' 
-    '         Properties: [variant], color, CSSValue, family, GDIObject
-    '                     size, style, weight
+    '         Properties: [variant], color, CSSValue, family, size
+    '                     style, weight
     ' 
     '         Constructor: (+3 Overloads) Sub New
     '         Function: (+2 Overloads) GetFontStyle, GetStyle, parseInner, SetFontColor, (+2 Overloads) ToString
@@ -62,6 +62,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.MIME.Html.Language.CSS
 
 Namespace CSS
 
@@ -136,7 +137,7 @@ Namespace CSS
         ''' + ``inherit``: 规定应该从父元素继承字体尺寸。
         ''' </summary>
         ''' <returns></returns>
-        <Description("font-size")> Public Property size As Single
+        <Description("font-size")> Public Property size As String
         ''' <summary>
         ''' A string representation of the <see cref="FontFamily"/> for the new System.Drawing.Font.
         ''' </summary>
@@ -177,20 +178,6 @@ Namespace CSS
         <Description("font-variant")> Public Property [variant] As String
 
         Public Property color As String = "black"
-
-        ''' <summary>
-        ''' Initializes a new <see cref="System.Drawing.Font"/> using a specified size and style.
-        ''' </summary>
-        ''' <param name="dpi">
-        ''' bugs fixed for config dpi value on unix mono platform 
-        ''' </param>
-        ''' <returns></returns>
-        Public ReadOnly Property GDIObject(dpi As Integer) As Font
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return New Font(family, FontFace.PointSizeScale(size, dpiResolution:=dpi), style)
-            End Get
-        End Property
 
         ''' <summary>
         ''' Css string for set font style
@@ -294,41 +281,34 @@ Namespace CSS
         End Function
 
         Private Shared Function parseInner(css$, ByRef hasValue As Boolean) As CSSFont
-            Dim tokens As String() = css.Split(";"c)
             Dim font As New CSSFont
-            Dim styles As Dictionary(Of String, String) = tokens _
-                .Where(Function(s) Not s.StringEmpty) _
-                .Select(Function(s) s.GetTagValue(":", True)) _
-                .ToDictionary(Function(style) style.Name.Trim.ToLower,
-                              Function(style)
-                                  Return style.Value
-                              End Function)
+            Dim styles As Selector = CssParser.ParseStyle(css)
 
-            If styles.ContainsKey("font-style") Then
+            If styles.HasProperty("font-style") Then
                 hasValue = True
                 font.style = GetStyle(styles("font-style"))
             End If
-            If styles.ContainsKey("font-size") Then
+            If styles.HasProperty("font-size") Then
                 hasValue = True
-                font.size = CSng(Val(styles("font-size")))
+                font.size = styles("font-size")
             Else
                 font.size = 12
             End If
-            If styles.ContainsKey("font-family") Then
+            If styles.HasProperty("font-family") Then
                 hasValue = True
                 font.family = styles("font-family")
             Else
                 font.family = FontFace.MicrosoftYaHei
             End If
-            If styles.ContainsKey("font-weight") Then
+            If styles.HasProperty("font-weight") Then
                 hasValue = True
                 font.weight = CSng(Val(styles("font-weight")))
             End If
-            If styles.ContainsKey("font-variant") Then
+            If styles.HasProperty("font-variant") Then
                 hasValue = True
                 font.variant = styles("font-variant")
             End If
-            If styles.ContainsKey("color") Then
+            If styles.HasProperty("color") Then
                 hasValue = True
                 font.color = styles("color")
             Else
