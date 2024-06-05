@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1eb15b47aab97d0de147c6d4f0c76c36, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\XGMMLgraph.vb"
+﻿#Region "Microsoft.VisualBasic::490337ad8f0846e1967e8b40ba38b669, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\XGMMLgraph.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 154
-    '    Code Lines: 85
-    ' Comment Lines: 49
-    '   Blank Lines: 20
-    '     File Size: 6.45 KB
+    '   Total Lines: 164
+    '    Code Lines: 93 (56.71%)
+    ' Comment Lines: 49 (29.88%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 22 (13.41%)
+    '     File Size: 6.79 KB
 
 
     '     Class XGMMLgraph
@@ -47,7 +49,7 @@
     '                     id, label, networkMetadata, nodes, Size
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) CreateObject, GetNodeIndex, GetSize, (+2 Overloads) Save
+    '         Function: (+2 Overloads) CreateObject, GetNodeIndex, GetSize, (+3 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/
