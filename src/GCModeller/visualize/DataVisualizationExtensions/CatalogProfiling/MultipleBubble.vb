@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91f4f9ed2c7013afcfe075ef57b07c50, visualize\DataVisualizationExtensions\CatalogProfiling\MultipleBubble.vb"
+﻿#Region "Microsoft.VisualBasic::960270dd3d50ce19e7526add26f7e8d4, visualize\DataVisualizationExtensions\CatalogProfiling\MultipleBubble.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 266
-    '    Code Lines: 204
-    ' Comment Lines: 24
-    '   Blank Lines: 38
-    '     File Size: 12.04 KB
+    '   Total Lines: 269
+    '    Code Lines: 207 (76.95%)
+    ' Comment Lines: 24 (8.92%)
+    '    - Xml Docs: 79.17%
+    ' 
+    '   Blank Lines: 38 (14.13%)
+    '     File Size: 12.17 KB
 
 
     '     Class MultipleBubble

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7ea1b0018a4d35e703c31c79f187f85, models\Networks\KEGGGraphVisualizer\FunctionalNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::a195a382c23b9a7a772df3ae61a26721, models\Networks\KEGGGraphVisualizer\FunctionalNetwork.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 214
-    '    Code Lines: 167
-    ' Comment Lines: 15
-    '   Blank Lines: 32
-    '     File Size: 9.14 KB
+    '   Total Lines: 216
+    '    Code Lines: 169 (78.24%)
+    ' Comment Lines: 15 (6.94%)
+    '    - Xml Docs: 73.33%
+    ' 
+    '   Blank Lines: 32 (14.81%)
+    '     File Size: 9.24 KB
 
 
     ' Module FunctionalNetwork

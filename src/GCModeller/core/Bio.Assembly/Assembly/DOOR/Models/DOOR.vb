@@ -1,56 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::604dd213aadbf57061246382c24fec15, core\Bio.Assembly\Assembly\DOOR\Models\DOOR.vb"
+﻿#Region "Microsoft.VisualBasic::b083c0465d66db8661dbfce49a4d8138, core\Bio.Assembly\Assembly\DOOR\Models\DOOR.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 184
-'    Code Lines: 107
-' Comment Lines: 53
-'   Blank Lines: 24
-'     File Size: 6.80 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class DOOR
-' 
-'         Properties: DOOROperonView, Genes
-' 
-'         Function: [Select], CreateEmpty, Export, GetEnumerator, GetOperon
-'                   HaveGene, HaveOperon, IEnumerable_GetEnumerator, IsOprPromoter, SameOperon
-'                   (+2 Overloads) Save
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 194
+    '    Code Lines: 115 (59.28%)
+    ' Comment Lines: 53 (27.32%)
+    '    - Xml Docs: 96.23%
+    ' 
+    '   Blank Lines: 26 (13.40%)
+    '     File Size: 7.20 KB
+
+
+    '     Class DOOR
+    ' 
+    '         Properties: DOOROperonView, Genes
+    ' 
+    '         Function: [Select], CreateEmpty, Export, GetEnumerator, GetOperon
+    '                   HaveGene, HaveOperon, IEnumerable_GetEnumerator, IsOprPromoter, SameOperon
+    '                   (+3 Overloads) Save
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

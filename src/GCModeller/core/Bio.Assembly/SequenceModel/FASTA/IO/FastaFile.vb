@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ae9e41204b40b21c8420cfc6c690f7e, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
+﻿#Region "Microsoft.VisualBasic::643bc9dbd0151cbe8fefac17bf95918c, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 637
-    '    Code Lines: 403
-    ' Comment Lines: 135
-    '   Blank Lines: 99
-    '     File Size: 25.24 KB
+    '   Total Lines: 647
+    '    Code Lines: 411 (63.52%)
+    ' Comment Lines: 135 (20.87%)
+    '    - Xml Docs: 94.81%
+    ' 
+    '   Blank Lines: 101 (15.61%)
+    '     File Size: 25.67 KB
 
 
     '     Class FastaFile
@@ -51,7 +53,7 @@
     '                   Distinct, (+2 Overloads) DocParser, filterNulls, Find, Generate
     '                   GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile, LoadNucleotideData
     '                   Match, ParseDocument, (+2 Overloads) Query, QueryAny, Read
-    '                   Remove, (+4 Overloads) Save, SaveData, SingleSequence, Take
+    '                   Remove, (+5 Overloads) Save, SaveData, SingleSequence, Take
     '                   ToLower, ToString, ToUpper
     ' 
     '         Sub: Add, AppendToFile, Clear, CopyTo, Insert
