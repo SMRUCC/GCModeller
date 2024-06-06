@@ -1,54 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::8e5550595f09c5def7d7d531063764cd, engine\CompilerServices\ModelBase\Model.vb"
+﻿#Region "Microsoft.VisualBasic::c500b29bcc2294865ad7d28c28cd575a, engine\CompilerServices\ModelBase\Model.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 45
-'    Code Lines: 30
-' Comment Lines: 6
-'   Blank Lines: 9
-'     File Size: 1.68 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class ModelBaseType
-' 
-'     Properties: properties
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: ISaveHandle_Save, Save, ToString
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 40 (70.18%)
+    ' Comment Lines: 6 (10.53%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 11 (19.30%)
+    '     File Size: 2.11 KB
+
+
+    ' Class ModelBaseType
+    ' 
+    '     Properties: properties
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: ISaveHandle_Save, (+2 Overloads) Save, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1778c203e322db8dd700ae2396429881, visualize\ChromosomeMap\Configuration\Config.vb"
+﻿#Region "Microsoft.VisualBasic::ca8b5b78c726509ac70f995c0afea263, visualize\ChromosomeMap\Configuration\Config.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 244
-    '    Code Lines: 194
-    ' Comment Lines: 16
-    '   Blank Lines: 34
-    '     File Size: 12.48 KB
+    '   Total Lines: 251
+    '    Code Lines: 200 (79.68%)
+    ' Comment Lines: 16 (6.37%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 35 (13.94%)
+    '     File Size: 12.73 KB
 
 
     '     Class Config
@@ -49,8 +51,8 @@
     '                     NoneCogColor, Resolution, ribosomalRNAColor, SavedFormat, SecondaryRuleFont
     '                     tRNAColor
     ' 
-    '         Function: [DefaultValue], CssFontParser, GetDrawingColor, GetDrawingSize, GetSavedImageFormat
-    '                   GetTextAlignment, (+2 Overloads) Save, ToConfigurationModel, ToString, TypeOfAlignment
+    '         Function: [DefaultValue], GetDrawingColor, GetDrawingSize, GetSavedImageFormat, GetTextAlignment
+    '                   (+3 Overloads) Save, ToConfigurationModel, ToString, TypeOfAlignment
     ' 
     ' 
     ' /********************************************************************************/

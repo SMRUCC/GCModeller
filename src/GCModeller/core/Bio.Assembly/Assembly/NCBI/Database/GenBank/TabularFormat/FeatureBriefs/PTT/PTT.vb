@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55fc98ab0e77f17d4089d1d8bca085f7, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
+﻿#Region "Microsoft.VisualBasic::48263e5db802e877675e3993e3e677c7, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 391
-    '    Code Lines: 230
-    ' Comment Lines: 109
-    '   Blank Lines: 52
-    '     File Size: 16.99 KB
+    '   Total Lines: 399
+    '    Code Lines: 236 (59.15%)
+    ' Comment Lines: 109 (27.32%)
+    '    - Xml Docs: 98.17%
+    ' 
+    '   Blank Lines: 54 (13.53%)
+    '     File Size: 17.25 KB
 
 
     '     Class PTT
@@ -49,7 +51,7 @@
     '         Constructor: (+2 Overloads) Sub New
     '         Function: Copy, ExistsLocusId, GetEnumerator, GetEnumerator1, GetEnumerator2
     '                   GetGeneByDescription, GetGeneByName, (+2 Overloads) GetObject, GetRelatedGenes, GetStrandGene
-    '                   Load, OrderByGeneID, (+2 Overloads) Save, SaveXml, ToDictionary
+    '                   Load, OrderByGeneID, (+3 Overloads) Save, SaveXml, ToDictionary
     '                   TryGetGeneObjectValue, TryGetGenesId
     ' 
     ' 

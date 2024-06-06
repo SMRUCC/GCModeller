@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::546150f5409f0531110dfd4779c34e26, modules\ExperimentDesigner\Templates\AnalysisDesigner.vb"
+﻿#Region "Microsoft.VisualBasic::34a437332459b34102a93bc706625821, modules\ExperimentDesigner\Templates\AnalysisDesigner.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 75
-    '    Code Lines: 35
-    ' Comment Lines: 30
-    '   Blank Lines: 10
-    '     File Size: 2.24 KB
+    '   Total Lines: 83
+    '    Code Lines: 35 (42.17%)
+    ' Comment Lines: 36 (43.37%)
+    '    - Xml Docs: 80.56%
+    ' 
+    '   Blank Lines: 12 (14.46%)
+    '     File Size: 2.41 KB
 
 
     ' Class AnalysisDesigner

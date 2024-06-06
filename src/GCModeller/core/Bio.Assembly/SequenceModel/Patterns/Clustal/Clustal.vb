@@ -1,59 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::092859cc52d2a0b5f2367e236eb90040, core\Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
+﻿#Region "Microsoft.VisualBasic::4d2dcb197f4c3254e1e4558016c2d69d, core\Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 104
-'    Code Lines: 76
-' Comment Lines: 12
-'   Blank Lines: 16
-'     File Size: 4.20 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Clustal
-' 
-'         Properties: Conservation, Frequency
-' 
-'         Constructor: (+3 Overloads) Sub New
-' 
-'         Function: __getSite, __mid, GetEnumerator, IEnumerable_GetEnumerator, Mid
-'                   (+2 Overloads) Save
-' 
-'         Sub: __initCommon
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 109
+    '    Code Lines: 80 (73.39%)
+    ' Comment Lines: 12 (11.01%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 17 (15.60%)
+    '     File Size: 4.42 KB
+
+
+    '     Class Clustal
+    ' 
+    '         Properties: Conservation, Frequency
+    ' 
+    '         Constructor: (+3 Overloads) Sub New
+    ' 
+    '         Function: __getSite, __mid, GetEnumerator, IEnumerable_GetEnumerator, Mid
+    '                   (+3 Overloads) Save
+    ' 
+    '         Sub: __initCommon
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

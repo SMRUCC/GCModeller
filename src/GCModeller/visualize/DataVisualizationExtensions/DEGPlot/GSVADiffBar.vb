@@ -1,52 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::86281cb672db747da81971985a461c92, visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
+﻿#Region "Microsoft.VisualBasic::500e54f0c2db19f1d601c21f2b5219d1, visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 116
-'    Code Lines: 95
-' Comment Lines: 7
-'   Blank Lines: 14
-'     File Size: 4.36 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class GSVADiffBar
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Sub: PlotInternal
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 98 (82.35%)
+    ' Comment Lines: 7 (5.88%)
+    '    - Xml Docs: 42.86%
+    ' 
+    '   Blank Lines: 14 (11.76%)
+    '     File Size: 4.47 KB
+
+
+    ' Class GSVADiffBar
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: PlotInternal
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

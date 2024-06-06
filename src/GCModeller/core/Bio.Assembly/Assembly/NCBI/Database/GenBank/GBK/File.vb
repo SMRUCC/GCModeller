@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e88de043f6345a50b913d1698ca562b, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
+﻿#Region "Microsoft.VisualBasic::fa0ed8e42a6ac2578692b16a7b368e7e, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 295
-    '    Code Lines: 164
-    ' Comment Lines: 98
-    '   Blank Lines: 33
-    '     File Size: 11.57 KB
+    '   Total Lines: 306
+    '    Code Lines: 173 (56.54%)
+    ' Comment Lines: 98 (32.03%)
+    '    - Xml Docs: 94.90%
+    ' 
+    '   Blank Lines: 35 (11.44%)
+    '     File Size: 12.00 KB
 
 
     '     Class File
@@ -49,7 +51,7 @@
     '                     Version
     ' 
     '         Function: IsValidGenbankFormat, Load, (+2 Overloads) LoadDatabase, Read, readGenbankBuffer
-    '                   (+2 Overloads) Save
+    '                   (+3 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/

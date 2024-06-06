@@ -421,7 +421,7 @@ E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Prote
 E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\Mappings.vb,56,11,6,39,1,0,0,2,0,2176,2.18 KB
 E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\Plots.vb,110,16,13,81,1,0,0,3,0,4345,4.34 KB
 E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\ProteinGroups.vb,471,60,55,356,1,0,1,10,0,19795,19.80 KB
-E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\RSDPdensity.vb,110,24,10,76,1,0,0,2,0,4395,4.39 KB
+E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\RSDPdensity.vb,108,24,10,74,1,0,0,2,0,4386,4.39 KB
 E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\DATA\Perseus.vb,71,12,10,49,1,19,0,3,0,2951,2.95 KB
 E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\DATA\UniprotAnnotations.vb,19,0,3,16,1,10,0,1,0,588,588 B
 E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\iTraq\iTraqReader.vb,79,10,13,56,3,12,0,4,0,3262,3.26 KB
@@ -436,37 +436,37 @@ E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Prote
 E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\My Project\AssemblyInfo.vb,36,15,6,15,0,0,0,0,0,1343,1.34 KB
 E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2804,2.80 KB
 E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\My Project\Settings.Designer.vb,74,9,12,53,2,2,1,0,0,3052,3.05 KB
-E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,<project>,2512,424,312,1776,24,55,2,61,0,100699,100.70 KB
+E:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,<project>,2510,424,312,1774,24,55,2,61,0,100690,100.69 KB
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\AnnotationTable.vb,53,0,5,48,1,11,0,2,0,1890,1.89 KB
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\IDMapping.vb,73,11,11,51,1,0,0,4,0,2708,2.71 KB
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\GFF\Extensions.vb,146,7,17,122,1,0,0,7,0,6558,6.56 KB
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\GFF\Feature.vb,300,114,29,157,1,19,0,2,0,14259,14.26 KB
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\GFF\FeatureKeys.vb,102,16,11,75,1,1,1,5,0,4261,4.26 KB
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\GFF\Features.vb,13,0,1,12,1,0,0,0,0,240,240 B
-E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\GFF\GFF.vb,283,112,38,133,1,12,2,9,0,12078,12.08 KB
+E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\GFF\GFF.vb,293,112,40,141,1,12,2,10,0,12416,12.42 KB
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\GFF\Region.vb,38,6,6,26,1,3,0,2,0,1339,1.34 KB
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\GFF\Document\FeatureParser.vb,125,33,13,79,1,0,0,4,0,5109,5.11 KB
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\GFF\Document\FileFormat.vb,93,7,13,73,3,0,1,4,0,4102,4.10 KB
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\PTF\AnnotationReader.vb,29,0,5,24,1,0,1,2,0,916,916 B
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\PTF\KOSelector.vb,14,5,2,7,1,0,0,1,0,384,384 B
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\PTF\ProteinAnnotation.vb,63,21,8,34,1,6,0,3,0,2101,2.10 KB
-E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\PTF\PtfFile.vb,91,7,16,68,1,2,1,8,0,3552,3.55 KB
+E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\PTF\PtfFile.vb,101,7,18,76,1,2,1,9,0,3904,3.90 KB
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\PTF\Document\DocumentBuilder.vb,26,0,5,21,1,0,1,1,0,935,935 B
 E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\PTF\Document\PtfParser.vb,76,10,8,58,1,0,0,3,0,3049,3.05 KB
-E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,<project>,1525,349,188,988,18,54,7,57,0,63481,63.48 KB
+E:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,<project>,1545,349,192,1004,18,54,7,59,0,64171,64.17 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\BioAssemblyExtensions.vb,215,63,18,134,1,0,0,12,0,8643,8.64 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\LICENSE.vb,119,59,12,48,1,2,2,1,0,4584,4.58 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\bac-srna.org\Database.vb,49,0,7,42,1,3,2,2,0,2309,2.31 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\bac-srna.org\Interaction.vb,49,21,7,21,1,6,0,1,0,1610,1.61 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\bac-srna.org\Sequence.vb,86,8,13,65,1,4,3,4,0,2999,3.00 KB
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOMINE\Database.vb,56,0,11,45,1,6,2,3,0,2155,2.15 KB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOMINE\Database.vb,66,0,13,53,1,6,2,4,0,2486,2.49 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOMINE\ImportsAPI.vb,69,0,10,59,1,0,0,6,0,2919,2.92 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOMINE\Tables.vb,221,66,11,144,4,29,0,5,0,7320,7.32 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOOR\csv.vb,73,6,13,54,1,0,0,2,0,2566,2.57 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOOR\DOOR_API.vb,168,45,13,110,1,0,0,7,0,8401,8.40 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOOR\IO.vb,75,12,8,55,1,0,0,3,0,2567,2.57 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOOR\ViewAPI.vb,24,0,5,19,1,0,0,2,0,1007,1007 B
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOOR\Models\DOOR.vb,184,53,24,107,1,2,0,12,0,6797,6.80 KB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOOR\Models\DOOR.vb,194,53,26,115,1,2,0,13,0,7195,7.20 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOOR\Models\Operon.vb,256,79,28,149,1,10,1,8,0,10880,10.88 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOOR\Models\OperonGene.vb,72,17,8,47,1,7,2,2,0,2769,2.77 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\DOOR\Models\OperonLDM.vb,38,24,3,11,1,4,0,1,0,1156,1.16 KB
@@ -520,7 +520,7 @@ E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assem
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb,120,34,18,68,1,5,0,6,0,4824,4.82 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\Archives\Xml\CompilerAPI.vb,119,9,12,98,1,0,0,9,0,6932,6.93 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\Archives\Xml\MapAPI.vb,66,17,7,42,1,0,0,4,0,3014,3.01 KB
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\Archives\Xml\XmlModel.vb,124,27,15,82,1,5,0,5,0,4596,4.60 KB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\Archives\Xml\XmlModel.vb,136,27,16,93,1,5,0,6,0,5079,5.08 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb,125,15,18,92,2,4,0,7,0,5511,5.51 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\PwyBriteFunc.vb,29,12,4,13,1,3,0,1,0,945,945 B
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\DBGET\KEGGObjects.vb,52,33,4,15,1,0,0,0,0,1381,1.38 KB
@@ -679,14 +679,14 @@ E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assem
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\MetaCyc\Schemas\Reflection\TableLink.vb,93,32,12,49,2,3,1,2,0,4452,4.45 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\MiST2\WebHandler.vb,158,18,40,100,1,0,1,5,0,7769,7.77 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\MiST2\DocArchive\Domain.vb,46,11,4,31,1,0,0,3,0,1820,1.82 KB
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb,135,9,21,105,1,11,1,7,0,6328,6.33 KB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb,147,9,23,115,1,11,1,8,0,6777,6.78 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\MiST2\DocArchive\Models\Replicon.vb,64,26,8,30,1,8,0,2,0,2191,2.19 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\MiST2\DocArchive\Models\Transducin.vb,71,18,8,45,1,5,0,3,0,2735,2.73 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\MiST2\DocArchive\Models\TwoComponent.vb,76,30,8,38,1,5,0,3,0,2837,2.84 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\CDD\CDD.vb,112,10,18,84,1,8,0,5,0,3898,3.90 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\CDD\CDDLoader.vb,153,12,27,114,1,0,3,12,0,5077,5.08 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\CDD\Database.vb,241,51,33,157,3,10,3,11,0,9518,9.52 KB
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb,267,36,25,206,1,6,3,10,0,11321,11.32 KB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb,277,36,27,214,1,6,3,11,0,11652,11.65 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\CDD\Pn.vb,58,10,9,39,1,0,0,3,0,1966,1.97 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\CDD\SmpFile.vb,134,21,22,91,1,7,0,4,0,4693,4.69 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\CDD\BLAST\Domain.vb,55,30,7,18,1,0,0,1,2,1929,1.93 KB
@@ -705,9 +705,9 @@ E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assem
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb,153,10,16,127,1,0,0,7,0,7024,7.02 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GenbankExportInfo.vb,96,9,17,70,5,8,1,1,0,3340,3.34 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Abstract.vb,15,8,2,5,1,0,0,0,0,443,443 B
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb,295,98,33,164,1,16,0,8,0,11574,11.57 KB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb,306,98,35,173,1,16,0,9,0,11997,12.00 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb,167,14,29,124,1,0,1,5,0,6661,6.66 KB
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb,218,33,41,144,1,0,0,16,0,8770,8.77 KB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb,211,33,40,138,1,0,0,15,0,8466,8.47 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Gene.vb,68,0,11,57,2,3,0,3,0,2604,2.60 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb,149,8,28,113,4,13,4,6,0,4955,4.96 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\COMMENT.vb,38,4,10,24,1,1,0,1,0,1242,1.24 KB
@@ -728,12 +728,12 @@ E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assem
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Fasta.vb,90,12,15,63,4,11,4,2,0,3213,3.21 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GeneBrief.vb,188,56,20,112,1,12,1,8,0,7394,7.39 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb,99,14,12,73,2,2,0,5,0,3729,3.73 KB
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb,391,109,52,230,1,8,2,19,0,16992,16.99 KB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb,399,109,54,236,1,8,2,20,0,17249,17.25 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTDbLoader.vb,283,58,38,187,1,6,3,13,0,12859,12.86 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTFileReader.vb,33,4,5,24,1,0,0,1,0,1379,1.38 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTFileWriter.vb,63,0,9,54,1,0,4,1,0,2674,2.67 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\RNT.vb,10,0,2,8,2,0,0,0,0,209,209 B
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb,104,12,13,79,1,15,0,6,0,4603,4.60 KB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb,114,12,15,87,1,15,0,7,0,4945,4.95 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\ProteinTable\ProteinDescription.vb,68,24,6,38,1,12,0,3,0,2295,2.29 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\ProteinTable\ProteinTable.vb,62,0,9,53,1,1,0,3,0,2497,2.50 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\SeqDump\nt.vb,102,8,14,80,1,4,1,3,0,4031,4.03 KB
@@ -848,7 +848,7 @@ E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assem
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\FASTA\Abstract.vb,45,27,6,12,3,3,0,1,0,1868,1.87 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\FASTA\Extensions.vb,32,6,5,21,1,0,0,1,0,1038,1.04 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\FASTA\HeaderFormats.vb,57,14,9,34,1,0,0,4,0,1897,1.90 KB
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb,637,135,99,403,1,5,15,33,5,25241,25.24 KB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb,647,135,101,411,1,5,15,34,5,25670,25.67 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb,600,189,83,328,1,6,13,22,0,25222,25.22 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\FASTA\IO\KSeq.vb,47,28,7,12,1,1,0,2,0,1830,1.83 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb,170,46,28,96,1,1,3,5,0,6677,6.68 KB
@@ -874,7 +874,7 @@ E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assem
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\Patterns\IPatterns.vb,113,13,22,78,4,6,3,9,0,4156,4.16 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\Patterns\PatternsAPI.vb,179,60,17,102,1,0,1,7,0,8681,8.68 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\Patterns\Variation.vb,204,3,20,181,2,3,1,5,0,8138,8.14 KB
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb,104,12,16,76,1,2,4,7,0,4200,4.20 KB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb,109,12,17,80,1,2,4,8,0,4415,4.42 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\Patterns\Clustal\Residue.vb,159,42,16,101,1,4,0,6,0,6519,6.52 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\Patterns\Clustal\SRChain.vb,35,0,6,29,1,4,0,1,0,1205,1.21 KB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\SequenceModel\Polypeptides\AminoAcid.vb,146,95,24,27,1,0,0,0,0,3260,3.26 KB
@@ -888,7 +888,7 @@ E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assem
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Test\Module2.vb,12,0,3,9,1,0,1,0,0,338,338 B
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Test\sequenceToolsTest.vb,16,0,2,14,1,0,1,0,0,744,744 B
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Test\TaxonomyTreeTest.vb,12,0,3,9,1,0,1,0,0,391,391 B
-E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,<project>,48968,12434,6501,30033,598,1815,349,1719,15,2002465,2.00 MB
+E:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,<project>,49059,12434,6518,30107,598,1815,349,1728,15,2005819,2.01 MB
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\Test\Test.vbproj,Test\chebiTest.vb,27,0,9,18,1,0,1,0,0,897,897 B
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\Test\Test.vbproj,Test\gbTest.vb,20,0,4,16,1,0,2,0,0,760,760 B
 E:\GCModeller\src\GCModeller\core\Bio.Assembly\Test\Test.vbproj,Test\htextTest.vb,63,47,16,0,0,0,0,0,0,1887,1.89 KB
@@ -1421,7 +1421,7 @@ E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,Re
 E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,RegulonDatabase\Regprecise\WebServices\WebParser\RegulomeQuery .vb,82,4,14,64,1,0,1,4,0,3187,3.19 KB
 E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,RegulonDatabase\Regprecise\WebServices\WebParser\Regulon.vb,78,10,14,54,2,5,0,8,0,2789,2.79 KB
 E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb,247,28,18,201,1,0,0,10,0,12515,12.52 KB
-E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb,208,28,25,155,1,2,0,12,0,10278,10.28 KB
+E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb,218,28,27,163,1,2,0,13,0,10610,10.61 KB
 E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,RegulonDatabase\Regprecise\WebServices\WebParser\WebAPI.vb,189,8,27,154,1,0,0,7,0,8263,8.26 KB
 E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifSite.vb,57,3,7,47,1,9,0,3,0,2399,2.40 KB
 E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebAPI.vb,75,0,14,61,1,0,0,4,0,3040,3.04 KB
@@ -1556,7 +1556,7 @@ E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,Re
 E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,RegulonDatabase\RegulonDB\MySQL\version.vb,175,74,22,79,1,5,0,8,0,8230,8.23 KB
 E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,RegulonDatabase\RegulonDB\Views\Database.vb,44,0,7,37,1,0,0,3,0,1926,1.93 KB
 E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,RegulonDatabase\RegulonDB\Views\Views.vb,283,170,12,101,8,75,1,1,0,13998,14.00 KB
-E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,<project>,25405,8882,3261,13262,214,1151,18,1127,0,1248742,1.25 MB
+E:\GCModeller\src\GCModeller\data\RegulonDatabase\RegulonDatabase.NET5.vbproj,<project>,25415,8882,3263,13270,214,1151,18,1128,0,1249074,1.25 MB
 E:\GCModeller\src\GCModeller\data\Rhea\Rhea.vbproj,Rhea\Compound.vb,13,0,3,10,1,5,0,1,0,324,324 B
 E:\GCModeller\src\GCModeller\data\Rhea\Rhea.vbproj,Rhea\Reaction.vb,30,0,8,22,1,4,0,2,0,922,922 B
 E:\GCModeller\src\GCModeller\data\Rhea\Rhea.vbproj,Rhea\TextParser.vb,75,0,14,61,1,0,0,3,0,2371,2.37 KB
@@ -1679,13 +1679,13 @@ E:\GCModeller\src\GCModeller\engine\Compiler\Compiler.NET5.vbproj,Compiler\My Pr
 E:\GCModeller\src\GCModeller\engine\Compiler\Compiler.NET5.vbproj,Compiler\My Project\Settings.Designer.vb,74,9,12,53,2,2,1,0,0,3045,3.04 KB
 E:\GCModeller\src\GCModeller\engine\Compiler\Compiler.NET5.vbproj,<project>,2510,302,361,1847,41,28,25,73,0,99242,99.24 KB
 E:\GCModeller\src\GCModeller\engine\CompilerServices\CompilerServices.NET5.vbproj,CompilerServices\Compiler.vb,185,35,34,116,1,3,3,6,0,6595,6.59 KB
-E:\GCModeller\src\GCModeller\engine\CompilerServices\CompilerServices.NET5.vbproj,CompilerServices\ModelBase\Model.vb,45,6,9,30,1,1,1,3,0,1684,1.68 KB
+E:\GCModeller\src\GCModeller\engine\CompilerServices\CompilerServices.NET5.vbproj,CompilerServices\ModelBase\Model.vb,57,6,11,40,1,1,1,4,0,2106,2.11 KB
 E:\GCModeller\src\GCModeller\engine\CompilerServices\CompilerServices.NET5.vbproj,CompilerServices\ModelBase\Property.vb,36,3,6,27,1,12,1,1,0,1274,1.27 KB
 E:\GCModeller\src\GCModeller\engine\CompilerServices\CompilerServices.NET5.vbproj,CompilerServices\My Project\Application.Designer.vb,12,9,1,2,0,0,0,0,0,434,434 B
 E:\GCModeller\src\GCModeller\engine\CompilerServices\CompilerServices.NET5.vbproj,CompilerServices\My Project\AssemblyInfo.vb,36,15,6,15,0,0,0,0,0,1195,1.20 KB
 E:\GCModeller\src\GCModeller\engine\CompilerServices\CompilerServices.NET5.vbproj,CompilerServices\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2808,2.81 KB
 E:\GCModeller\src\GCModeller\engine\CompilerServices\CompilerServices.NET5.vbproj,CompilerServices\My Project\Settings.Designer.vb,74,9,12,53,2,2,1,0,0,3061,3.06 KB
-E:\GCModeller\src\GCModeller\engine\CompilerServices\CompilerServices.NET5.vbproj,<project>,451,100,76,275,6,20,6,10,0,17051,17.05 KB
+E:\GCModeller\src\GCModeller\engine\CompilerServices\CompilerServices.NET5.vbproj,<project>,463,100,78,285,6,20,6,11,0,17473,17.47 KB
 E:\GCModeller\src\GCModeller\engine\Dynamics\Dynamics.NET5.vbproj,Dynamics\NamespaceDoc.vb,11,3,2,6,1,0,1,0,0,290,290 B
 E:\GCModeller\src\GCModeller\engine\Dynamics\Dynamics.NET5.vbproj,Dynamics\Core\EnvirClone.vb,15,3,4,8,1,0,0,1,0,311,311 B
 E:\GCModeller\src\GCModeller\engine\Dynamics\Dynamics.NET5.vbproj,Dynamics\Core\NamespaceDoc.vb,9,4,1,4,1,0,0,0,0,251,251 B
@@ -1729,14 +1729,14 @@ E:\GCModeller\src\GCModeller\engine\Dynamics\test\test5.vbproj,test\My Project\A
 E:\GCModeller\src\GCModeller\engine\Dynamics\test\test5.vbproj,test\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2775,2.77 KB
 E:\GCModeller\src\GCModeller\engine\Dynamics\test\test5.vbproj,test\My Project\Settings.Designer.vb,73,9,13,51,2,2,1,0,0,2966,2.97 KB
 E:\GCModeller\src\GCModeller\engine\Dynamics\test\test5.vbproj,<project>,556,65,90,401,6,4,7,2,0,22497,22.50 KB
-E:\GCModeller\src\GCModeller\engine\Dynamics.Debugger\vcellDebugger.NET5.vbproj,Dynamics.Debugger\DataSetDriver.vb,26,0,6,20,1,0,2,2,0,930,930 B
+E:\GCModeller\src\GCModeller\engine\Dynamics.Debugger\vcellDebugger.NET5.vbproj,Dynamics.Debugger\DataSetDriver.vb,31,0,7,24,1,0,2,3,0,1113,1.11 KB
 E:\GCModeller\src\GCModeller\engine\Dynamics.Debugger\vcellDebugger.NET5.vbproj,Dynamics.Debugger\Summary.vb,92,6,12,74,1,0,1,2,0,3253,3.25 KB
 E:\GCModeller\src\GCModeller\engine\Dynamics.Debugger\vcellDebugger.NET5.vbproj,Dynamics.Debugger\Visualizer.vb,164,8,21,135,1,0,3,2,0,6765,6.76 KB
 E:\GCModeller\src\GCModeller\engine\Dynamics.Debugger\vcellDebugger.NET5.vbproj,Dynamics.Debugger\My Project\Application.Designer.vb,12,9,1,2,0,0,0,0,0,434,434 B
 E:\GCModeller\src\GCModeller\engine\Dynamics.Debugger\vcellDebugger.NET5.vbproj,Dynamics.Debugger\My Project\AssemblyInfo.vb,36,15,6,15,0,0,0,0,0,1198,1.20 KB
 E:\GCModeller\src\GCModeller\engine\Dynamics.Debugger\vcellDebugger.NET5.vbproj,Dynamics.Debugger\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2816,2.82 KB
 E:\GCModeller\src\GCModeller\engine\Dynamics.Debugger\vcellDebugger.NET5.vbproj,Dynamics.Debugger\My Project\Settings.Designer.vb,74,9,12,53,2,2,1,0,0,3077,3.08 KB
-E:\GCModeller\src\GCModeller\engine\Dynamics.Debugger\vcellDebugger.NET5.vbproj,<project>,467,70,66,331,6,4,7,6,0,18473,18.47 KB
+E:\GCModeller\src\GCModeller\engine\Dynamics.Debugger\vcellDebugger.NET5.vbproj,<project>,472,70,67,335,6,4,7,7,0,18656,18.66 KB
 E:\GCModeller\src\GCModeller\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.NET5.vbproj,GCModeller.Framework.Kernel_Driver\DriverAPI.vb,84,14,13,57,1,0,2,4,0,4031,4.03 KB
 E:\GCModeller\src\GCModeller\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.NET5.vbproj,GCModeller.Framework.Kernel_Driver\Extensions.vb,11,0,2,9,1,0,0,1,0,473,473 B
 E:\GCModeller\src\GCModeller\engine\GCModeller.Framework.Kernel_Driver\GCModeller.Framework.Kernel_Driver.NET5.vbproj,GCModeller.Framework.Kernel_Driver\DataServices\DataAdapter.vb,114,96,18,0,0,0,0,0,0,4773,4.77 KB
@@ -1973,12 +1973,13 @@ E:\GCModeller\src\GCModeller\models\Networks\KEGG\KEGGNetwork.NET5.vbproj,KEGG\R
 E:\GCModeller\src\GCModeller\models\Networks\KEGG\KEGGNetwork.NET5.vbproj,KEGG\ReactionNetwork\Models\ReactionClassTable.vb,115,46,12,57,1,4,1,6,0,4679,4.68 KB
 E:\GCModeller\src\GCModeller\models\Networks\KEGG\KEGGNetwork.NET5.vbproj,KEGG\ReactionNetwork\Models\ReactionTable.vb,190,58,20,112,1,8,0,7,0,7701,7.70 KB
 E:\GCModeller\src\GCModeller\models\Networks\KEGG\KEGGNetwork.NET5.vbproj,<project>,3452,650,432,2370,35,45,26,73,0,143397,143.40 KB
-E:\GCModeller\src\GCModeller\models\Networks\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj,KEGGGraphVisualizer\FunctionalNetwork.vb,214,15,32,167,1,0,0,2,0,9136,9.14 KB
+E:\GCModeller\src\GCModeller\models\Networks\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj,KEGGGraphVisualizer\FunctionalNetwork.vb,216,15,32,169,1,0,0,2,0,9240,9.24 KB
 E:\GCModeller\src\GCModeller\models\Networks\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj,KEGGGraphVisualizer\ReferenceMapRender.vb,452,35,52,365,1,0,0,12,0,21443,21.44 KB
-E:\GCModeller\src\GCModeller\models\Networks\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj,KEGGGraphVisualizer\Styles\BlockStyle.vb,98,8,16,74,1,1,1,4,0,3981,3.98 KB
+E:\GCModeller\src\GCModeller\models\Networks\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj,KEGGGraphVisualizer\zzz.vb,3,0,1,2,0,0,0,0,0,84,84 B
+E:\GCModeller\src\GCModeller\models\Networks\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj,KEGGGraphVisualizer\Styles\BlockStyle.vb,100,8,16,76,1,1,1,4,0,4102,4.10 KB
 E:\GCModeller\src\GCModeller\models\Networks\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj,KEGGGraphVisualizer\Styles\PlainStyle.vb,90,3,16,71,1,1,1,4,0,3501,3.50 KB
 E:\GCModeller\src\GCModeller\models\Networks\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj,KEGGGraphVisualizer\Styles\RenderStyle.vb,105,2,17,86,1,0,1,2,0,4415,4.42 KB
-E:\GCModeller\src\GCModeller\models\Networks\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj,<project>,959,63,133,763,5,2,3,24,0,42476,42.48 KB
+E:\GCModeller\src\GCModeller\models\Networks\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj,<project>,966,63,134,769,5,2,3,24,0,42785,42.78 KB
 E:\GCModeller\src\GCModeller\models\Networks\Microbiome\Microbiome.NET5.vbproj,Microbiome\Enzyme.vb,33,5,4,24,1,3,1,1,0,1113,1.11 KB
 E:\GCModeller\src\GCModeller\models\Networks\Microbiome\Microbiome.NET5.vbproj,Microbiome\UniProtExtensions.vb,40,9,4,27,1,0,0,1,0,1519,1.52 KB
 E:\GCModeller\src\GCModeller\models\Networks\Microbiome\Microbiome.NET5.vbproj,Microbiome\Membrane_transport\Membrane_transport.vb,327,32,41,254,1,0,1,3,0,14881,14.88 KB
@@ -2115,8 +2116,8 @@ E:\GCModeller\src\GCModeller\sub-system\simulators\simulators.NET5.vbproj,<proje
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\ChromesomeMapAPI.vb,411,37,45,329,3,0,1,22,0,18617,18.62 KB
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\DrawingDevice.vb,444,47,78,319,3,3,7,6,0,17348,17.35 KB
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\PlasmidAnnotation.vb,138,35,8,95,1,27,0,3,0,5794,5.79 KB
-E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\RegionMap.vb,115,15,13,87,1,0,0,1,0,4793,4.79 KB
-E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\Configuration\Config.vb,244,16,34,194,1,21,0,11,0,12484,12.48 KB
+E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\RegionMap.vb,117,15,13,89,1,0,0,1,0,4927,4.93 KB
+E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\Configuration\Config.vb,251,16,35,200,1,21,0,11,0,12732,12.73 KB
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\Configuration\DataReader.vb,67,24,8,35,2,20,0,0,0,3016,3.02 KB
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\Configuration\Extensions.vb,48,6,6,36,1,0,0,4,0,1884,1.88 KB
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\Data\Extensions.vb,122,24,13,85,1,0,0,6,0,6398,6.40 KB
@@ -2140,7 +2141,7 @@ E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,C
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\test\My Project\AssemblyInfo.vb,35,15,7,13,0,0,0,0,0,1043,1.04 KB
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\test\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2796,2.80 KB
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,ChromosomeMap\test\My Project\Settings.Designer.vb,73,9,13,51,2,2,1,0,0,2966,2.97 KB
-E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,<project>,3076,506,456,2114,36,110,17,83,0,130070,130.07 KB
+E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj,<project>,3085,506,457,2122,36,110,17,83,0,130452,130.45 KB
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\Data\Data.vbproj,Data\Extensions.vb,122,24,13,85,1,0,0,6,0,6398,6.40 KB
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\Data\Data.vbproj,Data\ReadsMap.vb,294,35,57,202,1,0,0,8,0,12799,12.80 KB
 E:\GCModeller\src\GCModeller\visualize\ChromosomeMap\Data\Data.vbproj,Data\LocisPlot\Palindrome.vb,87,11,16,60,1,0,0,1,0,3526,3.53 KB
@@ -2151,48 +2152,49 @@ E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-ne
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\GCSkew.vb,118,32,12,74,1,5,1,5,0,4992,4.99 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\MapLabelLayout.vb,69,15,11,43,1,0,1,1,0,2156,2.16 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\RenderingColor.vb,167,32,29,106,1,0,0,5,0,6160,6.16 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\SampleColorBend.vb,86,13,12,61,1,0,1,1,0,3250,3.25 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\SampleColorBend.vb,87,13,12,62,1,0,1,1,0,3294,3.29 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\zzz.vb,3,0,1,2,0,0,0,0,0,84,84 B
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\Abstract\MapModelCommon.vb,225,76,43,106,1,7,0,3,0,7878,7.88 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\AbstractPlot.vb,161,16,24,121,5,0,3,5,0,6617,6.62 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\BubbleTerm.vb,87,12,15,60,1,4,0,3,0,3308,3.31 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb,257,20,27,210,1,2,3,3,0,11024,11.02 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb,432,78,51,303,1,0,1,4,0,20411,20.41 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb,260,20,27,213,1,2,3,3,0,11168,11.17 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb,432,78,51,303,1,0,1,4,0,20351,20.35 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\COGCatalogProfiling.vb,76,0,11,65,1,0,0,1,0,3147,3.15 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\ColorProfileManager.vb,48,8,7,33,1,0,0,1,0,2038,2.04 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\DAScorePlot.vb,21,3,4,14,1,0,2,0,0,826,826 B
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\LabelDisplayStrategy.vb,87,18,10,59,1,2,0,2,0,3392,3.39 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\MultipleBubble.vb,266,24,38,204,1,0,5,1,0,12037,12.04 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogBubbleHeatmap.vb,145,1,22,122,1,0,2,1,0,6375,6.38 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogHeatMap.vb,159,16,20,123,1,0,2,0,0,7187,7.19 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\Heatmap\MultipleCatalogHeatmap.vb,109,16,20,73,1,0,3,1,0,4170,4.17 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\MultipleBubble.vb,269,24,38,207,1,0,5,1,0,12171,12.17 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogBubbleHeatmap.vb,146,1,22,123,1,0,2,1,0,6420,6.42 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogHeatMap.vb,160,16,20,124,1,0,2,0,0,7233,7.23 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\Heatmap\MultipleCatalogHeatmap.vb,111,16,20,75,1,0,3,1,0,4270,4.27 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CatalogProfiling\Heatmap\TreeOrder.vb,99,10,15,74,1,0,1,2,0,3802,3.80 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CategoryImpactBox\Impact.vb,34,0,6,28,1,2,0,3,0,1221,1.22 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CategoryImpactBox\ImpactBoxPlot.vb,19,0,5,14,1,0,2,0,0,577,577 B
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CollectionSet\FactorGroup.vb,101,9,14,78,1,3,0,3,0,3897,3.90 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CollectionSet\IntersectionData.vb,51,4,10,37,1,2,0,2,0,1683,1.68 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CollectionSet\IntersectionPlot.vb,438,55,67,316,1,0,6,0,0,19005,19.00 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CollectionSet\IntersectionPlot.vb,444,55,67,322,1,0,6,0,0,19334,19.33 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CollectionSet\UpsetData.vb,122,15,15,92,1,9,0,3,0,5171,5.17 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CurvesChart\CurvesModel.vb,47,0,8,39,2,5,0,2,0,1666,1.67 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CurvesChart\Histogram.vb,92,9,20,63,1,2,2,2,0,3854,3.85 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\CurvesChart\Line.vb,65,2,15,48,1,0,1,0,0,2640,2.64 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\DEGPlot\ClassChanges.vb,144,2,25,117,1,0,2,0,0,5858,5.86 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\DEGPlot\ClassChanges.vb,146,2,25,119,1,0,2,0,0,5976,5.98 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\DEGPlot\DEGPlot.vb,64,19,4,41,1,0,0,1,0,2829,2.83 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\DEGPlot\GSVADiff.vb,10,3,2,5,1,3,0,0,0,229,229 B
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb,116,7,14,95,1,0,2,0,0,4362,4.36 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb,119,7,14,98,1,0,2,0,0,4470,4.47 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\DEGPlot\LabelTypes.vb,17,3,2,12,2,0,0,0,0,323,323 B
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\DEGPlot\Volcano.vb,389,28,45,316,2,7,2,5,0,16728,16.73 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\DEGPlot\Volcano.vb,391,28,45,318,2,7,2,5,0,16826,16.83 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\DEGPlot\Volcano2.vb,31,9,6,16,1,0,2,0,0,873,873 B
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\ExpressionPattern\ExpressionPattern.vb,234,19,27,188,1,4,0,7,0,9854,9.85 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\ExpressionPattern\Extensions.vb,69,0,7,62,1,0,0,2,0,3350,3.35 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb,201,13,21,167,1,5,2,1,0,8951,8.95 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb,203,13,21,169,1,5,2,1,0,9045,9.04 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\ExpressionPattern\Reader.vb,115,5,18,92,1,0,0,3,0,4602,4.60 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\ExpressionPattern\Writer.vb,64,1,16,47,1,0,0,2,0,2170,2.17 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\KeggPlot\EnrichmentCategoryBar.vb,13,0,3,10,1,0,2,0,0,439,439 B
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\KeggPlot\EnrichmentCategoryBubble.vb,100,1,13,86,1,0,2,0,0,5108,5.11 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\KeggPlot\EnrichmentCategoryHeatmap.vb,375,40,63,272,1,0,2,1,0,17318,17.32 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\KeggPlot\EnrichmentCategoryBubble.vb,159,2,21,136,1,0,2,0,0,7860,7.86 KB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\KeggPlot\EnrichmentCategoryHeatmap.vb,377,40,63,274,1,0,2,1,0,17413,17.41 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\My Project\Application.Designer.vb,12,9,1,2,0,0,0,0,0,434,434 B
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\My Project\AssemblyInfo.vb,36,15,6,15,0,0,0,0,0,1351,1.35 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2790,2.79 KB
 E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\My Project\Settings.Designer.vb,74,9,12,53,2,2,1,0,0,3026,3.03 KB
-E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,<project>,5911,722,859,4330,56,70,56,82,0,246247,246.25 KB
-../src/GCModeller/,<root>,438832,116818,59658,262356,5520,15374,2112,16044,90,18570210,18.57 MB
+E:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,<project>,6001,723,868,4410,56,70,56,82,0,250378,250.38 KB
+../src/GCModeller/,<root>,439316,116820,59732,262764,5520,15374,2112,16072,90,18589798,18.59 MB

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f3cebe1e9de9278e96dbcb4c82a0411, visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogHeatMap.vb"
+﻿#Region "Microsoft.VisualBasic::3506a890ffe35f5fcc94acd80a1c7009, visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogHeatMap.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 159
-    '    Code Lines: 123
-    ' Comment Lines: 16
-    '   Blank Lines: 20
-    '     File Size: 7.19 KB
+    '   Total Lines: 160
+    '    Code Lines: 124 (77.50%)
+    ' Comment Lines: 16 (10.00%)
+    '    - Xml Docs: 81.25%
+    ' 
+    '   Blank Lines: 20 (12.50%)
+    '     File Size: 7.23 KB
 
 
     '     Class CatalogHeatMap

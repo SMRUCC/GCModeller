@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a25c46ea3e8f5eb8a019d8f3eff60221, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::35a721b1bd567d8537bcdc29a3dcde16, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryHeatmap.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 375
-    '    Code Lines: 272
-    ' Comment Lines: 40
-    '   Blank Lines: 63
-    '     File Size: 17.32 KB
+    '   Total Lines: 377
+    '    Code Lines: 274 (72.68%)
+    ' Comment Lines: 40 (10.61%)
+    '    - Xml Docs: 45.00%
+    ' 
+    '   Blank Lines: 63 (16.71%)
+    '     File Size: 17.41 KB
 
 
     ' Class EnrichmentCategoryHeatmap

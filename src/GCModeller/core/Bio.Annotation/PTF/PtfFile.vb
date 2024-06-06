@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60db764ad613edbf1601a15a9fb70211, core\Bio.Annotation\PTF\PtfFile.vb"
+﻿#Region "Microsoft.VisualBasic::5af39e05e8310c5030177e3dbdea4a77, core\Bio.Annotation\PTF\PtfFile.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 91
-    '    Code Lines: 68
-    ' Comment Lines: 7
-    '   Blank Lines: 16
-    '     File Size: 3.55 KB
+    '   Total Lines: 101
+    '    Code Lines: 76 (75.25%)
+    ' Comment Lines: 7 (6.93%)
+    '    - Xml Docs: 42.86%
+    ' 
+    '   Blank Lines: 18 (17.82%)
+    '     File Size: 3.90 KB
 
 
     '     Class PtfFile
     ' 
     '         Properties: attributes, proteins
     ' 
-    '         Function: GenericEnumerator, (+2 Overloads) Load, ReadAnnotations, (+2 Overloads) Save, (+2 Overloads) ToString
+    '         Function: GenericEnumerator, (+2 Overloads) Load, ReadAnnotations, (+3 Overloads) Save, (+2 Overloads) ToString
     ' 
     '         Sub: WriteStream
     ' 
