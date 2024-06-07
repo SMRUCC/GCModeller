@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71ebb621e3c80372f252064d20d9a21e, models\Networks\KEGGGraphVisualizer\Styles\BlockStyle.vb"
+﻿#Region "Microsoft.VisualBasic::c8a7f186fd0d1e8eaad3423f966300c8, models\Networks\KEGGGraphVisualizer\Styles\BlockStyle.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 98
-    '    Code Lines: 74
-    ' Comment Lines: 8
-    '   Blank Lines: 16
-    '     File Size: 3.98 KB
+    '   Total Lines: 100
+    '    Code Lines: 76 (76.00%)
+    ' Comment Lines: 8 (8.00%)
+    '    - Xml Docs: 37.50%
+    ' 
+    '   Blank Lines: 16 (16.00%)
+    '     File Size: 4.10 KB
 
 
     '     Class BlockStyle

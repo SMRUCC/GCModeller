@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58b6af7a5e941bb8f0f23db7c424b391, visualize\DataVisualizationExtensions\DEGPlot\ClassChanges.vb"
+﻿#Region "Microsoft.VisualBasic::e73e5b0080b397993dfd5adac40df739, visualize\DataVisualizationExtensions\DEGPlot\ClassChanges.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 144
-    '    Code Lines: 117
-    ' Comment Lines: 2
-    '   Blank Lines: 25
-    '     File Size: 5.86 KB
+    '   Total Lines: 146
+    '    Code Lines: 119 (81.51%)
+    ' Comment Lines: 2 (1.37%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 25 (17.12%)
+    '     File Size: 5.98 KB
 
 
     ' Class ClassChanges

@@ -1,58 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::6461a11b2fc739651fe5a727c76dee24, core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
+﻿#Region "Microsoft.VisualBasic::a4e4a058e2805321024e59d41942dbc5, core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 267
-'    Code Lines: 206
-' Comment Lines: 36
-'   Blank Lines: 25
-'     File Size: 11.32 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class DbFile
-' 
-'         Properties: BuildTime, FastaUrl, FilePath, Id, MimeType
-'                     SmpData
-' 
-'         Function: ContainsId, ContainsId_p, (+2 Overloads) ExportFASTA, FindByTabId, PreLoad
-'                   (+2 Overloads) Save, Takes, ToString
-' 
-'         Sub: (+2 Overloads) __buildDb, BuildDb
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 277
+    '    Code Lines: 214 (77.26%)
+    ' Comment Lines: 36 (13.00%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 27 (9.75%)
+    '     File Size: 11.65 KB
+
+
+    '     Class DbFile
+    ' 
+    '         Properties: BuildTime, FastaUrl, FilePath, Id, MimeType
+    '                     SmpData
+    ' 
+    '         Function: ContainsId, ContainsId_p, (+2 Overloads) ExportFASTA, FindByTabId, PreLoad
+    '                   (+3 Overloads) Save, Takes, ToString
+    ' 
+    '         Sub: (+2 Overloads) __buildDb, BuildDb
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

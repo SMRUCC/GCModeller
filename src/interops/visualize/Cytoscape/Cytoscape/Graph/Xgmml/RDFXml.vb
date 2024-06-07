@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::293181812f6aafc346c87c3e15af9040, visualize\Cytoscape\Cytoscape\Graph\Xgmml\RDFXml.vb"
+﻿#Region "Microsoft.VisualBasic::4915908f28a7333d6b57b04f60d19f7d, visualize\Cytoscape\Cytoscape\Graph\Xgmml\RDFXml.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 34
-    '    Code Lines: 22
-    ' Comment Lines: 6
-    '   Blank Lines: 6
-    '     File Size: 1.39 KB
+    '   Total Lines: 38
+    '    Code Lines: 25 (65.79%)
+    ' Comment Lines: 6 (15.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (18.42%)
+    '     File Size: 1.53 KB
 
 
     '     Class RDFXml
     ' 
-    '         Function: Load, WriteXml
+    '         Function: Load, WriteXml, XmlDocumentText
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,15 +1,16 @@
 ﻿proj,files,totalLines,commentLines,blankLines,lineOfCodes,class,property,method,functions,operator,size(bytes),size
-E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\DataAnalysis.vb,90,26,12,52,2,8,0,2,0,2787,2.79 KB
+E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\DataAnalysis.vb,94,26,13,55,2,8,1,2,0,2917,2.92 KB
 E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\DEGModel.vb,20,4,2,14,1,5,0,1,0,657,657 B
 E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\Extensions.vb,306,89,25,192,1,0,0,11,0,12824,12.82 KB
-E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\Ideg.vb,7,0,2,5,1,3,0,0,0,132,132 B
+E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\Ideg.vb,14,7,2,5,1,3,0,0,0,329,329 B
+E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\SampleIndex.vb,51,0,10,41,1,3,1,3,0,1556,1.56 KB
 E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\SampleNames.vb,75,15,9,51,1,0,0,2,0,2651,2.65 KB
-E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\Templates\AnalysisDesigner.vb,75,30,10,35,1,4,0,4,0,2242,2.24 KB
+E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\Templates\AnalysisDesigner.vb,83,36,12,35,1,4,0,4,0,2409,2.41 KB
 E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\Templates\SampleGroup.vb,42,21,6,15,1,4,0,1,0,1356,1.36 KB
 E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\Templates\SampleInfo.vb,59,17,7,35,1,3,2,1,0,2030,2.03 KB
 E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\Templates\SampleTuple.vb,28,7,4,17,1,3,0,1,0,786,786 B
 E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,ExperimentDesigner\Templates\Time_series.vb,3,0,1,2,1,0,0,0,0,59,59 B
-E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,<project>,705,209,78,418,11,30,2,23,0,25524,25.52 KB
+E:\GCModeller\src\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj,<project>,775,222,91,462,12,33,4,26,0,27574,27.57 KB
 E:\GCModeller\src\workbench\modules\keggReport\keggReport.NET5.vbproj,keggReport\PathwayMapRender.vb,112,19,14,79,1,0,0,5,0,4883,4.88 KB
 E:\GCModeller\src\workbench\modules\keggReport\keggReport.NET5.vbproj,keggReport\ReportRender.vb,123,21,15,87,2,5,0,7,0,4455,4.46 KB
 E:\GCModeller\src\workbench\modules\keggReport\keggReport.NET5.vbproj,keggReport\My Project\Application.Designer.vb,12,9,1,2,0,0,0,0,0,434,434 B
@@ -110,14 +111,14 @@ E:\GCModeller\src\workbench\R#\metagenomics_kit\metagenomics_kit.vbproj,metageno
 E:\GCModeller\src\workbench\R#\metagenomics_kit\metagenomics_kit.vbproj,metagenomics_kit\TaxonomyKit.vb,458,124,46,288,1,0,1,21,0,19192,19.19 KB
 E:\GCModeller\src\workbench\R#\metagenomics_kit\metagenomics_kit.vbproj,metagenomics_kit\zzz.vb,12,0,3,9,1,0,1,0,0,257,257 B
 E:\GCModeller\src\workbench\R#\metagenomics_kit\metagenomics_kit.vbproj,<project>,1146,276,121,749,7,0,4,44,0,46892,46.89 KB
-E:\GCModeller\src\workbench\R#\phenotype_kit\phenotype_kit.NET5.vbproj,phenotype_kit\geneExpression.vb,1399,417,128,854,1,0,1,50,0,56508,56.51 KB
+E:\GCModeller\src\workbench\R#\phenotype_kit\phenotype_kit.NET5.vbproj,phenotype_kit\geneExpression.vb,1400,417,128,855,1,0,1,50,0,56581,56.58 KB
 E:\GCModeller\src\workbench\R#\phenotype_kit\phenotype_kit.NET5.vbproj,phenotype_kit\magnitude.vb,125,26,18,81,1,0,0,4,0,4435,4.43 KB
 E:\GCModeller\src\workbench\R#\phenotype_kit\phenotype_kit.NET5.vbproj,phenotype_kit\multiOmics.vb,55,0,6,49,1,0,0,2,0,2318,2.32 KB
 E:\GCModeller\src\workbench\R#\phenotype_kit\phenotype_kit.NET5.vbproj,phenotype_kit\PFSNetAnalysis.vb,195,35,22,138,1,0,1,7,0,8986,8.99 KB
 E:\GCModeller\src\workbench\R#\phenotype_kit\phenotype_kit.NET5.vbproj,phenotype_kit\sampleInfo.vb,400,63,52,285,1,0,1,11,0,15817,15.82 KB
 E:\GCModeller\src\workbench\R#\phenotype_kit\phenotype_kit.NET5.vbproj,phenotype_kit\WGCNA.vb,46,0,5,41,1,0,0,3,0,1879,1.88 KB
 E:\GCModeller\src\workbench\R#\phenotype_kit\phenotype_kit.NET5.vbproj,phenotype_kit\zzz.vb,11,0,3,8,1,0,1,0,0,212,212 B
-E:\GCModeller\src\workbench\R#\phenotype_kit\phenotype_kit.NET5.vbproj,<project>,2231,541,234,1456,7,0,4,77,0,90155,90.16 KB
+E:\GCModeller\src\workbench\R#\phenotype_kit\phenotype_kit.NET5.vbproj,<project>,2232,541,234,1457,7,0,4,77,0,90228,90.23 KB
 E:\GCModeller\src\workbench\R#\rnaseq\rnaseq.vbproj,rnaseq\AssembleResult.vb,49,0,11,38,1,0,1,3,0,1399,1.40 KB
 E:\GCModeller\src\workbench\R#\rnaseq\rnaseq.vbproj,rnaseq\FastQ.vb,95,28,7,60,1,0,1,2,0,4122,4.12 KB
 E:\GCModeller\src\workbench\R#\rnaseq\rnaseq.vbproj,rnaseq\zzz.vb,10,0,4,6,1,0,1,0,0,147,147 B
@@ -149,9 +150,9 @@ E:\GCModeller\src\workbench\R#\TRNtoolkit\TRNtoolkit.vbproj,<project>,445,90,60,
 E:\GCModeller\src\workbench\R#\visualkit\visualkit.NET5.vbproj,visualkit\chromosome_map.vb,52,15,5,32,1,0,0,2,0,1943,1.94 KB
 E:\GCModeller\src\workbench\R#\visualkit\visualkit.NET5.vbproj,visualkit\synteny_visual.vb,3,0,1,2,1,0,0,0,0,35,35 B
 E:\GCModeller\src\workbench\R#\visualkit\visualkit.NET5.vbproj,visualkit\upsetPlot.vb,166,14,27,125,1,0,1,6,0,7147,7.15 KB
-E:\GCModeller\src\workbench\R#\visualkit\visualkit.NET5.vbproj,visualkit\visualPlot.vb,939,173,81,685,1,0,2,18,0,43307,43.31 KB
+E:\GCModeller\src\workbench\R#\visualkit\visualkit.NET5.vbproj,visualkit\visualPlot.vb,958,173,81,704,1,0,2,18,0,44634,44.63 KB
 E:\GCModeller\src\workbench\R#\visualkit\visualkit.NET5.vbproj,visualkit\zzz.vb,11,0,4,7,1,0,1,0,0,179,179 B
-E:\GCModeller\src\workbench\R#\visualkit\visualkit.NET5.vbproj,<project>,1171,202,118,851,5,0,4,26,0,52611,52.61 KB
+E:\GCModeller\src\workbench\R#\visualkit\visualkit.NET5.vbproj,<project>,1190,202,118,870,5,0,4,26,0,53938,53.94 KB
 E:\GCModeller\src\workbench\win32_desktop\src\OmicsProject\OmicsProject.vbproj,OmicsProject\OmicsType.vb,4,0,1,3,1,0,0,0,0,54,54 B
 E:\GCModeller\src\workbench\win32_desktop\src\OmicsProject\OmicsProject.vbproj,OmicsProject\Project.vb,11,0,3,8,1,4,0,0,0,315,315 B
 E:\GCModeller\src\workbench\win32_desktop\src\OmicsProject\OmicsProject.vbproj,<project>,15,0,4,11,2,4,0,0,0,369,369 B
@@ -173,4 +174,4 @@ E:\GCModeller\src\workbench\win32_desktop\src\Rstudio\Rstudio\src\GCModellerDesk
 E:\GCModeller\src\workbench\win32_desktop\src\Rstudio\Rstudio\src\GCModellerDesktop.vbproj,src\Workbench\TaskManager.vb,101,16,18,67,1,0,6,1,0,3554,3.55 KB
 E:\GCModeller\src\workbench\win32_desktop\src\Rstudio\Rstudio\src\GCModellerDesktop.vbproj,src\Workbench\WebTask.vb,40,19,4,17,1,9,0,0,0,1209,1.21 KB
 E:\GCModeller\src\workbench\win32_desktop\src\Rstudio\Rstudio\src\GCModellerDesktop.vbproj,<project>,446,55,63,328,6,9,8,17,0,16538,16.54 KB
-../src/workbench/,<root>,39846,7874,4786,27186,382,456,156,1338,0,1658868,1.66 MB
+../src/workbench/,<root>,40026,7900,4812,27314,384,462,160,1344,0,1665768,1.67 MB

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf87dc2693caadf89027200847646028, modules\ExperimentDesigner\DataAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::ae31dfd4bd762e886dfcc60716521b04, modules\ExperimentDesigner\DataAnalysis.vb"
 
     ' Author:
     ' 
@@ -34,17 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 90
-    '    Code Lines: 52
-    ' Comment Lines: 26
-    '   Blank Lines: 12
-    '     File Size: 2.79 KB
+    '   Total Lines: 94
+    '    Code Lines: 55 (58.51%)
+    ' Comment Lines: 26 (27.66%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (13.83%)
+    '     File Size: 2.92 KB
 
 
     ' Class DataAnalysis
     ' 
     '     Properties: control, designs, experiment, size
     ' 
+    '     Constructor: (+1 Overloads) Sub New
     '     Function: ToString
     ' 
     ' Class DataGroup

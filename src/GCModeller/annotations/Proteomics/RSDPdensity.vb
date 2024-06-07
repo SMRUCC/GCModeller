@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db624dbf80fb266732c4201d0282b198, annotations\Proteomics\RSDPdensity.vb"
+﻿#Region "Microsoft.VisualBasic::14077a3aec1a415de18951dd7819cd54, annotations\Proteomics\RSDPdensity.vb"
 
     ' Author:
     ' 
@@ -34,10 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 110
-    '    Code Lines: 76
-    ' Comment Lines: 24
-    '   Blank Lines: 10
+    '   Total Lines: 108
+    '    Code Lines: 74 (68.52%)
+    ' Comment Lines: 24 (22.22%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 10 (9.26%)
     '     File Size: 4.39 KB
 
 

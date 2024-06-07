@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b556747c4077cea98720e43d0160457, core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
+﻿#Region "Microsoft.VisualBasic::a6c98eed02e9ccd2677ae96ce55e6fb0, core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
 
     ' Author:
     ' 
@@ -34,11 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 135
-    '    Code Lines: 105
-    ' Comment Lines: 9
-    '   Blank Lines: 21
-    '     File Size: 6.33 KB
+    '   Total Lines: 147
+    '    Code Lines: 115 (78.23%)
+    ' Comment Lines: 9 (6.12%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 23 (15.65%)
+    '     File Size: 6.78 KB
 
 
     '     Class MiST2
@@ -47,7 +49,7 @@
     '                     ProfileImageUrl, Proteins, Replicons, Size, Status
     '                     Taxonomy
     ' 
-    '         Function: GetProfileImage, IsHisK, IsRR, ParseLine, (+2 Overloads) Save
+    '         Function: GetProfileImage, IsHisK, IsRR, ParseLine, (+3 Overloads) Save
     '                   ToString
     ' 
     '         Sub: Parse

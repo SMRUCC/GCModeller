@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa4661983849eb435e0b12756bb4c1d6, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
+﻿#Region "Microsoft.VisualBasic::df2ad13b41edaa4c1c127a8ba0b78da0, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 218
-    '    Code Lines: 144
-    ' Comment Lines: 33
-    '   Blank Lines: 41
-    '     File Size: 8.77 KB
+    '   Total Lines: 211
+    '    Code Lines: 138 (65.40%)
+    ' Comment Lines: 33 (15.64%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 40 (18.96%)
+    '     File Size: 8.47 KB
 
 
     '     Module GbkWriter
     ' 
-    '         Function: __qualifierFormats, CreateDoc, (+12 Overloads) ToString, (+2 Overloads) WriteGenbank
+    '         Function: __qualifierFormats, CreateDoc, (+12 Overloads) ToString, WriteGenbank
     ' 
     ' 
     ' /********************************************************************************/
