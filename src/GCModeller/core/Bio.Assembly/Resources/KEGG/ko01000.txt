@@ -239,6 +239,7 @@ D      1.1.1.107  pyridoxal 4-dehydrogenase
 E        K18609  pldh; pyridoxal 4-dehydrogenase [EC:1.1.1.107]
 D      1.1.1.108  carnitine 3-dehydrogenase
 E        K17735  lcdH, cdhA; carnitine 3-dehydrogenase [EC:1.1.1.108]
+E        K27497  K27497; carnitine 3-dehydrogenase / betainyl-CoA thioesterase [EC:1.1.1.108 3.1.2.33]
 D      1.1.1.110  aromatic 2-oxoacid reductase
 E        K23109  fldH; aromatic 2-oxoacid reductase [EC:1.1.1.110]
 D      1.1.1.111  3-(imidazol-5-yl)lactate dehydrogenase
@@ -416,7 +417,7 @@ E        K15090  E1.1.1.223; isopiperitenol dehydrogenase [EC:1.1.1.223]
 D      1.1.1.224  mannose-6-phosphate 6-reductase
 D      1.1.1.225  chlordecone reductase
 E        K00037  AKR1C4; 3alpha-hydroxysteroid 3-dehydrogenase / chlordecone reductase [EC:1.1.1.50 1.1.1.357 1.1.1.225]
-D      1.1.1.226  4-hydroxycyclohexanecarboxylate dehydrogenase
+D      1.1.1.226  trans-4-hydroxycyclohexanecarboxylate dehydrogenase
 D      1.1.1.227  (-)-borneol dehydrogenase
 D      1.1.1.228  (+)-sabinol dehydrogenase
 D      1.1.1.229  diethyl 2-methyl-3-oxosuccinate reductase
@@ -815,6 +816,8 @@ D      1.1.1.436  lactate dehydrogenase (NAD+,ferredoxin)
 E        K26113  lctD; lactate dehydrogenase (NAD+,ferredoxin) subunit LctD [EC:1.1.1.436]
 D      1.1.1.437  5-dehydrofumagillol 5-reductase
 E        K22572  AF490; 5-dehydrofumagillol 5-reductase [EC:1.1.1.437]
+D      1.1.1.438  cis-4-hydroxycyclohexanecarboxylate dehydrogenase
+E        K27499  chcB2; cis-4-hydroxycyclohexanecarboxylate dehydrogenase [EC:1.1.1.438]
 C    1.1.2  With a cytochrome as acceptor
 D      1.1.2.2  mannitol dehydrogenase (cytochrome)
 D      1.1.2.3  L-lactate dehydrogenase (cytochrome)
@@ -1951,6 +1954,8 @@ E        K25004  MTHFR; methylenetetrahydrofolate reductase (NADPH) [EC:1.5.1.53
 D      1.5.1.54  methylenetetrahydrofolate reductase (NADH)
 E        K00297  metF, MTHFR; methylenetetrahydrofolate reductase (NADH) [EC:1.5.1.54]
 E        K24042  yitJ; methionine synthase / methylenetetrahydrofolate reductase (NADH) [EC:2.1.1.13 1.5.1.54]
+D      1.5.1.55  carboxyaminopropylagmatine dehydrogenase
+E        K27502  capadh; carboxyaminopropylagmatine dehydrogenase [EC:1.5.1.55]
 C    1.5.3  With oxygen as acceptor
 D      1.5.3.1  sarcosine oxidase (formaldehyde-forming)
 E        K00301  E1.5.3.1; sarcosine oxidase [EC:1.5.3.1]
@@ -3151,6 +3156,7 @@ E        K15955  doxA, CYP129A; 13-deoxydaunorubicin hydroxylase [EC:1.14.13.181
 D      1.14.13.182  2-heptyl-3-hydroxy-4(1H)-quinolone synthase
 E        K17940  pqsH; 2-heptyl-3-hydroxy-4(1H)-quinolone synthase [EC:1.14.13.182]
 D      1.14.13.187  L-evernosamine nitrososynthase
+E        K27592  evdC; L-evernosamine nitrososynthase [EC:1.14.13.187]
 D      1.14.13.189  5-methyl-1-naphthoate 3-hydroxylase
 E        K21376  aziB1; 5-methyl-1-naphthoate 3-hydroxylase [EC:1.14.13.189]
 D      1.14.13.195  L-ornithine N5-monooxygenase (NADPH)
@@ -3171,6 +3177,7 @@ E        K21267  iri, rox; rifampicin monooxygenase [EC:1.14.13.211]
 D      1.14.13.212  1,3,7-trimethyluric acid 5-monooxygenase
 E        K00492  tmuM; 1,3,7-trimethyluric acid 5-monooxygenase [EC:1.14.13.212]
 D      1.14.13.215  protoasukamycin 4-monooxygenase
+E        K27593  asuE1; protoasukamycin 4-monooxygenase [EC:1.14.13.215]
 D      1.14.13.216  asperlicin C monooxygenase
 D      1.14.13.217  protodeoxyviolaceinate monooxygenase
 E        K20089  vioD; protodeoxyviolaceinate monooxygenase [EC:1.14.13.217]
@@ -3256,6 +3263,8 @@ E        K25564  sznF, stzF; nitrosourea synthase [EC:1.14.13.250]
 D      1.14.13.251  glycine betaine monooxygenase
 E        K00479  gbcA, bmoA; glycine betaine monooxygenase A [EC:1.14.13.251]
 E        K21832  gbcB, bmoB; glycine betaine monooxygenase B [EC:1.14.13.251]
+D      1.14.13.252  putrescine N-hydroxylase
+E        K27501  alcA, pubA, fbsI; putrescine N-hydroxylase [EC:1.14.13.252]
 C    1.14.14  With reduced flavin or flavoprotein as one donor, and incorporation of one atom of oxygen into the other donor
 D      1.14.14.1  unspecific monooxygenase
 E        K00490  CYP4F; cytochrome P450 family 4 subfamily F [EC:1.14.14.1]
@@ -3511,7 +3520,7 @@ E        K12924  CYP725A1; taxane 10beta-hydroxylase [EC:1.14.14.105]
 D      1.14.14.106  taxane 13alpha-hydroxylase
 E        K12922  CYP725A2; taxane 13alpha-hydroxylase [EC:1.14.14.106]
 D      1.14.14.107  ent-kaurenoic acid monooxygenase
-E        K04123  KAO; ent-kaurenoic acid monooxygenase [EC:1.14.14.107]
+E        K04123  KAO, CYP88A; ent-kaurenoic acid monooxygenase [EC:1.14.14.107]
 D      1.14.14.108  2,5-diketocamphane 1,2-monooxygenase
 E        K21731  camP; 2,5-diketocamphane 1,2-monooxygenase [EC:1.14.14.108]
 D      1.14.14.109  3-hydroxyindolin-2-one monooxygenase
@@ -3588,7 +3597,7 @@ E        K12638  CYP90D1; 3-epi-6-deoxocathasterone 23-monooxygenase [EC:1.14.14
 D      1.14.14.148  angelicin synthase
 E        K21715  CYP71AJ4; angelicin synthase [EC:1.14.14.148]
 D      1.14.14.149  5-epiaristolochene 1,3-dihydroxylase
-E        K15805  EAH; 5-epiaristolochene 1,3-dihydroxylase [EC:1.14.14.149]
+E        K15805  EAH, CYP71D20; 5-epiaristolochene 1,3-dihydroxylase [EC:1.14.14.149]
 D      1.14.14.150  costunolide synthase
 E        K20561  CYP71BL2; costunolide synthase [EC:1.14.14.150]
 D      1.14.14.151  premnaspirodiene oxygenase
@@ -3669,6 +3678,8 @@ D      1.14.14.183  taxoid 2alpha-hydroxylase
 E        K25953  E1.14.14.183; taxoid 2alpha-hydroxylase [EC:1.14.14.183]
 D      1.14.14.184  5-dehydro-6-demethoxyfumagillol synthase
 E        K21295  AF510; 5-dehydro-6-demethoxyfumagillol synthase [EC:1.14.14.184]
+D      1.14.14.185  taxane 9alpha-hydroxylase
+E        K27503  CYP725A22; taxane 9alpha-hydroxylase [EC:1.14.14.185]
 C    1.14.15  With reduced iron-sulfur protein as one donor, and incorporation of one atom of oxygen into the other donor
 D      1.14.15.1  camphor 5-monooxygenase
 E        K21569  camC, CYP101A1; camphor 5-monooxygenase [EC:1.14.15.1]
@@ -3704,6 +3715,7 @@ E        K13071  PAO, ACD1; pheophorbide a oxygenase [EC:1.14.15.17]
 D      1.14.15.18  calcidiol 1-monooxygenase
 E        K07438  CYP27B1; calcidiol 1-monooxygenase (25-hydroxyvitamin D3 1alpha-hydroxylase) [EC:1.14.15.18]
 D      1.14.15.19  C-19 steroid 1alpha-hydroxylase
+E        K27595  CYP260A1; C-19 steroid 1alpha-hydroxylase [EC:1.14.15.19]
 D      1.14.15.20  heme oxygenase (biliverdin-producing, ferredoxin)
 E        K21480  HO, pbsA1, hmuO; heme oxygenase (biliverdin-producing, ferredoxin) [EC:1.14.15.20]
 D      1.14.15.21  zeaxanthin epoxidase
@@ -4076,14 +4088,15 @@ D      1.16.1.10  ferric-chelate reductase [NAD(P)H]
 E        K18915  feR; ferric-chelate reductase [NAD(P)H] [EC:1.16.1.10]
 C    1.16.3  With oxygen as acceptor
 D      1.16.3.1  ferroxidase
+E        K00522  FTH1; ferritin heavy chain [EC:1.16.3.1]
 E        K03594  bfr; bacterioferritin [EC:1.16.3.1]
 E        K13624  CP; ceruloplasmin [EC:1.16.3.1]
 E        K14735  HEPH; hephaestin [EC:1.16.3.1]
+E        K18495  FTMT; ferritin, mitochondrial [EC:1.16.3.1]
 E        K19054  FXN; frataxin [EC:1.16.3.1]
 E        K22336  bfrB; bacterioferritin B [EC:1.16.3.1]
 E        K22552  mmcO; multicopper oxidase [EC:1.16.3.1]
 D      1.16.3.2  bacterial non-heme ferritin
-E        K00522  FTH1; ferritin heavy chain [EC:1.16.3.2]
 E        K02217  ftnA, ftn; ferritin [EC:1.16.3.2]
 D      1.16.3.3  manganese oxidase
 E        K06324  cotA; spore coat protein A, manganese oxidase [EC:1.16.3.3]
@@ -4146,6 +4159,8 @@ D      1.17.3.2  xanthine oxidase
 E        K00106  XDH; xanthine dehydrogenase/oxidase [EC:1.17.1.4 1.17.3.2]
 D      1.17.3.3  6-hydroxynicotinate dehydrogenase
 D      1.17.3.4  juglone 3-hydroxylase
+D      1.17.3.5  4-oxocyclohexanecarboxylate 2-dehydrogenase
+E        K27500  chcC1; 4-oxocyclohexanecarboxylate 2-dehydrogenase [EC:1.17.3.5]
 C    1.17.4  With a disulfide as acceptor
 D      1.17.4.1  ribonucleoside-diphosphate reductase
 E        K00525  E1.17.4.1A, nrdA, nrdE; ribonucleoside-diphosphate reductase alpha chain [EC:1.17.4.1]
@@ -4546,15 +4561,6 @@ D      2.1.1.84  methylquercetagetin 6-O-methyltransferase
 D      2.1.1.85  protein-histidine N-methyltransferase
 E        K18803  HPM1; protein-histidine N-methyltransferase [EC:2.1.1.85]
 E        K19199  SETD3; protein-histidine N-methyltransferase [EC:2.1.1.85]
-D      2.1.1.86  tetrahydromethanopterin S-methyltransferase
-E        K00577  mtrA; tetrahydromethanopterin S-methyltransferase subunit A [EC:2.1.1.86]
-E        K00578  mtrB; tetrahydromethanopterin S-methyltransferase subunit B [EC:2.1.1.86]
-E        K00579  mtrC; tetrahydromethanopterin S-methyltransferase subunit C [EC:2.1.1.86]
-E        K00580  mtrD; tetrahydromethanopterin S-methyltransferase subunit D [EC:2.1.1.86]
-E        K00581  mtrE; tetrahydromethanopterin S-methyltransferase subunit E [EC:2.1.1.86]
-E        K00582  mtrF; tetrahydromethanopterin S-methyltransferase subunit F [EC:2.1.1.86]
-E        K00583  mtrG; tetrahydromethanopterin S-methyltransferase subunit G [EC:2.1.1.86]
-E        K00584  mtrH; tetrahydromethanopterin S-methyltransferase subunit H [EC:2.1.1.86]
 D      2.1.1.87  pyridine N-methyltransferase
 D      2.1.1.88  8-hydroxyquercetin 8-O-methyltransferase
 D      2.1.1.89  tetrahydrocolumbamine 2-O-methyltransferase
@@ -4847,7 +4853,7 @@ D      2.1.1.241  2,4,7-trihydroxy-1,4-benzoxazin-3-one-glucoside 7-O-methyltran
 E        K13230  BX7; 2,4,7-trihydroxy-1,4-benzoxazin-3-one-glucoside 7-O-methyltransferase [EC:2.1.1.241]
 D      2.1.1.242  16S rRNA (guanine1516-N2)-methyltransferase
 E        K15984  rsmJ; 16S rRNA (guanine1516-N2)-methyltransferase [EC:2.1.1.242]
-D      2.1.1.243  2-ketoarginine methyltransferase
+D      2.1.1.243  5-guanidino-2-oxopentanoate (3R)-methyltransferase
 E        K16215  mrsA; 2-ketoarginine methyltransferase [EC:2.1.1.243]
 D      2.1.1.244  protein N-terminal methyltransferase
 E        K16219  NTMT1, METTL11A, NTM1; protein N-terminal methyltransferase [EC:2.1.1.244]
@@ -5243,13 +5249,14 @@ D      2.1.3.15  acetyl-CoA carboxytransferase
 E        K01946  ACACB; acetyl-CoA carboxylase / biotin carboxylase 2 [EC:6.4.1.2 6.3.4.14 2.1.3.15]
 E        K01962  accA; acetyl-CoA carboxylase carboxyl transferase subunit alpha [EC:6.4.1.2 2.1.3.15]
 E        K01963  accD; acetyl-CoA carboxylase carboxyl transferase subunit beta [EC:6.4.1.2 2.1.3.15]
-E        K01966  PCCB, pccB; propionyl-CoA carboxylase beta chain [EC:6.4.1.3 2.1.3.15]
+E        K01966  PCCB, pccB; propionyl-CoA carboxylase beta subunit [EC:6.4.1.3 2.1.3.15]
 E        K11262  ACACA; acetyl-CoA carboxylase / biotin carboxylase 1 [EC:6.4.1.2 6.3.4.14 2.1.3.15]
 E        K15036  K15036; acetyl-CoA/propionyl-CoA carboxylase [EC:6.4.1.2 6.4.1.3 2.1.3.15]
 E        K15052  K15052; propionyl-CoA carboxylase [EC:6.4.1.3 2.1.3.15]
 E        K18472  accD6; acetyl-CoA/propionyl-CoA carboxylase carboxyl transferase subunit [EC:6.4.1.2 6.4.1.3 2.1.3.15]
 E        K18604  K18604; acetyl-CoA/propionyl-CoA carboxylase [EC:6.4.1.2 6.4.1.3 2.1.3.15]
 E        K19312  pccB; acetyl-CoA/propionyl-CoA carboxylase carboxyl transferase subunit [EC:6.4.1.2 6.4.1.3 2.1.3.15]
+E        K27094  accD5; propionyl-/long chain acyl-CoA carboxylase carboxyl transferase subunit beta 5 [EC:6.4.1.3 6.4.1.- 2.1.3.15]
 D      2.1.3.16  ureidoglycine carbamoyltransferase
 E        K24871  E2.1.3.16; ureidoglycine carbamoyltransferase [EC:2.1.3.16]
 C    2.1.4  Amidinotransferases
@@ -5357,6 +5364,8 @@ E        K15406  WSD1; wax-ester synthase / diacylglycerol O-acyltransferase [EC
 E        K18851  fbp; diacylglycerol O-acyltransferase / trehalose O-mycolyltransferase [EC:2.3.1.20 2.3.1.122]
 E        K22848  DGAT2; diacylglycerol O-acyltransferase 2, plant [EC:2.3.1.20]
 E        K22849  DGAT3; diacylglycerol O-acyltransferase 3, plant [EC:2.3.1.20]
+E        K27538  PES; diacylglycerol/phytol O-acyltransferase [EC:2.3.1.20 2.3.1.314]
+E        K27539  K27539; diacylglycerol/phytol O-acyltransferase [EC:2.3.1.20 2.3.1.314]
 D      2.3.1.21  carnitine O-palmitoyltransferase
 E        K08765  CPT1A; carnitine O-palmitoyltransferase 1, liver isoform [EC:2.3.1.21]
 E        K08766  CPT2; carnitine O-palmitoyltransferase 2 [EC:2.3.1.21]
@@ -5999,6 +6008,13 @@ E        K26272  dgcN; D-glutamate N-acetyltransferase [EC:2.3.1.312]
 D      2.3.1.313  NAD-dependent lipoamidase
 E        K11414  SIRT4, SIR2L4; NAD-dependent protein deacetylase/lipoamidase sirtuin 4 [EC:2.3.1.286 2.3.1.313]
 E        K12410  cobB, srtN, npdA; NAD-dependent protein deacetylase/lipoamidase [EC:2.3.1.286 2.3.1.313]
+D      2.3.1.314  phytol O-acyltransferase
+E        K27538  PES; diacylglycerol/phytol O-acyltransferase [EC:2.3.1.20 2.3.1.314]
+E        K27539  K27539; diacylglycerol/phytol O-acyltransferase [EC:2.3.1.20 2.3.1.314]
+D      2.3.1.315  succinyl-CoA:cyclohexane-1-carboxylate CoA transferase
+E        K27540  E2.3.1.315; succinyl-CoA:cyclohexane-1-carboxylate CoA transferase [EC:2.3.1.315]
+D      2.3.1.316  N-hydroxyputrescine acetyltransferase
+E        K27489  fbsK; N-hydroxyputrescine acetyltransferase [EC:2.3.1.316]
 C    2.3.2  Aminoacyltransferases
 D      2.3.2.1  D-glutamyltransferase
 D      2.3.2.2  gamma-glutamyltransferase
@@ -6299,6 +6315,8 @@ E        K26506  p28; Orthopoxvirus E3 ubiquitin-protein ligase p28 [EC:2.3.2.27
 E        K26509  ORF63; Equid alphaherpesvirus E3 ubiquitin-protein ligase ICP0 [EC:2.3.2.27]
 E        K26516  LAP; Leporipoxvirus E3 ubiquitin-protein ligase LAP [EC:2.3.2.27]
 E        K26979  RNF10; E3 ubiquitin-protein ligase RNF10 [EC:2.3.2.27]
+E        K27504  LOG2; E3 ubiquitin-protein ligase LOG2 [EC:2.3.2.27]
+E        K27628  PUB12_13; U-box domain-containing protein 12/13 [EC:2.3.2.27]
 D      2.3.2.28  L-allo-isoleucyltransferase
 E        K15647  cmaE; coronamic acid synthetase CmaE, aminoacyltransferase [EC:2.3.2.28]
 D      2.3.2.29  aspartate/glutamate leucyltransferase
@@ -6962,6 +6980,7 @@ D      2.4.1.336  monoglucosyldiacylglycerol synthase
 E        K19003  mgdA; 1,2-diacylglycerol 3-beta-glucosyltransferase [EC:2.4.1.336]
 D      2.4.1.337  1,2-diacylglycerol 3-alpha-glucosyltransferase
 E        K19002  mgs, bgsB; 1,2-diacylglycerol 3-alpha-glucosyltransferase [EC:2.4.1.337]
+E        K27597  K27597; 1,2-diacylglycerol 3-alpha-glucosyltransferase/glucuronosyltransferase [EC:2.4.1.337 2.4.1.-]
 D      2.4.1.338  validoxylamine A glucosyltransferase
 E        K20438  valG; validoxylamine A glucosyltransferase [EC:2.4.1.338]
 D      2.4.1.339  beta-1,2-mannobiose phosphorylase
@@ -7077,6 +7096,8 @@ D      2.4.1.395  reuteransucrase
 E        K27185  gtfO, gtfA; reuteransucrase [EC:2.4.1.395]
 D      2.4.1.396  4,6-alpha-glucanotransferase (linear and branched substrates, branched products)
 E        K27186  gtfD; 4,6-alpha-glucanotransferase (linear and branched substrates, branched products) [EC:2.4.1.396]
+D      2.4.1.397  cyclic beta-1,2-glucan glucanotransferase
+E        K13688  chvB, cgs, ndvB; cyclic beta-1,2-glucan glucanotransferase [EC:2.4.1.397]
 C    2.4.2  Pentosyltransferases
 D      2.4.2.1  purine-nucleoside phosphorylase
 E        K03783  punA, PNP; purine-nucleoside phosphorylase [EC:2.4.2.1]
@@ -7450,7 +7471,7 @@ D      2.5.1.66  N2-(2-carboxyethyl)arginine synthase
 E        K12673  ceaS; N2-(2-carboxyethyl)arginine synthase [EC:2.5.1.66]
 D      2.5.1.67  chrysanthemyl diphosphate synthase
 D      2.5.1.68  (2Z,6E)-farnesyl diphosphate synthase
-E        K12503  E2.5.1.68; short-chain Z-isoprenyl diphosphate synthase [EC:2.5.1.68]
+E        K12503  uppS; short-chain Z-isoprenyl diphosphate synthase [EC:2.5.1.68]
 D      2.5.1.69  lavandulyl diphosphate synthase
 D      2.5.1.70  naringenin 8-dimethylallyltransferase
 D      2.5.1.71  leachianone-G 2''-dimethylallyltransferase
@@ -7472,12 +7493,12 @@ D      2.5.1.80  7-dimethylallyltryptophan synthase
 E        K14131  7-DMATS; tryptophan 7-dimethylallyltransferase [EC:2.5.1.80]
 D      2.5.1.81  geranylfarnesyl diphosphate synthase
 D      2.5.1.82  hexaprenyl diphosphate synthase [geranylgeranyl-diphosphate specific]
-E        K05355  hexPS, COQ1; hexaprenyl-diphosphate synthase [EC:2.5.1.82 2.5.1.83]
+E        K05355  hexPS, COQ1; hexaprenyl diphosphate synthase [EC:2.5.1.82 2.5.1.83]
 E        K21268  gdS-2; hexaprenyl diphosphate synthase [EC:2.5.1.82]
 D      2.5.1.83  hexaprenyl diphosphate synthase [(2E,6E)-farnesyl-diphosphate specific]
-E        K05355  hexPS, COQ1; hexaprenyl-diphosphate synthase [EC:2.5.1.82 2.5.1.83]
-E        K21274  hexs-a; hexaprenyl-diphosphate synthase small subunit [EC:2.5.1.83]
-E        K21275  hexs-b; hexaprenyl-diphosphate synthase large subunit [EC:2.5.1.83]
+E        K05355  hexPS, COQ1; hexaprenyl diphosphate synthase [EC:2.5.1.82 2.5.1.83]
+E        K21274  hexs-a; hexaprenyl diphosphate synthase small subunit [EC:2.5.1.83]
+E        K21275  hexs-b; hexaprenyl diphosphate synthase large subunit [EC:2.5.1.83]
 D      2.5.1.84  all-trans-nonaprenyl diphosphate synthase [geranyl-diphosphate specific]
 E        K05356  SPS, sds; all-trans-nonaprenyl-diphosphate synthase [EC:2.5.1.84 2.5.1.85]
 D      2.5.1.85  all-trans-nonaprenyl diphosphate synthase [geranylgeranyl-diphosphate specific]
@@ -7514,6 +7535,7 @@ E        K14135  FGAPT1; fumigaclavine A dimethylallyltransferase [EC:2.5.1.100]
 D      2.5.1.101  N,N'-diacetyllegionaminate synthase
 E        K18430  legI, neuB2; N,N'-diacetyllegionaminate synthase [EC:2.5.1.101]
 D      2.5.1.102  geranyl-pyrophosphate---olivetolic acid geranyltransferase
+E        K27602  PT4; geranyl-pyrophosphate---olivetolic acid geranyltransferase [EC:2.5.1.102]
 D      2.5.1.103  presqualene diphosphate synthase
 E        K21151  SSL-1; presqualene diphosphate synthase [EC:2.5.1.103]
 E        K21678  hpnD; presqualene diphosphate synthase [EC:2.5.1.103]
@@ -7623,6 +7645,11 @@ D      2.5.1.156  geranylfarnesylglycerol-phosphate geranylfarnesyltransferase
 E        K25921  E2.5.1.156; geranylfarnesylglycerol-phosphate geranylfarnesyltransferase [EC:2.5.1.156]
 D      2.5.1.157  rRNA small subunit aminocarboxypropyltransferase
 E        K09140  TSR3; rRNA small subunit aminocarboxypropyltransferase [EC:2.5.1.157]
+D      2.5.1.158  hexaprenyl diphosphate synthase (prenyl-diphosphate specific)
+E        K27606  K27606; hexaprenyl diphosphate synthase / talaropentaene synthase [EC:2.5.1.158 4.2.3.220]
+E        K27607  K27607; hexaprenyl diphosphate synthase / macrophomene synthase [EC:2.5.1.158 4.2.3.221]
+D      2.5.1.159  hapalindole G dimethylallyltransferase
+E        K27490  ambP3; hapalindole G dimethylallyltransferase [EC:2.5.1.159]
 B  2.6  Transferring nitrogenous groups
 C    2.6.1  Transaminases
 D      2.6.1.1  aspartate transaminase
@@ -7868,6 +7895,10 @@ E        K25575  pabA; 4-amino-4-deoxychorismate synthase (2-amino-4-deoxychoris
 E        K25578  pabB; 4-amino-4-deoxychorismate synthase (2-amino-4-deoxychorismate-forming) component I [EC:2.6.1.123]
 D      2.6.1.124  [amino-group carrier protein]-gamma-(L-ornithyl)-L-glutamate aminotransferase
 E        K05830  lysJ, argD; [amino-group carrier protein]-gamma-(L-lysyl/L-ornithyl)-L-glutamate aminotransferase [EC:2.6.1.118 2.6.1.124]
+D      2.6.1.125  L-arginine:2-oxoglutarate transaminase
+E        K27543  argM; L-arginine:2-oxoglutarate/L-aspartate:5-guanidino-3-methyl-2-oxopentanoate transaminase [EC:2.6.1.125 2.6.1.126]
+D      2.6.1.126  L-aspartate:5-guanidino-3-methyl-2-oxopentanoate transaminase
+E        K27543  argM; L-arginine:2-oxoglutarate/L-aspartate:5-guanidino-3-methyl-2-oxopentanoate transaminase [EC:2.6.1.125 2.6.1.126]
 C    2.6.3  Oximinotransferases
 D      2.6.3.1  oximinotransferase
 C    2.6.99  Transferring other nitrogenous groups
@@ -7886,6 +7917,7 @@ E        K12407  GCK; glucokinase [EC:2.7.1.2]
 E        K25026  glk; glucokinase [EC:2.7.1.2]
 D      2.7.1.3  ketohexokinase
 E        K00846  KHK; ketohexokinase [EC:2.7.1.3]
+E        K27475  khk; ketohexokinase [EC:2.7.1.3]
 D      2.7.1.4  fructokinase
 E        K00847  E2.7.1.4, scrK; fructokinase [EC:2.7.1.4]
 D      2.7.1.5  rhamnulokinase
@@ -8400,6 +8432,7 @@ C    2.7.3  Phosphotransferases with a nitrogenous group as acceptor
 D      2.7.3.1  guanidinoacetate kinase
 D      2.7.3.2  creatine kinase
 E        K00933  E2.7.3.2; creatine kinase [EC:2.7.3.2]
+E        K27382  CKM; creatine kinase M-type [EC:2.7.3.2]
 D      2.7.3.3  arginine kinase
 E        K00934  E2.7.3.3; arginine kinase [EC:2.7.3.3]
 D      2.7.3.4  taurocyamine kinase
@@ -8742,7 +8775,7 @@ E        K26277  L; Reptarenavirus RNA-directed RNA polymerase L [EC:2.7.7.48 3.
 E        K26278  PB1; Quaranjavirus RNA-directed RNA polymerase catalytic subunit [EC:2.7.7.48]
 E        K26279  P2; Thogotovirus RNA-directed RNA polymerase catalytic subunit [EC:2.7.7.48]
 E        K26280  L; Tospoviridae RNA-directed RNA polymerase L [EC:2.7.7.48 3.1.-.-]
-E        K26394  RdRp; Alphatetraviridae methyltransferase/helicase/RNA-directed RNA polymerase [EC:2.1.1.- 2.7.7.48 3.6.4.13]
+E        K26394  RdRp; Alphatetraviridae methyltransferase/helicase/RNA-directed RNA polymerase [EC:2.1.1.- 2.7.7.48 5.6.2.5]
 E        K26395  RdRp; Alphanodavirus RNA-directed RNA polymerase [EC:2.7.7.48]
 E        K26396  RdRp; Betanodavirus RNA-directed RNA polymerase [EC:2.7.7.48]
 E        K26517  ORF1; Panicovirus RNA-directed RNA polymerase [EC:2.7.7.48]
@@ -9131,6 +9164,7 @@ E        K16692  etk-wzc; tyrosine-protein kinase Etk/Wzc [EC:2.7.10.3]
 E        K25588  K25588; tyrosine-protein kinase [EC:2.7.10.3]
 C    2.7.11  Protein-serine/threonine kinases
 D      2.7.11.1  non-specific serine/threonine protein kinase
+E        K00924  TMK; receptor protein kinase TMK [EC:2.7.11.1]
 E        K02178  BUB1; checkpoint serine/threonine-protein kinase [EC:2.7.11.1]
 E        K02214  CDC7; cell division control protein 7 [EC:2.7.11.1]
 E        K02216  CHEK1; serine/threonine-protein kinase CHEK1 [EC:2.7.11.1]
@@ -9197,7 +9231,6 @@ E        K08269  ULK2, ATG1; serine/threonine-protein kinase ULK2 [EC:2.7.11.1]
 E        K08282  E2.7.11.1; non-specific serine/threonine protein kinase [EC:2.7.11.1]
 E        K08333  PIK3R4, VPS15; phosphoinositide-3-kinase, regulatory subunit 4 [EC:2.7.11.1]
 E        K08788  DMPK; dystrophia myotonica-protein kinase [EC:2.7.11.1]
-E        K08789  MAST; microtubule-associated serine/threonine kinase [EC:2.7.11.1]
 E        K08790  STK38, NDR; serine/threonine kinase 38 [EC:2.7.11.1]
 E        K08791  LATS1_2, Wts; serine/threonine-protein kinase LATS1/2 [EC:2.7.11.1]
 E        K08793  STK32, YANK; serine/threonine kinase 32 [EC:2.7.11.1]
@@ -9273,7 +9306,6 @@ E        K12567  TTN; titin [EC:2.7.11.1]
 E        K12761  SNF1; carbon catabolite-derepressing protein kinase [EC:2.7.11.1]
 E        K12765  IME2; meiosis induction protein kinase IME2/SME1 [EC:2.7.11.1]
 E        K12766  MDS1, RIM11; serine/threonine-protein kinase MDS1/RIM11 [EC:2.7.11.1]
-E        K12767  RIM15; serine/threonine-protein kinase RIM15 [EC:2.7.11.1]
 E        K12771  SPS1; sporulation-specific protein 1 [EC:2.7.11.1]
 E        K12776  MEK1; meiosis-specific serine/threonine-protein kinase MEK1 [EC:2.7.11.1]
 E        K13302  SGK1; serum/glucocorticoid-regulated kinase 1 [EC:2.7.11.1]
@@ -9291,7 +9323,7 @@ E        K13430  PBS1; serine/threonine-protein kinase PBS1 [EC:2.7.11.1]
 E        K13436  PTI1; pto-interacting protein 1 [EC:2.7.11.1]
 E        K14498  SNRK2; serine/threonine-protein kinase SRK2 [EC:2.7.11.1]
 E        K14500  BSK; BR-signaling kinase [EC:2.7.11.1]
-E        K14502  BIN2; protein brassinosteroid insensitive 2 [EC:2.7.11.1]
+E        K14502  ASK6_7_9, BIN2; shaggy-related protein kinase (protein brassinosteroid insensitive 2) [EC:2.7.11.1]
 E        K14510  CTR1; serine/threonine-protein kinase CTR1 [EC:2.7.11.1]
 E        K14758  HRR25; casein kinase I homolog HRR25 [EC:2.7.11.1]
 E        K14949  pknG; serine/threonine-protein kinase PknG [EC:2.7.11.1]
@@ -9304,7 +9336,6 @@ E        K16196  EIF2AK4; eukaryotic translation initiation factor 2-alpha kinas
 E        K16279  KEG; E3 ubiquitin-protein ligase KEG [EC:2.7.11.1 2.3.2.27]
 E        K16289  ANKK1; ankyrin repeat and protein kinase domain-containing protein 1 [EC:2.7.11.1]
 E        K16307  CDC42BP; serine/threonine-protein kinase MRCK [EC:2.7.11.1]
-E        K16309  MASTL, GW; serine/threonine-protein kinase greatwall [EC:2.7.11.1]
 E        K16310  NIM1; serine/threonine-protein kinase NIM1 [EC:2.7.11.1]
 E        K16311  SIK2; serine/threonine-protein kinase SIK2 [EC:2.7.11.1]
 E        K16312  STK40, SHIK; serine/threonine-protein kinase 40 [EC:2.7.11.1]
@@ -9358,6 +9389,11 @@ E        K26102  UL97; Cytomegalovirus serine/threonine protein kinase UL97 [EC:
 E        K26447  PK2; Alphabaculovirus probable serine/threonine-protein kinase 2 [EC:2.7.11.1]
 E        K26450  PK1; Alphabaculovirus/Betabaculovirus serine/threonine-protein kinase 1 [EC:2.7.11.1]
 E        K26514  ORF36; Rhadinovirus serine/threonine protein kinase [EC:2.7.11.1]
+E        K27413  ASK1_3_5; shaggy-related protein kinase [EC:2.7.11.1]
+E        K27414  ASK2_8; shaggy-related protein kinase [EC:2.7.11.1]
+E        K27589  PSY1R; tyrosine-sulfated glycopeptide receptor 1 [EC:2.7.11.1]
+E        K27625  PSKR1; phytosulfokine receptor 1 [EC:2.7.11.1 4.6.1.2]
+E        K27626  PSKR2; phytosulfokine receptor 2 [EC:2.7.11.1]
 D      2.7.11.2  [pyruvate dehydrogenase (acetyl-transferring)] kinase
 E        K00898  PDK2_3_4; pyruvate dehydrogenase kinase 2/3/4 [EC:2.7.11.2]
 E        K12077  PDK1; pyruvate dehydrogenase kinase isoform 1 [EC:2.7.11.2]
@@ -9531,6 +9567,11 @@ E        K20875  NEK6; serine/threonine-protein kinase Nek6 [EC:2.7.11.34]
 E        K20876  NEK7; serine/threonine-protein kinase Nek7 [EC:2.7.11.34]
 D      2.7.11.35  CRIK-subfamily protein kinase
 E        K16308  CIT; citron Rho-interacting kinase [EC:2.7.11.35]
+D      2.7.11.36  MASTL-subfamily protein kinase
+E        K12767  RIM15; serine/threonine-protein kinase RIM15 [EC:2.7.11.36]
+E        K16309  MASTL, GW; serine/threonine-protein kinase greatwall [EC:2.7.11.36]
+D      2.7.11.37  MAST-subfamily protein kinase
+E        K08789  MAST, IREH1; MAST-subfamily protein kinase [EC:2.7.11.37]
 C    2.7.12  Dual-specificity kinases (those acting on Ser/Thr and Tyr residues)
 D      2.7.12.1  dual-specificity kinase
 E        K08287  E2.7.12.1; dual-specificity kinase [EC:2.7.12.1]
@@ -10062,7 +10103,8 @@ D      3.1.1.73  feruloyl esterase
 E        K09252  FAEB; feruloyl esterase [EC:3.1.1.73]
 E        K21016  FAEA; feruloyl esterase [EC:3.1.1.73]
 D      3.1.1.74  cutinase
-E        K08095  E3.1.1.74; cutinase [EC:3.1.1.74]
+E        K08095  CUT1_2_3; cutinase [EC:3.1.1.74]
+E        K27357  tfH; cutinase [EC:3.1.1.74]
 D      3.1.1.75  poly(3-hydroxybutyrate) depolymerase
 E        K05973  phaZ; poly(3-hydroxybutyrate) depolymerase [EC:3.1.1.75]
 D      3.1.1.76  poly(3-hydroxyoctanoate) depolymerase
@@ -10218,6 +10260,9 @@ D      3.1.2.31  dihydromonacolin L-[lovastatin nonaketide synthase] thioesteras
 E        K20985  LOVG; dihydromonacolin L-[lovastatin nonaketide synthase] thioesterase [EC:3.1.2.31]
 D      3.1.2.32  2-aminobenzoylacetyl-CoA thioesterase
 E        K20257  pqsE; 2-aminobenzoylacetyl-CoA thioesterase [EC:3.1.2.32]
+D      3.1.2.33  betainyl-CoA thioesterase
+E        K27492  cdhB; betainyl-CoA thioesterase [EC:3.1.2.33]
+E        K27497  K27497; carnitine 3-dehydrogenase / betainyl-CoA thioesterase [EC:1.1.1.108 3.1.2.33]
 C    3.1.3  Phosphoric-monoester hydrolases
 D      3.1.3.1  alkaline phosphatase
 E        K01077  E3.1.3.1, phoA, phoB; alkaline phosphatase [EC:3.1.3.1]
@@ -10635,6 +10680,8 @@ D      3.1.3.108  nocturnin
 E        K18764  NOCT, CCRN4L; nocturnin [EC:3.1.3.108]
 D      3.1.3.109  ribulose-1,5-bisphosphate 5-phosphatase
 E        K26210  E3.1.3.109; ribulose-1,5-bisphosphate 5-phosphatase [EC:3.1.3.109]
+D      3.1.3.110  4'-phosphopantetheine phosphatase
+E        K18569  thnH; 4'-phosphopantetheine phosphatase [EC:3.1.3.110]
 C    3.1.4  Phosphoric-diester hydrolases
 D      3.1.4.1  phosphodiesterase I
 E        K01513  ENPP1_3, CD203; ectonucleotide pyrophosphatase/phosphodiesterase family member 1/3 [EC:3.1.4.1 3.6.1.9]
@@ -10821,6 +10868,7 @@ E        K10994  RAD9A; cell cycle checkpoint control protein RAD9A [EC:3.1.11.2
 D      3.1.11.3  exodeoxyribonuclease (lambda-induced)
 E        K01143  exo; Enterobacteriaceae phage exonuclease [EC:3.1.11.3]
 E        K21526  gp6; Autographiviridae exonuclease [EC:3.1.11.3]
+E        K27376  D15; Demerecviridae flap endonuclease [EC:3.1.11.- 3.1.11.3]
 D      3.1.11.4  exodeoxyribonuclease (phage SP3-induced)
 D      3.1.11.5  exodeoxyribonuclease V
 E        K03581  recD; exodeoxyribonuclease V alpha subunit [EC:3.1.11.5]
@@ -10838,6 +10886,7 @@ E        K01147  rnb; exoribonuclease II [EC:3.1.13.1]
 E        K12573  rnr, vacB; ribonuclease R [EC:3.1.13.1]
 E        K12579  ISG20; interferon-stimulated gene 20 kDa protein [EC:3.1.13.1]
 E        K19782  DSS1, MSU1; exoribonuclease II, mitochondrial [EC:3.1.13.1]
+E        K25165  HELZ2; 3'-5' exoribonuclease HELZ2 [EC:3.1.13.1 5.6.2.6]
 D      3.1.13.2  exoribonuclease H
 D      3.1.13.3  oligonucleotidase
 E        K06881  nrnA; bifunctional oligoribonuclease and PAP phosphatase NrnA [EC:3.1.3.7 3.1.13.3]
@@ -11357,6 +11406,12 @@ E        K27194  mmpH; MMP endo-(1,4)-3-O-methyl-alpha-D-mannosidase [EC:3.2.1.2
 D      3.2.1.222  funoran endo-beta-hydrolase
 E        K27195  E3.2.1.222; funoran endo-beta-hydrolase [EC:3.2.1.222]
 D      3.2.1.223  arabinogalactan exo alpha-(1,3)-beta-L-arabinopyranosyl-(1->3)-L-arabinofuranosidase (non-reducing end)
+D      3.2.1.224  D-arabinan exo beta-(1,2)-arabinofuranosidase (non-reducing end)
+E        K27493  exoMA2; D-arabinan exo beta-(1,2)-arabinofuranosidase (non-reducing end) [EC:3.2.1.224]
+D      3.2.1.225  D-arabinan exo alpha-(1,3)/(1,5)-arabinofuranosidase (non-reducing end)
+E        K27494  exoMA1; D-arabinan exo alpha-(1,3)/(1,5)-arabinofuranosidase (non-reducing end) [EC:3.2.1.225]
+D      3.2.1.226  D-arabinan endo alpha-(1,5)-arabinofuranosidase
+E        K27495  endoMA; D-arabinan endo alpha-(1,5)-arabinofuranosidase [EC:3.2.1.226]
 C    3.2.2  Hydrolysing N-glycosyl compounds
 D      3.2.2.1  purine nucleosidase
 E        K01239  E3.2.2.1; purine nucleosidase [EC:3.2.2.1]
@@ -11373,6 +11428,7 @@ E        K19980  ART2, RT6; ADP-ribosyltransferase 2 / NAD+ glycohydrolase [EC:2
 D      3.2.2.6  ADP-ribosyl cyclase/cyclic ADP-ribose hydrolase
 E        K01242  CD38; ADP-ribosyl cyclase 1 [EC:3.2.2.6 2.4.99.20]
 E        K18152  BST1, CD157; ADP-ribosyl cyclase 2 [EC:3.2.2.6 2.4.99.20]
+E        K27536  SARM1, SAMD2; NAD(+) hydrolase SARM1 [EC:3.2.2.6]
 D      3.2.2.7  adenosine nucleosidase
 D      3.2.2.8  ribosylpyrimidine nucleosidase
 E        K10213  rihB; ribosylpyrimidine nucleosidase [EC:3.2.2.8]
@@ -11853,7 +11909,7 @@ E        K13280  SEC11, sipW; signal peptidase I [EC:3.4.21.89]
 D      3.4.21.90  togavirin
 E        K25929  C; Alphavirus capsid protein [EC:3.4.21.90]
 D      3.4.21.91  flavivirin
-E        K25328  NS3; Flavivirus serine protease NS3 catalytic subunit [EC:3.4.21.91 3.6.1.15 3.6.4.13]
+E        K25328  NS3; Flavivirus serine protease NS3 catalytic subunit [EC:3.4.21.91 3.6.1.15 5.6.2.6]
 D      3.4.21.92  endopeptidase Clp
 E        K01358  clpP, CLPP; ATP-dependent Clp protease, protease subunit [EC:3.4.21.92]
 D      3.4.21.93  proprotein convertase 1
@@ -11868,7 +11924,7 @@ E        K21078  UL80; Cytomegalovirus capsid scaffolding protein [EC:3.4.21.97]
 E        K25930  assemblin; Herpesviridae assemblin [EC:3.4.21.97]
 E        K26507  BVRF2; Lymphocryptovirus capsid scaffolding protein [EC:3.4.21.97]
 D      3.4.21.98  hepacivirin
-E        K22273  NS3; Hepatitis C virus serine protease / helicase NS3 [EC:3.4.21.98 3.6.1.15 3.6.4.13]
+E        K22273  NS3; Hepatitis C virus serine protease / helicase NS3 [EC:3.4.21.98 3.6.1.15 5.6.2.6]
 D      3.4.21.99  spermosin
 E        K20751  E3.4.21.99; spermosin [EC:3.4.21.99]
 D      3.4.21.100  sedolisin
@@ -11888,6 +11944,7 @@ E        K09650  PARL, PSARL, PCP1; rhomboid-like protein [EC:3.4.21.105]
 E        K09651  RHBDD1, RHBDL4; rhomboid-related protein 4 [EC:3.4.21.105]
 E        K19225  gluP; rhomboid protease GluP [EC:3.4.21.105]
 E        K23461  RHO; rhomboid [EC:3.4.21.105]
+E        K27605  RBL; rhomboid-like protein, plant [EC:3.4.21.105]
 D      3.4.21.106  hepsin
 E        K08665  HPN; hepsin [EC:3.4.21.106]
 D      3.4.21.107  peptidase Do
@@ -11903,7 +11960,7 @@ E        K20754  pstI; aqualysin 1 [EC:3.4.21.111]
 D      3.4.21.112  site-1 protease
 E        K08653  MBTPS1; membrane-bound transcription factor site-1 protease [EC:3.4.21.112]
 D      3.4.21.113  pestivirus NS3 polyprotein peptidase
-E        K26798  NS3; Bovine viral diarrhea virus 1 serine protease NS3 [EC:3.4.21.113 3.6.1.15 3.6.4.13]
+E        K26798  NS3; Bovine viral diarrhea virus 1 serine protease NS3 [EC:3.4.21.113 3.6.1.15 5.6.2.6]
 D      3.4.21.114  equine arterivirus serine peptidase
 E        K26799  Nsp4; Equine arterivirus serine peptidase [EC:3.4.21.114]
 D      3.4.21.115  infectious pancreatic necrosis birnavirus Vp4 peptidase
@@ -12675,7 +12732,7 @@ D      3.5.2.20  isatin hydrolase
 E        K01475  E3.5.2.20; isatin hydrolase [EC:3.5.2.20]
 C    3.5.3  In linear amidines
 D      3.5.3.1  arginase
-E        K01476  E3.5.3.1, rocF, arg; arginase [EC:3.5.3.1]
+E        K01476  rocF, arg; arginase [EC:3.5.3.1]
 D      3.5.3.2  guanidinoacetase
 D      3.5.3.3  creatinase
 E        K08688  E3.5.3.3; creatinase [EC:3.5.3.3]
@@ -12721,6 +12778,9 @@ D      3.5.3.25  Nomega-hydroxy-L-arginine amidinohydrolase
 E        K19723  dcsB; Nomega-hydroxy-L-arginine amidinohydrolase [EC:3.5.3.25]
 D      3.5.3.26  (S)-ureidoglycine aminohydrolase
 E        K14977  ylbA, UGHY; (S)-ureidoglycine aminohydrolase [EC:3.5.3.26]
+D      3.5.3.27  arginine dihydrolase
+E        K27542  argZ; arginine dihydrolase [EC:3.5.3.27]
+E        K27545  argZ; arginine dihydrolase [EC:3.5.3.27]
 C    3.5.4  In cyclic amidines
 D      3.5.4.1  cytosine deaminase
 E        K01485  codA; cytosine/creatinine deaminase [EC:3.5.4.1 3.5.4.21]
@@ -12854,6 +12914,14 @@ D      3.5.99.10  2-iminobutanoate/2-iminopropanoate deaminase
 E        K09022  ridA, tdcF, RIDA; 2-iminobutanoate/2-iminopropanoate deaminase [EC:3.5.99.10]
 D      3.5.99.11  2-aminomuconate deaminase (2-hydroxymuconate-forming)
 E        K20931  cnbZ; 2-aminomuconate deaminase (2-hydroxymuconate-forming) [EC:3.5.99.11]
+D      3.5.99.12  salsolinol synthase
+E        K27544  UBCL1; salsolinol synthase [EC:3.5.99.12]
+D      3.5.99.13  strictosidine synthase
+E        K01757  STR1; strictosidine synthase [EC:3.5.99.13]
+D      3.5.99.14  (S)-norcoclaurine synthase
+E        K13382  NCS; (S)-norcoclaurine synthase [EC:3.5.99.14]
+D      3.5.99.15  deacetylisoipecoside synthase
+D      3.5.99.16  deacetylipecoside synthase
 B  3.6  Acting on acid anhydrides
 C    3.6.1  In phosphorus-containing anhydrides
 D      3.6.1.1  inorganic diphosphatase
@@ -12899,10 +12967,10 @@ D      3.6.1.15  nucleoside-triphosphate phosphatase
 E        K01516  2C; Enterovirus protein 2C [EC:3.6.1.15]
 E        K06928  NTPCR; nucleoside-triphosphatase [EC:3.6.1.15]
 E        K21517  NPH1; Poxviridae nucleoside triphosphatase I [EC:3.6.1.15]
-E        K22273  NS3; Hepatitis C virus serine protease / helicase NS3 [EC:3.4.21.98 3.6.1.15 3.6.4.13]
+E        K22273  NS3; Hepatitis C virus serine protease / helicase NS3 [EC:3.4.21.98 3.6.1.15 5.6.2.6]
 E        K25324  NS3; Norovirus NTPase [EC:3.6.1.15]
-E        K25328  NS3; Flavivirus serine protease NS3 catalytic subunit [EC:3.4.21.91 3.6.1.15 3.6.4.13]
-E        K26798  NS3; Bovine viral diarrhea virus 1 serine protease NS3 [EC:3.4.21.113 3.6.1.15 3.6.4.13]
+E        K25328  NS3; Flavivirus serine protease NS3 catalytic subunit [EC:3.4.21.91 3.6.1.15 5.6.2.6]
+E        K26798  NS3; Bovine viral diarrhea virus 1 serine protease NS3 [EC:3.4.21.113 3.6.1.15 5.6.2.6]
 D      3.6.1.16  CDP-glycerol diphosphatase
 E        K01517  ADPRM; manganese-dependent ADP-ribose/CDP-alcohol diphosphatase [EC:3.6.1.13 3.6.1.16 3.6.1.53]
 D      3.6.1.17  bis(5'-nucleosyl)-tetraphosphatase (asymmetrical)
@@ -12964,6 +13032,7 @@ E        K09949  lpxI; UDP-2,3-diacylglucosamine hydrolase [EC:3.6.1.54]
 D      3.6.1.55  8-oxo-dGTP diphosphatase
 E        K03574  mutT, NUDT15, MTH2; 8-oxo-dGTP diphosphatase [EC:3.6.1.55]
 E        K17816  NUDT1, MTH1; 8-oxo-dGTP diphosphatase / 2-hydroxy-dATP diphosphatase [EC:3.6.1.55 3.6.1.56]
+E        K27537  PCD1; 2-hydroxy-dATP diphosphatase / coenzyme A diphosphatase [EC:3.6.1.55 3.6.1.77]
 D      3.6.1.56  2-hydroxy-dATP diphosphatase
 E        K17816  NUDT1, MTH1; 8-oxo-dGTP diphosphatase / 2-hydroxy-dATP diphosphatase [EC:3.6.1.55 3.6.1.56]
 D      3.6.1.57  UDP-2,4-diacetamido-2,4,6-trideoxy-beta-L-altropyranose hydrolase
@@ -13011,6 +13080,11 @@ E        K01096  pgpB; phosphatidylglycerophosphatase B [EC:3.1.3.27 3.6.1.75 3.
 E        K18693  DPP1, DPPL, PLPP4_5; diacylglycerol diphosphate phosphatase / phosphatidate phosphatase [EC:3.6.1.75 3.1.3.4]
 D      3.6.1.76  prenyl-diphosphate phosphatase
 E        K25520  E3.6.1.76; prenyl-diphosphate phosphatase [EC:3.6.1.76]
+D      3.6.1.77  coenzyme A diphosphatase
+E        K13355  NUDT19; acyl-coenzyme A diphosphatase NUDT19, mitochondrial [EC:3.6.1.77]
+E        K17879  NUDT7; peroxisomal coenzyme A diphosphatase NUDT7 [EC:3.6.1.77]
+E        K18568  thnR; coenzyme A diphosphatase [EC:3.6.1.77]
+E        K27537  PCD1; 2-hydroxy-dATP diphosphatase / coenzyme A diphosphatase [EC:3.6.1.55 3.6.1.77]
 C    3.6.2  In sulfonyl-containing anhydrides
 D      3.6.2.1  adenylylsulfatase
 E        K22966  HINT4; sulfate adenylyltransferase (ADP) / adenylylsulfatase [EC:2.7.7.5 3.6.2.1]
@@ -13023,99 +13097,6 @@ E        K18798  AFG1, LACE1; peroxisome-assembly ATPase [EC:3.6.4.7]
 D      3.6.4.10  non-chaperonin molecular chaperone ATPase
 E        K09490  HSPA5, BIP; endoplasmic reticulum chaperone BiP [EC:3.6.4.10]
 E        K26051  SPATA5L1; ribosome biogenesis protein SPATA5L1 [EC:3.6.4.10]
-D      3.6.4.13  RNA helicase
-E        K03578  hrpA; ATP-dependent helicase HrpA [EC:3.6.4.13]
-E        K03579  hrpB; ATP-dependent helicase HrpB [EC:3.6.4.13]
-E        K03724  lhr; ATP-dependent helicase Lhr and Lhr-like helicase [EC:3.6.4.13 5.6.2.4]
-E        K03732  rhlB; ATP-dependent RNA helicase RhlB [EC:3.6.4.13]
-E        K05590  srmB; ATP-dependent RNA helicase SrmB [EC:3.6.4.13]
-E        K05591  dbpA; ATP-dependent RNA helicase DbpA [EC:3.6.4.13]
-E        K05592  deaD, cshA; ATP-dependent RNA helicase DeaD [EC:3.6.4.13]
-E        K11273  DDX11, CHL1, CTF1; chromosome transmission fidelity protein 1 [EC:3.6.4.13]
-E        K11594  DDX3X, bel; ATP-dependent RNA helicase DDX3X [EC:3.6.4.13]
-E        K11701  HRR1; helicase required for RNAi-mediated heterochromatin assembly 1 [EC:3.6.4.13]
-E        K11927  rhlE; ATP-dependent RNA helicase RhlE [EC:3.6.4.13]
-E        K12598  MTR4, SKIV2L2; ATP-dependent RNA helicase DOB1 [EC:3.6.4.13]
-E        K12599  SKI2, SKIV2L; antiviral helicase SKI2 [EC:3.6.4.13]
-E        K12614  DDX6, RCK, DHH1; ATP-dependent RNA helicase DDX6/DHH1 [EC:3.6.4.13]
-E        K12646  DDX58, RIG-I; ATP-dependent RNA helicase DDX58 [EC:3.6.4.13]
-E        K12647  IFIH1, MDA5; interferon-induced helicase C domain-containing protein 1 [EC:3.6.4.13]
-E        K12649  DHX58, LGP2; ATP-dependent RNA helicase DHX58 [EC:3.6.4.13]
-E        K12811  DDX46, PRP5; ATP-dependent RNA helicase DDX46/PRP5 [EC:3.6.4.13]
-E        K12812  DDX39B, UAP56, SUB2; ATP-dependent RNA helicase UAP56/SUB2 [EC:3.6.4.13]
-E        K12813  DHX16; pre-mRNA-splicing factor ATP-dependent RNA helicase DHX16 [EC:3.6.4.13]
-E        K12814  PRP2; pre-mRNA-splicing factor ATP-dependent RNA helicase-like protein PRP2 [EC:3.6.4.13]
-E        K12815  DHX38, PRP16; pre-mRNA-splicing factor ATP-dependent RNA helicase DHX38/PRP16 [EC:3.6.4.13]
-E        K12818  DHX8, PRP22; ATP-dependent RNA helicase DHX8/PRP22 [EC:3.6.4.13]
-E        K12820  DHX15, PRP43; pre-mRNA-splicing factor ATP-dependent RNA helicase DHX15/PRP43 [EC:3.6.4.13]
-E        K12823  DDX5, DBP2; ATP-dependent RNA helicase DDX5/DBP2 [EC:3.6.4.13]
-E        K12835  DDX42, SF3B125; ATP-dependent RNA helicase DDX42 [EC:3.6.4.13]
-E        K12854  SNRNP200, BRR2; pre-mRNA-splicing helicase BRR2 [EC:3.6.4.13]
-E        K12858  DDX23, PRP28; ATP-dependent RNA helicase DDX23/PRP28 [EC:3.6.4.13]
-E        K13025  EIF4A3, FAL1; ATP-dependent RNA helicase [EC:3.6.4.13]
-E        K13026  DHX57; ATP-dependent RNA helicase DHX57 [EC:3.6.4.13]
-E        K13116  DDX41, ABS; ATP-dependent RNA helicase DDX41 [EC:3.6.4.13]
-E        K13117  DHX35; ATP-dependent RNA helicase DDX35 [EC:3.6.4.13]
-E        K13131  DDX20, GEMIN3; ATP-dependent RNA helicase DDX20 [EC:3.6.4.13]
-E        K13177  DDX1; ATP-dependent RNA helicase DDX1 [EC:3.6.4.13]
-E        K13178  DDX17; ATP-dependent RNA helicase DDX17 [EC:3.6.4.13]
-E        K13179  DDX18, HAS1; ATP-dependent RNA helicase DDX18/HAS1 [EC:3.6.4.13]
-E        K13181  DDX27, DRS1; ATP-dependent RNA helicase DDX27 [EC:3.6.4.13]
-E        K13182  DDX39; ATP-dependent RNA helicase DDX39 [EC:3.6.4.13]
-E        K13183  DDX50; ATP-dependent RNA helicase DDX50 [EC:3.6.4.13]
-E        K13184  DHX9; ATP-dependent RNA helicase A [EC:3.6.4.13]
-E        K13185  DHX30; ATP-dependent RNA helicase DHX30 [EC:3.6.4.13]
-E        K13982  DDX4, VASA; probable ATP-dependent RNA helicase DDX4 [EC:3.6.4.13]
-E        K13983  MOV10L1; RNA helicase MOV10L1 [EC:3.6.4.13]
-E        K14326  UPF1, RENT1; regulator of nonsense transcripts 1 [EC:3.6.4.13 5.6.2.3]
-E        K14433  DQX1; ATP-dependent RNA helicase DQX1 [EC:3.6.4.13]
-E        K14442  DHX36, RHAU; ATP-dependent RNA helicase DHX36 [EC:3.6.4.13]
-E        K14776  DDX10, DBP4; ATP-dependent RNA helicase DDX10/DBP4 [EC:3.6.4.13]
-E        K14777  DDX47, RRP3; ATP-dependent RNA helicase DDX47/RRP3 [EC:3.6.4.13]
-E        K14778  DDX49, DBP8; ATP-dependent RNA helicase DDX49/DBP8 [EC:3.6.4.13]
-E        K14779  DDX52, ROK1; ATP-dependent RNA helicase DDX52/ROK1 [EC:3.6.4.13]
-E        K14780  DHX37, DHR1; ATP-dependent RNA helicase DHX37/DHR1 [EC:3.6.4.13]
-E        K14781  DHR2; ATP-dependent RNA helicase DHR2 [EC:3.6.4.13]
-E        K14805  DDX24, MAK5; ATP-dependent RNA helicase DDX24/MAK5 [EC:3.6.4.13]
-E        K14806  DDX31, DBP7; ATP-dependent RNA helicase DDX31/DBP7 [EC:3.6.4.13]
-E        K14807  DDX51, DBP6; ATP-dependent RNA helicase DDX51/DBP6 [EC:3.6.4.13]
-E        K14808  DDX54, DBP10; ATP-dependent RNA helicase DDX54/DBP10 [EC:3.6.4.13]
-E        K14809  DDX55, SPB4; ATP-dependent RNA helicase DDX55/SPB4 [EC:3.6.4.13]
-E        K14810  DDX56, DBP9; ATP-dependent RNA helicase DDX56/DBP9 [EC:3.6.4.13]
-E        K14811  DBP3; ATP-dependent RNA helicase DBP3 [EC:3.6.4.13]
-E        K16911  DDX21; ATP-dependent RNA helicase DDX21 [EC:3.6.4.13]
-E        K17043  DDX43; ATP-dependent RNA helicase DDX43 [EC:3.6.4.13]
-E        K17265  G3BP1; Ras GTPase-activating protein-binding protein 1 [EC:5.6.2.3 3.6.4.13]
-E        K17642  DDX3Y; ATP-dependent RNA helicase DDX3Y [EC:3.6.4.13]
-E        K17675  SUPV3L1, SUV3; ATP-dependent RNA helicase SUPV3L1/SUV3 [EC:3.6.4.13]
-E        K17678  MRH4; ATP-dependent RNA helicase MRH4, mitochondrial [EC:3.6.4.13]
-E        K17679  MSS116; ATP-dependent RNA helicase MSS116, mitochondrial [EC:3.6.4.13]
-E        K17820  DHX33; ATP-dependent RNA helicase DHX33 [EC:3.6.4.13]
-E        K18408  TDRD9; ATP-dependent RNA helicase TDRD9 [EC:3.6.4.13]
-E        K18409  TDRD12; ATP-dependent RNA helicase TDRD12 [EC:3.6.4.13]
-E        K18422  MOV10; helicase MOV-10 [EC:3.6.4.13]
-E        K18655  DDX19, DBP5; ATP-dependent RNA helicase DDX19/DBP5 [EC:3.6.4.13]
-E        K18656  DDX25, GRTH; ATP-dependent RNA helicase DDX25 [EC:3.6.4.13]
-E        K18664  SLH1; antiviral helicase SLH1 [EC:3.6.4.13]
-E        K18692  cshB; ATP-dependent RNA helicase CshB [EC:3.6.4.13]
-E        K18711  DHX40, DDX40; ATP-dependent RNA helicase DHX40 [EC:3.6.4.13]
-E        K18994  DHX32; pre-mRNA-splicing factor ATP-dependent RNA helicase DHX32 [EC:3.6.4.13]
-E        K18995  DHX29; ATP-dependent RNA helicase DHX29 [EC:3.6.4.13]
-E        K19036  IGHMBP2; ATP-dependent RNA/DNA helicase IGHMBP2 [EC:3.6.4.13 5.6.2.3]
-E        K19466  DDX59; ATP-dependent RNA helicase DDX59 [EC:3.6.4.13]
-E        K20096  DDX28; ATP-dependent RNA helicase DDX28 [EC:3.6.4.13]
-E        K20099  YTHDC2; ATP-dependent RNA helicase YTHDC2 [EC:3.6.4.13]
-E        K20101  DHX34; ATP-dependent RNA helicase DHX34 [EC:3.6.4.13]
-E        K20103  DDX60; ATP-dependent RNA helicase DDX60 [EC:3.6.4.13]
-E        K21505  NPH2; Poxviridae RNA helicase NPH-II [EC:3.6.4.13]
-E        K21869  DDX53, CAGE; ATP-dependent RNA helicase DDX53 [EC:3.6.4.13]
-E        K22273  NS3; Hepatitis C virus serine protease / helicase NS3 [EC:3.4.21.98 3.6.1.15 3.6.4.13]
-E        K25022  nsp13; SARS coronavirus helicase [EC:5.6.2.3 3.6.4.13]
-E        K25328  NS3; Flavivirus serine protease NS3 catalytic subunit [EC:3.4.21.91 3.6.1.15 3.6.4.13]
-E        K26077  ISE2, EMB25; ATP-dependent RNA helicase ISE2 [EC:3.6.4.13]
-E        K26394  RdRp; Alphatetraviridae methyltransferase/helicase/RNA-directed RNA polymerase [EC:2.1.1.- 2.7.7.48 3.6.4.13]
-E        K26438  S3; Aquareovirus major inner capsid protein VP3 [EC:3.6.4.13]
-E        K26798  NS3; Bovine viral diarrhea virus 1 serine protease NS3 [EC:3.4.21.113 3.6.1.15 3.6.4.13]
 C    3.6.5  Acting on GTP to facilitate cellular and subcellular movement
 D      3.6.5.1  heterotrimeric G-protein GTPase
 D      3.6.5.2  small monomeric GTPase
@@ -13376,6 +13357,7 @@ E        K18256  phtC; 3,4-dihydroxyphthalate decarboxylase [EC:4.1.1.69]
 D      4.1.1.71  2-oxoglutarate decarboxylase
 E        K01616  kgd; multifunctional 2-oxoglutarate metabolism enzyme [EC:2.2.1.5 4.1.1.71 1.2.4.2 2.3.1.61]
 D      4.1.1.72  branched-chain-2-oxoacid decarboxylase
+E        K27601  kdcA; branched-chain-2-oxoacid decarboxylase [EC:4.1.1.72]
 D      4.1.1.73  tartrate decarboxylase
 E        K07246  ttuC, dmlA; tartrate dehydrogenase/decarboxylase / D-malate dehydrogenase [EC:1.1.1.93 4.1.1.73 1.1.1.83]
 D      4.1.1.74  indolepyruvate decarboxylase
@@ -13483,8 +13465,10 @@ D      4.1.1.124  malonyl-[acp] decarboxylase
 E        K00646  pksF, curC, aprD, corD; malonyl-[acp] decarboxylase [EC:4.1.1.124]
 D      4.1.1.125  4-carboxy-3-alkylbut-2-enoyl-[acp] decarboxylase
 E        K15313  pksI, corG; 4-carboxy-3-alkylbut-2-enoyl-[acp] decarboxylase [EC:4.1.1.125]
+E        K27305  aprG, curF; polyketide synthase / 4-carboxy-3-alkylbut-2-enoyl-[acp] decarboxylase [EC:4.1.1.125]
 D      4.1.1.126  anhydromevalonate phosphate decarboxylase
 E        K25518  E4.1.1.126; anhydromevalonate phosphate decarboxylase [EC:4.1.1.126]
+D      4.1.1.127  carboxyaminopropylagmatine decarboxylase
 C    4.1.2  Aldehyde-lyases
 D      4.1.2.2  ketotetrose-phosphate aldolase
 D      4.1.2.4  deoxyribose-phosphate aldolase
@@ -13593,6 +13577,9 @@ D      4.1.2.63  2-hydroxyacyl-CoA lyase
 E        K12261  HACL1; 2-hydroxyacyl-CoA lyase [EC:4.1.2.63]
 D      4.1.2.64  2-dehydro-3-deoxy-L-fuconate aldolase
 E        K26911  fucH; 2-dehydro-3-deoxy-L-fuconate aldolase [EC:4.1.2.64]
+D      4.1.2.65  ferulate hydratase/lyase
+E        K27598  VAN; vanillin synthease [EC:4.1.2.65]
+D      4.1.2.66  4-coumarate hydratase/lyase
 C    4.1.3  Oxo-acid-lyases
 D      4.1.3.1  isocitrate lyase
 E        K01637  E4.1.3.1, aceA; isocitrate lyase [EC:4.1.3.1]
@@ -13698,6 +13685,8 @@ D      4.1.99.27  cyclopenase
 E        K26348  ASQI, ASQO; cyckopenase [EC:4.1.99.27]
 D      4.1.99.28  3'-dehydrocarminate deglycosidase
 E        K26912  carB; 3'-dehydrocarminate deglycosidase [EC:4.1.99.28]
+D      4.1.99.29  5,8-dihydroxy-2-naphthoate synthase
+E        K11785  mqnD; 5,8-dihydroxy-2-naphthoate synthase [EC:4.1.99.29]
 B  4.2  Carbon-oxygen lyases
 C    4.2.1  Hydro-lyases
 D      4.2.1.1  carbonic anhydrase
@@ -13737,7 +13726,8 @@ E        K03786  aroQ, qutE; 3-dehydroquinate dehydratase II [EC:4.2.1.10]
 E        K13830  ARO1; pentafunctional AROM polypeptide [EC:4.2.3.4 4.2.1.10 1.1.1.25 2.7.1.71 2.5.1.19]
 E        K13832  aroDE, DHQ-SDH; 3-dehydroquinate dehydratase / shikimate dehydrogenase [EC:4.2.1.10 1.1.1.25]
 D      4.2.1.11  phosphopyruvate hydratase
-E        K01689  ENO, eno; enolase [EC:4.2.1.11]
+E        K01689  ENO1_2_3, eno; enolase 1/2/3 [EC:4.2.1.11]
+E        K27394  ENO4; enolase 4 [EC:4.2.1.11]
 D      4.2.1.12  phosphogluconate dehydratase
 E        K01690  edd; phosphogluconate dehydratase [EC:4.2.1.12]
 D      4.2.1.17  enoyl-CoA hydratase
@@ -13861,8 +13851,6 @@ E        K12450  RHM; UDP-glucose 4,6-dehydratase [EC:4.2.1.76]
 D      4.2.1.77  trans-L-3-hydroxyproline dehydratase
 E        K18384  L3HYPDH; trans-L-3-hydroxyproline dehydratase [EC:4.2.1.77]
 E        K22548  lhpL; trans-L-3-hydroxyproline dehydratase [EC:4.2.1.77]
-D      4.2.1.78  (S)-norcoclaurine synthase
-E        K13382  NCS; (S)-norcoclaurine synthase [EC:4.2.1.78]
 D      4.2.1.79  2-methylcitrate dehydratase
 E        K01720  prpD; 2-methylcitrate dehydratase [EC:4.2.1.79]
 D      4.2.1.80  2-oxopent-4-enoate hydratase
@@ -13891,7 +13879,7 @@ D      4.2.1.91  arogenate dehydratase
 E        K01713  pheC; cyclohexadienyl dehydratase [EC:4.2.1.51 4.2.1.91]
 E        K05359  ADT, PDT; arogenate/prephenate dehydratase [EC:4.2.1.91 4.2.1.51]
 D      4.2.1.92  hydroperoxide dehydratase
-E        K01723  AOS; hydroperoxide dehydratase [EC:4.2.1.92]
+E        K01723  AOS, CYP74A; hydroperoxide dehydratase [EC:4.2.1.92]
 D      4.2.1.93  ATP-dependent NAD(P)H-hydrate dehydratase
 E        K17757  CARKD; ATP-dependent NAD(P)H-hydrate dehydratase [EC:4.2.1.93]
 D      4.2.1.94  scytalone dehydratase
@@ -14081,6 +14069,9 @@ E        K15312  pksH, curE, aprF, corF; 3-carboxymethyl-3-hydroxy-acyl-[acp] de
 D      4.2.1.182  phosphomevalonate dehydratase
 E        K09128  acnX2; phosphomecalonate degydratase small subunit [EC:4.2.1.182]
 E        K25517  acnX1; phosphomecalonate degydratase large subunit [EC:4.2.1.182]
+D      4.2.1.183  etheroleic acid synthase
+E        K27599  DES; etheroleic acid synthase [EC:4.2.1.183]
+E        K27600  CYP74M3; etheroleic acid synthase [EC:4.2.1.183]
 C    4.2.2  Acting on polysaccharides
 D      4.2.2.1  hyaluronate lyase
 E        K01727  hysA, hylA, hylB; hyaluronate lyase [EC:4.2.2.1]
@@ -14132,7 +14123,7 @@ E        K20610  E4.2.2.25; gellan lyase [EC:4.2.2.25]
 D      4.2.2.26  oligo-alginate lyase
 E        K20525  alg17C; oligo-alginate lyase [EC:4.2.2.26]
 D      4.2.2.27  pectin monosaccharide-lyase
-D      4.2.2.28  alpha-L-rhamnosyl-(1->4)-beta-D-glucuronate lyase
+D      4.2.2.28  alpha-L-rhamnosyl-(1->4)-D-glucuronate lyase
 E        K26349  FORHAM; alpha-L-rhamnosyl-(1->4)-beta-D-glucuronate lyase [EC:4.2.2.28]
 D      4.2.2.29  peptidoglycan lytic transglycosylase
 E        K03642  rlpA; peptidoglycan lytic transglycosylase [EC:4.2.2.29]
@@ -14190,6 +14181,7 @@ E        K12927  AG22; abietadiene/neoabietadiene/copalyl diphosphate synthase [
 D      4.2.3.19  ent-kaurene synthase
 E        K04121  E4.2.3.19; ent-kaurene synthase [EC:4.2.3.19]
 E        K20657  CPS-KS; ent-copalyl diphosphate/ent-kaurene synthase [EC:5.5.1.13 4.2.3.19]
+E        K27636  CPS-KS; ent-copalyl diphosphate/ent-kaurene/ent-beyerene synthase [EC:5.5.1.13 4.2.3.19 4.2.3.229]
 D      4.2.3.20  (R)-limonene synthase
 E        K15096  E4.2.3.20; (R)-limonene synthase [EC:4.2.3.20]
 D      4.2.3.21  vetispiradiene synthase
@@ -14279,7 +14271,7 @@ E        K15796  TPS3; (E)-gamma-bisabolene synthase [EC:4.2.3.59]
 D      4.2.3.60  germacrene C synthase
 E        K15802  SSTLE1; germacrene C synthase [EC:4.2.3.60]
 D      4.2.3.61  5-epiaristolochene synthase
-E        K15804  EAS; 5-epiaristolochene synthase [EC:4.2.3.61]
+E        K15804  EAS; 5-epiaristolochene/(+)-2-epi-prezizaene/(-)-alpha-cedrene synthase [EC:4.2.3.61 4.2.3.226 4.2.3.227]
 D      4.2.3.62  (-)-gamma-cadinene synthase [(2Z,6E)-farnesyl diphosphate cyclizing]
 D      4.2.3.63  (+)-cubenene synthase
 D      4.2.3.64  (+)-epicubenol synthase
@@ -14578,6 +14570,27 @@ E        K27204  stsC; somaliensene A/B synthase [EC:4.2.3.216 4.2.3.217]
 D      4.2.3.218  variediene synthase
 E        K27205  VS; variediene synthase [EC:4.2.3.218]
 D      4.2.3.219  (2E)-alpha-cericerene synthase
+D      4.2.3.220  talaropentaene synthase
+E        K27606  K27606; hexaprenyl diphosphate synthase / talaropentaene synthase [EC:2.5.1.158 4.2.3.220]
+D      4.2.3.221  macrophomene synthase
+E        K27607  K27607; hexaprenyl diphosphate synthase / macrophomene synthase [EC:2.5.1.158 4.2.3.221]
+D      4.2.3.222  phomopsene synthase
+E        K27608  PS; phomopsene synthease [EC:4.2.3.222]
+E        K27609  E4.2.3.222; phomopsene synthease [EC:4.2.3.222]
+D      4.2.3.223  bonnadiene synthase
+E        K27610  bds; bonnadiene synthase [EC:4.2.3.223]
+D      4.2.3.224  allokutznerene synthase
+D      4.2.3.225  cattleyene synthase
+E        K27619  E4.2.3.225; cattleyene synthease [EC:4.2.3.225]
+D      4.2.3.226  (+)-2-epi-prezizaene synthase
+E        K15804  EAS; 5-epiaristolochene/(+)-2-epi-prezizaene/(-)-alpha-cedrene synthase [EC:4.2.3.61 4.2.3.226 4.2.3.227]
+D      4.2.3.227  (-)-alpha-cedrene synthase
+E        K15804  EAS; 5-epiaristolochene/(+)-2-epi-prezizaene/(-)-alpha-cedrene synthase [EC:4.2.3.61 4.2.3.226 4.2.3.227]
+D      4.2.3.228  (Z)-beta-ocimene synthase
+E        K27620  TPS13; (Z)-beta-ocimene synthase [EC:4.2.3.228]
+D      4.2.3.229  ent-beyerene synthase
+E        K27636  CPS-KS; ent-copalyl diphosphate/ent-kaurene/ent-beyerene synthase [EC:5.5.1.13 4.2.3.19 4.2.3.229]
+E        K27637  KSL2; ent-beyerene synthase [EC:4.2.3.229]
 C    4.2.99  Other carbon-oxygen lyases
 D      4.2.99.12  carboxymethyloxysuccinate lyase
 D      4.2.99.18  DNA-(apurinic or apyrimidinic site) lyase
@@ -14692,10 +14705,6 @@ D      4.3.2.11  (3R)-3-[(carboxylmethyl)amino]fatty acid synthase
 E        K26055  scoD, mmaD; (3R)-3-[(carboxylmethyl)amino]fatty acid synthase [EC:4.3.2.11]
 C    4.3.3  Amine-lyases
 D      4.3.3.1  3-ketovalidoxylamine C-N-lyase
-D      4.3.3.2  strictosidine synthase
-E        K01757  STR1; strictosidine synthase [EC:4.3.3.2]
-D      4.3.3.3  deacetylisoipecoside synthase
-D      4.3.3.4  deacetylipecoside synthase
 D      4.3.3.5  4'-demethylrebeccamycin synthase
 E        K19888  rebG; 4'-demethylrebeccamycin synthase [EC:4.3.3.5]
 D      4.3.3.6  pyridoxal 5'-phosphate synthase (glutamine hydrolysing)
@@ -14830,7 +14839,9 @@ E        K12322  GUCY2F; guanylate cyclase 2F [EC:4.6.1.2]
 E        K12323  ANPRA, NPR1; atrial natriuretic peptide receptor A [EC:4.6.1.2]
 E        K12324  ANPRB, NPR2; atrial natriuretic peptide receptor B [EC:4.6.1.2]
 E        K22600  GUCY2G; guanylate cyclase 2G [EC:4.6.1.2]
+E        K27625  PSKR1; phytosulfokine receptor 1 [EC:2.7.11.1 4.6.1.2]
 D      4.6.1.6  cytidylate cyclase
+E        K27604  pycC; cytidylate cyclase [EC:4.6.1.6]
 D      4.6.1.12  2-C-methyl-D-erythritol 2,4-cyclodiphosphate synthase
 E        K01770  ispF; 2-C-methyl-D-erythritol 2,4-cyclodiphosphate synthase [EC:4.6.1.12]
 E        K12506  ispDF; 2-C-methyl-D-erythritol 4-phosphate cytidylyltransferase / 2-C-methyl-D-erythritol 2,4-cyclodiphosphate synthase [EC:2.7.7.60 4.6.1.12]
@@ -14863,6 +14874,7 @@ E        K01167  rnaSA; ribonuclease T1 [EC:4.6.1.24]
 D      4.6.1.25  bacteriophage T4 restriction endoribonuclease RegB
 E        K05345  regB; Straboviridae restriction endoribonuclease [EC:4.6.1.25]
 D      4.6.1.26  uridylate cyclase
+E        K27603  pycC; uridylate cyclase [EC:4.6.1.26]
 B  4.7  carbon-phosphorus lyases
 C    4.7.1  carbon-phosphorus lyases (only sub-subclass identified to date)
 D      4.7.1.1  alpha-D-ribose 1-methylphosphonate 5-phosphate C-P-lyase
@@ -15586,6 +15598,7 @@ E        K20514  DC1; phyllocladan-16alpha-ol/copalyl diphosphate synthase [EC:4
 D      5.5.1.13  ent-copalyl diphosphate synthase
 E        K04120  E5.5.1.13; ent-copalyl diphosphate synthase [EC:5.5.1.13]
 E        K20657  CPS-KS; ent-copalyl diphosphate/ent-kaurene synthase [EC:5.5.1.13 4.2.3.19]
+E        K27636  CPS-KS; ent-copalyl diphosphate/ent-kaurene/ent-beyerene synthase [EC:5.5.1.13 4.2.3.19 4.2.3.229]
 D      5.5.1.14  syn-copalyl-diphosphate synthase
 E        K12928  K12928, ACS; aphidicolan-16beta-ol synthase/syn-copalyl-diphosphate synthase [EC:4.2.3.42 5.5.1.14]
 E        K14043  CPS4; syn-copalyl-diphosphate synthase [EC:5.5.1.14]
@@ -15623,16 +15636,18 @@ E        K22931  E5.5.1.29; (+)-kolavenyl diphosphate synthase [EC:5.5.1.29]
 D      5.5.1.30  labda-7,13-dienyl diphosphate synthase
 E        K03463  E5.5.1.30; labda-7,13-dienyl diphosphate synthase [EC:5.5.1.30]
 D      5.5.1.31  hapalindole H synthase
-E        K22971  K22971; hapalindole H/12-epi-hapalindole U/12-epi-fischerindole U synthase [EC:5.5.1.31 5.5.1.32 5.5.1.33]
+E        K22971  K22971; hapalindole H/12-epi-hapalindole U/12-epi-fischerindole U/hapalindole U synthase [EC:5.5.1.31 5.5.1.32 5.5.1.33 5.5.1.36]
 D      5.5.1.32  12-epi-hapalindole U synthase
-E        K22971  K22971; hapalindole H/12-epi-hapalindole U/12-epi-fischerindole U synthase [EC:5.5.1.31 5.5.1.32 5.5.1.33]
+E        K22971  K22971; hapalindole H/12-epi-hapalindole U/12-epi-fischerindole U/hapalindole U synthase [EC:5.5.1.31 5.5.1.32 5.5.1.33 5.5.1.36]
 D      5.5.1.33  12-epi-fischerindole U synthase
-E        K22971  K22971; hapalindole H/12-epi-hapalindole U/12-epi-fischerindole U synthase [EC:5.5.1.31 5.5.1.32 5.5.1.33]
+E        K22971  K22971; hapalindole H/12-epi-hapalindole U/12-epi-fischerindole U/hapalindole U synthase [EC:5.5.1.31 5.5.1.32 5.5.1.33 5.5.1.36]
 D      5.5.1.34  (+)-cis,trans-nepetalactol synthase
 E        K23862  NEPS2; (+)-cis,trans-nepetalactol synthase [EC:5.5.1.34]
 E        K23990  NEPS1; nepetalactol dehydrogenase / (+)-cis,trans-nepetalactol synthase [EC:1.1.1.419 5.5.1.34]
 D      5.5.1.35  (+)-cis,cis-nepetalactol synthase
 E        K01861  NEPS3; (+)-cis,cis-nepetalactol synthase [EC:5.5.1.35]
+D      5.5.1.36  hapalindole U synthase
+E        K22971  K22971; hapalindole H/12-epi-hapalindole U/12-epi-fischerindole U/hapalindole U synthase [EC:5.5.1.31 5.5.1.32 5.5.1.33 5.5.1.36]
 B  5.6  Isomerases altering macromolecular conformation
 C    5.6.1  Enzymes altering polypeptide conformation or assembly
 D      5.6.1.1  microtubule-severing ATPase
@@ -15678,23 +15693,23 @@ E        K02540  MCM2; DNA replication licensing factor MCM2 [EC:5.6.2.3]
 E        K02541  MCM3; DNA replication licensing factor MCM3 [EC:5.6.2.3]
 E        K02542  MCM6; DNA replication licensing factor MCM6 [EC:5.6.2.3]
 E        K03722  dinG; ATP-dependent DNA helicase DinG [EC:5.6.2.3]
+E        K10706  SETX, ALS4, SEN1; ATP-dependent RNA/DNA helicase, senataxin [EC:5.6.2.5 5.6.2.3]
 E        K10726  mcm; replicative DNA helicase Mcm [EC:5.6.2.3]
 E        K10742  DNA2; DNA replication ATP-dependent helicase/nuclease Dna2 [EC:5.6.2.3 3.1.-.-]
 E        K10844  ERCC2, XPD; DNA excision repair protein ERCC-2 [EC:5.6.2.3]
 E        K11136  RTEL1; regulator of telomere elongation helicase 1 [EC:5.6.2.3]
 E        K11338  RUVBL2, RVB2, INO80J; RuvB-like protein 2 [EC:5.6.2.3]
-E        K14326  UPF1, RENT1; regulator of nonsense transcripts 1 [EC:3.6.4.13 5.6.2.3]
+E        K14326  UPF1, RENT1; regulator of nonsense transcripts 1 [EC:5.6.2.5 5.6.2.3]
 E        K15254  HELB; DNA helicase B [EC:5.6.2.3]
 E        K15255  PIF1; ATP-dependent DNA helicase PIF1 [EC:5.6.2.3]
 E        K15362  BRIP1, BACH1, FANCJ; fanconi anemia group J protein [EC:5.6.2.3]
-E        K17265  G3BP1; Ras GTPase-activating protein-binding protein 1 [EC:5.6.2.3 3.6.4.13]
+E        K17265  G3BP1; Ras GTPase-activating protein-binding protein 1 [EC:5.6.2.5 5.6.2.3]
 E        K17680  PEO1; twinkle protein [EC:5.6.2.3]
 E        K18947  gp41; Straboviridae DNA replication helicase [EC:5.6.2.3]
-E        K19036  IGHMBP2; ATP-dependent RNA/DNA helicase IGHMBP2 [EC:3.6.4.13 5.6.2.3]
+E        K19036  IGHMBP2; ATP-dependent RNA/DNA helicase IGHMBP2 [EC:5.6.2.5 5.6.2.3]
 E        K19783  HCS1; DNA polymerase alpha-associated DNA helicase A [EC:5.6.2.3]
 E        K21499  dda; Straboviridae ATP-dependent DNA helicase [EC:5.6.2.3]
 E        K21502  gp4; Autographiviridae DNA primase/helicase [EC:2.7.7.- 5.6.2.3]
-E        K25022  nsp13; SARS coronavirus helicase [EC:5.6.2.3 3.6.4.13]
 E        K25237  UL5, HELI; Simplexvirus DNA replication helicase [EC:5.6.2.3]
 D      5.6.2.4  DNA 3'-5' helicase
 E        K03551  ruvB; holliday junction DNA helicase RuvB [EC:5.6.2.4]
@@ -15704,7 +15719,7 @@ E        K03656  rep; ATP-dependent DNA helicase Rep [EC:5.6.2.4]
 E        K03657  uvrD, pcrA; ATP-dependent DNA helicase UvrD/PcrA [EC:5.6.2.4]
 E        K03658  helD; DNA helicase IV [EC:5.6.2.4]
 E        K03723  mfd; transcription-repair coupling factor (superfamily II helicase) [EC:5.6.2.4]
-E        K03724  lhr; ATP-dependent helicase Lhr and Lhr-like helicase [EC:3.6.4.13 5.6.2.4]
+E        K03724  lhr; ATP-dependent helicase Lhr and Lhr-like helicase [EC:5.6.2.6 5.6.2.4]
 E        K03726  helS; ATP-dependent DNA helicase [EC:5.6.2.4]
 E        K04066  priA; primosomal protein N' (replication factor Y) (superfamily II helicase) [EC:5.6.2.4]
 E        K04499  RUVBL1, RVB1, INO80H; RuvB-like protein 1 [EC:5.6.2.4]
@@ -15718,6 +15733,7 @@ E        K10899  RECQL; ATP-dependent DNA helicase Q1 [EC:5.6.2.4]
 E        K10900  WRN, RECQL2; werner syndrome ATP-dependent helicase [EC:5.6.2.4]
 E        K10901  BLM, RECQL3, SGS1; bloom syndrome protein [EC:5.6.2.4]
 E        K10902  RECQL5; ATP-dependent DNA helicase Q5 [EC:5.6.2.4]
+E        K13184  DHX9; ATP-dependent RNA/DNA helicase DHX9 [EC:5.6.2.6 5.6.2.4]
 E        K14635  MPH1; ATP-dependent DNA helicase MPH1 [EC:5.6.2.4]
 E        K15271  HFM1, MER3; ATP-dependent DNA helicase HFM1/MER3 [EC:5.6.2.4]
 E        K16898  addA; ATP-dependent helicase/nuclease subunit A [EC:5.6.2.4 3.1.-.-]
@@ -15728,6 +15744,102 @@ E        K19178  HELQ; POLQ-like helicase [EC:5.6.2.4]
 E        K19483  NAV2; neuron navigator 2 [EC:5.6.2.4]
 E        K19781  HMI1; ATP-dependent DNA helicase HMI1, mitochondrial [EC:5.6.2.4]
 E        K21519  A18R; Poxviridae transcript termination protein [EC:5.6.2.4]
+D      5.6.2.5  RNA 5'-3' helicase
+E        K10706  SETX, ALS4, SEN1; ATP-dependent RNA/DNA helicase, senataxin [EC:5.6.2.5 5.6.2.3]
+E        K11701  HRR1; helicase required for RNAi-mediated heterochromatin assembly 1 [EC:5.6.2.5]
+E        K13983  MOV10L1; RNA helicase MOV10L1 [EC:5.6.2.5]
+E        K14326  UPF1, RENT1; regulator of nonsense transcripts 1 [EC:5.6.2.5 5.6.2.3]
+E        K17265  G3BP1; Ras GTPase-activating protein-binding protein 1 [EC:5.6.2.5 5.6.2.3]
+E        K18408  TDRD9; ATP-dependent RNA helicase TDRD9 [EC:5.6.2.5]
+E        K18409  TDRD12; ATP-dependent RNA helicase TDRD12 [EC:5.6.2.5]
+E        K18422  MOV10; helicase MOV-10 [EC:5.6.2.5]
+E        K19036  IGHMBP2; ATP-dependent RNA/DNA helicase IGHMBP2 [EC:5.6.2.5 5.6.2.3]
+E        K25022  nsp13; SARS coronavirus helicase [EC:5.6.2.5]
+E        K26394  RdRp; Alphatetraviridae methyltransferase/helicase/RNA-directed RNA polymerase [EC:2.1.1.- 2.7.7.48 5.6.2.5]
+D      5.6.2.6  RNA 3'-5' helicase
+E        K03578  hrpA; ATP-dependent RNA helicase HrpA [EC:5.6.2.6]
+E        K03579  hrpB; ATP-dependent RNA helicase HrpB [EC:5.6.2.6]
+E        K03724  lhr; ATP-dependent helicase Lhr and Lhr-like helicase [EC:5.6.2.6 5.6.2.4]
+E        K03727  helY; ATP-dependent RNA helicase HelY [EC:5.6.2.6]
+E        K05591  dbpA; ATP-dependent RNA helicase DbpA [EC:5.6.2.6]
+E        K12598  MTR4, SKIV2L2; ATP-dependent RNA helicase DOB1 [EC:5.6.2.6]
+E        K12599  SKI2, SKIV2L; antiviral helicase SKI2 [EC:5.6.2.6]
+E        K12646  RIGI, DDX58; ATP-dependent RNA helicase DDX58 [EC:5.6.2.6]
+E        K12647  IFIH1, MDA5; interferon-induced helicase C domain-containing protein 1 [EC:5.6.2.6]
+E        K12649  DHX58, LGP2; ATP-dependent RNA helicase DHX58 [EC:5.6.2.6]
+E        K12813  DHX16; pre-mRNA-splicing factor ATP-dependent RNA helicase DHX16 [EC:5.6.2.6]
+E        K12814  PRP2; pre-mRNA-splicing factor ATP-dependent RNA helicase-like protein PRP2 [EC:5.6.2.6]
+E        K12815  DHX38, PRP16; pre-mRNA-splicing factor ATP-dependent RNA helicase DHX38/PRP16 [EC:5.6.2.6]
+E        K12818  DHX8, PRP22; ATP-dependent RNA helicase DHX8/PRP22 [EC:5.6.2.6]
+E        K12820  DHX15, PRP43; pre-mRNA-splicing factor ATP-dependent RNA helicase DHX15/PRP43 [EC:5.6.2.6]
+E        K12854  SNRNP200, BRR2; pre-mRNA-splicing helicase BRR2 [EC:5.6.2.6]
+E        K13026  DHX57; ATP-dependent RNA helicase DHX57 [EC:5.6.2.6]
+E        K13117  DHX35; ATP-dependent RNA helicase DDX35 [EC:5.6.2.6]
+E        K13184  DHX9; ATP-dependent RNA/DNA helicase DHX9 [EC:5.6.2.6 5.6.2.4]
+E        K13185  DHX30; ATP-dependent RNA helicase DHX30 [EC:5.6.2.6]
+E        K14442  DHX36, RHAU; ATP-dependent RNA helicase DHX36 [EC:5.6.2.6]
+E        K14780  DHX37, DHR1; ATP-dependent RNA helicase DHX37/DHR1 [EC:5.6.2.6]
+E        K14781  DHR2; ATP-dependent RNA helicase DHR2 [EC:5.6.2.6]
+E        K17675  SUPV3L1, SUV3; ATP-dependent RNA helicase SUPV3L1/SUV3 [EC:5.6.2.6]
+E        K17820  DHX33; ATP-dependent RNA helicase DHX33 [EC:5.6.2.6]
+E        K18664  SLH1; antiviral helicase SLH1 [EC:5.6.2.6]
+E        K18711  DHX40; ATP-dependent RNA helicase DHX40 [EC:5.6.2.6]
+E        K18994  DHX32; pre-mRNA-splicing factor ATP-dependent RNA helicase DHX32 [EC:5.6.2.6]
+E        K18995  DHX29; ATP-dependent RNA helicase DHX29 [EC:5.6.2.6]
+E        K20099  YTHDC2; ATP-dependent RNA helicase YTHDC2 [EC:5.6.2.6]
+E        K20101  DHX34; ATP-dependent RNA helicase DHX34 [EC:5.6.2.6]
+E        K21505  NPH2; Poxviridae RNA helicase NPH-II [EC:5.6.2.6]
+E        K22273  NS3; Hepatitis C virus serine protease / helicase NS3 [EC:3.4.21.98 3.6.1.15 5.6.2.6]
+E        K25165  HELZ2; 3'-5' exoribonuclease HELZ2 [EC:3.1.13.1 5.6.2.6]
+E        K25328  NS3; Flavivirus serine protease NS3 catalytic subunit [EC:3.4.21.91 3.6.1.15 5.6.2.6]
+E        K26077  ISE2, EMB25; ATP-dependent RNA helicase ISE2 [EC:5.6.2.6]
+E        K26798  NS3; Bovine viral diarrhea virus 1 serine protease NS3 [EC:3.4.21.113 3.6.1.15 5.6.2.6]
+D      5.6.2.7  DEAD-box RNA helicase
+E        K03732  rhlB; ATP-dependent RNA helicase RhlB [EC:5.6.2.7]
+E        K05590  srmB; ATP-dependent RNA helicase SrmB [EC:5.6.2.7]
+E        K05592  deaD, cshA; ATP-dependent RNA helicase DeaD [EC:5.6.2.7]
+E        K11273  DDX11, CHL1, CTF1; chromosome transmission fidelity protein 1 [EC:5.6.2.7]
+E        K11594  DDX3X, bel; ATP-dependent RNA helicase DDX3X [EC:5.6.2.7]
+E        K11927  rhlE; ATP-dependent RNA helicase RhlE [EC:5.6.2.7]
+E        K12614  DDX6, RCK, DHH1; ATP-dependent RNA helicase DDX6/DHH1 [EC:5.6.2.7]
+E        K12811  DDX46, PRP5; ATP-dependent RNA helicase DDX46/PRP5 [EC:5.6.2.7]
+E        K12812  DDX39B, UAP56, SUB2; ATP-dependent RNA helicase UAP56/SUB2 [EC:5.6.2.7]
+E        K12823  DDX5, DBP2; ATP-dependent RNA helicase DDX5/DBP2 [EC:5.6.2.7]
+E        K12835  DDX42, SF3B125; ATP-dependent RNA helicase DDX42 [EC:5.6.2.7]
+E        K12858  DDX23, PRP28; ATP-dependent RNA helicase DDX23/PRP28 [EC:5.6.2.7]
+E        K13025  EIF4A3, FAL1; ATP-dependent RNA helicase [EC:5.6.2.7]
+E        K13116  DDX41, ABS; ATP-dependent RNA helicase DDX41 [EC:5.6.2.7]
+E        K13131  DDX20, GEMIN3; ATP-dependent RNA helicase DDX20 [EC:5.6.2.7]
+E        K13177  DDX1; ATP-dependent RNA helicase DDX1 [EC:5.6.2.7]
+E        K13178  DDX17; ATP-dependent RNA helicase DDX17 [EC:5.6.2.7]
+E        K13179  DDX18, HAS1; ATP-dependent RNA helicase DDX18/HAS1 [EC:5.6.2.7]
+E        K13181  DDX27, DRS1; ATP-dependent RNA helicase DDX27 [EC:5.6.2.7]
+E        K13182  DDX39; ATP-dependent RNA helicase DDX39 [EC:5.6.2.7]
+E        K13183  DDX50; ATP-dependent RNA helicase DDX50 [EC:5.6.2.7]
+E        K13982  DDX4, VASA; probable ATP-dependent RNA helicase DDX4 [EC:5.6.2.7]
+E        K14776  DDX10, DBP4; ATP-dependent RNA helicase DDX10/DBP4 [EC:5.6.2.7]
+E        K14777  DDX47, RRP3; ATP-dependent RNA helicase DDX47/RRP3 [EC:5.6.2.7]
+E        K14778  DDX49, DBP8; ATP-dependent RNA helicase DDX49/DBP8 [EC:5.6.2.7]
+E        K14779  DDX52, ROK1; ATP-dependent RNA helicase DDX52/ROK1 [EC:5.6.2.7]
+E        K14805  DDX24, MAK5; ATP-dependent RNA helicase DDX24/MAK5 [EC:5.6.2.7]
+E        K14806  DDX31, DBP7; ATP-dependent RNA helicase DDX31/DBP7 [EC:5.6.2.7]
+E        K14807  DDX51, DBP6; ATP-dependent RNA helicase DDX51/DBP6 [EC:5.6.2.7]
+E        K14808  DDX54, DBP10; ATP-dependent RNA helicase DDX54/DBP10 [EC:5.6.2.7]
+E        K14809  DDX55, SPB4; ATP-dependent RNA helicase DDX55/SPB4 [EC:5.6.2.7]
+E        K14810  DDX56, DBP9; ATP-dependent RNA helicase DDX56/DBP9 [EC:5.6.2.7]
+E        K14811  DBP3; ATP-dependent RNA helicase DBP3 [EC:5.6.2.7]
+E        K16911  DDX21; ATP-dependent RNA helicase DDX21 [EC:5.6.2.7]
+E        K17043  DDX43; ATP-dependent RNA helicase DDX43 [EC:5.6.2.7]
+E        K17642  DDX3Y; ATP-dependent RNA helicase DDX3Y [EC:5.6.2.7]
+E        K17678  MRH4; ATP-dependent RNA helicase MRH4, mitochondrial [EC:5.6.2.7]
+E        K17679  MSS116; ATP-dependent RNA helicase MSS116, mitochondrial [EC:5.6.2.7]
+E        K18655  DDX19, DBP5; ATP-dependent RNA helicase DDX19/DBP5 [EC:5.6.2.7]
+E        K18656  DDX25, GRTH; ATP-dependent RNA helicase DDX25 [EC:5.6.2.7]
+E        K18692  cshB; ATP-dependent RNA helicase CshB [EC:5.6.2.7]
+E        K19466  DDX59; ATP-dependent RNA helicase DDX59 [EC:5.6.2.7]
+E        K20096  DDX28; ATP-dependent RNA helicase DDX28 [EC:5.6.2.7]
+E        K20103  DDX60; ATP-dependent RNA helicase DDX60 [EC:5.6.2.7]
+E        K21869  DDX53, CAGE; ATP-dependent RNA helicase DDX53 [EC:5.6.2.7]
 B  5.99  Other isomerases
 C    5.99.1  Sole sub-subclass for isomerases that do not belong in the other subclasses
 D      5.99.1.1  thiocyanate isomerase
@@ -16159,6 +16271,8 @@ E        K16603  TTLL9; tubulin polyglutamylase TTLL9 [EC:6.3.2.61]
 D      6.3.2.62  beta-tubulin-glutamate ligase
 E        K16583  TTLL7; tubulin polyglutamylase TTLL7 [EC:6.3.2.62]
 E        K16601  TTLL4; tubulin polyglutamylase TTLL4 [EC:6.3.2.62]
+D      6.3.2.63  putrebactin synthase
+D      6.3.2.64  bisucaberin synthase
 C    6.3.3  Cyclo-ligases
 D      6.3.3.1  phosphoribosylformylglycinamidine cyclo-ligase
 E        K01933  purM; phosphoribosylformylglycinamidine cyclo-ligase [EC:6.3.3.1]
@@ -16192,7 +16306,7 @@ E        K01939  purA, ADSS; adenylosuccinate synthase [EC:6.3.4.4]
 D      6.3.4.5  argininosuccinate synthase
 E        K01940  argG, ASS1; argininosuccinate synthase [EC:6.3.4.5]
 D      6.3.4.6  urea carboxylase
-E        K01941  E6.3.4.6; urea carboxylase [EC:6.3.4.6]
+E        K01941  uca; urea carboxylase [EC:6.3.4.6]
 E        K14541  DUR1; urea carboxylase / allophanate hydrolase [EC:6.3.4.6 3.5.1.54]
 D      6.3.4.7  ribose-5-phosphate---ammonia ligase
 D      6.3.4.8  imidazoleacetate---phosphoribosyldiphosphate ligase
@@ -16301,8 +16415,8 @@ E        K19312  pccB; acetyl-CoA/propionyl-CoA carboxylase carboxyl transferase
 E        K22568  pccX; acetyl-CoA/propionyl-CoA carboxylase, PccX subunit [EC:6.4.1.2 6.4.1.3]
 D      6.4.1.3  propionyl-CoA carboxylase
 E        K01964  K01964; acetyl-CoA/propionyl-CoA carboxylase [EC:6.4.1.2 6.4.1.3]
-E        K01965  PCCA, pccA; propionyl-CoA carboxylase alpha chain [EC:6.4.1.3]
-E        K01966  PCCB, pccB; propionyl-CoA carboxylase beta chain [EC:6.4.1.3 2.1.3.15]
+E        K01965  PCCA, pccA; propionyl-CoA carboxylase alpha subunit [EC:6.4.1.3]
+E        K01966  PCCB, pccB; propionyl-CoA carboxylase beta subunit [EC:6.4.1.3 2.1.3.15]
 E        K11263  bccA, pccA, accA3; acetyl-CoA/propionyl-CoA carboxylase, biotin carboxylase, biotin carboxyl carrier protein [EC:6.4.1.2 6.4.1.3 6.3.4.14]
 E        K15036  K15036; acetyl-CoA/propionyl-CoA carboxylase [EC:6.4.1.2 6.4.1.3 2.1.3.15]
 E        K15052  K15052; propionyl-CoA carboxylase [EC:6.4.1.3 2.1.3.15]
@@ -16311,6 +16425,7 @@ E        K18603  K18603; acetyl-CoA/propionyl-CoA carboxylase [EC:6.4.1.2 6.4.1.
 E        K18604  K18604; acetyl-CoA/propionyl-CoA carboxylase [EC:6.4.1.2 6.4.1.3 2.1.3.15]
 E        K19312  pccB; acetyl-CoA/propionyl-CoA carboxylase carboxyl transferase subunit [EC:6.4.1.2 6.4.1.3 2.1.3.15]
 E        K22568  pccX; acetyl-CoA/propionyl-CoA carboxylase, PccX subunit [EC:6.4.1.2 6.4.1.3]
+E        K27094  accD5; propionyl-/long chain acyl-CoA carboxylase carboxyl transferase subunit beta 5 [EC:6.4.1.3 6.4.1.- 2.1.3.15]
 D      6.4.1.4  methylcrotonoyl-CoA carboxylase
 E        K01968  MCCC1, accA1; 3-methylcrotonyl-CoA carboxylase alpha subunit [EC:6.4.1.4]
 E        K01969  MCCC2, accD1; 3-methylcrotonyl-CoA carboxylase beta subunit [EC:6.4.1.4]
@@ -16507,6 +16622,15 @@ E        K08360  CYB561; transmembrane ascorbate-dependent reductase [EC:7.2.1.3
 E        K08370  CYBRD1, Dcytb; plasma membrane ascorbate-dependent reductase [EC:7.2.1.3]
 E        K08371  CYB561D2; transmembrane reductase [EC:7.2.1.3]
 E        K16295  CYB561A3, CYBASC3; lysosomal membrane ascorbate-dependent ferrireductase [EC:7.2.1.3]
+D      7.2.1.4  tetrahydromethanopterin S-methyltransferase
+E        K00577  mtrA; tetrahydromethanopterin S-methyltransferase subunit A [EC:7.2.1.4]
+E        K00578  mtrB; tetrahydromethanopterin S-methyltransferase subunit B [EC:7.2.1.4]
+E        K00579  mtrC; tetrahydromethanopterin S-methyltransferase subunit C [EC:7.2.1.4]
+E        K00580  mtrD; tetrahydromethanopterin S-methyltransferase subunit D [EC:7.2.1.4]
+E        K00581  mtrE; tetrahydromethanopterin S-methyltransferase subunit E [EC:7.2.1.4]
+E        K00582  mtrF; tetrahydromethanopterin S-methyltransferase subunit F [EC:7.2.1.4]
+E        K00583  mtrG; tetrahydromethanopterin S-methyltransferase subunit G [EC:7.2.1.4]
+E        K00584  mtrH; tetrahydromethanopterin S-methyltransferase subunit H [EC:7.2.1.4]
 C    7.2.2  Linked to the hydrolysis of a nucleoside triphosphate
 D      7.2.2.1  Na+-transporting two-sector ATPase
 E        K02111  ATPF1A, atpA; F-type H+/Na+-transporting ATPase subunit alpha [EC:7.1.2.2 7.2.2.1]
@@ -16724,5 +16848,5 @@ E        K11076  potG, spuF; putrescine transport system ATP-binding protein [EC
 !
 #<hr>
 #[ <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
-#Last updated: February 20, 2024
+#Last updated: June 6, 2024
 #<br>EC number data are obtained from <a href="http://www.enzyme-database.org">ExplorEnz</a>

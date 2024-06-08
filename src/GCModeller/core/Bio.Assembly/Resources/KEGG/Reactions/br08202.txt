@@ -207,6 +207,15 @@ D      R07136	C11537  (2R)-3-Sulfolactate	C05528  3-Sulfopyruvate
 B  1.1.1.348
 C    R11877	C21738  (4R)-4,2'-Dihydroxyisoflavan	C21739  (3R)-2'-Hydroxyisoflavanone
 D      R07737	C16187  7,2'-Dihydroxy-4'-methoxy-isoflavanol	C00786  (-)-Vestitone
+B  1.1.1.357
+C    R10422	C03072  3alpha-Hydroxysteroid	C01876  3-Oxosteroid
+D      R02476	C00523  Androsterone	C00674  5alpha-Androstane-3,17-dione
+D      R04330	C03852  Androstan-3alpha,17beta-diol	C03917  Dihydrotestosterone
+D      R13216	C22832  5alpha-Pregnane-3alpha,17alpha-diol-20-one	C22831  5alpha-Pregnan-17alpha-ol-3,20-dione
+C    R10423	C03072  3alpha-Hydroxysteroid	C01876  3-Oxosteroid
+D      R02477	C00523  Androsterone	C00674  5alpha-Androstane-3,17-dione
+D      R08963	C03852  Androstan-3alpha,17beta-diol	C03917  Dihydrotestosterone
+D      R13217	C22832  5alpha-Pregnane-3alpha,17alpha-diol-20-one	C22831  5alpha-Pregnan-17alpha-ol-3,20-dione
 B  1.1.1.359
 C    R10428	C20655  Aldopyranose	C20616  Aldono-1,5-lactone
 D      R08544	C00124  D-Galactose	C02669  D-Galactono-1,5-lactone
@@ -471,6 +480,9 @@ B  1.3.3.6
 C    R00388	C00040  Acyl-CoA	C00658  trans-2,3-Dehydroacyl-CoA
 D      R07934	C16168  (6Z,9Z,12Z,15Z,18Z,21Z)-Tetracosahexaenoyl-CoA	C16374  (2E,6Z,9Z,12Z,15Z,18Z,21Z)-Tetracosaheptaenoyl-CoA
 D      R07950	C16172  (6Z,9Z,12Z,15Z,18Z)-Tetracosapentaenoyl-CoA	C16387  (2E,6Z,9Z,12Z,15Z,18Z)-Tetracosahexaenoyl-CoA
+B  1.3.5.1
+C    R02164	C15602  Quinone	C15603  Hydroquinone
+D      R13223	C00399  Ubiquinone	C00390  Ubiquinol
 B  1.3.8.1
 C    R01178	C20675  Short-chain acyl-CoA	C20676  Short-chain trans-2,3-dehydroacyl-CoA	C04253  Electron-transferring flavoprotein	C04570  Reduced electron-transferring flavoprotein
 D      R01175	C00136  Butanoyl-CoA	C00877  Crotonoyl-CoA	C00016  FAD	C01352  FADH2
@@ -1003,7 +1015,7 @@ D      R06190	G00071  VI2Fuc-nLc6
 D      R13172	G00099  Globo-H	G13341  Globo-B
 B  2.4.1.38
 C    R04495	C04502  N-Acetyl-beta-D-glucosaminyl-glycopeptide	C04818  beta-D-Galactosyl-1,4-N-acetyl-beta-D-glucosaminylglycopeptide
-D      R05989
+D      R05989	G00016  Core fucose
 B  2.4.1.40
 C    R04423	C04648  alpha-L-Fucosyl-1,2-beta-D-galactoside	C06483  N-Acetyl-alpha-D-galactosaminyl-(1,3)-[alpha-L-fucosyl-(1,2)]-D-galactoside
 D      R06167	G00044  IV2Fuc-Lc4Cer	G00042  Type IA glycolipid
@@ -1039,7 +1051,7 @@ D      R06156	G00037  Lc4Cer	G00044  IV2Fuc-Lc4Cer
 B  2.4.1.87
 C    R02791	C00694  beta-D-Galactosyl-(1->4)-N-acetyl-beta-D-glucosaminyl-R	C04855  alpha-D-Galactosyl-1,3-beta-D-galactosyl-1,4-N-acetyl-D-glucosaminyl-R
 D      R04531	C00611  N-Acetyllactosamine	C04847  alpha-D-Galactosyl-1,3-beta-D-galactosyl-1,4-N-acetyl-D-glucosamine
-D      R05978	G00050  Paragloboside	G00051  nLc5Cer
+D      R05978	G00050  Paragloboside	G00051  IV3Gala-nLc4-Cer
 D      R06145	G00246  N-Acetyllactosamine	G00304  Linear B type 2 trisaccharide
 D      R06169	G00037  Lc4Cer
 B  2.4.1.91
@@ -1160,7 +1172,7 @@ D      R10291	C08604  Cyanidin 3-O-glucoside	C20490  Cyanidin 3-O-beta-D-sambubi
 D      R10292	C12138  Delphinidin 3-O-glucoside	C20491  Delphinidin 3-O-beta-D-sambubioside
 B  2.4.3.2
 C    R11715	C16177  beta-D-Galactosyl-(1->3)-N-acetyl-beta-D-galactosaminyl-R	C15939  N-Acetyl-alpha-neuraminyl-(2->3)-beta-D-galactosyl-(1->3)-N-acetyl-beta-D-galactosaminyl-R
-D      R05957	G00124  GA1	G00125  GM1b
+D      R05957	G00124  Asialo-GM1	G00125  GM1b
 D      R05967	G00097  Galactosylgloboside	G00098  Monosialylgalactosylgloboside
 B  2.4.3.6
 C    R04596	C04791  beta-D-Galactosyl-1,4-N-acetyl-D-glucosaminyl-glycoprotein	C04907  alpha-N-Acetylneuraminyl-2,3-beta-D-galactosyl-1,4-N-acetyl-D-glucosaminyl-glycoprotein
@@ -1170,7 +1182,7 @@ D      R06037	G00067  nLc6Cer	G00088  VI3NeuAc-nLc6Cer
 D      R09297
 B  2.4.3.7
 C    R04635	C04885  alpha-N-Acetylneuraminyl-2,3-beta-D-galactosyl-1,3-N-acetyl-D-galactosaminyl-R	C04926  alpha-N-Acetylneuraminyl-2,3-beta-D-galactose-1,3-(alpha-N-acetylneuraminyl-2,6)-N-acetyl-D-galactosaminyl-R
-D      R05914
+D      R05914	G00026  Sialyl T antigen
 D      R05959	G00125  GM1b	G00127  GD1a
 B  2.4.3.8
 C    R04564	C04683  alpha-N-Acetylneuraminyl-2,3-beta-D-galactosyl-R	C04887  alpha-N-Acetylneuraminyl-2,8-alpha-N-acetylneuraminyl-2,3-beta-D-galactosyl-R
@@ -1481,9 +1493,6 @@ D      R01805	C06241  N-Acetylneuraminate 9-phosphate	C00270  N-Acetylneuraminat
 B  3.1.3.46
 C    R00763	C00085  D-Fructose 6-phosphate
 D      R02731	C05345  beta-D-Fructose 6-phosphate
-B  3.1.3.62
-C    R07584	C15991  myo-Inositol pentakisphosphate
-D      R07583	C15990  1L-myo-Inositol 1,2,3,4,6-pentakisphosphate
 B  3.1.3.89
 C    R10776	C00676  Deoxynucleoside 5'-phosphate	C02269  Deoxynucleoside
 D      R01569	C00364  dTMP	C00214  Thymidine
@@ -1854,8 +1863,15 @@ C    R04241	C03541  THF-polyglutamate	C03541  THF-polyglutamate
 D      R00942	C00101  Tetrahydrofolate	C09332  THF-L-glutamate
 #
 
+A<b>7. Translocase reactions</b>
+B  7.1.1.3
+C    R13247	C15603  Hydroquinone	C15602  Quinone
+D      R11335	C00390  Ubiquinol	C00399  Ubiquinone
+B  7.1.1.8
+C    R13224	C15603  Hydroquinone	C15602  Quinone
+D      R02161	C00390  Ubiquinol	C00399  Ubiquinone
 !
 #<hr>
 #[ <a href="/kegg/reaction/">REACTION</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
-#Last updated: November 26, 2023
+#Last updated: March 27, 2024
 #<br>Parent-child relationship of IUBMB reaction and other reactions with the same EC number

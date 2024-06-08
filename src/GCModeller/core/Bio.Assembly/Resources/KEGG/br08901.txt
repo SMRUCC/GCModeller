@@ -245,7 +245,7 @@ C    03262  Virion - Coronavirus
 C    03261  Virion - Influenza virus
 C    03263  Virion - Enterovirus
 C    03264  Virion - Flavivirus
-C    03265  Virion - Ebolavirus and Lyssavirus
+C    03265  Virion - Ebolavirus, Lyssavirus and Morbillivirus
 C    03266  Virion - Herpesvirus
 C    03268  Virion - Orthopoxvirus
 C    03267  Virion - Adenovirus
@@ -338,6 +338,7 @@ B  Cell motility
 C    02030  Bacterial chemotaxis
 C    02040  Flagellar assembly
 C    04814  Motor proteins
+C    04820  Cytoskeleton in muscle cells
 C    04810  Regulation of actin cytoskeleton
 #
 A<b>Organismal Systems</b>
@@ -402,6 +403,7 @@ C    04974  Protein digestion and absorption
 C    04975  Fat digestion and absorption
 C    04979  Cholesterol metabolism
 C    04977  Vitamin digestion and absorption
+C    04980  Cobalamin transport and metabolism
 C    04978  Mineral absorption
 B  Excretory system
 C    04962  Vasopressin-regulated water reabsorption
@@ -645,5 +647,5 @@ C    07114  Naphthalene family
 C    07117  Benzodiazepine family
 !
 #<hr>
-#Last updated: January 15, 2024
+#Last updated: May 28, 2024
 #<br><br><a href="/brite/jp08901">&raquo; Japanese version</a>
