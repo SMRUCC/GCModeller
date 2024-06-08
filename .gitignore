@@ -408,3 +408,5 @@ src/workbench/pkg/test/compounds.msgpack
 src/repository/graphquery/kegg/pipeline/package_updater/KEGG_maps.msgpack
 src/workbench/pkg/test/reactions.msgpack
 src/repository/graphquery/kegg/map_cache.db/3a/3af3eedc0daae064783a7f40040fd1a8.html
+src/repository/graphquery/kegg/pipeline/package_updater/compound_cache.db
+src/repository/graphquery/kegg/compound_cache.db/8d/8ddb6567dfba2825c6285c36a0c7b7aa.html
