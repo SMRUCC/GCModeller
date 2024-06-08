@@ -4,7 +4,7 @@ require(REnv);
 
 const cache_dir = `${@dir}/compound_cache.db`
 |> HDS::openStream(allowCreate = TRUE, meta_size = 32*1024*1024);
-const cache_fs = [cache_dir]::fs;
+const cache_fs = cache_dir;
 const url_templ as string = "https://www.kegg.jp/dbget-bin/www_bget?cpd:%s";
 
 options(http.cache_dir = cache_dir);
@@ -21,8 +21,13 @@ index = as.list(names(index), names = unlist(index));
 for(cid in tqdm(index)) {
     let keg_compound = kegg_api::kegg_compound(cid, cache = cache_dir);
     let cid_name = gsub(index[[cid]], "[\\/]", "_", regexp = TRUE);
-    let fs_filepath = `/compounds/${cid} - ${cid_name}.xml`;
+    let fs_filepath = `/compounds/${cid}.xml`;
+
+    # print(cache_fs);
+    # print(xml(keg_compound));
 
     HDS::writeText(cache_fs, fs_filepath, xml(keg_compound));
     HDS::flush(cache_fs);
+
+    sleep(3);
 }
