@@ -123,7 +123,7 @@ Public Module FileName
             End If
         Next
 
-        For Each node As ClusterKey(Of GraphSeed) In tree
+        For Each node As ClusterKey(Of GraphSeed) In tree.AsEnumerable
             If node.NumberOfKey > 2 Then
                 Yield New NamedCollection(Of GraphSeed)("", node.ToArray)
             End If
