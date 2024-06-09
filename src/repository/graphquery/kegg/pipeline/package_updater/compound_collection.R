@@ -18,7 +18,7 @@ str(index);
 
 # index = as.list(names(index), names = unlist(index));
 
-for(cid in names(index)) {
+for(cid in tqdm(names(index))) {
     let cid_name = gsub(index[[cid]], "[\\/]", "_", regexp = TRUE);
     let fs_filepath = `/compounds/${cid}.xml`;
 
@@ -31,6 +31,6 @@ for(cid in names(index)) {
         HDS::writeText(cache_fs, fs_filepath, xml(keg_compound));
         HDS::flush(cache_fs);
 
-        sleep(3);
+        sleep(1);
     }
 }

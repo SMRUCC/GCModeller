@@ -1,7 +1,27 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3CFBFC0F-2D65-4C44-B359-9ABC574D9560}|..\\..\\..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\reactionclassifier.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\html\\webquery.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\html\\webquery.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\html\\parsemap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\html\\parsemap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +29,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -18,6 +38,71 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ReactionClassifier.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\ReactionClassifier.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\ReactionClassifier.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\ReactionClassifier.vb",
+              "RelativeToolTip": "..\\..\\..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\ReactionClassifier.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEIAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-06-09T02:30:34.179Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ParseMap.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\ParseMap.vb",
+              "RelativeDocumentMoniker": "kegg_api\\Html\\ParseMap.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\ParseMap.vb",
+              "RelativeToolTip": "kegg_api\\Html\\ParseMap.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-06-09T02:04:26.084Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "WebQuery.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\WebQuery.vb",
+              "RelativeDocumentMoniker": "kegg_api\\Html\\WebQuery.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\WebQuery.vb",
+              "RelativeToolTip": "kegg_api\\Html\\WebQuery.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-06-09T02:04:24.859Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "zzz.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\zzz.vb",
+              "RelativeDocumentMoniker": "kegg_api\\zzz.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\zzz.vb",
+              "RelativeToolTip": "kegg_api\\zzz.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-06-09T02:04:22.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "parser.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\parser.vb",
+              "RelativeDocumentMoniker": "kegg_api\\parser.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\parser.vb",
+              "RelativeToolTip": "kegg_api\\parser.vb",
+              "ViewState": "AQIAAIsAAAAAAAAAAAAIwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-06-09T02:04:12.173Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
