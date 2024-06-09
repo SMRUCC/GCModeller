@@ -16,18 +16,21 @@ index = lapply(index, i -> i[2], names = i -> i[1]);
 
 str(index);
 
-index = as.list(names(index), names = unlist(index));
+# index = as.list(names(index), names = unlist(index));
 
-for(cid in tqdm(index)) {
-    let keg_compound = kegg_api::kegg_compound(cid, cache = cache_dir);
+for(cid in names(index)) {
     let cid_name = gsub(index[[cid]], "[\\/]", "_", regexp = TRUE);
     let fs_filepath = `/compounds/${cid}.xml`;
 
-    # print(cache_fs);
-    # print(xml(keg_compound));
+    if (!file.exists(fs_filepath, fs = cache_fs)) {
+        let keg_compound = kegg_api::kegg_compound(cid, cache = cache_dir);
 
-    HDS::writeText(cache_fs, fs_filepath, xml(keg_compound));
-    HDS::flush(cache_fs);
+        # print(cache_fs);
+        # print(xml(keg_compound));
 
-    sleep(3);
+        HDS::writeText(cache_fs, fs_filepath, xml(keg_compound));
+        HDS::flush(cache_fs);
+
+        sleep(3);
+    }
 }
