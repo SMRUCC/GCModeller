@@ -38,7 +38,7 @@ for(cid in tqdm(names(index))) {
         let xml_text = HDS::getText(cache_fs, fs_filepath);
         let data = loadXml(xml_text, typeof = "kegg_compound");
 
-        if ([data]::molWeight <= 0) {
+        if ([data]::formula == "") {
             let keg_compound = kegg_api::kegg_compound(cid, cache = cache_dir);
 
             # print(cache_fs);
