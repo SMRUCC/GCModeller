@@ -25,7 +25,7 @@ for(rxn in tqdm(as.list(index, byrow = TRUE))) {
     if (!file.exists(fs_filepath, fs = cache_dir)) {
         rxn = kegg_reaction(rid, cache_fs);
 
-        HDS::writeText(cache_dir, fs_filepath, xml(rxn));
+        HDS::writeText(cache_dir, fs_filepath, xml(rxn),allocate = FALSE);
         HDS::flush(cache_dir);
 
         sleep(1);
