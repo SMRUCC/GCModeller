@@ -105,8 +105,9 @@ declare namespace GCModeller {
    function kegg_colors(id: any, log2FC: any, up?: any, down?: any): object;
    /**
      * @param rawList default value Is ``false``.
+     * @param reference_set default value Is ``true``.
    */
-   function kegg_compounds(rawList?: any): object;
+   function kegg_compounds(rawList?: any, reference_set?: any): object;
    /**
      * @param map_id default value Is ``KEGG``.
      * @param pathway_links default value Is ``pathway_links``.

@@ -53,7 +53,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
@@ -64,7 +63,8 @@ Namespace ExportServices
 
     Public Module KEGG
 
-        <Extension> Public Function GetReactions(model As Level2.XmlFile, Optional nonEnzymes As Boolean = False) As bGetObject.Reaction()
+        <Extension>
+        Public Function GetReactions(model As Level2.XmlFile, Optional nonEnzymes As Boolean = False) As bGetObject.Reaction()
             Dim allCompounds = (From sp As Specie
                                 In model.Model.listOfSpecies.AsParallel
                                 Let cp As String = New SpeciesPropReader(sp.Notes).KEGG

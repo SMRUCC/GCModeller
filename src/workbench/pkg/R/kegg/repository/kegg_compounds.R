@@ -2,20 +2,31 @@ require(HDS);
 
 #' Load internal kegg compound repository
 #' 
-const kegg_compounds = function(rawList = FALSE) {
-    const reference_db = system.file("data/kegg/kegg.zip", package = "GCModeller");
-    
-    # get the database file stream
-    using file as HDS::openStream(
-            file = .readZipStream(zipfile = reference_db),
-            readonly = TRUE) {
+#' @param reference_set load the compound list which is the kegg pathway 
+#'   map associated. set this parameter value to FALSE for load full list 
+#'   of the kegg compounds.
+#' 
+const kegg_compounds = function(rawList = FALSE, reference_set = TRUE) {
+    if (reference_set) {
+        let reference_db = system.file("data/kegg/kegg.zip", package = "GCModeller");
+        
+        # get the database file stream
+        using file as HDS::openStream(
+                file = .readZipStream(zipfile = reference_db),
+                readonly = TRUE) {
 
-        if (rawList) {
-            __hds_compound_files(kegg_db = file);
-        } else {
-            # wrap a index object
-            repository::index(__hds_compound_files(kegg_db = file));
+            if (rawList) {
+                __hds_compound_files(kegg_db = file);
+            } else {
+                # wrap a index object
+                repository::index(__hds_compound_files(kegg_db = file));
+            }
         }
+    } else {
+        let reference_db = system.file("data/kegg/KEGG_compound.msgpack", package = "GCModeller");
+        let pack = readBin(reference_db, what = "kegg_compound");
+
+        pack;
     }
 }
 

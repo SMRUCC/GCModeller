@@ -64,6 +64,10 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
+    ''' <summary>
+    ''' represents a collection of the kegg <see cref="Reaction"/> data model which 
+    ''' are have similar compound structure transformation result.
+    ''' </summary>
     Public Class ReactionClass : Inherits XmlDataModel
 
         <XmlAttribute>
