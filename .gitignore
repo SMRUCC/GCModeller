@@ -412,3 +412,5 @@ src/repository/graphquery/kegg/compound_cache.db/8d/8ddb6567dfba2825c6285c36a0c7
 src/repository/graphquery/kegg/pipeline/package_updater/reaction_cache.db
 
 src/workbench/pkg/.pkg/GCModeller.zip
+src/runtime/httpd/src/Flute/Resources/favicon.zip
+src/runtime/httpd/src/WebCloud/SMRUCC.HTTPInternal/Resources/favicon.zip
