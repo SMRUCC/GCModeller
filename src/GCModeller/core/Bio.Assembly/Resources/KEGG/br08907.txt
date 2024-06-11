@@ -36,6 +36,7 @@ B  Cofactor/vitamin metabolism
 C    06032  Lipoic acid metabolism
 C    06025  Molybdenum cofactor biosynthesis
 C    06011  Heme biosynthesis
+C    06538  Cobalamin transport and metabolism
 B  Replication and repair
 C    06509  DNA replication
 C    06510  Telomere length regulation
@@ -67,6 +68,7 @@ C    06524  Apoptosis
 C    06525  Ferroptosis
 C    06527  Necroptosis
 C    06529  Thermogenesis
+C    06539  Cytoskeleton in muscle cells
 B  Immune system
 C    06513  Complement cascade
 C    06514  Coagulation cascade
@@ -162,5 +164,5 @@ C    06182  Shigella
 C    06183  Yersinia
 !
 #<hr>
-#Last updated: December 7, 2023
+#Last updated: May 7, 2024
 #<br><br><a href="/brite/jp08907">&raquo; Japanese version</a>

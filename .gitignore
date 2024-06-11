@@ -304,7 +304,6 @@ src/interops/RNA-Seq/.vs/ProjectEvaluation/rna-seq.data.net5.metadata.v6.1
 src/interops/RNA-Seq/.vs/ProjectEvaluation/rna-seq.data.net5.projects.v6.1
 src/GCModeller/annotations/GSEA/.vs/ProjectEvaluation/gsva.metadata.v6.1
 src/GCModeller/annotations/GSEA/.vs/ProjectEvaluation/gsva.projects.v6.1
-*.zip
 src/runtime/enigma/src/.vs/ProjectEvaluation/enigma.metadata.v6.1
 src/runtime/enigma/src/.vs/ProjectEvaluation/enigma.projects.v6.1
 src/runtime/enigma/assembly/net48/enigma.xml
@@ -407,3 +406,9 @@ src/repository/graphquery/kegg/tools/kegg.db
 src/workbench/pkg/test/compounds.msgpack
 src/repository/graphquery/kegg/pipeline/package_updater/KEGG_maps.msgpack
 src/workbench/pkg/test/reactions.msgpack
+src/repository/graphquery/kegg/map_cache.db/3a/3af3eedc0daae064783a7f40040fd1a8.html
+src/repository/graphquery/kegg/pipeline/package_updater/compound_cache.db
+src/repository/graphquery/kegg/compound_cache.db/8d/8ddb6567dfba2825c6285c36a0c7b7aa.html
+src/repository/graphquery/kegg/pipeline/package_updater/reaction_cache.db
+
+src/workbench/pkg/.pkg/GCModeller.zip

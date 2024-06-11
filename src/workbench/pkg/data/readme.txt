@@ -4,6 +4,8 @@ mtrees2024.txt - ncbi mesh tree https://lhncbc.nlm.nih.gov/ii/information/MBR/St
 
 ## kegg data
 
+all kegg database file is stored via the git LFS storage.
+
 + kegg.zip
 
 a kegg reference database file which is generated via 

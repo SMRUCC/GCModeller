@@ -93,33 +93,33 @@ D      M00176  Assimilatory sulfate reduction, sulfate => H2S [PATH:map00920 map
 D      M00596  Dissimilatory sulfate reduction, sulfate => H2S [PATH:map00920 map01100 map01120]
 D      M00595  Thiosulfate oxidation by SOX complex, thiosulfate => sulfate [PATH:map00920 map01100 map01120]
 C    Photosynthesis
-D      M00161  Photosystem II [PATH:map00195]
-D      M00163  Photosystem I [PATH:map00195]
+D      M00161  Photosystem II [PATH:map00195 map01100]
+D      M00163  Photosystem I [PATH:map00195 map01100]
 D      M00597  Anoxygenic photosystem II
 D      M00598  Anoxygenic photosystem I
 C    ATP synthesis
-D      M00144  NADH:quinone oxidoreductase, prokaryotes [PATH:map00190]
-D      M00145  NAD(P)H:quinone oxidoreductase, chloroplasts and cyanobacteria [PATH:map00190]
-D      M00142  NADH:ubiquinone oxidoreductase, mitochondria [PATH:map00190]
-D      M00143  NADH dehydrogenase (ubiquinone) Fe-S protein/flavoprotein complex, mitochondria [PATH:map00190]
-D      M00146  NADH dehydrogenase (ubiquinone) 1 alpha subcomplex [PATH:map00190]
-D      M00147  NADH dehydrogenase (ubiquinone) 1 beta subcomplex [PATH:map00190]
-D      M00149  Succinate dehydrogenase, prokaryotes [PATH:map00190]
-D      M00150  Fumarate reductase, prokaryotes [PATH:map00190]
-D      M00148  Succinate dehydrogenase (ubiquinone) [PATH:map00190]
-D      M00162  Cytochrome b6f complex [PATH:map00195]
-D      M00151  Cytochrome bc1 complex respiratory unit [PATH:map00190]
-D      M00152  Cytochrome bc1 complex [PATH:map00190]
-D      M00154  Cytochrome c oxidase [PATH:map00190]
-D      M00155  Cytochrome c oxidase, prokaryotes [PATH:map00190]
+D      M00144  NADH:quinone oxidoreductase, prokaryotes [PATH:map00190 map01100]
+D      M00145  NAD(P)H:quinone oxidoreductase, chloroplasts and cyanobacteria [PATH:map00190 map01100]
+D      M00142  NADH:ubiquinone oxidoreductase, mitochondria [PATH:map00190 map01100]
+D      M00143  NADH dehydrogenase (ubiquinone) Fe-S protein/flavoprotein complex, mitochondria [PATH:map00190 map01100]
+D      M00146  NADH dehydrogenase (ubiquinone) 1 alpha subcomplex [PATH:map00190 map01100]
+D      M00147  NADH dehydrogenase (ubiquinone) 1 beta subcomplex [PATH:map00190 map01100]
+D      M00149  Succinate dehydrogenase, prokaryotes [PATH:map00190 map01100]
+D      M00150  Fumarate reductase, prokaryotes [PATH:map00190 map01100]
+D      M00148  Succinate dehydrogenase (ubiquinone) [PATH:map00190 map01100]
+D      M00162  Cytochrome b6f complex [PATH:map00195 map01100]
+D      M00151  Cytochrome bc1 complex respiratory unit [PATH:map00190 map01100]
+D      M00152  Cytochrome bc1 complex [PATH:map00190 map01100]
+D      M00154  Cytochrome c oxidase [PATH:map00190 map01100]
+D      M00155  Cytochrome c oxidase, prokaryotes [PATH:map00190 map01100]
 D      M00153  Cytochrome bd ubiquinol oxidase [PATH:map00190]
-D      M00417  Cytochrome o ubiquinol oxidase [PATH:map00190]
-D      M00416  Cytochrome aa3-600 menaquinol oxidase [PATH:map00190]
-D      M00156  Cytochrome c oxidase, cbb3-type [PATH:map00190]
-D      M00157  F-type ATPase, prokaryotes and chloroplasts [PATH:map00190 map00195]
-D      M00158  F-type ATPase, eukaryotes [PATH:map00190]
-D      M00159  V/A-type ATPase, prokaryotes [PATH:map00190]
-D      M00160  V-type ATPase, eukaryotes [PATH:map00190]
+D      M00417  Cytochrome o ubiquinol oxidase [PATH:map00190 map01100]
+D      M00416  Cytochrome aa3-600 menaquinol oxidase [PATH:map00190 map01100]
+D      M00156  Cytochrome c oxidase, cbb3-type [PATH:map00190 map01100]
+D      M00157  F-type ATPase, prokaryotes and chloroplasts [PATH:map00190 map00195 map01100]
+D      M00158  F-type ATPase, eukaryotes [PATH:map00190 map01100]
+D      M00159  V/A-type ATPase, prokaryotes [PATH:map00190 map01100]
+D      M00160  V-type ATPase, eukaryotes [PATH:map00190 map01100]
 B
 B  <b>Lipid metabolism</b>
 C    Fatty acid metabolism
@@ -133,8 +133,8 @@ D      M00086  beta-Oxidation, acyl-CoA synthesis [PATH:map00061 map00071 map012
 D      M00087  beta-Oxidation [PATH:map00071 map01212 map01100]
 D      M00861  beta-Oxidation, peroxisome, VLCFA [PATH:map01040 map01212 map01100]
 C    Sterol biosynthesis
-D      M00101  Cholesterol biosynthesis, squalene 2,3-epoxide => cholesterol [PATH:map00100 map01100]
-D      M00102  Ergocalciferol biosynthesis, squalene 2,3-epoxide => ergosterol/ergocalciferol [PATH:map00100 map01100 map01110]
+D      M00101  Cholesterol biosynthesis, FPP => cholesterol [PATH:map00100 map01100]
+D      M00102  Ergocalciferol biosynthesis, FPP => ergosterol/ergocalciferol [PATH:map00100 map01100 map01110]
 D      M00917  Phytosterol biosynthesis, squalene 2,3-epoxide => campesterol/sitosterol [PATH:map00100 map01100 map01110]
 D      M00103  Cholecalciferol biosynthesis [PATH:map00100 map01100]
 D      M00104  Bile acid biosynthesis, cholesterol => cholate/chenodeoxycholate [PATH:map00120 map01100]
@@ -144,6 +144,8 @@ D      M00107  Steroid hormone biosynthesis, cholesterol => pregnenolone => prog
 D      M00108  C21-Steroid hormone biosynthesis, progesterone => corticosterone/aldosterone [PATH:map00140 map01100]
 D      M00109  C21-Steroid hormone biosynthesis, progesterone => cortisol/cortisone [PATH:map00140 map01100]
 D      M00110  C19/C18-Steroid hormone biosynthesis, pregnenolone => androstenedione => estrone [PATH:map00140 map01100]
+D      M00976  C19-Steroid hormone biosynthesis, pregnenolone => testosterone => dihydrotestosterone [PATH:map00140 map01100]
+D      M00977  C19-Steroid hormone biosynthesis (androgen backdoor pathway), pregnenolone => androsterone => dihydrotestosterone [PATH:map00140 map01100]
 C    Lipid metabolism
 D      M00088  Ketone body biosynthesis, acetyl-CoA => acetoacetate/3-hydroxybutyrate/acetone [PATH:map00650 map01100]
 D      M00089  Triacylglycerol biosynthesis [PATH:map00561 map01100]
@@ -553,4 +555,4 @@ D      M00616  Sulfate-sulfur assimilation
 !
 #<hr>
 #[ <a href="/kegg/module.html">MODULE</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/pathway.html">PATHWAY</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
-#Last updated: November 27, 2023
+#Last updated: March 15, 2024

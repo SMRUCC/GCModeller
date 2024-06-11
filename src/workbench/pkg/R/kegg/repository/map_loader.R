@@ -14,7 +14,7 @@ const __load_kegg_map = function(kegg_maps = NULL) {
         if (file.exists(kegg_maps) || dir.exists(kegg_maps)) {
             kegg_maps;
         } else {
-            system.file("data/kegg/KEGG_maps.zip", package = "GCModeller");
+            system.file("data/kegg/KEGG_maps.msgpack", package = "GCModeller");
         }
     });
 }
