@@ -1,3 +1,5 @@
+# kegg_api::get get object via kegg rest api: https://rest.kegg.jp
+
 #' get kegg pathway
 #'
 #' @param id the pathway entry id in kegg database

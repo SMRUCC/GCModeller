@@ -1,14 +1,24 @@
 
 #' Load internal kegg reaction repository
 #' 
+#' @details this function extract the reaction data both of associated 
+#'   with the kegg pathway map or the reactions has no associations.
+#' 
 const kegg_reactions = function(raw = TRUE) {
-    using file as .readZipStream(
-        zipfile = system.file("data/kegg/reactions.zip", package = "GCModeller")
-    ) {
-        repository::load.reactions(file, raw = raw);
-    }
+    let s = file(system.file("data/kegg/KEGG_reactions.msgpack", package = "GCModeller"));
+    let rxns = repository::load.reactions(s, raw = raw);
+    
+    close(s);
+
+    # returns all kegg reactions
+    rxns;
 }
 
+#' extract reaction data from the reference database
+#' 
+#' @details this function extract the reaction data which 
+#'    has the pathway map association.
+#' 
 const extract_reactions = function() {
     const reference_db = system.file("data/kegg/kegg.zip", package = "GCModeller");
 
