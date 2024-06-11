@@ -122,6 +122,11 @@ Namespace KEGG.Metabolism
             End Using
         End Function
 
+        ''' <summary>
+        ''' load kegg compounds collection from a messagepack file
+        ''' </summary>
+        ''' <param name="file">a file stream data in messagepack format.</param>
+        ''' <returns></returns>
         Public Shared Function ReadKeggDb(file As Stream) As Compound()
             Return MsgPackSerializer.Deserialize(Of Compound())(file)
         End Function

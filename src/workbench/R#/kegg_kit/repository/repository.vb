@@ -122,6 +122,13 @@ Public Module repository
         Call Internal.generic.add("readBin.kegg_pathway", GetType(Stream), AddressOf readKeggMaps)
     End Sub
 
+    ''' <summary>
+    ''' read kegg compound from messagepack file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     Private Function readKeggCompounds(file As Stream, args As list, env As Environment) As Object
         Return KEGGCompoundPack.ReadKeggDb(file)
     End Function
