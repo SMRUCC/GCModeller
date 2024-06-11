@@ -62,7 +62,6 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
@@ -186,7 +185,9 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <summary>
         ''' 得到本反应过程对象中的所有的代谢底物的KEGG编号，以便于查询和下载
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' a collection of the kegg id from the substrate list and product list
+        ''' </returns>
         ''' <remarks></remarks>
         Public Function GetSubstrateCompounds() As String()
             Dim fluxModel = Me.ReactionModel
