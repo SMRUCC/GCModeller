@@ -14,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -25,10 +25,6 @@
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "repository.vb",
@@ -36,10 +32,14 @@
               "RelativeDocumentMoniker": "kegg_kit\\repository\\repository.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\repository.vb",
               "RelativeToolTip": "kegg_kit\\repository\\repository.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAnwHcAAAA4AAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAHcAAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-06-11T05:30:42.602Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
