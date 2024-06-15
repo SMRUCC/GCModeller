@@ -111,6 +111,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Protected Friend _DBLinks As DBLinks
 
+        ''' <summary>
+        ''' the database cross reference links
+        ''' </summary>
+        ''' <returns></returns>
         <XmlArray("DBlinks", [Namespace]:=xmlns_kegg)>
         Public Property DbLinks As DBLink()
             Get
