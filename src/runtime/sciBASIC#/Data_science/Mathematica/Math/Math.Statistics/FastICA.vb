@@ -1,7 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports rand = Microsoft.VisualBasic.Math.RandomExtensions
+Imports std = System.Math
 
-Public Module FastICA
+Public Class FastICA
     ' 
     ' 	 * AlgorithmFunctions.c
     ' 	 *
@@ -17,17 +18,12 @@ Public Module FastICA
         ' 		 * For more details refer to the reference literature (ICA: Algorithms and applications).
         ' 		 
 
-        Dim i As Integer
+        Dim i As Integer = 0
         Dim j As Integer
-        Dim X As Double()()
-        Dim meanVector As Double()
-
-        X = RectangularArray.Matrix(Of Double)(N, M)
-        meanVector = New Double(N - 1) {}
+        Dim meanVector As Double() = New Double(N - 1) {}
+        Dim X As Double()() = RectangularArray.Matrix(Of Double)(M, N)
 
         ' Calculating mean vector of observation matrix
-        i = 0
-
         While i < N
             j = 0
 
@@ -94,7 +90,7 @@ Public Module FastICA
         Dummy2 = RectangularArray.Matrix(Of Double)(N, N)
         EigVectors = RectangularArray.Matrix(Of Double)(N, N)
         EigVectorsT = RectangularArray.Matrix(Of Double)(N, N)
-        Z = RectangularArray.Matrix(Of Double)(N, M)
+        Z = RectangularArray.Matrix(Of Double)(M, N)
 
         ' Calculating covariance
         i = 0
@@ -124,7 +120,7 @@ Public Module FastICA
         i = 0
 
         While i < N
-            Dnegroot(i) = 1 / Math.Sqrt(EigValues(i))
+            Dnegroot(i) = 1 / std.Sqrt(EigValues(i))
             Threading.Interlocked.Increment(i)
         End While
 
@@ -194,7 +190,7 @@ Public Module FastICA
             j = 0
 
             While j < N
-                W(i)(j) = CDbl(randf.NextNumber()) / RAND_MAX
+                W(i)(j) = CDbl(rand.NextNumber()) / RAND_MAX
                 Threading.Interlocked.Increment(j)
             End While
 
@@ -208,7 +204,7 @@ Public Module FastICA
             i = 0
 
             While i < N
-                wp(i) = CDbl(randf.NextNumber()) / RAND_MAX
+                wp(i) = CDbl(rand.NextNumber()) / RAND_MAX
                 Threading.Interlocked.Increment(i)
             End While
 
@@ -223,14 +219,14 @@ Public Module FastICA
                 i = 0
 
                 While i < M
-                    Gder(i) = 1 - Math.Tanh(G(i)) * Math.Tanh(G(i))
+                    Gder(i) = 1 - std.Tanh(G(i)) * std.Tanh(G(i))
                     Threading.Interlocked.Increment(i)
                 End While
 
                 i = 0
 
                 While i < M
-                    G(i) = Math.Tanh(G(i))
+                    G(i) = std.Tanh(G(i))
                     Threading.Interlocked.Increment(i)
                 End While
 
@@ -317,7 +313,7 @@ Public Module FastICA
             j = 0
 
             While j < N
-                W(i)(j) /= Math.Sqrt(2.0)
+                W(i)(j) /= std.Sqrt(2.0)
                 Threading.Interlocked.Increment(j)
             End While
 
@@ -346,7 +342,7 @@ Public Module FastICA
         'int i;
         'int j;
 
-        ''' *Exporting data*/
+        ' *Exporting data*/
         'FILE pfile;
 
         'pfile = fopen("SourcesEstimation.txt", "w");
@@ -406,7 +402,7 @@ Public Module FastICA
             j = 0
 
             While j < N
-                Amix(i)(j) = CDbl(randf.NextNumber()) / RAND_MAX
+                Amix(i)(j) = CDbl(rand.NextNumber()) / RAND_MAX
                 Threading.Interlocked.Increment(j)
             End While
 
@@ -508,7 +504,7 @@ Public Module FastICA
         Dim i As Integer
         Dim j As Integer
         Dim k As Integer
-        Dim Xobs = RectangularArray.Matrix(Of Double)(N, M)
+        Dim Xobs = RectangularArray.Matrix(Of Double)(M, N)
 
         ' Generating observation matrix Xobs
         i = 0
@@ -539,15 +535,15 @@ Public Module FastICA
         ' 		 * algorithm.
         ' 		 
 
-        Amix = Nothing
-        W = Nothing
-        WT = Nothing
-        timeVector = Nothing
-        S = Nothing
-        Sest = Nothing
-        Xobs = Nothing
-        X = Nothing
-        Z = Nothing
+        Erase Amix
+        Erase W
+        Erase WT
+        Erase timeVector
+        Erase S
+        Erase Sest
+        Erase Xobs
+        Erase X
+        Erase Z
     End Sub
 
 
@@ -570,7 +566,7 @@ Public Module FastICA
         Dim k As Integer
         Dim Sp As Double()()
 
-        Sp = RectangularArray.Matrix(Of Double)(rows1, columns2)
+        Sp = RectangularArray.Matrix(Of Double)(columns2, rows1)
 
         i = 0
 
@@ -660,7 +656,7 @@ Public Module FastICA
 
         Dim i As Integer
         Dim j As Integer
-        Dim Sp = RectangularArray.Matrix(Of Double)(columns, rows)
+        Dim Sp = RectangularArray.Matrix(Of Double)(rows, columns)
 
         i = 0
 
@@ -698,7 +694,7 @@ Public Module FastICA
         i = 0
 
         While i < sizeVec
-            wp(i) = wp(i) / Math.Sqrt(sqrtwpwp)
+            wp(i) = wp(i) / std.Sqrt(sqrtwpwp)
             Threading.Interlocked.Increment(i)
         End While
     End Sub
@@ -889,11 +885,11 @@ Public Module FastICA
 
         ' Generating Data for ICA
 
-        S = RectangularArray.Matrix(Of Double)(N, M)
-        Sest = RectangularArray.Matrix(Of Double)(N, M)
-        Xobs = RectangularArray.Matrix(Of Double)(N, M)
-        X = RectangularArray.Matrix(Of Double)(N, M)
-        Z = RectangularArray.Matrix(Of Double)(N, M)
+        S = RectangularArray.Matrix(Of Double)(M, N)
+        Sest = RectangularArray.Matrix(Of Double)(M, N)
+        Xobs = RectangularArray.Matrix(Of Double)(M, N)
+        X = RectangularArray.Matrix(Of Double)(M, N)
+        Z = RectangularArray.Matrix(Of Double)(M, N)
     End Sub
 
     ' 
@@ -980,10 +976,10 @@ Public Module FastICA
         M = 10000 'The number of observation samples
 
         K = 0.1F 'The slope of the zig-zag source
-        na = 8F 'The amount of zig-zag source periods (amount of peaks)
-        ns = 5F 'The amount of alternating step-function periods
+        na = 8.0F 'The amount of zig-zag source periods (amount of peaks)
+        ns = 5.0F 'The amount of alternating step-function periods
 
-        finalTime = 40.0F * 3.1415926535F 'Final time (s)
+        finalTime = 40.0F * 3.14159274F 'Final time (s)
         initialTime = 0.0F 'Initial time (s)
 
         iterations = 100 'Number of FastICA iterations
@@ -999,32 +995,32 @@ Public Module FastICA
 
 
     Public Function funcSource1(x As Double) As Double
-        Return Math.Sin(1.1 * x)
+        Return std.Sin(1.1 * x)
     End Function
 
 
     Public Function funcSource2(x As Double) As Double
-        Return Math.Cos(0.25 * x)
+        Return std.Cos(0.25 * x)
     End Function
 
 
     Public Function funcSource3(x As Double) As Double
-        Return Math.Sin(0.1 * x)
+        Return std.Sin(0.1 * x)
     End Function
 
 
     Public Function funcSource4(x As Double) As Double
-        Return Math.Cos(0.7 * x)
+        Return std.Cos(0.7 * x)
     End Function
 
 
     Public Function funcSource5(x As Double) As Double
-        Return K * x - Math.Floor(x / periodSource5) * K * periodSource5
+        Return K * x - std.Floor(x / periodSource5) * K * periodSource5
     End Function
 
 
     Public Function funcSource6(x As Double) As Double
-        If CInt(Math.Floor(x / periodSource6)) Mod 2 = 0 Then
+        If CInt(std.Floor(x / periodSource6)) Mod 2 = 0 Then
             Return 1
         Else
             Return -1
@@ -1104,4 +1100,4 @@ Public Module FastICA
     Public begin As Date = Date.Now
     Public [end] As Date
 
-End Module
+End Class
