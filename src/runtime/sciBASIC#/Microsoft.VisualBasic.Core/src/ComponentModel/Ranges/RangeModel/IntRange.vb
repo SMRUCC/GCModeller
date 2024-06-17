@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b96520dcbb2e87616b54416b362416e1, Microsoft.VisualBasic.Core\src\ComponentModel\Ranges\RangeModel\IntRange.vb"
+﻿#Region "Microsoft.VisualBasic::532fc13a5d26c7de766401db6aa27c7b, Microsoft.VisualBasic.Core\src\ComponentModel\Ranges\RangeModel\IntRange.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 165
-    '    Code Lines: 67 (40.61%)
-    ' Comment Lines: 77 (46.67%)
+    '   Total Lines: 181
+    '    Code Lines: 79 (43.65%)
+    ' Comment Lines: 77 (42.54%)
     '    - Xml Docs: 74.03%
     ' 
-    '   Blank Lines: 21 (12.73%)
-    '     File Size: 6.04 KB
+    '   Blank Lines: 25 (13.81%)
+    '     File Size: 6.53 KB
 
 
     '     Class IntRange
@@ -48,8 +48,8 @@
     '         Properties: Interval, Max, Min
     ' 
     '         Constructor: (+3 Overloads) Sub New
-    '         Function: GetEnumerator, IEnumerable_GetEnumerator, (+3 Overloads) IsInside, (+2 Overloads) IsOverlapping, ScaleMapping
-    '                   ToString
+    '         Function: GetEnumerator, IEnumerable_GetEnumerator, (+3 Overloads) IsInside, (+2 Overloads) IsOverlapping, MinMax
+    '                   ScaleMapping, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -108,10 +108,10 @@ Namespace ComponentModel.Ranges.Model
         ''' </summary>
         ''' <param name="source"></param>
         Sub New(source As IEnumerable(Of Integer))
-            With source.ToArray
-                Min = .Min
-                Max = .Max
-            End With
+            Dim minmax As Integer() = IntRange.MinMax(source)
+
+            Min = minmax(0)
+            Max = minmax(1)
         End Sub
 
         Sub New()
@@ -219,5 +219,21 @@ Namespace ComponentModel.Ranges.Model
                 Return New IntRange(.Min, .Max)
             End With
         End Operator
+
+        Public Shared Function MinMax(ints As IEnumerable(Of Integer)) As Integer()
+            Dim min As Integer = Integer.MaxValue
+            Dim max As Integer = Integer.MinValue
+
+            For Each i As Integer In ints
+                If i > max Then
+                    max = i
+                End If
+                If i < min Then
+                    min = i
+                End If
+            Next
+
+            Return {min, max}
+        End Function
     End Class
 End Namespace
