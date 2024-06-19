@@ -153,27 +153,30 @@ declare namespace background {
       */
       function intersects(cluster: any, geneSet: string, isLocusTag?: boolean, get_clusterID?: boolean, env?: object): string;
    }
-   module gsea {
-      /**
-       * Create a cluster for gsea background
-       * 
-       * 
-        * @param x id, name data fields should be exists in current dataframe object, 
-        *  other data fields will be used as the gene member terms
-        * @param clusterId id of the cluster
-        * @param clusterName display name of the cluster model
-        * @param desc the description of the cluster model
-        * 
-        * + default value Is ``'n/a'``.
-        * @param id the field column name for get gene members id
-        * 
-        * + default value Is ``'xref'``.
-        * @param name the field column name for get gene members name
-        * 
-        * + default value Is ``'name'``.
-      */
-      function cluster(x: object, clusterId: string, clusterName: string, desc?: string, id?: string, name?: string): object;
-   }
+   /**
+    * Create a cluster for gsea background
+    * 
+    * > the input dataframe could be a set of database xrefs, example as:
+    * >  
+    * >  |xref|name|alias|KEGG|uniprot|
+    * >  |----|----|-----|----|-------|
+    * >  |    |    |     |    |       |
+    * 
+     * @param x id, name data fields should be exists in current dataframe object, 
+     *  other data fields will be used as the gene member terms
+     * @param clusterId id of the cluster
+     * @param clusterName display name of the cluster model
+     * @param desc the description of the cluster model
+     * 
+     * + default value Is ``'n/a'``.
+     * @param id the field column name for get gene members id
+     * 
+     * + default value Is ``'xref'``.
+     * @param name the field column name for get gene members name
+     * 
+     * + default value Is ``'name'``.
+   */
+   function gsea_cluster(x: object, clusterId: string, clusterName: string, desc?: string, id?: string, name?: string): object;
    module KO {
       /**
        * create kegg background model
