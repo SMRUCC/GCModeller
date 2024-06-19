@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::9f8a7d712b82e837482a02a767207473, R#\gseakit\GSEABackground.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 929
-    '    Code Lines: 634 (68.25%)
-    ' Comment Lines: 200 (21.53%)
-    '    - Xml Docs: 96.50%
-    ' 
-    '   Blank Lines: 95 (10.23%)
-    '     File Size: 37.76 KB
+' Summaries:
 
 
-    ' Module GSEABackground
-    ' 
-    '     Function: appendIdTerms, asGenesetList, assembleBackground, BackgroundIDmapping, backgroundSummary
-    '               clusterIDs, ClusterIntersections, create_metpa, CreateCluster, createGene
-    '               CreateKOBackground, CreateKOReference, DAGbackground, (+2 Overloads) geneSetAnnotation, GetCluster
-    '               getMemberItem, (+2 Overloads) id_translation, KEGGCompoundBriteClassBackground, KOTable, metabolismBackground
-    '               MetaEnrichBackground, moleculeIDs, ParsePathwayObject, PrintBackground, ReadBackground
-    '               WriteBackground
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 929
+'    Code Lines: 634 (68.25%)
+' Comment Lines: 200 (21.53%)
+'    - Xml Docs: 96.50%
+' 
+'   Blank Lines: 95 (10.23%)
+'     File Size: 37.76 KB
+
+
+' Module GSEABackground
+' 
+'     Function: appendIdTerms, asGenesetList, assembleBackground, BackgroundIDmapping, backgroundSummary
+'               clusterIDs, ClusterIntersections, create_metpa, CreateCluster, createGene
+'               CreateKOBackground, CreateKOReference, DAGbackground, (+2 Overloads) geneSetAnnotation, GetCluster
+'               getMemberItem, (+2 Overloads) id_translation, KEGGCompoundBriteClassBackground, KOTable, metabolismBackground
+'               MetaEnrichBackground, moleculeIDs, ParsePathwayObject, PrintBackground, ReadBackground
+'               WriteBackground
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -564,7 +564,15 @@ Public Module GSEABackground
     ''' the field column name for get gene members name
     ''' </param>
     ''' <returns></returns>
-    <ExportAPI("gsea.cluster")>
+    ''' <remarks>
+    ''' the input dataframe could be a set of database xrefs, example as:
+    ''' 
+    ''' |xref|name|alias|KEGG|uniprot|
+    ''' |----|----|-----|----|-------|
+    ''' |    |    |     |    |       |
+    ''' 
+    ''' </remarks>
+    <ExportAPI("gsea_cluster")>
     Public Function CreateCluster(x As Rdataframe, clusterId$, clusterName$,
                                   Optional desc$ = "n/a",
                                   Optional id$ = "xref",
@@ -575,11 +583,13 @@ Public Module GSEABackground
                           Function(a)
                               Return CLRVector.asCharacter(a.Value)
                           End Function)
-        Dim idvec As String() = CLRVector.asCharacter(fields(id))
-        Dim namevec As String() = CLRVector.asCharacter(fields(name))
+        Dim idvec As String() = fields(id)
+        Dim namevec As String() = fields(name)
+        Dim [alias] As String() = fields.TryGetValue("alias")
 
         Call fields.Remove(id)
         Call fields.Remove(name)
+        Call fields.Remove("alias")
 
         Dim cluster As New Cluster With {
             .ID = clusterId,
@@ -587,7 +597,11 @@ Public Module GSEABackground
             .names = clusterName.TrimNewLine().StringReplace("\s{2,}", " "),
             .members = idvec _
                 .Select(Function(idstr, i)
-                            Return fields.getMemberItem(idstr, i, namevec)
+                            Dim name_str As String = namevec(i)
+                            Dim alias_id = [alias].ElementAtOrNull(i)
+                            Dim alias_set = alias_id.StringSplit("\s*;\s*")
+
+                            Return fields.getMemberItem(idstr, i, name_str, alias_set)
                         End Function) _
                 .ToArray
         }
@@ -595,8 +609,18 @@ Public Module GSEABackground
         Return cluster
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="fields"></param>
+    ''' <param name="idStr"></param>
+    ''' <param name="i">the row index of current gene</param>
+    ''' <param name="name"></param>
+    ''' <returns></returns>
     <Extension>
-    Private Function getMemberItem(fields As Dictionary(Of String, String()), idStr As String, i As Integer, namevec As String()) As BackgroundGene
+    Private Function getMemberItem(fields As Dictionary(Of String, String()), idStr As String, i As Integer, name As String, alias_id As String()) As BackgroundGene
+        ' scan for other database reference id
+        ' slice current row which is reference by the row index i
         Dim terms As Dictionary(Of String, String) = fields _
             .Where(Function(a) Not a.Value(i).StringEmpty) _
             .ToDictionary(Function(a) a.Key,
@@ -606,20 +630,22 @@ Public Module GSEABackground
         Dim termList As New List(Of NamedValue)
 
         For Each tuple As KeyValuePair(Of String, String) In terms
-            Call termList.Add(New NamedValue With {
-                .name = tuple.Key,
-                .text = tuple.Value
-            })
+            For Each term_id As String In tuple.Value.StringSplit("\s*;\s*")
+                Call termList.Add(New NamedValue With {
+                    .name = tuple.Key,
+                    .text = term_id
+                })
+            Next
         Next
 
         Return New BackgroundGene With {
             .accessionID = idStr,
-            .[alias] = {idStr},
+            .[alias] = alias_id,
             .locus_tag = New NamedValue With {
                 .name = idStr,
-                .text = namevec(i)
+                .text = name
             },
-            .name = namevec(i),
+            .name = name,
             .term_id = termList.ToArray
         }
     End Function
