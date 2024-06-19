@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create a cluster for gsea background</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>gsea_cluster {background}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Create a cluster for gsea background</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>gsea_cluster</strong>(<i>x</i>, <i>clusterId</i>, <i>clusterName</i>,
+    <i>desc</i> = <span style='color: brown;'><strong>"n/a"</strong></span>,
+    <i>id</i> = <span style='color: brown;'><strong>"xref"</strong></span>,
+    <i>name</i> = <span style='color: brown;'><strong>"name"</strong></span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>x</dt>
+<dd><p>id, name data fields should be exists in current dataframe object, 
+ other data fields will be used as the gene member terms. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
+
+
+<dt>clusterId</dt>
+<dd><p>id of the cluster. [as string]</p></dd>
+
+
+<dt>clusterName</dt>
+<dd><p>display name of the cluster model. [as string]</p></dd>
+
+
+<dt>desc</dt>
+<dd><p>the description of the cluster model. [as string]</p></dd>
+
+
+<dt>id</dt>
+<dd><p>the field column name for get gene members id. [as string]</p></dd>
+
+
+<dt>name</dt>
+<dd><p>the field column name for get gene members name. [as string]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>the input dataframe could be a set of database xrefs, example as:
+ 
+ <table>
+
+<thead>
+<tr><th></th><th>xref</th><th>name</th><th>alias</th><th>KEGG</th><th>uniprot</th><th></th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> |    |    |     |    |       |</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        gseakit
+
+        <h3>Value</h3>
+
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Cluster.html">Cluster</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Cluster.html">Cluster</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>background</em> version 1.0.0.0 <a
+                href="../background.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

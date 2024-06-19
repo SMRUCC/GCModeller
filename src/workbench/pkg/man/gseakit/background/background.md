@@ -15,7 +15,7 @@ tools for handling GSEA background model.
 + [geneSet.annotations](background/geneSet.annotations.1) make gene set annotation via a given gsea background model
 + [geneSet.intersects](background/geneSet.intersects.1) get an intersection id list between the background
 + [KO.table](background/KO.table.1) convert the background model to a data table
-+ [gsea.cluster](background/gsea.cluster.1) Create a cluster for gsea background
++ [gsea_cluster](background/gsea_cluster.1) Create a cluster for gsea background
 + [metpa](background/metpa.1) Create the gsea background model for metabolism analysis
 + [as.background](background/as.background.1) cast the cluster data as the enrichment background
 + [KO_reference](background/KO_reference.1) gene/protein KO id background
