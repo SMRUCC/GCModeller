@@ -114,31 +114,11 @@ Public Module Enrichment
                                         Optional isLocustag As Boolean = False,
                                         Optional showProgress As Boolean = True,
                                         Optional doProgress As Action(Of String) = Nothing) As IEnumerable(Of EnrichmentResult)
-
-        Dim progress As ProgressBar = Nothing
-        Dim ETA$
-        Dim termResult As New Value(Of EnrichmentResult)
         Dim genes As Integer
+        Dim termResult As New Value(Of EnrichmentResult)
 
         If list Is Nothing Then
             Return
-        End If
-
-        If doProgress Is Nothing Then
-            If showProgress Then
-                Dim tick As ProgressProvider
-
-                progress = New ProgressBar("Do enrichment...")
-                tick = New ProgressProvider(progress, genome.clusters.Length)
-                doProgress = Sub(id)
-                                 ETA = $"{id}.... ETA: {tick.ETA().FormatTime}"
-                                 progress.SetProgress(tick.StepProgress, ETA)
-                             End Sub
-            Else
-                doProgress = Sub()
-                                 ' Do Nothing
-                             End Sub
-            End If
         End If
 
         If cutSize > 0 Then
@@ -153,6 +133,25 @@ Public Module Enrichment
 
         With list.ToArray
             Dim input_size As Integer = If(resize > 0, resize, .Length)
+            Dim background As IEnumerable(Of Cluster) = genome.clusters
+            Dim bar As Tqdm.ProgressBar = Nothing
+
+            If showProgress Then
+                background = Tqdm.Wrap(genome.clusters, bar:=bar)
+            End If
+            If doProgress Is Nothing Then
+                If showProgress Then
+                    doProgress =
+                        Sub(name)
+                            Call bar.SetLabel(name)
+                        End Sub
+                Else
+                    doProgress =
+                        Sub()
+                            ' do nothing
+                        End Sub
+                End If
+            End If
 
             For Each cluster As Cluster In genome.clusters
                 Dim enriched$() = cluster.Intersect(.ByRef, isLocustag).ToArray
@@ -166,10 +165,6 @@ Public Module Enrichment
                 End If
             Next
         End With
-
-        If Not progress Is Nothing Then
-            progress.Dispose()
-        End If
     End Function
 
     ''' <summary>
