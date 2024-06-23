@@ -197,6 +197,16 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
         End Get
     End Property
 
+    Dim m_sampleIndex As Index(Of String)
+
+    Private Function GetIndex() As Index(Of String)
+        If m_sampleIndex Is Nothing Then
+            m_sampleIndex = sampleID.Indexing
+        End If
+
+        Return m_sampleIndex
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return $"[{tag}] {expression.Length} genes, {sampleID.Length} samples; {sampleID.GetJson}"
@@ -209,12 +219,14 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function IndexOf(sample_id As String) As Integer
-        Return Me.sampleID.Indexing.IndexOf(sample_id)
+        Return GetIndex.IndexOf(sample_id)
     End Function
 
     Public Function IndexOf(sampleName As IEnumerable(Of String)) As Integer()
-        Dim index = Me.sampleID.Indexing
-        Dim i As Integer() = sampleName.Select(Function(name) index(name)).ToArray
+        Dim index As Index(Of String) = GetIndex()
+        Dim i As Integer() = sampleName _
+            .Select(Function(name) index(name)) _
+            .ToArray
 
         Return i
     End Function
