@@ -74,7 +74,6 @@ Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.xConsole
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
@@ -298,6 +297,19 @@ Namespace IO
             End Get
         End Property
 
+        Public Function Slice(index As IEnumerable(Of Integer)) As DataFrame
+            Dim subset = Rows.ToArray.CopyOf(index.ToArray)
+            Dim df As New DataFrame With {
+                .columnList = columnList,
+                .current = Nothing,
+                .p = Nothing,
+                .table = subset,
+                .typeSchema = typeSchema
+            }
+
+            Return df
+        End Function
+
         ''' <summary>
         ''' Convert this dataframe object as a csv document object
         ''' </summary>
@@ -336,6 +348,11 @@ Namespace IO
             Return Me
         End Function
 
+        ''' <summary>
+        ''' transpose the columns vector as rows collection
+        ''' </summary>
+        ''' <param name="columns"></param>
+        ''' <returns></returns>
         Private Shared Iterator Function ColumnRows(columns As ArgumentReference()) As IEnumerable(Of RowObject)
             Dim collectionType As Type() = {GetType(Array), GetType(IEnumerable), GetType(IList)}
             Dim matrix As Object()() = columns _
@@ -543,6 +560,8 @@ Namespace IO
                     Return i
                 End If
             Next
+
+            Return -1
         End Function
 
         ''' <summary>

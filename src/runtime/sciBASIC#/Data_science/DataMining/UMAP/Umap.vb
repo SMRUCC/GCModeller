@@ -1,64 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::a941df10da1cd6966661221a376bfa51, Data_science\DataMining\UMAP\Umap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 486
-    '    Code Lines: 306 (62.96%)
-    ' Comment Lines: 105 (21.60%)
-    '    - Xml Docs: 64.76%
-    ' 
-    '   Blank Lines: 75 (15.43%)
-    '     File Size: 21.10 KB
+' Summaries:
 
 
-    ' Class Umap
-    ' 
-    '     Properties: dimension
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: (+2 Overloads) [Step], FindABParams, FuzzySimplicialSet, GetEmbedding, GetGraph
-    '               GetNEpochs, GetProgress, InitializeFit, InitializeFitImpl, InitializeSimplicialSetEmbedding
-    '               MakeEpochsPerSample
-    ' 
-    '     Sub: InitializeOptimization, Iterate, OptimizeLayoutStep, PrepareForOptimizationLoop, RunIterate
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 486
+'    Code Lines: 306 (62.96%)
+' Comment Lines: 105 (21.60%)
+'    - Xml Docs: 64.76%
+' 
+'   Blank Lines: 75 (15.43%)
+'     File Size: 21.10 KB
+
+
+' Class Umap
+' 
+'     Properties: dimension
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: (+2 Overloads) [Step], FindABParams, FuzzySimplicialSet, GetEmbedding, GetGraph
+'               GetNEpochs, GetProgress, InitializeFit, InitializeFitImpl, InitializeSimplicialSetEmbedding
+'               MakeEpochsPerSample
+' 
+'     Sub: InitializeOptimization, Iterate, OptimizeLayoutStep, PrepareForOptimizationLoop, RunIterate
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.CommandLine.InteropService.Pipeline
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.UMAP.KNN
@@ -182,16 +183,6 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         _progressReporter = progressReporter
     End Sub
 
-    Private Function GetProgress() As RunSlavePipeline.SetProgressEventHandler
-        If _progressReporter Is Nothing Then
-            Return Sub(progress, msg)
-                       ' do nothing
-                   End Sub
-        Else
-            Return ScaleProgressReporter(_progressReporter, 0, 0.8F)
-        End If
-    End Function
-
     Public Function GetGraph() As SparseMatrix
         'Return New SparseMatrix(
         '    rows:=_optimizationState.Head,
@@ -207,22 +198,15 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         ' InitializeFit Takes at least 80% of the total time (the calls to Step are
         ' completed much more quickly AND they naturally lend themselves to granular progress updates; 
         ' one per loop compared to the recommended number of epochs)
-        Dim initializeFitProgressReporter As RunSlavePipeline.SetProgressEventHandler = GetProgress()
-
         If _kdTreeKNNEngine Then
             _knn = KDTreeMetric.GetKNN(_x, k:=KNNArguments.k)
         Else
             ' This part of the process very roughly accounts for 1/3 of the work
-            _knn = New KNearestNeighbour(KNNArguments.k, _distanceFn, _random) _
-                .NearestNeighbors(_x, ScaleProgressReporter(initializeFitProgressReporter, 0, 0.3F))
+            _knn = New KNearestNeighbour(KNNArguments.k, _distanceFn, _random).NearestNeighbors(_x)
         End If
 
         ' This part of the process very roughly accounts for 2/3 of the work (the reamining work is in the Step calls)
-        _graph = Me.FuzzySimplicialSet(
-            x:=_x,
-            setOpMixRatio:=_setOpMixRatio,
-            progressReporter:=ScaleProgressReporter(initializeFitProgressReporter, 0.3F, 1)
-        )
+        _graph = Me.FuzzySimplicialSet(x:=_x, setOpMixRatio:=_setOpMixRatio)
 
         With InitializeSimplicialSetEmbedding()
             ' Set the optimization routine state
@@ -300,19 +284,18 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     ''' for each such point, and then combining all the local fuzzy simplicial sets into a global one via 
     ''' a fuzzy union.
     ''' </summary>
-    Private Function FuzzySimplicialSet(x As Double()(), setOpMixRatio As Double, progressReporter As RunSlavePipeline.SetProgressEventHandler) As SparseMatrix
+    Private Function FuzzySimplicialSet(x As Double()(), setOpMixRatio As Double) As SparseMatrix
         Dim knnIndices = If(_knn.knnIndices, New Integer(-1)() {})
         Dim knnDistances = If(_knn.knnDistances, New Single(-1)() {})
-        Dim report As New ProgressReporter With {.report = progressReporter}
-        Dim sigmasRhos = report.Run(Function() New SmoothKNN(knnDistances, KNNArguments).SmoothKNNDistance(), 0.1, "SmoothKNNDistance")
-        Dim rowsColsVals = report.Run(Function() SmoothKNN.ComputeMembershipStrengths(knnIndices, knnDistances, sigmasRhos.sigmas, sigmasRhos.rhos), 0.2, "ComputeMembershipStrengths")
-        Dim sparseMatrix = report.Run(Function() New SparseMatrix(rowsColsVals.Row, rowsColsVals.Col, rowsColsVals.X, (x.Length, x.Length)), 0.3, "Create SparseMatrix")
+        Dim sigmasRhos = New SmoothKNN(knnDistances, KNNArguments).SmoothKNNDistance()
+        Dim rowsColsVals = SmoothKNN.ComputeMembershipStrengths(knnIndices, knnDistances, sigmasRhos.sigmas, sigmasRhos.rhos)
+        Dim sparseMatrix = New SparseMatrix(rowsColsVals.Row, rowsColsVals.Col, rowsColsVals.X, (x.Length, x.Length))
         Dim transpose = sparseMatrix.Transpose()
         Dim prodMatrix = sparseMatrix.PairwiseMultiply(transpose)
-        Dim a = report.Run(Function() sparseMatrix.Add(CType(transpose, SparseMatrix)).Subtract(prodMatrix), 0.4, "T - prod")
-        Dim b = report.Run(Function() a.MultiplyScalar(setOpMixRatio), 0.5, "a * setOpMixRatio")
-        Dim c = report.Run(Function() prodMatrix.MultiplyScalar(1 - setOpMixRatio), 0.6, "prod * (1 - setOpMixRatio)")
-        Dim result = report.Run(Function() b.Add(c), 0.7, "b + c")
+        Dim a = sparseMatrix.Add(CType(transpose, SparseMatrix)).Subtract(prodMatrix)
+        Dim b = a.MultiplyScalar(setOpMixRatio)
+        Dim c = prodMatrix.MultiplyScalar(1 - setOpMixRatio)
+        Dim result = b.Add(c)
 
         Return result
     End Function
@@ -422,12 +405,8 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     End Sub
 
     Public Function [Step](nEpochs As Integer) As Umap
-        For i As Integer = 0 To nEpochs - 1
+        For Each i As Integer In Tqdm.Range(0, nEpochs)
             Call [Step]()
-
-            If (100 * i / nEpochs) Mod 5 = 0 Then
-                Call VBDebugger.EchoLine($"- Completed {i + 1} of {nEpochs} [{CInt(100 * i / nEpochs)}%]")
-            End If
         Next
 
         Return Me
@@ -449,7 +428,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
                 ' assumption that Step will be called the recommended number of times (the number-of-epochs value 
                 ' returned From InitializeFit)
                 ' Umap.ScaleProgressReporter(_progressReporter, 0.8F, 1)(CSng(currentEpoch) / numberOfEpochsToComplete, "OptimizeLayoutStep")
-                Call Console.Write(".")
+                ' Call Console.Write(".")
             End If
         End If
 

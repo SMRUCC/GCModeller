@@ -67,7 +67,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Algorithm
 
@@ -127,6 +127,12 @@ Namespace ComponentModel.Algorithm
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property size As Integer
+
+        Public ReadOnly Property numBlocks As Integer
+            Get
+                Return binary.size
+            End Get
+        End Property
 
         ''' <summary>
         ''' the raw input sequence data, element order keeps the same with the input sequence.
@@ -232,6 +238,26 @@ Namespace ComponentModel.Algorithm
         End Function
 
         ''' <summary>
+        ''' get index offset by target matches
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        Public Function GetOffset(x As T) As Integer
+            ' has no data to query
+            If size = 0 Then
+                Return -1
+            Else
+                Return binary.BinarySearch(target:=New Block(Of T) With {.min = eval(x)})
+            End If
+        End Function
+
+        Public Iterator Function GetBlock(offset As Integer) As IEnumerable(Of T)
+            For Each a As SequenceTag(Of T) In binary(offset).block
+                Yield a.data
+            Next
+        End Function
+
+        ''' <summary>
         ''' query data with a given tolerance value
         ''' </summary>
         ''' <param name="x"></param>
@@ -239,15 +265,7 @@ Namespace ComponentModel.Algorithm
         ''' this function returns an empty collection if no hits result
         ''' </returns>
         Public Iterator Function Search(x As T, Optional tolerance As Double? = Nothing) As IEnumerable(Of T)
-            Dim wrap As New Block(Of T) With {.min = eval(x)}
-            Dim i As Integer = -1
-
-            ' has no data to query
-            If size = 0 Then
-                Return
-            Else
-                i = binary.BinarySearch(target:=wrap)
-            End If
+            Dim i As Integer = GetOffset(x)
 
             If i = -1 Then
                 Return
@@ -278,7 +296,7 @@ Namespace ComponentModel.Algorithm
             Dim val As Double = eval(x)
 
             For Each a As SequenceTag(Of T) In joint
-                If stdNum.Abs(a.tag - val) <= tolerance Then
+                If std.Abs(a.tag - val) <= tolerance Then
                     Yield a.data
                 End If
             Next
