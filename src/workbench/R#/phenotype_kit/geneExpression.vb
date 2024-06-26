@@ -1,64 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::0ebb6ed560a6c77226658352a3a068d3, R#\phenotype_kit\geneExpression.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 1400
-    '    Code Lines: 855 (61.07%)
-    ' Comment Lines: 417 (29.79%)
-    '    - Xml Docs: 94.96%
-    ' 
-    '   Blank Lines: 128 (9.14%)
-    '     File Size: 56.58 KB
+' Summaries:
 
 
-    ' Module geneExpression
-    ' 
-    '     Function: add_gauss, Aggregate, applyPCA, average, castGenericRows
-    '               cmeans, CMeans3D, CmeansPattern, createDEGModels, createVectorList
-    '               DEGclass, depDataTable, dimensionNotAgree, dims, exp
-    '               expDataTable, filter, filterNaN, filterZeroGenes, filterZeroSamples
-    '               geneId, GetCmeansPattern, GetCmeansPatternA, getFuzzyPatternMembers, getMatrixInformation
-    '               joinSamples, loadExpression, loadFromDataFrame, loadFromGenericDataSet, loadMatrixView
-    '               log, matrixSummary, ranking, readBinaryMatrix, readPattern
-    '               relative, representatives, savePattern, setGeneIDs, setSampleIDs
-    '               setTag, setZero, splitCMeansClusters, toClusters, totalSumNorm
-    '               tr, Ttest, uniqueGeneId, writeMatrix, zscore
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 1400
+'    Code Lines: 855 (61.07%)
+' Comment Lines: 417 (29.79%)
+'    - Xml Docs: 94.96%
+' 
+'   Blank Lines: 128 (9.14%)
+'     File Size: 56.58 KB
+
+
+' Module geneExpression
+' 
+'     Function: add_gauss, Aggregate, applyPCA, average, castGenericRows
+'               cmeans, CMeans3D, CmeansPattern, createDEGModels, createVectorList
+'               DEGclass, depDataTable, dimensionNotAgree, dims, exp
+'               expDataTable, filter, filterNaN, filterZeroGenes, filterZeroSamples
+'               geneId, GetCmeansPattern, GetCmeansPatternA, getFuzzyPatternMembers, getMatrixInformation
+'               joinSamples, loadExpression, loadFromDataFrame, loadFromGenericDataSet, loadMatrixView
+'               log, matrixSummary, ranking, readBinaryMatrix, readPattern
+'               relative, representatives, savePattern, setGeneIDs, setSampleIDs
+'               setTag, setZero, splitCMeansClusters, toClusters, totalSumNorm
+'               tr, Ttest, uniqueGeneId, writeMatrix, zscore
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -94,7 +94,7 @@ Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports std = System.Math
-Imports Vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
+Imports stdvec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
 ''' the gene expression matrix data toolkit
@@ -854,8 +854,8 @@ Module geneExpression
     Public Function totalSumNorm(matrix As Matrix, Optional scale As Double = 10000) As Matrix
         Dim samples = matrix.sampleID _
             .Select(Function(ref)
-                        Dim v As Vec = matrix.sample(ref)
-                        Dim col As New NamedValue(Of Vec)(ref, scale * v / v.Sum)
+                        Dim v As stdvec = matrix.sample(ref)
+                        Dim col As New NamedValue(Of stdvec)(ref, scale * v / v.Sum)
 
                         Return col
                     End Function) _
@@ -894,7 +894,7 @@ Module geneExpression
                 .Select(Function(gene)
                             Return New DataFrameRow With {
                                 .geneID = gene.geneID,
-                                .experiments = New Vec(gene.experiments) / gene.experiments.Max
+                                .experiments = New stdvec(gene.experiments) / gene.experiments.Max
                             }
                         End Function) _
                 .ToArray
@@ -1418,7 +1418,7 @@ Module geneExpression
     <ExportAPI("aggregate")>
     Public Function Aggregate(x As Matrix, Optional byrow As Boolean = True) As Object
         If byrow Then
-            Dim rows As New Dictionary(Of String, Vec)
+            Dim rows As New Dictionary(Of String, stdvec)
 
             For Each gene As DataFrameRow In x.expression
                 If rows.ContainsKey(gene.geneID) Then
@@ -1456,7 +1456,7 @@ Module geneExpression
         Dim width As Integer = x.sampleID.Length
 
         For i As Integer = 0 To x.size - 1
-            x.expression(i).experiments += (x.expression(i) * Vec.rand(-scale, scale, width))
+            x.expression(i).experiments += (x.expression(i) * stdvec.rand(-scale, scale, width))
         Next
 
         Return x

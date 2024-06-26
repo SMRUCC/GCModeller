@@ -33579,7 +33579,6 @@ Global
 		..\..\R-sharp\Library\shares\dataframeHelper\dataframeHelper.projitems*{843b6786-8992-48bf-99be-6579b9645961}*SharedItemsImports = 13
 		..\..\Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{9b5ef311-a718-4067-a409-417de0f9d2af}*SharedItemsImports = 13
 		..\..\R-sharp\studio\Rstudio.common\Rstudio.common.projitems*{b0421d6a-508a-4f25-bd54-bd1b9bd1f290}*SharedItemsImports = 5
-		..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.NETProtocol\TcpRequest\TcpRequest.projitems*{b0421d6a-508a-4f25-bd54-bd1b9bd1f290}*SharedItemsImports = 5
 		..\..\R-sharp\Library\shares\JsonHelper\JsonHelper.projitems*{b2ae1422-d7da-4053-a386-eb2ea9326d68}*SharedItemsImports = 13
 		Rscript_shared\Rscript_shared.projitems*{caca6eca-dadf-4c7d-a99e-e1aa8afeffa9}*SharedItemsImports = 5
 		Rscript_shared\Rscript_shared.projitems*{e2d629cc-31b1-4bd6-97fa-e3714537d3a6}*SharedItemsImports = 5

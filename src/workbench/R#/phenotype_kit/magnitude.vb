@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::9186d4d71519e3d8f7040ea8a0de6bba, R#\phenotype_kit\magnitude.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 125
-    '    Code Lines: 81 (64.80%)
-    ' Comment Lines: 26 (20.80%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 18 (14.40%)
-    '     File Size: 4.43 KB
+' Summaries:
 
 
-    ' Module magnitude
-    ' 
-    '     Function: applyFeature, applySample, encode_seqPack, triq
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 125
+'    Code Lines: 81 (64.80%)
+' Comment Lines: 26 (20.80%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 18 (14.40%)
+'     File Size: 4.43 KB
+
+
+' Module magnitude
+' 
+'     Function: applyFeature, applySample, encode_seqPack, triq
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,7 +55,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler.TrIQ
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics

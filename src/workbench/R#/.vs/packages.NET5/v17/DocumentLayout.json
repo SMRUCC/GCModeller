@@ -1,17 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
+  "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|e:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,25 +21,29 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "GSEA.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
               "RelativeDocumentMoniker": "gseakit\\GSEA.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
               "RelativeToolTip": "gseakit\\GSEA.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAKAAAAAdAAAA",
+              "ViewState": "AQIAAJ4AAAAAAAAAAAAgwKAAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-06-19T04:49:44.89Z",
               "EditorCaption": ""
@@ -47,9 +51,11 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "R-cmd.NET5.vbproj",
+              "Title": "R-cmd.NET5",
               "DocumentMoniker": "E:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "ToolTip": "E:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
               "WhenOpened": "2024-06-19T01:53:21.021Z"
             },
@@ -57,17 +63,13 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "GSEABackground.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
               "RelativeDocumentMoniker": "gseakit\\GSEABackground.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
               "RelativeToolTip": "gseakit\\GSEABackground.vb",
               "ViewState": "AQIAAD8BAAAAAAAAAAAIwGMBAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-06-19T00:47:29.758Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
