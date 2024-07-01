@@ -3,12 +3,41 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\web\\map\\xml\\map.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\kegg.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\kegg.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\kobas.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\kobas.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\profiles.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\profiles.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\utils\\mapbackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\utils\\mapbackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{950FAFDF-AA20-4FF8-A767-6CA186883635}|..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea.knowledgebase.extensions\\metabolism\\metpa\\mset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{950FAFDF-AA20-4FF8-A767-6CA186883635}|..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea.knowledgebase.extensions\\metabolism\\enrichmentnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\repository\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\repository\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|e:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
@@ -21,8 +50,99 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Map.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\XML\\Map.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\XML\\Map.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\XML\\Map.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\XML\\Map.vb",
+              "ViewState": "AQIAAEEAAAAAAAAAAAD6v0sAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-01T11:14:44.216Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "KEGG.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\KEGG.vb",
+              "RelativeDocumentMoniker": "gseakit\\KEGG.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\KEGG.vb",
+              "RelativeToolTip": "gseakit\\KEGG.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-01T11:02:48.896Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "KOBAS.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\KOBAS.vb",
+              "RelativeDocumentMoniker": "gseakit\\KOBAS.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\KOBAS.vb",
+              "RelativeToolTip": "gseakit\\KOBAS.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-01T11:02:29.649Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Profiles.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\Profiles.vb",
+              "RelativeDocumentMoniker": "gseakit\\Profiles.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\Profiles.vb",
+              "RelativeToolTip": "gseakit\\Profiles.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-01T11:02:24.416Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MapBackground.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\Utils\\MapBackground.vb",
+              "RelativeDocumentMoniker": "gseakit\\Utils\\MapBackground.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\Utils\\MapBackground.vb",
+              "RelativeToolTip": "gseakit\\Utils\\MapBackground.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-01T11:02:18.499Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "mset.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\Metpa\\mset.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\Metpa\\mset.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\Metpa\\mset.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\Metpa\\mset.vb",
+              "ViewState": "AQIAAEIAAAAAMzMzMzMSwHoAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-01T11:01:52.796Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EnrichmentNetwork.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
+              "ViewState": "AQIAAJgAAAAAAAAAAAAnwLQAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-01T11:01:51.827Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -37,20 +157,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 8,
+              "Title": "repository.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\repository.vb",
+              "RelativeDocumentMoniker": "kegg_kit\\repository\\repository.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository\\repository.vb",
+              "RelativeToolTip": "kegg_kit\\repository\\repository.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAGcAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-01T11:01:20.191Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "GSEA.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
               "RelativeDocumentMoniker": "gseakit\\GSEA.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
               "RelativeToolTip": "gseakit\\GSEA.vb",
-              "ViewState": "AQIAAJ4AAAAAAAAAAAAgwKAAAAAdAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAKAAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-06-19T04:49:44.89Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 10,
               "Title": "R-cmd.NET5",
               "DocumentMoniker": "E:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
@@ -61,15 +194,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "GSEABackground.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
               "RelativeDocumentMoniker": "gseakit\\GSEABackground.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
               "RelativeToolTip": "gseakit\\GSEABackground.vb",
-              "ViewState": "AQIAAD8BAAAAAAAAAAAIwGMBAAAgAAAA",
+              "ViewState": "AQIAAE8AAACAzMzMzAwswFQAAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-06-19T00:47:29.758Z"
+              "WhenOpened": "2024-06-19T00:47:29.758Z",
+              "EditorCaption": ""
             }
           ]
         }

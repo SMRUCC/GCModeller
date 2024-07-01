@@ -929,7 +929,7 @@ Public Module GSEABackground
     ''' </remarks>
     <ExportAPI("compoundBrite")>
     Public Function KEGGCompoundBriteClassBackground() As Background
-        Return KEGG.CompoundBriteBackground
+        Return GSEATools.CompoundBriteBackground
     End Function
 
     ''' <summary>
