@@ -72,8 +72,9 @@ declare namespace GCModeller {
    function __hds_compound_files(kegg_db: any, flag?: any, what?: any): object;
    /**
      * @param kegg_maps default value Is ``null``.
+     * @param raw_maps default value Is ``false``.
    */
-   function __load_kegg_map(kegg_maps?: any): object;
+   function __load_kegg_map(kegg_maps?: any, raw_maps?: any): object;
    /**
    */
    function __parseIdvector(set: any): object;
@@ -125,6 +126,10 @@ declare namespace GCModeller {
      * @param raw default value Is ``true``.
    */
    function kegg_reactions(raw?: any): object;
+   /**
+     * @param raw_maps default value Is ``true``.
+   */
+   function load_kegg_maps(raw_maps?: any): object;
    /**
      * @param compoundcolors default value Is ``red``.
      * @param gene_highights default value Is ``blue``.
