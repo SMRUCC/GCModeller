@@ -58,6 +58,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
@@ -139,12 +140,21 @@ Namespace Assembly.KEGG.WebServices.XML
             Next
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns>
+        ''' a unique set of the kegg compound id
+        ''' </returns>
         Public Overrides Iterator Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+            Dim unique As New Index(Of String)
+
             For Each shape As Area In shapes.mapdata
                 Dim list = shape.Names.ToArray
 
                 For Each id As NamedValue(Of String) In list
-                    If id.Name.IsPattern("C\d+") Then
+                    If id.Name.IsPattern("C\d+") AndAlso Not id.Name Like unique Then
+                        unique.Add(id)
                         Yield id
                     End If
                 Next
