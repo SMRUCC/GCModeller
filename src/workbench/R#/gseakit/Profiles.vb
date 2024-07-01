@@ -83,7 +83,7 @@ Public Module profiles
     ''' <returns></returns>
     <ExportAPI("kegg_category")>
     Public Function CreateKEGGCategory(background As Background) As ClassProfiles
-        Return KEGG.IDCategoryFromBackground(background)
+        Return SMRUCC.genomics.Analysis.HTS.GSEA.IDCategoryFromBackground(background)
     End Function
 
     ''' <summary>
