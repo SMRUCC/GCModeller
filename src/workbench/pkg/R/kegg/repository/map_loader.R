@@ -11,7 +11,7 @@ const __load_kegg_map = function(kegg_maps = NULL, raw_maps = FALSE) {
     print(kegg_maps);
 
     GCModeller::kegg_maps(rawMaps = FALSE, repo = {
-        if (file.exists(kegg_maps) || dir.exists(kegg_maps)) {
+        if ((!is.null(kegg_maps)) && (file.exists(kegg_maps) || dir.exists(kegg_maps))) {
             kegg_maps;
         } else {
             system.file("data/kegg/KEGG_maps.msgpack", package = "GCModeller");
