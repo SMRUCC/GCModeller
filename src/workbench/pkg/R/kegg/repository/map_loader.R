@@ -12,7 +12,7 @@ const __load_kegg_map = function(kegg_maps = NULL, raw_maps = FALSE) {
     print("inspect of the kegg_maps source:");
     print(kegg_maps);
 
-    GCModeller::kegg_maps(rawMaps = FALSE, repo = {
+    GCModeller::kegg_maps(rawMaps = raw_maps, repo = {
         if (!is.null(kegg_maps)) {
             if (file.exists(kegg_maps) || dir.exists(kegg_maps)) {
                 kegg_maps;
