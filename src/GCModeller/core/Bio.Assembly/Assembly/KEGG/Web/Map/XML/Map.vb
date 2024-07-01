@@ -128,12 +128,21 @@ Namespace Assembly.KEGG.WebServices.XML
             Next
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns>
+        ''' a unique set of the gene id
+        ''' </returns>
         Public Overrides Iterator Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Dim unique As New Index(Of String)
+
             For Each shape As Area In shapes.mapdata
                 Dim list = shape.Names.ToArray
 
                 For Each id As NamedValue(Of String) In list
-                    If Not id.Name.IsPattern("[CDGRM]\d+") Then
+                    If (Not id.Name.IsPattern("[CDGRM]\d+")) AndAlso Not id.Name Like unique Then
+                        unique.Add(id.Name)
                         Yield id
                     End If
                 Next
@@ -154,7 +163,7 @@ Namespace Assembly.KEGG.WebServices.XML
 
                 For Each id As NamedValue(Of String) In list
                     If id.Name.IsPattern("C\d+") AndAlso Not id.Name Like unique Then
-                        unique.Add(id)
+                        unique.Add(id.Name)
                         Yield id
                     End If
                 Next
