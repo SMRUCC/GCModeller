@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22ca7db861c58b9b2567d5289f84dace, Microsoft.VisualBasic.Core\src\CommandLine\InteropService\Pipeline\RunSlavePipeline.vb"
+﻿#Region "Microsoft.VisualBasic::999c3138253699792d94c91a621f9a8d, Microsoft.VisualBasic.Core\src\CommandLine\InteropService\Pipeline\RunSlavePipeline.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 142
-    '    Code Lines: 82 (57.75%)
-    ' Comment Lines: 36 (25.35%)
-    '    - Xml Docs: 86.11%
+    '   Total Lines: 173
+    '    Code Lines: 106 (61.27%)
+    ' Comment Lines: 38 (21.97%)
+    '    - Xml Docs: 81.58%
     ' 
-    '   Blank Lines: 24 (16.90%)
-    '     File Size: 5.13 KB
+    '   Blank Lines: 29 (16.76%)
+    '     File Size: 6.49 KB
 
 
     '     Class RunSlavePipeline
@@ -49,9 +49,9 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: Run, Start, ToString
+    '         Function: Bind, Run, Start, ToString
     ' 
-    '         Sub: HookProgress, ProcessMessage, SendMessage, SendProgress
+    '         Sub: HookProgress, (+2 Overloads) ProcessMessage, SendMessage, SendProgress
     ' 
     ' 
     ' /********************************************************************************/
@@ -168,16 +168,37 @@ Namespace CommandLine.InteropService.Pipeline
                 Return
             End If
 
-            If line.StartsWith("[SET_MESSAGE]") Then
+            If line.StartsWith(message_header) Then
                 ' [SET_MESSAGE] message text
                 RaiseEvent SetMessage(line.GetTagValue(" ", trim:=True).Value)
-            ElseIf line.StartsWith("[SET_PROGRESS]") Then
+            ElseIf line.StartsWith(progress_header) Then
                 ' [SET_PROGRESS] percentage message text
                 Dim data = line.GetTagValue(" ", trim:=True).Value.GetTagValue(" ", trim:=True)
                 Dim percentage As Double = Val(data.Name)
                 Dim message As String = data.Value
 
                 RaiseEvent SetProgress(percentage, message)
+            End If
+        End Sub
+
+        Const message_header = "[SET_MESSAGE]"
+        Const progress_header = "[SET_PROGRESS]"
+
+        Public Shared Sub ProcessMessage(line As String, println As Action(Of String), progress As Action(Of Double, String))
+            If line.StringEmpty Then
+                Return
+            End If
+
+            If line.StartsWith(message_header) Then
+                ' [SET_MESSAGE] message text
+                println(line.GetTagValue(" ", trim:=True).Value)
+            ElseIf line.StartsWith(progress_header) Then
+                ' [SET_PROGRESS] percentage message text
+                Dim data = line.GetTagValue(" ", trim:=True).Value.GetTagValue(" ", trim:=True)
+                Dim percentage As Double = Val(data.Name)
+                Dim message As String = data.Value
+
+                progress(percentage, message)
             End If
         End Sub
 
@@ -189,7 +210,7 @@ Namespace CommandLine.InteropService.Pipeline
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Sub SendMessage(message As String)
             ' Call VBDebugger.WaitOutput()
-            Call VBDebugger.EchoLine($"[SET_MESSAGE] {message}")
+            Call VBDebugger.EchoLine($"{message_header} {message}")
         End Sub
 
         Shared m_hookProgress As SetProgressEventHandler
@@ -201,7 +222,7 @@ Namespace CommandLine.InteropService.Pipeline
 
         Public Shared Sub SendProgress(percentage As Double, message As String)
             ' Call VBDebugger.WaitOutput()
-            Call VBDebugger.EchoLine($"[SET_PROGRESS] {percentage} {message}")
+            Call VBDebugger.EchoLine($"{progress_header} {percentage} {message}")
 
             If Not m_hookProgress Is Nothing Then
                 Call m_hookProgress(percentage, message)
