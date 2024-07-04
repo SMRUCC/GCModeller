@@ -91,6 +91,22 @@ Imports Microsoft.VisualBasic.Language
     ''' <returns></returns>
     Public Property shape As String
 
+    Sub New()
+    End Sub
+
+    ''' <summary>
+    ''' copy the sample group information
+    ''' </summary>
+    ''' <param name="info">
+    ''' could be copy from the information of a sample: <see cref="SampleInfo"/>
+    ''' </param>
+    Sub New(info As SampleGroup)
+        sample_name = info.sample_name
+        sample_info = info.sample_info
+        color = info.color
+        shape = info.shape
+    End Sub
+
     Public Overrides Function ToString() As String
         Return $"[{sample_info}] {sample_name}"
     End Function
