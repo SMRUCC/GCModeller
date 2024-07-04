@@ -1,3 +1,3 @@
-﻿Public Module Quantile
+﻿Public Module QuantileNormalization
 
 End Module
