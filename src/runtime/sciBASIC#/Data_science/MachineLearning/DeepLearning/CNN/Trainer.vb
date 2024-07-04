@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7dbcc27b578a012b27241b5bb5d83365, Data_science\MachineLearning\DeepLearning\CNN\Trainer.vb"
+﻿#Region "Microsoft.VisualBasic::08bf06b1a192a0fad05dfa27e1774aa7, Data_science\MachineLearning\DeepLearning\CNN\Trainer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 137
-    '    Code Lines: 106 (77.37%)
-    ' Comment Lines: 8 (5.84%)
-    '    - Xml Docs: 87.50%
+    '   Total Lines: 141
+    '    Code Lines: 109 (77.30%)
+    ' Comment Lines: 8 (5.67%)
+    '    - Xml Docs: 75.00%
     ' 
-    '   Blank Lines: 23 (16.79%)
-    '     File Size: 5.51 KB
+    '   Blank Lines: 24 (17.02%)
+    '     File Size: 5.74 KB
 
 
     '     Class Trainer
@@ -151,24 +151,27 @@ Namespace CNN
         ''' <summary>
         ''' Run CNN trainer
         ''' </summary>
-        ''' <param name="cnn"></param>
         ''' <param name="trainset"></param>
         ''' <param name="max_loops"></param>
         ''' <returns></returns>
-        Public Function train(cnn As ConvolutionalNN, trainset As SampleData(), max_loops As Integer) As ConvolutionalNN
+        Public Function train(trainset As SampleData(), max_loops As Integer) As ConvolutionalNN
             Dim t As Integer = 0
             Dim stopTrain As Boolean
             Dim right = 0
             Dim count = 0
 
             is_generative = trainset(0).labels.Length > 1
+
+            ' make dataset normalization
             trainset = SampleData.TransformDataset(
                 trainset:=trainset,
                 is_generative:=is_generative,
                 is_training:=True
             ).ToArray
 
-            Call alg.SetKernel(cnn)
+            If alg.conv_net Is Nothing Then
+                Throw New InvalidProgramException("no neuron network model inside the trainer algorithm module, call SetKernel method before call this train method!")
+            End If
 
             While t < max_loops AndAlso Not stopTrain
                 Dim epochsNum As Integer = trainset.Length / alg.batch_size
@@ -180,16 +183,17 @@ Namespace CNN
                 Call log("")
                 Call log("(" & t.ToString() & $"th/{max_loops}) iter epochsNum: " & epochsNum.ToString())
                 Call TrainEpochs(trainset, epochsNum, right, count)
+                Call log("")
                 Call log("precision " & right.ToString() & "/" & count.ToString() & $"={(100 * right / count).ToString("F2")}%")
 
                 If Not action Is Nothing Then
-                    Call action(t, cnn)
+                    Call action(t, alg.conv_net)
                 End If
 
                 t += 1
             End While
 
-            Return cnn
+            Return alg.conv_net
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f104eaf50c56e80a25c0cd2958798cf, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\ConcurenceRunner.vb"
+﻿#Region "Microsoft.VisualBasic::927e0658d681e3adee33ba80dc715dbe, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\ConcurenceRunner.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 98.46%
     ' 
     '   Blank Lines: 22 (13.58%)
-    '     File Size: 6.04 KB
+    '     File Size: 6.07 KB
 
 
     '     Class VectorTask
@@ -102,7 +102,7 @@ Namespace Parallel
         ''' <summary>
         ''' solve a sub task
         ''' </summary>
-        ''' <param name="start"></param>
+        ''' <param name="start">index offset start from zero</param>
         ''' <param name="ends"></param>
         Protected MustOverride Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
 
