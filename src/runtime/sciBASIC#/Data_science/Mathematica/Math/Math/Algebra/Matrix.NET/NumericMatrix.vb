@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7df0ff66fab197bd4786668a976d3b7c, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\NumericMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::fd56875cd213edf6e01b8e2619d7d3b2, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\NumericMatrix.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1909
-    '    Code Lines: 1034 (54.16%)
-    ' Comment Lines: 623 (32.63%)
-    '    - Xml Docs: 96.15%
+    '   Total Lines: 1928
+    '    Code Lines: 1045 (54.20%)
+    ' Comment Lines: 626 (32.47%)
+    '    - Xml Docs: 96.17%
     ' 
-    '   Blank Lines: 252 (13.20%)
-    '     File Size: 69.11 KB
+    '   Blank Lines: 257 (13.33%)
+    '     File Size: 69.74 KB
 
 
     '     Class NumericMatrix
@@ -83,6 +83,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Parallel
+Imports Microsoft.VisualBasic.Parallel
 Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace LinearAlgebra.Matrix
@@ -145,6 +147,7 @@ Namespace LinearAlgebra.Matrix
         Implements ICloneable
         Implements IDisposable
         Implements GeneralMatrix
+        Implements INumericMatrix
 
 #Region "Class variables"
 
@@ -864,6 +867,9 @@ Namespace LinearAlgebra.Matrix
         ''' <returns>    
         ''' A'
         ''' </returns>
+        ''' <remarks>
+        ''' make a value copy of the matrix 
+        ''' </remarks>
         Public Overridable Function Transpose() As GeneralMatrix Implements GeneralMatrix.Transpose
             Dim X As New NumericMatrix(n, m)
             Dim C As Double()() = X.Array
@@ -1133,7 +1139,11 @@ Namespace LinearAlgebra.Matrix
             For i As Integer = 0 To m - 1
                 For j As Integer = 0 To n - 1
                     ' A / B
-                    C(i)(j) = buffer(i)(j) / B(i, j)
+                    If buffer(i)(j) = 0.0 Then
+                        C(i)(j) = 0.0
+                    Else
+                        C(i)(j) = buffer(i)(j) / B(i, j)
+                    End If
                 Next
             Next
 
@@ -1961,23 +1971,32 @@ Namespace LinearAlgebra.Matrix
         ''' <param name="B"></param>
         ''' <returns></returns>
         Public Function DotProduct(B As GeneralMatrix) As GeneralMatrix Implements GeneralMatrix.Dot
-            Dim X As New NumericMatrix(m, B.ColumnDimension)
-            Dim C As Double()() = X.Array
-            Dim Bcolj As Double() = New Double(n - 1) {}
-            For j As Integer = 0 To B.ColumnDimension - 1
-                For k As Integer = 0 To n - 1
-                    Bcolj(k) = B(k, j)
-                Next
-                For i As Integer = 0 To m - 1
-                    Dim Arowi As Double() = buffer(i)
-                    Dim s As Double = 0
+            Dim c As Double()()
+
+            If ParallelEnvironment.Enable AndAlso VectorTask.n_threads > 1 Then
+                c = MatrixDotProduct.Resolve(buffer, B.ArrayPack)
+            Else
+                Dim Bcolj As Double() = New Double(n - 1) {}
+
+                c = RectangularArray.Matrix(Of Double)(m, B.ColumnDimension)
+
+                For j As Integer = 0 To B.ColumnDimension - 1
                     For k As Integer = 0 To n - 1
-                        s += Arowi(k) * Bcolj(k)
+                        Bcolj(k) = B(k, j)
                     Next
-                    C(i)(j) = s
+                    For i As Integer = 0 To m - 1
+                        Dim Arowi As Double() = buffer(i)
+                        Dim s As Double = 0
+
+                        For k As Integer = 0 To n - 1
+                            s += Arowi(k) * Bcolj(k)
+                        Next
+                        c(i)(j) = s
+                    Next
                 Next
-            Next
-            Return X
+            End If
+
+            Return New NumericMatrix(c)
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25100db61a08375096de23bb418f61d7, Data_science\MachineLearning\MachineLearning\ComponentModel\DataSet\Sample.vb"
+﻿#Region "Microsoft.VisualBasic::21e4af456d8da729cce8a52b439ba84d, Data_science\MachineLearning\MachineLearning\ComponentModel\DataSet\Sample.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 256
-    '    Code Lines: 171 (66.80%)
-    ' Comment Lines: 46 (17.97%)
-    '    - Xml Docs: 97.83%
+    '   Total Lines: 265
+    '    Code Lines: 171 (64.53%)
+    ' Comment Lines: 55 (20.75%)
+    '    - Xml Docs: 94.55%
     ' 
-    '   Blank Lines: 39 (15.23%)
-    '     File Size: 9.42 KB
+    '   Blank Lines: 39 (14.72%)
+    '     File Size: 9.79 KB
 
 
     '     Class SampleData
@@ -147,6 +147,13 @@ Namespace ComponentModel.StoreProcedure
             }
         End Function
 
+        ''' <summary>
+        ''' make dataset normalization
+        ''' </summary>
+        ''' <param name="trainset"></param>
+        ''' <param name="is_generative"></param>
+        ''' <param name="is_training"></param>
+        ''' <returns></returns>
         Public Shared Iterator Function TransformDataset(trainset As SampleData(), is_generative As Boolean, is_training As Boolean) As IEnumerable(Of SampleData)
             Dim featureMax As Double() = New Double(trainset(0).features.Length - 1) {}
             Dim labelMax As Double() = Nothing
@@ -176,6 +183,8 @@ Namespace ComponentModel.StoreProcedure
             For i As Integer = 0 To trainset.Length - 1
                 Dim label As Double() = trainset(i).labels
 
+                ' data is normalized by feature columns
+                ' labelMax and featureMax is vector 
                 If is_training AndAlso is_generative Then
                     label = SIMD.Divide.f64_op_divide_f64(label, labelMax)
                 End If

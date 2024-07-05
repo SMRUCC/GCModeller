@@ -63,13 +63,18 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
-Imports stdNum = System.Math
+Imports std = System.Math
 
 ''' <summary>
 ''' math helper for HTS matrix
 ''' </summary>
 Public Module Math
 
+    ''' <summary>
+    ''' sum multiple gene expression into a vector
+    ''' </summary>
+    ''' <param name="expr"></param>
+    ''' <returns>expression sum value in a vector</returns>
     <Extension>
     Public Function Sum(expr As IEnumerable(Of DataFrameRow)) As Vector
         Dim v As Vector = Nothing
@@ -91,15 +96,12 @@ Public Module Math
                           End Function)
     End Function
 
-    <DebuggerStepThrough>
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension>
-    Public Function AsNumeric(m As Matrix) As Double()()
-        Return (From t As DataFrameRow
-                In m.expression
-                Select t.experiments).ToArray
-    End Function
-
+    ''' <summary>
+    ''' make log transform of the expresion value
+    ''' </summary>
+    ''' <param name="expr"></param>
+    ''' <param name="base">the base for log function.</param>
+    ''' <returns></returns>
     <Extension>
     Public Function log(expr As Matrix, base As Double) As Matrix
         Dim logMat As New Matrix With {
@@ -114,7 +116,7 @@ Public Module Math
                                                 If v <= 0 Then
                                                     Return 0
                                                 Else
-                                                    Return stdNum.Log(v, newBase:=base)
+                                                    Return std.Log(v, newBase:=base)
                                                 End If
                                             End Function) _
                                     .ToArray
@@ -182,15 +184,4 @@ Public Module Math
     End Function
 End Module
 
-Public Class Ranking
 
-    Public Property geneID As String
-    Public Property ranking As Dictionary(Of String, Double)
-    Public Property pvalue As Dictionary(Of String, Double)
-    Public Property expression As Dictionary(Of String, Double)
-
-    Public Overrides Function ToString() As String
-        Return geneID
-    End Function
-
-End Class

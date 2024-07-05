@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f24ceb0cce6a16ae86cfb61092852ad2, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\Decomposition\NMF.vb"
+﻿#Region "Microsoft.VisualBasic::1a059219163f8507116bd4b4332c3716, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\Decomposition\NMF.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 96
-    '    Code Lines: 42 (43.75%)
-    ' Comment Lines: 41 (42.71%)
+    '   Total Lines: 105
+    '    Code Lines: 48 (45.71%)
+    ' Comment Lines: 41 (39.05%)
     '    - Xml Docs: 85.37%
     ' 
-    '   Blank Lines: 13 (13.54%)
-    '     File Size: 4.55 KB
+    '   Blank Lines: 16 (15.24%)
+    '     File Size: 4.86 KB
 
 
     '     Class NMF
@@ -53,6 +53,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 
 Namespace LinearAlgebra.Matrix
 
@@ -117,17 +119,22 @@ Namespace LinearAlgebra.Matrix
             Dim V As NumericMatrix
             Dim cost As Double
             Dim errors As New List(Of Double)
+            Dim bar As Tqdm.ProgressBar = Nothing
 
-            For i As Integer = 0 To max_iterations
-                Dim HN = W.Transpose.Dot(A)
-                Dim HD = W.Transpose.Dot(W)
+            For Each i As Integer In Tqdm.Range(0, max_iterations, bar:=bar)
+                Dim Wt As NumericMatrix = W.Transpose
+
+                Dim HN = Wt.DotProduct(A)
+                Dim HD = Wt.DotProduct(W)
 
                 HD = HD.Dot(H)
 
                 H = DirectCast(H * HN, NumericMatrix) / HD
 
-                Dim WN = A.DotProduct(H.Transpose)
-                Dim WD = W.DotProduct(H.DotProduct(H.Transpose))
+                Dim Ht As NumericMatrix = H.Transpose
+
+                Dim WN = A.DotProduct(Ht)
+                Dim WD = W.DotProduct(H.DotProduct(Ht))
 
                 W = DirectCast(W * WN, NumericMatrix) / WD
 
@@ -137,6 +144,8 @@ Namespace LinearAlgebra.Matrix
 
                 If cost <= tolerance Then
                     Exit For
+                Else
+                    Call bar.SetLabel(cost)
                 End If
             Next
 
