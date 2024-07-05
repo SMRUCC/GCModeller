@@ -75,7 +75,7 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 ''' <remarks>
 ''' a data model of a collection of then gene expression <see cref="DataFrameRow"/>.
 ''' </remarks>
-Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INumericMatrix
+Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INumericMatrix, ILabeledMatrix
 
     ''' <summary>
     ''' the tag data of current expression matrix
@@ -439,5 +439,9 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
         Next
 
         Return m
+    End Function
+
+    Public Function GetLabels() As IEnumerable(Of String) Implements ILabeledMatrix.GetLabels
+        Return expression.Keys
     End Function
 End Class
