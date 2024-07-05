@@ -67,7 +67,7 @@ Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Friend Class EdgeRendering
 
@@ -206,6 +206,21 @@ Friend Class EdgeRendering
                 Next
             End If
         Else
+            If drawEdgeDirection Then
+                ' needs reduce the line length
+                ' or the line arrow will be masked by the node shape
+                Dim x1 = a.X
+                Dim y1 = a.Y
+                Dim x2 = b.X
+                Dim y2 = b.Y
+                Dim originalLength As Double = std.Sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
+                Dim shortenBy As Double = originalLength / 5
+                Dim newX2 As Double = x2 - (x2 - x1) / originalLength * shortenBy
+                Dim newY2 As Double = y2 - (y2 - y1) / originalLength * shortenBy
+
+                b = New PointF(newX2, newY2)
+            End If
+
             Yield draw.Render(g, {a, b})
         End If
     End Function
@@ -248,7 +263,7 @@ Friend Class LineSegmentRender
         Return New LayoutLabel With {
             .anchor = New Anchor((line(Scan0).X + line(1).X) / 2, (line(Scan0).Y + line(1).Y) / 2, 5),
             .color = Nothing,
-            .label = New Label(Nothing, .anchor, New Size(stdNum.Abs(line(Scan0).X - line(1).X), stdNum.Abs(line(Scan0).Y - line(1).Y))) With {
+            .label = New Label(Nothing, .anchor, New Size(std.Abs(line(Scan0).X - line(1).X), std.Abs(line(Scan0).Y - line(1).Y))) With {
                 .pinned = True
             },
             .node = Nothing,
