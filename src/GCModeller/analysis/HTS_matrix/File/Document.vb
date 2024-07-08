@@ -129,7 +129,7 @@ Public Module Document
             Next
         End Using
 
-        Return 0
+        Return True
     End Function
 
 End Module
