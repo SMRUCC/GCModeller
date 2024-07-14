@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::573b0a05d548bdab3595a6037e866812, gr\Microsoft.VisualBasic.Imaging\SVG\GraphicsSVG.vb"
+﻿#Region "Microsoft.VisualBasic::733a0eddadf40cf2d9d298c32f9ec4ec, gr\Microsoft.VisualBasic.Imaging\SVG\GraphicsSVG.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1032
-    '    Code Lines: 756 (73.26%)
-    ' Comment Lines: 30 (2.91%)
-    '    - Xml Docs: 83.33%
+    '   Total Lines: 1037
+    '    Code Lines: 759 (73.19%)
+    ' Comment Lines: 32 (3.09%)
+    '    - Xml Docs: 78.12%
     ' 
-    '   Blank Lines: 246 (23.84%)
-    '     File Size: 47.85 KB
+    '   Blank Lines: 246 (23.72%)
+    '     File Size: 48.10 KB
 
 
     '     Class GraphicsSVG
@@ -605,15 +605,21 @@ Namespace SVG
             If pen.DashStyle <> DashStyle.Solid Then
                 line.StrokeDashArray = New Double() {8, 4}
             End If
-            If TypeOf pen.CustomEndCap Is AdjustableArrowCap Then
-                ' draw arrow on line end
-                Dim defs As SvgDefs = __svgData.svg.defs
-                Dim refId As String = $"M{line.GetHashCode}"
-                Dim gdiArrow As AdjustableArrowCap = pen.CustomEndCap
-                Dim marker As SvgMarker = defs.CreateMarker(refId, gdiArrow.Width, gdiArrow.Height)
 
-                line.MarkerEnd = $"url(#{refId})"
-            End If
+            Try
+                If TypeOf pen.CustomEndCap Is AdjustableArrowCap Then
+                    ' draw arrow on line end
+                    Dim defs As SvgDefs = __svgData.svg.defs
+                    Dim refId As String = $"M{line.GetHashCode}"
+                    Dim gdiArrow As AdjustableArrowCap = pen.CustomEndCap
+                    Dim marker As SvgMarker = defs.CreateMarker(refId, gdiArrow.Width, gdiArrow.Height)
+
+                    line.MarkerEnd = $"url(#{refId})"
+                End If
+            Catch ex As Exception
+                ' error maybe happends when the custom end cap has not been setup
+                ' just ignores of this error
+            End Try
         End Sub
 
         Public Overrides Sub DrawLines(pen As Pen, points() As PointF)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41bbfa13fb16fcfed72675d105536398, Microsoft.VisualBasic.Core\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::63c554d9524603dba440e55a0a36368b, Microsoft.VisualBasic.Core\test\test\logfiletest.vb"
 
     ' Author:
     ' 
@@ -34,37 +34,32 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 17
-    '    Code Lines: 13 (76.47%)
+    '   Total Lines: 11
+    '    Code Lines: 7 (63.64%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 4 (23.53%)
-    '     File Size: 398 B
+    '   Blank Lines: 4 (36.36%)
+    '     File Size: 280 B
 
 
-    ' Module Program
+    ' Module logfiletest
     ' 
-    '     Sub: Main
+    '     Sub: readerTest
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 
-Module Program
-    Sub Main(args As String())
-        Call logfiletest.readerTest()
-        Call group_test.RunGroup()
+Module logfiletest
 
-        Call enumeratorTestProgram.Mai2n()
-        Call terminalTest.Main1()
 
-        Console.WriteLine("Hello World!")
+    Sub readerTest()
+        Dim logs = LogReader.Parse("C:\Users\Administrator\AppData\Local\BioDeep\pipeline_calls_2024-02.txt").ToArray
 
-        Call markdownDisplayTest.Main1()
-        Call SIMDTest.Main1()
-        Call streamTest.Main1()
+        Pause()
     End Sub
 End Module
+

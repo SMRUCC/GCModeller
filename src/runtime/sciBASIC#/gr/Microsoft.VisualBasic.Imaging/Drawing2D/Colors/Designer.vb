@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9cfcec8baf9f0c5186f8881e38aa3a32, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
+﻿#Region "Microsoft.VisualBasic::1d5d95845dc54d7f83e5d76416d2383a, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 87.55%
     ' 
     '   Blank Lines: 62 (10.37%)
-    '     File Size: 32.97 KB
+    '     File Size: 33.01 KB
 
 
     '     Module Designer
@@ -605,7 +605,7 @@ Namespace Drawing2D.Colors
                                     Optional alpha% = 255,
                                     Optional interpolate As Boolean = False) As Color()
 
-            Dim source As Color() = colors.ToArray
+            Dim source As Color() = colors.SafeQuery.ToArray
 
             If source.Length = 1 Then
                 Call $"multiple color value is required, but you just provides one color, color seqeucne will just contains one single color: {source(Scan0).ToString}".Warning
@@ -614,7 +614,7 @@ Namespace Drawing2D.Colors
                     .Alpha(alpha) _
                     .Replicate(n) _
                     .ToArray
-            ElseIf n <= 0 Then
+            ElseIf n <= 0 OrElse source.IsNullOrEmpty Then
                 ' return raw color list if n is negative or zero
                 Return source
             ElseIf n <= source.Length AndAlso Not interpolate Then

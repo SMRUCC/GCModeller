@@ -261,6 +261,21 @@ Namespace BarPlot
                     DirectCast(g, Graphics2D).Stroke = tickPen
                 End If
 
+                If theme.drawGrid AndAlso Not theme.gridStrokeX.StringEmpty(, True) Then
+                    Dim ticks = xrange.CreateAxisTicks
+                    Dim top_y As Double = rect.Top
+                    Dim bottom_y As Double = rect.Bottom
+                    Dim stroke_x As Pen = css.GetPen(Stroke.TryParse(theme.gridStrokeX))
+
+                    For Each tick As Double In ticks.Skip(1)
+                        Dim xi As Double = scaleX(tick)
+                        Dim top As New PointF(xi, top_y)
+                        Dim bottom As New PointF(xi, bottom_y)
+
+                        Call g.DrawLine(stroke_x, top, bottom)
+                    Next
+                End If
+
                 For i As Integer = 0 To 5
                     Dim label$ = (i * dy).ToString(theme.YaxisTickFormat) & "%"
 
@@ -369,7 +384,6 @@ Namespace BarPlot
 
             Dim textCloud As New CloudOfTextRectangle
             Dim text As TextRectangle
-            Dim nextPos As PointF
             Dim move As Boolean = False
             Dim rect As RectangleF
             Dim y As Double
@@ -503,6 +517,8 @@ Namespace BarPlot
             Select Case Strings.LCase(legendLayout)
                 Case "top-right" : Call DrawLegendTopRight(g, rect)
                 Case "title" : Call DrawLegendTitleRegion(g, rect)
+                Case "none"
+                    ' do nothing for skip drawing
                 Case Else
                     Throw New NotImplementedException(legendLayout)
             End Select
