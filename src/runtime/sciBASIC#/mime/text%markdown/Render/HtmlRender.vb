@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f222236f8d764134d20811e5b692997, mime\text%markdown\Render\HtmlRender.vb"
+﻿#Region "Microsoft.VisualBasic::011ead56698b448ff1764ab73cf402a9, mime\text%markdown\Render\HtmlRender.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 84.62%
     ' 
     '   Blank Lines: 27 (20.77%)
-    '     File Size: 4.09 KB
+    '     File Size: 4.11 KB
 
 
     ' Class HtmlRender
@@ -115,7 +115,7 @@ Public Class HtmlRender : Inherits Render
             url = image_url_router(url)
         End If
 
-        result = String.Format("<img src=""{0}"" alt=""{1}""", url, altText)
+        result = String.Format("<img style=""width:100%;"" src=""{0}"" alt=""{1}""", url, altText)
 
         If Not image_class.StringEmpty Then
             result &= $" class=""{image_class}"""

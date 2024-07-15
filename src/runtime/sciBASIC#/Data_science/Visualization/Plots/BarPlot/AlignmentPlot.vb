@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86a35c77cc7e1bb5cf07ec9069a458ed, Data_science\Visualization\Plots\BarPlot\AlignmentPlot.vb"
+﻿#Region "Microsoft.VisualBasic::25b1c81aff5c9d595fe30e30330ed3c5, Data_science\Visualization\Plots\BarPlot\AlignmentPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 230
-    '    Code Lines: 188 (81.74%)
-    ' Comment Lines: 23 (10.00%)
+    '   Total Lines: 237
+    '    Code Lines: 194 (81.86%)
+    ' Comment Lines: 23 (9.70%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 19 (8.26%)
-    '     File Size: 11.81 KB
+    '   Blank Lines: 20 (8.44%)
+    '     File Size: 12.22 KB
 
 
     '     Module AlignmentPlot
@@ -94,6 +94,9 @@ Namespace BarPlot
             Return signals.Select(Function(t) t.Item2).ToArray
         End Function
 
+        Public Const DefaultColor1 As String = "steelblue"
+        Public Const DefaultColor2 As String = "brown"
+
         ''' <summary>
         ''' 以条形图的方式可视化绘制两个离散的信号的比对的图形
         ''' </summary>
@@ -111,8 +114,8 @@ Namespace BarPlot
                                       Optional size$ = "1200,800",
                                       Optional padding$ = "padding: 70 30 50 100;",
                                       Optional bg$ = "white",
-                                      Optional cla$ = "steelblue",
-                                      Optional clb$ = "brown",
+                                      Optional cla$ = DefaultColor1,
+                                      Optional clb$ = DefaultColor2,
                                       Optional xlab$ = "X",
                                       Optional ylab$ = "Y",
                                       Optional labelCSS$ = CSSFont.Win7Bold,
@@ -133,6 +136,7 @@ Namespace BarPlot
                                       Optional rectangleStyle As RectangleStyling = Nothing,
                                       Optional drawLegend As Boolean = True,
                                       Optional drawGrid As Boolean = True,
+                                      Optional drawGridX As Boolean = False,
                                       Optional tagXFormat$ = "F2",
                                       Optional legendLayout As String = "top-right",
                                       Optional driver As Drivers = Drivers.Default) As GraphicsData
@@ -163,7 +167,8 @@ Namespace BarPlot
                 drawGrid:=drawGrid,
                 tagXFormat:=tagXFormat,
                 driver:=driver,
-                legendLayout:=legendLayout
+                legendLayout:=legendLayout,
+                drawGridX:=drawGridX
             )
         End Function
 
@@ -219,6 +224,7 @@ Namespace BarPlot
                                             Optional drawLegend As Boolean = True,
                                             Optional drawGrid As Boolean = True,
                                             Optional tagXFormat$ = "F2",
+                                            Optional drawGridX As Boolean = False,
                                             Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim theme As New Theme With {
@@ -235,7 +241,8 @@ Namespace BarPlot
                 .tagFormat = tagXFormat,
                 .lineStroke = highlight,
                 .drawLegend = drawLegend,
-                .drawGrid = drawGrid
+                .drawGrid = drawGrid,
+                .gridStrokeX = If(drawGridX, Stroke.AxisGridStroke, Nothing)
             }
             Dim barplot As New PlotAlignmentGroup(query, subject, xrange, yrange, rectangleStyle, theme) With {
                 .main = title,
