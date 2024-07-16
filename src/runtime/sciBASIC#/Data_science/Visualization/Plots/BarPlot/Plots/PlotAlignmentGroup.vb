@@ -206,28 +206,6 @@ Namespace BarPlot
                     Call rectangleStyle(g, bb, rect, RectangleSides.Top)
                 Next
             Next
-
-            ' 绘制高亮的区域
-            Dim highlights = HighlightGroups(query, subject, hitsHightLights, xError)
-            Dim right!
-            Dim blockHeight!
-
-            For Each block As (xmin#, xmax#, query#, subject#) In highlights
-                left = xscale(block.xmin)
-                right = xscale(block.xmax) + bw
-                y = ymid - yscale(block.query)
-                blockHeight = yscale(block.query) + yscale(block.subject)
-
-                rect = New Rectangle With {
-                    .Location = New Point(left - highlightMargin, y - highlightMargin),
-                    .Size = New Size With {
-                        .Width = right - left + 2 * highlightMargin,
-                        .Height = blockHeight + 2 * highlightMargin
-                    }
-                }
-
-                g.DrawRectangle(highlightPen, rect)
-            Next
         End Sub
 
         Public Const DefaultGridYStroke As String = "stroke: #EBEBEB; stroke-width: 1px; stroke-dash: solid;"
@@ -390,18 +368,31 @@ Namespace BarPlot
             Dim y As Double
             Dim left!
             Dim css As CSSEnvirnment = g.LoadEnvironment
-            Dim xCSSFont As Font = css.GetFont(CSSFont.TryParse(XAxisLabelCss))
+            Dim tag_label As Font = css.GetFont(CSSFont.TryParse(XAxisLabelCss))
+            Dim tag_highlights As Font = css.GetFont(CSSFont.TryParse(XAxisLabelCss), scale:=1.125)
             Dim xsz As SizeF
             Dim xpos As PointF
             Dim xlabel$
             Dim round As Integer = 0
+            Dim isHighlight = Hit(Me.hitsHightLights, Me.xError)
+            Dim hasHighlights = Not hitsHightLights.IsNullOrEmpty
+
+            tag_highlights = New Font(tag_highlights, FontStyle.Bold)
 
             For Each part As Signal In query
                 For Each o As (x#, value#) In part.signals
+                    Dim xCSSFont As Font
+
                     y = o.value
                     y = ymid - scaleY(y)
                     left = scaleX(o.x)
                     rect = New RectangleF(New PointF(left, y), New SizeF(bw, scaleY(o.value)))
+
+                    If hasHighlights AndAlso isHighlight(o.x).yes Then
+                        xCSSFont = tag_highlights
+                    Else
+                        xCSSFont = tag_label
+                    End If
 
                     ' Call textCloud.add_label(New TextRectangle("", rect))
 
@@ -455,10 +446,18 @@ Namespace BarPlot
 
             For Each part As Signal In subject
                 For Each o As (x#, value#) In part.signals
+                    Dim xCssFont As Font = Nothing
+
                     y = o.value
                     y = ymid + scaleY(y)
                     left = scaleX(o.x)
                     rect = Rectangle(ymid, left, left + bw, y)
+
+                    If hasHighlights AndAlso isHighlight(o.x).yes Then
+                        xCssFont = tag_highlights
+                    Else
+                        xCssFont = tag_label
+                    End If
 
                     ' Call textCloud.add_label(New TextRectangle("", rect))
 
@@ -570,32 +569,6 @@ Namespace BarPlot
             Call g.FillRectangle(subject.Last.Color.GetBrush, box)
             Call g.DrawString(subjectName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
         End Sub
-
-        Private Function HighlightGroups(query As Signal(), subject As Signal(), highlights#(), err#) As (xmin#, xmax#, query#, subject#)()
-            If highlights.IsNullOrEmpty Then
-                Return {}
-            End If
-
-            Dim isHighlight = Hit(highlights, err)
-            Dim qh = query.createHits(isHighlight)
-            Dim sh = subject.createHits(isHighlight)
-            Dim out As New List(Of (xmin#, xmax#, query#, subject#))
-
-            For Each x As Double In highlights
-                If Not qh.ContainsKey(x) OrElse Not sh.ContainsKey(x) Then
-                    Continue For
-                End If
-
-                Dim q = qh(x)
-                Dim s = sh(x)
-
-                With q.x + s.x.ToArray
-                    out += (.Min, .Max, q.y, s.y)
-                End With
-            Next
-
-            Return out
-        End Function
 
         Private Shared Function Hit(highlights#(), err#) As Func(Of Double, (err#, X#, yes As Boolean))
             If highlights.IsNullOrEmpty Then
