@@ -1,63 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::8ff5f6246b5a32acb73a706a722a5384, Data_science\Visualization\Plots\BarPlot\Plots\PlotAlignmentGroup.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 556
-    '    Code Lines: 381 (68.53%)
-    ' Comment Lines: 78 (14.03%)
-    '    - Xml Docs: 10.26%
-    ' 
-    '   Blank Lines: 97 (17.45%)
-    '     File Size: 24.09 KB
+' Summaries:
 
 
-    '     Class PlotAlignmentGroup
-    ' 
-    '         Properties: bw, displayX, highlightMargin, hitsHightLights, idTag
-    '                     labelPlotStrength, legendLayout, queryName, subjectName, XAxisLabelCss
-    '                     xError
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: HighlightGroups, Hit
-    ' 
-    '         Sub: DrawAlignmentBars, DrawLegendTitleRegion, DrawLegendTopRight, DrawLegeneds, DrawTextLabels
-    '              PlotInternal
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 556
+'    Code Lines: 381 (68.53%)
+' Comment Lines: 78 (14.03%)
+'    - Xml Docs: 10.26%
+' 
+'   Blank Lines: 97 (17.45%)
+'     File Size: 24.09 KB
+
+
+'     Class PlotAlignmentGroup
+' 
+'         Properties: bw, displayX, highlightMargin, hitsHightLights, idTag
+'                     labelPlotStrength, legendLayout, queryName, subjectName, XAxisLabelCss
+'                     xError
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: HighlightGroups, Hit
+' 
+'         Sub: DrawAlignmentBars, DrawLegendTitleRegion, DrawLegendTopRight, DrawLegeneds, DrawTextLabels
+'              PlotInternal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -152,6 +152,9 @@ Namespace BarPlot
             Dim paddingTop = canvas.Padding.Top
             Dim paddingBottom = canvas.Padding.Bottom
             Dim height As Double
+            Dim isHighlight = Hit(Me.hitsHightLights, Me.xError)
+            Dim hasHighlights = Not hitsHightLights.IsNullOrEmpty
+            Dim highlight_scale As Single = 1.5
 
             ' 上半部分的蓝色条
             For Each part As Signal In query
@@ -162,7 +165,14 @@ Namespace BarPlot
                                Return f.Item2 <> 0R
                            End Function)
 
-                    left = xscale(o.x)
+                    Dim makeHighlights = hasHighlights AndAlso isHighlight(o.x).yes
+                    Dim bw As Single = Me.bw
+
+                    If makeHighlights Then
+                        bw = bw * highlight_scale
+                    End If
+
+                    left = xscale(o.x) - bw / 2
                     height = yscale(o.value)
                     y = ymid - height
                     position = New Point(left, y)
@@ -187,9 +197,15 @@ Namespace BarPlot
                            End Function)
 
                     Dim scaleY = yscale(o.value)
+                    Dim makeHighlights = hasHighlights AndAlso isHighlight(o.x).yes
+                    Dim bw As Single = Me.bw
+
+                    If makeHighlights Then
+                        bw = bw * highlight_scale
+                    End If
 
                     y = ymid + scaleY
-                    left = xscale(o.x)
+                    left = xscale(o.x) - bw / 2
 
                     If canvas.device.driverUsed = Drivers.PDF Then
                         rect = New Rectangle With {
@@ -463,7 +479,7 @@ Namespace BarPlot
 
                     If displayX AndAlso o.value / yrange.Max >= labelPlotStrength Then
                         xlabel = o.x.ToString(theme.tagFormat)
-                        xsz = g.MeasureString(xlabel, xCSSFont)
+                        xsz = g.MeasureString(xlabel, xCssFont)
                         xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Bottom + 3)
                         text = New TextRectangle(xlabel, New RectangleF(xpos, xsz))
                         move = False
@@ -502,7 +518,7 @@ Namespace BarPlot
                             'Call g.DrawLine(Pens.Black, pBar, pText)
                         End If
 
-                        g.DrawString(xlabel, xCSSFont, Brushes.Black, xpos)
+                        g.DrawString(xlabel, xCssFont, Brushes.Black, xpos)
                     End If
                 Next
             Next
