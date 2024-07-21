@@ -1,7 +1,11 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\templates\\sampleinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,19 +13,28 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SampleInfo.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEEAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-21T04:25:52.85Z",
+              "EditorCaption": ""
             }
           ]
         }
