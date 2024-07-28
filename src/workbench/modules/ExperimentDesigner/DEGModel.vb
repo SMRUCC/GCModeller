@@ -65,6 +65,13 @@ Public Class DEGModel : Implements IDeg
     Public Property VIP As Double
     Public Property [class] As String
 
+    Sub New()
+    End Sub
+
+    Sub New(id As String)
+        label = id
+    End Sub
+
     Public Overrides Function ToString() As String
         If [class].StringEmpty Then
             Return $"[{label}] log2FC={logFC}, pvalue={pvalue}"
