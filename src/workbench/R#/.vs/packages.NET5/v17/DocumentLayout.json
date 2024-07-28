@@ -31,10 +31,14 @@
               "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
               "RelativeToolTip": "..\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEEAAAAsAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEsAAAAPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-07-21T04:25:52.85Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
