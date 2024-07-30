@@ -158,7 +158,7 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     End Function
 
     Public Overrides Function ToString() As String
-        Return $"Dim {ID} = '{names}'"
+        Return $"Dim {ID} = '{names}' {{{size}}}"
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
