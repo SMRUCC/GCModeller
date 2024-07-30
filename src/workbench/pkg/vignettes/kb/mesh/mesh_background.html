@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>read the tree of mesh terms</title>
+    <title>build background model for enrichment based on ncbi mesh terms</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>read.mesh_tree {mesh}</td>
+                <td>mesh_background {mesh}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>read the tree of mesh terms</h2>
+        <h2>build background model for enrichment based on ncbi mesh terms</h2>
 
         <h3>Description</h3>
 
@@ -27,24 +27,20 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>read.mesh_tree</strong>(<i>file</i>,
-    <i>as.tree</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>mesh_background</strong>(<i>tree</i>, <i>category</i>,
+    <i>levels</i> = <span style='color: green;'>1</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>file</dt>
-<dd><p>the file path to the ncbi mesh term file, usually be the <code>data/mtrees2024.txt</code>.</p></dd>
+<dt>tree</dt>
+<dd><p>[as <a href="/vignettes/clr/Microsoft/VisualBasic/Data/GraphTheory/Tree`1.html">Tree`1</a>]</p></dd>
 
 
-<dt>as.tree</dt>
-<dd><p>[as boolean]</p></dd>
-
-
-<dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dt>category</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/Knowledge_base/NCBI/MeSH/Tree/MeshCategory.html">MeshCategory</a>]</p></dd>
 
         </table>
 
@@ -59,7 +55,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/Knowledge_base/NCBI/MeSH/Tree/Term.html">Term</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/Knowledge_base/NCBI/MeSH/Tree/Term.html">Term</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

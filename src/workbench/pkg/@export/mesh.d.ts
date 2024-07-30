@@ -55,6 +55,16 @@
 */
 declare namespace mesh {
    /**
+    * build background model for enrichment based on ncbi mesh terms
+    * 
+    * 
+     * @param tree -
+     * @param category -
+     * @param levels 
+     * + default value Is ``1``.
+   */
+   function mesh_background(tree: object, category: object, levels?: object): object;
+   /**
     * get mesh category values that assign to current mesh term
     * 
     * 
@@ -66,7 +76,7 @@ declare namespace mesh {
        * read the tree of mesh terms
        * 
        * 
-        * @param file -
+        * @param file the file path to the ncbi mesh term file, usually be the ``data/mtrees2024.txt``.
         * @param as_tree -
         * 
         * + default value Is ``true``.
