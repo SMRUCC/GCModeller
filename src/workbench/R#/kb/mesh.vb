@@ -55,7 +55,9 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.MeSH
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.MeSH.Tree
@@ -137,7 +139,9 @@ Module meshTools
     ''' <summary>
     ''' read the tree of mesh terms
     ''' </summary>
-    ''' <param name="file"></param>
+    ''' <param name="file">
+    ''' the file path to the ncbi mesh term file, usually be the ``data/mtrees2024.txt``.
+    ''' </param>
     ''' <param name="as_tree"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
@@ -160,5 +164,21 @@ Module meshTools
                 Return MeSH.Tree.ReadTerms(buf).ToArray
             End If
         End Using
+    End Function
+
+    ''' <summary>
+    ''' build background model for enrichment based on ncbi mesh terms
+    ''' </summary>
+    ''' <param name="tree"></param>
+    ''' <param name="category"></param>
+    ''' <returns></returns>
+    <ExportAPI("mesh_background")>
+    Public Function convertMeshBackground(tree As Tree(Of MeSH.Tree.Term), category As MeshCategory) As Background
+        Dim root_terms = tree.Childs.Values _
+            .Where(Function(n)
+                       Return n.Data.category.Contains(category)
+                   End Function) _
+            .ToArray
+
     End Function
 End Module

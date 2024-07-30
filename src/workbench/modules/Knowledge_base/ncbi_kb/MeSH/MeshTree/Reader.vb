@@ -70,7 +70,7 @@ Namespace MeSH.Tree
         Public Function ParseCategory(tree As String) As MeshCategory
             Static category_chars As Dictionary(Of Char, MeshCategory) = Enums(Of MeshCategory)() _
                 .ToDictionary(Function(c)
-                                  Return MeshCategory.C.ToString.First
+                                  Return c.ToString.First
                               End Function)
 
             Return category_chars(tree.ToUpper.First)
@@ -117,6 +117,11 @@ Namespace MeSH.Tree
             Loop
         End Function
 
+        ''' <summary>
+        ''' build a mesh term tree via the tree path that assigned to each term
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
         Public Function ParseTree(file As StreamReader) As Tree(Of Term)
             Dim tree As New Tree(Of Term) With {
                 .Data = New Term With {.term = "/", .tree = {}},

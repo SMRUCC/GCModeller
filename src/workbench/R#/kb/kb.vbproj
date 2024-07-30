@@ -10,7 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA\gsea-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\modules\Knowledge_base\Knowledge_base\kb.NET5.vbproj" />
     <ProjectReference Include="..\..\modules\Knowledge_base\ncbi_kb\ncbi_kb.vbproj" />
