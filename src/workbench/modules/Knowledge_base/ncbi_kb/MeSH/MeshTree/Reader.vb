@@ -62,6 +62,11 @@ Namespace MeSH.Tree
 
     Public Module Reader
 
+        ''' <summary>
+        ''' parse the given string term as <see cref="MeshCategory"/> enum value
+        ''' </summary>
+        ''' <param name="tree"></param>
+        ''' <returns></returns>
         Public Function ParseCategory(tree As String) As MeshCategory
             Static category_chars As Dictionary(Of Char, MeshCategory) = Enums(Of MeshCategory)() _
                 .ToDictionary(Function(c)
@@ -71,11 +76,21 @@ Namespace MeSH.Tree
             Return category_chars(tree.ToUpper.First)
         End Function
 
+        ''' <summary>
+        ''' parse the mesh tree from a given text data stream
+        ''' </summary>
+        ''' <param name="s"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ReadTerms(s As Stream) As IEnumerable(Of Term)
             Return ReadTerms(New StreamReader(s))
         End Function
 
+        ''' <summary>
+        ''' parse the mesh tree from a specific text file
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
         Public Function ParseTree(file As String) As Tree(Of Term)
             Using s As Stream = file.OpenReadonly
                 Return ParseTree(New StreamReader(s))

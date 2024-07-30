@@ -58,6 +58,9 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace MeSH.Tree
 
+    ' term              tree path
+    ' Cerebellar Cortex;A08.186.211.132.810.428.200.212
+
     ''' <summary>
     ''' the mesh tree
     ''' </summary>
