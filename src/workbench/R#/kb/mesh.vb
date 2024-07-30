@@ -193,6 +193,8 @@ Module meshTools
                         .ClusterMembers _
                         .ToArray
                 }
+
+                Call clusters.Add(cluster)
             Next
         Next
 
@@ -207,7 +209,10 @@ Module meshTools
 
     <Extension>
     Private Iterator Function ClusterMembers(root As Tree(Of MeSH.Tree.Term)) As IEnumerable(Of BackgroundGene)
-        Yield New BackgroundGene With {.name = root.label}
+        Yield New BackgroundGene With {
+            .name = root.label,
+            .accessionID = root.Data.tree.First & root.Data.tree.Last
+        }
 
         For Each node In root.Childs.SafeQuery.Select(Function(t) t.Value)
             For Each term In node.ClusterMembers
