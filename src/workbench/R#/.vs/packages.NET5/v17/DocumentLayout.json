@@ -1,9 +1,31 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
+  "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F867C45D-AD13-4727-B4BE-71C01D1BDEC9}|..\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\templates\\sampleinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\mesh\\meshtree\\reader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\mesh\\meshtree\\term.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\mesh\\meshtree\\meshcategory.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\mesh\\meshtree\\join.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\mesh\\descriptorrecordset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\mesh\\descriptorrecord.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\mesh\\datatypes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -13,32 +35,123 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "mesh.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
+              "RelativeDocumentMoniker": "kb\\mesh.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
+              "RelativeToolTip": "kb\\mesh.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADoAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-30T02:33:58.208Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Term.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Term.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Term.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Term.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Term.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAD0AAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-30T02:29:59.133Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SampleInfo.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
-              "RelativeDocumentMoniker": "..\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
-              "RelativeToolTip": "..\\modules\\ExperimentDesigner\\Templates\\SampleInfo.vb",
-              "ViewState": "AQIAAFEAAAAAAAAAAAAIwGwAAAAfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-07-21T04:25:52.85Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Reader.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Reader.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Reader.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Reader.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Reader.vb",
+              "ViewState": "AQIAAE0AAAAAAAAAAAAQwGMAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-30T02:29:25.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MeshCategory.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\MeshCategory.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\MeshCategory.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\MeshCategory.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\MeshCategory.vb",
+              "ViewState": "AQIAAFgAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-30T02:28:38.335Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Join.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Join.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Join.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Join.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Join.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADkAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-30T02:28:25.67Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DescriptorRecordSet.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-30T02:28:19.72Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DescriptorRecord.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecord.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecord.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecord.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecord.vb",
+              "ViewState": "AQIAAOsAAAAAAAAAAAAgwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-30T02:28:12.502Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DataTypes.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DataTypes.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DataTypes.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DataTypes.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DataTypes.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-30T02:28:07.194Z",
+              "EditorCaption": ""
             }
           ]
         }
