@@ -3,11 +3,7 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{950FAFDF-AA20-4FF8-A767-6CA186883635}|..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea.knowledgebase.extensions\\metabolism\\enrichmentnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{950FAFDF-AA20-4FF8-A767-6CA186883635}|..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea.knowledgebase.extensions\\metabolism\\metpa\\metpa.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,14 +18,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "EnrichmentNetwork.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
-              "ViewState": "AQIAABEBAAAAAAAAAAAjwCcBAABEAAAA",
+              "Title": "metpa.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\Metpa\\metpa.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\Metpa\\metpa.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\Metpa\\metpa.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\Metpa\\metpa.vb",
+              "ViewState": "AQIAAHQAAAAAAAAAAAAjwJ8AAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-07-31T02:01:25.795Z",
+              "WhenOpened": "2024-07-31T03:03:19.027Z",
               "EditorCaption": ""
             },
             {
@@ -43,19 +39,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GSEABackground.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
-              "RelativeDocumentMoniker": "gseakit\\GSEABackground.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
-              "RelativeToolTip": "gseakit\\GSEABackground.vb",
-              "ViewState": "AQIAAKkCAAAAAAAAAAAnwMwCAAAsAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-07-31T02:01:13.479Z",
-              "EditorCaption": ""
             }
           ]
         }

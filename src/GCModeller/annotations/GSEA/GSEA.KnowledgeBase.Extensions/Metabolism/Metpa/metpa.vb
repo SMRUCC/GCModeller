@@ -68,6 +68,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Metabolism.Metpa
 
@@ -141,7 +142,10 @@ Namespace Metabolism.Metpa
 
             For Each map As EnrichmentResult In enrich
                 Dim weights = impacts.GetScoreImpacts(map.term)
-                Dim impact As Double = map.geneIDs.Select(Function(id) weights(id)).Sum
+                Dim impact As Double = Aggregate id As String
+                                       In map.geneIDs.SafeQuery
+                                       Let w = weights.TryGetValue(id, [default]:=0.0)
+                                       Into Sum(w)
 
                 ' updates of the score with the topology impact
                 ' value assigned
