@@ -89,6 +89,8 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     ReadOnly no_class As SolidBrush = Brushes.LightGray
     ReadOnly group_labels As String()
 
+    Public Property ClassLabel As String = "Class"
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -263,9 +265,9 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Next
 
         If Not IsMicrosoftPlatform Then
-            Call g.DrawString("KEGG Class", big_label, Brushes.Black, x + big_char.Width * 1.5, y, 90)
+            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width * 1.5, y, 90)
         Else
-            Call g.DrawString("KEGG Class", big_label, Brushes.Black, x + big_char.Width, y, 90)
+            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width, y, 90)
         End If
 
         Dim axis_line_pen As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
@@ -382,7 +384,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         'Call g.DrawString("Scaled Intensity", label_font, Brushes.Black, scale_intensity_region.Left, scale_intensity_region.Top)
         'Call g.DrawString("Scaled Mean Intensity", label_font, Brushes.Black, group_mean_region.Left, group_mean_region.Top)
         'Call g.DrawString("-log(p)", label_font, Brushes.Black, logp_legend_region.Left, logp_legend_region.Top)
-        Call g.DrawString("KEGG Class", big_label, Brushes.Black, kegg_class_legend.Left, kegg_class_legend.Top)
+        Call g.DrawString(ClassLabel, big_label, Brushes.Black, kegg_class_legend.Left, kegg_class_legend.Top)
 
         x = kegg_class_legend.Left
         y = kegg_class_legend.Top + big_label.Height * 2
