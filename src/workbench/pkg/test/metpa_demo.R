@@ -14,7 +14,7 @@ let pathways = buf
 |> sapply(file -> HDS::getData(buf, file) |> loadXml(typeof = "kegg_pathway"))
 ;
 
-let metpa = metpa_background(pathways, taxonomy_name = NULL, raw = TRUE);
+let metpa = metpa_background(pathways, taxonomy_name = NULL, raw = TRUE, multiple_omics = TRUE);
 
 # print(json_encode(metpa));
 
