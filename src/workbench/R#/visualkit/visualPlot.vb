@@ -525,8 +525,8 @@ Module visualPlot
             metadata:=DirectCast(metaset, featureFrame),
             groupd:=sampleinfo,
             theme:=theme) With {
-            .mapLevels = 30
-        }
+                .mapLevels = 30
+            }
         Dim size_str As String = InteropArgumentHelper.getSize(size, env, "10000,6500")
 
         Return heatmap.Plot(size_str.SizeParser, dpi, env.getDriver)
