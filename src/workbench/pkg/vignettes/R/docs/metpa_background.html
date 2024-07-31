@@ -29,7 +29,8 @@
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>metpa_background</strong>(<i>pathways</i>,
     <i>taxonomy.name</i> = <span style='color: blue !important;'>NULL</span>,
-    <i>raw</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+    <i>raw</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>multiple.omics</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -42,6 +43,10 @@
 
 <dt>raw</dt>
 <dd><p><p>if this parameter value is set to TRUE, then a raw CLR object will be returns, otherwise a converted list object will be generated from the raw CLR object.</p></p></dd>
+
+
+<dt>multiple.omics</dt>
+<dd><p><p>set the parameter value to TRUE for create background model for multiple omics data analysis. then this parameter option will enable the gene and compound existsed inside the model.</p></p></dd>
 
         </table>
 
@@ -56,7 +61,7 @@
 
         <h3>Value</h3>
 
-        This function has no value returns.
+        <p>a gcmodeller background model if raw is true, and a R# object list will be converts from the clr background model otherwise the raw is not.</p>
 
         <h3 style="display: none;">Examples</h3>
 

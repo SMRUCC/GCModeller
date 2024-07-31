@@ -179,11 +179,23 @@ Namespace Metabolism
                     Function(a) If(keggId.StringEmpty, a.EntryId, keggId & a.briteID),
                     Function(a)
                         Dim compounds = a.GetCompoundSet.ToArray
+                        Dim genes = a.GetPathwayGenes.ToArray
                         Dim mset As New mset With {
                             .kegg_id = compounds.Select(Function(c) c.Name).ToArray,
                             .metaboliteNames = compounds.Select(Function(c) c.Value).ToArray,
                             .clusterId = a.name
                         }
+
+                        If multipleOmics Then
+                            mset.kegg_id = compounds _
+                                .Select(Function(c) c.Name) _
+                                .JoinIterates(genes.Select(Function(g) g.Description)) _
+                                .ToArray
+                            mset.metaboliteNames = compounds _
+                                .Select(Function(c) c.Value) _
+                                .JoinIterates(genes.Select(Function(g) g.Value)) _
+                                .ToArray
+                        End If
 
                         Return mset
                     End Function)

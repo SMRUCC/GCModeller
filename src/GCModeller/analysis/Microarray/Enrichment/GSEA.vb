@@ -106,9 +106,9 @@ Public Module GSEA
     Private Function Convert(term As EnrichmentResult, database$) As EnrichmentTerm
         Return New EnrichmentTerm With {
             .Backgrounds = term.cluster,
-            .number = term.enriched.Split("/"c).First,
+            .number = term.enriched,
             .ID = term.term,
-            .ORF = term.geneIDs,
+            .ORF = term.IDs,
             .Pvalue = term.pvalue,
             .Term = term.name.Replace("Reference pathway", "").Trim(" "c, "-"c),
             .CorrectedPvalue = term.FDR,

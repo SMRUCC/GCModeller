@@ -110,7 +110,9 @@ Module GSEA
     Private Function enrichmentTable(result As EnrichmentResult(), args As list, env As Environment) As dataframe
         Dim table As New dataframe With {
             .columns = New Dictionary(Of String, Array),
-            .rownames = result.Select(Function(d) d.term).ToArray
+            .rownames = result _
+                .Select(Function(d) d.term) _
+                .ToArray
         }
 
         table.columns("name") = result.Select(Function(d) d.name).ToArray
@@ -120,7 +122,7 @@ Module GSEA
         table.columns("score") = result.Select(Function(d) d.score).ToArray
         table.columns("pvalue") = result.Select(Function(d) d.pvalue).ToArray
         table.columns("FDR") = result.Select(Function(d) d.FDR).ToArray
-        table.columns("geneIDs") = result.Select(Function(d) d.geneIDs.JoinBy(";")).ToArray
+        table.columns("geneIDs") = result.Select(Function(d) d.IDs.JoinBy(";")).ToArray
 
         Return table
     End Function
@@ -412,7 +414,7 @@ Module GSEA
                             .term = id,
                             .name = name(i),
                             .pvalue = pvalue(i),
-                            .geneIDs = geneIDs.getValue(Of String())(id, env),
+                            .IDs = geneIDs.getValue(Of String())(id, env),
                             .FDR = fdr.ElementAtOrDefault(i),
                             .score = score.ElementAtOrDefault(i),
                             .description = desc.ElementAtOrDefault(i),

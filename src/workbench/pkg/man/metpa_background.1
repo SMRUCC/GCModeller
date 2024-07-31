@@ -2,11 +2,13 @@
 .SH NAME
 metpa_background \- metpa_background(pathways,
     <i>taxonomy.name</i> = <span style='color: blue !important;'>NULL</span>,
-    <i>raw</i> = <span style='color: blue !important;'>TRUE</span>)
+    <i>raw</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>multiple.omics</i> = <span style='color: blue !important;'>FALSE</span>)
 .SH SYNOPSIS
 \fImetpa_background(pathways,
     <i>taxonomy.name</i> = <span style='color: blue !important;'>NULL</span>,
-    <i>raw</i> = <span style='color: blue !important;'>TRUE</span>)\fR
+    <i>raw</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>multiple.omics</i> = <span style='color: blue !important;'>FALSE</span>)\fR
 .SH OPTIONS
 .PP
 \fBpathways\fB \fR\- . 
@@ -17,13 +19,20 @@ metpa_background \- metpa_background(pathways,
 .PP
 \fBraw\fB \fR\- TRUE. if this parameter value is set to TRUE, then a raw CLR object will be returns, otherwise a converted list object will be generated from the raw CLR object.
 .PP
+.PP
+\fBmultiple.omics\fB \fR\- FALSE. 
+.PP
+.SH VALUE
+.PP
+a gcmodeller background model if raw is true, and a R# object list will be converts from the clr background model otherwise the raw is not.
+.PP
 .SH DETAILS
 .PP
 the reaction data is loaded from the package internal resource file
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.metpa_background at metpa.R:line 14
+SMRUCC/R#.declare_function.metpa_background at metpa.R:line 20
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, GPL3 Licensed 2024
