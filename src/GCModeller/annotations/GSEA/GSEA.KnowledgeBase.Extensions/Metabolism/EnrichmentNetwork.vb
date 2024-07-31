@@ -189,7 +189,7 @@ Namespace Metabolism
                         If multipleOmics Then
                             mset.kegg_id = compounds _
                                 .Select(Function(c) c.Name) _
-                                .JoinIterates(genes.Select(Function(g) g.Name)) _
+                                .JoinIterates(genes.Select(Function(g) g.Description)) _
                                 .ToArray
                             mset.metaboliteNames = compounds _
                                 .Select(Function(c) c.Value) _

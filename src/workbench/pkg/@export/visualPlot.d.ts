@@ -71,6 +71,8 @@ declare namespace visualPlot {
      * @param axisStroke -
      * 
      * + default value Is ``'stroke: black; stroke-width: 5px; stroke-dash: solid;'``.
+     * @param class_label 
+     * + default value Is ``'Class'``.
      * @param dpi -
      * 
      * + default value Is ``300``.
@@ -78,7 +80,7 @@ declare namespace visualPlot {
      * 
      * + default value Is ``null``.
    */
-   function class_heatmap(x: object, metadata: object, sampleinfo: object, size?: any, padding?: any, label_font?: string, tick_font?: string, axisStroke?: string, dpi?: object, env?: object): any;
+   function class_heatmap(x: object, metadata: object, sampleinfo: object, size?: any, padding?: any, label_font?: string, tick_font?: string, axisStroke?: string, class_label?: string, dpi?: object, env?: object): any;
    module classchange {
       /**
        * 

@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\visualkit\\visualplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|solutionrelative:visualkit\\visualplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{950FAFDF-AA20-4FF8-A767-6CA186883635}|..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea.knowledgebase.extensions\\metabolism\\enrichmentnetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategoryheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -17,19 +17,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "EnrichmentCategoryHeatmap.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
-              "ViewState": "AQIAAIAAAAAAAAAAAAAQwI8AAAAAAAAA",
+              "DocumentIndex": 0,
+              "Title": "EnrichmentNetwork.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\EnrichmentNetwork.vb",
+              "ViewState": "AQIAABEBAAAAAAAAAAAjwCcBAABEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-07-31T00:53:27.426Z",
+              "WhenOpened": "2024-07-31T02:01:25.795Z",
               "EditorCaption": ""
             },
             {
@@ -46,15 +46,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "visualPlot.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\visualkit\\visualPlot.vb",
-              "RelativeDocumentMoniker": "visualkit\\visualPlot.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\visualkit\\visualPlot.vb",
-              "RelativeToolTip": "visualkit\\visualPlot.vb",
-              "ViewState": "AQIAAOYBAAAAAAAAAADwv/EBAABJAAAA",
+              "DocumentIndex": 1,
+              "Title": "GSEABackground.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "RelativeDocumentMoniker": "gseakit\\GSEABackground.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "RelativeToolTip": "gseakit\\GSEABackground.vb",
+              "ViewState": "AQIAAKkCAAAAAAAAAAAnwMwCAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-07-31T00:53:10.983Z",
+              "WhenOpened": "2024-07-31T02:01:13.479Z",
               "EditorCaption": ""
             }
           ]
