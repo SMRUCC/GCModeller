@@ -25,9 +25,9 @@ metpa
 )
 ;
 
-metpa 
-|> xml()
-|> writeLines(
-    con = `${@dir}/hsa_metpa.xml`
-)
-;
+# metpa 
+# |> xml()
+# |> writeLines(
+#     con = `${@dir}/hsa_metpa.xml`
+# )
+# ;
