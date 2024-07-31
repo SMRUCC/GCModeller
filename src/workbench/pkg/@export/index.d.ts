@@ -140,8 +140,9 @@ declare namespace GCModeller {
    /**
      * @param taxonomy_name default value Is ``null``.
      * @param raw default value Is ``true``.
+     * @param multiple_omics default value Is ``false``.
    */
-   function metpa_background(pathways: any, taxonomy_name?: any, raw?: any): object;
+   function metpa_background(pathways: any, taxonomy_name?: any, raw?: any, multiple_omics?: any): object;
    /**
      * @param log2FC default value Is ``log2(FC)``.
      * @param id default value Is ``kegg``.
