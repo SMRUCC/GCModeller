@@ -202,11 +202,11 @@ Public Module Enrichment
             .term = cluster.ID,
             .name = cluster.names.TrimNewLine,
             .description = cluster.description.TrimNewLine,
-            .geneIDs = enriched,
+            .IDs = enriched,
             .pvalue = pvalue,
             .score = score,
             .cluster = b,
-            .enriched = $"{a}/{c}"
+            .enriched = a
         }
     End Function
 

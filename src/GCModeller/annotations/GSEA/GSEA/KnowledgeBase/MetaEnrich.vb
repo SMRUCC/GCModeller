@@ -87,7 +87,7 @@ Public Module MetaEnrich
             .ID = background.term,
             .names = background.name,
             .description = background.description,
-            .members = background.geneIDs _
+            .members = background.IDs _
                 .Select(AddressOf query.Invoke) _
                 .IteratesALL _
                 .Select(Function(a) a.value) _

@@ -63,11 +63,6 @@ Public Class EnrichmentResult
     Public Property name As String
     Public Property description As String
 
-    ''' <summary>
-    ''' the enriched gene id set: input id set intersect with the background cluster id set.
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property geneIDs As String()
     Public Property score As Double
     Public Property pvalue As Double
     Public Property FDR As Double
@@ -76,7 +71,13 @@ Public Class EnrichmentResult
     ''' 我们的差异基因列表中，属于目标代谢途径的基因的数量 / 在我们的差异基因列表中，不属于当前的代谢途径的基因的数量
     ''' </summary>
     ''' <returns></returns>
-    Public Property enriched As String
+    Public Property enriched As Integer
+
+    ''' <summary>
+    ''' the enriched gene id set: input id set intersect with the background cluster id set.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property IDs As String()
 
     Public Overrides Function ToString() As String
         Return term

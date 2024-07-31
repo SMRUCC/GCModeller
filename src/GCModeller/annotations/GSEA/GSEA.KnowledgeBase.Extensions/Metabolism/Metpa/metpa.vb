@@ -143,7 +143,7 @@ Namespace Metabolism.Metpa
             For Each map As EnrichmentResult In enrich
                 Dim weights = impacts.GetScoreImpacts(map.term)
                 Dim impact As Double = Aggregate id As String
-                                       In map.geneIDs.SafeQuery
+                                       In map.IDs.SafeQuery
                                        Let w = weights.TryGetValue(id, [default]:=0.0)
                                        Into Sum(w)
 
