@@ -19,7 +19,8 @@ let metpa = metpa_background(pathways, taxonomy_name = NULL, raw = TRUE, multipl
 # print(json_encode(metpa));
 
 metpa 
-|> json_encode()
+# |> json_encode()
+|> json()
 |> writeLines(
     con = `${@dir}/hsa_metpa.json`
 )
