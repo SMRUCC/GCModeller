@@ -24,3 +24,10 @@ metpa
     con = `${@dir}/hsa_metpa.json`
 )
 ;
+
+metpa 
+|> xml()
+|> writeLines(
+    con = `${@dir}/hsa_metpa.xml`
+)
+;
