@@ -54,7 +54,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -122,7 +122,7 @@ Module magnitude
     End Function
 
     ''' <summary>
-    ''' Apply <see cref="Drawing2D.Colors.Scaler.TrIQ"/> cutoff for each sample
+    ''' Apply <see cref="Distributions.TrIQ"/> cutoff for each sample
     ''' </summary>
     ''' <param name="mat"></param>
     ''' <param name="q"></param>

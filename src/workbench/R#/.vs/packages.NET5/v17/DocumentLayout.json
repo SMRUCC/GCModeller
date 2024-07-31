@@ -3,6 +3,13 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\magnitude.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\magnitude.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B352562-978B-4BB6-B034-017085B1CF7E}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Math.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\math\\distributions\\triq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -29,11 +36,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "TrIQ.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Distributions\\TrIQ.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Distributions\\TrIQ.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Distributions\\TrIQ.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Distributions\\TrIQ.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADsAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-31T03:44:34.603Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "magnitude.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\magnitude.vb",
+              "RelativeDocumentMoniker": "phenotype_kit\\magnitude.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\magnitude.vb",
+              "RelativeToolTip": "phenotype_kit\\magnitude.vb",
+              "ViewState": "AQIAAHkAAAAAAAAAAAAAAJkAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-07-31T03:43:43.394Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "EnrichmentCategoryBubble.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
@@ -46,7 +79,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "GSEA.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\Enrichment\\GSEA.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Microarray\\Enrichment\\GSEA.vb",
@@ -59,7 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Enrichment.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
@@ -72,7 +105,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "EnrichmentResult.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\EnrichmentResult.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\EnrichmentResult.vb",
@@ -97,20 +130,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "GSEA.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
               "RelativeDocumentMoniker": "gseakit\\GSEA.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
               "RelativeToolTip": "gseakit\\GSEA.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFIAAAAoAAAA",
+              "ViewState": "AQIAAGAAAAAAAAAAAAAAAFIAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-07-31T03:40:22.665Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "metpa.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\Metpa\\metpa.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\Metabolism\\Metpa\\metpa.vb",
