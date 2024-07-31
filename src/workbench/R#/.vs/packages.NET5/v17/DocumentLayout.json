@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\mesh\\meshtree\\reader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|e:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,27 +34,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "mesh.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
-              "RelativeDocumentMoniker": "kb\\mesh.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
-              "RelativeToolTip": "kb\\mesh.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEcAAABcAAAA",
+              "Title": "GSEABackground.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "RelativeDocumentMoniker": "gseakit\\GSEABackground.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "RelativeToolTip": "gseakit\\GSEABackground.vb",
+              "ViewState": "AQIAAIYCAAAAAAAAAAAjwKECAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-07-30T02:33:58.208Z",
+              "WhenOpened": "2024-07-31T00:27:33.997Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Reader.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Reader.vb",
-              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Reader.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Reader.vb",
-              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\MeshTree\\Reader.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFMAAAA6AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-07-30T03:12:52.369Z"
+              "Title": "R-cmd.NET5",
+              "DocumentMoniker": "E:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "ToolTip": "E:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-07-31T00:26:55.377Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -2,10 +2,11 @@ imports "package_utils" from "devkit";
 
 require(HDS);
 require(JSON);
+require(GCModeller);
 
-package_utils::attach(`${@dir}/../`);
+# package_utils::attach(`${@dir}/../`);
 
-const demo_file = "D:\biodeep\biodeepdb_v3\KEGG\pathway\pack\hsa.hdspack";
+const demo_file = "E:\biodeep\biodeepdb_v3\KEGG\pathway\pack\hsa.hdspack";
 
 let buf = HDS::openStream(file = demo_file, readonly = TRUE);
 let pathways = buf 
