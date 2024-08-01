@@ -122,7 +122,7 @@ Module GSEA
         table.columns("score") = result.Select(Function(d) d.score).ToArray
         table.columns("pvalue") = result.Select(Function(d) d.pvalue).ToArray
         table.columns("FDR") = result.Select(Function(d) d.FDR).ToArray
-        table.columns("geneIDs") = result.Select(Function(d) d.IDs.JoinBy(";")).ToArray
+        table.columns("IDs") = result.Select(Function(d) d.IDs.JoinBy(";")).ToArray
 
         Return table
     End Function
