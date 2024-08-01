@@ -107,6 +107,7 @@ Module GSEA
         Internal.Object.Converts.makeDataframe.addHandler(GetType(EnrichmentResult()), AddressOf enrichmentTable)
     End Sub
 
+    <RGenericOverloads("as.data.frame")>
     Private Function enrichmentTable(result As EnrichmentResult(), args As list, env As Environment) As dataframe
         Dim table As New dataframe With {
             .columns = New Dictionary(Of String, Array),
