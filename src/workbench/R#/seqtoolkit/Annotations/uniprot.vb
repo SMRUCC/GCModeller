@@ -105,6 +105,15 @@ Issue:="Database issue",
 URL:="https://www.uniprot.org/")>
 Module uniprot
 
+    Sub Main()
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(entry()), AddressOf uniprotProteinTable)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function uniprotProteinTable(uniprot As entry(), args As list, env As Environment) As dataframe
+        Return proteinTable(uniprot, env)
+    End Function
+
     ''' <summary>
     ''' open a uniprot database file
     ''' </summary>
