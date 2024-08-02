@@ -267,7 +267,7 @@ Namespace Assembly.Uniprot.XML
         ''' <returns></returns>
         <Extension>
         Public Function GetDomainData(prot As entry) As DomainModel()
-            Dim features As feature() = prot.features.Takes("domain").ToArray
+            Dim features As feature() = prot.features.SafeQuery.Takes("domain").ToArray
             Dim xref = prot.dbReferences _
                 .Where(Function(ref) ref.hasDbReference("entry name")) _
                 .GroupBy(Function(ref) ref("entry name")) _
