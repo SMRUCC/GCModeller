@@ -92,6 +92,7 @@ Module Fasta
         Call printer.AttachConsoleFormatter(Of MSAOutput)(AddressOf viewMSA)
 
         Call Internal.Object.Converts.makeDataframe.addHandler(GetType(FastaSeq()), AddressOf createSequenceTable)
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(FastaFile), AddressOf createSequenceTable)
     End Sub
 
     Private Function viewMSA(msa As MSAOutput) As String
@@ -124,6 +125,11 @@ Module Fasta
             Case Else
                 Throw New NotImplementedException
         End Select
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function createSequenceCollectionTable(fa As FastaFile, args As list, env As Environment) As dataframe
+        Return createSequenceTable(fa.ToArray, args, env)
     End Function
 
     <RGenericOverloads("as.data.frame")>
