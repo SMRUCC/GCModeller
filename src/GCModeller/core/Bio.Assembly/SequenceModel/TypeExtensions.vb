@@ -135,6 +135,11 @@ Namespace SequenceModel
             End Select
         End Function
 
+        ''' <summary>
+        ''' try to measure the sequence type based on the given sequence chars
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function GetSeqType(seq As IPolymerSequenceModel) As SeqTypes
             If IsProteinSource(seq) Then

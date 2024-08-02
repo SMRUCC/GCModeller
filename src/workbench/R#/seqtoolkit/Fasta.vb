@@ -179,6 +179,49 @@ Module Fasta
     End Function
 
     ''' <summary>
+    ''' evaluate the molecule mass of the given sequence
+    ''' </summary>
+    ''' <param name="seqs"></param>
+    ''' <param name="type"></param>
+    ''' <returns></returns>
+    <ExportAPI("mass")>
+    Public Function mass(<RRawVectorArgument> seqs As Object,
+                         Optional type As SeqTypes = SeqTypes.Generic,
+                         Optional env As Environment = Nothing) As Object
+
+        Dim seq_pool = GetFastaSeq(seqs, env).ToArray
+
+        If type = SeqTypes.Generic Then
+            type = seq_pool _
+                .Select(Function(s) s.GetSeqType) _
+                .GroupBy(Function(t) t) _
+                .OrderByDescending(Function(t) t.Count) _
+                .First _
+                .Key
+        End If
+
+        Dim vals As list = list.empty
+
+        Select Case type
+            Case SeqTypes.DNA
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.CalcMW_Nucleotides(seq, is_rna:=False))
+                Next
+            Case SeqTypes.RNA
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.CalcMW_Nucleotides(seq, is_rna:=True))
+                Next
+            Case Else
+                ' protein/polypeptide
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.CalcMW_Polypeptide(seq))
+                Next
+        End Select
+
+        Return vals
+    End Function
+
+    ''' <summary>
     ''' Read a single fasta sequence file
     ''' </summary>
     ''' <param name="file">

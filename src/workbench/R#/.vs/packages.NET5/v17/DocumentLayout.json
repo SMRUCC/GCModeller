@@ -3,14 +3,20 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\typeextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\abstract.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\polypeptides\\aminoacidobjutility.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\mwcalculator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\fasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\fasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\typeextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\polypeptides\\aminoacidobjutility.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -20,8 +26,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Abstract.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\Abstract.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\Abstract.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\Abstract.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\Abstract.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-02T17:03:01.306Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -33,6 +52,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "MWCalculator.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\MWCalculator.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\MWCalculator.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\MWCalculator.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\MWCalculator.vb",
+              "ViewState": "AQIAAEgAAAAAAAAAAADwv28AAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-02T16:56:40.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "AminoAcidObjUtility.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\Polypeptides\\AminoAcidObjUtility.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\Polypeptides\\AminoAcidObjUtility.vb",
@@ -45,13 +77,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "TypeExtensions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\TypeExtensions.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\TypeExtensions.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\TypeExtensions.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\TypeExtensions.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADsAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAIoAAABOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-02T16:53:34.587Z",
               "EditorCaption": ""
@@ -64,7 +96,7 @@
               "RelativeDocumentMoniker": "seqtoolkit\\Fasta.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
               "RelativeToolTip": "seqtoolkit\\Fasta.vb",
-              "ViewState": "AQIAAJQAAAAAAAAAAAAYwK0AAAAhAAAA",
+              "ViewState": "AQIAAKoAAAAAAAAAAAAzwLwAAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-02T16:53:17.363Z",
               "EditorCaption": ""
