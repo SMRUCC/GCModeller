@@ -71,6 +71,18 @@ declare namespace bioseq.fasta {
       */
       function titles(fa: any, env?: object): string;
    }
+   /**
+    * evaluate the molecule mass of the given sequence
+    * 
+    * 
+     * @param seqs -
+     * @param type -
+     * 
+     * + default value Is ``null``.
+     * @param env 
+     * + default value Is ``null``.
+   */
+   function mass(seqs: any, type?: object, env?: object): any;
    module MSA {
       /**
        * Do multiple sequence alignment
