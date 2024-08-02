@@ -247,7 +247,7 @@ Namespace Assembly.Uniprot.XML
 
     Public Class organism
 
-        <XmlAttribute> Public Property evidence As String
+        <XmlAttribute> Public Property evidence As String()
         <XmlElement("name")> Public Property names As value()
             Get
                 Return namesData.Values.ToArray
@@ -400,7 +400,7 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property type As String Implements INamedValue.Key
-        <XmlAttribute> Public Property evidence As String
+        <XmlAttribute> Public Property evidence As String()
         <XmlAttribute> Public Property description As String
         ''' <summary>
         ''' string value could be one of these enumeration:
@@ -533,7 +533,7 @@ Namespace Assembly.Uniprot.XML
     Public Class value : Implements Value(Of String).IValueOf
 
         <XmlAttribute> Public Property type As String
-        <XmlAttribute> Public Property evidence As String
+        <XmlAttribute> Public Property evidence As String()
         <XmlAttribute> Public Property description As String
         <XmlAttribute> Public Property id As String
 

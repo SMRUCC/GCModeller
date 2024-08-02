@@ -74,8 +74,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.Uniprot.XML
@@ -83,7 +81,7 @@ Namespace Assembly.Uniprot.XML
     Public Class comment
 
         <XmlAttribute> Public Property type As String
-        <XmlAttribute> Public Property evidence As String
+        <XmlAttribute> Public Property evidence As String()
         Public Property text As value
         <XmlElement("subcellularLocation")>
         Public Property subcellularLocations As subcellularLocation()
@@ -106,7 +104,7 @@ Namespace Assembly.Uniprot.XML
         <XmlAttribute>
         Public Property direction As String
         <XmlAttribute>
-        Public Property evidence As Integer
+        Public Property evidence As Integer()
         Public Property text As String
         <XmlElement("dbReference")>
         Public Property dbReferences As dbReference()
