@@ -22,6 +22,9 @@ declare namespace uniprot {
    */
    function get_subcellularlocation(prot: object): any;
    /**
+   */
+   function get_xrefs(prot: object): any;
+   /**
     * id unify mapping
     * 
     * 
