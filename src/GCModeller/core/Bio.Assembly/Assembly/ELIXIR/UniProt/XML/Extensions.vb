@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::ceaa0a4a222132cb4e3c40ab7dd4423d, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 279
-    '    Code Lines: 209 (74.91%)
-    ' Comment Lines: 37 (13.26%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 33 (11.83%)
-    '     File Size: 10.30 KB
+' Summaries:
 
 
-    '     Module Extensions
-    ' 
-    '         Function: DbReferenceId, ECNumberList, EnumerateAllIDs, GetDomainData, GO
-    '                   KO, NCBITaxonomyId, ORF, OrganismScientificName, proteinFullName
-    '                   ProteinSequence, SubCellularLocations, Summary, Term2Gene
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 279
+'    Code Lines: 209 (74.91%)
+' Comment Lines: 37 (13.26%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 33 (11.83%)
+'     File Size: 10.30 KB
+
+
+'     Module Extensions
+' 
+'         Function: DbReferenceId, ECNumberList, EnumerateAllIDs, GetDomainData, GO
+'                   KO, NCBITaxonomyId, ORF, OrganismScientificName, proteinFullName
+'                   ProteinSequence, SubCellularLocations, Summary, Term2Gene
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -278,16 +278,25 @@ Namespace Assembly.Uniprot.XML
             Dim out As DomainModel() = features _
                 .Select(Function(f)
                             Dim key As String = f.description
+                            Dim loci = f.location
 
                             If xref.ContainsKey(key) Then
                                 key = $"{xref(key)}:{key}"
                             End If
 
-                            Return New DomainModel With {
-                                .DomainId = key,
-                                .start = f.location.begin.position,
-                                .ends = f.location.end.position
-                            }
+                            If loci.IsRegion Then
+                                Return New DomainModel With {
+                                    .DomainId = key,
+                                    .start = loci.begin.position,
+                                    .ends = loci.end.position
+                                }
+                            Else
+                                Return New DomainModel With {
+                                   .DomainId = key,
+                                   .ends = loci.position,
+                                   .start = loci.position
+                                }
+                            End If
                         End Function) _
                 .ToArray
 

@@ -511,6 +511,10 @@ Namespace Assembly.Uniprot.XML
         Public Overrides Function ToString() As String
             Return position
         End Function
+
+        Public Shared Narrowing Operator CType(pos As position) As Integer
+            Return pos.position
+        End Operator
     End Class
 
     Public Class recommendedName
