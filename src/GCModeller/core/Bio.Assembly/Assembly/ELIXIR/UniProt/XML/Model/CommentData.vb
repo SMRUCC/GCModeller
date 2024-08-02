@@ -97,6 +97,14 @@ Namespace Assembly.Uniprot.XML
             Return text.ToString
         End Function
 
+        Public Function GetText() As String
+            If text Is Nothing Then
+                Return Nothing
+            Else
+                Return text.value
+            End If
+        End Function
+
     End Class
 
     Public Class reaction

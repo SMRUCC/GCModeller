@@ -548,7 +548,8 @@ Namespace Assembly.Uniprot.XML
         ''' 这条值对象的文本内容
         ''' </summary>
         ''' <returns></returns>
-        <XmlText> Public Property value As String Implements Value(Of String).IValueOf.Value
+        <XmlText>
+        Public Property value As String Implements Value(Of String).IValueOf.Value
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

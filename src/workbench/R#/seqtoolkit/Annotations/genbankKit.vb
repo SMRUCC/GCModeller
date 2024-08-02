@@ -68,6 +68,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports featureLocation = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Location
@@ -88,6 +89,7 @@ Module genbankKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("read.genbank")>
+    <RApiReturn(GetType(GBFF.File))>
     Public Function readGenbank(file As String,
                                 Optional repliconTable As Boolean = False,
                                 Optional env As Environment = Nothing) As Object
@@ -191,6 +193,7 @@ Module genbankKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("write.genbank")>
+    <RApiReturn(TypeCodes.boolean)>
     Public Function writeGenbank(gb As GBFF.File, file$, Optional env As Environment = Nothing) As Object
         If gb Is Nothing Then
             Return Internal.debug.stop("write data is nothing!", env)
@@ -421,6 +424,7 @@ Module genbankKit
     End Function
 
     <ExportAPI("add.RNA.gene")>
+    <RApiReturn(GetType(GBFF.File))>
     Public Function addRNAGene(gb As GBFF.File, <RRawVectorArgument> RNA As Object, Optional env As Environment = Nothing) As Object
         If RNA Is Nothing Then
             Return gb
