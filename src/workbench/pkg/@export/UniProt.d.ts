@@ -16,6 +16,12 @@ declare namespace uniprot {
    */
    function get_sequence(prot: object): object;
    /**
+    * 
+    * 
+     * @param prot -
+   */
+   function get_subcellularlocation(prot: object): any;
+   /**
     * id unify mapping
     * 
     * 
