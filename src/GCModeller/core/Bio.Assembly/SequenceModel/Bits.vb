@@ -59,7 +59,7 @@
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace SequenceModel
 
@@ -93,7 +93,7 @@ Namespace SequenceModel
         ''' 主要是一个用于序列装配的帮助函数
         ''' </remarks>
         Public Function OverlapSize(another As Bits) As Integer
-            Dim minW As Integer = stdNum.Min(another.length, Me.length) * 0.5
+            Dim minW As Integer = std.Min(another.length, Me.length) * 0.5
             Dim size1, size2 As Integer
 
             size1 = overlapSize(bytes, another.bytes)
@@ -104,7 +104,7 @@ Namespace SequenceModel
 
             size2 = overlapSize(another.bytes, bytes)
 
-            Return stdNum.Max(size1, size2)
+            Return std.Max(size1, size2)
         End Function
 
         Private Shared Function overlapSize(a As Byte(), b As Byte()) As Integer

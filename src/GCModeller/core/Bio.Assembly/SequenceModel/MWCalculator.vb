@@ -55,6 +55,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 Namespace SequenceModel
@@ -89,12 +90,50 @@ Namespace SequenceModel
             {AminoAcid.Valine, 99.1311}
         }
 
-        Private ReadOnly NucleicAcidsMolecularWeights As New SortedDictionary(Of Char, Double) From {
-            {"A"c, 491.2},
-            {"C"c, 467.2},
-            {"G"c, 507.2},
-            {"T"c, 482.2},
-            {"U"c, 324.2}
+#Region "Deoxyribonucleotide - DNA"
+        ''' <summary>
+        ''' C10H12N5O6P + H2O
+        ''' </summary>
+        Const dAMP As Double = 347.0625338201
+        ''' <summary>
+        ''' C10H13N2O8P + H2O
+        ''' </summary>
+        Const dTMP As Double = 338.0509664201
+        ''' <summary>
+        ''' C9H12N3O7P + H2O
+        ''' </summary>
+        Const dCMP As Double = 323.0513008201
+        ''' <summary>
+        ''' C10H12N5O7P + H2O
+        ''' </summary>
+        Const dGMP As Double = 363.0574488201
+#End Region
+
+#Region "Ribonucleotide - RNA"
+        ''' <summary>
+        ''' C10H12N5O7P
+        ''' </summary>
+        Const AMP As Double = 345.0468846201
+        ''' <summary>
+        ''' C9H11N2O9P
+        ''' </summary>
+        Const UMP As Double = 322.0196680201
+        ''' <summary>
+        ''' C9H12N3O8P
+        ''' </summary>
+        Const CMP As Double = 321.0356516201
+        ''' <summary>
+        ''' C10H12N5O8P
+        ''' </summary>
+        Const GMP As Double = 361.0417996201
+#End Region
+
+        ReadOnly Deoxyribonucleotide As New Dictionary(Of Char, Double) From {
+            {"A"c, dAMP}, {"T"c, dTMP}, {"C"c, dCMP}, {"G"c, dGMP}
+        }
+
+        ReadOnly Ribonucleotide As New Dictionary(Of Char, Double) From {
+            {"A"c, AMP}, {"U"c, UMP}, {"C"c, CMP}, {"G"c, GMP}
         }
 
         ''' <summary>
@@ -112,11 +151,12 @@ Namespace SequenceModel
         <ExportAPI("MW.Polypeptide")>
         <Extension>
         Public Function CalcMW_Polypeptide(seq As String) As Double
-            Dim polypeptide = ConstructVector(seq)
-            Dim mw As Double = Aggregate aa As AminoAcid
-                               In polypeptide
-                               Into Sum(AminoAcidMolecularWeights(aa))
-            Return mw
+            Dim mw As Double = Aggregate aa As Char
+                               In seq.ToUpper
+                               Into Sum(AminoAcidObjUtility.OneChar2Mass(aa))
+            Dim water As Double = (seq.Length - 1) * PeriodicTable.H2O
+
+            Return mw - water
         End Function
 
         ''' <summary>
@@ -127,11 +167,22 @@ Namespace SequenceModel
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function CalcMW_Nucleotides(seq As ISequenceModel) As Double
+        Public Function CalcMW_Nucleotides(seq As ISequenceModel, Optional is_rna As Boolean = False) As Double
             With seq.SequenceData
-                Return Aggregate ch As Char
-                       In .ToUpper
-                       Into Sum(NucleicAcidsMolecularWeights(ch))
+                Dim total As Double
+                Dim water As Double = (.Length - 1) * PeriodicTable.H2O
+
+                If is_rna Then
+                    total = Aggregate ch As Char
+                            In .ToUpper
+                            Into Sum(Ribonucleotide(ch))
+                Else
+                    total = Aggregate ch As Char
+                            In .ToUpper
+                            Into Sum(Deoxyribonucleotide(ch))
+                End If
+
+                Return total - water
             End With
         End Function
     End Module

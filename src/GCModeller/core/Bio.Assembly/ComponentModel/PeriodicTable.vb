@@ -64,6 +64,8 @@ Namespace ComponentModel
     ''' <remarks></remarks>
     Public Module PeriodicTable
 
+        Public Const H2O As Double = 18.0100156201
+
         Public ReadOnly Property PeriodicTable As IReadOnlyDictionary(Of String, Double) =
             New Dictionary(Of String, Double) From {
                 {"H", 1.008}, {"He", 4.003},
