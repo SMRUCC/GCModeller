@@ -77,7 +77,10 @@ Namespace SequenceModel.Polypeptides
             Return False
         End Function
 
-        Public ReadOnly AminoAcidLetters As IReadOnlyCollection(Of Char) = New List(Of Char)() From {
+        ''' <summary>
+        ''' enumerates all amino acid chars
+        ''' </summary>
+        Public ReadOnly AminoAcidLetters As IReadOnlyCollection(Of Char) = New Char() {
             "A"c,
             "R"c,
             "N"c,

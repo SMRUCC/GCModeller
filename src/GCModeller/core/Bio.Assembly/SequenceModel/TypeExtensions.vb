@@ -1,61 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::ab8fff5078e43df21230a946566144f5, core\Bio.Assembly\SequenceModel\TypeExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 111
-    '    Code Lines: 63 (56.76%)
-    ' Comment Lines: 35 (31.53%)
-    '    - Xml Docs: 94.29%
-    ' 
-    '   Blank Lines: 13 (11.71%)
-    '     File Size: 3.89 KB
+' Summaries:
 
 
-    '     Module TypeExtensions
-    ' 
-    '         Properties: AA, NT, RNA
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetSeqType, GetVector, IsProteinSource, ParseSeqType
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 111
+'    Code Lines: 63 (56.76%)
+' Comment Lines: 35 (31.53%)
+'    - Xml Docs: 94.29%
+' 
+'   Blank Lines: 13 (11.71%)
+'     File Size: 3.89 KB
+
+
+'     Module TypeExtensions
+' 
+'         Properties: AA, NT, RNA
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: GetSeqType, GetVector, IsProteinSource, ParseSeqType
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 Namespace SequenceModel
 
@@ -81,12 +82,7 @@ Namespace SequenceModel
         ''' Enumeration for amino acid.
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property AA As IReadOnlyCollection(Of Char) = {
-            "A"c, "R"c, "N"c, "D"c, "C"c, "E"c,
-            "Q"c, "G"c, "H"c, "I"c, "L"c, "K"c,
-            "M"c, "F"c, "P"c, "S"c, "T"c, "W"c,
-            "Y"c, "V"c
-        }
+        Public ReadOnly Property AA As IReadOnlyCollection(Of Char) = AminoAcidObjUtility.AminoAcidLetters
 
 #Region "Constants"
 

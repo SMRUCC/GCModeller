@@ -170,9 +170,9 @@ Module Fasta
     <RApiReturn(TypeCodes.string)>
     Public Function chars(Optional type As SeqTypes = SeqTypes.Protein) As Object
         Select Case type
-            Case SeqTypes.DNA : Return {"A", "T", "G", "C"}
-            Case SeqTypes.Protein
-            Case SeqTypes.RNA
+            Case SeqTypes.DNA : Return DirectCast(TypeExtensions.NT, Char())
+            Case SeqTypes.Protein : Return DirectCast(TypeExtensions.AA, Char())
+            Case SeqTypes.RNA : Return DirectCast(TypeExtensions.RNA, Char())
             Case Else
                 Throw New InvalidDataException(type.ToString)
         End Select
