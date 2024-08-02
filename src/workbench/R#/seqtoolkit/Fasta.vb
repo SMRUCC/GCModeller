@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::52a89d0f1c565f2c000ccf3365ff132a, R#\seqtoolkit\Fasta.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 471
-    '    Code Lines: 325 (69.00%)
-    ' Comment Lines: 97 (20.59%)
-    '    - Xml Docs: 95.88%
-    ' 
-    '   Blank Lines: 49 (10.40%)
-    '     File Size: 18.88 KB
+' Summaries:
 
 
-    ' Module Fasta
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: CutSequenceLinear, fasta, fastaTitle, fastaTitles, MSA
-    '               openFasta, parseFasta, readFasta, readSeq, sizeof
-    '               Tofasta, Translates, translateSingleNtSeq, viewFasta, viewMSA
-    '               writeFasta
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 471
+'    Code Lines: 325 (69.00%)
+' Comment Lines: 97 (20.59%)
+'    - Xml Docs: 95.88%
+' 
+'   Blank Lines: 49 (10.40%)
+'     File Size: 18.88 KB
+
+
+' Module Fasta
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: CutSequenceLinear, fasta, fastaTitle, fastaTitles, MSA
+'               openFasta, parseFasta, readFasta, readSeq, sizeof
+'               Tofasta, Translates, translateSingleNtSeq, viewFasta, viewMSA
+'               writeFasta
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -73,6 +73,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -90,6 +91,9 @@ Module Fasta
         Call printer.AttachConsoleFormatter(Of FastaSeq)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of FastaFile)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of MSAOutput)(AddressOf viewMSA)
+
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(FastaSeq()), AddressOf createSequenceTable)
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(FastaFile), AddressOf createSequenceTable)
     End Sub
 
     Private Function viewMSA(msa As MSAOutput) As String
@@ -124,6 +128,23 @@ Module Fasta
         End Select
     End Function
 
+    <RGenericOverloads("as.data.frame")>
+    Public Function createSequenceCollectionTable(fa As FastaFile, args As list, env As Environment) As dataframe
+        Return createSequenceTable(fa.ToArray, args, env)
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function createSequenceTable(fa As FastaSeq(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call df.add("id", From i In fa Select i.locus_tag)
+        Call df.add("title", From i In fa Select i.Title)
+        Call df.add("len", From i In fa Select i.Length)
+        Call df.add("seq", From i In fa Select i.SequenceData)
+
+        Return df
+    End Function
+
     ''' <summary>
     ''' get the sequence length
     ''' </summary>
@@ -136,6 +157,25 @@ Module Fasta
         Else
             Return fa.Length
         End If
+    End Function
+
+    ''' <summary>
+    ''' get alphabets represents of the fasta sequence 
+    ''' </summary>
+    ''' <param name="type">
+    ''' the sequence data type.
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("chars")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function chars(Optional type As SeqTypes = SeqTypes.Protein) As Object
+        Select Case type
+            Case SeqTypes.DNA : Return {"A", "T", "G", "C"}
+            Case SeqTypes.Protein
+            Case SeqTypes.RNA
+            Case Else
+                Throw New InvalidDataException(type.ToString)
+        End Select
     End Function
 
     ''' <summary>

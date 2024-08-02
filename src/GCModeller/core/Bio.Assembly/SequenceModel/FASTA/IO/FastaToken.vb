@@ -122,9 +122,11 @@ AAGCGAACAAATGTTCTATA"
         ''' <summary>
         ''' The attribute header of this FASTA file. The fasta header usually have some format which can be parsed by some 
         ''' specific loader and gets some well organized information about the sequence. The format of the header is 
-        ''' usually different between each biological database.(这个FASTA文件的属性头，标题的格式通常在不同的数据库之间是具有很大差异的)
+        ''' usually different between each biological database.
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (这个FASTA文件的属性头，标题的格式通常在不同的数据库之间是具有很大差异的)
+        ''' </remarks>
         Public Overridable Property Headers As String() Implements IAbstractFastaToken.headers
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -137,9 +139,10 @@ AAGCGAACAAATGTTCTATA"
 
         ''' <summary>
         ''' The sequence data that contains in this FASTA file.
-        ''' (包含在这个FASTA文件之中的序列数据)
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (包含在这个FASTA文件之中的序列数据)
+        ''' </remarks>
         Public Overrides Property SequenceData As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -151,11 +154,13 @@ AAGCGAACAAATGTTCTATA"
         End Property
 
         ''' <summary>
-        ''' Get the sequence length of this Fasta object.(获取序列的长度)
+        ''' Get the sequence length of this Fasta object.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (获取序列的长度)
+        ''' </remarks>
         Public Overrides ReadOnly Property Length As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -164,11 +169,13 @@ AAGCGAACAAATGTTCTATA"
         End Property
 
         ''' <summary>
-        ''' The first character ">" is not included in the title string data.(标题之中是不包含有FASTA数据的第一个>字符的)
+        ''' The first character ">" is not included in the title string data.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (标题之中是不包含有FASTA数据的第一个>字符的)
+        ''' </remarks>
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.title, IFastaProvider.title
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -176,6 +183,10 @@ AAGCGAACAAATGTTCTATA"
             End Get
         End Property
 
+        ''' <summary>
+        ''' split the first token of the headers inside title as the unique reference id of current sequence object.
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property locus_tag As String
             Get
                 Return Headers(Scan0).Trim.Split.First
