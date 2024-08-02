@@ -73,6 +73,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -156,6 +157,25 @@ Module Fasta
         Else
             Return fa.Length
         End If
+    End Function
+
+    ''' <summary>
+    ''' get alphabets represents of the fasta sequence 
+    ''' </summary>
+    ''' <param name="type">
+    ''' the sequence data type.
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("chars")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function chars(Optional type As SeqTypes = SeqTypes.Protein) As Object
+        Select Case type
+            Case SeqTypes.DNA : Return {"A", "T", "G", "C"}
+            Case SeqTypes.Protein
+            Case SeqTypes.RNA
+            Case Else
+                Throw New InvalidDataException(type.ToString)
+        End Select
     End Function
 
     ''' <summary>
