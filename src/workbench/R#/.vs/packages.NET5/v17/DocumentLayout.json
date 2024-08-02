@@ -65,7 +65,7 @@
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\uniprot.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\uniprot.vb",
               "RelativeToolTip": "seqtoolkit\\Annotations\\uniprot.vb",
-              "ViewState": "AQIAADgAAAAAAAAAAAAAAGwAAAA7AAAA",
+              "ViewState": "AQIAAH8AAAAAAAAAAAAQwKAAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-02T17:59:29.508Z",
               "EditorCaption": ""
@@ -130,6 +130,10 @@
               "ViewState": "AQIAAIgAAAAAAAAAAAA1wI4AAAA+AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-02T16:53:17.363Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
