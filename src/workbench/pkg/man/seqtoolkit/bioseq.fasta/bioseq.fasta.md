@@ -3,6 +3,7 @@
 Fasta sequence toolkit
 
 + [size](bioseq.fasta/size.1) get the sequence length
++ [chars](bioseq.fasta/chars.1) get alphabets represents of the fasta sequence
 + [read.seq](bioseq.fasta/read.seq.1) Read a single fasta sequence file
 + [read.fasta](bioseq.fasta/read.fasta.1) read a fasta sequence collection file
 + [open.fasta](bioseq.fasta/open.fasta.1) open file and load a set of fasta sequence data in lazy mode

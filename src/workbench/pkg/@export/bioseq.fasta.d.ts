@@ -21,6 +21,15 @@ declare namespace bioseq.fasta {
       */
       function fasta(x: any, env?: object): object;
    }
+   /**
+    * get alphabets represents of the fasta sequence
+    * 
+    * 
+     * @param type the sequence data type.
+     * 
+     * + default value Is ``null``.
+   */
+   function chars(type?: object): string;
    module cut_seq {
       /**
        * cut part of the sequence
