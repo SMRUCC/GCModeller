@@ -17,7 +17,7 @@ declare namespace GenBank {
          /**
            * @param env default value Is ``null``.
          */
-         function gene(gb: object, RNA: any, env?: object): any;
+         function gene(gb: object, RNA: any, env?: object): object;
       }
    }
    /**
@@ -140,7 +140,7 @@ declare namespace GenBank {
         * 
         * + default value Is ``null``.
       */
-      function genbank(file: string, repliconTable?: boolean, env?: object): any;
+      function genbank(file: string, repliconTable?: boolean, env?: object): object;
    }
    module write {
       /**
@@ -153,6 +153,6 @@ declare namespace GenBank {
         * 
         * + default value Is ``null``.
       */
-      function genbank(gb: object, file: string, env?: object): any;
+      function genbank(gb: object, file: string, env?: object): boolean;
    }
 }

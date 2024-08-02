@@ -10,6 +10,12 @@
 */
 declare namespace uniprot {
    /**
+   */
+   function get_description(prot: object): string;
+   /**
+   */
+   function get_sequence(prot: object): object;
+   /**
     * id unify mapping
     * 
     * 
