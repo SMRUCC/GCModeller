@@ -266,6 +266,27 @@ Module uniprot
     End Function
 
     ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns></returns>
+    <ExportAPI("get_subcellularlocation")>
+    Public Function get_subcellularlocation(prot As entry) As Object
+        Dim locs = prot.CommentList.TryGetValue("subcellular location") _
+            .SafeQuery _
+            .Select(Function(c) c.subcellularLocations) _
+            .IteratesALL _
+            .ToArray
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim flat_all = locs.Select(Function(c) c.locations.SafeQuery.Select(Function(l) (l, c.topology))).IteratesALL.ToArray
+
+        Call df.add("location", From loc In flat_all Select loc.l.value)
+        Call df.add("topology", From loc In flat_all Select loc.topology?.value)
+
+        Return df
+    End Function
+
+    ''' <summary>
     ''' populate all protein fasta sequence from the given uniprot database reader
     ''' </summary>
     ''' <param name="uniprot"></param>
