@@ -145,6 +145,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.Uniprot.XML
 
+    ''' <summary>
+    ''' the protein sequence data
+    ''' </summary>
     Public Class sequence
 
         <XmlAttribute> Public Property length As Integer

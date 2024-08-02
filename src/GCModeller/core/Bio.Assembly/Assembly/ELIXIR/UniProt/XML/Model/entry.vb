@@ -1,59 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::e05912d54d2d487202d5ec9bf529b145, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\entry.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 135
-    '    Code Lines: 79 (58.52%)
-    ' Comment Lines: 40 (29.63%)
-    '    - Xml Docs: 97.50%
-    ' 
-    '   Blank Lines: 16 (11.85%)
-    '     File Size: 5.09 KB
+' Summaries:
 
 
-    '     Class entry
-    ' 
-    '         Properties: accession, accessions, CommentList, comments, created
-    '                     dataset, dbReferences, features, gene, keywords
-    '                     modified, name, organism, protein, proteinExistence
-    '                     references, sequence, version, xrefs
-    ' 
-    '         Function: ShadowCopy, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 135
+'    Code Lines: 79 (58.52%)
+' Comment Lines: 40 (29.63%)
+'    - Xml Docs: 97.50%
+' 
+'   Blank Lines: 16 (11.85%)
+'     File Size: 5.09 KB
+
+
+'     Class entry
+' 
+'         Properties: accession, accessions, CommentList, comments, created
+'                     dataset, dbReferences, features, gene, keywords
+'                     modified, name, organism, protein, proteinExistence
+'                     references, sequence, version, xrefs
+' 
+'         Function: ShadowCopy, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Assembly.Uniprot.XML
 
@@ -72,7 +73,7 @@ Namespace Assembly.Uniprot.XML
     ''' 经过shadow copy之后可以使用主键<see cref="accession"/>来创建字典)
     ''' </summary>
     ''' 
-    Public Class entry : Implements INamedValue
+    Public Class entry : Implements INamedValue, IPolymerSequenceModel
 
         <XmlAttribute> Public Property dataset As String
         <XmlAttribute> Public Property created As String
@@ -170,6 +171,21 @@ Namespace Assembly.Uniprot.XML
         ''' </remarks>
         <XmlIgnore>
         Public ReadOnly Property xrefs As Dictionary(Of String, dbReference())
+
+        Private Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
+            Get
+                If Not sequence Is Nothing Then
+                    Return sequence.sequence
+                Else
+                    Return Nothing
+                End If
+            End Get
+            Set(value As String)
+                If Not sequence Is Nothing Then
+                    sequence.sequence = value
+                End If
+            End Set
+        End Property
 
         Public Overrides Function ToString() As String
             Return accessions.GetJson
