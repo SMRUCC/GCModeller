@@ -286,6 +286,23 @@ Module uniprot
         Return df
     End Function
 
+    <ExportAPI("get_xrefs")>
+    Public Function get_xrefs(prot As entry) As Object
+        Dim list As list = list.empty
+        Dim xrefs As list = list.empty
+
+        xrefs.add("uniprot", prot.accessions)
+
+        For Each link In prot.dbReferences.GroupBy(Function(r) r.type)
+            Call xrefs.add(link.Key, From i In link Select i.id)
+        Next
+
+        list.add("name", If(prot.name, prot.accessions.First))
+        list.add("xrefs", xrefs)
+
+        Return list
+    End Function
+
     ''' <summary>
     ''' populate all protein fasta sequence from the given uniprot database reader
     ''' </summary>
