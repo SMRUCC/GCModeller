@@ -69,10 +69,12 @@ Namespace Assembly.Uniprot.XML
     ''' <summary>
     ''' Describes a collection of UniProtKB entries, XML file can be download from the uniprot database id mappings result.
     ''' </summary>
-    <XmlType("uniprot")>
+    <XmlType("uniprot", [Namespace]:=UniProtXML.uniprot_xmlns), XmlRoot("uniprot", [Namespace]:=UniProtXML.uniprot_xmlns)>
     Public Class UniProtXML
 
-        Const ns$ = "xmlns=""http://uniprot.org/uniprot"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd"""
+        Public Const uniprot_xmlns As String = "http://uniprot.org/uniprot"
+
+        Const ns$ = "xmlns=""" & uniprot_xmlns & """ xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd"""
 
         ''' <summary>
         ''' ```xml
@@ -134,7 +136,7 @@ Namespace Assembly.Uniprot.XML
             If isUniParc Then
                 Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniparc", ignoreError:=ignoreError)
             Else
-                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot", ignoreError:=ignoreError)
+                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:=uniprot_xmlns, ignoreError:=ignoreError)
             End If
         End Function
 
