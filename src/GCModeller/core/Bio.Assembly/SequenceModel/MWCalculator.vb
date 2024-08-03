@@ -56,6 +56,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 Namespace SequenceModel
@@ -146,9 +147,7 @@ Namespace SequenceModel
                 AminoAcidX = AminoAcidX + formula
             Next
 
-            For Each atom As String In AminoAcidX.elements.Keys.ToArray
-                AminoAcidX.elements(atom) = CInt(AminoAcidX.elements(atom) / n)
-            Next
+            AminoAcidX = AminoAcidX / n
         End Sub
 
         ''' <summary>
@@ -187,6 +186,40 @@ Namespace SequenceModel
                     formula = formula + AminoAcidX
                 Else
                     formula = formula + AminoAcidObjUtility.OneLetterFormula(aa)
+                End If
+            Next
+
+            Return formula - water
+        End Function
+
+        Public Function DeoxyribonucleotideFormula(seq As String) As FormulaData
+            Dim water As FormulaData = FormulaData.H2O * (seq.Length - 1)
+            Dim formula As FormulaData = FormulaData.Empty
+
+            Static any As FormulaData = Bases.Deoxyribonucleotide.Values.Sum / 4
+
+            For Each c As Char In seq.ToUpper
+                If c = "-"c Then
+                    formula = formula + any
+                Else
+                    formula = formula + Bases.Deoxyribonucleotide(c)
+                End If
+            Next
+
+            Return formula - water
+        End Function
+
+        Public Function RibonucleotideFormula(seq As String) As FormulaData
+            Dim water As FormulaData = FormulaData.H2O * (seq.Length - 1)
+            Dim formula As FormulaData = FormulaData.Empty
+
+            Static any As FormulaData = Bases.Ribonucleotide.Values.Sum / 4
+
+            For Each c As Char In seq.ToUpper
+                If c = "-"c Then
+                    formula = formula + any
+                Else
+                    formula = formula + Bases.Ribonucleotide(c)
                 End If
             Next
 

@@ -54,6 +54,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -149,6 +150,22 @@ Namespace ComponentModel
             Return New FormulaData(count)
         End Operator
 
+        Public Shared Operator /(a As FormulaData, n As Integer) As FormulaData
+            Dim count As Dictionary(Of String, Integer) = a.elements _
+                .ToDictionary(Function(atom) atom.Key,
+                              Function(atom)
+                                  Return CInt(atom.Value / n)
+                              End Function)
+
+            For Each atom As String In count.Keys.ToArray
+                If count(atom) <= 0 Then
+                    Call count.Remove(atom)
+                End If
+            Next
+
+            Return New FormulaData(count)
+        End Operator
+
     End Structure
 
     ''' <summary>
@@ -194,6 +211,17 @@ Namespace ComponentModel
                     atom_str = atom_str.Replace(n, "")
                     f.Add(atom_str, Integer.Parse(n))
                 End If
+            Next
+
+            Return f
+        End Function
+
+        <Extension>
+        Friend Function Sum(all As IEnumerable(Of FormulaData)) As FormulaData
+            Dim f As FormulaData = FormulaData.Empty
+
+            For Each fi As FormulaData In all.SafeQuery
+                f = f + fi
             Next
 
             Return f
