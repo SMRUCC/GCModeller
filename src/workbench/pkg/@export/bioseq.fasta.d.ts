@@ -137,6 +137,11 @@ declare namespace bioseq.fasta {
       function seq(file: string, env?: object): object;
    }
    /**
+     * @param type default value Is ``null``.
+     * @param env default value Is ``null``.
+   */
+   function seq_formula(seqs: any, type?: object, env?: object): any;
+   /**
     * get the sequence length
     * 
     * 
