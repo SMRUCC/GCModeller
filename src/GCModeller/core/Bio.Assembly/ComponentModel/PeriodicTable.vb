@@ -55,6 +55,8 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel
 
@@ -71,6 +73,10 @@ Namespace ComponentModel
             elements!S = S
         End Sub
 
+        Sub New(count As Dictionary(Of String, Integer))
+            elements = count
+        End Sub
+
         Public Function Add(atom As String, Optional n As Integer = 1) As FormulaData
             If elements Is Nothing Then
                 elements = New Dictionary(Of String, Integer) From {{atom, n}}
@@ -80,6 +86,45 @@ Namespace ComponentModel
 
             Return Me
         End Function
+
+        Public Shared ReadOnly H2O As New FormulaData(0, H:=2, O:=1, 0)
+
+        Public Shared Operator +(a As FormulaData, b As FormulaData) As FormulaData
+            Dim sum = a.elements.JoinIterates(b.elements) _
+                .GroupBy(Function(atom) atom.Key) _
+                .ToDictionary(Function(atom) atom.Key,
+                              Function(atom)
+                                  Return atom.Values.Sum
+                              End Function)
+
+            Return New FormulaData(sum)
+        End Operator
+
+        Public Shared Operator *(a As FormulaData, n As Integer) As FormulaData
+            Dim count As Dictionary(Of String, Integer) = a.elements _
+                .ToDictionary(Function(atom) atom.Key,
+                              Function(atom)
+                                  Return atom.Value * n
+                              End Function)
+
+            Return New FormulaData(count)
+        End Operator
+
+        Public Shared Operator -(a As FormulaData, b As FormulaData) As FormulaData
+            Dim count As New Dictionary(Of String, Integer)(a.elements)
+
+            For Each atom In b.elements
+                If count.ContainsKey(atom.Key) Then
+                    count(atom.Key) -= atom.Value
+
+                    If count(atom.Key) <= 0 Then
+                        count.Remove(atom.Key)
+                    End If
+                End If
+            Next
+
+            Return New FormulaData(count)
+        End Operator
 
     End Structure
 
@@ -110,6 +155,26 @@ Namespace ComponentModel
                 {"Bk", (247.1)}, {"Cf", (252.1)}, {"Es", (252.1)}, {"Fm", (257.1)}, {"Md", (258.1)}, {"No", (259.1)}, {"Lr", (262.1)}}
 
         Const REGEX_ATOM As String = "[A-Z][a-z]*\d*"
+
+        Public Function SimpleParser(formula As String) As FormulaData
+            Static atom As New Regex("[A-Z][a-z]?\d*")
+
+            Dim atoms = atom.Matches(formula).ToArray
+            Dim f As New FormulaData
+
+            For Each atom_str As String In atoms
+                Dim n As String = atom_str.Match("\d+")
+
+                If n = "" Then
+                    f.Add(atom_str)
+                Else
+                    atom_str = atom_str.Replace(n, "")
+                    f.Add(atom_str, Integer.Parse(n))
+                End If
+            Next
+
+            Return f
+        End Function
 
         ''' <summary>
         ''' 尝试通过化学方程式来计算分子质量
