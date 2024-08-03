@@ -58,7 +58,30 @@ Imports System.Text.RegularExpressions
 
 Namespace ComponentModel
 
+    Public Structure FormulaData
 
+        Dim elements As Dictionary(Of String, Integer)
+
+        Sub New(C%, H%, O%, N%, Optional S% = 0)
+            elements = New Dictionary(Of String, Integer)
+            elements!C = C
+            elements!H = H
+            elements!O = O
+            elements!N = N
+            elements!S = S
+        End Sub
+
+        Public Function Add(atom As String, Optional n As Integer = 1) As FormulaData
+            If elements Is Nothing Then
+                elements = New Dictionary(Of String, Integer) From {{atom, n}}
+            Else
+                elements(atom) = n
+            End If
+
+            Return Me
+        End Function
+
+    End Structure
 
     ''' <summary>
     ''' 元素周期表
