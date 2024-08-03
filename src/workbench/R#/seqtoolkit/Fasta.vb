@@ -247,7 +247,36 @@ Module Fasta
                 .Key
         End If
 
+        Select Case type
+            Case SeqTypes.DNA
+                Throw New NotImplementedException
 
+                If seq_pool.Length = 1 Then
+
+                End If
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.CalcMW_Nucleotides(seq, is_rna:=False))
+                Next
+            Case SeqTypes.RNA
+                Throw New NotImplementedException
+
+                If seq_pool.Length = 1 Then
+                    Return MolecularWeightCalculator.CalcMW_Nucleotides(seq_pool(0), is_rna:=True)
+                End If
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.CalcMW_Nucleotides(seq, is_rna:=True))
+                Next
+            Case Else
+                ' protein/polypeptide
+                If seq_pool.Length = 1 Then
+                    Return MolecularWeightCalculator.PolypeptideFormula(seq_pool(0).SequenceData).ToString
+                End If
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.PolypeptideFormula(seq.SequenceData).ToString)
+                Next
+        End Select
+
+        Return vals
     End Function
 
     ''' <summary>
