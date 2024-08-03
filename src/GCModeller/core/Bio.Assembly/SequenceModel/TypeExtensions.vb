@@ -82,7 +82,12 @@ Namespace SequenceModel
         ''' Enumeration for amino acid.
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property AA As IReadOnlyCollection(Of Char) = AminoAcidObjUtility.AminoAcidLetters
+        ''' <remarks>
+        ''' X is unknown amino acid inside a sequence
+        ''' </remarks>
+        Public ReadOnly Property AA As IReadOnlyCollection(Of Char) = AminoAcidObjUtility.AminoAcidLetters _
+            .Join({"X"c}) _
+            .ToArray
 
 #Region "Constants"
 
