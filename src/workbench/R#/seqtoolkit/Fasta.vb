@@ -204,21 +204,50 @@ Module Fasta
 
         Select Case type
             Case SeqTypes.DNA
+                If seq_pool.Length = 1 Then
+                    Return MolecularWeightCalculator.CalcMW_Nucleotides(seq_pool(0), is_rna:=False)
+                End If
                 For Each seq As FastaSeq In seq_pool
                     Call vals.add(seq.Title, MolecularWeightCalculator.CalcMW_Nucleotides(seq, is_rna:=False))
                 Next
             Case SeqTypes.RNA
+                If seq_pool.Length = 1 Then
+                    Return MolecularWeightCalculator.CalcMW_Nucleotides(seq_pool(0), is_rna:=True)
+                End If
                 For Each seq As FastaSeq In seq_pool
                     Call vals.add(seq.Title, MolecularWeightCalculator.CalcMW_Nucleotides(seq, is_rna:=True))
                 Next
             Case Else
                 ' protein/polypeptide
+                If seq_pool.Length = 1 Then
+                    Return MolecularWeightCalculator.CalcMW_Polypeptide(seq_pool(0))
+                End If
                 For Each seq As FastaSeq In seq_pool
                     Call vals.add(seq.Title, MolecularWeightCalculator.CalcMW_Polypeptide(seq))
                 Next
         End Select
 
         Return vals
+    End Function
+
+    <ExportAPI("seq_formula")>
+    Public Function formula(<RRawVectorArgument> seqs As Object,
+                            Optional type As SeqTypes = SeqTypes.Generic,
+                            Optional env As Environment = Nothing) As Object
+
+        Dim seq_pool = GetFastaSeq(seqs, env).ToArray
+        Dim vals As list = list.empty
+
+        If type = SeqTypes.Generic Then
+            type = seq_pool _
+                .Select(Function(s) s.GetSeqType) _
+                .GroupBy(Function(t) t) _
+                .OrderByDescending(Function(t) t.Count) _
+                .First _
+                .Key
+        End If
+
+
     End Function
 
     ''' <summary>
