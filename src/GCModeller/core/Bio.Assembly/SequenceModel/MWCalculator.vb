@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::71125995c5167d63f20ce8ad80671983, core\Bio.Assembly\SequenceModel\MWCalculator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 84
-    '    Code Lines: 61 (72.62%)
-    ' Comment Lines: 16 (19.05%)
-    '    - Xml Docs: 87.50%
-    ' 
-    '   Blank Lines: 7 (8.33%)
-    '     File Size: 3.23 KB
+' Summaries:
 
 
-    '     Module MolecularWeightCalculator
-    ' 
-    '         Function: CalcMW_Nucleotides, (+2 Overloads) CalcMW_Polypeptide
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 84
+'    Code Lines: 61 (72.62%)
+' Comment Lines: 16 (19.05%)
+'    - Xml Docs: 87.50%
+' 
+'   Blank Lines: 7 (8.33%)
+'     File Size: 3.23 KB
+
+
+'     Module MolecularWeightCalculator
+' 
+'         Function: CalcMW_Nucleotides, (+2 Overloads) CalcMW_Polypeptide
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -151,9 +151,13 @@ Namespace SequenceModel
         <ExportAPI("MW.Polypeptide")>
         <Extension>
         Public Function CalcMW_Polypeptide(seq As String) As Double
+            Static aa_avg As Double = AminoAcidObjUtility.OneChar2Mass.Values.Average
+            ' X is the unknown amino acid
             Dim mw As Double = Aggregate aa As Char
                                In seq.ToUpper
-                               Into Sum(AminoAcidObjUtility.OneChar2Mass(aa))
+                               Let w As Double = If(aa = "X"c OrElse aa = "-"c,
+                                   aa_avg, AminoAcidObjUtility.OneChar2Mass(aa))
+                               Into Sum(w)
             Dim water As Double = (seq.Length - 1) * PeriodicTable.H2O
 
             Return mw - water
