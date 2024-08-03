@@ -67,7 +67,8 @@ Namespace SequenceModel
     <Package("MolecularWeights", Publisher:="xie.guigang@gcmodeller.org")>
     Public Module MolecularWeightCalculator
 
-        Private ReadOnly AminoAcidMolecularWeights As New SortedDictionary(Of AminoAcid, Double) From {
+        ReadOnly AminoAcidX As FormulaData
+        ReadOnly AminoAcidMolecularWeights As New SortedDictionary(Of AminoAcid, Double) From {
             {AminoAcid.Alanine, 71.0779},
             {AminoAcid.Arginine, 156.1857},
             {AminoAcid.Asparagine, 114.1026},
@@ -136,6 +137,20 @@ Namespace SequenceModel
             {"A"c, AMP}, {"U"c, UMP}, {"C"c, CMP}, {"G"c, GMP}
         }
 
+        Sub New()
+            Dim n As Integer = AminoAcidObjUtility.OneLetterFormula.Count
+
+            AminoAcidX = New FormulaData(New Dictionary(Of String, Integer))
+
+            For Each formula As FormulaData In AminoAcidObjUtility.OneLetterFormula.Values
+                AminoAcidX = AminoAcidX + formula
+            Next
+
+            For Each atom As String In AminoAcidX.elements.Keys.ToArray
+                AminoAcidX.elements(atom) = CInt(AminoAcidX.elements(atom) / n)
+            Next
+        End Sub
+
         ''' <summary>
         ''' 计算蛋白质序列的相对分子质量
         ''' </summary>
@@ -161,6 +176,21 @@ Namespace SequenceModel
             Dim water As Double = (seq.Length - 1) * PeriodicTable.H2O
 
             Return mw - water
+        End Function
+
+        Public Function PolypeptideFormula(seq As String) As FormulaData
+            Dim formula As FormulaData = FormulaData.Empty
+            Dim water As FormulaData = FormulaData.H2O * (seq.Length - 1)
+
+            For Each aa As Char In seq.ToUpper
+                If aa = "X"c OrElse aa = "-"c Then
+                    formula = formula + AminoAcidX
+                Else
+                    formula = formula + AminoAcidObjUtility.OneLetterFormula(aa)
+                End If
+            Next
+
+            Return formula - water
         End Function
 
         ''' <summary>
