@@ -67,9 +67,17 @@ declare namespace GenBank {
    */
    function featureKeys(features: any, env?: object): string;
    /**
-     * @param env default value Is ``null``.
+    * extract the feature metadata from a genbank clr feature object
+    * 
+    * 
+     * @param features -
+     * @param attrName 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function featureMeta(features: any, attrName: string, env?: object): string;
+   function featureMeta(features: any, attrName?: string, env?: object): string;
    module getRNA {
       /**
        * get all of the RNA gene its gene sequence in fasta sequence format.
