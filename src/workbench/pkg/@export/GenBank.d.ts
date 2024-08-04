@@ -41,8 +41,10 @@ declare namespace GenBank {
     * 
     * 
      * @param gb a NCBI genbank database object
+     * @param keys 
+     * + default value Is ``null``.
    */
-   function enumerateFeatures(gb: object): object;
+   function enumerateFeatures(gb: object, keys?: string): object;
    /**
     * create new feature site
     * 
@@ -55,7 +57,13 @@ declare namespace GenBank {
    */
    function feature(keyName: string, location: object, data: object, env?: object): object;
    /**
-     * @param env default value Is ``null``.
+    * get all feature key names
+    * 
+    * 
+     * @param features a collection of the genbank feature object or a genbank clr object.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function featureKeys(features: any, env?: object): string;
    /**

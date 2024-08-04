@@ -10,7 +10,7 @@ NCBI genbank assembly file I/O toolkit
 + [feature](GenBank/feature.1) create new feature site
 + [add.feature](GenBank/add.feature.1) 
 + [enumerateFeatures](GenBank/enumerateFeatures.1) enumerate all features in the given NCBI genbank database object
-+ [featureKeys](GenBank/featureKeys.1) 
++ [featureKeys](GenBank/featureKeys.1) get all feature key names
 + [featureMeta](GenBank/featureMeta.1) 
 + [addMeta](GenBank/addMeta.1) 
 + [origin.fasta](GenBank/origin.fasta.1) get, add or replace the genome origin fasta sequence in the given genbank assembly file.
