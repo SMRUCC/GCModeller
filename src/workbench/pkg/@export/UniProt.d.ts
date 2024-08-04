@@ -16,12 +16,19 @@ declare namespace uniprot {
    */
    function get_sequence(prot: object): object;
    /**
+    * get subcellular location of current protein
     * 
     * 
      * @param prot -
    */
    function get_subcellularlocation(prot: object): any;
    /**
+    * get external database reference id set
+    * 
+    * > the uniprot database name will be named as: ``UniProtKB/Swiss-Prot`` for
+    * >  make unify with the genebank feature xrefs
+    * 
+     * @param prot -
    */
    function get_xrefs(prot: object): any;
    /**
@@ -67,7 +74,7 @@ declare namespace uniprot {
        * populate all protein fasta sequence from the given uniprot database reader
        * 
        * 
-        * @param uniprot -
+        * @param uniprot a collection of the uniprot protein ``entry`` data.
         * @param extractAll -
         * 
         * + default value Is ``false``.

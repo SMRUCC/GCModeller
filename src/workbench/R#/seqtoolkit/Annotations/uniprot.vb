@@ -266,7 +266,7 @@ Module uniprot
     End Function
 
     ''' <summary>
-    ''' 
+    ''' get subcellular location of current protein
     ''' </summary>
     ''' <param name="prot"></param>
     ''' <returns></returns>
@@ -319,7 +319,7 @@ Module uniprot
     ''' <summary>
     ''' populate all protein fasta sequence from the given uniprot database reader
     ''' </summary>
-    ''' <param name="uniprot"></param>
+    ''' <param name="uniprot">a collection of the uniprot protein ``entry`` data.</param>
     ''' <param name="extractAll"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
