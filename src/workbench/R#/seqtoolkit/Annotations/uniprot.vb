@@ -286,12 +286,25 @@ Module uniprot
         Return df
     End Function
 
+    ''' <summary>
+    ''' get external database reference id set
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' the uniprot database name will be named as: ``UniProtKB/Swiss-Prot`` for
+    ''' make unify with the genebank feature xrefs
+    ''' </remarks>
     <ExportAPI("get_xrefs")>
     Public Function get_xrefs(prot As entry) As Object
         Dim list As list = list.empty
         Dim xrefs As list = list.empty
 
-        xrefs.add("uniprot", prot.accessions)
+        ' 20240804
+        ' /db_xref="UniProtKB/Swiss-Prot:P0AD65"
+        '
+        ' make unify with the genebank entry when insert into biocad_registry
+        xrefs.add("UniProtKB/Swiss-Prot", prot.accessions)
 
         For Each link In prot.dbReferences.GroupBy(Function(r) r.type)
             Call xrefs.add(link.Key, From i In link Select i.id)
