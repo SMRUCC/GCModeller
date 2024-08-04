@@ -291,9 +291,9 @@ Module genbankKit
         Dim featureArray As pipeline
 
         If TypeOf features Is GBFF.File Then
-            featureArray = pipeline.CreateFromPopulator(DirectCast(features, GBFF.File).Features)
+            featureArray = pipeline.CreateFromPopulator(DirectCast(features, GBFF.File).Features.AsEnumerable)
         Else
-            featureArray = pipeline.TryCreatePipeline(Of Feature)(features, env)
+            featureArray = pipeline.TryCreatePipeline(Of gbffFeature)(features, env)
         End If
 
         If featureArray.isError Then
