@@ -24,8 +24,16 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -36,8 +44,7 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\genbankKit.vb",
               "ViewState": "AQIAAB0BAAAAAAAAAAAiwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-04T13:13:34.724Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-04T13:13:34.724Z"
             },
             {
               "$type": "Document",
@@ -47,7 +54,7 @@
               "RelativeDocumentMoniker": "seqtoolkit\\Fasta.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
               "RelativeToolTip": "seqtoolkit\\Fasta.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEYAAAAQAAAA",
+              "ViewState": "AQIAANwBAAAAAAAAAAAmwPcBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-04T13:13:30.42Z",
               "EditorCaption": ""
@@ -62,20 +69,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Medical\\DrugParser.vb",
               "ViewState": "AQIAAJgAAAAAAAAAAAAvwLUAAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-04T13:07:46.632Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+              "WhenOpened": "2024-08-04T13:07:46.632Z"
             },
             {
               "$type": "Document",
@@ -87,8 +81,11 @@
               "RelativeToolTip": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\string\\stringr.vb",
               "ViewState": "AQIAAE4EAAAAAAAAAAAhwF4EAABdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-04T13:06:54.204Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-04T13:06:54.204Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }

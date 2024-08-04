@@ -506,7 +506,7 @@ Module Fasta
         ElseIf TypeOf x Is GBFF.Keywords.FEATURES.Feature Then
             Dim feature As GBFF.Keywords.FEATURES.Feature = x
             Dim fa As New FastaSeq With {
-               .SequenceData = feature.SequenceData,
+               .SequenceData = Strings.UCase(feature.SequenceData),
                .Headers = {feature.Query(FeatureQualifiers.gene), feature.Location.ToString}
             }
 
