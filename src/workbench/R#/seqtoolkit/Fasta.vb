@@ -67,6 +67,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -502,6 +503,14 @@ Module Fasta
                         End Function)
 
             Return fasta
+        ElseIf TypeOf x Is GBFF.Keywords.FEATURES.Feature Then
+            Dim feature As GBFF.Keywords.FEATURES.Feature = x
+            Dim fa As New FastaSeq With {
+               .SequenceData = feature.SequenceData,
+               .Headers = {feature.Query(FeatureQualifiers.gene), feature.Location.ToString}
+            }
+
+            Return fa
         Else
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
 
@@ -600,8 +609,8 @@ Module Fasta
         Dim getAttrs As Func(Of FastaSeq, String())
         Dim reverse As Boolean = False
 
-        If TypeOf loci Is Location Then
-            With DirectCast(loci, Location)
+        If TypeOf loci Is SMRUCC.genomics.ComponentModel.Loci.Location Then
+            With DirectCast(loci, SMRUCC.genomics.ComponentModel.Loci.Location)
                 left = .Min
                 right = .Max
                 getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & $"[{left}, {right}]"}
