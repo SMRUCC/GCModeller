@@ -267,8 +267,16 @@ Module genbankKit
     ''' <param name="gb">a NCBI genbank database object</param>
     ''' <returns></returns>
     <ExportAPI("enumerateFeatures")>
-    Public Function enumerateFeatures(gb As GBFF.File) As Feature()
-        Return gb.Features.ToArray
+    Public Function enumerateFeatures(gb As GBFF.File, Optional keys As String() = Nothing) As Feature()
+        If keys.IsNullOrEmpty Then
+            Return gb.Features.ToArray
+        Else
+            With keys.Indexing
+                Return gb.Features _
+                    .Where(Function(f) .IndexOf(f.KeyName) > -1) _
+                    .ToArray
+            End With
+        End If
     End Function
 
     <ExportAPI("featureKeys")>
