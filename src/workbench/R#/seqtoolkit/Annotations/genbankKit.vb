@@ -279,10 +279,22 @@ Module genbankKit
         End If
     End Function
 
+    ''' <summary>
+    ''' get all feature key names 
+    ''' </summary>
+    ''' <param name="features">a collection of the genbank feature object or a genbank clr object.</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("featureKeys")>
     <RApiReturn(GetType(String))>
     Public Function keyNames(<RRawVectorArgument> features As Object, Optional env As Environment = Nothing) As Object
-        Dim featureArray As pipeline = pipeline.TryCreatePipeline(Of Feature)(features, env)
+        Dim featureArray As pipeline
+
+        If TypeOf features Is GBFF.File Then
+            featureArray = pipeline.CreateFromPopulator(DirectCast(features, GBFF.File).Features)
+        Else
+            featureArray = pipeline.TryCreatePipeline(Of Feature)(features, env)
+        End If
 
         If featureArray.isError Then
             Return featureArray.getError
