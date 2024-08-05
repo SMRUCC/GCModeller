@@ -2,6 +2,11 @@
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Rhea
 
+''' <summary>
+''' Rhea is an expert-curated knowledgebase of chemical and transport reactions of biological interest 
+''' and the standard for enzyme and transporter annotation in UniProtKB. Rhea uses the chemical 
+''' dictionary ChEBI (Chemical Entities of Biological Interest) to describe reaction participants.
+''' </summary>
 <Package("rhea")>
 Module Rhea
 
