@@ -1,6 +1,10 @@
-#'
+#' Parse the kegg object set that encoded inside the kegg url string
+#' 
 #' @param compoundcolors color value for kegg compound
 #' @param gene_highights color value for highlights genes/proteins
+#' 
+#' @return this function will ensure that returns a tuple list that contains 
+#'    the slot value ``objects`` always.
 #' 
 const .safe_kegg_url_parser = function(url, compoundcolors, gene_highights) {
     let URL_kegg = NULL;
