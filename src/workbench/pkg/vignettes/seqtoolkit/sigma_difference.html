@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; sigma_difference; seqtoolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="Calculates the nucleotide sequence Delta similarity to measure h..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,10 +63,10 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "sigma_difference"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
+                               <br /><br /><span style="color: green;">#' Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "sigma_difference"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
                            
@@ -80,6 +80,12 @@ table caption {font-size:14px;font-weight:bolder;}
     <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/PartitioningData.html">partitioning_data: PartitioningData</a>
   </td>
   <td><p>The genome partitional data.(基因组分区数据)</p></td>
+</tr>
+<tr>
+  <td id="site_sigma">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/DNA_Comparative/SiteSigma.html">site_sigma: SiteSigma</a>
+  </td>
+  <td><p>基因组两两比较所得到的位点距离数据</p></td>
 </tr></tbody>
       </table>
       <br />
@@ -165,8 +171,8 @@ table caption {font-size:14px;font-weight:bolder;}
   <td></td>
 </tr>
 <tr>
-  <td id="Measure.Homogeneity">
-    <a href="./sigma_difference/Measure.Homogeneity.html">Measure.Homogeneity</a>
+  <td id="measure_homogeneity">
+    <a href="./sigma_difference/measure_homogeneity.html">measure_homogeneity</a>
   </td>
   <td><p>measuring the homogeneity property using a specific rule 
  sequence between the dnaA and gyrB gene in batch.

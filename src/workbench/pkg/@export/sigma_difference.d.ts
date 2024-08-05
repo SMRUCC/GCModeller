@@ -5,6 +5,7 @@
 // ref=seqtoolkit.SigmaDifference@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.
  * 
 */
 declare namespace sigma_difference {
@@ -44,18 +45,15 @@ declare namespace sigma_difference {
       */
       function sigma_diff(genome: object, compare: object, windowsSize?: object): object;
    }
-   module Measure {
-      /**
-       * measuring the homogeneity property using a specific rule 
-       *  sequence between the dnaA and gyrB gene in batch.
-       *  
-       *  (批量计算比较基因组序列之间的同质性)
-       * 
-       * 
-        * @param PartitionData -
-      */
-      function Homogeneity(PartitionData: object, Rule: object, St: object, Sp: object): object;
-   }
+   /**
+    * measuring the homogeneity property using a specific rule 
+    *  sequence between the dnaA and gyrB gene in batch.
+    *  
+    *  (批量计算比较基因组序列之间的同质性)
+    * 
+    * 
+   */
+   function measure_homogeneity(partition_data: object, rule: object, st: object, sp: object): object;
    module Partition {
       module Similarity {
          /**
