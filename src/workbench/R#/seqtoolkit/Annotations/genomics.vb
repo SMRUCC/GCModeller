@@ -78,6 +78,7 @@ Module genomics
     End Function
 
     <ExportAPI("as.tabular")>
+    <RApiReturn(GetType(PTT))>
     Public Function asTable(genes As GeneBrief(),
                             Optional title$ = "n/a",
                             Optional size% = 0,

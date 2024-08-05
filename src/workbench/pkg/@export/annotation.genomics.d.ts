@@ -20,7 +20,7 @@ declare namespace annotation.genomics {
         * @param format default value Is ``'PTT|GFF|GTF'``.
         * @param env default value Is ``null``.
       */
-      function tabular(genes: object, title?: string, size?: object, format?: string, env?: object): any;
+      function tabular(genes: object, title?: string, size?: object, format?: string, env?: object): object;
    }
    module genome {
       /**

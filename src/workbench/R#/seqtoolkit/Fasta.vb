@@ -67,6 +67,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -170,12 +171,109 @@ Module Fasta
     <RApiReturn(TypeCodes.string)>
     Public Function chars(Optional type As SeqTypes = SeqTypes.Protein) As Object
         Select Case type
-            Case SeqTypes.DNA : Return {"A", "T", "G", "C"}
-            Case SeqTypes.Protein
-            Case SeqTypes.RNA
+            Case SeqTypes.DNA : Return DirectCast(TypeExtensions.NT, Char())
+            Case SeqTypes.Protein : Return DirectCast(TypeExtensions.AA, Char())
+            Case SeqTypes.RNA : Return DirectCast(TypeExtensions.RNA, Char())
             Case Else
                 Throw New InvalidDataException(type.ToString)
         End Select
+    End Function
+
+    ''' <summary>
+    ''' evaluate the molecule mass of the given sequence
+    ''' </summary>
+    ''' <param name="seqs"></param>
+    ''' <param name="type"></param>
+    ''' <returns></returns>
+    <ExportAPI("mass")>
+    Public Function mass(<RRawVectorArgument> seqs As Object,
+                         Optional type As SeqTypes = SeqTypes.Generic,
+                         Optional env As Environment = Nothing) As Object
+
+        Dim seq_pool = GetFastaSeq(seqs, env).ToArray
+
+        If type = SeqTypes.Generic Then
+            type = seq_pool _
+                .Select(Function(s) s.GetSeqType) _
+                .GroupBy(Function(t) t) _
+                .OrderByDescending(Function(t) t.Count) _
+                .First _
+                .Key
+        End If
+
+        Dim vals As list = list.empty
+
+        Select Case type
+            Case SeqTypes.DNA
+                If seq_pool.Length = 1 Then
+                    Return MolecularWeightCalculator.CalcMW_Nucleotides(seq_pool(0), is_rna:=False)
+                End If
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.CalcMW_Nucleotides(seq, is_rna:=False))
+                Next
+            Case SeqTypes.RNA
+                If seq_pool.Length = 1 Then
+                    Return MolecularWeightCalculator.CalcMW_Nucleotides(seq_pool(0), is_rna:=True)
+                End If
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.CalcMW_Nucleotides(seq, is_rna:=True))
+                Next
+            Case Else
+                ' protein/polypeptide
+                If seq_pool.Length = 1 Then
+                    Return MolecularWeightCalculator.CalcMW_Polypeptide(seq_pool(0))
+                End If
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.CalcMW_Polypeptide(seq))
+                Next
+        End Select
+
+        Return vals
+    End Function
+
+    <ExportAPI("seq_formula")>
+    Public Function formula(<RRawVectorArgument> seqs As Object,
+                            Optional type As SeqTypes = SeqTypes.Generic,
+                            Optional env As Environment = Nothing) As Object
+
+        Dim seq_pool = GetFastaSeq(seqs, env).ToArray
+        Dim vals As list = list.empty
+
+        If type = SeqTypes.Generic Then
+            type = seq_pool _
+                .Select(Function(s) s.GetSeqType) _
+                .GroupBy(Function(t) t) _
+                .OrderByDescending(Function(t) t.Count) _
+                .First _
+                .Key
+        End If
+
+        Select Case type
+            Case SeqTypes.DNA
+                If seq_pool.Length = 1 Then
+                    Return MolecularWeightCalculator.DeoxyribonucleotideFormula(seq_pool(0).SequenceData).ToString
+                End If
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.DeoxyribonucleotideFormula(seq.SequenceData).ToString)
+                Next
+            Case SeqTypes.RNA
+                If seq_pool.Length = 1 Then
+                    Return MolecularWeightCalculator.RibonucleotideFormula(seq_pool(0).SequenceData).ToString
+                End If
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.RibonucleotideFormula(seq.SequenceData).ToString)
+                Next
+            Case Else
+                ' protein/polypeptide
+                If seq_pool.Length = 1 Then
+                    Return MolecularWeightCalculator.PolypeptideFormula(seq_pool(0).SequenceData).ToString
+                End If
+                For Each seq As FastaSeq In seq_pool
+                    Call vals.add(seq.Title, MolecularWeightCalculator.PolypeptideFormula(seq.SequenceData).ToString)
+                Next
+        End Select
+
+        Return vals
     End Function
 
     ''' <summary>
@@ -405,6 +503,14 @@ Module Fasta
                         End Function)
 
             Return fasta
+        ElseIf TypeOf x Is GBFF.Keywords.FEATURES.Feature Then
+            Dim feature As GBFF.Keywords.FEATURES.Feature = x
+            Dim fa As New FastaSeq With {
+               .SequenceData = Strings.UCase(feature.SequenceData),
+               .Headers = {feature.Query(FeatureQualifiers.gene), feature.Location.ToString}
+            }
+
+            Return fa
         Else
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
 
@@ -503,8 +609,8 @@ Module Fasta
         Dim getAttrs As Func(Of FastaSeq, String())
         Dim reverse As Boolean = False
 
-        If TypeOf loci Is Location Then
-            With DirectCast(loci, Location)
+        If TypeOf loci Is SMRUCC.genomics.ComponentModel.Loci.Location Then
+            With DirectCast(loci, SMRUCC.genomics.ComponentModel.Loci.Location)
                 left = .Min
                 right = .Max
                 getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & $"[{left}, {right}]"}

@@ -70,12 +70,21 @@ Imports System.Xml.Serialization
 Namespace SequenceModel
 
     Public Enum SeqTypes As Integer
+        ''' <summary>
+        ''' the unknow sequence type
+        ''' </summary>
         Generic = 0
         ''' <summary>
-        ''' ATGC
+        ''' Deoxyribonucleotide - DNA(ATGC)
         ''' </summary>
         DNA
+        ''' <summary>
+        ''' Ribonucleotide - RNA(AUGC)
+        ''' </summary>
         RNA
+        ''' <summary>
+        ''' Polypeptide
+        ''' </summary>
         Protein
     End Enum
 

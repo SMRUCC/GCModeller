@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::0eb510bccfd1ffd4debbdeca540ab798, R#\seqtoolkit\Annotations\uniprot.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 302
-    '    Code Lines: 243 (80.46%)
-    ' Comment Lines: 32 (10.60%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 27 (8.94%)
-    '     File Size: 14.34 KB
+' Summaries:
 
 
-    ' Module uniprot
-    ' 
-    '     Function: getProteinSeq, IdUnify, metaboliteSet, openUniprotXmlAssembly, parseUniProt
-    '               proteinTable
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 302
+'    Code Lines: 243 (80.46%)
+' Comment Lines: 32 (10.60%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 27 (8.94%)
+'     File Size: 14.34 KB
+
+
+' Module uniprot
+' 
+'     Function: getProteinSeq, IdUnify, metaboliteSet, openUniprotXmlAssembly, parseUniProt
+'               proteinTable
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -56,13 +56,13 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
-Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' The Universal Protein Resource (UniProt)
@@ -104,6 +104,15 @@ PubMed:=540024,
 Issue:="Database issue",
 URL:="https://www.uniprot.org/")>
 Module uniprot
+
+    Sub Main()
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(entry()), AddressOf uniprotProteinTable)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function uniprotProteinTable(uniprot As entry(), args As list, env As Environment) As dataframe
+        Return proteinTable(uniprot, env)
+    End Function
 
     ''' <summary>
     ''' open a uniprot database file
@@ -241,10 +250,76 @@ Module uniprot
         }
     End Function
 
+    <ExportAPI("get_sequence")>
+    Public Function get_sequence(prot As entry) As FastaSeq
+        Dim seq As String = DirectCast(prot, IPolymerSequenceModel).SequenceData
+        Dim name As String = prot.name
+        Dim fa As New FastaSeq With {.Headers = {name}, .SequenceData = seq}
+        Return fa
+    End Function
+
+    <ExportAPI("get_description")>
+    Public Function get_description(prot As entry) As String()
+        Dim fullnames = prot.proteinFullName
+        Dim funcs = prot.CommentList.TryGetValue("function").SafeQuery.Select(Function(comment) comment.GetText).ToArray
+        Return {fullnames}.JoinIterates(funcs).Where(Function(str) Not str.StringEmpty(, True)).ToArray
+    End Function
+
+    ''' <summary>
+    ''' get subcellular location of current protein
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns></returns>
+    <ExportAPI("get_subcellularlocation")>
+    Public Function get_subcellularlocation(prot As entry) As Object
+        Dim locs = prot.CommentList.TryGetValue("subcellular location") _
+            .SafeQuery _
+            .Select(Function(c) c.subcellularLocations) _
+            .IteratesALL _
+            .ToArray
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim flat_all = locs.Select(Function(c) c.locations.SafeQuery.Select(Function(l) (l, c.topology))).IteratesALL.ToArray
+
+        Call df.add("location", From loc In flat_all Select loc.l.value)
+        Call df.add("topology", From loc In flat_all Select loc.topology?.value)
+
+        Return df
+    End Function
+
+    ''' <summary>
+    ''' get external database reference id set
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' the uniprot database name will be named as: ``UniProtKB/Swiss-Prot`` for
+    ''' make unify with the genebank feature xrefs
+    ''' </remarks>
+    <ExportAPI("get_xrefs")>
+    Public Function get_xrefs(prot As entry) As Object
+        Dim list As list = list.empty
+        Dim xrefs As list = list.empty
+
+        ' 20240804
+        ' /db_xref="UniProtKB/Swiss-Prot:P0AD65"
+        '
+        ' make unify with the genebank entry when insert into biocad_registry
+        xrefs.add("UniProtKB/Swiss-Prot", prot.accessions)
+
+        For Each link In prot.dbReferences.GroupBy(Function(r) r.type)
+            Call xrefs.add(link.Key, From i In link Select i.id)
+        Next
+
+        list.add("name", If(prot.name, prot.accessions.First))
+        list.add("xrefs", xrefs)
+
+        Return list
+    End Function
+
     ''' <summary>
     ''' populate all protein fasta sequence from the given uniprot database reader
     ''' </summary>
-    ''' <param name="uniprot"></param>
+    ''' <param name="uniprot">a collection of the uniprot protein ``entry`` data.</param>
     ''' <param name="extractAll"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
