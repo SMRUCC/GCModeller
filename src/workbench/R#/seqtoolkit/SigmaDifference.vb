@@ -86,6 +86,9 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports ObjectQuery = SMRUCC.genomics.ObjectQuery
 
+''' <summary>
+''' Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.
+''' </summary>
 <Package("sigma_difference",
                     Description:="Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.",
                     Cites:="Karlin, S., et al. (1998). ""Comparative DNA analysis across diverse genomes."" Annu Rev Genet 32: 185-225.
