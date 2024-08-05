@@ -119,6 +119,7 @@ Species Specificity",
       DOI:="10.1146/annurev.genet.32.1.185", ISSN:="0066-4197 (Print)
 0066-4197 (Linking)", Issue:="", Volume:=32, Year:=1998)>
 <RTypeExport("partitioning_data", GetType(PartitioningData))>
+<RTypeExport("site_sigma", GetType(SiteSigma))>
 Module SigmaDifference
 
     ''' <summary>
@@ -951,25 +952,25 @@ Module SigmaDifference
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    ''' <param name="Sp">标尺片段的结束位置</param>
-    ''' <param name="St">标尺片段的起始位置</param>
-    <ExportAPI("Measure.Homogeneity")>
-    Public Function MeasureHomogeneity(PartitionData As IEnumerable(Of PartitioningData),
-                                       Rule As FastaSeq,
-                                       St As Integer,
-                                       Sp As Integer) As IO.DataFrame
-        Dim Reader As IPolymerSequenceModel = Rule
+    ''' <param name="sp">标尺片段的结束位置</param>
+    ''' <param name="st">标尺片段的起始位置</param>
+    <ExportAPI("measure_homogeneity")>
+    Public Function MeasureHomogeneity(partition_data As IEnumerable(Of PartitioningData),
+                                       rule As FastaSeq,
+                                       st As Integer,
+                                       sp As Integer) As IO.DataFrame
+        Dim Reader As IPolymerSequenceModel = rule
         Dim fa As New FastaSeq With {
-            .SequenceData = Reader.CutSequenceLinear(St, Sp - St).SequenceData
+            .SequenceData = Reader.CutSequenceLinear(st, sp - st).SequenceData
         }
         Dim RuleSegment As New NucleotideModels.NucleicAcid(fa)
-        Dim Df = IO.DataFrame.CreateObject(PartitionData.ToCsvDoc(False))
+        Dim Df = IO.DataFrame.CreateObject(partition_data.ToCsvDoc(False))
         Dim i As Integer
 
         For Each Partition As DynamicObjectLoader In Df.CreateDataSource
-            Dim Sequence = New NucleotideModels.NucleicAcid(PartitionData(i).ToFasta)
+            Dim Sequence = New NucleotideModels.NucleicAcid(partition_data(i).ToFasta)
             Dim Delta As Double = DifferenceMeasurement.Sigma(Sequence, RuleSegment) * 1000
-            Partition.SetAttributeValue(Rule.Title, Delta)
+            Partition.SetAttributeValue(rule.Title, Delta)
             i += 1
         Next
 

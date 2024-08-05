@@ -55,6 +55,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -79,6 +80,10 @@ Namespace DeltaSimilarity1998
 
         Public ReadOnly Property UserTag As String
 
+        ''' <summary>
+        ''' the size of current nt sequence.
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property length As Integer
             Get
                 Return nt.Length
@@ -91,6 +96,8 @@ Namespace DeltaSimilarity1998
         ''' <param name="X"></param>
         ''' <param name="Y"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetValue(X As DNA, Y As DNA) As Double
             Return biasTable($"{ToChar(X)} -> {ToChar(Y)}")
         End Function
