@@ -22,4 +22,7 @@ End Class
 <XmlType("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
 Public Class RheaDescription : Inherits Description
 
+    <XmlElement("subClassOf", [Namespace]:=RDFEntity.rdfs)>
+    Public Property subClassOf As Resource
+
 End Class
