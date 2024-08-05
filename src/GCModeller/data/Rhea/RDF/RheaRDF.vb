@@ -24,5 +24,10 @@ Public Class RheaDescription : Inherits Description
 
     <XmlElement("subClassOf", [Namespace]:=RDFEntity.rdfs)>
     Public Property subClassOf As Resource
+    <XmlElement("id", [Namespace]:=RheaRDF.rh)> Public Property id As RDFProperty
+    <XmlElement("accession", [Namespace]:=RheaRDF.rh)> Public Property accession As String
+    <XmlElement("equation", [Namespace]:=RheaRDF.rh)> Public Property equation As String
+    <XmlElement("status", [Namespace]:=RheaRDF.rh)> Public Property status As Resource
+    <XmlElement("ec", [Namespace]:=RheaRDF.rh)> Public Property ec As Resource
 
 End Class
