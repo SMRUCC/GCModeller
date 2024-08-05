@@ -288,6 +288,24 @@ Module uniprot
     End Function
 
     ''' <summary>
+    ''' get related pathway names of current protein
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns></returns>
+    <ExportAPI("get_pathways")>
+    Public Function get_pathwayNames(prot As entry) As String()
+        Dim pathways = prot.CommentList _
+            .TryGetValue("pathway") _
+            .SafeQuery _
+            .Select(Function(c) c.GetText.StringSplit(";\s*")) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+        Return pathways
+    End Function
+
+    ''' <summary>
     ''' get external database reference id set
     ''' </summary>
     ''' <param name="prot"></param>
