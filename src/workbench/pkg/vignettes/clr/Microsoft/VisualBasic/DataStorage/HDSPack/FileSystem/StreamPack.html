@@ -30,11 +30,14 @@
             <code id="clr_ts">
 # namespace Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 export class StreamPack {
+   # gets the file path of the underlying stream data of current stream pack object
+   filepath: string;
    # get all data files inside this hds data 
    #  pack, not includes directory.
    files: <a href="/vignettes/clr/Microsoft/VisualBasic/DataStorage/HDSPack/FileSystem/StreamBlock.html">StreamBlock[]</a>;
    globalAttributes: <a href="/vignettes/clr/Microsoft/VisualBasic/DataStorage/HDSPack/LazyAttribute.html">LazyAttribute</a>;
    is_readonly: boolean;
+   isDiskFile: boolean;
    superBlock: <a href="/vignettes/clr/Microsoft/VisualBasic/DataStorage/HDSPack/FileSystem/StreamGroup.html">StreamGroup</a>;
 }
 </code>
