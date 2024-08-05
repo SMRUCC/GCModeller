@@ -14,7 +14,7 @@ Module Rhea
     ''' https://ftp.expasy.org/databases/rhea/rdf/rhea.rdf.gz
     ''' </remarks>
     <ExportAPI("open.rdf")>
-    Public Function openRDF(file As String) As Object
+    Public Function openRDF(file As String) As RheaRDF
         Return file.LoadXml(Of RheaRDF)
     End Function
 End Module

@@ -7,6 +7,8 @@ Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 ''' <remarks>
 ''' https://ftp.expasy.org/databases/rhea/rdf/rhea.rdf.gz
 ''' </remarks>
+''' 
+<XmlRoot("RDF", [Namespace]:=RDFEntity.XmlnsNamespace)>
 Public Class RheaRDF : Inherits RDF(Of RheaDescription)
 
     Public Const rh As String = "http://rdf.rhea-db.org/"
