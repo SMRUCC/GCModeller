@@ -86,6 +86,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 ''' </summary>
 ''' 
 <Package("bioseq.fasta", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
+<RTypeExport("MSA_result", GetType(MSAOutput))>
 Module Fasta
 
     Sub New()
@@ -283,6 +284,7 @@ Module Fasta
     ''' Just contains one sequence
     ''' </param>
     ''' <returns></returns>
+    ''' <keywords>read data</keywords>
     <ExportAPI("read.seq")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function readSeq(file As String, Optional env As Environment = Nothing) As Object
@@ -302,6 +304,7 @@ Module Fasta
     ''' </summary>
     ''' <param name="file"></param>
     ''' <returns></returns>
+    ''' <keywords>read data</keywords>
     <ExportAPI("read.fasta")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function readFasta(file As String, Optional lazyStream As Boolean = False) As Object
@@ -320,6 +323,7 @@ Module Fasta
     ''' <param name="file"></param>
     ''' <param name="env"></param>
     ''' <returns>a lazy collection of the fasta sequence data</returns>
+    ''' <keywords>read data</keywords>
     <ExportAPI("open.fasta")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function openFasta(file As String, Optional env As Environment = Nothing) As Object
@@ -349,6 +353,7 @@ Module Fasta
     ''' </param>
     ''' <param name="encoding">The text encoding value of the generated fasta file.</param>
     ''' <returns></returns>
+    ''' <keywords>save data</keywords>
     <ExportAPI("write.fasta")>
     Public Function writeFasta(<RRawVectorArgument> seq As Object, file$,
                                Optional lineBreak% = -1,
@@ -476,6 +481,7 @@ Module Fasta
     ''' <param name="x">any type of sequence collection</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <keywords>conversion</keywords>
     <ExportAPI("as.fasta")>
     <RApiReturn(GetType(FastaFile))>
     Public Function Tofasta(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object

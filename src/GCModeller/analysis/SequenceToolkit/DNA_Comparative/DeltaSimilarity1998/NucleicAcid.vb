@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::583f4735bc93ad449d544e65339dc70d, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\NucleicAcid.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 127
-    '    Code Lines: 83 (65.35%)
-    ' Comment Lines: 26 (20.47%)
-    '    - Xml Docs: 84.62%
-    ' 
-    '   Blank Lines: 18 (14.17%)
-    '     File Size: 4.77 KB
+' Summaries:
 
 
-    '     Class NucleicAcid
-    ' 
-    '         Properties: length, UserTag
-    ' 
-    '         Constructor: (+5 Overloads) Sub New
-    '         Function: __createSigma, CreateFragments, GetValue, slideWindows
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 127
+'    Code Lines: 83 (65.35%)
+' Comment Lines: 26 (20.47%)
+'    - Xml Docs: 84.62%
+' 
+'   Blank Lines: 18 (14.17%)
+'     File Size: 4.77 KB
+
+
+'     Class NucleicAcid
+' 
+'         Properties: length, UserTag
+' 
+'         Constructor: (+5 Overloads) Sub New
+'         Function: __createSigma, CreateFragments, GetValue, slideWindows
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -79,6 +80,10 @@ Namespace DeltaSimilarity1998
 
         Public ReadOnly Property UserTag As String
 
+        ''' <summary>
+        ''' the size of current nt sequence.
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property length As Integer
             Get
                 Return nt.Length
@@ -91,6 +96,8 @@ Namespace DeltaSimilarity1998
         ''' <param name="X"></param>
         ''' <param name="Y"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetValue(X As DNA, Y As DNA) As Double
             Return biasTable($"{ToChar(X)} -> {ToChar(Y)}")
         End Function
@@ -109,7 +116,8 @@ Namespace DeltaSimilarity1998
             ' 否则会非常慢
             DNA_segments = slideWindows().ToArray
 
-            For Each X As (a As DNA, B As DNA) In {
+            ' readonly cache data
+            Static dimer As (DNA, DNA)() = {
                 (DNA.dAMP, DNA.dAMP),
                 (DNA.dAMP, DNA.dCMP),
                 (DNA.dAMP, DNA.dGMP),
@@ -127,6 +135,8 @@ Namespace DeltaSimilarity1998
                 (DNA.dTMP, DNA.dGMP),
                 (DNA.dTMP, DNA.dTMP)
             }
+
+            For Each X As (a As DNA, B As DNA) In dimer
                 With __createSigma(Me, X.a, X.B)
                     Call biasTable.Add(.Key, .Value)
                 End With
@@ -167,6 +177,12 @@ Namespace DeltaSimilarity1998
             Call Me.New(nt.ToArray)
         End Sub
 
+        ''' <summary>
+        ''' Create slide windows on the given sequence data
+        ''' </summary>
+        ''' <param name="winSize%"></param>
+        ''' <param name="step%"></param>
+        ''' <returns></returns>
         Public Iterator Function CreateFragments(winSize%, step%) As IEnumerable(Of NucleicAcid)
             For Each region In nt.SlideWindows(winSize, offset:=[step])
                 Yield New NucleicAcid(region)
