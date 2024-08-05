@@ -305,6 +305,28 @@ Module uniprot
         Return pathways
     End Function
 
+    <ExportAPI("get_reactions")>
+    Public Function get_reactions(prot As entry) As Object
+        Dim catalytic = prot.CommentList.TryGetValue("catalytic activity")
+        Dim list As list = list.empty
+
+        For Each reaction As reaction In catalytic.Select(Function(r) r.reaction)
+            If reaction Is Nothing Then
+                Continue For
+            End If
+
+            list.add(reaction.text, New list With {
+                .slots = New Dictionary(Of String, Object) From {
+                    {"equation", reaction.text},
+                    {"ec_number", reaction.GetECNumber},
+                    {"metabolites", reaction.GetChEBI}
+                }
+            })
+        Next
+
+        Return list
+    End Function
+
     ''' <summary>
     ''' get external database reference id set
     ''' </summary>
