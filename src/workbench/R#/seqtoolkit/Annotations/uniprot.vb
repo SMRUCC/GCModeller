@@ -103,6 +103,7 @@ Title:="The Universal Protein Resource (UniProt)",
 PubMed:=540024,
 Issue:="Database issue",
 URL:="https://www.uniprot.org/")>
+<RTypeExport("uniprot_kb", GetType(entry))>
 Module uniprot
 
     Sub Main()

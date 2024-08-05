@@ -61,6 +61,9 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
+''' <summary>
+''' the result data of multiple sequence alignment
+''' </summary>
 Public Class MSAOutput
 
     Public Property names As String()
