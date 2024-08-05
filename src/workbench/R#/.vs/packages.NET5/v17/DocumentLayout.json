@@ -3,11 +3,44 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\internalinvokes\\linq\\linq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C04DAC41-7780-4A44-8923-BEB12E50FC9F}|..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%rdf\u002Bxml\\datamodel\\resource.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\rnaseq\\fastq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|solutionrelative:rnaseq\\fastq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C04DAC41-7780-4A44-8923-BEB12E50FC9F}|..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%rdf\u002Bxml\\datamodel\\description.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C04DAC41-7780-4A44-8923-BEB12E50FC9F}|..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%rdf\u002Bxml\\datatypes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C04DAC41-7780-4A44-8923-BEB12E50FC9F}|..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%rdf\u002Bxml\\rdf.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C04DAC41-7780-4A44-8923-BEB12E50FC9F}|..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%rdf\u002Bxml\\rdfentity.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C04DAC41-7780-4A44-8923-BEB12E50FC9F}|..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%rdf\u002Bxml\\rdfproperty.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF456A8C-EB9A-48F1-A051-2FEC55796D29}|..\\..\\GCModeller\\data\\Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\rdf\\rheardf.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F96B3C8-2719-4B4E-8F0C-CBCE0FFEAC40}|..\\..\\GCModeller\\models\\SBML\\Biopax\\biopax-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\sbml\\biopax\\level3\\file.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5B79BC2-EEA6-472F-A904-0AB828897289}|..\\..\\GCModeller\\models\\SBML\\SBML\\sbml-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\sbml\\sbml\\level3\\annotation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF456A8C-EB9A-48F1-A051-2FEC55796D29}|..\\..\\GCModeller\\data\\Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\textparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF456A8C-EB9A-48F1-A051-2FEC55796D29}|..\\..\\GCModeller\\data\\Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\reaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF456A8C-EB9A-48F1-A051-2FEC55796D29}|..\\..\\GCModeller\\data\\Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\compound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\reactome.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\reactome.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,14 +55,105 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "linq.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\Linq\\linq.vb",
-              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\Linq\\linq.vb",
-              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\Linq\\linq.vb",
-              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\Linq\\linq.vb",
-              "ViewState": "AQIAAJkBAAAAAAAAAAAvwMUBAAAAAAAA",
+              "Title": "Resource.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Resource.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Resource.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Resource.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Resource.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-05T12:09:20.233Z",
+              "WhenOpened": "2024-08-05T12:39:34.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DataTypes.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataTypes.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataTypes.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataTypes.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataTypes.vb",
+              "ViewState": "AQIAAD4AAAAAAAAAAADwvwAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T12:40:22.711Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "RDFProperty.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFProperty.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFProperty.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFProperty.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFProperty.vb",
+              "ViewState": "AQIAAIIAAAAAAAAAAAAkwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T12:39:51.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Description.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Description.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Description.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Description.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Description.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEIAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T12:39:06.127Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "File.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\Biopax\\Level3\\File.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\SBML\\Biopax\\Level3\\File.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\Biopax\\Level3\\File.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\SBML\\Biopax\\Level3\\File.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEkAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T12:38:58.382Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "annotation.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Level3\\annotation.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\SBML\\SBML\\Level3\\annotation.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Level3\\annotation.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\SBML\\SBML\\Level3\\annotation.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAGsAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T12:38:44.963Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RDFEntity.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFEntity.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFEntity.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFEntity.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFEntity.vb",
+              "ViewState": "AQIAAEYAAAAAAAAAAADwv0sAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T12:36:59.326Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RDF.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDF.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDF.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDF.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDF.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwEgAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T12:31:24.3Z",
               "EditorCaption": ""
             },
             {
@@ -46,15 +170,67 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FastQ.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\FastQ.vb",
-              "RelativeDocumentMoniker": "rnaseq\\FastQ.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\FastQ.vb",
-              "RelativeToolTip": "rnaseq\\FastQ.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFEAAAATAAAA",
+              "DocumentIndex": 6,
+              "Title": "RheaRDF.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAgAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-05T12:09:10.41Z",
+              "WhenOpened": "2024-08-05T12:29:54.041Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TextParser.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\TextParser.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\Rhea\\TextParser.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\TextParser.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\Rhea\\TextParser.vb",
+              "ViewState": "AQIAAEwAAAAAAAAAAAAAwDsAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T12:28:59.295Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Reaction.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Reaction.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\Rhea\\Reaction.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Reaction.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\Rhea\\Reaction.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADwAAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T12:28:47.99Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Compound.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Compound.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\Rhea\\Compound.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Compound.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\Rhea\\Compound.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwDkAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T12:28:33.151Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Reactome.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\Reactome.vb",
+              "RelativeDocumentMoniker": "annotationKit\\Reactome.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\Reactome.vb",
+              "RelativeToolTip": "annotationKit\\Reactome.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T12:28:24.446Z",
               "EditorCaption": ""
             }
           ]
