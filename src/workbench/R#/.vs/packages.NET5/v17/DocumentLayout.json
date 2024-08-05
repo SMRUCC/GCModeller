@@ -3,14 +3,14 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DF456A8C-EB9A-48F1-A051-2FEC55796D29}|..\\..\\GCModeller\\data\\Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\rdf\\rheardf.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C04DAC41-7780-4A44-8923-BEB12E50FC9F}|..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%rdf\u002Bxml\\datamodel\\resource.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C04DAC41-7780-4A44-8923-BEB12E50FC9F}|..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%rdf\u002Bxml\\rdfproperty.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\rhea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\rhea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -25,14 +25,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RheaRDF.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwBIAAAALAAAA",
+              "Title": "Resource.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Resource.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Resource.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Resource.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Resource.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-05T13:04:20.141Z",
+              "WhenOpened": "2024-08-05T13:07:18.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RDFProperty.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFProperty.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFProperty.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFProperty.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\RDFProperty.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEkAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-05T13:06:41.102Z",
               "EditorCaption": ""
             },
             {
@@ -50,18 +63,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "R-cmd.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-08-05T13:03:00.665Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "Rhea.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\Rhea.vb",
               "RelativeDocumentMoniker": "annotationKit\\Rhea.vb",
