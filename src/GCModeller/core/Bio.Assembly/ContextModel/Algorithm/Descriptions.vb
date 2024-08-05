@@ -56,7 +56,7 @@
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ContextModel
 
@@ -140,9 +140,9 @@ Namespace ContextModel
             Call gene.Location.Normalization()
 
             If gene.Location.Strand = Strands.Forward Then
-                Return stdNum.Abs(gene.Location.right - nucl.left)
+                Return std.Abs(gene.Location.right - nucl.left)
             Else
-                Return stdNum.Abs(gene.Location.left - nucl.right)
+                Return std.Abs(gene.Location.left - nucl.right)
             End If
         End Function
 

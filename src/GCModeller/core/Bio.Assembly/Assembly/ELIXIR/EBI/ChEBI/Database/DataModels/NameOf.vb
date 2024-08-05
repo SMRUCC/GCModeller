@@ -60,7 +60,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Similarity
 Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Assembly.ELIXIR.EBI.ChEBI
 
@@ -352,7 +352,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
             Dim result As New List(Of Tables.ChemicalData)
 
             For Each massGroup As DoubleTagged(Of Tables.ChemicalData()) In masses
-                If stdNum.Abs(massGroup.Tag - mass) <= deltaPPM Then
+                If std.Abs(massGroup.Tag - mass) <= deltaPPM Then
                     enter = False
                     result += massGroup.Value
                 Else

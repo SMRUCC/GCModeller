@@ -64,7 +64,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.My.JavaScript
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Loci
 
@@ -185,7 +185,7 @@ Namespace ComponentModel.Loci
             ' >>> overlap(0, 100, 0, 20)
             ' 20
 
-            Return stdNum.Max(0, stdNum.Min(Me.right, loci.right) - stdNum.Max(Me.left, loci.right))
+            Return std.Max(0, std.Min(Me.right, loci.right) - std.Max(Me.left, loci.right))
         End Function
 
         ''' <summary>
@@ -287,7 +287,7 @@ Namespace ComponentModel.Loci
         ''' <remarks></remarks>
         Public ReadOnly Property FragmentSize As Integer
             Get
-                Return stdNum.Abs(right - left) + 1
+                Return std.Abs(right - left) + 1
             End Get
         End Property
 

@@ -67,7 +67,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Loci.Abstract
 
@@ -136,7 +136,7 @@ Namespace ComponentModel.Loci.Abstract
             Dim last As Integer = locis.First.Distance
 
             For Each x In locis.Skip(1)
-                If stdNum.Abs(x.Distance - last) <= offset Then
+                If std.Abs(x.Distance - last) <= offset Then
                     result.Last.Add(x.Group)
                 Else
                     last = x.Distance
