@@ -59,7 +59,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace SequenceModel.NucleotideModels
 
@@ -73,8 +73,8 @@ Namespace SequenceModel.NucleotideModels
             Dim HammingDist As Integer = 0
 
             If seq1.Length <> seq2.Length Then
-                Length = stdNum.Min(seq1.Length, seq2.Length)
-                HammingDist = stdNum.Abs(seq1.Length - seq2.Length)
+                Length = std.Min(seq1.Length, seq2.Length)
+                HammingDist = std.Abs(seq1.Length - seq2.Length)
             End If
 
             For i As Integer = 0 To Length - 1
@@ -216,7 +216,7 @@ Namespace SequenceModel.NucleotideModels
                 For i = 1 To n
                     cost = If(s(i - 1) = t_j, 0, 1)
                     ' minimum of cell to the left+1, to the top+1, diagonally left and up +cost
-                    d(i) = stdNum.Min(Math.Min(d(i - 1) + 1, p(i) + 1), p(i - 1) + cost)
+                    d(i) = std.Min(Math.Min(d(i - 1) + 1, p(i) + 1), p(i - 1) + cost)
                 Next
 
                 ' copy current distance counts to 'previous row' distance counts
@@ -232,7 +232,7 @@ Namespace SequenceModel.NucleotideModels
 
         <ExportAPI("Similarity")>
         Public Function Similarity(s1 As String, s2 As String) As Double
-            Dim maxLength As Integer = stdNum.Max(s1.Length, s2.Length)
+            Dim maxLength As Integer = std.Max(s1.Length, s2.Length)
             Dim value As Double = 1.0 - CDbl(LevenshteinDistance(s1, s2)) / maxLength
             Return value
         End Function

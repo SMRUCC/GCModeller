@@ -192,14 +192,16 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         End Function
 
         Public Overrides Function ToString() As String
-            Dim sb As StringBuilder = New StringBuilder(1024)
+            Dim sb As New StringBuilder(1024)
 
             Call sb.AppendFormat("KeyName:='{0}'{1}", KeyName, vbCrLf)
             Call sb.AppendFormat("Located:='{0}'{1}", Location.ToString, vbCrLf)
             Call sb.AppendLine("{")
+
             For Each Line As NamedValue(Of String) In innerList
                 Call sb.AppendFormat("  {0}{1}", Line.ToString, vbCrLf)
             Next
+
             Call sb.AppendLine("}")
 
             Return sb.ToString

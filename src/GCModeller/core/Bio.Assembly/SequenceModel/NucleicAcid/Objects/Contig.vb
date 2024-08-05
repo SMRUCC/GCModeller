@@ -67,8 +67,7 @@ Namespace SequenceModel.NucleotideModels
     ''' <summary>
     ''' 这个基础的模型对象只有在基因组上面的位置信息
     ''' </summary>
-    Public MustInherit Class Contig
-        Implements IContig
+    Public MustInherit Class Contig : Implements IContig
 
         Protected _MappingLocation As NucleotideLocation
 
@@ -116,8 +115,7 @@ Namespace SequenceModel.NucleotideModels
         End Sub
 
         Public Function GetRelatedGenes(PTT As PTT, loc As SegmentRelationships, Optional atgDist As Integer = 500) As GeneBrief()
-            Dim found As Relationship(Of GeneBrief)() =
-                PTT.GetRelatedGenes(MappingLocation, True)
+            Dim found As Relationship(Of GeneBrief)() = PTT.GetRelatedGenes(MappingLocation, True)
             Dim gets As GeneBrief() =
                 LinqAPI.Exec(Of GeneBrief) <= From x As Relationship(Of GeneBrief)
                                               In found

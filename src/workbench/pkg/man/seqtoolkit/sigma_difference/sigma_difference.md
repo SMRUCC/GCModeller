@@ -1,6 +1,6 @@
 ﻿# sigma_difference
 
-
+Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.
 
 + [compile.cai](sigma_difference/compile.cai.1) 
 + [read.csv.site_delta](sigma_difference/read.csv.site_delta.1) 
@@ -15,4 +15,4 @@
 + [genome.sigma_diff](sigma_difference/genome.sigma_diff.1) 并行版本的计算函数
 + [Partition.Similarity.Calculates](sigma_difference/Partition.Similarity.Calculates.1) 计算基因组之中的不同的功能分段之间的同质性
 + [Partitions.Creates](sigma_difference/Partitions.Creates.1) 
-+ [Measure.Homogeneity](sigma_difference/Measure.Homogeneity.1) measuring the homogeneity property using a specific rule 
++ [measure_homogeneity](sigma_difference/measure_homogeneity.1) measuring the homogeneity property using a specific rule 

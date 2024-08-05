@@ -30,13 +30,16 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.SequenceModel
 export class SeqTypes extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # the unknow sequence type
    Generic: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/SeqTypes.html">SeqTypes</a> = 0;
 
-   # ATGC
+   # Deoxyribonucleotide - DNA(ATGC)
    DNA: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/SeqTypes.html">SeqTypes</a> = 1;
 
+   # Ribonucleotide - RNA(AUGC)
    RNA: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/SeqTypes.html">SeqTypes</a> = 2;
 
+   # Polypeptide
    Protein: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/SeqTypes.html">SeqTypes</a> = 3;
 
 }

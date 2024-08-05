@@ -17,7 +17,7 @@ declare namespace GenBank {
          /**
            * @param env default value Is ``null``.
          */
-         function gene(gb: object, RNA: any, env?: object): any;
+         function gene(gb: object, RNA: any, env?: object): object;
       }
    }
    /**
@@ -41,8 +41,10 @@ declare namespace GenBank {
     * 
     * 
      * @param gb a NCBI genbank database object
+     * @param keys 
+     * + default value Is ``null``.
    */
-   function enumerateFeatures(gb: object): object;
+   function enumerateFeatures(gb: object, keys?: string): object;
    /**
     * create new feature site
     * 
@@ -55,13 +57,27 @@ declare namespace GenBank {
    */
    function feature(keyName: string, location: object, data: object, env?: object): object;
    /**
-     * @param env default value Is ``null``.
+    * get all feature key names
+    * 
+    * 
+     * @param features a collection of the genbank feature object or a genbank clr object.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function featureKeys(features: any, env?: object): string;
    /**
-     * @param env default value Is ``null``.
+    * extract the feature metadata from a genbank clr feature object
+    * 
+    * 
+     * @param features -
+     * @param attrName 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function featureMeta(features: any, attrName: string, env?: object): string;
+   function featureMeta(features: any, attrName?: string, env?: object): string;
    module getRNA {
       /**
        * get all of the RNA gene its gene sequence in fasta sequence format.
@@ -140,7 +156,7 @@ declare namespace GenBank {
         * 
         * + default value Is ``null``.
       */
-      function genbank(file: string, repliconTable?: boolean, env?: object): any;
+      function genbank(file: string, repliconTable?: boolean, env?: object): object;
    }
    module write {
       /**
@@ -153,6 +169,6 @@ declare namespace GenBank {
         * 
         * + default value Is ``null``.
       */
-      function genbank(gb: object, file: string, env?: object): any;
+      function genbank(gb: object, file: string, env?: object): boolean;
    }
 }

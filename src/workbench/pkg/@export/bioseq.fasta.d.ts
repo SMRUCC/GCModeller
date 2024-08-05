@@ -21,6 +21,15 @@ declare namespace bioseq.fasta {
       */
       function fasta(x: any, env?: object): object;
    }
+   /**
+    * get alphabets represents of the fasta sequence
+    * 
+    * 
+     * @param type the sequence data type.
+     * 
+     * + default value Is ``null``.
+   */
+   function chars(type?: object): string;
    module cut_seq {
       /**
        * cut part of the sequence
@@ -62,6 +71,18 @@ declare namespace bioseq.fasta {
       */
       function titles(fa: any, env?: object): string;
    }
+   /**
+    * evaluate the molecule mass of the given sequence
+    * 
+    * 
+     * @param seqs -
+     * @param type -
+     * 
+     * + default value Is ``null``.
+     * @param env 
+     * + default value Is ``null``.
+   */
+   function mass(seqs: any, type?: object, env?: object): any;
    module MSA {
       /**
        * Do multiple sequence alignment
@@ -115,6 +136,11 @@ declare namespace bioseq.fasta {
       */
       function seq(file: string, env?: object): object;
    }
+   /**
+     * @param type default value Is ``null``.
+     * @param env default value Is ``null``.
+   */
+   function seq_formula(seqs: any, type?: object, env?: object): any;
    /**
     * get the sequence length
     * 

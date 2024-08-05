@@ -145,6 +145,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.Uniprot.XML
 
+    ''' <summary>
+    ''' the protein sequence data
+    ''' </summary>
     Public Class sequence
 
         <XmlAttribute> Public Property length As Integer
@@ -247,7 +250,7 @@ Namespace Assembly.Uniprot.XML
 
     Public Class organism
 
-        <XmlAttribute> Public Property evidence As String
+        <XmlAttribute> Public Property evidence As String()
         <XmlElement("name")> Public Property names As value()
             Get
                 Return namesData.Values.ToArray
@@ -400,7 +403,7 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property type As String Implements INamedValue.Key
-        <XmlAttribute> Public Property evidence As String
+        <XmlAttribute> Public Property evidence As String()
         <XmlAttribute> Public Property description As String
         ''' <summary>
         ''' string value could be one of these enumeration:
@@ -511,6 +514,10 @@ Namespace Assembly.Uniprot.XML
         Public Overrides Function ToString() As String
             Return position
         End Function
+
+        Public Shared Narrowing Operator CType(pos As position) As Integer
+            Return pos.position
+        End Operator
     End Class
 
     Public Class recommendedName
@@ -533,7 +540,7 @@ Namespace Assembly.Uniprot.XML
     Public Class value : Implements Value(Of String).IValueOf
 
         <XmlAttribute> Public Property type As String
-        <XmlAttribute> Public Property evidence As String
+        <XmlAttribute> Public Property evidence As String()
         <XmlAttribute> Public Property description As String
         <XmlAttribute> Public Property id As String
 
@@ -541,7 +548,8 @@ Namespace Assembly.Uniprot.XML
         ''' 这条值对象的文本内容
         ''' </summary>
         ''' <returns></returns>
-        <XmlText> Public Property value As String Implements Value(Of String).IValueOf.Value
+        <XmlText>
+        Public Property value As String Implements Value(Of String).IValueOf.Value
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

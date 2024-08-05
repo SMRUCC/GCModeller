@@ -1,60 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::2a7e16457295c1560872881b725b0ed6, core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcidObjUtility.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 522
-    '    Code Lines: 497 (95.21%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 25 (4.79%)
-    '     File Size: 11.86 KB
+' Summaries:
 
 
-    '     Module AminoAcidObjUtility
-    ' 
-    '         Function: (+3 Overloads) IsAAEqual
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 522
+'    Code Lines: 497 (95.21%)
+' Comment Lines: 0 (0.00%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 25 (4.79%)
+'     File Size: 11.86 KB
+
+
+'     Module AminoAcidObjUtility
+' 
+'         Function: (+3 Overloads) IsAAEqual
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Namespace SequenceModel.Polypeptides
-    Public Module AminoAcidObjUtility
+Imports SMRUCC.genomics.ComponentModel
 
+Namespace SequenceModel.Polypeptides
+
+    Public Module AminoAcidObjUtility
 
         Public Function IsAAEqual(letter1 As Char, letter2 As Char) As Boolean
             If letter1 = "J"c AndAlso (letter2 = "J"c OrElse letter2 = "L"c OrElse letter2 = "I"c) Then Return True
@@ -64,20 +66,23 @@ Namespace SequenceModel.Polypeptides
         End Function
 
         Public Function IsAAEqual(letter1 As String, letter2 As String) As Boolean
-            If Equals(letter1, "J") AndAlso (Equals(letter2, "J") OrElse Equals(letter2, "L") OrElse Equals(letter2, "I")) Then Return True
-            If Equals(letter2, "J") AndAlso (Equals(letter1, "J") OrElse Equals(letter1, "L") OrElse Equals(letter1, "I")) Then Return True
-            If Equals(letter1, letter2) Then Return True
+            If letter1 = "J" AndAlso (letter2 = "J" OrElse letter2 = "L" OrElse letter2 = "I") Then Return True
+            If letter2 = "J" AndAlso (letter1 = "J" OrElse letter1 = "L" OrElse letter1 = "I") Then Return True
+            If letter1 = letter2 Then Return True
             Return False
         End Function
 
         Public Function IsAAEqual(letter1 As Char, letter2 As String) As Boolean
-            If letter1 = "J"c AndAlso (Equals(letter2, "J") OrElse Equals(letter2, "L") OrElse Equals(letter2, "I")) Then Return True
-            If Equals(letter2, "J") AndAlso (letter1 = "J"c OrElse letter1 = "L"c OrElse letter1 = "I"c) Then Return True
-            If Equals(letter1.ToString(), letter2) Then Return True
+            If letter1 = "J"c AndAlso (letter2 = "J" OrElse letter2 = "L" OrElse letter2 = "I") Then Return True
+            If letter2 = "J" AndAlso (letter1 = "J"c OrElse letter1 = "L"c OrElse letter1 = "I"c) Then Return True
+            If letter1.ToString() = letter2 Then Return True
             Return False
         End Function
 
-        Public AminoAcidLetters As List(Of Char) = New List(Of Char)() From {
+        ''' <summary>
+        ''' enumerates all amino acid chars
+        ''' </summary>
+        Public ReadOnly AminoAcidLetters As IReadOnlyCollection(Of Char) = New Char() {
             "A"c,
             "R"c,
             "N"c,
@@ -103,57 +108,57 @@ Namespace SequenceModel.Polypeptides
             "J"c
         }
 
-        Public OneLetter2Mass As Dictionary(Of String, Double) = New Dictionary(Of String, Double) From {
-    {"A", 71.037113805},
-    {"R", 156.10111105},
-    {"N", 114.04292747},
-    {"D", 115.026943065},
-    {"C", 103.009184505},
-    {"E", 129.042593135},
-    {"Q", 128.05857754},
-    {"G", 57.021463735},
-    {"H", 137.058911875},
-    {"I", 113.084064015},
-    {"L", 113.084064015},
-    {"J", 113.084064015},
-    {"K", 128.09496305},
-    {"M", 131.040484645},
-    {"F", 147.068413945},
-    {"P", 97.052763875},
-    {"S", 87.032028435},
-    {"T", 101.047678505},
-    {"W", 186.07931298},
-    {"Y", 163.063328575},
-    {"V", 99.068413945},
-    {"U", 150.953633405},
-    {"O", 237.147726925}
-}
+        Public ReadOnly OneLetter2Mass As IReadOnlyDictionary(Of String, Double) = New Dictionary(Of String, Double) From {
+            {"A", 71.037113805},
+            {"R", 156.10111105},
+            {"N", 114.04292747},
+            {"D", 115.026943065},
+            {"C", 103.009184505},
+            {"E", 129.042593135},
+            {"Q", 128.05857754},
+            {"G", 57.021463735},
+            {"H", 137.058911875},
+            {"I", 113.084064015},
+            {"L", 113.084064015},
+            {"J", 113.084064015},
+            {"K", 128.09496305},
+            {"M", 131.040484645},
+            {"F", 147.068413945},
+            {"P", 97.052763875},
+            {"S", 87.032028435},
+            {"T", 101.047678505},
+            {"W", 186.07931298},
+            {"Y", 163.063328575},
+            {"V", 99.068413945},
+            {"U", 150.953633405},
+            {"O", 237.147726925}
+        }
 
-        Public OneChar2Mass As Dictionary(Of Char, Double) = New Dictionary(Of Char, Double) From {
-    {"A"c, 71.037113805},
-    {"R"c, 156.10111105},
-    {"N"c, 114.04292747},
-    {"D"c, 115.026943065},
-    {"C"c, 103.009184505},
-    {"E"c, 129.042593135},
-    {"Q"c, 128.05857754},
-    {"G"c, 57.021463735},
-    {"H"c, 137.058911875},
-    {"I"c, 113.084064015},
-    {"L"c, 113.084064015},
-    {"J"c, 113.084064015},
-    {"K"c, 128.09496305},
-    {"M"c, 131.040484645},
-    {"F"c, 147.068413945},
-    {"P"c, 97.052763875},
-    {"S"c, 87.032028435},
-    {"T"c, 101.047678505},
-    {"W"c, 186.07931298},
-    {"Y"c, 163.063328575},
-    {"V"c, 99.068413945},
-    {"U"c, 150.953633405},
-    {"O"c, 237.147726925}
-}
+        Public ReadOnly OneChar2Mass As IReadOnlyDictionary(Of Char, Double) = New Dictionary(Of Char, Double) From {
+            {"A"c, 71.037113805},
+            {"R"c, 156.10111105},
+            {"N"c, 114.04292747},
+            {"D"c, 115.026943065},
+            {"C"c, 103.009184505},
+            {"E"c, 129.042593135},
+            {"Q"c, 128.05857754},
+            {"G"c, 57.021463735},
+            {"H"c, 137.058911875},
+            {"I"c, 113.084064015},
+            {"L"c, 113.084064015},
+            {"J"c, 113.084064015},
+            {"K"c, 128.09496305},
+            {"M"c, 131.040484645},
+            {"F"c, 147.068413945},
+            {"P"c, 97.052763875},
+            {"S"c, 87.032028435},
+            {"T"c, 101.047678505},
+            {"W"c, 186.07931298},
+            {"Y"c, 163.063328575},
+            {"V"c, 99.068413945},
+            {"U"c, 150.953633405},
+            {"O"c, 237.147726925}
+        }
 
         Public OneLetter2ThreeLetter As Dictionary(Of String, String) = New Dictionary(Of String, String) From {
     {"A", "Ala"},
@@ -234,83 +239,108 @@ Namespace SequenceModel.Polypeptides
 }
 
         Public ThreeLetter2OneChar As Dictionary(Of String, Char) = New Dictionary(Of String, Char) From {
-    {"Ala", "A"c},
-    {"Arg", "R"c},
-    {"Asn", "N"c},
-    {"Asp", "D"c},
-    {"Cys", "C"c},
-    {"Glu", "E"c},
-    {"Gln", "Q"c},
-    {"Gly", "G"c},
-    {"His", "H"c},
-    {"Ile", "I"c},
-    {"Leu", "L"c},
-    {"Xle", "J"c},
-    {"Lys", "K"c},
-    {"Met", "M"c},
-    {"Phe", "F"c},
-    {"Pro", "P"c},
-    {"Ser", "S"c},
-    {"Thr", "T"c},
-    {"Trp", "W"c},
-    {"Tyr", "Y"c},
-    {"Val", "V"c},
-    {"Pyl", "O"c},
-    {"Sec", "U"c}
-}
+            {"Ala", "A"c},
+            {"Arg", "R"c},
+            {"Asn", "N"c},
+            {"Asp", "D"c},
+            {"Cys", "C"c},
+            {"Glu", "E"c},
+            {"Gln", "Q"c},
+            {"Gly", "G"c},
+            {"His", "H"c},
+            {"Ile", "I"c},
+            {"Leu", "L"c},
+            {"Xle", "J"c},
+            {"Lys", "K"c},
+            {"Met", "M"c},
+            {"Phe", "F"c},
+            {"Pro", "P"c},
+            {"Ser", "S"c},
+            {"Thr", "T"c},
+            {"Trp", "W"c},
+            {"Tyr", "Y"c},
+            {"Val", "V"c},
+            {"Pyl", "O"c},
+            {"Sec", "U"c}
+        }
 
+        Public ReadOnly OneLetterFormula As New Dictionary(Of Char, FormulaData) From {
+            {"A", PeriodicTable.SimpleParser("C3H7O2N")},
+            {"R", PeriodicTable.SimpleParser("C6H14O2N4")},
+            {"N", PeriodicTable.SimpleParser("C4H8O3N2")},
+            {"D", PeriodicTable.SimpleParser("C4H7O4N")},
+            {"C", PeriodicTable.SimpleParser("C3H7O2NS")},
+            {"E", PeriodicTable.SimpleParser("C5H9O4N")},
+            {"Q", PeriodicTable.SimpleParser("C5H10O3N2")},
+            {"G", PeriodicTable.SimpleParser("C2H5O2N")},
+            {"H", PeriodicTable.SimpleParser("C6H9O2N3")},
+            {"I", PeriodicTable.SimpleParser("C6H13O2N")},
+            {"L", PeriodicTable.SimpleParser("C6H13O2N")},
+            {"J", PeriodicTable.SimpleParser("C6H13O2N")},
+            {"K", PeriodicTable.SimpleParser("C6H14O2N2")},
+            {"M", PeriodicTable.SimpleParser("C5H11O2NS")},
+            {"F", PeriodicTable.SimpleParser("C9H11O2N")},
+            {"P", PeriodicTable.SimpleParser("C5H9O2N")},
+            {"S", PeriodicTable.SimpleParser("C3H7O3N")},
+            {"T", PeriodicTable.SimpleParser("C4H9O3N")},
+            {"W", PeriodicTable.SimpleParser("C11H12O2N2")},
+            {"Y", PeriodicTable.SimpleParser("C9H11O3N")},
+            {"V", PeriodicTable.SimpleParser("C5H11O2N")},
+            {"O", PeriodicTable.SimpleParser("C12H21N3O3")},
+            {"U", PeriodicTable.SimpleParser("C3H7NO2Se")}
+        }
 
         Public OneLetter2FormulaString As Dictionary(Of String, String) = New Dictionary(Of String, String) From {
-    {"A", "C3H7O2N"},
-    {"R", "C6H14O2N4"},
-    {"N", "C4H8O3N2"},
-    {"D", "C4H7O4N"},
-    {"C", "C3H7O2NS"},
-    {"E", "C5H9O4N"},
-    {"Q", "C5H10O3N2"},
-    {"G", "C2H5O2N"},
-    {"H", "C6H9O2N3"},
-    {"I", "C6H13O2N"},
-    {"L", "C6H13O2N"},
-    {"J", "C6H13O2N"},
-    {"K", "C6H14O2N2"},
-    {"M", "C5H11O2NS"},
-    {"F", "C9H11O2N"},
-    {"P", "C5H9O2N"},
-    {"S", "C3H7O3N"},
-    {"T", "C4H9O3N"},
-    {"W", "C11H12O2N2"},
-    {"Y", "C9H11O3N"},
-    {"V", "C5H11O2N"},
-    {"O", "C12H21N3O3"},
-    {"U", "C3H7NO2Se"}
-}
+            {"A", "C3H7O2N"},
+            {"R", "C6H14O2N4"},
+            {"N", "C4H8O3N2"},
+            {"D", "C4H7O4N"},
+            {"C", "C3H7O2NS"},
+            {"E", "C5H9O4N"},
+            {"Q", "C5H10O3N2"},
+            {"G", "C2H5O2N"},
+            {"H", "C6H9O2N3"},
+            {"I", "C6H13O2N"},
+            {"L", "C6H13O2N"},
+            {"J", "C6H13O2N"},
+            {"K", "C6H14O2N2"},
+            {"M", "C5H11O2NS"},
+            {"F", "C9H11O2N"},
+            {"P", "C5H9O2N"},
+            {"S", "C3H7O3N"},
+            {"T", "C4H9O3N"},
+            {"W", "C11H12O2N2"},
+            {"Y", "C9H11O3N"},
+            {"V", "C5H11O2N"},
+            {"O", "C12H21N3O3"},
+            {"U", "C3H7NO2Se"}
+        }
 
         Public OneChar2FormulaString As Dictionary(Of Char, String) = New Dictionary(Of Char, String) From {
-    {"A"c, "C3H7O2N"},
-    {"R"c, "C6H14O2N4"},
-    {"N"c, "C4H8O3N2"},
-    {"D"c, "C4H7O4N"},
-    {"C"c, "C3H7O2NS"},
-    {"E"c, "C5H9O4N"},
-    {"Q"c, "C5H10O3N2"},
-    {"G"c, "C2H5O2N"},
-    {"H"c, "C6H9O2N3"},
-    {"I"c, "C6H13O2N"},
-    {"L"c, "C6H13O2N"},
-    {"J"c, "C6H13O2N"},
-    {"K"c, "C6H14O2N2"},
-    {"M"c, "C5H11O2NS"},
-    {"F"c, "C9H11O2N"},
-    {"P"c, "C5H9O2N"},
-    {"S"c, "C3H7O3N"},
-    {"T"c, "C4H9O3N"},
-    {"W"c, "C11H12O2N2"},
-    {"Y"c, "C9H11O3N"},
-    {"V"c, "C5H11O2N"},
-    {"O"c, "C12H21N3O3"},
-    {"U"c, "C3H7NO2Se"}
-}
+            {"A"c, "C3H7O2N"},
+            {"R"c, "C6H14O2N4"},
+            {"N"c, "C4H8O3N2"},
+            {"D"c, "C4H7O4N"},
+            {"C"c, "C3H7O2NS"},
+            {"E"c, "C5H9O4N"},
+            {"Q"c, "C5H10O3N2"},
+            {"G"c, "C2H5O2N"},
+            {"H"c, "C6H9O2N3"},
+            {"I"c, "C6H13O2N"},
+            {"L"c, "C6H13O2N"},
+            {"J"c, "C6H13O2N"},
+            {"K"c, "C6H14O2N2"},
+            {"M"c, "C5H11O2NS"},
+            {"F"c, "C9H11O2N"},
+            {"P"c, "C5H9O2N"},
+            {"S"c, "C3H7O3N"},
+            {"T"c, "C4H9O3N"},
+            {"W"c, "C11H12O2N2"},
+            {"Y"c, "C9H11O3N"},
+            {"V"c, "C5H11O2N"},
+            {"O"c, "C12H21N3O3"},
+            {"U"c, "C3H7NO2Se"}
+        }
 
 
         Public OneLetter2CarbonNuber As Dictionary(Of String, Integer) = New Dictionary(Of String, Integer) From {
