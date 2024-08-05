@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data.Rhea
 
 <Package("rhea")>
 Module Rhea
@@ -14,6 +15,6 @@ Module Rhea
     ''' </remarks>
     <ExportAPI("open.rdf")>
     Public Function openRDF(file As String) As Object
-
+        Return file.LoadXml(Of RheaRDF)
     End Function
 End Module
