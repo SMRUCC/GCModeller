@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
 ''' <summary>
 ''' 
@@ -6,7 +7,7 @@
 ''' <remarks>
 ''' https://ftp.expasy.org/databases/rhea/rdf/rhea.rdf.gz
 ''' </remarks>
-Public Class RheaRDF : Inherits RDF(Of Description)
+Public Class RheaRDF : Inherits RDF(Of RheaDescription)
 
     Public Const rh As String = "http://rdf.rhea-db.org/"
 
@@ -14,4 +15,9 @@ Public Class RheaRDF : Inherits RDF(Of Description)
         Call MyBase.New()
         Call xmlns.Add("rh", rh)
     End Sub
+End Class
+
+<XmlType("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
+Public Class RheaDescription : Inherits Description
+
 End Class

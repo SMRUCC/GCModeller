@@ -68,7 +68,7 @@ Namespace SBML
 
         Public ReadOnly Property ec_number As String
             Get
-                Return annotation.RDF.description.isVersionOf.Bag.list _
+                Return annotation.RDF.description(0).isVersionOf.Bag.list _
                     .Where(Function(li) InStr(li.resource, "ec-code") > 0) _
                     .FirstOrDefault.resource _
                     .Split("/"c) _
@@ -83,7 +83,7 @@ Namespace SBML
                 If kineticLaw.annotation Is Nothing Then
                     Return ""
                 ElseIf anno Is Nothing Then
-                    Return kineticLaw.annotation.RDF.description.about.Match("\d+")
+                    Return kineticLaw.annotation.RDF.description(0).about.Match("\d+")
                 Else
                     Return anno.kineticLawID
                 End If
