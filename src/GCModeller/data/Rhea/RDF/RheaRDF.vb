@@ -66,6 +66,7 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
 
     Private Shared Function GetCompound(ref As Resource, objs As Dictionary(Of String, RheaDescription())) As Compound
         Dim links = objs(ref.resource)
+
     End Function
 
     Public Shared Function Load(doc As String) As RheaRDF
@@ -136,6 +137,14 @@ Public Class RheaDescription : Inherits Description
                 Yield m.Value
             End If
         Next
+    End Function
+
+    Public Function GetCompound() As Compound
+        Return New Compound With {
+            .entry = accession,
+            .name = name,
+            .formula = formula
+        }
     End Function
 
 End Class
