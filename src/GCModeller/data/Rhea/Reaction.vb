@@ -63,6 +63,7 @@ Public Class Reaction : Implements INamedValue
     Public Property equation As Equation
     Public Property enzyme As String()
     Public Property compounds As SideCompound()
+    Public Property isTransport As Boolean
 
     Friend Shared Function EquationParser(text As String) As Equation
         Dim eq As Equation = Equation.TryParse(text)

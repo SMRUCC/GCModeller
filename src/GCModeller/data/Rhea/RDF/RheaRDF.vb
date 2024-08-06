@@ -53,7 +53,8 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
                 .entry = r.accession,
                 .enzyme = r.GetECNumber.ToArray,
                 .equation = Equation.TryParse(.definition),
-                .compounds = left.JoinIterates(right).ToArray
+                .compounds = left.JoinIterates(right).ToArray,
+                .isTransport = r.isTransport
             }
         Next
 
@@ -72,7 +73,8 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
                 .entry = r.accession,
                 .enzyme = r.GetECNumber.ToArray,
                 .equation = Equation.TryParse(.definition),
-                .compounds = compounds
+                .compounds = compounds,
+                .isTransport = r.isTransport
             }
         Next
     End Function
@@ -153,6 +155,8 @@ Public Class RheaDescription : Inherits Description
 
     <XmlElement("substratesOrProducts", [Namespace]:=RheaRDF.rh)>
     Public Property substratesOrProducts As Resource()
+
+    <XmlElement("isTransport", [Namespace]:=RheaRDF.rh)> Public Property isTransport As RDFProperty
 
     Sub New()
         Call MyBase.New()
