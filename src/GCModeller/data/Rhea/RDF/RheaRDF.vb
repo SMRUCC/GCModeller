@@ -95,6 +95,9 @@ Public Class RheaDescription : Inherits Description
     <XmlElement("compound", [Namespace]:=RheaRDF.rh)>
     Public Property compound As Resource
 
+    <XmlElement("contains", [Namespace]:=RheaRDF.rh)> Public Property contains As Resource
+    <XmlElement("contains1", [Namespace]:=RheaRDF.rh)> Public Property contains1 As Resource
+
     <XmlElement("substrates", [Namespace]:=RheaRDF.rh)> Public Property substrates As Resource()
     <XmlElement("products", [Namespace]:=RheaRDF.rh)> Public Property products As Resource()
 
