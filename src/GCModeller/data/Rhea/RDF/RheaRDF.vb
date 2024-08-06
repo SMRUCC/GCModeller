@@ -19,7 +19,7 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
     End Sub
 End Class
 
-<XmlType("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
+<XmlType("Description", [Namespace]:=RheaRDF.rh)>
 Public Class RheaDescription : Inherits Description
 
     <XmlElement("subClassOf", [Namespace]:=RDFEntity.rdfs)>

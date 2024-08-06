@@ -92,7 +92,7 @@ Module Module1
     End Sub
 
     Sub rhea_rdf_test()
-        Dim test As New RheaDescription With {.subClassOf = New Resource With {.resource = "aaaaaa"}}
+        Dim test As New RheaDescription With {.subClassOf = New Resource With {.resource = "aaaaaa"}, .type = New RDFType With {.resource = "xxxxx"}, .about = "test"}
         Dim doc As New RheaRDF() With {.description = {
             test
         }}
