@@ -2,6 +2,8 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 ''' <summary>
 ''' 
@@ -29,6 +31,21 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
                               Return res.ToArray
                           End Function)
 
+        For Each r As RheaDescription In groups!Reaction
+            If r.substratesOrProducts.IsNullOrEmpty AndAlso
+                r.substrates.IsNullOrEmpty AndAlso
+                r.products.IsNullOrEmpty Then
+
+                Continue For
+            End If
+
+            Yield New Reaction With {
+                .definition = r.equation,
+                .entry = r.accession,
+                .enzyme = r.GetECNumber.ToArray,
+                .equation = Equation.TryParse(.definition)
+            }
+        Next
     End Function
 
     Public Shared Function Load(doc As String) As RheaRDF
@@ -49,7 +66,7 @@ Public Class RheaDescription : Inherits Description
     <XmlElement("chebi", [Namespace]:=RheaRDF.rh)> Public Property chebi As String
     <XmlElement("equation", [Namespace]:=RheaRDF.rh)> Public Property equation As String
     <XmlElement("status", [Namespace]:=RheaRDF.rh)> Public Property status As Resource
-    <XmlElement("ec", [Namespace]:=RheaRDF.rh)> Public Property ec As Resource
+    <XmlElement("ec", [Namespace]:=RheaRDF.rh)> Public Property ec As Resource()
 
     <XmlElement("directionalReaction", [Namespace]:=RheaRDF.rh)>
     Public Property directionalReaction As Resource()
@@ -85,6 +102,20 @@ Public Class RheaDescription : Inherits Description
         Next
 
         Return ""
+    End Function
+
+    Public Iterator Function GetECNumber() As IEnumerable(Of String)
+        If ec Is Nothing Then
+            Return
+        End If
+
+        For Each num As Resource In ec
+            Dim m As Match = ECNumber.r.Match(num.resource)
+
+            If m.Success Then
+                Yield m.Value
+            End If
+        Next
     End Function
 
 End Class

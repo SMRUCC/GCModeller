@@ -5,7 +5,7 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{EE1EB05D-FE03-4EEF-B420-369EE6932040}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "test", "SABIO-RK\test\test.vbproj", "{30C08BD9-85B1-4190-9E2C-E2B89B4EE70F}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "test", "SABIO-RK\test\test.vbproj", "{30C08BD9-85B1-4190-9E2C-E2B89B4EE70F}"
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "Core", "..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj", "{FD8A1BF0-A24B-463A-B829-4C2829FB03B3}"
 EndProject
