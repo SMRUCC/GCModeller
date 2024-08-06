@@ -1,6 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -36,47 +37,67 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
                           Function(o)
                               Return o.ToArray
                           End Function)
+        Dim reaction As New Value(Of Reaction)
 
-        For Each r As RheaDescription In groups!DirectionalReaction
+        For Each r As RheaDescription In groups!Reaction
+            Dim ecnumber As String() = r.GetECNumber.ToArray
+
+            If Not r.directionalReaction Is Nothing Then
+                For Each dr In r.directionalReaction
+                    If reaction = GetDirectionalReaction(objs(dr.resource).First, ecnumber, objs) IsNot Nothing Then
+                        Yield CType(reaction, Reaction)
+                    End If
+                Next
+            End If
+            If Not r.bidirectionalReaction Is Nothing Then
+                For Each br In r.bidirectionalReaction
+                    If reaction = GetBidirectionalReaction(objs(br.resource).First, ecnumber, objs) IsNot Nothing Then
+                        Yield CType(reaction, Reaction)
+                    End If
+                Next
+            End If
+        Next
+    End Function
+
+    Private Function GetBidirectionalReaction(r As RheaDescription, ec As String(), objs As Dictionary(Of String, RheaDescription())) As Reaction
+        If r.substratesOrProducts.IsNullOrEmpty Then
             ' obsolete reaction
             ' The reaction has been replaced by RHEA:xxxxx
             ' just ignores
-            If r.substrates Is Nothing AndAlso r.products Is Nothing Then
-                Continue For
-            End If
+            Return Nothing
+        End If
 
-            Dim left = getSideCompounds(r.substrates, "substrate", objs)
-            Dim right = getSideCompounds(r.products, "product", objs)
+        Dim compounds = getSideCompounds(r.substratesOrProducts, "*", objs)
 
-            Yield New Reaction With {
-                .definition = r.equation,
-                .entry = r.accession,
-                .enzyme = r.GetECNumber.ToArray,
-                .equation = Equation.TryParse(.definition),
-                .compounds = left.JoinIterates(right).ToArray,
-                .isTransport = r.isTransport
-            }
-        Next
+        Return New Reaction With {
+            .definition = r.equation,
+            .entry = r.accession,
+            .enzyme = ec,
+            .equation = Equation.TryParse(.definition),
+            .compounds = compounds,
+            .isTransport = r.isTransport
+        }
+    End Function
 
-        For Each r As RheaDescription In groups!BidirectionalReaction
-            If r.substratesOrProducts.IsNullOrEmpty Then
-                ' obsolete reaction
-                ' The reaction has been replaced by RHEA:xxxxx
-                ' just ignores
-                Continue For
-            End If
+    Private Function GetDirectionalReaction(r As RheaDescription, ec As String(), objs As Dictionary(Of String, RheaDescription())) As Reaction
+        ' obsolete reaction
+        ' The reaction has been replaced by RHEA:xxxxx
+        ' just ignores
+        If r.substrates Is Nothing AndAlso r.products Is Nothing Then
+            Return Nothing
+        End If
 
-            Dim compounds = getSideCompounds(r.substratesOrProducts, "*", objs)
+        Dim left = getSideCompounds(r.substrates, "substrate", objs)
+        Dim right = getSideCompounds(r.products, "product", objs)
 
-            Yield New Reaction With {
-                .definition = r.equation,
-                .entry = r.accession,
-                .enzyme = r.GetECNumber.ToArray,
-                .equation = Equation.TryParse(.definition),
-                .compounds = compounds,
-                .isTransport = r.isTransport
-            }
-        Next
+        Return New Reaction With {
+            .definition = r.equation,
+            .entry = r.accession,
+            .enzyme = ec,
+            .equation = Equation.TryParse(.definition),
+            .compounds = left.JoinIterates(right).ToArray,
+            .isTransport = r.isTransport
+        }
     End Function
 
     Private Shared Function getSideCompounds(refs As Resource(), side As String, objs As Dictionary(Of String, RheaDescription())) As SideCompound()
@@ -143,6 +164,9 @@ Public Class RheaDescription : Inherits Description
 
     <XmlElement("directionalReaction", [Namespace]:=RheaRDF.rh)>
     Public Property directionalReaction As Resource()
+
+    <XmlElement("bidirectionalReaction", [Namespace]:=RheaRDF.rh)>
+    Public Property bidirectionalReaction As Resource()
 
     <XmlElement("compound", [Namespace]:=RheaRDF.rh)>
     Public Property compound As Resource
