@@ -38,10 +38,15 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
                           End Function)
 
         For Each r As RheaDescription In groups!DirectionalReaction
-            Dim left = r.substrates.Select(Function(c) GetCompounds(c, objs).Select(Function(ci) New SideCompound("substrate", ci))).IteratesALL.GroupBy(Function(c) c.compound.entry) _
-                .Select(Function(c) c.First).ToArray
-            Dim right = r.products.Select(Function(c) GetCompounds(c, objs).Select(Function(ci) New SideCompound("product", ci))).IteratesALL.GroupBy(Function(c) c.compound.entry) _
-                .Select(Function(c) c.First).ToArray
+            ' obsolete reaction
+            ' The reaction has been replaced by RHEA:xxxxx
+            ' just ignores
+            If r.substrates Is Nothing AndAlso r.products Is Nothing Then
+                Continue For
+            End If
+
+            Dim left = getSideCompounds(r.substrates, "substrate", objs)
+            Dim right = getSideCompounds(r.products, "product", objs)
 
             Yield New Reaction With {
                 .definition = r.equation,
@@ -53,12 +58,14 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
         Next
 
         For Each r As RheaDescription In groups!BidirectionalReaction
-            Dim compounds = r.substratesOrProducts _
-                .Select(Function(c) GetCompounds(c, objs).Select(Function(ci) New SideCompound("*", ci))) _
-                .IteratesALL _
-                .GroupBy(Function(c) c.compound.entry) _
-                .Select(Function(c) c.First) _
-                .ToArray
+            If r.substratesOrProducts.IsNullOrEmpty Then
+                ' obsolete reaction
+                ' The reaction has been replaced by RHEA:xxxxx
+                ' just ignores
+                Continue For
+            End If
+
+            Dim compounds = getSideCompounds(r.substratesOrProducts, "*", objs)
 
             Yield New Reaction With {
                 .definition = r.equation,
@@ -68,6 +75,17 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
                 .compounds = compounds
             }
         Next
+    End Function
+
+    Private Shared Function getSideCompounds(refs As Resource(), side As String, objs As Dictionary(Of String, RheaDescription())) As SideCompound()
+        Return refs _
+            .Select(Function(c)
+                        Return GetCompounds(c, objs).Select(Function(ci) New SideCompound(side, ci))
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(c) c.compound.entry) _
+            .Select(Function(c) c.First) _
+            .ToArray
     End Function
 
     Shared ReadOnly compoundType As Index(Of String) = {"Compound", "GenericCompound", "SmallMolecule",
