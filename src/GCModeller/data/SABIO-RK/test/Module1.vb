@@ -55,6 +55,7 @@ Imports SMRUCC.genomics.Model.SBML.Level3
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports SMRUCC.genomics.Data.Rhea
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module Module1
 
@@ -109,6 +110,8 @@ Module Module1
     Sub load_rheaDataabse()
         Dim doc As RheaRDF = RheaRDF.Load("J:\ossfs\rhea.rdf")
         Dim reactions = doc.GetReactions.ToArray
+
+        Call reactions.GetJson.SaveTo("Z:/rhea.json")
 
         Pause()
     End Sub
