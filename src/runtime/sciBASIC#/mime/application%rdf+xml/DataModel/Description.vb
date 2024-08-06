@@ -55,7 +55,7 @@
 
 Imports System.Xml.Serialization
 
-<XmlType("DescriptionModel", [Namespace]:="NA")>
+<XmlType("DescriptionModel", [Namespace]:=RDFEntity.XmlnsNamespace)>
 Public MustInherit Class Description
 
     <XmlNamespaceDeclarations()>
@@ -64,8 +64,22 @@ Public MustInherit Class Description
     <XmlAttribute("about", [Namespace]:=RDFEntity.XmlnsNamespace)>
     Public Property about As String
 
+    <XmlElement("type", [Namespace]:=RDFEntity.XmlnsNamespace)>
+    Public Property type As RDFType
+
+    <XmlElement("label", [Namespace]:=RDFEntity.rdfs)>
+    Public Property label As String
+
+    <XmlElement("comment", [Namespace]:=RDFEntity.rdfs)>
+    Public Property comment As String
+
     Sub New()
         xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
+        xmlns.Add("rdfs", RDFEntity.rdfs)
     End Sub
+
+    Public Overrides Function ToString() As String
+        Return $"{label};  # {comment}"
+    End Function
 
 End Class
