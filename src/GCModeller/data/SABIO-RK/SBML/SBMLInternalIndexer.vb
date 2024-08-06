@@ -96,8 +96,8 @@ Namespace SBML
             species = sbml.sbml.model.listOfSpecies.ToDictionary(Function(c) c.id)
 
             For Each sp In species.Values
-                If Not sp.annotation?.RDF?.description?.is.IsNullOrEmpty Then
-                    For Each bag In sp.annotation.RDF.description.is
+                If Not sp.annotation?.RDF?.description.ElementAtOrNull(0)?.is.IsNullOrEmpty Then
+                    For Each bag In sp.annotation.RDF.description(0).is
                         For Each li In bag.Bag.list
                             ref = li.getIdentifier
 
@@ -131,7 +131,7 @@ Namespace SBML
 
         Private Function factorString(factor As SpeciesReference) As (String, ref As String, xref As String())
             Dim ref = getSpecies(factor.species)
-            Dim reference = ref.annotation?.RDF.description.is
+            Dim reference = ref.annotation?.RDF.description(0).is
             Dim annos As String() = reference _
                 .SafeQuery _
                 .Select(Function(bag) bag.Bag.list) _

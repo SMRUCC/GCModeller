@@ -288,6 +288,46 @@ Module uniprot
     End Function
 
     ''' <summary>
+    ''' get related pathway names of current protein
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns></returns>
+    <ExportAPI("get_pathways")>
+    Public Function get_pathwayNames(prot As entry) As String()
+        Dim pathways = prot.CommentList _
+            .TryGetValue("pathway") _
+            .SafeQuery _
+            .Select(Function(c) c.GetText.StringSplit(";\s*")) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+        Return pathways
+    End Function
+
+    <ExportAPI("get_reactions")>
+    Public Function get_reactions(prot As entry) As Object
+        Dim catalytic = prot.CommentList.TryGetValue("catalytic activity")
+        Dim list As list = list.empty
+
+        For Each reaction As reaction In catalytic.Select(Function(r) r.reaction)
+            If reaction Is Nothing Then
+                Continue For
+            End If
+
+            list.add(reaction.text, New list With {
+                .slots = New Dictionary(Of String, Object) From {
+                    {"equation", reaction.text},
+                    {"ec_number", reaction.GetECNumber},
+                    {"metabolites", reaction.GetChEBI}
+                }
+            })
+        Next
+
+        Return list
+    End Function
+
+    ''' <summary>
     ''' get external database reference id set
     ''' </summary>
     ''' <param name="prot"></param>

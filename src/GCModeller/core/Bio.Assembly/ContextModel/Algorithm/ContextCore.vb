@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ContextModel
 
@@ -82,10 +82,10 @@ Namespace ContextModel
             Dim result As IEnumerable(Of IntTag(Of T)) = Nothing
 
             If Not dataSource.Desc Then ' 目标序列是升序排序的
-                Dim n As Integer = loci.Right + dist
+                Dim n As Integer = loci.right + dist
                 result = dataSource.SelectUntilGreaterThan(n)
             Else ' 目标序列是降序排序的
-                Dim n As Integer = loci.Left - dist
+                Dim n As Integer = loci.left - dist
                 result = dataSource.SelectUntilLessThan(n)
             End If
 
@@ -118,7 +118,7 @@ Namespace ContextModel
             Dim LQuery As T() =
                 LinqAPI.Exec(Of T) <= From gene As T
                                       In genes
-                                      Where stdNum.Abs(GetATGDistance(loci, gene)) <= ATGdist
+                                      Where std.Abs(GetATGDistance(loci, gene)) <= ATGdist
                                       Select gene '获取ATG距离小于阈值的所有基因
             Return LQuery
         End Function

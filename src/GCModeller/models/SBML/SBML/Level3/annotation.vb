@@ -152,16 +152,18 @@ Namespace Level3
                 Return
             End If
 
-            If RDF.description Is Nothing Then
+            If RDF.description.IsNullOrEmpty Then
                 Return
             End If
 
-            For Each map As [is] In maps(RDF.description).SafeQuery
-                If Not map.Bag Is Nothing Then
-                    For Each item As li In map.Bag.list
-                        Yield item.resource.Split("/"c).Last
-                    Next
-                End If
+            For Each desc As SbmlAnnotationData In RDF.description
+                For Each map As [is] In maps(desc).SafeQuery
+                    If Not map.Bag Is Nothing Then
+                        For Each item As li In map.Bag.list
+                            Yield item.resource.Split("/"c).Last
+                        Next
+                    End If
+                Next
             Next
         End Function
     End Class

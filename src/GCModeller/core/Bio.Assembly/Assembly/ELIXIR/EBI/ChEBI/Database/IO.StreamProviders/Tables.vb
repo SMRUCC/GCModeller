@@ -81,7 +81,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 
@@ -129,7 +129,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
         Public Shared Function ppm(measured#, actualValue#) As Double
             ' （测量值-实际分子量）/实际分子量
             ' |(实验数据 - 数据库结果)| / 实验数据 * 1000000
-            Dim ppmd# = stdNum.Abs(measured - actualValue) / actualValue
+            Dim ppmd# = std.Abs(measured - actualValue) / actualValue
             ppmd = ppmd * 1000000
             Return ppmd
         End Function
@@ -145,7 +145,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
             ppm = ppm / 10 ^ 6
             da = measure / (1 + ppm) - measure
 
-            Return stdNum.Abs(da)
+            Return std.Abs(da)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

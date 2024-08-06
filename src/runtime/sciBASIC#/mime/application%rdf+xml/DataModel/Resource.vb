@@ -56,9 +56,23 @@ Imports System.Xml.Serialization
 ''' <summary>
 ''' a data resource reference
 ''' </summary>
+''' 
+<XmlType("resource", [Namespace]:=RDFEntity.XmlnsNamespace)>
 Public Class Resource
 
     <XmlAttribute("resource", [Namespace]:=RDFEntity.XmlnsNamespace)>
-    Public Property resource As String
+    Public Overridable Property resource As String
+
+    <XmlNamespaceDeclarations()>
+    Public xmlns As New XmlSerializerNamespaces
+
+    Sub New()
+        Call xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
+    End Sub
+
+    Public Overrides Function ToString() As String
+        Return resource
+    End Function
 
 End Class
+

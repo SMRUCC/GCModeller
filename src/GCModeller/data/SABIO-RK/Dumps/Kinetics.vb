@@ -123,8 +123,11 @@ Namespace TabularDump
         Public Shared Function Create(rxn As SBMLReaction, math As LambdaExpression, doc As SBMLInternalIndexer) As EnzymeCatalystKineticLaw
             Dim experiment = rxn.kineticLaw.annotation.sabiork.experimentalConditions
             Dim exp As String = math.lambda.ToString
-            Dim pubmeds As String() = rxn.kineticLaw.annotation.RDF.description.isDescribedBy _
-                .Select(Function(i) i.Bag.list) _
+            Dim pubmeds As String() = rxn.kineticLaw.annotation.RDF.description _
+                .Select(Function(part)
+                            Return part.isDescribedBy.Select(Function(i) i.Bag.list)
+                        End Function) _
+                .IteratesALL _
                 .IteratesALL _
                 .Where(Function(li) Strings.InStr(li.resource, "pubmed") > 0) _
                 .Select(Function(li) li.resource) _

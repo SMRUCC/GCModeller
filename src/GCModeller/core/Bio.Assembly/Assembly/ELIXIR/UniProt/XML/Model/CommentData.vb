@@ -74,6 +74,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.Uniprot.XML
@@ -94,9 +95,13 @@ Namespace Assembly.Uniprot.XML
         Public Property physiologicalReaction As reaction
 
         Public Overrides Function ToString() As String
-            Return text.ToString
+            Return GetText()
         End Function
 
+        ''' <summary>
+        ''' get text string from <see cref="text"/> data.
+        ''' </summary>
+        ''' <returns></returns>
         Public Function GetText() As String
             If text Is Nothing Then
                 Return Nothing
@@ -113,9 +118,29 @@ Namespace Assembly.Uniprot.XML
         Public Property direction As String
         <XmlAttribute>
         Public Property evidence As Integer()
+        ''' <summary>
+        ''' the text of the reaction equation
+        ''' </summary>
+        ''' <returns></returns>
         Public Property text As String
         <XmlElement("dbReference")>
         Public Property dbReferences As dbReference()
+
+        Public Function GetECNumber() As String()
+            Return dbReferences.SafeQuery _
+                .Where(Function(r) r.type = "EC") _
+                .Select(Function(r) r.id) _
+                .Distinct _
+                .ToArray
+        End Function
+
+        Public Function GetChEBI() As String()
+            Return dbReferences.SafeQuery _
+                .Where(Function(r) r.type = "ChEBI") _
+                .Select(Function(r) r.id) _
+                .Distinct _
+                .ToArray
+        End Function
 
     End Class
 
