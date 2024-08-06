@@ -62,6 +62,7 @@ Public Class Reaction : Implements INamedValue
     Public Property definition As String
     Public Property equation As Equation
     Public Property enzyme As String()
+    Public Property compounds As SideCompound()
 
     Friend Shared Function EquationParser(text As String) As Equation
         Dim eq As Equation = Equation.TryParse(text)
@@ -81,5 +82,17 @@ Public Class Reaction : Implements INamedValue
     Public Overrides Function ToString() As String
         Return definition
     End Function
+
+End Class
+
+Public Class SideCompound
+
+    Public Property side As String
+    Public Property compound As Compound
+
+    Sub New(side As String, compound As Compound)
+        _side = side
+        _compound = compound
+    End Sub
 
 End Class

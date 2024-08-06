@@ -30,22 +30,42 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
                           Function(res)
                               Return res.ToArray
                           End Function)
+        Dim objs = description.GroupBy(Function(o) o.about) _
+            .ToDictionary(Function(o) o.Key,
+                          Function(o)
+                              Return o.ToArray
+                          End Function)
 
-        For Each r As RheaDescription In groups!Reaction
-            If r.substratesOrProducts.IsNullOrEmpty AndAlso
-                r.substrates.IsNullOrEmpty AndAlso
-                r.products.IsNullOrEmpty Then
-
-                Continue For
-            End If
+        For Each r As RheaDescription In groups!DirectionalReaction
+            Dim left = r.substrates.Select(Function(c) New SideCompound("substrate", GetCompound(c, objs))).ToArray
+            Dim right = r.products.Select(Function(c) New SideCompound("product", GetCompound(c, objs))).ToArray
 
             Yield New Reaction With {
                 .definition = r.equation,
                 .entry = r.accession,
                 .enzyme = r.GetECNumber.ToArray,
-                .equation = Equation.TryParse(.definition)
+                .equation = Equation.TryParse(.definition),
+                .compounds = left.JoinIterates(right).ToArray
             }
         Next
+
+        For Each r As RheaDescription In groups!BidirectionalReaction
+            Dim compounds = r.substratesOrProducts _
+                .Select(Function(c) New SideCompound("*", GetCompound(c, objs))) _
+                .ToArray
+
+            Yield New Reaction With {
+                .definition = r.equation,
+                .entry = r.accession,
+                .enzyme = r.GetECNumber.ToArray,
+                .equation = Equation.TryParse(.definition),
+                .compounds = compounds
+            }
+        Next
+    End Function
+
+    Private Shared Function GetCompound(ref As Resource, objs As Dictionary(Of String, RheaDescription())) As Compound
+
     End Function
 
     Public Shared Function Load(doc As String) As RheaRDF
