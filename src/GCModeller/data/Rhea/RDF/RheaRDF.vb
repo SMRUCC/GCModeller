@@ -1,4 +1,5 @@
-﻿Imports System.Xml.Serialization
+﻿Imports System.Text.RegularExpressions
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
@@ -67,9 +68,19 @@ Public Class RheaDescription : Inherits Description
     End Sub
 
     Public Function GetClassType() As String
-        For Each subclassOf As Resource In Me.subClassOf.SafeQuery
+        If subClassOf Is Nothing Then
+            Return ""
+        End If
+
+        Static i32 As New Regex("\d+")
+
+        For Each subclassOf As Resource In Me.subClassOf
             If subclassOf.resource.StartsWith("http://rdf.rhea-db.org/") Then
-                Return subclassOf.resource.Replace("http://rdf.rhea-db.org/", "").Trim(" "c, "/"c)
+                Dim cls = subclassOf.resource.Replace("http://rdf.rhea-db.org/", "").Trim(" "c, "/"c)
+
+                If Not i32.Match(cls).Success Then
+                    Return cls
+                End If
             End If
         Next
 
