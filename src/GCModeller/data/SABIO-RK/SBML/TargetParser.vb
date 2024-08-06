@@ -62,7 +62,7 @@ Namespace SBML
 
         <Extension>
         Friend Iterator Function getIdentifiers(react As SBMLReaction) As IEnumerable(Of NamedValue(Of String))
-            Dim annotation = react.annotation.RDF.description
+            Dim annotation = react.annotation.RDF.description(0)
 
             If Not annotation.is.IsNullOrEmpty Then
                 For Each ref In annotation.is

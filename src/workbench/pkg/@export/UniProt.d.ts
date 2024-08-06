@@ -13,6 +13,16 @@ declare namespace uniprot {
    */
    function get_description(prot: object): string;
    /**
+    * get related pathway names of current protein
+    * 
+    * 
+     * @param prot -
+   */
+   function get_pathways(prot: object): string;
+   /**
+   */
+   function get_reactions(prot: object): any;
+   /**
    */
    function get_sequence(prot: object): object;
    /**
