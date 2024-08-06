@@ -68,6 +68,7 @@ Module Module1
     End Sub
 
     Sub Main()
+        Call load_rheaDataabse()
         Call rhea_rdf_test()
         Call parseMathMLTest()
     End Sub
@@ -99,5 +100,12 @@ Module Module1
 
         Call doc.GetXml.SaveTo("Z:/dddddd.xml")
         Call Pause()
+    End Sub
+
+    Sub load_rheaDataabse()
+        Dim doc As RheaRDF = RheaRDF.Load("J:\ossfs\rhea.rdf")
+        Dim reactions = doc.GetReactions.ToArray
+
+        Pause()
     End Sub
 End Module
