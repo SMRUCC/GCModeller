@@ -54,6 +54,7 @@
 Imports SMRUCC.genomics.Model.SBML.Level3
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports SMRUCC.genomics.Data.Rhea
 
 Module Module1
 
@@ -67,6 +68,7 @@ Module Module1
     End Sub
 
     Sub Main()
+        Call rhea_rdf_test()
         Call parseMathMLTest()
     End Sub
 
@@ -84,9 +86,18 @@ Module Module1
         }
         }}}}}}
 
-        Call newML.GetXml.SaveTo("X:\11111.XML")
+        Call newML.GetXml.SaveTo("Z:\11111.XML")
 
         Pause()
     End Sub
 
+    Sub rhea_rdf_test()
+        Dim test As New RheaDescription With {.subClassOf = New Resource With {.resource = "aaaaaa"}}
+        Dim doc As New RheaRDF() With {.description = {
+            test
+        }}
+
+        Call doc.GetXml.SaveTo("Z:/dddddd.xml")
+        Call Pause()
+    End Sub
 End Module
