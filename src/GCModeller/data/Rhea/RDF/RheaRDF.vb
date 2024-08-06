@@ -30,4 +30,8 @@ Public Class RheaDescription : Inherits Description
     <XmlElement("status", [Namespace]:=RheaRDF.rh)> Public Property status As Resource
     <XmlElement("ec", [Namespace]:=RheaRDF.rh)> Public Property ec As Resource
 
+    Sub New()
+        Call MyBase.New()
+    End Sub
+
 End Class
