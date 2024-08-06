@@ -76,7 +76,6 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
 
     Private Shared Iterator Function GetCompounds(ref As Resource, objs As Dictionary(Of String, RheaDescription())) As IEnumerable(Of Compound)
         Dim links = objs(ref.resource)
-        Dim compound As Compound
 
         If links.Length = 1 AndAlso links(0).GetClassType Like compoundType Then
             Yield links(0).GetCompound
@@ -85,22 +84,19 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
 
         For Each link As RheaDescription In links
             If link.contains IsNot Nothing Then
-                compound = GetCompounds(link.contains, objs)
-
-                If Not compound Is Nothing Then
+                For Each compound In GetCompounds(link.contains, objs)
                     Yield compound
-                End If
+                Next
             End If
             If link.contains1 IsNot Nothing Then
-                compound = GetCompounds(link.contains1, objs)
-
-                If Not compound Is Nothing Then
+                For Each compound In GetCompounds(link.contains1, objs)
                     Yield compound
-                End If
+                Next
             End If
-
             If Not link.compound Is Nothing Then
-                Yield GetCompounds(link.compound, objs)
+                For Each compound In GetCompounds(link.compound, objs)
+                    Yield compound
+                Next
             End If
         Next
     End Function
