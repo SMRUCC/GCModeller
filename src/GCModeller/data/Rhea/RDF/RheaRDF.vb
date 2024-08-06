@@ -1,5 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -66,7 +67,38 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
 
     Private Shared Function GetCompound(ref As Resource, objs As Dictionary(Of String, RheaDescription())) As Compound
         Dim links = objs(ref.resource)
+        Dim compound As Compound
 
+        Static compoundType As Index(Of String) = {"Compound", "GenericCompound", "SmallMolecule",
+            "GenericPolypeptide", "GenericPolynucleotide", "GenericHeteropolysaccharide",
+            "GenericSmallMolecule", "Polymer"}
+
+        If links.Length = 1 AndAlso links(0).GetClassType Like compoundType Then
+            Return links(0).GetCompound
+        End If
+
+        For Each link As RheaDescription In links
+            If link.contains IsNot Nothing Then
+                compound = GetCompound(link.contains, objs)
+
+                If Not compound Is Nothing Then
+                    Return compound
+                End If
+            End If
+            If link.contains1 IsNot Nothing Then
+                compound = GetCompound(link.contains1, objs)
+
+                If Not compound Is Nothing Then
+                    Return compound
+                End If
+            End If
+
+            If Not link.compound Is Nothing Then
+                Return GetCompound(link.compound, objs)
+            End If
+        Next
+
+        Return Nothing
     End Function
 
     Public Shared Function Load(doc As String) As RheaRDF
