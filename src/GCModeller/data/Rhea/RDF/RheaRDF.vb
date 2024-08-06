@@ -38,8 +38,10 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
                           End Function)
 
         For Each r As RheaDescription In groups!DirectionalReaction
-            Dim left = r.substrates.Select(Function(c) New SideCompound("substrate", GetCompound(c, objs))).ToArray
-            Dim right = r.products.Select(Function(c) New SideCompound("product", GetCompound(c, objs))).ToArray
+            Dim left = r.substrates.Select(Function(c) GetCompounds(c, objs).Select(Function(ci) New SideCompound("substrate", ci))).IteratesALL.GroupBy(Function(c) c.compound.entry) _
+                .Select(Function(c) c.First).ToArray
+            Dim right = r.products.Select(Function(c) GetCompounds(c, objs).Select(Function(ci) New SideCompound("product", ci))).IteratesALL.GroupBy(Function(c) c.compound.entry) _
+                .Select(Function(c) c.First).ToArray
 
             Yield New Reaction With {
                 .definition = r.equation,
@@ -52,7 +54,10 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
 
         For Each r As RheaDescription In groups!BidirectionalReaction
             Dim compounds = r.substratesOrProducts _
-                .Select(Function(c) New SideCompound("*", GetCompound(c, objs))) _
+                .Select(Function(c) GetCompounds(c, objs).Select(Function(ci) New SideCompound("*", ci))) _
+                .IteratesALL _
+                .GroupBy(Function(c) c.compound.entry) _
+                .Select(Function(c) c.First) _
                 .ToArray
 
             Yield New Reaction With {
@@ -65,40 +70,39 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
         Next
     End Function
 
-    Private Shared Function GetCompound(ref As Resource, objs As Dictionary(Of String, RheaDescription())) As Compound
-        Dim links = objs(ref.resource)
-        Dim compound As Compound
-
-        Static compoundType As Index(Of String) = {"Compound", "GenericCompound", "SmallMolecule",
+    Shared ReadOnly compoundType As Index(Of String) = {"Compound", "GenericCompound", "SmallMolecule",
             "GenericPolypeptide", "GenericPolynucleotide", "GenericHeteropolysaccharide",
             "GenericSmallMolecule", "Polymer"}
 
+    Private Shared Iterator Function GetCompounds(ref As Resource, objs As Dictionary(Of String, RheaDescription())) As IEnumerable(Of Compound)
+        Dim links = objs(ref.resource)
+        Dim compound As Compound
+
         If links.Length = 1 AndAlso links(0).GetClassType Like compoundType Then
-            Return links(0).GetCompound
+            Yield links(0).GetCompound
+            Return
         End If
 
         For Each link As RheaDescription In links
             If link.contains IsNot Nothing Then
-                compound = GetCompound(link.contains, objs)
+                compound = GetCompounds(link.contains, objs)
 
                 If Not compound Is Nothing Then
-                    Return compound
+                    Yield compound
                 End If
             End If
             If link.contains1 IsNot Nothing Then
-                compound = GetCompound(link.contains1, objs)
+                compound = GetCompounds(link.contains1, objs)
 
                 If Not compound Is Nothing Then
-                    Return compound
+                    Yield compound
                 End If
             End If
 
             If Not link.compound Is Nothing Then
-                Return GetCompound(link.compound, objs)
+                Yield GetCompounds(link.compound, objs)
             End If
         Next
-
-        Return Nothing
     End Function
 
     Public Shared Function Load(doc As String) As RheaRDF
