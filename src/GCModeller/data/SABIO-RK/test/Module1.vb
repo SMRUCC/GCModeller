@@ -78,11 +78,11 @@ Module Module1
             .kineticLaw = New kineticLaw With {
             .annotation = New kineticLawAnnotation With {
                 .sabiork = New sabiorkAnnotation With {.kineticLawID = 5},
-                .RDF = New AnnotationInfo With {.description = New SbmlAnnotationData With {
+                .RDF = New AnnotationInfo With {.description = {New SbmlAnnotationData With {
                 .about = "12344",
                 .isDescribedBy = {New [is] With {.Bag = New MIME.application.rdf_xml.Array With {.list = {New li With {.resource = "abccc"}}}}}}}
         }
-        }}}}}
+        }}}}}}
 
         Call newML.GetXml.SaveTo("X:\11111.XML")
 
