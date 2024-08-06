@@ -95,4 +95,8 @@ Public Class SideCompound
         _compound = compound
     End Sub
 
+    Public Overrides Function ToString() As String
+        Return compound.ToString
+    End Function
+
 End Class
