@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
@@ -96,7 +97,9 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
             .enzyme = ec,
             .equation = Equation.TryParse(.definition),
             .compounds = left.JoinIterates(right).ToArray,
-            .isTransport = r.isTransport
+            .isTransport = r.isTransport,
+            .comment = r.comment,
+            .db_xrefs = r.GetDbXrefs.ToArray
         }
     End Function
 
@@ -170,7 +173,6 @@ Public Class RheaDescription : Inherits Description
 
     <XmlElement("compound", [Namespace]:=RheaRDF.rh)>
     Public Property compound As Resource
-
     <XmlElement("contains", [Namespace]:=RheaRDF.rh)> Public Property contains As Resource
     <XmlElement("contains1", [Namespace]:=RheaRDF.rh)> Public Property contains1 As Resource
 
@@ -180,6 +182,8 @@ Public Class RheaDescription : Inherits Description
     <XmlElement("substratesOrProducts", [Namespace]:=RheaRDF.rh)>
     Public Property substratesOrProducts As Resource()
 
+    <XmlElement("seeAlso", [Namespace]:=RheaRDF.rh)>
+    Public Property seeAlso As Resource()
     <XmlElement("isTransport", [Namespace]:=RheaRDF.rh)> Public Property isTransport As RDFProperty
 
     Sub New()
@@ -217,6 +221,20 @@ Public Class RheaDescription : Inherits Description
             If m.Success Then
                 Yield m.Value
             End If
+        Next
+    End Function
+
+    Public Iterator Function GetDbXrefs() As IEnumerable(Of NamedValue)
+        If seeAlso Is Nothing Then
+            Return
+        End If
+
+        For Each xref In seeAlso
+            Dim tokens = xref.resource.Split("/"c)
+            Dim id = tokens(tokens.Length - 1)
+            Dim dbname = tokens(tokens.Length - 2)
+
+            Yield New NamedValue(dbname, id)
         Next
     End Function
 

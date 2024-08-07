@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\reaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\reaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\compound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\compound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{30C08BD9-85B1-4190-9E2C-E2B89B4EE70F}|SABIO-RK\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{30C08BD9-85B1-4190-9E2C-E2B89B4EE70F}|SABIO-RK\\test\\test.vbproj|solutionrelative:sabio-rk\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\rdf\\rheardf.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\rdf\\rheardf.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +26,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Compound.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Compound.vb",
+              "RelativeDocumentMoniker": "Rhea\\Compound.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Compound.vb",
+              "RelativeToolTip": "Rhea\\Compound.vb",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwEYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-07T12:05:14.746Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -30,13 +55,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RheaRDF.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
+              "RelativeDocumentMoniker": "Rhea\\RDF\\RheaRDF.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
+              "RelativeToolTip": "Rhea\\RDF\\RheaRDF.vb",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAQwFcAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-07T11:58:23.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Reaction.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Reaction.vb",
+              "RelativeDocumentMoniker": "Rhea\\Reaction.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Reaction.vb",
+              "RelativeToolTip": "Rhea\\Reaction.vb",
+              "ViewState": "AQIAADYAAAAAAAAAAAAuwEUAAAACAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-07T11:58:06.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Module1.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\test\\Module1.vb",
               "RelativeDocumentMoniker": "SABIO-RK\\test\\Module1.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\test\\Module1.vb",
               "RelativeToolTip": "SABIO-RK\\test\\Module1.vb",
-              "ViewState": "AQIAAFQAAAAAAAAAAAAhwHMAAAAIAAAA",
+              "ViewState": "AQIAAFAAAAAAAAAAAAAQwHQAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-06T14:07:02.123Z",
               "EditorCaption": ""
