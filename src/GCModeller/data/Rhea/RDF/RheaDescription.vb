@@ -35,7 +35,7 @@ Public Class RheaDescription : Inherits Description
     <XmlElement("substratesOrProducts", [Namespace]:=RheaRDF.rh)>
     Public Property substratesOrProducts As Resource()
 
-    <XmlElement("seeAlso", [Namespace]:=RheaRDF.rh)>
+    <XmlElement("seeAlso", [Namespace]:=RDFEntity.rdfs)>
     Public Property seeAlso As Resource()
     <XmlElement("isTransport", [Namespace]:=RheaRDF.rh)> Public Property isTransport As RDFProperty
 
