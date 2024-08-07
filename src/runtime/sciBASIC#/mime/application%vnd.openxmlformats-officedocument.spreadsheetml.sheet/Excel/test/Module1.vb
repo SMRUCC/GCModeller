@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69ff5f04b49f729cd9126b28d35d4099, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::26bccae598a2ac5cec3b4c552ffddbc5, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\test\Module1.vb"
 
     ' Author:
     ' 
@@ -34,23 +34,24 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 20
-    '    Code Lines: 15 (75.00%)
-    ' Comment Lines: 0 (0.00%)
+    '   Total Lines: 27
+    '    Code Lines: 19 (70.37%)
+    ' Comment Lines: 1 (3.70%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (25.00%)
-    '     File Size: 742 B
+    '   Blank Lines: 7 (25.93%)
+    '     File Size: 1006 B
 
 
     ' Module Module1
     ' 
-    '     Sub: testWriter
+    '     Sub: testWriter, zip_test
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.Writer
 
 Module Module1
@@ -63,10 +64,16 @@ Module Module1
 
         workbook.AddWorksheet("page_nooote")
         workbook.CurrentWorksheet.AddNextCell("Test22222") ' Add cell A1
-        workbook.CurrentWorksheet.AddNextCell(4323355.2) ' Add cell B1
+        workbook.CurrentWorksheet.AddNextCell(4323355.2, New Style With {.CurrentFill = New Style.Fill With {.BackgroundColor = "FFFFBB66"}}) ' Add cell B1
         workbook.CurrentWorksheet.AddNextCell(DateTime.Now) ' Add cell C1
 
         workbook.Save()
+
+        ' Pause()
+    End Sub
+
+    Sub zip_test()
+        Dim xlsx As New ZipStream("basic.xlsx", is_readonly:=True)
 
         Pause()
     End Sub
