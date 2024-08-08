@@ -22,4 +22,14 @@ Module Rhea
     Public Function openRDF(file As String) As RheaRDF
         Return file.LoadXml(Of RheaRDF)
     End Function
+
+    ''' <summary>
+    ''' Load reaction models from rhea rdf database file
+    ''' </summary>
+    ''' <param name="rhea"></param>
+    ''' <returns></returns>
+    <ExportAPI("reactions")>
+    Public Function load_reactions(rhea As RheaRDF) As Reaction()
+        Return rhea.GetReactions.ToArray
+    End Function
 End Module

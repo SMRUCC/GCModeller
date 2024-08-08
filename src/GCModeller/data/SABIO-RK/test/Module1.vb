@@ -54,6 +54,8 @@
 Imports SMRUCC.genomics.Model.SBML.Level3
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports SMRUCC.genomics.Data.Rhea
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module Module1
 
@@ -67,6 +69,8 @@ Module Module1
     End Sub
 
     Sub Main()
+        Call load_rheaDataabse()
+        Call rhea_rdf_test()
         Call parseMathMLTest()
     End Sub
 
@@ -78,15 +82,38 @@ Module Module1
             .kineticLaw = New kineticLaw With {
             .annotation = New kineticLawAnnotation With {
                 .sabiork = New sabiorkAnnotation With {.kineticLawID = 5},
-                .RDF = New AnnotationInfo With {.description = New SbmlAnnotationData With {
+                .RDF = New AnnotationInfo With {.description = {New SbmlAnnotationData With {
                 .about = "12344",
                 .isDescribedBy = {New [is] With {.Bag = New MIME.application.rdf_xml.Array With {.list = {New li With {.resource = "abccc"}}}}}}}
         }
-        }}}}}
+        }}}}}}
 
-        Call newML.GetXml.SaveTo("X:\11111.XML")
+        Call newML.GetXml.SaveTo("Z:\11111.XML")
 
         Pause()
     End Sub
 
+    Sub rhea_rdf_test()
+        Dim test As New RheaDescription With {
+            .subClassOf = {New Resource With {.resource = "aaaaaa"}},
+            .type = New RDFType With {.resource = "xxxxx"},
+            .about = "test"
+        }
+        Dim doc As New RheaRDF() With {.description = {
+            test
+        }}
+
+        Call doc.GetXml.SaveTo("Z:/dddddd.xml")
+        Call Pause()
+    End Sub
+
+    Sub load_rheaDataabse()
+        Dim doc As RheaRDF = RheaRDF.Load("J:\ossfs\rhea.rdf")
+        Dim reactions = doc.GetReactions.ToArray
+
+        Call reactions.GetJson.SaveTo("Z:/rhea.json")
+        Call New ReactionList With {.items = reactions}.GetXml.SaveTo("Z:/rhea.xml")
+
+        Pause()
+    End Sub
 End Module

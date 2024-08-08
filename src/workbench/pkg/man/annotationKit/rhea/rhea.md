@@ -5,3 +5,4 @@ Rhea is an expert-curated knowledgebase of chemical and transport reactions of b
  dictionary ChEBI (Chemical Entities of Biological Interest) to describe reaction participants.
 
 + [open.rdf](rhea/open.rdf.1) open the rdf data pack of Rhea database
++ [reactions](rhea/reactions.1) Load reaction models from rhea rdf database file

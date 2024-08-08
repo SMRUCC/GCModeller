@@ -149,9 +149,9 @@ Namespace ComponentModel.Annotation
         ''' 1.2.-.-
         ''' ```
         ''' </summary>
-        Public Const PatternECNumber$ = "\d(\.((\d+)|[-]))+"
+        Public Const PatternECNumber$ = "\d(\.((\d+)|[-])){3}"
 
-        Shared ReadOnly r As New Regex(PatternECNumber)
+        Public Shared ReadOnly r As New Regex(PatternECNumber, RegexOptions.Compiled)
 
         ''' <summary>
         ''' 解析一个EC编号字符串，如果出现格式错误，则返回空值
