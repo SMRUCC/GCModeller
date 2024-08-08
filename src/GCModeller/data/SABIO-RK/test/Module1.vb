@@ -112,6 +112,7 @@ Module Module1
         Dim reactions = doc.GetReactions.ToArray
 
         Call reactions.GetJson.SaveTo("Z:/rhea.json")
+        Call New ReactionList With {.items = reactions}.GetXml.SaveTo("Z:/rhea.xml")
 
         Pause()
     End Sub

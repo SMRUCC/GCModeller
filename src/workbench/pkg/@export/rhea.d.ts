@@ -21,4 +21,11 @@ declare namespace rhea {
       */
       function rdf(file: string): object;
    }
+   /**
+    * Load reaction models from rhea rdf database file
+    * 
+    * 
+     * @param rhea -
+   */
+   function reactions(rhea: object): object;
 }
