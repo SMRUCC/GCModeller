@@ -1,66 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::92d98efbad2a0d3b060936e724b32414, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BlockSearchFunction.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 239
-    '    Code Lines: 162 (67.78%)
-    ' Comment Lines: 40 (16.74%)
-    '    - Xml Docs: 85.00%
-    ' 
-    '   Blank Lines: 37 (15.48%)
-    '     File Size: 8.09 KB
+' Summaries:
 
 
-    '     Structure Block
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetComparision, ToString
-    ' 
-    '     Structure SequenceTag
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class BlockSearchFunction
-    ' 
-    '         Properties: Keys, numBlocks, raw, size
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: BuildIndex, GetBlock, GetOffset, getOrderSeq, Search
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 239
+'    Code Lines: 162 (67.78%)
+' Comment Lines: 40 (16.74%)
+'    - Xml Docs: 85.00%
+' 
+'   Blank Lines: 37 (15.48%)
+'     File Size: 8.09 KB
+
+
+'     Structure Block
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: GetComparision, ToString
+' 
+'     Structure SequenceTag
+' 
+'         Function: ToString
+' 
+'     Class BlockSearchFunction
+' 
+'         Properties: Keys, numBlocks, raw, size
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: BuildIndex, GetBlock, GetOffset, getOrderSeq, Search
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -71,28 +71,47 @@ Imports std = System.Math
 
 Namespace ComponentModel.Algorithm
 
+    ''' <summary>
+    ''' a data index block with boundary range for matches
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Friend Structure Block(Of T)
 
         Dim min As Double
         Dim max As Double
         Dim block As SequenceTag(Of T)()
 
+        ReadOnly zero As Boolean
+
         Friend Sub New(tmp As SequenceTag(Of T)())
             block = tmp
             min = block.First.tag
             max = block.Last.tag
+            zero = (max - min) = 0.0
         End Sub
 
         Public Overrides Function ToString() As String
             Return $"[{min} ~ {max}] {block.Length} elements"
         End Function
 
-        Friend Shared Function GetComparision() As Comparison(Of Block(Of T))
+        ''' <summary>
+        ''' test two elements theirs comparision relationship
+        ''' </summary>
+        ''' <param name="fuzzy">
+        ''' the tolerance error for matches the index node is equals to the given query value.
+        ''' this options should only works when the target index node contains only one elements
+        ''' and the boundary interval length is zero.
+        ''' </param>
+        ''' <returns></returns>
+        Friend Shared Function GetComparision(fuzzy As Double) As Comparison(Of Block(Of T))
             Return Function(source, target)
                        ' target is the input data to search
                        Dim x As Double = target.min
 
-                       If x > source.min AndAlso x < source.max Then
+                       ' 20240809 fix bug for matches when source block contains only one element
+                       ' needs a tolerance window for make matches!
+                       If (x > source.min AndAlso x < source.max) OrElse
+                            (source.zero AndAlso std.Abs(source.min - x) <= fuzzy) Then
                            Return 0
                        ElseIf source.min < x Then
                            Return -1
@@ -185,6 +204,14 @@ Namespace ComponentModel.Algorithm
             End If
         End Sub
 
+        ''' <summary>
+        ''' Create the binary search index
+        ''' </summary>
+        ''' <param name="input"></param>
+        ''' <param name="tolerance"></param>
+        ''' <param name="factor"></param>
+        ''' <param name="fuzzy"></param>
+        ''' <returns></returns>
         Private Shared Function BuildIndex(input As SequenceTag(Of T)(),
                                            tolerance As Double,
                                            factor As Double,
@@ -196,7 +223,7 @@ Namespace ComponentModel.Algorithm
             Dim min As Double = input.First.tag
             Dim max As Double = input.Last.tag
             Dim delta As Double = tolerance * factor
-            Dim compares = Algorithm.Block(Of T).GetComparision
+            Dim compares = Algorithm.Block(Of T).GetComparision(tolerance / 2)
 
             For Each x In input
                 If x.tag - min <= delta Then
@@ -246,6 +273,16 @@ Namespace ComponentModel.Algorithm
             ' has no data to query
             If size = 0 Then
                 Return -1
+            ElseIf size = 1 Then
+                ' compares the first directly
+                Dim min As Double = eval(x)
+                Dim first = binary(0)
+
+                If std.Abs(first.min - min) <= tolerance OrElse std.Abs(first.max - min) <= tolerance Then
+                    Return 0
+                Else
+                    Return -1
+                End If
             Else
                 Return binary.BinarySearch(target:=New Block(Of T) With {.min = eval(x)})
             End If
