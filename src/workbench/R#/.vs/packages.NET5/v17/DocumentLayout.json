@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\obo_dag.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\obo_dag.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{DF456A8C-EB9A-48F1-A051-2FEC55796D29}|..\\..\\GCModeller\\data\\Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\rdf\\rheadescription.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -17,21 +21,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RheaDescription.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAxwBoAAAA1AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T13:55:04.589Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -42,7 +33,33 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "OBO_DAG.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\OBO_DAG.vb",
+              "RelativeDocumentMoniker": "annotationKit\\OBO_DAG.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\OBO_DAG.vb",
+              "RelativeToolTip": "annotationKit\\OBO_DAG.vb",
+              "ViewState": "AQIAAEkAAAAAAAAAAAAAAGcAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-09T12:18:10.912Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "RheaDescription.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAuwBoAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-07T13:55:04.589Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Rhea.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\Rhea.vb",
               "RelativeDocumentMoniker": "annotationKit\\Rhea.vb",
@@ -50,8 +67,7 @@
               "RelativeToolTip": "annotationKit\\Rhea.vb",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T13:34:21.878Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-07T13:34:21.878Z"
             },
             {
               "$type": "Bookmark",
