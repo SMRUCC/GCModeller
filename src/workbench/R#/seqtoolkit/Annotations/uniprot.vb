@@ -124,6 +124,7 @@ Module uniprot
     ''' this function returns a pipeline stream of the uniprot protein entries.
     ''' </returns>
     <ExportAPI("open.uniprot")>
+    <RApiReturn(GetType(IEnumerable(Of entry)))>
     Public Function openUniprotXmlAssembly(<RRawVectorArgument>
                                            files As Object,
                                            Optional isUniParc As Boolean = False,
