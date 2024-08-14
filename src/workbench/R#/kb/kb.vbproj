@@ -7,6 +7,11 @@
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
     <OutputPath>../../pkg/assembly/</OutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Title>GCModeller knowledgebase toolkit</Title>
+    <Authors>xieguigang</Authors>
+    <Company>SMRUCC genomics</Company>
+    <Product>GCModeller</Product>
+    <Description>Data mining of the knowledge</Description>
   </PropertyGroup>
 
   <ItemGroup>

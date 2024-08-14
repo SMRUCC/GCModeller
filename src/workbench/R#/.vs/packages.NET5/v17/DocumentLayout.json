@@ -5,9 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kb\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\pubmedarticle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -17,21 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PubmedArticle.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
-              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
-              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFkAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T06:07:34.163Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -52,7 +36,7 @@
               "RelativeDocumentMoniker": "kb\\pubmed.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kb\\pubmed.vb",
               "RelativeToolTip": "kb\\pubmed.vb",
-              "ViewState": "AgIAAGQAAAAAAAAAAAA3wIkAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAIMAAAAAAAAAAAAowJIAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-14T06:07:25.114Z",
               "EditorCaption": ""
