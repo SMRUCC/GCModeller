@@ -58,7 +58,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Public Class zzz
 
     Public Shared Sub onLoad()
-        Call pubmed.Main()
+        Call pubmed_tools.Main()
         Call meshTools.Main()
     End Sub
 End Class

@@ -1,61 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::73b069155375485c4015634246b1f388, R#\kb\pubmed.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 56
-    '    Code Lines: 34 (60.71%)
-    ' Comment Lines: 18 (32.14%)
-    '    - Xml Docs: 88.89%
-    ' 
-    '   Blank Lines: 4 (7.14%)
-    '     File Size: 2.81 KB
+' Summaries:
 
 
-    ' Module pubmed
-    ' 
-    '     Function: createArticleTable, ParsePubmed
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 56
+'    Code Lines: 34 (60.71%)
+' Comment Lines: 18 (32.14%)
+'    - Xml Docs: 88.89%
+' 
+'   Blank Lines: 4 (7.14%)
+'     File Size: 2.81 KB
+
+
+' Module pubmed
+' 
+'     Function: createArticleTable, ParsePubmed
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.PubMed
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
@@ -78,11 +79,26 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 <Package("pubmed")>
 <RTypeExport("article", GetType(PubmedArticle))>
 <RTypeExport("cite", GetType(MedlineCitation))>
-Module pubmed
+Module pubmed_tools
 
     Sub Main()
         Call Internal.Object.Converts.makeDataframe.addHandler(GetType(PubmedArticle()), AddressOf createArticleTable)
     End Sub
+
+    <ExportAPI("query")>
+    Public Function QueryKeyword(keyword As String, Optional page As Integer = 1, Optional size As Integer = 2000) As String
+        Return PubMed.QueryPubmedRaw(term:=keyword, page:=page, size:=size)
+    End Function
+
+    ''' <summary>
+    ''' Parse the document text as a set of article object
+    ''' </summary>
+    ''' <param name="text"></param>
+    ''' <returns></returns>
+    <ExportAPI("article")>
+    Public Function Parse(text As String) As PubmedArticle()
+        Return PubMed.ParseArticles(text).ToArray
+    End Function
 
     <RGenericOverloads("as.data.frame")>
     Public Function createArticleTable(list As PubmedArticle(), args As list, env As Environment) As dataframe
