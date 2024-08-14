@@ -172,12 +172,7 @@ Module pubmed_tools
             End Using
         End If
 
-        Dim articles As PubmedArticleSet = LoadFromXmlStream(s, GetType(PubmedArticleSet))
-
-        If articles Is Nothing Then
-            Return Nothing
-        Else
-            Return articles.PubmedArticle
-        End If
+        Dim articles As PubmedArticle() = PubmedArticleSet.LoadStream(s).ToArray
+        Return articles
     End Function
 End Module

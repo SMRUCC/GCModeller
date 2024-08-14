@@ -1,83 +1,85 @@
 ﻿#Region "Microsoft.VisualBasic::87591f4ea57c1219700b58b1acc72a34, modules\Knowledge_base\ncbi_kb\PubMed\PubmedArticle.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 103
-    '    Code Lines: 51 (49.51%)
-    ' Comment Lines: 42 (40.78%)
-    '    - Xml Docs: 88.10%
-    ' 
-    '   Blank Lines: 10 (9.71%)
-    '     File Size: 4.70 KB
+' Summaries:
 
 
-    '     Class PubmedArticle
-    ' 
-    '         Properties: MedlineCitation, PubmedData
-    ' 
-    '     Class KeywordList
-    ' 
-    '         Properties: Keywords, Owner
-    ' 
-    '         Function: GenericEnumerator
-    ' 
-    '     Class Keyword
-    ' 
-    '         Properties: Keyword, MajorTopicYN
-    ' 
-    '     Class MedlineCitation
-    ' 
-    '         Properties: Article, ChemicalList, CitationSubset, DateCompleted, DateCreated
-    '                     DateRevised, KeywordList, MedlineJournalInfo, MeshHeadingList, Owner
-    '                     PMID, Status
-    ' 
-    '     Class MeshHeading
-    ' 
-    '         Properties: DescriptorName, QualifierName
-    ' 
-    '     Class PubmedData
-    ' 
-    '         Properties: ArticleIdList, History, PublicationStatus
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 103
+'    Code Lines: 51 (49.51%)
+' Comment Lines: 42 (40.78%)
+'    - Xml Docs: 88.10%
+' 
+'   Blank Lines: 10 (9.71%)
+'     File Size: 4.70 KB
+
+
+'     Class PubmedArticle
+' 
+'         Properties: MedlineCitation, PubmedData
+' 
+'     Class KeywordList
+' 
+'         Properties: Keywords, Owner
+' 
+'         Function: GenericEnumerator
+' 
+'     Class Keyword
+' 
+'         Properties: Keyword, MajorTopicYN
+' 
+'     Class MedlineCitation
+' 
+'         Properties: Article, ChemicalList, CitationSubset, DateCompleted, DateCreated
+'                     DateRevised, KeywordList, MedlineJournalInfo, MeshHeadingList, Owner
+'                     PMID, Status
+' 
+'     Class MeshHeading
+' 
+'         Properties: DescriptorName, QualifierName
+' 
+'     Class PubmedData
+' 
+'         Properties: ArticleIdList, History, PublicationStatus
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Linq
 
 Namespace PubMed
 
@@ -85,6 +87,22 @@ Namespace PubMed
 
         <XmlElement("PubmedArticle")>
         Public Property PubmedArticle As PubmedArticle()
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="s">A stream of a large xml document file</param>
+        ''' <returns></returns>
+        Public Shared Function LoadStream(s As Stream) As IEnumerable(Of PubmedArticle)
+            Return s.LoadUltraLargeXMLDataSet(Of PubmedArticle)(preprocess:=AddressOf ProcessXmlDocument)
+        End Function
+
+        Private Shared Function ProcessXmlDocument(s As String) As String
+            s = s.Replace("<sub>", "&lt;sub>")
+            s = s.Replace("</sub>", "&lt;/sub>")
+
+            Return s
+        End Function
 
     End Class
 
