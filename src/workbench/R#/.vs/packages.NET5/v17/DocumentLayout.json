@@ -3,10 +3,10 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\text\\xml\\linq\\linq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\terminal\\utility\\progressbar\\tqdm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\terminal\\utility\\progressbar\\tqdm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\text\\xml\\linq\\linq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kb\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -20,34 +20,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Tqdm.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
-              "ViewState": "AgIAAL4BAAAAAAAAAAAWwN4BAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T07:31:27.322Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Linq.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
-              "ViewState": "AgIAAMEBAAAAAAAAAAAnwMMBAAB5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T07:27:41.293Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -62,13 +36,39 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Tqdm.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
+              "ViewState": "AgIAANABAAAAAAAAAAAAAOoBAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-14T07:31:27.322Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Linq.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
+              "ViewState": "AgIAAO0AAAAAAAAAAAAewBUBAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-14T07:27:41.293Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "pubmed.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kb\\pubmed.vb",
               "RelativeDocumentMoniker": "kb\\pubmed.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kb\\pubmed.vb",
               "RelativeToolTip": "kb\\pubmed.vb",
-              "ViewState": "AgIAAJoAAAAAAAAAAAAswK4AAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAJoAAAAAAAAAAAAswK4AAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-14T07:27:29.753Z",
               "EditorCaption": ""
