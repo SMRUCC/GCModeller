@@ -74,7 +74,7 @@ declare namespace uniprot {
         * + default value Is ``null``.
         * @return this function returns a pipeline stream of the uniprot protein entries.
       */
-      function uniprot(files: any, isUniParc?: boolean, ignoreError?: boolean, env?: object): any;
+      function uniprot(files: any, isUniParc?: boolean, ignoreError?: boolean, env?: object): object;
    }
    /**
    */

@@ -136,11 +136,12 @@ Namespace PubMed
         Public Property ID As String
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"PMID:{ID}.{Version}"
         End Function
     End Class
 
     Public Class Article
+
         <XmlAttribute>
         Public Property PubModel As String
         Public Property Journal As Journal
@@ -154,6 +155,7 @@ Namespace PubMed
         Public Property Language As String
         Public Property PublicationTypeList As PublicationTypeList
         Public Property ArticleDate As PubDate
+        Public Property VernacularTitle As String
 
         Public Overrides Function ToString() As String
             Return ArticleTitle
@@ -164,6 +166,7 @@ Namespace PubMed
 
         <XmlElement("PublicationType")>
         Public Property PublicationType As RegisterObject()
+
     End Class
 
     Public Class AuthorList : Implements Enumeration(Of Author)
@@ -258,7 +261,12 @@ Namespace PubMed
     End Class
 
     Public Class Pagination
+
         Public Property MedlinePgn As String
+
+        Public Overrides Function ToString() As String
+            Return MedlinePgn
+        End Function
     End Class
 
     Public Class Journal

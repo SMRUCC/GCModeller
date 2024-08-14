@@ -61,19 +61,32 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace PubMed
 
     Public Class MedlineJournalInfo
+
         Public Property Country As String
         Public Property MedlineTA As String
         Public Property NlmUniqueID As String
         Public Property ISSNLinking As String
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+
     End Class
 
     Public Class Chemical
+
         Public Property RegistryNumber As String
         Public Property NameOfSubstance As RegisterObject
+
+        Public Overrides Function ToString() As String
+            Return NameOfSubstance.ToString
+        End Function
+
     End Class
 
     Public Class RegisterObject
@@ -84,5 +97,10 @@ Namespace PubMed
         Public Property MajorTopicYN As String
         <XmlText>
         Public Property Value As String
+
+        Public Overrides Function ToString() As String
+            Return $"[{UI}] {Value}"
+        End Function
+
     End Class
 End Namespace
