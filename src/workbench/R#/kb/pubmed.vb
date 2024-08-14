@@ -153,10 +153,17 @@ Module pubmed_tools
         End If
 
         ' test gz or ascii text
-        Dim s As New MemoryStream
-        buf.TryCast(Of Stream).CopyTo(s)
-        s.Flush()
-        s.Seek(Scan0, SeekOrigin.Begin)
+        Dim s As MemoryStream
+
+        If buf Like GetType(MemoryStream) Then
+            s = buf.TryCast(Of MemoryStream)
+        Else
+            s = New MemoryStream
+            buf.TryCast(Of Stream).CopyTo(s)
+            s.Flush()
+            s.Seek(Scan0, SeekOrigin.Begin)
+        End If
+
         If s.CheckGZipMagic Then
             Using gzipStream As New GZipStream(s, CompressionMode.Decompress)
                 s = New MemoryStream
