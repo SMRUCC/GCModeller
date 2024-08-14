@@ -53,12 +53,16 @@
 
 #End Region
 
+Imports System.IO
+Imports System.IO.Compression
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.PubMed
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
@@ -93,7 +97,9 @@ Module pubmed_tools
     ''' <summary>
     ''' Parse the document text as a set of article object
     ''' </summary>
-    ''' <param name="text"></param>
+    ''' <param name="text">
+    ''' the pubmed database in flat file format
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("article")>
     Public Function Parse(text As String) As PubmedArticle()
@@ -114,7 +120,7 @@ Module pubmed_tools
     ''' <summary>
     ''' parse the text data as the article information
     ''' </summary>
-    ''' <param name="text">text data in pubmed format</param>
+    ''' <param name="text">text data in pubmed flat file format</param>
     ''' <returns></returns>
     <ExportAPI("parse")>
     <RApiReturn(GetType(PubmedArticle))>
@@ -123,5 +129,48 @@ Module pubmed_tools
             .Select(Function(si) PubMedServicesExtensions.ParseArticles(si)) _
             .IteratesALL _
             .ToArray
+    End Function
+
+    ''' <summary>
+    ''' Parse the pubmed article set xml stream data
+    ''' </summary>
+    ''' <param name="file">
+    ''' a single file that contains the pubmed article set data, data could be download from the pubmed ftp server in batch.
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' batch download of the pubmed data from ncbi ftp server:
+    ''' 
+    ''' > ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/
+    ''' </remarks>
+    <ExportAPI("parse.article_set")>
+    Public Function ParseArticleSetXml(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim buf = SMRUCC.Rsharp.GetFileStream(file, IO.FileAccess.Read, env)
+
+        If buf Like GetType(Message) Then
+            Return buf.TryCast(Of Message)
+        End If
+
+        ' test gz or ascii text
+        Dim s As New MemoryStream
+        buf.TryCast(Of Stream).CopyTo(s)
+        s.Flush()
+        s.Seek(Scan0, SeekOrigin.Begin)
+        If s.CheckGZipMagic Then
+            Using gzipStream As New GZipStream(s, CompressionMode.Decompress)
+                s = New MemoryStream
+                gzipStream.CopyTo(s)
+                s.Seek(Scan0, SeekOrigin.Begin)
+            End Using
+        End If
+
+        Dim articles As PubmedArticleSet = LoadFromXmlStream(s, GetType(PubmedArticleSet))
+
+        If articles Is Nothing Then
+            Return Nothing
+        Else
+            Return articles.PubmedArticle
+        End If
     End Function
 End Module

@@ -81,11 +81,21 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace PubMed
 
+    Public Class PubmedArticleSet
+
+        <XmlElement("PubmedArticle")>
+        Public Property PubmedArticle As PubmedArticle()
+
+    End Class
+
     ''' <summary>
     ''' PubMed® comprises more than 36 million citations for biomedical literature from MEDLINE, 
     ''' life science journals, and online books. Citations may include links to full text content 
     ''' from PubMed Central and publisher web sites.
     ''' </summary>
+    ''' <remarks>
+    ''' A single pubmed article object inside a xml metadata file
+    ''' </remarks>
     Public Class PubmedArticle
 
         ''' <summary>
