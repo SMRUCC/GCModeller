@@ -65,9 +65,11 @@ Namespace PubMed
     Public Class History
 
         <XmlElement("PubMedPubDate")> Public Property PubMedPubDate As PubDate()
+
     End Class
 
     Public Class ArticleId
+
         <XmlAttribute>
         Public Property IdType As String
         <XmlText>

@@ -79,6 +79,7 @@
 Imports System.IO
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Linq
 
 Namespace PubMed
@@ -123,13 +124,22 @@ Namespace PubMed
         Public Property MedlineCitation As MedlineCitation
         Public Property PubmedData As PubmedData
 
+        Public Overrides Function ToString() As String
+            Return MedlineCitation.ToString
+        End Function
+
     End Class
 
     Public Class KeywordList : Implements Enumeration(Of Keyword)
+
         <XmlAttribute>
         Public Property Owner As String
         <XmlElement("Keyword")>
         Public Property Keywords As Keyword()
+
+        Public Overrides Function ToString() As String
+            Return Keywords.SafeQuery.Select(Function(kw) kw.Keyword).GetJson
+        End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Keyword) Implements Enumeration(Of Keyword).GenericEnumerator
             If Not Keywords Is Nothing Then
@@ -141,10 +151,15 @@ Namespace PubMed
     End Class
 
     Public Class Keyword
+
         <XmlAttribute>
         Public Property MajorTopicYN As String
         <XmlText>
         Public Property Keyword As String
+
+        Public Overrides Function ToString() As String
+            Return Keyword
+        End Function
     End Class
 
     ''' <summary>
@@ -181,8 +196,9 @@ Namespace PubMed
     ''' audience.
     ''' </remarks>
     Public Class MedlineCitation
-        Public Property Status As String
-        Public Property Owner As String
+        <XmlAttribute> Public Property Status As String
+        <XmlAttribute> Public Property Owner As String
+
         Public Property PMID As PMID
         Public Property DateCreated As PubDate
         Public Property DateCompleted As PubDate
@@ -193,17 +209,32 @@ Namespace PubMed
         Public Property CitationSubset As String
         Public Property MeshHeadingList As MeshHeading()
         Public Property KeywordList As KeywordList
+
+        Public Overrides Function ToString() As String
+            Return Article.ToString
+        End Function
     End Class
 
     Public Class MeshHeading
+
         Public Property DescriptorName As RegisterObject
         <XmlElement("QualifierName")>
         Public Property QualifierName As RegisterObject()
+
+        Public Overrides Function ToString() As String
+            Return DescriptorName.ToString
+        End Function
     End Class
 
     Public Class PubmedData
+
         Public Property History As History
         Public Property PublicationStatus As String
         Public Property ArticleIdList As ArticleId()
+
+        Public Overrides Function ToString() As String
+            Return PublicationStatus
+        End Function
+
     End Class
 End Namespace
