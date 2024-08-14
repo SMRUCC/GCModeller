@@ -3,41 +3,14 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\pubmedarticle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\text\\xml\\linq\\linq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\medlinecitation\\components.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\medlinecitation\\article.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\components\\pubdate.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\pubmeddata\\data.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\terminal\\utility\\progressbar\\tqdm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kb\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\text\\xml\\linq\\linq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\text\\xml\\linq\\deserializehandler.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\text\\xml\\linq\\datasetwriter.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\text\\xml\\linq\\iterator\\nodeiterator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\text\\xml\\linq\\iterator\\nodeiteratorimpl.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\text\\xml\\linq\\entity.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -47,58 +20,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Components.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Components.vb",
-              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Components.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Components.vb",
-              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Components.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwFAAAAARAAAAAAAAAA==",
+              "Title": "Tqdm.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm.vb",
+              "ViewState": "AgIAAL4BAAAAAAAAAAAWwN4BAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T07:23:16.53Z",
+              "WhenOpened": "2024-08-14T07:31:27.322Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Article.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
-              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
-              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAI4AAAARAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Linq.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
+              "ViewState": "AgIAAJ4BAAAAAAAAAAAjwOYBAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T07:20:23.422Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PubDate.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\Components\\PubDate.vb",
-              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\Components\\PubDate.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\Components\\PubDate.vb",
-              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\Components\\PubDate.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwD4AAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T07:18:25.788Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Data.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedData\\Data.vb",
-              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedData\\Data.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedData\\Data.vb",
-              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedData\\Data.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAABMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T07:17:52.748Z",
+              "WhenOpened": "2024-08-14T07:27:41.293Z",
               "EditorCaption": ""
             },
             {
@@ -115,106 +62,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PubmedArticle.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
-              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
-              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
-              "ViewState": "AgIAAL0AAAAAAAAAAAASwM8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T07:03:39.954Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Linq.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Linq.vb",
-              "ViewState": "AgIAAEABAAAAAAAAAAAjwFYBAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T06:59:43.099Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Entity.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Entity.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Entity.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Entity.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Entity.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T06:59:42.236Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "DeserializeHandler.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\DeserializeHandler.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\DeserializeHandler.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\DeserializeHandler.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\DeserializeHandler.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T06:59:37.397Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "DataSetWriter.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\DataSetWriter.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\DataSetWriter.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\DataSetWriter.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\DataSetWriter.vb",
-              "ViewState": "AgIAAFQAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T06:59:31.978Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "NodeIterator.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Iterator\\NodeIterator.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Iterator\\NodeIterator.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Iterator\\NodeIterator.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Iterator\\NodeIterator.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T06:59:29.788Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "NodeIteratorImpl.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Iterator\\NodeIteratorImpl.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Iterator\\NodeIteratorImpl.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Iterator\\NodeIteratorImpl.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Xml\\Linq\\Iterator\\NodeIteratorImpl.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T06:59:29.13Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "pubmed.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kb\\pubmed.vb",
               "RelativeDocumentMoniker": "kb\\pubmed.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kb\\pubmed.vb",
               "RelativeToolTip": "kb\\pubmed.vb",
-              "ViewState": "AgIAAIwAAAAAAAAAAAAowK4AAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAJoAAAAAAAAAAAAswK4AAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-14T06:07:25.114Z",
+              "WhenOpened": "2024-08-14T07:27:29.753Z",
               "EditorCaption": ""
             }
           ]
