@@ -115,7 +115,7 @@ Namespace PubMed
             Call str.Replace("<i>", "&lt;i>")
             Call str.Replace("</i>", "&lt;/i>")
 
-            Return s
+            Return str.ToString
         End Function
 
     End Class
