@@ -56,11 +56,13 @@
 Imports System.IO
 Imports System.IO.Compression
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.PubMed
+Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
@@ -87,7 +89,31 @@ Module pubmed_tools
 
     Sub Main()
         Call Internal.Object.Converts.makeDataframe.addHandler(GetType(PubmedArticle()), AddressOf createArticleTable)
+        Call Internal.generic.add("summary", GetType(PubmedArticle), AddressOf get_article_info)
     End Sub
+
+    <RGenericOverloads("summary")>
+    Private Function get_article_info(article As PubmedArticle, args As list, env As Environment) As Object
+        Dim summary As New list(
+            slot("PMID") = article.PMID,
+            slot("title") = article.GetTitle,
+            slot("journal") = article.GetJournal,
+            slot("authors") = article.GetAuthors.ToArray,
+            slot("doi") = article.GetArticleDoi,
+            slot("year") = article.GetPublishYear,
+            slot("abstract") = article.GetAbstractText
+        )
+        Dim mesh As list = list.empty
+
+        For Each term As NamedValue(Of String) In article.GetMeshTerms
+            Call mesh.add(term.Name, term.Value)
+        Next
+
+        Call summary.add("mesh", mesh)
+        Call summary.setAttribute("summary", article.ToString)
+
+        Return summary
+    End Function
 
     <ExportAPI("query")>
     Public Function QueryKeyword(keyword As String, Optional page As Integer = 1, Optional size As Integer = 2000) As String
