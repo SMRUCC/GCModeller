@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>parse the text data as the article information</title>
+    <title>Parse the pubmed article set xml stream data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>parse {pubmed}</td>
+                <td>parse.article_set {pubmed}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>parse the text data as the article information</h2>
+        <h2>Parse the pubmed article set xml stream data</h2>
 
         <h3>Description</h3>
 
@@ -27,22 +27,29 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>parse</strong>(<i>text</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>parse.article_set</strong>(<i>file</i>,
+    <i>tqdm</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>text</dt>
-<dd><p>text data in pubmed flat file format</p></dd>
+<dt>file</dt>
+<dd><p>a single file that contains the pubmed article set data, data could be download from the pubmed ftp server in batch.</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>batch download of the pubmed data from ncbi ftp server:
+ 
+ ><a href='ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/' title='ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/'>ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/</a></p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -50,7 +57,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/Knowledge_base/NCBI/PubMed/PubmedArticle.html">PubmedArticle</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/Knowledge_base/NCBI/PubMed/PubmedArticle.html">PubmedArticle</a></li></ul>
+        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

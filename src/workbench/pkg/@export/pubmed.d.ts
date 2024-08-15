@@ -2,7 +2,7 @@
 //
 //    imports "pubmed" from "kb";
 //
-// ref=kb.pubmed@kb, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=kb.pubmed_tools@kb, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * PubMed is a free resource supporting the search and retrieval of biomedical and life sciences 
@@ -20,10 +20,32 @@
 */
 declare namespace pubmed {
    /**
-    * parse the text data as the article information
+    * Parse the document text as a set of article object
     * 
     * 
-     * @param text text data in pubmed format
+     * @param text the pubmed database in flat file format
    */
-   function parse(text: any): object;
+   function article(text: string): object;
+   module parse {
+      /**
+       * Parse the pubmed article set xml stream data
+       * 
+       * > batch download of the pubmed data from ncbi ftp server:
+       * >  
+       * >  > ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/
+       * 
+        * @param file a single file that contains the pubmed article set data, data could be download from the pubmed ftp server in batch.
+        * @param tqdm 
+        * + default value Is ``true``.
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function article_set(file: any, tqdm?: boolean, env?: object): any;
+   }
+   /**
+     * @param page default value Is ``1``.
+     * @param size default value Is ``2000``.
+   */
+   function query(keyword: string, page?: object, size?: object): string;
 }

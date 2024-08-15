@@ -1,91 +1,133 @@
 ﻿#Region "Microsoft.VisualBasic::87591f4ea57c1219700b58b1acc72a34, modules\Knowledge_base\ncbi_kb\PubMed\PubmedArticle.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 103
-    '    Code Lines: 51 (49.51%)
-    ' Comment Lines: 42 (40.78%)
-    '    - Xml Docs: 88.10%
-    ' 
-    '   Blank Lines: 10 (9.71%)
-    '     File Size: 4.70 KB
+' Summaries:
 
 
-    '     Class PubmedArticle
-    ' 
-    '         Properties: MedlineCitation, PubmedData
-    ' 
-    '     Class KeywordList
-    ' 
-    '         Properties: Keywords, Owner
-    ' 
-    '         Function: GenericEnumerator
-    ' 
-    '     Class Keyword
-    ' 
-    '         Properties: Keyword, MajorTopicYN
-    ' 
-    '     Class MedlineCitation
-    ' 
-    '         Properties: Article, ChemicalList, CitationSubset, DateCompleted, DateCreated
-    '                     DateRevised, KeywordList, MedlineJournalInfo, MeshHeadingList, Owner
-    '                     PMID, Status
-    ' 
-    '     Class MeshHeading
-    ' 
-    '         Properties: DescriptorName, QualifierName
-    ' 
-    '     Class PubmedData
-    ' 
-    '         Properties: ArticleIdList, History, PublicationStatus
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 103
+'    Code Lines: 51 (49.51%)
+' Comment Lines: 42 (40.78%)
+'    - Xml Docs: 88.10%
+' 
+'   Blank Lines: 10 (9.71%)
+'     File Size: 4.70 KB
+
+
+'     Class PubmedArticle
+' 
+'         Properties: MedlineCitation, PubmedData
+' 
+'     Class KeywordList
+' 
+'         Properties: Keywords, Owner
+' 
+'         Function: GenericEnumerator
+' 
+'     Class Keyword
+' 
+'         Properties: Keyword, MajorTopicYN
+' 
+'     Class MedlineCitation
+' 
+'         Properties: Article, ChemicalList, CitationSubset, DateCompleted, DateCreated
+'                     DateRevised, KeywordList, MedlineJournalInfo, MeshHeadingList, Owner
+'                     PMID, Status
+' 
+'     Class MeshHeading
+' 
+'         Properties: DescriptorName, QualifierName
+' 
+'     Class PubmedData
+' 
+'         Properties: ArticleIdList, History, PublicationStatus
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
+Imports System.Text
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Xml.Linq
 
 Namespace PubMed
+
+    Public Class PubmedArticleSet
+
+        <XmlElement("PubmedArticle")>
+        Public Property PubmedArticle As PubmedArticle()
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="s">A stream of a large xml document file</param>
+        ''' <returns></returns>
+        Public Shared Function LoadStream(s As Stream, Optional tqdm As Boolean = True) As IEnumerable(Of PubmedArticle)
+            Return s.LoadUltraLargeXMLDataSet(Of PubmedArticle)(preprocess:=AddressOf ProcessXmlDocument, tqdm:=tqdm)
+        End Function
+
+        Private Shared Function ProcessXmlDocument(s As String) As String
+            Dim str As New StringBuilder(s)
+
+            Call str.Replace("<sub>", "&lt;sub>")
+            Call str.Replace("</sub>", "&lt;/sub>")
+            Call str.Replace("<sup>", "&lt;sup>")
+            Call str.Replace("</sup>", "&lt;/sup>")
+            Call str.Replace("<b>", "&lt;b>")
+            Call str.Replace("</b>", "&lt;/b>")
+            Call str.Replace("<u>", "&lt;u>")
+            Call str.Replace("</u>", "&lt;/u>")
+            Call str.Replace("<i>", "&lt;i>")
+            Call str.Replace("</i>", "&lt;/i>")
+
+            Return str.ToString
+        End Function
+
+    End Class
 
     ''' <summary>
     ''' PubMed® comprises more than 36 million citations for biomedical literature from MEDLINE, 
     ''' life science journals, and online books. Citations may include links to full text content 
     ''' from PubMed Central and publisher web sites.
     ''' </summary>
+    ''' <remarks>
+    ''' A single pubmed article object inside a xml metadata file
+    ''' </remarks>
     Public Class PubmedArticle
 
         ''' <summary>
@@ -95,13 +137,128 @@ Namespace PubMed
         Public Property MedlineCitation As MedlineCitation
         Public Property PubmedData As PubmedData
 
+        Public ReadOnly Property PMID As String
+            Get
+                If MedlineCitation IsNot Nothing Then
+                    Return MedlineCitation.PMID.ID
+                End If
+
+                Return Nothing
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            Return MedlineCitation.ToString
+        End Function
+
+        Public Function GetTitle() As String
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    Return MedlineCitation.Article.ArticleTitle
+                End If
+            End If
+
+            Return Nothing
+        End Function
+
+        Public Function GetJournal() As String
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    If MedlineCitation.Article.Journal IsNot Nothing Then
+                        Return MedlineCitation.Article.Journal.Title
+                    End If
+                End If
+            End If
+
+            Return Nothing
+        End Function
+
+        Public Iterator Function GetAuthors() As IEnumerable(Of String)
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    For Each author As Author In MedlineCitation.Article.AuthorList.AsEnumerable
+                        If Not author Is Nothing Then
+                            Yield $"{author.ForeName} {author.LastName}"
+                        End If
+                    Next
+                End If
+            End If
+        End Function
+
+        Public Function GetArticleDoi() As String
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    If Not MedlineCitation.Article.ELocationID.IsNullOrEmpty Then
+                        Return MedlineCitation.Article.ELocationID.KeyItem("doi")?.Value
+                    End If
+                End If
+            End If
+
+            Return "-"
+        End Function
+
+        Public Function GetPublishYear() As Integer
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    If MedlineCitation.Article.Journal IsNot Nothing Then
+                        If MedlineCitation.Article.Journal.JournalIssue IsNot Nothing Then
+                            If MedlineCitation.Article.Journal.JournalIssue.PubDate IsNot Nothing Then
+                                Return MedlineCitation.Article.Journal.JournalIssue.PubDate.Year
+                            End If
+                        End If
+                    End If
+                    If MedlineCitation.Article.ArticleDate IsNot Nothing Then
+                        Return MedlineCitation.Article.ArticleDate.Year
+                    End If
+                End If
+            End If
+
+            Return 0
+        End Function
+
+        Public Function GetAbstractText() As String
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    If MedlineCitation.Article.Abstract IsNot Nothing AndAlso Not MedlineCitation.Article.Abstract.AbstractText.IsNullOrEmpty Then
+                        Return MedlineCitation.Article.Abstract.AbstractText.Select(Function(a) a.Text).JoinBy(vbCrLf)
+                    End If
+                End If
+            End If
+
+            Return Nothing
+        End Function
+
+        Public Iterator Function GetMeshTerms() As IEnumerable(Of NamedValue(Of String))
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.MeshHeadingList IsNot Nothing Then
+                    For Each term In MedlineCitation.MeshHeadingList
+                        If term.DescriptorName IsNot Nothing Then
+                            Yield New NamedValue(Of String)(term.DescriptorName.UI, term.DescriptorName.Value)
+                        End If
+                    Next
+                End If
+                If MedlineCitation.ChemicalList IsNot Nothing Then
+                    For Each term In MedlineCitation.ChemicalList
+                        If term.NameOfSubstance IsNot Nothing Then
+                            Yield New NamedValue(Of String)(term.NameOfSubstance.UI, term.NameOfSubstance.Value)
+                        End If
+                    Next
+                End If
+            End If
+        End Function
+
     End Class
 
     Public Class KeywordList : Implements Enumeration(Of Keyword)
+
         <XmlAttribute>
         Public Property Owner As String
         <XmlElement("Keyword")>
         Public Property Keywords As Keyword()
+
+        Public Overrides Function ToString() As String
+            Return Keywords.SafeQuery.Select(Function(kw) kw.Keyword).GetJson
+        End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Keyword) Implements Enumeration(Of Keyword).GenericEnumerator
             If Not Keywords Is Nothing Then
@@ -113,10 +270,15 @@ Namespace PubMed
     End Class
 
     Public Class Keyword
+
         <XmlAttribute>
         Public Property MajorTopicYN As String
         <XmlText>
         Public Property Keyword As String
+
+        Public Overrides Function ToString() As String
+            Return Keyword
+        End Function
     End Class
 
     ''' <summary>
@@ -153,8 +315,9 @@ Namespace PubMed
     ''' audience.
     ''' </remarks>
     Public Class MedlineCitation
-        Public Property Status As String
-        Public Property Owner As String
+        <XmlAttribute> Public Property Status As String
+        <XmlAttribute> Public Property Owner As String
+
         Public Property PMID As PMID
         Public Property DateCreated As PubDate
         Public Property DateCompleted As PubDate
@@ -165,17 +328,32 @@ Namespace PubMed
         Public Property CitationSubset As String
         Public Property MeshHeadingList As MeshHeading()
         Public Property KeywordList As KeywordList
+
+        Public Overrides Function ToString() As String
+            Return Article.ToString
+        End Function
     End Class
 
     Public Class MeshHeading
+
         Public Property DescriptorName As RegisterObject
         <XmlElement("QualifierName")>
         Public Property QualifierName As RegisterObject()
+
+        Public Overrides Function ToString() As String
+            Return DescriptorName.ToString
+        End Function
     End Class
 
     Public Class PubmedData
+
         Public Property History As History
         Public Property PublicationStatus As String
         Public Property ArticleIdList As ArticleId()
+
+        Public Overrides Function ToString() As String
+            Return PublicationStatus
+        End Function
+
     End Class
 End Namespace

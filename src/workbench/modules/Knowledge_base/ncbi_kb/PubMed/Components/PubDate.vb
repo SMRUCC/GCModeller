@@ -72,7 +72,7 @@ Namespace PubMed
         Public Property Minute As String
 
         Public Overrides Function ToString() As String
-            Return CType(Me, Date).ToString
+            Return $"[{PubStatus}] {Year}-{Month}-{Day}"
         End Function
 
         Public Overloads Shared Narrowing Operator CType(d As PubDate) As Date
