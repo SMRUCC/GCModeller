@@ -106,7 +106,9 @@ Module pubmed_tools
         Dim mesh As list = list.empty
 
         For Each term As NamedValue(Of String) In article.GetMeshTerms
-            Call mesh.add(term.Name, term.Value)
+            If Not mesh.hasName(term.Name) Then
+                Call mesh.add(term.Name, term.Value)
+            End If
         Next
 
         Call summary.add("mesh", mesh)
