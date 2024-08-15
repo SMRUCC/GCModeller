@@ -145,7 +145,10 @@ Module pubmed_tools
     ''' > ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/
     ''' </remarks>
     <ExportAPI("parse.article_set")>
-    Public Function ParseArticleSetXml(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+    Public Function ParseArticleSetXml(<RRawVectorArgument> file As Object,
+                                       Optional tqdm As Boolean = True,
+                                       Optional env As Environment = Nothing) As Object
+
         Dim buf = SMRUCC.Rsharp.GetFileStream(file, IO.FileAccess.Read, env)
 
         If buf Like GetType(Message) Then
@@ -172,7 +175,7 @@ Module pubmed_tools
             End Using
         End If
 
-        Dim articles As PubmedArticle() = PubmedArticleSet.LoadStream(s).ToArray
+        Dim articles As PubmedArticle() = PubmedArticleSet.LoadStream(s, tqdm:=tqdm).ToArray
         Return articles
     End Function
 End Module

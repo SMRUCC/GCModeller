@@ -94,8 +94,8 @@ Namespace PubMed
         ''' </summary>
         ''' <param name="s">A stream of a large xml document file</param>
         ''' <returns></returns>
-        Public Shared Function LoadStream(s As Stream) As IEnumerable(Of PubmedArticle)
-            Return s.LoadUltraLargeXMLDataSet(Of PubmedArticle)(preprocess:=AddressOf ProcessXmlDocument)
+        Public Shared Function LoadStream(s As Stream, Optional tqdm As Boolean = True) As IEnumerable(Of PubmedArticle)
+            Return s.LoadUltraLargeXMLDataSet(Of PubmedArticle)(preprocess:=AddressOf ProcessXmlDocument, tqdm:=tqdm)
         End Function
 
         Private Shared Function ProcessXmlDocument(s As String) As String
