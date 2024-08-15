@@ -58,9 +58,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml
-Imports System.Xml.Schema
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Language
 
 Namespace Text.Xml.Linq
@@ -308,23 +306,26 @@ Namespace Text.Xml.Linq
                                                                 Optional selector As Func(Of XElement, Boolean) = Nothing,
                                                                 Optional preprocess As Func(Of String, String) = Nothing,
                                                                 Optional ignoreError As Boolean = False,
-                                                                Optional variants As Type() = Nothing) As IEnumerable(Of T)
-            With GetType(T).GetTypeName([default]:=typeName)
-                Return .UltraLargeXmlNodesIterator(path, selector) _
-                    .Select(Function(node)
-                                If Not preprocess Is Nothing Then
-                                    Return preprocess(node.ToString)
-                                Else
-                                    Return node.ToString
-                                End If
-                            End Function) _
-                    .NodeInstanceBuilder(Of T)(
-                        replaceXmlns:=xmlns,
-                        xmlNode:= .ByRef,
-                        ignoreError:=ignoreError,
-                        variants:=variants
-                    )
-            End With
+                                                                Optional variants As Type() = Nothing,
+                                                                Optional tqdm As Boolean = False) As IEnumerable(Of T)
+
+            Dim nodeName = GetType(T).GetTypeName([default]:=typeName)
+
+            Return nodeName _
+                .UltraLargeXmlNodesIterator(path, tqdm, selector) _
+                .Select(Function(node)
+                            If Not preprocess Is Nothing Then
+                                Return preprocess(node.ToString)
+                            Else
+                                Return node.ToString
+                            End If
+                        End Function) _
+                .NodeInstanceBuilder(Of T)(
+                    replaceXmlns:=xmlns,
+                    xmlNode:=nodeName,
+                    ignoreError:=ignoreError,
+                    variants:=variants
+                )
         End Function
 
 
@@ -351,36 +352,55 @@ Namespace Text.Xml.Linq
                                                                 Optional selector As Func(Of XElement, Boolean) = Nothing,
                                                                 Optional preprocess As Func(Of String, String) = Nothing,
                                                                 Optional ignoreError As Boolean = False,
-                                                                Optional variants As Type() = Nothing) As IEnumerable(Of T)
-            With GetType(T).GetTypeName([default]:=typeName)
-                Return .UltraLargeXmlNodesIterator(s, selector) _
-                    .Select(Function(node)
-                                If Not preprocess Is Nothing Then
-                                    Return preprocess(node.ToString)
-                                Else
-                                    Return node.ToString
-                                End If
-                            End Function) _
-                    .NodeInstanceBuilder(Of T)(
-                        replaceXmlns:=xmlns,
-                        xmlNode:= .ByRef,
-                        ignoreError:=ignoreError,
-                        variants:=variants
-                    )
-            End With
+                                                                Optional variants As Type() = Nothing,
+                                                                Optional tqdm As Boolean = False) As IEnumerable(Of T)
+
+            Dim nodeName = GetType(T).GetTypeName([default]:=typeName)
+            Dim reader As New XmlStreamReader(nodeName, s, selector) With {
+                .ShowProgress = tqdm
+            }
+
+            Return reader.UltraLargeXmlNodesIterator() _
+              .Select(Function(node)
+                          If Not preprocess Is Nothing Then
+                              Return preprocess(node.ToString)
+                          Else
+                              Return node.ToString
+                          End If
+                      End Function) _
+              .NodeInstanceBuilder(Of T)(
+                  replaceXmlns:=xmlns,
+                  xmlNode:=nodeName,
+                  ignoreError:=ignoreError,
+                  variants:=variants
+              )
         End Function
 
+        ''' <summary>
+        ''' Parse xml element array from a given xml document text
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="documentText">the xml document text</param>
+        ''' <param name="typeName$"></param>
+        ''' <param name="xmlns$"></param>
+        ''' <param name="selector"></param>
+        ''' <param name="ignoreError"></param>
+        ''' <param name="tqdm"></param>
+        ''' <returns></returns>
         Public Function LoadArrayNodes(Of T As Class)(documentText$,
                                                       Optional typeName$ = Nothing,
                                                       Optional xmlns$ = Nothing,
                                                       Optional selector As Func(Of XElement, Boolean) = Nothing,
-                                                      Optional ignoreError As Boolean = False) As IEnumerable(Of T)
+                                                      Optional ignoreError As Boolean = False,
+                                                      Optional tqdm As Boolean = False) As IEnumerable(Of T)
 
-            With GetType(T).GetTypeName([default]:=typeName)
-                Return .UltraLargeXmlNodesIterator(New MemoryStream(Encoding.UTF8.GetBytes(documentText)), selector) _
-                    .Select(Function(node) node.ToString) _
-                    .NodeInstanceBuilder(Of T)(xmlns, xmlNode:= .ByRef, ignoreError:=ignoreError)
-            End With
+            Dim nodeName = GetType(T).GetTypeName([default]:=typeName)
+            Dim s As New MemoryStream(Encoding.UTF8.GetBytes(documentText))
+            Dim reader As New XmlStreamReader(nodeName, s, selector) With {.ShowProgress = tqdm}
+
+            Return reader.UltraLargeXmlNodesIterator _
+                .Select(Function(node) node.ToString) _
+                .NodeInstanceBuilder(Of T)(xmlns, xmlNode:=nodeName, ignoreError:=ignoreError)
         End Function
 
         ''' <summary>
@@ -391,19 +411,35 @@ Namespace Text.Xml.Linq
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function IteratesArrayNodes(path$, typeName$, Optional selector As Func(Of XElement, Boolean) = Nothing) As IEnumerable(Of XElement)
-            Return typeName.UltraLargeXmlNodesIterator(path, selector)
+        Public Function IteratesArrayNodes(path$, typeName$,
+                                           Optional selector As Func(Of XElement, Boolean) = Nothing,
+                                           Optional tqdm As Boolean = False) As IEnumerable(Of XElement)
+
+            Return typeName.UltraLargeXmlNodesIterator(path, tqdm, selector)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function ArrayNodesFromDocument(documentText$, typeName$, Optional selector As Func(Of XElement, Boolean) = Nothing) As IEnumerable(Of XElement)
-            Return typeName.UltraLargeXmlNodesIterator(New MemoryStream(Encoding.UTF8.GetBytes(documentText)), selector)
+        Public Function ArrayNodesFromDocument(documentText$, typeName$,
+                                               Optional selector As Func(Of XElement, Boolean) = Nothing,
+                                               Optional tqdm As Boolean = False) As IEnumerable(Of XElement)
+
+            Dim s As New MemoryStream(Encoding.UTF8.GetBytes(documentText))
+            Dim reader As New XmlStreamReader(typeName, s, selector) With {.ShowProgress = tqdm}
+
+            Return reader.UltraLargeXmlNodesIterator
         End Function
 
         <Extension>
-        Private Iterator Function UltraLargeXmlNodesIterator(nodeName$, path$, selector As Func(Of XElement, Boolean)) As IEnumerable(Of XElement)
+        Private Iterator Function UltraLargeXmlNodesIterator(nodeName$, path$,
+                                                             tqdm As Boolean,
+                                                             selector As Func(Of XElement, Boolean)) As IEnumerable(Of XElement)
+
             Using file As Stream = path.Open(FileMode.Open, [readOnly]:=True)
-                For Each node In UltraLargeXmlNodesIterator(nodeName, file, selector)
+                Dim reader As New XmlStreamReader(nodeName, file, selector) With {
+                    .ShowProgress = tqdm
+                }
+
+                For Each node In reader.UltraLargeXmlNodesIterator
                     ' 因为在这里打开了一个文件,假若不使用iterator迭代的话
                     ' 文件会被直接关闭,导致无法读取
                     Yield node
@@ -411,114 +447,15 @@ Namespace Text.Xml.Linq
             End Using
         End Function
 
-        <Extension>
-        Private Iterator Function UltraLargeXmlNodesIterator(nodeName$, documentText As Stream, selector As Func(Of XElement, Boolean)) As IEnumerable(Of XElement)
-            Dim settings As New XmlReaderSettings With {
-                .ValidationFlags = XmlSchemaValidationFlags.None,
-                .CheckCharacters = False,
-                .ConformanceLevel = ConformanceLevel.Document,
-                .ValidationType = ValidationType.None,
-                .DtdProcessing = DtdProcessing.Ignore
-            }
-            Dim sizeOfBytes As Long = -1
-
-            Try
-                sizeOfBytes = documentText.Length
-            Catch ex As Exception
-                ' stream can not be seek
-                ' probably is a network stream or other stream with length not suports
-            End Try
-
-            Using reader As XmlReader = XmlReader.Create(documentText, settings)
-
-                ' 20191218
-                ' 
-                ' System.Xml.XmlException
-                '  HResult = 0x80131940
-                '  Message = There Is no Unicode Byte order mark. Cannot switch To Unicode.
-                '  Source  = System.Xml
-                '  StackTrace:
-                '   at System.Xml.XmlTextReaderImpl.Throw(Exception e)
-                '   at System.Xml.XmlTextReaderImpl.CheckEncoding(String newEncodingName)
-                '   at System.Xml.XmlTextReaderImpl.ParseXmlDeclaration(Boolean isTextDecl)
-                '   at System.Xml.XmlTextReaderImpl.Read()
-                '   at System.Xml.XmlReader.MoveToContent()
-                '   at Microsoft.VisualBasic.Text.Xml.Linq.Data.VB$StateMachine_12_UltraLargeXmlNodesIterator.MoveNext() in D:\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Core\Text\Xml\Linq\Linq.vb:line 322
-                '   at Microsoft.VisualBasic.Text.Xml.Linq.Data.VB$StateMachine_11_UltraLargeXmlNodesIterator.MoveNext() in D:\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Core\Text\Xml\Linq\Linq.vb:line 305
-                '   at System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
-                '   at Microsoft.VisualBasic.Text.Xml.Linq.Data.VB$StateMachine_6_NodeInstanceBuilder`1.MoveNext() in D:\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Core\Text\Xml\Linq\Linq.vb:line 235
-                '   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
-                '   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
-                '   at metadbkit.builderPipeline._Closure$__._Lambda$__12-0(IEnumerable`1 ds) in D:\biodeep\biodeepdb_v3\metadb\metadbkit\builderPipeline.vb:line 173
-                '   at Microsoft.VisualBasic.Linq.PipelineExtensions.DoCall[T, Tout](T input, Func`2 apply) in D:\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Core\Extensions\Collection\Linq\Pipeline.vb:line 63
-                '   at metadbkit.builderPipeline.readMetaDb(String file, Boolean linq) in D:\biodeep\biodeepdb_v3\metadb\metadbkit\builderPipeline.vb:line 170
-                '
-                ' Due to the reason of small xml file save in sciBASIC.NET is serialize to xml text at first
-                ' save then save the generated xml text to file
-                ' so the xml file encoding in its declaration and the actual text encoding of the saved text file
-                ' could be different
-                ' The the text encoding bugs will happened when read xml file in linq method by this function.
-
-                Call reader.MoveToContent()
-
-                If sizeOfBytes > 0 AndAlso documentText.CanSeek Then
-                    For Each xml As XElement In Tqdm.WrapStreamReader(Of XElement)(sizeOfBytes, Function(ByRef offset As Long, bar As Tqdm.ProgressBar)
-                                                                                                    Dim el As New Value(Of XElement)
-
-                                                                                                    If reader.Read() Then
-                                                                                                        offset = documentText.Position
-                                                                                                    Else
-                                                                                                        bar.Finish()
-                                                                                                    End If
-
-                                                                                                    ' Parse the file And return each of the child_node
-                                                                                                    If (reader.NodeType = XmlNodeType.Element AndAlso reader.Name = nodeName) Then
-                                                                                                        If (Not (el = DirectCast(XNode.ReadFrom(reader), XElement)) Is Nothing) Then
-                                                                                                            If Not selector Is Nothing Then
-                                                                                                                If selector(el.Value) Then
-                                                                                                                    Return el.Value
-                                                                                                                End If
-                                                                                                            Else
-                                                                                                                Return el.Value
-                                                                                                            End If
-                                                                                                        End If
-                                                                                                    End If
-
-                                                                                                    Return Nothing
-                                                                                                End Function)
-                        If Not xml Is Nothing Then
-                            Yield xml
-                        End If
-                    Next
-                Else
-                    Dim el As New Value(Of XElement)
-
-                    Do While (reader.Read())
-                        ' Parse the file And return each of the child_node
-                        If (reader.NodeType = XmlNodeType.Element AndAlso reader.Name = nodeName) Then
-                            If (Not (el = DirectCast(XNode.ReadFrom(reader), XElement)) Is Nothing) Then
-                                If Not selector Is Nothing Then
-                                    If selector(el.Value) Then
-                                        Yield el.Value
-                                    End If
-                                Else
-                                    Yield el.Value
-                                End If
-                            End If
-                        End If
-                    Loop
-                End If
-            End Using
-        End Function
-
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function PopulateXmlElementText(Of T As Class)(path$,
                                                               Optional typeName$ = Nothing,
-                                                              Optional selector As Func(Of XElement, Boolean) = Nothing) As IEnumerable(Of String)
+                                                              Optional selector As Func(Of XElement, Boolean) = Nothing,
+                                                              Optional tqdm As Boolean = False) As IEnumerable(Of String)
             Return GetType(T) _
                 .GetTypeName([default]:=typeName) _
-                .UltraLargeXmlNodesIterator(path, selector)
+                .UltraLargeXmlNodesIterator(path, tqdm, selector)
         End Function
     End Module
 End Namespace
