@@ -80,6 +80,7 @@ Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Linq
@@ -225,6 +226,10 @@ Namespace PubMed
             End If
 
             Return Nothing
+        End Function
+
+        Public Iterator Function GetMeshTerms() As IEnumerable(Of NamedValue(Of String))
+
         End Function
 
     End Class
