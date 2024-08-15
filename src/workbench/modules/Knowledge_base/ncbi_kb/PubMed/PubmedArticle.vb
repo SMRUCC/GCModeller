@@ -229,7 +229,22 @@ Namespace PubMed
         End Function
 
         Public Iterator Function GetMeshTerms() As IEnumerable(Of NamedValue(Of String))
-
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.MeshHeadingList IsNot Nothing Then
+                    For Each term In MedlineCitation.MeshHeadingList
+                        If term.DescriptorName IsNot Nothing Then
+                            Yield New NamedValue(Of String)(term.DescriptorName.UI, term.DescriptorName.Value)
+                        End If
+                    Next
+                End If
+                If MedlineCitation.ChemicalList IsNot Nothing Then
+                    For Each term In MedlineCitation.ChemicalList
+                        If term.NameOfSubstance IsNot Nothing Then
+                            Yield New NamedValue(Of String)(term.NameOfSubstance.UI, term.NameOfSubstance.Value)
+                        End If
+                    Next
+                End If
+            End If
         End Function
 
     End Class
