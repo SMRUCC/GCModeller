@@ -77,7 +77,9 @@
 #End Region
 
 Imports System.IO
+Imports System.Text
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Linq
@@ -99,8 +101,18 @@ Namespace PubMed
         End Function
 
         Private Shared Function ProcessXmlDocument(s As String) As String
-            s = s.Replace("<sub>", "&lt;sub>")
-            s = s.Replace("</sub>", "&lt;/sub>")
+            Dim str As New StringBuilder(s)
+
+            Call str.Replace("<sub>", "&lt;sub>")
+            Call str.Replace("</sub>", "&lt;/sub>")
+            Call str.Replace("<sup>", "&lt;sup>")
+            Call str.Replace("</sup>", "&lt;/sup>")
+            Call str.Replace("<b>", "&lt;b>")
+            Call str.Replace("</b>", "&lt;/b>")
+            Call str.Replace("<u>", "&lt;u>")
+            Call str.Replace("</u>", "&lt;/u>")
+            Call str.Replace("<i>", "&lt;i>")
+            Call str.Replace("</i>", "&lt;/i>")
 
             Return s
         End Function
@@ -124,8 +136,95 @@ Namespace PubMed
         Public Property MedlineCitation As MedlineCitation
         Public Property PubmedData As PubmedData
 
+        Public ReadOnly Property PMID As String
+            Get
+                If MedlineCitation IsNot Nothing Then
+                    Return MedlineCitation.PMID.ID
+                End If
+
+                Return Nothing
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return MedlineCitation.ToString
+        End Function
+
+        Public Function GetTitle() As String
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    Return MedlineCitation.Article.ArticleTitle
+                End If
+            End If
+
+            Return Nothing
+        End Function
+
+        Public Function GetJournal() As String
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    If MedlineCitation.Article.Journal IsNot Nothing Then
+                        Return MedlineCitation.Article.Journal.Title
+                    End If
+                End If
+            End If
+
+            Return Nothing
+        End Function
+
+        Public Iterator Function GetAuthors() As IEnumerable(Of String)
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    For Each author As Author In MedlineCitation.Article.AuthorList.AsEnumerable
+                        If Not author Is Nothing Then
+                            Yield $"{author.ForeName} {author.LastName}"
+                        End If
+                    Next
+                End If
+            End If
+        End Function
+
+        Public Function GetArticleDoi() As String
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    If Not MedlineCitation.Article.ELocationID.IsNullOrEmpty Then
+                        Return MedlineCitation.Article.ELocationID.KeyItem("doi")?.Value
+                    End If
+                End If
+            End If
+
+            Return "-"
+        End Function
+
+        Public Function GetPublishYear() As Integer
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    If MedlineCitation.Article.Journal IsNot Nothing Then
+                        If MedlineCitation.Article.Journal.JournalIssue IsNot Nothing Then
+                            If MedlineCitation.Article.Journal.JournalIssue.PubDate IsNot Nothing Then
+                                Return MedlineCitation.Article.Journal.JournalIssue.PubDate.Year
+                            End If
+                        End If
+                    End If
+                    If MedlineCitation.Article.ArticleDate IsNot Nothing Then
+                        Return MedlineCitation.Article.ArticleDate.Year
+                    End If
+                End If
+            End If
+
+            Return 0
+        End Function
+
+        Public Function GetAbstractText() As String
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.Article IsNot Nothing Then
+                    If MedlineCitation.Article.Abstract IsNot Nothing Then
+                        Return MedlineCitation.Article.Abstract.AbstractText.SafeQuery.Select(Function(a) a.Text).JoinBy(vbCrLf)
+                    End If
+                End If
+            End If
+
+            Return Nothing
         End Function
 
     End Class
