@@ -219,8 +219,8 @@ Namespace PubMed
         Public Function GetAbstractText() As String
             If MedlineCitation IsNot Nothing Then
                 If MedlineCitation.Article IsNot Nothing Then
-                    If MedlineCitation.Article.Abstract IsNot Nothing Then
-                        Return MedlineCitation.Article.Abstract.AbstractText.SafeQuery.Select(Function(a) a.Text).JoinBy(vbCrLf)
+                    If MedlineCitation.Article.Abstract IsNot Nothing AndAlso Not MedlineCitation.Article.Abstract.AbstractText.IsNullOrEmpty Then
+                        Return MedlineCitation.Article.Abstract.AbstractText.Select(Function(a) a.Text).JoinBy(vbCrLf)
                     End If
                 End If
             End If

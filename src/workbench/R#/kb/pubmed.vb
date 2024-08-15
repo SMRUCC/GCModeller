@@ -101,7 +101,7 @@ Module pubmed_tools
             slot("authors") = article.GetAuthors.ToArray,
             slot("doi") = article.GetArticleDoi,
             slot("year") = article.GetPublishYear,
-            slot("abstract") = article.GetAbstractText
+            slot("abstract") = If(article.GetAbstractText, "-")
         )
         Dim mesh As list = list.empty
 
