@@ -35,11 +35,13 @@ declare namespace pubmed {
        * >  > ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/
        * 
         * @param file a single file that contains the pubmed article set data, data could be download from the pubmed ftp server in batch.
+        * @param tqdm 
+        * + default value Is ``true``.
         * @param env -
         * 
         * + default value Is ``null``.
       */
-      function article_set(file: any, env?: object): any;
+      function article_set(file: any, tqdm?: boolean, env?: object): any;
    }
    /**
      * @param page default value Is ``1``.

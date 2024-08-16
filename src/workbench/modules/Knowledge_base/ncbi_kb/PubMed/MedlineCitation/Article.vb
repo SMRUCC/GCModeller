@@ -123,6 +123,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -190,6 +191,7 @@ Namespace PubMed
     End Class
 
     Public Class Author
+
         <XmlAttribute>
         Public Property ValidYN As String
         Public Property LastName As String
@@ -248,8 +250,9 @@ Namespace PubMed
         End Function
     End Class
 
-    Public Class ELocationID
-        <XmlAttribute> Public Property EIdType As String
+    Public Class ELocationID : Implements INamedValue
+
+        <XmlAttribute> Public Property EIdType As String Implements INamedValue.Key
         <XmlAttribute> Public Property ValidYN As String
 
         <XmlText>
