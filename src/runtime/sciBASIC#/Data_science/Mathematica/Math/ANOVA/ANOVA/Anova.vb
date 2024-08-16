@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::423c757aab61c6fcfa00491d4aaa90c6, Data_science\Mathematica\Math\ANOVA\ANOVA\Anova.vb"
+﻿#Region "Microsoft.VisualBasic::368bd05d805932d25229ab810951ace5, Data_science\Mathematica\Math\ANOVA\ANOVA\Anova.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 86.84%
     ' 
     '   Blank Lines: 39 (19.02%)
-    '     File Size: 6.43 KB
+    '     File Size: 6.42 KB
 
 
     ' Class AnovaTest
@@ -56,7 +56,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Math.Statistics.Distributions.LinearMoments
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Public Class AnovaTest
 
@@ -197,7 +197,7 @@ Public Class AnovaTest
             For j As Integer = 0 To g.ary.Length - 1
                 Dim observation = g.ary(j)
                 Dim result = observation - g.mean
-                Dim answer = stdNum.Pow(result, 2)
+                Dim answer = std.Pow(result, 2)
 
                 g.raisedSum += answer
             Next
@@ -219,7 +219,7 @@ Public Class AnovaTest
                 Dim observation = g.ary(j)
                 Dim result = observation - allObservationsMean
 
-                SS_total_sum_of_squares += stdNum.Pow(result, 2)
+                SS_total_sum_of_squares += std.Pow(result, 2)
             Next
         Next
 
@@ -244,7 +244,7 @@ Terms:
 Sum of Squares     {SSB_sum_of_squares_between_groups.ToString("F1")}        {SSW_sum_of_squares_within_groups.ToString("F1")}
 Deg. of Freedom     {numenator}        {denomenator}
 
-Residual standard error: {stdNum.Sqrt(SSW)}
+Residual standard error: {std.Sqrt(SSW)}
 SSB: {SSB}
 SSW: {SSW}
 SS_total_sum_of_squares: {SS_total_sum_of_squares}

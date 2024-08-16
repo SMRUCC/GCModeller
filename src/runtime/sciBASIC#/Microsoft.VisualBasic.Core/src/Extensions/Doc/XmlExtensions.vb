@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a7892b9cdc61dabea2fbb1085556366, Microsoft.VisualBasic.Core\src\Extensions\Doc\XmlExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::c6c3a7eda95f07cba33856ee73bfd34e, Microsoft.VisualBasic.Core\src\Extensions\Doc\XmlExtensions.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 422
-    '    Code Lines: 254 (60.19%)
-    ' Comment Lines: 117 (27.73%)
+    '   Total Lines: 446
+    '    Code Lines: 275 (61.66%)
+    ' Comment Lines: 117 (26.23%)
     '    - Xml Docs: 88.89%
     ' 
-    '   Blank Lines: 51 (12.09%)
-    '     File Size: 16.93 KB
+    '   Blank Lines: 54 (12.11%)
+    '     File Size: 17.68 KB
 
 
     ' Module XmlExtensions
     ' 
     '     Properties: XmlParser
     ' 
-    '     Function: CreateObjectFromXml, CreateObjectFromXmlFragment, (+2 Overloads) GetXml, (+2 Overloads) LoadFromXml, (+2 Overloads) LoadXml
-    '               SafeLoadXml, SaveAsXml
+    '     Function: CreateObjectFromXml, CreateObjectFromXmlFragment, (+2 Overloads) GetXml, (+2 Overloads) LoadFromXml, LoadFromXmlStream
+    '               (+2 Overloads) LoadXml, SafeLoadXml, SaveAsXml
     ' 
     '     Sub: WriteXml, WriteXML
     ' 
@@ -422,9 +422,10 @@ Public Module XmlExtensions
             End If
         Catch ex As Exception
             Dim curMethod As String = MethodBase.GetCurrentMethod.GetFullName
+            Dim max_debug_len As String = 4096
 
-            If Len(xml) > 512 Then
-                xml = Mid(xml, 1, 512) & "..."
+            If Len(xml) > max_debug_len Then
+                xml = Mid(xml, 1, max_debug_len) & "..."
             End If
 
             ex = New Exception($"class_name: {schema.Name}, and the xml fragment: {xml}", ex)

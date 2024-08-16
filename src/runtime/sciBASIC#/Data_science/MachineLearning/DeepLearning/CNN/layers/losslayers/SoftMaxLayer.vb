@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::02926f09f5c5e5b75b17ddf95b529385, Data_science\MachineLearning\DeepLearning\CNN\layers\losslayers\SoftMaxLayer.vb"
+﻿#Region "Microsoft.VisualBasic::9aba2b9cfa36bc705448f5f727101971, Data_science\MachineLearning\DeepLearning\CNN\layers\losslayers\SoftMaxLayer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 109
-    '    Code Lines: 70 (64.22%)
-    ' Comment Lines: 17 (15.60%)
+    '   Total Lines: 108
+    '    Code Lines: 69 (63.89%)
+    ' Comment Lines: 17 (15.74%)
     '    - Xml Docs: 58.82%
     ' 
-    '   Blank Lines: 22 (20.18%)
-    '     File Size: 3.45 KB
+    '   Blank Lines: 22 (20.37%)
+    '     File Size: 3.39 KB
 
 
     '     Class SoftMaxLayer
@@ -56,10 +56,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic.MachineLearning.CNN.data
-Imports Microsoft.VisualBasic.MachineLearning.Convolutional
-Imports std = System.Math
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports std = System.Math
 
 Namespace CNN.losslayers
 

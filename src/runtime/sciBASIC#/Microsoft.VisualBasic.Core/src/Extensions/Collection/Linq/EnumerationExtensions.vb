@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4bc23ee15c90920f5701b44f9767a682, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\EnumerationExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::92775223ab390e0edfcdde473b164fd0, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\EnumerationExtensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 59
-    '    Code Lines: 31 (52.54%)
-    ' Comment Lines: 23 (38.98%)
-    '    - Xml Docs: 95.65%
+    '   Total Lines: 63
+    '    Code Lines: 31 (49.21%)
+    ' Comment Lines: 27 (42.86%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 5 (8.47%)
-    '     File Size: 2.38 KB
+    '   Blank Lines: 5 (7.94%)
+    '     File Size: 2.65 KB
 
 
     '     Module EnumerationExtensions
@@ -97,7 +97,11 @@ Namespace Linq
         ''' <typeparam name="T">The type of the elements of source.</typeparam>
         ''' <param name="enums">The sequence to type as <see cref="IEnumerable(Of T)"/></param>
         ''' <returns>The input sequence typed as <see cref="IEnumerable(Of T)"/>.</returns>
-        ''' 
+        ''' <remarks>
+        ''' this iterator function is a kind of safe function: for the given data source is nothing,
+        ''' this function will returns a empty collection, null reference error will not happends 
+        ''' in this iterator function.
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function AsEnumerable(Of T)(enums As Enumeration(Of T)) As IEnumerable(Of T)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf2da557fd2588452d6670a23ff753f5, Data_science\Mathematica\Math\Randomizer\FastRandom\ThreadSafeFastRandom.vb"
+﻿#Region "Microsoft.VisualBasic::2a4d04afb02bf131d60746245962ea53, Data_science\Mathematica\Math\Randomizer\FastRandom\ThreadSafeFastRandom.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 125
-    '    Code Lines: 74 (59.20%)
-    ' Comment Lines: 24 (19.20%)
+    '   Total Lines: 123
+    '    Code Lines: 72 (58.54%)
+    ' Comment Lines: 24 (19.51%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 27 (21.60%)
-    '     File Size: 4.50 KB
+    '   Blank Lines: 27 (21.95%)
+    '     File Size: 4.44 KB
 
 
     ' Module ThreadSafeFastRandom
@@ -53,9 +53,7 @@
 
 #End Region
 
-Imports System
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
 
 Public Module ThreadSafeFastRandom
 
