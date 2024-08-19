@@ -66,6 +66,9 @@ Namespace SBML
 
         Public Property kineticLaw As kineticLaw
 
+        <XmlAttribute>
+        Public Property metaid As String
+
         Public ReadOnly Property ec_number As String
             Get
                 Return annotation.RDF.description(0).isVersionOf.Bag.list _

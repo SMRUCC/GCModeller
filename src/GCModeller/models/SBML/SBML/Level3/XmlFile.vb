@@ -76,6 +76,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports Microsoft.VisualBasic.MIME.application.xml
 Imports SMRUCC.genomics.Model.SBML.Components
@@ -124,7 +125,7 @@ Namespace Level3
         ''' reaction list
         ''' </summary>
         ''' <returns></returns>
-        Public Property listOfReactions As T()
+        Public Property listOfReactions As reactionList(Of T)
         Public Property listOfUnitDefinitions As unitDefinition()
         ''' <summary>
         ''' the enzyme kinetics list
@@ -132,6 +133,18 @@ Namespace Level3
         ''' <returns></returns>
         Public Property listOfFunctionDefinitions As functionDefinition()
 
+    End Class
+
+    Public Class reactionList(Of T As Reaction) : Implements Enumeration(Of T)
+
+        <XmlElement("reaction")>
+        Public Property reactions As T()
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of T) Implements Enumeration(Of T).GenericEnumerator
+            For Each rxn As T In reactions.SafeQuery
+                Yield rxn
+            Next
+        End Function
     End Class
 
     Public Class functionDefinition : Inherits IPartsBase
