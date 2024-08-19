@@ -220,6 +220,9 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Return My.Resources.ResourceManager.GetString(resourceName)
         End Function
 
+        ' kegg enzyme
+        ' https://www.kegg.jp/brite/ko01000
+
         Public Shared Function GetInternalResource(resourceName As String) As htext
             Dim resource$ = Nothing
 
