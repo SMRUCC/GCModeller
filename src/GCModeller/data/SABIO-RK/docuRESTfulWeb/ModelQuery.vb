@@ -90,7 +90,7 @@ Public Class ModelQuery : Inherits WebQueryModule(Of Dictionary(Of QueryFields, 
         Return url
     End Function
 
-    Protected Overrides Function isEmptyContent(cache_path As Boolean) As Boolean
+    Protected Overrides Function isEmptyContent(cache_path As String) As Boolean
         Dim str = Strings.Trim(cache.ReadAllText(cache_path))
 
         If str.StringEmpty(, True) Then
