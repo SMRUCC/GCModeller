@@ -71,7 +71,10 @@ Namespace SBML
         Public Shared Function LoadDocument(path As String) As SbmlDocument
             Dim text As String = path.SolveStream
 
-            If (text.Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF) = "No results found for query") OrElse (text = vbCrLf) Then
+            If text.StringEmpty(, True) OrElse
+                (text.Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF) = "No results found for query") OrElse
+                (text = vbCrLf) Then
+
                 Return Nothing
             End If
 
