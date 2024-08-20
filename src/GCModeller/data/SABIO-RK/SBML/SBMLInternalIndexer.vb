@@ -74,7 +74,7 @@ Namespace SBML
             Dim entries As String()
             Dim ref As NamedValue(Of String)
 
-            For Each react As SBMLReaction In sbml.sbml.model.listOfReactions
+            For Each react As SBMLReaction In sbml.sbml.model.listOfReactions.AsEnumerable
                 entries = GetKeggReactionId(react).ToArray
 
                 For Each id As String In entries

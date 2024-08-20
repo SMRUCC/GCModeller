@@ -54,7 +54,6 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.MetaCyc
 Imports SMRUCC.genomics.Data.SABIORK.TabularDump
 
 Namespace SBML

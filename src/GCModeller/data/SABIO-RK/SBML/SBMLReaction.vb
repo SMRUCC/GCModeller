@@ -61,10 +61,13 @@ Namespace SBML
     ''' SBML格式的数据文件之中的reaction模型定义
     ''' </summary>
     ''' 
-    <XmlType("reaction")>
+    <XmlType("sabiork_reaction", [Namespace]:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class SBMLReaction : Inherits Reaction
 
         Public Property kineticLaw As kineticLaw
+
+        <XmlAttribute>
+        Public Property metaid As String
 
         Public ReadOnly Property ec_number As String
             Get

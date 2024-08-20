@@ -53,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK.SBML
@@ -97,7 +98,7 @@ Public Module WebRequest
         Dim q As Dictionary(Of QueryFields, String)
         Dim ECNumber As String
 
-        For Each id As BriteHText In ecNumbers
+        For Each id As BriteHText In TqdmWrapper.Wrap(ecNumbers)
             saveXml = id.BuildPath(export)
             ECNumber = id.parent.classLabel.Split.First
             q = New Dictionary(Of QueryFields, String) From {
