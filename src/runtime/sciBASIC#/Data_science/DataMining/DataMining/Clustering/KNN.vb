@@ -1,58 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::5060f9db75dd7c6da450342ec0a2b3d3, Data_science\DataMining\DataMining\Clustering\KNN.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 104
-    '    Code Lines: 78 (75.00%)
-    ' Comment Lines: 11 (10.58%)
-    '    - Xml Docs: 54.55%
-    ' 
-    '   Blank Lines: 15 (14.42%)
-    '     File Size: 4.24 KB
+' Summaries:
 
 
-    '     Class KNN
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: Classify
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 104
+'    Code Lines: 78 (75.00%)
+' Comment Lines: 11 (10.58%)
+'    - Xml Docs: 54.55%
+' 
+'   Blank Lines: 15 (14.42%)
+'     File Size: 4.24 KB
+
+
+'     Class KNN
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: Classify
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
@@ -72,6 +74,15 @@ Namespace Clustering
         ''' </summary>
         ReadOnly clusterNames As Dictionary(Of Integer, String)
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="trainingSet">
+        ''' should contains the <see cref="ClusterEntity.cluster"/> index value
+        ''' </param>
+        ''' <param name="clusterNames">
+        ''' the class label that associated with the <see cref="ClusterEntity.cluster"/>
+        ''' </param>
         Sub New(trainingSet As IEnumerable(Of ClusterEntity), clusterNames As Dictionary(Of Integer, String))
             Me.trainingSet = trainingSet.ToArray
             Me.clusterNames = clusterNames
@@ -109,25 +120,30 @@ Namespace Clustering
             ' create an array where we store the distance from our test data and the training data -> [0]
             ' plus the index of the training data element -> [1]
             Dim distances = New Double(trainingSet.Length - 1)() {}
+            Dim bar As Tqdm.ProgressBar = Nothing
 
             For i As Integer = 0 To trainingSet.Length - 1
                 distances(i) = New Double(1) {}
             Next
 
             ' start computing
-            For test As Integer = 0 To testSet.Length - 1
+            For Each test As Integer In TqdmWrapper.Range(0, testSet.Length, bar:=bar)
+                Dim test_vec As Double() = testSet(test).value
+
+                Call bar.SetLabel(testSet(test).name)
                 Call Parallels.For(
                     fromInclusive:=0,
                     toExclusive:=trainingSet.Length,
                     body:=Sub(index)
 #Disable Warning
+                              Dim tr = trainingSet(index)
                               Dim dist = DistanceMethods.EuclideanDistance(
-                                  X:=testSet(test).value,
-                                  Y:=trainingSet(index).entityVector
+                                  X:=test_vec,
+                                  Y:=tr.entityVector
                               )
 #Enable Warning
                               distances(index)(0) = dist
-                              distances(index)(1) = index
+                              distances(index)(1) = tr.cluster
                           End Sub)
 
                 ' sort and select first K of them
@@ -146,7 +162,7 @@ Namespace Clustering
                         .Description = predictedClass
                     }
 
-                    result.Add(output)
+                    Call result.Add(output)
                 Next
 
                 Yield New NamedCollection(Of NamedValue(Of Integer)) With {

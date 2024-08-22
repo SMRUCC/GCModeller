@@ -58,6 +58,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -145,7 +146,7 @@ Public Class SabiorkRepository : Implements IDisposable
         Dim indexer As New SBMLInternalIndexer(model)
         Dim pathDir As String = getEcNumberDirectoryPath(ec_number)
 
-        For Each rxn As SBMLReaction In model.sbml.model.listOfReactions
+        For Each rxn As SBMLReaction In model.sbml.model.listOfReactions.AsEnumerable
             path = $"{pathDir}/{rxn.id}.json"
             mathId = "KL_" & rxn.kineticLawID
             math = mathList.TryGetValue(mathId)
