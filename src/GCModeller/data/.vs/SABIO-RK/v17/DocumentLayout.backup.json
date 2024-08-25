@@ -3,19 +3,19 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8389B9ED-D78A-47B8-BF54-9830FAED9EF8}|..\\models\\SBML\\SBML\\sbml-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\sbml\\sbml\\level3\\xmlfile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\mathmlparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\mathmlparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmldocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\sbmldocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmlinternalindexer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\sbmlinternalindexer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{8389B9ED-D78A-47B8-BF54-9830FAED9EF8}|..\\models\\SBML\\SBML\\sbml-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\sbml\\sbml\\level3\\xmlfile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\mathmlparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\mathmlparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmlinternalindexer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\sbmlinternalindexer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\kineticlaw.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -105,11 +105,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "XmlFile.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Level3\\XmlFile.vb",
               "RelativeDocumentMoniker": "..\\models\\SBML\\SBML\\Level3\\XmlFile.vb",
@@ -164,14 +164,14 @@
               "RelativeDocumentMoniker": "SABIO-RK\\SBML\\SbmlDocument.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SbmlDocument.vb",
               "RelativeToolTip": "SABIO-RK\\SBML\\SbmlDocument.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAABqAAAAAAAAAA==",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAQwH4AAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-19T12:20:43.398Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "SBMLInternalIndexer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
               "RelativeDocumentMoniker": "SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
@@ -184,13 +184,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "MathMLParser.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\MathMLParser.vb",
               "RelativeDocumentMoniker": "SABIO-RK\\SBML\\MathMLParser.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\MathMLParser.vb",
               "RelativeToolTip": "SABIO-RK\\SBML\\MathMLParser.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-19T12:20:19.719Z",
               "EditorCaption": ""
