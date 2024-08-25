@@ -60,6 +60,9 @@ Imports r = System.Text.RegularExpressions.Regex
 
 Namespace SBML
 
+    ''' <summary>
+    ''' parser helper for the mathML enzymatic kinetics
+    ''' </summary>
     Public Module MathMLParser
 
         Const startTag As String = "<listOfFunctionDefinitions"
@@ -95,8 +98,15 @@ Namespace SBML
             Next
         End Function
 
-        ' Km, kcat, E
-        ' V = Kcat[E]t[S] / ( KM + [S])
+        ''' <summary>
+        ''' Populate the default enzyme kinetics math lambda expression
+        ''' 
+        ''' ```
+        ''' Km, kcat, E
+        ''' V = Kcat[E]t[S] / ( KM + [S])
+        ''' ```
+        ''' </summary>
+        ''' <returns></returns>
         Public Function DefaultKineticis() As LambdaExpression
             Dim exp As MathExpression = New BinaryExpression With {
                 .[operator] = "/",
@@ -121,7 +131,6 @@ Namespace SBML
                 .lambda = exp
             }
         End Function
-
 
     End Module
 End Namespace

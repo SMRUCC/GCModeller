@@ -69,6 +69,12 @@ Namespace SBML
         Public Property sbml As XmlFile(Of SBMLReaction)
         Public Property mathML As NamedValue(Of LambdaExpression)()
 
+        ''' <summary>
+        ''' Load a generic sbml xml document file
+        ''' </summary>
+        ''' <param name="xml"></param>
+        ''' <param name="text"></param>
+        ''' <returns></returns>
         Public Shared Function LoadXml(xml As String, <Out> Optional ByRef text As String = Nothing) As XmlFile(Of SBMLReaction)
             text = xml.SolveStream
 
@@ -82,6 +88,11 @@ Namespace SBML
             End If
         End Function
 
+        ''' <summary>
+        ''' load the documents with kinetics math lambda parsed
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
         Public Shared Function LoadDocument(path As String) As SbmlDocument
             Dim text As String = Nothing
             Dim sbml As XmlFile(Of SBMLReaction) = LoadXml(path, text)

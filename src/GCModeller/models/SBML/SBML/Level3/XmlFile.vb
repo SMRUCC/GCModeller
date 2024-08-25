@@ -83,6 +83,10 @@ Imports SMRUCC.genomics.Model.SBML.Components
 
 Namespace Level3
 
+    ''' <summary>
+    ''' A generic sbml document file model
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     <XmlRoot("sbml", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class XmlFile(Of T As Reaction)
 
