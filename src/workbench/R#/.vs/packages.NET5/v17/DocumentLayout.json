@@ -262,19 +262,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Enzymatic.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:38:39.713Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 14,
               "Title": "SBMLReaction.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLReaction.vb",
@@ -289,6 +276,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Enzymatic.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-25T08:38:39.713Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
