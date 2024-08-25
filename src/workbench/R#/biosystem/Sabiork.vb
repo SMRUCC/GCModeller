@@ -58,6 +58,9 @@ Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.SABIORK
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 
+''' <summary>
+''' sabio-rk data repository
+''' </summary>
 <Package("sabiork")>
 Public Module sabiork_repository
 
