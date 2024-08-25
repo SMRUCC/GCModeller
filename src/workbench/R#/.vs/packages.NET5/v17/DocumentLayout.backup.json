@@ -3,6 +3,13 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{DCC16C47-FE61-4203-981C-8E16FB405E2B}|..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmlinternalindexer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0150D46B-E0D8-4BDA-B3B8-9ADF2D7B51A8}|biosystem\\biosystem.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\biosystem\\sabiork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0150D46B-E0D8-4BDA-B3B8-9ADF2D7B51A8}|biosystem\\biosystem.vbproj|solutionrelative:biosystem\\sabiork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{076D2807-32F1-48F0-BE72-D22187C69F90}|..\\..\\runtime\\sciBASIC#\\Data\\BinaryData\\HDSPack\\HDSPack.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data\\binarydata\\hdspack\\filesystem\\streampack.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -22,13 +29,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\datasource\\repository\\querycache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0150D46B-E0D8-4BDA-B3B8-9ADF2D7B51A8}|biosystem\\biosystem.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\biosystem\\sabiork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0150D46B-E0D8-4BDA-B3B8-9ADF2D7B51A8}|biosystem\\biosystem.vbproj|solutionrelative:biosystem\\sabiork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DCC16C47-FE61-4203-981C-8E16FB405E2B}|..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmlinternalindexer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DCC16C47-FE61-4203-981C-8E16FB405E2B}|..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\kinetics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -89,11 +89,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 11,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "StreamPack.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\BinaryData\\HDSPack\\FileSystem\\StreamPack.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data\\BinaryData\\HDSPack\\FileSystem\\StreamPack.vb",
@@ -101,38 +109,35 @@
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data\\BinaryData\\HDSPack\\FileSystem\\StreamPack.vb",
               "ViewState": "AgIAAI8CAAAAAAAAAAAAAKcCAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:18:00.402Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T09:18:00.402Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ZipStream.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Tools\\Zip\\ZipStream.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Tools\\Zip\\ZipStream.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Tools\\Zip\\ZipStream.vb",
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Tools\\Zip\\ZipStream.vb",
-              "ViewState": "AgIAAOYAAAAAAAAAAAAAABkBAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAOcAAAAAAAAAAAAAABoBAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:15:11.526Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T09:15:11.526Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Directory.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\IO\\Path\\Directory.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\IO\\Path\\Directory.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\IO\\Path\\Directory.vb",
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\IO\\Path\\Directory.vb",
-              "ViewState": "AgIAAPwAAAAAAAAAAAAAACUBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAP0AAAAAAAAAAAAAACYBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:13:38.542Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T09:13:38.542Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "IFileSystemEnvironment.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IFileSystemEnvironment.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IFileSystemEnvironment.vb",
@@ -140,12 +145,11 @@
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IFileSystemEnvironment.vb",
               "ViewState": "AgIAAE0AAAAAAAAAAADwv20AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:11:18.412Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T09:11:18.412Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "WebQuery.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Net\\HTTP\\Web\\WebQuery.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Net\\HTTP\\Web\\WebQuery.vb",
@@ -153,12 +157,11 @@
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Net\\HTTP\\Web\\WebQuery.vb",
               "ViewState": "AgIAABgBAAAAAAAAAAAqwCkBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:08:08.827Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T09:08:08.827Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Repository.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataSource\\Repository\\Repository.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataSource\\Repository\\Repository.vb",
@@ -166,12 +169,11 @@
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataSource\\Repository\\Repository.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:07:53.323Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T09:07:53.323Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "QueryCache.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataSource\\Repository\\QueryCache.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataSource\\Repository\\QueryCache.vb",
@@ -179,8 +181,7 @@
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataSource\\Repository\\QueryCache.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:07:38.283Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T09:07:38.283Z"
             },
             {
               "$type": "Document",
@@ -192,8 +193,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\Dumps\\Kinetics.vb",
               "ViewState": "AgIAAMoAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:50:42.89Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:50:42.89Z"
             },
             {
               "$type": "Document",
@@ -205,8 +205,24 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\Dumps\\LocalParameterParser.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAGAAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:50:23.755Z",
+              "WhenOpened": "2024-08-25T08:50:23.755Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SBMLInternalIndexer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-25T08:37:59.882Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
@@ -218,8 +234,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\Dumps\\SabiorkSBML.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:50:20.547Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:50:20.547Z"
             },
             {
               "$type": "Document",
@@ -231,8 +246,7 @@
               "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\HDS\\SabiorkRepository.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:39:57.495Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:39:57.495Z"
             },
             {
               "$type": "Document",
@@ -244,8 +258,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Modeller.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:39:26.888Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:39:26.888Z"
             },
             {
               "$type": "Document",
@@ -257,21 +270,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\KineticsModeller\\Modeller.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:39:09.682Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Enzymatic.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:38:39.713Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:39:09.682Z"
             },
             {
               "$type": "Document",
@@ -283,12 +282,19 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLReaction.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:38:02.242Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:38:02.242Z"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Enzymatic.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-25T08:38:39.713Z"
             },
             {
               "$type": "Document",
@@ -300,21 +306,19 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\TargetParser.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:38:05.29Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:38:05.29Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "SBMLInternalIndexer.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwGAAAAAaAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "Sabiork.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\biosystem\\Sabiork.vb",
+              "RelativeDocumentMoniker": "biosystem\\Sabiork.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\biosystem\\Sabiork.vb",
+              "RelativeToolTip": "biosystem\\Sabiork.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:37:59.882Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T05:52:19.109Z"
             },
             {
               "$type": "Document",
@@ -326,8 +330,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\MathMLParser.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:37:57.514Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:37:57.514Z"
             },
             {
               "$type": "Document",
@@ -339,8 +342,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\kineticLaw.vb",
               "ViewState": "AgIAAGUAAAAAAAAAAAAzwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:37:52.178Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:37:52.178Z"
             },
             {
               "$type": "Document",
@@ -352,21 +354,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\ModelQuery.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:35:38.258Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Sabiork.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\biosystem\\Sabiork.vb",
-              "RelativeDocumentMoniker": "biosystem\\Sabiork.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\biosystem\\Sabiork.vb",
-              "RelativeToolTip": "biosystem\\Sabiork.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEoAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T05:52:19.109Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:35:38.258Z"
             },
             {
               "$type": "Document",
@@ -378,8 +366,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\QueryFields.vb",
               "ViewState": "AgIAAGMAAAAAAAAAAADwv4EAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:35:49.834Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:35:49.834Z"
             },
             {
               "$type": "Document",
@@ -391,8 +378,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\WebRequest.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAG4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:35:53.249Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:35:53.249Z"
             },
             {
               "$type": "Document",
@@ -404,8 +390,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\docuRESTfulWeb.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAFUAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:35:27.217Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T08:35:27.217Z"
             },
             {
               "$type": "Document",
@@ -417,16 +402,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SbmlDocument.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEoAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:34:20.193Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "WhenOpened": "2024-08-25T08:34:20.193Z"
             },
             {
               "$type": "Document",
@@ -437,8 +413,7 @@
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-08-25T06:15:17.998Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-25T06:15:17.998Z"
             }
           ]
         }

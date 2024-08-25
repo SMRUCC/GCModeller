@@ -69,6 +69,10 @@ Namespace SBML
         <XmlAttribute>
         Public Property metaid As String
 
+        ''' <summary>
+        ''' get enzyme number that associated with current reaction model
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property ec_number As String
             Get
                 Return annotation.RDF.description(0).isVersionOf.Bag.list _

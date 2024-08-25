@@ -60,6 +60,9 @@ Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 Namespace Components
 
+    ''' <summary>
+    ''' the abstract molecule species model
+    ''' </summary>
     Public Class Specie : Inherits IPartsBase
         Implements INamedValue
 
