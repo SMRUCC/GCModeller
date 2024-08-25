@@ -1,29 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{DCC16C47-FE61-4203-981C-8E16FB405E2B}|..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmlinternalindexer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F5B79BC2-EEA6-472F-A904-0AB828897289}|..\\..\\GCModeller\\models\\SBML\\SBML\\sbml-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\sbml\\sbml\\level3\\xmlfile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F5B79BC2-EEA6-472F-A904-0AB828897289}|..\\..\\GCModeller\\models\\SBML\\SBML\\sbml-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\sbml\\sbml\\level3\\annotation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C04DAC41-7780-4A44-8923-BEB12E50FC9F}|..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%rdf\u002Bxml\\datamodel\\bag.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F5B79BC2-EEA6-472F-A904-0AB828897289}|..\\..\\GCModeller\\models\\SBML\\SBML\\sbml-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\sbml\\sbml\\components\\specie.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DCC16C47-FE61-4203-981C-8E16FB405E2B}|..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmlreaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DCC16C47-FE61-4203-981C-8E16FB405E2B}|..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\kineticlaw.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -31,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -40,96 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Bag.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Bag.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Bag.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Bag.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\DataModel\\Bag.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwEkAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:45:10.773Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "annotation.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Level3\\annotation.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\SBML\\SBML\\Level3\\annotation.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Level3\\annotation.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\models\\SBML\\SBML\\Level3\\annotation.vb",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAUwG8AAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:42:46.619Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Specie.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Components\\Specie.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\SBML\\SBML\\Components\\Specie.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Components\\Specie.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\models\\SBML\\SBML\\Components\\Specie.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:40:58.42Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "XmlFile.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Level3\\XmlFile.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\SBML\\SBML\\Level3\\XmlFile.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Level3\\XmlFile.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\models\\SBML\\SBML\\Level3\\XmlFile.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAMgAAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:38:57.259Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "kineticLaw.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\kineticLaw.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\kineticLaw.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\kineticLaw.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\kineticLaw.vb",
-              "ViewState": "AgIAAFkAAAAAAAAAAAAIwFoAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:35:31.884Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SBMLReaction.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLReaction.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLReaction.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLReaction.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLReaction.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T09:33:59.947Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SBMLInternalIndexer.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T08:37:59.882Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
