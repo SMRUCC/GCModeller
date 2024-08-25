@@ -24,4 +24,11 @@ declare namespace sabiork {
    /**
    */
    function query(ec_number: string, cache: object): any;
+   /**
+    * Create a helper reader for load element model from the sbml document
+    * 
+    * 
+     * @param sbml -
+   */
+   function sbmlReader(sbml: object): object;
 }

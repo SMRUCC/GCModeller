@@ -90,4 +90,14 @@ Public Module sabiork_repository
         Dim model As SbmlDocument = ModelQuery.parseSBML(xml, schema:=GetType(SbmlDocument))
         Return model
     End Function
+
+    ''' <summary>
+    ''' Create a helper reader for load element model from the sbml document
+    ''' </summary>
+    ''' <param name="sbml"></param>
+    ''' <returns></returns>
+    <ExportAPI("sbmlReader")>
+    Public Function documentReader(sbml As SbmlDocument) As SBMLInternalIndexer
+        Return New SBMLInternalIndexer(sbml)
+    End Function
 End Module

@@ -82,6 +82,8 @@ Namespace SBML
         ReadOnly keggReactions As New Dictionary(Of String, List(Of SBMLReaction))
         ReadOnly formulaLambdas As New Dictionary(Of String, LambdaExpression)
 
+        Public ReadOnly Property reactions As SBMLReaction()
+
         Sub New(sbml As SbmlDocument)
             Dim entries As String()
             Dim ref As NamedValue(Of String)
@@ -106,6 +108,7 @@ Namespace SBML
 
             compartments = sbml.sbml.model.listOfCompartments.ToDictionary(Function(c) c.id)
             species = sbml.sbml.model.listOfSpecies.ToDictionary(Function(c) c.id)
+            reactions = sbml.sbml.model.listOfReactions.AsEnumerable.ToArray
 
             For Each sp In species.Values
                 If Not sp.annotation?.RDF?.description.ElementAtOrNull(0)?.is.IsNullOrEmpty Then
