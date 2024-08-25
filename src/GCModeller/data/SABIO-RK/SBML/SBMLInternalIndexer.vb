@@ -63,7 +63,7 @@ Imports SMRUCC.genomics.Model.SBML.Level3
 Namespace SBML
 
     ''' <summary>
-    ''' helper for get reaction model from sabio-rk dataset
+    ''' helper for get reaction model from sabio-rk <see cref="SbmlDocument"/> dataset
     ''' </summary>
     Public Class SBMLInternalIndexer
 
@@ -83,6 +83,11 @@ Namespace SBML
         ReadOnly formulaLambdas As New Dictionary(Of String, LambdaExpression)
 
         Public ReadOnly Property reactions As SBMLReaction()
+        Public ReadOnly Property molecules As species()
+            Get
+                Return species.Values.ToArray
+            End Get
+        End Property
 
         Sub New(sbml As SbmlDocument)
             Dim entries As String()
