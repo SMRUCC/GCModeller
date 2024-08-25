@@ -84,7 +84,7 @@ Public Module sabiork_repository
     <ExportAPI("parseSbml")>
     Public Function parseSbml(data As String) As SbmlDocument
         Dim xml As String = data.LineIterators.JoinBy(vbLf)
-        Dim model As SbmlDocument = ModelQuery.parseSBML(xml)
+        Dim model As SbmlDocument = ModelQuery.parseSBML(xml, schema:=GetType(SbmlDocument))
         Return model
     End Function
 End Module

@@ -3,99 +3,24 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\mathmlparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\mathmlparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmldocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\sbmldocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8389B9ED-D78A-47B8-BF54-9830FAED9EF8}|..\\models\\SBML\\SBML\\sbml-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\sbml\\sbml\\level3\\xmlfile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmlinternalindexer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\sbmlinternalindexer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\kineticlaw.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\kineticlaw.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmlreaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\sbmlreaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\targetparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\targetparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\docurestfulweb\\docurestfulweb.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\docurestfulweb\\docurestfulweb.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\docurestfulweb\\webrequest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\docurestfulweb\\webrequest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\docurestfulweb\\queryfields.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\docurestfulweb\\queryfields.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{30C08BD9-85B1-4190-9E2C-E2B89B4EE70F}|SABIO-RK\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{30C08BD9-85B1-4190-9E2C-E2B89B4EE70F}|SABIO-RK\\test\\test.vbproj|solutionrelative:sabio-rk\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\docurestfulweb\\modelquery.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\docurestfulweb\\modelquery.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmldocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\sbml\\sbmldocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\kinetics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\dumps\\kinetics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\enzyme.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\dumps\\enzyme.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\tabulardump.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\dumps\\tabulardump.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\sbmlparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\dumps\\sbmlparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\sabiorksbml.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\dumps\\sabiorksbml.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\localparameterparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\dumps\\localparameterparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{30C08BD9-85B1-4190-9E2C-E2B89B4EE70F}|SABIO-RK\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{30C08BD9-85B1-4190-9E2C-E2B89B4EE70F}|SABIO-RK\\test\\test.vbproj|solutionrelative:sabio-rk\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\reactionlist.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\reactionlist.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\textparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\textparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\sidecompound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\sidecompound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\reaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\reaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\compound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\compound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\rdf\\rheadescription.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\rdf\\rheadescription.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\rdf\\rheardf.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\rdf\\rheardf.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -105,19 +30,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "XmlFile.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Level3\\XmlFile.vb",
-              "RelativeDocumentMoniker": "..\\models\\SBML\\SBML\\Level3\\XmlFile.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Level3\\XmlFile.vb",
-              "RelativeToolTip": "..\\models\\SBML\\SBML\\Level3\\XmlFile.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFYAAAAqAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Module1.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\test\\Module1.vb",
+              "RelativeDocumentMoniker": "SABIO-RK\\test\\Module1.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\test\\Module1.vb",
+              "RelativeToolTip": "SABIO-RK\\test\\Module1.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-25T05:34:20.975Z",
+              "WhenOpened": "2024-08-25T05:39:32.214Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ModelQuery.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\ModelQuery.vb",
+              "RelativeDocumentMoniker": "SABIO-RK\\docuRESTfulWeb\\ModelQuery.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\ModelQuery.vb",
+              "RelativeToolTip": "SABIO-RK\\docuRESTfulWeb\\ModelQuery.vb",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAowG4AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-25T05:39:26.206Z",
               "EditorCaption": ""
             },
             {
@@ -129,184 +67,34 @@
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SBMLReaction.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLReaction.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\SBML\\SBMLReaction.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLReaction.vb",
-              "RelativeToolTip": "SABIO-RK\\SBML\\SBMLReaction.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:21:01.359Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "TargetParser.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\TargetParser.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\SBML\\TargetParser.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\TargetParser.vb",
-              "RelativeToolTip": "SABIO-RK\\SBML\\TargetParser.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:21:00.031Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "SbmlDocument.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SbmlDocument.vb",
               "RelativeDocumentMoniker": "SABIO-RK\\SBML\\SbmlDocument.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SbmlDocument.vb",
               "RelativeToolTip": "SABIO-RK\\SBML\\SbmlDocument.vb",
-              "ViewState": "AgIAAFAAAAAAAAAAAAAQwH4AAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAF8AAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:20:43.398Z",
+              "WhenOpened": "2024-08-25T05:39:20.101Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "SBMLInternalIndexer.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "RelativeToolTip": "SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
-              "ViewState": "AgIAAF4AAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Title": "Kinetics.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\Kinetics.vb",
+              "RelativeDocumentMoniker": "SABIO-RK\\Dumps\\Kinetics.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\Kinetics.vb",
+              "RelativeToolTip": "SABIO-RK\\Dumps\\Kinetics.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFYAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:20:28.855Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MathMLParser.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\MathMLParser.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\SBML\\MathMLParser.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\MathMLParser.vb",
-              "RelativeToolTip": "SABIO-RK\\SBML\\MathMLParser.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAA3AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:20:19.719Z",
+              "WhenOpened": "2024-08-25T05:39:09.981Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "kineticLaw.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\kineticLaw.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\SBML\\kineticLaw.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\kineticLaw.vb",
-              "RelativeToolTip": "SABIO-RK\\SBML\\kineticLaw.vb",
-              "ViewState": "AgIAAHwAAAAAAAAAAAAmwGwAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:20:12.334Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "docuRESTfulWeb.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\docuRESTfulWeb.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\docuRESTfulWeb\\docuRESTfulWeb.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\docuRESTfulWeb.vb",
-              "RelativeToolTip": "SABIO-RK\\docuRESTfulWeb\\docuRESTfulWeb.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:19:57.582Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "WebRequest.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\WebRequest.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\docuRESTfulWeb\\WebRequest.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\WebRequest.vb",
-              "RelativeToolTip": "SABIO-RK\\docuRESTfulWeb\\WebRequest.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:19:46.031Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "QueryFields.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\QueryFields.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\docuRESTfulWeb\\QueryFields.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\QueryFields.vb",
-              "RelativeToolTip": "SABIO-RK\\docuRESTfulWeb\\QueryFields.vb",
-              "ViewState": "AgIAAGMAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:19:42.479Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ModelQuery.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\ModelQuery.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\docuRESTfulWeb\\ModelQuery.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\docuRESTfulWeb\\ModelQuery.vb",
-              "RelativeToolTip": "SABIO-RK\\docuRESTfulWeb\\ModelQuery.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:19:33.222Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "TabularDump.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\TabularDump.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\Dumps\\TabularDump.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\TabularDump.vb",
-              "RelativeToolTip": "SABIO-RK\\Dumps\\TabularDump.vb",
-              "ViewState": "AgIAAEcAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:19:26.367Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "SBMLParser.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\SBMLParser.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\Dumps\\SBMLParser.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\SBMLParser.vb",
-              "RelativeToolTip": "SABIO-RK\\Dumps\\SBMLParser.vb",
-              "ViewState": "AgIAALQAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:19:15.599Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "SabiorkSBML.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\SabiorkSBML.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\Dumps\\SabiorkSBML.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\SabiorkSBML.vb",
-              "RelativeToolTip": "SABIO-RK\\Dumps\\SabiorkSBML.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:19:05.223Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "LocalParameterParser.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\LocalParameterParser.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\Dumps\\LocalParameterParser.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\LocalParameterParser.vb",
-              "RelativeToolTip": "SABIO-RK\\Dumps\\LocalParameterParser.vb",
-              "ViewState": "AgIAAGoAAAAAAAAAAAAIwDgAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:18:54.926Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
               "Title": "Enzyme.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\Enzyme.vb",
               "RelativeDocumentMoniker": "SABIO-RK\\Dumps\\Enzyme.vb",
@@ -314,103 +102,8 @@
               "RelativeToolTip": "SABIO-RK\\Dumps\\Enzyme.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:18:53.689Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "ReactionList.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\ReactionList.vb",
-              "RelativeDocumentMoniker": "Rhea\\ReactionList.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\ReactionList.vb",
-              "RelativeToolTip": "Rhea\\ReactionList.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T12:11:47.304Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "TextParser.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\TextParser.vb",
-              "RelativeDocumentMoniker": "Rhea\\TextParser.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\TextParser.vb",
-              "RelativeToolTip": "Rhea\\TextParser.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T12:11:10.725Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "SideCompound.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\SideCompound.vb",
-              "RelativeDocumentMoniker": "Rhea\\SideCompound.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\SideCompound.vb",
-              "RelativeToolTip": "Rhea\\SideCompound.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T12:10:52.731Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "RheaDescription.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
-              "RelativeDocumentMoniker": "Rhea\\RDF\\RheaDescription.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
-              "RelativeToolTip": "Rhea\\RDF\\RheaDescription.vb",
-              "ViewState": "AQIAAEQAAAAAAAAAAAAcwAcAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T12:08:52.615Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "Compound.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Compound.vb",
-              "RelativeDocumentMoniker": "Rhea\\Compound.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Compound.vb",
-              "RelativeToolTip": "Rhea\\Compound.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwEYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T12:05:14.746Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Reaction.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Reaction.vb",
-              "RelativeDocumentMoniker": "Rhea\\Reaction.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Reaction.vb",
-              "RelativeToolTip": "Rhea\\Reaction.vb",
-              "ViewState": "AQIAAEMAAAAAAAAAAAA2wFsAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T11:58:06.831Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Module1.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\test\\Module1.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\test\\Module1.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\test\\Module1.vb",
-              "RelativeToolTip": "SABIO-RK\\test\\Module1.vb",
-              "ViewState": "AgIAADsAAAAAAAAAAAAwwHQAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-06T14:07:02.123Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "RheaRDF.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "RelativeDocumentMoniker": "Rhea\\RDF\\RheaRDF.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "RelativeToolTip": "Rhea\\RDF\\RheaRDF.vb",
-              "ViewState": "AQIAAG0AAAAAAAAAAAAYwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T11:58:23.758Z"
+              "WhenOpened": "2024-08-25T05:39:07.358Z",
+              "EditorCaption": ""
             }
           ]
         }
