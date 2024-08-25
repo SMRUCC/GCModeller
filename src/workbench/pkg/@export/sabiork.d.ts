@@ -1,10 +1,12 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "sabiork" from "vcellkit";
+//    imports "sabiork" from "biosystem";
 //
-// ref=vcellkit.sabiork_repository@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=biosystem.sabiork_repository@biosystem, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * sabio-rk data repository
+ * 
 */
 declare namespace sabiork {
    /**

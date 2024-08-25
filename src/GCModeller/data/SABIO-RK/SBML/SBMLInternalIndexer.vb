@@ -62,10 +62,22 @@ Imports SMRUCC.genomics.Model.SBML.Level3
 
 Namespace SBML
 
+    ''' <summary>
+    ''' helper for get reaction model from sabio-rk dataset
+    ''' </summary>
     Public Class SBMLInternalIndexer
 
+        ''' <summary>
+        ''' a list of the sub-cellular compartments
+        ''' </summary>
         ReadOnly compartments As Dictionary(Of String, compartment)
+        ''' <summary>
+        ''' a list of the metabolites
+        ''' </summary>
         ReadOnly species As Dictionary(Of String, species)
+        ''' <summary>
+        ''' mapping of the kegg metabolites
+        ''' </summary>
         ReadOnly keggCompounds As New Dictionary(Of String, String)
         ReadOnly keggReactions As New Dictionary(Of String, List(Of SBMLReaction))
         ReadOnly formulaLambdas As New Dictionary(Of String, LambdaExpression)
@@ -144,6 +156,11 @@ Namespace SBML
             Return ($"{factor.stoichiometry} {i}", i, annos)
         End Function
 
+        ''' <summary>
+        ''' try to get kegg reaction id from the given sabio-rk reaction model
+        ''' </summary>
+        ''' <param name="react"></param>
+        ''' <returns></returns>
         Public Shared Iterator Function GetKeggReactionId(react As SBMLReaction) As IEnumerable(Of String)
             For Each id In react.getIdentifiers.Where(Function(r) r.Name = "kegg.reaction")
                 Yield id.Value
@@ -178,6 +195,11 @@ Namespace SBML
             Return keggReactions.TryGetValue(id)
         End Function
 
+        ''' <summary>
+        ''' try to get enzyme molecules from a given reaction model
+        ''' </summary>
+        ''' <param name="react"></param>
+        ''' <returns></returns>
         Public Iterator Function getEnzymes(react As SBMLReaction) As IEnumerable(Of species)
             If Not react.listOfModifiers.IsNullOrEmpty Then
                 For Each modifier In react.listOfModifiers

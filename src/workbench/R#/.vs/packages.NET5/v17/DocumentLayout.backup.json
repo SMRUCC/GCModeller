@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{DCC16C47-FE61-4203-981C-8E16FB405E2B}|..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmlinternalindexer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\hds\\sabiorkrepository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -23,9 +26,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{DCC16C47-FE61-4203-981C-8E16FB405E2B}|..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmlreaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DCC16C47-FE61-4203-981C-8E16FB405E2B}|..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\sbmlinternalindexer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DCC16C47-FE61-4203-981C-8E16FB405E2B}|..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sbml\\mathmlparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -59,11 +59,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "SabiorkRepository.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\HDS\\SabiorkRepository.vb",
               "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\HDS\\SabiorkRepository.vb",
@@ -76,7 +76,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Modeller.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Modeller.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Modeller.vb",
@@ -89,7 +89,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Modeller.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\KineticsModeller\\Modeller.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\KineticsModeller\\Modeller.vb",
@@ -102,7 +102,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Enzymatic.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Enzymatic.vb",
@@ -115,7 +115,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "TargetParser.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\TargetParser.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\TargetParser.vb",
@@ -128,7 +128,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "SBMLReaction.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLReaction.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLReaction.vb",
@@ -141,7 +141,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "SBMLInternalIndexer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SBMLInternalIndexer.vb",
@@ -269,7 +269,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Sabiork.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\biosystem\\Sabiork.vb",
               "RelativeDocumentMoniker": "biosystem\\Sabiork.vb",
