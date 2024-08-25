@@ -66,7 +66,15 @@ Namespace SBML
 
     Public Class SbmlDocument
 
+        ''' <summary>
+        ''' the raw sbml document data
+        ''' </summary>
+        ''' <returns></returns>
         Public Property sbml As XmlFile(Of SBMLReaction)
+        ''' <summary>
+        ''' a list of the enzamatic kinetics expression
+        ''' </summary>
+        ''' <returns></returns>
         Public Property mathML As NamedValue(Of LambdaExpression)()
 
         ''' <summary>
