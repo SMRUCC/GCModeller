@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7e455ac86ff34a1148c3e992326fcb8, Microsoft.VisualBasic.Core\src\Net\HTTP\Web\WebQuery.vb"
+﻿#Region "Microsoft.VisualBasic::e7aab0171dafc5638eb2aa49b88e7b34, Microsoft.VisualBasic.Core\src\Net\HTTP\Web\WebQuery.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 352
-    '    Code Lines: 196 (55.68%)
-    ' Comment Lines: 105 (29.83%)
-    '    - Xml Docs: 71.43%
+    '   Total Lines: 370
+    '    Code Lines: 208 (56.22%)
+    ' Comment Lines: 108 (29.19%)
+    '    - Xml Docs: 72.22%
     ' 
-    '   Blank Lines: 51 (14.49%)
-    '     File Size: 14.81 KB
+    '   Blank Lines: 54 (14.59%)
+    '     File Size: 15.50 KB
 
 
     '     Class WebQuery
@@ -49,8 +49,8 @@
     ' 
     '         Constructor: (+5 Overloads) Sub New
     ' 
-    '         Function: GetText, IsNullKey, (+2 Overloads) Query, QueryCacheText, queryText
-    '                   (+2 Overloads) queryTextImpl
+    '         Function: GetText, isEmptyContent, IsNullKey, isTimeExpired, (+2 Overloads) Query
+    '                   QueryCacheText, queryText, (+2 Overloads) queryTextImpl
     ' 
     '         Sub: Clear404URLIndex, (+2 Overloads) Dispose, runHttpGet, Write404CacheList
     ' 
@@ -71,7 +71,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.My.FrameworkInternal
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Net.Http
 
@@ -107,6 +106,10 @@ Namespace Net.Http
         ''' </summary>
         Protected cache As IFileSystemEnvironment
         Protected sleepInterval As Integer
+        ''' <summary>
+        ''' the timespan length for test the cache is expired in time?
+        ''' </summary>
+        Protected expired As TimeSpan?
 
         Protected Shared debug As Boolean = True
         Private disposedValue As Boolean
@@ -288,6 +291,17 @@ Namespace Net.Http
             Return False
         End Function
 
+        Private Function isTimeExpired(cache_path As String) As Boolean
+            If expired IsNot Nothing Then
+                Dim modified As Date = cache.FileModifyTime(cache_path)
+                Dim dt As TimeSpan = Now - modified
+
+                Return dt > expired
+            Else
+                Return False
+            End If
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -296,7 +310,7 @@ Namespace Net.Http
         ''' <param name="hitCache"></param>
         Private Sub runHttpGet(cache_path As String, url$, ByRef hitCache As Boolean)
             Dim is404 As Boolean = False
-            Dim is_missing As Boolean = cache.FileSize(cache_path) <= 0 OrElse isEmptyContent(cache_path)
+            Dim is_missing As Boolean = cache.FileSize(cache_path) <= 0 OrElse isEmptyContent(cache_path) OrElse isTimeExpired(cache_path)
             Dim is_empty As Boolean = True
 
             If Not is_missing Then
