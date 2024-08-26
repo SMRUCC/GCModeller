@@ -109,13 +109,27 @@ Namespace Level3
         End Sub
     End Class
 
-    Public Class [is]
+    Public Class [is] : Implements Enumeration(Of String)
 
+        ''' <summary>
+        ''' An rdf array
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("Bag", [Namespace]:=RDFEntity.XmlnsNamespace)>
         Public Property Bag As Array
 
         Public Overrides Function ToString() As String
             Return Bag.ToString
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
+            If Bag Is Nothing Then
+                Return
+            End If
+
+            For Each li As String In Bag.AsEnumerable
+                Yield li
+            Next
         End Function
     End Class
 

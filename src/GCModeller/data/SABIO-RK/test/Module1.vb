@@ -78,7 +78,7 @@ Module Module1
         Dim sbml = XmlFile(Of SBMLReaction).LoadDocument("E:\GCModeller\src\GCModeller\engine\Rscript\modelling\sabio-rk.sbml.xml")
         Dim newML As New XmlFile(Of SBMLReaction) With {
             .model = New Model(Of SBMLReaction) With {
-            .listOfReactions = {New SBMLReaction With {
+            .listOfReactions = New reactionList(Of SBMLReaction) With {.reactions = {New SBMLReaction With {
             .kineticLaw = New kineticLaw With {
             .annotation = New kineticLawAnnotation With {
                 .sabiork = New sabiorkAnnotation With {.kineticLawID = 5},
@@ -86,7 +86,7 @@ Module Module1
                 .about = "12344",
                 .isDescribedBy = {New [is] With {.Bag = New MIME.application.rdf_xml.Array With {.list = {New li With {.resource = "abccc"}}}}}}}
         }
-        }}}}}}
+        }}}}}}}
 
         Call newML.GetXml.SaveTo("Z:\11111.XML")
 

@@ -104,6 +104,7 @@ Namespace SBML
             '    .KEGGCompoundId = GetIdentifier(CatalystSubstrate.Identifiers, "kegg.compound")
             '}
             'Return KineticLaw
+            Throw New NotImplementedException
         End Function
 
         Const ENZYME_ID As String = "^ENZ_.+?"
@@ -162,6 +163,7 @@ Namespace SBML
             '    .KEGGCompoundId = GetIdentifier(Modifier.Identifiers, "kegg.compound")
             '}
             'Return KineticsData
+            Throw New NotImplementedException
         End Function
     End Module
 End Namespace

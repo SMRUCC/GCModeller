@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::c4150e0e48aef467aa5c9b4f87259a86, engine\Compiler\KineticsModeller\Modeller.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 164
-    '    Code Lines: 130 (79.27%)
-    ' Comment Lines: 5 (3.05%)
-    '    - Xml Docs: 60.00%
-    ' 
-    '   Blank Lines: 29 (17.68%)
-    '     File Size: 6.54 KB
+' Summaries:
 
 
-    ' Class Modeller
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: CompileImpl, doKineticsQuery, PreCompile
-    ' 
-    '     Sub: applyForEnzyme, applyReactionKinetics
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 164
+'    Code Lines: 130 (79.27%)
+' Comment Lines: 5 (3.05%)
+'    - Xml Docs: 60.00%
+' 
+'   Blank Lines: 29 (17.68%)
+'     File Size: 6.54 KB
+
+
+' Class Modeller
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: CompileImpl, doKineticsQuery, PreCompile
+' 
+'     Sub: applyForEnzyme, applyReactionKinetics
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -66,6 +66,7 @@ Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK
+Imports SMRUCC.genomics.Data.SABIORK.docuRESTfulWeb
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.CompilerServices

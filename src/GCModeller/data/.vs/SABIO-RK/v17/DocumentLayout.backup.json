@@ -3,44 +3,12 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\localparameterparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\dumps\\localparameterparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\kinetics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\dumps\\kinetics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\enzyme.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\dumps\\enzyme.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{30C08BD9-85B1-4190-9E2C-E2B89B4EE70F}|SABIO-RK\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{30C08BD9-85B1-4190-9E2C-E2B89B4EE70F}|SABIO-RK\\test\\test.vbproj|solutionrelative:sabio-rk\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\reactionlist.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\reactionlist.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\textparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\textparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\sidecompound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\sidecompound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\reaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\reaction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\compound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\compound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\rdf\\rheadescription.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\rdf\\rheadescription.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\rdf\\rheardf.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1A694833-7898-4112-9DBC-B54E9F0D354C}|Rhea\\Rhea.vbproj|solutionrelative:rhea\\rdf\\rheardf.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -63,14 +31,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "LocalParameterParser.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\LocalParameterParser.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\Dumps\\LocalParameterParser.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\LocalParameterParser.vb",
-              "RelativeToolTip": "SABIO-RK\\Dumps\\LocalParameterParser.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAAjAAAAAAAAAA==",
+              "Title": "Kinetics.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\Kinetics.vb",
+              "RelativeDocumentMoniker": "SABIO-RK\\Dumps\\Kinetics.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\Kinetics.vb",
+              "RelativeToolTip": "SABIO-RK\\Dumps\\Kinetics.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFYAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:18:54.926Z",
+              "WhenOpened": "2024-08-25T05:39:09.981Z",
               "EditorCaption": ""
             },
             {
@@ -83,105 +51,8 @@
               "RelativeToolTip": "SABIO-RK\\Dumps\\Enzyme.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-19T12:18:53.689Z",
+              "WhenOpened": "2024-08-25T05:39:07.358Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ReactionList.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\ReactionList.vb",
-              "RelativeDocumentMoniker": "Rhea\\ReactionList.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\ReactionList.vb",
-              "RelativeToolTip": "Rhea\\ReactionList.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T12:11:47.304Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TextParser.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\TextParser.vb",
-              "RelativeDocumentMoniker": "Rhea\\TextParser.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\TextParser.vb",
-              "RelativeToolTip": "Rhea\\TextParser.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T12:11:10.725Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SideCompound.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\SideCompound.vb",
-              "RelativeDocumentMoniker": "Rhea\\SideCompound.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\SideCompound.vb",
-              "RelativeToolTip": "Rhea\\SideCompound.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T12:10:52.731Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "RheaDescription.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
-              "RelativeDocumentMoniker": "Rhea\\RDF\\RheaDescription.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
-              "RelativeToolTip": "Rhea\\RDF\\RheaDescription.vb",
-              "ViewState": "AQIAAEQAAAAAAAAAAAAcwAcAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T12:08:52.615Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Compound.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Compound.vb",
-              "RelativeDocumentMoniker": "Rhea\\Compound.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Compound.vb",
-              "RelativeToolTip": "Rhea\\Compound.vb",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwEYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T12:05:14.746Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Reaction.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Reaction.vb",
-              "RelativeDocumentMoniker": "Rhea\\Reaction.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Reaction.vb",
-              "RelativeToolTip": "Rhea\\Reaction.vb",
-              "ViewState": "AQIAAEMAAAAAAAAAAAA2wFsAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T11:58:06.831Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Module1.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\test\\Module1.vb",
-              "RelativeDocumentMoniker": "SABIO-RK\\test\\Module1.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\test\\Module1.vb",
-              "RelativeToolTip": "SABIO-RK\\test\\Module1.vb",
-              "ViewState": "AgIAADsAAAAAAAAAAAAwwHQAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-06T14:07:02.123Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "RheaRDF.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "RelativeDocumentMoniker": "Rhea\\RDF\\RheaRDF.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "RelativeToolTip": "Rhea\\RDF\\RheaRDF.vb",
-              "ViewState": "AQIAAG0AAAAAAAAAAAAYwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-07T11:58:23.758Z"
             }
           ]
         }

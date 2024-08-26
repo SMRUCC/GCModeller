@@ -79,10 +79,15 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports Microsoft.VisualBasic.MIME.application.xml
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.Model.SBML.Components
 
 Namespace Level3
 
+    ''' <summary>
+    ''' A generic sbml document file model
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     <XmlRoot("sbml", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class XmlFile(Of T As Reaction)
 
@@ -179,13 +184,49 @@ Namespace Level3
 
     End Class
 
+    ''' <summary>
+    ''' Compound molecule model
+    ''' </summary>
     <XmlType("species", Namespace:=sbmlXmlns)>
     Public Class species : Inherits Components.Specie
+
         <XmlAttribute> Public Property hasOnlySubstanceUnits As Boolean
         <XmlAttribute> Public Property constant As Boolean
         <XmlAttribute> Public Property metaid As String
         <XmlAttribute> Public Property initialConcentration As Double
         Public Property notes As Notes
         Public Property annotation As annotation
+
+        ''' <summary>
+        ''' get external db_xrefs of current compound molecule
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property db_xrefs As DBLink()
+            Get
+                If annotation Is Nothing Then Return Nothing
+                If annotation.RDF Is Nothing OrElse annotation.RDF.description.IsNullOrEmpty Then Return Nothing
+
+                Return annotation.RDF.description _
+                    .Select(Function(d)
+                                If d Is Nothing OrElse d.is.IsNullOrEmpty Then
+                                    Return Nothing
+                                End If
+
+                                Return d.is _
+                                    .Select(Function(a) a.AsEnumerable) _
+                                    .IteratesALL
+                            End Function) _
+                    .IteratesALL _
+                    .Select(Function(url)
+                                Dim tokens = url.Split("/"c)
+                                Dim name = tokens(tokens.Length - 2)
+                                Dim id = tokens(tokens.Length - 1)
+
+                                Return New DBLink(name, id)
+                            End Function) _
+                    .ToArray
+            End Get
+        End Property
+
     End Class
 End Namespace
