@@ -59,12 +59,17 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 
 Namespace PubMed
 
     Public Class History
 
         <XmlElement("PubMedPubDate")> Public Property PubMedPubDate As PubDate()
+
+        Public Overrides Function ToString() As String
+            Return PubMedPubDate.SafeQuery.JoinBy(" -> ")
+        End Function
 
     End Class
 

@@ -77,12 +77,15 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Linq
 
 Namespace PubMed
@@ -97,27 +100,50 @@ Namespace PubMed
         ''' </summary>
         ''' <param name="s">A stream of a large xml document file</param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function LoadStream(s As Stream, Optional tqdm As Boolean = True) As IEnumerable(Of PubmedArticle)
             Return s.LoadUltraLargeXMLDataSet(Of PubmedArticle)(preprocess:=AddressOf ProcessXmlDocument, tqdm:=tqdm)
         End Function
 
-        Private Shared Function ProcessXmlDocument(s As String) As String
-            Dim str As New StringBuilder(s)
-
-            Call str.Replace("<sub>", "&lt;sub>")
-            Call str.Replace("</sub>", "&lt;/sub>")
-            Call str.Replace("<sup>", "&lt;sup>")
-            Call str.Replace("</sup>", "&lt;/sup>")
-            Call str.Replace("<b>", "&lt;b>")
-            Call str.Replace("</b>", "&lt;/b>")
-            Call str.Replace("<u>", "&lt;u>")
-            Call str.Replace("</u>", "&lt;/u>")
-            Call str.Replace("<i>", "&lt;i>")
-            Call str.Replace("</i>", "&lt;/i>")
-
-            Return str.ToString
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ParseArticleXml(xml As String) As PubmedArticle
+            Return xml.CreateObjectFromXmlFragment(Of PubmedArticle)(preprocess:=AddressOf ProcessXmlDocument)
         End Function
 
+        Private Shared Function ProcessXmlDocument(s As String) As String
+            Static articleTitle As New Regex("[<]ArticleTitle[>].*?[<]/ArticleTitle[>]", RegexICSng)
+            Static abstractText As New Regex("[<]AbstractText[>].*?[<]/AbstractText[>]", RegexICSng)
+            Static vernacularTitle As New Regex("[<]VernacularTitle[>].*?[<]/VernacularTitle[>]", RegexICSng)
+
+            Dim sb As New StringBuilder(s)
+
+            Call articleTitle.Replace(s, Function(m) Escape(m, sb))
+            Call abstractText.Replace(s, Function(m) Escape(m, sb))
+            Call vernacularTitle.Replace(s, Function(m) Escape(m, sb))
+
+            Call sb.Replace(" < ", " &lt; ")
+
+            Return sb.ToString
+        End Function
+
+        Private Shared Function Escape(m As Match, sb As StringBuilder) As String
+            Dim str = m.Value.GetValue
+
+            Static elementBegin As New Regex("[<][a-z0-9]+", RegexICSng)
+            Static elementEnd As New Regex("[<]/[a-z0-9]+", RegexICSng)
+
+            For Each tag As String In elementBegin _
+                .Matches(str) _
+                .EachValue _
+                .JoinIterates(elementEnd.Matches(str).EachValue) _
+                .Distinct
+
+                Call sb.Replace(tag, tag.Replace("<", "&lt;"))
+            Next
+
+            Return ""
+        End Function
     End Class
 
     ''' <summary>
@@ -151,10 +177,16 @@ Namespace PubMed
             Return MedlineCitation.ToString
         End Function
 
+        ''' <summary>
+        ''' get article title
+        ''' </summary>
+        ''' <returns>
+        ''' this function will returns a title string with html tag unescaped
+        ''' </returns>
         Public Function GetTitle() As String
             If MedlineCitation IsNot Nothing Then
                 If MedlineCitation.Article IsNot Nothing Then
-                    Return MedlineCitation.Article.ArticleTitle
+                    Return MedlineCitation.Article.ArticleTitle.TrimNewLine.Replace("&lt;", "<")
                 End If
             End If
 
@@ -216,11 +248,22 @@ Namespace PubMed
             Return 0
         End Function
 
+        ''' <summary>
+        ''' get the article abstract text
+        ''' </summary>
+        ''' <returns>
+        ''' this function will returns a text content of the article abstract with html tag unescaped.
+        ''' </returns>
         Public Function GetAbstractText() As String
             If MedlineCitation IsNot Nothing Then
                 If MedlineCitation.Article IsNot Nothing Then
                     If MedlineCitation.Article.Abstract IsNot Nothing AndAlso Not MedlineCitation.Article.Abstract.AbstractText.IsNullOrEmpty Then
-                        Return MedlineCitation.Article.Abstract.AbstractText.Select(Function(a) a.Text).JoinBy(vbCrLf)
+                        Return MedlineCitation.Article _
+                            .Abstract _
+                            .AbstractText _
+                            .Select(Function(a) a.Text) _
+                            .JoinBy(vbCrLf) _
+                            .Replace("&lt;", "<")
                     End If
                 End If
             End If

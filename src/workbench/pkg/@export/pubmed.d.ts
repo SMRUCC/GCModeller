@@ -23,9 +23,12 @@ declare namespace pubmed {
     * Parse the document text as a set of article object
     * 
     * 
-     * @param text the pubmed database in flat file format
+     * @param text the pubmed database in flat file format, or the xml document content of 
+     *  the pubmed article metadata.
+     * @param xml 
+     * + default value Is ``false``.
    */
-   function article(text: string): object;
+   function article(text: string, xml?: boolean): object;
    module parse {
       /**
        * Parse the pubmed article set xml stream data
