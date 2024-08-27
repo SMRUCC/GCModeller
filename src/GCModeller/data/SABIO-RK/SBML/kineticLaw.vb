@@ -153,7 +153,7 @@ Namespace SBML
         Public Property buffer As String
 
         Public Overrides Function ToString() As String
-            Return $"{buffer}, ph={pHValue}, {temperature}"
+            Return $"{buffer}, ph={pHValue?.startValuepH}, {temperature}"
         End Function
 
     End Class
@@ -177,15 +177,21 @@ Namespace SBML
         Public Property startValuepH As Double
 
         Public Overrides Function ToString() As String
-            Return startValuepH
+            Return "pH " & startValuepH
         End Function
     End Class
 
     Public Class localParameter
+
         <XmlAttribute> Public Property id As String
         <XmlAttribute> Public Property name As String
         <XmlAttribute> Public Property value As Double
         <XmlAttribute> Public Property sboTerm As String
         <XmlAttribute> Public Property units As String
+
+        Public Overrides Function ToString() As String
+            Return $"({id}){name} = {value} {units}"
+        End Function
+
     End Class
 End Namespace

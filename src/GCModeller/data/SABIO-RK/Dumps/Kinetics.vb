@@ -86,7 +86,6 @@ Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
 Imports SMRUCC.genomics.Data.SABIORK.SBML
-Imports SMRUCC.genomics.Model.SBML.Level3
 
 Namespace TabularDump
 

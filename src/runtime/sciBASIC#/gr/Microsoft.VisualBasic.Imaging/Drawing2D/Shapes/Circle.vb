@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b5fbb9c6091bdc9150b38f4c8a5d222, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
+﻿#Region "Microsoft.VisualBasic::f37c7bc4a339ac36f5466ce70a6cd1b7, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.31%
     ' 
     '   Blank Lines: 19 (16.52%)
-    '     File Size: 4.08 KB
+    '     File Size: 4.10 KB
 
 
     '     Class Circle
@@ -66,7 +66,7 @@ Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Drawing2D.Shapes
 
@@ -121,7 +121,7 @@ Namespace Drawing2D.Shapes
         End Function
 
         Public Shared Iterator Function PathIterator(centerX!, centerY!, radius!, Optional vertices% = 30) As IEnumerable(Of PointF)
-            Dim deltaAngle# = 2 * stdNum.PI / vertices
+            Dim deltaAngle# = 2 * std.PI / vertices
             Dim X#, Y#
 
             For i As Integer = 0 To vertices - 1
@@ -156,8 +156,8 @@ Namespace Drawing2D.Shapes
                 Dim css As CSSEnvirnment = g.LoadEnvironment
 
                 rect = New RectangleF With {
-                    .X = center.X - radius - border.width,
-                    .Y = center.Y - radius - border.width,
+                    .X = center.X - radius - css.GetLineWidth(border),
+                    .Y = center.Y - radius - css.GetLineWidth(border),
                     .Width = radius * 2 + 1,
                     .Height = .Width
                 }

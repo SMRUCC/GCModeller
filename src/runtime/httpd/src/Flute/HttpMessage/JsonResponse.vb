@@ -57,10 +57,23 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace AppEngine
 
+    ''' <summary>
+    ''' a json wrapper of the response message:  ``{code: int, info: <typeparamref name="T"/>}``
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public Class JsonResponse(Of T)
 
+        ''' <summary>
+        ''' the status code of the result response
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute>
         Public Property code As Integer
+
+        ''' <summary>
+        ''' the response content data
+        ''' </summary>
+        ''' <returns></returns>
         <XmlText>
         Public Property info As T
 

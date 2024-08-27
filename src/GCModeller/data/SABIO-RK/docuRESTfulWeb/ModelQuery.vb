@@ -61,77 +61,80 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.Model.SBML.Level3
 
-Public Class ModelQuery : Inherits WebQueryModule(Of Dictionary(Of QueryFields, String))
+Namespace docuRESTfulWeb
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Sub New(<CallerMemberName>
-                   Optional cache As String = Nothing,
-                   Optional interval As Integer = -1,
-                   Optional offline As Boolean = False)
+    Public Class ModelQuery : Inherits WebQueryModule(Of Dictionary(Of QueryFields, String))
 
-        Call MyBase.New(cache, interval, offline)
-    End Sub
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub New(<CallerMemberName>
+                       Optional cache As String = Nothing,
+                       Optional interval As Integer = -1,
+                       Optional offline As Boolean = False)
 
-    Public Sub New(cache As IFileSystemEnvironment,
-                   Optional interval As Integer = -1,
-                   Optional offline As Boolean = False)
+            Call MyBase.New(cache, interval, offline)
+        End Sub
 
-        Call MyBase.New(cache, interval, offline)
-    End Sub
+        Public Sub New(cache As IFileSystemEnvironment,
+                       Optional interval As Integer = -1,
+                       Optional offline As Boolean = False)
 
-    Public Shared Function CreateQueryURL(q As Dictionary(Of QueryFields, String)) As String
-        Dim searches As String() = q _
-            .Select(Function(t)
-                        Return $"{t.Key.Description}:""{t.Value}"""
-                    End Function) _
-            .ToArray
-        Dim query As String = searches.JoinBy(" AND ").UrlEncode
-        Dim url As String = $"http://sabiork.h-its.org/sabioRestWebServices/searchKineticLaws/sbml?q={query}"
+            Call MyBase.New(cache, interval, offline)
+        End Sub
 
-        Return url
-    End Function
+        Public Shared Function CreateQueryURL(q As Dictionary(Of QueryFields, String)) As String
+            Dim searches As String() = q _
+                .Select(Function(t)
+                            Return $"{t.Key.Description}:""{t.Value}"""
+                        End Function) _
+                .ToArray
+            Dim query As String = searches.JoinBy(" AND ").UrlEncode
+            Dim url As String = $"http://sabiork.h-its.org/sabioRestWebServices/searchKineticLaws/sbml?q={query}"
 
-    Protected Overrides Function isEmptyContent(cache_path As String) As Boolean
-        Dim str = Strings.Trim(cache.ReadAllText(cache_path))
+            Return url
+        End Function
 
-        If str.StringEmpty(, True) Then
-            Return True
-        ElseIf str = "No results found for query" Then
-            Return True
-        Else
-            Return False
-        End If
-    End Function
+        Protected Overrides Function isEmptyContent(cache_path As String) As Boolean
+            Dim str = Strings.Trim(cache.ReadAllText(cache_path))
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function parseSBML(xml As String, Optional schema As Type = Nothing) As Object
-        If schema Is GetType(XmlFile(Of SBMLReaction)) Then
-            Return SbmlDocument.LoadXml(xml)
-        Else
-            Return SbmlDocument.LoadDocument(xml)
-        End If
-    End Function
+            If str.StringEmpty(, True) Then
+                Return True
+            ElseIf str = "No results found for query" Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Protected Overrides Function doParseUrl(context As Dictionary(Of QueryFields, String)) As String
-        Return CreateQueryURL(q:=context)
-    End Function
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function parseSBML(xml As String, Optional schema As Type = Nothing) As Object
+            If schema Is GetType(XmlFile(Of SBMLReaction)) Then
+                Return SbmlDocument.LoadXml(xml)
+            Else
+                Return SbmlDocument.LoadDocument(xml)
+            End If
+        End Function
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Protected Overrides Function doParseObject(html As String, schema As Type) As Object
-        Return parseSBML(html, schema)
-    End Function
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Protected Overrides Function doParseUrl(context As Dictionary(Of QueryFields, String)) As String
+            Return CreateQueryURL(q:=context)
+        End Function
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Protected Overrides Function doParseGuid(context As Dictionary(Of QueryFields, String)) As String
-        Return context.GetJson.MD5
-    End Function
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Protected Overrides Function doParseObject(html As String, schema As Type) As Object
+            Return parseSBML(html, schema)
+        End Function
 
-    Protected Overrides Function contextPrefix(guid As String) As String
-        If TypeOf cache Is Directory Then
-            Return guid.Substring(1, 2)
-        Else
-            Return $"/.cache/{guid.Substring(1, 2)}"
-        End If
-    End Function
-End Class
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Protected Overrides Function doParseGuid(context As Dictionary(Of QueryFields, String)) As String
+            Return context.GetJson.MD5
+        End Function
+
+        Protected Overrides Function contextPrefix(guid As String) As String
+            If TypeOf cache Is Directory Then
+                Return guid.Substring(1, 2)
+            Else
+                Return $"/.cache/{guid.Substring(1, 2)}"
+            End If
+        End Function
+    End Class
+End Namespace
