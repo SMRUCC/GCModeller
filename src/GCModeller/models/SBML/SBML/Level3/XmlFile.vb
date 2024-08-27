@@ -222,11 +222,16 @@ Namespace Level3
                                 Dim name = tokens(tokens.Length - 2)
                                 Dim id = tokens(tokens.Length - 1)
 
-                                Return New DBLink(name, id)
+                                Return New DBLink(dbnames(name), id)
                             End Function) _
                     .ToArray
             End Get
         End Property
+
+        Shared ReadOnly dbnames As New Dictionary(Of String, String) From {
+            {"kegg.compound", "kegg"},
+            {"chebi", "chebi"}
+        }
 
     End Class
 End Namespace
