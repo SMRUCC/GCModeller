@@ -122,11 +122,27 @@ Namespace PubMed
             Call abstractText.Replace(s, Function(m) Escape(m, sb))
             Call vernacularTitle.Replace(s, Function(m) Escape(m, sb))
 
+            Call sb.Replace(" < ", " &lt; ")
+
             Return sb.ToString
         End Function
 
         Private Shared Function Escape(m As Match, sb As StringBuilder) As String
+            Dim str = m.Value.GetValue
 
+            Static elementBegin As New Regex("[<][a-z0-9]+", RegexICSng)
+            Static elementEnd As New Regex("[<]/[a-z0-9]+", RegexICSng)
+
+            For Each tag As String In elementBegin _
+                .Matches(str) _
+                .EachValue _
+                .JoinIterates(elementEnd.Matches(str).EachValue) _
+                .Distinct
+
+                Call sb.Replace(tag, tag.Replace("<", "&lt;"))
+            Next
+
+            Return ""
         End Function
     End Class
 

@@ -259,9 +259,15 @@ Namespace Text.Parser.HtmlParser
         ''' </summary>
         ''' <param name="html"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' use this function for get the xml/html element tag value, example as:
+        ''' 
+        ''' ' get "title &lt;b>aaa&lt;/b>"
+        ''' &lt;h1>title &lt;b>aaa&lt;/b>&lt;/h1>
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function GetValue(html As String) As String
+        <Extension>
+        Public Function GetValue(html As String) As String
             Return html.GetStackValue(">", "<")
         End Function
 
