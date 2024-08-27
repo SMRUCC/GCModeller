@@ -53,11 +53,15 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.SABIORK.docuRESTfulWeb
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.Data.SABIORK.TabularDump
+Imports SMRUCC.genomics.Model.SBML.Level3
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
@@ -110,5 +114,30 @@ Public Module sabiork_repository
     <ExportAPI("sbmlReader")>
     Public Function documentReader(sbml As SbmlDocument) As SBMLInternalIndexer
         Return New SBMLInternalIndexer(sbml)
+    End Function
+
+    <ExportAPI("metabolite_species")>
+    Public Function getMetabolites(sbml As SBMLInternalIndexer, reaction As SBMLReaction) As Object
+        Dim list As list = list.empty
+        Dim entity As species
+        Dim db_xrefs As DBLink()
+
+        For Each sp As SpeciesReference In reaction.listOfProducts.JoinIterates(reaction.listOfReactants)
+            entity = sbml.getSpecies(sp.species)
+            db_xrefs = entity.db_xrefs
+            list.add(sp.species, New list With {
+                .slots = New Dictionary(Of String, Object) From {
+                    {"name", entity.name},
+                    {"xrefs", New dataframe With {
+                        .columns = New Dictionary(Of String, Array) From {
+                            {"source", db_xrefs.Select(Function(d) d.DBName).ToArray},
+                            {"xref", db_xrefs.Select(Function(d) d.entry).ToArray}
+                        }
+                    }}
+                }
+            })
+        Next
+
+        Return list
     End Function
 End Module
