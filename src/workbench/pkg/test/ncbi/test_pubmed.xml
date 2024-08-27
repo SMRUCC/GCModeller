@@ -1,0 +1,408 @@
+<PubmedArticle>
+  <MedlineCitation Status="MEDLINE" Owner="NLM">
+    <PMID Version="1">1329529</PMID>
+    <DateCompleted>
+      <Year>1992</Year>
+      <Month>10</Month>
+      <Day>29</Day>
+    </DateCompleted>
+    <DateRevised>
+      <Year>2017</Year>
+      <Month>12</Month>
+      <Day>13</Day>
+    </DateRevised>
+    <Article PubModel="Print">
+      <Journal>
+        <ISSN IssnType="Print">0002-9513</ISSN>
+        <JournalIssue CitedMedium="Print">
+          <Volume>263</Volume>
+          <Issue>3 Pt 1</Issue>
+          <PubDate>
+            <Year>1992</Year>
+            <Month>Sep</Month>
+          </PubDate>
+        </JournalIssue>
+        <Title>The American journal of physiology</Title>
+        <ISOAbbreviation>Am J Physiol</ISOAbbreviation>
+      </Journal>
+      <ArticleTitle>
+        Rabbit esophageal cell cytoplasmic pH regulation: role of <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:msup>
+            <mml:mtext>Na</mml:mtext>
+            <mml:mo>+</mml:mo>
+          </mml:msup>
+        </mml:math>-<mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:msup>
+            <mml:mtext>H</mml:mtext>
+            <mml:mo>+</mml:mo>
+          </mml:msup>
+        </mml:math> antiport and <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:msup>
+            <mml:mtext>H</mml:mtext>
+            <mml:mo>+</mml:mo>
+          </mml:msup>
+        </mml:math>-dependent <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:mtext>H</mml:mtext>
+          <mml:mtext>C</mml:mtext>
+          <mml:msubsup>
+            <mml:mtext>O</mml:mtext>
+            <mml:mn>3</mml:mn>
+            <mml:mo>-</mml:mo>
+          </mml:msubsup>
+        </mml:math> transport systems.
+      </ArticleTitle>
+      <Pagination>
+        <MedlinePgn>G407-13</MedlinePgn>
+      </Pagination>
+      <Abstract>
+        <AbstractText>
+          Regulation of cytoplasmic pH (pHi) of esophageal cells assumes importance as these cells can be exposed to mucosally absorbed acid during gastroesophageal reflux episodes. In this study, we examined whether esophageal cells possess pHi transport systems. Esophageal cells were harvested utilizing a gentle trypsin technique that yielded <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:mn>2</mml:mn>
+            <mml:mo>-</mml:mo>
+            <mml:mn>5</mml:mn>
+            <mml:mo>×</mml:mo>
+            <mml:msup>
+              <mml:mn>10</mml:mn>
+              <mml:mn>6</mml:mn>
+            </mml:msup>
+          </mml:math> cells per esophagus. Cells were attached to a glass cover slip that had been pretreated with rat-tail collagen, and pHi was measured continuously in a spectrofluorometer utilizing 2',7'-bis(2-carboxyethyl)-5(-6)- carboxyfluoroscein acetoxymethyl ester as a pH-sensitive fluorescent probe. <DispFormula>
+            <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+              <mml:msup>
+                <mml:mtext>H</mml:mtext>
+                <mml:mo>+</mml:mo>
+              </mml:msup>
+            </mml:math>
+          </DispFormula> The basal pHi of cells exposed to a <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:msup>
+              <mml:mtext>H</mml:mtext>
+              <mml:mo>+</mml:mo>
+            </mml:msup>
+          </mml:math>-containing solution averaged 7.52 ± 0.20 (n = 6). The pHi declined slightly but not significantly to 7.46 ± 0.12 with the addition of 5% <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:mtext>C</mml:mtext>
+            <mml:msub>
+              <mml:mtext>O</mml:mtext>
+              <mml:mn>2</mml:mn>
+            </mml:msub>
+          </mml:math> and 28 mM <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:mtext>Na</mml:mtext>
+            <mml:mtext>H</mml:mtext>
+            <mml:mtext>C</mml:mtext>
+            <mml:msub>
+              <mml:mtext>O</mml:mtext>
+              <mml:mn>3</mml:mn>
+            </mml:msub>
+          </mml:math> When H2 4,4'-diisothiocyanatostilbene- 2,2'-disulfonic acid (DIDS; 0.5 mM) was added, pHi was unchanged. However, addition of <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:msup>
+              <mml:mn>10</mml:mn>
+              <mml:mn>-6</mml:mn>
+            </mml:msup>
+          </mml:math> M amiloride caused pHi to decrease to 7.29 ± 0.18 (P less than 0.01). When cells were acidified (pHi 6.3-7.0) using a<DispFormula>
+            <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+              <mml:mrow>
+                <mml:msup>
+                  <mml:mi>a</mml:mi>
+                  <mml:mn>2</mml:mn>
+                </mml:msup>
+                <mml:mo>+</mml:mo>
+                <mml:msup>
+                  <mml:mi>b</mml:mi>
+                  <mml:mn>2</mml:mn>
+                </mml:msup>
+                <mml:mo>=</mml:mo>
+                <mml:msup>
+                  <mml:mi>c</mml:mi>
+                  <mml:mn>2</mml:mn>
+                </mml:msup>
+              </mml:mrow>
+            </mml:math>
+          </DispFormula>(20 mM) pulse technique, pHi was rapidly restored toward neutrality in the presence of a <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:mtext>H</mml:mtext>
+            <mml:mtext>C</mml:mtext>
+            <mml:msubsup>
+              <mml:mtext>O</mml:mtext>
+              <mml:mn>3</mml:mn>
+              <mml:mo>-</mml:mo>
+            </mml:msubsup>
+          </mml:math>-free external <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:msup>
+              <mml:mtext>Na</mml:mtext>
+              <mml:mo>+</mml:mo>
+            </mml:msup>
+          </mml:math> concentration ([<mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:msup>
+              <mml:mtext>Na</mml:mtext>
+              <mml:mo>+</mml:mo>
+            </mml:msup>
+          </mml:math>]o)-containing solution (pH units/min = 0.26 ± 0.12; n = 8). Alkalinization was completely blocked with <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:msup>
+              <mml:mn>10</mml:mn>
+              <mml:mn>-6</mml:mn>
+            </mml:msup>
+          </mml:math> M amiloride. In the presence of <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:msup>
+              <mml:mn>10</mml:mn>
+              <mml:mn>-6</mml:mn>
+            </mml:msup>
+          </mml:math> M amiloride, 28 mM <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:mtext>Na</mml:mtext>
+            <mml:mtext>H</mml:mtext>
+            <mml:mtext>C</mml:mtext>
+            <mml:msub>
+              <mml:mtext>O</mml:mtext>
+              <mml:mn>3</mml:mn>
+            </mml:msub>
+          </mml:math>, and 5% <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:mtext>C</mml:mtext>
+            <mml:msub>
+              <mml:mtext>O</mml:mtext>
+              <mml:mn>2</mml:mn>
+            </mml:msub>
+          </mml:math>, acidified cells also alkalinized, although at a slower rate (0.11 ± 0.04 pH units/min; n = 16).(ABSTRACT TRUNCATED AT 250 WORDS)
+        </AbstractText>
+      </Abstract>
+      <AuthorList CompleteYN="Y">
+        <Author ValidYN="Y">
+          <LastName>Layden</LastName>
+          <ForeName>T J</ForeName>
+          <Initials>TJ</Initials>
+          <AffiliationInfo>
+            <Affiliation>Department of Medicine, University of Illinois, Chicago.</Affiliation>
+          </AffiliationInfo>
+        </Author>
+        <Author ValidYN="Y">
+          <LastName>Schmidt</LastName>
+          <ForeName>L</ForeName>
+          <Initials>L</Initials>
+        </Author>
+        <Author ValidYN="Y">
+          <LastName>Agnone</LastName>
+          <ForeName>L</ForeName>
+          <Initials>L</Initials>
+        </Author>
+        <Author ValidYN="Y">
+          <LastName>Lisitza</LastName>
+          <ForeName>P</ForeName>
+          <Initials>P</Initials>
+        </Author>
+        <Author ValidYN="Y">
+          <LastName>Brewer</LastName>
+          <ForeName>J</ForeName>
+          <Initials>J</Initials>
+        </Author>
+        <Author ValidYN="Y">
+          <LastName>Goldstein</LastName>
+          <ForeName>J L</ForeName>
+          <Initials>JL</Initials>
+        </Author>
+      </AuthorList>
+      <Language>eng</Language>
+      <PublicationTypeList>
+        <PublicationType UI="D016428">Journal Article</PublicationType>
+        <PublicationType UI="D013486">Research Support, U.S. Gov't, Non-P.H.S.</PublicationType>
+      </PublicationTypeList>
+    </Article>
+    <MedlineJournalInfo>
+      <Country>United States</Country>
+      <MedlineTA>Am J Physiol</MedlineTA>
+      <NlmUniqueID>0370511</NlmUniqueID>
+      <ISSNLinking>0002-9513</ISSNLinking>
+    </MedlineJournalInfo>
+    <ChemicalList>
+      <Chemical>
+        <RegistryNumber>0</RegistryNumber>
+        <NameOfSubstance UI="D001639">Bicarbonates</NameOfSubstance>
+      </Chemical>
+      <Chemical>
+        <RegistryNumber>0</RegistryNumber>
+        <NameOfSubstance UI="D002352">Carrier Proteins</NameOfSubstance>
+      </Chemical>
+      <Chemical>
+        <RegistryNumber>0</RegistryNumber>
+        <NameOfSubstance UI="D017923">Sodium-Hydrogen Exchangers</NameOfSubstance>
+      </Chemical>
+      <Chemical>
+        <RegistryNumber>9NEZ333N27</RegistryNumber>
+        <NameOfSubstance UI="D012964">Sodium</NameOfSubstance>
+      </Chemical>
+    </ChemicalList>
+    <CitationSubset>IM</CitationSubset>
+    <MeshHeadingList>
+      <MeshHeading>
+        <DescriptorName UI="D000818" MajorTopicYN="N">Animals</DescriptorName>
+      </MeshHeading>
+      <MeshHeading>
+        <DescriptorName UI="D001639" MajorTopicYN="N">Bicarbonates</DescriptorName>
+        <QualifierName UI="Q000378" MajorTopicYN="Y">metabolism</QualifierName>
+      </MeshHeading>
+      <MeshHeading>
+        <DescriptorName UI="D001692" MajorTopicYN="N">Biological Transport</DescriptorName>
+      </MeshHeading>
+      <MeshHeading>
+        <DescriptorName UI="D002352" MajorTopicYN="N">Carrier Proteins</DescriptorName>
+        <QualifierName UI="Q000502" MajorTopicYN="Y">physiology</QualifierName>
+      </MeshHeading>
+      <MeshHeading>
+        <DescriptorName UI="D002448" MajorTopicYN="N">Cell Adhesion</DescriptorName>
+      </MeshHeading>
+      <MeshHeading>
+        <DescriptorName UI="D003584" MajorTopicYN="N">Cytological Techniques</DescriptorName>
+      </MeshHeading>
+      <MeshHeading>
+        <DescriptorName UI="D003593" MajorTopicYN="N">Cytoplasm</DescriptorName>
+        <QualifierName UI="Q000378" MajorTopicYN="Y">metabolism</QualifierName>
+      </MeshHeading>
+      <MeshHeading>
+        <DescriptorName UI="D004947" MajorTopicYN="N">Esophagus</DescriptorName>
+        <QualifierName UI="Q000166" MajorTopicYN="N">cytology</QualifierName>
+        <QualifierName UI="Q000378" MajorTopicYN="Y">metabolism</QualifierName>
+      </MeshHeading>
+      <MeshHeading>
+        <DescriptorName UI="D006863" MajorTopicYN="N">Hydrogen-Ion Concentration</DescriptorName>
+      </MeshHeading>
+      <MeshHeading>
+        <DescriptorName UI="D011817" MajorTopicYN="N">Rabbits</DescriptorName>
+      </MeshHeading>
+      <MeshHeading>
+        <DescriptorName UI="D012964" MajorTopicYN="N">Sodium</DescriptorName>
+        <QualifierName UI="Q000502" MajorTopicYN="Y">physiology</QualifierName>
+      </MeshHeading>
+      <MeshHeading>
+        <DescriptorName UI="D017923" MajorTopicYN="N">Sodium-Hydrogen Exchangers</DescriptorName>
+      </MeshHeading>
+    </MeshHeadingList>
+    <OtherAbstract Type="Publisher" Language="spa">
+      <AbstractText>
+        [Spanish] Regulation of cytoplasmic pH (pHi) of esophageal cells assumes importance as these cells can be exposed to mucosally absorbed acid during gastroesophageal reflux episodes. In this study, we examined whether esophageal cells possess pHi transport systems. Esophageal cells were harvested utilizing a gentle trypsin technique that yielded <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:mn>2</mml:mn>
+          <mml:mo>-</mml:mo>
+          <mml:mn>5</mml:mn>
+          <mml:mo>×</mml:mo>
+          <mml:msup>
+            <mml:mn>10</mml:mn>
+            <mml:mn>6</mml:mn>
+          </mml:msup>
+        </mml:math> cells per esophagus. Cells were attached to a glass cover slip that had been pretreated with rat-tail collagen, and pHi was measured continuously in a spectrofluorometer utilizing 2',7'-bis(2-carboxyethyl)-5(-6)- carboxyfluoroscein acetoxymethyl ester as a pH-sensitive fluorescent probe. <DispFormula>
+          <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:msup>
+              <mml:mtext>H</mml:mtext>
+              <mml:mo>+</mml:mo>
+            </mml:msup>
+          </mml:math>
+        </DispFormula> The basal pHi of cells exposed to a <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:msup>
+            <mml:mtext>H</mml:mtext>
+            <mml:mo>+</mml:mo>
+          </mml:msup>
+        </mml:math>-containing solution averaged 7.52 ± 0.20 (n = 6). The pHi declined slightly but not significantly to 7.46 ± 0.12 with the addition of 5% <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:mtext>C</mml:mtext>
+          <mml:msub>
+            <mml:mtext>O</mml:mtext>
+            <mml:mn>2</mml:mn>
+          </mml:msub>
+        </mml:math> and 28 mM <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:mtext>Na</mml:mtext>
+          <mml:mtext>H</mml:mtext>
+          <mml:mtext>C</mml:mtext>
+          <mml:msub>
+            <mml:mtext>O</mml:mtext>
+            <mml:mn>3</mml:mn>
+          </mml:msub>
+        </mml:math> When H2 4,4'-diisothiocyanatostilbene- 2,2'-disulfonic acid (DIDS; 0.5 mM) was added, pHi was unchanged. However, addition of <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:msup>
+            <mml:mn>10</mml:mn>
+            <mml:mn>-6</mml:mn>
+          </mml:msup>
+        </mml:math> M amiloride caused pHi to decrease to 7.29 ± 0.18 (P less than 0.01). When cells were acidified (pHi 6.3-7.0) using a<DispFormula>
+          <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+            <mml:mrow>
+              <mml:msup>
+                <mml:mi>a</mml:mi>
+                <mml:mn>2</mml:mn>
+              </mml:msup>
+              <mml:mo>+</mml:mo>
+              <mml:msup>
+                <mml:mi>b</mml:mi>
+                <mml:mn>2</mml:mn>
+              </mml:msup>
+              <mml:mo>=</mml:mo>
+              <mml:msup>
+                <mml:mi>c</mml:mi>
+                <mml:mn>2</mml:mn>
+              </mml:msup>
+            </mml:mrow>
+          </mml:math>
+        </DispFormula>(20 mM) pulse technique, pHi was rapidly restored toward neutrality in the presence of a <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:mtext>H</mml:mtext>
+          <mml:mtext>C</mml:mtext>
+          <mml:msubsup>
+            <mml:mtext>O</mml:mtext>
+            <mml:mn>3</mml:mn>
+            <mml:mo>-</mml:mo>
+          </mml:msubsup>
+        </mml:math>-free external <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:msup>
+            <mml:mtext>Na</mml:mtext>
+            <mml:mo>+</mml:mo>
+          </mml:msup>
+        </mml:math> concentration ([<mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:msup>
+            <mml:mtext>Na</mml:mtext>
+            <mml:mo>+</mml:mo>
+          </mml:msup>
+        </mml:math>]o)-containing solution (pH units/min = 0.26 ± 0.12; n = 8). Alkalinization was completely blocked with <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:msup>
+            <mml:mn>10</mml:mn>
+            <mml:mn>-6</mml:mn>
+          </mml:msup>
+        </mml:math> M amiloride. In the presence of <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:msup>
+            <mml:mn>10</mml:mn>
+            <mml:mn>-6</mml:mn>
+          </mml:msup>
+        </mml:math> M amiloride, 28 mM <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:mtext>Na</mml:mtext>
+          <mml:mtext>H</mml:mtext>
+          <mml:mtext>C</mml:mtext>
+          <mml:msub>
+            <mml:mtext>O</mml:mtext>
+            <mml:mn>3</mml:mn>
+          </mml:msub>
+        </mml:math>, and 5% <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML">
+          <mml:mtext>C</mml:mtext>
+          <mml:msub>
+            <mml:mtext>O</mml:mtext>
+            <mml:mn>2</mml:mn>
+          </mml:msub>
+        </mml:math>, acidified cells also alkalinized, although at a slower rate (0.11 ± 0.04 pH units/min; n = 16).(ABSTRACT TRUNCATED AT 250 WORDS)
+      </AbstractText>
+    </OtherAbstract>
+  </MedlineCitation>
+  <PubmedData>
+    <History>
+      <PubMedPubDate PubStatus="pubmed">
+        <Year>1992</Year>
+        <Month>9</Month>
+        <Day>1</Day>
+      </PubMedPubDate>
+      <PubMedPubDate PubStatus="medline">
+        <Year>1992</Year>
+        <Month>9</Month>
+        <Day>1</Day>
+        <Hour>0</Hour>
+        <Minute>1</Minute>
+      </PubMedPubDate>
+      <PubMedPubDate PubStatus="entrez">
+        <Year>1992</Year>
+        <Month>9</Month>
+        <Day>1</Day>
+        <Hour>0</Hour>
+        <Minute>0</Minute>
+      </PubMedPubDate>
+    </History>
+    <PublicationStatus>ppublish</PublicationStatus>
+    <ArticleIdList>
+      <ArticleId IdType="pubmed">1329529</ArticleId>
+      <ArticleId IdType="doi">10.1152/ajpgi.1992.263.3.G407</ArticleId>
+    </ArticleIdList>
+  </PubmedData>
+</PubmedArticle>
