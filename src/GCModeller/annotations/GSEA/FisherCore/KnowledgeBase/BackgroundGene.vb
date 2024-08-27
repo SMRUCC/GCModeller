@@ -92,6 +92,11 @@ Public Class BackgroundGene : Inherits Synonym
     Sub New()
     End Sub
 
+    Sub New(id As String, name As String)
+        Call Me.New(id)
+        Me.name = name
+    End Sub
+
     Sub New(id As String)
         name = id
         term_id = {New NamedValue(id, id)}
