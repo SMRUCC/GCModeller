@@ -3,7 +3,8 @@
 .SH NAME
 article \- Parse the document text as a set of article object
 .SH SYNOPSIS
-\fIarticle(\fBtext\fR as string);\fR
+\fIarticle(\fBtext\fR as string, 
+\fBxml\fR as boolean = FALSE);\fR
 .SH DESCRIPTION
 .PP
 Parse the document text as a set of article object
@@ -11,7 +12,8 @@ Parse the document text as a set of article object
 .SH OPTIONS
 .PP
 \fBtext\fB \fR\- 
- the pubmed database in flat file format
+ the pubmed database in flat file format, or the xml document content of 
+ the pubmed article metadata.
 . 
 .PP
 .SH SEE ALSO
