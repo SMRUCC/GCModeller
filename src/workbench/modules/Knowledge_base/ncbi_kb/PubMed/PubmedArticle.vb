@@ -180,7 +180,7 @@ Namespace PubMed
         Public Function GetTitle() As String
             If MedlineCitation IsNot Nothing Then
                 If MedlineCitation.Article IsNot Nothing Then
-                    Return MedlineCitation.Article.ArticleTitle
+                    Return MedlineCitation.Article.ArticleTitle.TrimNewLine
                 End If
             End If
 
