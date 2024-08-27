@@ -4,12 +4,6 @@
   "Documents": [
     {
       "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\pubmedarticle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\stringhelpers\\regexextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\text\\parser\\htmlparser\\htmlstrips.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,7 +13,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -35,39 +29,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "HtmlStrips.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
-              "ViewState": "AgIAAO4AAAAAAAAAAAAlwA0BAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-27T02:32:28.521Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RegexExtensions.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\StringHelpers\\RegexExtensions.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\StringHelpers\\RegexExtensions.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\StringHelpers\\RegexExtensions.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\StringHelpers\\RegexExtensions.vb",
-              "ViewState": "AgIAAPQAAAAAAAAAAAASwAoBAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-27T02:23:17.967Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "PubmedArticle.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
               "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
               "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
-              "ViewState": "AgIAAHAAAAAAAAAAAAAawH8AAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAGgAAAAAAAAAAIAzwH8AAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-27T00:44:55.064Z",
               "EditorCaption": ""

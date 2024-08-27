@@ -112,9 +112,9 @@ Namespace PubMed
         End Function
 
         Private Shared Function ProcessXmlDocument(s As String) As String
-            Static articleTitle As New Regex("[<]ArticleTitle[>].+[<]/ArticleTitle[>]", RegexICSng)
-            Static abstractText As New Regex("[<]AbstractText[>].+[<]/AbstractText[>]", RegexICSng)
-            Static vernacularTitle As New Regex("[<]VernacularTitle[>].+[<]/VernacularTitle[>]", RegexICSng)
+            Static articleTitle As New Regex("[<]ArticleTitle[>].*?[<]/ArticleTitle[>]", RegexICSng)
+            Static abstractText As New Regex("[<]AbstractText[>].*?[<]/AbstractText[>]", RegexICSng)
+            Static vernacularTitle As New Regex("[<]VernacularTitle[>].*?[<]/VernacularTitle[>]", RegexICSng)
 
             Dim sb As New StringBuilder(s)
 
