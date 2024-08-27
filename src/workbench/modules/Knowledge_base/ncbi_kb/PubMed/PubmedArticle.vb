@@ -177,6 +177,12 @@ Namespace PubMed
             Return MedlineCitation.ToString
         End Function
 
+        ''' <summary>
+        ''' get article title
+        ''' </summary>
+        ''' <returns>
+        ''' this function will returns a title string with html tag unescaped
+        ''' </returns>
         Public Function GetTitle() As String
             If MedlineCitation IsNot Nothing Then
                 If MedlineCitation.Article IsNot Nothing Then
@@ -242,6 +248,12 @@ Namespace PubMed
             Return 0
         End Function
 
+        ''' <summary>
+        ''' get the article abstract text
+        ''' </summary>
+        ''' <returns>
+        ''' this function will returns a text content of the article abstract with html tag unescaped.
+        ''' </returns>
         Public Function GetAbstractText() As String
             If MedlineCitation IsNot Nothing Then
                 If MedlineCitation.Article IsNot Nothing Then
