@@ -77,6 +77,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
@@ -99,39 +100,34 @@ Namespace PubMed
         ''' </summary>
         ''' <param name="s">A stream of a large xml document file</param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function LoadStream(s As Stream, Optional tqdm As Boolean = True) As IEnumerable(Of PubmedArticle)
             Return s.LoadUltraLargeXMLDataSet(Of PubmedArticle)(preprocess:=AddressOf ProcessXmlDocument, tqdm:=tqdm)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ParseArticleXml(xml As String) As PubmedArticle
-            Return xml.CreateObjectFromXmlFragment(Of PubmedArticle)
+            Return xml.CreateObjectFromXmlFragment(Of PubmedArticle)(preprocess:=AddressOf ProcessXmlDocument)
         End Function
 
         Private Shared Function ProcessXmlDocument(s As String) As String
-            Dim str As New StringBuilder(s)
+            Static articleTitle As New Regex("[<]ArticleTitle[>].+[<]/ArticleTitle[>]", RegexICSng)
+            Static abstractText As New Regex("[<]AbstractText[>].+[<]/AbstractText[>]", RegexICSng)
+            Static vernacularTitle As New Regex("[<]VernacularTitle[>].+[<]/VernacularTitle[>]", RegexICSng)
 
-            Static tags As (r As Regex, escaped As String)() = HtmlStrips.GetHtmlFormatTags _
-                .Select(Iterator Function(tag) As IEnumerable(Of (Regex, String))
-                            ' <b>: &lt;b>
-                            Yield (New Regex($"[<]{tag}[>]", RegexOptions.Compiled Or RegexOptions.IgnoreCase),
-                                $"&lt;{tag}>")
-                            ' </b>: &lt;/b>
-                            Yield (New Regex($"[<][/]{tag}[>]", RegexOptions.Compiled Or RegexOptions.IgnoreCase),
-                                $"&lt;/{tag}>")
-                            ' <br/>: &lt;br/>
-                            Yield (New Regex($"[<]{tag}\s*/[>]", RegexOptions.Compiled Or RegexOptions.IgnoreCase),
-                                $"&lt;{tag}/>")
-                        End Function) _
-                .IteratesALL _
-                .ToArray
+            Dim sb As New StringBuilder(s)
 
-            For Each tag As (r As Regex, escaped As String) In tags
-                Call tag.r.Replace(str, tag.escaped, s)
-            Next
+            Call articleTitle.Replace(s, Function(m) Escape(m, sb))
+            Call abstractText.Replace(s, Function(m) Escape(m, sb))
+            Call vernacularTitle.Replace(s, Function(m) Escape(m, sb))
 
-            Return str.ToString
+            Return sb.ToString
         End Function
 
+        Private Shared Function Escape(m As Match, sb As StringBuilder) As String
+
+        End Function
     End Class
 
     ''' <summary>
