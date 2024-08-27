@@ -57,6 +57,8 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.SABIORK.docuRESTfulWeb
 Imports SMRUCC.genomics.Data.SABIORK.SBML
+Imports SMRUCC.genomics.Data.SABIORK.TabularDump
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
 ''' sabio-rk data repository
@@ -75,11 +77,13 @@ Public Module sabiork_repository
     End Function
 
     <ExportAPI("query")>
+    <RApiReturn(GetType(SbmlDocument))>
     Public Function query(ec_number As String, cache As SabiorkRepository) As Object
         Return cache.GetByECNumber(ec_number)
     End Function
 
     <ExportAPI("get_kineticis")>
+    <RApiReturn(GetType(EnzymeCatalystKineticLaw))>
     Public Function getKineticis(cache As SabiorkRepository, ec_number As String) As Object
         Return cache.GetKineticisLaw(ec_number).ToArray
     End Function

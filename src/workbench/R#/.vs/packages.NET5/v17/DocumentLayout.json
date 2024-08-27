@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0150D46B-E0D8-4BDA-B3B8-9ADF2D7B51A8}|biosystem\\biosystem.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\biosystem\\sabiork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0150D46B-E0D8-4BDA-B3B8-9ADF2D7B51A8}|biosystem\\biosystem.vbproj|solutionrelative:biosystem\\sabiork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -18,6 +23,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Sabiork.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\biosystem\\Sabiork.vb",
+              "RelativeDocumentMoniker": "biosystem\\Sabiork.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\biosystem\\Sabiork.vb",
+              "RelativeToolTip": "biosystem\\Sabiork.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-27T11:44:44.435Z",
+              "EditorCaption": ""
             }
           ]
         }
