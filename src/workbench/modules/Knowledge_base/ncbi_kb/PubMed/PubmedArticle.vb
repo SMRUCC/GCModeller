@@ -180,7 +180,7 @@ Namespace PubMed
         Public Function GetTitle() As String
             If MedlineCitation IsNot Nothing Then
                 If MedlineCitation.Article IsNot Nothing Then
-                    Return MedlineCitation.Article.ArticleTitle.TrimNewLine
+                    Return MedlineCitation.Article.ArticleTitle.TrimNewLine.Replace("&lt;", "<")
                 End If
             End If
 
@@ -246,7 +246,12 @@ Namespace PubMed
             If MedlineCitation IsNot Nothing Then
                 If MedlineCitation.Article IsNot Nothing Then
                     If MedlineCitation.Article.Abstract IsNot Nothing AndAlso Not MedlineCitation.Article.Abstract.AbstractText.IsNullOrEmpty Then
-                        Return MedlineCitation.Article.Abstract.AbstractText.Select(Function(a) a.Text).JoinBy(vbCrLf)
+                        Return MedlineCitation.Article _
+                            .Abstract _
+                            .AbstractText _
+                            .Select(Function(a) a.Text) _
+                            .JoinBy(vbCrLf) _
+                            .Replace("&lt;", "<")
                     End If
                 End If
             End If
