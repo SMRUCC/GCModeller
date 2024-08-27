@@ -78,11 +78,13 @@
 
 Imports System.IO
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports Microsoft.VisualBasic.Text.Xml.Linq
 
 Namespace PubMed
@@ -104,16 +106,24 @@ Namespace PubMed
         Private Shared Function ProcessXmlDocument(s As String) As String
             Dim str As New StringBuilder(s)
 
-            Call str.Replace("<sub>", "&lt;sub>")
-            Call str.Replace("</sub>", "&lt;/sub>")
-            Call str.Replace("<sup>", "&lt;sup>")
-            Call str.Replace("</sup>", "&lt;/sup>")
-            Call str.Replace("<b>", "&lt;b>")
-            Call str.Replace("</b>", "&lt;/b>")
-            Call str.Replace("<u>", "&lt;u>")
-            Call str.Replace("</u>", "&lt;/u>")
-            Call str.Replace("<i>", "&lt;i>")
-            Call str.Replace("</i>", "&lt;/i>")
+            Static tags As (r As Regex, escaped As String)() = HtmlStrips.GetHtmlFormatTags _
+                .Select(Iterator Function(tag) As IEnumerable(Of (Regex, String))
+                            ' <b>: &lt;b>
+                            Yield (New Regex($"[<]{tag}[>]", RegexOptions.Compiled Or RegexOptions.IgnoreCase),
+                                $"&lt;{tag}>")
+                            ' </b>: &lt;/b>
+                            Yield (New Regex($"[<][/]{tag}[>]", RegexOptions.Compiled Or RegexOptions.IgnoreCase),
+                                $"&lt;/{tag}>")
+                            ' <br/>: &lt;br/>
+                            Yield (New Regex($"[<]{tag}\s*/[>]", RegexOptions.Compiled Or RegexOptions.IgnoreCase),
+                                $"&lt;{tag}/>")
+                        End Function) _
+                .IteratesALL _
+                .ToArray
+
+            For Each tag As (r As Regex, escaped As String) In tags
+                Call tag.r.Replace(str, tag.escaped, s)
+            Next
 
             Return str.ToString
         End Function
