@@ -118,7 +118,10 @@ Module pubmed_tools
     End Function
 
     <ExportAPI("query")>
-    Public Function QueryKeyword(keyword As String, Optional page As Integer = 1, Optional size As Integer = 2000) As String
+    Public Function QueryKeyword(keyword As String,
+                                 Optional page As Integer = 1,
+                                 Optional size As Integer = 2000) As String
+
         Return PubMed.QueryPubmedRaw(term:=keyword, page:=page, size:=size)
     End Function
 
@@ -126,11 +129,21 @@ Module pubmed_tools
     ''' Parse the document text as a set of article object
     ''' </summary>
     ''' <param name="text">
-    ''' the pubmed database in flat file format
+    ''' the pubmed database in flat file format, or the xml document content of 
+    ''' the pubmed article metadata.
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("article")>
-    Public Function Parse(text As String) As PubmedArticle()
+    <RApiReturn(GetType(PubmedArticle))>
+    Public Function Parse(text As String, Optional xml As Boolean = False) As Object
+        If text Is Nothing Then
+            Return Nothing
+        End If
+        If xml Then
+            ' apply for debug test
+            Return PubmedArticleSet.ParseArticleXml(text)
+        End If
+
         Return PubMed.ParseArticles(text).ToArray
     End Function
 

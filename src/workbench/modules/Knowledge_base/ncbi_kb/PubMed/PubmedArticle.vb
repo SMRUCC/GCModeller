@@ -103,6 +103,10 @@ Namespace PubMed
             Return s.LoadUltraLargeXMLDataSet(Of PubmedArticle)(preprocess:=AddressOf ProcessXmlDocument, tqdm:=tqdm)
         End Function
 
+        Public Shared Function ParseArticleXml(xml As String) As PubmedArticle
+            Return xml.CreateObjectFromXmlFragment(Of PubmedArticle)
+        End Function
+
         Private Shared Function ProcessXmlDocument(s As String) As String
             Dim str As New StringBuilder(s)
 
