@@ -124,7 +124,7 @@ Public Module sabiork_repository
 
         For Each sp As SpeciesReference In reaction.listOfProducts.JoinIterates(reaction.listOfReactants)
             entity = sbml.getSpecies(sp.species)
-            db_xrefs = entity.db_xrefs
+            db_xrefs = entity.db_xrefs.SafeQuery.ToArray
             list.add(sp.species, New list With {
                 .slots = New Dictionary(Of String, Object) From {
                     {"name", entity.name},
