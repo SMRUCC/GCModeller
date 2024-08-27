@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.SABIORK.TabularDump.EnzymeCatalystKineticLaw</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>EnzymeCatalystKineticLaw {SMRUCC.genomics.Data.SABIORK.TabularDump}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>EnzymeCatalystKineticLaw</h2>
+
+        <h3>Description</h3>
+
+        <p>Vmax 是指 最大反应速度。当 底物浓度 足够大时，体系中酶的活性中心达到饱和状态，其反应速度达到最大。由此可见，最大反应速度 Vmax 随 酶浓度 的变化而变化。
+ kcat 指反应常数(Catalytic Constant)，Kcat 可以由公式计算得到： kcat = Vmax/[E]
+    - [E] 指 酶浓度，由此可以说， kcat 表示了每单位时间内（秒）每摩尔的酶（或者说每摩尔的活性中心）能够把多少摩尔的底物转化成产物。</p>
+
+<p>Km 俗称 米氏常数，以浓度做单位，米氏常数定义为 反应速度 达到 最大反应速度一半时 的底物浓度。 Km 可以反映出酶与底物的亲和力，Km越低，亲和力越大。
+ Kcat/Km 称为 催化效率，常常以此来比较 不同的酶而同一底物， 或者 不同底物而同一种酶。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data.SABIORK.TabularDump
+export class EnzymeCatalystKineticLaw extends <a href="/vignettes/clr/SMRUCC/genomics/Data/SABIORK/TabularDump/SabiorkEntity.html">SabiorkEntity</a> {
+   buffer: string;
+   compartment: string;
+   Ec_number: string;
+   enzyme: list;
+   fast: boolean;
+   KEGGReactionId: string;
+   lambda: string;
+   parameters: list;
+   PH: double;
+   PubMed: string;
+   reaction: string;
+   reversible: boolean;
+   SabiorkId: string;
+   temperature: double;
+   xref: list;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Data/SABIORK/TabularDump/SabiorkEntity.html">SabiorkEntity</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Data/SABIORK/TabularDump/SabiorkEntity.html">SabiorkEntity</a></li>
+<li>use by <i>property</i> member <code>enzyme</code>: list</li>
+<li>use by <i>property</i> member <code>parameters</code>: list</li>
+<li>use by <i>property</i> member <code>xref</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
