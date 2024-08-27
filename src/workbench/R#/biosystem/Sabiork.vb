@@ -88,6 +88,13 @@ Public Module sabiork_repository
         Return cache.GetKineticisLaw(ec_number).ToArray
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="data">
+    ''' the xml document text or the file path to the sbml xml document file.
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("parseSbml")>
     Public Function parseSbml(data As String) As SbmlDocument
         Dim xml As String = data.LineIterators.JoinBy(vbLf)
