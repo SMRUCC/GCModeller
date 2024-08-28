@@ -68,6 +68,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -165,7 +166,7 @@ Namespace Math
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <DebuggerStepThrough>
         Public Sub SetSeed(seed As Integer)
-            _seeds = New Random(seed)
+            _seeds = New ThreadLocal(Of Random)(Function() New Random(seed))
         End Sub
 
         ''' <summary>
@@ -186,13 +187,24 @@ Namespace Math
         ''' 可以在全局范围内重复使用这个随机数发生器
         ''' 不同的代码重复使用这个种子，这样子可以尽量的模拟出真正的随机行为
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' A thread safe random value generator. No needs for synclock
+        ''' </returns>
         ''' <remarks>
         ''' the random seed value of this property value can 
         ''' be reset by the <see cref="SetSeed(Integer)"/>
         ''' method.
         ''' </remarks>
-        Public ReadOnly Property seeds As New Random(Now.Millisecond * Now.Second + 1)
+        Public ReadOnly Property seeds As Random
+            Get
+                Return _seeds.Value
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' make a new random generator for all thread
+        ''' </summary>
+        Dim _seeds As New ThreadLocal(Of Random)(Function() New Random(Now.Millisecond * Now.Second + 1))
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <DebuggerStepThrough>
@@ -266,9 +278,7 @@ Namespace Math
         End Function
 
         Public Function GetNextBetween(range As IntRange) As Integer
-            SyncLock seeds
-                Return GetNextBetween(seeds, range.Min, range.Max)
-            End SyncLock
+            Return GetNextBetween(seeds, range.Min, range.Max)
         End Function
 
         ''' <summary>
@@ -279,9 +289,7 @@ Namespace Math
         ''' <returns></returns>
         <Extension>
         Public Function GetRandomValue(rng As DoubleRange) As Double
-            SyncLock seeds
-                Return seeds.NextDouble(range:=rng)
-            End SyncLock
+            Return seeds.NextDouble(range:=rng)
         End Function
 
         ''' <summary>
@@ -416,9 +424,7 @@ Namespace Math
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Sub Shuffle(Of T)(ByRef list As List(Of T))
-            SyncLock seeds
-                Call seeds.Shuffle(list)
-            End SyncLock
+            Call seeds.Shuffle(list)
         End Sub
 
         ''' <summary>
