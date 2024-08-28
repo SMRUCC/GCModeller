@@ -14,11 +14,17 @@ declare namespace sabiork {
    function get_kineticis(cache: object, ec_number: string): object;
    /**
    */
+   function metabolite_species(sbml: object, reaction: object): any;
+   /**
+   */
    function new(file: string): object;
    /**
    */
    function open(file: string): object;
    /**
+    * 
+    * 
+     * @param data the xml document text or the file path to the sbml xml document file.
    */
    function parseSbml(data: string): object;
    /**
