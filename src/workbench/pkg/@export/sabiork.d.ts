@@ -10,6 +10,14 @@
 */
 declare namespace sabiork {
    /**
+    * get enzyme info of a given reaction model
+    * 
+    * 
+     * @param sbml -
+     * @param reaction -
+   */
+   function enzyme_info(sbml: object, reaction: object): object;
+   /**
    */
    function get_kineticis(cache: object, ec_number: string): object;
    /**
