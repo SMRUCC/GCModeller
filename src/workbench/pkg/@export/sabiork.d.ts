@@ -11,7 +11,7 @@
 declare namespace sabiork {
    /**
    */
-   function get_kineticis(cache: object, ec_number: string): any;
+   function get_kineticis(cache: object, ec_number: string): object;
    /**
    */
    function new(file: string): object;
@@ -23,7 +23,7 @@ declare namespace sabiork {
    function parseSbml(data: string): object;
    /**
    */
-   function query(ec_number: string, cache: object): any;
+   function query(ec_number: string, cache: object): object;
    /**
     * Create a helper reader for load element model from the sbml document
     * 
