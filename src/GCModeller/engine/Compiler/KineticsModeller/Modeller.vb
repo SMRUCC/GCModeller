@@ -151,7 +151,7 @@ Public Class Modeller : Inherits Compiler(Of VirtualCell)
             For Each target As SBMLReaction In reactions
                 ' 如何查找匹配最优的催化动力学过程？
                 Dim refId As String = "KL_" & target.kineticLaw.annotation.sabiork.kineticLawID
-                Dim formula As LambdaExpression = index.getFormula(refId)
+                Dim formula As LambdaExpression = index.getKineticLaw(refId)
                 Dim conditions As experimentalConditions
 
                 If formula Is Nothing OrElse target.kineticLaw.annotation.sabiork.experimentalConditions Is Nothing Then

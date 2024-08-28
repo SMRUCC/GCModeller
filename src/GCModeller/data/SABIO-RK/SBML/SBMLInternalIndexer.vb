@@ -190,7 +190,7 @@ Namespace SBML
         ''' </summary>
         ''' <param name="id"></param>
         ''' <returns></returns>
-        Public Function getFormula(id As String) As LambdaExpression
+        Public Function getKineticLaw(id As String) As LambdaExpression
             If formulaLambdas.ContainsKey(id) Then
                 Return formulaLambdas(id)
             Else
