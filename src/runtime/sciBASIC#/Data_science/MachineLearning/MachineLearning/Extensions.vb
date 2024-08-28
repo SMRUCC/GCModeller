@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
-Imports stdNum = System.Math
+Imports std = System.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 <HideModuleName> Public Module Extensions
@@ -71,19 +71,13 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
     ''' <returns></returns>
     Public Function ValueTruncate(value#, truncate#) As Double
         If Double.IsNegativeInfinity(value) Then
-            SyncLock randf.seeds
-                value = -truncate * randf.seeds.NextDouble
-            End SyncLock
+            value = -truncate * randf.seeds.NextDouble
         ElseIf Double.IsPositiveInfinity(value) Then
-            SyncLock randf.seeds
-                value = truncate * randf.seeds.NextDouble
-            End SyncLock
+            value = truncate * randf.seeds.NextDouble
         ElseIf Double.IsNaN(value) Then
             value = 0
         ElseIf value > truncate OrElse value < -truncate Then
-            SyncLock randf.seeds
-                value = stdNum.Sign(value) * truncate * randf.seeds.NextDouble
-            End SyncLock
+            value = std.Sign(value) * truncate * randf.seeds.NextDouble
         End If
 
         Return value
@@ -101,7 +95,7 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
     ''' </remarks>
     <Extension>
     Public Function Delta(x#, Optional d# = 1 / 10) As Double
-        Dim p10 = Fix(stdNum.Log10(x))
+        Dim p10 = Fix(std.Log10(x))
         Dim small = (10 ^ (p10 + 1)) * d
         Return small
     End Function
