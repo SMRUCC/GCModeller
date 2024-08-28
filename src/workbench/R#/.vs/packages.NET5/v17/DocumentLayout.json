@@ -51,8 +51,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SBML\\SbmlDocument.vb",
               "ViewState": "AgIAAFgAAAAAAAAAAAAMwHAAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-27T13:47:09.881Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-27T13:47:09.881Z"
             },
             {
               "$type": "Document",
@@ -62,7 +61,7 @@
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%xml\\MathML\\Expression\\LambdaExpression.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%xml\\MathML\\Expression\\LambdaExpression.vb",
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%xml\\MathML\\Expression\\LambdaExpression.vb",
-              "ViewState": "AgIAADgAAAAAAAAAAAAtwFUAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-27T13:47:07.016Z",
               "EditorCaption": ""
@@ -77,8 +76,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\models\\SBML\\SBML\\Level3\\XmlFile.vb",
               "ViewState": "AgIAAMEAAAAAAAAAAIA0wNkAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-27T13:40:47.688Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-27T13:40:47.688Z"
             },
             {
               "$type": "Document",
@@ -90,8 +88,7 @@
               "RelativeToolTip": "biosystem\\SBMLTools.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-27T13:40:22.737Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-27T13:40:22.737Z"
             },
             {
               "$type": "Document",
@@ -103,8 +100,7 @@
               "RelativeToolTip": "biosystem\\Sabiork.vb",
               "ViewState": "AgIAAGcAAAAAAAAAAAAYwHcAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-27T11:44:44.435Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-27T11:44:44.435Z"
             }
           ]
         }
