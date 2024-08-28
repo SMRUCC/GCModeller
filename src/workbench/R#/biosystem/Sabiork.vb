@@ -149,6 +149,7 @@ Public Module sabiork_repository
     ''' <param name="reaction"></param>
     ''' <returns></returns>
     <ExportAPI("enzyme_info")>
+    <RApiReturn("ec_number", "uniprot")>
     Public Function enzyme_info(sbml As SBMLInternalIndexer, reaction As SBMLReaction) As Object
         Dim ec_number As String = reaction.ec_number
         Dim enz = reaction.listOfModifiers.SafeQuery.Select(Function(r) sbml.getSpecies(r.species)).ToArray
