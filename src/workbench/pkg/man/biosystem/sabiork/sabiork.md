@@ -9,3 +9,4 @@ sabio-rk data repository
 + [parseSbml](sabiork/parseSbml.1) 
 + [sbmlReader](sabiork/sbmlReader.1) Create a helper reader for load element model from the sbml document
 + [metabolite_species](sabiork/metabolite_species.1) 
++ [enzyme_info](sabiork/enzyme_info.1) get enzyme info of a given reaction model

@@ -222,7 +222,7 @@ Namespace Level3
                                 Dim name = tokens(tokens.Length - 2)
                                 Dim id = tokens(tokens.Length - 1)
 
-                                Return New DBLink(dbnames(name), id)
+                                Return New DBLink(dbnames.TryGetValue(name, [default]:=name), id)
                             End Function) _
                     .ToArray
             End Get
@@ -230,7 +230,8 @@ Namespace Level3
 
         Shared ReadOnly dbnames As New Dictionary(Of String, String) From {
             {"kegg.compound", "kegg"},
-            {"chebi", "chebi"}
+            {"chebi", "chebi"},
+            {"uniprot", "uniprot"}
         }
 
     End Class
