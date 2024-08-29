@@ -112,6 +112,9 @@ Namespace Level3
 
     <XmlType("speciesReference", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class SpeciesReference : Inherits Level2.Elements.speciesReference
-        <XmlAttribute("constant")> Public Property Constant As Boolean
+
+        <XmlAttribute("constant")>
+        Public Property Constant As Boolean
+
     End Class
 End Namespace

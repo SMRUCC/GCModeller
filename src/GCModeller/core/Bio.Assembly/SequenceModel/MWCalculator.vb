@@ -169,7 +169,10 @@ Namespace SequenceModel
             ' X is the unknown amino acid
             Dim mw As Double = Aggregate aa As Char
                                In seq.ToUpper
-                               Let w As Double = If(aa = "X"c OrElse aa = "-"c,
+                               Let w As Double = If(
+                                   aa = "X"c OrElse
+                                   aa = "-"c OrElse
+                                   Not AminoAcidObjUtility.OneChar2Mass.ContainsKey(aa),
                                    aa_avg, AminoAcidObjUtility.OneChar2Mass(aa))
                                Into Sum(w)
             Dim water As Double = (seq.Length - 1) * PeriodicTable.H2O
@@ -182,7 +185,7 @@ Namespace SequenceModel
             Dim water As FormulaData = FormulaData.H2O * (seq.Length - 1)
 
             For Each aa As Char In seq.ToUpper
-                If aa = "X"c OrElse aa = "-"c Then
+                If aa = "X"c OrElse aa = "-"c OrElse Not AminoAcidObjUtility.OneLetterFormula.ContainsKey(aa) Then
                     formula = formula + AminoAcidX
                 Else
                     formula = formula + AminoAcidObjUtility.OneLetterFormula(aa)

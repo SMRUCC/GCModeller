@@ -61,6 +61,7 @@ Imports SMRUCC.genomics.Data.SABIORK.docuRESTfulWeb
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.Data.SABIORK.TabularDump
 Imports SMRUCC.genomics.Model.SBML.Level3
+Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
@@ -139,5 +140,26 @@ Public Module sabiork_repository
         Next
 
         Return list
+    End Function
+
+    ''' <summary>
+    ''' get enzyme info of a given reaction model
+    ''' </summary>
+    ''' <param name="sbml"></param>
+    ''' <param name="reaction"></param>
+    ''' <returns></returns>
+    <ExportAPI("enzyme_info")>
+    <RApiReturn("ec_number", "uniprot")>
+    Public Function enzyme_info(sbml As SBMLInternalIndexer, reaction As SBMLReaction) As Object
+        Dim ec_number As String = reaction.ec_number
+        Dim enz = reaction.listOfModifiers.SafeQuery.Select(Function(r) sbml.getSpecies(r.species)).ToArray
+        Dim db_xrefs = enz.Select(Function(e) e.db_xrefs).IteratesALL.ToArray
+        Dim info As New list(slot("ec_number") = ec_number)
+
+        For Each external In db_xrefs.GroupBy(Function(d) d.DBName)
+            Call info.add(external.Key, external.Select(Function(d) d.entry))
+        Next
+
+        Return info
     End Function
 End Module
