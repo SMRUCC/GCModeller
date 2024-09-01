@@ -3,11 +3,17 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\terminal\\utility\\progressbar\\tqdm\\tqdm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\elixir\\uniprot\\xml\\model\\uniprotxml.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\elixir\\uniprot\\xml\\model\\uniprotxml.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\mwcalculator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -24,19 +30,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UniprotXML.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
-              "ViewState": "AgIAAGkAAAAAAAAAAIAwwIYAAAAfAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Tqdm.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm\\Tqdm.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm\\Tqdm.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm\\Tqdm.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm\\Tqdm.vb",
+              "ViewState": "AgIAAJIAAAAAAAAAAAASwLYAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-31T16:17:23.301Z",
+              "WhenOpened": "2024-09-01T06:30:20.297Z",
               "EditorCaption": ""
             },
             {
@@ -48,21 +54,50 @@
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "R-cmd.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-09-01T06:24:43.05Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UniprotXML.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
+              "ViewState": "AgIAAHUAAAAAAAAAAAD4v6AAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-31T16:17:23.301Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "uniprot.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\uniprot.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\uniprot.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\uniprot.vb",
               "RelativeToolTip": "seqtoolkit\\Annotations\\uniprot.vb",
-              "ViewState": "AgIAAG0AAAAAAAAAAAAAwIAAAAA7AAAAAAAAAA==",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAAwJsAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-31T16:16:47.324Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "MWCalculator.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\MWCalculator.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\MWCalculator.vb",
@@ -75,7 +110,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Fasta.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Fasta.vb",
@@ -84,10 +119,6 @@
               "ViewState": "AgIAAOsAAAAAAAAAAAAiwBABAABMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-08-28T14:54:18.664Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             }
           ]
         }
