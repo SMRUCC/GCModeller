@@ -132,22 +132,32 @@ Namespace Assembly.Uniprot.XML
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function EnumerateEntries(path$, Optional isUniParc As Boolean = False, Optional ignoreError As Boolean = False) As IEnumerable(Of entry)
+        Public Shared Function EnumerateEntries(path$,
+                                                Optional isUniParc As Boolean = False,
+                                                Optional ignoreError As Boolean = False,
+                                                Optional tqdm As Boolean = False) As IEnumerable(Of entry)
             If isUniParc Then
-                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniparc", ignoreError:=ignoreError)
+                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniparc",
+                                                               ignoreError:=ignoreError,
+                                                               tqdm:=tqdm)
             Else
-                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:=uniprot_xmlns, ignoreError:=ignoreError)
+                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:=uniprot_xmlns,
+                                                               ignoreError:=ignoreError,
+                                                               tqdm:=tqdm)
             End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function EnumerateEntries(files$(),
                                                 Optional isUniParc As Boolean = False,
-                                                Optional ignoreError As Boolean = False) As IEnumerable(Of entry)
+                                                Optional ignoreError As Boolean = False,
+                                                Optional tqdm As Boolean = False) As IEnumerable(Of entry)
             Return files _
                 .Select(Function(path)
-                            Call $"Populate {path}".__INFO_ECHO
-                            Return EnumerateEntries(path, isUniParc, ignoreError:=ignoreError)
+                            Call $"Populate uniprot proteins {path} [{StringFormats.Lanudry(bytes:=path.FileLength)}]".__INFO_ECHO
+                            Return EnumerateEntries(path, isUniParc,
+                                                    ignoreError:=ignoreError,
+                                                    tqdm:=tqdm)
                         End Function) _
                 .IteratesALL
         End Function

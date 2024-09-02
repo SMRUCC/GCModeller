@@ -70,11 +70,13 @@ declare namespace uniprot {
         * + default value Is ``false``.
         * @param ignoreError 
         * + default value Is ``true``.
+        * @param tqdm 
+        * + default value Is ``true``.
         * @param env 
         * + default value Is ``null``.
         * @return this function returns a pipeline stream of the uniprot protein entries.
       */
-      function uniprot(files: any, isUniParc?: boolean, ignoreError?: boolean, env?: object): object;
+      function uniprot(files: any, isUniParc?: boolean, ignoreError?: boolean, tqdm?: boolean, env?: object): object;
    }
    /**
    */
