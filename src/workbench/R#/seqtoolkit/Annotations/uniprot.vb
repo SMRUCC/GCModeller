@@ -129,6 +129,7 @@ Module uniprot
                                            files As Object,
                                            Optional isUniParc As Boolean = False,
                                            Optional ignoreError As Boolean = True,
+                                           Optional tqdm As Boolean = True,
                                            Optional env As Environment = Nothing) As Object
 
         Dim fileList As pipeline = pipeline.TryCreatePipeline(Of String)(files, env)
@@ -155,7 +156,8 @@ Module uniprot
             .EnumerateEntries(
                 files:=fileSet,
                 isUniParc:=isUniParc,
-                ignoreError:=ignoreError
+                ignoreError:=ignoreError,
+                tqdm:=tqdm
             ) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function

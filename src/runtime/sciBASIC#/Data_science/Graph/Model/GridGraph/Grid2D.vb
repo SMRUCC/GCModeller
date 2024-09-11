@@ -247,6 +247,24 @@ Namespace GridGraph
         End Function
 
         ''' <summary>
+        ''' check of the given point is existed?
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <returns></returns>
+        Public Function Check(x As Integer, y As Integer) As Boolean
+            Dim xkey = CLng(x), ykey = CLng(y)
+
+            If Not matrix2D.ContainsKey(xkey) Then
+                Return False
+            ElseIf Not matrix2D(xkey).ContainsKey(ykey) Then
+                Return False
+            End If
+
+            Return True
+        End Function
+
+        ''' <summary>
         ''' get a range of nearby cell data via a given pixel point data 
         ''' and query size of the cell block rectangle.
         ''' </summary>
@@ -284,6 +302,12 @@ Namespace GridGraph
             Next
         End Function
 
+        ''' <summary>
+        ''' Create a new readonly spatial graph
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="getSpatial"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function CreateReadOnly(data As IEnumerable(Of T), getSpatial As Func(Of T, Point)) As Grid(Of T)
             Return CreateReadOnly(data.Select(Function(i) New GridCell(Of T)(getSpatial(i), i)))
