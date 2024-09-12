@@ -128,14 +128,18 @@ Namespace Darwinism.GAF.Population
         ''' <param name="source"></param>
         ''' <returns></returns>
         Public Overrides Function ComputeFitness(comparator As FitnessPool(Of chr), source As PopulationCollection(Of chr)) As IEnumerable(Of NamedValue(Of Double))
-            Return From c As chr
-                   In source.GetCollection()
-                   Let fit As Double = comparator.Fitness(c, parallel:=True)
-                   Let key As String = c.Identity
-                   Select New NamedValue(Of Double) With {
-                       .Name = key,
-                       .Value = fit
-                   }
+            If verbose Then
+                Return ComputeFitnessVerboseProgress(comparator, source)
+            Else
+                Return From c As chr
+                       In source.GetCollection()
+                       Let fit As Double = comparator.Fitness(c, parallel:=True)
+                       Let key As String = c.Identity
+                       Select New NamedValue(Of Double) With {
+                           .Name = key,
+                           .Value = fit
+                       }
+            End If
         End Function
 
         Private Iterator Function ComputeFitnessVerboseProgress(comparator As FitnessPool(Of chr), source As PopulationCollection(Of chr)) As IEnumerable(Of NamedValue(Of Double))
