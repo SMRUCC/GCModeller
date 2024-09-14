@@ -105,11 +105,13 @@ Namespace Emit.Delegates
         Const DimNotAgree$ = "Value array should have the same length as the target data array"
 
         ''' <summary>
-        ''' 
+        ''' Evaluate the clr object property, and get vector value exports in batch 
         ''' </summary>
         ''' <param name="name$">The property name, using the ``nameof`` operator to get the property name!</param>
-        ''' <returns></returns>
-        Default Public Property Evaluate(name$) As Object
+        ''' <returns>
+        ''' get an array of the property value. the array is generic.
+        ''' </returns>
+        Default Public Property Evaluate(name As String) As Object
             Get
                 Dim [property] As New BindProperty(Of DataFrameColumnAttribute)(properties(name))
                 Dim vector As Array = Array.CreateInstance([property].Type, data.Length)
