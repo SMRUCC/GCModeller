@@ -81,6 +81,16 @@ Namespace Emit.Delegates
         Protected ReadOnly properties As Dictionary(Of String, PropertyInfo)
 
         ''' <summary>
+        ''' expose the internal clr array object to public directly.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property RawArray As Array
+            Get
+                Return data
+            End Get
+        End Property
+
+        ''' <summary>
         ''' get array of the clr property name
         ''' </summary>
         ''' <returns></returns>
