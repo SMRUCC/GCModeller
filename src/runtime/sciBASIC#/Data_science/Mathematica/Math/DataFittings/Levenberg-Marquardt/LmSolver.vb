@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Linq
 Imports Matrix = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.NumericMatrix
+Imports std = System.Math
 
 Namespace LevenbergMarquardt
 
@@ -126,7 +127,7 @@ Namespace LevenbergMarquardt
             Dim numOptParams = optParams.Length
             Dim penaltyFactor = 2.0
             Dim lambda = 0.0
-
+            Dim i = 0
             Dim errValue = errorFuncField.eval(optParams)
 
             While iter < maxNumIterField
@@ -144,15 +145,15 @@ Namespace LevenbergMarquardt
                 If iter = 1 Then
                     ' Initialize damping value on the first iteration
                     Dim diagonalMax = modifiedHessian(0)(0)
-                    Dim i = 1
+                    i = 1
 
                     While i < modifiedHessian.Length
-                        diagonalMax = Math.Max(diagonalMax, modifiedHessian(i)(i))
+                        diagonalMax = std.Max(diagonalMax, modifiedHessian(i)(i))
                         Threading.Interlocked.Increment(i)
                     End While
                     lambda = dampingFactorField * diagonalMax
                 End If
-                Dim i = 0
+                i = 0
 
                 While i < numOptParams
                     modifiedHessian(i)(i) += lambda
@@ -185,7 +186,7 @@ Namespace LevenbergMarquardt
                 ' Update optimized parameter vector and
                 ' damping value in augmented normal equation
                 If gainRatio > 0 Then
-                    Dim i = 0
+                    i = 0
 
                     While i < numOptParams
                         optParams(i) = newOptParams(i)
@@ -193,7 +194,7 @@ Namespace LevenbergMarquardt
                     End While
                     errValue = newErrValue
                     penaltyFactor = 2.0
-                    lambda *= Math.Max(1.0 / 3.0, 1 - Math.Pow(2.0 * gainRatio - 1, 3))
+                    lambda *= std.Max(1.0 / 3.0, 1 - std.Pow(2.0 * gainRatio - 1, 3))
                 Else
                     lambda *= penaltyFactor
                     penaltyFactor *= 2.0

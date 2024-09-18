@@ -5,8 +5,7 @@ Namespace LevenbergMarquardt
     ''' <summary>
     ''' Created by duy on 1/4/15.
     ''' </summary>
-    Public Class LmSumError
-        Implements LmModelError
+    Public Class LmSumError : Inherits LmModelError
         ' Instance to compute the error of a model on a single instance of data
         Private datumErrorField As LmDatumError
 
@@ -26,7 +25,7 @@ Namespace LevenbergMarquardt
         ''' <param name="optParams"> A vector of real values of parameters used in optimizing
         '''                  the error function </param>
         ''' <returns> Double value of the error function </returns>
-        Public Overridable Function eval(optParams As Double()) As Double Implements LmModelError.eval
+        Public Overrides Function eval(optParams As Double()) As Double
             Dim numData = datumErrorField.NumData
             Dim sumError = 0.0
 
@@ -47,7 +46,7 @@ Namespace LevenbergMarquardt
         ''' <param name="optParams"> A vector of real values of parameters used in optimizing
         '''                  the error function </param>
         ''' <returns> Jacobian vector of the error function </returns>
-        Public Overridable Function jacobian(optParams As Double()) As Double() Implements LmModelError.jacobian
+        Public Overrides Function jacobian(optParams As Double()) As Double()
             Dim numData = datumErrorField.NumData
             Dim numParams = optParams.Length
             Dim jacobianVector = New Double(numParams - 1) {}
@@ -59,7 +58,7 @@ Namespace LevenbergMarquardt
                 Threading.Interlocked.Increment(i)
             End While
 
-            Dim i = 0
+            i = 0
 
             While i < numData
                 Dim datumJacobian = datumErrorField.jacobian(i, optParams)
@@ -86,7 +85,7 @@ Namespace LevenbergMarquardt
         '''                         matrix can be approximated instead of having to be
         '''                         computed exactly. </param>
         ''' <returns> Hessian matrix of the error function </returns>
-        Public Overridable Function hessian(optParams As Double(), approxHessianFlg As Boolean) As Double()() Implements LmModelError.hessian
+        Public Overrides Function hessian(optParams As Double(), approxHessianFlg As Boolean) As Double()()
             Dim numData = datumErrorField.NumData
             Dim numParams = optParams.Length
             ' JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
@@ -111,7 +110,7 @@ Namespace LevenbergMarquardt
             While k < numData
                 Dim datumHessian = datumErrorField.hessian(k, optParams, approxHessianFlg)
 
-                Dim i = 0
+                i = 0
 
                 While i < numParams
                     Dim j = 0

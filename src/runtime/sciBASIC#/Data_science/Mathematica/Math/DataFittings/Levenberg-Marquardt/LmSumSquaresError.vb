@@ -6,8 +6,7 @@ Namespace LevenbergMarquardt
     ''' <summary>
     ''' Created by duy on 27/1/15.
     ''' </summary>
-    Public Class LmSumSquaresError
-        Implements LmModelError
+    Public Class LmSumSquaresError : Inherits LmModelError
         Private modelField As LmScalarModel
 
         Public Sub New(model As LmScalarModel)
@@ -30,7 +29,7 @@ Namespace LevenbergMarquardt
         ''' <param name="optParams"> A vector of real values of parameters used in optimizing
         '''                  the error function </param>
         ''' <returns> Double value of the error function </returns>
-        Public Overridable Function eval(optParams As Double()) As Double Implements LmModelError.eval
+        Public Overrides Function eval(optParams As Double()) As Double
             Dim measuredOutputs = modelField.MeasuredData
             Dim numData = measuredOutputs.Length
 
@@ -53,7 +52,7 @@ Namespace LevenbergMarquardt
         ''' <param name="optParams"> A vector of real values of parameters used in optimizing
         '''                  the error function </param>
         ''' <returns> Jacobian vector of the error function </returns>
-        Public Overridable Function jacobian(optParams As Double()) As Double() Implements LmModelError.jacobian
+        Public Overrides Function jacobian(optParams As Double()) As Double()
             Dim measuredOutputs = modelField.MeasuredData
             Dim numData = measuredOutputs.Length
             Dim numParams = optParams.Length
@@ -66,7 +65,7 @@ Namespace LevenbergMarquardt
                 Threading.Interlocked.Increment(i)
             End While
 
-            Dim i = 0
+            i = 0
 
             While i < numData
                 Dim modelJacobian = modelField.jacobian(i, optParams)
@@ -94,7 +93,7 @@ Namespace LevenbergMarquardt
         '''                         matrix will be approximated based on the Jacobian
         '''                         matrix </param>
         ''' <returns> Hessian matrix of the error function </returns>
-        Public Overridable Function hessian(optParams As Double(), approxHessianFlg As Boolean) As Double()() Implements LmModelError.hessian
+        Public Overrides Function hessian(optParams As Double(), approxHessianFlg As Boolean) As Double()()
             Dim measuredOutputs = modelField.MeasuredData
             Dim numData = measuredOutputs.Length
             Dim numParams = optParams.Length
@@ -112,7 +111,7 @@ Namespace LevenbergMarquardt
             Dim hessianMat As Matrix = CType(jacobianMat.Transpose(), Matrix) * jacobianMat
 
             If Not approxHessianFlg Then
-                Dim i = 0
+                i = 0
 
                 While i < numData
                     Dim [error] = measuredOutputs(i) - modelField.eval(i, optParams)
