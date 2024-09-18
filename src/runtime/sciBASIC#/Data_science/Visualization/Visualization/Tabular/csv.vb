@@ -64,7 +64,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
-Namespace BarPlot.Data
+Namespace TabularRender
 
     ''' <summary>
     ''' 

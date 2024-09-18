@@ -64,7 +64,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Interpolation
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace csv
+Namespace TabularRender
 
     Public Class SerialData
 

@@ -60,7 +60,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 
-Namespace csv
+Namespace TabularRender
 
     Public Module Extensions
 
