@@ -1,7 +1,7 @@
 ﻿Namespace LevenbergMarquardt
-    ''' <summary>
-    ''' Created by duy on 27/1/15.
-    ''' </summary>
+
+    ' Created by duy on 27/1/15.
+
 
     ''' <summary>
     ''' LmScalarModel is an interface for models (functions) whose ranges are
@@ -17,8 +17,8 @@
         ''' Evaluates the model's estimated output for the k-th input data that
         ''' corresponds to the parameter vector
         ''' </summary>
-        ''' <paramname="dataIdx"> The index of the input data </param>
-        ''' <paramname="optParams"> A vector of real values of parameters in the model </param>
+        ''' <param name="dataIdx"> The index of the input data </param>
+        ''' <param name="optParams"> A vector of real values of parameters in the model </param>
         ''' <returns> Estimated output value produced by the model </returns>
         Function eval(dataIdx As Integer, optParams As Double()) As Double
 
@@ -26,8 +26,8 @@
         ''' Computes the model's Jacobian vector for the k-th input data that
         ''' corresponds to the parameter vector
         ''' </summary>
-        ''' <paramname="dataIdx"> The index of the input data </param>
-        ''' <paramname="optParams"> A vector of real values of parameters in the model </param>
+        ''' <param name="dataIdx"> The index of the input data </param>
+        ''' <param name="optParams"> A vector of real values of parameters in the model </param>
         ''' <returns> Jacobian vector of the model for the specified input data </returns>
         Function jacobian(dataIdx As Integer, optParams As Double()) As Double()
 
@@ -35,8 +35,8 @@
         ''' Computes the model's Hessian matrix for the k-th input data that
         ''' corresponds to the parameter vector
         ''' </summary>
-        ''' <paramname="dataIdx"> The index of the input data </param>
-        ''' <paramname="optParams"> A vector of real values of parameters in the model </param>
+        ''' <param name="dataIdx"> The index of the input data </param>
+        ''' <param name="optParams"> A vector of real values of parameters in the model </param>
         ''' <returns> Hessian matrix of the model for the specified input data </returns>
         Function hessian(dataIdx As Integer, optParams As Double()) As Double()()
     End Interface

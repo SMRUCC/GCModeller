@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace LevenbergMarquardt
+
     ''' <summary>
     ''' Created by duy on 1/4/15.
     ''' </summary>
@@ -22,7 +23,7 @@ Namespace LevenbergMarquardt
         ''' <summary>
         ''' Evaluates the error function with input optimization parameter values
         ''' </summary>
-        ''' <paramname="optParams"> A vector of real values of parameters used in optimizing
+        ''' <param name="optParams"> A vector of real values of parameters used in optimizing
         '''                  the error function </param>
         ''' <returns> Double value of the error function </returns>
         Public Overridable Function eval(optParams As Double()) As Double Implements LmModelError.eval
@@ -43,7 +44,7 @@ Namespace LevenbergMarquardt
         ''' Computes the Jacobian vector of the error function with input
         ''' optimization parameter values
         ''' </summary>
-        ''' <paramname="optParams"> A vector of real values of parameters used in optimizing
+        ''' <param name="optParams"> A vector of real values of parameters used in optimizing
         '''                  the error function </param>
         ''' <returns> Jacobian vector of the error function </returns>
         Public Overridable Function jacobian(optParams As Double()) As Double() Implements LmModelError.jacobian
@@ -79,9 +80,9 @@ Namespace LevenbergMarquardt
         ''' Computes the Hessian matrix of the error function with input
         ''' optimization parameter values
         ''' </summary>
-        ''' <paramname="optParams"> A vector of real values of parameters used in optimizing
+        ''' <param name="optParams"> A vector of real values of parameters used in optimizing
         '''                  the error function </param>
-        ''' <paramname="approxHessianFlg"> A boolean flag to indicate whether the Hessian
+        ''' <param name="approxHessianFlg"> A boolean flag to indicate whether the Hessian
         '''                         matrix can be approximated instead of having to be
         '''                         computed exactly. </param>
         ''' <returns> Hessian matrix of the error function </returns>

@@ -1,12 +1,35 @@
 ﻿Imports Microsoft.VisualBasic.Linq
-Imports System
 Imports Matrix = Microsoft.VisualBasic.Math.LinearAlgebra.Matrix.NumericMatrix
 
 Namespace LevenbergMarquardt
 
     ''' <summary>
-    ''' Created by duy on 20/1/15.
+    ''' levenberg-marquardt
+    ''' 
+    ''' A lightweight implementation of Levenberg-Marquardt algorithm
+    ''' 
+    ''' ### Augmented normal equation
+    ''' 
+    ''' ```
+    ''' (H + uI) * h = -g
+    ''' ```
+    ''' 
+    ''' where:
+    ''' 
+    ''' + H is the Hessian matrix of the chi-squared error function
+    ''' + g is the gradient (Jacobian) vector of the chi-squared error function
+    ''' + u is the damping value
+    ''' 
+    ''' ### Adjusting damping value
+    ''' 
+    ''' Damping value is adjusted at each iteration. The adjustment follows the 
+    ''' algorithm presented in Methods for non-linear least squares problems by
+    ''' Kaj Madsen, Hans Bruun Nielsen, Ole Tingleff. The lecture note can be 
+    ''' downloaded [here](http://www.imm.dtu.dk/pubdb/views/edoc_download.php/3215/pdf/imm3215.pdf).
     ''' </summary>
+    ''' <remarks>
+    ''' https://github.com/truongduy134/levenberg-marquardt
+    ''' </remarks>
     Public Class LmSolver
         ' Configuration parameters for Levenberg-Marquadt algorithm
         Private dampingFactorField As Double
@@ -82,9 +105,9 @@ Namespace LevenbergMarquardt
         ''' Applies Levenberg-Marquadt algorithm on the input error function with the
         ''' input initial guess of optimization parameters
         ''' </summary>
-        ''' <paramname="optParams"> A vector of initial guess of values of parameters
+        ''' <param name="optParams"> A vector of initial guess of values of parameters
         '''                  for optimization </param>
-        ''' <paramname="paramHandler"> A handler which is called to adjust values of
+        ''' <param name="paramHandler"> A handler which is called to adjust values of
         '''                     the Levenberg-Marquadt parameters after they are
         '''                     updated at the end of each iteration in the algorithm.
         '''                     If {@code paramHandler} is null, no further adjustment
@@ -93,7 +116,7 @@ Namespace LevenbergMarquardt
         '''                     structures such as quaternions. Note that the
         '''                     way updated parameters are modified can affect
         '''                     correctness of the Levenberg-Marquadt algorithm </param>
-        ''' <paramname="approxHessianFlg"> A boolean flag to indicate whether the Hessian
+        ''' <param name="approxHessianFlg"> A boolean flag to indicate whether the Hessian
         '''                         matrix used in the Levenberg-Marquadt algorithm
         '''                         should be approximated or computed exactly. If
         '''                         {@code true}, the Hessian matrix will be
@@ -188,7 +211,7 @@ Namespace LevenbergMarquardt
         ''' input initial guess of optimization parameters. Note that the Hessian
         ''' matrix used in the Levenberg-Marquadt will be computed exactly
         ''' </summary>
-        ''' <paramname="optParams"> A vector of initial guess of values of parameters
+        ''' <param name="optParams"> A vector of initial guess of values of parameters
         '''                  for optimization </param>
         Public Overridable Sub solve(optParams As Double())
             solve(optParams, Nothing, False)
@@ -198,9 +221,9 @@ Namespace LevenbergMarquardt
         ''' Applies Levenberg-Marquadt algorithm on the input error function with the
         ''' input initial guess of optimization parameters.
         ''' </summary>
-        ''' <paramname="optParams"> A vector of initial guess of values of parameters
+        ''' <param name="optParams"> A vector of initial guess of values of parameters
         '''                  for optimization </param>
-        ''' <paramname="approxHessianFlg"> A boolean flag to indicate whether the Hessian
+        ''' <param name="approxHessianFlg"> A boolean flag to indicate whether the Hessian
         '''                         matrix used in the Levenberg-Marquadt algorithm
         '''                         should be approximated or computed exactly. If
         '''                         {@code true}, the Hessian matrix will be
@@ -214,9 +237,9 @@ Namespace LevenbergMarquardt
         ''' input initial guess of optimization parameters. Note that the Hessian
         ''' matrix used in the Levenberg-Marquadt will be computed exactly
         ''' </summary>
-        ''' <paramname="optParams"> A vector of initial guess of values of parameters
+        ''' <param name="optParams"> A vector of initial guess of values of parameters
         '''                  for optimization </param>
-        ''' <paramname="paramHandler"> A handler which is called to adjust values of
+        ''' <param name="paramHandler"> A handler which is called to adjust values of
         '''                     the Levenberg-Marquadt parameters after they are
         '''                     updated at the end of each iteration in the algorithm.
         '''                     If {@code paramHandler} is null, no further adjustment

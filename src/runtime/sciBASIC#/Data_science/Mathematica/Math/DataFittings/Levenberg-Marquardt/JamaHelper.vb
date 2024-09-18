@@ -10,8 +10,8 @@ Namespace LevenbergMarquardt
         ''' <summary>
         ''' Solves the matrix equation A * x = b where A is assumed to be positive
         ''' definite by using Cholesky decomposition </summary>
-        ''' <paramname="A"> Matrix on the left-hand side of the equation </param>
-        ''' <paramname="b"> Matrix on the right-hand side of the equation </param>
+        ''' <param name="A"> Matrix on the left-hand side of the equation </param>
+        ''' <param name="b"> Matrix on the right-hand side of the equation </param>
         ''' <returns> The solution of the equation A * x = b, OR null if A is not
         '''         positive definite </returns>
         Public Shared Function solvePSDMatrixEq(A As Matrix, b As Matrix) As Matrix
@@ -24,8 +24,8 @@ Namespace LevenbergMarquardt
 
         ''' <summary>
         ''' Computes the dot product between vectors u and v </summary>
-        ''' <paramname="u"> A row or column vector </param>
-        ''' <paramname="v"> A row or column vector </param>
+        ''' <param name="u"> A row or column vector </param>
+        ''' <param name="v"> A row or column vector </param>
         ''' <returns> Real number which is the dot product between u and v </returns>
         Public Shared Function dotProduct(u As Matrix, v As Matrix) As Double
             If u.RowDimension <> 1 Then

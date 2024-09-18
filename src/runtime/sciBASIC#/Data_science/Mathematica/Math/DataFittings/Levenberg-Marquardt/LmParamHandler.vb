@@ -6,7 +6,7 @@
         ''' <summary>
         ''' Adjusts (or modifies) values of the Levenberg-Marquardt parameters
         ''' </summary>
-        ''' <paramname="lmParams"> Numbers which are values of Levenberg-Marquardt parameters </param>
+        ''' <param name="lmParams"> Numbers which are values of Levenberg-Marquardt parameters </param>
         Sub adjust(lmParams As Double())
     End Interface
 
