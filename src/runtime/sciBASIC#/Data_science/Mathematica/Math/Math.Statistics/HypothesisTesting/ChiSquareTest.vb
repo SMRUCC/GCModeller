@@ -108,6 +108,21 @@ Public Class ChiSquareTest
         <Description("99%")> C99
     End Enum
 
+    Public Shared Function TranslateLevel(level As Double) As ConfidenceLevels
+        Dim lv As Integer = CInt(level * 100)
+
+        Select Case lv
+            Case 98 : Return ConfidenceLevels.C97_5
+            Case 50 : Return ConfidenceLevels.C50
+            Case 75 : Return ConfidenceLevels.C75
+            Case 90 : Return ConfidenceLevels.C90
+            Case 95 : Return ConfidenceLevels.C95
+            Case 99 : Return ConfidenceLevels.C99
+            Case Else
+                Throw New NotImplementedException(level)
+        End Select
+    End Function
+
     Public Shared Function ChiSquareValue(level As ConfidenceLevels) As Double
         Select Case level
             Case ConfidenceLevels.C50 : Return C50
