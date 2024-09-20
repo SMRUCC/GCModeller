@@ -37,8 +37,8 @@ Namespace Imaging
         Public MustOverride Sub Clear(fill As ArgbColor)
 
         Public MustOverride Sub DrawString(s As String, fontName As String, fontSize As Single, color As ArgbColor, x As Single, y As Single)
-        Public MustOverride Sub DrawLine(x1 As Single, y1 As Single, x2 As Single, y2 As Single, color As ArgbColor, width As Single)
-        Public MustOverride Sub DrawPath(path As Polygon2D, color As ArgbColor, width As Single)
+        Public MustOverride Sub DrawLine(x1 As Single, y1 As Single, x2 As Single, y2 As Single, color As ArgbColor, width As Single, Optional dash As Single() = Nothing)
+        Public MustOverride Sub DrawPath(path As Polygon2D, color As ArgbColor, width As Single, Optional fill As ArgbColor? = Nothing, Optional dash As Single() = Nothing)
         Public MustOverride Function MeasureString(text As String, fontName As String, fontSize As Single) As (Width As Single, Height As Single)
 
         ''' <summary>

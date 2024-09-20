@@ -12,6 +12,9 @@ Namespace Imaging
 
         Public Shared ReadOnly Property White As New ArgbColor(255, 255, 255)
         Public Shared ReadOnly Property Transparent As New ArgbColor(0, 255, 255, 255)
+        Public Shared ReadOnly Property Red As New ArgbColor(255, 255, 0, 0)
+        Public Shared ReadOnly Property Green As New ArgbColor(255, 0, 255, 0)
+        Public Shared ReadOnly Property Blue As New ArgbColor(255, 0, 0, 255)
 
         Sub New(r As Byte, g As Byte, b As Byte)
             Call Me.New(255, r, g, b)
