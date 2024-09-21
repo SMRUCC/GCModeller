@@ -1,19 +1,26 @@
 ﻿Imports System.Drawing
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 
 Namespace Imaging
 
 #If NET8_0_OR_GREATER Then
+
+    ''' <summary>
+    ''' the abstract image data model, example as gdi+ raster image bitmap, svg image, pdf image, etc
+    ''' </summary>
     Public MustInherit Class Image : Implements IDisposable
 
         Private disposedValue As Boolean
         Public MustOverride ReadOnly Property Size As Size
+
         Public ReadOnly Property Width As Integer
             Get
                 Return Size.Width
             End Get
         End Property
+
         Public ReadOnly Property Height As Integer
             Get
                 Return Size.Height
@@ -54,6 +61,9 @@ Namespace Imaging
         End Sub
     End Class
 
+    ''' <summary>
+    ''' the gdi+ raster image data in memory
+    ''' </summary>
     Public Class Bitmap : Inherits Image
 
         Public Overrides ReadOnly Property Size As Size
@@ -76,8 +86,18 @@ Namespace Imaging
             Throw New NotImplementedException
         End Sub
 
+        Public Function Resize(newWidth As Integer, newHeight As Integer) As Bitmap
+            Dim pixels = memoryBuffer.GetARGB
+            pixels = BitmapResizer.ResizeImage(pixels, memoryBuffer.Width, memoryBuffer.Height, newWidth, newHeight)
+            ' construct bitmap data based on pixels matrix
+            Dim sizedBitmap As New BitmapBuffer(pixels, New Size(newWidth, newHeight))
+            Dim bitmap As New Bitmap(sizedBitmap)
+            Return bitmap
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetPixel(X As Integer, Y As Integer) As Color
-            Throw New NotImplementedException()
+            Return memoryBuffer.GetPixel(X, Y)
         End Function
     End Class
 #End If
