@@ -59,7 +59,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Public Module SerializationIO
 

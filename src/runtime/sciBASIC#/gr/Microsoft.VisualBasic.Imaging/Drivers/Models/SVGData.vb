@@ -152,7 +152,7 @@ Namespace Driver
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Render() As Image
+        Public Function Render() As Drawing.Image
             Return Renderer.DrawImage(Me)
         End Function
     End Class

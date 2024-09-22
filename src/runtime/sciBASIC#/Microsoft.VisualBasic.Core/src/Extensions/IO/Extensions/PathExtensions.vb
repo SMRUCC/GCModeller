@@ -70,7 +70,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports ASCII = Microsoft.VisualBasic.Text.ASCII
+Imports Microsoft.VisualBasic.Text
 
 ''' <summary>
 ''' Search the path from a specific keyword.(通过关键词来推测路径)

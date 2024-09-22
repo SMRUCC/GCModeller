@@ -72,7 +72,6 @@ Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml
 Imports Microsoft.VisualBasic.Text.Xml.Linq
-Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 <HideModuleName>
 Public Module XmlExtensions

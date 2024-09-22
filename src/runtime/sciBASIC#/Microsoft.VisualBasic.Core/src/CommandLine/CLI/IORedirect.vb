@@ -77,8 +77,9 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel
-Imports ASCII = Microsoft.VisualBasic.Text.ASCII
+Imports Microsoft.VisualBasic.Text
 
 Namespace CommandLine
 

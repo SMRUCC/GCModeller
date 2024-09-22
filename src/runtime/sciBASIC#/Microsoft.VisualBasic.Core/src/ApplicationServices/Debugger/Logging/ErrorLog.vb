@@ -56,7 +56,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports ASCII = Microsoft.VisualBasic.Text.ASCII
+Imports Microsoft.VisualBasic.Text
 
 Namespace ApplicationServices.Debugging.Logging
 

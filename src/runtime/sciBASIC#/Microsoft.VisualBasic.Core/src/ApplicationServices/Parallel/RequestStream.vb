@@ -83,7 +83,6 @@ Imports Microsoft.VisualBasic.Scripting.Abstract
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Parallel
 

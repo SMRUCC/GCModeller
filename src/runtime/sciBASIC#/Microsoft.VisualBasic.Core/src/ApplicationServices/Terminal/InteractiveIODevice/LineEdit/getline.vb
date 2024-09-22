@@ -114,7 +114,7 @@ Imports System.Reflection
 Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports ASCII = Microsoft.VisualBasic.Text.ASCII
+Imports Microsoft.VisualBasic.Text
 Imports std = System.Math
 
 Namespace ApplicationServices.Terminal.LineEdit

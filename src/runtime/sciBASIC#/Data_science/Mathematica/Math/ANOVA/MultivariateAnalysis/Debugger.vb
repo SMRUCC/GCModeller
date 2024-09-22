@@ -54,7 +54,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports ASCII = Microsoft.VisualBasic.Text.ASCII
+Imports Microsoft.VisualBasic.Text
 
 Public Module Debugger
 

@@ -73,18 +73,14 @@ Namespace Imaging.BitmapImage
 
     ''' <summary>
     ''' Unsafe memory pointer of the <see cref="Bitmap"/> data buffer.
-    ''' </summary>
-    ''' <remarks>
     ''' (线程不安全的图片数据对象)
-    ''' </remarks>
+    ''' </summary>
     Public Class BitmapBuffer : Inherits Emit.Marshal.Byte
         Implements IDisposable
         Implements IEnumerable(Of Color)
 
-#If NET48 Then
         ReadOnly raw As Bitmap
         ReadOnly handle As BitmapData
-#End If
 
         ''' <summary>
         ''' 图片可能是 BGRA 4通道
@@ -92,7 +88,6 @@ Namespace Imaging.BitmapImage
         ''' </summary>
         ReadOnly channels As Integer
 
-#If NET48 Then
         Protected Sub New(ptr As IntPtr,
                           byts%,
                           raw As Bitmap,
@@ -110,23 +105,6 @@ Namespace Imaging.BitmapImage
             Me.Size = New Size(Width, Height)
             Me.channels = channel
         End Sub
-#Else
-        Sub New(ptr As IntPtr, byts%, channel As Integer)
-            Call MyBase.New(ptr, byts)
-
-            Throw New NotImplementedException
-        End Sub
-
-        Sub New(pixels As Color(,), size As Size)
-            Call MyBase.New(Unpack(pixels, size))
-
-            channels = 4 ' argb
-
-            _Size = size
-            _Width = size.Width
-            _Height = size.Height
-        End Sub
-#End If
 
         ''' <summary>
         ''' The dimension width of the current bitmap buffer object
@@ -159,11 +137,7 @@ Namespace Imaging.BitmapImage
                 Call Write()
             End If
 
-#If NET48 Then
             Return DirectCast(raw.Clone, Bitmap)
-#Else
-            Throw New NotImplementedException
-#End If
         End Function
 
         ' pixel:  (1,1)(2,1)(3,1)(4,1)(1,2)(2,2)(3,2)(4,2)
@@ -230,20 +204,6 @@ Namespace Imaging.BitmapImage
             Return Color.FromArgb(CInt(iA), CInt(iR), CInt(iG), CInt(iB))
         End Function
 
-        Public Function GetARGB() As Color(,)
-            Dim pixels As Color(,) = New Color(Height - 1, Width - 1) {}
-
-            For y As Integer = 0 To Height
-                For x As Integer = 0 To Width
-                    If Not OutOfRange(x, y) Then
-                        pixels(y, x) = GetPixel(x, y)
-                    End If
-                Next
-            Next
-
-            Return pixels
-        End Function
-
         ''' <summary>
         ''' get image data array in ARGB format
         ''' </summary>
@@ -300,24 +260,6 @@ Namespace Imaging.BitmapImage
             Dim color As Color = Color.FromArgb(bytes(0), bytes(1), bytes(2), bytes(3))
 
             Return color
-        End Function
-
-        Public Shared Function Unpack(pixels As Color(,), size As Size) As Byte()
-            Dim bytes As Byte() = New Byte(4 * pixels.Length - 1) {}
-
-            For y As Integer = 0 To size.Height - 1
-                For x As Integer = 0 To size.Width - 1
-                    Dim pixel As Color = pixels(y, x)
-                    Dim i As Integer = GetIndex(x, y, size.Width, size.Height)
-
-                    bytes(i) = pixel.A
-                    bytes(i + 1) = pixel.R
-                    bytes(i + 2) = pixel.G
-                    bytes(i + 3) = pixel.B
-                Next
-            Next
-
-            Return bytes
         End Function
 
         ''' <summary>
@@ -460,7 +402,6 @@ Namespace Imaging.BitmapImage
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function FromImage(res As Image) As BitmapBuffer
-#If NET48 Then
             Dim copy As New Bitmap(res.Width, res.Height, format:=PixelFormat.Format32bppArgb)
             Dim g As Graphics = Graphics.FromImage(copy)
 
@@ -469,20 +410,7 @@ Namespace Imaging.BitmapImage
             Call g.Dispose()
 
             Return BitmapBuffer.FromBitmap(copy)
-#Else
-             Throw New NotImplementedException
-#End If
         End Function
-
-        Public Shared Function FromBitmap(curBitmap As Bitmap) As BitmapBuffer
-#If NET48 Then
-            Return FromBitmap(curBitmap, ImageLockMode.ReadWrite)
-#Else
-            Throw New NotImplementedException
-#End If
-        End Function
-
-#If NET48 Then
 
         ''' <summary>
         ''' 使用这个函数进行写数据的话，会修改到原图
@@ -490,7 +418,7 @@ Namespace Imaging.BitmapImage
         ''' <param name="curBitmap"></param>
         ''' <param name="mode"></param>
         ''' <returns></returns>
-        Public Shared Function FromBitmap(curBitmap As Bitmap, mode As ImageLockMode) As BitmapBuffer
+        Public Shared Function FromBitmap(curBitmap As Bitmap, Optional mode As ImageLockMode = ImageLockMode.ReadWrite) As BitmapBuffer
             ' Lock the bitmap's bits.  
             Dim rect As New Rectangle(0, 0, curBitmap.Width, curBitmap.Height)
             Dim bmpData As BitmapData = curBitmap.LockBits(
@@ -516,13 +444,10 @@ Namespace Imaging.BitmapImage
 
             Return New BitmapBuffer(ptr, bytes, curBitmap, bmpData, channels)
         End Function
-#End If
 
         Protected Overrides Sub Dispose(disposing As Boolean)
             Call Write()
-#If NET48 Then
             Call raw.UnlockBits(handle)
-#End If
         End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Color) Implements IEnumerable(Of Color).GetEnumerator

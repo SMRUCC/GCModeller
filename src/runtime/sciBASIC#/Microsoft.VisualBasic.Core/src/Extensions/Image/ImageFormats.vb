@@ -109,9 +109,5 @@ Namespace Imaging
         ''' Base64
         ''' </summary>
         Base64
-
-        Svg
-
-        Pdf
     End Enum
 End Namespace

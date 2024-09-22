@@ -64,8 +64,6 @@ Imports rect = System.Drawing.Rectangle
 
 Namespace Render.CSS
 
-#If NET48 Then
-
     ''' <summary>
     ''' Represents a line of text.
     ''' </summary>
@@ -328,5 +326,4 @@ Namespace Render.CSS
             Return String.Join(" ", ws)
         End Function
     End Class
-#End If
 End Namespace

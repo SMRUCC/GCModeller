@@ -57,12 +57,7 @@ Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
-
-#If NET48 Then
-Imports Image = System.Drawing.Image
-#Else
-Imports Image = Microsoft.VisualBasic.Imaging.Image
-#End If
+Imports gdiImage = System.Drawing.Image
 
 Namespace Language.CSS
 
@@ -86,7 +81,7 @@ Namespace Language.CSS
         ''' + url('data:xxx') base64编码的data uri图像数据
         ''' </param>
         ''' <returns></returns>
-        Public Function EvaluateAsImage(expression As String) As Image
+        Public Function EvaluateAsImage(expression As String) As gdiImage
             Dim uri As String = expression.GetStackValue("(", ")").Trim("'"c)
 
             If DataURI.IsWellFormedUriString(uri) Then

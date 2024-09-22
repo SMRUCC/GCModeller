@@ -66,8 +66,6 @@ Imports Microsoft.VisualBasic.MIME.Html.Render.CSS
 
 Namespace Render
 
-#If NET48 Then
-
     ''' <summary>
     ''' HTML rendering
     ''' </summary>
@@ -481,5 +479,4 @@ Namespace Render
 
 #End Region
     End Class
-#End If
 End Namespace

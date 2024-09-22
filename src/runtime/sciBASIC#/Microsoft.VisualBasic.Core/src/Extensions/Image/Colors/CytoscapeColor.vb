@@ -55,7 +55,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports std = System.Math
+Imports stdNum = System.Math
 
 Namespace Imaging
 
@@ -68,7 +68,7 @@ Namespace Imaging
 
             For i As Integer = 0 To hexadecimal.Length - 1
                 result += Convert.ToInt32(
-                    GetNumberFromNotation(hexadecimal(i)) * std.Pow(16, hexadecimal.Length - (i + 1)))
+                    GetNumberFromNotation(hexadecimal(i)) * stdNum.Pow(16, hexadecimal.Length - (i + 1)))
             Next
 
             Return Convert.ToInt32(result)

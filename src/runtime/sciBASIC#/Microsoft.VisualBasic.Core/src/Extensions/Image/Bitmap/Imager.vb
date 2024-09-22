@@ -120,8 +120,8 @@ Namespace Imaging.BitmapImage
         <Extension>
         Public Function ResizeScaled(image As Image, newSize As Size, Optional interpolate As InterpolationMode = InterpolationMode.HighQualityBilinear) As Image
             Using g As Graphics2D = newSize.CreateGDIDevice
-                g.Graphics.CompositingQuality = CompositingQuality.HighQuality
-                g.Graphics.InterpolationMode = interpolate
+                g.CompositingQuality = CompositingQuality.HighQuality
+                g.InterpolationMode = interpolate
                 g.DrawImage(image, New RectangleF(New PointF, g.Size))
 
                 Return g.ImageResource

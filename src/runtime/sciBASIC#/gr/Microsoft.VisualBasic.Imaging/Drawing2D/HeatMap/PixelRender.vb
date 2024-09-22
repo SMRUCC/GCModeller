@@ -160,7 +160,7 @@ Namespace Drawing2D.HeatMap
         End Function
 
         Private Sub SetPixels(raw As Bitmap, raster As Pixel())
-            Using buffer As BitmapBuffer = BitmapBuffer.FromBitmap(raw)
+            Using buffer As BitmapBuffer = BitmapBuffer.FromBitmap(raw, ImageLockMode.WriteOnly)
                 For Each point As Pixel In ScalePixels(raster)
                     Dim level = CInt(point.Scale)
                     Dim color As Color
