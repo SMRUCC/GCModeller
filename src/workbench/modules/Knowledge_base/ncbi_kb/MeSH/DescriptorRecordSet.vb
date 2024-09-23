@@ -78,8 +78,8 @@ Namespace MeSH
         <XmlElement>
         Public Property DescriptorRecord As DescriptorRecord()
 
-        Public Shared Function ReadTerms(file As String) As IEnumerable(Of DescriptorRecord)
-            Return file.LoadUltraLargeXMLDataSet(Of DescriptorRecord)()
+        Public Shared Function ReadTerms(file As String, Optional tqdm As Boolean = True) As IEnumerable(Of DescriptorRecord)
+            Return file.LoadUltraLargeXMLDataSet(Of DescriptorRecord)(tqdm:=tqdm)
         End Function
 
         ''' <summary>

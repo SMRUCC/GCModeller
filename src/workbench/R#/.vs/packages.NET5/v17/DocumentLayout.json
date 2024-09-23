@@ -1,7 +1,19 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\mesh\\descriptorrecordset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kb\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +21,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DescriptorRecordSet.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-09-23T00:50:22.214Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -22,6 +47,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "mesh.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
+              "RelativeDocumentMoniker": "kb\\mesh.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
+              "RelativeToolTip": "kb\\mesh.vb",
+              "ViewState": "AgIAAHEAAAAAAAAAAAAMwIAAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-09-23T00:48:51.193Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "pubmed.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kb\\pubmed.vb",
+              "RelativeDocumentMoniker": "kb\\pubmed.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kb\\pubmed.vb",
+              "RelativeToolTip": "kb\\pubmed.vb",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-09-23T00:48:27.515Z",
+              "EditorCaption": ""
             }
           ]
         }
