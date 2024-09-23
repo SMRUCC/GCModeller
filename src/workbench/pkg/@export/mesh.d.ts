@@ -86,7 +86,17 @@ declare namespace mesh {
       */
       function mesh_tree(file: any, as_tree?: boolean, env?: object): object;
       /**
+       * Parse the ncbi pubmed mesh term dataset
+       * 
+       * > the pubmed mesh term dataset could be download from:
+       * >  
+       * >  https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.zip
+       * 
+        * @param file -
+        * @param tqdm show the tqdm progress display?
+        * 
+        * + default value Is ``true``.
       */
-      function mesh_xml(file: string): object;
+      function mesh_xml(file: string, tqdm?: boolean): object;
    }
 }
