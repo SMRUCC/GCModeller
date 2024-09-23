@@ -47,7 +47,7 @@ The National Center For Biotechnology Information (NCBI) Medical Subject Heading
       specific topic, they can use MeSH terms To ensure they retrieve the most relevant And comprehensive 
       results.
 
-+ [read.mesh_xml](mesh/read.mesh_xml.1) 
++ [read.mesh_xml](mesh/read.mesh_xml.1) Parse the ncbi pubmed mesh term dataset
 + [mesh_category](mesh/mesh_category.1) get mesh category values that assign to current mesh term
 + [read.mesh_tree](mesh/read.mesh_tree.1) read the tree of mesh terms
 + [mesh_background](mesh/mesh_background.1) build background model for enrichment based on ncbi mesh terms
