@@ -207,8 +207,9 @@ Namespace Imaging
             Return True
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Sub saveFile(path As String, format As ImageFormat)
-            Call Save(path.Open(FileMode.OpenOrCreate, doClear:=True), format)
+            Call ImageResource.Save(path.Open(FileMode.OpenOrCreate, doClear:=True), format)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
