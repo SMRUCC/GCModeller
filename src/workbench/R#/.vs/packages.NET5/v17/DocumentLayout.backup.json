@@ -1,26 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
+  "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\terminal\\utility\\progressbar\\tqdm\\tqdm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\mesh.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\elixir\\uniprot\\xml\\model\\uniprotxml.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|e:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\mesh\\descriptorrecordset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\mwcalculator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\fasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\fasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\kb\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C8F00094-EB35-4790-A998-0B0930F95BCC}|kb\\kb.vbproj|solutionrelative:kb\\pubmed.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,24 +21,20 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Tqdm.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm\\Tqdm.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm\\Tqdm.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm\\Tqdm.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\Tqdm\\Tqdm.vb",
-              "ViewState": "AgIAAJ0AAAAAAAAAAAAWwLEAAAAuAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "DescriptorRecordSet.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\MeSH\\DescriptorRecordSet.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-09-01T06:30:20.297Z",
+              "WhenOpened": "2024-09-23T00:50:22.214Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
             {
               "$type": "Bookmark",
@@ -55,70 +42,37 @@
             },
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "R-cmd.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-09-01T06:24:43.05Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UniprotXML.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
-              "ViewState": "AgIAAHUAAAAAAAAAAAD4v6AAAAAYAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "mesh.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
+              "RelativeDocumentMoniker": "kb\\mesh.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kb\\mesh.vb",
+              "RelativeToolTip": "kb\\mesh.vb",
+              "ViewState": "AgIAAHEAAAAAAAAAAAAMwIAAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-31T16:17:23.301Z",
+              "WhenOpened": "2024-09-23T00:48:51.193Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "uniprot.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\uniprot.vb",
-              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\uniprot.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\uniprot.vb",
-              "RelativeToolTip": "seqtoolkit\\Annotations\\uniprot.vb",
-              "ViewState": "AgIAAG0AAAAAAAAAAAAAwJsAAAAZAAAAAAAAAA==",
+              "Title": "pubmed.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\kb\\pubmed.vb",
+              "RelativeDocumentMoniker": "kb\\pubmed.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\kb\\pubmed.vb",
+              "RelativeToolTip": "kb\\pubmed.vb",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-31T16:16:47.324Z",
+              "WhenOpened": "2024-09-23T00:48:27.515Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MWCalculator.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\MWCalculator.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\MWCalculator.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\MWCalculator.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\MWCalculator.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAALYAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-28T14:55:03.707Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Fasta.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
-              "RelativeDocumentMoniker": "seqtoolkit\\Fasta.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
-              "RelativeToolTip": "seqtoolkit\\Fasta.vb",
-              "ViewState": "AgIAAOsAAAAAAAAAAAAiwBABAABMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-08-28T14:54:18.664Z"
             }
           ]
         }
