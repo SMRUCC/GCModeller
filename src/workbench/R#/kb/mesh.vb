@@ -123,9 +123,22 @@ Module meshTools
 
     End Sub
 
+    ''' <summary>
+    ''' Parse the ncbi pubmed mesh term dataset
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="tqdm">
+    ''' show the tqdm progress display?
+    ''' </param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' the pubmed mesh term dataset could be download from:
+    ''' 
+    ''' https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2024.zip
+    ''' </remarks>
     <ExportAPI("read.mesh_xml")>
-    Public Function loadMeshXml(file As String) As DescriptorRecord()
-        Return DescriptorRecordSet.ReadTerms(file).ToArray
+    Public Function loadMeshXml(file As String, Optional tqdm As Boolean = True) As DescriptorRecord()
+        Return DescriptorRecordSet.ReadTerms(file, tqdm:=tqdm).ToArray
     End Function
 
     ''' <summary>
