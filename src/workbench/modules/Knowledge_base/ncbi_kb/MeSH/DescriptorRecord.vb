@@ -114,6 +114,9 @@ Imports System.Xml.Serialization
 
 Namespace MeSH
 
+    ''' <summary>
+    ''' the mesh term record
+    ''' </summary>
     <XmlRoot(NameOf(DescriptorRecord)), XmlType(NameOf(DescriptorRecord))>
     Public Class DescriptorRecord
 
