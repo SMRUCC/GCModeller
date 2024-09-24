@@ -103,5 +103,9 @@ Namespace MeSH.Tree
             Return accessionID.StringEmpty AndAlso tree.All(Function(ti) ti.IndexOf("."c) = -1)
         End Function
 
+        Public Shared Function GetClass(tree As String) As MeshCategory
+            Return Reader.ParseCategory(tree)
+        End Function
+
     End Class
 End Namespace

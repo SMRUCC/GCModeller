@@ -104,6 +104,12 @@ Namespace MeSH.Tree
     ''' ABCDEFGHIJKLMNVZ
     ''' </remarks>
     Public Enum MeshCategory
+
+        ''' <summary>
+        ''' Unknown
+        ''' </summary>
+        None = 0
+
         ''' <summary>
         ''' Anatomy [A] 
         ''' </summary>
