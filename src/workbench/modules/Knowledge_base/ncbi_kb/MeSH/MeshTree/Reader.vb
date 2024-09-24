@@ -69,6 +69,7 @@ Namespace MeSH.Tree
         ''' <returns></returns>
         Public Function ParseCategory(tree As String) As MeshCategory
             Static category_chars As Dictionary(Of Char, MeshCategory) = Enums(Of MeshCategory)() _
+                .Where(Function(c) c <> MeshCategory.None) _
                 .ToDictionary(Function(c)
                                   Return c.ToString.First
                               End Function)
