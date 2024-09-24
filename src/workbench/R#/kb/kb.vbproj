@@ -12,6 +12,43 @@
     <Company>SMRUCC genomics</Company>
     <Product>GCModeller</Product>
     <Description>Data mining of the knowledge</Description>
+    <UseApplicationFramework>True</UseApplicationFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
