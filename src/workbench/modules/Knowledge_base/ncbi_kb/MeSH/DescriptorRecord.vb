@@ -142,7 +142,7 @@ Namespace MeSH
         Public Property ConceptList As Concept()
 
         Public Overrides Function ToString() As String
-            Return $"{DescriptorUI} - {DescriptorName}"
+            Return $"{DescriptorUI} - {DescriptorName} - " & ConceptList.Select(Function(c) c.ScopeNote).JoinBy("; ")
         End Function
 
     End Class
@@ -157,6 +157,10 @@ Namespace MeSH
         Public Property TermUI As String
         Public Property DateCreated As XmlDate
         Public Property ThesaurusIDlist As ThesaurusID()
+
+        Public Overrides Function ToString() As String
+            Return $"[{TermUI}] {MyBase.ToString}"
+        End Function
 
     End Class
 
@@ -183,6 +187,10 @@ Namespace MeSH
         Public Property ConceptRelationList As ConceptRelation()
         Public Property CASN1Name As String
         Public Property TermList As Term()
+
+        Public Overrides Function ToString() As String
+            Return ScopeNote
+        End Function
 
     End Class
 
@@ -229,6 +237,10 @@ Namespace MeSH
         Public Property DescriptorUI As String
         Public Property DescriptorName As XmlString
 
+        Public Overrides Function ToString() As String
+            Return $"[{DescriptorUI}] {DescriptorName}"
+        End Function
+
     End Class
 
     Public Class PreviousIndexing
@@ -253,6 +265,10 @@ Namespace MeSH
 
         Public Property QualifierUI As String
         Public Property QualifierName As XmlString
+
+        Public Overrides Function ToString() As String
+            Return $"[{QualifierUI}] {QualifierName}"
+        End Function
 
     End Class
 End Namespace
