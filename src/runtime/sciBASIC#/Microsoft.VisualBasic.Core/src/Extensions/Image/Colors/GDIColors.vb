@@ -67,7 +67,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Math.Correlations
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Imaging
 
@@ -371,7 +371,7 @@ Namespace Imaging
 
             If exp.StringEmpty Then
                 success = False
-                Return Drawing.Color.Black
+                Return System.Drawing.Color.Black
             End If
 
             ' 20221127 fix multiple threading error
@@ -538,13 +538,13 @@ Namespace Imaging
                 Return False '  alpha值不相等，则颜色值肯定不相等
             End If
 
-            If stdNum.Abs(a.B - b.B) > tolerance Then
+            If std.Abs(a.B - b.B) > tolerance Then
                 Return False
             End If
-            If stdNum.Abs(a.G - b.G) > tolerance Then
+            If std.Abs(a.G - b.G) > tolerance Then
                 Return False
             End If
-            If stdNum.Abs(a.R - b.R) > tolerance Then
+            If std.Abs(a.R - b.R) > tolerance Then
                 Return False
             End If
 
