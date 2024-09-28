@@ -70,6 +70,30 @@ Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
+
 Namespace Graphic
 
     ''' <summary>
@@ -127,16 +151,16 @@ Namespace Graphic
         ''' </param>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Sub Plot(ByRef g As DrawingGraphics, layout As Rectangle)
+        Public Overloads Sub Plot(ByRef g As IGraphics, layout As Rectangle)
             Call PlotInternal(g, EvaluateLayout(g, layout))
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Sub Plot(ByRef g As DrawingGraphics, canvas As GraphicsRegion)
+        Public Overloads Sub Plot(ByRef g As IGraphics, canvas As GraphicsRegion)
             Call PlotInternal(g, canvas)
         End Sub
 
-        Protected Shared Function EvaluateLayout(g As DrawingGraphics, layout As Rectangle) As GraphicsRegion
+        Protected Shared Function EvaluateLayout(g As IGraphics, layout As Rectangle) As GraphicsRegion
             Dim padding As New Padding With {
                 .Left = layout.Left,
                 .Top = layout.Top,
@@ -148,7 +172,7 @@ Namespace Graphic
             Return canvas
         End Function
 
-        Protected MustOverride Sub PlotInternal(ByRef g As DrawingGraphics, canvas As GraphicsRegion)
+        Protected MustOverride Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
 
         ''' <summary>
         ''' custom layout via <see cref="theme.legendLayout"/>
@@ -157,7 +181,7 @@ Namespace Graphic
         ''' <param name="legends"></param>
         ''' <param name="showBorder"></param>
         ''' <param name="canvas"></param>
-        Protected Sub DrawLegends(g As DrawingGraphics, legends As LegendObject(), showBorder As Boolean, canvas As GraphicsRegion)
+        Protected Sub DrawLegends(g As IGraphics, legends As LegendObject(), showBorder As Boolean, canvas As GraphicsRegion)
             Dim css As CSSEnvirnment = g.LoadEnvironment
             Dim legendLabelFont As Font = css.GetFont(CSSFont.TryParse(theme.legendLabelCSS))
             Dim lsize As SizeF = g.MeasureString("A", legendLabelFont)
@@ -213,7 +237,7 @@ Namespace Graphic
             End If
         End Sub
 
-        Protected Sub DrawMainTitle(g As DrawingGraphics, plotRegion As Rectangle, Optional offsetFactor As Double = 1.125)
+        Protected Sub DrawMainTitle(g As IGraphics, plotRegion As Rectangle, Optional offsetFactor As Double = 1.125)
             If Not main.StringEmpty Then
                 Dim css As CSSEnvirnment = g.LoadEnvironment
                 Dim fontOfTitle As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
@@ -242,7 +266,7 @@ Namespace Graphic
             End If
         End Sub
 
-        Private Sub DrawMultipleLineTitle(g As DrawingGraphics,
+        Private Sub DrawMultipleLineTitle(g As IGraphics,
                                           plotRegion As Rectangle,
                                           fontOfTitle As Font,
                                           color As Brush,

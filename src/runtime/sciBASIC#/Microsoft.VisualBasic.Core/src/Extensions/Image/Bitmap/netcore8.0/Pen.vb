@@ -91,6 +91,9 @@ Namespace Imaging
     Public NotInheritable Class Pens
 
         Public Shared ReadOnly Property Black As New Pen(Color.Black)
+        Public Shared ReadOnly Property Gray As New Pen(Color.Gray)
+        Public Shared ReadOnly Property LightGray As New Pen(Color.LightGray)
+        Public Shared ReadOnly Property White As New Pen(Color.White)
 
         Private Sub New()
         End Sub
