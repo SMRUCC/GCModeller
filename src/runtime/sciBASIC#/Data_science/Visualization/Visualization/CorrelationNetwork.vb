@@ -59,6 +59,8 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Math.DataFrame
 Imports std = System.Math
+Imports df = Microsoft.VisualBasic.Math.DataFrame.DataFrame
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' 使用这个模块用来生成相关度的网络，相关度网络是``Kmeans``，``Cmeans``或者其他的一些聚类网络可视化的基础
@@ -103,6 +105,71 @@ Public Module CorrelationNetwork
                     }
 
                     g.CreateEdge(id, partner, cor, linkdata)
+                End If
+            Next
+        Next
+
+        Return g
+    End Function
+
+    <Extension>
+    Public Function BuildNetwork(corDf As df, cutoff As Double) As NetworkGraph
+        Dim g As New NetworkGraph
+        Dim nodeData As NodeData
+        Dim linkdata As EdgeData
+        Dim cor As Double
+        Dim colnames As String() = corDf.featureNames
+        Dim rownames As String() = corDf.rownames
+        Dim rowOffset As Index(Of String) = rownames.Indexing
+
+        For Each id As String In colnames
+            nodeData = New NodeData With {
+                .origID = id,
+                .label = id,
+                .Properties = New Dictionary(Of String, String) From {
+                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "Feature"}
+                }
+            }
+
+            Call g.CreateNode(id, nodeData)
+        Next
+
+        For Each id As String In rownames
+            nodeData = New NodeData With {
+                .origID = id,
+                .label = id,
+                .Properties = New Dictionary(Of String, String) From {
+                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "Sample"}
+                }
+            }
+
+            Call g.CreateNode(id, nodeData)
+        Next
+
+        Dim uid As String
+        Dim prob As Double
+        Dim cols = corDf.features _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.Value.TryCast(Of Double)
+                          End Function)
+
+        For Each id As String In TqdmWrapper.Wrap(rownames)
+            For Each partner As String In colnames
+                cor = cols(partner)(rowOffset(id))
+
+                If std.Abs(cor) > cutoff Then
+                    uid$ = {partner, id}.OrderBy(Function(s) s).JoinBy(" - ")
+                    linkdata = New EdgeData With {
+                        .label = uid,
+                        .length = cor,
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, HowStrong(cor)},
+                            {"pvalue", prob}
+                        }
+                    }
+
+                    Call g.CreateEdge(id, partner, cor, linkdata)
                 End If
             Next
         Next
