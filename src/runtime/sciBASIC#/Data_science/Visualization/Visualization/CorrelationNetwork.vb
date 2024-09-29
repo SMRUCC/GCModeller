@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
@@ -132,7 +133,7 @@ Public Module CorrelationNetwork
         Dim uid As String
         Dim prob As Double
 
-        For Each id As String In matrix.keys
+        For Each id As String In TqdmWrapper.Wrap(matrix.keys)
             For Each partner As String In matrix.keys.Where(Function(b) b <> id)
                 cor = matrix(id, partner)
                 prob = matrix.pvalue(id, partner)
