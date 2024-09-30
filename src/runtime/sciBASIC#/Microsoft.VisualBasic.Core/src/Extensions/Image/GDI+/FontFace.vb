@@ -69,7 +69,12 @@
 Imports System.Drawing
 Imports System.Drawing.Text
 Imports System.Runtime.CompilerServices
+
+#If NET48 Then
 Imports DefaultFont = Microsoft.VisualBasic.Language.Default.Default(Of System.Drawing.Font)
+#Else
+Imports DefaultFont = Microsoft.VisualBasic.Language.Default.Default(Of Microsoft.VisualBasic.Imaging.Font)
+#End If
 
 Namespace Imaging
 
@@ -103,6 +108,7 @@ Namespace Imaging
         Shared ReadOnly fontFamilies As Dictionary(Of String, String)
 
         Shared Sub New()
+#If NET48 Then
             Dim fontFamilies() As FontFamily
             Dim installedFontCollection As New InstalledFontCollection()
 
@@ -114,6 +120,7 @@ Namespace Imaging
             For Each family$ In InstalledFontFamilies
                 FontFace.fontFamilies(LCase(family)) = family
             Next
+#End If
         End Sub
 
         Private Sub New()
@@ -177,12 +184,21 @@ Namespace Imaging
             End If
         End Function
 
-        Public Shared Function MeasureString(text As String, font As Font) As SizeF
-            Static dummy_img As Image = New Bitmap(1, 1)
-            Static dummy_drawing As Graphics = Graphics.FromImage(dummy_img)
+#If NET48 Then
 
-            Return dummy_drawing.MeasureString(text, font)
+        ''' <summary>
+        ''' A common shared method for measure text drawing size in gdi+ environment.
+        ''' </summary>
+        ''' <param name="s"></param>
+        ''' <param name="font"></param>
+        ''' <returns></returns>
+        Public Shared Function MeasureString(s As String, font As Font) As SizeF
+            Static blank As New Bitmap(10, 10)
+            Static g As Graphics = Graphics.FromImage(blank)
+
+            Return g.MeasureString(s, font)
         End Function
+#End If
     End Class
 
     ''' <summary>
