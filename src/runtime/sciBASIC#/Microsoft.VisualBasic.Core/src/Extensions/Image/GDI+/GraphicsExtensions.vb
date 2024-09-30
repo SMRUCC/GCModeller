@@ -1,70 +1,68 @@
 ﻿#Region "Microsoft.VisualBasic::1843be5fda645f36a6d048add2a3e3ea, Microsoft.VisualBasic.Core\src\Extensions\Image\GDI+\GraphicsExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 662
-    '    Code Lines: 409 (61.78%)
-    ' Comment Lines: 166 (25.08%)
-    '    - Xml Docs: 75.90%
-    ' 
-    '   Blank Lines: 87 (13.14%)
-    '     File Size: 25.71 KB
+' Summaries:
 
 
-    '     Module GraphicsExtensions
-    ' 
-    '         Function: CanvasCreateFromImageFile, (+2 Overloads) Clone, ColorBrush, CreateCanvas2D, (+4 Overloads) CreateGDIDevice
-    '                   CreateObject, EntireImage, GetBrush, GetBrushes, (+2 Overloads) GetIcon
-    '                   GetStreamBuffer, GetStringPath, (+2 Overloads) GraphicsPath, ImageAddFrame, IsValidGDIParameter
-    '                   (+3 Overloads) LoadImage, (+2 Overloads) Opacity, (+2 Overloads) PointF, SaveIcon, SizeF
-    '                   ToFloat, ToPoint, ToPoints, ToStream, X
-    '                   Y
-    ' 
-    '         Sub: (+5 Overloads) DrawCircle, FillPolygon
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 662
+'    Code Lines: 409 (61.78%)
+' Comment Lines: 166 (25.08%)
+'    - Xml Docs: 75.90%
+' 
+'   Blank Lines: 87 (13.14%)
+'     File Size: 25.71 KB
+
+
+'     Module GraphicsExtensions
+' 
+'         Function: CanvasCreateFromImageFile, (+2 Overloads) Clone, ColorBrush, CreateCanvas2D, (+4 Overloads) CreateGDIDevice
+'                   CreateObject, EntireImage, GetBrush, GetBrushes, (+2 Overloads) GetIcon
+'                   GetStreamBuffer, GetStringPath, (+2 Overloads) GraphicsPath, ImageAddFrame, IsValidGDIParameter
+'                   (+3 Overloads) LoadImage, (+2 Overloads) Opacity, (+2 Overloads) PointF, SaveIcon, SizeF
+'                   ToFloat, ToPoint, ToPoints, ToStream, X
+'                   Y
+' 
+'         Sub: (+5 Overloads) DrawCircle, FillPolygon
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Drawing.Imaging
-Imports System.Drawing.Text
 Imports System.IO
-Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -73,7 +71,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Imaging
 
@@ -97,39 +94,6 @@ Namespace Imaging
             End If
         End Sub
 
-        ''' <summary>
-        ''' Internal create gdi device helper.(这个函数不会克隆原来的图像对象<paramref name="res"/>)
-        ''' </summary>
-        ''' <param name="g"></param>
-        ''' <param name="res">绘图的基础图像对象</param>
-        ''' <returns></returns>
-        Friend Function CreateObject(g As Graphics, res As Image) As Graphics2D
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality
-            g.CompositingQuality = CompositingQuality.HighQuality
-            g.SmoothingMode = SmoothingMode.HighQuality
-            g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit
-
-            With New Graphics2D With {
-                .ImageResource = res,
-                .g = g,
-                .Font = New Font(FontFace.MicrosoftYaHei, 12),
-                .Stroke = Pens.Black
-            }
-                ' .Clear(Color.Transparent)
-                Return .ByRef
-            End With
-        End Function
-
-        <Extension>
-        Public Function GetStringPath(s$, dpi!, rect As RectangleF, font As Font, format As StringFormat) As GraphicsPath
-            Dim path As New GraphicsPath()
-            ' Convert font size into appropriate coordinates
-            Dim emSize! = dpi * font.SizeInPoints / 72
-            path.AddString(s, font.FontFamily, font.Style, emSize, rect, format)
-            Return path
-        End Function
-
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function PointF(polygon As IEnumerable(Of Point)) As IEnumerable(Of PointF)
@@ -151,24 +115,6 @@ Namespace Imaging
         <Extension>
         Public Function ToPoints(ps As IEnumerable(Of PointF)) As Point()
             Return ps.Select(Function(x) New Point(x.X, x.Y)).ToArray
-        End Function
-
-        <Extension>
-        Public Function SaveIcon(ico As Icon, path$) As Boolean
-            Call path.ParentPath.MakeDir
-
-            Try
-                Using file As New FileStream(path, FileMode.OpenOrCreate)
-                    Call ico.Save(file)
-                    Call file.Flush()
-                End Using
-
-                Return True
-            Catch ex As Exception
-                Call App.LogException(New Exception(path, ex))
-            End Try
-
-            Return False
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -292,25 +238,11 @@ Namespace Imaging
         End Function
 
         <Extension>
-        Public Sub DrawCircle(ByRef g As Graphics, centra As PointF, r!, color As SolidBrush)
+        Public Sub DrawCircle(ByRef g As IGraphics, centra As PointF, r!, color As SolidBrush)
             Dim d = r * 2
 
             With centra
                 Call g.FillPie(color, .X - r, .Y - r, d, d, 0, 360)
-            End With
-        End Sub
-
-        <Extension>
-        Public Sub DrawCircle(ByRef g As Graphics, centra As PointF, r!, color As Pen, Optional fill As Boolean = True)
-            With centra
-                Dim d! = r * 2
-                Dim rect As New Rectangle(.X - r, .Y - r, d, d)
-
-                If fill Then
-                    Call g.FillPie(New SolidBrush(color.Color), rect, 0, 360)
-                Else
-                    Call g.DrawEllipse(color, rect)
-                End If
             End With
         End Sub
 
@@ -326,7 +258,7 @@ Namespace Imaging
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Sub DrawCircle(ByRef g As Graphics, color As Pen, x!, y!, r!, Optional fill As Boolean = True)
+        Public Sub DrawCircle(ByRef g As IGraphics, color As Pen, x!, y!, r!, Optional fill As Boolean = True)
             Call g.DrawCircle(New PointF(x, y), r, color, fill)
         End Sub
 
@@ -378,30 +310,6 @@ Namespace Imaging
             Return New Rectangle(New Point, size)
         End Function
 
-        ''' <summary>
-        ''' Convert image to icon
-        ''' </summary>
-        ''' <param name="res"></param>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("To.Icon")>
-        <Extension> Public Function GetIcon(res As Image) As Icon
-            Return Icon.FromHandle(New Bitmap(res).GetHicon)
-        End Function
-
-        ''' <summary>
-        ''' Convert image to icon
-        ''' </summary>
-        ''' <param name="res"></param>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("To.Icon")>
-        <Extension> Public Function GetIcon(res As Bitmap) As Icon
-            Return Icon.FromHandle(res.GetHicon)
-        End Function
-
         <Extension>
         Public Function X(pts As Point()) As Integer()
             Return pts.Select(Function(p) p.X).ToArray
@@ -450,7 +358,7 @@ Namespace Imaging
         <Extension>
         Public Function LoadImage(rawStream As Byte(), Optional throwEx As Boolean = True) As Image
             Try
-                Return Image.FromStream(stream:=New MemoryStream(rawStream))
+                Return Image.FromStream(New MemoryStream(rawStream))
             Catch ex As Exception
                 If throwEx Then
                     Throw
@@ -486,23 +394,18 @@ Namespace Imaging
             Return image.ToStream.ToArray
         End Function
 
+        <Extension>
         Public Function ToStream(image As Image) As MemoryStream
             With New MemoryStream
+#If NET48 Then
                 Call image.Save(.ByRef, ImageFormat.Png)
+#Else
+                Call image.Save(.ByRef, ImageFormats.Png)
+#End If
+
                 Return .ByRef
             End With
         End Function
-
-        '<ExportAPI("GrayBitmap")>
-        '<Description("Create the gray color of the target image.")>
-        '<Extension> Public Function CreateGrayBitmap(res As Image) As Image
-        '    Using g As Graphics2D = DirectCast(res.Clone, Image).CreateCanvas2D
-        '        With g
-        '            Call ControlPaint.DrawImageDisabled(.Graphics, res, 0, 0, Color.FromArgb(0, 0, 0, 0))
-        '            Return .ImageResource
-        '        End With
-        '    End Using
-        'End Function
 
         ''' <summary>
         ''' Adding a frame box to the target image source.(为图像添加边框)
@@ -511,7 +414,8 @@ Namespace Imaging
         ''' <param name="pen">Default pen width is 1px and with color <see cref="Color.Black"/>.(默认的绘图笔为黑色的1个像素的边框)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Extension> Public Function ImageAddFrame(canvas As Graphics2D, Optional pen As Pen = Nothing, Optional offset% = 0) As Graphics2D
+        <Extension>
+        Public Function ImageAddFrame(canvas As IGraphics, Optional pen As Pen = Nothing, Optional offset% = 0) As IGraphics
             Dim TopLeft As New Point(offset, offset)
             Dim TopRight As New Point(canvas.Width - offset, 1 + offset)
             Dim BtmLeft As New Point(offset + 1, canvas.Height - offset)
@@ -537,90 +441,6 @@ Namespace Imaging
         End Function
 
         ''' <summary>
-        ''' 创建一个GDI+的绘图设备
-        ''' </summary>
-        ''' <param name="r"></param>
-        ''' <param name="filled">默认的背景填充颜色为白色</param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("GDI+.Create")>
-        <Extension>
-        Public Function CreateGDIDevice(r As SizeF, Optional filled As Color = Nothing) As Graphics2D
-            Return (New Size(CInt(r.Width), CInt(r.Height))).CreateGDIDevice(filled)
-        End Function
-
-        '<Extension>
-        'Public Function OpenDevice(ctrl As Control) As Graphics2D
-        '    Dim img As Image = New Bitmap(ctrl.Width, ctrl.Height)
-        '    Dim canvas = img.CreateCanvas2D
-
-        '    If ctrl.BackgroundImage Is Nothing Then
-        '        Call canvas.FillRectangle(Brushes.White, New Rectangle(New Point, img.Size))
-        '    End If
-
-        '    Return canvas
-        'End Function
-
-        ''' <summary>
-        ''' 从指定的文件之中加载GDI+设备的句柄
-        ''' </summary>
-        ''' <param name="path"></param>
-        ''' <returns></returns>
-        '''
-        <ExportAPI("GDI+.Create")>
-        <Extension> Public Function CanvasCreateFromImageFile(path As String) As Graphics2D
-            Dim image As Image = LoadImage(path)
-            Dim g As Graphics = Graphics.FromImage(image)
-
-            With g
-                .CompositingQuality = CompositingQuality.HighQuality
-                .TextRenderingHint = TextRenderingHint.ClearTypeGridFit
-            End With
-
-            Return Graphics2D.CreateObject(g, image)
-        End Function
-
-        ''' <summary>
-        ''' 无需处理图像数据，这个函数默认已经自动克隆了该对象，不会影响到原来的对象，
-        ''' 除非你将<paramref name="directAccess"/>参数设置为真，函数才不会自动克隆图像对象
-        ''' </summary>
-        ''' <param name="res"></param>
-        ''' <param name="bg">
-        ''' the color string literal value of the default background color
-        ''' </param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function CreateCanvas2D(res As Image,
-                                       Optional directAccess As Boolean = False,
-                                       Optional bg As String = Nothing,
-                                       <CallerMemberName>
-                                       Optional caller$ = "") As Graphics2D
-
-            If directAccess Then
-                Return Graphics2D.CreateObject(Graphics.FromImage(res), res)
-            Else
-                With res.Size.CreateGDIDevice(filled:=bg.TranslateColor)
-                    Call .DrawImage(res, 0, 0, .Width, .Height)
-                    Return .ByRef
-                End With
-            End If
-        End Function
-
-        '<Extension> Public Function BackgroundGraphics(ctrl As Control) As Graphics2D
-        '    If Not ctrl.BackgroundImage Is Nothing Then
-        '        Try
-        '            Return ctrl.BackgroundImage.CreateCanvas2D
-        '        Catch ex As Exception
-        '            Call App.LogException(ex)
-        '            Return ctrl.Size.CreateGDIDevice(ctrl.BackColor)
-        '        End Try
-        '    Else
-        '        Return ctrl.Size.CreateGDIDevice(ctrl.BackColor)
-        '    End If
-        'End Function
-
-        ''' <summary>
         ''' both width and height in current size object must be greater than zero
         ''' </summary>
         ''' <param name="size"></param>
@@ -631,91 +451,14 @@ Namespace Imaging
             Return size.Width > 0 AndAlso size.Height > 0
         End Function
 
-        Const InvalidSize As String = "One of the size parameter for the gdi+ device is not valid!"
-
-#If NET_48 = 1 Or netcore5 = 1 Then
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function CreateGDIDevice(t As (width%, height%),
-                                        Optional filled As Color = Nothing,
-                                        <CallerMemberName>
-                                        Optional trace$ = "",
-                                        Optional dpi$ = "100,100") As Graphics2D
-
-            Return CreateGDIDevice(t.width, t.height, filled:=filled, dpi:=dpi, trace:=trace)
-        End Function
-
-#End If
-
-        ''' <summary>
-        ''' 创建一个GDI+的绘图设备，默认的背景填充色为白色
-        ''' </summary>
-        ''' <param name="r"></param>
-        ''' <param name="filled">默认的背景填充颜色为白色</param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("GDI+.Create")>
-        <Extension> Public Function CreateGDIDevice(r As Size,
-                                                    Optional filled As Color = Nothing,
-                                                    <CallerMemberName>
-                                                    Optional trace$ = "",
-                                                    Optional dpi$ = "100,100") As Graphics2D
-            Return CreateGDIDevice(r.Width, r.Height, filled:=filled, dpi:=dpi, trace:=trace)
-        End Function
-
-        Public Function CreateGDIDevice(width%, height%,
-                                        Optional filled As Color = Nothing,
-                                        <CallerMemberName>
-                                        Optional trace$ = "",
-                                        Optional dpi$ = "100,100") As Graphics2D
-            Dim bitmap As Bitmap
-            Dim dpi_sz As Size = dpi.SizeParser
-
-            If width <= 0 OrElse height <= 0 Then
-                Throw New Exception(InvalidSize)
-            ElseIf dpi_sz.Width <= 0 OrElse dpi_sz.Height <= 0 Then
-                Throw New Exception("dpi size should be a tuple of the positive integers!")
-            End If
-
-            Try
-                bitmap = New Bitmap(width, height)
-
-                With dpi_sz
-                    Call bitmap.SetResolution(.Width, .Height)
-                End With
-            Catch ex As Exception
-                ex = New Exception(New Size(width, height).ToString, ex)
-                ex = New Exception(trace, ex)
-                Call App.LogException(ex, MethodBase.GetCurrentMethod.GetFullName)
-                Throw ex
-            End Try
-
-            Dim g As Graphics = Graphics.FromImage(bitmap)
-            Dim rect As New Rectangle(New Point, bitmap.Size)
-
-            If filled.IsNullOrEmpty Then
-                filled = Color.White
-            End If
-
-            Call g.Clear(filled)
-
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality
-            g.CompositingQuality = CompositingQuality.HighQuality
-            g.SmoothingMode = SmoothingMode.HighQuality
-            g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit
-
-            Return Graphics2D.CreateObject(g, bitmap)
-        End Function
-
-        <Extension> Public Function Clone(res As Bitmap) As Bitmap
+        Public Function Clone(res As Bitmap) As Bitmap
             If res Is Nothing Then Return Nothing
             Return DirectCast(res.Clone, Bitmap)
         End Function
 
-        <Extension> Public Function Clone(res As Image) As Image
+        <Extension>
+        Public Function Clone(res As Image) As Image
             If res Is Nothing Then Return Nothing
             Return DirectCast(res.Clone, Image)
         End Function
