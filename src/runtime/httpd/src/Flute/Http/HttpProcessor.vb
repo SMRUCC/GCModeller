@@ -72,6 +72,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 Imports ResponseHeaders = Flute.Http.Core.Message.HttpHeader.ResponseHeaders
 Imports std = System.Math
 
