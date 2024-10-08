@@ -112,7 +112,10 @@ Public Module CorrelationNetwork
     End Function
 
     <Extension>
-    Public Function BuildNetwork(corDf As df, cutoff As Double) As NetworkGraph
+    Public Function BuildNetwork(corDf As df, cutoff As Double,
+                                 Optional sample_label As String = "Sample",
+                                 Optional feature_label As String = "Feature") As NetworkGraph
+
         Dim g As New NetworkGraph
         Dim nodeData As NodeData
         Dim linkdata As EdgeData
