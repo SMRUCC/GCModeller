@@ -56,8 +56,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Drawing
-Imports Microsoft.VisualBasic.Drawing.Drawing2D.Text
+'Imports Microsoft.VisualBasic.Drawing.Drawing2D.Text
 Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace Drawing2D.Text
