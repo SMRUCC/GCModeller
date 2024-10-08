@@ -182,7 +182,9 @@ Public Module CorrelationNetwork
     ''' <param name="cutoff">
     ''' 相关度阈值的绝对值
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' the correlation value is assigned to the edge weight value.
+    ''' </returns>
     <Extension>
     Public Function BuildNetwork(matrix As CorrelationMatrix, cutoff#, Optional pvalue As Double = 1) As (net As NetworkGraph, matrix As CorrelationMatrix)
         Dim g As New NetworkGraph
