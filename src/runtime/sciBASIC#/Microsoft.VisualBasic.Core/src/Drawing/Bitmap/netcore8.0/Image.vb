@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
+Imports Microsoft.VisualBasic.Imaging.BitmapImage.StreamWriter
 
 Namespace Imaging
 
@@ -13,14 +14,27 @@ Namespace Imaging
     Public MustInherit Class Image : Implements IDisposable
 
         Private disposedValue As Boolean
+
+        ''' <summary>
+        ''' the size of the image
+        ''' </summary>
+        ''' <returns></returns>
         Public MustOverride ReadOnly Property Size As Size
 
+        ''' <summary>
+        ''' the width of the image <see cref="Size"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Width As Integer
             Get
                 Return Size.Width
             End Get
         End Property
 
+        ''' <summary>
+        ''' the height of the image <see cref="Size"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Height As Integer
             Get
                 Return Size.Height
@@ -29,8 +43,17 @@ Namespace Imaging
 
         Public MustOverride Sub Save(s As Stream, format As ImageFormats)
 
+        ''' <summary>
+        ''' Convert current image object as bitmap file data
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' function for make bitmap object constructor
+        ''' </remarks>
+        Protected Friend MustOverride Function ConvertToBitmapStream() As MemoryStream
+
         Public Shared Function FromStream(s As Stream) As Bitmap
-            Throw New NotImplementedException
+            Return New Bitmap(New BitmapReader(s).LoadMemory)
         End Function
 
         Protected Overridable Sub Dispose(disposing As Boolean)
@@ -66,18 +89,21 @@ Namespace Imaging
 
         Public Overrides ReadOnly Property Size As Size
             Get
-                Return memoryBuffer.Size
+                Return MemoryBuffer.Size
             End Get
         End Property
 
-        ReadOnly memoryBuffer As BitmapBuffer
+        Public ReadOnly Property MemoryBuffer As BitmapBuffer
 
         Sub New(data As BitmapBuffer)
-            memoryBuffer = data
+            MemoryBuffer = data
         End Sub
 
         Sub New(copy As Image)
-            Throw New NotImplementedException
+            Dim buf As MemoryStream = copy.ConvertToBitmapStream()
+            Dim reader As New BitmapReader(buf)
+
+            MemoryBuffer = reader.LoadMemory
         End Sub
 
         Sub New(size As Size)
@@ -85,17 +111,21 @@ Namespace Imaging
         End Sub
 
         Sub New(width As Integer, height As Integer, Optional format As PixelFormat = PixelFormat.Format32bppArgb)
-            Throw New NotImplementedException
+            Dim channels As Integer = If(format = PixelFormat.Format32bppArgb, 4, 3)
+            Dim buffer As Byte() = New Byte(width * height * channels - 1) {}
+
+            ' create empty bitmap data
+            MemoryBuffer = New BitmapBuffer(buffer, New Size(width, height), channels)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub SetPixel(x As Integer, y As Integer, pixel As Color)
-            Call memoryBuffer.SetPixel(x, y, pixel)
+            Call MemoryBuffer.SetPixel(x, y, pixel)
         End Sub
 
         Public Function Resize(newWidth As Integer, newHeight As Integer) As Bitmap
-            Dim pixels = memoryBuffer.GetARGB
-            pixels = BitmapResizer.ResizeImage(pixels, memoryBuffer.Width, memoryBuffer.Height, newWidth, newHeight)
+            Dim pixels = MemoryBuffer.GetARGB
+            pixels = BitmapResizer.ResizeImage(pixels, MemoryBuffer.Width, MemoryBuffer.Height, newWidth, newHeight)
             ' construct bitmap data based on pixels matrix
             Dim sizedBitmap As New BitmapBuffer(pixels, New Size(newWidth, newHeight))
             Dim bitmap As New Bitmap(sizedBitmap)
@@ -104,19 +134,44 @@ Namespace Imaging
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetPixel(X As Integer, Y As Integer) As Color
-            Return memoryBuffer.GetPixel(X, Y)
+            Return MemoryBuffer.GetPixel(X, Y)
         End Function
 
+        ''' <summary>
+        ''' Save current bitmap object into a specific file
+        ''' </summary>
+        ''' <param name="s"></param>
+        ''' <param name="format"></param>
         Public Overrides Sub Save(s As Stream, format As ImageFormats)
-            Throw New NotImplementedException()
+            Dim writer As New BitmapWriter(Width, Height)
+            Dim pixel As Color
+
+            For x As Integer = 0 To Width - 1
+                For y As Integer = 0 To Height - 1
+                    pixel = MemoryBuffer.GetPixel(x, y)
+                    writer.SetPixel(x, y, pixel.R, pixel.G, pixel.B)
+                Next
+            Next
+
+            Call writer.SaveColorImage(s)
+            Call s.Flush()
         End Sub
 
         Public Function Clone() As Object
-            Throw New NotImplementedException
+            Return New Bitmap(MemoryBuffer)
+        End Function
+
+        Protected Friend Overrides Function ConvertToBitmapStream() As MemoryStream
+            Dim ms As New MemoryStream
+            Call Save(ms, ImageFormats.Bmp)
+            Call ms.Seek(Scan0, SeekOrigin.Begin)
+            Return ms
         End Function
     End Class
 
-    '     Specifies the format of the color data for each pixel in the image.
+    ''' <summary>
+    ''' Specifies the format of the color data for each pixel in the image.
+    ''' </summary>
     Public Enum PixelFormat
 
         '     The pixel data contains color-indexed values, which means the values are an index

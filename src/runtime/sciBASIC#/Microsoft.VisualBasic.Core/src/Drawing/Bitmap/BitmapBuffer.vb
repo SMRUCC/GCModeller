@@ -65,6 +65,7 @@
 Imports System.Drawing
 Imports System.Drawing.Imaging
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports std = System.Math
@@ -110,11 +111,28 @@ Namespace Imaging.BitmapImage
             Me.Size = New Size(Width, Height)
             Me.channels = channel
         End Sub
-#Else
+#End If
+
+        ''' <summary>
+        ''' Make the memory data copy
+        ''' </summary>
+        ''' <param name="ptr">the memory data will be copy via this pointer</param>
+        ''' <param name="byts"></param>
+        ''' <param name="channel"></param>
         Sub New(ptr As IntPtr, byts%, channel As Integer)
             Call MyBase.New(ptr, byts)
 
             Throw New NotImplementedException
+        End Sub
+
+        Sub New(memory As Byte(), size As Size, channel As Integer)
+            Call MyBase.New(memory)
+
+            channels = channel
+
+            _Size = size
+            _Width = size.Width
+            _Height = size.Height
         End Sub
 
         Sub New(pixels As Color(,), size As Size)
@@ -126,7 +144,6 @@ Namespace Imaging.BitmapImage
             _Width = size.Width
             _Height = size.Height
         End Sub
-#End If
 
         ''' <summary>
         ''' The dimension width of the current bitmap buffer object
@@ -162,7 +179,7 @@ Namespace Imaging.BitmapImage
 #If NET48 Then
             Return DirectCast(raw.Clone, Bitmap)
 #Else
-            Throw New NotImplementedException
+            Return New Bitmap(Me)
 #End If
         End Function
 
@@ -470,7 +487,7 @@ Namespace Imaging.BitmapImage
 
             Return BitmapBuffer.FromBitmap(copy)
 #Else
-            Throw New NotImplementedException
+            Return FromBitmap(New Bitmap(res))
 #End If
         End Function
 
@@ -478,7 +495,7 @@ Namespace Imaging.BitmapImage
 #If NET48 Then
             Return FromBitmap(curBitmap, ImageLockMode.ReadWrite)
 #Else
-            Throw New NotImplementedException
+            Return curBitmap.MemoryBuffer
 #End If
         End Function
 
