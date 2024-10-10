@@ -58,6 +58,9 @@ Imports Flute.Http.Configurations
 Imports Flute.Http.Core
 Imports Flute.Http.Core.Message
 
+''' <summary>
+''' A simple helper for create http service
+''' </summary>
 Public Class HttpDriver
 
     Dim responseHeader As New Dictionary(Of String, String)
@@ -68,14 +71,23 @@ Public Class HttpDriver
         Me.settings = settings
     End Sub
 
-    Public Sub HttpMethod(method As String, handler As HttpSocket.AppHandler)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="method">
+    ''' get/post/put/delete, the http method name, case-insensitive
+    ''' </param>
+    ''' <param name="handler"></param>
+    Public Function HttpMethod(method As String, handler As HttpSocket.AppHandler) As HttpDriver
         methods(method.ToUpper) = handler
-    End Sub
+        Return Me
+    End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Sub AddResponseHeader(header As String, value As String)
+    Public Function AddResponseHeader(header As String, value As String) As HttpDriver
         Call responseHeader.Add(header, value)
-    End Sub
+        Return Me
+    End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetSocket(port As Integer) As HttpSocket
@@ -88,7 +100,7 @@ Public Class HttpDriver
 
     Public Sub AppHandler(request As HttpRequest, response As HttpResponse)
         For Each header In responseHeader
-            response.AddCustomHttpHeader(header.Key, header.Value)
+            Call response.AddCustomHttpHeader(header.Key, header.Value)
         Next
 
         If methods.ContainsKey(request.HTTPMethod) Then
