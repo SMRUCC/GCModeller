@@ -221,6 +221,36 @@ Namespace Imaging.BitmapImage
             Return iA
         End Function
 
+        Public Function GetRed(x As Integer, y As Integer) As Byte
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return 0
+            Else
+                Return buffer(i + 2)
+            End If
+        End Function
+
+        Public Function GetGreen(x As Integer, y As Integer) As Byte
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return 0
+            Else
+                Return buffer(i + 1)
+            End If
+        End Function
+
+        Public Function GetBlue(x As Integer, y As Integer) As Byte
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return 0
+            Else
+                Return buffer(i + 0)
+            End If
+        End Function
+
         ''' <summary>
         ''' get image data array in ARGB format
         ''' </summary>
@@ -407,6 +437,47 @@ Namespace Imaging.BitmapImage
 
             buffer(i + 2) = R
             buffer(i + 1) = G
+            buffer(i + 0) = B
+        End Sub
+
+        Public Sub SetAlpha(x As Integer, y As Integer, A As Byte)
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return
+            End If
+            If channels = 4 Then
+                buffer(i + 3) = A
+            End If
+        End Sub
+
+        Public Sub SetRed(x As Integer, y As Integer, R As Byte)
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return
+            End If
+
+            buffer(i + 2) = R
+        End Sub
+
+        Public Sub SetGreen(x As Integer, y As Integer, G As Byte)
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return
+            End If
+
+            buffer(i + 1) = G
+        End Sub
+
+        Public Sub SetBlue(x As Integer, y As Integer, B As Byte)
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return
+            End If
+
             buffer(i + 0) = B
         End Sub
 
