@@ -3,34 +3,79 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\bootstraploader.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{732FAFEA-207F-49A5-A9A6-2F210C969A94}|..\\..\\repository\\HMP_client\\HMP_client.NET5.vbproj|g:\\gcmodeller\\src\\repository\\hmp_client\\hmp_client.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\compiler.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{C0471EF8-03EC-4030-AAD5-DFFEEF1B6684}|..\\modules\\keggReport\\keggReport.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\keggreport\\keggreport.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5746431A-D9F9-4324-97B0-741AAC49AC38}|..\\..\\GCModeller\\engine\\CompilerServices\\CompilerServices.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compilerservices\\compilerservices.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{B2480E4A-ACB2-4525-AD6A-9368FE6DB916}|..\\..\\GCModeller\\data\\MicrobesOnline\\MicrobesOnline.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\microbesonline\\microbesonline.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\dynamics.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{FA3DB933-8FEE-4593-BDEB-227EB9FF3B68}|..\\..\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regulondatabase.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{55DA89C0-938C-4415-8091-B7D756FD2AD0}|..\\..\\GCModeller\\sub-system\\FBA\\FBA.Core\\FBA.Core.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\fba\\fba.core\\fba.core.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\repository.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\gcmarkupxml.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\biocyc.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22BA98C8-4E5F-413E-AF35-6B2B29D1EEAD}|..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\model\\model.core.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{92150242-1A11-4B34-BF1F-833BE7EA79CB}|..\\..\\GCModeller\\models\\BIOM\\BIOM\\BIOM.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biom\\biom\\biom.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9BF1E3F8-127E-4E51-8F0C-9D7358DAD89E}|..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\SSystem.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\plas.net\\ssystem\\ssystem.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{8F96B3C8-2719-4B4E-8F0C-CBCE0FFEAC40}|..\\..\\GCModeller\\models\\SBML\\Biopax\\biopax-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\sbml\\biopax\\biopax-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB74684C-D332-4FFA-9C19-AB7268CAF348}|..\\..\\GCModeller\\engine\\IO\\Raw\\vcXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\raw\\vcxml.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{E7B2FFBC-2898-4B28-B0F2-0348154D6902}|..\\..\\GCModeller\\data\\GO_gene-ontology\\GeneOntology\\go_owl-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\go_gene-ontology\\geneontology\\go_owl-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FAE70C52-9496-4D47-AD8F-183284CD079B}|..\\..\\GCModeller\\engine\\Dynamics.Debugger\\vcellDebugger.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics.debugger\\vcelldebugger.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{5EED256E-570F-46B9-9B05-B23257951CCF}|..\\..\\GCModeller\\foundation\\OBO_Foundry\\obo_foundry-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\foundation\\obo_foundry\\obo_foundry-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1B958701-1A85-4A01-A9C5-1D34544F28EC}|..\\..\\GCModeller\\data\\GO_gene-ontology\\obographs\\obographs\\obographs.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\go_gene-ontology\\obographs\\obographs\\obographs.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D4A073FF-D5F2-4407-99D2-FC31FD2722E1}|..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\ProteinMatrix.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\proteintools\\proteinmatrix\\proteinmatrix.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1FDAE786-8CD9-4E87-A136-042CDD10B3CA}|..\\..\\GCModeller\\data\\Reactome\\Reactome.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\reactome\\reactome.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF456A8C-EB9A-48F1-A051-2FEC55796D29}|..\\..\\GCModeller\\data\\Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\rhea.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\rna-seq.data.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DCC16C47-FE61-4203-981C-8E16FB405E2B}|..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\sabio-rk.net.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5B79BC2-EEA6-472F-A904-0AB828897289}|..\\..\\GCModeller\\models\\SBML\\SBML\\sbml-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\sbml\\sbml\\sbml-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EFC9598A-47BE-4660-B541-DAC7F3D40CFB}|..\\..\\GCModeller\\annotations\\GSEA\\FELLA\\FELLA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fella\\fella.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BAE91F3A-E2C6-4B2F-BF7B-02EB14C901BB}|..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\fisher.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{950FAFDF-AA20-4FF8-A767-6CA186883635}|..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea.knowledgebase.extensions\\gsea.kb.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{60AA6823-471A-48F4-92A7-7F154753F99E}|..\\..\\GCModeller\\annotations\\GSEA\\GSEA\\gsea-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea\\gsea-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{69BE4F67-28E5-4373-A777-9D7DFC006DA5}|..\\..\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\gsva.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6FD58766-CDD9-46FC-8013-893DC6D399A0}|..\\..\\GCModeller\\annotations\\GSEA\\PFSNet\\PFSNet\\PFSNet.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\pfsnet\\pfsnet\\pfsnet.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9C7B4BA2-BE76-4B71-9CCA-E0055CC79B44}|..\\..\\GCModeller\\annotations\\GSEA\\PFSNet\\PFSNet_visual\\PFSNet_visual.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\pfsnet\\pfsnet_visual\\pfsnet_visual.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\wgcna.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -57,131 +102,326 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "BootstrapLoader.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj",
+              "Title": "HMP_client.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\HMP_client\\HMP_client.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\repository\\HMP_client\\HMP_client.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\HMP_client\\HMP_client.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\repository\\HMP_client\\HMP_client.NET5.vbproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:23:32.992Z",
+              "WhenOpened": "2024-10-11T13:27:24.296Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Compiler.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
+              "Title": "keggReport.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\keggReport\\keggReport.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\modules\\keggReport\\keggReport.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\keggReport\\keggReport.NET5.vbproj",
+              "RelativeToolTip": "..\\modules\\keggReport\\keggReport.NET5.vbproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:23:28.521Z",
+              "WhenOpened": "2024-10-11T13:27:19.968Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "CompilerServices.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\CompilerServices\\CompilerServices.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\CompilerServices\\CompilerServices.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\CompilerServices\\CompilerServices.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\CompilerServices\\CompilerServices.NET5.vbproj",
+              "Title": "MicrobesOnline.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\MicrobesOnline\\MicrobesOnline.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\MicrobesOnline\\MicrobesOnline.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\MicrobesOnline\\MicrobesOnline.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\MicrobesOnline\\MicrobesOnline.NET5.vbproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:23:23.297Z",
+              "WhenOpened": "2024-10-11T13:27:14.912Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Dynamics.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj",
+              "Title": "RegulonDatabase.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:23:19.512Z",
+              "WhenOpened": "2024-10-11T13:27:10.969Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "FBA.Core.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\FBA.Core\\FBA.Core.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\sub-system\\FBA\\FBA.Core\\FBA.Core.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\FBA\\FBA.Core\\FBA.Core.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\sub-system\\FBA\\FBA.Core\\FBA.Core.NET5.vbproj",
+              "Title": "repository.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\repository.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\repository.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:23:15.601Z",
+              "WhenOpened": "2024-10-11T13:27:07.048Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "GCMarkupXML.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj",
+              "Title": "BioCyc",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\BioCyc.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\BioCyc.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:23:11.721Z",
+              "WhenOpened": "2024-10-11T13:27:01.873Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Model.Core.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
+              "Title": "BIOM.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BIOM\\BIOM\\BIOM.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BIOM\\BIOM\\BIOM.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BIOM\\BIOM\\BIOM.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\BIOM\\BIOM\\BIOM.NET5.vbproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:23:07.569Z",
+              "WhenOpened": "2024-10-11T13:26:57.953Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "SSystem.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\SSystem.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\SSystem.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\SSystem.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\SSystem.NET5.vbproj",
+              "Title": "biopax-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\Biopax\\biopax-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\SBML\\Biopax\\biopax-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\Biopax\\biopax-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\SBML\\Biopax\\biopax-netcore5.vbproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:23:03.705Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "vcellDebugger.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics.Debugger\\vcellDebugger.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics.Debugger\\vcellDebugger.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics.Debugger\\vcellDebugger.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics.Debugger\\vcellDebugger.NET5.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:22:57.497Z",
+              "WhenOpened": "2024-10-11T13:26:54.297Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "vcXML.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\Raw\\vcXML.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\Raw\\vcXML.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\Raw\\vcXML.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\Raw\\vcXML.NET5.vbproj",
+              "Title": "go_owl-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\GO_gene-ontology\\GeneOntology\\go_owl-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\GO_gene-ontology\\GeneOntology\\go_owl-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\GO_gene-ontology\\GeneOntology\\go_owl-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\GO_gene-ontology\\GeneOntology\\go_owl-netcore5.vbproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:22:53.93Z",
+              "WhenOpened": "2024-10-11T13:26:50.305Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "obo_foundry-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\foundation\\OBO_Foundry\\obo_foundry-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\foundation\\OBO_Foundry\\obo_foundry-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\foundation\\OBO_Foundry\\obo_foundry-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\foundation\\OBO_Foundry\\obo_foundry-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:26:46.361Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "obographs.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\GO_gene-ontology\\obographs\\obographs\\obographs.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\GO_gene-ontology\\obographs\\obographs\\obographs.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\GO_gene-ontology\\obographs\\obographs\\obographs.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\GO_gene-ontology\\obographs\\obographs\\obographs.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:26:42.728Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ProteinMatrix",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\ProteinMatrix.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\ProteinMatrix.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\ProteinMatrix.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\ProteinMatrix.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:26:37.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Reactome",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Reactome.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\Reactome\\Reactome.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Reactome\\Reactome.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\Reactome\\Reactome.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:26:32.881Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Rhea",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Rhea.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\Rhea\\Rhea.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Rhea.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\Rhea\\Rhea.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:26:28.752Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "RNA-seq.Data.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:26:24.569Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "SABIO-RK.NET",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\SABIO-RK\\SABIO-RK.NET.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:26:20.88Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "sbml-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\sbml-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\SBML\\SBML\\sbml-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\sbml-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\SBML\\SBML\\sbml-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:26:16.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "FELLA",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FELLA\\FELLA.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\FELLA\\FELLA.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FELLA\\FELLA.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\FELLA\\FELLA.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:26:10.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Fisher.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:26:05.241Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "GSEA.KB.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:26:01.505Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "gsea-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\gsea-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA\\gsea-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\gsea-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA\\gsea-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:25:57.625Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "GSVA",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:25:53.8Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "PFSNet.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\PFSNet\\PFSNet\\PFSNet.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\PFSNet\\PFSNet\\PFSNet.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\PFSNet\\PFSNet\\PFSNet.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\PFSNet\\PFSNet\\PFSNet.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:25:50.097Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "PFSNet_visual.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\PFSNet\\PFSNet_visual\\PFSNet_visual.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\PFSNet\\PFSNet_visual\\PFSNet_visual.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\PFSNet\\PFSNet_visual\\PFSNet_visual.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\PFSNet\\PFSNet_visual\\PFSNet_visual.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:25:44.825Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "WGCNA",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:25:39.954Z",
               "EditorCaption": ""
             }
           ]

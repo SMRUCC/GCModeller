@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>ProteinMatrix</RootNamespace>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
     <Title>Protein Matrix Generator</Title>
     <Description>Generates the protein matrix data for run the CNN learning.</Description>
     <Platforms>AnyCPU;x64</Platforms>
