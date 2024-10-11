@@ -55,6 +55,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.DataFrameColumnAttribute
 Imports Microsoft.VisualBasic.Linq
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace TAB
 
@@ -63,14 +64,14 @@ Namespace TAB
         <Extension>
         Public Iterator Function LoadMItab(Of T)(path As String) As IEnumerable(Of T)
             Dim schema = LoadMapping(Of T)(mapsAll:=True)
-            Dim header As String() = path.ReadFirstLine.Split(Text.ASCII.TAB)
+            Dim header As String() = path.ReadFirstLine.Split(ASCII.TAB)
             Dim index As Dictionary(Of String, Integer) = header _
                 .SeqIterator _
                 .ToDictionary(Function(x) x.value,
                               Function(x) x.i)
 
             For Each line As String In path.IterateAllLines.Skip(1)
-                Dim tokens As String() = line.Split(Text.ASCII.TAB)
+                Dim tokens As String() = line.Split(ASCII.TAB)
                 Dim x As T = Activator.CreateInstance(Of T)
 
                 For Each p In schema.Values

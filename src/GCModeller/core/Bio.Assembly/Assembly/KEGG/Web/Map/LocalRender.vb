@@ -61,6 +61,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -226,14 +227,11 @@ Namespace Assembly.KEGG.WebServices
 
             Static SimSum As [Default](Of Font) = New Font(FontFace.SimSun, 10, FontStyle.Regular)
 
-            Using g As Graphics2D = pathway _
-                .GetImage _
-                .CreateCanvas2D(directAccess:=True)
-
+            Using g As IGraphics = DriverLoad.CreateGraphicsDevice(pathway.GetImage, direct_access:=True)
                 Call renderGenes(g, font Or SimSum, pen, pathway, scaleFactor, nodes)
                 Call renderCompound(g, font Or SimSum, pathway, scaleFactor, nodes.compounds)
 
-                Return g
+                Return DirectCast(g, GdiRasterGraphics).ImageResource
             End Using
         End Function
 
@@ -243,7 +241,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="g"></param>
         ''' <param name="map"></param>
         ''' <param name="list"></param>
-        Private Shared Sub renderGenes(ByRef g As Graphics2D, font As Font, pen As Brush, map As Map, scale As SizeF, list As MapHighlights)
+        Private Shared Sub renderGenes(ByRef g As IGraphics, font As Font, pen As Brush, map As Map, scale As SizeF, list As MapHighlights)
             Dim shapes = getAreas(map, "Gene")
             ' rendering the shape of gene/protein tuple
             Dim cooccurs = list.GetGeneProteinTuples.ToArray
@@ -340,7 +338,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="g"></param>
         ''' <param name="map"></param>
         ''' <param name="list"></param>
-        Private Shared Sub renderCompound(ByRef g As Graphics2D, font As Font, map As Map, scale As SizeF, list As NamedValue(Of String)())
+        Private Shared Sub renderCompound(ByRef g As IGraphics, font As Font, map As Map, scale As SizeF, list As NamedValue(Of String)())
             Dim shapes = getAreas(map, "Compound")
             Dim scaleCircle As New SizeF(2, 2)
 
@@ -365,7 +363,7 @@ Namespace Assembly.KEGG.WebServices
         Private Shared Sub CompoundShapeDrawing(id As NamedValue(Of String),
                                                 shapes As Dictionary(Of String, NamedValue(Of Area())),
                                                 font As Font,
-                                                g As Graphics2D,
+                                                g As IGraphics,
                                                 scale As SizeF,
                                                 scaleCircle As SizeF)
             Dim rectBrush As Brush = id.Value _
