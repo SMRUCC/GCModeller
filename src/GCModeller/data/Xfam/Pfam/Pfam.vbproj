@@ -3,7 +3,7 @@
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Data.Xfam.Pfam</RootNamespace>
      <AssemblyName>SMRUCC.genomics.Data.Xfam.Pfam</AssemblyName>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
