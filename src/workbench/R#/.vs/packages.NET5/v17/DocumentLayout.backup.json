@@ -1,7 +1,83 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{47FD151D-8899-4E70-B7EA-DBE2394B3BD7}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\ODESolver.Extensions\\ODESolver.Extensions.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\odesolver.extensions\\odesolver.extensions.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1E67D94E-34C3-4BA0-8357-53A415743226}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\ODE\\odes-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\ode\\odes-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FE3B378-69E0-4CEB-A9A7-B1EBFE97D3D0}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Randomizer\\randomizer-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\randomizer\\randomizer-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB4D6E24-1A8E-498F-962E-BAE40225CDAE}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\stats-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\math.statistics\\stats-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2EE31B8E-803A-4164-BAEE-C5D6AEB00A36}|..\\..\\runtime\\sciBASIC#\\mime\\text%html\\html_netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\text%html\\html_netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{82081DE5-5F9B-4942-A7B1-0E286FE6A209}|..\\..\\runtime\\sciBASIC#\\mime\\application%json\\JSON-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%json\\json-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C04DAC41-7780-4A44-8923-BEB12E50FC9F}|..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{08B7F565-6AA2-4925-A781-3BBE6FD1C206}|..\\..\\runtime\\sciBASIC#\\mime\\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\\Excel\\xlsx-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\\excel\\xlsx-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F1966725-4A36-4A8F-9B74-76994168FEA2}|..\\..\\runtime\\sciBASIC#\\mime\\application%xml\\xml-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%xml\\xml-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B94D68E5-E360-444F-8574-03CBDE4EEFFA}|..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Visualization\\data_visualize-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\visualization\\visualization\\data_visualize-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{74CF5719-5F1E-40A3-90F5-FEC6A340DC5A}|..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HCTreePlot.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hctreeplot\\hctreeplot.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFBA2697-9A7A-49BF-9636-85A05B46EF75}|..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\microsoft.visualbasic.imaging\\imaging.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9A3484D8-5AF8-430A-B4DA-59510F646B09}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\datavisualization.network\\network_graph-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB2E4BAE-8D87-454A-AE20-BD9936C80BE3}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Network.IO.Extensions\\network_io-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\network.io.extensions\\network_io-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ED1848A6-4581-43A7-BD20-B505205918C8}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\network_layout\\network_layout.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\network_layout\\network_layout.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9F695D8-E29A-42ED-8D35-F184905EB8D3}|..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Visualizer\\networkVisualizer.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\network-visualization\\visualizer\\networkvisualizer.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A578361-68D4-4152-8EF9-C831E419CF6F}|..\\..\\runtime\\sciBASIC#\\gr\\physics\\physics-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\physics\\physics-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B2FDF869-EE9D-4F3F-9A7C-1C6BC2E9B722}|..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots-statistics\\plots_extensions-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\visualization\\plots-statistics\\plots_extensions-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16395E03-C483-4104-A752-47A32ED9E47A}|..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\visualization\\plots\\plots-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\core.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8FF5949E-7194-42F8-845B-D4AA87D21E33}|..\\..\\runtime\\Darwinism\\src\\networking\\networking.vbproj|g:\\gcmodeller\\src\\runtime\\darwinism\\src\\networking\\networking.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD3B2002-8AA6-41A9-9385-F356667E8944}|..\\..\\runtime\\Darwinism\\src\\CloudKit\\ossutil\\ossutil.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\darwinism\\src\\cloudkit\\ossutil\\ossutil.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0421D6A-508A-4F25-BD54-BD1B9BD1F290}|..\\..\\R-sharp\\Rscript\\Rscript.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\rscript\\rscript.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\rsharp-netcore5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +85,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +98,331 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "odes-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\ODE\\odes-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\ODE\\odes-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\ODE\\odes-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\ODE\\odes-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:49.889Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ODESolver.Extensions.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\ODESolver.Extensions\\ODESolver.Extensions.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\ODESolver.Extensions\\ODESolver.Extensions.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\ODESolver.Extensions\\ODESolver.Extensions.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\ODESolver.Extensions\\ODESolver.Extensions.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:49.129Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "randomizer-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Randomizer\\randomizer-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Randomizer\\randomizer-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Randomizer\\randomizer-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Randomizer\\randomizer-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:48.097Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "stats-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\stats-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\stats-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\stats-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\stats-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:47.169Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "html_netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\text%html\\html_netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\text%html\\html_netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\text%html\\html_netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\text%html\\html_netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:44.145Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "JSON-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\JSON-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%json\\JSON-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\JSON-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%json\\JSON-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:43.041Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "rdf_xml-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%rdf\u002Bxml\\rdf_xml-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:42.136Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "xlsx-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\\Excel\\xlsx-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\\Excel\\xlsx-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\\Excel\\xlsx-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\\Excel\\xlsx-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:41.322Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "xml-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%xml\\xml-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\application%xml\\xml-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%xml\\xml-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\application%xml\\xml-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:40.21Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "data_visualize-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Visualization\\data_visualize-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Visualization\\data_visualize-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Visualization\\data_visualize-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Visualization\\data_visualize-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:36.837Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "HCTreePlot",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HCTreePlot.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HCTreePlot.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HCTreePlot.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\HCTreePlot\\HCTreePlot.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:35.769Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "imaging.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:34.813Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "network_graph-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Datavisualization.Network\\network_graph-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:33.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "network_io-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Network.IO.Extensions\\network_io-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Network.IO.Extensions\\network_io-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Network.IO.Extensions\\network_io-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Network.IO.Extensions\\network_io-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:32.457Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "network_layout",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\network_layout\\network_layout.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\network_layout\\network_layout.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\network_layout\\network_layout.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\network_layout\\network_layout.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:31.081Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "networkVisualizer.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Visualizer\\networkVisualizer.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Visualizer\\networkVisualizer.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\network-visualization\\Visualizer\\networkVisualizer.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\network-visualization\\Visualizer\\networkVisualizer.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:28.465Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "physics-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\physics\\physics-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\physics\\physics-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\physics\\physics-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\physics\\physics-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:26.905Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "plots_extensions-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots-statistics\\plots_extensions-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots-statistics\\plots_extensions-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots-statistics\\plots_extensions-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots-statistics\\plots_extensions-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:25.37Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "plots-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:24.225Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Core",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:21.841Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "networking",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\Darwinism\\src\\networking\\networking.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\Darwinism\\src\\networking\\networking.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\Darwinism\\src\\networking\\networking.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\Darwinism\\src\\networking\\networking.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:19:08.391Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ossutil.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\Darwinism\\src\\CloudKit\\ossutil\\ossutil.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\Darwinism\\src\\CloudKit\\ossutil\\ossutil.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\Darwinism\\src\\CloudKit\\ossutil\\ossutil.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\runtime\\Darwinism\\src\\CloudKit\\ossutil\\ossutil.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:18:23.905Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "R-cmd.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:18:16.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Rscript.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\Rscript\\Rscript.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\Rscript\\Rscript.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\Rscript\\Rscript.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\R-sharp\\Rscript\\Rscript.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:18:15.071Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Rsharp-netcore5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Rsharp-netcore5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Rsharp-netcore5.vbproj",
+              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-10-11T13:18:13.127Z",
+              "EditorCaption": ""
             }
           ]
         }
