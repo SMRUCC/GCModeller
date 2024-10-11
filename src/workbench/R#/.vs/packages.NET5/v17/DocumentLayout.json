@@ -3,43 +3,7 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{41B24494-B8E0-4633-B36C-AE9067B685BB}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\DNA_Comparative.netcoreapp.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\dna_comparative\\dna_comparative.netcoreapp.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A0870A07-8513-4B44-8886-6243A6BFC255}|..\\..\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\GO_Annotation.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\go_gene-ontology\\go_annotation\\go_annotation.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{55949F60-9232-47B1-BA59-CFCEAF2250C0}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\gwANI\\gwANI.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\gwani\\gwani.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{14C55FD2-A842-4CCF-8E88-CD09E1A2CBAF}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\MotifFinder.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motiffinder\\motiffinder.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D1CC0609-FCF1-4B4D-946D-7BF5685E9E21}|..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\MotifGraph.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\motifgraph\\motifgraph.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{842CE3DE-2582-4E28-9D90-75750DA19131}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motifscanner\\motifscanner.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC59C0E9-502D-4F12-B823-A25AD1C68A8D}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\MSA\\MSA.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\msa\\msa.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9BED0810-9AB4-4D15-8F50-3B9BD02F9AE0}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\NeedlemanWunsch\\NeedlemanWunsch.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\needlemanwunsch\\needlemanwunsch.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C71647AC-305D-4B8D-A19B-56F05E3C8D68}|..\\..\\GCModeller\\data\\Xfam\\Pfam\\Pfam.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\xfam\\pfam\\pfam.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{75AC5F06-D5A3-4EDE-B092-C7662D9BB4EE}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56116DEA-95DF-4AD8-B183-3E484231CB4C}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns.abstract\\sequencepatterns.abstract.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A521B880-95D4-4299-A150-A62B6153442B}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns\\sequencepatterns.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A32D7F4A-1993-4443-8044-7F6AD003E5A7}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SmithWaterman\\SmithWaterman.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\smithwaterman\\smithwaterman.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{DB74684C-D332-4FFA-9C19-AB7268CAF348}|..\\..\\GCModeller\\engine\\IO\\Raw\\vcXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\raw\\vcxml.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -66,170 +30,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DNA_Comparative.netcoreapp",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\DNA_Comparative.netcoreapp.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\DNA_Comparative.netcoreapp.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\DNA_Comparative.netcoreapp.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\DNA_Comparative.netcoreapp.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
+              "Title": "vcXML.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\Raw\\vcXML.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\Raw\\vcXML.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\Raw\\vcXML.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\Raw\\vcXML.NET5.vbproj",
+              "ViewState": "AgIAAH8AAAAAAAAAAAAAALIAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:28:38.896Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GO_Annotation",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\GO_Annotation.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\GO_Annotation.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\GO_Annotation.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\data\\GO_gene-ontology\\GO_Annotation\\GO_Annotation.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:28:35.241Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "gwANI.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\gwANI\\gwANI.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\gwANI\\gwANI.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\gwANI\\gwANI.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\gwANI\\gwANI.NET5.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:28:30.849Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MotifFinder",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\MotifFinder.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\MotifFinder.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\MotifFinder.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\MotifFinder.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:28:27.041Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MotifGraph",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\MotifGraph.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\MotifGraph.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\MotifGraph.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\MotifGraph.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:28:23.36Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MotifScanner.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:28:19.552Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MSA.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MSA\\MSA.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MSA\\MSA.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MSA\\MSA.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MSA\\MSA.NET5.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:28:15.416Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "NeedlemanWunsch.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\NeedlemanWunsch\\NeedlemanWunsch.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\NeedlemanWunsch\\NeedlemanWunsch.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\NeedlemanWunsch\\NeedlemanWunsch.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\NeedlemanWunsch\\NeedlemanWunsch.NET5.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:28:11.417Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Pfam",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Xfam\\Pfam\\Pfam.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\Xfam\\Pfam\\Pfam.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Xfam\\Pfam\\Pfam.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\data\\Xfam\\Pfam\\Pfam.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:28:05.08Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "SequenceLogo.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:28:01.36Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "SequencePatterns.Abstract.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:27:57.361Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "SequencePatterns.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:27:53.689Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "SmithWaterman.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SmithWaterman\\SmithWaterman.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SmithWaterman\\SmithWaterman.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SmithWaterman\\SmithWaterman.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SmithWaterman\\SmithWaterman.NET5.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-11T13:27:49.025Z",
+              "WhenOpened": "2024-10-11T13:32:12.654Z",
               "EditorCaption": ""
             }
           ]
