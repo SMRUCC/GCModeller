@@ -96,6 +96,15 @@ Namespace Evaluation
             End With
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="TPR"></param>
+        ''' <param name="FPR"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' two input vector must be sorted
+        ''' </remarks>
         Public Function SimpleAUC(TPR As Vector, FPR As Vector) As Double
             Dim dFPR As Vector = diff(FPR).AppendAfter(0).ToArray
             Dim dTPR As Vector = diff(TPR).AppendAfter(0).ToArray
