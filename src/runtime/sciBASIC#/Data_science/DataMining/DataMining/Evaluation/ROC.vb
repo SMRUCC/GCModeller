@@ -106,10 +106,13 @@ Namespace Evaluation
         ''' two input vector must be sorted
         ''' </remarks>
         Public Function SimpleAUC(TPR As Vector, FPR As Vector) As Double
-            Dim dFPR As Vector = diff(FPR).AppendAfter(0).ToArray
-            Dim dTPR As Vector = diff(TPR).AppendAfter(0).ToArray
+            Dim auc As Double = 0.0
 
-            Return (TPR * dFPR).Sum + (dTPR * dFPR).Sum / 2
+            For i As Integer = 1 To FPR.Length - 1
+                auc += (FPR(i) - FPR(i - 1)) * (TPR(i) + TPR(i - 1)) / 2.0
+            Next
+
+            Return auc
         End Function
 
         ''' <summary>
