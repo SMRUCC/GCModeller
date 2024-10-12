@@ -69,7 +69,6 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.visualize.KMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.ColorBrewer
@@ -105,8 +104,35 @@ Imports any = Microsoft.VisualBasic.Scripting
 Imports featureFrame = Microsoft.VisualBasic.Math.DataFrame.DataFrame
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
 Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 ''' <summary>
 ''' package module for biological analysis data visualization
@@ -115,9 +141,9 @@ Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 Module visualPlot
 
     Sub Main()
-        Call Internal.generic.add("plot", GetType(ExpressionPattern), AddressOf Plot)
-        Call Internal.generic.add("plot", GetType(CatalogProfiles), AddressOf CategoryProfilePlots)
-        Call Internal.generic.add("plot", GetType(GSVADiff()), AddressOf plotGSVA)
+        Call RInternal.generic.add("plot", GetType(ExpressionPattern), AddressOf Plot)
+        Call RInternal.generic.add("plot", GetType(CatalogProfiles), AddressOf CategoryProfilePlots)
+        Call RInternal.generic.add("plot", GetType(GSVADiff()), AddressOf plotGSVA)
     End Sub
 
     Public Function plotGSVA(diff As GSVADiff(), args As list, env As Environment) As Object
@@ -362,8 +388,7 @@ Module visualPlot
                 displayCount:=True,
                 labelP:=-1
             ) _
-            .AsGDIImage _
-            .CorpBlank(30, Color.White)
+            .AsGDIImage
     End Function
 
     ''' <summary>
@@ -407,7 +432,7 @@ Module visualPlot
         ElseIf TypeOf profiles Is CatalogProfiles Then
             profile = DirectCast(profiles, CatalogProfiles).Take(top)
         Else
-            Return Internal.debug.stop("invalid data type for plot kegg category profile plot!", env)
+            Return RInternal.debug.stop("invalid data type for plot kegg category profile plot!", env)
         End If
 
         Return profile
@@ -1012,7 +1037,6 @@ Module visualPlot
                 hullAlpha:=hullAlpha,
                 hullBspline:=hullBspline
             ) _
-            .AsGDIImage _
-            .CorpBlank(30, Color.White)
+            .AsGDIImage
     End Function
 End Module

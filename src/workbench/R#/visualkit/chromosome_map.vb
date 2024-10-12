@@ -58,6 +58,7 @@ Imports SMRUCC.genomics.Visualize.ChromosomeMap
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' chromosome map visualize for bacterial genome 
@@ -93,11 +94,11 @@ Public Module chromosome_map
         ElseIf TypeOf config Is String Then
             config = ChromesomeMapAPI.LoadConfig(config)
         ElseIf Not TypeOf config Is Config Then
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(Config), config.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(Config), config.GetType, env), env)
         End If
 
         If genome Is Nothing Then
-            Return Internal.debug.stop("the plot data for target genome can not be nothing!", env)
+            Return RInternal.debug.stop("the plot data for target genome can not be nothing!", env)
         End If
 
         Throw New NotImplementedException

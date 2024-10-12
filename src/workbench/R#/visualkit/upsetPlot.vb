@@ -63,6 +63,7 @@ Imports SMRUCC.genomics.Visualize.CollectionSet
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' UpSet plot provides an efficient way to 
@@ -75,11 +76,11 @@ Module upsetPlot
 
     <RInitialize>
     Sub Main()
-        Call Internal.generic.add("plot", GetType(IntersectionData), AddressOf plotVennSet)
-        Call Internal.generic.add("plot", GetType(UpsetData), AddressOf plotVennSet1)
+        Call RInternal.generic.add("plot", GetType(IntersectionData), AddressOf plotVennSet)
+        Call RInternal.generic.add("plot", GetType(UpsetData), AddressOf plotVennSet1)
 
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(UpsetData), AddressOf getUpsetTable)
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(FactorGroup), AddressOf getUpsetTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(UpsetData), AddressOf getUpsetTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(FactorGroup), AddressOf getUpsetTable)
     End Sub
 
     Private Function getUpsetTable(upset As Object, args As list, env As Environment) As dataframe
