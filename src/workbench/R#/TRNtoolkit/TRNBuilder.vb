@@ -62,6 +62,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' tools for create a transcription regulation network
@@ -104,9 +105,9 @@ Module TRNBuilder
     <ExportAPI("write.regulations")>
     Public Function writeRegulationFootprints(regulationFootprints As Object, file$, Optional env As Environment = Nothing) As Object
         If regulationFootprints Is Nothing Then
-            Return Internal.debug.stop("no content data provides!", env)
+            Return RInternal.debug.stop("no content data provides!", env)
         ElseIf file.StringEmpty Then
-            Return Internal.debug.stop("no file write information provides!", env)
+            Return RInternal.debug.stop("no file write information provides!", env)
         End If
 
         If TypeOf regulationFootprints Is RegulationFootprint() Then
@@ -120,7 +121,7 @@ Module TRNBuilder
 
             Return True
         Else
-            Return Internal.debug.stop($"invalid data type for write: {regulationFootprints.GetType.FullName }", env)
+            Return RInternal.debug.stop($"invalid data type for write: {regulationFootprints.GetType.FullName }", env)
         End If
     End Function
 
@@ -186,7 +187,7 @@ Module TRNBuilder
                 .populates(Of BestHit)(env) _
                 .ToArray
         Else
-            Return Internal.debug.stop($"invalid regulator maps: '{regulators.GetType.FullName }'!", env)
+            Return RInternal.debug.stop($"invalid regulator maps: '{regulators.GetType.FullName }'!", env)
         End If
 
         Dim regulatorTable As New Dictionary(Of String, List(Of (genome As BacteriaRegulome, Regulator)))
