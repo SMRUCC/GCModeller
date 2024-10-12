@@ -3,31 +3,25 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\door\\io.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\ncbi\\database\\genbank\\gbk\\keywords\\features\\feature.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{D278BC20-62AB-45A4-9B00-9A68E222D3B5}|..\\..\\GCModeller\\models\\Networks\\KEGG\\KEGGNetwork.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\networks\\kegg\\reactionnetwork\\enzymaticinformation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\ncbi\\database\\genbank\\gbk\\keywords\\dblink.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\collectionset\\intersectionplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\door\\csv.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\degplot\\gsvadiffbar.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\dbget\\objects\\pathway\\pathwaymap\\pathwaymap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\degplot\\volcano.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\web\\map\\urlencoder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\renderingcolor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\web\\map\\xml\\map.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\web\\map\\localrender.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{16395E03-C483-4104-A752-47A32ED9E47A}|..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\visualization\\plots\\barplot\\barplot2.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{F5B79BC2-EEA6-472F-A904-0AB828897289}|..\\..\\GCModeller\\models\\SBML\\SBML\\sbml-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\sbml\\sbml\\components\\notes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -37,99 +31,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 7,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "IO.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\DOOR\\IO.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\DOOR\\IO.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\DOOR\\IO.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\DOOR\\IO.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T11:18:53.885Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Feature.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\Features\\Feature.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\Features\\Feature.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\Features\\Feature.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\Features\\Feature.vb",
-              "ViewState": "AgIAADsAAAAAAAAAAAAAAEEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T11:18:43.104Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DBLINK.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\DBLINK.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\DBLINK.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\DBLINK.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\DBLINK.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFcAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T11:18:30.856Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "csv.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\DOOR\\csv.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\DOOR\\csv.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\DOOR\\csv.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\DOOR\\csv.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T11:17:51.531Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PathwayMap.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\PathwayMap.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\PathwayMap.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\PathwayMap.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\PathwayMap.vb",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAFwAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T11:17:33.932Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "URLEncoder.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\URLEncoder.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\URLEncoder.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\URLEncoder.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\URLEncoder.vb",
-              "ViewState": "AgIAADUAAAAAAAAAAAAAAFUAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T11:17:11.293Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Map.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\XML\\Map.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\XML\\Map.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\XML\\Map.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\XML\\Map.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T11:16:04.911Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -144,28 +47,93 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "BarPlot2.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\BarPlot2.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\BarPlot2.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\BarPlot2.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\BarPlot2.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "EnzymaticInformation.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\EnzymaticInformation.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\EnzymaticInformation.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\EnzymaticInformation.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\EnzymaticInformation.vb",
+              "ViewState": "AgIAAIUAAAAAAAAAAAAMwJ0AAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T11:15:46.852Z",
+              "WhenOpened": "2024-10-12T11:22:51.761Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "LocalRender.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\LocalRender.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\LocalRender.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\LocalRender.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\LocalRender.vb",
-              "ViewState": "AgIAAO4AAAAAAAAAAAAAAP8AAABPAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "IntersectionPlot.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CollectionSet\\IntersectionPlot.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CollectionSet\\IntersectionPlot.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CollectionSet\\IntersectionPlot.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CollectionSet\\IntersectionPlot.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGEAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T11:14:49.245Z",
+              "WhenOpened": "2024-10-12T11:22:46.635Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GSVADiffBar.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\GSVADiffBar.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFwAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:22:41.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Volcano.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAcwHAAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:22:34.355Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\Extensions.vb",
+              "ViewState": "AgIAADoAAAAAAAAAAAArwGcAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:22:29.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "RenderingColor.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\RenderingColor.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\RenderingColor.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\RenderingColor.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\RenderingColor.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFYAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:22:23.495Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Notes.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Components\\Notes.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\SBML\\SBML\\Components\\Notes.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\SBML\\SBML\\Components\\Notes.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\SBML\\SBML\\Components\\Notes.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:22:13.659Z",
               "EditorCaption": ""
             }
           ]
