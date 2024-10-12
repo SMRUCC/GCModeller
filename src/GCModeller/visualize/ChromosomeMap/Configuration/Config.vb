@@ -262,7 +262,7 @@ Namespace Configuration
         End Function
 
         Public Shared Function GetSavedImageFormat(config As String) As ImageFormats
-            Return GetSaveImageFormat(config)
+            Return (config).ParseImageFormat
         End Function
 
         Public Function GetTextAlignment(s As String) As DataReader.TextAlignment
