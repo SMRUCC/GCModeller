@@ -3,10 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{160AF491-7ED0-4639-9C23-37858736CABA}|..\\..\\GCModeller\\visualize\\ChromosomeMap\\ChromosomeMap.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\chromosomemap\\footprintmap\\motifsite.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{160AF491-7ED0-4639-9C23-37858736CABA}|..\\..\\GCModeller\\visualize\\ChromosomeMap\\ChromosomeMap.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\chromosomemap\\regionmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{160AF491-7ED0-4639-9C23-37858736CABA}|..\\..\\GCModeller\\visualize\\ChromosomeMap\\ChromosomeMap.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\chromosomemap\\regionmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{160AF491-7ED0-4639-9C23-37858736CABA}|..\\..\\GCModeller\\visualize\\ChromosomeMap\\ChromosomeMap.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\chromosomemap\\footprintmap\\motifsite.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{28A18D47-5F41-43CD-A0A7-C8DD9E731BD3}|Rscript_shared\\Rscript_shared.shproj|g:\\gcmodeller\\src\\workbench\\r#\\rscript_shared\\piphelper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -84,11 +84,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MotifSite.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\FootPrintMap\\MotifSite.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\FootPrintMap\\MotifSite.vb",
@@ -101,13 +101,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "RegionMap.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\RegionMap.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\RegionMap.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\RegionMap.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\RegionMap.vb",
-              "ViewState": "AgIAADoAAAAAAAAAAAArwH8AAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAEAAAAAAAAAAAAArwH8AAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-10-12T12:08:55.842Z",
               "EditorCaption": ""
