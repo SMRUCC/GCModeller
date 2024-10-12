@@ -1,4 +1,5 @@
-﻿Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
 
 Namespace Evaluation
@@ -37,13 +38,14 @@ Namespace Evaluation
             Return probs
         End Function
 
-        Public Function BuildOutput2(labels As Double(), auc As Double, Optional cutoff As Double = 0.5) As Double()
+        Public Function BuildOutput2(labels As Double(), auc As Double, Optional cutoff As Double = 0.5, Optional itrs As Integer = 100000) As Double()
             Dim out As Double() = Replicate(0.5, labels.Length).ToArray
-            Dim d As Integer = labels.Length * 0.3
+            Dim d As Integer = labels.Length * 0.1
             Dim auc_delta As Double = Double.MaxValue
             Dim best As Double() = out
+            Dim bar As ProgressBar = Nothing
 
-            For i As Integer = 0 To 1000
+            For Each i As Integer In TqdmWrapper.Range(0, itrs, bar:=bar)
                 Dim copy = out.ToArray
 
                 For j As Integer = 0 To d
@@ -62,12 +64,14 @@ Namespace Evaluation
                     End If
                 Next
 
-                Dim delta = std.abs(Evaluation.AUC(out, labels) - auc)
+                Dim delta = std.Abs(Evaluation.AUC(out, labels) - auc)
 
                 If delta < auc_delta Then
                     auc_delta = delta
                     best = copy
                     out = copy
+
+                    bar.SetLabel($"auc: {Evaluation.AUC(out, labels)}")
                 End If
             Next
 
