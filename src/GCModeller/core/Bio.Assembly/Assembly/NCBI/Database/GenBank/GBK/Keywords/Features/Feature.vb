@@ -63,9 +63,9 @@ Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 

@@ -53,13 +53,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports API = SMRUCC.genomics.Assembly.DOOR.DOOR_API
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Assembly.DOOR
 

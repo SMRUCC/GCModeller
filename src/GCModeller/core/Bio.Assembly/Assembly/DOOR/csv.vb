@@ -55,8 +55,8 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Assembly.DOOR
 
