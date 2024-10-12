@@ -273,7 +273,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         x = tree_region.Left + delta
         dx = tree_region.Width * 0.2
 
-        Dim big_label As New Font(label_font.FontFamily, emSize:=label_font.Size * 2.0!)
+        Dim big_label As New Font(label_font.Name, emSize:=label_font.Size * 2.0!)
         Dim big_char As SizeF = g.MeasureString("A", big_label)
 
         Call g.DrawString("Group", big_label, Brushes.Black, x, y - dy - big_char.Height / 2)
@@ -430,7 +430,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             g.DrawString(term.Name, label_font, Brushes.Black, boxCell.Right + charRectangle.Width / 2, boxCell.Top)
         Next
 
-        big_label = New Font(label_font.FontFamily, label_font.Size * 1.5)
+        big_label = New Font(label_font.Name, label_font.Size * 1.5)
 
         Call New ColorMapLegend(heatmap.OfType(Of SolidBrush)) With {
             .format = "F1",
