@@ -162,7 +162,7 @@ Namespace CatalogProfiling
 
             Dim x As Double = canvas.PlotRegion.Right + canvas.Padding.Right / 5
             Dim y As Double = canvas.Padding.Top * 1.125
-            Dim r As Double
+            Dim r As Single
             Dim paint As SolidBrush = Brushes.Black
             Dim pos As PointF
             Dim css As CSSEnvirnment = g.LoadEnvironment
@@ -249,7 +249,7 @@ Namespace CatalogProfiling
                 .IteratesALL _
                 .IteratesALL _
                 .Select(Function(b) b.Factor))
-            Dim r As Double
+            Dim r As Single
             Dim colorSet As LoopArray(Of Color) = Designer.GetColors(theme.colorSet)
             Dim paint As SolidBrush
             Dim sampleColors As Dictionary(Of String, SolidBrush) = getSampleColors()

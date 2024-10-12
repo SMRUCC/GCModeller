@@ -223,10 +223,10 @@ Namespace CatalogProfiling
             x = region.Left + dw / 2
             y -= gap
 
-            Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
+            ' Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
 
             For Each sample In multiples
-                text.DrawString(sample.Name, pathwayNameFont, Brushes.Black, New PointF(x, y), angle:=45)
+                g.DrawString(sample.Name, pathwayNameFont, Brushes.Black, x, y, angle:=45)
                 x += dw
             Next
 

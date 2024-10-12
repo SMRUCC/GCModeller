@@ -190,7 +190,7 @@ Namespace CatalogProfiling
 
                     If Not bubble Is Nothing AndAlso Not bubble.PValue.IsNaNImaginary Then
                         Dim color As SolidBrush = paints(CInt(pvalues.ScaleMapping(bubble.PValue, colorIndex)))
-                        Dim radius As Double = impacts.ScaleMapping(bubble.data, cellRange)
+                        Dim radius As Single = impacts.ScaleMapping(bubble.data, cellRange)
 
                         Call g.DrawCircle(New PointF(x, y), radius, color)
                     End If
@@ -209,10 +209,8 @@ Namespace CatalogProfiling
             x = region.Left + dx / 2
             y -= dy / 3
 
-            Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
-
             For Each sample In multiples
-                text.DrawString(sample.Name, pathwayNameFont, Brushes.Black, New PointF(x, y), angle:=45)
+                g.DrawString(sample.Name, pathwayNameFont, Brushes.Black, x, y, angle:=45)
                 x += dx
             Next
 
