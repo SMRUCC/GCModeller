@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
 
@@ -39,8 +40,8 @@ Namespace Evaluation
         End Function
 
         Public Function BuildOutput2(labels As Double(), auc As Double, Optional cutoff As Double = 0.5, Optional itrs As Integer = 100000) As Double()
-            Dim out As Double() = Replicate(0.5, labels.Length).ToArray
-            Dim d As Integer = labels.Length * 0.1
+            Dim out As Double() = Vector.rand(labels.Length)
+            Dim d As Integer = labels.Length * 0.3
             Dim auc_delta As Double = Double.MaxValue
             Dim best As Double() = out
             Dim bar As ProgressBar = Nothing
