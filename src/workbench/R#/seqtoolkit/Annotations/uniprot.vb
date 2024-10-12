@@ -63,6 +63,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' The Universal Protein Resource (UniProt)
@@ -107,7 +108,7 @@ URL:="https://www.uniprot.org/")>
 Module uniprot
 
     Sub Main()
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(entry()), AddressOf uniprotProteinTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(entry()), AddressOf uniprotProteinTable)
     End Sub
 
     <RGenericOverloads("as.data.frame")>
@@ -144,7 +145,7 @@ Module uniprot
 
             For Each file As String In fileSet
                 If Not file.FileExists Then
-                    Return Internal.debug.stop({
+                    Return RInternal.debug.stop({
                         $"uniprot database file is not found!",
                         $"missing file: {file}"
                     }, env)

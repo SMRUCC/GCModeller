@@ -3,14 +3,39 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\rawxmlkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\genomics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\genomics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}|..\\..\\GCModeller\\analysis\\Microarray\\Microarray.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\enrichment\\keggpathwaymap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\modeller\\compiler.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{160AF491-7ED0-4639-9C23-37858736CABA}|..\\..\\GCModeller\\visualize\\ChromosomeMap\\ChromosomeMap.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\chromosomemap\\configuration\\config.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\fasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\fasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{160AF491-7ED0-4639-9C23-37858736CABA}|..\\..\\GCModeller\\visualize\\ChromosomeMap\\ChromosomeMap.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\chromosomemap\\plasmidmap\\drawgene.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2643AA3B-CC24-4430-AAD4-0140E0D8A346}|..\\..\\GCModeller\\models\\Networks\\STRING\\STRING.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\networks\\string\\functionalnetwork\\analysisapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{160AF491-7ED0-4639-9C23-37858736CABA}|..\\..\\GCModeller\\visualize\\ChromosomeMap\\ChromosomeMap.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\chromosomemap\\drawingdevice.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{160AF491-7ED0-4639-9C23-37858736CABA}|..\\..\\GCModeller\\visualize\\ChromosomeMap\\ChromosomeMap.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\chromosomemap\\footprintmap\\tsss.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{160AF491-7ED0-4639-9C23-37858736CABA}|..\\..\\GCModeller\\visualize\\ChromosomeMap\\ChromosomeMap.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\chromosomemap\\drawingmodels\\segmentobject.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}|..\\..\\GCModeller\\analysis\\Microarray\\Microarray.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\omicsscatter2d.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16395E03-C483-4104-A752-47A32ED9E47A}|..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\plots-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\visualization\\plots\\barplot\\barplot2.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -36,41 +61,145 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "genomics.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genomics.vb",
-              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genomics.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genomics.vb",
-              "RelativeToolTip": "seqtoolkit\\Annotations\\genomics.vb",
-              "ViewState": "AgIAAJ8AAAAAAAAAAAAgwMQAAAAqAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "Config.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\Configuration\\Config.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\Configuration\\Config.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\Configuration\\Config.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\Configuration\\Config.vb",
+              "ViewState": "AgIAAPEAAAAAAAAAAAAlwAgBAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T12:12:40.839Z",
+              "WhenOpened": "2024-10-12T12:19:04.278Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RawXmlKit.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "ViewState": "AgIAAEAAAAAAAAAAAAArwFgAAAAhAAAAAAAAAA==",
+              "Title": "uniprot.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\uniprot.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\uniprot.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\uniprot.vb",
+              "RelativeToolTip": "seqtoolkit\\Annotations\\uniprot.vb",
+              "ViewState": "AgIAAFAAAAAAAAAAAAArwG4AAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T12:12:06.012Z",
+              "WhenOpened": "2024-10-12T12:19:02.98Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Compiler.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Compiler.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Compiler.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Compiler.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Compiler.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "AnalysisAPI.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\STRING\\FunctionalNetwork\\AnalysisAPI.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\STRING\\FunctionalNetwork\\AnalysisAPI.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\STRING\\FunctionalNetwork\\AnalysisAPI.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\STRING\\FunctionalNetwork\\AnalysisAPI.vb",
+              "ViewState": "AgIAAGMAAAAAAAAAAADgv3sAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-12T12:11:22.592Z",
+              "WhenOpened": "2024-10-12T12:18:42.701Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TSSs.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\FootPrintMap\\TSSs.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\FootPrintMap\\TSSs.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\FootPrintMap\\TSSs.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\FootPrintMap\\TSSs.vb",
+              "ViewState": "AgIAADsAAAAAAAAAAAAewGUAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T12:17:47.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SegmentObject.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\DrawingModels\\SegmentObject.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\DrawingModels\\SegmentObject.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\DrawingModels\\SegmentObject.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\DrawingModels\\SegmentObject.vb",
+              "ViewState": "AgIAAMMAAAAAAAAAAAAMwNwAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T12:17:38.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DrawingDevice.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\DrawingDevice.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\DrawingDevice.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\DrawingDevice.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\DrawingDevice.vb",
+              "ViewState": "AgIAAN4BAAAAAAAAAAArwPMBAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T12:17:34.496Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "OmicsScatter2D.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\OmicsScatter2D.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Microarray\\OmicsScatter2D.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\OmicsScatter2D.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Microarray\\OmicsScatter2D.vb",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAMwJsAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T12:17:27.807Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "KEGGPathwayMap.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "ViewState": "AgIAAL8AAAAAAAAAAADgv9cAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T12:16:27.901Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Fasta.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\Fasta.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
+              "RelativeToolTip": "seqtoolkit\\Fasta.vb",
+              "ViewState": "AgIAADsAAAAAAAAAAAAewHgAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T12:13:51.433Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "BarPlot2.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\BarPlot2.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\BarPlot2.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\BarPlot2.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Visualization\\Plots\\BarPlot\\BarPlot2.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T12:15:32.299Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DrawGene.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\PlasmidMap\\DrawGene.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\PlasmidMap\\DrawGene.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\ChromosomeMap\\PlasmidMap\\DrawGene.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\ChromosomeMap\\PlasmidMap\\DrawGene.vb",
+              "ViewState": "AgIAAFIAAAAAAAAAAAArwGoAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T12:15:19.729Z",
               "EditorCaption": ""
             }
           ]

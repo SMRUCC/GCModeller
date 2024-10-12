@@ -79,7 +79,9 @@ Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Fasta sequence toolkit
@@ -94,8 +96,8 @@ Module Fasta
         Call printer.AttachConsoleFormatter(Of FastaFile)(AddressOf viewFasta)
         Call printer.AttachConsoleFormatter(Of MSAOutput)(AddressOf viewMSA)
 
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(FastaSeq()), AddressOf createSequenceTable)
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(FastaFile), AddressOf createSequenceTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(FastaSeq()), AddressOf createSequenceTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(FastaFile), AddressOf createSequenceTable)
     End Sub
 
     Private Function viewMSA(msa As MSAOutput) As String
@@ -295,7 +297,7 @@ Module Fasta
         ElseIf firstLine.StartsWith("LOCUS") Then
             Return GBFF.File.Load(file).Origin.ToFasta
         Else
-            Return Internal.debug.stop({"invalid file format!", "file: " & file, $"required: *.fa, *.gbk"}, env)
+            Return RInternal.debug.stop({"invalid file format!", "file: " & file, $"required: *.fa, *.gbk"}, env)
         End If
     End Function
 

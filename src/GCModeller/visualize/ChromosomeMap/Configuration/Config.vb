@@ -261,7 +261,7 @@ Namespace Configuration
             Return strValue.TranslateColor
         End Function
 
-        Public Shared Function GetSavedImageFormat(config As String) As ImageFormat
+        Public Shared Function GetSavedImageFormat(config As String) As ImageFormats
             Return GetSaveImageFormat(config)
         End Function
 

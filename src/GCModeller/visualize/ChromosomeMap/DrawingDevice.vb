@@ -497,14 +497,14 @@ Public Class DrawingDevice
     End Function
 
     Public Function ExportColorProfiles(ObjectModel As ChromesomeDrawingModel) As Image
-        Dim g As Graphics2D
+        Dim g As IGraphics
         Dim _Width As Integer = 1920, _Height As Integer = 1200
 
         Try
             Call $"Resolution is {_Width}, {_Height}".__DEBUG_ECHO
             Call FlushMemory()
 
-            g = New Size(_Width, _Height).CreateGDIDevice
+            g = DriverLoad.CreateGraphicsDevice(New Size(_Width, _Height))
         Catch ex As Exception
             Call Console.WriteLine(GDI_PLUS_MEMORY_EXCEPTION & vbCrLf)
             Throw
@@ -530,6 +530,6 @@ Public Class DrawingDevice
             Call g.DrawString("No motif site on the map.", Font, Brushes.Gray, New Point(Left, Top + 10))
         End If
 
-        Return g.ImageResource
+        Return DirectCast(g, GdiRasterGraphics).ImageResource
     End Function
 End Class
