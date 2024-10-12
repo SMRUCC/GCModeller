@@ -92,7 +92,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
-Imports REnv = SMRUCC.Rsharp.Runtime.Internal
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' The kegg data model repository tool
@@ -105,21 +105,21 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 Public Module repository
 
     Friend Sub Main()
-        Call REnv.ConsolePrinter.AttachConsoleFormatter(Of ReactionTable())(AddressOf showTable)
-        Call REnv.Object.Converts.makeDataframe.addHandler(GetType(Map()), AddressOf showMapTable)
+        Call RInternal.ConsolePrinter.AttachConsoleFormatter(Of ReactionTable())(AddressOf showTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(Map()), AddressOf showMapTable)
 
         ' data files
-        Call Internal.generic.add("writeBin", GetType(CompoundRepository), AddressOf writeKeggCompounds)
-        Call Internal.generic.add("writeBin", GetType(MapRepository), AddressOf writeKeggMaps)
-        Call Internal.generic.add("writeBin", GetType(ReactionRepository), AddressOf writeKeggReactions)
+        Call RInternal.generic.add("writeBin", GetType(CompoundRepository), AddressOf writeKeggCompounds)
+        Call RInternal.generic.add("writeBin", GetType(MapRepository), AddressOf writeKeggMaps)
+        Call RInternal.generic.add("writeBin", GetType(ReactionRepository), AddressOf writeKeggReactions)
 
-        Call Internal.generic.add("writeBin", GetType(Compound()), AddressOf writeKeggCompoundSet)
-        Call Internal.generic.add("writeBin", GetType(Map()), AddressOf writeKeggMapSet)
-        Call Internal.generic.add("writeBin", GetType(Reaction()), AddressOf writeKeggReactionSet)
+        Call RInternal.generic.add("writeBin", GetType(Compound()), AddressOf writeKeggCompoundSet)
+        Call RInternal.generic.add("writeBin", GetType(Map()), AddressOf writeKeggMapSet)
+        Call RInternal.generic.add("writeBin", GetType(Reaction()), AddressOf writeKeggReactionSet)
 
-        Call Internal.generic.add("readBin.kegg_compound", GetType(Stream), AddressOf readKeggCompounds)
-        Call Internal.generic.add("readBin.kegg_reaction", GetType(Stream), AddressOf readKeggReactions)
-        Call Internal.generic.add("readBin.kegg_pathway", GetType(Stream), AddressOf readKeggMaps)
+        Call RInternal.generic.add("readBin.kegg_compound", GetType(Stream), AddressOf readKeggCompounds)
+        Call RInternal.generic.add("readBin.kegg_reaction", GetType(Stream), AddressOf readKeggReactions)
+        Call RInternal.generic.add("readBin.kegg_pathway", GetType(Stream), AddressOf readKeggMaps)
     End Sub
 
     ''' <summary>
@@ -474,7 +474,7 @@ Public Module repository
 
                 Return models
             Else
-                Return Internal.debug.stop(New NotImplementedException, env)
+                Return RInternal.debug.stop(New NotImplementedException, env)
             End If
         End If
     End Function
@@ -497,7 +497,7 @@ Public Module repository
             ElseIf resource.FileExists Then
                 Return resource.LoadCsv(Of ReactionTable).ToArray
             Else
-                Return REnv.debug.stop({
+                Return RInternal.debug.stop({
                     "invalid resource handle for load kegg reaction table!",
                     "resource: " & resource
                 }, env)
@@ -505,7 +505,7 @@ Public Module repository
         ElseIf repo.GetType Is GetType(ReactionRepository) Then
             Return ReactionTable.Load(DirectCast(repo, ReactionRepository)).ToArray
         Else
-            Return REnv.debug.stop(New InvalidConstraintException(repo.GetType.FullName), env)
+            Return RInternal.debug.stop(New InvalidConstraintException(repo.GetType.FullName), env)
         End If
     End Function
 
@@ -612,7 +612,7 @@ Public Module repository
     <RApiReturn(GetType(ReactionClass))>
     Public Function loadReactionClassRaw(<RRawVectorArgument> repo As Object, Optional env As Environment = Nothing) As Object
         If repo Is Nothing Then
-            Return Internal.debug.stop("the required repository source can not be nothing!", env)
+            Return RInternal.debug.stop("the required repository source can not be nothing!", env)
         ElseIf TypeOf repo Is vector Then
             repo = DirectCast(repo, vector).data
         End If
@@ -621,7 +621,7 @@ Public Module repository
             Dim repoStr As String() = CLRVector.asCharacter(repo)
 
             If repoStr.Length = 0 Then
-                Return Internal.debug.stop("the required repository source can not be empty!", env)
+                Return RInternal.debug.stop("the required repository source can not be empty!", env)
             ElseIf repoStr.Length = 1 Then
                 Dim con As String = repoStr(Scan0)
 
@@ -634,14 +634,14 @@ Public Module repository
                         .ScanRepository(con, loadsAll:=False) _
                         .DoCall(AddressOf pipeline.CreateFromPopulator)
                 Else
-                    Return Internal.debug.stop(New NotImplementedException, env)
+                    Return RInternal.debug.stop(New NotImplementedException, env)
                 End If
             ElseIf repoStr.All(Function(path) path.ExtensionSuffix("xml")) Then
                 Return repoStr _
                     .Select(AddressOf LoadXml(Of ReactionClass)) _
                     .DoCall(AddressOf pipeline.CreateFromPopulator)
             Else
-                Return Internal.debug.stop(New NotImplementedException, env)
+                Return RInternal.debug.stop(New NotImplementedException, env)
             End If
         Else
             Return Message.InCompatibleType(GetType(String), repo.GetType, env)
@@ -675,7 +675,7 @@ Public Module repository
                     Return ReactionClassPack.ReadKeggDb(file).DoCall(AddressOf ReactionClassTable.ScanRepository).ToArray
                 End Using
             Else
-                Return REnv.debug.stop({
+                Return RInternal.debug.stop({
                     "invalid resource handle for load kegg reaction table!",
                     "resource: " & resource
                 }, env)
@@ -734,7 +734,7 @@ Public Module repository
     ''' <returns></returns>
     <ExportAPI("save.KEGG_pathway")>
     Public Function SaveKEGGPathway(<RRawVectorArgument> pathway As Object, file$, Optional env As Environment = Nothing) As Object
-        Dim pathwayCollection As REnv.Object.pipeline = REnv.Object.pipeline.TryCreatePipeline(Of Pathway)(pathway, env)
+        Dim pathwayCollection As pipeline = pipeline.TryCreatePipeline(Of Pathway)(pathway, env)
 
         If pathwayCollection.isError Then
             Return pathwayCollection.getError
@@ -758,7 +758,7 @@ Public Module repository
     <RApiReturn(GetType(Pathway))>
     Public Function readKEGGpathway(file As String, Optional env As Environment = Nothing) As Object
         If Not (file.FileExists OrElse file.DirectoryExists) Then
-            Return Internal.debug.stop({"the given file is not exists on your filesystem!", $"file: " & file}, env)
+            Return RInternal.debug.stop({"the given file is not exists on your filesystem!", $"file: " & file}, env)
         ElseIf file.DirectoryExists Then
             Return (ls - l - r - "*.Xml" <= file).Select(AddressOf LoadXml(Of Pathway)).ToArray
         Else

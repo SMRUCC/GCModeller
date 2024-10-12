@@ -48,6 +48,7 @@
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\BIOM\BIOM\BIOM.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\models\Networks\Microbiome\Microbiome.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\R-sharp\Library\shares\graphics.common_runtime\R_graphics.common_runtime.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\repository\HMP_client\HMP_client.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\Darwinism\src\CloudKit\ossutil\ossutil.NET5.vbproj" />

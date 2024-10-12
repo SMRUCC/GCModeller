@@ -82,6 +82,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' tools for metagenomics and microbiome
@@ -91,9 +92,9 @@ Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Module microbiomeKit
 
     Sub Main()
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(OTUData(Of Double)()), AddressOf castTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(OTUData(Of Double)()), AddressOf castTable)
 
-        Call Internal.generic.add("readBin.PICRUSt", GetType(Stream), AddressOf readPICRUSt)
+        Call RInternal.generic.add("readBin.PICRUSt", GetType(Stream), AddressOf readPICRUSt)
     End Sub
 
     Private Function readPICRUSt(file As Stream, args As list, env As Environment) As Object

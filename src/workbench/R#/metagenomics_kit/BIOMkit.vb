@@ -67,6 +67,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' the BIOM file toolkit
@@ -76,7 +77,7 @@ Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Public Module BIOMkit
 
     Sub Main()
-        Internal.Object.Converts.makeDataframe.addHandler(GetType(BIOMDataSet(Of Double)), AddressOf asDataFrame)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(BIOMDataSet(Of Double)), AddressOf asDataFrame)
     End Sub
 
     ''' <summary>
@@ -93,7 +94,7 @@ Public Module BIOMkit
                                Optional env As Environment = Nothing) As Object
 
         If file Is Nothing Then
-            Return Internal.debug.stop("the given file can not be nothing!", env)
+            Return RInternal.debug.stop("the given file can not be nothing!", env)
         ElseIf TypeOf file Is String Then
             If DirectCast(file, String).FileExists Then
                 Try
@@ -105,10 +106,10 @@ Public Module BIOMkit
                     Throw
                 End Try
             Else
-                Return Internal.debug.stop({"the given file is not found on your filesystem!", "file: " & file}, env)
+                Return RInternal.debug.stop({"the given file is not found on your filesystem!", "file: " & file}, env)
             End If
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(String), file.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(String), file.GetType, env), env)
         End If
     End Function
 
@@ -122,14 +123,14 @@ Public Module BIOMkit
     <RApiReturn(GetType(Taxonomy))>
     Public Function getTaxonomy(biom As Object, Optional env As Environment = Nothing) As Object
         If biom Is Nothing Then
-            Return Internal.debug.stop("the given biom matrix object can not be nothing!", env)
+            Return RInternal.debug.stop("the given biom matrix object can not be nothing!", env)
         ElseIf TypeOf biom Is BIOMDataSet(Of Double) Then
             Return DirectCast(biom, BIOMDataSet(Of Double)).rows _
                 .Where(Function(r) r.hasMetaInfo) _
                 .Select(Function(row) row.metadata.lineage) _
                 .ToArray
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(BIOMDataSet(Of Double)), biom.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(BIOMDataSet(Of Double)), biom.GetType, env), env)
         End If
     End Function
 

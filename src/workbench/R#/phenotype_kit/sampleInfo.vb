@@ -78,6 +78,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' GCModeller DEG experiment analysis designer toolkit
@@ -88,7 +89,7 @@ Module DEGSample
 
     Sub Main()
         Call printer.AttachConsoleFormatter(Of SampleInfo)(AddressOf print)
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(SampleInfo()), AddressOf sampleinfoTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SampleInfo()), AddressOf sampleinfoTable)
     End Sub
 
     Private Function sampleinfoTable(samples As SampleInfo(), args As list, env As Environment) As Rdataframe
@@ -242,7 +243,7 @@ Module DEGSample
             Dim currents As New List(Of SampleInfo)
 
             If from_groups Like GetType(Exception) Then
-                Return Internal.debug.stop({
+                Return RInternal.debug.stop({
                     $"invalid expression for the formula: {from_groups.TryCast(Of Exception).ToString}",
                     $"new group label: {new_groupID}"
                 }, env)
@@ -366,12 +367,12 @@ Module DEGSample
         End If
 
         If ID.Length <> sample_name.Length Then
-            Return Internal.debug.stop({
+            Return RInternal.debug.stop({
                 $"the size of ID should be equals to the size of sample_name!",
                 $"sizeof_ID: {ID.Length}",
                 $"sizeof_sample_name: {sample_name.Length}"}, env)
         ElseIf sample_info.Length <> ID.Length AndAlso sample_info.Length > 1 Then
-            Return Internal.debug.stop({
+            Return RInternal.debug.stop({
                 $"invalid sample_info size, the size of sample_info should be 1 or equals to ID",
                 $"size of sample_info: {sample_info.Length}"}, env)
         End If

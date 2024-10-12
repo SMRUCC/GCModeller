@@ -67,7 +67,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
-Imports REnv = SMRUCC.Rsharp.Runtime.Internal
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Toolkit for process the kegg brite text file
@@ -76,7 +76,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 Module britekit
 
     Sub New()
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(htext), AddressOf getHtextTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(htext), AddressOf getHtextTable)
     End Sub
 
     Private Function getHtextTable(x As Object, args As list, env As Environment) As rdataframe
@@ -114,13 +114,13 @@ Module britekit
         Dim terms As IEnumerable(Of BriteTerm)
 
         If htext Is Nothing Then
-            Return REnv.debug.stop("htext object is nothing!", env)
+            Return RInternal.debug.stop("htext object is nothing!", env)
         ElseIf htext.GetType Is GetType(htext) Then
             terms = DirectCast(htext, htext).Deflate(entryId_pattern)
         ElseIf htext.GetType Is GetType(htextJSON) Then
             terms = DirectCast(htext, htextJSON).DeflateTerms
         Else
-            Return REnv.debug.stop(New NotSupportedException(htext.GetType.FullName), env)
+            Return RInternal.debug.stop(New NotSupportedException(htext.GetType.FullName), env)
         End If
 
         Return terms _
@@ -182,7 +182,7 @@ Module britekit
                 ' kegg pathway maps
                 Case NameOf(htext.br08901) : Return htext.br08901
                 Case Else
-                    Return REnv.debug.stop({$"Invalid brite id: {file}", $"brite id: {file}"}, env)
+                    Return RInternal.debug.stop({$"Invalid brite id: {file}", $"brite id: {file}"}, env)
             End Select
         ElseIf file.StartsWith("KO:") Then
             Dim Tcode As String = file.GetTagValue(":").Value

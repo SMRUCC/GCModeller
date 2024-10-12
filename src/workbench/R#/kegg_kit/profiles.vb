@@ -73,6 +73,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("profiles")>
 Module profiles
@@ -193,7 +194,7 @@ Module profiles
 
             Return profiles
         Else
-            Return Internal.debug.stop(New NotImplementedException, env)
+            Return RInternal.debug.stop(New NotImplementedException, env)
         End If
     End Function
 
@@ -217,7 +218,7 @@ Module profiles
         End If
 
         If Not TypeOf KO Is NamedValue(Of String)() Then
-            Return Internal.debug.stop({
+            Return RInternal.debug.stop({
                 $"invalid data type for KO mapping statices",
                 $"data type: {KO.GetType.FullName}"
             }, env)

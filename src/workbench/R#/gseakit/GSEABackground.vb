@@ -92,6 +92,7 @@ Imports GSEATools = SMRUCC.genomics.Analysis.HTS.GSEA
 Imports Pathway = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' tools for handling GSEA background model.
@@ -450,7 +451,7 @@ Public Module GSEABackground
                 Return background.geneSetAnnotation(geneId, empty)
             End If
 
-            Return Internal.debug.stop(New NotImplementedException, env)
+            Return RInternal.debug.stop(New NotImplementedException, env)
         End If
     End Function
 
@@ -723,7 +724,7 @@ Public Module GSEABackground
                 ignoreEnzymes:=ignoreEnzymes
             )
         Else
-            Return Internal.debug.stop(New NotImplementedException(pathways.elementType.ToString), env)
+            Return RInternal.debug.stop(New NotImplementedException(pathways.elementType.ToString), env)
         End If
     End Function
 

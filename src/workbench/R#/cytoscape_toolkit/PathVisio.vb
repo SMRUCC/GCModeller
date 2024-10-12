@@ -59,6 +59,7 @@ Imports SMRUCC.genomics.Model.PathVisio.GPML
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("PathVisio")>
 Module PathVisio
@@ -69,7 +70,7 @@ Module PathVisio
         If file.FileExists Then
             Return file.LoadXml(Of Pathway)
         Else
-            Return Internal.debug.stop({$"the given file for read is not exists on your file system!", $"file: {file.GetFullPath}"}, env)
+            Return RInternal.debug.stop({$"the given file for read is not exists on your file system!", $"file: {file.GetFullPath}"}, env)
         End If
     End Function
 

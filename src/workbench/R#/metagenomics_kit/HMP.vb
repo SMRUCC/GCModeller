@@ -57,6 +57,7 @@ Imports SMRUCC.genomics.Data.Repository.NIH.HMP
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' An internal ``HMP`` client for download data files from ``https://portal.hmpdacc.org/`` website
@@ -90,11 +91,11 @@ Module HMP
     <RApiReturn(GetType(manifest))>
     Public Function readFileManifest(file As String, Optional env As Environment = Nothing) As Object
         If file Is Nothing Then
-            Return Internal.debug.stop("the required file path can not be nothing!", env)
+            Return RInternal.debug.stop("the required file path can not be nothing!", env)
         ElseIf file.FileExists Then
             Return manifest.LoadTable(file).ToArray
         Else
-            Return Internal.debug.stop({"the given file is not exists!", "path: " & file}, env)
+            Return RInternal.debug.stop({"the given file is not exists!", "path: " & file}, env)
         End If
     End Function
 End Module

@@ -70,6 +70,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports std = System.Math
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' api for create network graph model for cytoscape
@@ -124,7 +125,7 @@ Module models
         Select Case network.GetType
             Case GetType(SIF()) : Return New Cyjs(DirectCast(network, SIF()))
             Case Else
-                Return Internal.debug.stop(Message.InCompatibleType(GetType(SIF()), network.GetType, env), env)
+                Return RInternal.debug.stop(Message.InCompatibleType(GetType(SIF()), network.GetType, env), env)
         End Select
     End Function
 
@@ -148,7 +149,7 @@ Module models
         ElseIf TypeOf model Is Cyjs Then
             Return DirectCast(model, Cyjs).ToNetworkGraph
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(XGMMLgraph), model.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(XGMMLgraph), model.GetType, env), env)
         End If
     End Function
 

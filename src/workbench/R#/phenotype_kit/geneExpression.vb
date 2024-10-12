@@ -93,6 +93,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
 Imports stdvec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
@@ -360,7 +361,7 @@ Module geneExpression
     End Function
 
     Private Function dimensionNotAgree(geneSize As Integer, geneIdSize As Integer, type As String, env As Environment) As Message
-        Return Internal.debug.stop({
+        Return RInternal.debug.stop({
             $"dimension({geneSize} {type}) of the matrix feature must be equals to the dimension({geneIdSize} names) of the name vector!",
             $"number of {type} in matrix: {geneSize}",
             $"number of {type} id: {geneIdSize}"

@@ -74,6 +74,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' toolkit for process ncbi taxonomy tree data
@@ -88,10 +89,10 @@ Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 Module TaxonomyKit
 
     Sub Main()
-        Internal.ConsolePrinter.AttachConsoleFormatter(Of Taxonomy)(AddressOf printTaxonomy)
+        RInternal.ConsolePrinter.AttachConsoleFormatter(Of Taxonomy)(AddressOf printTaxonomy)
 
-        Internal.Object.Converts.addHandler(GetType(NcbiTaxonomyTree), AddressOf lineageTable)
-        Internal.Object.Converts.addHandler(GetType(OTUTable()), AddressOf getOTUDataframe)
+        RInternal.Object.Converts.addHandler(GetType(NcbiTaxonomyTree), AddressOf lineageTable)
+        RInternal.Object.Converts.addHandler(GetType(OTUTable()), AddressOf getOTUDataframe)
     End Sub
 
     Private Function getOTUDataframe(table As OTUTable(), args As list, env As Environment) As rdataframe

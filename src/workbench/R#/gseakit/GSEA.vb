@@ -85,6 +85,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' ### The GCModeller GSEA toolkit
@@ -104,7 +105,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 Module GSEA
 
     Sub Main()
-        Internal.Object.Converts.makeDataframe.addHandler(GetType(EnrichmentResult()), AddressOf enrichmentTable)
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(EnrichmentResult()), AddressOf enrichmentTable)
     End Sub
 
     <RGenericOverloads("as.data.frame")>
@@ -176,7 +177,7 @@ Module GSEA
         Dim inputIdset As String() = CLRVector.asCharacter(geneSet)
 
         If background Is Nothing Then
-            Return Internal.debug.stop("the required gsea background model could not be nothing!", env)
+            Return RInternal.debug.stop("the required gsea background model could not be nothing!", env)
         End If
 
         If TypeOf background Is Background Then
@@ -269,7 +270,7 @@ Module GSEA
                                  Optional showProgress As Boolean = True,
                                  Optional env As Environment = Nothing) As Object
         If go Is Nothing Then
-            Return Internal.debug.stop(New ArgumentNullException("Missing the required GO database!"), env)
+            Return RInternal.debug.stop(New ArgumentNullException("Missing the required GO database!"), env)
         ElseIf TypeOf go Is vbObject Then
             go = DirectCast(go, vbObject).target
         End If
@@ -291,7 +292,7 @@ Module GSEA
                 .OrderBy(Function(e) e.FDR) _
                 .ToArray
         Else
-            Return Internal.debug.stop(New InvalidProgramException(go.GetType.FullName), env)
+            Return RInternal.debug.stop(New InvalidProgramException(go.GetType.FullName), env)
         End If
     End Function
 
@@ -311,7 +312,7 @@ Module GSEA
                                    Optional env As Environment = Nothing) As Object
 
         If enrichment Is Nothing Then
-            Return Internal.debug.stop(New ArgumentNullException(NameOf(enrichment)), env)
+            Return RInternal.debug.stop(New ArgumentNullException(NameOf(enrichment)), env)
         End If
 
         Dim verbose As Boolean = env.globalEnvironment.options.verbose
@@ -322,12 +323,12 @@ Module GSEA
             ElseIf format = EnrichmentTableFormat.KOBAS Then
                 Return KOBASFormat(enrichment).SaveTo(file, silent:=Not verbose)
             Else
-                Return Internal.debug.stop(New NotImplementedException(format), env)
+                Return RInternal.debug.stop(New NotImplementedException(format), env)
             End If
         ElseIf REnv.isVector(Of EnrichmentTerm)(enrichment) Then
             Return DirectCast(enrichment, EnrichmentTerm()).SaveTo(file, silent:=Not verbose)
         Else
-            Return Internal.debug.stop(New InvalidProgramException(enrichment.GetType.FullName), env)
+            Return RInternal.debug.stop(New InvalidProgramException(enrichment.GetType.FullName), env)
         End If
     End Function
 

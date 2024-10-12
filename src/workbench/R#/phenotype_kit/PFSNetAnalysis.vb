@@ -68,14 +68,15 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("PFSNet", Category:=APICategories.ResearchTools)>
 <RTypeExport("psfnet", GetType(PFSNetResultOut))>
 Module PFSNetAnalysis
 
     Sub New()
-        Internal.Object.Converts.addHandler(GetType(PFSNetResultOut), AddressOf makeDataFrame)
-        Internal.generic.add("plot", GetType(PFSNetResultOut), AddressOf plotPFSNet)
+        RInternal.Object.Converts.addHandler(GetType(PFSNetResultOut), AddressOf makeDataFrame)
+        RInternal.generic.add("plot", GetType(PFSNetResultOut), AddressOf plotPFSNet)
     End Sub
 
     Private Function plotPFSNet(result As PFSNetResultOut, args As list, env As Environment) As Object
@@ -129,7 +130,7 @@ Module PFSNetAnalysis
         Dim reactionTable As ReactionTable()
 
         If reactions Is Nothing Then
-            Return Internal.debug.stop({"the required KEGG reaction network data can not be nothing!"}, env)
+            Return RInternal.debug.stop({"the required KEGG reaction network data can not be nothing!"}, env)
         ElseIf TypeOf reactions Is ReactionTable() Then
             reactionTable = DirectCast(reactions, ReactionTable())
         ElseIf TypeOf reactions Is pipeline AndAlso DirectCast(reactions, pipeline).elementType Like GetType(ReactionTable) Then
@@ -137,7 +138,7 @@ Module PFSNetAnalysis
         ElseIf TypeOf reactions Is vector AndAlso DirectCast(reactions, vector).elementType Like GetType(ReactionTable) Then
             reactionTable = DirectCast(reactions, vector).data.AsObjectEnumerator(Of ReactionTable).ToArray
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(ReactionTable), reactions.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(ReactionTable), reactions.GetType, env), env)
         End If
 
         Return maps _
@@ -161,17 +162,17 @@ Module PFSNetAnalysis
         Dim network As GraphEdge()
 
         If file Is Nothing Then
-            Return Internal.debug.stop({"file output can not be nothing!"}, env)
+            Return RInternal.debug.stop({"file output can not be nothing!"}, env)
         ElseIf TypeOf file Is String Then
             stream = DirectCast(file, String).Open(, doClear:=True)
         ElseIf TypeOf file Is Stream Then
             stream = DirectCast(file, Stream)
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(Stream), file.GetType, env,, NameOf(file)), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(Stream), file.GetType, env,, NameOf(file)), env)
         End If
 
         If ggi Is Nothing Then
-            Return Internal.debug.stop("the required data source can not be nothing!", env)
+            Return RInternal.debug.stop("the required data source can not be nothing!", env)
         ElseIf TypeOf ggi Is GraphEdge() Then
             network = DirectCast(ggi, GraphEdge())
         ElseIf TypeOf ggi Is pipeline Then
@@ -179,7 +180,7 @@ Module PFSNetAnalysis
         ElseIf TypeOf ggi Is vector Then
             network = DirectCast(ggi, vector).data.AsObjectEnumerator(Of GraphEdge).ToArray
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(GraphEdge), ggi.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(GraphEdge), ggi.GetType, env), env)
         End If
 
         Call GraphEdgeConnector.SaveTabular(network, stream)
@@ -236,9 +237,9 @@ Module PFSNetAnalysis
     <RApiReturn(GetType(PFSNetResultOut))>
     Public Function readPFSNetOutput(file As String, Optional format As FileFormats = FileFormats.xml, Optional env As Environment = Nothing) As Object
         If Not file.FileExists Then
-            Return Internal.debug.stop("the given file is not exists on your file system!", env)
+            Return RInternal.debug.stop("the given file is not exists on your file system!", env)
         ElseIf format <> FileFormats.json AndAlso format <> FileFormats.xml Then
-            Return Internal.debug.stop("the file format flag value is not supported at this api...", env)
+            Return RInternal.debug.stop("the file format flag value is not supported at this api...", env)
         End If
 
         If format = FileFormats.xml Then

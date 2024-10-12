@@ -68,6 +68,7 @@ Imports SMRUCC.genomics.Visualize.Cytoscape.Tables
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' accession the cytoscape function via http service
@@ -76,7 +77,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Module automation
 
     Sub New()
-        Call Internal.ConsolePrinter.AttachConsoleFormatter(Of NetworkReference())(AddressOf printNetworkReference)
+        Call RInternal.ConsolePrinter.AttachConsoleFormatter(Of NetworkReference())(AddressOf printNetworkReference)
     End Sub
 
     Private Function printNetworkReference(ref As NetworkReference()) As String
@@ -132,7 +133,7 @@ Module automation
         ElseIf network.GetType Is GetType(SIF()) Then
             model = DirectCast(network, SIF())
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(Cyjs), network.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(Cyjs), network.GetType, env), env)
         End If
 
         Return container.putNetwork(model, collection, title)
@@ -149,13 +150,13 @@ Module automation
         Dim container As cyREST = automation.getContainer(version, port, host)
 
         If networkId Is Nothing Then
-            Return Internal.debug.stop("no network specified!", env)
+            Return RInternal.debug.stop("no network specified!", env)
         ElseIf TypeOf networkId Is Integer OrElse TypeOf networkId Is Long Then
             Return container.applyLayout(networkId, algorithmName)
         ElseIf TypeOf networkId Is NetworkReference Then
             Return container.applyLayout(DirectCast(networkId, NetworkReference).networkSUID, algorithmName)
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(Integer), networkId.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(Integer), networkId.GetType, env), env)
         End If
     End Function
 
@@ -179,21 +180,21 @@ Module automation
                                 Optional env As Environment = Nothing) As Object
 
         If networkId Is Nothing Then
-            Return Internal.debug.stop("the network reference id can not be nothing!", env)
+            Return RInternal.debug.stop("the network reference id can not be nothing!", env)
         ElseIf TypeOf networkId Is Long Then
             networkId = CType(networkId, Integer)
         ElseIf TypeOf networkId Is NetworkReference Then
             networkId = DirectCast(networkId, NetworkReference).networkSUID.DoCall(AddressOf Integer.Parse)
         ElseIf Not TypeOf networkId Is Integer Then
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(Integer), networkId.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(Integer), networkId.GetType, env), env)
         End If
 
         If viewId Is Nothing Then
-            Return Internal.debug.stop("the network viewer reference id can not be nothing!", env)
+            Return RInternal.debug.stop("the network viewer reference id can not be nothing!", env)
         ElseIf TypeOf viewId Is Long Then
             viewId = CType(viewId, Integer)
         ElseIf Not TypeOf viewId Is Integer Then
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(Integer), viewId.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(Integer), viewId.GetType, env), env)
         End If
 
         Return automation.getContainer(version, port, host).getView(networkId, viewId)

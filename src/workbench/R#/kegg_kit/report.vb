@@ -72,6 +72,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports any = Microsoft.VisualBasic.Scripting
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' the kegg pathway map report helper tool
@@ -156,7 +157,7 @@ Module report
     <RApiReturn(GetType(Map))>
     Public Function loadMap(file As Object, Optional env As Environment = Nothing) As Object
         If file Is Nothing Then
-            Return Internal.debug.stop("file can not be nothing!", env)
+            Return RInternal.debug.stop("file can not be nothing!", env)
         End If
 
         If TypeOf file Is String Then
@@ -170,7 +171,7 @@ Module report
         ElseIf TypeOf file Is Stream Then
             Return New StreamReader(DirectCast(file, Stream)).ReadToEnd.LoadFromXml(Of Map)
         Else
-            Return Internal.debug.stop({
+            Return RInternal.debug.stop({
                  "invalid data type!",
                  "required: " & GetType(String).FullName,
                  "but given: " & file.GetType.FullName
@@ -275,7 +276,7 @@ Module report
         ElseIf TypeOf highlights Is String() OrElse TypeOf highlights Is String Then
             Return URLEncoder.URLParser(REnv.getFirst(highlights)).value
         Else
-            Return Internal.debug.stop(New InvalidCastException(highlights.GetType.FullName), env)
+            Return RInternal.debug.stop(New InvalidCastException(highlights.GetType.FullName), env)
         End If
     End Function
 

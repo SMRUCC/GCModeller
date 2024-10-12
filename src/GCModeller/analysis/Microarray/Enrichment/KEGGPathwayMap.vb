@@ -62,8 +62,11 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports System.IO
 
 #If NET48 Then
+Imports Microsoft.VisualBasic.Drawing
+
 Imports Pen = System.Drawing.Pen
 Imports Pens = System.Drawing.Pens
 Imports Brush = System.Drawing.Brush
@@ -112,8 +115,8 @@ Public Module KEGGPathwayMap
         '' <summary>
         '' The default color brush is blue 
         '' </summary>
-        Static blue As New [Default](Of  Func(Of String, String))(Function() "blue")
-        Static noTranslate As New [Default](Of  Func(Of String, String))(Function(id) id)
+        Static blue As New [Default](Of Func(Of String, String))(Function() "blue")
+        Static noTranslate As New [Default](Of Func(Of String, String))(Function(id) id)
 
         Dim all As IKEGGTerm()
         Dim failures As New List(Of String)
@@ -138,8 +141,8 @@ Public Module KEGGPathwayMap
                 Dim path$ = export & "/" & pngName & $"-pvalue={term.Pvalue}.png"
                 Dim query = URLEncoder.URLParser(term.Link)
                 Dim url As String = New NamedCollection(Of NamedValue(Of String)) With {
-                    .Name = query.Name.Match("\d+"),
-                    .Value = query.Value _
+                    .name = query.name.Match("\d+"),
+                    .value = query.value _
                          .Select(Function(gene)
                                      Return New NamedValue(Of String) With {
                                           .Name = translateKO(gene.Name),
@@ -213,8 +216,10 @@ Public Module KEGGPathwayMap
     <Extension>
     Private Function MapImageInvalid(path$) As Boolean
         Try
-            Using Image.FromFile(path)
-                Return False
+            Using s As Stream = path.OpenReadonly
+                Using Image.FromStream(s)
+                    Return False
+                End Using
             End Using
         Catch ex As Exception
             Return True
