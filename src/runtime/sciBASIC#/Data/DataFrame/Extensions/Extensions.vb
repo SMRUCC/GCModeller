@@ -354,6 +354,7 @@ Public Module Extensions
     Public Function SaveTable(data As IEnumerable, path$,
                               Optional encoding As Encoding = Nothing,
                               Optional type As Type = Nothing,
+                              Optional meta_blank As String = "",
                               Optional silent As Boolean = False) As Boolean
 
         If type Is Nothing Then
@@ -369,6 +370,7 @@ Public Module Extensions
             .doSave(objSource:=data,
                     typeDef:=type,
                     strict:=False,
+                    metaBlank:=meta_blank,
                     schemaOut:=Nothing) _
             .SaveDataFrame(
                 path:=path,
