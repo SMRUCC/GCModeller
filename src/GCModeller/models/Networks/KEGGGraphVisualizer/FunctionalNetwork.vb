@@ -75,6 +75,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Imaging.Driver
+
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -221,8 +223,7 @@ Public Module FunctionalNetwork
         End With
 
         Dim nodePoints = CanvasScaler.CalculateNodePositions(graph, size.SizeParser, g.DefaultPadding)
-
-        Using g As Graphics2D = graph _
+        Dim graphViz = graph _
             .DrawImage(canvasSize:=size,
                        edgeDashTypes:=dash,
                        minLinkWidth:=5,
@@ -231,8 +232,9 @@ Public Module FunctionalNetwork
                        labelerIterations:=0,
                        labelTextStroke:=Nothing
             ) _
-            .AsGDIImage _
-            .CreateCanvas2D(directAccess:=True)
+            .AsGDIImage
+
+        Using g As IGraphics = DriverLoad.CreateGraphicsDevice(graphViz, direct_access:=True)
 
             For Each pathway In nodeGroups.SeqIterator
                 Dim nodes = (+pathway).Value
@@ -265,11 +267,12 @@ Public Module FunctionalNetwork
                 End With
             Next
 
-            image = g.ImageResource.CorpBlank(margin, blankColor:=Color.White)
+            image = DirectCast(g, GdiRasterGraphics).ImageResource
+            ' image = g.ImageResource.CorpBlank(margin, blankColor:=Color.White)
         End Using
 
         ' 在图片的左下角加入代谢途径的名称
-        Using g As Graphics2D = image.CreateCanvas2D(directAccess:=True)
+        Using g As IGraphics = DriverLoad.CreateGraphicsDevice(image, direct_access:=True)
             Dim css As CSSEnvirnment = g.LoadEnvironment
             Dim font As Font = css.GetFont(CSSFont.TryParse(KEGGNameFont))
             Dim dy = 5

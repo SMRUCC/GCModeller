@@ -57,12 +57,13 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.Patterns
+Imports Microsoft.VisualBasic.Imaging.Driver
+
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -159,7 +160,7 @@ Public Module ClustalVisual
                            Order By l Descending).First
 
         Dim titleFont As New Font(FontFace.Ubuntu, FontSize)
-        Dim StringSize As SizeF = titleMaxLen.Title.MeasureSize(New Size(1, 1).CreateGDIDevice, titleFont)
+        Dim StringSize As SizeF = FontFace.MeasureString(titleMaxLen.Title, titleFont)
         Dim DotSize As Integer = ClustalVisual.DotSize
 
         DotSize = Math.Max(DotSize, StringSize.Height) + 5
@@ -168,7 +169,7 @@ Public Module ClustalVisual
             aln.Max(Function(fa) fa.Length) * DotSize + StringSize.Width + 2 * Margin,
             (aln.Count + 1) * DotSize + 2.5 * Margin)
 
-        Dim gdi As Graphics2D = grSize.CreateGDIDevice
+        Dim gdi As IGraphics = DriverLoad.CreateGraphicsDevice(grSize)
         Dim X As Integer = 0.5 * Margin + StringSize.Width + 10
         Dim Y As Integer = Margin
         Dim DotFont As New Font(FontFace.Ubuntu, FontSize + 1, FontStyle.Bold)
@@ -188,7 +189,7 @@ Public Module ClustalVisual
                 Continue For
             End If
 
-            Call gdi.Graphics.DrawString("*", DotFont, Brushes.Black, New Point(X, Y))
+            Call gdi.DrawString("*", DotFont, Brushes.Black, New Point(X, Y))
 
             idx += 1
             X += DotSize
@@ -198,15 +199,15 @@ Public Module ClustalVisual
         Y += DotSize
 
         For Each fa As FASTA.FastaSeq In aln
-            Call gdi.Graphics.DrawString(fa.Title, titleFont, Brushes.Black, New Point(Margin * 0.75, Y))
+            Call gdi.DrawString(fa.Title, titleFont, Brushes.Black, New Point(Margin * 0.75, Y))
 
             For Each ch As Char In fa.SequenceData
                 Dim s As String = ch.ToString
                 Dim br As New SolidBrush(ClustalVisual.__colours(s))
                 Dim rect As New Rectangle(New Point(X, Y), New Size(DotSize, DotSize))
 
-                Call gdi.Graphics.FillRectangle(br, rect)
-                Call gdi.Graphics.DrawString(s, DotFont, Brushes.Black, New Point(X, Y))
+                Call gdi.FillRectangle(br, rect)
+                Call gdi.DrawString(s, DotFont, Brushes.Black, New Point(X, Y))
 
                 X += DotSize
             Next
@@ -215,6 +216,6 @@ Public Module ClustalVisual
             Y += DotSize
         Next
 
-        Return gdi.ImageResource
+        Return DirectCast(gdi, GdiRasterGraphics).ImageResource
     End Function
 End Module

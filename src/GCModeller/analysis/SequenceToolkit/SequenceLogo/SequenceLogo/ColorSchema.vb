@@ -58,6 +58,8 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
+
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -131,14 +133,14 @@ Namespace SequenceLogo
             Dim font As New Font(FontFace.Ubuntu, 650)
             Dim br As New SolidBrush(color:=color)
 
-            Using gdi As Graphics = Graphics.FromImage(bitmap)
+            Using gdi As IGraphics = DriverLoad.CreateGraphicsDevice(bitmap)
                 Dim size As SizeF = gdi.MeasureString(alphabet, font:=font)
                 Dim w As Integer = (bitmap.Width - size.Width) / 2
                 Dim h As Integer = (bitmap.Height - size.Height) * 0.45
-                Dim pos As New Point(w, h)
+                Dim pos As New PointF(w, h)
 
-                gdi.CompositingQuality = CompositingQuality.HighQuality
-                gdi.CompositingMode = CompositingMode.SourceOver
+                'gdi.CompositingQuality = CompositingQuality.HighQuality
+                'gdi.CompositingMode = CompositingMode.SourceOver
 
                 Call gdi.DrawString(alphabet, font, br, point:=pos)
             End Using

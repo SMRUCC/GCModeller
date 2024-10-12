@@ -64,7 +64,33 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
-Imports stdNum = System.Math
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 ''' <summary>
 ''' the bubble plot for the PFSNnet result.
@@ -122,7 +148,7 @@ Public Module BubblePlot
         Dim yMax As Double = classResult _
             .Where(Function(a) a.pvalue > 0) _
             .Select(Function(a)
-                        Return -stdNum.Log10(a.pvalue)
+                        Return -std.Log10(a.pvalue)
                     End Function) _
             .Max
         Dim i As i32 = Scan0
@@ -137,7 +163,7 @@ Public Module BubblePlot
             End If
 
             For Each subnetwork As PFSNetGraph In takes
-                Dim y As Double = -stdNum.Log10(subnetwork.pvalue)
+                Dim y As Double = -std.Log10(subnetwork.pvalue)
                 Dim x As Double
 
                 If y.IsNaNImaginary Then
