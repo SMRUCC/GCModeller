@@ -1,11 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{950FAFDF-AA20-4FF8-A767-6CA186883635}|..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea.knowledgebase.extensions\\gsea.kb.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -13,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,19 +22,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GSEA.KB.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA.KnowledgeBase.Extensions\\GSEA.KB.NET5.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-12T13:01:34.873Z",
-              "EditorCaption": ""
             }
           ]
         }
