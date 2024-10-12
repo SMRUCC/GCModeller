@@ -24,12 +24,12 @@ Namespace Evaluation
             For i As Integer = 0 To labels.Length - 1
                 If label_sorts(i) > cutoff Then
                     If i < posRank Then
-                        probs(indices(i)) = randf.NextDouble * cutoff + cutoff
+                        probs(indices(i)) = randf.NextDouble(cutoff, 1)
                     Else
-                        probs(indices(i)) = randf.NextDouble * cutoff
+                        probs(indices(i)) = randf.NextDouble(0, cutoff)
                     End If
                 Else
-                    probs(indices(i)) = randf.NextDouble * cutoff
+                    probs(indices(i)) = randf.NextDouble(0, cutoff)
                 End If
             Next
 
