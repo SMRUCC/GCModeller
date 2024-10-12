@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::d866a68f8703633ff855c6e5132e8b53, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PartitioningData.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 77
-    '    Code Lines: 40 (51.95%)
-    ' Comment Lines: 29 (37.66%)
-    '    - Xml Docs: 96.55%
-    ' 
-    '   Blank Lines: 8 (10.39%)
-    '     File Size: 2.41 KB
+' Summaries:
 
 
-    ' Class PartitioningData
-    ' 
-    '     Properties: GC, GenomeID, Headers, Length, LociLeft
-    '                 LociRight, ORFList, PartitioningTag, SequenceData, Title
-    ' 
-    '     Function: ToFasta, ToString
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 77
+'    Code Lines: 40 (51.95%)
+' Comment Lines: 29 (37.66%)
+'    - Xml Docs: 96.55%
+' 
+'   Blank Lines: 8 (10.39%)
+'     File Size: 2.41 KB
+
+
+' Class PartitioningData
+' 
+'     Properties: GC, GenomeID, Headers, Length, LociLeft
+'                 LociRight, ORFList, PartitioningTag, SequenceData, Title
+' 
+'     Function: ToFasta, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.ComponentModel.DataAnnotations.Schema
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 

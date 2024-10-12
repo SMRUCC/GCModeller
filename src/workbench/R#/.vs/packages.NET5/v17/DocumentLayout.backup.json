@@ -3,13 +3,13 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\web\\map\\localrender.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{41B24494-B8E0-4633-B36C-AE9067B685BB}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\DNA_Comparative.netcoreapp.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\dna_comparative\\toolsapi\\sitesigma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C0471EF8-03EC-4030-AAD5-DFFEEF1B6684}|..\\modules\\keggReport\\keggReport.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\keggreport\\pathwaymaprender.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{41B24494-B8E0-4633-B36C-AE9067B685BB}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\DNA_Comparative.netcoreapp.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\dna_comparative\\toolsapi\\partitioningdata.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E78F6AAA-1966-47FA-92AC-A1D57703ADDE}|..\\..\\GCModeller\\foundation\\PSICQUIC\\psidev\\psidev.vbproj|g:\\gcmodeller\\src\\gcmodeller\\foundation\\psicquic\\psidev\\tab\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{41B24494-B8E0-4633-B36C-AE9067B685BB}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\DNA_Comparative.netcoreapp.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\dna_comparative\\toolsapi\\chromosomepartitioningentry.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,21 +19,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LocalRender.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\LocalRender.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\LocalRender.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\LocalRender.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\Web\\Map\\LocalRender.vb",
-              "ViewState": "AgIAADsBAAAAAAAAAAAvwFQBAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-11T13:35:37.463Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -48,28 +35,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PathwayMapRender.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\keggReport\\PathwayMapRender.vb",
-              "RelativeDocumentMoniker": "..\\modules\\keggReport\\PathwayMapRender.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\keggReport\\PathwayMapRender.vb",
-              "RelativeToolTip": "..\\modules\\keggReport\\PathwayMapRender.vb",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAewIUAAAAcAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "SiteSigma.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\SiteSigma.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\SiteSigma.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\SiteSigma.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\SiteSigma.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-11T13:34:34.31Z",
+              "WhenOpened": "2024-10-12T11:14:19.791Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PartitioningData.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\PartitioningData.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\PartitioningData.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\PartitioningData.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\PartitioningData.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADYAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:13:52.26Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Parser.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\foundation\\PSICQUIC\\psidev\\TAB\\Parser.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\foundation\\PSICQUIC\\psidev\\TAB\\Parser.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\foundation\\PSICQUIC\\psidev\\TAB\\Parser.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\foundation\\PSICQUIC\\psidev\\TAB\\Parser.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAATAAAAAAAAAA==",
+              "Title": "ChromosomePartitioningEntry.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\ChromosomePartitioningEntry.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\ChromosomePartitioningEntry.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\ChromosomePartitioningEntry.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\DNA_Comparative\\ToolsAPI\\ChromosomePartitioningEntry.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-11T13:33:53.692Z",
+              "WhenOpened": "2024-10-12T11:13:06.042Z",
               "EditorCaption": ""
             }
           ]
