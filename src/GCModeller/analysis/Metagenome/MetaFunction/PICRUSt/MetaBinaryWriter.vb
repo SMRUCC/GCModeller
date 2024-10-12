@@ -66,6 +66,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
 Imports SMRUCC.genomics.Metagenomics
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace PICRUSt
 

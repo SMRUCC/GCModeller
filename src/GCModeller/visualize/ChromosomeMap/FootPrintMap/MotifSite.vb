@@ -69,6 +69,32 @@ Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.FootprintMap
 
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
+
 Namespace DrawingModels
 
     ''' <summary>
@@ -157,8 +183,8 @@ Namespace DrawingModels
             Call Device.FillPath(New SolidBrush(Color), GraphModel)
         End Sub
 
-        Private Function CreateLociModel(ref As Point, Height As Integer) As System.Drawing.Drawing2D.GraphicsPath
-            Dim Model As System.Drawing.Drawing2D.GraphicsPath = New Drawing2D.GraphicsPath
+        Private Function CreateLociModel(ref As Point, Height As Integer) As GraphicsPath
+            Dim Model As New GraphicsPath
             Dim TopLeft = ref
             Dim TopRight As Point = New Point(TopLeft.X + Width, TopLeft.Y)
             Dim BottomLeft = New Point(TopLeft.X, TopLeft.Y + Height)

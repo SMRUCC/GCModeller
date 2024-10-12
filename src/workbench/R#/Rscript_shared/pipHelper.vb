@@ -48,6 +48,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 Module pipHelper
 
@@ -63,7 +64,7 @@ Module pipHelper
         ElseIf TypeOf uniprot Is vector AndAlso DirectCast(uniprot, vector).elementType Like GetType(entry) Then
             Return New [Variant](Of IEnumerable(Of entry), Message)(DirectCast(uniprot, vector).data.AsObjectEnumerator(Of entry))
         Else
-            Return Internal.debug.stop($"invalid data source input: {uniprot.GetType.FullName}!", env)
+            Return RInternal.debug.stop($"invalid data source input: {uniprot.GetType.FullName}!", env)
         End If
     End Function
 

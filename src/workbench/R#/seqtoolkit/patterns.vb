@@ -87,6 +87,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Tools for sequence patterns
@@ -288,7 +289,7 @@ Module patterns
             Case SeqTypes.Protein : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf Builder.PolypeptideGraph, parallel:=parallel)
             Case SeqTypes.RNA : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf Builder.RNAGraph, parallel:=parallel)
             Case Else
-                Return Internal.debug.stop("general is not allowed!", env)
+                Return RInternal.debug.stop("general is not allowed!", env)
         End Select
     End Function
 
@@ -312,7 +313,7 @@ Module patterns
                                Optional env As Environment = Nothing) As Object
 
         If target Is Nothing Then
-            Return Internal.debug.stop("sequence target can not be nothing!", env)
+            Return RInternal.debug.stop("sequence target can not be nothing!", env)
         ElseIf TypeOf target Is FastaSeq Then
             ' scan a simple single sequence
             Return motif.region _
@@ -323,7 +324,7 @@ Module patterns
 
             ' scan multiple sequence
             If seqs Is Nothing Then
-                Return Internal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
+                Return RInternal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
             Else
                 Return seqs.ToArray _
                     .Populate(parallel, App.CPUCoreNumbers) _
@@ -552,7 +553,7 @@ Module patterns
         Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(scaffolds, env)
 
         If data Is Nothing Then
-            Return Internal.debug.stop({
+            Return RInternal.debug.stop({
                 "invalid data type for sequence data input!",
                $"required: fasta",
                $"given: {scaffolds.GetType.FullName}"

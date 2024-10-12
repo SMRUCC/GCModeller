@@ -63,6 +63,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' GCModeller virtual cell analysis toolkit.
@@ -157,7 +158,7 @@ Public Module Analysis
         ElseIf TypeOf vcell Is Engine Then
             vcell = DirectCast(vcell, Engine).getCore
         ElseIf Not TypeOf vcell Is Vessel Then
-            Return Internal.debug.stop($"invalid model type: {vcell.GetType.FullName}!", env)
+            Return RInternal.debug.stop($"invalid model type: {vcell.GetType.FullName}!", env)
         End If
 
         Return DirectCast(vcell, Vessel).ToGraph

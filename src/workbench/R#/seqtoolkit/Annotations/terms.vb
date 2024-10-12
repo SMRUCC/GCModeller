@@ -70,15 +70,15 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
-Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("annotation.terms", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module terms
 
     Sub New()
-        Call Internal.ConsolePrinter.AttachConsoleFormatter(Of SecondaryIDSolver)(AddressOf printIDSolver)
+        Call RInternal.ConsolePrinter.AttachConsoleFormatter(Of SecondaryIDSolver)(AddressOf printIDSolver)
 
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(MyvaCOG()), AddressOf COGtable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(MyvaCOG()), AddressOf COGtable)
     End Sub
 
     Private Function COGtable(myva As MyvaCOG(), args As list, env As Environment) As dataframe
@@ -136,13 +136,13 @@ Module terms
     <ExportAPI("assign.KO")>
     Public Function KOannotations(forward As pipeline, reverse As pipeline, Optional env As Environment = Nothing) As pipeline
         If forward Is Nothing Then
-            Return Internal.debug.stop("forward data stream is nothing!", env)
+            Return RInternal.debug.stop("forward data stream is nothing!", env)
         ElseIf reverse Is Nothing Then
-            Return Internal.debug.stop("reverse data stream is nothing!", env)
+            Return RInternal.debug.stop("reverse data stream is nothing!", env)
         ElseIf Not forward.elementType.raw Is GetType(BestHit) Then
-            Return Internal.debug.stop($"forward is invalid data stream type: {forward.elementType.fullName}!", env)
+            Return RInternal.debug.stop($"forward is invalid data stream type: {forward.elementType.fullName}!", env)
         ElseIf Not reverse.elementType.raw Is GetType(BestHit) Then
-            Return Internal.debug.stop($"reverse is invalid data stream type: {reverse.elementType.fullName}!", env)
+            Return RInternal.debug.stop($"reverse is invalid data stream type: {reverse.elementType.fullName}!", env)
         End If
 
         Return KOAssignment.KOassignmentBBH(forward.populates(Of BestHit)(env), reverse.populates(Of BestHit)(env)).DoCall(AddressOf pipeline.CreateFromPopulator)
@@ -158,7 +158,7 @@ Module terms
                         End Function) _
                 .ToArray
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(MyvaCOG), alignment.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(MyvaCOG), alignment.GetType, env), env)
         End If
     End Function
 

@@ -70,6 +70,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' A pipeline collection for proteins' biological function 
@@ -100,7 +101,7 @@ Module workflows
         ElseIf LCase(type) = "prot" Then
             Return pipeline.CreateFromPopulator(BlastpOutputReader.RunParser(file, fast:=fastMode))
         Else
-            Return Internal.debug.stop($"invalid program type: {type}!", env)
+            Return RInternal.debug.stop($"invalid program type: {type}!", env)
         End If
     End Function
 
@@ -271,15 +272,15 @@ Module workflows
     <ExportAPI("stream.flush")>
     Public Function flush(data As pipeline, stream As Object, Optional env As Environment = Nothing) As Object
         If stream Is Nothing Then
-            Return Internal.debug.stop("No output stream device!", env)
+            Return RInternal.debug.stop("No output stream device!", env)
         ElseIf data Is Nothing Then
-            Return Internal.debug.stop("No content data provided!", env)
+            Return RInternal.debug.stop("No content data provided!", env)
         ElseIf data.elementType Like GetType(BestHit) AndAlso Not TypeOf stream Is WriteStream(Of BestHit) Then
-            Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
+            Return RInternal.debug.stop("Unmatched stream device with the incoming data type!", env)
         ElseIf data.elementType Like GetType(BiDirectionalBesthit) AndAlso Not TypeOf stream Is WriteStream(Of BiDirectionalBesthit) Then
-            Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
+            Return RInternal.debug.stop("Unmatched stream device with the incoming data type!", env)
         ElseIf data.elementType Like GetType(BlastnMapping) AndAlso Not TypeOf stream Is WriteStream(Of BlastnMapping) Then
-            Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
+            Return RInternal.debug.stop("Unmatched stream device with the incoming data type!", env)
         End If
 
         Select Case data.elementType.raw
@@ -290,7 +291,7 @@ Module workflows
             Case GetType(BlastnMapping)
                 Call writeStreamHelper(Of BlastnMapping)(stream, data, env)
             Case Else
-                Return Internal.debug.stop(New NotImplementedException, env)
+                Return RInternal.debug.stop(New NotImplementedException, env)
         End Select
 
         Return True

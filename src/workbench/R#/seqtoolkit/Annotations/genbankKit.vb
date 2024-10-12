@@ -75,6 +75,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports featureLocation = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Location
 Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' NCBI genbank assembly file I/O toolkit
@@ -96,7 +97,7 @@ Module genbankKit
                                 Optional env As Environment = Nothing) As Object
 
         If Not file.FileExists(True) Then
-            Return Internal.debug.stop($"invalid file resource: '{file}'!", env)
+            Return RInternal.debug.stop($"invalid file resource: '{file}'!", env)
         End If
 
         If repliconTable Then
@@ -153,7 +154,7 @@ Module genbankKit
                                      Optional autoClose As Boolean = True,
                                      Optional env As Environment = Nothing) As Object
         If files Is Nothing Then
-            Return Internal.debug.stop("the required file list can not be nothing!", env)
+            Return RInternal.debug.stop("the required file list can not be nothing!", env)
         End If
 
         Dim populator =
@@ -197,7 +198,7 @@ Module genbankKit
     <RApiReturn(TypeCodes.boolean)>
     Public Function writeGenbank(gb As GBFF.File, file$, Optional env As Environment = Nothing) As Object
         If gb Is Nothing Then
-            Return Internal.debug.stop("write data is nothing!", env)
+            Return RInternal.debug.stop("write data is nothing!", env)
         Else
             Return gb.Save(file)
         End If
@@ -220,7 +221,7 @@ Module genbankKit
         If TypeOf x Is PTT Then
             Return DirectCast(x, PTT).CreateGenbankObject
         Else
-            Return Internal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
+            Return RInternal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
         End If
     End Function
 
@@ -233,7 +234,9 @@ Module genbankKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("feature")>
-    Public Function createFeature(keyName$, location As NucleotideLocation, data As list, Optional env As Environment = Nothing) As Feature
+    Public Function createFeature(keyName$, location As NucleotideLocation, data As list,
+                                  Optional env As Environment = Nothing) As Feature
+
         Dim loci As New Feature With {
             .KeyName = keyName,
             .Location = New featureLocation With {
@@ -466,7 +469,7 @@ Module genbankKit
         End If
 
         If seqs Is Nothing Then
-            Return Internal.debug.stop("no protein sequence data provided!", env)
+            Return RInternal.debug.stop("no protein sequence data provided!", env)
         End If
 
         Dim seqTable = seqs.ToDictionary(Function(fa) fa.Title.Split.First)
@@ -518,7 +521,7 @@ Module genbankKit
                                   Return map.First
                               End Function)
         Else
-            Return Internal.debug.stop($"invalid data source type: '{RNA.GetType.FullName}'!", env)
+            Return RInternal.debug.stop($"invalid data source type: '{RNA.GetType.FullName}'!", env)
         End If
 
         For Each feature In gb.Features.Where(Function(a) a.KeyName = "gene")

@@ -84,6 +84,32 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
+
 ''' <summary>
 ''' This module contains the required API function for create the chromosomes map of a specific bacteria genome.
 ''' </summary>
@@ -264,19 +290,14 @@ Public Module ChromesomeMapAPI
     Public Function SaveImage(<Parameter("Resource")> res As GraphicsData(),
                               <Parameter("DIR.EXPORT")> EXPORT$,
                               <Parameter("Image.Format", "Value variant in jpg,bmp,emf,exif,gif,png,wmf,tiff")>
-                              Optional format$ = "png") As Integer
+                              Optional format As ImageFormats = ImageFormats.Png) As Integer
 
-        Dim imageFormat As ImageFormats = format.ParseImageFormat  ' 空值是默认返回png的
         Dim i As i32 = 0
 
         Call EXPORT.MakeDir
 
-        If format.StringEmpty Then
-            format = "png"
-        End If
-
         For Each Bitmap As GraphicsData In res
-            Call Bitmap.Save($"{EXPORT}/ChromosomeMap [{++i}].{format}")
+            Call Bitmap.Save($"{EXPORT}/ChromosomeMap [{++i}].{format.Description}")
         Next
 
         Return i
@@ -407,7 +428,7 @@ Public Module ChromesomeMapAPI
             Me._tRnaColor = New SolidBrush(tRnaColor)
         End Sub
 
-        Public Function __setColor(Product As String) As System.Drawing.Color
+        Public Function __setColor(Product As String) As Color
             If String.IsNullOrEmpty(Product) Then
                 Return DefaultRNAColor
             End If
@@ -421,7 +442,7 @@ Public Module ChromesomeMapAPI
             End If
         End Function
 
-        Public Function __setColorBrush(Product As String) As System.Drawing.Brush
+        Public Function __setColorBrush(Product As String) As Brush
             If String.IsNullOrEmpty(Product) Then
                 Return _DefaultRNAColor
             End If
