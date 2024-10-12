@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Annotation.Ptf.Document
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Ptf
 

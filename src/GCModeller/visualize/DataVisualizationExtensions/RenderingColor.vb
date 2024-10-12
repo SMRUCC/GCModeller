@@ -61,17 +61,6 @@ Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.Assembly.NCBI
 
 #If NET48 Then
-Imports Pen = System.Drawing.Pen
-Imports Pens = System.Drawing.Pens
-Imports Brush = System.Drawing.Brush
-Imports Font = System.Drawing.Font
-Imports Brushes = System.Drawing.Brushes
-Imports SolidBrush = System.Drawing.SolidBrush
-Imports DashStyle = System.Drawing.Drawing2D.DashStyle
-Imports Image = System.Drawing.Image
-Imports Bitmap = System.Drawing.Bitmap
-Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
-Imports FontStyle = System.Drawing.FontStyle
 #Else
 Imports Pen = Microsoft.VisualBasic.Imaging.Pen
 Imports Pens = Microsoft.VisualBasic.Imaging.Pens
@@ -84,6 +73,7 @@ Imports Image = Microsoft.VisualBasic.Imaging.Image
 Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
 Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
 Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports TextureBrush = Microsoft.VisualBasic.Imaging.TextureBrush
 #End If
 
 Public Module RenderingColor

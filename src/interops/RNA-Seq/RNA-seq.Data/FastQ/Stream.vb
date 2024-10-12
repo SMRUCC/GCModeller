@@ -56,6 +56,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen

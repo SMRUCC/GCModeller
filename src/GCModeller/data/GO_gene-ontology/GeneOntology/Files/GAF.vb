@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 ''' <summary>
 ''' GO Annotation File (GAF) Format 2.0

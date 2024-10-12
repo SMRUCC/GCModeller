@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 Imports r = System.Text.RegularExpressions.Regex
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 

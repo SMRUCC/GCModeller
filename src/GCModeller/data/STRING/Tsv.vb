@@ -75,6 +75,7 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace StringDB.Tsv
 
@@ -95,7 +96,7 @@ Namespace StringDB.Tsv
 
         Public Shared Iterator Function LoadText(path As String) As IEnumerable(Of LinkAction)
             For Each line As String In path.IterateAllLines.Skip(1)
-                Dim tokens As String() = line.Split(Text.ASCII.TAB)
+                Dim tokens As String() = line.Split(ASCII.TAB)
 
                 Yield New LinkAction With {
                     .item_id_a = tokens(0),

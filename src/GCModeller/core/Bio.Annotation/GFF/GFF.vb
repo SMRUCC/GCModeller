@@ -69,6 +69,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
