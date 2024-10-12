@@ -118,10 +118,13 @@ Namespace Evaluation
         ''' <summary>
         ''' get the index of best threshold 
         ''' </summary>
-        ''' <param name="TPR"></param>
+        ''' <param name="TPR">sensibility</param>
         ''' <param name="FPR"></param>
         ''' <returns></returns>
         ''' <remarks>
+        ''' Calculate the distance to the ideal point (0,1) for each row
+        ''' We use the euclidean distance: sqrt((1-TPR)^2 + (FPR)^2)
+        ''' 
         ''' NA value will be ignored from this function automatically.
         ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
