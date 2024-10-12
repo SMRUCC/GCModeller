@@ -67,6 +67,7 @@ Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("annotation.genomics", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 <RTypeExport("gene_info", GetType(GeneBrief))>
@@ -89,11 +90,11 @@ Module genomics
             Case "PTT"
                 Return New PTT(genes, title, size)
             Case "GFF"
-                Return Internal.debug.stop(New NotImplementedException, env)
+                Return RInternal.debug.stop(New NotImplementedException, env)
             Case "GTF"
-                Return Internal.debug.stop(New NotImplementedException, env)
+                Return RInternal.debug.stop(New NotImplementedException, env)
             Case Else
-                Return Internal.debug.stop($"unsupported table format: '{format}'!", env)
+                Return RInternal.debug.stop($"unsupported table format: '{format}'!", env)
         End Select
     End Function
 
@@ -156,7 +157,7 @@ Module genomics
         ElseIf TypeOf genome Is GBFF.File Then
             Return DirectCast(genome, GBFF.File).EnumerateGeneFeatures(ORF:=False).FeatureGenes.ToArray
         Else
-            Return Internal.debug.stop($"Invalid genome context model: {genome.GetType.FullName}!", env)
+            Return RInternal.debug.stop($"Invalid genome context model: {genome.GetType.FullName}!", env)
         End If
     End Function
 
@@ -176,7 +177,7 @@ Module genomics
         End If
 
         If genomics Is Nothing Then
-            Return Internal.debug.stop("the required genomics context data can not be nothing!", env)
+            Return RInternal.debug.stop("the required genomics context data can not be nothing!", env)
         ElseIf TypeOf genomics Is GBFF.File Then
             genomics = DirectCast(genomics, GBFF.File).GbffToPTT(ORF:=False)
         End If

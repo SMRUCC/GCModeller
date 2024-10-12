@@ -71,6 +71,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports gccWorkflow = SMRUCC.genomics.GCModeller.Compiler.Workflow
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' The GCModeller virtual cell model creator
@@ -115,14 +116,14 @@ Module Compiler
                                        Optional geneIDcol$ = "ID",
                                        Optional env As Environment = Nothing) As Object
         If data Is Nothing Then
-            Return Internal.debug.stop("No gene_id to KO mapping data provided!", env)
+            Return RInternal.debug.stop("No gene_id to KO mapping data provided!", env)
         End If
 
         If TypeOf data Is Rdataframe Then
             If Not DirectCast(data, Rdataframe).columns.ContainsKey(geneIDcol) Then
-                Return Internal.debug.stop($"No geneId column data which is named: '{geneIDcol}'!", env)
+                Return RInternal.debug.stop($"No geneId column data which is named: '{geneIDcol}'!", env)
             ElseIf Not DirectCast(data, Rdataframe).columns.ContainsKey(KOcol) Then
-                Return Internal.debug.stop($"NO KEGG id column data which is named: '{KOcol}'!", env)
+                Return RInternal.debug.stop($"NO KEGG id column data which is named: '{KOcol}'!", env)
             End If
 
             Dim geneID As String() = CLRVector.asCharacter(DirectCast(data, Rdataframe).getColumnVector(geneIDcol))
@@ -155,7 +156,7 @@ Module Compiler
                               End Function)
         End If
 
-        Return Internal.debug.stop(New NotImplementedException(data.GetType.FullName), env)
+        Return RInternal.debug.stop(New NotImplementedException(data.GetType.FullName), env)
     End Function
 
     ''' <summary>
@@ -222,7 +223,9 @@ Module Compiler
     End Function
 
     <ExportAPI("compile.biocyc")>
-    Public Function compileBiocyc(biocyc As Workspace, genomes As Dictionary(Of String, GBFF.File), Optional logfile As String = "./gcc.log") As VirtualCell
+    Public Function compileBiocyc(biocyc As Workspace, genomes As Dictionary(Of String, GBFF.File),
+                                  Optional logfile As String = "./gcc.log") As VirtualCell
+
         Using compiler As New BioCyc.v2Compiler(genomes.First.Value, biocyc)
             Return compiler.Compile($"compile --log {logfile.CLIPath}")
         End Using

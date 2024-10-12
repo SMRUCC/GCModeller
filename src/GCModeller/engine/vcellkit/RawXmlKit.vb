@@ -70,6 +70,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports HTS_Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' the virtual cell raw data
@@ -85,7 +86,7 @@ Module RawXmlKit
                                  Optional args As Object = Nothing,
                                  Optional env As Environment = Nothing) As Object
 
-        Dim arguments As list = Internal.Invokes.base.Rlist(args, env)
+        Dim arguments As list = RInternal.Invokes.base.Rlist(args, env)
 
         If LCase(mode) = "read" Then
             Return New Raw.Reader(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
@@ -93,12 +94,12 @@ Module RawXmlKit
             Dim vcell As Engine = arguments.getValue(Of Engine)("vcell", env)
 
             If vcell Is Nothing Then
-                Return Internal.debug.stop("missing vcell engine argument value!", env)
+                Return RInternal.debug.stop("missing vcell engine argument value!", env)
             Else
                 Return New StorageDriver(file, vcell)
             End If
         Else
-            Return Internal.debug.stop($"unknown I/O mode: {mode}...", env)
+            Return RInternal.debug.stop($"unknown I/O mode: {mode}...", env)
         End If
     End Function
 
@@ -118,7 +119,7 @@ Module RawXmlKit
                               Optional args As Object = Nothing,
                               Optional env As Environment = Nothing) As Object
 
-        Dim arguments As list = Internal.Invokes.base.Rlist(args, env)
+        Dim arguments As list = RInternal.Invokes.base.Rlist(args, env)
 
         If LCase(mode) = "read" Then
             Return New vcXML.Reader(file)
@@ -126,12 +127,12 @@ Module RawXmlKit
             Dim vcell As Engine = arguments.getValue(Of Engine)("vcell", env)
 
             If vcell Is Nothing Then
-                Return Internal.debug.stop("missing vcell engine argument value!", env)
+                Return RInternal.debug.stop("missing vcell engine argument value!", env)
             Else
                 Return New VcellAdapterDriver(file, vcell.model, vcell.dynamics)
             End If
         Else
-            Return Internal.debug.stop($"unknown I/O mode: {mode}...", env)
+            Return RInternal.debug.stop($"unknown I/O mode: {mode}...", env)
         End If
     End Function
 
@@ -165,7 +166,7 @@ Module RawXmlKit
                                    stream As Object,
                                    Optional env As Environment = Nothing) As Object
 
-        Dim args As list = Internal.Invokes.base.Rlist(stream, env)
+        Dim args As list = RInternal.Invokes.base.Rlist(stream, env)
         Dim message As Message = checkStreamRef(args, env)
 
         If Not message Is Nothing Then
@@ -202,7 +203,7 @@ Module RawXmlKit
                                        stream As Object,
                                        Optional env As Environment = Nothing) As Object
 
-        Dim args As list = Internal.Invokes.base.Rlist(stream, env)
+        Dim args As list = RInternal.Invokes.base.Rlist(stream, env)
         Dim message As Message = checkStreamRef(args, env)
 
         If Not message Is Nothing Then
@@ -259,7 +260,7 @@ Module RawXmlKit
 
     Private Function checkStreamRef(args As list, env As Environment) As Message
         If Not {"transcriptome", "proteome", "metabolome"}.Any(AddressOf args.hasName) Then
-            Return Internal.debug.stop({
+            Return RInternal.debug.stop({
                 "no module system name was specificed for read data!",
                 "module name should be in one of: transcriptome, proteome, metabolome",
                 "example as: time.frames(..., metabolome = ""mass_profile"")"
@@ -283,7 +284,7 @@ Module RawXmlKit
                                Optional stream As Object = Nothing,
                                Optional env As Environment = Nothing) As Object
 
-        Dim args As list = Internal.Invokes.base.Rlist(stream, env)
+        Dim args As list = RInternal.Invokes.base.Rlist(stream, env)
 
         If TypeOf raw Is vcXML.Reader Then
             Dim modu As String = Nothing
