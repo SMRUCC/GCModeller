@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.Scripting.Rscript
+Imports std = System.Math
 
 Namespace Evaluation
 
@@ -113,6 +113,20 @@ Namespace Evaluation
             Next
 
             Return auc
+        End Function
+
+        ''' <summary>
+        ''' get the index of best threshold 
+        ''' </summary>
+        ''' <param name="TPR"></param>
+        ''' <param name="FPR"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' NA value will be ignored from this function automatically.
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function BestThreshold(TPR As Vector, FPR As Vector) As Integer
+            Return which.Min(Vector.Sqrt((1 - TPR) ^ 2 + (FPR) ^ 2).Select(Function(vi) If(vi.IsNaNImaginary, Double.MaxValue, vi)))
         End Function
 
         ''' <summary>
