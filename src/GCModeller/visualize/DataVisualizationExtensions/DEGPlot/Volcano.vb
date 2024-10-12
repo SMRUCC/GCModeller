@@ -446,7 +446,7 @@ Public Class VolcanoPlot : Inherits Plot
         Next
 
         If labels > 0 Then
-            Dim black As SolidBrush = System.Drawing.Brushes.Black
+            Dim black As New SolidBrush(Color.Black)
 
             Call d3js.labeler(maxMove:=20) _
                 .Labels(labels) _

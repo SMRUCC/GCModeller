@@ -3,13 +3,34 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\degplot\\volcano.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\catalogprofiling\\catalogbubbleplot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\catalogprofiling\\heatmap\\catalogbubbleheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\catalogprofiling\\heatmap\\catalogheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategorybubble.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\samplecolorbend.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C0471EF8-03EC-4030-AAD5-DFFEEF1B6684}|..\\modules\\keggReport\\keggReport.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\keggreport\\reportrender.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E930ED0B-CA55-4054-9225-2CBAF166E455}|..\\..\\interops\\visualize\\Cytoscape\\Cytoscape\\Cytoscape.NET5.vbproj|g:\\gcmodeller\\src\\interops\\visualize\\cytoscape\\cytoscape\\api\\graphextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D278BC20-62AB-45A4-9B00-9A68E222D3B5}|..\\..\\GCModeller\\models\\Networks\\KEGG\\KEGGNetwork.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\networks\\kegg\\reactionnetwork\\networkexpansion.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D278BC20-62AB-45A4-9B00-9A68E222D3B5}|..\\..\\GCModeller\\models\\Networks\\KEGG\\KEGGNetwork.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\networks\\kegg\\reactionnetwork\\builder\\builderbase.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C0471EF8-03EC-4030-AAD5-DFFEEF1B6684}|..\\modules\\keggReport\\keggReport.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\keggreport\\reportrender.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C93DF930-0861-48FC-9DED-2717D0706F8D}|..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\datavisual-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\datavisualizationextensions\\keggplot\\enrichmentcategoryheatmap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -48,6 +69,97 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Volcano.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\DEGPlot\\Volcano.vb",
+              "ViewState": "AgIAAKoBAAAAAAAAAAAAALoBAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:27:26.34Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CatalogBubblePlot.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\CatalogBubblePlot.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\CatalogBubblePlot.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\CatalogBubblePlot.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\CatalogBubblePlot.vb",
+              "ViewState": "AgIAAC4BAAAAAAAAAADgv0QBAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:27:13.668Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CatalogHeatMap.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogHeatMap.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogHeatMap.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogHeatMap.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogHeatMap.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFsAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:27:03.027Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EnrichmentCategoryBubble.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryBubble.vb",
+              "ViewState": "AgIAADQAAAAAAAAAAAAAAGAAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:26:49.419Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CatalogBubbleHeatmap.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogBubbleHeatmap.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogBubbleHeatmap.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogBubbleHeatmap.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CatalogProfiling\\Heatmap\\CatalogBubbleHeatmap.vb",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAewJIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:26:23.528Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SampleColorBend.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\SampleColorBend.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\SampleColorBend.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\SampleColorBend.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\SampleColorBend.vb",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAMwHkAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:26:19.182Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GraphExtensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Cytoscape\\Cytoscape\\API\\GraphExtensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\interops\\visualize\\Cytoscape\\Cytoscape\\API\\GraphExtensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\visualize\\Cytoscape\\Cytoscape\\API\\GraphExtensions.vb",
+              "RelativeToolTip": "..\\..\\interops\\visualize\\Cytoscape\\Cytoscape\\API\\GraphExtensions.vb",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAFYAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-12T11:26:03.107Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "NetworkExpansion.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\NetworkExpansion.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\NetworkExpansion.vb",
@@ -60,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 9,
               "Title": "BuilderBase.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\Builder\\BuilderBase.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\Builder\\BuilderBase.vb",
@@ -73,20 +185,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "ReportRender.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\keggReport\\ReportRender.vb",
               "RelativeDocumentMoniker": "..\\modules\\keggReport\\ReportRender.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\keggReport\\ReportRender.vb",
               "RelativeToolTip": "..\\modules\\keggReport\\ReportRender.vb",
-              "ViewState": "AgIAAHQAAAAAAAAAAADgv4oAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF4AAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-10-12T11:24:58.635Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
               "Title": "EnrichmentCategoryHeatmap.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\KeggPlot\\EnrichmentCategoryHeatmap.vb",
@@ -99,7 +211,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "PathwayMapRender.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\keggReport\\PathwayMapRender.vb",
               "RelativeDocumentMoniker": "..\\modules\\keggReport\\PathwayMapRender.vb",
@@ -112,7 +224,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 12,
               "Title": "Brush.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\Bitmap\\netcore8.0\\Brush.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\Bitmap\\netcore8.0\\Brush.vb",
@@ -137,7 +249,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
               "Title": "CurvesModel.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\CurvesChart\\CurvesModel.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\CurvesChart\\CurvesModel.vb",
@@ -150,7 +262,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 14,
               "Title": "EdgeGraphics.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Cytoscape\\Cytoscape\\Graph\\Xgmml\\File\\network\\EdgeGraphics.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\visualize\\Cytoscape\\Cytoscape\\Graph\\Xgmml\\File\\network\\EdgeGraphics.vb",
@@ -163,7 +275,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "Stream.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\Stream.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\Stream.vb",
@@ -176,7 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 16,
               "Title": "NodeGraphics.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Cytoscape\\Cytoscape\\Graph\\Xgmml\\File\\network\\NodeGraphics.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\visualize\\Cytoscape\\Cytoscape\\Graph\\Xgmml\\File\\network\\NodeGraphics.vb",
@@ -189,7 +301,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 17,
               "Title": "RenderingColor.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\DataVisualizationExtensions\\RenderingColor.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\DataVisualizationExtensions\\RenderingColor.vb",
