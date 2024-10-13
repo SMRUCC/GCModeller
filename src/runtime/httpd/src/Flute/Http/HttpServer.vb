@@ -129,9 +129,11 @@ Namespace Core
         ''' <summary>
         ''' Running this http server. 
         ''' NOTE: current thread will be blocked at here until the server core is shutdown. 
-        ''' (请注意，在服务器开启之后，当前的线程会被阻塞在这里)
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (请注意，在服务器开启之后，当前的线程会被阻塞在这里)
+        ''' </remarks>
         Public Overridable Function Run() As Integer Implements ITaskDriver.Run
             Is_active = False
 
