@@ -227,7 +227,7 @@ Namespace Imaging
             Dim pixelFormat As BitsPerPixelEnum = If(MemoryBuffer.GetPixelChannels = 3, BitsPerPixelEnum.RGB24, BitsPerPixelEnum.RGBA32)
             Dim writer As New MemoryBmp(Width, Height, MemoryBuffer.RawBuffer, pixelFormat)
 
-            Call writer.Save(s, fliped:=True)
+            Call writer.Save(s, flipped:=True)
             Call s.Flush()
         End Sub
 

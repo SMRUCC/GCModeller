@@ -108,7 +108,7 @@ Namespace Imaging.BitmapImage.FileStream
             End Using
         End Function
 
-        Public Sub Save(stream As Stream, Optional fliped As Boolean = False)
+        Public Sub Save(stream As Stream, Optional flipped As Boolean = False)
             'using (var writer = new BinaryWriter( stream )) {
             Dim writer As New BinaryWriter(stream)
 
@@ -119,7 +119,7 @@ Namespace Imaging.BitmapImage.FileStream
 
             Dim paddingRequired = BytesPerRow <> Width * BytesPerPixel
             Dim bytesToCopy = Width * BytesPerPixel
-            Dim pixData = If(fliped, PixelDataFliped, PixelData)
+            Dim pixData = If(flipped, PixelDataFliped, PixelData)
 
             If paddingRequired Then
                 For counter = 0 To Height - 1
