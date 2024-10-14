@@ -127,6 +127,11 @@ Namespace Imaging
         ''' </remarks>
         Protected Friend MustOverride Function ConvertToBitmapStream() As MemoryStream
 
+        ''' <summary>
+        ''' Load bitmap image from file stream
+        ''' </summary>
+        ''' <param name="s">only works for bitmap image file stream</param>
+        ''' <returns></returns>
         Public Shared Function FromStream(s As Stream) As Bitmap
             Return New Bitmap(New BitmapReader(s).LoadMemory)
         End Function
