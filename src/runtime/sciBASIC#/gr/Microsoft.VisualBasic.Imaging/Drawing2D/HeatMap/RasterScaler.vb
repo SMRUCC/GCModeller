@@ -195,7 +195,7 @@ Namespace Drawing2D.HeatMap
             Call Scale(canvas, New Size(newWidth, newHeight))
             Call canvas.Flush()
 
-            Return DirectCast(canvas, GdiRasterGraphics).ImageResource
+            Return New Bitmap(DirectCast(canvas, GdiRasterGraphics).ImageResource)
         End Function
 
         ''' <summary>
