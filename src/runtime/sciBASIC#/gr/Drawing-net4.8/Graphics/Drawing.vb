@@ -52,12 +52,14 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
-Imports System.Drawing.Text
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 
 Public Module Drawing
+
+    Public Sub Register()
+
+    End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function OpenGraphicsDevice(size As Size, background As Color, dpi As Integer) As IGraphics
