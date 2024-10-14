@@ -1,42 +1,22 @@
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports std = System.Math
 
 Namespace Imaging.BitmapImage.FileStream
-    Public Enum BitsPerPixelEnum As Integer
-        Monochrome = 1
-        Four = 4
-        Eight = 8
-        RBG16 = 16
-        RGB24 = 24
-        RGBA32 = 32
-    End Enum
-
-    ''' <summary>
-    ''' Number of bytes for specific Pixel format.
-    ''' </summary>
-    Public Enum BytesPerPixelEnum As Integer
-        RBG16 = 2
-        RGB24 = 3
-        RGBA32 = 4
-    End Enum
-
-    Public Enum CompressionMethod As Integer
-        BI_RGB = 0 ' none
-        BI_RLE8 = 1
-        BI_RLE4 = 2
-        BI_BITFIELDS = 3
-        BI_JPEG = 4
-        BI_PNG = 5
-        BI_ALPHABITFIELDS = 6
-        BI_CMYK = 11
-        BI_CMYKRLE8 = 12
-        BI_CMYKRLE4 = 13
-    End Enum
 
     ''' <summary>
     ''' A in-memory bitmap image model
     ''' </summary>
+    ''' <remarks>
+    ''' This is simple Bitmap library that helps you wrap binary data (pixels) into BMP header for saving into file and vice versa.
+    ''' 
+    ''' It supports only 24 bits BGR And 32 bits BGRA Byte arrays.
+    ''' Library supports x86 (little-endian) And ARM (big-endian).
+    ''' 
+    ''' > https://github.com/dsoronda/bmp-sharp
+    ''' </remarks>
     Public Class Bitmap
+
         Public ReadOnly Property Width As Integer = 0
         Public ReadOnly Property Height As Integer = 0
         Public ReadOnly Property BitsPerPixelEnum As BitsPerPixelEnum
@@ -61,6 +41,7 @@ Namespace Imaging.BitmapImage.FileStream
                 Return CInt(BitsPerPixelEnum) / 8
             End Get
         End Property
+
         Public ReadOnly Property PixelData As Byte()
 
         ''' <summary>
@@ -104,8 +85,9 @@ Namespace Imaging.BitmapImage.FileStream
             Dim rawImageSize = BytesPerRow * height
 
             ' Are we receiving proper byte[] size ?
-            If pixelData.Length <> width * height * BytesPerPixel Then Throw New ArgumentOutOfRangeException($"{NameOf(pixelData)} has invalid size.")
-
+            If pixelData.Length <> width * height * BytesPerPixel Then
+                Throw New ArgumentOutOfRangeException($"{NameOf(pixelData)} has invalid size.")
+            End If
 
             If bitsPerPixel = BitsPerPixelEnum.RGB24 Then InfoHeaderBytes = New BitmapInfoHeader(width, height, bitsPerPixel, rawImageSize).HeaderInfoBytes
             If bitsPerPixel = BitsPerPixelEnum.RGBA32 Then
@@ -121,35 +103,15 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <paramname="flipped">Flip (reverse order of) rows. Bitmap pixel rows are stored from bottom to up as shown in image</param>
         ''' <returns></returns>
         Public Function GetBmpBytes(Optional flipped As Boolean = False) As Byte()
-            'var rawImageSize = BytesPerRow * Height;
-            'var buffer = new byte[BitmapFileHeader.BitmapFileHeaderSizeInBytes + rawImageSize];
-            'Buffer.BlockCopy( this.FileHeader.HeaderBytes, 0, buffer, 0, BitmapFileHeader.BitmapFileHeaderSizeInBytes );
-
-            'if (flipped) {
-            '	Buffer.BlockCopy( this.PixelDataFliped, 0, buffer, BitmapFileHeader.BitmapFileHeaderSizeInBytes, PixelData.Length );
-            '} else {
-            '	Buffer.BlockCopy( this.PixelData, 0, buffer, BitmapFileHeader.BitmapFileHeaderSizeInBytes, PixelData.Length );
-            '}
-            'return buffer;
-
-            Using stream = GetBmpStream(flipped)
+            Using stream As MemoryStream = GetBmpStream(flipped)
                 Return stream.ToArray()
             End Using
         End Function
 
-        ''' <summary>
-        ''' Get bitmap as byte stream for saving to file
-        ''' </summary>
-        ''' <paramname="flipped">Flip (reverse order of) rows. Bitmap pixel rows are stored from bottom to up as shown in image</param>
-        ''' <returns></returns>
-        Public Function GetBmpStream(Optional fliped As Boolean = False) As MemoryStream
-            Dim rawImageSize = BytesPerRow * Height
-
-            'var stream = new System.IO.MemoryStream( BitmapFileHeader.BitmapFileHeaderSizeInBytes + (int) rawImageSize );
-            Dim stream = New MemoryStream(rawImageSize)
-
+        Public Sub Save(stream As Stream, Optional fliped As Boolean = False)
             'using (var writer = new BinaryWriter( stream )) {
-            Dim writer = New BinaryWriter(stream)
+            Dim writer As New BinaryWriter(stream)
+
             writer.Write(FileHeader.HeaderBytes)
             writer.Write(InfoHeaderBytes)
             writer.Flush()
@@ -169,6 +131,22 @@ Namespace Imaging.BitmapImage.FileStream
                 writer.Write(pixData)
             End If
 
+            Call writer.Flush()
+        End Sub
+
+        ''' <summary>
+        ''' Get bitmap as byte stream for saving to file
+        ''' </summary>
+        ''' <paramname="flipped">Flip (reverse order of) rows. Bitmap pixel rows are stored from bottom to up as shown in image</param>
+        ''' <returns>
+        ''' get in-memory stream data of the current bitmap object, could not 
+        ''' be processed when bitmap object is greater than 2GB.
+        ''' </returns>
+        Public Function GetBmpStream(Optional fliped As Boolean = False) As MemoryStream
+            Dim rawImageSize = BytesPerRow * Height
+            Dim stream As New MemoryStream(rawImageSize)
+
+            Save(stream, fliped)
             stream.Position = 0
 
             Return stream
@@ -180,6 +158,8 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <paramname="width">Image Width</param>
         ''' <paramname="bitsPerPixel">Bits per pixel</param>
         ''' <returns>How many bytes BMP requires per row</returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function RequiredBytesPerRow(width As Integer, bitsPerPixel As BitsPerPixelEnum) As Integer
             Return CInt(std.Ceiling(CDec(width * bitsPerPixel) / 32)) * 4
         End Function
@@ -191,6 +171,8 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <paramname="bitsPerPixel">Bits per pixels to calculate actual byte requirement</param>
         ''' <paramname="bytesPerRow">BMP required bytes per row</param>
         ''' <returns>True/false if we need to allocate extra bytes (for BMP saving) for padding</returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function IsPaddingRequired(width As Integer, bitsPerPixel As BitsPerPixelEnum, bytesPerRow As Integer) As Boolean
             Return bytesPerRow <> width * bitsPerPixel / 8
         End Function

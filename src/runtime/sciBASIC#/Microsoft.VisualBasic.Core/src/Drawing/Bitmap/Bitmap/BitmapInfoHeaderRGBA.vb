@@ -1,7 +1,7 @@
-Imports System
 Imports System.Runtime.InteropServices
 
 Namespace Imaging.BitmapImage.FileStream
+
     <StructLayout(LayoutKind.Sequential, Pack:=1)>
     Public Class BitmapInfoHeaderRGBA
         Inherits BitmapInfoHeader
@@ -15,7 +15,13 @@ Namespace Imaging.BitmapImage.FileStream
         ''' DIB header (bitmap information header)
         ''' This is standard Windows BITMAPINFOHEADER as described here https://en.wikipedia.org/wiki/BMP_file_format#Bitmap_file_header
         ''' </summary>
-        Public Sub New(width As Integer, height As Integer, Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24, Optional rawImageSize As Integer = 0, Optional horizontalPixelPerMeter As Integer = 3780, Optional verticalPixelPerMeter As Integer = 3780, Optional compressionMethod As CompressionMethod = CompressionMethod.BI_BITFIELDS)
+        Public Sub New(width As Integer, height As Integer,
+                       Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24,
+                       Optional rawImageSize As Integer = 0,
+                       Optional horizontalPixelPerMeter As Integer = 3780,
+                       Optional verticalPixelPerMeter As Integer = 3780,
+                       Optional compressionMethod As CompressionMethod = CompressionMethod.BI_BITFIELDS)
+
             MyBase.New(width, height, bitsPerPixel, rawImageSize, horizontalPixelPerMeter, verticalPixelPerMeter, compressionMethod)
             'this.Width = width;
             'this.Height = height;
@@ -37,7 +43,7 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <summary>
         ''' This is BitmapInfoHeader for ARGB32 as described here https://en.wikipedia.org/wiki/BMP_file_format#Example_2
         ''' </summary>
-        Public Overloads ReadOnly Property HeaderInfoBytes As Byte() '=> BinarySerializationExtensions.Serialize<BitmapInfoHeaderRGBA>( this );
+        Public Overloads ReadOnly Property HeaderInfoBytes As Byte()
             Get
                 Dim byteArray = New Byte(SizeInBytes - 1) {} ' 56
 
@@ -76,7 +82,9 @@ Namespace Imaging.BitmapImage.FileStream
 
         Public Overloads Shared Function GetHeaderFromBytes(bytes As Byte()) As BitmapInfoHeaderRGBA
 
-            If bytes.Length < BitmapInfoHeader.SizeInBytes Then Throw New ArgumentOutOfRangeException($"Info header should be at least 40 bytes. Smaller versions are not supported.")
+            If bytes.Length < BitmapInfoHeader.SizeInBytes Then
+                Throw New ArgumentOutOfRangeException($"Info header should be at least 40 bytes. Smaller versions are not supported.")
+            End If
 
             ' NOTE offses are 0 based for current byteArray (different than in wiki)
             Const BITS_PER_PIXEL_OFFSET = &HE
@@ -104,7 +112,10 @@ Namespace Imaging.BitmapImage.FileStream
             Dim bitsPerPixel = CType(BitConverter.ToInt16(bytes, BITS_PER_PIXEL_OFFSET), BitsPerPixelEnum)
 
             Dim compression = CType(BitConverter.ToInt16(bytes, COMPRESSION_METHOD_OFFSET), CompressionMethod)
-            If Not (compression = CompressionMethod.BI_RGB OrElse compression = CompressionMethod.BI_BITFIELDS) Then Throw New Exception($"This {[Enum].GetName(compression.GetType(), compression)} is not supported.")
+
+            If Not (compression = CompressionMethod.BI_RGB OrElse compression = CompressionMethod.BI_BITFIELDS) Then
+                Throw New Exception($"This {[Enum].GetName(compression.GetType(), compression)} is not supported.")
+            End If
 
             Dim horizontalPixelPerMeter = BitConverter.ToInt32(bytes, HORIZONTAL_RESOLUTION_OFFSET)
             Dim verticalPixelPerMeter = BitConverter.ToInt32(bytes, VERTICAL_RESOLUTION_OFFSET)

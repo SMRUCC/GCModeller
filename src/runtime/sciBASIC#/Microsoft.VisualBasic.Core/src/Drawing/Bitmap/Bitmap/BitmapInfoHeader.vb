@@ -1,7 +1,7 @@
-Imports System
 Imports System.Runtime.InteropServices
 
 Namespace Imaging.BitmapImage.FileStream
+
     <StructLayout(LayoutKind.Sequential, Pack:=1)>
     Public Class BitmapInfoHeader
         ' NOTE : do not reorder fields !!! we use this layout for direct binary de/serialization!!
@@ -138,7 +138,13 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <paramname="height"></param>
         ''' <paramname="bitsPerPixel"></param>
         ''' <paramname="rawImageSize"></param>
-        Public Sub New(width As Integer, height As Integer, Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24, Optional rawImageSize As Integer = 0, Optional horizontalPixelPerMeter As Integer = 3780, Optional verticalPixelPerMeter As Integer = 3780, Optional compressionMethod As CompressionMethod = CompressionMethod.BI_RGB)
+        Public Sub New(width As Integer, height As Integer,
+                       Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24,
+                       Optional rawImageSize As Integer = 0,
+                       Optional horizontalPixelPerMeter As Integer = 3780,
+                       Optional verticalPixelPerMeter As Integer = 3780,
+                       Optional compressionMethod As CompressionMethod = CompressionMethod.BI_RGB)
+
             Me.Width = width
             Me.Height = height
             Me.BitsPerPixel = bitsPerPixel
@@ -212,7 +218,9 @@ Namespace Imaging.BitmapImage.FileStream
 
         Public Shared Function GetHeaderFromBytes(bytes As Byte()) As BitmapInfoHeader
 
-            If bytes.Length < SizeInBytes Then Throw New ArgumentOutOfRangeException($"Info header should be at least 40 bytes. Smaller versions are not supported.")
+            If bytes.Length < SizeInBytes Then
+                Throw New ArgumentOutOfRangeException($"Info header should be at least 40 bytes. Smaller versions are not supported.")
+            End If
 
             ' NOTE offses are 0 based for current byteArray (different than in wiki)
             Const BITS_PER_PIXEL_OFFSET = &HE
@@ -240,7 +248,9 @@ Namespace Imaging.BitmapImage.FileStream
             Dim bitsPerPixel = CType(BitConverter.ToInt16(bytes, BITS_PER_PIXEL_OFFSET), BitsPerPixelEnum)
 
             Dim compression = CType(BitConverter.ToInt16(bytes, COMPRESSION_METHOD_OFFSET), CompressionMethod)
-            If Not (compression = CompressionMethod.BI_RGB OrElse compression = CompressionMethod.BI_BITFIELDS) Then Throw New Exception($"This {[Enum].GetName(compression.GetType(), compression)} is not supported.")
+            If Not (compression = CompressionMethod.BI_RGB OrElse compression = CompressionMethod.BI_BITFIELDS) Then
+                Throw New Exception($"This {[Enum].GetName(compression.GetType(), compression)} is not supported.")
+            End If
 
             Dim horizontalPixelPerMeter = BitConverter.ToInt32(bytes, HORIZONTAL_RESOLUTION_OFFSET)
             Dim verticalPixelPerMeter = BitConverter.ToInt32(bytes, VERTICAL_RESOLUTION_OFFSET)

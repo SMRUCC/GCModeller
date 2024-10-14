@@ -1,9 +1,9 @@
-﻿Imports System
-Imports System.IO
+﻿Imports System.IO
 
 Namespace Imaging.BitmapImage.FileStream
-    Public Class SafeBinaryReader
-        Inherits BinaryReader
+
+    Public Class SafeBinaryReader : Inherits BinaryReader
+
         Public Sub New(stream As Stream)
             MyBase.New(stream)
         End Sub

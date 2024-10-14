@@ -3,6 +3,16 @@ Imports MemoryBmp = Microsoft.VisualBasic.Imaging.BitmapImage.FileStream.Bitmap
 
 Namespace Imaging.BitmapImage.FileStream
     Public Module BitmapFileHelper
+
+        ''' <summary>
+        ''' read bitmap file in-memory
+        ''' </summary>
+        ''' <param name="fileName"></param>
+        ''' <param name="flipRows"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' only process the bitmap image data in size smaller than 2GB
+        ''' </remarks>
         Public Function ReadFileAsBitmap(fileName As String, Optional flipRows As Boolean = False) As Bitmap
             If String.IsNullOrWhiteSpace(fileName) Then Throw New ArgumentNullException(NameOf(fileName))
             If Not File.Exists(fileName) Then Throw New Exception($"File {fileName} not found")

@@ -1,7 +1,7 @@
-﻿Imports System
-Imports System.Runtime.InteropServices
+﻿Imports System.Runtime.InteropServices
 
 Namespace Imaging.BitmapImage.FileStream
+
     ' Keep proper byte layout in memory
     <StructLayout(LayoutKind.Sequential, Pack:=1)>
     Public Class BitmapFileHeader
@@ -44,7 +44,11 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <paramname="height"></param>
         ''' <paramname="bitsPerPixel"></param>
         ''' <paramname="rawImageSize">Depends on row padding and number of rows</param>
-        Public Sub New(Optional width As Integer = 1, Optional height As Integer = 1, Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24, Optional rawImageSize As Integer = 0)
+        Public Sub New(Optional width As Integer = 1,
+                       Optional height As Integer = 1,
+                       Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24,
+                       Optional rawImageSize As Integer = 0)
+
             'if (System.BitConverter.IsLittleEndian)
             Dim infoHeaderSize = If(bitsPerPixel = BitsPerPixelEnum.RGB24, BitmapInfoHeader.SizeInBytes, BitmapInfoHeaderRGBA.SizeInBytes)
 
@@ -88,7 +92,9 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <returns>BitmapFileHeader or throws exception</returns>
         Public Shared Function GetHeaderFromBytes(headerBytes As Byte()) As BitmapFileHeader
             If headerBytes Is Nothing Then Throw New ArgumentNullException(NameOf(headerBytes))
-            If headerBytes.Length <> BitmapFileHeaderSizeInBytes Then Throw New ArgumentOutOfRangeException($"{NameOf(headerBytes)} should be {BitmapFileHeaderSizeInBytes} bytes in headerSize")
+            If headerBytes.Length <> BitmapFileHeaderSizeInBytes Then
+                Throw New ArgumentOutOfRangeException($"{NameOf(headerBytes)} should be {BitmapFileHeaderSizeInBytes} bytes in headerSize")
+            End If
 
             If Not BitConverter.IsLittleEndian Then
                 Array.Reverse(headerBytes, 2, 4)
