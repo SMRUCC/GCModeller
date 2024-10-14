@@ -134,10 +134,10 @@ Namespace Imaging.BitmapImage.FileStream
         ''' DIB header (bitmap information header)
         ''' This is standard Windows BITMAPINFOHEADER as described here https://en.wikipedia.org/wiki/BMP_file_format#Bitmap_file_header
         ''' </summary>
-        ''' <paramname="width"></param>
-        ''' <paramname="height"></param>
-        ''' <paramname="bitsPerPixel"></param>
-        ''' <paramname="rawImageSize"></param>
+        ''' <param name="width"></param>
+        ''' <param name="height"></param>
+        ''' <param name="bitsPerPixel"></param>
+        ''' <param name="rawImageSize"></param>
         Public Sub New(width As Integer, height As Integer,
                        Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24,
                        Optional rawImageSize As Integer = 0,

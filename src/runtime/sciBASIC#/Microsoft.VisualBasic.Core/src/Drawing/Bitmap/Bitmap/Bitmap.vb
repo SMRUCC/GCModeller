@@ -24,7 +24,7 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <summary>
         ''' BMP file must be aligned at 4 butes at the end of row
         ''' </summary>
-        ''' <paramname="BitsPerPixelEnum"></param>
+        ''' <param name="BitsPerPixelEnum"></param>
         ''' <returns></returns>
         Public ReadOnly Property BytesPerRow As Integer
             Get
@@ -72,10 +72,10 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <summary>
         ''' Create new Bitmap object
         ''' </summary>
-        ''' <paramname="width"></param>
-        ''' <paramname="height"></param>
-        ''' <paramname="pixelData"></param>
-        ''' <paramname="bitsPerPixel"></param>
+        ''' <param name="width"></param>
+        ''' <param name="height"></param>
+        ''' <param name="pixelData"></param>
+        ''' <param name="bitsPerPixel"></param>
         Public Sub New(width As Integer, height As Integer, pixelData As Byte(), Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24)
             Me.Width = width
             Me.Height = height
@@ -100,7 +100,7 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <summary>
         ''' Get bitmap as byte aray for saving to file
         ''' </summary>
-        ''' <paramname="flipped">Flip (reverse order of) rows. Bitmap pixel rows are stored from bottom to up as shown in image</param>
+        ''' <param name="flipped">Flip (reverse order of) rows. Bitmap pixel rows are stored from bottom to up as shown in image</param>
         ''' <returns></returns>
         Public Function GetBmpBytes(Optional flipped As Boolean = False) As Byte()
             Using stream As MemoryStream = GetBmpStream(flipped)
@@ -137,7 +137,7 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <summary>
         ''' Get bitmap as byte stream for saving to file
         ''' </summary>
-        ''' <paramname="flipped">Flip (reverse order of) rows. Bitmap pixel rows are stored from bottom to up as shown in image</param>
+        ''' <param name="flipped">Flip (reverse order of) rows. Bitmap pixel rows are stored from bottom to up as shown in image</param>
         ''' <returns>
         ''' get in-memory stream data of the current bitmap object, could not 
         ''' be processed when bitmap object is greater than 2GB.
@@ -155,8 +155,8 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <summary>
         ''' BMP file must be aligned at 4 bytes at the end of row
         ''' </summary>
-        ''' <paramname="width">Image Width</param>
-        ''' <paramname="bitsPerPixel">Bits per pixel</param>
+        ''' <param name="width">Image Width</param>
+        ''' <param name="bitsPerPixel">Bits per pixel</param>
         ''' <returns>How many bytes BMP requires per row</returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -167,9 +167,9 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <summary>
         ''' Check if padding is required (extra bytes for a row).
         ''' </summary>
-        ''' <paramname="width">Width of image</param>
-        ''' <paramname="bitsPerPixel">Bits per pixels to calculate actual byte requirement</param>
-        ''' <paramname="bytesPerRow">BMP required bytes per row</param>
+        ''' <param name="width">Width of image</param>
+        ''' <param name="bitsPerPixel">Bits per pixels to calculate actual byte requirement</param>
+        ''' <param name="bytesPerRow">BMP required bytes per row</param>
         ''' <returns>True/false if we need to allocate extra bytes (for BMP saving) for padding</returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

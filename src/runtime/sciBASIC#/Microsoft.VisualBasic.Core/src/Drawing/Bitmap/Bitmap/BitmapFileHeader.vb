@@ -2,7 +2,9 @@
 
 Namespace Imaging.BitmapImage.FileStream
 
-    ' Keep proper byte layout in memory
+    ''' <summary>
+    ''' Keep proper byte layout in memory
+    ''' </summary>
     <StructLayout(LayoutKind.Sequential, Pack:=1)>
     Public Class BitmapFileHeader
 
@@ -18,7 +20,7 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <summary>
         ''' Explicitly set file in size
         ''' </summary>
-        ''' <paramname="fileSize"></param>
+        ''' <param name="fileSize"></param>
         Public Sub New(fileSize As UInteger)
             Me.FileSize = fileSize
         End Sub
@@ -40,10 +42,10 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <summary>
         ''' Create header and calculate file size depending on input data
         ''' </summary>
-        ''' <paramname="width"></param>
-        ''' <paramname="height"></param>
-        ''' <paramname="bitsPerPixel"></param>
-        ''' <paramname="rawImageSize">Depends on row padding and number of rows</param>
+        ''' <param name="width"></param>
+        ''' <param name="height"></param>
+        ''' <param name="bitsPerPixel"></param>
+        ''' <param name="rawImageSize">Depends on row padding and number of rows</param>
         Public Sub New(Optional width As Integer = 1,
                        Optional height As Integer = 1,
                        Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24,
@@ -88,7 +90,7 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <summary>
         ''' Generate BitmapFileHeader from first 14 bytes
         ''' </summary>
-        ''' <paramname="headerBytes"></param>
+        ''' <param name="headerBytes"></param>
         ''' <returns>BitmapFileHeader or throws exception</returns>
         Public Shared Function GetHeaderFromBytes(headerBytes As Byte()) As BitmapFileHeader
             If headerBytes Is Nothing Then Throw New ArgumentNullException(NameOf(headerBytes))
