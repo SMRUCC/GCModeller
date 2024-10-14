@@ -36,8 +36,8 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <summary>
         ''' the vertical resolution of the image. (pixel per metre, signed integer)
         ''' </summary>
-        Private _BitmapInfoHeaderSize As UInteger, _Width As Integer, _Height As Integer, _BitsPerPixel As BmpSharp.BitsPerPixelEnum
-        Dim _CompressionMethod As BmpSharp.CompressionMethod = CompressionMethod.BI_RGB
+        Private _BitmapInfoHeaderSize As UInteger, _Width As Integer, _Height As Integer, _BitsPerPixel As BitsPerPixelEnum
+        Dim _CompressionMethod As CompressionMethod = CompressionMethod.BI_RGB
         Dim _ImageSize As Integer, _HorizontalPixelPerMeter As Integer, _VerticalPixelPerMeter As Integer
 
         Public Property BitmapInfoHeaderSize As UInteger

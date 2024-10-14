@@ -1,5 +1,5 @@
-﻿Imports System
-Imports System.IO
+﻿Imports System.IO
+Imports MemoryBmp = Microsoft.VisualBasic.Imaging.BitmapImage.FileStream.Bitmap
 
 Namespace Imaging.BitmapImage.FileStream
     Public Module BitmapFileHelper
@@ -25,10 +25,10 @@ Namespace Imaging.BitmapImage.FileStream
                     Dim width = infoHeader.Width
                     Dim height = infoHeader.Height
 
-                    Dim bytesPerRow = BmpSharp.Bitmap.RequiredBytesPerRow(infoHeader.Width, infoHeader.BitsPerPixel)
+                    Dim bytesPerRow = MemoryBmp.RequiredBytesPerRow(infoHeader.Width, infoHeader.BitsPerPixel)
 
                     Dim bytesPerPixel = CInt(infoHeader.BitsPerPixel) / 8
-                    Dim paddingRequired = BmpSharp.Bitmap.IsPaddingRequired(infoHeader.Width, infoHeader.BitsPerPixel, bytesPerRow)
+                    Dim paddingRequired = MemoryBmp.IsPaddingRequired(infoHeader.Width, infoHeader.BitsPerPixel, bytesPerRow)
                     Dim pixelData = New Byte(width * height * bytesPerPixel - 1) {}
                     ' seek to location where pixel data is
                     fileStream.Seek(fileHeader.PixelDataOffset, SeekOrigin.Begin)
