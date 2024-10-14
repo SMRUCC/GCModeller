@@ -33,6 +33,9 @@ Namespace Imaging.BitmapImage.FileStream
         BI_CMYKRLE4 = 13
     End Enum
 
+    ''' <summary>
+    ''' A in-memory bitmap image model
+    ''' </summary>
     Public Class Bitmap
         Public ReadOnly Property Width As Integer = 0
         Public ReadOnly Property Height As Integer = 0

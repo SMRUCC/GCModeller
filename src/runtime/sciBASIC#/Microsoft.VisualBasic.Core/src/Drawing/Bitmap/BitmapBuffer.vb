@@ -166,6 +166,17 @@ Namespace Imaging.BitmapImage
         Public ReadOnly Property Stride As Integer
 
         ''' <summary>
+        ''' get the pixel channels in memory buffer
+        ''' </summary>
+        ''' <returns>
+        ''' 3 - for 24bit rgb pixel format
+        ''' 4 - for 32bit argb pixel format
+        ''' </returns>
+        Public Function GetPixelChannels() As Integer
+            Return channels
+        End Function
+
+        ''' <summary>
         ''' Gets a copy of the original raw image value that which constructed 
         ''' this bitmap object class
         ''' </summary>
