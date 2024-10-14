@@ -182,9 +182,11 @@ Namespace Imaging
 
         Sub New(copy As Image)
             Dim buf As MemoryStream = copy.ConvertToBitmapStream()
-            Dim reader As New BitmapReader(buf)
+            buf.Seek(Scan0, SeekOrigin.Begin)
+            Dim memoryBmp As MemoryBmp = BitmapFileHelper.ParseMemoryBitmap(buf)
+            Dim channels As Integer = memoryBmp.BytesPerPixel
 
-            MemoryBuffer = reader.LoadMemory
+            MemoryBuffer = New BitmapBuffer(memoryBmp.PixelDataFliped, copy.Size, channels)
         End Sub
 
         Sub New(size As Size)
