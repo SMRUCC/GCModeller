@@ -89,6 +89,11 @@ Namespace Imaging.BitmapImage
 #End If
 
         ''' <summary>
+        ''' current bitmap data is construct from a pixel data array, not read from memory via pointer.
+        ''' </summary>
+        ReadOnly memoryBuffer As Boolean = False
+
+        ''' <summary>
         ''' 图片可能是 BGRA 4通道
         ''' 也可能是 BGR 3通道的
         ''' </summary>
@@ -111,6 +116,7 @@ Namespace Imaging.BitmapImage
             Me.Height = raw.Height
             Me.Size = New Size(Width, Height)
             Me.channels = channel
+            Me.memoryBuffer = False
         End Sub
 #End If
 
@@ -123,6 +129,9 @@ Namespace Imaging.BitmapImage
         Sub New(ptr As IntPtr, byts%, channel As Integer)
             Call MyBase.New(ptr, byts)
 
+            Me.memoryBuffer = False
+            Me.channels = channel
+
             Throw New NotImplementedException
         End Sub
 
@@ -130,6 +139,7 @@ Namespace Imaging.BitmapImage
             Call MyBase.New(memory)
 
             channels = channel
+            memoryBuffer = True
 
             _Size = size
             _Width = size.Width
@@ -140,6 +150,7 @@ Namespace Imaging.BitmapImage
             Call MyBase.New(Unpack(pixels, size))
 
             channels = 4 ' argb
+            memoryBuffer = True
 
             _Size = size
             _Width = size.Width
@@ -611,6 +622,13 @@ Namespace Imaging.BitmapImage
 #End If
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="curBitmap"></param>
+        ''' <returns>
+        ''' get the reference of the <see cref="Bitmap.MemoryBuffer"/> data directly
+        ''' </returns>
         Public Shared Function FromBitmap(curBitmap As Bitmap) As BitmapBuffer
 #If NET48 Then
             Return FromBitmap(curBitmap, ImageLockMode.ReadWrite)
@@ -656,7 +674,11 @@ Namespace Imaging.BitmapImage
 #End If
 
         Protected Overrides Sub Dispose(disposing As Boolean)
-            Call Write()
+            If Not memoryBuffer Then
+                ' write data back to the memory via the 
+                ' managed memory pointer
+                Call Write()
+            End If
 #If NET48 Then
             Call raw.UnlockBits(handle)
 #End If
