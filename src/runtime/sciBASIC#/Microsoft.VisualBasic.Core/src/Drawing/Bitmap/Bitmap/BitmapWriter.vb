@@ -105,6 +105,10 @@ Namespace Imaging.BitmapImage.StreamWriter
             End If
             Dim x_pos = x * 3
             Dim widthSize = infoHeader.Width * 3
+
+            ' 20241014 no alpha channel in bitmap image object
+            ' only rgb
+            ' offset is 3
             bufferImage(x_pos + 0 + y * widthSize) = blue
             bufferImage(x_pos + 1 + y * widthSize) = green
             bufferImage(x_pos + 2 + y * widthSize) = red
