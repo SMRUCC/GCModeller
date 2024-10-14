@@ -1,46 +1,46 @@
 Imports System
 Imports System.Runtime.InteropServices
 
-Namespace BmpSharp
+Namespace Imaging.BitmapImage.FileStream
     <StructLayout(LayoutKind.Sequential, Pack:=1)>
     Public Class BitmapInfoHeader
-		' NOTE : do not reorder fields !!! we use this layout for direct binary de/serialization!!
+        ' NOTE : do not reorder fields !!! we use this layout for direct binary de/serialization!!
 
-		' Warning CS0414  The field 'BitmapInfoHeader.HorizontalPixelPerMeter' is assigned but its value is never used
-		' disable error warning , we dont need values in those fields !!
+        ' Warning CS0414  The field 'BitmapInfoHeader.HorizontalPixelPerMeter' is assigned but its value is never used
+        ' disable error warning , we dont need values in those fields !!
 
-		''' <summary>
-		''' the bitmap Width in pixels (signed integer)
-		''' </summary>
+        ''' <summary>
+        ''' the bitmap Width in pixels (signed integer)
+        ''' </summary>
 
-		''' <summary>
-		''' the bitmap Height in pixels (signed integer)
-		''' </summary>
+        ''' <summary>
+        ''' the bitmap Height in pixels (signed integer)
+        ''' </summary>
 
-		''' <summary>
-		''' the number of bits per pixel, which is the color depth of the image. Typical values are 1, 4, 8, 16, 24 and 32.
-		''' </summary>
+        ''' <summary>
+        ''' the number of bits per pixel, which is the color depth of the image. Typical values are 1, 4, 8, 16, 24 and 32.
+        ''' </summary>
 
-		''' <summary>
-		''' 0 	BI_RGB (UNCOMPRESSED)
-		''' </summary>
+        ''' <summary>
+        ''' 0 	BI_RGB (UNCOMPRESSED)
+        ''' </summary>
 
-		''' <summary>
-		''' the image size. This is the size of the raw bitmap data; a dummy 0 can be given for BI_RGB bitmaps.
-		''' </summary>
+        ''' <summary>
+        ''' the image size. This is the size of the raw bitmap data; a dummy 0 can be given for BI_RGB bitmaps.
+        ''' </summary>
 
-		''' <summary>
-		''' the horizontal resolution of the image. (pixel per metre, signed integer)
-		''' </summary>
+        ''' <summary>
+        ''' the horizontal resolution of the image. (pixel per metre, signed integer)
+        ''' </summary>
 
-		''' <summary>
-		''' the vertical resolution of the image. (pixel per metre, signed integer)
-		''' </summary>
-		Private _BitmapInfoHeaderSize As UInteger, _Width As Integer, _Height As Integer, _BitsPerPixel As BmpSharp.BitsPerPixelEnum
-		Dim _CompressionMethod As BmpSharp.CompressionMethod = CompressionMethod.BI_RGB
-		Dim _ImageSize As Integer, _HorizontalPixelPerMeter As Integer, _VerticalPixelPerMeter As Integer
+        ''' <summary>
+        ''' the vertical resolution of the image. (pixel per metre, signed integer)
+        ''' </summary>
+        Private _BitmapInfoHeaderSize As UInteger, _Width As Integer, _Height As Integer, _BitsPerPixel As BmpSharp.BitsPerPixelEnum
+        Dim _CompressionMethod As BmpSharp.CompressionMethod = CompressionMethod.BI_RGB
+        Dim _ImageSize As Integer, _HorizontalPixelPerMeter As Integer, _VerticalPixelPerMeter As Integer
 
-		Public Property BitmapInfoHeaderSize As UInteger
+        Public Property BitmapInfoHeaderSize As UInteger
             Get
                 Return _BitmapInfoHeaderSize
             End Get
@@ -85,16 +85,16 @@ Namespace BmpSharp
             End Set
         End Property
 
-		Public Property CompressionMethod As CompressionMethod
-			Get
-				Return _CompressionMethod
-			End Get
-			Protected Set(value As CompressionMethod)
-				_CompressionMethod = value
-			End Set
-		End Property
+        Public Property CompressionMethod As CompressionMethod
+            Get
+                Return _CompressionMethod
+            End Get
+            Protected Set(value As CompressionMethod)
+                _CompressionMethod = value
+            End Set
+        End Property
 
-		Public Property ImageSize As Integer
+        Public Property ImageSize As Integer
             Get
                 Return _ImageSize
             End Get
@@ -215,7 +215,7 @@ Namespace BmpSharp
             If bytes.Length < SizeInBytes Then Throw New ArgumentOutOfRangeException($"Info header should be at least 40 bytes. Smaller versions are not supported.")
 
             ' NOTE offses are 0 based for current byteArray (different than in wiki)
-            Const BITS_PER_PIXEL_OFFSET = &H0E
+            Const BITS_PER_PIXEL_OFFSET = &HE
             Const COMPRESSION_METHOD_OFFSET = &H10
 
             Const HORIZONTAL_RESOLUTION_OFFSET = &H18
@@ -227,8 +227,8 @@ Namespace BmpSharp
                 Array.Reverse(bytes, 8, 4) ' size of Height
                 Array.Reverse(bytes, BITS_PER_PIXEL_OFFSET, 2) ' BitsPerPixelEnum
                 Array.Reverse(bytes, COMPRESSION_METHOD_OFFSET, 4) ' CompressionMethod
-				Array.Reverse(bytes, &H20, 4) ' the image size. This is the size of the raw bitmap data; a dummy 0 can be given for BI_RGB bitmaps.
-				Array.Reverse(bytes, HORIZONTAL_RESOLUTION_OFFSET, 4) ' the horizontal resolution of the image. (pixel per metre, signed integer) 
+                Array.Reverse(bytes, &H20, 4) ' the image size. This is the size of the raw bitmap data; a dummy 0 can be given for BI_RGB bitmaps.
+                Array.Reverse(bytes, HORIZONTAL_RESOLUTION_OFFSET, 4) ' the horizontal resolution of the image. (pixel per metre, signed integer) 
                 Array.Reverse(bytes, VERTICAL_RESOLUTION_OFFSET, 4) ' the vertical resolution of the image. (pixel per metre, signed integer) 
                 Array.Reverse(bytes, &H2C, 4) ' the number of colors in the color palette, or 0 to default to 2n (ignored)
                 Array.Reverse(bytes, &H32, 4) ' the number of important colors used, or 0 when every color is important; generally ignored 

@@ -1,7 +1,7 @@
 ﻿Imports System
 Imports System.IO
 
-Namespace BmpSharp
+Namespace Imaging.BitmapImage.FileStream
     Public Module BitmapFileHelper
         Public Function ReadFileAsBitmap(fileName As String, Optional flipRows As Boolean = False) As Bitmap
             If String.IsNullOrWhiteSpace(fileName) Then Throw New ArgumentNullException(NameOf(fileName))

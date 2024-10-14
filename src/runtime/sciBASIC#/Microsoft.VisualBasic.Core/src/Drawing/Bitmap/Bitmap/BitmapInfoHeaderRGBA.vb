@@ -1,14 +1,14 @@
 Imports System
 Imports System.Runtime.InteropServices
 
-Namespace BmpSharp
+Namespace Imaging.BitmapImage.FileStream
     <StructLayout(LayoutKind.Sequential, Pack:=1)>
     Public Class BitmapInfoHeaderRGBA
         Inherits BitmapInfoHeader
 
-        Public Const RedChannelBitMask As UInteger = &H00FF0000
-        Public Const GreenChannelBitMask As UInteger = &H0000FF00
-        Public Const BlueChannelBitMask As UInteger = &H000000FF
+        Public Const RedChannelBitMask As UInteger = &HFF0000
+        Public Const GreenChannelBitMask As UInteger = &HFF00
+        Public Const BlueChannelBitMask As UInteger = &HFF
         Public Const AlphaChannelBitMask As UInteger = &HFF000000UI
 
         ''' <summary>
@@ -27,17 +27,17 @@ Namespace BmpSharp
             'this.VerticalPixelPerMeter = verticalPixelPerMeter;   // 96 DPI
         End Sub
 
-		'public static int SizeInBytes => System.Runtime.InteropServices.Marshal.SizeOf(typeof(BitmapInfoHeader));
-		Public Overloads Shared ReadOnly Property SizeInBytes As Integer
-			Get
-				Return 56
-			End Get
-		End Property
+        'public static int SizeInBytes => System.Runtime.InteropServices.Marshal.SizeOf(typeof(BitmapInfoHeader));
+        Public Overloads Shared ReadOnly Property SizeInBytes As Integer
+            Get
+                Return 56
+            End Get
+        End Property
 
-		''' <summary>
-		''' This is BitmapInfoHeader for ARGB32 as described here https://en.wikipedia.org/wiki/BMP_file_format#Example_2
-		''' </summary>
-		Public Overloads ReadOnly Property HeaderInfoBytes As Byte() '=> BinarySerializationExtensions.Serialize<BitmapInfoHeaderRGBA>( this );
+        ''' <summary>
+        ''' This is BitmapInfoHeader for ARGB32 as described here https://en.wikipedia.org/wiki/BMP_file_format#Example_2
+        ''' </summary>
+        Public Overloads ReadOnly Property HeaderInfoBytes As Byte() '=> BinarySerializationExtensions.Serialize<BitmapInfoHeaderRGBA>( this );
             Get
                 Dim byteArray = New Byte(SizeInBytes - 1) {} ' 56
 
@@ -79,7 +79,7 @@ Namespace BmpSharp
             If bytes.Length < BitmapInfoHeader.SizeInBytes Then Throw New ArgumentOutOfRangeException($"Info header should be at least 40 bytes. Smaller versions are not supported.")
 
             ' NOTE offses are 0 based for current byteArray (different than in wiki)
-            Const BITS_PER_PIXEL_OFFSET = &H0E
+            Const BITS_PER_PIXEL_OFFSET = &HE
             Const COMPRESSION_METHOD_OFFSET = &H10
 
             Const HORIZONTAL_RESOLUTION_OFFSET = &H18
@@ -91,8 +91,8 @@ Namespace BmpSharp
                 Array.Reverse(bytes, 8, 4) ' size of Height
                 Array.Reverse(bytes, BITS_PER_PIXEL_OFFSET, 2) ' BitsPerPixelEnum
                 Array.Reverse(bytes, COMPRESSION_METHOD_OFFSET, 4) ' CompressionMethod
-				Array.Reverse(bytes, &H20, 4) ' the image size. This is the size of the raw bitmap data; a dummy 0 can be given for BI_RGB bitmaps.
-				Array.Reverse(bytes, HORIZONTAL_RESOLUTION_OFFSET, 4) ' the horizontal resolution of the image. (pixel per metre, signed integer) 
+                Array.Reverse(bytes, &H20, 4) ' the image size. This is the size of the raw bitmap data; a dummy 0 can be given for BI_RGB bitmaps.
+                Array.Reverse(bytes, HORIZONTAL_RESOLUTION_OFFSET, 4) ' the horizontal resolution of the image. (pixel per metre, signed integer) 
                 Array.Reverse(bytes, VERTICAL_RESOLUTION_OFFSET, 4) ' the vertical resolution of the image. (pixel per metre, signed integer) 
                 'Array.Reverse( bytes, 0x2C, 4 ); // the number of colors in the color palette, or 0 to default to 2n (ignored)
                 'Array.Reverse( bytes, 0x32, 4 ); // the number of important colors used, or 0 when every color is important; generally ignored 

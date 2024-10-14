@@ -1,9 +1,7 @@
-Imports System
-Imports System.Collections.Generic
 Imports System.IO
-Imports System.Linq
+Imports std = System.Math
 
-Namespace BmpSharp
+Namespace Imaging.BitmapImage.FileStream
     Public Enum BitsPerPixelEnum As Integer
         Monochrome = 1
         Four = 4
@@ -97,10 +95,10 @@ Namespace BmpSharp
         Public Sub New(width As Integer, height As Integer, pixelData As Byte(), Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24)
             Me.Width = width
             Me.Height = height
-			Me.PixelData = pixelData
-			Me.BitsPerPixelEnum = bitsPerPixel
+            Me.PixelData = pixelData
+            Me.BitsPerPixelEnum = bitsPerPixel
 
-			Dim rawImageSize = BytesPerRow * height
+            Dim rawImageSize = BytesPerRow * height
 
             ' Are we receiving proper byte[] size ?
             If pixelData.Length <> width * height * BytesPerPixel Then Throw New ArgumentOutOfRangeException($"{NameOf(pixelData)} has invalid size.")
@@ -180,7 +178,7 @@ Namespace BmpSharp
         ''' <paramname="bitsPerPixel">Bits per pixel</param>
         ''' <returns>How many bytes BMP requires per row</returns>
         Public Shared Function RequiredBytesPerRow(width As Integer, bitsPerPixel As BitsPerPixelEnum) As Integer
-            Return CInt(Math.Ceiling(CDec(width * bitsPerPixel) / 32)) * 4
+            Return CInt(std.Ceiling(CDec(width * bitsPerPixel) / 32)) * 4
         End Function
 
         ''' <summary>
@@ -193,13 +191,5 @@ Namespace BmpSharp
         Public Shared Function IsPaddingRequired(width As Integer, bitsPerPixel As BitsPerPixelEnum, bytesPerRow As Integer) As Boolean
             Return bytesPerRow <> width * bitsPerPixel / 8
         End Function
-
-        Private Class CSharpImpl
-            <Obsolete("Please refactor calling code to use normal throw statements")>
-            Shared Function __Throw(Of T)(ByVal e As Exception) As T
-                Throw e
-            End Function
-        End Class
-
     End Class
 End Namespace

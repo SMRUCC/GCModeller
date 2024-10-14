@@ -2,7 +2,8 @@ Imports System
 Imports System.Runtime.InteropServices
 Imports System.Runtime.CompilerServices
 
-Namespace BmpSharp
+Namespace Imaging.BitmapImage.FileStream
+
     Public Module BinarySerializationExtensions
         ''' <summary>
         ''' Convert struct to byte[]
@@ -18,21 +19,21 @@ Namespace BmpSharp
             Return bufferArray                     ' return bufferArray
         End Function
 
-		''' <summary>
-		''' Convert byte[] to struct
-		''' </summary>
-		Public Function Deserialize(Of T As Structure)(array As Byte()) As T
-			Dim [structure] = New T()
+        ''' <summary>
+        ''' Convert byte[] to struct
+        ''' </summary>
+        Public Function Deserialize(Of T As Structure)(array As Byte()) As T
+            Dim [structure] = New T()
 
-			Dim size = Marshal.SizeOf([structure])   ' how much bytes we need ?
-			Dim pointer = Marshal.AllocHGlobal(size)    ' mem alloc.
+            Dim size = Marshal.SizeOf([structure])   ' how much bytes we need ?
+            Dim pointer = Marshal.AllocHGlobal(size)    ' mem alloc.
 
-			Marshal.Copy(array, 0, pointer, size)      ' copy bytes to alloc. mem
+            Marshal.Copy(array, 0, pointer, size)      ' copy bytes to alloc. mem
 
-			[structure] = CType(Marshal.PtrToStructure(pointer, [structure].GetType()), T)    ' conver aloc. mem to structure
-			Marshal.FreeHGlobal(pointer)   ' free memory
+            [structure] = CType(Marshal.PtrToStructure(pointer, [structure].GetType()), T)    ' conver aloc. mem to structure
+            Marshal.FreeHGlobal(pointer)   ' free memory
 
-			Return [structure]   ' return new structure
-		End Function
-	End Module
+            Return [structure]   ' return new structure
+        End Function
+    End Module
 End Namespace

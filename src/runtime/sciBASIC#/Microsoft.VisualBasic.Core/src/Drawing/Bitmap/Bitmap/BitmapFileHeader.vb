@@ -1,7 +1,7 @@
 ﻿Imports System
 Imports System.Runtime.InteropServices
 
-Namespace BmpSharp
+Namespace Imaging.BitmapImage.FileStream
     ' Keep proper byte layout in memory
     <StructLayout(LayoutKind.Sequential, Pack:=1)>
     Public Class BitmapFileHeader

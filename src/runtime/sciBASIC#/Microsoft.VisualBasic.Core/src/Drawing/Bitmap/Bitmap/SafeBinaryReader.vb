@@ -1,7 +1,7 @@
 ﻿Imports System
 Imports System.IO
 
-Namespace BmpSharp
+Namespace Imaging.BitmapImage.FileStream
     Public Class SafeBinaryReader
         Inherits BinaryReader
         Public Sub New(stream As Stream)
