@@ -93,7 +93,7 @@ Namespace CSS
         ''' bugs fixed for config dpi value on unix mono platform 
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property dpi As Integer = 100
+        Public ReadOnly Property dpi As Single = 100
 
         ''' <summary>
         ''' the canvas size [width,height].
@@ -101,12 +101,12 @@ Namespace CSS
         ''' <returns></returns>
         Public ReadOnly Property canvas As Size
 
-        Sub New(canvas As Size, Optional dpi As Integer = 100)
+        Sub New(canvas As Size, Optional dpi As Single = 100)
             Me.canvas = canvas
             Me.dpi = dpi
         End Sub
 
-        Sub New(canvas As SizeF, Optional dpi As Integer = 100)
+        Sub New(canvas As SizeF, Optional dpi As Single = 100)
             Call Me.New(canvas.ToSize, dpi)
         End Sub
 

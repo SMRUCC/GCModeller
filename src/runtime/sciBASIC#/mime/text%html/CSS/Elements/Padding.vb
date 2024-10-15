@@ -176,7 +176,7 @@ Namespace CSS
         End Sub
 
         Public Function GetCanvasRegion(css As CSSEnvirnment) As Rectangle
-            Dim location As New Point(Left, Top)
+            Dim location As New Point(css.GetValue(Left), css.GetValue(Top))
             Dim size As Size = css.canvas
             Dim width = size.Width - Horizontal(css)
             Dim height = size.Height - Vertical(css)
