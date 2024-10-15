@@ -141,6 +141,7 @@ Namespace Imaging.BitmapImage
             channels = channel
             memoryBuffer = True
 
+            _Stride = size.Width * channel
             _Size = size
             _Width = size.Width
             _Height = size.Height
@@ -152,6 +153,7 @@ Namespace Imaging.BitmapImage
             channels = 4 ' argb
             memoryBuffer = True
 
+            _Stride = size.Width * channels
             _Size = size
             _Width = size.Width
             _Height = size.Height
