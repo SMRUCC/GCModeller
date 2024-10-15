@@ -189,7 +189,7 @@ Namespace Graphic
             Dim maxWidth!
             Dim legendPos As PointF
             Dim legendSize$
-            Dim region As Rectangle = canvas.PlotRegion
+            Dim region As Rectangle = canvas.PlotRegion(css)
 
             Const ratio As Double = 0.65
 
