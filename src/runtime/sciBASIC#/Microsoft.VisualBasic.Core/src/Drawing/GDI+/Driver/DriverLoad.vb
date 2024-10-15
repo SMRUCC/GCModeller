@@ -79,6 +79,10 @@ Namespace Imaging.Driver
         Public Function DefaultGraphicsDevice(Optional [default] As Drivers? = Nothing) As Drivers
             Static __default As Drivers = Drivers.GDI
 
+            If __default = Drivers.Default AndAlso [default] Is Nothing Then
+                __default = Drivers.GDI
+            End If
+
             If Not [default] Is Nothing Then
                 __default = [default]
             End If
