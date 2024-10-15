@@ -488,12 +488,7 @@ Namespace SVG
         End Sub
 
         Public Overrides Function MeasureString(text As String, font As Font) As SizeF
-            Dim css As New CSSFont(font, FontFace.SVGPointSize(font.SizeInPoints, Dpi))
-
-            Throw New NotImplementedException
-
-            ' Dim size As SizeF = gdi.MeasureString(text, font)
-            ' Return size
+            Return FontFace.MeasureString(text, New Font(font, FontFace.SVGPointSize(font.SizeInPoints, Dpi)))
         End Function
 
         Public Overloads Overrides Sub DrawString(s As String, font As Font, brush As Brush, ByRef x!, ByRef y!, angle!)
