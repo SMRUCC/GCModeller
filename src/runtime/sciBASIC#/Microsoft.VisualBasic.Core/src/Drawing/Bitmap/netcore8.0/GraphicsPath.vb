@@ -153,7 +153,7 @@ Namespace Imaging
 
         End Class
 
-        Public Class Op_AddLine : Inherits op
+        Public Class op_AddLine : Inherits op
 
             Public Property a As PointF
             Public Property b As PointF
@@ -241,7 +241,7 @@ Namespace Imaging
         End Sub
 
         Public Sub AddLine(a As PointF, b As PointF)
-            Call opSet.Add(New Op_AddLine(a, b))
+            Call opSet.Add(New op_AddLine(a, b))
         End Sub
 
         Public Sub AddBezier(pt1 As PointF, pt2 As PointF, pt3 As PointF, pt4 As PointF)
