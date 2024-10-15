@@ -106,6 +106,10 @@ Namespace CSS
             Me.dpi = dpi
         End Sub
 
+        Sub New(canvas As SizeF, Optional dpi As Integer = 100)
+            Call Me.New(canvas.ToSize, dpi)
+        End Sub
+
         ''' <summary>
         ''' set css base styles
         ''' </summary>
@@ -134,6 +138,17 @@ Namespace CSS
                 Case Else
                     Throw New NotImplementedException(size.ToString)
             End Select
+        End Function
+
+        ''' <summary>
+        ''' get css length value, usually be padding/margin width calculation
+        ''' </summary>
+        ''' <param name="len"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetValue(len As String) As Single
+            Return GetValue(New CssLength(len))
         End Function
 
         ''' <summary>
