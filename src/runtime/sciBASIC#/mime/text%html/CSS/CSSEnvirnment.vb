@@ -106,6 +106,12 @@ Namespace CSS
             Me.dpi = dpi
         End Sub
 
+        ''' <summary>
+        ''' set css base styles
+        ''' </summary>
+        ''' <param name="font"></param>
+        ''' <param name="stroke"></param>
+        ''' <returns></returns>
         Public Function SetBaseStyles(Optional font As Font = Nothing, Optional stroke As Pen = Nothing) As CSSEnvirnment
             _baseFont = font
             _baseLine = stroke
@@ -164,7 +170,7 @@ Namespace CSS
             End If
 
             Dim style As DashStyle = GetDashStyle(stroke)
-            Dim width As Single = GetLineWidth(stroke)
+            Dim width As Single = GetLineWidth(stroke) * dpi / 96
 
             Return New Pen(stroke.fill.GetBrush, width) With {
                 .DashStyle = style
