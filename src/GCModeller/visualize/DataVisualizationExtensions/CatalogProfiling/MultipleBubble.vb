@@ -160,12 +160,12 @@ Namespace CatalogProfiling
                 Return
             End If
 
-            Dim x As Double = canvas.PlotRegion.Right + canvas.Padding.Right / 5
-            Dim y As Double = canvas.Padding.Top * 1.125
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim x As Double = canvas.PlotRegion(css).Right + css.GetValue(canvas.Padding.Right) / 5
+            Dim y As Double = css.GetValue(canvas.Padding.Top) * 1.125
             Dim r As Single
             Dim paint As SolidBrush = Brushes.Black
             Dim pos As PointF
-            Dim css As CSSEnvirnment = g.LoadEnvironment
             Dim tickFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
             Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.legendTitleCSS))
 
@@ -231,11 +231,12 @@ Namespace CatalogProfiling
                                               End Function)) _
                 .OrderByDescending(Function(t) t.Width) _
                 .First
+            Dim plotRect = canvas.PlotRegion(css)
             Dim region As New Rectangle With {
-                .X = canvas.Padding.Left + maxLabel.Width,
-                .Y = canvas.Padding.Top,
-                .Width = canvas.PlotRegion.Width - maxLabel.Width,
-                .Height = canvas.PlotRegion.Height
+                .X = css.GetValue(canvas.Padding.Left) + maxLabel.Width,
+                .Y = css.GetValue(canvas.Padding.Top),
+                .Width = plotRect.Width - maxLabel.Width,
+                .Height = plotRect.Height
             }
             Dim xscale = d3js.scale _
                 .linear() _
@@ -274,7 +275,7 @@ Namespace CatalogProfiling
 
             For Each catName As String In categories
                 fontsize = g.MeasureString(catName, categoryFont)
-                x = canvas.Padding.Left
+                x = css.GetValue(canvas.Padding.Left)
                 paint = New SolidBrush(++colorSet)
 
                 Call Console.WriteLine(catName)
@@ -320,7 +321,7 @@ Namespace CatalogProfiling
                     Next
 
                     y += dh
-                    x = canvas.Padding.Left
+                    x = css.GetValue(canvas.Padding.Left)
                 Next
             Next
 
@@ -340,10 +341,12 @@ Namespace CatalogProfiling
                             }
                         End Function) _
                 .ToArray
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim plotRect = canvas.PlotRegion(css)
 
             theme.legendLayout = New Absolute() With {
-                .x = canvas.PlotRegion.Right + 100,
-                .y = canvas.PlotRegion.Top + canvas.PlotRegion.Height / 3
+                .x = plotRect.Right + 100,
+                .y = plotRect.Top + plotRect.Height / 3
             }
 
             Call DrawLegends(g, legends, showBorder:=False, canvas)

@@ -149,11 +149,12 @@ Namespace CatalogProfiling
                         End Function) _
                 .OrderByDescending(Function(sz) sz.Width) _
                 .First
+            Dim canvasRect = canvas.PlotRegion(css)
             Dim region As New Rectangle With {
-                .X = canvas.PlotRegion.Left + maxTag.Width * 1.125,
-                .Y = canvas.PlotRegion.Top,
-                .Width = canvas.PlotRegion.Width - maxTag.Width * 1.125,
-                .Height = canvas.PlotRegion.Height
+                .X = canvasRect.Left + maxTag.Width * 1.125,
+                .Y = canvasRect.Top,
+                .Width = canvasRect.Width - maxTag.Width * 1.125,
+                .Height = canvasRect.Height
             }
             Dim paints As SolidBrush() = Designer _
                 .GetColors(theme.colorSet, mapLevels) _

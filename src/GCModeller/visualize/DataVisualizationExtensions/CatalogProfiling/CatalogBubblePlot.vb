@@ -306,7 +306,8 @@ Namespace CatalogProfiling
         ''' <param name="region"></param>
         Private Sub DrawBubbleLegends(g As IGraphics, serials As SerialData(), region As GraphicsRegion)
             Dim legendFontStyle As String = theme.legendLabelCSS
-            Dim plot As Rectangle = region.PlotRegion
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim plot As Rectangle = region.PlotRegion(css)
             Dim legends As LegendObject() = serials _
                 .Select(Function(s)
                             Return New LegendObject With {
@@ -317,8 +318,7 @@ Namespace CatalogProfiling
                             }
                         End Function) _
                 .ToArray
-            Dim css As CSSEnvirnment = g.LoadEnvironment
-            Dim legendFont As Font = css.GetFont(CSSFont.TryParse(legendFontStyle))
+            Dim legendFont As Font = CSS.GetFont(CSSFont.TryParse(legendFontStyle))
             Dim cSize As SizeF = g.MeasureString("0", legendFont)
             Dim legendSize As New SizeF(std.Max(cSize.Width, cSize.Height), std.Max(cSize.Width, cSize.Height))
             Dim maxWidth As Single = legends _
@@ -328,7 +328,7 @@ Namespace CatalogProfiling
                 .Max
             Dim ltopLeft As New Point With {
                 .X = plot.Right + legendSize.Width * 1.25,
-                .Y = region.PlotRegion.Top + (region.PlotRegion.Height - (cSize.Height + 10) * 3) / 2
+                .Y = plot.Top + (plot.Height - (cSize.Height + 10) * 3) / 2
             }
 
             Call g.DrawLegends(

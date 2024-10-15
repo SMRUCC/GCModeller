@@ -316,19 +316,19 @@ Namespace CatalogProfiling
                 profile.TotalTerms * (maxLenSubKeySize.Height + 4) +
                 classes.Length * 20
             Dim left!
-            Dim y! = region.Padding.Top + (region.PlotRegion.Height - totalHeight) / 2
+            Dim y! = css.GetValue(region.Padding.Top) + (region.PlotRegion(css).Height - totalHeight) / 2
 
             ' barPlot的最左边的坐标
             Dim maxLabeLength% = CInt(Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width))
             Dim barRect As New RectangleF With {
-                .X = CSng(padding.Left * 1.5 + maxLabeLength),
+                .X = CSng(css.GetValue(padding.Left) * 1.5 + maxLabeLength),
                 .Y = y,
-                .Width = CSng(size.Width - padding.Horizontal - maxLabeLength - padding.Left / 2),
+                .Width = CSng(size.Width - padding.Horizontal(css) - maxLabeLength - css.GetValue(padding.Left) / 2),
                 .Height = totalHeight
             }
 
-            left = barRect.Left - padding.Left
-            left = (size.Width - padding.Horizontal - left) / 2 + left + padding.Left
+            left = barRect.Left - css.GetValue(padding.Left)
+            left = (size.Width - padding.Horizontal(css) - left) / 2 + left + css.GetValue(padding.Left)
 
             Dim titleSize As SizeF = g.MeasureString(title, titleFont)
             Dim anchor As New PointF With {
@@ -350,7 +350,7 @@ Namespace CatalogProfiling
             Dim gap! = 10.0!
             Dim grayColor As [Default](Of Color) = Color.Gray.AsDefault(Function() gray)
 
-            left = padding.Left
+            left = css.GetValue(padding.Left)
 
             For Each [class] As SeqValue(Of String) In classes.SeqIterator
                 Dim yPlot!

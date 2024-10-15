@@ -146,7 +146,8 @@ Namespace ExpressionPattern
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             ' 下面得到作图子区域的大小
             ' 用于计算布局信息
-            Dim plot As Rectangle = canvas.PlotRegion
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim plot As Rectangle = canvas.PlotRegion(css)
             Dim intervalTotalWidth! = plot.Width * 0.3
             Dim intervalTotalHeight! = plot.Height * 0.3
             Dim w = (plot.Width - intervalTotalWidth) / matrix.dim(1)
@@ -158,10 +159,10 @@ Namespace ExpressionPattern
             Dim i As i32 = 1
             Dim layout As GraphicsRegion
             Dim x!
-            Dim y! = canvas.PlotRegion.Top + ih / 2
+            Dim y! = plot.Top + ih / 2
             Dim padding As String
             Dim clusterTagId As Integer
-            Dim css As CSSEnvirnment = g.LoadEnvironment
+
             Dim clusterTagFont As Font = css.GetFont(CSSFont.TryParse(clusterLabelStyle))
             Dim tagPos As PointF
             Dim levels As New Value(Of DoubleRange)
@@ -172,7 +173,7 @@ Namespace ExpressionPattern
             Dim legendTitleFont As Font = css.GetFont(CSSFont.TryParse(legendTitleStyle))
             Dim legendTickFont As Font = css.GetFont(CSSFont.TryParse(legendTickStyle))
             Dim tickFormat As String
-            Dim left As Double = canvas.PlotRegion.Left + iw / 6
+            Dim left As Double = plot.Left + iw / 6
             Dim topMembers As Integer = If(
                 Me.topMembers > 1,
                 Me.topMembers,                         ' is a integer number(real member size) 

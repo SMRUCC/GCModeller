@@ -140,11 +140,12 @@ Namespace CatalogProfiling
                 .JoinIterates(pathways.Keys.Select(Function(str) viz.MeasureString(str, categoryFont))) _
                 .OrderByDescending(Function(sz) sz.Width) _
                 .First
+            Dim plotRect As Rectangle = canvas.PlotRegion(css)
             Dim region As New Rectangle With {
-                .X = canvas.PlotRegion.Left,
-                .Y = canvas.PlotRegion.Top,
-                .Width = canvas.PlotRegion.Width - maxTag.Width,
-                .Height = canvas.PlotRegion.Height
+                .X = plotRect.Left,
+                .Y = plotRect.Top,
+                .Width = plotRect.Width - maxTag.Width,
+                .Height = plotRect.Height
             }
             Dim gap As Double = labelHeight * 1.5
             Dim dh As Double = (region.Height - gap * (pathways.Count - 1)) / (pathways.Values.IteratesALL.Count)

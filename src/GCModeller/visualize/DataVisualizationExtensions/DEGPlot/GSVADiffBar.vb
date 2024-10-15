@@ -110,7 +110,8 @@ Public Class GSVADiffBar : Inherits Plot
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-        Dim rect As Rectangle = canvas.PlotRegion
+        Dim env As CSSEnvirnment = g.LoadEnvironment
+        Dim rect As Rectangle = canvas.PlotRegion(env)
         Dim stroke As New Pen(Brushes.Black, 3)
         Dim t As Double() = diff _
             .Select(Function(d) std.Abs(d.t)) _
@@ -122,7 +123,6 @@ Public Class GSVADiffBar : Inherits Plot
             .linear() _
             .domain(values:=t) _
             .range(integers:={rect.Left, rect.Right})
-        Dim env As CSSEnvirnment = g.LoadEnvironment
         Dim axisPen As Pen = env.GetPen(CSS.Stroke.TryParse(theme.axisStroke))
         Dim axisTickStroke As Pen = env.GetPen(CSS.Stroke.TryParse(theme.axisTickStroke))
         Dim axisTickFont As Font = env.GetFont(theme.axisTickCSS)
