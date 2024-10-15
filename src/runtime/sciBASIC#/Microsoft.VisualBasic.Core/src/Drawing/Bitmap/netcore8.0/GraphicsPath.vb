@@ -115,6 +115,7 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Imaging
 
@@ -126,7 +127,7 @@ Namespace Imaging
 
     End Class
 
-    Public Class GraphicsPath
+    Public Class GraphicsPath : Implements Enumeration(Of op)
 
         Public ReadOnly Property PathData As PathData
             Get
@@ -266,6 +267,12 @@ Namespace Imaging
         Public Sub CloseFigure()
             Call opSet.Add(New op_CloseFigure)
         End Sub
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of op) Implements Enumeration(Of op).GenericEnumerator
+            For Each op As op In opSet
+                Yield op
+            Next
+        End Function
     End Class
 #End If
 End Namespace
