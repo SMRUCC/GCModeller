@@ -169,7 +169,7 @@ Namespace Drawing2D
         ''' </summary>
         ''' <returns></returns>
         Public Function PlotRegion(css As CSSEnvirnment) As Rectangle
-            Dim topLeft As New Point(Padding.Left, Padding.Top)
+            Dim topLeft As New Point(css.GetValue(New CssLength(Padding.Left)), css.GetValue(New CssLength(Padding.Top)))
             Dim size As New Size With {
                 .Width = Me.Size.Width - Padding.Horizontal(css),
                 .Height = Me.Size.Height - Padding.Vertical(css)
@@ -178,17 +178,24 @@ Namespace Drawing2D
             Return New Rectangle(topLeft, size)
         End Function
 
-        Public Function GetXLinearScaleRange() As Double()
-            Return New Double() {Padding.Left, Size.Width - Padding.Right}
+        Public Function GetXLinearScaleRange(css As CSSEnvirnment) As Double()
+            Return New Double() {
+                css.GetValue(New CssLength(Padding.Left)),
+                Size.Width - css.GetValue(New CssLength(Padding.Right))
+            }
         End Function
 
-        Public Function GetYLinearScaleRange() As Double()
-            Return New Double() {Padding.Top, Size.Height - Padding.Bottom}
+        Public Function GetYLinearScaleRange(css As CSSEnvirnment) As Double()
+            Return New Double() {
+                css.GetValue(New CssLength(Padding.Top)),
+                Size.Height - css.GetValue(New CssLength(Padding.Bottom))
+            }
         End Function
 
-        Public Function TopCentra(size As Size) As Point
+        Public Function TopCentra(size As Size, css As CSSEnvirnment) As Point
             Dim left = (Me.Size.Width - size.Width) / 2
-            Dim top = (Padding.Top - size.Height) / 2
+            Dim top = (css.GetValue(New CssLength(Padding.Top)) - size.Height) / 2
+
             Return New Point(left, top)
         End Function
 
