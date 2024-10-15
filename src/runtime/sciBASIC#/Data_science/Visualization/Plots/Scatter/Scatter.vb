@@ -447,7 +447,7 @@ Public Module Scatter
             padding:=padding,
             bg:=bg,
             plotAPI:=plotInternal,
-            dpi:=$"{dpi},{dpi}",
+            dpi:=dpi,
             driver:=driver
         )
     End Function

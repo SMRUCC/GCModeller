@@ -126,7 +126,7 @@ Namespace Graphic
                 bg:=theme.background,
                 plotAPI:=AddressOf PlotInternal,
                 driver:=driver,
-                dpi:=$"{dpi},{dpi}"
+                dpi:=dpi
             )
         End Function
 
@@ -138,7 +138,7 @@ Namespace Graphic
                 bg:=theme.background,
                 plotAPI:=AddressOf PlotInternal,
                 driver:=driver,
-                dpi:=$"{ppi},{ppi}"
+                dpi:=ppi
             )
         End Function
 
