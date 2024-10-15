@@ -101,6 +101,12 @@ Namespace SVG
             End Get
         End Property
 
+        Public Overrides ReadOnly Property Driver As Drivers
+            Get
+                Return Drivers.SVG
+            End Get
+        End Property
+
         ''' <summary>
         ''' try to get the last created <see cref="SvgElement"/> in this svg document data.
         ''' </summary>
