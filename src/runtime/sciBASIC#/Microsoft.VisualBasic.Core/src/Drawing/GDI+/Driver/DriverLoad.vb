@@ -65,11 +65,21 @@ Namespace Imaging.Driver
 
     Public Module DriverLoad
 
-        Public libgdiplus_raster As DeviceInterop
-        Public svg As DeviceInterop
-        Public pdf As DeviceInterop
+        Dim libgdiplus_raster As DeviceInterop
+        Dim svg As DeviceInterop
+        Dim pdf As DeviceInterop
 
         Sub New()
+        End Sub
+
+        Public Sub Register(interop As DeviceInterop, driver As Drivers)
+            Select Case driver
+                Case Drivers.GDI : libgdiplus_raster = interop
+                Case Drivers.PDF : pdf = interop
+                Case Drivers.SVG : svg = interop
+                Case Else
+                    Throw New NotSupportedException(driver.Description)
+            End Select
         End Sub
 
         ''' <summary>
