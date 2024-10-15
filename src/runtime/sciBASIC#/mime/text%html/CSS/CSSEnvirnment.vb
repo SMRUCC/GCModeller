@@ -126,9 +126,11 @@ Namespace CSS
             )
         End Function
 
-        Public Shared Function GetValue(size As CssLength) As Single
+        Public Function GetValue(size As CssLength) As Single
             Select Case size.Unit
-                Case CssUnit.None, CssUnit.Pixels, CssUnit.Points : Return size.Number
+                Case CssUnit.None, CssUnit.Pixels, CssUnit.Points
+                    Return size.Number
+
                 Case Else
                     Throw New NotImplementedException(size.ToString)
             End Select
