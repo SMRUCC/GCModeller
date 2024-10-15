@@ -61,7 +61,6 @@ Imports System.ComponentModel
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.MIME.Html.Render.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace CSS
@@ -176,7 +175,7 @@ Namespace CSS
         End Sub
 
         Public Function GetCanvasRegion(css As CSSEnvirnment) As Rectangle
-            Dim location As New Point(css.GetValue(Left), css.GetValue(Top))
+            Dim location As New Point(css.GetWidth(Left), css.GetHeight(Top))
             Dim size As Size = css.canvas
             Dim width = size.Width - Horizontal(css)
             Dim height = size.Height - Vertical(css)
@@ -189,7 +188,7 @@ Namespace CSS
         ''' </summary>
         ''' <returns></returns>
         Public Function Horizontal(css As CSSEnvirnment) As Single
-            Return css.GetValue(New CssLength(Left)) + css.GetValue(New CssLength(Right))
+            Return css.GetWidth(Left) + css.GetWidth(Right)
         End Function
 
         ''' <summary>
@@ -197,17 +196,17 @@ Namespace CSS
         ''' </summary>
         ''' <returns></returns>
         Public Function Vertical(css As CSSEnvirnment) As Single
-            Return css.GetValue(New CssLength(Top)) + css.GetValue(New CssLength(Bottom))
+            Return css.GetHeight(Top) + css.GetHeight(Bottom)
         End Function
 
         <DebuggerStepThrough>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Offset2D(dx As Double, dy As Double) As Padding
+        Public Function Offset2D(dx As Double, dy As Double, css As CSSEnvirnment) As Padding
             Return New Padding With {
-                .Left = Left + dx,
-                .Right = Right - dx,
-                .Top = Top + dy,
-                .Bottom = Bottom - dy
+                .Left = css.GetWidth(Left) + dx,
+                .Right = css.GetWidth(Right) - dx,
+                .Top = css.GetHeight(Top) + dy,
+                .Bottom = css.GetHeight(Bottom) - dy
             }
         End Function
 
@@ -216,19 +215,21 @@ Namespace CSS
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return $"padding:{Top}px {Right}px {Bottom}px {Left}px;"
+            Return $"padding:{Top} {Right} {Bottom} {Left};"
         End Function
 
         ''' <summary>
         ''' padding: top, right, bottom, left
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property LayoutVector As Single()
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return Me
-            End Get
-        End Property
+        Public Function LayoutVector(css As CSSEnvirnment) As Single()
+            Return New Single() {
+                css.GetHeight(Top),
+                css.GetWidth(Right),
+                css.GetHeight(Bottom),
+                css.GetWidth(Left)
+            }
+        End Function
 
         ''' <summary>
         ''' 转换为css字符串
@@ -282,14 +283,21 @@ Namespace CSS
             End If
 
             Dim tokens$() = (+value).Trim$(";"c).Split
-            Dim vector%() = tokens _
-                .Select(Function(s) CInt(s.ParseNumeric)) _
-                .ToArray
 
-            If vector.Length = 1 Then  ' all
-                Return New Padding(all:=vector(Scan0))
+            If tokens.Length = 1 Then  ' all
+                Return New Padding With {
+                    .Bottom = tokens(0),
+                    .Left = tokens(0),
+                    .Right = tokens(0),
+                    .Top = tokens(0)
+                }
             Else
-                Return New Padding(vector)
+                Return New Padding With {
+                    .Top = tokens(0),
+                    .Right = tokens(1),
+                    .Bottom = tokens(2),
+                    .Left = tokens(3)
+                }
             End If
         End Function
 
@@ -311,43 +319,43 @@ Namespace CSS
             End If
         End Function
 
-        ''' <summary>
-        ''' Performs vector addition on the two specified System.Windows.Forms.Padding objects,
-        ''' resulting in a new System.Windows.Forms.Padding.
-        ''' </summary>
-        ''' <param name="p1">The first System.Windows.Forms.Padding to add.</param>
-        ''' <param name="p2">The second System.Windows.Forms.Padding to add.</param>
-        ''' <returns>A new System.Windows.Forms.Padding that results from adding p1 and p2.</returns>
-        Public Shared Operator +(p1 As Padding, p2 As Padding) As Padding
-            Dim a = p1.LayoutVector
-            Dim b = p2.LayoutVector
-            Dim out%() = New Integer(4) {}
+        '''' <summary>
+        '''' Performs vector addition on the two specified System.Windows.Forms.Padding objects,
+        '''' resulting in a new System.Windows.Forms.Padding.
+        '''' </summary>
+        '''' <param name="p1">The first System.Windows.Forms.Padding to add.</param>
+        '''' <param name="p2">The second System.Windows.Forms.Padding to add.</param>
+        '''' <returns>A new System.Windows.Forms.Padding that results from adding p1 and p2.</returns>
+        'Public Shared Operator +(p1 As Padding, p2 As Padding) As Padding
+        '    Dim a = p1.LayoutVector
+        '    Dim b = p2.LayoutVector
+        '    Dim out%() = New Integer(4) {}
 
-            For i As Integer = 0 To out.Length - 1
-                out(i) = a(i) + b(i)
-            Next
+        '    For i As Integer = 0 To out.Length - 1
+        '        out(i) = a(i) + b(i)
+        '    Next
 
-            Return New Padding(layoutVector:=out)
-        End Operator
+        '    Return New Padding(layoutVector:=out)
+        'End Operator
 
-        ''' <summary>
-        ''' Performs vector subtraction on the two specified System.Windows.Forms.Padding
-        ''' objects, resulting in a new System.Windows.Forms.Padding.
-        ''' </summary>
-        ''' <param name="p1">The System.Windows.Forms.Padding to subtract from (the minuend).</param>
-        ''' <param name="p2">The System.Windows.Forms.Padding to subtract from (the subtrahend).</param>
-        ''' <returns>The System.Windows.Forms.Padding result of subtracting p2 from p1.</returns>
-        Public Shared Operator -(p1 As Padding, p2 As Padding) As Padding
-            Dim a = p1.LayoutVector
-            Dim b = p2.LayoutVector
-            Dim out%() = New Integer(4) {}
+        '''' <summary>
+        '''' Performs vector subtraction on the two specified System.Windows.Forms.Padding
+        '''' objects, resulting in a new System.Windows.Forms.Padding.
+        '''' </summary>
+        '''' <param name="p1">The System.Windows.Forms.Padding to subtract from (the minuend).</param>
+        '''' <param name="p2">The System.Windows.Forms.Padding to subtract from (the subtrahend).</param>
+        '''' <returns>The System.Windows.Forms.Padding result of subtracting p2 from p1.</returns>
+        'Public Shared Operator -(p1 As Padding, p2 As Padding) As Padding
+        '    Dim a = p1.LayoutVector
+        '    Dim b = p2.LayoutVector
+        '    Dim out%() = New Integer(4) {}
 
-            For i As Integer = 0 To out.Length - 1
-                out(i) = a(i) - b(i)
-            Next
+        '    For i As Integer = 0 To out.Length - 1
+        '        out(i) = a(i) - b(i)
+        '    Next
 
-            Return New Padding(layoutVector:=out)
-        End Operator
+        '    Return New Padding(layoutVector:=out)
+        'End Operator
 
         ''' <summary>
         ''' Tests whether two specified System.Windows.Forms.Padding objects are equivalent.
@@ -356,7 +364,10 @@ Namespace CSS
         ''' <param name="p2">A System.Windows.Forms.Padding to test.</param>
         ''' <returns>true if the two System.Windows.Forms.Padding objects are equal; otherwise, false.</returns>
         Public Shared Operator =(p1 As Padding, p2 As Padding) As Boolean
-            Return p1.LayoutVector.SequenceEqual(p2.LayoutVector)
+            Return p1.Top = p2.Top AndAlso
+                p1.Right = p2.Right AndAlso
+                p1.Bottom = p2.Bottom AndAlso
+                p1.Left = p2.Left
         End Operator
 
         ''' <summary>
