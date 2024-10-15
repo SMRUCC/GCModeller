@@ -79,6 +79,8 @@ Namespace Imaging.Driver
         Public Function DefaultGraphicsDevice(Optional [default] As Drivers? = Nothing) As Drivers
             Static __default As Drivers = Drivers.GDI
 
+            ' 20241015 the initialization of the static __default to gdi as default is not working
+            ' config of the __default manually at here
             If __default = Drivers.Default AndAlso [default] Is Nothing Then
                 __default = Drivers.GDI
             End If
