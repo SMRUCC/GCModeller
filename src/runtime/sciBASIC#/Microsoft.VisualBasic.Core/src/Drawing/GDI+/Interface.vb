@@ -67,6 +67,7 @@ Imports System.ComponentModel
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports std = System.Math
 
 Namespace Imaging
@@ -85,6 +86,8 @@ Namespace Imaging
         ''' </summary>
         ''' <returns></returns>
         Public MustOverride ReadOnly Property Size As Size
+
+        Public MustOverride ReadOnly Property Driver As Drivers
 
         Public ReadOnly Property Width As Integer
             Get
