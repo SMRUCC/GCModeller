@@ -117,7 +117,6 @@ Namespace SVG
             End Get
         End Property
 
-        Public Overrides Property PageScale As Single
         Public Overrides Property RenderingOrigin As Point
         Public Overrides Property TextContrast As Integer
 
@@ -690,10 +689,6 @@ Namespace SVG
         End Sub
 
         Public Overrides Function GetContextInfo() As Object
-            Throw New NotImplementedException()
-        End Function
-
-        Public Overrides Function GetNearestColor(color As Color) As Color
             Throw New NotImplementedException()
         End Function
 
