@@ -57,6 +57,8 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.PlasmidMap.DrawingModels
 
@@ -73,7 +75,8 @@ Namespace PlasmidMap
                                 Optional r2Scale# = 0.8) As GraphicsData
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                    Dim canvasSize As Size = region.PlotRegion.Size
+                    Dim css As CSSEnvirnment = g.LoadEnvironment
+                    Dim canvasSize As Size = region.PlotRegion(css).Size
                     Dim center As New Point(canvasSize.Width / 2, canvasSize.Height / 2)
                     Dim r! = Math.Min(canvasSize.Width, canvasSize.Height)
                     Dim r1 As Double = r * r1Scale

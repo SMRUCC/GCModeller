@@ -65,6 +65,10 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Data.GeneOntology
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -172,14 +176,14 @@ Public Module CloudPlot
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, rect As GraphicsRegion)
-
+                Dim css As CSSEnvirnment = g.LoadEnvironment
                 Dim pointsX = expressions _
                     .Values _
-                    .RangeTransform(DoubleRange.TryParse(rect.XRange))
+                    .RangeTransform(DoubleRange.TryParse(rect.XRange(css)))
                 Dim pointsY = PseAA _
                     .Values _
                     .Select(Function(v) v.Mod) _
-                    .RangeTransform(DoubleRange.TryParse(rect.YRange))
+                    .RangeTransform(DoubleRange.TryParse(rect.YRange(css)))
 
                 For i As Integer = 0 To foldChanges.Length - 1
                     Dim X = pointsX(i), Y = pointsY(i)
