@@ -247,6 +247,10 @@ Namespace SVG.XML
             Dim xmlDoc As New XmlDocument
             Dim svgEle As XmlElement
 
+            Const bom1 As Char = ChrW(&HFEFF)
+
+            xml = xml.Replace(bom1, "")
+
             If strict Then
                 Call xmlDoc.LoadXml(xml)
             Else
