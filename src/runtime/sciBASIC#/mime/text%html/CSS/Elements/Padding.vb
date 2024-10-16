@@ -258,6 +258,13 @@ Namespace CSS
             Left = layoutVector(3)
         End Sub
 
+        Sub New(layout As PaddingLayout)
+            Top = layout.Top
+            Right = layout.Right
+            Bottom = layout.Bottom
+            Left = layout.Left
+        End Sub
+
         Public Function GetCanvasRegion(css As CSSEnvirnment) As Rectangle
             Dim location As New Point(css.GetWidth(Left), css.GetHeight(Top))
             Dim size As Size = css.canvas
