@@ -203,7 +203,7 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
         Dim legend_layout As New Rectangle(
             plotRect.Right + categoryBarWidth * 2,
             plotRect.Top + plotRect.Height / 6,
-            css.GetValue(canvas.Padding.Right) * (2 / 3),
+            css.GetWidth(canvas.Padding.Right) * (2 / 3),
             plotRect.Height / 3)
 
         Call Array.Reverse(colors)

@@ -143,7 +143,7 @@ Namespace CollectionSet
             Dim totalHeight As Double = collections.collectionSetLabels.Length * (maxLabelSize.Height * 1.125)
             Dim topBarPlot As New Rectangle(plotRect.Left, plotRect.Top, plotRect.Width, plotRect.Height - totalHeight)
             Dim bottomIntersection As New Rectangle(plotRect.Left, plotRect.Bottom - totalHeight + 50, plotRect.Width, totalHeight)
-            Dim leftSetSizeBar As New Rectangle(css.GetValue(canvas.Padding.Left) / 20, bottomIntersection.Top, plotRect.Left, totalHeight)
+            Dim leftSetSizeBar As New Rectangle(css.GetWidth(canvas.Padding.Left) / 20, bottomIntersection.Top, plotRect.Left, totalHeight)
             Dim topbarLayout As New Rectangle(
                 x:=bottomIntersection.Left,
                 y:=plotRect.Top,
@@ -212,7 +212,7 @@ Namespace CollectionSet
             maxwidth = std.Max(g.MeasureString(legends.Last.title, font).Width, maxwidth)
             theme.legendLayout = New Absolute With {
                 .x = canvas.Width - maxwidth * 1.25,
-                .y = std.Max(200, css.GetValue(canvas.Padding.Top))
+                .y = std.Max(200, css.GetHeight(canvas.Padding.Top))
             }
 
             Call DrawLegends(g, legends.ToArray, showBorder:=True, canvas:=canvas)
