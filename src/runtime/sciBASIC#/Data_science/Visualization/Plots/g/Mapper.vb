@@ -314,7 +314,7 @@ Namespace Graphic
         ''' <returns></returns>
         Public Function YScaler(size As Size, margin As Padding, Optional avg# = Double.NaN) As Func(Of Single, Single)
             Dim css As New CSSEnvirnment(size)
-            Dim bottom As Integer = size.Height - css.GetValue(margin.Bottom)
+            Dim bottom As Integer = size.Height - css.GetHeight(margin.Bottom)
             Dim height As Integer = size.Height - margin.Vertical(css)    ' 绘图区域的高度
 
             If Double.IsNaN(avg#) Then
