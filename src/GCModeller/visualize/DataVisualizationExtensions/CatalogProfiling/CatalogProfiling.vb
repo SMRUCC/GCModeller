@@ -279,6 +279,7 @@ Namespace CatalogProfiling
             Dim catalogCharWidth! = g.MeasureString("A", catalogFont).Width
             Dim classFont As Font = css.GetFont(CSSFont.TryParse(classFontStyle))
             Dim padding As Padding = region.Padding
+            Dim layout = PaddingLayout.EvaluateFromCSS(css, padding)
             Dim size As Size = region.Size
             Dim maxLenSubKey$ = profile.catalogs.Values _
                 .Select(Function(o) o.AsEnumerable.Select(Function(oo) oo.Name)) _
@@ -316,19 +317,19 @@ Namespace CatalogProfiling
                 profile.TotalTerms * (maxLenSubKeySize.Height + 4) +
                 classes.Length * 20
             Dim left!
-            Dim y! = css.GetValue(region.Padding.Top) + (region.PlotRegion(css).Height - totalHeight) / 2
+            Dim y! = layout.Top + (region.PlotRegion(css).Height - totalHeight) / 2
 
             ' barPlot的最左边的坐标
             Dim maxLabeLength% = CInt(Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width))
             Dim barRect As New RectangleF With {
-                .X = CSng(css.GetValue(padding.Left) * 1.5 + maxLabeLength),
+                .X = layout.Left * 1.5 + maxLabeLength,
                 .Y = y,
-                .Width = CSng(size.Width - padding.Horizontal(css) - maxLabeLength - css.GetValue(padding.Left) / 2),
+                .Width = CSng(size.Width - padding.Horizontal(css) - maxLabeLength - layout.Left / 2),
                 .Height = totalHeight
             }
 
-            left = barRect.Left - css.GetValue(padding.Left)
-            left = (size.Width - padding.Horizontal(css) - left) / 2 + left + css.GetValue(padding.Left)
+            left = barRect.Left - layout.Left
+            left = (size.Width - padding.Horizontal(css) - left) / 2 + left + layout.Left
 
             Dim titleSize As SizeF = g.MeasureString(title, titleFont)
             Dim anchor As New PointF With {
@@ -350,7 +351,7 @@ Namespace CatalogProfiling
             Dim gap! = 10.0!
             Dim grayColor As [Default](Of Color) = Color.Gray.AsDefault(Function() gray)
 
-            left = css.GetValue(padding.Left)
+            left = layout.Left
 
             For Each [class] As SeqValue(Of String) In classes.SeqIterator
                 Dim yPlot!

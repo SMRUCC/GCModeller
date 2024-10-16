@@ -364,9 +364,10 @@ Public Class VolcanoPlot : Inherits Plot
         Dim top! = titleSize.Height * 1.5 + ticksFont.Height + 10
         Dim left! = g.MeasureString("00.0", ticksFont).Width + 10
         Dim canvasRect = canvas.PlotRegion(css)
+        Dim padding = PaddingLayout.EvaluateFromCSS(css, canvas.Padding)
         Dim plotRegion As New Rectangle With {
-            .X = css.GetValue(canvas.Padding.Left) + left,
-            .Y = css.GetValue(canvas.Padding.Top) + titleSize.Height * 1.5,
+            .X = padding.Left + left,
+            .Y = padding.Top + titleSize.Height * 1.5,
             .Width = canvasRect.Width - left,
             .Height = canvasRect.Height - top
         }   ' 得到最终剩余的绘图区域
@@ -391,8 +392,8 @@ Public Class VolcanoPlot : Inherits Plot
 
         ' 绘制出顶部的大标题
         point = New PointF With {
-            .X = css.GetValue(canvas.Padding.Left) + (canvasRect.Width - titleSize.Width) / 2,
-            .Y = css.GetValue(canvas.Padding.Top)
+            .X = padding.Left + (canvasRect.Width - titleSize.Width) / 2,
+            .Y = padding.Top
         }
         Call g.DrawString(main, titleFont, New SolidBrush(Color.Black), point)
 
@@ -472,7 +473,7 @@ Public Class VolcanoPlot : Inherits Plot
             Dim lsize As SizeF = legends.MaxLegendSize(g)
 
             px = .PlotRegion(css).Right - lsize.Width * 0.1 - lsize.Width
-            py = plotRegion.Top + css.GetValue(.Padding.Top) / 2
+            py = plotRegion.Top + padding.Top / 2
             point = New PointF(px, py)
 
             Call g.DrawLegends(point.ToPoint, legends, gSize:="40,40")

@@ -161,8 +161,8 @@ Namespace CatalogProfiling
             End If
 
             Dim css As CSSEnvirnment = g.LoadEnvironment
-            Dim x As Double = canvas.PlotRegion(css).Right + css.GetValue(canvas.Padding.Right) / 5
-            Dim y As Double = css.GetValue(canvas.Padding.Top) * 1.125
+            Dim x As Double = canvas.PlotRegion(css).Right + css.GetWidth(canvas.Padding.Right) / 5
+            Dim y As Double = css.GetHeight(canvas.Padding.Top) * 1.125
             Dim r As Single
             Dim paint As SolidBrush = Brushes.Black
             Dim pos As PointF
@@ -233,8 +233,8 @@ Namespace CatalogProfiling
                 .First
             Dim plotRect = canvas.PlotRegion(css)
             Dim region As New Rectangle With {
-                .X = css.GetValue(canvas.Padding.Left) + maxLabel.Width,
-                .Y = css.GetValue(canvas.Padding.Top),
+                .X = css.GetWidth(canvas.Padding.Left) + maxLabel.Width,
+                .Y = css.GetHeight(canvas.Padding.Top),
                 .Width = plotRect.Width - maxLabel.Width,
                 .Height = plotRect.Height
             }
@@ -275,7 +275,7 @@ Namespace CatalogProfiling
 
             For Each catName As String In categories
                 fontsize = g.MeasureString(catName, categoryFont)
-                x = css.GetValue(canvas.Padding.Left)
+                x = css.GetWidth(canvas.Padding.Left)
                 paint = New SolidBrush(++colorSet)
 
                 Call Console.WriteLine(catName)
@@ -321,7 +321,7 @@ Namespace CatalogProfiling
                     Next
 
                     y += dh
-                    x = css.GetValue(canvas.Padding.Left)
+                    x = css.GetWidth(canvas.Padding.Left)
                 Next
             Next
 
