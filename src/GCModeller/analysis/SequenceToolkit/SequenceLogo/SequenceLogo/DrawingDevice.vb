@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::3fd1320c40c9f48e6a22a25065e06502, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 267
-    '    Code Lines: 181 (67.79%)
-    ' Comment Lines: 43 (16.10%)
-    '    - Xml Docs: 72.09%
-    ' 
-    '   Blank Lines: 43 (16.10%)
-    '     File Size: 15.23 KB
+' Summaries:
 
 
-    '     Module DrawingDevice
-    ' 
-    '         Properties: WordSize
-    ' 
-    '         Function: __getColors, DrawFrequency, E, InvokeDrawing
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 267
+'    Code Lines: 181 (67.79%)
+' Comment Lines: 43 (16.10%)
+'    - Xml Docs: 72.09%
+' 
+'   Blank Lines: 43 (16.10%)
+'     File Size: 15.23 KB
+
+
+'     Module DrawingDevice
+' 
+'         Properties: WordSize
+' 
+'         Function: __getColors, DrawFrequency, E, InvokeDrawing
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -230,14 +230,16 @@ For example, we identified a new domain, likely to have a role downstream of the
 
             Dim n As Integer = model.Alphabets
             Dim margin As Padding = Padding.TryParse(logoPadding)
-            Dim width! = model.Residues.Length * WordSize + margin.Horizontal
+            Dim css As New CSSEnvirnment(New Size(model.Residues.Length * WordSize, height))
+            Dim width! = model.Residues.Length * WordSize + margin.Horizontal(css)
+            Dim size1 As New Size(width, (n + 1) * height + margin.Vertical(css))
             Dim X, Y As Integer
             Dim font As New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.6), FontStyle.Bold)
             Dim location As PointF
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, plotRegion As GraphicsRegion)
                     Dim size As SizeF
-                    Dim region As Rectangle = plotRegion.PlotRegion
+                    Dim region As Rectangle = plotRegion.PlotRegion(css)
 
                     size = g.MeasureString(model.ModelsId, font)
                     location = New PointF(region.Left + (region.Width - size.Width) / 2, y:=margin.Top / 2.5)
@@ -343,7 +345,7 @@ For example, we identified a new domain, likely to have a role downstream of the
 #End Region
                 End Sub
 
-            Return g.GraphicsPlots(New Size(width, (n + 1) * height + margin.Vertical), margin, "transparent", plotInternal)
+            Return g.GraphicsPlots(size1, margin, "transparent", plotInternal)
         End Function
     End Module
 End Namespace

@@ -125,19 +125,20 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-        Dim plotH As Single = canvas.PlotRegion.Height
-        Dim top As Single = canvas.PlotRegion.Top
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim plotRect = canvas.PlotRegion(css)
+        Dim plotH As Single = plotRect.Height
+        Dim top As Single = plotRect.Top
         Dim termH As Single = plotH / (enrich.Count - 1 + Aggregate ci In enrich Into Sum(ci.Value.Length))
         Dim max_string = enrich.Values.IteratesALL.Select(Function(ti) ti.name).MaxLengthString
-        Dim css As CSSEnvirnment = g.LoadEnvironment
-        Dim name_label_font As Font = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
+        Dim name_label_font As Font = CSS.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
         Dim max_string_size As SizeF = g.MeasureString(max_string, name_label_font)
-        Dim left = canvas.PlotRegion.Left + max_string_size.Width
-        Dim bubble_rect_width As Single = canvas.PlotRegion.Width - max_string_size.Width
+        Dim left = plotRect.Left + max_string_size.Width
+        Dim bubble_rect_width As Single = plotRect.Width - max_string_size.Width
         Dim labelColor As Brush = theme.tagColor.GetBrush
-        Dim y As Single = canvas.PlotRegion.Top
+        Dim y As Single = plotRect.Top
         Dim dashline As Pen = css.GetPen(Stroke.TryParse(theme.gridStrokeY))
-        Dim plotW As Single = canvas.PlotRegion.Width - g.MeasureString(max_string, name_label_font).Width
+        Dim plotW As Single = plotRect.Width - g.MeasureString(max_string, name_label_font).Width
         Dim x_Ticks As Vector = (-enrich.Values.IteratesALL.Select(Function(ti) ti.pvalue).AsVector.Log10).CreateAxisTicks
         Dim radius_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) Val(ti.enriched)).AsVector
         Dim color_scaler As DoubleRange = enrich.Values.IteratesALL.Select(Function(ti) ti.FDR).AsVector
@@ -147,7 +148,7 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
         Dim boxFill As Brush = Brushes.LightGray
         Dim axis_stroke As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
         Dim scaler As New DataScaler() With {
-            .AxisTicks = (x_Ticks, {canvas.PlotRegion.Top, canvas.PlotRegion.Bottom}),
+            .AxisTicks = (x_Ticks, {plotRect.Top, plotRect.Bottom}),
             .region = New Rectangle(left + radius.Min, top, bubble_rect_width - radius.Min, y - top),
             .X = d3js.scale.linear().range(values:={ .region.Left, .region.Right}).domain(x_Ticks),
             .Y = d3js.scale.constant(0)
@@ -200,10 +201,10 @@ Public Class EnrichmentCategoryBubble : Inherits HeatMapPlot
 
         Dim legendTitleFont As Font = css.GetFont(theme.legendTitleCSS)
         Dim legend_layout As New Rectangle(
-            canvas.PlotRegion.Right + categoryBarWidth * 2,
-            canvas.PlotRegion.Top + canvas.PlotRegion.Height / 6,
-            canvas.Padding.Right * (2 / 3),
-            canvas.PlotRegion.Height / 3)
+            plotRect.Right + categoryBarWidth * 2,
+            plotRect.Top + plotRect.Height / 6,
+            css.GetValue(canvas.Padding.Right) * (2 / 3),
+            plotRect.Height / 3)
 
         Call Array.Reverse(colors)
         Call New ColorMapLegend(colors) With {

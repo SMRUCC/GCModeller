@@ -119,13 +119,13 @@ Public Module RegionMap
         Dim level%
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
+                Dim css As CSSEnvirnment = g.LoadEnvironment
                 Dim width = region.Width
                 Dim top = region.Padding.Top
                 Dim margin As Padding = region.Padding
-                Dim scaleFactor# = (width - margin.Horizontal) / model.Size
+                Dim scaleFactor# = (width - margin.Horizontal(css)) / model.Size
                 Dim pos As Point
-                Dim css As CSSEnvirnment = g.LoadEnvironment
-                Dim locusTagFont As Font = css.GetFont(CSSFont.TryParse(locusTagFontCSS))
+                Dim locusTagFont As Font = CSS.GetFont(CSSFont.TryParse(locusTagFontCSS))
                 Dim legendFont As Font = css.GetFont(CSSFont.TryParse(legendFontCSS))
 
                 If disableLevelSkip Then

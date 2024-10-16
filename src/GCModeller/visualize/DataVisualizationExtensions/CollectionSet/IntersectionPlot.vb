@@ -135,15 +135,15 @@ Namespace CollectionSet
         End Sub
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-            Dim plotRect As Rectangle = canvas.PlotRegion
             Dim css As CSSEnvirnment = g.LoadEnvironment
-            Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
+            Dim plotRect As Rectangle = canvas.PlotRegion(css)
+            Dim labelFont As Font = CSS.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
             Dim maxLabelSize As SizeF = g.MeasureString(collections.collectionSetLabels.MaxLengthString, labelFont)
             Dim hideLabels As Boolean = False
             Dim totalHeight As Double = collections.collectionSetLabels.Length * (maxLabelSize.Height * 1.125)
             Dim topBarPlot As New Rectangle(plotRect.Left, plotRect.Top, plotRect.Width, plotRect.Height - totalHeight)
             Dim bottomIntersection As New Rectangle(plotRect.Left, plotRect.Bottom - totalHeight + 50, plotRect.Width, totalHeight)
-            Dim leftSetSizeBar As New Rectangle(canvas.Padding.Left / 20, bottomIntersection.Top, plotRect.Left, totalHeight)
+            Dim leftSetSizeBar As New Rectangle(css.GetValue(canvas.Padding.Left) / 20, bottomIntersection.Top, plotRect.Left, totalHeight)
             Dim topbarLayout As New Rectangle(
                 x:=bottomIntersection.Left,
                 y:=plotRect.Top,
@@ -212,7 +212,7 @@ Namespace CollectionSet
             maxwidth = std.Max(g.MeasureString(legends.Last.title, font).Width, maxwidth)
             theme.legendLayout = New Absolute With {
                 .x = canvas.Width - maxwidth * 1.25,
-                .y = std.Max(200, canvas.Padding.Top)
+                .y = std.Max(200, css.GetValue(canvas.Padding.Top))
             }
 
             Call DrawLegends(g, legends.ToArray, showBorder:=True, canvas:=canvas)

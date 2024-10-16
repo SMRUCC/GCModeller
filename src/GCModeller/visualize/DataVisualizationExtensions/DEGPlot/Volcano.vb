@@ -363,11 +363,12 @@ Public Class VolcanoPlot : Inherits Plot
         Dim titleSize As SizeF = g.MeasureString(main, titleFont)
         Dim top! = titleSize.Height * 1.5 + ticksFont.Height + 10
         Dim left! = g.MeasureString("00.0", ticksFont).Width + 10
+        Dim canvasRect = canvas.PlotRegion(css)
         Dim plotRegion As New Rectangle With {
-            .X = canvas.Padding.Left + left,
-            .Y = canvas.Padding.Top + titleSize.Height * 1.5,
-            .Width = canvas.PlotRegion.Width - left,
-            .Height = canvas.PlotRegion.Height - top
+            .X = css.GetValue(canvas.Padding.Left) + left,
+            .Y = css.GetValue(canvas.Padding.Top) + titleSize.Height * 1.5,
+            .Width = canvasRect.Width - left,
+            .Height = canvasRect.Height - top
         }   ' 得到最终剩余的绘图区域
 
         Dim x, y As d3js.scale.LinearScale
@@ -390,8 +391,8 @@ Public Class VolcanoPlot : Inherits Plot
 
         ' 绘制出顶部的大标题
         point = New PointF With {
-            .X = canvas.Padding.Left + (canvas.PlotRegion.Width - titleSize.Width) / 2,
-            .Y = canvas.Padding.Top
+            .X = css.GetValue(canvas.Padding.Left) + (canvasRect.Width - titleSize.Width) / 2,
+            .Y = css.GetValue(canvas.Padding.Top)
         }
         Call g.DrawString(main, titleFont, New SolidBrush(Color.Black), point)
 
@@ -470,8 +471,8 @@ Public Class VolcanoPlot : Inherits Plot
             Dim legends = colors.GetLegends(theme.legendLabelCSS, (up, down), displayCount)
             Dim lsize As SizeF = legends.MaxLegendSize(g)
 
-            px = .PlotRegion.Right - lsize.Width * 0.1 - lsize.Width
-            py = plotRegion.Top + .Padding.Top / 2
+            px = .PlotRegion(css).Right - lsize.Width * 0.1 - lsize.Width
+            py = plotRegion.Top + css.GetValue(.Padding.Top) / 2
             point = New PointF(px, py)
 
             Call g.DrawLegends(point.ToPoint, legends, gSize:="40,40")

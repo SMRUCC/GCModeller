@@ -158,7 +158,7 @@ Namespace CatalogProfiling
             Dim layout As New Rectangle With {
                 .X = right,
                 .Width = canvas.Padding.Right * (2 / 3),
-                .Height = canvas.PlotRegion.Height / 2,
+                .Height = canvas.PlotRegion(css).Height / 2,
                 .Y = If(y.IsNaNImaginary, canvas.Padding.Top, y)
             }
 

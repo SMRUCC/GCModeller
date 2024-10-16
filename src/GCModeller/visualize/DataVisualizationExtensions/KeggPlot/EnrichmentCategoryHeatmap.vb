@@ -190,10 +190,10 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
     End Function
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-        Dim rect As Rectangle = canvas.PlotRegion
-        Dim delta As Double = rect.Width * 0.005
         Dim css As CSSEnvirnment = g.LoadEnvironment
-        Dim label_font As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
+        Dim rect As Rectangle = canvas.PlotRegion(css)
+        Dim delta As Double = rect.Width * 0.005
+        Dim label_font As Font = CSS.GetFont(CSSFont.TryParse(theme.tagCSS))
         Dim tick_font As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
         Dim charRectangle = g.MeasureString("A", label_font)
         Dim max_label_size As SizeF = g.MeasureString(data.rownames.MaxLengthString, label_font)
@@ -212,7 +212,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim tree_region As New Rectangle(tree_left, rect.Top, width, rect.Height)
 
         Dim label_maxh As Single = label_region.Height / data.nsamples
-        Dim legend_region As New Rectangle(rect.Right + delta, rect.Top, canvas.Padding.Right / 3, rect.Height)
+        Dim legend_region As New Rectangle(rect.Right + delta, rect.Top, css.GetValue(canvas.Padding.Right) / 3, rect.Height)
 
         ' draw labels on left
         Dim y As Double = label_region.Top
