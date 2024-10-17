@@ -264,7 +264,8 @@ Namespace Text.Similarity
                             Dim top As Double = Double.MinValue
 
                             For Each si As String In getData(a)
-                                Dim score As Double = LevenshteinEvaluate(query, si,
+                                Dim score As Double = LevenshteinEvaluate(
+                                    query, si,
                                     ignoreCase:=ignoreCase,
                                     cost:=cost,
                                     strlen_diff:=strlen_diff)
@@ -282,7 +283,9 @@ Namespace Text.Similarity
                         End Function) _
                 .Where(Function(a) a.Item1 > 0) _
                 .OrderByDescending(Function(a) a.Item1) _
-                .Select(Function(a) a.Item2)
+                .Select(Function(a)
+                            Return a.Item2
+                        End Function)
         End Function
 
         ''' <summary>
