@@ -264,6 +264,10 @@ Namespace Text.Similarity
                             Dim top As Double = Double.MinValue
 
                             For Each si As String In getData(a)
+                                If si Is Nothing Then
+                                    Continue For
+                                End If
+
                                 Dim score As Double = LevenshteinEvaluate(
                                     query, si,
                                     ignoreCase:=ignoreCase,
