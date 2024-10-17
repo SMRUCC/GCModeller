@@ -173,7 +173,11 @@ Vladimir I",
         ''' <param name="asChar">这个只是用于进行显示输出的</param>
         ''' <param name="cost"></param>
         ''' <returns></returns>
-        Public Function ComputeDistance(Of T)(reference As T(), hypotheses As T(), equals As GenericLambda(Of T).IEquals, asChar As ToChar(Of T), Optional cost As Double = 0.7) As DistResult
+        Public Function ComputeDistance(Of T)(reference As T(), hypotheses As T(),
+                                              equals As GenericLambda(Of T).IEquals,
+                                              asChar As ToChar(Of T),
+                                              Optional cost As Double = 0.7) As DistResult
+
             If hypotheses Is Nothing Then hypotheses = New T() {}
             If reference Is Nothing Then reference = New T() {}
 
@@ -183,9 +187,10 @@ Vladimir I",
             Dim sHyp As String = New String(hypotheses.Select(Function(x) asChar(x)).ToArray)
             Dim sRef As String = New String(reference.Select(Function(x) asChar(x)).ToArray)
             Dim result As New DistResult With {
-                .hypotheses = sHyp,
-                .reference = sRef
+                .Hypotheses = sHyp,
+                .Reference = sRef
             }
+
             Return computeRouteImpl(sHyp, result, i, j, distTable)
         End Function
 
