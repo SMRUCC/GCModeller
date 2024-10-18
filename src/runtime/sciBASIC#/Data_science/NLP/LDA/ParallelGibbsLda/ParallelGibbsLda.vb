@@ -178,11 +178,7 @@ Namespace LDA
             Next
         End Sub
 
-        Public Overridable Sub gibbsSampling(K As Integer, alpha As Double, beta As Double, iter As Integer, threads As Integer)
-            gibbsSampling(K, alpha, beta, iter, threads, 47)
-        End Sub
-
-        Public Overridable Sub gibbsSampling(K As Integer, alpha As Double, beta As Double, iter As Integer, threads As Integer, seed As Integer)
+        Public Overridable Sub gibbsSampling(K As Integer, alpha As Double, beta As Double, Optional iter As Integer = 1000, Optional threads As Integer = 8, Optional seed As Integer = 47)
             Me.K = K
             Me.alpha = alpha
             Me.beta = beta

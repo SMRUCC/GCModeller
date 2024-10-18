@@ -62,6 +62,7 @@ Namespace LDA
     ''' Created by chenjianfeng on 2018/1/21.
     ''' </summary>
     Public Class GibbsWorker
+
         Private pGL As ParallelGibbsLda
         Private start As Integer
         Private [end] As Integer
