@@ -82,6 +82,10 @@ Namespace LDA
             gibbsSampling()
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"&{start}"
+        End Function
+
         Public Overridable Sub gibbsSampling()
             Dim N As Integer
 

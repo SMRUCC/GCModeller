@@ -183,14 +183,16 @@ Namespace LDA
             Me.alpha = alpha
             Me.beta = beta
             Me.iter = iter
-            Dim gibbsWorks = New GibbsWorker(threads - 1) {}
-            Dim pieceSize As Integer = documents.Length / threads
+
+            Dim workers As Integer = threads * 2
+            Dim gibbsWorks = New GibbsWorker(workers - 1) {}
+            Dim pieceSize As Integer = documents.Length \ workers
             Dim i = 0, offset = 0
 
             Call initial()
 
-            While i < threads
-                If i = threads - 1 Then
+            While i < workers
+                If i = workers - 1 Then
                     pieceSize = documents.Length - offset
                 End If
 
@@ -213,7 +215,7 @@ Namespace LDA
                     For word As Integer = 0 To V - 1
                         nwDelta = 0
 
-                        For cpu_id As Integer = 0 To threads - 1
+                        For cpu_id As Integer = 0 To workers - 1
                             nwDelta += gibbsWorks(cpu_id).nw(word)(topic) - nw(word)(topic)
                         Next
 
