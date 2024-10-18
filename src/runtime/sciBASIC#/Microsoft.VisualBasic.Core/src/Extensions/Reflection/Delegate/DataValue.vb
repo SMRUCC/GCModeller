@@ -179,6 +179,12 @@ Namespace Emit.Delegates
             properties = inspectType(type)
         End Sub
 
+        Public Function GetSubVector(property$) As DataObjectVector
+            Dim subvec As Array = Evaluate([property])
+            Dim vec As New DataObjectVector(subvec)
+            Return vec
+        End Function
+
         Public Function GetProperty(property$) As PropertyInfo
             Return properties([property])
         End Function
