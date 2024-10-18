@@ -184,7 +184,7 @@ Namespace LDA
             Me.beta = beta
             Me.iter = iter
 
-            Dim workers As Integer = threads * 2
+            Dim workers As Integer = threads ' * 2
             Dim gibbsWorks = New GibbsWorker(workers - 1) {}
             Dim pieceSize As Integer = documents.Length \ workers
             Dim i = 0, offset = 0
