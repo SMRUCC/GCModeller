@@ -53,7 +53,7 @@ Public Class GibbsSampler
         Console.WriteLine("============= Result of Gibbs Sampling Algorithm in each iteration =============")
         Dim predictedSites As IList(Of Integer) = New List(Of Integer)()
         Dim predictedMotifs As IList(Of String) = New List(Of String)()
-
+        Dim sequences = Me.m_sequences.Select(Function(fa) fa.SequenceData).ToArray
         Dim maxInformationContent = New Double() {Double.NegativeInfinity}
 
         Call Enumerable.Range(0, numSamples) _
@@ -65,8 +65,8 @@ Public Class GibbsSampler
                              End If
                          End SyncLock
 
-                         Dim sites As IList(Of Integer) = gibbsSample(maxIterations, New List(Of String)(m_sequences))
-                         Dim motifs = getMotifStrings(m_sequences, sites)
+                         Dim sites As IList(Of Integer) = gibbsSample(maxIterations, New List(Of String)(sequences))
+                         Dim motifs = getMotifStrings(sequences, sites)
                          Dim informationContent = Me.informationContent(motifs)
                          Dim newMax As Boolean
                          SyncLock maxInformationContent
