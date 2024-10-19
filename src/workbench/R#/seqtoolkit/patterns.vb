@@ -539,7 +539,7 @@ Module patterns
             End Select
         End If
 
-        Return DrawingDevice.DrawFrequency(New FastaFile(data), title)
+        Return DrawingDevice.DrawFrequency(New FastaFile(data), title, driver:=driver)
     End Function
 
     ''' <summary>
