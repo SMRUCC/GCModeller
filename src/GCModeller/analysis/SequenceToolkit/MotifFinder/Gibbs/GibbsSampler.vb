@@ -5,6 +5,12 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.Matrix
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
+''' <summary>
+''' 
+''' </summary>
+''' <remarks>
+''' https://github.com/trueb2/cs466proj
+''' </remarks>
 Public Class GibbsSampler
 
     Private Shared ReadOnly LOG_2 As Double = Math.Log(2)
