@@ -101,7 +101,7 @@ Module patterns
         Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
         Call REnv.Internal.generic.add("plot", GetType(MSAOutput), AddressOf plotMotif)
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of SequenceMotif)(Function(m) DirectCast(m, SequenceMotif).patternString)
-        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Score()), AddressOf gibbs_table)
+        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MSAMotif), AddressOf gibbs_table)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(SequenceGraph()), AddressOf seqgraph_df)
     End Sub
 
@@ -125,11 +125,17 @@ Module patterns
         Return df
     End Function
 
-    Private Function gibbs_table(score As Score(), args As list, env As Environment) As dataframe
-        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+    Private Function gibbs_table(score As MSAMotif, args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = score.names
+        }
 
-        df.add("motif", score.Select(Function(s) s.pwm))
-        df.add("score", score.Select(Function(s) s.score.Average))
+        df.add("motif", score.MSA)
+        df.add("p", score.p)
+        df.add("q", score.q)
+        df.add("score", score.score)
+        df.add("site", score.start)
 
         Return df
     End Function
@@ -186,6 +192,7 @@ Module patterns
     End Function
 
     <ExportAPI("gibbs_scan")>
+    <RApiReturn(GetType(MSAMotif))>
     Public Function gibbs_scans(<RRawVectorArgument>
                                 seqs As Object,
                                 Optional width As Integer = 12,
@@ -193,8 +200,8 @@ Module patterns
                                 Optional env As Environment = Nothing) As Object
 
         Dim fa As FastaSeq() = GetFastaSeq(seqs, env).Take(10).ToArray
-        Dim gibbs As New Gibbs(fa.Select(Function(si) si.SequenceData).ToArray, width)
-        Dim motif As Score() = gibbs.sample(MAXIT:=maxitr)
+        Dim gibbs As New GibbsSampler(fa, width)
+        Dim motif As MSAMotif = gibbs.find(maxIterations:=maxitr)
 
         Return motif
     End Function

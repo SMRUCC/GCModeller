@@ -1,5 +1,6 @@
 ﻿
 Imports System.IO
+Imports Microsoft.VisualBasic.Math.GibbsSampling
 Imports Microsoft.VisualBasic.My.JavaScript
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.Matrix
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -27,7 +28,7 @@ Public Class GibbsSampler
 
     Dim m_sequences As FastaSeq()
 
-    Friend Sub New(fastaFile As IEnumerable(Of FastaSeq), Optional motifLength As Integer = 8)
+    Sub New(fastaFile As IEnumerable(Of FastaSeq), Optional motifLength As Integer = 8)
         m_sequences = fastaFile.ToArray
         Me.motifLength = motifLength
         sequenceLength = m_sequences(0).Length
@@ -94,6 +95,19 @@ Public Class GibbsSampler
         Dim motifMatrix As WeightMatrix = New SequenceMatrix(predictedMotifs)
         Dim icpc As Double = maxInformationContent(0) / motifLength
         Console.WriteLine("======== Maximum Information Content :: " & icpc & " =========" & vbLf)
+        Dim p As Double() = New Double(predictedMotifs.Count - 1) {}
+        Dim q As Double() = New Double(predictedMotifs.Count - 1) {}
+        Dim eval As New Gibbs(sequences, motifLength)
+
+        For i As Integer = 0 To predictedMotifs.Count - 1
+            Dim chosenSequence = sequences(i)
+            Dim tempMotif = chosenSequence.Substring(predictedSites(i), motifLength)
+            Dim pi = eval.calculateP(tempMotif, i)
+            Dim qi = eval.calculateQ(tempMotif, i, predictedSites(i))
+
+            q(i) = qi
+            p(i) = pi
+        Next
 
         Return New MSAMotif With {
             .cost = icpc,
@@ -101,13 +115,20 @@ Public Class GibbsSampler
             .names = m_sequences.Select(Function(fa) fa.Title).ToArray,
             .start = predictedSites.ToArray,
             .countMatrix = motifMatrix.countsMatrix,
-            .rowSum = motifMatrix.rowSum
+            .rowSum = motifMatrix.rowSum,
+            .p = p,
+            .q = q
         }
     End Function
 
     Private Function informationContent(motifs As IList(Of String)) As Double
-        Dim sm As SequenceMatrix = New SequenceMatrix(motifs)
-        Return Enumerable.Select(Of Integer, Global.System.[Double])(Enumerable.Range(CInt(0), CInt(motifLength)), CType(Function(i) Enumerable.Sum(Enumerable.Where(Of Double)(Enumerable.Select(Of Integer, Global.System.[Double])(Enumerable.Range(CInt(0), CInt(4)), CType(Function(j) sm.probability(CInt(i), CInt(j)) * (Math.Log(sm.probability(CInt(i), CInt(j)) * 4) / LOG_2), Func(Of Integer, Double))), CType(Function(d) CBool(Not Double.IsNaN(d)), Func(Of Double, Boolean)))), Func(Of Integer, Double))).Sum()
+        Dim sm As New SequenceMatrix(motifs)
+
+        Return Enumerable.Range(CInt(0), CInt(motifLength)) _
+            .Select(Function(i)
+                        Return Enumerable.Sum(Enumerable.Where(Of Double)(Enumerable.Select(Of Integer, Global.System.[Double])(Enumerable.Range(CInt(0), CInt(4)), CType(Function(j) sm.probability(CInt(i), CInt(j)) * (Math.Log(sm.probability(CInt(i), CInt(j)) * 4) / LOG_2), Func(Of Integer, Double))), CType(Function(d) CBool(Not Double.IsNaN(d)), Func(Of Double, Boolean))))
+                    End Function) _
+            .Sum()
     End Function
 
     ''' <summary>
