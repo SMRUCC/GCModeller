@@ -31,7 +31,7 @@ Public Class GibbsSampler
     Sub New(fastaFile As IEnumerable(Of FastaSeq), Optional motifLength As Integer = 8)
         m_sequences = fastaFile.ToArray
         Me.motifLength = motifLength
-        sequenceLength = m_sequences(0).Length
+        sequenceLength = m_sequences.Select(Function(a) a.Length).Min
         sequenceCountField = m_sequences.Count
     End Sub
 
@@ -167,13 +167,17 @@ Public Class GibbsSampler
     ''' <returns> List of Double length 4 </returns>
     Private Function calculateP(S As IList(Of String)) As IList(Of Double)
         Dim P = New Double() {0, 0, 0, 0}
-        Enumerable.Range(0, sequenceCountField - 1).ForEach(Sub(i, j)
-                                                                Enumerable.Range(0, sequenceLength).ForEach(Sub(jj, ii) P(Utils.indexOfBase(S(ii)(jj))) += 1)
-                                                            End Sub)
+
+        For i As Integer = 0 To sequenceCountField - 1
+            Call Enumerable.Range(0, sequenceLength) _
+                .ForEach(Sub(jj, ii)
+                             P(Utils.indexOfBase(S(ii)(jj))) += 1
+                         End Sub)
+        Next
 
         Dim sum As Double = P.Sum()
 
-        Return P.[Select](Function(d) d / sum).ToList()
+        Return P.Select(Function(d) d / sum).ToList()
     End Function
 
     ''' <summary>
