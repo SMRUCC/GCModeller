@@ -340,8 +340,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                     font = New Font(font.Name, font.Size / 2)
                     size = g.MeasureString("Bits", font)
 
-                    Call g.RotateTransform(-90)
-                    Call g.DrawString("Bits", font, Brushes.Black, New Point((height - size.Width) / 2, css.GetWidth(margin.Left) / 3))
+                    Call g.DrawString("Bits", font, Brushes.Black, (height - size.Width) / 2, css.GetWidth(margin.Left) / 3, -90)
 #End Region
                 End Sub
 
