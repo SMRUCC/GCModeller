@@ -13,41 +13,26 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 ''' </remarks>
 Public Class GibbsSampler
 
-    Private Shared ReadOnly LOG_2 As Double = Math.Log(2)
+    Shared ReadOnly LOG_2 As Double = Math.Log(2)
 
     Public Overridable ReadOnly Property Sequences As IList(Of String)
         Get
-            Return sequencesField
+            Return m_sequences
         End Get
     End Property
 
     Friend motifLength As Integer
     Friend sequenceLength As Integer
     Friend sequenceCountField As Integer
-    Friend outputDirectory As String
-    Friend sequencesField As IList(Of String)
 
-    Friend Sub New(fastaFileName As String, motifLength As Integer, outputDirectory As String)
-        sequencesField = readFastaFile(fastaFileName)
+    Dim m_sequences As FastaSeq()
+
+    Friend Sub New(fastaFile As IEnumerable(Of FastaSeq), Optional motifLength As Integer = 8)
+        m_sequences = fastaFile.ToArray
         Me.motifLength = motifLength
-        sequenceLength = sequencesField(0).Length
-        sequenceCountField = sequencesField.Count
-        Me.outputDirectory = outputDirectory
+        sequenceLength = m_sequences(0).Length
+        sequenceCountField = m_sequences.Count
     End Sub
-
-    ''' <summary>
-    ''' Load all sequences from *.fa </summary>
-    ''' <param name="fileName"> path of fa file </param>
-    ''' <returns> Set of Gene Sequence String </returns>
-    Private Function readFastaFile(fileName As String) As IList(Of String)
-        Try
-            Return FastaFile.Read(fileName).Select(Function(fa) fa.SequenceData).ToList
-        Catch e As FileNotFoundException
-            Console.WriteLine(e.ToString())
-            Console.Write(e.StackTrace)
-            Return New List(Of String)()
-        End Try
-    End Function
 
     ''' <returns> the size of the list sequences </returns>
     Public Overridable ReadOnly Property SequenceCount As Integer
@@ -60,7 +45,7 @@ Public Class GibbsSampler
     ''' Runs numSamples gibbsSamples to find a prediction on the sites
     ''' and motifs with the highest information content in the sequences </summary>
     ''' <param name="maxIterations">maximum number of times to iterate in a Gibbs Sample </param>
-    Public Overridable Overloads Sub find(Optional maxIterations As Integer = 1000)
+    Public Function find(Optional maxIterations As Integer = 1000) As MSAMotif
         Dim numSamples As Integer = SequenceCount
 
         Console.WriteLine("============= Input Sequences =============")
@@ -76,9 +61,9 @@ Public Class GibbsSampler
                                                                               Return
                                                                           End If
                                                                       End SyncLock
-                                                                      Dim sites As IList(Of Integer) = gibbsSample(maxIterations, New List(Of String)(sequencesField))
+                                                                      Dim sites As IList(Of Integer) = gibbsSample(maxIterations, New List(Of String)(m_sequences))
                                                                       Dim s As String = Enumerable.Select(Of Integer, Global.System.[String])(sites, CType(Function(k) CStr(k.ToString()), Func(Of Integer, String))).JoinBy(" ")
-                                                                      Dim motifs = getMotifStrings(sequencesField, sites)
+                                                                      Dim motifs = getMotifStrings(m_sequences, sites)
                                                                       Dim informationContent = Me.informationContent(motifs)
                                                                       Dim newMax As Boolean
                                                                       SyncLock maxInformationContent
@@ -101,16 +86,18 @@ Public Class GibbsSampler
                                                                   End Sub)
 
         Dim motifMatrix As WeightMatrix = New SequenceMatrix(predictedMotifs)
-        Dim icpc As Double? = maxInformationContent(0) / motifLength
-        Console.WriteLine("======== Maximum Information Content :: " & maxInformationContent(0) / motifLength.ToString() & " =========" & vbLf)
+        Dim icpc As Double = maxInformationContent(0) / motifLength
+        Console.WriteLine("======== Maximum Information Content :: " & icpc & " =========" & vbLf)
 
-        Try
-            Writer.writeSites(sequenceCountField, predictedMotifs, predictedSites, outputDirectory & "predictedsites.txt")
-            Writer.writeMotif(sequenceCountField, motifMatrix, outputDirectory & "predictedmotif.txt", icpc.Value)
-        Catch e As Exception When TypeOf e Is FileNotFoundException
-            ' e.printStackTrace();
-        End Try
-    End Sub
+        Return New MSAMotif With {
+            .cost = icpc,
+            .MSA = predictedMotifs.ToArray,
+            .names = m_sequences.Select(Function(fa) fa.Title).ToArray,
+            .start = predictedSites.ToArray,
+            .countMatrix = motifMatrix.countsMatrix,
+            .rowSum = motifMatrix.rowSum
+        }
+    End Function
 
     Private Function informationContent(motifs As IList(Of String)) As Double
         Dim sm As SequenceMatrix = New SequenceMatrix(motifs)
