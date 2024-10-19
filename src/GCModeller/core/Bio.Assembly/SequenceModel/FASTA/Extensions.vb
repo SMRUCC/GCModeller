@@ -91,7 +91,10 @@ Namespace SequenceModel.FASTA
         ''' <param name="filename"> </param>
         ''' 
         <Extension>
-        Public Sub writeFasta(sequences As IEnumerable(Of String), filename As String, Optional break As Integer = 80)
+        Public Sub writeFasta(sequences As IEnumerable(Of String), filename As String,
+                              Optional break As Integer = 80,
+                              Optional prefix As String = "sequence")
+
             Using printWriter As New StreamWriter(filename.Open(FileMode.OpenOrCreate, doClear:=True))
                 Dim i As Integer = 0
 
@@ -105,7 +108,7 @@ Namespace SequenceModel.FASTA
                                      Call stringBuilder.Insert(j + break * (j + 1), vbLf)
                                  End Sub)
 
-                    stringBuilder.Insert(0, String.Format("> sequence{0}" & vbLf, i))
+                    stringBuilder.Insert(0, String.Format("> {0}{1}" & vbLf, prefix, i))
                     printWriter.WriteLine(stringBuilder.ToString())
                 Next
 
