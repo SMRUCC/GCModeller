@@ -514,7 +514,12 @@ Module patterns
     ''' <returns></returns>
     <ExportAPI("plot.seqLogo")>
     <RApiReturn(GetType(GraphicsData))>
-    Public Function DrawLogo(<RRawVectorArgument> MSA As Object, Optional title$ = "", Optional env As Environment = Nothing) As Object
+    Public Function DrawLogo(<RRawVectorArgument> MSA As Object,
+                             Optional title$ = "",
+                             Optional env As Environment = Nothing) As Object
+
+        Dim driver As Drivers = env.getDriver
+
         If MSA Is Nothing Then
             Return REnv.Internal.debug.stop("MSA is nothing!", env)
         End If

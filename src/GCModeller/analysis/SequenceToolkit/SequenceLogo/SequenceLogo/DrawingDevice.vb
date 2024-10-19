@@ -155,7 +155,8 @@ For example, we identified a new domain, likely to have a role downstream of the
         Public Function DrawFrequency(fasta As FastaFile,
                                       Optional title$ = "",
                                       Optional ByRef getModel As MotifPWM = Nothing,
-                                      Optional height As Integer = 75) As GraphicsData
+                                      Optional height As Integer = 75,
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim PWM As MotifPWM = Motif.PWM.FromMla(fasta)
             Dim model As New DrawingModel
@@ -190,7 +191,8 @@ For example, we identified a new domain, likely to have a role downstream of the
                                                                       }  ' alphabets
                         }  ' residues
                     End Function
-            Return InvokeDrawing(model, True, height:=height)
+
+            Return InvokeDrawing(model, True, height:=height, driver:=driver)
         End Function
 
         ''' <summary>
@@ -226,7 +228,8 @@ For example, we identified a new domain, likely to have a role downstream of the
                                       Optional frequencyOrder As Boolean = True,
                                       Optional logoPadding$ = g.DefaultPadding,
                                       Optional reverse As Boolean = False,
-                                      Optional height As Integer = 75) As GraphicsData
+                                      Optional height As Integer = 75,
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim n As Integer = model.Alphabets
             Dim margin As Padding = Padding.TryParse(logoPadding)
@@ -344,7 +347,7 @@ For example, we identified a new domain, likely to have a role downstream of the
 #End Region
                 End Sub
 
-            Return g.GraphicsPlots(size1, margin, "transparent", plotInternal)
+            Return g.GraphicsPlots(size1, margin, "transparent", plotInternal, driver:=driver)
         End Function
     End Module
 End Namespace
