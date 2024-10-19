@@ -199,7 +199,7 @@ Module patterns
                                 Optional maxitr As Integer = 1000,
                                 Optional env As Environment = Nothing) As Object
 
-        Dim fa As FastaSeq() = GetFastaSeq(seqs, env).Take(10).ToArray
+        Dim fa As FastaSeq() = GetFastaSeq(seqs, env).ToArray
         Dim gibbs As New GibbsSampler(fa, width)
         Dim motif As MSAMotif = gibbs.find(maxIterations:=maxitr)
 
