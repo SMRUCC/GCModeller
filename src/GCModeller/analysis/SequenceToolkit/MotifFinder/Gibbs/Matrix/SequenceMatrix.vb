@@ -1,6 +1,4 @@
-﻿Imports ConsoleApp1.edu.illinois
-
-Namespace Matrix
+﻿Namespace Matrix
 
     Public Class SequenceMatrix : Inherits WeightMatrix
 
@@ -32,8 +30,8 @@ Namespace Matrix
 
         ''' <summary>
         ''' Returns the probability of seeing the base in the index </summary>
-        ''' <paramname="index">, index of base </param>
-        ''' <paramname="base">, base in the index </param>
+        ''' <param name="index">, index of base </param>
+        ''' <param name="base">, base in the index </param>
         Public Overridable Function probability(index As Integer, base As Integer) As Double
             Return countsMatrix(index)(base) / rowSum
         End Function

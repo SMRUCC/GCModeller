@@ -1,5 +1,4 @@
 ﻿Imports System.Text
-Imports ConsoleApp1.edu.illinois
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace Matrix
@@ -13,8 +12,8 @@ Namespace Matrix
         ''' Creates a countsMatrix that may be sampled from where
         ''' columns have informationContentPerColumn information content
         ''' and there are motifLength columns </summary>
-        ''' <paramname="informationContentPerColumn">, information content per column </param>
-        ''' <paramname="motifLength">, number of columns </param>
+        ''' <param name="informationContentPerColumn">, information content per column </param>
+        ''' <param name="motifLength">, number of columns </param>
         Public Sub New(informationContentPerColumn As Double, motifLength As Integer)
             Me.informationContentPerColumn = informationContentPerColumn
             Me.motifLength = motifLength
@@ -48,7 +47,7 @@ Namespace Matrix
         '''     surpassed through taking a step of size 1. If a step of size
         '''     greater than 1 surpasses the threshold, then the
         '''     epoch will be undone. </summary>
-        ''' <paramname="idx">, row index of motif to perform work on </param>
+        ''' <param name="idx">, row index of motif to perform work on </param>
         Private Sub stochasticGradientDescent(r As Random, idx As Integer)
             Dim prevStep As Integer = rowSum / 4 / 1000
             Dim [step] = If(prevStep > 0, prevStep, 5)
@@ -82,9 +81,9 @@ Namespace Matrix
 
         ''' <summary>
         ''' Picks the index in a row that may be decremented without going negative </summary>
-        ''' <paramname="row">, row of counts </param>
-        ''' <paramname="targetIdx">, target index that may not be decremented </param>
-        ''' <paramname="step">, amount of decrement </param>
+        ''' <param name="row">, row of counts </param>
+        ''' <param name="targetIdx">, target index that may not be decremented </param>
+        ''' <param name="step">, amount of decrement </param>
         ''' <returns> index to decrement </returns>
         Private Function pickDecrementIndex(row As Integer(), targetIdx As Integer, [step] As Integer) As Integer
             Dim acceptableIndices As List(Of Integer) = New List(Of Integer)()
