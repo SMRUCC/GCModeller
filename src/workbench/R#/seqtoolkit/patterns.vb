@@ -527,7 +527,7 @@ Module patterns
             Select Case type
                 Case GetType(SequenceMotif)
                     data = DirectCast(MSA, SequenceMotif).seeds.ToFasta
-                Case GetType(MSAOutput)
+                Case GetType(MSAOutput), GetType(MSAMotif)
                     data = DirectCast(MSA, MSAOutput).PopulateAlignment
                 Case Else
                     Return REnv.Internal.debug.stop(New InvalidProgramException, env)

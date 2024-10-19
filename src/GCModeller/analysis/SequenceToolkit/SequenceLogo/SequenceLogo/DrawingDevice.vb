@@ -242,15 +242,15 @@ For example, we identified a new domain, likely to have a role downstream of the
                     Dim region As Rectangle = plotRegion.PlotRegion(css)
 
                     size = g.MeasureString(model.ModelsId, font)
-                    location = New PointF(region.Left + (region.Width - size.Width) / 2, y:=margin.Top / 2.5)
+                    location = New PointF(region.Left + (region.Width - size.Width) / 2, y:=css.GetHeight(margin.Top) / 2.5)
                     g.DrawString(model.ModelsId, font, Brushes.Black, location)
 
                     font = New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.4))
 
 #Region "画坐标轴"
                     ' 坐标轴原点
-                    X = margin.Left
-                    Y = region.Height + margin.Top
+                    X = css.GetWidth(margin.Left)
+                    Y = region.Height + css.GetHeight(margin.Top)
 
                     Dim maxBits As Double = Math.Log(n, newBase:=2)
                     Dim yHeight As Integer = n * height
@@ -300,7 +300,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                                      Order By rsd.RelativeFrequency Ascending).ToArray
                         End If
 
-                        Y = region.Height + margin.Top
+                        Y = region.Height + css.GetHeight(margin.Top)
 
                         ' YHeight is the max height of current residue, and its value is calculate from its Bits value
                         yHeight = (n * height) * (If(residue.Bits > maxBits, maxBits, residue.Bits) / maxBits)
@@ -341,7 +341,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                     size = g.MeasureString("Bits", font)
 
                     Call g.RotateTransform(-90)
-                    Call g.DrawString("Bits", font, Brushes.Black, New Point((height - size.Width) / 2, margin.Left / 3))
+                    Call g.DrawString("Bits", font, Brushes.Black, New Point((height - size.Width) / 2, css.GetWidth(margin.Left) / 3))
 #End Region
                 End Sub
 
