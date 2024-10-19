@@ -55,35 +55,41 @@ Public Class GibbsSampler
         Dim predictedMotifs As IList(Of String) = New List(Of String)()
 
         Dim maxInformationContent = New Double() {Double.NegativeInfinity}
-        Call Enumerable.Range(0, numSamples).AsParallel().ForEach(Sub(j, i)
-                                                                      SyncLock maxInformationContent
-                                                                          If maxInformationContent(0) / motifLength = 2.0 Then
-                                                                              Return
-                                                                          End If
-                                                                      End SyncLock
-                                                                      Dim sites As IList(Of Integer) = gibbsSample(maxIterations, New List(Of String)(m_sequences))
-                                                                      Dim s As String = Enumerable.Select(Of Integer, Global.System.[String])(sites, CType(Function(k) CStr(k.ToString()), Func(Of Integer, String))).JoinBy(" ")
-                                                                      Dim motifs = getMotifStrings(m_sequences, sites)
-                                                                      Dim informationContent = Me.informationContent(motifs)
-                                                                      Dim newMax As Boolean
-                                                                      SyncLock maxInformationContent
-                                                                          newMax = informationContent >= maxInformationContent(0)
-                                                                      End SyncLock
-                                                                      If newMax Then
-                                                                          SyncLock maxInformationContent
-                                                                              maxInformationContent(0) = informationContent
-                                                                          End SyncLock
-                                                                          SyncLock predictedSites
-                                                                              predictedSites.Clear()
-                                                                              CType(predictedSites, List(Of Integer)).AddRange(sites)
-                                                                          End SyncLock
-                                                                          SyncLock predictedMotifs
-                                                                              predictedMotifs.Clear()
-                                                                              CType(predictedMotifs, List(Of String)).AddRange(motifs)
-                                                                          End SyncLock
-                                                                      End If
-                                                                      Console.WriteLine(informationContent.ToString() & " :: " & s)
-                                                                  End Sub)
+
+        Call Enumerable.Range(0, numSamples) _
+            .AsParallel() _
+            .ForEach(Sub(j, i)
+                         SyncLock maxInformationContent
+                             If maxInformationContent(0) / motifLength = 2.0 Then
+                                 Return
+                             End If
+                         End SyncLock
+
+                         Dim sites As IList(Of Integer) = gibbsSample(maxIterations, New List(Of String)(m_sequences))
+                         Dim motifs = getMotifStrings(m_sequences, sites)
+                         Dim informationContent = Me.informationContent(motifs)
+                         Dim newMax As Boolean
+                         SyncLock maxInformationContent
+                             newMax = informationContent >= maxInformationContent(0)
+                         End SyncLock
+                         If newMax Then
+                             Dim s As String = sites.Select(Function(k) k.ToString).JoinBy(" ")
+
+                             SyncLock maxInformationContent
+                                 maxInformationContent(0) = informationContent
+                             End SyncLock
+                             SyncLock predictedSites
+                                 predictedSites.Clear()
+                                 CType(predictedSites, List(Of Integer)).AddRange(sites)
+                             End SyncLock
+                             SyncLock predictedMotifs
+                                 predictedMotifs.Clear()
+                                 CType(predictedMotifs, List(Of String)).AddRange(motifs)
+                             End SyncLock
+
+                             Console.WriteLine(informationContent.ToString() & " :: " & s)
+                         End If
+                     End Sub)
 
         Dim motifMatrix As WeightMatrix = New SequenceMatrix(predictedMotifs)
         Dim icpc As Double = maxInformationContent(0) / motifLength
