@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>upstream</title>
+    <title>Create the upstream location</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,24 +18,37 @@
             </tr>
         </table>
 
-        <h2>upstream</h2>
+        <h2>Create the upstream location</h2>
 
         <h3>Description</h3>
 
-        upstream
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>upstream</strong>(<i>context</i>,
     <i>length</i> = <span style='color: green;'>200</span>,
-    <i>isRelativeOffset</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+    <i>is.relative.offset</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>context</dt>
+<dd><p>th gene element location context data. [as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/TabularFormat/ComponentModels/GeneBrief.html">GeneBrief</a>]</p></dd>
+
+
+<dt>length</dt>
+<dd><p>bit length of the upstream location. [as integer]</p></dd>
+
+
+<dt>is.relative.offset</dt>
+<dd><p>Does the generates context upstream location is relative to the 
+ given context start position or the enitre context region move
+ by upstream offset bits?. [as boolean]</p></dd>
+
         </table>
 
 

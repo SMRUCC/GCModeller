@@ -1,11 +1,29 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.GENOMICS 2 2000-Jan "upstream" "upstream"
 .SH NAME
-upstream \- 
+upstream \- Create the upstream location
 .SH SYNOPSIS
 \fIupstream(\fBcontext\fR as <generic> GeneBrief[], 
 \fBlength\fR as integer = 200, 
-\fBisRelativeOffset\fR as boolean = FALSE);\fR
+\fBis_relative_offset\fR as boolean = TRUE);\fR
+.SH DESCRIPTION
+.PP
+Create the upstream location
+.PP
+.SH OPTIONS
+.PP
+\fBcontext\fB \fR\- th gene element location context data. 
+.PP
+.PP
+\fBlength\fB \fR\- bit length of the upstream location. 
+.PP
+.PP
+\fBis_relative_offset\fB \fR\- 
+ Does the generates context upstream location is relative to the 
+ given context start position or the enitre context region move
+ by upstream offset bits?
+. 
+.PP
 .SH SEE ALSO
 annotation.genomics
 .SH FILES

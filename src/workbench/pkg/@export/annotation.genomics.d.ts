@@ -5,6 +5,7 @@
 // ref=seqtoolkit.genomics@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * 
 */
 declare namespace annotation.genomics {
    module as {
@@ -34,10 +35,20 @@ declare namespace annotation.genomics {
       function gtf(file: string): object;
    }
    /**
-     * @param length default value Is ``200``.
-     * @param isRelativeOffset default value Is ``false``.
+    * Create the upstream location
+    * 
+    * 
+     * @param context th gene element location context data
+     * @param length bit length of the upstream location
+     * 
+     * + default value Is ``200``.
+     * @param is_relative_offset Does the generates context upstream location is relative to the 
+     *  given context start position or the enitre context region move
+     *  by upstream offset bits?
+     * 
+     * + default value Is ``true``.
    */
-   function upstream(context: object, length?: object, isRelativeOffset?: boolean): object;
+   function upstream(context: object, length?: object, is_relative_offset?: boolean): object;
    module write {
       /**
         * @param file default value Is ``null``.
