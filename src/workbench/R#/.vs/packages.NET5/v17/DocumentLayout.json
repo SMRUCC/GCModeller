@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\genomics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\genomics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D0B31755-0F8C-4E11-B8F4-A5FDC1783E62}|..\\..\\..\\..\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\Microsoft.VisualBasic.Drawing.vbproj|g:\\microsoft.visualbasic.drawing\\src\\microsoft.visualbasic.drawing\\skiagraphics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -36,14 +40,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SkiaGraphics.vb",
-              "DocumentMoniker": "G:\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb",
-              "ToolTip": "G:\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb",
-              "RelativeToolTip": "..\\..\\..\\..\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb",
-              "ViewState": "AgIAAP4AAAAAAAAAAAAQwD4BAABeAAAAAAAAAA==",
+              "Title": "genomics.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genomics.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genomics.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genomics.vb",
+              "RelativeToolTip": "seqtoolkit\\Annotations\\genomics.vb",
+              "ViewState": "AgIAAGIAAAAAAAAAAAApwIUAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-20T03:27:04.625Z",
+              "WhenOpened": "2024-10-20T04:08:44.416Z",
               "EditorCaption": ""
             },
             {
@@ -60,7 +64,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "SkiaGraphics.vb",
+              "DocumentMoniker": "G:\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb",
+              "ToolTip": "G:\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb",
+              "RelativeToolTip": "..\\..\\..\\..\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb",
+              "ViewState": "AgIAAAcBAAAAAAAAAAAmwBABAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-20T03:27:04.625Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "ColorSchema.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\ColorSchema.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\ColorSchema.vb",
@@ -68,24 +85,22 @@
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\ColorSchema.vb",
               "ViewState": "AgIAAFQAAAAAAAAAAAAAAFsAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-20T03:21:52.346Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-20T03:21:52.346Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "R-cmd.NET5",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-10-20T03:18:07.526Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-20T03:18:07.526Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Blast.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Blast.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Blast.vb",
@@ -93,12 +108,11 @@
               "RelativeToolTip": "seqtoolkit\\Blast.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-20T03:17:31.772Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-20T03:17:31.772Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "patterns.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\patterns.vb",
@@ -106,12 +120,11 @@
               "RelativeToolTip": "seqtoolkit\\patterns.vb",
               "ViewState": "AgIAAPIBAAAAAAAAAAAqwB0CAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-20T03:17:29.284Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-20T03:17:29.284Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Fasta.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Fasta.vb",
@@ -119,8 +132,7 @@
               "RelativeToolTip": "seqtoolkit\\Fasta.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-20T03:17:26.789Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-20T03:17:26.789Z"
             }
           ]
         }

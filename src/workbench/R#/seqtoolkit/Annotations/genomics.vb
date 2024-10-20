@@ -108,18 +108,38 @@ Module genomics
         Return gb.GbffToPTT
     End Function
 
+    ''' <summary>
+    ''' Create the upstream location
+    ''' </summary>
+    ''' <param name="context">th gene element location context data</param>
+    ''' <param name="length">bit length of the upstream location</param>
+    ''' <param name="is_relative_offset">
+    ''' Does the generates context upstream location is relative to the 
+    ''' given context start position or the enitre context region move
+    ''' by upstream offset bits?
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("upstream")>
     Public Function getUpstream(<RRawVectorArgument>
                                 context As GeneBrief(),
                                 Optional length% = 200,
-                                Optional isRelativeOffset As Boolean = False) As NucleotideLocation()
+                                Optional is_relative_offset As Boolean = True) As NucleotideLocation()
         Return context _
             .Select(Function(gene)
-                        Return gene.getUpStream(length, isRelativeOffset)
+                        Return gene.getUpStream(length, is_relative_offset)
                     End Function) _
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="gene"></param>
+    ''' <param name="length"></param>
+    ''' <param name="isRelativeOffset">
+    ''' the generated region location is relative to the given context its start position?
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
     Private Function getUpStream(gene As GeneBrief, length As Integer, isRelativeOffset As Boolean) As NucleotideLocation
         Dim loci As NucleotideLocation = gene.Location
