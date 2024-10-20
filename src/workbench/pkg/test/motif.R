@@ -11,6 +11,13 @@ setwd(@dir);
 bitmap(file = "./LexA.png") {
     plot.seqLogo(motif, title = "LexA");
 }
+svg(file = "./LexA.svg") {
+    plot.seqLogo(motif, title = "LexA");
+}
+pdf(file = "./LexA.pdf") {
+    plot.seqLogo(motif, title = "LexA");
+}
+
 
 motif 
 |> JSON::json_encode()
