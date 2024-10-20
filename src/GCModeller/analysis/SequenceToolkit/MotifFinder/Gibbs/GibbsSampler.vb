@@ -126,7 +126,12 @@ Public Class GibbsSampler
 
         Return Enumerable.Range(CInt(0), CInt(motifLength)) _
             .Select(Function(i)
-                        Return Enumerable.Sum(Enumerable.Where(Of Double)(Enumerable.Select(Of Integer, Global.System.[Double])(Enumerable.Range(CInt(0), CInt(4)), CType(Function(j) sm.probability(CInt(i), CInt(j)) * (Math.Log(sm.probability(CInt(i), CInt(j)) * 4) / LOG_2), Func(Of Integer, Double))), CType(Function(d) CBool(Not Double.IsNaN(d)), Func(Of Double, Boolean))))
+                        Return Enumerable.Range(CInt(0), CInt(4)) _
+                            .Select(Function(j)
+                                        Return sm.probability(CInt(i), CInt(j)) * (Math.Log(sm.probability(CInt(i), CInt(j)) * 4) / LOG_2)
+                                    End Function) _
+                            .Where(Function(d) CBool(Not Double.IsNaN(d))) _
+                            .Sum
                     End Function) _
             .Sum()
     End Function
@@ -138,6 +143,7 @@ Public Class GibbsSampler
     Private Function gibbsSample(maxIterations As Integer, S As IList(Of String)) As IList(Of Integer)
         Dim A = getRandomSites()
         Dim i = 0
+
         While Math.Min(Threading.Interlocked.Increment(i), i - 1) < maxIterations
             ' Choose the next sequence
             Dim idx = randf.Next(sequenceCountField)
@@ -158,6 +164,7 @@ Public Class GibbsSampler
             S.Insert(idx, z)
             A.Insert(idx, a_z)
         End While
+
         Return A
     End Function
 
@@ -201,11 +208,13 @@ Public Class GibbsSampler
     ''' <param name="A">, sites </param>
     ''' <returns> sequenceCount motif strings </returns>
     Private Function getMotifStrings(S As IList(Of String), A As IList(Of Integer)) As IList(Of String)
-        Return Enumerable.Range(0, S.Count).[Select](Function(i)
-                                                         Dim site = A(i)
-                                                         Dim sequence = S(i)
-                                                         Return sequence.Substring(site, motifLength)
-                                                     End Function).ToList()
+        Return Enumerable.Range(0, S.Count) _
+            .Select(Function(i)
+                        Dim site = A(i)
+                        Dim sequence = S(i)
+                        Return sequence.Substring(site, motifLength)
+                    End Function) _
+            .ToList()
     End Function
 
     ''' <summary>
@@ -218,10 +227,19 @@ Public Class GibbsSampler
     ''' Its position then becomes the new a_z. </summary>
     ''' <param name="z">, sequence we are iterating through </param>
     Private Function samplingStep(q_ij As SequenceMatrix, z As String, P As IList(Of Double)) As Integer
-        Dim A As IList(Of Double) = ParallelEnumerable.Select(Of Integer, Global.System.[Double])(ParallelEnumerable.AsParallel(Enumerable.Range(CInt(0), CInt(sequenceLength - motifLength))), CType(Function(x) calculateMotifProbability(CType(q_ij, SequenceMatrix), CStr(z), CInt(x), CType(P, IList(Of Double))), Func(Of Integer, Double))).AsList()
+        Dim A As IList(Of Double) = Enumerable.Range(CInt(0), CInt(sequenceLength - motifLength)) _
+            .AsParallel() _
+            .Select(Function(x)
+                        Return calculateMotifProbability(CType(q_ij, SequenceMatrix), CStr(z), CInt(x), CType(P, IList(Of Double)))
+                    End Function) _
+            .AsList()
         Dim weightDistribution = smoothProbabilities(A)
         Dim choice = weightedChooseIndex(weightDistribution)
-        Return Enumerable.Range(0, sequenceLength - motifLength).reduce(Function(i, b) If(A(i).Equals(choice), i, b), 0)
+
+        Return Enumerable.Range(0, sequenceLength - motifLength) _
+            .reduce(Function(i, b)
+                        Return If(A(i).Equals(choice), i, b)
+                    End Function, 0)
     End Function
 
     ''' <summary>

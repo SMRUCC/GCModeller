@@ -1,6 +1,8 @@
 ﻿Public Class Utils
+
     Public Shared ReadOnly ACGT As String() = New String() {"A", "C", "G", "T"}
-    Private Shared ReadOnly LOG_2 As Double = Math.Log(2)
+
+    Shared ReadOnly LOG_2 As Double = Math.Log(2)
 
     Friend Shared Function getSequenceFromPair(sequences As IList(Of KeyValuePair(Of String, Integer))) As IList(Of String)
         Return sequences.[Select](Function(a) a.Key).ToList()
@@ -8,10 +10,6 @@
 
     Friend Shared Function getSiteFromPair(sequences As IList(Of KeyValuePair(Of String, Integer))) As List(Of Integer)
         Return sequences.[Select](Function(a) a.Value).ToList()
-    End Function
-
-    Public Shared Function randomBases(len As Integer, r As Random) As String
-        Return Enumerable.Select(Of Integer, Global.System.String)(Enumerable.Range(CInt(0), CInt(len)), CType(Function(i) CStr(ACGT(CInt(r.Next(CInt(4))))), Func(Of Integer, String))).JoinBy("")
     End Function
 
     Public Shared Function indexOfBase(base As Char) As Integer

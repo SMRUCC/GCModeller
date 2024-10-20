@@ -1,5 +1,5 @@
-﻿Imports System.Text
-Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Matrix
 
@@ -17,8 +17,9 @@ Namespace Matrix
         Public Sub New(informationContentPerColumn As Double, motifLength As Integer)
             Me.informationContentPerColumn = informationContentPerColumn
             Me.motifLength = motifLength
-            MyBase.initMatrix(motifLength)
-            initMotifMatrix()
+
+            Call MyBase.initMatrix(motifLength)
+            Call initMotifMatrix()
         End Sub
 
         Public Sub New(countsLists As IList(Of IList(Of Integer)))
@@ -31,9 +32,12 @@ Namespace Matrix
         ''' information content per column
         ''' </summary>
         Private Sub initMotifMatrix()
-            initCountMatrix()
-            Dim r As Random = New Random()
-            Enumerable.Range(0, motifLength).AsParallel().ForEach(Sub(i, j) stochasticGradientDescent(r, i))
+            Call initCountMatrix()
+            Call Enumerable.Range(0, motifLength) _
+                .AsParallel() _
+                .ForEach(Sub(i, j)
+                             stochasticGradientDescent(i)
+                         End Sub)
         End Sub
 
         ''' <summary>
@@ -48,11 +52,11 @@ Namespace Matrix
         '''     greater than 1 surpasses the threshold, then the
         '''     epoch will be undone. </summary>
         ''' <param name="idx">, row index of motif to perform work on </param>
-        Private Sub stochasticGradientDescent(r As Random, idx As Integer)
+        Private Sub stochasticGradientDescent(idx As Integer)
             Dim prevStep As Integer = rowSum / 4 / 1000
             Dim [step] = If(prevStep > 0, prevStep, 5)
             Dim row = countsMatrix(idx)
-            Dim incIdx = r.Next(4)
+            Dim incIdx = randf.Next(4)
             Dim ic = Utils.calcInformationContent(rowSum, row)
             Dim decIdx = incIdx
             While [step] > 0
@@ -86,8 +90,9 @@ Namespace Matrix
         ''' <param name="step">, amount of decrement </param>
         ''' <returns> index to decrement </returns>
         Private Function pickDecrementIndex(row As Integer(), targetIdx As Integer, [step] As Integer) As Integer
-            Dim acceptableIndices As List(Of Integer) = New List(Of Integer)()
-            For i = 0 To row.Length - 1
+            Dim acceptableIndices As New List(Of Integer)()
+
+            For i As Integer = 0 To row.Length - 1
                 If targetIdx = i Then
                     Continue For
                 End If
@@ -99,7 +104,7 @@ Namespace Matrix
             If acceptableIndices.Count = 0 Then
                 Return -1
             Else
-                Return acceptableIndices((New Random()).Next(acceptableIndices.Count))
+                Return acceptableIndices(randf.Next(acceptableIndices.Count))
             End If
         End Function
 
@@ -107,30 +112,18 @@ Namespace Matrix
         ''' Initializes the countsMatrix with the rowSum/4 value
         ''' </summary>
         Public Overridable Sub initCountMatrix()
-            countsMatrix = RectangularArray.Matrix(Of Integer)(motifLength, 4)
             Dim initCount As Integer = rowSum / 4
-            Enumerable.Range(0, motifLength).AsParallel().ForEach(Sub(i, l)
-                                                                      Enumerable.Range(0, 4).ForEach(Sub(j, k)
-                                                                                                         countsMatrix(i)(j) = initCount
-                                                                                                     End Sub)
-                                                                  End Sub)
-        End Sub
 
-        ''' <summary>
-        ''' Use the weights to randomly select a base ml times to form a sampled motif </summary>
-        ''' <returns> motif, String </returns>
-        Public Overridable Function sample(r As Random) As String
-            Dim stringBuilder As StringBuilder = New StringBuilder()
-            Enumerable.Range(0, motifLength).ForEach(Sub(i, z)
-                                                         Dim randomWeight = r.Next(rowSum)
-                                                         Dim j = -1, k = 0
-                                                         Do
-                                                             k += countsMatrix(i)(Threading.Interlocked.Increment(j))
-                                                         Loop While k < randomWeight
-                                                         stringBuilder.Append(Utils.ACGT(j))
-                                                     End Sub)
-            Return stringBuilder.ToString()
-        End Function
+            countsMatrix = RectangularArray.Matrix(Of Integer)(motifLength, 4)
+
+            Call Enumerable.Range(0, motifLength) _
+                .AsParallel() _
+                .ForEach(Sub(i, l)
+                             For j As Integer = 0 To 3
+                                 countsMatrix(i)(j) = initCount
+                             Next
+                         End Sub)
+        End Sub
     End Class
 
 End Namespace
