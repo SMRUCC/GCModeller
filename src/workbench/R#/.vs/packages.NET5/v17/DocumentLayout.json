@@ -4,6 +4,9 @@
   "Documents": [
     {
       "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\cli\\utils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\system\\config\\options.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -13,7 +16,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -29,13 +32,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Options.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\System\\Config\\Options.vb",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\System\\Config\\Options.vb",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\System\\Config\\Options.vb",
+              "RelativeToolTip": "..\\..\\R-sharp\\R#\\System\\Config\\Options.vb",
+              "ViewState": "AgIAAH4BAAAAAAAAAAAowIYBAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-20T04:44:14.37Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Utils.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
               "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
-              "ViewState": "AgIAAPsAAAAAAAAAAAAAwBwBAABaAAAAAAAAAA==",
+              "ViewState": "AgIAAP8AAAAAAAAAAAAAABYBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-10-20T04:44:03.249Z",
               "EditorCaption": ""
