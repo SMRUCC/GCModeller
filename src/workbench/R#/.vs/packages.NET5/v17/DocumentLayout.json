@@ -3,6 +3,12 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\cli\\utils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\system\\config\\options.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -21,16 +27,10 @@
       "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\system\\config\\configfile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\cli\\utils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\cli\\cli.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\cli\\run.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\runscript.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -68,11 +68,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "OptionAttribute.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\System\\Config\\OptionAttribute.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\System\\Config\\OptionAttribute.vb",
@@ -85,7 +85,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "StartupConfigs.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\System\\Config\\StartupConfigs.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\System\\Config\\StartupConfigs.vb",
@@ -98,7 +98,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "OptionHooks.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\System\\Config\\OptionHooks.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\System\\Config\\OptionHooks.vb",
@@ -111,7 +111,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Defaults.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\System\\Config\\Defaults.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\System\\Config\\Defaults.vb",
@@ -124,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "ConfigFile.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\System\\Config\\ConfigFile.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\System\\Config\\ConfigFile.vb",
@@ -137,20 +137,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "Utils.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
               "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
-              "ViewState": "AgIAAPUAAAAAAAAAAAAAwCYBAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-10-20T04:17:40.87Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Run.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\CLI\\Run.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\CLI\\Run.vb",
@@ -163,7 +163,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "CLI.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\CLI\\CLI.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\CLI\\CLI.vb",
@@ -176,7 +176,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 1,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\Program.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\Program.vb",
@@ -189,13 +189,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Options.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\System\\Config\\Options.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\System\\Config\\Options.vb",
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\System\\Config\\Options.vb",
               "RelativeToolTip": "..\\..\\R-sharp\\R#\\System\\Config\\Options.vb",
-              "ViewState": "AgIAACUBAAAAAAAAAAAowE4BAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACUBAAAAAAAAAAAowDkBAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-10-20T04:15:55.716Z",
               "EditorCaption": ""
