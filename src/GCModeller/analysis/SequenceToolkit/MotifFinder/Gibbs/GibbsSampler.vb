@@ -100,13 +100,10 @@ Public Class GibbsSampler
         Dim eval As New Gibbs(sequences, motifLength)
 
         For i As Integer = 0 To predictedMotifs.Count - 1
-            Dim chosenSequence = sequences(i)
-            Dim tempMotif = chosenSequence.Substring(predictedSites(i), motifLength)
-            Dim pi = eval.calculateP(tempMotif, i)
-            Dim qi = eval.calculateQ(tempMotif, i, predictedSites(i))
+            Dim pq = eval.PQ(i)
 
-            q(i) = qi
-            p(i) = pi
+            p(i) = pq.p.Average
+            q(i) = pq.q.Average
         Next
 
         Return New MSAMotif With {
