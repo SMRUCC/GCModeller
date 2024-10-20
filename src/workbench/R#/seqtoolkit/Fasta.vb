@@ -596,7 +596,7 @@ Module Fasta
     ''' 1. for nucleotide sequence, <see cref="NucleotideLocation"/> should be used,
     ''' 2. for general sequence data, <see cref="SMRUCC.genomics.ComponentModel.Loci.Location"/> should be used.
     ''' </param>
-    ''' <param name="doNtAutoReverse">
+    ''' <param name="nt_auto_reverse">
     ''' make auto reverse of the nucleotide sequence if the given location is on 
     ''' the <see cref="Strands.Reverse"/> direction.
     ''' </param>
@@ -605,7 +605,7 @@ Module Fasta
     <ExportAPI("cut_seq.linear")>
     Public Function CutSequenceLinear(<RRawVectorArgument> seq As Object,
                                       <RRawVectorArgument> loci As Object,
-                                      Optional doNtAutoReverse As Boolean = False,
+                                      Optional nt_auto_reverse As Boolean = False,
                                       Optional env As Environment = Nothing) As Object
         If seq Is Nothing Then
             Return Nothing
@@ -629,7 +629,7 @@ Module Fasta
                 right = .Max
                 getAttrs = Function(fa) {fa.Headers.JoinBy("|") & " " & .tagStr}
 
-                If doNtAutoReverse AndAlso .Strand = Strands.Reverse Then
+                If nt_auto_reverse AndAlso .Strand = Strands.Reverse Then
                     reverse = True
                 End If
             End With
