@@ -3,7 +3,7 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{D0B31755-0F8C-4E11-B8F4-A5FDC1783E62}|..\\..\\..\\..\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\Microsoft.VisualBasic.Drawing.vbproj|g:\\microsoft.visualbasic.drawing\\src\\microsoft.visualbasic.drawing\\skiagraphics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -41,7 +41,7 @@
               "RelativeDocumentMoniker": "..\\..\\..\\..\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb",
               "ToolTip": "G:\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb",
               "RelativeToolTip": "..\\..\\..\\..\\Microsoft.VisualBasic.Drawing\\src\\Microsoft.VisualBasic.Drawing\\SkiaGraphics.vb",
-              "ViewState": "AgIAAPwAAAAAAAAAAAAAwBgBAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAP4AAAAAAAAAAAAQwCUBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-10-20T03:27:04.625Z",
               "EditorCaption": ""
