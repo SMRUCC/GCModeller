@@ -3,6 +3,7 @@
 NCBI genbank assembly file I/O toolkit
 
 + [read.genbank](GenBank/read.genbank.1) read the given genbank assembly file.
++ [accession_id](GenBank/accession_id.1) 
 + [is.plasmid](GenBank/is.plasmid.1) 
 + [populate.genbank](GenBank/populate.genbank.1) populate a list of genbank data objects from a given list of files or stream.
 + [write.genbank](GenBank/write.genbank.1) save the modified genbank file
