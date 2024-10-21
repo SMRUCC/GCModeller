@@ -85,7 +85,7 @@ declare namespace bioseq.patterns {
      * @param maxitr default value Is ``1000``.
      * @param env default value Is ``null``.
    */
-   function gibbs_scan(seqs: any, width?: object, maxitr?: object, env?: object): any;
+   function gibbs_scan(seqs: any, width?: object, maxitr?: object, env?: object): object;
    module motif {
       /**
        * Find target loci site based on the given motif model

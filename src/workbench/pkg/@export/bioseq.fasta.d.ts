@@ -40,7 +40,7 @@ declare namespace bioseq.fasta {
         *  
         *  1. for nucleotide sequence, @``T:SMRUCC.genomics.ComponentModel.Loci.NucleotideLocation`` should be used,
         *  2. for general sequence data, @``T:SMRUCC.genomics.ComponentModel.Loci.Location`` should be used.
-        * @param doNtAutoReverse make auto reverse of the nucleotide sequence if the given location is on 
+        * @param nt_auto_reverse make auto reverse of the nucleotide sequence if the given location is on 
         *  the @``F:SMRUCC.genomics.ComponentModel.Loci.Strands.Reverse`` direction.
         * 
         * + default value Is ``false``.
@@ -48,7 +48,7 @@ declare namespace bioseq.fasta {
         * 
         * + default value Is ``null``.
       */
-      function linear(seq: any, loci: any, doNtAutoReverse?: boolean, env?: object): any;
+      function linear(seq: any, loci: any, nt_auto_reverse?: boolean, env?: object): any;
    }
    module fasta {
       /**

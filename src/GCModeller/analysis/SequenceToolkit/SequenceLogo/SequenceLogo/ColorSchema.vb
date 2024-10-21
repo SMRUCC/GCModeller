@@ -55,11 +55,9 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
-
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -107,10 +105,10 @@ Namespace SequenceLogo
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New Dictionary(Of Char, Image) From {
-                    {"A"c, ColorSchema.__getTexture(Color.Green, "A")},
-                    {"T"c, ColorSchema.__getTexture(Color.Red, "T")},
-                    {"G"c, ColorSchema.__getTexture(Color.Yellow, "G")},
-                    {"C"c, ColorSchema.__getTexture(Color.Blue, "C")}
+                    {"A"c, ColorSchema.__getTexture(DNAcolors("A"c).Color, "A")},
+                    {"T"c, ColorSchema.__getTexture(DNAcolors("T"c).Color, "T")},
+                    {"G"c, ColorSchema.__getTexture(DNAcolors("G"c).Color, "G")},
+                    {"C"c, ColorSchema.__getTexture(DNAcolors("C"c).Color, "C")}
                 }
             End Get
         End Property
@@ -129,23 +127,19 @@ Namespace SequenceLogo
         ''' <param name="alphabet"></param>
         ''' <returns></returns>
         Private Function __getTexture(color As Color, alphabet$) As Image
-            Dim bitmap As New Bitmap(680, 680)
             Dim font As New Font(FontFace.Ubuntu, 650)
             Dim br As New SolidBrush(color:=color)
 
-            Using gdi As IGraphics = DriverLoad.CreateGraphicsDevice(bitmap)
-                Dim size As SizeF = gdi.MeasureString(alphabet, font:=font)
-                Dim w As Integer = (bitmap.Width - size.Width) / 2
-                Dim h As Integer = (bitmap.Height - size.Height) * 0.45
+            Using g As IGraphics = DriverLoad.CreateGraphicsDevice(New Size(680, 680), driver:=Drivers.GDI)
+                Dim size As SizeF = g.MeasureString(alphabet, font:=font)
+                Dim w As Integer = (g.Width - size.Width) / 2
+                Dim h As Integer = (g.Height - size.Height) * 0.45
                 Dim pos As New PointF(w, h)
 
-                'gdi.CompositingQuality = CompositingQuality.HighQuality
-                'gdi.CompositingMode = CompositingMode.SourceOver
+                Call g.DrawString(alphabet, font, br, point:=pos)
 
-                Call gdi.DrawString(alphabet, font, br, point:=pos)
+                Return DirectCast(g, GdiRasterGraphics).ImageResource
             End Using
-
-            Return bitmap
         End Function
 
         ''' <summary>

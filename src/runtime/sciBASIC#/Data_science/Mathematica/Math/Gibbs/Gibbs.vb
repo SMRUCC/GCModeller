@@ -63,14 +63,7 @@ Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class Score
 
-    Public Property p As Double()
-    Public Property q As Double()
 
-    Public ReadOnly Property score As Double()
-        Get
-            Return SIMD.Divide.f64_op_divide_f64(q, p)
-        End Get
-    End Property
 
     Public ReadOnly Property pwm As String
         Get
@@ -150,10 +143,10 @@ Public Class Gibbs
                 dubsum += d
 
                 If random < dubsum Then
-                    start(chosenSequence).start = scores.IndexOf(d)
-                    start(chosenSequence).p = pv
-                    start(chosenSequence).q = qv
-                    start(chosenSequence).len = motifLength
+                    'start(chosenSequence).start = scores.IndexOf(d)
+                    'start(chosenSequence).p = pv
+                    'start(chosenSequence).q = qv
+                    'start(chosenSequence).len = motifLength
 
                     Exit For
                 End If
@@ -161,6 +154,25 @@ Public Class Gibbs
         Next
 
         Return start.Values.ToArray
+    End Function
+
+    Public Function PQ(chosenSeqIndex As Integer) As (p As Double(), q As Double())
+        Dim chosenSequence As String = sequences(chosenSeqIndex)
+        Dim w = chosenSequence.Length - motifLength
+        Dim qv As Double() = New Double(w) {}
+        Dim pv As Double() = New Double(w) {}
+
+        ' i = possibleStart
+        For i As Integer = 0 To w
+            Dim tempMotif = chosenSequence.Substring(i, motifLength)
+            Dim p = calculateP(tempMotif, chosenSeqIndex)
+            Dim q = calculateQ(tempMotif, chosenSeqIndex, i)
+
+            qv(i) = q
+            pv(i) = p
+        Next
+
+        Return (pv, qv)
     End Function
 
     ''' <summary>
@@ -173,7 +185,7 @@ Public Class Gibbs
     '''            useful for skipping all of this sequences calculations and
     '''            focusing on the other ones. </param>
     ''' <returns> A double of the probability of a letter in this position. </returns>
-    Private Function calculateQ(tempMotif As String,
+    Public Function calculateQ(tempMotif As String,
                                 chosenSeqIndex As Integer,
                                 possibleStart As Integer) As Double
         Dim q As Double = 1
@@ -224,7 +236,7 @@ Public Class Gibbs
     '''            useful for skipping all of this sequences calculations and
     '''            focusing on the other ones. </param>
     ''' <returns> A double of the probability of a letter randomly selected. </returns>
-    Private Function calculateP(tempMotif As String, chosenSeqIndex As Integer) As Double
+    Public Function calculateP(tempMotif As String, chosenSeqIndex As Integer) As Double
         Dim p As Double = 1
         For Each c As Char In tempMotif.ToCharArray()
             Dim sameLetters As Double = 0

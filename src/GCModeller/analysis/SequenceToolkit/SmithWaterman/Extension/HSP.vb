@@ -1,68 +1,72 @@
 ﻿#Region "Microsoft.VisualBasic::4c1ca6b9860acf98d928c68a788f29da, analysis\SequenceToolkit\SmithWaterman\Extension\HSP.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 66
-    '    Code Lines: 43 (65.15%)
-    ' Comment Lines: 11 (16.67%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 12 (18.18%)
-    '     File Size: 1.93 KB
+' Summaries:
 
 
-    ' Class HSP
-    ' 
-    '     Properties: LengthHit, LengthQuery, Query, QueryLength, Subject
-    '                 SubjectLength
-    ' 
-    '     Constructor: (+3 Overloads) Sub New
-    '     Function: CreateFrom, ToString
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 66
+'    Code Lines: 43 (65.15%)
+' Comment Lines: 11 (16.67%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 12 (18.18%)
+'     File Size: 1.93 KB
+
+
+' Class HSP
+' 
+'     Properties: LengthHit, LengthQuery, Query, QueryLength, Subject
+'                 SubjectLength
+' 
+'     Constructor: (+3 Overloads) Sub New
+'     Function: CreateFrom, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
+Imports std = System.Math
 
 ''' <summary>
-''' 对<see cref="LocalHSPMatch(Of Char)"/>的XML文件保存文件格式对象
+''' matched high score aligned region in two sequence pairewise alignment result
 ''' </summary>
+''' <remarks>
+''' 对<see cref="LocalHSPMatch(Of Char)"/>的XML文件保存文件格式对象
+''' </remarks>
 Public Class HSP : Inherits Match
 
     Public Property Query As String
@@ -77,7 +81,7 @@ Public Class HSP : Inherits Match
     ''' <returns></returns>
     Public ReadOnly Property LengthQuery As Integer
         Get
-            Return stdNum.Abs(toA - fromA)
+            Return std.Abs(toA - fromA)
         End Get
     End Property
 
@@ -87,7 +91,7 @@ Public Class HSP : Inherits Match
     ''' <returns></returns>
     Public ReadOnly Property LengthHit As Integer
         Get
-            Return stdNum.Abs(toB - fromB)
+            Return std.Abs(toB - fromB)
         End Get
     End Property
 
@@ -107,6 +111,7 @@ Public Class HSP : Inherits Match
         SubjectLength = local.SubjectLength
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function CreateFrom(Of T)(local As LocalHSPMatch(Of T), toChar As Func(Of T, Char)) As HSP
         Return New HSP(local) With {
             .Query = local.seq1.Select(toChar).CharString,

@@ -155,7 +155,8 @@ For example, we identified a new domain, likely to have a role downstream of the
         Public Function DrawFrequency(fasta As FastaFile,
                                       Optional title$ = "",
                                       Optional ByRef getModel As MotifPWM = Nothing,
-                                      Optional height As Integer = 75) As GraphicsData
+                                      Optional height As Integer = 75,
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim PWM As MotifPWM = Motif.PWM.FromMla(fasta)
             Dim model As New DrawingModel
@@ -190,7 +191,8 @@ For example, we identified a new domain, likely to have a role downstream of the
                                                                       }  ' alphabets
                         }  ' residues
                     End Function
-            Return InvokeDrawing(model, True, height:=height)
+
+            Return InvokeDrawing(model, True, height:=height, driver:=driver)
         End Function
 
         ''' <summary>
@@ -226,7 +228,8 @@ For example, we identified a new domain, likely to have a role downstream of the
                                       Optional frequencyOrder As Boolean = True,
                                       Optional logoPadding$ = g.DefaultPadding,
                                       Optional reverse As Boolean = False,
-                                      Optional height As Integer = 75) As GraphicsData
+                                      Optional height As Integer = 75,
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim n As Integer = model.Alphabets
             Dim margin As Padding = Padding.TryParse(logoPadding)
@@ -242,15 +245,15 @@ For example, we identified a new domain, likely to have a role downstream of the
                     Dim region As Rectangle = plotRegion.PlotRegion(css)
 
                     size = g.MeasureString(model.ModelsId, font)
-                    location = New PointF(region.Left + (region.Width - size.Width) / 2, y:=margin.Top / 2.5)
+                    location = New PointF(region.Left + (region.Width - size.Width) / 2, y:=css.GetHeight(margin.Top) / 2.5)
                     g.DrawString(model.ModelsId, font, Brushes.Black, location)
 
                     font = New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.4))
 
 #Region "画坐标轴"
                     ' 坐标轴原点
-                    X = margin.Left
-                    Y = region.Height + margin.Top
+                    X = css.GetWidth(margin.Left)
+                    Y = region.Height + css.GetHeight(margin.Top)
 
                     Dim maxBits As Double = Math.Log(n, newBase:=2)
                     Dim yHeight As Integer = n * height
@@ -300,7 +303,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                                      Order By rsd.RelativeFrequency Ascending).ToArray
                         End If
 
-                        Y = region.Height + margin.Top
+                        Y = region.Height + css.GetHeight(margin.Top)
 
                         ' YHeight is the max height of current residue, and its value is calculate from its Bits value
                         yHeight = (n * height) * (If(residue.Bits > maxBits, maxBits, residue.Bits) / maxBits)
@@ -340,12 +343,11 @@ For example, we identified a new domain, likely to have a role downstream of the
                     font = New Font(font.Name, font.Size / 2)
                     size = g.MeasureString("Bits", font)
 
-                    Call g.RotateTransform(-90)
-                    Call g.DrawString("Bits", font, Brushes.Black, New Point((height - size.Width) / 2, margin.Left / 3))
+                    Call g.DrawString("Bits", font, Brushes.Black, (height - size.Width) / 2, css.GetWidth(margin.Left) / 3, -90)
 #End Region
                 End Sub
 
-            Return g.GraphicsPlots(size1, margin, "transparent", plotInternal)
+            Return g.GraphicsPlots(size1, margin, "transparent", plotInternal, driver:=driver)
         End Function
     End Module
 End Namespace

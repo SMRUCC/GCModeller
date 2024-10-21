@@ -107,6 +107,19 @@ Module genbankKit
         End If
     End Function
 
+    <ExportAPI("accession_id")>
+    Public Function accession_id(<RRawVectorArgument> genbank As Object, Optional env As Environment = Nothing) As Object
+        Dim pull = pipeline.TryCreatePipeline(Of GBFF.File)(genbank, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.populates(Of GBFF.File)(env) _
+            .Select(Function(gb) gb.Accession.AccessionId) _
+            .ToArray
+    End Function
+
     <ExportAPI("is.plasmid")>
     <RApiReturn(GetType(Boolean))>
     Public Function isPlasmidSource(<RRawVectorArgument> gb As Object, Optional env As Environment = Nothing) As Object
