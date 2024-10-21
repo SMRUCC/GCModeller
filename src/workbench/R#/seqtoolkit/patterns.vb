@@ -101,7 +101,7 @@ Module patterns
         Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
         Call REnv.Internal.generic.add("plot", GetType(MSAOutput), AddressOf plotMotif)
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of SequenceMotif)(Function(m) DirectCast(m, SequenceMotif).patternString)
-        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Score()), AddressOf gibbs_table)
+        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MSAMotif), AddressOf gibbs_table)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(SequenceGraph()), AddressOf seqgraph_df)
     End Sub
 
@@ -125,11 +125,17 @@ Module patterns
         Return df
     End Function
 
-    Private Function gibbs_table(score As Score(), args As list, env As Environment) As dataframe
-        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+    Private Function gibbs_table(score As MSAMotif, args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = score.names
+        }
 
-        df.add("motif", score.Select(Function(s) s.pwm))
-        df.add("score", score.Select(Function(s) s.score.Average))
+        df.add("motif", score.MSA)
+        df.add("p", score.p)
+        df.add("q", score.q)
+        df.add("score", score.score)
+        df.add("site", score.start)
 
         Return df
     End Function
@@ -186,15 +192,16 @@ Module patterns
     End Function
 
     <ExportAPI("gibbs_scan")>
+    <RApiReturn(GetType(MSAMotif))>
     Public Function gibbs_scans(<RRawVectorArgument>
                                 seqs As Object,
                                 Optional width As Integer = 12,
                                 Optional maxitr As Integer = 1000,
                                 Optional env As Environment = Nothing) As Object
 
-        Dim fa As FastaSeq() = GetFastaSeq(seqs, env).Take(10).ToArray
-        Dim gibbs As New Gibbs(fa.Select(Function(si) si.SequenceData).ToArray, width)
-        Dim motif As Score() = gibbs.sample(MAXIT:=maxitr)
+        Dim fa As FastaSeq() = GetFastaSeq(seqs, env).ToArray
+        Dim gibbs As New GibbsSampler(fa, width)
+        Dim motif As MSAMotif = gibbs.find(maxIterations:=maxitr)
 
         Return motif
     End Function
@@ -507,7 +514,12 @@ Module patterns
     ''' <returns></returns>
     <ExportAPI("plot.seqLogo")>
     <RApiReturn(GetType(GraphicsData))>
-    Public Function DrawLogo(<RRawVectorArgument> MSA As Object, Optional title$ = "", Optional env As Environment = Nothing) As Object
+    Public Function DrawLogo(<RRawVectorArgument> MSA As Object,
+                             Optional title$ = "",
+                             Optional env As Environment = Nothing) As Object
+
+        Dim driver As Drivers = env.getDriver
+
         If MSA Is Nothing Then
             Return REnv.Internal.debug.stop("MSA is nothing!", env)
         End If
@@ -520,14 +532,14 @@ Module patterns
             Select Case type
                 Case GetType(SequenceMotif)
                     data = DirectCast(MSA, SequenceMotif).seeds.ToFasta
-                Case GetType(MSAOutput)
+                Case GetType(MSAOutput), GetType(MSAMotif)
                     data = DirectCast(MSA, MSAOutput).PopulateAlignment
                 Case Else
                     Return REnv.Internal.debug.stop(New InvalidProgramException, env)
             End Select
         End If
 
-        Return DrawingDevice.DrawFrequency(New FastaFile(data), title)
+        Return DrawingDevice.DrawFrequency(New FastaFile(data), title, driver:=driver)
     End Function
 
     ''' <summary>

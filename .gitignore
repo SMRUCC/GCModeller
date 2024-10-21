@@ -414,3 +414,4 @@ src/repository/graphquery/kegg/pipeline/package_updater/reaction_cache.db
 src/workbench/pkg/.pkg/GCModeller.zip
 src/runtime/httpd/src/Flute/Resources/favicon.zip
 src/runtime/httpd/src/WebCloud/SMRUCC.HTTPInternal/Resources/favicon.zip
+src/workbench/pkg/test/LexA.pdf

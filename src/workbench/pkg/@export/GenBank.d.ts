@@ -9,6 +9,10 @@
  * 
 */
 declare namespace GenBank {
+   /**
+     * @param env default value Is ``null``.
+   */
+   function accession_id(genbank: any, env?: object): any;
    module add {
       /**
       */
