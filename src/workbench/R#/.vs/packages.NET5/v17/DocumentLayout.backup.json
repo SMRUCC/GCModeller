@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\cli\\utils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -16,8 +24,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "genbankKit.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genbankKit.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
+              "RelativeToolTip": "seqtoolkit\\Annotations\\genbankKit.vb",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAG0AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-20T05:01:12.812Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -33,6 +54,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "patterns.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\patterns.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
+              "RelativeToolTip": "seqtoolkit\\patterns.vb",
+              "ViewState": "AgIAAKcAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-10-20T04:59:52.948Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Options.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\System\\Config\\Options.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\System\\Config\\Options.vb",
@@ -40,18 +74,17 @@
               "RelativeToolTip": "..\\..\\R-sharp\\R#\\System\\Config\\Options.vb",
               "ViewState": "AgIAABABAAAAAAAAAAAYwEABAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-20T04:44:14.37Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-20T04:44:14.37Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Utils.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
               "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\CLI\\Utils.vb",
-              "ViewState": "AgIAAP8AAAAAAAAAAAAAACQBAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAAACQBAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-10-20T04:44:03.249Z",
               "EditorCaption": ""
