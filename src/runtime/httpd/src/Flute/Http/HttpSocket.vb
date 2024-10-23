@@ -64,6 +64,12 @@ Imports Flute.Http.Core.Message
 
 Namespace Core
 
+    Public Interface IAppHandler
+
+        Sub AppHandler(request As HttpRequest, response As HttpResponse)
+
+    End Interface
+
     ''' <summary>
     ''' A simple http server module with no file system access.
     ''' </summary>
