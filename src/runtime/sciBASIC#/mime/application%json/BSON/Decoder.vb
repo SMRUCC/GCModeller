@@ -216,7 +216,9 @@ Namespace BSON
             If Not disposedValue Then
                 If disposing Then
                     ' TODO: dispose managed state (managed objects).
-                    Call reader.Dispose()
+                    If Not leaveOpen Then
+                        Call reader.Dispose()
+                    End If
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
