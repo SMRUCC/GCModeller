@@ -103,6 +103,10 @@ Namespace BSON
             Me.counter = counter
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return MyBase.ToString()
+        End Function
+
         Public Shared Function ReadIdValue(s As BinaryReader) As JsonValue
             ' 读取 4 字节的时间戳
             Dim timestamp As Integer = s.ReadInt32()
