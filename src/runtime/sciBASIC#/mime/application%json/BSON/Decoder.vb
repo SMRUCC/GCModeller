@@ -85,6 +85,11 @@ Namespace BSON
             Me.leaveOpen = leaveOpen
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function getDocumentOffset() As Long
+            Return reader.BaseStream.Position
+        End Function
+
         Public Function decodeDocument() As JsonObject
             Dim length As Integer = reader.ReadInt32() - 4
             Dim obj As New JsonObject()
