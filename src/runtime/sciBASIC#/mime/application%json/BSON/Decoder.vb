@@ -91,19 +91,20 @@ Namespace BSON
         End Function
 
         Public Function decodeDocument() As JsonObject
-            Dim length As Integer = reader.ReadInt32() - 4
+            Dim length As Long = reader.ReadInt32() - 4
             Dim obj As New JsonObject()
-            Dim i As Integer = CInt(reader.BaseStream.Position)
+            Dim i As Long = reader.BaseStream.Position
 
             While reader.BaseStream.Position < i + length - 1
                 Dim name As String = Nothing
                 Dim value As JsonElement = decodeElement(name)
 
-                obj.Add(name, value)
+                Call obj.Add(name, value)
             End While
 
-            reader.ReadByte()
-            ' zero
+            ' zero byte as terminator of current document object
+            Call reader.ReadByte()
+
             Return obj
         End Function
 
