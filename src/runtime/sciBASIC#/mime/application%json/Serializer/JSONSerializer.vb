@@ -206,7 +206,7 @@ Public Module JSONSerializer
 
         If value Is Nothing Then
             Return "null"
-        ElseIf value.GetType Is obj.BSONValue Then
+        ElseIf TypeOf value Is BSONValue Then
             value = DirectCast(value, BSONValue).GetObjectValue
         End If
 
