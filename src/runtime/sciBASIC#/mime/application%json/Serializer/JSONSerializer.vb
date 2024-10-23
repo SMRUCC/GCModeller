@@ -216,6 +216,8 @@ Public Module JSONSerializer
             Return encodeString(value, opt)
         ElseIf TypeOf value Is Boolean Then
             Return value.ToString.ToLower
+        ElseIf TypeOf value Is ObjectId Then
+            Return $"""{value.ToString}"""
         Else
             ' number,integer,etc
             Return any.ToString(value)
