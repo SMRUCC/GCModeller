@@ -113,7 +113,9 @@ Namespace Javascript
         ''' <summary>
         ''' create based on the value literal data
         ''' </summary>
-        ''' <param name="obj"></param>
+        ''' <param name="obj">
+        ''' could be any type of the clr runtime object as the json value
+        ''' </param>
         Public Sub New(obj As Object)
             value = obj
         End Sub
@@ -163,9 +165,9 @@ Namespace Javascript
         ''' <returns>
         ''' this function will removes the warpping of quot symbol.
         ''' </returns>
-        Public Function GetStripString(decodeMetachar As Boolean) As String
+        Public Function GetStripString(decodeMetachar As Boolean, Optional null As String = "null") As String
             Dim s$ = Scripting _
-                .ToString(value, "null") _
+                .ToString(value, null) _
                 .GetString
             s = JsonParser.StripString(s, decodeMetachar)
             Return s
