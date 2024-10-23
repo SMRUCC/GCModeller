@@ -218,6 +218,8 @@ Public Module JSONSerializer
             Return value.ToString.ToLower
         ElseIf TypeOf value Is ObjectId Then
             Return $"""{value.ToString}"""
+        ElseIf TypeOf value Is Double AndAlso CDbl(value).IsNaNImaginary Then
+            Return """NaN"""
         Else
             ' number,integer,etc
             Return any.ToString(value)
