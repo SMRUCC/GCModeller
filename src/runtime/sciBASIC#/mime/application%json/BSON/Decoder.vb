@@ -57,22 +57,32 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
+Imports Microsoft.VisualBasic.Text
 
 Namespace BSON
 
     Public Class Decoder : Implements IDisposable
 
         ReadOnly reader As BinaryReader
+        ReadOnly leaveOpen As Boolean = False
 
-        Sub New(buf As Byte())
-            Call Me.New(New MemoryStream(buf))
+        ''' <summary>
+        ''' create document decoder from a given in-memory stream data
+        ''' </summary>
+        ''' <param name="buf"></param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(buf As Byte(), Optional encoding As Encodings = Encodings.UTF8)
+            Call Me.New(New MemoryStream(buf), encoding, leaveOpen:=False)
         End Sub
 
-        Sub New(raw As Stream)
-            Me.reader = New BinaryReader(raw)
+        Sub New(raw As Stream, Optional encoding As Encodings = Encodings.UTF8, Optional leaveOpen As Boolean = False)
+            Me.reader = New BinaryReader(raw, encoding.CodePage, leaveOpen)
+            Me.leaveOpen = leaveOpen
         End Sub
 
         Public Function decodeDocument() As JsonObject

@@ -78,13 +78,13 @@ Namespace BSON
             Return Load(buf.ChunkBuffer)
         End Function
 
-        Public Function Load(buf As Stream) As JsonObject
+        Public Function Load(buf As Stream, Optional leaveOpen As Boolean = False) As JsonObject
             If buf.Length = 0 Then
                 ' 20221008
                 ' is empty object?
                 Return New JsonObject
             Else
-                Using decoder As New Decoder(buf)
+                Using decoder As New Decoder(buf, leaveOpen:=leaveOpen)
                     Return decoder.decodeDocument()
                 End Using
             End If
