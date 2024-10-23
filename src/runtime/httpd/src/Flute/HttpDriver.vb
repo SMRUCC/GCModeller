@@ -78,6 +78,19 @@ Public Class HttpDriver
     ''' get/post/put/delete, the http method name, case-insensitive
     ''' </param>
     ''' <param name="handler"></param>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function HttpMethod(method As String, handler As IAppHandler) As HttpDriver
+        Return HttpMethod(method, AddressOf handler.AppHandler)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="method">
+    ''' get/post/put/delete, the http method name, case-insensitive
+    ''' </param>
+    ''' <param name="handler"></param>
     Public Function HttpMethod(method As String, handler As HttpSocket.AppHandler) As HttpDriver
         methods(method.ToUpper) = handler
         Return Me
