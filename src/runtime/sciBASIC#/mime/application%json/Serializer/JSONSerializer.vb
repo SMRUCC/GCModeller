@@ -129,6 +129,17 @@ Public Module JSONSerializer
         End Select
     End Function
 
+    <Extension>
+    Public Function CreateArray(objs As IEnumerable(Of JsonObject)) As JsonArray
+        Dim list As New JsonArray
+
+        For Each x As JsonObject In objs
+            Call list.Add(x)
+        Next
+
+        Return list
+    End Function
+
     ''' <summary>
     ''' find two char
     ''' </summary>
