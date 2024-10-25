@@ -1,6 +1,6 @@
-﻿
-' Trainable neural network.
-Public Interface Trainable
+﻿Namespace RNN
+    ' Trainable neural network.
+    Public Interface Trainable
 
         ' 
         ' 			Performs a forward-backward pass for the given indices.
@@ -14,3 +14,4 @@ Public Interface Trainable
     End Interface
 
 
+End Namespace
