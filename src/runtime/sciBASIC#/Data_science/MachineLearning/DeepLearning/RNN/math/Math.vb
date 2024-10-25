@@ -2,12 +2,18 @@
 
 Namespace RNN
 
-	' Math helper functions
+	''' <summary>
+	''' Math helper functions
+	''' </summary>
 	Public Class Math
 		Public Const compareEpsilon As Double = 0.000001
 
-		' Double epsilon compare 
-
+		''' <summary>
+		''' Double epsilon compare 
+		''' </summary>
+		''' <param name="a"></param>
+		''' <param name="b"></param>
+		''' <returns></returns>
 		Public Shared Function close(a As Double, b As Double) As Boolean
 			Return std.Abs(a - b) <= compareEpsilon
 		End Function

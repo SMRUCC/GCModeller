@@ -8,8 +8,7 @@ Namespace RNN
 	' or element-wise addition.
 	<Serializable>
 	Public Class Matrix
-		Private mField As Integer ' rows
-		Private nField As Integer ' cols
+
 		Private data As Double()() ' MxN
 
 		' Create 
@@ -20,16 +19,16 @@ Namespace RNN
 				Throw New NullReferenceException("Non-null Matrix expected for copy-construction.")
 			End If
 
-			mField = other.M
-			nField = other.N
+			M = other.M
+			N = other.N
 			data = Utils.deepCopyOf(other.data)
 		End Sub
 
 		' Constructs using an MxN array. Requires M, N > 0.
 		Private Sub New(data As Double()())
 			Try
-				mField = Utils.arrayRows(data)
-				nField = Utils.arrayCols(data)
+				M = Utils.arrayRows(data)
+				N = Utils.arrayCols(data)
 
 				If M = 0 OrElse N = 0 Then ' Don't accept 0 as a size.
 					Throw New ArgumentException("One of the array dimensions is 0.")
@@ -50,8 +49,8 @@ Namespace RNN
 				Throw New ArgumentException("A row-major array expected.")
 			End If
 
-			mField = M
-			nField = data.Length Mod Me.M
+			Me.M = M
+			Me.N = data.Length Mod Me.M
 
 			For i = 0 To Me.M - 1
 				For j = 0 To N - 1
@@ -427,19 +426,17 @@ Namespace RNN
 
 		' Dimensions 
 
-		' Returns the row count.
+		''' <summary>
+		''' Returns the row count.
+		''' </summary>
+		''' <returns></returns>
 		Public Overridable ReadOnly Property M As Integer
-			Get
-				Return Me.M
-			End Get
-		End Property
 
-		' Returns the column count.
+		''' <summary>
+		''' Returns the column count.
+		''' </summary>
+		''' <returns></returns>
 		Public Overridable ReadOnly Property N As Integer
-			Get
-				Return Me.N
-			End Get
-		End Property
 
 		' Returns the vector length. Requires that the matrix is a vector.
 		Public Overridable Function getk() As Integer

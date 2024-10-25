@@ -1,73 +1,70 @@
-﻿Namespace RNN
-	' Helper functions for randomness.
-	Public Class Random
-		Private Shared rand As System.Random = New System.Random()
+﻿Imports rand = Microsoft.VisualBasic.Math.RandomExtensions
 
-		' Initialize 
+Namespace RNN
 
-		' Change seed.
-		Public Shared Sub reseed(seed As Integer)
-			rand = New System.Random(seed)
-		End Sub
+    ''' <summary>
+    ''' Helper functions for randomness.
+    ''' </summary>
+    Public Class Random
 
-		' Random matrix
+        ' Random matrix
 
-		' Returns an MxN matrix filled with numbers drawn from a standard normal
-		' distribution.
-		' Requires that M > 0 and N > 0.
-		Public Shared Function randn(M As Integer, N As Integer) As Matrix
-			If Not (M > 0 AndAlso N > 0) Then
-				Throw New ArgumentException("M,N > 0 expected for matrix dimensions.")
-			End If
+        ' Returns an MxN matrix filled with numbers drawn from a standard normal
+        ' distribution.
+        ' Requires that M > 0 and N > 0.
+        Public Shared Function randn(M As Integer, N As Integer) As Matrix
+            If Not (M > 0 AndAlso N > 0) Then
+                Throw New ArgumentException("M,N > 0 expected for matrix dimensions.")
+            End If
 
-			Dim lM = Matrix.zeros(M, N)
-			lM.apply(Function(d) rand.NextDouble())
-			Return lM
-		End Function
+            Dim lM = Matrix.zeros(M, N)
+            lM.apply(Function(d) rand.NextDouble())
+            Return lM
+        End Function
 
-		' Returns an k-dimensional vector filled with numbers drawn from a standard
-		' normal distribution.
-		' Requires that k > 0.
-		Public Shared Function randn(k As Integer) As Matrix
-			If Not k > 0 Then
-				Throw New ArgumentException("k > 0 expected for vector size.")
-			End If
+        ' Returns an k-dimensional vector filled with numbers drawn from a standard
+        ' normal distribution.
+        ' Requires that k > 0.
+        Public Shared Function randn(k As Integer) As Matrix
+            If Not k > 0 Then
+                Throw New ArgumentException("k > 0 expected for vector size.")
+            End If
 
-			Return randn(1, k)
-		End Function
+            Return randn(1, k)
+        End Function
 
-		' Returns a matrix shaped like m filled with numbers drawn from a standard
-		' normal distribution.
-		' Requires that m != null.
-		Public Shared Function randomLike(m As Matrix) As Matrix
-			If m Is Nothing Then
-				Throw New NullReferenceException("Non-null m expected.")
-			End If
+        ' Returns a matrix shaped like m filled with numbers drawn from a standard
+        ' normal distribution.
+        ' Requires that m != null.
+        Public Shared Function randomLike(m As Matrix) As Matrix
+            If m Is Nothing Then
+                Throw New NullReferenceException("Non-null m expected.")
+            End If
 
-			Return randn(m.M, m.N)
-		End Function
+            Return randn(m.M, m.N)
+        End Function
 
-		' Random choice 
+        ' Random choice 
 
-		' Samples an index from a random distribution with the given probabilities
-		' p. Will work properly, if the sum of probabilities is 1.0.
-		' Requires that p != null.
-		Public Shared Function randomChoice(p As Double()) As Integer
-			If p Is Nothing Then
-				Throw New NullReferenceException("The array of probabilities can't be null.")
-			End If
+        ' Samples an index from a random distribution with the given probabilities
+        ' p. Will work properly, if the sum of probabilities is 1.0.
+        ' Requires that p != null.
+        Public Shared Function randomChoice(p As Double()) As Integer
+            If p Is Nothing Then
+                Throw New NullReferenceException("The array of probabilities can't be null.")
+            End If
 
-			Dim random As Double = rand.NextDouble()
-			Dim cumulative = 0.0
+            Dim random As Double = rand.NextDouble()
+            Dim cumulative = 0.0
 
-			For i = 0 To p.Length - 1
-				cumulative += p(i)
-				If cumulative > random Then
-					Return i
-				End If
-			Next
-			Return p.Length - 1 ' Fallback: probabilities did not sum up to a 1.0;
-		End Function
-	End Class
+            For i = 0 To p.Length - 1
+                cumulative += p(i)
+                If cumulative > random Then
+                    Return i
+                End If
+            Next
+            Return p.Length - 1 ' Fallback: probabilities did not sum up to a 1.0;
+        End Function
+    End Class
 
 End Namespace
