@@ -3,33 +3,33 @@
 	' Immutable set of symbols mapped indices.
 	<Serializable>
 	Public Class Alphabet
-		Private indexToChar_Conflict As Char()
-		Private charToIndex_Conflict As Dictionary(Of Char, Integer)
+		Private m_indexToChar As Char()
+		Private m_charToIndex As Dictionary(Of Char, Integer)
 
 		' Constructs an alphabet containing symbols extracted from the string.
 		' Treats null as an empty string.
 		Private Sub New(data As String)
 			If ReferenceEquals(data, Nothing) Then
-				indexToChar_Conflict = New Char(-1) {}
-				charToIndex_Conflict = New Dictionary(Of Char, Integer)()
+				m_indexToChar = New Char(-1) {}
+				m_charToIndex = New Dictionary(Of Char, Integer)()
 				Return
 			End If
 
 			' find the alphabet
 			Dim chars As SortedSet(Of Char) = New SortedSet(Of Char)()
-			charToIndex_Conflict = New Dictionary(Of Char, Integer)()
+			m_charToIndex = New Dictionary(Of Char, Integer)()
 			Dim i = 0
 
 			For i = 0 To data.Length - 1
 				chars.Add(data(i))
 			Next
 
-			indexToChar_Conflict = New Char(chars.Count - 1) {}
+			m_indexToChar = New Char(chars.Count - 1) {}
 
 			i = 0
 			For Each c In chars
-				indexToChar_Conflict(i) = c
-				charToIndex_Conflict(c) = System.Math.Min(Threading.Interlocked.Increment(i), i - 1)
+				m_indexToChar(i) = c
+				m_charToIndex(c) = System.Math.Min(Threading.Interlocked.Increment(i), i - 1)
 			Next
 		End Sub
 
@@ -41,12 +41,12 @@
 
 		' Returns the alphabet size.
 		Public Overridable Function size() As Integer
-			Return indexToChar_Conflict.Length
+			Return m_indexToChar.Length
 		End Function
 
 		' Converts a character to the corresponding index.
 		Public Overridable Function charToIndex(c As Char) As Integer
-			Dim index As Integer? = charToIndex_Conflict(c)
+			Dim index As Integer? = m_charToIndex(c)
 			If index Is Nothing Then
 				Throw New Exception("Character is not a part of the alphabet.")
 			End If
@@ -60,7 +60,7 @@
 			If Not (index >= 0 AndAlso index < size()) Then
 				Throw New IndexOutOfRangeException("Index does not correspond to a character.")
 			End If
-			Return indexToChar_Conflict(index)
+			Return m_indexToChar(index)
 		End Function
 
 		' Converts all indices to chars using indexToChar.
