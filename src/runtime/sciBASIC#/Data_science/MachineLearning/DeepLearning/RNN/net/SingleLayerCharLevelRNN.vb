@@ -40,10 +40,6 @@
 
 		' Initializes the net. alphabet != null.
 		Public Overrides Sub initialize(alphabet As Alphabet)
-			If alphabet Is Nothing Then
-				Throw New NullReferenceException("Alphabet can't be null.")
-			End If
-
 			alphabetField = alphabet
 			internal.initialize(alphabet.size())
 		End Sub

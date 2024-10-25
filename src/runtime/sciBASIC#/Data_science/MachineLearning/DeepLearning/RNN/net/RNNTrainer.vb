@@ -63,14 +63,6 @@ Namespace RNN
 
 		' Initializes training. Requires trainingSet != null.
 		Public Overridable Sub initialize(net As Trainable, trainingSet As TrainingSet)
-			If trainingSet Is Nothing Then
-				Throw New NullReferenceException("Training set shouldn't be null.")
-			End If
-
-			If net Is Nothing Then
-				Throw New NullReferenceException("Network set shouldn't be null.")
-			End If
-
 			Me.net = net
 			Me.trainingSet = trainingSet
 

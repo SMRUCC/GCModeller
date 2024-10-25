@@ -8,7 +8,7 @@
 
 		' Constructs from data. Treats null as an empty string.
 		Private Sub New(data As String)
-			If ReferenceEquals(data, Nothing) Then
+			If data Is Nothing Then
 				data = ""
 			End If
 
@@ -35,42 +35,23 @@
 		' ix - input sequence
 		' iy - expected output sequence (shifted by 1)
 		Public Overridable Sub extract(lowerBound As Integer, ix As Integer(), iy As Integer()) Implements TrainingSet.extract
-			Try
-				If ix Is Nothing OrElse iy Is Nothing Then
-					Throw New NullReferenceException("Output arrays can't be null.")
-				End If
+			' fetch one more symbol than the length.
+			Dim upperBound = lowerBound + iy.Length + 1
 
-				If ix.Length <> iy.Length Then
-					Throw New ArgumentException("Arrays must be the same size.")
-				End If
+			' prepare the input/output arrays
+			Dim firstCharI As Integer
+			Dim secondCharI = alphabetField.charToIndex(dataField(lowerBound))
+			Dim t = 0
+			Dim j = lowerBound + t + 1
 
-				If lowerBound < 0 Then
-					Throw New ArgumentException("Illegal lower bound.")
-				End If
-
-				' fetch one more symbol than the length.
-				Dim upperBound = lowerBound + iy.Length + 1
-				If upperBound >= dataField.Length Then
-					Throw New Exception("NoMoreTrainingData")
-				End If
-
-				' prepare the input/output arrays
-				Dim firstCharI As Integer
-				Dim secondCharI = alphabetField.charToIndex(dataField(lowerBound))
-				Dim t = 0
-				Dim j = lowerBound + t + 1
-
-				While j < upperBound
-					firstCharI = secondCharI
-					secondCharI = alphabetField.charToIndex(dataField(j))
-					ix(t) = firstCharI
-					iy(t) = secondCharI
-					j += 1
-					t += 1
-				End While
-			Catch ex As Exception
-				Throw New Exception("Data doesn't match the alphabet.") ' shouldn't happen
-			End Try
+			While j < upperBound
+				firstCharI = secondCharI
+				secondCharI = alphabetField.charToIndex(dataField(j))
+				ix(t) = firstCharI
+				iy(t) = secondCharI
+				j += 1
+				t += 1
+			End While
 		End Sub
 
 		' Getters 
