@@ -21,13 +21,7 @@
 		' Returns a training set with data from file (UTF-8).
 		' Requires fileName != null.
 		Public Shared Function fromFile(fileName As String) As StringTrainingSet
-			If ReferenceEquals(fileName, Nothing) Then
-				Throw New NullReferenceException("File path can't be null.")
-			End If
-
-			'string data = Files.newBufferedReader(Paths.get(fileName), StandardCharsets.UTF_8).lines().collect(Collectors.joining("\n"));
-			'return new StringTrainingSet(data);
-			Throw New NotImplementedException()
+			Return New StringTrainingSet(fileName.ReadAllText)
 		End Function
 
 		' Returns a training set created from a string.

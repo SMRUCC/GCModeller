@@ -7,8 +7,8 @@
 		Public MustOverride Function forwardBackward(ix As Integer(), iy As Integer()) As Double Implements Trainable.forwardBackward
 		Public MustOverride Function sampleIndices(n As Integer, seed As Integer(), temp As Double, advance As Boolean) As Integer() Implements IntegerSampleable.sampleIndices
 		Public MustOverride Function sampleIndices(n As Integer, seed As Integer(), temp As Double) As Integer() Implements IntegerSampleable.sampleIndices
-		''' <summary>
-		''' * Get ** </summary>
+
+		' * Get ** 
 
 		' Returns true if the net was initialized.
 		Public MustOverride ReadOnly Property Initialized As Boolean

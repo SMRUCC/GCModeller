@@ -27,18 +27,14 @@
 		''' * Hyperparameters ** </summary>
 
 		' Sets the hidden layer size. Network must be initialized again.
-		Public Overridable WriteOnly Property HiddenSize As Integer()
-			Set(value As Integer())
-				internal.HiddenSize = value
-			End Set
-		End Property
+		Public Sub SetHiddenSize(value As Integer())
+			internal.HiddenSize = value
+		End Sub
 
 		' Sets the learning rate.
-		Public Overridable WriteOnly Property LearningRate As Double
-			Set(value As Double)
-				internal.LearningRate = value
-			End Set
-		End Property
+		Public Sub SetLearningRate(value As Double)
+			internal.LearningRate = value
+		End Sub
 
 		''' <summary>
 		''' * Initialize ** </summary>
