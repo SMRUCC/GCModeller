@@ -429,49 +429,45 @@ Namespace SVM
                 Dim delta_alpha_i = alpha(i) - old_alpha_i
                 Dim delta_alpha_j = alpha(j) - old_alpha_j
 
-                For k = 0 To active_size - 1
+                For k As Integer = 0 To active_size - 1
                     G(k) += Q_i(k) * delta_alpha_i + Q_j(k) * delta_alpha_j
                 Next
 
                 ' update alpha_status and G_bar
+                Dim ui = is_upper_bound(i)
+                Dim uj = is_upper_bound(j)
+                update_alpha_status(i)
+                update_alpha_status(j)
+                If ui <> is_upper_bound(i) Then
+                    Q_i = Q.GetQ(i, l)
 
-                If True Then
-                    Dim ui = is_upper_bound(i)
-                    Dim uj = is_upper_bound(j)
-                    update_alpha_status(i)
-                    update_alpha_status(j)
-                    Dim k As Integer
+                    If ui Then
+                        For k = 0 To l - 1
+                            G_bar(k) -= C_i * Q_i(k)
+                        Next
+                    Else
 
-                    If ui <> is_upper_bound(i) Then
-                        Q_i = Q.GetQ(i, l)
-
-                        If ui Then
-                            For k = 0 To l - 1
-                                G_bar(k) -= C_i * Q_i(k)
-                            Next
-                        Else
-
-                            For k = 0 To l - 1
-                                G_bar(k) += C_i * Q_i(k)
-                            Next
-                        End If
-                    End If
-
-                    If uj <> is_upper_bound(j) Then
-                        Q_j = Q.GetQ(j, l)
-
-                        If uj Then
-                            For k = 0 To l - 1
-                                G_bar(k) -= C_j * Q_j(k)
-                            Next
-                        Else
-
-                            For k = 0 To l - 1
-                                G_bar(k) += C_j * Q_j(k)
-                            Next
-                        End If
+                        For k = 0 To l - 1
+                            G_bar(k) += C_i * Q_i(k)
+                        Next
                     End If
                 End If
+
+                If uj <> is_upper_bound(j) Then
+                    Q_j = Q.GetQ(j, l)
+
+                    If uj Then
+                        For k = 0 To l - 1
+                            G_bar(k) -= C_j * Q_j(k)
+                        Next
+                    Else
+
+                        For k = 0 To l - 1
+                            G_bar(k) += C_j * Q_j(k)
+                        Next
+                    End If
+                End If
+
             End While
 
             If iter >= max_iter Then
