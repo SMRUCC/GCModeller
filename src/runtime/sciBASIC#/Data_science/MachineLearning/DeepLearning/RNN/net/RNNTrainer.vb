@@ -1,4 +1,6 @@
-﻿Namespace RNN
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+
+Namespace RNN
 
 	' Trains a recurrent neural net on a training set.
 	Public Class RNNTrainer
@@ -103,15 +105,7 @@
 
 		' Trains the net for a few steps. Requires steps >= 0.
 		Public Overridable Sub train(steps As Integer)
-			If Not initialized Then
-				Throw New InvalidOperationException("Training is uninitialized.")
-			End If
-
-			If steps < 0 Then
-				Throw New ArgumentException("Non-negative step count expected.")
-			End If
-
-			For i = 0 To steps - 1
+			For Each i As Integer In TqdmWrapper.Range(0, steps)
 				' try to extract
 				trainingSet.extract(dataTrainedIndex, ix, iy)
 
