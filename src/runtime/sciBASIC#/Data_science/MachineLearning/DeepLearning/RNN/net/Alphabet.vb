@@ -9,7 +9,7 @@
 		' Constructs an alphabet containing symbols extracted from the string.
 		' Treats null as an empty string.
 		Private Sub New(data As String)
-			If ReferenceEquals(data, Nothing) Then
+			If data Is Nothing Then
 				m_indexToChar = New Char(-1) {}
 				m_charToIndex = New Dictionary(Of Char, Integer)()
 				Return
@@ -46,29 +46,18 @@
 
 		' Converts a character to the corresponding index.
 		Public Overridable Function charToIndex(c As Char) As Integer
-			Dim index As Integer? = m_charToIndex(c)
-			If index Is Nothing Then
-				Throw New Exception("Character is not a part of the alphabet.")
-			End If
-
-			Return index.Value
+			Dim index As Integer = m_charToIndex(c)
+			Return index
 		End Function
 
 		' Converts an index to the corresponding character.
 		' Index must be an index returned by charToIndex.
 		Public Overridable Function indexToChar(index As Integer) As Char
-			If Not (index >= 0 AndAlso index < size()) Then
-				Throw New IndexOutOfRangeException("Index does not correspond to a character.")
-			End If
 			Return m_indexToChar(index)
 		End Function
 
 		' Converts all indices to chars using indexToChar.
 		Public Overridable Function indicesToChars(indices As Integer()) As Char()
-			If indices Is Nothing Then
-				Throw New NullReferenceException("Indices can't be null.")
-			End If
-
 			Dim out = New Char(indices.Length - 1) {}
 
 			For i = 0 To indices.Length - 1
@@ -80,10 +69,6 @@
 
 		' Converts the string to indices using charToIndex.
 		Public Overridable Function charsToIndices(chars As String) As Integer()
-			If ReferenceEquals(chars, Nothing) Then
-				Throw New NullReferenceException("Array can't be null.")
-			End If
-
 			Dim out = New Integer(chars.Length - 1) {}
 
 			For i = 0 To chars.Length - 1

@@ -24,22 +24,6 @@
 		End Function
 
 		Public Overridable Function sampleString(length As Integer, seed As String, temp As Double, advance As Boolean) As String Implements CharacterSampleable.sampleString
-			If Not Initialized Then
-				Throw New InvalidOperationException("Network uninitialized.")
-			End If
-
-			If length < 0 Then
-				Throw New ArgumentException("Non-negative length expected.")
-			End If
-
-			If ReferenceEquals(seed, Nothing) Then
-				Throw New NullReferenceException("Non-null seed expected.")
-			End If
-
-			If seed.Length = 0 Then
-				Throw New NullReferenceException("Non-empty seed expected.")
-			End If
-
 			Dim seedIndices = Alphabet.charsToIndices(seed)
 
 			Dim sampledIndices = sampleIndices(length, seedIndices, temp, advance)

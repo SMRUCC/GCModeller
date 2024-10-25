@@ -13,10 +13,6 @@ Namespace RNN
         ' distribution.
         ' Requires that M > 0 and N > 0.
         Public Shared Function randn(M As Integer, N As Integer) As Matrix
-            If Not (M > 0 AndAlso N > 0) Then
-                Throw New ArgumentException("M,N > 0 expected for matrix dimensions.")
-            End If
-
             Dim lM = Matrix.zeros(M, N)
             lM.apply(Function(d) rand.NextDouble())
             Return lM
@@ -26,10 +22,6 @@ Namespace RNN
         ' normal distribution.
         ' Requires that k > 0.
         Public Shared Function randn(k As Integer) As Matrix
-            If Not k > 0 Then
-                Throw New ArgumentException("k > 0 expected for vector size.")
-            End If
-
             Return randn(1, k)
         End Function
 
@@ -37,10 +29,6 @@ Namespace RNN
         ' normal distribution.
         ' Requires that m != null.
         Public Shared Function randomLike(m As Matrix) As Matrix
-            If m Is Nothing Then
-                Throw New NullReferenceException("Non-null m expected.")
-            End If
-
             Return randn(m.M, m.N)
         End Function
 
@@ -50,10 +38,6 @@ Namespace RNN
         ' p. Will work properly, if the sum of probabilities is 1.0.
         ' Requires that p != null.
         Public Shared Function randomChoice(p As Double()) As Integer
-            If p Is Nothing Then
-                Throw New NullReferenceException("The array of probabilities can't be null.")
-            End If
-
             Dim random As Double = rand.NextDouble()
             Dim cumulative = 0.0
 

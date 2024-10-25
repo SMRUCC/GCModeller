@@ -42,13 +42,6 @@
 				length = array(0).Length
 			End If
 
-			' verify if all rows have that many cols
-			For i = 1 To array.Length - 1
-				If array(i) Is Nothing AndAlso length <> 0 OrElse array(i).Length <> length Then
-					Throw New Exception()
-				End If
-			Next
-
 			Return length
 		End Function
 	End Class

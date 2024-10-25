@@ -42,16 +42,6 @@
 		' 		
 		Public Overridable WriteOnly Property HiddenSize As Integer()
 			Set(value As Integer())
-				If value.Length = 0 Then
-					Throw New ArgumentException("At least one layer required.")
-				End If
-
-				For Each size In value
-					If size <= 0 Then
-						Throw New ArgumentException("Hidden size can't be less than 1.")
-					End If
-				Next
-
 				hiddenSizeField = value
 				initializedField = False
 			End Set
@@ -76,10 +66,6 @@
 		' Initializes the net for this vocabulary size.
 		' Requires vocabularySize > 0.
 		Public Overrides Sub initialize(vocabularySize As Integer)
-			If vocabularySize < 1 Then
-				Throw New ArgumentException("Vocabulary size must be > 0.")
-			End If
-
 			' Create layers
 
 			If hiddenSizeField Is Nothing Then ' default: single layer
@@ -126,22 +112,6 @@
 		' 		    Returns the cross-entropy loss.
 		' 		
 		Public Overrides Function forwardBackward(ix As Integer(), iy As Integer()) As Double
-			If Not initializedField Then
-				Throw New InvalidOperationException("Network is uninitialized.")
-			End If
-
-			If ix Is Nothing OrElse iy Is Nothing Then
-				Throw New NullReferenceException("Arrays can't be null.")
-			End If
-
-			If ix.Length <> iy.Length Then
-				Throw New ArgumentException("Inputs and outputs must match.")
-			End If
-
-			If ix.Length = 0 Then
-				Throw New ArgumentException("Can't perform a pass on an empty sequence.")
-			End If
-
 			' forward pass
 			layer(0).forward(layer(0).ixTox(ix))
 			For i = 1 To layer.Length - 1
@@ -170,22 +140,6 @@
 		End Function
 
 		Public Overloads Overrides Function sampleIndices(n As Integer, seed As Integer(), temp As Double, advance As Boolean) As Integer()
-			If Not initializedField Then
-				Throw New InvalidOperationException("Network is uninitialized.")
-			End If
-
-			If n < 0 Then
-				Throw New ArgumentException("Non-negative length expected.")
-			End If
-
-			If seed Is Nothing Then
-				Throw New NullReferenceException("Non-null seed expected.")
-			End If
-
-			If seed.Length = 0 Then
-				Throw New ArgumentException("Non-empty seed expected.")
-			End If
-
 			Dim savedState As Matrix() = Nothing
 
 			If Not advance Then
@@ -239,9 +193,6 @@
 		' Returns the vocabulary size - max index + 1.
 		Public Overrides ReadOnly Property VocabularySize As Integer
 			Get
-				If Not initializedField Then
-					Throw New InvalidOperationException("Network is uninitialized.")
-				End If
 				Return layer(0).InputSize
 			End Get
 		End Property
