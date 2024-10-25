@@ -161,21 +161,11 @@ Namespace RNN
 		' 		    Requirement: ix can't be null, or empty. ix[i] < inputSize
 		' 		
 		Friend Overridable Function ixTox(ix As Integer()) As Matrix()
-			If ix Is Nothing Then
-				Throw New NullReferenceException("The sequence can't be null.")
-			End If
-
-			If ix.Length = 0 Then
-				Throw New ArgumentException("The sequence must be non-empty.")
-			End If
-
-			If True Then
-				For Each index In ix
-					If index < 0 OrElse index >= inputSizeField Then
-						Throw New ArgumentException("Illegal index passed as argument.")
-					End If
-				Next
-			End If
+			For Each index As Integer In ix
+				If index < 0 OrElse index >= inputSizeField Then
+					Throw New ArgumentException("Illegal index passed as argument.")
+				End If
+			Next
 
 			' start at t = 1
 			Dim oneHot = New Matrix(ix.Length + 1 - 1) {}
