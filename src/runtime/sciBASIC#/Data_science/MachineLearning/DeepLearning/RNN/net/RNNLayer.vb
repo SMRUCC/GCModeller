@@ -74,11 +74,6 @@ Namespace RNN
         Public Overridable Property InputSize As Integer
             Set(value As Integer)
                 initialized = False
-
-                If value <= 0 Then
-                    Throw New ArgumentException("Illegal input size.")
-                End If
-
                 inputSizeField = value
             End Set
             Get
@@ -91,10 +86,6 @@ Namespace RNN
             Set(value As Integer)
                 initialized = False
 
-                If value <= 0 Then
-                    Throw New ArgumentException("Illegal hidden size.")
-                End If
-
                 hiddenSizeField = value
             End Set
             Get
@@ -106,10 +97,6 @@ Namespace RNN
         Public Overridable Property OutputSize As Integer
             Set(value As Integer)
                 initialized = False
-
-                If value <= 0 Then
-                    Throw New ArgumentException("Illegal output size.")
-                End If
 
                 outputSizeField = value
             End Set
@@ -129,9 +116,6 @@ Namespace RNN
 
         ' Initialize the net with random weights.
         Public Overridable Sub initialize()
-            If inputSizeField <= 0 OrElse hiddenSizeField <= 0 OrElse outputSizeField <= 0 Then
-                Throw New ArgumentException("Illegal layer sizes.")
-            End If
 
             ' create weight matrices
 
@@ -161,12 +145,6 @@ Namespace RNN
         ' 		    Requirement: ix can't be null, or empty. ix[i] < inputSize
         ' 		
         Friend Overridable Function ixTox(ix As Integer()) As Matrix()
-            For Each index As Integer In ix
-                If index < 0 OrElse index >= inputSizeField Then
-                    Throw New ArgumentException("Illegal index passed as argument.")
-                End If
-            Next
-
             ' start at t = 1
             Dim oneHot = New Matrix(ix.Length + 1 - 1) {}
             For t = 1 To ix.Length + 1 - 1
@@ -178,10 +156,6 @@ Namespace RNN
 
         ' Like ixTox, but a single index instead of an array
         Friend Overridable Function ixTox(ix As Integer) As Matrix
-            If ix < 0 OrElse ix >= inputSizeField Then
-                Throw New ArgumentException("Illegal index passed as argument.")
-            End If
-
             Return Matrix.oneHot(inputSizeField, ix)
         End Function
 
@@ -205,24 +179,7 @@ Namespace RNN
         ' 		    x came from ixTox or the previous layer's forward pass result y.
         ' 		
         Friend Overridable Sub forward(x As Matrix())
-            If Not initialized Then
-                Throw New InvalidOperationException("Layer was not initialized.")
-            End If
-
-            If x Is Nothing OrElse x.Length < 2 Then ' starting at t = 1
-                Throw New ArgumentException("Expected a sequence of length at least 1.")
-            End If
-
-
             Dim t = 1
-
-            While t < x.Length
-                If x(t) Is Nothing OrElse x(t).getk() <> inputSizeField Then
-                    Throw New ArgumentException("Bad vector passed as argument.")
-                End If
-
-                Threading.Interlocked.Increment(t)
-            End While
 
             ' Initialize the forward pass 
 
@@ -265,10 +222,6 @@ Namespace RNN
 
         ' Forward pass for a single seed.
         Friend Overridable Sub forward(x As Matrix)
-            If x Is Nothing Then
-                Throw New NullReferenceException("x is null.")
-            End If
-
             Dim xa = New Matrix(1) {}
             xa(1) = x
             forward(xa)
@@ -284,21 +237,6 @@ Namespace RNN
         ' 		   outputSize
         ' 		
         Friend Overridable Function getLoss(iy As Integer()) As Double
-            If Not initialized Then
-                Throw New InvalidOperationException("Network was not initialized.")
-            End If
-
-            If iy Is Nothing OrElse iy.Length <> lastSequenceLength Then
-                Throw New ArgumentException("Expected the iy sequence to be the same length as the last x sequence.")
-            End If
-
-
-            For Each index As Integer In iy
-                If index < 0 OrElse index >= outputSizeField Then
-                    Throw New ArgumentException("Bad index passed as argument.")
-                End If
-            Next
-
             Dim loss = 0.0
             Dim t = 1
 
@@ -313,20 +251,12 @@ Namespace RNN
         ' Returns y: the unnormalized probabilities - output of the last forward
         ' pass, starting at t = 1.
         Friend Overridable Function gety() As Matrix()
-            If Not initialized Then
-                Throw New InvalidOperationException("Network was not initialized.")
-            End If
-
             Return yAt
         End Function
 
         ' Returns p: the normalized probabilities - output of the last forward
         ' pass, starting at t = 1.
         Friend Overridable Function getp() As Matrix()
-            If Not initialized Then
-                Throw New InvalidOperationException("Network was not initialized.")
-            End If
-
             Return pAt
         End Function
 
@@ -338,20 +268,6 @@ Namespace RNN
         ' 		    iy must be the size of the last sequence length, iy[i] < outputSize
         ' 		
         Friend Overridable Function getdy(iy As Integer()) As Matrix()
-            If Not initialized Then
-                Throw New InvalidOperationException("Network was not initialized.")
-            End If
-
-            If iy Is Nothing OrElse iy.Length <> lastSequenceLength Then
-                Throw New ArgumentException("Expected the iy sequence to be the same length as the last x sequence.")
-            End If
-
-            For Each index As Integer In iy
-                If index < 0 OrElse index >= outputSizeField Then
-                    Throw New ArgumentException("Bad index passed as argument.")
-                End If
-            Next
-
             Dim dyAt = New Matrix(lastSequenceLength + 1 - 1) {} ' start at t = 1
 
             Dim t = 1
@@ -381,23 +297,7 @@ Namespace RNN
         ' 		    backward pass result dx.
         ' 		
         Friend Overridable Sub backward(dy As Matrix())
-            If Not initialized Then
-                Throw New InvalidOperationException("Network was not initialized.")
-            End If
-
-            If dy Is Nothing OrElse dy.Length <> lastSequenceLength + 1 Then ' starts at t = 1
-                Throw New ArgumentException("Expected the y sequence to be the same length as the last x sequence.")
-            End If
-
             Dim t = 1
-
-            While t < lastSequenceLength + 1
-                If dy(t) Is Nothing OrElse dy(t).getk() <> outputSizeField Then
-                    Throw New ArgumentException("Bad index passed as argument.")
-                End If
-
-                Threading.Interlocked.Increment(t)
-            End While
 
             ' Initialize backward pass 
 
@@ -481,10 +381,6 @@ Namespace RNN
         ' 		    backward pass.
         ' 		
         Friend Overridable Function getdx() As Matrix()
-            If Not initialized Then
-                Throw New InvalidOperationException("Network was not initialized.")
-            End If
-
             Return dxAt
         End Function
 
@@ -496,31 +392,16 @@ Namespace RNN
         ' the probabilities of the next indices are normalized using a softmax
         ' with temperature = temp in (0.0,1.0].
         Friend Overridable Function getProbabilities(temp As Double) As Double()
-            If Not initialized Then
-                Throw New InvalidOperationException("Network was not initialized.")
-            End If
-
             Return Math.softmax(New Matrix(yAt(yAt.Length - 1)), temp).unravel()
         End Function
 
         ' Save the hidden state before sampling.
         Friend Overridable Function saveHiddenState() As Matrix
-            If Not initialized Then
-                Throw New InvalidOperationException("Network was not initialized.")
-            End If
-
             Return New Matrix(h)
         End Function
 
         ' Restore the hidden state after sampling.
         Friend Overridable Sub restoreHiddenState(h As Matrix)
-            If Not initialized Then
-                Throw New InvalidOperationException("Network was not initialized.")
-            End If
-
-            If h.getk() <> hiddenSizeField Then
-                Throw New ArgumentException("The hidden state has the wrong size.")
-            End If
             Me.h = h
         End Sub
 

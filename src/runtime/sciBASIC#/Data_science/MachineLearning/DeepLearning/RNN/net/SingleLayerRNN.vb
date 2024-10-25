@@ -30,9 +30,6 @@
 		' Sets the hidden layer size. Network must be initialized again.
 		Public Overridable WriteOnly Property HiddenSize As Integer
 			Set(value As Integer)
-				If value < 1 Then
-					Throw New ArgumentException("Hidden size can't be less than 1.")
-				End If
 				layer.HiddenSize = value
 				initializedField = False
 			End Set
@@ -51,10 +48,6 @@
 		' Initializes the net for this vocabulary size.
 		' Requires vocabularySize > 0.
 		Public Overrides Sub initialize(vocabularySize As Integer)
-			If vocabularySize < 1 Then
-				Throw New ArgumentException("Vocabulary size must be > 0.")
-			End If
-
 			' Set the layer parameters.
 
 			layer.InputSize = vocabularySize
@@ -77,22 +70,6 @@
 		' 		    Returns the cross-entropy loss.
 		' 		
 		Public Overrides Function forwardBackward(ix As Integer(), iy As Integer()) As Double
-			If Not initializedField Then
-				Throw New InvalidOperationException("Network is uninitialized.")
-			End If
-
-			If ix Is Nothing OrElse iy Is Nothing Then
-				Throw New NullReferenceException("Arrays can't be null.")
-			End If
-
-			If ix.Length <> iy.Length Then
-				Throw New ArgumentException("Inputs and outputs must match.")
-			End If
-
-			If ix.Length = 0 Then
-				Throw New ArgumentException("Can't perform a pass on an empty sequence.")
-			End If
-
 			layer.forward(layer.ixTox(ix))
 			Dim loss = layer.getLoss(iy)
 			layer.backward(layer.getdy(iy))
@@ -110,22 +87,6 @@
 
 		' Samples n indices, sequence seed, choose whether to advance the state.
 		Public Overloads Overrides Function sampleIndices(n As Integer, seed As Integer(), temp As Double, advance As Boolean) As Integer()
-			If Not initializedField Then
-				Throw New InvalidOperationException("Network is uninitialized.")
-			End If
-
-			If n < 0 Then
-				Throw New ArgumentException("Non-negative length expected.")
-			End If
-
-			If seed Is Nothing Then
-				Throw New NullReferenceException("Non-null seed expected.")
-			End If
-
-			If n < 0 Then
-				Throw New ArgumentException("Non-negative length expected.")
-			End If
-
 			Dim savedState As Matrix = If(Not advance, layer.saveHiddenState(), Nothing)
 
 			Dim sampled = New Integer(n - 1) {}
@@ -158,9 +119,6 @@
 		' Returns the vocabulary size - max index + 1.
 		Public Overrides ReadOnly Property VocabularySize As Integer
 			Get
-				If Not initializedField Then
-					Throw New InvalidOperationException("Network is uninitialized.")
-				End If
 				Return layer.InputSize
 			End Get
 		End Property
