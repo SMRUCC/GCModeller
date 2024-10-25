@@ -60,6 +60,20 @@ Namespace Evaluation
 
     Public Module RegressionROC
 
+        Public Function ROC(predicts As Double(), labels As Double(),
+                                     Optional range As DoubleRange = Nothing,
+                                     Optional n As Integer = 25) As IEnumerable(Of Validation)
+            Return predicts _
+                .Select(Function(fx, i)
+                            Return New RegressionClassify With {
+                                .predicts = fx,
+                                .actual = labels(i),
+                                .sampleID = $"v_{i + 1}"
+                            }
+                        End Function) _
+                .ROC(range, n)
+        End Function
+
         ''' <summary>
         ''' Evaluate the regression model ROC
         ''' </summary>
