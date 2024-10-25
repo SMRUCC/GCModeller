@@ -56,7 +56,7 @@
 
 #End Region
 
-Imports std = System.Math
+Imports stdf = System.Math
 
 Namespace LinearAlgebra.Matrix
 
@@ -329,7 +329,7 @@ Namespace LinearAlgebra.Matrix
                     If k = -1 Then
                         Exit For
                     End If
-                    If Std.Abs(e(k)) <= eps * (Std.Abs(m_s(k)) + Std.Abs(m_s(k + 1))) Then
+                    If stdf.Abs(e(k)) <= eps * (stdf.Abs(m_s(k)) + stdf.Abs(m_s(k + 1))) Then
                         e(k) = 0.0
                         Exit For
                     End If
@@ -342,8 +342,8 @@ Namespace LinearAlgebra.Matrix
                         If ks = k Then
                             Exit For
                         End If
-                        Dim t As Double = (If(ks <> p, Std.Abs(e(ks)), 0.0)) + (If(ks <> k + 1, Std.Abs(e(ks - 1)), 0.0))
-                        If Std.Abs(m_s(ks)) <= eps * t Then
+                        Dim t As Double = (If(ks <> p, stdf.Abs(e(ks)), 0.0)) + (If(ks <> k + 1, stdf.Abs(e(ks - 1)), 0.0))
+                        If stdf.Abs(m_s(ks)) <= eps * t Then
                             m_s(ks) = 0.0
                             Exit For
                         End If
@@ -419,7 +419,7 @@ Namespace LinearAlgebra.Matrix
 
                         ' Calculate the shift.
 
-                        Dim scale As Double = Std.Max(Std.Max(Std.Max(Std.Max(Std.Abs(m_s(p - 1)), Std.Abs(m_s(p - 2))), Std.Abs(e(p - 2))), Std.Abs(m_s(k))), Std.Abs(e(k)))
+                        Dim scale As Double = stdf.Max(stdf.Max(stdf.Max(stdf.Max(stdf.Abs(m_s(p - 1)), stdf.Abs(m_s(p - 2))), stdf.Abs(e(p - 2))), stdf.Abs(m_s(k))), stdf.Abs(e(k)))
                         Dim sp As Double = m_s(p - 1) / scale
                         Dim spm1 As Double = m_s(p - 2) / scale
                         Dim epm1 As Double = e(p - 2) / scale
@@ -429,7 +429,7 @@ Namespace LinearAlgebra.Matrix
                         Dim c As Double = (sp * epm1) * (sp * epm1)
                         Dim shift As Double = 0.0
                         If (b <> 0.0) Or (c <> 0.0) Then
-                            shift = Std.Sqrt(b * b + c)
+                            shift = stdf.Sqrt(b * b + c)
                             If b < 0.0 Then
                                 shift = -shift
                             End If
