@@ -38,7 +38,7 @@ Namespace RNN
 		End Function
 
 		' Trains the network.
-		Private Shared Sub train(options As Options, net As CharLevelRNN, snapshotName As String)
+		Public Shared Sub train(options As Options, net As CharLevelRNN, snapshotName As String)
 			If options Is Nothing Then
 				Throw New NullReferenceException("Options can't be null.")
 			End If
@@ -55,7 +55,7 @@ Namespace RNN
 
 				' Load the training set.
 
-				Dim trainingSet = StringTrainingSet.fromFile(options.InputFile)
+				Dim trainingSet = StringTrainingSet.fromFile(options.inputFile)
 
 				Console.WriteLine("Data size: " & trainingSet.size().ToString() & ", vocabulary size: " & trainingSet.vocabularySize().ToString())
 
@@ -66,20 +66,20 @@ Namespace RNN
 				End If
 
 				Dim trainer As RNNTrainer = New RNNTrainer()
-				trainer.SequenceLength = options.SequenceLength
+				trainer.SequenceLength = options.sequenceLength
 				trainer.initialize(net, trainingSet)
 				trainer.printDebug(True)
 
 				' For sampling during training, pick the temperature from options
 				' and the first character in the training set as seed.
 				Dim seed = Convert.ToString(trainingSet.Data(0))
-				Dim samplingTemperature = options.SamplingTemp
-				Dim sampleLength = options.TrainingSampleLength
+				Dim samplingTemperature = options.samplingTemp
+				Dim sampleLength = options.trainingSampleLength
 
 
-				Dim loopTimes = options.LoopAroundTimes
-				Dim sampleEveryNSteps = options.SampleEveryNSteps
-				Dim snapshotEveryNSamples = options.SnapshotEveryNSamples
+				Dim loopTimes = options.loopAroundTimes
+				Dim sampleEveryNSteps = options.sampleEveryNSteps
+				Dim snapshotEveryNSamples = options.snapshotEveryNSamples
 				Dim nextSnapshotNumber = 1
 				While True ' Go over the whole training set.
 
@@ -122,7 +122,7 @@ Namespace RNN
 		End Sub
 
 		' Saves a network snapshot with this name to file.
-		Private Shared Sub saveASnapshot(name As String, net As CharLevelRNN)
+		Public Shared Sub saveASnapshot(name As String, net As CharLevelRNN)
 			If ReferenceEquals(name, Nothing) Then
 				Throw New NullReferenceException("Network name can't be null.")
 			End If
@@ -150,7 +150,7 @@ Namespace RNN
 		''' </summary>
 		''' <param name="name"></param>
 		''' <returns></returns>
-		Private Shared Function loadASnapshot(name As String) As CharLevelRNN
+		Public Shared Function loadASnapshot(name As String) As CharLevelRNN
 			If ReferenceEquals(name, Nothing) Then
 				Throw New NullReferenceException("Name can't be null.")
 			End If
@@ -179,7 +179,7 @@ Namespace RNN
 		' 		     - net != null, must be initialized
 		' 		     - temperature in (0.0,1.0]
 		' 		 
-		Private Shared Sub sample(n As Integer, seed As String, temperature As Double, net As CharLevelRNN)
+		Public Shared Sub sample(n As Integer, seed As String, temperature As Double, net As CharLevelRNN)
 			If n < 1 Then
 				Throw New ArgumentException("n must be at least 1")
 			End If
