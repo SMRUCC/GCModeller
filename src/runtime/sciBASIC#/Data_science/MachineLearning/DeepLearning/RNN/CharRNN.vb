@@ -9,107 +9,30 @@ Namespace RNN
 	''' https://github.com/garstka/char-rnn-java
 	''' </remarks>
 	Public Class CharRNN
-		Public Shared Sub Main(args As String())
-			Dim configFile = "config.properties"
-			Dim options As Options = Nothing
-			'Try
-			'	options = New Options(configFile)
-			'Catch __unusedIOException1__ As IOException
-			'	options = New Options()
-			'	Console.WriteLine("Using the defaults.")
 
-			'	' Save config.
-			'	Try
-			'		options.save(configFile)
-			'	Catch __unusedIOException1__ As IOException
-			'		Console.WriteLine("Couldn't save the options.")
-			'	End Try
-			'End Try
-
-			If options.PrintOptions Then ' Print options
-				options.print()
-			End If
-
-			' StreamReader scanner = new Scanner(System.in);
-			While True
-				Console.WriteLine("Choose an action:")
-				Console.WriteLine("1. Create a new network and start training it.")
-				Console.WriteLine("2. Restore a snapshot and continue training.")
-				Console.WriteLine("3. Restore a snapshot and sample (generate text).")
-				Console.WriteLine("(anything else to quit)")
-
-				Const optionCreate = 1
-				Const optionContinue = 2
-				Const optionSample = 3
-
-				Try
-					Dim net As CharLevelRNN = Nothing
-					Dim networkName As String = Nothing
-
-					Dim nextChar As Integer = Integer.Parse(Console.ReadLine())
-					If nextChar = optionCreate Then ' Create a new network
-						Console.WriteLine("New network name: ")
-						networkName = Console.ReadLine()
-						net = initialize(options)
-					ElseIf nextChar = optionContinue OrElse nextChar = optionSample Then ' From snapshot
-						Console.WriteLine(".snapshot file name: ")
-						networkName = Console.ReadLine()
-						Try
-							net = loadASnapshot(networkName)
-						Catch __unusedIOException1__ As IOException
-							Console.WriteLine("Couldn't load from file.")
-							Continue While
-						End Try ' Exit
-					Else
-						Exit While
-					End If
-
-					If nextChar = optionCreate OrElse nextChar = optionContinue Then ' train
-						train(options, net, networkName) ' sample
-					Else
-						Dim temp = options.SamplingTemp
-						While True
-							Console.WriteLine("How many characters to sample (<1 to exit): ")
-							Dim characters As Integer = Integer.Parse(Console.ReadLine())
-
-							If characters < 1 Then
-								Exit While
-							End If
-							Console.WriteLine("Seed string: ")
-							Dim seed As String = Console.ReadLine()
-							If seed.Length = 0 Then
-								Console.WriteLine("Seed must not be empty.")
-								Continue While
-							End If
-
-							sample(characters, seed, temp, net)
-						End While
-					End If
-				Catch __unusedFormatException1__ As FormatException
-					Console.WriteLine("Expected a number.")
-				End Try
-			End While
-		End Sub
-
-		' Initialize a network for training.
-		Private Shared Function initialize(options As Options) As CharLevelRNN
-			If options.UseSingleLayerNet Then
+		''' <summary>
+		''' 01. Initialize a network for training.
+		''' </summary>
+		''' <param name="options"></param>
+		''' <returns></returns>
+		Public Shared Function initialize(options As Options) As CharLevelRNN
+			If options.useSingleLayerNet Then
 				' legacy network, single layer only
 				Dim net As SingleLayerCharLevelRNN = New SingleLayerCharLevelRNN()
-				net.HiddenSize = options.HiddenSize
-				net.LearningRate = options.LearningRate
+				net.HiddenSize = options.hiddenSize
+				net.LearningRate = options.learningRate
 				Return net ' Multi layer network.
 			Else
 				Dim net As MultiLayerCharLevelRNN = New MultiLayerCharLevelRNN()
 
 				' Use the same hidden size for all layers.
-				Dim hiddenSize = options.HiddenSize
-				Dim hidden = New Integer(options.Layers - 1) {}
+				Dim hiddenSize = options.hiddenSize
+				Dim hidden = New Integer(options.layers - 1) {}
 				For i = 0 To hidden.Length - 1
 					hidden(i) = hiddenSize
 				Next
 				net.HiddenSize = hidden
-				net.LearningRate = options.LearningRate
+				net.LearningRate = options.learningRate
 				Return net
 			End If
 		End Function
@@ -222,7 +145,11 @@ Namespace RNN
 			Console.WriteLine("Saved as " & name & ".snapshot")
 		End Sub
 
-		' Loads a network snapshot with this name from file.
+		''' <summary>
+		''' 02. Loads a network snapshot with this name from file.
+		''' </summary>
+		''' <param name="name"></param>
+		''' <returns></returns>
 		Private Shared Function loadASnapshot(name As String) As CharLevelRNN
 			If ReferenceEquals(name, Nothing) Then
 				Throw New NullReferenceException("Name can't be null.")
