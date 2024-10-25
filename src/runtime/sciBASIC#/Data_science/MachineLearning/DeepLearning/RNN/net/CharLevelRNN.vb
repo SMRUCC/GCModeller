@@ -1,49 +1,52 @@
-﻿' RNN that can use both indices, and characters as inputs/outputs.
-<Serializable>
-Public MustInherit Class CharLevelRNN
-	Inherits RNN
-	Implements CharacterSampleable
-	''' <summary>
-	''' * Initialize ** </summary>
+﻿Namespace RNN
 
-	' Initializes the net. Requires that alphabet != null.
-	Public MustOverride Sub initialize(alphabet As Alphabet)
+	' RNN that can use both indices, and characters as inputs/outputs.
+	<Serializable>
+	Public MustInherit Class CharLevelRNN
+		Inherits RNN
+		Implements CharacterSampleable
+		''' <summary>
+		''' * Initialize ** </summary>
 
-	''' <summary>
-	''' * Get ** </summary>
+		' Initializes the net. Requires that alphabet != null.
+		Public MustOverride Sub initialize(alphabet As Alphabet)
 
-	' Returns the alphabet, if initialized.
-	Public MustOverride ReadOnly Property Alphabet As Alphabet
+		''' <summary>
+		''' * Get ** </summary>
 
-	''' <summary>
-	''' * Sample ** </summary>
-	Public Overridable Function sampleString(length As Integer, seed As String, temp As Double) As String Implements CharacterSampleable.sampleString
-		Return sampleString(length, seed, temp, True)
-	End Function
+		' Returns the alphabet, if initialized.
+		Public MustOverride ReadOnly Property Alphabet As Alphabet
 
-	Public Overridable Function sampleString(length As Integer, seed As String, temp As Double, advance As Boolean) As String Implements CharacterSampleable.sampleString
-		If Not Initialized Then
-			Throw New InvalidOperationException("Network uninitialized.")
-		End If
+		''' <summary>
+		''' * Sample ** </summary>
+		Public Overridable Function sampleString(length As Integer, seed As String, temp As Double) As String Implements CharacterSampleable.sampleString
+			Return sampleString(length, seed, temp, True)
+		End Function
 
-		If length < 0 Then
-			Throw New ArgumentException("Non-negative length expected.")
-		End If
+		Public Overridable Function sampleString(length As Integer, seed As String, temp As Double, advance As Boolean) As String Implements CharacterSampleable.sampleString
+			If Not Initialized Then
+				Throw New InvalidOperationException("Network uninitialized.")
+			End If
 
-		If ReferenceEquals(seed, Nothing) Then
-			Throw New NullReferenceException("Non-null seed expected.")
-		End If
+			If length < 0 Then
+				Throw New ArgumentException("Non-negative length expected.")
+			End If
 
-		If seed.Length = 0 Then
-			Throw New NullReferenceException("Non-empty seed expected.")
-		End If
+			If ReferenceEquals(seed, Nothing) Then
+				Throw New NullReferenceException("Non-null seed expected.")
+			End If
 
-		Dim seedIndices = Alphabet.charsToIndices(seed)
+			If seed.Length = 0 Then
+				Throw New NullReferenceException("Non-empty seed expected.")
+			End If
 
-		Dim sampledIndices = sampleIndices(length, seedIndices, temp, advance)
+			Dim seedIndices = Alphabet.charsToIndices(seed)
 
-		Dim sampledChars = Alphabet.indicesToChars(sampledIndices)
+			Dim sampledIndices = sampleIndices(length, seedIndices, temp, advance)
 
-		Return New String(sampledChars)
-	End Function
-End Class
+			Dim sampledChars = Alphabet.indicesToChars(sampledIndices)
+
+			Return New String(sampledChars)
+		End Function
+	End Class
+End Namespace

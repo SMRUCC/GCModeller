@@ -1,5 +1,7 @@
-﻿' Immutable training set for a character level RNN.
-Public Class StringTrainingSet
+﻿Namespace RNN
+
+	' Immutable training set for a character level RNN.
+	Public Class StringTrainingSet
 		Implements TrainingSet
 		Private dataField As String ' Data from file.
 		Private alphabetField As Alphabet ' Alphabet extracted from data.
@@ -39,41 +41,41 @@ Public Class StringTrainingSet
 		' ix - input sequence
 		' iy - expected output sequence (shifted by 1)
 		Public Overridable Sub extract(lowerBound As Integer, ix As Integer(), iy As Integer()) Implements TrainingSet.extract
-		Try
-			If ix Is Nothing OrElse iy Is Nothing Then
-				Throw New NullReferenceException("Output arrays can't be null.")
-			End If
+			Try
+				If ix Is Nothing OrElse iy Is Nothing Then
+					Throw New NullReferenceException("Output arrays can't be null.")
+				End If
 
-			If ix.Length <> iy.Length Then
-				Throw New ArgumentException("Arrays must be the same size.")
-			End If
+				If ix.Length <> iy.Length Then
+					Throw New ArgumentException("Arrays must be the same size.")
+				End If
 
-			If lowerBound < 0 Then
-				Throw New ArgumentException("Illegal lower bound.")
-			End If
+				If lowerBound < 0 Then
+					Throw New ArgumentException("Illegal lower bound.")
+				End If
 
-			' fetch one more symbol than the length.
-			Dim upperBound = lowerBound + iy.Length + 1
-			If upperBound >= dataField.Length Then
-				Throw New Exception("NoMoreTrainingData")
-			End If
+				' fetch one more symbol than the length.
+				Dim upperBound = lowerBound + iy.Length + 1
+				If upperBound >= dataField.Length Then
+					Throw New Exception("NoMoreTrainingData")
+				End If
 
-			' prepare the input/output arrays
-			Dim firstCharI As Integer
-			Dim secondCharI = alphabetField.charToIndex(dataField(lowerBound))
-			Dim t = 0
-			Dim j = lowerBound + t + 1
+				' prepare the input/output arrays
+				Dim firstCharI As Integer
+				Dim secondCharI = alphabetField.charToIndex(dataField(lowerBound))
+				Dim t = 0
+				Dim j = lowerBound + t + 1
 
-			While j < upperBound
-				firstCharI = secondCharI
-				secondCharI = alphabetField.charToIndex(dataField(j))
-				ix(t) = firstCharI
-				iy(t) = secondCharI
-				j += 1
-				t += 1
-			End While
-		Catch ex As Exception
-			Throw New Exception("Data doesn't match the alphabet.") ' shouldn't happen
+				While j < upperBound
+					firstCharI = secondCharI
+					secondCharI = alphabetField.charToIndex(dataField(j))
+					ix(t) = firstCharI
+					iy(t) = secondCharI
+					j += 1
+					t += 1
+				End While
+			Catch ex As Exception
+				Throw New Exception("Data doesn't match the alphabet.") ' shouldn't happen
 			End Try
 		End Sub
 
@@ -104,3 +106,4 @@ Public Class StringTrainingSet
 		End Function
 	End Class
 
+End Namespace

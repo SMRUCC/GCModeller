@@ -1,106 +1,109 @@
-﻿' Single layer character level RNN.
-<Serializable>
-Public Class SingleLayerCharLevelRNN
-	Inherits CharLevelRNN
-	Protected Friend alphabetField As Alphabet ' The alphabet for sampling.
+﻿Namespace RNN
 
-	Protected Friend internal As SingleLayerRNN ' Basic network.
+	' Single layer character level RNN.
+	<Serializable>
+	Public Class SingleLayerCharLevelRNN
+		Inherits CharLevelRNN
+		Protected Friend alphabetField As Alphabet ' The alphabet for sampling.
 
-	''' <summary>
-	''' * Construct ** </summary>
+		Protected Friend internal As SingleLayerRNN ' Basic network.
 
-	' Constructs without initialization.
-	Public Sub New()
-		internal = New SingleLayerRNN()
-	End Sub
+		''' <summary>
+		''' * Construct ** </summary>
 
-	' Constructs and initializes immediately. Requires that alphabet != null.
-	Public Sub New(alphabet As Alphabet)
-		Me.New()
-		initialize(alphabet)
-	End Sub
+		' Constructs without initialization.
+		Public Sub New()
+			internal = New SingleLayerRNN()
+		End Sub
 
-	''' <summary>
-	''' * Hyperparameters ** </summary>
+		' Constructs and initializes immediately. Requires that alphabet != null.
+		Public Sub New(alphabet As Alphabet)
+			Me.New()
+			initialize(alphabet)
+		End Sub
 
-	' Sets the hidden layer size. Network must be initialized again.
-	Public Overridable WriteOnly Property HiddenSize As Integer
-		Set(value As Integer)
-			internal.HiddenSize = value
-		End Set
-	End Property
+		''' <summary>
+		''' * Hyperparameters ** </summary>
 
-	' Sets the learning rate.
-	Public Overridable WriteOnly Property LearningRate As Double
-		Set(value As Double)
-			internal.LearningRate = value
-		End Set
-	End Property
+		' Sets the hidden layer size. Network must be initialized again.
+		Public Overridable WriteOnly Property HiddenSize As Integer
+			Set(value As Integer)
+				internal.HiddenSize = value
+			End Set
+		End Property
 
-	''' <summary>
-	''' * Initialize ** </summary>
+		' Sets the learning rate.
+		Public Overridable WriteOnly Property LearningRate As Double
+			Set(value As Double)
+				internal.LearningRate = value
+			End Set
+		End Property
 
-	' Initializes the net. alphabet != null.
-	Public Overrides Sub initialize(alphabet As Alphabet)
-		If alphabet Is Nothing Then
-			Throw New NullReferenceException("Alphabet can't be null.")
-		End If
+		''' <summary>
+		''' * Initialize ** </summary>
 
-		alphabetField = alphabet
-		internal.initialize(alphabet.size())
-	End Sub
+		' Initializes the net. alphabet != null.
+		Public Overrides Sub initialize(alphabet As Alphabet)
+			If alphabet Is Nothing Then
+				Throw New NullReferenceException("Alphabet can't be null.")
+			End If
 
-	''' <summary>
-	''' * Train ** </summary>
+			alphabetField = alphabet
+			internal.initialize(alphabet.size())
+		End Sub
 
-	' 
-	' 		    Performs a forward-backward pass for the given indices.
-	' 	
-	' 		    ix.length and iy.length lengths must match, can't be empty.
-	' 		    All indices must be less than the vocabulary size.
-	' 	
-	' 		    Returns the cross-entropy loss.
-	' 		
-	Public Overrides Function forwardBackward(ix As Integer(), iy As Integer()) As Double
-		Return internal.forwardBackward(ix, iy)
-	End Function
+		''' <summary>
+		''' * Train ** </summary>
 
-	''' <summary>
-	''' * Sample ** </summary>
+		' 
+		' 		    Performs a forward-backward pass for the given indices.
+		' 	
+		' 		    ix.length and iy.length lengths must match, can't be empty.
+		' 		    All indices must be less than the vocabulary size.
+		' 	
+		' 		    Returns the cross-entropy loss.
+		' 		
+		Public Overrides Function forwardBackward(ix As Integer(), iy As Integer()) As Double
+			Return internal.forwardBackward(ix, iy)
+		End Function
 
-	' Samples n indices, sequence seed, advance the state.
-	Public Overloads Overrides Function sampleIndices(n As Integer, seed As Integer(), temp As Double) As Integer()
-		Return internal.sampleIndices(n, seed, temp)
-	End Function
+		''' <summary>
+		''' * Sample ** </summary>
 
-	' Samples n indices, sequence seed, choose whether to advance the state.
-	Public Overloads Overrides Function sampleIndices(n As Integer, seed As Integer(), temp As Double, advance As Boolean) As Integer()
-		Return internal.sampleIndices(n, seed, temp, advance)
-	End Function
+		' Samples n indices, sequence seed, advance the state.
+		Public Overloads Overrides Function sampleIndices(n As Integer, seed As Integer(), temp As Double) As Integer()
+			Return internal.sampleIndices(n, seed, temp)
+		End Function
 
-	''' <summary>
-	''' * Get ** </summary>
+		' Samples n indices, sequence seed, choose whether to advance the state.
+		Public Overloads Overrides Function sampleIndices(n As Integer, seed As Integer(), temp As Double, advance As Boolean) As Integer()
+			Return internal.sampleIndices(n, seed, temp, advance)
+		End Function
 
-	' Returns the alphabet, if initialized.
-	Public Overrides ReadOnly Property Alphabet As Alphabet
-		Get
-			Return alphabetField
-		End Get
-	End Property
+		''' <summary>
+		''' * Get ** </summary>
 
-	' Returns true if the net was initialized.
-	Public Overrides ReadOnly Property Initialized As Boolean
-		Get
-			Return internal.Initialized
-		End Get
-	End Property
+		' Returns the alphabet, if initialized.
+		Public Overrides ReadOnly Property Alphabet As Alphabet
+			Get
+				Return alphabetField
+			End Get
+		End Property
 
-	' Returns the vocabulary size (the alphabet size), if initialized.
-	Public Overrides ReadOnly Property VocabularySize As Integer
-		Get
-			Return internal.VocabularySize
-		End Get
-	End Property
-End Class
+		' Returns true if the net was initialized.
+		Public Overrides ReadOnly Property Initialized As Boolean
+			Get
+				Return internal.Initialized
+			End Get
+		End Property
+
+		' Returns the vocabulary size (the alphabet size), if initialized.
+		Public Overrides ReadOnly Property VocabularySize As Integer
+			Get
+				Return internal.VocabularySize
+			End Get
+		End Property
+	End Class
 
 
+End Namespace

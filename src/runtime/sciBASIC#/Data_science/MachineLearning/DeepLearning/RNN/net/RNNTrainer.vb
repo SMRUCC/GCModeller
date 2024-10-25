@@ -1,5 +1,7 @@
-﻿' Trains a recurrent neural net on a training set.
-Public Class RNNTrainer
+﻿Namespace RNN
+
+	' Trains a recurrent neural net on a training set.
+	Public Class RNNTrainer
 		' Defaults
 
 		Public Const defaultSequenceLength As Integer = 50
@@ -73,12 +75,12 @@ Public Class RNNTrainer
 			Dim vocabSize As Integer = trainingSet.vocabularySize()
 
 			If vocabSize = 0 Then
-			Throw New Exception("Vocabulary can't be empty.")
-		End If
+				Throw New Exception("Vocabulary can't be empty.")
+			End If
 
 			If trainingSet.size() < sequenceLengthField Then
-			Throw New Exception("Data is too small for even a single pass.")
-		End If
+				Throw New Exception("Data is too small for even a single pass.")
+			End If
 
 			' get the temporary index arrays for sequences
 
@@ -167,3 +169,4 @@ Public Class RNNTrainer
 		End Sub
 	End Class
 
+End Namespace
