@@ -94,8 +94,8 @@ Namespace Evaluation
         End Function
 
         Public Function BuildOutput2(labels As Double(), auc As Double, Optional cutoff As Double = 0.5, Optional itrs As Integer = 100000) As Double()
-            Dim out As Double() = Vector.rand(labels.Length)
-            Dim d As Integer = labels.Length * 0.3
+            Dim out As Double() = labels.ToArray
+            Dim d As Integer = labels.Length * (1 - auc)
             Dim auc_delta As Double = Double.MaxValue
             Dim best As Double() = out
             Dim bar As ProgressBar = Nothing
