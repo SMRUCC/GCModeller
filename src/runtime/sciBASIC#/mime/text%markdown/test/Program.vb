@@ -173,9 +173,19 @@ _this_ _is_ _your_ _basic_ _boring_ _emphasis_
 
 "
 
-    Sub Main(args As String())
-        Console.WriteLine(New MakrdownRender().Transform(markdown_demo))
+    Const quote_demo = "
+# reference
 
-        Call New MakrdownRender().Transform(markdown_demo).SaveTo("./test_demo.html")
+> aaaaa
+> bbbbbbb
+> ccccc
+> dddddddd
+
+"
+
+    Sub Main(args As String())
+        Console.WriteLine(New MarkdownRender().Transform(quote_demo))
+
+        Call New MarkdownRender().Transform(markdown_demo).SaveTo("./test_demo.html")
     End Sub
 End Module
