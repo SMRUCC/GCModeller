@@ -187,10 +187,10 @@ _this_ _is_ _your_ _basic_ _boring_ _emphasis_
 
 ### Help Documentation and Literature Citation
 
-> Parse the SMILES molecule structre string - https://mzkit.org/vignettes/mzkit/mzkit/SMILES/parse.html
-> as.formula - https://mzkit.org/vignettes/mzkit/mzkit/SMILES/as.formula.html
-> get atoms table from the SMILES structure data - https://mzkit.org/vignettes/mzkit/mzkit/SMILES/atoms.html
-> create graph embedding result for a specific molecular strucutre data - https://mzkit.org/vignettes/mzkit/mzkit/SMILES/links.html
+> + Parse the SMILES molecule structre string - https://mzkit.org/vignettes/mzkit/mzkit/SMILES/parse.html
+> + as.formula - https://mzkit.org/vignettes/mzkit/mzkit/SMILES/as.formula.html
+> + get atoms table from the SMILES structure data - https://mzkit.org/vignettes/mzkit/mzkit/SMILES/atoms.html
+> + create graph embedding result for a specific molecular strucutre data - https://mzkit.org/vignettes/mzkit/mzkit/SMILES/links.html
 "
 
     Sub Main(args As String())
