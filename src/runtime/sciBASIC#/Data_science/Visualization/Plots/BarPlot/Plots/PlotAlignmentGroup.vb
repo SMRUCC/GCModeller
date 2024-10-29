@@ -548,15 +548,18 @@ Namespace BarPlot
             Dim css As CSSEnvirnment = g.LoadEnvironment.SetBaseStyles(New Font(FontFace.MicrosoftYaHei, 16.0!))
             Dim legendFont As Font = css.GetFont(CSSFont.TryParse(theme.legendLabelCSS, ))
             Dim Y = 3
+            ' get height of a single box
             Dim fHeight As Single = g.MeasureString("1", legendFont).Height
+            Dim totalHeight As Single = fHeight * 2.5
+            Dim offsetY As Single = (rect.Top - totalHeight) / 2
 
-            box = New Rectangle(New Point(rect.Left, rect.Top - fHeight * 3.5), New Size(20, 20))
+            box = New Rectangle(New Point(rect.Left, offsetY), New Size(20, 20))
             Call g.FillRectangle(query.Last.Color.GetBrush, box)
-            Call g.DrawString(queryName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -Y))
+            Call g.DrawString(queryName, legendFont, Brushes.Black, box.Location.OffSet2D(25, 0))
 
-            box = New Rectangle(New Point(box.Left, box.Top + 30), box.Size)
+            box = New Rectangle(New Point(box.Left, box.Bottom + 10), box.Size)
             Call g.FillRectangle(subject.Last.Color.GetBrush, box)
-            Call g.DrawString(subjectName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -Y))
+            Call g.DrawString(subjectName, legendFont, Brushes.Black, box.Location.OffSet2D(25, 0))
         End Sub
 
         Private Sub DrawLegendTopRight(g As IGraphics, rect As Rectangle)
