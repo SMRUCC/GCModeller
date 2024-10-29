@@ -334,7 +334,7 @@ Namespace BarPlot
                         Dim shape_size As SizeF = g.MeasureString(ylabel, labelFont)
                         Dim padding As New PaddingLayout(canvas.Padding.LayoutVector(css))
 
-                        labPos = New PointF((padding.Left - shape_size.Height) / 2, (canvas.Height - shape_size.Width) / 2)
+                        labPos = New PointF((padding.Left - shape_size.Height) / 2, padding.Top + (canvas.Height - shape_size.Width) / 2)
                         g.DrawString(ylabel, labelFont, Brushes.Black, labPos.X, labPos.Y, -90)
                     Case Else
                         ' 不进行标签的绘制
