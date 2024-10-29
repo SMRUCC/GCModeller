@@ -331,7 +331,11 @@ Namespace BarPlot
                         labPos = New Point(.Left + 3, .Top)
                         Call g.DrawString(ylabel, labelFont, Brushes.Black, labPos)
                     Case YlabelPosition.LeftCenter
-                        Call g.DrawString(ylabel, labelFont, Brushes.Black, labPos.X, labPos.Y, -90)
+                        Dim shape_size As SizeF = g.MeasureString(ylabel, labelFont)
+                        Dim padding As New PaddingLayout(canvas.Padding.LayoutVector(css))
+
+                        labPos = New PointF((padding.Left - shape_size.Height) / 2, (canvas.Height - shape_size.Width) / 2)
+                        g.DrawString(ylabel, labelFont, Brushes.Black, labPos.X, labPos.Y, -90)
                     Case Else
                         ' 不进行标签的绘制
                 End Select
@@ -547,11 +551,10 @@ Namespace BarPlot
             Dim box As Rectangle
             Dim css As CSSEnvirnment = g.LoadEnvironment.SetBaseStyles(New Font(FontFace.MicrosoftYaHei, 16.0!))
             Dim legendFont As Font = css.GetFont(CSSFont.TryParse(theme.legendLabelCSS, ))
-            Dim Y = 3
             ' get height of a single box
-            Dim fHeight As Single = g.MeasureString("1", legendFont).Height
+            Dim fHeight As Single = g.MeasureString("A", legendFont).Height
             Dim totalHeight As Single = fHeight * 2.5
-            Dim offsetY As Single = (rect.Top - totalHeight) / 2
+            Dim offsetY As Single = (rect.Top - totalHeight) / 2 - fHeight / 2
 
             box = New Rectangle(New Point(rect.Left, offsetY), New Size(20, 20))
             Call g.FillRectangle(query.Last.Color.GetBrush, box)
