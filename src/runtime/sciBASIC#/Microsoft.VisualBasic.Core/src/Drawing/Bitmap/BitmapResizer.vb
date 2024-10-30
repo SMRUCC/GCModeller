@@ -62,6 +62,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports std = System.Math
 
 Namespace Imaging.BitmapImage
@@ -145,6 +146,8 @@ Namespace Imaging.BitmapImage
         ''' <param name="input"></param>
         ''' <param name="scale"></param>
         ''' <returns></returns>
+        ''' 
+        <Extension>
         Public Function CubicInterpolation(input As Byte(,), scale As Double) As Byte(,)
             Dim originalWidth = input.GetLength(0)
             Dim originalHeight = input.GetLength(1)
@@ -208,7 +211,9 @@ Namespace Imaging.BitmapImage
         ''' <param name="dstWidth"></param>
         ''' <param name="dstHeight"></param>
         ''' <returns></returns>
-        Public Function ResizeImage(ByRef srcImage(,) As Byte, srcWidth As Integer, srcHeight As Integer, dstWidth As Integer, dstHeight As Integer) As Byte(,)
+        ''' 
+        <Extension>
+        Public Function BilinearInterpolation(ByRef srcImage(,) As Byte, srcWidth As Integer, srcHeight As Integer, dstWidth As Integer, dstHeight As Integer) As Byte(,)
             Dim dstImage(dstHeight - 1, dstWidth - 1) As Byte
             Dim scaleX As Double = CDbl(srcWidth) / dstWidth
             Dim scaleY As Double = CDbl(srcHeight) / dstHeight
