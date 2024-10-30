@@ -237,6 +237,11 @@ Namespace Drawing2D.HeatMap
         End Sub
 
         Public Function Scale(hqx As HqxScales) As Bitmap
+            ' 1 means no scale, none
+            If hqx = 1 Then
+                hqx = HqxScales.None
+            End If
+
             If hqx = HqxScales.None Then
                 ' no scale
                 ' returns the raw image directly
