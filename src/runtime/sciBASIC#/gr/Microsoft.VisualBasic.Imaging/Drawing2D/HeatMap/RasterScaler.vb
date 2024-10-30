@@ -255,6 +255,11 @@ Namespace Drawing2D.HeatMap
             Dim sp As UInteger() = buffer.GetARGBStream
             Dim dp As UInteger() = p.GetARGBStream
 
+            ' 1 means no scale, none
+            If hqx = 1 Then
+                hqx = HqxScales.None
+            End If
+
             Select Case hqx
                 Case HqxScales.Hqx_2x : Call Hqx_2x.hq2x_32_rb(sp, dp, buffer.Width, buffer.Height)
                 Case HqxScales.Hqx_3x : Call Hqx_3x.hq3x_32_rb(sp, dp, buffer.Width, buffer.Height)
