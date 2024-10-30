@@ -237,6 +237,11 @@ Namespace Drawing2D.HeatMap
         End Sub
 
         Public Function Scale(hqx As HqxScales) As Bitmap
+            ' 1 means no scale, none
+            If hqx = 1 Then
+                hqx = HqxScales.None
+            End If
+
             If hqx = HqxScales.None Then
                 ' no scale
                 ' returns the raw image directly
@@ -254,11 +259,6 @@ Namespace Drawing2D.HeatMap
             ' get source data
             Dim sp As UInteger() = buffer.GetARGBStream
             Dim dp As UInteger() = p.GetARGBStream
-
-            ' 1 means no scale, none
-            If hqx = 1 Then
-                hqx = HqxScales.None
-            End If
 
             Select Case hqx
                 Case HqxScales.Hqx_2x : Call Hqx_2x.hq2x_32_rb(sp, dp, buffer.Width, buffer.Height)
