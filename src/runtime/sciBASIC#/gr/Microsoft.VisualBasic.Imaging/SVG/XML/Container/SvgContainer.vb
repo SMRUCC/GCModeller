@@ -170,7 +170,7 @@ Namespace SVG.XML
             ' SMRUCC/R#.global.<globalEnvironment> at <globalEnvironment>:line n/a
 
             For i As Integer = 0 To list.Count - 1
-                node = TryCast(Element.ChildNodes(i), XmlElement)
+                node = TryCast(list(i), XmlElement)
 
                 If Not node Is Nothing Then
                     If node.Name = "i:pgf" Then

@@ -66,6 +66,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.MIME.Html.Language.CSS
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml
 
@@ -194,7 +195,11 @@ Namespace SVG.XML
 
         Public ReadOnly Property BackgroundFill As String
             Get
+                ' style="background-color: lightblue;"
+                Dim style = CssParser.ParseStyle(Me.Style)
+                Dim color As String = style("background-color")
 
+                Return color
             End Get
         End Property
 

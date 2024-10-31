@@ -204,6 +204,15 @@ Namespace SVG.XML
             End Set
         End Property
 
+        Default Public Property Attribute(name As String) As String
+            Get
+                Return Element.GetAttribute(name)
+            End Get
+            Set(value As String)
+                Element.SetAttribute(name, value)
+            End Set
+        End Property
+
         Protected Friend Sub New(element As XmlElement)
             If element Is Nothing Then
                 Throw New ArgumentNullException(NameOf(element))

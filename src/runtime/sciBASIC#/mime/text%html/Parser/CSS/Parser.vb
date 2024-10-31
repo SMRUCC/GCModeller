@@ -162,7 +162,7 @@ Namespace Language.CSS
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Parse the css style string for a given selector, example as: ``background-color: lightblue;``
         ''' </summary>
         ''' <param name="style">the style text inside an element node selector</param>
         ''' <returns></returns>
