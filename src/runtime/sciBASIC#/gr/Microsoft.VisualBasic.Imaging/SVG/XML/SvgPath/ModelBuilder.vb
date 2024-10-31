@@ -107,9 +107,9 @@ Namespace SVG.PathHelper
         ''' </remarks>
         <Extension>
         Public Function SVGPathData(path As GraphicsPath) As String
-            Dim points = path.PathData _
-               .Points _
-               .Select(Function(pt) $"{pt.X} {pt.Y}")
+            Dim points = path.PathData.Points _
+               .Select(Function(pt) $"{pt.X} {pt.Y}") _
+               .ToArray
             Dim sb As New StringBuilder("M" & points.First)
 
             For Each pt In points.Skip(1)
