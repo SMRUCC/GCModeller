@@ -22,11 +22,26 @@ Namespace SVG
                     End If
 
                     Dim svgElement As SvgElement = SvgElement.Create(node)
-                    Dim x As Double = Val(svgElement("x"))
-                    Dim y As Double = Val(svgElement("y"))
-                    Dim transform As New transform(svgElement("transform"))
+                    Dim x As Double = Val(svgElement("x")) + offsetX
+                    Dim y As Double = Val(svgElement("y")) + offsetY
+                    Dim transform As New Transform(svgElement("transform"))
+
+                    With transform.translate
+                        x += .X
+                        y += .Y
+                    End With
 
                     If TypeOf svgElement Is SvgGroup Then
+                        For Each element As GeometryElement In LoadElements(svgElement, x, y)
+                            Yield element
+                        Next
+                    ElseIf TypeOf svgElement Is SvgText Then
+                        Yield New GeometryElement With {
+                            .X = x,
+                            .Y = y,
+                            .svgElement = svgElement
+                        }
+                    ElseIf TypeOf svgElement Is SvgPath Then
 
                     End If
                 End If
