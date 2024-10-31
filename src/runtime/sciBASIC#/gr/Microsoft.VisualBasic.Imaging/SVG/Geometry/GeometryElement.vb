@@ -1,4 +1,5 @@
 ﻿Imports System.Xml
+Imports Microsoft.VisualBasic.Imaging.SVG.PathHelper
 Imports Microsoft.VisualBasic.Imaging.SVG.XML
 
 Namespace SVG
@@ -42,7 +43,19 @@ Namespace SVG
                             .svgElement = svgElement
                         }
                     ElseIf TypeOf svgElement Is SvgPath Then
+                        Dim op = Interpreter.ParsePathCommands(DirectCast(svgElement, SvgPath).D).ToArray
+                        Dim moveTo = op.FirstOrDefault
 
+                        ' move to is nothing means invalid path data
+                        If Not moveTo Is Nothing Then
+                            Dim M As M = DirectCast(moveTo, M)
+
+                            Yield New GeometryElement With {
+                                .svgElement = svgElement,
+                                .X = x + M.X,
+                                .Y = y + M.Y
+                            }
+                        End If
                     End If
                 End If
             Next
