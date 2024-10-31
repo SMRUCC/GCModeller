@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.Drawing</RootNamespace>
-    <TargetFrameworks>net48</TargetFrameworks>
+    <TargetFramework>net48</TargetFramework>
     <UseApplicationFramework>True</UseApplicationFramework>
     <AssemblyName>Microsoft.VisualBasic.Drawing</AssemblyName>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
