@@ -67,6 +67,7 @@ Namespace SVG.PathHelper
             Dim s As String = text.Trim()
             Dim tokens = New List(Of String)()
             Dim startIdx = 0
+
             For i = 0 To s.Length - 1
                 If s(i) = "-"c Then i += 1
                 While i < s.Length AndAlso s(i) <> "-"c AndAlso s(i) <> " "c AndAlso s(i) <> ","c
@@ -79,10 +80,12 @@ Namespace SVG.PathHelper
 
                 startIdx = If(i < s.Length AndAlso s(i) = "-"c, i, i + 1)
             Next
+
             Return tokens
         End Function
 
         Public MustOverride Sub Scale(factor As Double)
         Public MustOverride Sub Translate(deltaX As Double, deltaY As Double)
+
     End Class
 End Namespace
