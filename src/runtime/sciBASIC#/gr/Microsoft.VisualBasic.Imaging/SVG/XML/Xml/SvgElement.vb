@@ -204,6 +204,11 @@ Namespace SVG.XML
             End Set
         End Property
 
+        ''' <summary>
+        ''' get/set of the xml attribute value of current svg element.
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <returns></returns>
         Default Public Property Attribute(name As String) As String
             Get
                 Return Element.GetAttribute(name)
@@ -211,6 +216,18 @@ Namespace SVG.XML
             Set(value As String)
                 Element.SetAttribute(name, value)
             End Set
+        End Property
+
+        ''' <summary>
+        ''' get the xml tag name of current svg element
+        ''' </summary>
+        ''' <returns>
+        ''' the tag name string in lower case
+        ''' </returns>
+        Public ReadOnly Property Tag As String
+            Get
+                Return Strings.LCase(Element.LocalName)
+            End Get
         End Property
 
         Protected Friend Sub New(element As XmlElement)

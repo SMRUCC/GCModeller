@@ -346,6 +346,12 @@ Namespace Imaging.Math2D
             Return std.Sqrt(std.Pow(x1 - x2, 2) + std.Pow(y1 - y2, 2))
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function DistanceTo(Of T As Layout2D)(a As T, b As T) As Double
+            Return std.Sqrt((a.X - b.X) ^ 2 + (a.Y - b.Y) ^ 2)
+        End Function
+
         ''' <summary>
         ''' 计算两个二维坐标的欧几里得距离
         ''' </summary>
@@ -425,7 +431,7 @@ Namespace Imaging.Math2D
             Return CalculateAngle(p1.PointF, p2.PointF)
         End Function
 
-#If NET_48 = 1 Or netcore5 = 1 Then
+#If NET48_OR_GREATER Or NETCOREAPP Then
 
         ''' <summary>
         ''' 函数返回切线和X轴之间的夹角
