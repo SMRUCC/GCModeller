@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17ee4123fb969348ba9307a4448729ec, gr\Microsoft.VisualBasic.Imaging\SVG\XML\Xml\SvgElement.vb"
+﻿#Region "Microsoft.VisualBasic::fce69b8925c5ad7b15ee1b17ee0579dc, gr\Microsoft.VisualBasic.Imaging\SVG\XML\Xml\SvgElement.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 292
-    '    Code Lines: 226 (77.40%)
-    ' Comment Lines: 26 (8.90%)
+    '   Total Lines: 301
+    '    Code Lines: 234 (77.74%)
+    ' Comment Lines: 26 (8.64%)
     '    - Xml Docs: 96.15%
     ' 
-    '   Blank Lines: 40 (13.70%)
-    '     File Size: 10.94 KB
+    '   Blank Lines: 41 (13.62%)
+    '     File Size: 11.23 KB
 
 
     '     Class SvgElement

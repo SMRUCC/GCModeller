@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28e06dfdd6483f20c9a476278fd395f9, gr\Microsoft.VisualBasic.Imaging\SVG\XML\Container\SvgContainer.vb"
+﻿#Region "Microsoft.VisualBasic::da9299b813e7036f876b61a1323ec50c, gr\Microsoft.VisualBasic.Imaging\SVG\XML\Container\SvgContainer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 41.18%
     ' 
     '   Blank Lines: 24 (17.91%)
-    '     File Size: 5.34 KB
+    '     File Size: 5.33 KB
 
 
     '     Class SvgContainer

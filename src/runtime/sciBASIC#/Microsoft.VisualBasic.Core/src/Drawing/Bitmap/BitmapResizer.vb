@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1cc4fe0615e2e44df8ead3ef7cc00762, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\BitmapResizer.vb"
+﻿#Region "Microsoft.VisualBasic::b0a5667959487ce72f00fb58702efb07, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\BitmapResizer.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 116
-    '    Code Lines: 93 (80.17%)
-    ' Comment Lines: 6 (5.17%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 224
+    '    Code Lines: 166 (74.11%)
+    ' Comment Lines: 23 (10.27%)
+    '    - Xml Docs: 65.22%
     ' 
-    '   Blank Lines: 17 (14.66%)
-    '     File Size: 5.67 KB
+    '   Blank Lines: 35 (15.62%)
+    '     File Size: 9.97 KB
 
 
     '     Module BitmapResizer
     ' 
-    '         Function: GetPixelValue, (+2 Overloads) ResizeImage
+    '         Function: BilinearInterpolation, ByteArrayToByteMatrix, ByteMatrixToByteArray, CubicInterpolate, CubicInterpolation
+    '                   GetPixelValue, ResizeImage
     '         Enum EdgeHandlingMethod
     ' 
     '             Clamp, Fill, Mirror, Repeat

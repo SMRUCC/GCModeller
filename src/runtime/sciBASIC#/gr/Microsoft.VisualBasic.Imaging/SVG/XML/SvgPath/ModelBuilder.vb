@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11d971fc69fc1277757f6c5009ebeacf, gr\Microsoft.VisualBasic.Imaging\SVG\XML\SvgPath\ModelBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::8256dabf4d9efa12f0f6b340d0a561d0, gr\Microsoft.VisualBasic.Imaging\SVG\XML\SvgPath\ModelBuilder.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 78.18%
     ' 
     '   Blank Lines: 30 (12.61%)
-    '     File Size: 8.84 KB
+    '     File Size: 8.72 KB
 
 
     '     Module ModelBuilder
