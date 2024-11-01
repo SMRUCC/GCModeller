@@ -78,6 +78,10 @@ Namespace SVG
             End Get
         End Property
 
+        Public Overrides Function ToString() As String
+            Return $"[{tag}@({X},{Y})] {svgElement.ToString}"
+        End Function
+
         Public Function CheckPossibleCircleShape() As Boolean
             ' for a circle shape drawing element:
             ' 1. svg circle element

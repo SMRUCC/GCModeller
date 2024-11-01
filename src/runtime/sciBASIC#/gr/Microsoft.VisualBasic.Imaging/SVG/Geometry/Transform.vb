@@ -89,7 +89,7 @@ Namespace SVG
         End Function
 
         Private Shared Iterator Function Parse(str As String) As IEnumerable(Of (op$, pars As String()))
-            Dim matches = str.Matches("[a-z]+\s*\(\d+(\s+\d+)*\)")
+            Dim matches = str.Matches($"[a-z]+\s*\({SimpleNumberPattern}(\s+{SimpleNumberPattern})*\)")
 
             For Each op As String In matches
                 Dim op_name = op.Match("[a-z]+")
