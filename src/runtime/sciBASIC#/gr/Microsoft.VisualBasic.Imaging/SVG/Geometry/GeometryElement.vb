@@ -96,8 +96,13 @@ Namespace SVG
 
             Dim path As Command() = Interpreter.ParsePathCommands(DirectCast(svgElement, SvgPath).D).ToArray
 
-            ' signature 1: M A A
-            If path.Length = 3 AndAlso TypeOf path(0) Is M AndAlso TypeOf path(1) Is A AndAlso TypeOf path(2) Is A Then
+            ' signature 1: M A A Z
+            If path.Length = 4 AndAlso
+                TypeOf path(0) Is M AndAlso
+                TypeOf path(1) Is A AndAlso
+                TypeOf path(2) Is A AndAlso
+                TypeOf path(3) Is Z Then
+
                 Return True
             End If
             ' signature 2: M C C C C
