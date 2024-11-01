@@ -106,11 +106,12 @@ Namespace SVG
                 Return True
             End If
             ' signature 2: M C C C C
-            If path.Length = 5 AndAlso TypeOf path(0) Is M AndAlso
+            If path.Length = 6 AndAlso TypeOf path(0) Is M AndAlso
                 TypeOf path(1) Is C AndAlso
                 TypeOf path(2) Is C AndAlso
                 TypeOf path(3) Is C AndAlso
-                TypeOf path(4) Is C Then
+                TypeOf path(4) Is C AndAlso
+                TypeOf path(5) Is Z Then
 
                 Return True
             End If
