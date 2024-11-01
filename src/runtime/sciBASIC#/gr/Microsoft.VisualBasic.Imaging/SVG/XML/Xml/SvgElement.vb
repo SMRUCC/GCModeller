@@ -103,7 +103,7 @@ Namespace SVG.XML
 
         Public Property Fill As String
             Get
-                Return Element.GetAttribute("fill", Attributes.FillAndStroke.Fill)
+                Return Element.GetAttribute("fill", defaultValue:=Attributes.FillAndStroke.Fill)
             End Get
             Set(value As String)
                 Element.SetAttribute("fill", value)
@@ -125,7 +125,7 @@ Namespace SVG.XML
         ''' <returns></returns>
         Public Property Stroke As String
             Get
-                Return Element.GetAttribute("stroke", Attributes.FillAndStroke.Stroke)
+                Return Element.GetAttribute("stroke", defaultValue:=Attributes.FillAndStroke.Stroke)
             End Get
             Set(value As String)
                 Element.SetAttribute("stroke", value)
@@ -184,7 +184,7 @@ Namespace SVG.XML
 
         Public Property Visible As Boolean
             Get
-                Return Not Equals(GetStyle("display"), "none")
+                Return GetStyle("display") <> "none"
             End Get
             Set(value As Boolean)
                 SetStyle("display", If(value, String.Empty, "none"))
