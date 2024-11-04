@@ -43,6 +43,7 @@
 	  <ProjectReference Include="..\..\..\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
 	  <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
 	  <ProjectReference Include="..\..\avi\AVI.NET5.vbproj" />
+	  <ProjectReference Include="..\..\Drawing-net4.8\Drawing-net4.8.vbproj" />
 	  <ProjectReference Include="..\..\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
 	  <ProjectReference Include="..\..\physics\physics-netcore5.vbproj" />
 	  <ProjectReference Include="..\Datavisualization.Network\network_graph-netcore5.vbproj" />

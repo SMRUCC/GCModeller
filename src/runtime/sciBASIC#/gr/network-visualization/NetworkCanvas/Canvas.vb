@@ -63,8 +63,13 @@ Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
+Imports Microsoft.VisualBasic.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Parallel.Tasks
+
+#If NET8_0_OR_GREATER Then
+Imports Bitmap = System.Drawing.Bitmap
+#End If
 
 ''' <summary>
 ''' Controls for view the network model.
@@ -245,11 +250,8 @@ Public Class Canvas
     End Sub
 
     Private Sub Canvas_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
-        paper = e.Graphics
-        paper.CompositingQuality = CompositingQuality.HighQuality
-        paper.SmoothingMode = SmoothingMode.HighQuality
-
-        Call fdgRenderer.Draw(0.05F, physicsUpdate:=False)
+        paper = New Graphics2D(e.Graphics, Size)
+        fdgRenderer.Draw(0.05F, physicsUpdate:=False)
     End Sub
 
     Dim inputs As InputDevice
