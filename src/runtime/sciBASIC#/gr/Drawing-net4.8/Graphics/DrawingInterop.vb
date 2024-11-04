@@ -93,5 +93,10 @@ Public Module DrawingInterop
             Return DirectCast(font, TextureBrush).CTypeBrushObject
         End If
     End Function
+
+    <Extension>
+    Public Function CTypeGraphicsPath(path As GraphicsPath) As System.Drawing.Drawing2D.GraphicsPath
+        Throw New NotImplementedException
+    End Function
 End Module
 #End If

@@ -63,6 +63,10 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports std = System.Math
 
+#If NET8_0_OR_GREATER Then
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
+
 Namespace Imaging.BitmapImage
 
     Public Module Effects
@@ -76,9 +80,9 @@ Namespace Imaging.BitmapImage
         ''' <param name="alphaLevels$"></param>
         ''' <param name="gradientLevels$"></param>
         Public Sub DropdownShadows(g As IGraphics, polygon As GraphicsPath,
-                                          Optional shadowColor$ = NameOf(Color.Gray),
-                                          Optional alphaLevels$ = "0,120,150,200",
-                                          Optional gradientLevels$ = "[0,0.125,0.5,1]")
+                                   Optional shadowColor$ = NameOf(Color.Gray),
+                                   Optional alphaLevels$ = "0,120,150,200",
+                                   Optional gradientLevels$ = "[0,0.125,0.5,1]")
 
             Dim alphas As Vector = alphaLevels
             ' Create a color blend to manage our colors And positions And

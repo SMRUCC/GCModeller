@@ -160,9 +160,7 @@ Namespace Imaging.BitmapImage
                 '    在 System.Drawing.Bitmap..ctor(Int32 width, Int32 height, PixelFormat format)
                 '    在 System.Drawing.Bitmap..ctor(Image original, Int32 width, Int32 height)
                 '    在 System.Drawing.Bitmap..ctor(Image original)
-
-                ex = New Exception(trace & " --> " & res.Size.GetJson, ex)
-                Throw ex
+                Throw New Exception(trace & " --> " & res.Size.GetJson, ex)
             End Try
 
             ' top
