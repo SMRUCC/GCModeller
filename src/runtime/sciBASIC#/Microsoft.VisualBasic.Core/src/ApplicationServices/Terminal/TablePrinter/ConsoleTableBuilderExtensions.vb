@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::d81a74c352036e75044a38eb2a027291, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\TablePrinter\ConsoleTableBuilderExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 639
-    '    Code Lines: 484 (75.74%)
-    ' Comment Lines: 46 (7.20%)
-    '    - Xml Docs: 91.30%
-    ' 
-    '   Blank Lines: 109 (17.06%)
-    '     File Size: 28.91 KB
+' Summaries:
 
 
-    '     Module ConsoleTableBuilderExtensions
-    ' 
-    '         Function: (+3 Overloads) AddColumn, (+4 Overloads) AddRow, BuildMetaRowsFormat, CreateTableForCustomFormat, Export
-    '                   FillCharMap, FillHeaderCharMap, RealLength, TrimColumn, (+3 Overloads) WithCharMapDefinition
-    '                   (+2 Overloads) WithColumn, WithColumnFormatter, WithFormat, WithFormatter, WithHeaderCharMapDefinition
-    '                   WithHeaderTextAlignment, WithMetadataRow, WithMinLength, WithPaddingLeft, WithPaddingRight
-    '                   WithTextAlignment, (+3 Overloads) WithTitle
-    ' 
-    '         Sub: ExportAndWrite, ExportAndWriteLine
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 639
+'    Code Lines: 484 (75.74%)
+' Comment Lines: 46 (7.20%)
+'    - Xml Docs: 91.30%
+' 
+'   Blank Lines: 109 (17.06%)
+'     File Size: 28.91 KB
+
+
+'     Module ConsoleTableBuilderExtensions
+' 
+'         Function: (+3 Overloads) AddColumn, (+4 Overloads) AddRow, BuildMetaRowsFormat, CreateTableForCustomFormat, Export
+'                   FillCharMap, FillHeaderCharMap, RealLength, TrimColumn, (+3 Overloads) WithCharMapDefinition
+'                   (+2 Overloads) WithColumn, WithColumnFormatter, WithFormat, WithFormatter, WithHeaderCharMapDefinition
+'                   WithHeaderTextAlignment, WithMetadataRow, WithMinLength, WithPaddingLeft, WithPaddingRight
+'                   WithTextAlignment, (+3 Overloads) WithTitle
+' 
+'         Sub: ExportAndWrite, ExportAndWriteLine
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,6 +62,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.TablePrinter.Flags
 Imports Microsoft.VisualBasic.Linq
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace ApplicationServices.Terminal.TablePrinter
 
@@ -652,9 +653,8 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Dim filledMap = definition
 
             For Each c In CType([Enum].GetValues(GetType(CharMapPositions)), CharMapPositions())
-
                 If Not filledMap.ContainsKey(c) Then
-                    filledMap.Add(c, Microsoft.VisualBasic.Strings.ChrW(0))
+                    filledMap.Add(c, ASCII.NUL)
                 End If
             Next
 
@@ -669,9 +669,8 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Dim filledMap = definition
 
             For Each c In CType([Enum].GetValues(GetType(HeaderCharMapPositions)), HeaderCharMapPositions())
-
                 If Not filledMap.ContainsKey(c) Then
-                    filledMap.Add(c, Microsoft.VisualBasic.Strings.ChrW(0))
+                    filledMap.Add(c, ASCII.NUL)
                 End If
             Next
 
