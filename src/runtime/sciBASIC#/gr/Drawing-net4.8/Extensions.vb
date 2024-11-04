@@ -63,14 +63,9 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.Runtime
-
-#If NET8_0_OR_GREATER Then
-Imports Font = Microsoft.VisualBasic.Imaging.Font
-Imports Brush = Microsoft.VisualBasic.Imaging.Brush
-Imports Pen = Microsoft.VisualBasic.Imaging.Pen
-Imports Image = Microsoft.VisualBasic.Imaging.Image
-Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
-#End If
+Imports Bitmap = System.Drawing.Bitmap
+Imports Font = System.Drawing.Font
+Imports Image = System.Drawing.Image
 
 Public Module Extensions
 

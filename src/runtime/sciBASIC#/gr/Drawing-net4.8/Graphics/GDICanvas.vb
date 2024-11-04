@@ -76,6 +76,7 @@ Imports Pen = Microsoft.VisualBasic.Imaging.Pen
 Imports Brush = Microsoft.VisualBasic.Imaging.Brush
 Imports Font = Microsoft.VisualBasic.Imaging.Font
 Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
 #End If
 
 ''' <summary>
@@ -708,6 +709,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     Public Overrides Sub DrawImage(image As Image, rect As RectangleF)
         Call Graphics.DrawImage(image, rect)
     End Sub
+
+    Public Overloads Sub DrawImage(image As System.Drawing.Image, rect As RectangleF)
+        Call Graphics.DrawImage(image, rect)
+    End Sub
+
     '
     ' Summary:
     '     Draws the specified System.Drawing.Image at the specified location and with the
