@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.AVIMedia
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -108,11 +109,7 @@ Public Module AVI
         Dim r As Double
 
         For i As Integer = 0 To drawFrames
-            Using canvas As Graphics2D = canvasSize.CreateGDIDevice
-                g = canvas.Graphics
-                g.CompositingQuality = CompositingQuality.HighQuality
-                g.SmoothingMode = SmoothingMode.HighQuality
-
+            Using canvas As IGraphics = DriverLoad.CreateGraphicsDevice(canvasSize, driver:=Drivers.GDI)
                 If render3D Then
                     r += 0.4
                     DirectCast(renderer, Renderer3D).rotate = r
@@ -121,7 +118,7 @@ Public Module AVI
                 Call engine.Collide(0.05F)
                 Call renderer.Draw(0.05F, physicsUpdate:=False)
 
-                Call avi.addFrame(canvas.ImageResource)
+                Call avi.addFrame(DirectCast(canvas, GdiRasterGraphics).ImageResource)
             End Using
         Next
 
