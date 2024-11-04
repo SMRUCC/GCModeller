@@ -58,13 +58,8 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Language.Default
-
-#If NET8_0_OR_GREATER Then
-Imports Pen = Microsoft.VisualBasic.Imaging.Pen
-Imports Brush = Microsoft.VisualBasic.Imaging.Brush
-Imports Font = Microsoft.VisualBasic.Imaging.Font
-Imports Image = Microsoft.VisualBasic.Imaging.Image
-#End If
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
 
 ''' <summary>
 ''' 利用GDI+绘制旋转文字，矩形内可以根据布局方式排列文本
@@ -93,16 +88,8 @@ Public Class GraphicsText
     ''' <param name="format">布局方式</param>
     ''' <param name="angle">角度</param>
     Public Sub DrawString(s$, font As Font, brush As Brush, layoutRectangle As RectangleF, format As StringFormat, angle!)
-        Dim sfont As System.Drawing.Font = Nothing
-
-#If NET8_0_OR_GREATER Then
-        sfont = font.CTypeFontObject
-#Else
-        sfont = font
-#End If
-
         ' 求取字符串大小        
-        Dim size As SizeF = g.MeasureString(s, sfont)
+        Dim size As SizeF = g.MeasureString(s, font)
         ' 根据旋转角度，求取旋转后字符串大小       
         Dim sizeRotate As SizeF = ConvertSize(size, angle)
         ' 根据旋转后尺寸、布局矩形、布局方式计算文本旋转点          
@@ -136,22 +123,12 @@ Public Class GraphicsText
         ' Save the matrix
         Dim mtxSave As Matrix = g.Transform
         Dim mtxRotate As Matrix = g.Transform
-        Dim sfont As System.Drawing.Font = Nothing
-        Dim sbrush As System.Drawing.Brush = Nothing
-
-#If NET8_0_OR_GREATER Then
-        sfont = font.CTypeFontObject
-        sbrush = brush.CTypeBrushObject
-#Else
-        sfont = font
-        sbrush = brush
-#End If
 
         Call mtxRotate.RotateAt(angle, point)
 
         With g
             .Transform = mtxRotate
-            .DrawString(s, sfont, sbrush, point, format)
+            .DrawString(s, font, brush, point, format)
             ' Reset the matrix
             .Transform = mtxSave
         End With

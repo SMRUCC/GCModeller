@@ -181,7 +181,7 @@ Public Module Extensions
     ''' <param name="g"></param>
     ''' <param name="res">绘图的基础图像对象</param>
     ''' <returns></returns>
-    Friend Function CreateObject(g As Graphics, res As Image) As Graphics2D
+    Friend Function CreateObject(g As Graphics, res As System.Drawing.Image) As Graphics2D
         g.InterpolationMode = InterpolationMode.HighQualityBicubic
         g.PixelOffsetMode = PixelOffsetMode.HighQuality
         g.CompositingQuality = CompositingQuality.HighQuality
