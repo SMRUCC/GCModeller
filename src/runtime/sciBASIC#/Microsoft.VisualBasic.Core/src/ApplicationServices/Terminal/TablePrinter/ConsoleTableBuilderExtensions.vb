@@ -686,22 +686,33 @@ Namespace ApplicationServices.Terminal.TablePrinter
             Return filledMap
         End Function
 
+        ''' <summary>
+        ''' Get the real width for do console print of a string
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <param name="withUtf8Characters"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 1 char width for ascii character, and
+        ''' 2 char width for chinese character.
+        ''' </remarks>
         <Extension()>
         Public Function RealLength(value As String, withUtf8Characters As Boolean) As Integer
-            If String.IsNullOrEmpty(value) Then Return 0
-            If Not withUtf8Characters Then Return value.Length
-            Dim i = 0 'count
+            Dim w = 0 ' count
 
-            For Each newChar In value.Select(AddressOf AscW)
+            If value Is Nothing OrElse value = "" Then Return 0
+            If Not withUtf8Characters Then Return value.Length
+
+            For Each newChar As Integer In value.Select(AddressOf AscW)
                 If newChar >= &H4E00 AndAlso newChar <= &H9FBB Then
-                    'utf-8 characters
-                    i += 2
+                    ' utf-8 characters
+                    w += 2
                 Else
-                    i += 1
+                    w += 1
                 End If
             Next
 
-            Return i
+            Return w
         End Function
     End Module
 End Namespace
