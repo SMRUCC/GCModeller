@@ -358,14 +358,17 @@ Namespace ApplicationServices.Terminal.TablePrinter
         End Function
 
         <Extension()>
-        Public Function WithCharMapDefinition(builder As ConsoleTableBuilder, charMapPositions As Dictionary(Of CharMapPositions, Char), Optional headerCharMapPositions As Dictionary(Of HeaderCharMapPositions, Char) = Nothing) As ConsoleTableBuilder
+        Public Function WithCharMapDefinition(builder As ConsoleTableBuilder,
+                                              charMapPositions As Dictionary(Of CharMapPositions, Char),
+                                              Optional headerCharMapPositions As Dictionary(Of HeaderCharMapPositions, Char) = Nothing) As ConsoleTableBuilder
             builder.CharMapPositionStore = charMapPositions
             builder.HeaderCharMapPositionStore = headerCharMapPositions
             Return builder
         End Function
 
         <Extension()>
-        Public Function WithHeaderCharMapDefinition(builder As ConsoleTableBuilder, Optional headerCharMapPositions As Dictionary(Of HeaderCharMapPositions, Char) = Nothing) As ConsoleTableBuilder
+        Public Function WithHeaderCharMapDefinition(builder As ConsoleTableBuilder,
+                                                    Optional headerCharMapPositions As Dictionary(Of HeaderCharMapPositions, Char) = Nothing) As ConsoleTableBuilder
             builder.HeaderCharMapPositionStore = headerCharMapPositions
             Return builder
         End Function
