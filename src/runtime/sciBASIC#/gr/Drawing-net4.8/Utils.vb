@@ -61,6 +61,13 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Serialization.JSON
 
+#If NET8_0_OR_GREATER Then
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports TextureBrush = System.Drawing.TextureBrush
+#End If
+
 Namespace Imaging.BitmapImage
 
     ''' <summary>
