@@ -63,7 +63,6 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Imaging
 Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
@@ -71,6 +70,16 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports std = System.Math
+
+#If NET8_0_OR_GREATER Then
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+#End If
 
 ''' <summary>
 ''' GDI+ device handle for encapsulates a GDI+ drawing surface.
