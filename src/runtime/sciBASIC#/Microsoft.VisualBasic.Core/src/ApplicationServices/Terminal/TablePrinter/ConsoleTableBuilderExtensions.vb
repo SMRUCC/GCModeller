@@ -168,7 +168,11 @@ Namespace ApplicationServices.Terminal.TablePrinter
         ''' <param name="backgroundColor">background color</param>
         ''' <returns></returns>
         <Extension()>
-        Public Function WithTitle(builder As ConsoleTableBuilder, title As String, foregroundColor As ConsoleColor, backgroundColor As ConsoleColor, Optional titleAligntment As TextAligntment = TextAligntment.Center) As ConsoleTableBuilder
+        Public Function WithTitle(builder As ConsoleTableBuilder, title As String,
+                                  foregroundColor As ConsoleColor,
+                                  backgroundColor As ConsoleColor,
+                                  Optional titleAligntment As TextAligntment = TextAligntment.Center) As ConsoleTableBuilder
+
             builder.TableTitle = title
             builder.TableTitleColor = New ConsoleColorNullable(foregroundColor, backgroundColor)
             builder.TableTitleTextAlignment = titleAligntment
@@ -529,7 +533,9 @@ Namespace ApplicationServices.Terminal.TablePrinter
             End If
 
             ' find the longest formatted line
-            Dim hasHeader = builder.FormattedColumns IsNot Nothing AndAlso builder.FormattedColumns.Any() AndAlso builder.FormattedColumns.Max(Function(x) If(x, String.Empty).ToString().Length) > 0
+            Dim hasHeader = builder.FormattedColumns IsNot Nothing AndAlso
+                builder.FormattedColumns.Any() AndAlso
+                builder.FormattedColumns.Max(Function(x) If(x, String.Empty).ToString().Length) > 0
 
             ' header
             If hasHeader Then
@@ -552,10 +558,10 @@ Namespace ApplicationServices.Terminal.TablePrinter
                 End If
             End If
 
-            Dim results = builder.FormattedRows.[Select](Function(row)
-                                                             Dim rowFormate = builder.CreateRawLineFormat(columnLengths, filledMap, row.ToArray())
-                                                             Return String.Format(rowFormate, row.ToArray())
-                                                         End Function).ToList()
+            Dim results = builder.FormattedRows.Select(Function(row)
+                                                           Dim rowFormate = builder.CreateRawLineFormat(columnLengths, filledMap, row.ToArray())
+                                                           Return String.Format(rowFormate, row.ToArray())
+                                                       End Function).ToList()
             Dim isFirstRow = True
 
             For Each row In results
