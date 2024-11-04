@@ -71,6 +71,13 @@ Imports System.Drawing.Graphics
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 
+#If NET8_0_OR_GREATER Then
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+#End If
+
 ''' <summary>
 ''' 这个对象是<see cref="Graphics2D"/>以及<see cref="Wmf"/>公用的基础类型
 ''' </summary>
