@@ -104,7 +104,7 @@ Public Class Renderer3D : Inherits Renderer
             .Project(rect.Width, rect.Height, 256, ViewDistance) _
             .PointXY
         '   pos2 = GraphToScreen(pos2, rect)
-        Dim canvas As Graphics = graphicsProvider()
+        Dim canvas As IGraphics = graphicsProvider()
 
         SyncLock canvas
             Try
@@ -135,7 +135,7 @@ Public Class Renderer3D : Inherits Renderer
             .RotateZ(rotate) _
             .Project(client.Width, client.Height, 256, ViewDistance) _
             .PointXY ' 调整FOV参数的效果不太好
-        Dim canvas As Graphics = graphicsProvider()
+        Dim canvas As IGraphics = graphicsProvider()
 
         '   pos = GraphToScreen(pos, __regionProvider())
 

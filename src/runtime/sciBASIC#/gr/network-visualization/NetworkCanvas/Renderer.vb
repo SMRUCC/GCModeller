@@ -195,7 +195,7 @@ Public Class Renderer : Inherits AbstractRenderer
         Dim rect As Rectangle = regionProvider()
         Dim pos1 As Point = GraphToScreen(TryCast(iPosition1, FDGVector2), rect)
         Dim pos2 As Point = GraphToScreen(TryCast(iPosition2, FDGVector2), rect)
-        Dim canvas As Graphics = graphicsProvider()
+        Dim canvas As IGraphics = graphicsProvider()
 
         SyncLock canvas
             Try
@@ -216,7 +216,7 @@ Public Class Renderer : Inherits AbstractRenderer
 
     Protected Overrides Sub drawNode(n As Node, iPosition As AbstractVector)
         Dim pos As Point = GraphToScreen(TryCast(iPosition, FDGVector2), regionProvider())
-        Dim canvas As Graphics = graphicsProvider()
+        Dim canvas As IGraphics = graphicsProvider()
 
         SyncLock canvas
             Dim r As Single = radiushash(n)
@@ -239,7 +239,7 @@ Public Class Renderer : Inherits AbstractRenderer
                     CInt(center.Y - sz.Height / 2)
                 )
 
-                Call canvas.DrawString(labelText, Font, Brushes.Black, center)
+                Call canvas.DrawString(labelText, Font, Brushes.Black, center.X, center.Y)
             End If
         End SyncLock
     End Sub
