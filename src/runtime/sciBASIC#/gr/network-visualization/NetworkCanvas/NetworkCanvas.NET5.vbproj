@@ -19,6 +19,7 @@
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <Copyright>GPL3</Copyright>
 	  <PackageLicenseExpression>GPL3</PackageLicenseExpression>
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
 
 
   </PropertyGroup>
