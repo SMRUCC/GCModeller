@@ -1,66 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::752e5b68cb1fc633f3a91ffa5e818335, gr\Drawing-net4.8\Graphics\GDICanvas.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 2061
-    '    Code Lines: 341 (16.55%)
-    ' Comment Lines: 1621 (78.65%)
-    '    - Xml Docs: 12.46%
-    ' 
-    '   Blank Lines: 99 (4.80%)
-    '     File Size: 76.03 KB
+' Summaries:
 
 
-    ' Class GDICanvas
-    ' 
-    '     Properties: Graphics, RenderingOrigin, TextContrast
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: GetContextInfo, GetStringPath, (+4 Overloads) IsVisible, (+4 Overloads) MeasureString
-    ' 
-    '     Sub: AddMetafileComment, ClearCanvas, (+4 Overloads) DrawArc, DrawB, (+3 Overloads) DrawBezier
-    '          (+2 Overloads) DrawBeziers, (+2 Overloads) DrawClosedCurve, (+7 Overloads) DrawCurve, (+4 Overloads) DrawEllipse, (+10 Overloads) DrawImage
-    '          (+4 Overloads) DrawImageUnscaled, DrawImageUnscaledAndClipped, (+5 Overloads) DrawLine, (+2 Overloads) DrawLines, DrawPath
-    '          (+4 Overloads) DrawPie, (+2 Overloads) DrawPolygon, (+4 Overloads) DrawRectangle, (+2 Overloads) DrawRectangles, (+4 Overloads) DrawString
-    '          ExcludeClip, (+2 Overloads) FillClosedCurve, (+4 Overloads) FillEllipse, FillPath, (+3 Overloads) FillPie
-    '          (+2 Overloads) FillPolygon, (+4 Overloads) FillRectangle, Finalize, Flush, (+2 Overloads) IntersectClip
-    '          ReleaseHandle, ResetClip, ResetTransform, RotateTransform, ScaleTransform
-    '          (+2 Overloads) SetClip, (+2 Overloads) TranslateClip, TranslateTransform
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 2061
+'    Code Lines: 341 (16.55%)
+' Comment Lines: 1621 (78.65%)
+'    - Xml Docs: 12.46%
+' 
+'   Blank Lines: 99 (4.80%)
+'     File Size: 76.03 KB
+
+
+' Class GDICanvas
+' 
+'     Properties: Graphics, RenderingOrigin, TextContrast
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: GetContextInfo, GetStringPath, (+4 Overloads) IsVisible, (+4 Overloads) MeasureString
+' 
+'     Sub: AddMetafileComment, ClearCanvas, (+4 Overloads) DrawArc, DrawB, (+3 Overloads) DrawBezier
+'          (+2 Overloads) DrawBeziers, (+2 Overloads) DrawClosedCurve, (+7 Overloads) DrawCurve, (+4 Overloads) DrawEllipse, (+10 Overloads) DrawImage
+'          (+4 Overloads) DrawImageUnscaled, DrawImageUnscaledAndClipped, (+5 Overloads) DrawLine, (+2 Overloads) DrawLines, DrawPath
+'          (+4 Overloads) DrawPie, (+2 Overloads) DrawPolygon, (+4 Overloads) DrawRectangle, (+2 Overloads) DrawRectangles, (+4 Overloads) DrawString
+'          ExcludeClip, (+2 Overloads) FillClosedCurve, (+4 Overloads) FillEllipse, FillPath, (+3 Overloads) FillPie
+'          (+2 Overloads) FillPolygon, (+4 Overloads) FillRectangle, Finalize, Flush, (+2 Overloads) IntersectClip
+'          ReleaseHandle, ResetClip, ResetTransform, RotateTransform, ScaleTransform
+'          (+2 Overloads) SetClip, (+2 Overloads) TranslateClip, TranslateTransform
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -70,6 +70,14 @@ Imports System.Drawing.Drawing2D
 Imports System.Drawing.Graphics
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
+
+#If NET8_0_OR_GREATER Then
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
 
 ''' <summary>
 ''' 这个对象是<see cref="Graphics2D"/>以及<see cref="Wmf"/>公用的基础类型
@@ -100,11 +108,27 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
 #Region "Implements Class Graphics"
 
     Public Overloads Sub DrawLine(x1 As Integer, y1 As Integer, x2 As Integer, y2 As Integer)
-        Call Graphics.DrawLine(Stroke, x1, y1, x2, y2)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = Stroke.CTypePenObject
+#Else
+        spen = Stroke
+#End If
+
+        Call Graphics.DrawLine(spen, x1, y1, x2, y2)
     End Sub
 
     Public Overloads Sub DrawString(str As String, x As Integer, y As Integer)
-        Call Graphics.DrawString(str, Font, Brushes.Black, New Point(x, y))
+        Dim sfont As System.Drawing.Font = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sfont = Font.CTypeFontObject
+#Else
+        sfont = Font
+#End If
+
+        Call Graphics.DrawString(str, sfont, System.Drawing.Brushes.Black, New Point(x, y))
     End Sub
 
     '
@@ -178,7 +202,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.
     Public Overrides Sub DrawArc(pen As Pen, rect As Rectangle, startAngle As Single, sweepAngle As Single)
-        Call Graphics.DrawArc(pen, rect, startAngle, sweepAngle)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen
+#End If
+
+        Call Graphics.DrawArc(spen, rect, startAngle, sweepAngle)
     End Sub
     '
     ' Summary:
@@ -204,7 +236,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null
     Public Overrides Sub DrawArc(pen As Pen, rect As RectangleF, startAngle As Single, sweepAngle As Single)
-        Call Graphics.DrawArc(pen, rect, startAngle, sweepAngle)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen
+#End If
+
+        Call Graphics.DrawArc(spen, rect, startAngle, sweepAngle)
     End Sub
     '
     ' Summary:
@@ -292,7 +332,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' curve.</param>
     ''' <param name="pt4">System.Drawing.Point structure that represents the ending point of the curve.</param>
     Public Sub DrawBézier(pen As Pen, pt1 As Point, pt2 As Point, pt3 As Point, pt4 As Point)
-        Call Graphics.DrawBezier(pen, pt1, pt2, pt3, pt4)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen
+#End If
+
+        Call Graphics.DrawBezier(spen, pt1, pt2, pt3, pt4)
     End Sub
 
     ' Summary:
@@ -615,7 +663,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.
     Public Overrides Sub DrawEllipse(pen As Pen, rect As Rectangle)
-        Call Graphics.DrawEllipse(pen, rect)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen
+#End If
+
+        Call Graphics.DrawEllipse(spen, rect)
     End Sub
     '
     ' Summary:
@@ -632,7 +688,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.
     Public Overrides Sub DrawEllipse(pen As Pen, rect As RectangleF)
-        Call Graphics.DrawEllipse(pen, rect)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen
+#End If
+
+        Call Graphics.DrawEllipse(spen, rect)
     End Sub
     '
     ' Summary:
@@ -661,7 +725,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.
     Public Overrides Sub DrawEllipse(pen As Pen, x As Integer, y As Integer, width As Integer, height As Integer)
-        Call Graphics.DrawEllipse(pen, x, y, width, height)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen
+#End If
+
+        Call Graphics.DrawEllipse(spen, x, y, width, height)
     End Sub
 
     ''' <summary>
@@ -679,7 +751,16 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
         If x < 0 OrElse y < 0 Then
             Return
         End If
-        Call Graphics.DrawEllipse(pen, x, y, width, height)
+
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen
+#End If
+
+        Call Graphics.DrawEllipse(spen, x, y, width, height)
     End Sub
 
     '
@@ -699,8 +780,19 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     image is null.
     Public Overrides Sub DrawImage(image As Image, rect As RectangleF)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImage(image.CTypeImage, rect)
+#Else
+        Call Graphics.DrawImage(image, rect)
+#End If
+    End Sub
+
+#If NET8_0_OR_GREATER Then
+    Public Overloads Sub DrawImage(image As System.Drawing.Image, rect As RectangleF)
         Call Graphics.DrawImage(image, rect)
     End Sub
+#End If
+
     '
     ' Summary:
     '     Draws the specified System.Drawing.Image at the specified location and with the
@@ -718,7 +810,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     image is null.
     Public Overrides Sub DrawImage(image As Image, rect As Rectangle)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImage(image.CTypeImage, rect)
+#Else
         Call Graphics.DrawImage(image, rect)
+#End If
     End Sub
     '
     ' Summary:
@@ -736,7 +832,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     image is null.
     Public Overrides Sub DrawImage(image As Image, destPoints() As Point)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImage(image.CTypeImage, destPoints)
+#Else
         Call Graphics.DrawImage(image, destPoints)
+#End If
     End Sub
     '
     ' Summary:
@@ -754,7 +854,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     image is null.
     Public Overrides Sub DrawImage(image As Image, destPoints() As PointF)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImage(image.CTypeImage, destPoints)
+#Else
         Call Graphics.DrawImage(image, destPoints)
+#End If
     End Sub
 
     ''' <summary>
@@ -765,7 +869,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="point">System.Drawing.Point structure that represents the location of the upper-left
     ''' corner of the drawn image.</param>
     Public Overrides Sub DrawImage(image As Image, point As Point)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImage(image.CTypeImage, Point)
+#Else
         Call Graphics.DrawImage(image, point)
+#End If
     End Sub
     '
     ' Summary:
@@ -784,7 +892,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     image is null.
     Public Overrides Sub DrawImage(image As Image, point As PointF)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImage(image.CTypeImage, Point)
+#Else
         Call Graphics.DrawImage(image, point)
+#End If
     End Sub
     '
     ' Summary:
@@ -805,7 +917,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     image is null.
     Public Overrides Sub DrawImage(image As Image, x As Integer, y As Integer)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImage(image.CTypeImage,x,y)
+#Else
         Call Graphics.DrawImage(image, x, y)
+#End If
     End Sub
     '
     ' Summary:
@@ -826,7 +942,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     image is null.
     Public Overrides Sub DrawImage(image As Image, x As Single, y As Single)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImage(image.CTypeImage,x,y)
+#Else
         Call Graphics.DrawImage(image, x, y)
+#End If
     End Sub
 
     ''' <summary>
@@ -839,8 +959,27 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="width">Width of the drawn image.</param>
     ''' <param name="height">Height of the drawn image.</param>
     Public Overrides Sub DrawImage(image As Image, x As Integer, y As Integer, width As Integer, height As Integer)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImage(image.CTypeImage,x,y,width,height)
+#Else
+        Call Graphics.DrawImage(image, x, y, width, height)
+#End If
+    End Sub
+
+#If NET8_0_OR_GREATER Then
+    ''' <summary>
+    ''' Draws the specified <see cref="Image"/> at the specified location and with the
+    ''' specified size.
+    ''' </summary>
+    ''' <param name="image">System.Drawing.Image to draw.</param>
+    ''' <param name="x">The x-coordinate of the upper-left corner of the drawn image.</param>
+    ''' <param name="y">The y-coordinate of the upper-left corner of the drawn image.</param>
+    ''' <param name="width">Width of the drawn image.</param>
+    ''' <param name="height">Height of the drawn image.</param>
+    Public Overloads Sub DrawImage(image As System.Drawing.Image, x As Integer, y As Integer, width As Integer, height As Integer)
         Call Graphics.DrawImage(image, x, y, width, height)
     End Sub
+#End If
     '
     ' Summary:
     '     Draws the specified System.Drawing.Image at the specified location and with the
@@ -866,7 +1005,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     image is null.
     Public Overrides Sub DrawImage(image As Image, x As Single, y As Single, width As Single, height As Single)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImage(image.CTypeImage, x, y, width, height)
+#Else
         Call Graphics.DrawImage(image, x, y, width, height)
+#End If
     End Sub
 
     '
@@ -886,7 +1029,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     image is null.
     Public Overrides Sub DrawImageUnscaled(image As Image, rect As Rectangle)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImageUnscaled(image.CTypeImage, rect)
+#Else
         Call Graphics.DrawImageUnscaled(image, rect)
+#End If
     End Sub
 
     ''' <summary>
@@ -898,7 +1045,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Sub DrawImageUnscaled(image As Image, point As Point)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImageUnscaled(image.CTypeImage, point)
+#Else
         Call Graphics.DrawImageUnscaled(image, point)
+#End If
     End Sub
 
     ' Exceptions:
@@ -913,7 +1064,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="y">The y-coordinate of the upper-left corner of the drawn image.</param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Sub DrawImageUnscaled(image As Image, x As Integer, y As Integer)
-        Call Graphics.DrawImageUnscaled(image, x, y)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImageUnscaled(image.CTypeImage, x, y)
+#Else
+        Call Graphics.DrawImageUnscaled(image, x,y)
+#End If
     End Sub
 
     ''' <summary>
@@ -925,7 +1080,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="width"></param>
     ''' <param name="height"></param>
     Public Overrides Sub DrawImageUnscaled(image As Image, x As Integer, y As Integer, width As Integer, height As Integer)
-        Call Graphics.DrawImageUnscaled(image, x, y, width, height)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImageUnscaled(image.CTypeImage, x, y, width, height)
+#Else
+        Call Graphics.DrawImageUnscaled(image, x,y,width ,height )
+#End If
     End Sub
 
     ''' <summary>
@@ -935,7 +1094,11 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="image">The <see cref="Image"/> to draw.</param>
     ''' <param name="rect">The <see cref="Rectangle"/> in which to draw the image.</param>
     Public Overrides Sub DrawImageUnscaledAndClipped(image As Image, rect As Rectangle)
+#If NET8_0_OR_GREATER Then
+        Call Graphics.DrawImageUnscaledAndClipped(image.CTypeImage, rect)
+#Else
         Call Graphics.DrawImageUnscaledAndClipped(image, rect)
+#End If
     End Sub
 
     ''' <summary>
@@ -946,7 +1109,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="pt2"><see cref="Point"/> structure that represents the second point to connect.</param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Sub DrawLine(pen As Pen, pt1 As Point, pt2 As Point)
-        Call Graphics.DrawLine(pen, pt1, pt2)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawLine(spen, pt1, pt2)
     End Sub
 
     ''' <summary>
@@ -956,11 +1127,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="pt1">System.Drawing.PointF structure that represents the first point to connect.</param>
     ''' <param name="pt2">System.Drawing.PointF structure that represents the second point to connect.</param>
     Public Overrides Sub DrawLine(pen As Pen, pt1 As PointF, pt2 As PointF)
-        'If pt1.X < 0 OrElse pt1.Y < 0 OrElse pt2.X < 0 OrElse pt2.Y < 0 Then
-        '    Return
-        'End If
+        Dim spen As System.Drawing.Pen = Nothing
 
-        Call Graphics.DrawLine(pen, pt1, pt2)
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawLine(spen, pt1, pt2)
     End Sub
     '
     ' Summary:
@@ -986,7 +1161,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.
     Public Overrides Sub DrawLine(pen As Pen, x1 As Integer, y1 As Integer, x2 As Integer, y2 As Integer)
-        Call Graphics.DrawLine(pen, x1, y1, x2, y2)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawLine(spen, x1, y1, x2, y2)
     End Sub
     '
     ' Summary:
@@ -1012,7 +1195,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.
     Public Overrides Sub DrawLine(pen As Pen, x1 As Single, y1 As Single, x2 As Single, y2 As Single)
-        Call Graphics.DrawLine(pen, x1, y1, x2, y2)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawLine(spen, x1, y1, x2, y2)
     End Sub
     '
     ' Summary:
@@ -1030,7 +1221,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.-or-points is null.
     Public Overrides Sub DrawLines(pen As Pen, points() As Point)
-        Call Graphics.DrawLines(pen, points)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawLines(spen, points)
     End Sub
     '
     ' Summary:
@@ -1048,7 +1247,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.-or-points is null.
     Public Overrides Sub DrawLines(pen As Pen, points() As PointF)
-        Call Graphics.DrawLines(pen, points)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawLines(spen, points)
     End Sub
     '
     ' Summary:
@@ -1065,7 +1272,18 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.-or-path is null.
     Public Overrides Sub DrawPath(pen As Pen, path As GraphicsPath)
-        Call Graphics.DrawPath(pen, path)
+        Dim spen As System.Drawing.Pen = Nothing
+        Dim spath As System.Drawing.Drawing2D.GraphicsPath = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+        spath = path.CTypeGraphicsPath
+#Else
+        spen = pen 
+        spath = path
+#End If
+
+        Call Graphics.DrawPath(spen, spath)
     End Sub
     '
     ' Summary:
@@ -1092,7 +1310,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.
     Public Overrides Sub DrawPie(pen As Pen, rect As Rectangle, startAngle As Single, sweepAngle As Single)
-        Call Graphics.DrawPie(pen, rect, startAngle, sweepAngle)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawPie(spen, rect, startAngle, sweepAngle)
     End Sub
     '
     ' Summary:
@@ -1119,7 +1345,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.
     Public Overrides Sub DrawPie(pen As Pen, rect As RectangleF, startAngle As Single, sweepAngle As Single)
-        Call Graphics.DrawPie(pen, rect, startAngle, sweepAngle)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawPie(spen, rect, startAngle, sweepAngle)
     End Sub
     '
     ' Summary:
@@ -1216,7 +1450,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.
     Public Overrides Sub DrawPolygon(pen As Pen, points() As Point)
-        Call Graphics.DrawPolygon(pen, points)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawPolygon(spen, points)
     End Sub
 
     ''' <summary>
@@ -1228,7 +1470,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Sub DrawPolygon(pen As Pen, points() As PointF)
-        Call Graphics.DrawPolygon(pen, points)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawPolygon(spen, points)
     End Sub
 
     ''' <summary>
@@ -1239,7 +1489,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Sub DrawRectangle(pen As Pen, rect As Rectangle)
-        Call Graphics.DrawRectangle(pen, rect)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawRectangle(spen, rect)
     End Sub
     '
     ' Summary:
@@ -1265,7 +1523,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.
     Public Overrides Sub DrawRectangle(pen As Pen, x As Integer, y As Integer, width As Integer, height As Integer)
-        Call Graphics.DrawRectangle(pen, x, y, width, height)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawRectangle(spen, x, y, width, height)
     End Sub
     '
     ' Summary:
@@ -1291,7 +1557,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     pen is null.
     Public Overrides Sub DrawRectangle(pen As Pen, x As Single, y As Single, width As Single, height As Single)
-        Call Graphics.DrawRectangle(pen, x, y, width, height)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawRectangle(spen, x, y, width, height)
     End Sub
     '
     ' Summary:
@@ -1348,7 +1622,18 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="layoutRectangle">System.Drawing.RectangleF structure that specifies the location of the drawn
     ''' text.</param>
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, layoutRectangle As RectangleF)
-        Call Graphics.DrawString(s, font, brush, layoutRectangle)
+        Dim sfont As System.Drawing.Font = Nothing
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sfont = font.CTypeFontObject
+        sbrush = brush.CTypeBrushObject
+#Else
+        sfont = font 
+        sbrush = brush
+#End If
+
+        Call Graphics.DrawString(s, sfont, sbrush, layoutRectangle)
     End Sub
 
     ''' <summary>
@@ -1361,7 +1646,18 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="point">System.Drawing.PointF structure that specifies the upper-left corner of the drawn
     ''' text.</param>
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, ByRef point As PointF)
-        Call Graphics.DrawString(s, font, brush, point)
+        Dim sfont As System.Drawing.Font = Nothing
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sfont = font.CTypeFontObject
+        sbrush = brush.CTypeBrushObject
+#Else
+        sfont = font 
+        sbrush = brush
+#End If
+
+        Call Graphics.DrawString(s, sfont, sbrush, point)
     End Sub
 
     '
@@ -1389,7 +1685,18 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     brush is null.-or-s is null.
     Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, x As Single, y As Single)
-        Call Graphics.DrawString(s, font, brush, x, y)
+        Dim sfont As System.Drawing.Font = Nothing
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sfont = font.CTypeFontObject
+        sbrush = brush.CTypeBrushObject
+#Else
+        sfont = font 
+        sbrush = brush
+#End If
+
+        Call Graphics.DrawString(s, sfont, sbrush, x, y)
     End Sub
 
     '
@@ -1458,7 +1765,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     brush is null.
     Public Overrides Sub FillEllipse(brush As Brush, rect As Rectangle)
-        Call Graphics.FillEllipse(brush, rect)
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+#Else
+        sbrush = brush
+#End If
+
+        Call Graphics.FillEllipse(sbrush, rect)
     End Sub
 
     ''' <summary>
@@ -1469,7 +1784,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="rect">System.Drawing.RectangleF structure that represents the bounding rectangle that
     ''' defines the ellipse.</param>
     Public Overrides Sub FillEllipse(brush As Brush, rect As RectangleF)
-        Call Graphics.FillEllipse(brush, rect)
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+#Else
+        sbrush = brush
+#End If
+
+        Call Graphics.FillEllipse(sbrush, rect)
     End Sub
     '
     ' Summary:
@@ -1498,7 +1821,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     brush is null.
     Public Overrides Sub FillEllipse(brush As Brush, x As Integer, y As Integer, width As Integer, height As Integer)
-        Call Graphics.FillEllipse(brush, x, y, width, height)
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+#Else
+        sbrush = brush
+#End If
+
+        Call Graphics.FillEllipse(sbrush, x, y, width, height)
     End Sub
 
     ''' <summary>
@@ -1513,7 +1844,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="width">Width of the bounding rectangle that defines the ellipse.</param>
     ''' <param name="height">Height of the bounding rectangle that defines the ellipse.</param>
     Public Overrides Sub FillEllipse(brush As Brush, x As Single, y As Single, width As Single, height As Single)
-        Call Graphics.FillEllipse(brush, x, y, width, height)
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+#Else
+        sbrush = brush
+#End If
+
+        Call Graphics.FillEllipse(sbrush, x, y, width, height)
     End Sub
 
     ''' <summary>
@@ -1522,7 +1861,18 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="brush">System.Drawing.Brush that determines the characteristics of the fill.</param>
     ''' <param name="path">System.Drawing.Drawing2D.GraphicsPath that represents the path to fill.</param>
     Public Overrides Sub FillPath(brush As Brush, path As GraphicsPath)
-        Call Graphics.FillPath(brush, path)
+        Dim sbrush As System.Drawing.Brush = Nothing
+        Dim spath As System.Drawing.Drawing2D.GraphicsPath = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+        spath = path.CTypeGraphicsPath
+#Else
+        spath = path 
+        sbrush = brush
+#End If
+
+        Call Graphics.FillPath(sbrush, spath)
     End Sub
     '
     ' Summary:
@@ -1549,7 +1899,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     brush is null.
     Public Overrides Sub FillPie(brush As Brush, rect As Rectangle, startAngle As Single, sweepAngle As Single)
-        Call Graphics.FillPie(brush, rect, startAngle, sweepAngle)
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+#Else
+        sbrush = brush
+#End If
+
+        Call Graphics.FillPie(sbrush, rect, startAngle, sweepAngle)
     End Sub
     '
     ' Summary:
@@ -1588,7 +1946,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     brush is null.
     Public Overrides Sub FillPie(brush As Brush, x As Integer, y As Integer, width As Integer, height As Integer, startAngle As Integer, sweepAngle As Integer)
-        Call Graphics.FillPie(brush, x, y, width, height, startAngle, sweepAngle)
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+#Else
+        sbrush = brush
+#End If
+
+        Call Graphics.FillPie(sbrush, x, y, width, height, startAngle, sweepAngle)
     End Sub
 
     ''' <summary>
@@ -1612,7 +1978,16 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
         If x < 0 OrElse y < 0 Then
             Return
         End If
-        Call Graphics.FillPie(brush, x, y, width, height, startAngle, sweepAngle)
+
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+#Else
+        sbrush = brush
+#End If
+
+        Call Graphics.FillPie(sbrush, x, y, width, height, startAngle, sweepAngle)
     End Sub
     '
     ' Summary:
@@ -1631,7 +2006,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     brush is null.-or-points is null.
     Public Overrides Sub FillPolygon(brush As Brush, points() As Point)
-        Call Graphics.FillPolygon(brush, points)
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+#Else
+        sbrush = brush
+#End If
+
+        Call Graphics.FillPolygon(sbrush, points)
     End Sub
     '
     ' Summary:
@@ -1650,7 +2033,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     brush is null.-or-points is null.
     Public Overrides Sub FillPolygon(brush As Brush, points() As PointF)
-        Call Graphics.FillPolygon(brush, points)
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+#Else
+        sbrush = brush
+#End If
+
+        Call Graphics.FillPolygon(sbrush, points)
     End Sub
 
     ''' <summary>
@@ -1659,7 +2050,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="brush">System.Drawing.Brush that determines the characteristics of the fill.</param>
     ''' <param name="rect">System.Drawing.Rectangle structure that represents the rectangle to fill.</param>
     Public Overrides Sub FillRectangle(brush As Brush, rect As Rectangle)
-        Call Graphics.FillRectangle(brush, rect)
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+#Else
+        sbrush = brush
+#End If
+
+        Call Graphics.FillRectangle(sbrush, rect)
     End Sub
     '
     ' Summary:
@@ -1676,7 +2075,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentNullException:
     '     brush is null.
     Public Overrides Sub FillRectangle(brush As Brush, rect As RectangleF)
-        Call Graphics.FillRectangle(brush, rect)
+        Dim sbrush As System.Drawing.Brush = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sbrush = brush.CTypeBrushObject
+#Else
+        sbrush = brush
+#End If
+
+        Call Graphics.FillRectangle(sbrush, rect)
     End Sub
     '
     ' Summary:
@@ -2039,7 +2446,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' in the units specified by the <see cref="PageUnit"/> property, of the
     ''' string specified by the text parameter as drawn with the font parameter.</returns>
     Public Overrides Function MeasureString(text$, font As Font) As SizeF
-        Return Graphics.MeasureString(text, font)
+        Dim sfont As System.Drawing.Font = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sfont = font.CTypeFontObject
+#Else
+        sfont = font 
+#End If
+
+        Return Graphics.MeasureString(text, sfont)
     End Function
 
     ''' <summary>
@@ -2048,7 +2463,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' <param name="text"></param>
     ''' <returns></returns>
     Public Overloads Function MeasureString(text As String) As SizeF
-        Return Graphics.MeasureString(text, Font)
+        Dim sfont As System.Drawing.Font = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sfont = Font.CTypeFontObject
+#Else
+        sfont = font 
+#End If
+
+        Return Graphics.MeasureString(text, sfont)
     End Function
 
     ' Summary:
@@ -2073,7 +2496,15 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentException:
     '     font is null.
     Public Overrides Function MeasureString(text As String, font As Font, width As Integer) As SizeF
-        Return Graphics.MeasureString(text, font, width)
+        Dim sfont As System.Drawing.Font = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sfont = font.CTypeFontObject
+#Else
+        sfont = font 
+#End If
+
+        Return Graphics.MeasureString(text, sfont, width)
     End Function
     '
     ' Summary:
@@ -2100,20 +2531,58 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     '   T:System.ArgumentException:
     '     font is null.
     Public Overrides Function MeasureString(text As String, font As Font, layoutArea As SizeF) As SizeF
-        Return Graphics.MeasureString(text, font, layoutArea)
+        Dim sfont As System.Drawing.Font = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sfont = font.CTypeFontObject
+#Else
+        sfont = font 
+#End If
+
+        Return Graphics.MeasureString(text, sfont, layoutArea)
     End Function
 
     Public Overrides Sub DrawBezier(pen As Pen, pt1 As Point, pt2 As Point, pt3 As Point, pt4 As Point)
-        Call Graphics.DrawBezier(pen, pt1, pt2, pt3, pt4)
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawBezier(spen, pt1, pt2, pt3, pt4)
     End Sub
 
     Public Overrides Sub DrawRectangle(pen As Pen, rect As RectangleF)
-        Call Graphics.DrawRectangles(pen, {rect})
+        Dim spen As System.Drawing.Pen = Nothing
+
+#If NET8_0_OR_GREATER Then
+        spen = pen.CTypePenObject
+#Else
+        spen = pen 
+#End If
+
+        Call Graphics.DrawRectangles(spen, {rect})
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function GetStringPath(s As String, rect As RectangleF, font As Font) As GraphicsPath
-        Return s.GetStringPath(Dpi, rect, font, StringFormat.GenericTypographic)
+        Dim sfont As System.Drawing.Font = Nothing
+
+#If NET8_0_OR_GREATER Then
+        sfont = font.CTypeFontObject
+#Else
+        sfont = font 
+#End If
+
+        Dim path = s.GetStringPath(Dpi, rect, sfont, StringFormat.GenericTypographic)
+
+#If NET8_0_OR_GREATER Then
+        Throw New InvalidCastException
+#Else
+        return path
+#End If
     End Function
 #End Region
 

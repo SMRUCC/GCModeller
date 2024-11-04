@@ -68,7 +68,7 @@ Namespace FileSystem
     ''' </summary>
     Public Class FileSystem
 
-        Public ReadOnly Property wwwroot As FolderHandle
+        Public ReadOnly Property wwwroot As IFileSystemEnvironment
 
         ReadOnly virtualMaps As New Dictionary(Of String, FileObject)
 
@@ -78,6 +78,11 @@ Namespace FileSystem
         ''' <param name="wwwroot"></param>
         Sub New(wwwroot As String)
             Me.wwwroot = New FolderHandle(directory:=wwwroot)
+        End Sub
+
+        Sub New(virtual As IFileSystemEnvironment)
+            Me.wwwroot = virtual
+            Call AttachFolder(virtual).ToArray
         End Sub
 
         ''' <summary>

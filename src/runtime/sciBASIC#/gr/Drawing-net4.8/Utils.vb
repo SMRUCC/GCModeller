@@ -60,6 +60,9 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Bitmap = System.Drawing.Bitmap
+Imports Image = System.Drawing.Image
+Imports TextureBrush = System.Drawing.TextureBrush
 
 Namespace Imaging.BitmapImage
 
@@ -108,7 +111,12 @@ Namespace Imaging.BitmapImage
                         .SmoothingMode = SmoothingMode.HighQuality
                         .TextRenderingHint = TextRenderingHint.ClearTypeGridFit
 
+#If NET48 Then
                         Call .FillPie(image, Bitmap.EntireImage, 0, 360)
+#Else
+                        Call .FillPie(image, New Rectangle(New Point, Bitmap.Size), 0, 360)
+#End If
+
                     End With
 
                     Return Bitmap
@@ -144,7 +152,11 @@ Namespace Imaging.BitmapImage
             Dim top%, left%
 
             Try
+#If NET48 Then
                 bmp = BitmapBuffer.FromImage(res)
+#Else
+                Throw New NotImplementedException
+#End If
             Catch ex As Exception
 
                 ' 2017-9-21 ???
@@ -153,9 +165,7 @@ Namespace Imaging.BitmapImage
                 '    在 System.Drawing.Bitmap..ctor(Int32 width, Int32 height, PixelFormat format)
                 '    在 System.Drawing.Bitmap..ctor(Image original, Int32 width, Int32 height)
                 '    在 System.Drawing.Bitmap..ctor(Image original)
-
-                ex = New Exception(trace & " --> " & res.Size.GetJson, ex)
-                Throw ex
+                Throw New Exception(trace & " --> " & res.Size.GetJson, ex)
             End Try
 
             ' top
@@ -184,7 +194,12 @@ Namespace Imaging.BitmapImage
 
             Dim region As New Rectangle(0, top, res.Width, res.Height - top)
             res = res.ImageCrop(New Rectangle(region.Location, region.Size))
-            bmp = BitmapBuffer.FromImage(res)
+
+#If NET48 Then
+                bmp = BitmapBuffer.FromImage(res)
+#Else
+            Throw New NotImplementedException
+#End If
 
             ' left
             For left = 0 To res.Width - 1
@@ -211,7 +226,12 @@ Namespace Imaging.BitmapImage
 
             region = New Rectangle(left, 0, res.Width - left, res.Height)
             res = res.ImageCrop(New Rectangle(region.Location, region.Size))
-            bmp = BitmapBuffer.FromImage(res)
+
+#If NET48 Then
+                bmp = BitmapBuffer.FromImage(res)
+#Else
+            Throw New NotImplementedException
+#End If
 
             Dim right As Integer
             Dim bottom As Integer
@@ -239,7 +259,12 @@ Namespace Imaging.BitmapImage
 
             region = New Rectangle(0, 0, res.Width, bottom)
             res = res.ImageCrop(New Rectangle(region.Location, region.Size))
-            bmp = BitmapBuffer.FromImage(res)
+
+#If NET48 Then
+                bmp = BitmapBuffer.FromImage(res)
+#Else
+            Throw New NotImplementedException
+#End If
 
             ' right
             For right = res.Width - 1 To 0 Step -1
@@ -267,7 +292,12 @@ Namespace Imaging.BitmapImage
             If margin > 0 Then
                 With New Size(res.Width + margin * 2, res.Height + margin * 2).CreateGDIDevice
                     Call .Clear(blankColor)
+
+#If NET48 Then
                     Call .DrawImage(res, New Point(margin, margin))
+#Else
+                    Throw New NotImplementedException
+#End If
 
                     Return .ImageResource
                 End With
