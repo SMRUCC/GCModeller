@@ -64,6 +64,9 @@ Imports Pen = Microsoft.VisualBasic.Imaging.Pen
 Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
 Imports TextureBrush = Microsoft.VisualBasic.Imaging.TextureBrush
 
+''' <summary>
+''' helper for make gdi+ graphics component conversion
+''' </summary>
 Public Module DrawingInterop
 
     ''' <summary>
@@ -73,7 +76,7 @@ Public Module DrawingInterop
     ''' <returns></returns>
     <Extension>
     Public Function CTypeFontObject(font As Font) As System.Drawing.Font
-        Throw New NotImplementedException
+        Return New System.Drawing.Font(font.Name, font.Size, CType(font.Style, System.Drawing.FontStyle))
     End Function
 
     ''' <summary>
