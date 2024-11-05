@@ -57,6 +57,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Linq
 Imports Brush = Microsoft.VisualBasic.Imaging.Brush
 Imports Font = Microsoft.VisualBasic.Imaging.Font
 Imports Pen = Microsoft.VisualBasic.Imaging.Pen
@@ -65,26 +66,51 @@ Imports TextureBrush = Microsoft.VisualBasic.Imaging.TextureBrush
 
 Public Module DrawingInterop
 
+    ''' <summary>
+    ''' Convert of the .NET 8.0 visualbasic graphics component as .NET clr windows gdi+ object
+    ''' </summary>
+    ''' <param name="font"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CTypeFontObject(font As Font) As System.Drawing.Font
         Throw New NotImplementedException
     End Function
 
+    ''' <summary>
+    ''' Convert of the .NET 8.0 visualbasic graphics component as .NET clr windows gdi+ object
+    ''' </summary>
+    ''' <param name="font"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CTypePenObject(font As Pen) As System.Drawing.Pen
         Throw New NotImplementedException
     End Function
 
+    ''' <summary>
+    ''' Convert of the .NET 8.0 visualbasic graphics component as .NET clr windows gdi+ object
+    ''' </summary>
+    ''' <param name="font"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CTypeBrushObject(font As SolidBrush) As System.Drawing.SolidBrush
         Throw New NotImplementedException
     End Function
 
+    ''' <summary>
+    ''' Convert of the .NET 8.0 visualbasic graphics component as .NET clr windows gdi+ object
+    ''' </summary>
+    ''' <param name="font"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CTypeBrushObject(font As TextureBrush) As System.Drawing.TextureBrush
         Throw New NotImplementedException
     End Function
 
+    ''' <summary>
+    ''' Convert of the .NET 8.0 visualbasic graphics component as .NET clr windows gdi+ object
+    ''' </summary>
+    ''' <param name="font"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CTypeBrushObject(font As Brush) As System.Drawing.Brush
         If TypeOf font Is SolidBrush Then
@@ -94,9 +120,26 @@ Public Module DrawingInterop
         End If
     End Function
 
+    ''' <summary>
+    ''' Convert of the .NET 8.0 visualbasic graphics component as .NET clr windows gdi+ object
+    ''' </summary>
+    ''' <param name="path"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CTypeGraphicsPath(path As GraphicsPath) As System.Drawing.Drawing2D.GraphicsPath
-        Throw New NotImplementedException
+        Dim g As New System.Drawing.Drawing2D.GraphicsPath
+
+        For Each op As GraphicsPath.op In path.AsEnumerable
+            Select Case op.GetType
+                Case GetType(GraphicsPath.op_AddArc)
+                    Dim arc As GraphicsPath.op_AddArc = op
+                    g.AddArc(arc.rect, arc.startAngle, arc.sweepAngle)
+                Case Else
+                    Throw New NotImplementedException
+            End Select
+        Next
+
+        Return g
     End Function
 End Module
 #End If
