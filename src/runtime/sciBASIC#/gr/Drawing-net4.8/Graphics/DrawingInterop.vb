@@ -82,44 +82,44 @@ Public Module DrawingInterop
     ''' <summary>
     ''' Convert of the .NET 8.0 visualbasic graphics component as .NET clr windows gdi+ object
     ''' </summary>
-    ''' <param name="font"></param>
+    ''' <param name="stroke"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CTypePenObject(font As Pen) As System.Drawing.Pen
+    Public Function CTypePenObject(stroke As Pen) As System.Drawing.Pen
         Throw New NotImplementedException
     End Function
 
     ''' <summary>
     ''' Convert of the .NET 8.0 visualbasic graphics component as .NET clr windows gdi+ object
     ''' </summary>
-    ''' <param name="font"></param>
+    ''' <param name="paint"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CTypeBrushObject(font As SolidBrush) As System.Drawing.SolidBrush
+    Public Function CTypeBrushObject(paint As SolidBrush) As System.Drawing.SolidBrush
+        Return New System.Drawing.SolidBrush(paint.Color)
+    End Function
+
+    ''' <summary>
+    ''' Convert of the .NET 8.0 visualbasic graphics component as .NET clr windows gdi+ object
+    ''' </summary>
+    ''' <param name="paint"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CTypeBrushObject(paint As TextureBrush) As System.Drawing.TextureBrush
         Throw New NotImplementedException
     End Function
 
     ''' <summary>
     ''' Convert of the .NET 8.0 visualbasic graphics component as .NET clr windows gdi+ object
     ''' </summary>
-    ''' <param name="font"></param>
+    ''' <param name="paint"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CTypeBrushObject(font As TextureBrush) As System.Drawing.TextureBrush
-        Throw New NotImplementedException
-    End Function
-
-    ''' <summary>
-    ''' Convert of the .NET 8.0 visualbasic graphics component as .NET clr windows gdi+ object
-    ''' </summary>
-    ''' <param name="font"></param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function CTypeBrushObject(font As Brush) As System.Drawing.Brush
-        If TypeOf font Is SolidBrush Then
-            Return DirectCast(font, SolidBrush).CTypeBrushObject
+    Public Function CTypeBrushObject(paint As Brush) As System.Drawing.Brush
+        If TypeOf paint Is SolidBrush Then
+            Return DirectCast(paint, SolidBrush).CTypeBrushObject
         Else
-            Return DirectCast(font, TextureBrush).CTypeBrushObject
+            Return DirectCast(paint, TextureBrush).CTypeBrushObject
         End If
     End Function
 
