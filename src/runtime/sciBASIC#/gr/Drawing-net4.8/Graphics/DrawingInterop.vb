@@ -58,8 +58,10 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
 Imports Brush = Microsoft.VisualBasic.Imaging.Brush
 Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Image = Microsoft.VisualBasic.Imaging.Image
 Imports Pen = Microsoft.VisualBasic.Imaging.Pen
 Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
 Imports TextureBrush = Microsoft.VisualBasic.Imaging.TextureBrush
@@ -143,6 +145,20 @@ Public Module DrawingInterop
         Next
 
         Return g
+    End Function
+
+    <Extension>
+    Public Function CTypeImage(image As Image) As System.Drawing.Image
+        If TypeOf image Is Bitmap Then
+            Return DirectCast(image, Bitmap).CTypeBitmap
+        Else
+            Throw New NotImplementedException
+        End If
+    End Function
+
+    <Extension>
+    Public Function CTypeBitmap(bitmap As Bitmap) As System.Drawing.Bitmap
+        Throw New NotImplementedException
     End Function
 End Module
 #End If
