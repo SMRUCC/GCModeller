@@ -2205,6 +2205,10 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
         Call Graphics.RotateTransform(angle)
     End Sub
 
+    Public Sub SetTransformMatrix(x As Matrix)
+        Graphics.Transform = x
+    End Sub
+
     ''' <summary>
     ''' Applies the specified scaling operation to the transformation matrix of this
     ''' System.Drawing.Graphics by prepending it to the object's transformation matrix.
