@@ -197,6 +197,11 @@ Public Class Graphics2D : Inherits GDICanvas
         End If
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function GetImageResource() As System.Drawing.Image
+        Return innerImage
+    End Function
+
     ''' <summary>
     ''' 将GDI+设备之中的图像数据保存到指定的文件路径之中，默认的图像文件的格式为PNG格式
     ''' </summary>
