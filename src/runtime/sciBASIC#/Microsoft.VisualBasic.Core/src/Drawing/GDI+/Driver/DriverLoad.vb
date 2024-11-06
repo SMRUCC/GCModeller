@@ -121,21 +121,40 @@ Namespace Imaging.Driver
             End Select
         End Function
 
+        Const skia_driver = "A skiasharp graphics driver was wrapped by the Microsoft.VisualBasic.Drawing(https://github.com/xieguigang/Microsoft.VisualBasic.Drawing) project, call the method at the very begining of your program startup: Microsoft.VisualBasic.Drawing.SkiaDriver.Register()"
+        Const windows_gdi_driver = ""
+
         Public Function UseGraphicsDevice(driver As Drivers) As DeviceInterop
             If driver = Drivers.Default Then
                 driver = DefaultGraphicsDevice()
             End If
 
-            If svg Is Nothing OrElse
-                pdf Is Nothing OrElse
-                libgdiplus_raster Is Nothing Then
-
-            End If
-
             Select Case driver
-                Case Drivers.SVG : Return svg
-                Case Drivers.PDF : Return pdf
-                Case Drivers.GDI : Return libgdiplus_raster
+                Case Drivers.SVG
+                    If svg Is Nothing Then
+                        Throw New MissingMethodException("missing the graphics device driver for svg graphics, you should register the corresponding graphics driver at first!")
+                    End If
+
+                    Return svg
+                Case Drivers.PDF
+                    If pdf Is Nothing Then
+#If NET48 Then
+                        Throw New NotSupportedException("Sorry, pdf graphics drawing is not yet supported for .NET Framework 4.8 application currently.")
+#Else
+                       
+#End If
+                    End If
+
+                    Return pdf
+                Case Drivers.GDI
+                    If libgdiplus_raster Is Nothing Then
+#If NET48 Then
+#Else
+                    
+#End If
+                    End If
+
+                    Return libgdiplus_raster
                 Case Else
                     Throw New NotImplementedException(driver.Description)
             End Select
