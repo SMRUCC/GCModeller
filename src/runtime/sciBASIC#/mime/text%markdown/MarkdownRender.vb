@@ -61,6 +61,7 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 
 Public Class MarkdownRender
@@ -129,7 +130,13 @@ Public Class MarkdownRender
         Dim grafs As String() = _newlinesMultiple.Split(_newlinesLeadingTrailing.Replace(text, ""))
         Dim graf_text As String
 
-        Static check_tags As String() = {"<p>", "<blockquote>", "<div>", "<ul>", "<ol>", "<h1>", "<h2>", "<h3>", "<h4>", "<h5>"}
+        Static check_tags As String() = {"p", "blockquote", "div", "ul", "ol", "h1", "h2", "h3", "h4", "h5"} _
+            .Select(Iterator Function(tag) As IEnumerable(Of String)
+                        Yield $"<{tag}>"
+                        Yield $"</{tag}>"
+                    End Function) _
+            .IteratesALL _
+            .ToArray
 
         For i As Integer = 0 To grafs.Length - 1
             graf_text = grafs(i).Trim(ASCII.LF, ASCII.CR, " "c, ASCII.TAB)
@@ -401,7 +408,7 @@ Public Class MarkdownRender
             .Select(Function(si) si.Substring(1).Trim) _
             .ToArray
 
-        Return lines.JoinBy(vbLf)
+        Return vbLf & lines.JoinBy(vbLf) & vbLf & vbLf
     End Function
 
     ReadOnly list1 As New Regex("(\n[\+]\s([^\n])+)+", RegexOptions.Compiled Or RegexOptions.Singleline)
