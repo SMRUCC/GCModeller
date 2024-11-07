@@ -66,11 +66,24 @@ Namespace My.JavaScript
 
     Public Class JavaScriptValue
 
+        ''' <summary>
+        ''' A symbol reference to the parent object
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Accessor As BindProperty(Of DataFrameColumnAttribute)
+
+        ''' <summary>
+        ''' The constant literal value
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Literal As Object
 
         Dim target As JavaScriptObject
 
+        ''' <summary>
+        ''' is scalar constant literal value?
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property IsConstant As Boolean
             Get
                 If Accessor Is Nothing Then
