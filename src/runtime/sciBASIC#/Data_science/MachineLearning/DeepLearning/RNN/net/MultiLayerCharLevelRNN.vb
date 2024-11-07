@@ -69,7 +69,7 @@ Namespace RNN
 		''' <summary>
 		''' The alphabet for sampling.
 		''' </summary>
-		Protected Friend alphabetField As Alphabet
+		Protected Friend m_alphabet As Alphabet
 		''' <summary>
 		''' Basic network.
 		''' </summary>
@@ -105,7 +105,7 @@ Namespace RNN
 
 		' Initializes the net. alphabet != null.
 		Public Overrides Sub initialize(alphabet As Alphabet)
-			alphabetField = alphabet
+			m_alphabet = alphabet
 			internal.initialize(alphabet.size())
 		End Sub
 
@@ -152,7 +152,7 @@ Namespace RNN
 		''' <returns></returns>
 		Public Overrides ReadOnly Property Alphabet As Alphabet
 			Get
-				Return alphabetField
+				Return m_alphabet
 			End Get
 		End Property
 
