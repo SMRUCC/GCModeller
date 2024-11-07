@@ -270,11 +270,14 @@ Public Class MarkdownRender
         ' text = auto_link.Replace(text, Function(m) AutoLink(m.Value))
         text = url_link.Replace(text, Function(m)
                                           Dim subtext = m.Value
-                                          Dim a = subtext.First
-                                          Dim b = subtext.Last
-                                          Dim url As String = subtext.Substring(1, subtext.Length - 2)
+                                          Dim a$ = subtext.First
+                                          Dim b$ = subtext.Last
+                                          Dim offset1 As Integer = If(a.StringEmpty(), 1, 0)
+                                          Dim offset2 As Integer = If(b.StringEmpty, subtext.Length - 2, subtext.Length - offset1)
+                                          Dim url As String = subtext.Substring(offset1, offset2)
+                                          Dim link = If(a.StringEmpty, a, "") & render.AnchorLink(url, url, url) & If(b.StringEmpty, b, "")
 
-                                          Return a & render.AnchorLink(url, url, url) & b
+                                          Return link
                                       End Function)
     End Sub
 
