@@ -125,7 +125,7 @@ Namespace My.JavaScript
         ''' <returns></returns>
         Public Function CheckLiteral() As Boolean
             If IsConstant Then
-                Return Literal Is Nothing OrElse DataFramework.IsPrimitive(Literal.GetType)
+                Return Literal Is Nothing OrElse DataFramework.IsPrimitive(Literal.GetType, autoCastEnum:=True)
             End If
 
             Return False
