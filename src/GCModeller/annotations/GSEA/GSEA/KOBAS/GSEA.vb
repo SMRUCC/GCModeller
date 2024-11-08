@@ -59,6 +59,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -73,6 +74,42 @@ Namespace KOBAS
     <HideModuleName>
     Public Module GSEA
 
+        <Extension>
+        Public Iterator Function Enrichment(background As Background,
+                                            geneExpression As NamedValue(Of Double)(),
+                                            Optional permutations As Integer = 1000) As IEnumerable(Of EnrichmentResult)
+
+            Dim geneInputs As String() = geneExpression.Keys
+
+            For Each pathway As Cluster In TqdmWrapper.Wrap(background.clusters)
+                Dim geneSet As Index(Of String) = pathway.memberIds
+                Dim enrich = geneExpression.ToArray.Enrich(geneSet, permutations)
+                Dim intersect = geneInputs.Intersect(geneSet.Objects).ToArray
+
+                Yield New EnrichmentResult With {
+                    .cluster = geneSet.Count,
+                    .description = pathway.description,
+                    .enriched = intersect.Length,
+                    .IDs = intersect,
+                    .name = pathway.names,
+                    .pvalue = enrich.pvalue,
+                    .score = enrich.score,
+                    .term = pathway.ID
+                }
+            Next
+        End Function
+
+        ''' <summary>
+        ''' Enrichment for one specific pathway
+        ''' </summary>
+        ''' <param name="geneExpression">
+        ''' all gene mean expression value, usually be the foldchange value of the a vs b comparision result.
+        ''' </param>
+        ''' <param name="geneSet">
+        ''' gene set in current pathway
+        ''' </param>
+        ''' <param name="permutations"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function Enrich(geneExpression As NamedValue(Of Double)(),
                                geneSet As Index(Of String),

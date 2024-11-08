@@ -7,6 +7,14 @@
       "RelativeMoniker": "D:0:0:{6E42456B-170F-4FE9-B1A0-1683F476B7FF}|GSEA\\gsea-netcore5.vbproj|solutionrelative:gsea\\kobas\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{0CC1B66B-41A7-4BB6-9A9C-24930FEBC3E6}|FisherCore\\Fisher.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\enrichmentresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0CC1B66B-41A7-4BB6-9A9C-24930FEBC3E6}|FisherCore\\Fisher.NET5.vbproj|solutionrelative:fishercore\\enrichmentresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0CC1B66B-41A7-4BB6-9A9C-24930FEBC3E6}|FisherCore\\Fisher.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\enrichment.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0CC1B66B-41A7-4BB6-9A9C-24930FEBC3E6}|FisherCore\\Fisher.NET5.vbproj|solutionrelative:fishercore\\enrichment.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6E42456B-170F-4FE9-B1A0-1683F476B7FF}|GSEA\\gsea-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea\\kobas\\phenotype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{6E42456B-170F-4FE9-B1A0-1683F476B7FF}|GSEA\\gsea-netcore5.vbproj|solutionrelative:gsea\\kobas\\phenotype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -34,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,7 +58,33 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EnrichmentResult.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\EnrichmentResult.vb",
+              "RelativeDocumentMoniker": "FisherCore\\EnrichmentResult.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\EnrichmentResult.vb",
+              "RelativeToolTip": "FisherCore\\EnrichmentResult.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-08T05:18:41.436Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Enrichment.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
+              "RelativeDocumentMoniker": "FisherCore\\Enrichment.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
+              "RelativeToolTip": "FisherCore\\Enrichment.vb",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAIwGwAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-08T05:18:40.326Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Extensions.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\Extensions.vb",
               "RelativeDocumentMoniker": "GSEA\\Extensions.vb",
@@ -63,7 +97,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "phenotype.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\KOBAS\\phenotype.vb",
               "RelativeDocumentMoniker": "GSEA\\KOBAS\\phenotype.vb",
@@ -82,14 +116,14 @@
               "RelativeDocumentMoniker": "GSEA\\KOBAS\\GSEA.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\KOBAS\\GSEA.vb",
               "RelativeToolTip": "GSEA\\KOBAS\\GSEA.vb",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAAwGwAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-08T04:36:24.935Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Gmt.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\KOBAS\\Formats\\Gmt.vb",
               "RelativeDocumentMoniker": "GSEA\\KOBAS\\Formats\\Gmt.vb",
@@ -102,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Gct.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\KOBAS\\Formats\\Gct.vb",
               "RelativeDocumentMoniker": "GSEA\\KOBAS\\Formats\\Gct.vb",
@@ -115,7 +149,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "CLS.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\KOBAS\\Formats\\CLS.vb",
               "RelativeDocumentMoniker": "GSEA\\KOBAS\\Formats\\CLS.vb",
