@@ -54,7 +54,7 @@
               "RelativeDocumentMoniker": "gseakit\\GSEA.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
               "RelativeToolTip": "gseakit\\GSEA.vb",
-              "ViewState": "AgIAAIkAAAAAAAAAAAAzwK4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAK4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-10-31T09:36:04.513Z",
               "EditorCaption": ""
@@ -69,8 +69,7 @@
               "RelativeToolTip": "gseakit\\GSEABackground.vb",
               "ViewState": "AgIAAFUBAAAAAAAAAAAmwGQBAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-31T09:35:46.764Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-31T09:35:46.764Z"
             },
             {
               "$type": "Document",
@@ -82,8 +81,7 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\genbankKit.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAG0AAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-10-20T05:01:12.812Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-20T05:01:12.812Z"
             },
             {
               "$type": "Document",

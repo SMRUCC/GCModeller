@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0CC1B66B-41A7-4BB6-9A9C-24930FEBC3E6}|FisherCore\\Fisher.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0CC1B66B-41A7-4BB6-9A9C-24930FEBC3E6}|FisherCore\\Fisher.NET5.vbproj|solutionrelative:fishercore\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0CC1B66B-41A7-4BB6-9A9C-24930FEBC3E6}|FisherCore\\Fisher.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{0CC1B66B-41A7-4BB6-9A9C-24930FEBC3E6}|FisherCore\\Fisher.NET5.vbproj|solutionrelative:fishercore\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0CC1B66B-41A7-4BB6-9A9C-24930FEBC3E6}|FisherCore\\Fisher.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0CC1B66B-41A7-4BB6-9A9C-24930FEBC3E6}|FisherCore\\Fisher.NET5.vbproj|solutionrelative:fishercore\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0CC1B66B-41A7-4BB6-9A9C-24930FEBC3E6}|FisherCore\\Fisher.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\enrichment.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -58,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,7 +74,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Extensions.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Extensions.vb",
               "RelativeDocumentMoniker": "FisherCore\\Extensions.vb",
@@ -100,13 +100,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "GSEA.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\GSEA.vb",
               "RelativeDocumentMoniker": "FisherCore\\GSEA.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\GSEA.vb",
               "RelativeToolTip": "FisherCore\\GSEA.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAgwEcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-08T05:26:08.185Z",
               "EditorCaption": ""
