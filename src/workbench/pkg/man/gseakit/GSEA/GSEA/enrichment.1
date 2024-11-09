@@ -5,6 +5,7 @@ enrichment \- do GSEA enrichment analysis
 .SH SYNOPSIS
 \fIenrichment(\fBbackground\fR as any, 
 \fBgeneSet\fR as any, 
+\fBexpression\fR as any = \fB<NULL>\fR, 
 \fBcut_size\fR as integer = 3, 
 \fBoutputAll\fR as boolean = TRUE, 
 \fBresize\fR as integer = -1, 
@@ -33,6 +34,14 @@ do GSEA enrichment analysis
 \fBgeneSet\fB \fR\- a given geneset id list. 
 .PP
 .PP
+\fBexpression\fB \fR\- 
+ the expression value of the given gene set. this parameter could be missing. 
+ default use the fisher test enrichment method for the given gene set when 
+ the expression vector is missing. GSEA method will be applied for the enrichment 
+ analysis if this parameter is not missing.
+. 
+.PP
+.PP
 \fBargs\fB \fR\- 
  the additional argument list that may be used, 
  
@@ -40,6 +49,11 @@ do GSEA enrichment analysis
  specific the network topology impact score source, value of the
  \fBtopo\fR parameter could be \fBdgr\fR or \fBrbc\fR.
 . 
+.PP
+.SH DETAILS
+.PP
+the expression value could be the raw expression mean value, different expression 
+ foldchange value for the group comparision, or other related gene set sort scores.
 .PP
 .SH SEE ALSO
 GSEA
