@@ -122,7 +122,14 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         Sub New()
         End Sub
 
-        Sub New(left As IEnumerable(Of ICompoundSpecies), right As IEnumerable(Of ICompoundSpecies), canReverse As Boolean)
+        Sub New(id As String)
+            Me.Id = id
+        End Sub
+
+        Sub New(left As IEnumerable(Of ICompoundSpecies),
+                right As IEnumerable(Of ICompoundSpecies),
+                canReverse As Boolean)
+
             Reactants = left.Select(Function(x) New CompoundSpecieReference(x)).ToArray
             Products = right.Select(Function(x) New CompoundSpecieReference(x)).ToArray
             reversible = canReverse
@@ -166,7 +173,9 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
             Return EquationBuilder.CreateObject(expression)
         End Function
 
-        Protected Overrides Function __equals(a As CompoundSpecieReference, b As CompoundSpecieReference, strict As Boolean) As Object
+        Protected Overrides Function __equals(a As CompoundSpecieReference,
+                                              b As CompoundSpecieReference,
+                                              strict As Boolean) As Object
             Return a.Equals(b, strict)
         End Function
 

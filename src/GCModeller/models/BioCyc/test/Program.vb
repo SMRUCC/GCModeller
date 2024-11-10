@@ -57,7 +57,7 @@ Imports SMRUCC.genomics.Data.BioCyc
 Module Program
     Sub Main(args As String())
 
-        Using file As Stream = "G:\GCModeller\src\GCModeller\models\BioCyc\test\test.vbproj".Open
+        Using file As Stream = "G:\GCModeller\src\GCModeller\models\BioCyc\test\compounds.txt".Open
             Dim data = AttrDataCollection(Of compounds).LoadFile(file)
 
             Pause()

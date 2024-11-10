@@ -64,8 +64,14 @@ Public Class compounds : Inherits Model
 
     <AttributeField("ATOM-CHARGES")>
     Public Property atomCharges As String()
+
+    ''' <summary>
+    ''' cross reference to the external database of current metabolite model
+    ''' </summary>
+    ''' <returns></returns>
     <AttributeField("DBLINKS")>
     Public Property dbLinks As String()
+
     <AttributeField("NON-STANDARD-INCHI")>
     Public Property nonStandardInChI As String()
     <AttributeField("SMILES")>
@@ -84,7 +90,14 @@ Public Class compounds : Inherits Model
     Public Property exactMass As Double
     <AttributeField("COMPONENT-OF")>
     Public Property componentOf As String()
+    <AttributeField("REGULATES")>
+    Public Property regulates As String()
 
+    Public Shared Iterator Function GetDbLinks(meta As compounds) As IEnumerable(Of DBLink)
+
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FormulaString(meta As compounds) As String
         Return meta.chemicalFormula _
             .Select(Function(d)
@@ -104,6 +117,7 @@ Public Class compounds : Inherits Model
         Return AttrDataCollection(Of compounds).LoadFile(file)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function ParseText(data As String) As AttrDataCollection(Of compounds)
         Return AttrDataCollection(Of compounds).LoadFile(New StringReader(data))
     End Function

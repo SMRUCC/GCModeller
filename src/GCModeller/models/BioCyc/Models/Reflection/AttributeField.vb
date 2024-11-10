@@ -55,6 +55,7 @@
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 
 <AttributeUsage(AttributeTargets.Property, AllowMultiple:=False, Inherited:=True)>
 Public Class AttributeField : Inherits Attribute
@@ -65,6 +66,7 @@ Public Class AttributeField : Inherits Attribute
         Me.name = name
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return name
     End Function
