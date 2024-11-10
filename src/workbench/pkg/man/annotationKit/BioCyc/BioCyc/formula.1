@@ -1,9 +1,24 @@
 .\" man page create by R# package system.
 .TH BIOCYC 1 2000-Jan "formula" "formula"
 .SH NAME
-formula \- 
+formula \- get formula string of the given object model
 .SH SYNOPSIS
-\fIformula(\fBmeta\fR as <generic> compounds);\fR
+\fIformula(\fBx\fR as any, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get formula string of the given object model
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ 1. for @\fBT:SMRUCC.genomics.Data.BioCyc.compounds\fR model, get molecular formula string
+ 2. for @\fBT:SMRUCC.genomics.Data.BioCyc.reactions\fR model, get the reaction equation string.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 BioCyc
 .SH FILES

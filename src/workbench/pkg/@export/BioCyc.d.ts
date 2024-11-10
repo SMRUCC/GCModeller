@@ -24,8 +24,16 @@ declare namespace BioCyc {
    */
    function db_links(meta: object): any;
    /**
+    * get formula string of the given object model
+    * 
+    * 
+     * @param x 1. for @``T:SMRUCC.genomics.Data.BioCyc.compounds`` model, get molecular formula string
+     *  2. for @``T:SMRUCC.genomics.Data.BioCyc.reactions`` model, get the reaction equation string.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function formula(meta: object): string;
+   function formula(x: any, env?: object): string;
    /**
     * get compounds list data from a given biocyc workspace context
     * 
