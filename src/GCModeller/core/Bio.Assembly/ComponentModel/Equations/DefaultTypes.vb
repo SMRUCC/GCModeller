@@ -73,6 +73,9 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.EquaionModel.DefaultTypes
 
+    ''' <summary>
+    ''' the compound model reference.
+    ''' </summary>
     Public Class CompoundSpecieReference : Implements ICompoundSpecies
 
         ''' <summary>

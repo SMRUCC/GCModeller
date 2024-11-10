@@ -1,4 +1,5 @@
-﻿Imports System.Xml.Serialization
+﻿Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -100,6 +101,7 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
         }
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Private Shared Function getSideCompounds(refs As Resource(), side As String, objs As Dictionary(Of String, RheaDescription())) As SideCompound()
         Return refs _
             .Select(Function(c)
@@ -142,6 +144,7 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
         Next
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function Load(doc As String) As RheaRDF
         Return doc.SolveStream.LoadFromXml(Of RheaRDF)
     End Function
