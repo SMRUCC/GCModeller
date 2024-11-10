@@ -57,16 +57,15 @@ Imports SMRUCC.genomics.Data.BioCyc
 Module Program
     Sub Main(args As String())
 
-        Using file As Stream = "G:\GCModeller\src\GCModeller\models\BioCyc\test\compounds.txt".Open
-            Dim data = AttrDataCollection(Of compounds).LoadFile(file)
-            Dim xrefs = compounds.GetDbLinks(data.features.First).ToArray
+        Using file As Stream = "F:\ecoli\28.1\data\reactions.dat".Open
+            Dim data = AttrDataCollection(Of reactions).LoadFile(file)
 
             Pause()
         End Using
 
-
-        Using file As Stream = "P:\2022_nar\25.5\data\reactions.dat".Open
-            Dim data = AttrDataCollection(Of reactions).LoadFile(file)
+        Using file As Stream = "G:\GCModeller\src\GCModeller\models\BioCyc\test\compounds.txt".Open
+            Dim data = AttrDataCollection(Of compounds).LoadFile(file)
+            Dim xrefs = compounds.GetDbLinks(data.features.First).ToArray
 
             Pause()
         End Using
