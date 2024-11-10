@@ -37,6 +37,10 @@ declare namespace BioCyc {
      * + default value Is ``null``.
    */
    function getCompounds(repo: any, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function getReactions(repo: any, env?: object): any;
    module open {
       /**
        * open a directory path as the biocyc workspace
