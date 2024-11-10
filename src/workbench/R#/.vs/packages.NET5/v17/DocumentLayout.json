@@ -3,27 +3,19 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DF456A8C-EB9A-48F1-A051-2FEC55796D29}|..\\..\\GCModeller\\data\\Rhea\\Rhea.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\rdf\\rheardf.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\xml\\metabolismstructure.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\rhea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\rhea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\modelextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\componentmodel\\equations\\defaulttypes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\namespacedoc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\reactions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\operationextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\componentmodel\\equations\\equation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\componentmodel\\annotation\\ec\\ecnumber.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\debugger.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -33,84 +25,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DefaultTypes.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwFQAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T07:59:16.328Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RheaRDF.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAowFkAAAA5AAAAAAAAAA==",
+              "Title": "MetabolismStructure.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAswLgAAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T07:51:08.539Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Rhea.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\Rhea.vb",
-              "RelativeDocumentMoniker": "annotationKit\\Rhea.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\Rhea.vb",
-              "RelativeToolTip": "annotationKit\\Rhea.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T07:51:01.055Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Equation.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\Equation.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\Equation.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\Equation.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\Equation.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAN0AAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T07:46:30.089Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ECNumber.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Annotation\\EC\\ECNumber.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Annotation\\EC\\ECNumber.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Annotation\\EC\\ECNumber.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Annotation\\EC\\ECNumber.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwEQAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T07:44:24.217Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "reactions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAIwE0AAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T06:19:03.741Z",
+              "WhenOpened": "2024-11-10T12:41:18.651Z",
               "EditorCaption": ""
             },
             {
@@ -123,15 +50,54 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "BioCyc.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
-              "RelativeDocumentMoniker": "annotationKit\\BioCyc.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
-              "RelativeToolTip": "annotationKit\\BioCyc.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAMMAAAAdAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "NamespaceDoc.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\NamespaceDoc.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\NamespaceDoc.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\NamespaceDoc.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\NamespaceDoc.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T03:48:59.016Z",
+              "WhenOpened": "2024-11-10T12:39:45.207Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "OperationExtensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\OperationExtensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\OperationExtensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\OperationExtensions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\OperationExtensions.vb",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T12:39:30.767Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ModelExtensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE8AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T12:39:17.776Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Debugger.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Debugger.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Debugger.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Debugger.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Debugger.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T12:39:09.854Z",
               "EditorCaption": ""
             }
           ]

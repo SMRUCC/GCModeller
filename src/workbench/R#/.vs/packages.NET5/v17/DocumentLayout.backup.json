@@ -33,8 +33,16 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -45,8 +53,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwFQAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T07:59:16.328Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-10T07:59:16.328Z"
             },
             {
               "$type": "Document",
@@ -71,8 +78,7 @@
               "RelativeToolTip": "annotationKit\\Rhea.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T07:51:01.055Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-10T07:51:01.055Z"
             },
             {
               "$type": "Document",
@@ -84,8 +90,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\Equation.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAN0AAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T07:46:30.089Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-10T07:46:30.089Z"
             },
             {
               "$type": "Document",
@@ -97,8 +102,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Annotation\\EC\\ECNumber.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwEQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T07:44:24.217Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-10T07:44:24.217Z"
             },
             {
               "$type": "Document",
@@ -110,16 +114,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
               "ViewState": "AgIAAEMAAAAAAAAAAAAIwE0AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T06:19:03.741Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+              "WhenOpened": "2024-11-10T06:19:03.741Z"
             },
             {
               "$type": "Document",
@@ -131,8 +126,7 @@
               "RelativeToolTip": "annotationKit\\BioCyc.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAMMAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T03:48:59.016Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-10T03:48:59.016Z"
             }
           ]
         },
