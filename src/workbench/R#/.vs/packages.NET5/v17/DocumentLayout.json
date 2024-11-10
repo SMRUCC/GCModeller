@@ -25,8 +25,16 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -35,18 +43,10 @@
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
-              "ViewState": "AgIAAL8AAAAAAAAAAAAxwH4AAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG4AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-10T12:41:18.651Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
@@ -58,8 +58,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\NamespaceDoc.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T12:39:45.207Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-10T12:39:45.207Z"
             },
             {
               "$type": "Document",
@@ -71,8 +70,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\OperationExtensions.vb",
               "ViewState": "AgIAAGIAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T12:39:30.767Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-10T12:39:30.767Z"
             },
             {
               "$type": "Document",
@@ -84,8 +82,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAE8AAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T12:39:17.776Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-10T12:39:17.776Z"
             },
             {
               "$type": "Document",
@@ -97,8 +94,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Debugger.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T12:39:09.854Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-10T12:39:09.854Z"
             }
           ]
         },
