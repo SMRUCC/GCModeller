@@ -3,6 +3,33 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\models\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F3D4D0BB-3C56-4E9C-AA5A-D2C6C8536154}|BioCyc\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F3D4D0BB-3C56-4E9C-AA5A-D2C6C8536154}|BioCyc\\test\\test.vbproj|solutionrelative:biocyc\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\reader\\attrdatacollection.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|solutionrelative:biocyc\\reader\\attrdatacollection.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\compounds.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|solutionrelative:biocyc\\models\\compounds.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F59603-53A9-49D8-B2ED-C51C1A0E4C39}|..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\dataframework-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data\\dataframe\\io\\csv\\tokenizer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F59603-53A9-49D8-B2ED-C51C1A0E4C39}|..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\dataframework-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data\\dataframe\\io\\csv\\rowtokenizer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F59603-53A9-49D8-B2ED-C51C1A0E4C39}|..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\dataframework-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data\\dataframe\\io\\csv\\rowobject.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F59603-53A9-49D8-B2ED-C51C1A0E4C39}|..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\dataframework-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data\\dataframe\\io\\csv\\rowiterator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F59603-53A9-49D8-B2ED-C51C1A0E4C39}|..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\dataframework-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data\\dataframe\\io\\csv\\rowhelpers.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\workspace.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|solutionrelative:biocyc\\workspace.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -17,10 +44,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\reader\\attrvaldatfile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|solutionrelative:biocyc\\reader\\attrvaldatfile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\reader\\attrdatacollection.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|solutionrelative:biocyc\\reader\\attrdatacollection.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\reactions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -62,14 +85,6 @@
       "RelativeMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|solutionrelative:biocyc\\models\\reflection\\attributefield.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\compounds.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|solutionrelative:biocyc\\models\\compounds.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F3D4D0BB-3C56-4E9C-AA5A-D2C6C8536154}|BioCyc\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F3D4D0BB-3C56-4E9C-AA5A-D2C6C8536154}|BioCyc\\test\\test.vbproj|solutionrelative:biocyc\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F3D4D0BB-3C56-4E9C-AA5A-D2C6C8536154}|BioCyc\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\test\\compounds.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{F3D4D0BB-3C56-4E9C-AA5A-D2C6C8536154}|BioCyc\\test\\test.vbproj|solutionrelative:biocyc\\test\\compounds.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
@@ -85,11 +100,115 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Tokenizer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\Tokenizer.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\Tokenizer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\Tokenizer.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\Tokenizer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T04:54:04.725Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RowTokenizer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowTokenizer.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowTokenizer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowTokenizer.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowTokenizer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T04:53:46.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "RowObject.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowObject.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowObject.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowObject.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowObject.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T04:53:40.872Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RowIterator.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowIterator.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowIterator.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowIterator.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowIterator.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T04:53:39.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "compounds.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\compounds.vb",
+              "RelativeDocumentMoniker": "BioCyc\\Models\\compounds.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\compounds.vb",
+              "RelativeToolTip": "BioCyc\\Models\\compounds.vb",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAYwFEAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T04:40:58.189Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\test\\Program.vb",
+              "RelativeDocumentMoniker": "BioCyc\\test\\Program.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\test\\Program.vb",
+              "RelativeToolTip": "BioCyc\\test\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T04:36:01.693Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AttrDataCollection.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Reader\\AttrDataCollection.vb",
+              "RelativeDocumentMoniker": "BioCyc\\Reader\\AttrDataCollection.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Reader\\AttrDataCollection.vb",
+              "RelativeToolTip": "BioCyc\\Reader\\AttrDataCollection.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwDwAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T04:49:36.391Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RowHelpers.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowHelpers.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowHelpers.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowHelpers.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\IO\\csv\\RowHelpers.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T04:53:31.095Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "Workspace.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Workspace.vb",
               "RelativeDocumentMoniker": "BioCyc\\Workspace.vb",
@@ -102,7 +221,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 9,
               "Title": "FileMeta.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Reader\\FileMeta.vb",
               "RelativeDocumentMoniker": "BioCyc\\Reader\\FileMeta.vb",
@@ -115,7 +234,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 10,
               "Title": "FeatureElement.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Reader\\FeatureElement.vb",
               "RelativeDocumentMoniker": "BioCyc\\Reader\\FeatureElement.vb",
@@ -128,7 +247,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 11,
               "Title": "AttrValDatFile.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Reader\\AttrValDatFile.vb",
               "RelativeDocumentMoniker": "BioCyc\\Reader\\AttrValDatFile.vb",
@@ -141,33 +260,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AttrDataCollection.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Reader\\AttrDataCollection.vb",
-              "RelativeDocumentMoniker": "BioCyc\\Reader\\AttrDataCollection.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Reader\\AttrDataCollection.vb",
-              "RelativeToolTip": "BioCyc\\Reader\\AttrDataCollection.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T04:49:36.391Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "DefaultTypes.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
-              "RelativeDocumentMoniker": "..\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
-              "RelativeToolTip": "..\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAiwHkAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T04:48:02.687Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 12,
               "Title": "reactions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
               "RelativeDocumentMoniker": "BioCyc\\Models\\reactions.vb",
@@ -180,7 +273,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 13,
+              "Title": "DefaultTypes.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
+              "RelativeDocumentMoniker": "..\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
+              "RelativeToolTip": "..\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAiwHkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T04:48:02.687Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "ReactionDirections.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\ReactionDirections.vb",
               "RelativeDocumentMoniker": "BioCyc\\Models\\ReactionDirections.vb",
@@ -193,7 +299,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "pathways.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\pathways.vb",
               "RelativeDocumentMoniker": "BioCyc\\Models\\pathways.vb",
@@ -206,7 +312,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 16,
               "Title": "Model.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\Model.vb",
               "RelativeDocumentMoniker": "BioCyc\\Models\\Model.vb",
@@ -219,7 +325,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 17,
               "Title": "enzrxns.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\enzrxns.vb",
               "RelativeDocumentMoniker": "BioCyc\\Models\\enzrxns.vb",
@@ -232,7 +338,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 21,
               "Title": "AttributeField.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\Reflection\\AttributeField.vb",
               "RelativeDocumentMoniker": "BioCyc\\Models\\Reflection\\AttributeField.vb",
@@ -245,7 +351,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 20,
               "Title": "ElementFactory.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\Reflection\\ElementFactory.vb",
               "RelativeDocumentMoniker": "BioCyc\\Models\\Reflection\\ElementFactory.vb",
@@ -258,7 +364,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 19,
               "Title": "Factory.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\Reflection\\Factory.vb",
               "RelativeDocumentMoniker": "BioCyc\\Models\\Reflection\\Factory.vb",
@@ -271,7 +377,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 18,
               "Title": "ObjectWriter.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\Reflection\\ObjectWriter.vb",
               "RelativeDocumentMoniker": "BioCyc\\Models\\Reflection\\ObjectWriter.vb",
@@ -280,19 +386,6 @@
               "ViewState": "AgIAAF0AAAAAAAAAAAAowIgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-10T04:45:54.255Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "compounds.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\compounds.vb",
-              "RelativeDocumentMoniker": "BioCyc\\Models\\compounds.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\compounds.vb",
-              "RelativeToolTip": "BioCyc\\Models\\compounds.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T04:40:58.189Z",
               "EditorCaption": ""
             },
             {
@@ -305,7 +398,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 23,
               "Title": "test",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\test\\test.vbproj",
               "RelativeDocumentMoniker": "BioCyc\\test\\test.vbproj",
@@ -318,20 +411,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Program.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\test\\Program.vb",
-              "RelativeDocumentMoniker": "BioCyc\\test\\Program.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\test\\Program.vb",
-              "RelativeToolTip": "BioCyc\\test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-10T04:36:01.693Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 22,
               "Title": "compounds.txt",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\test\\compounds.txt",
               "RelativeDocumentMoniker": "BioCyc\\test\\compounds.txt",

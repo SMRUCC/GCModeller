@@ -59,6 +59,7 @@ Module Program
 
         Using file As Stream = "G:\GCModeller\src\GCModeller\models\BioCyc\test\compounds.txt".Open
             Dim data = AttrDataCollection(Of compounds).LoadFile(file)
+            Dim xrefs = compounds.GetDbLinks(data.features.First).ToArray
 
             Pause()
         End Using

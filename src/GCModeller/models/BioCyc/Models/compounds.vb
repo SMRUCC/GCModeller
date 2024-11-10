@@ -1,62 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::3fc3b7aebfceebd1c21002b23b4c564b, models\BioCyc\Models\compounds.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 53
-    '    Code Lines: 47 (88.68%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 6 (11.32%)
-    '     File Size: 2.09 KB
+' Summaries:
 
 
-    ' Class compounds
-    ' 
-    '     Properties: atomCharges, chemicalFormula, componentOf, dbLinks, exactMass
-    '                 Gibbs0, InChI, InChIKey, molecularWeight, nonStandardInChI
-    '                 SMILES
-    ' 
-    '     Function: FormulaString, (+2 Overloads) OpenFile, ParseText
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 53
+'    Code Lines: 47 (88.68%)
+' Comment Lines: 0 (0.00%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 6 (11.32%)
+'     File Size: 2.09 KB
+
+
+' Class compounds
+' 
+'     Properties: atomCharges, chemicalFormula, componentOf, dbLinks, exactMass
+'                 Gibbs0, InChI, InChIKey, molecularWeight, nonStandardInChI
+'                 SMILES
+' 
+'     Function: FormulaString, (+2 Overloads) OpenFile, ParseText
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 <Xref("compounds.dat")>
@@ -94,7 +96,16 @@ Public Class compounds : Inherits Model
     Public Property regulates As String()
 
     Public Shared Iterator Function GetDbLinks(meta As compounds) As IEnumerable(Of DBLink)
+        For Each id As String In meta.dbLinks.SafeQuery
+            Dim tokens = Tokenizer _
+                .CharsParser(id.GetStackValue("(", ")"), delimiter:=" "c) _
+                .ToArray
 
+            Yield New DBLink With {
+                .DBName = tokens(0),
+                .entry = tokens(1)
+            }
+        Next
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
