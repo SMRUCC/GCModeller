@@ -3,11 +3,14 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\componentmodel\\annotation\\ec\\ecnumber.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\reactions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -17,8 +20,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ECNumber.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Annotation\\EC\\ECNumber.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Annotation\\EC\\ECNumber.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Annotation\\EC\\ECNumber.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Annotation\\EC\\ECNumber.vb",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAIwFYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T07:44:24.217Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -27,7 +43,7 @@
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAqwJwAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAAAEUAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-10T06:19:03.741Z",
               "EditorCaption": ""
@@ -42,13 +58,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "BioCyc.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
               "RelativeDocumentMoniker": "annotationKit\\BioCyc.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
               "RelativeToolTip": "annotationKit\\BioCyc.vb",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAuwJgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAuwJ8AAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-10T03:48:59.016Z",
               "EditorCaption": ""

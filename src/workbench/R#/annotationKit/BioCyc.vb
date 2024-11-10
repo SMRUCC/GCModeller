@@ -172,12 +172,36 @@ Public Module BioCycRepository
         End If
     End Function
 
+    ''' <summary>
+    ''' get formula string of the given object model
+    ''' </summary>
+    ''' <param name="x">
+    ''' 1. for <see cref="compounds"/> model, get molecular formula string
+    ''' 2. for <see cref="reactions"/> model, get the reaction equation string.
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("formula")>
-    Public Function formulaString(meta As compounds) As String
-        If meta.chemicalFormula.IsNullOrEmpty Then
-            Return ""
+    <RApiReturn(TypeCodes.string)>
+    Public Function formulaString(x As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf x Is compounds Then
+            Dim meta As compounds = DirectCast(x, compounds)
+
+            If meta.chemicalFormula.IsNullOrEmpty Then
+                Return ""
+            Else
+                Return compounds.FormulaString(meta)
+            End If
+        ElseIf TypeOf x Is reactions Then
+            Dim rxn As reactions = DirectCast(x, reactions)
+
+            If rxn.equation Is Nothing Then
+                Return ""
+            Else
+                Return rxn.equation.ToString
+            End If
         Else
-            Return compounds.FormulaString(meta)
+            Return Message.InCompatibleType(GetType(compounds), x.GetType, env)
         End If
     End Function
 
