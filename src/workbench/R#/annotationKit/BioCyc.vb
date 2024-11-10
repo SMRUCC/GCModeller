@@ -66,6 +66,9 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' The BioCyc database collection is an assortment of organism specific Pathway/Genome Databases (PGDBs) that provide reference to genome and metabolic pathway information for thousands of organisms.[1] As of July 2023, there were over 20,040 databases within BioCyc.[2] SRI International,[3] based in Menlo Park, California, maintains the BioCyc database family.
+''' </summary>
 <Package("BioCyc")>
 Public Module BioCycRepository
 
@@ -147,6 +150,25 @@ Public Module BioCycRepository
         Else
             Return compounds.FormulaString(meta)
         End If
+    End Function
+
+    ''' <summary>
+    ''' get external database cross reference id of current metabolite compound object
+    ''' </summary>
+    ''' <param name="meta"></param>
+    ''' <returns></returns>
+    <ExportAPI("db_links")>
+    <RApiReturn(TypeCodes.list)>
+    Public Function GetDbLinks(meta As compounds) As Object
+        Dim dblinks = compounds.GetDbLinks(meta).ToArray
+        Dim dbgroups = dblinks _
+            .GroupBy(Function(a) a.DBName.ToLower) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return CObj(a.Select(Function(ai) ai.entry).ToArray)
+                          End Function)
+
+        Return New list(dbgroups)
     End Function
 
     ''' <summary>
