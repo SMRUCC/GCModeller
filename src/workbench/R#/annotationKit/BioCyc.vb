@@ -143,6 +143,35 @@ Public Module BioCycRepository
         End If
     End Function
 
+    <ExportAPI("getReactions")>
+    Public Function getReactions(repo As Object, Optional env As Environment = Nothing) As Object
+        Dim file As AttrDataCollection(Of reactions) = Nothing
+
+        If repo Is Nothing Then
+            Return Nothing
+        End If
+
+        If TypeOf repo Is Workspace Then
+            file = DirectCast(repo, Workspace).reactions
+        ElseIf repo.GetType.IsInheritsFrom(GetType(Stream)) Then
+            file = reactions.OpenFile(DirectCast(repo, Stream))
+        ElseIf TypeOf repo Is String Then
+            If DirectCast(repo, String).FileExists Then
+                file = reactions.OpenFile(DirectCast(repo, String))
+            Else
+                file = reactions.ParseText(repo)
+            End If
+        Else
+            Return Message.InCompatibleType(GetType(Workspace), repo.GetType, env)
+        End If
+
+        If Not file Is Nothing Then
+            Return file.features.ToArray
+        Else
+            Return Nothing
+        End If
+    End Function
+
     <ExportAPI("formula")>
     Public Function formulaString(meta As compounds) As String
         If meta.chemicalFormula.IsNullOrEmpty Then

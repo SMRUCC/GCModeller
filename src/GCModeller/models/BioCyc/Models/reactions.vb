@@ -56,6 +56,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
@@ -138,4 +139,20 @@ Public Class reactions : Inherits Model
         Return equation.ToString
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function OpenFile(file As Stream) As AttrDataCollection(Of reactions)
+        Return AttrDataCollection(Of reactions).LoadFile(file)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function OpenFile(file As String) As AttrDataCollection(Of reactions)
+        Using s As Stream = file.OpenReadonly
+            Return OpenFile(s)
+        End Using
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function ParseText(data As String) As AttrDataCollection(Of reactions)
+        Return AttrDataCollection(Of reactions).LoadFile(New StringReader(data))
+    End Function
 End Class

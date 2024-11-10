@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\reactions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
@@ -14,8 +17,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "reactions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Models\\reactions.vb",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAqwJwAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-10T06:19:03.741Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -26,13 +42,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "BioCyc.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
               "RelativeDocumentMoniker": "annotationKit\\BioCyc.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
               "RelativeToolTip": "annotationKit\\BioCyc.vb",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAowJ8AAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAuwIQAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-10T03:48:59.016Z",
               "EditorCaption": ""
