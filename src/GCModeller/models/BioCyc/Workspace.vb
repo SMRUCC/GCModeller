@@ -56,13 +56,14 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
 ''' A work directory object for read the biocyc database
 ''' </summary>
-Public Class Workspace
+Public Class Workspace : Implements IWorkspace
 
     ReadOnly dir As String
 
@@ -109,6 +110,12 @@ Public Class Workspace
         End Get
     End Property
 
+    Private ReadOnly Property IWorkspace_Workspace As String Implements IWorkspace.Workspace
+        Get
+            Return dir
+        End Get
+    End Property
+
     Sub New(dir As String)
         Me.dir = dir.GetDirectoryFullPath
 
@@ -131,7 +138,7 @@ Public Class Workspace
         Dim fileName As String = getFileName(Of T)()
         Dim fullName As String = $"{dir}/{fileName}".GetFullPath
 
-        Call Console.WriteLine($"[biocyc_open] {fullName}")
+        Call VBDebugger.EchoLine($"[biocyc_open] {fullName}")
 
         Using file As Stream = fullName.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             Return AttrDataCollection(Of T).LoadFile(file)
@@ -144,7 +151,7 @@ Public Class Workspace
         Dim fileName As XrefAttribute = ref.FirstOrDefault
 
         If fileName Is Nothing Then
-            Throw New MissingFieldException
+            Throw New MissingFieldException("no file name attribute tag for the given biocyc element model!")
         Else
             Return fileName.Name
         End If
