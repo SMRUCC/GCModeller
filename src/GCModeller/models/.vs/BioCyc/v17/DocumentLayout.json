@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\models\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F3D4D0BB-3C56-4E9C-AA5A-D2C6C8536154}|BioCyc\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F3D4D0BB-3C56-4E9C-AA5A-D2C6C8536154}|BioCyc\\test\\test.vbproj|solutionrelative:biocyc\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\genes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|solutionrelative:biocyc\\models\\genes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\proteins.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|solutionrelative:biocyc\\models\\proteins.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F3D4D0BB-3C56-4E9C-AA5A-D2C6C8536154}|BioCyc\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F3D4D0BB-3C56-4E9C-AA5A-D2C6C8536154}|BioCyc\\test\\test.vbproj|solutionrelative:biocyc\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2602BD19-7566-4583-BF3C-1F1B1B9E07BD}|BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\compounds.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -74,7 +74,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -99,7 +99,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "proteins.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\proteins.vb",
               "RelativeDocumentMoniker": "BioCyc\\Models\\proteins.vb",
@@ -112,7 +112,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "genes.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\genes.vb",
               "RelativeDocumentMoniker": "BioCyc\\Models\\genes.vb",
@@ -177,13 +177,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\test\\Program.vb",
               "RelativeDocumentMoniker": "BioCyc\\test\\Program.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\test\\Program.vb",
               "RelativeToolTip": "BioCyc\\test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE4AAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-10T04:36:01.693Z",
               "EditorCaption": ""

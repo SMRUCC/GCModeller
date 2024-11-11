@@ -69,6 +69,8 @@ Public Class Workspace
     Dim m_pathways As Lazy(Of AttrDataCollection(Of pathways))
     Dim m_enzrxns As Lazy(Of AttrDataCollection(Of enzrxns))
     Dim m_compounds As Lazy(Of AttrDataCollection(Of compounds))
+    Dim m_genes As Lazy(Of AttrDataCollection(Of genes))
+    Dim m_proteins As Lazy(Of AttrDataCollection(Of proteins))
 
     Public ReadOnly Property compounds As AttrDataCollection(Of compounds)
         Get
@@ -94,6 +96,18 @@ Public Class Workspace
         End Get
     End Property
 
+    Public ReadOnly Property genes As AttrDataCollection(Of genes)
+        Get
+            Return m_genes.Value
+        End Get
+    End Property
+
+    Public ReadOnly Property proteins As AttrDataCollection(Of proteins)
+        Get
+            Return m_proteins.Value
+        End Get
+    End Property
+
     Sub New(dir As String)
         Me.dir = dir.GetDirectoryFullPath
 
@@ -108,6 +122,8 @@ Public Class Workspace
         m_reactions = New Lazy(Of AttrDataCollection(Of reactions))(Function() openFile(Of reactions)())
         m_pathways = New Lazy(Of AttrDataCollection(Of pathways))(Function() openFile(Of pathways)())
         m_compounds = New Lazy(Of AttrDataCollection(Of compounds))(Function() openFile(Of compounds)())
+        m_genes = New Lazy(Of AttrDataCollection(Of genes))(Function() openFile(Of genes)())
+        m_proteins = New Lazy(Of AttrDataCollection(Of proteins))(Function() openFile(Of proteins)())
     End Sub
 
     Private Function openFile(Of T As Model)() As AttrDataCollection(Of T)
