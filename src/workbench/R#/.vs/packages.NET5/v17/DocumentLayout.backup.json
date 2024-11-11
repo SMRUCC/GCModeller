@@ -3,17 +3,17 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\proteins.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\workspace.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\genes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\workspace.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\proteins.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\models\\compounds.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -26,47 +26,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "proteins.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\proteins.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\Models\\proteins.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\proteins.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Models\\proteins.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-11T10:55:26.741Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Workspace.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Workspace.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\Workspace.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Workspace.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Workspace.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-11T10:52:43.437Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "genes.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\genes.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\Models\\genes.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\genes.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Models\\genes.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-11T10:51:03.652Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -74,6 +35,44 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "proteins.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\proteins.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\Models\\proteins.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\proteins.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Models\\proteins.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-11T10:55:26.741Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Workspace.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Workspace.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\Workspace.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Workspace.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Workspace.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJYAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-11T10:52:43.437Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "genes.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\genes.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\Models\\genes.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Models\\genes.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Models\\genes.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-11T10:51:03.652Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -85,18 +84,17 @@
               "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Models\\compounds.vb",
               "ViewState": "AgIAAE8AAAAAAAAAAAA4wHwAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-11T10:50:52.265Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-11T10:50:52.265Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "BioCyc.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
               "RelativeDocumentMoniker": "annotationKit\\BioCyc.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
               "RelativeToolTip": "annotationKit\\BioCyc.vb",
-              "ViewState": "AgIAANwAAAAAAAAAAAAiwA8BAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAAwLUAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-11T10:49:13.767Z",
               "EditorCaption": ""

@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 <Xref("genes.dat")>
 Public Class genes : Inherits Model
@@ -20,6 +21,8 @@ Public Class genes : Inherits Model
             Return GetDbLinks(db_xrefs).ToArray
         End Get
     End Property
+
+    Public Property dnaseq As String
 
     Public Shared Function OpenFile(fullName As String) As AttrDataCollection(Of genes)
         Using file As Stream = fullName.Open(FileMode.Open, doClear:=False, [readOnly]:=True)

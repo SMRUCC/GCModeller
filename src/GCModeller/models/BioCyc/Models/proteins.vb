@@ -18,6 +18,8 @@ Public Class proteins : Inherits Model
         End Get
     End Property
 
+    Public Property protseq As String
+
     Public Shared Function OpenFile(fullName As String) As AttrDataCollection(Of proteins)
         Using file As Stream = fullName.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             Return AttrDataCollection(Of proteins).LoadFile(file)

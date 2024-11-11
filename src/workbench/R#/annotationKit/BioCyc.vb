@@ -62,6 +62,7 @@ Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
@@ -179,11 +180,18 @@ Public Module BioCycRepository
 
     <ExportAPI("getGenes")>
     <RApiReturn(GetType(genes))>
-    Public Function getGenes(repo As Object, Optional env As Environment = Nothing) As Object
+    Public Function getGenes(repo As Object,
+                             Optional dnaseq As String = Nothing,
+                             Optional env As Environment = Nothing) As Object
+
         Dim file As AttrDataCollection(Of genes) = Nothing
+        Dim seqfile As FastaFile = Nothing
 
         If repo Is Nothing Then
             Return Nothing
+        End If
+        If dnaseq.FileExists Then
+            seqfile = FastaFile.LoadNucleotideData(dnaseq)
         End If
 
         If TypeOf repo Is Workspace Then
@@ -201,7 +209,25 @@ Public Module BioCycRepository
         End If
 
         If Not file Is Nothing Then
-            Return file.features.ToArray
+            Dim seqs As Dictionary(Of String, FastaSeq) = Nothing
+
+            If Not seqfile Is Nothing Then
+                seqs = Workspace.CreateSequenceIndex(seqfile)
+            End If
+
+            If seqs.IsNullOrEmpty Then
+                Return file.features.ToArray
+            Else
+                Return file.features _
+                    .Select(Function(gene)
+                                If seqs.ContainsKey(gene.uniqueId) Then
+                                    gene.dnaseq = seqs(gene.uniqueId).SequenceData
+                                End If
+
+                                Return gene
+                            End Function) _
+                    .ToArray
+            End If
         Else
             Return Nothing
         End If
@@ -209,11 +235,18 @@ Public Module BioCycRepository
 
     <ExportAPI("getProteins")>
     <RApiReturn(GetType(proteins))>
-    Public Function getProteins(repo As Object, Optional env As Environment = Nothing) As Object
+    Public Function getProteins(repo As Object,
+                                Optional protseq As String = Nothing,
+                                Optional env As Environment = Nothing) As Object
+
         Dim file As AttrDataCollection(Of proteins) = Nothing
+        Dim seqfile As FastaFile = Nothing
 
         If repo Is Nothing Then
             Return Nothing
+        End If
+        If protseq.FileExists Then
+            seqfile = FastaFile.LoadNucleotideData(protseq)
         End If
 
         If TypeOf repo Is Workspace Then
@@ -231,7 +264,25 @@ Public Module BioCycRepository
         End If
 
         If Not file Is Nothing Then
-            Return file.features.ToArray
+            Dim seqs As Dictionary(Of String, FastaSeq) = Nothing
+
+            If Not seqfile Is Nothing Then
+                seqs = Workspace.CreateSequenceIndex(seqfile)
+            End If
+
+            If seqs.IsNullOrEmpty Then
+                Return file.features.ToArray
+            Else
+                Return file.features _
+                    .Select(Function(prot)
+                                If seqs.ContainsKey(prot.uniqueId) Then
+                                    prot.protseq = seqs(prot.uniqueId).SequenceData
+                                End If
+
+                                Return prot
+                            End Function) _
+                    .ToArray
+            End If
         Else
             Return Nothing
         End If
