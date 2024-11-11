@@ -163,7 +163,7 @@ Public Class Workspace : Implements IWorkspace
     End Function
 
     Public Shared Function CreateSequenceIndex(seq As FastaFile) As Dictionary(Of String, FastaSeq)
-        Return seq.ToDictionary(Function(a) a.Headers.First.Split("|"c).Last)
+        Return seq.ToDictionary(Function(a) a.Headers(2).Split("|"c).Last)
     End Function
 
 End Class
