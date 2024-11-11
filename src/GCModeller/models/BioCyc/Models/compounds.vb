@@ -95,19 +95,6 @@ Public Class compounds : Inherits Model
     <AttributeField("REGULATES")>
     Public Property regulates As String()
 
-    Public Shared Iterator Function GetDbLinks(meta As compounds) As IEnumerable(Of DBLink)
-        For Each id As String In meta.dbLinks.SafeQuery
-            Dim tokens = Tokenizer _
-                .CharsParser(id.GetStackValue("(", ")"), delimiter:=" "c) _
-                .ToArray
-
-            Yield New DBLink With {
-                .DBName = tokens(0),
-                .entry = tokens(1)
-            }
-        Next
-    End Function
-
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FormulaString(meta As compounds) As String
         Return meta.chemicalFormula _
