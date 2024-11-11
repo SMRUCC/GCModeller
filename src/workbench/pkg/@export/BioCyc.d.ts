@@ -51,13 +51,15 @@ declare namespace BioCyc {
    */
    function getCompounds(repo: any, env?: object): object;
    /**
+     * @param dnaseq default value Is ``null``.
      * @param env default value Is ``null``.
    */
-   function getGenes(repo: any, env?: object): object;
+   function getGenes(repo: any, dnaseq?: string, env?: object): object;
    /**
+     * @param protseq default value Is ``null``.
      * @param env default value Is ``null``.
    */
-   function getProteins(repo: any, env?: object): object;
+   function getProteins(repo: any, protseq?: string, env?: object): object;
    /**
      * @param env default value Is ``null``.
    */
