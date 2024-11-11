@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\workspace.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5726D3BB-3716-400A-8B63-6E15F2F1BF09}|..\\..\\GCModeller\\models\\BioCyc\\BioCyc.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\biocyc\\workspace.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -17,7 +17,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -29,7 +29,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Workspace.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Workspace.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\Workspace.vb",
@@ -42,7 +42,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "BioCyc.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
               "RelativeDocumentMoniker": "annotationKit\\BioCyc.vb",
