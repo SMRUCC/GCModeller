@@ -10,4 +10,11 @@ Public Class proteins : Inherits Model
     <AttributeField("LOCATIONS")>
     Public Property locations As String()
 
+    Public ReadOnly Property db_links As DBLink()
+        Get
+            Return GetDbLinks(db_xrefs)
+        End Get
+    End Property
+
+
 End Class

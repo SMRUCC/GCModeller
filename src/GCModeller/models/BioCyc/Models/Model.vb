@@ -98,8 +98,8 @@ Public MustInherit Class Model : Implements IReadOnlyId
         Return If(commonName, uniqueId)
     End Function
 
-    Public Shared Iterator Function GetDbLinks(meta As compounds) As IEnumerable(Of DBLink)
-        For Each id As String In meta.dbLinks.SafeQuery
+    Public Shared Iterator Function GetDbLinks(db_xrefs As IEnumerable(Of String)) As IEnumerable(Of DBLink)
+        For Each id As String In db_xrefs.SafeQuery
             Dim tokens = Tokenizer _
                 .CharsParser(id.GetStackValue("(", ")"), delimiter:=" "c) _
                 .ToArray

@@ -104,6 +104,10 @@ Public Class compounds : Inherits Model
             .JoinBy("")
     End Function
 
+    Public Overloads Shared Function GetDbLinks(meta As compounds) As IEnumerable(Of DBLink)
+        Return GetDbLinks(meta.dbLinks)
+    End Function
+
     Public Shared Function OpenFile(fullName As String) As AttrDataCollection(Of compounds)
         Using file As Stream = fullName.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
             Return AttrDataCollection(Of compounds).LoadFile(file)

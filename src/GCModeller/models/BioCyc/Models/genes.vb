@@ -13,4 +13,10 @@ Public Class genes : Inherits Model
     <AttributeField("PRODUCT")>
     Public Property product As String
 
+    Public ReadOnly Property db_links As DBLink()
+        Get
+            Return GetDbLinks(db_xrefs)
+        End Get
+    End Property
+
 End Class
