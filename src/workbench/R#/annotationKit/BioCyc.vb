@@ -246,7 +246,7 @@ Public Module BioCycRepository
             Return Nothing
         End If
         If protseq.FileExists Then
-            seqfile = FastaFile.LoadNucleotideData(protseq)
+            seqfile = FastaFile.Read(protseq, strict:=False)
         End If
 
         If TypeOf repo Is Workspace Then
