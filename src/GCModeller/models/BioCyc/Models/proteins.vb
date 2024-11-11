@@ -12,7 +12,7 @@ Public Class proteins : Inherits Model
 
     Public ReadOnly Property db_links As DBLink()
         Get
-            Return GetDbLinks(db_xrefs)
+            Return GetDbLinks(db_xrefs).ToArray
         End Get
     End Property
 
