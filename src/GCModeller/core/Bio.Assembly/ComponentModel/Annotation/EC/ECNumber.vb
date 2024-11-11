@@ -91,6 +91,12 @@ Namespace ComponentModel.Annotation
         ''' <remarks></remarks>
         <XmlAttribute> Public Property serialNumber As Integer
 
+        Public ReadOnly Property ECNumberString As String
+            Get
+                Return {CInt(type), subType, subCategory, serialNumber}.JoinBy(".")
+            End Get
+        End Property
+
         Public Function Contains(ec As String) As Boolean
             Static parserCache As New Dictionary(Of String, ECNumber)
 

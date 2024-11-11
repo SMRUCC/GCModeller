@@ -219,7 +219,7 @@ Namespace ComponentModel.EquaionModel
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return EquationBuilder.ToString(Of T)(Equation:=Me)
+            Return EquationBuilder.ToString(Equation:=Me)
         End Function
     End Class
 End Namespace

@@ -2,10 +2,10 @@
 <html>
 
 <head>
-    <title>formula</title>
+    <title>get formula string of the given object model</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
 </head>
 
 <body>
@@ -18,22 +18,30 @@
             </tr>
         </table>
 
-        <h2>formula</h2>
+        <h2>get formula string of the given object model</h2>
 
         <h3>Description</h3>
 
-        formula
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>formula</strong>(<i>meta</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>formula</strong>(<i>x</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>x</dt>
+<dd><p>1. for <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/compounds.html">compounds</a> model, get molecular formula string
+ 2. for <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/reactions.html">reactions</a> model, get the reaction equation string.</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -60,8 +68,8 @@
     </div>
 </body>
 
-<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
-<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
 </html>

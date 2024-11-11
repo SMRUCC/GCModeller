@@ -54,6 +54,7 @@
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel.Annotation
 
+<HideModuleName>
 Public Module Extensions
 
     <Extension>

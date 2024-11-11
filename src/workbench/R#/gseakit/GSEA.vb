@@ -154,6 +154,12 @@ Module GSEA
     ''' </summary>
     ''' <param name="background">a <see cref="Background"/> model or <see cref="metpa"/> background model.</param>
     ''' <param name="geneSet">a given geneset id list</param>
+    ''' <param name="expression">
+    ''' the expression value of the given gene set. this parameter could be missing. 
+    ''' default use the fisher test enrichment method for the given gene set when 
+    ''' the expression vector is missing. GSEA method will be applied for the enrichment 
+    ''' analysis if this parameter is not missing.
+    ''' </param>
     ''' <param name="args">
     ''' the additional argument list that may be used, 
     ''' 
@@ -162,9 +168,16 @@ Module GSEA
     ''' ``topo`` parameter could be ``dgr`` or ``rbc``.
     ''' </param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' the expression value could be the raw expression mean value, different expression 
+    ''' foldchange value for the group comparision, or other related gene set sort scores.
+    ''' </remarks>
     <ExportAPI("enrichment")>
     <RApiReturn(GetType(EnrichmentResult))>
-    Public Function Enrichment(background As Object, <RRawVectorArgument> geneSet As Object,
+    Public Function Enrichment(background As Object,
+                               <RRawVectorArgument> geneSet As Object,
+                               <RRawVectorArgument>
+                               Optional expression As Object = Nothing,
                                Optional cut_size As Integer = 3,
                                Optional outputAll As Boolean = True,
                                Optional resize As Integer = -1,
@@ -175,19 +188,39 @@ Module GSEA
 
         Dim enrich As IEnumerable(Of EnrichmentResult)
         Dim inputIdset As String() = CLRVector.asCharacter(geneSet)
+        Dim expr As Double() = CLRVector.asNumeric(expression)
 
         If background Is Nothing Then
             Return RInternal.debug.stop("the required gsea background model could not be nothing!", env)
         End If
 
+        Dim geneExpression As NamedValue(Of Double)() = Nothing
+        Dim permutations As Integer = args.getValue("permutations", env, [default]:=1000)
+
+        If Not expr.IsNullOrEmpty Then
+            If expr.Length <> inputIdset.Length Then
+                Return RInternal.debug.stop($"the given gene id set vector length({inputIdset.Length}) should be equals to the expression vector size({expr.Length})!", env)
+            End If
+
+            geneExpression = inputIdset _
+                .Select(Function(id, i)
+                            Return New NamedValue(Of Double)(id, expr(i))
+                        End Function) _
+                .ToArray
+        End If
+
         If TypeOf background Is Background Then
-            enrich = DirectCast(background, Background).Enrichment(
-                list:=inputIdset,
-                outputAll:=outputAll,
-                showProgress:=showProgress,
-                resize:=resize,
-                cutSize:=cut_size
-            )
+            If Not expr.IsNullOrEmpty Then
+                enrich = GSEACalculate.Enrichment(DirectCast(background, Background), geneExpression, permutations)
+            Else
+                enrich = DirectCast(background, Background).Enrichment(
+                    list:=inputIdset,
+                    outputAll:=outputAll,
+                    showProgress:=showProgress,
+                    resize:=resize,
+                    cutSize:=cut_size
+                )
+            End If
         ElseIf TypeOf background Is metpa Then
             Dim topo As Topologys = [Enum].Parse(
                 enumType:=GetType(Topologys),

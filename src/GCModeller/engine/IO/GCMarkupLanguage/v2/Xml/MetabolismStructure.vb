@@ -191,7 +191,9 @@ Namespace v2
     <XmlType("compound", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Compound : Implements INamedValue
 
-        <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
+        <XmlAttribute>
+        Public Property ID As String Implements IKeyedEntity(Of String).Key
+
         <XmlText> Public Property name As String
 
         ''' <summary>
@@ -225,8 +227,24 @@ Namespace v2
         <XmlText>
         Public Property Equation As String
 
+        Public Property substrate As CompoundFactor()
+        Public Property product As CompoundFactor()
+
         Public Overrides Function ToString() As String
             Return $"({ID}: {name}) {Equation}"
+        End Function
+
+    End Class
+
+    Public Class CompoundFactor
+
+        <XmlAttribute>
+        Public Property factor As Double
+        <XmlText>
+        Public Property compound As String
+
+        Public Overrides Function ToString() As String
+            Return compound
         End Function
 
     End Class
