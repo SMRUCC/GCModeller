@@ -66,6 +66,9 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' The BioCyc database collection is an assortment of organism specific Pathway/Genome Databases (PGDBs) that provide reference to genome and metabolic pathway information for thousands of organisms.[1] As of July 2023, there were over 20,040 databases within BioCyc.[2] SRI International,[3] based in Menlo Park, California, maintains the BioCyc database family.
+''' </summary>
 <Package("BioCyc")>
 Public Module BioCycRepository
 
@@ -140,13 +143,85 @@ Public Module BioCycRepository
         End If
     End Function
 
-    <ExportAPI("formula")>
-    Public Function formulaString(meta As compounds) As String
-        If meta.chemicalFormula.IsNullOrEmpty Then
-            Return ""
-        Else
-            Return compounds.FormulaString(meta)
+    <ExportAPI("getReactions")>
+    Public Function getReactions(repo As Object, Optional env As Environment = Nothing) As Object
+        Dim file As AttrDataCollection(Of reactions) = Nothing
+
+        If repo Is Nothing Then
+            Return Nothing
         End If
+
+        If TypeOf repo Is Workspace Then
+            file = DirectCast(repo, Workspace).reactions
+        ElseIf repo.GetType.IsInheritsFrom(GetType(Stream)) Then
+            file = reactions.OpenFile(DirectCast(repo, Stream))
+        ElseIf TypeOf repo Is String Then
+            If DirectCast(repo, String).FileExists Then
+                file = reactions.OpenFile(DirectCast(repo, String))
+            Else
+                file = reactions.ParseText(repo)
+            End If
+        Else
+            Return Message.InCompatibleType(GetType(Workspace), repo.GetType, env)
+        End If
+
+        If Not file Is Nothing Then
+            Return file.features.ToArray
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    ''' <summary>
+    ''' get formula string of the given object model
+    ''' </summary>
+    ''' <param name="x">
+    ''' 1. for <see cref="compounds"/> model, get molecular formula string
+    ''' 2. for <see cref="reactions"/> model, get the reaction equation string.
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("formula")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function formulaString(x As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf x Is compounds Then
+            Dim meta As compounds = DirectCast(x, compounds)
+
+            If meta.chemicalFormula.IsNullOrEmpty Then
+                Return ""
+            Else
+                Return compounds.FormulaString(meta)
+            End If
+        ElseIf TypeOf x Is reactions Then
+            Dim rxn As reactions = DirectCast(x, reactions)
+
+            If rxn.equation Is Nothing Then
+                Return ""
+            Else
+                Return rxn.equation.ToString
+            End If
+        Else
+            Return Message.InCompatibleType(GetType(compounds), x.GetType, env)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' get external database cross reference id of current metabolite compound object
+    ''' </summary>
+    ''' <param name="meta"></param>
+    ''' <returns></returns>
+    <ExportAPI("db_links")>
+    <RApiReturn(TypeCodes.list)>
+    Public Function GetDbLinks(meta As compounds) As Object
+        Dim dblinks = compounds.GetDbLinks(meta).ToArray
+        Dim dbgroups = dblinks _
+            .GroupBy(Function(a) a.DBName.ToLower) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return CObj(a.Select(Function(ai) ai.entry).ToArray)
+                          End Function)
+
+        Return New list(dbgroups)
     End Function
 
     ''' <summary>

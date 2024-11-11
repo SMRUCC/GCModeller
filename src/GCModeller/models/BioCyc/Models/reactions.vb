@@ -1,61 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::d1c0ba9f45f79b5567bd0acd0b7119ff, models\BioCyc\Models\reactions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 79
-    '    Code Lines: 73 (92.41%)
-    ' Comment Lines: 1 (1.27%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 5 (6.33%)
-    '     File Size: 3.14 KB
+' Summaries:
 
 
-    ' Class reactions
-    ' 
-    '     Properties: atomMappings, cannotBalance, ec_number, enzymaticReaction, equation
-    '                 gibbs0, inPathway, left, orphan, physiologicallyRelevant
-    '                 reactionBalanceStatus, reactionDirection, reactionList, reactionLocations, right
-    '                 signal, species, spontaneous, systematicName
-    ' 
-    '     Function: ToString
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 79
+'    Code Lines: 73 (92.41%)
+' Comment Lines: 1 (1.27%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 5 (6.33%)
+'     File Size: 3.14 KB
+
+
+' Class reactions
+' 
+'     Properties: atomMappings, cannotBalance, ec_number, enzymaticReaction, equation
+'                 gibbs0, inPathway, left, orphan, physiologicallyRelevant
+'                 reactionBalanceStatus, reactionDirection, reactionList, reactionLocations, right
+'                 signal, species, spontaneous, systematicName
+' 
+'     Function: ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
@@ -103,25 +105,27 @@ Public Class reactions : Inherits Model
 
     Public ReadOnly Property equation As Equation
         Get
+            Dim uid As String = MyBase.ToString
+
             Select Case reactionDirection
-                Case ReactionDirections.IrreversibleLeftToRight, ReactionDirections.LeftToRight, ReactionDirections.PhysiolLeftToRight
-                    Return New Equation With {
-                        .Id = MyBase.ToString,
+                Case ReactionDirections.IrreversibleLeftToRight,
+                     ReactionDirections.LeftToRight,
+                     ReactionDirections.PhysiolLeftToRight
+
+                    Return New Equation(uid) With {
                         .reversible = False,
                         .Reactants = left,
                         .Products = right
                     }
                 Case ReactionDirections.Reversible
-                    Return New Equation With {
-                        .Id = MyBase.ToString,
+                    Return New Equation(uid) With {
                         .Reactants = left,
                         .Products = right,
                         .reversible = True
                     }
                 Case Else
                     ' right to left
-                    Return New Equation With {
-                        .Id = MyBase.ToString,
+                    Return New Equation(uid) With {
                         .reversible = False,
                         .Reactants = right,
                         .Products = left
@@ -130,8 +134,25 @@ Public Class reactions : Inherits Model
         End Get
     End Property
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return equation.ToString
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function OpenFile(file As Stream) As AttrDataCollection(Of reactions)
+        Return AttrDataCollection(Of reactions).LoadFile(file)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function OpenFile(file As String) As AttrDataCollection(Of reactions)
+        Using s As Stream = file.OpenReadonly
+            Return OpenFile(s)
+        End Using
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function ParseText(data As String) As AttrDataCollection(Of reactions)
+        Return AttrDataCollection(Of reactions).LoadFile(New StringReader(data))
+    End Function
 End Class

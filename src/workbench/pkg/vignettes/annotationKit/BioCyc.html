@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; BioCyc; annotationKit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="The BioCyc database collection is an assortment of organism spec..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,10 +63,10 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "BioCyc"</span><span style="color: blue;"> from</span><span style="color: brown"> "annotationKit"</span>;
+                               <br /><br /><span style="color: green;">#' The BioCyc database collection is an assortment of organism specific Pathway/Genome Databases (PGDBs) that provide reference to genome and metabolic pathway information for thousands of organisms.[1] As of July 2023, there were over 20,040 databases within BioCyc.[2] SRI International,[3] based in Menlo Park, California, maintains the BioCyc database family.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "BioCyc"</span><span style="color: blue;"> from</span><span style="color: brown"> "annotationKit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>The BioCyc database collection is an assortment of organism specific Pathway/Genome Databases (PGDBs) that provide reference to genome and metabolic pathway information for thousands of organisms.[1] As of July 2023, there were over 20,040 databases within BioCyc.[2] SRI International,[3] based in Menlo Park, California, maintains the BioCyc database family.</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
                            
@@ -94,10 +94,22 @@ table caption {font-size:14px;font-weight:bolder;}
   <td><p>get compounds list data from a given biocyc workspace context</p></td>
 </tr>
 <tr>
+  <td id="getReactions">
+    <a href="./BioCyc/getReactions.html">getReactions</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
   <td id="formula">
     <a href="./BioCyc/formula.html">formula</a>
   </td>
-  <td></td>
+  <td><p>get formula string of the given object model</p></td>
+</tr>
+<tr>
+  <td id="db_links">
+    <a href="./BioCyc/db_links.html">db_links</a>
+  </td>
+  <td><p>get external database cross reference id of current metabolite compound object</p></td>
 </tr>
 <tr>
   <td id="createBackground">

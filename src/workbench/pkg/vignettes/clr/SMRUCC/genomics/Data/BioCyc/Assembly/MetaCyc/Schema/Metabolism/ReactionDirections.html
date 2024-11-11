@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.Schema.Metabolism.ReactionDirections</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ReactionDirections {SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.Schema.Metabolism}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ReactionDirections</h2>
+
+        <h3>Description</h3>
+
+        <p>This slot specifies the directionality of a reaction. This slot is used in slightly different 
+ ways in class Reactions and Enzymatic-Reactions. In class Enzymatic-Reactions, the slot specifies 
+ information about the direction of the reaction associated with the enzymatic-reaction, by the 
+ associated enzyme. That is, the directionality information refers only to the case in which the 
+ reaction is catalyzed by that enzyme, and may be influenced by the regulation of that enzyme.
+ 
+ The slot is particularly important to fill for reactions that are not part of a pathway, because 
+ for such reactions, the direction cannot be determined automatically, whereas for reactions 
+ within a pathway, the direction can be inferred from the pathway context. This slot aids the 
+ user and software in inferring the direction in which the reaction typically occurs in 
+ physiological settings, relative to the direction in which the reaction is stored in the database.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.Schema.Metabolism
+export class ReactionDirections extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # The reaction occurs in both directions in physiological settings.
+   [@desc "REVERSIBLE"]
+   Reversible: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a> = 0;
+
+   # The reaction occurs in the specified direction in physiological settings, because of several 
+   #  possible factors including the energetics of the reaction, local concentrations of reactants 
+   #  and products, and the regulation of the enzyme or its expression.
+   [@desc "PHYSIOL-LEFT-TO-RIGHT"]
+   PhysiolLeftToRight: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a> = 1;
+
+   # The reaction occurs in the specified direction in physiological settings, because of several 
+   #  possible factors including the energetics of the reaction, local concentrations of reactants 
+   #  and products, and the regulation of the enzyme or its expression.
+   [@desc "PHYSIOL-RIGHT-TO-LEFT"]
+   PhysiolRightToLeft: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a> = 2;
+
+   # For all practical purposes, the reaction occurs only in the specified direction in 
+   #  physiological settings, because of chemical properties of the reaction.
+   [@desc "IRREVERSIBLE-LEFT-TO-RIGHT"]
+   IrreversibleLeftToRight: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a> = 3;
+
+   # For all practical purposes, the reaction occurs only in the specified direction in 
+   #  physiological settings, because of chemical properties of the reaction.
+   [@desc "IRREVERSIBLE-RIGHT-TO-LEFT"]
+   IrreversibleRightToLeft: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a> = 4;
+
+   # The reaction occurs in the specified direction in physiological settings, but it is unknown 
+   #  whether the reaction is considered irreversible.
+   [@desc "LEFT-TO-RIGHT"]
+   LeftToRight: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a> = 5;
+
+   # The reaction occurs in the specified direction in physiological settings, but it is unknown 
+   #  whether the reaction is considered irreversible.
+   [@desc "RIGHT-TO-LEFT"]
+   RightToLeft: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a> = 6;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>Reversible</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a></li>
+<li>use by <i>field</i> member <code>PhysiolLeftToRight</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a></li>
+<li>use by <i>field</i> member <code>PhysiolRightToLeft</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a></li>
+<li>use by <i>field</i> member <code>IrreversibleLeftToRight</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a></li>
+<li>use by <i>field</i> member <code>IrreversibleRightToLeft</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a></li>
+<li>use by <i>field</i> member <code>LeftToRight</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a></li>
+<li>use by <i>field</i> member <code>RightToLeft</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Assembly/MetaCyc/Schema/Metabolism/ReactionDirections.html">ReactionDirections</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

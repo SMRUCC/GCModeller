@@ -5,6 +5,7 @@
 // ref=annotationKit.BioCycRepository@annotationKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * The BioCyc database collection is an assortment of organism specific Pathway/Genome Databases (PGDBs) that provide reference to genome and metabolic pathway information for thousands of organisms.[1] As of July 2023, there were over 20,040 databases within BioCyc.[2] SRI International,[3] based in Menlo Park, California, maintains the BioCyc database family.
  * 
 */
 declare namespace BioCyc {
@@ -16,8 +17,23 @@ declare namespace BioCyc {
    */
    function createBackground(biocyc: object): object;
    /**
+    * get external database cross reference id of current metabolite compound object
+    * 
+    * 
+     * @param meta -
    */
-   function formula(meta: object): string;
+   function db_links(meta: object): any;
+   /**
+    * get formula string of the given object model
+    * 
+    * 
+     * @param x 1. for @``T:SMRUCC.genomics.Data.BioCyc.compounds`` model, get molecular formula string
+     *  2. for @``T:SMRUCC.genomics.Data.BioCyc.reactions`` model, get the reaction equation string.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function formula(x: any, env?: object): string;
    /**
     * get compounds list data from a given biocyc workspace context
     * 
@@ -29,6 +45,10 @@ declare namespace BioCyc {
      * + default value Is ``null``.
    */
    function getCompounds(repo: any, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function getReactions(repo: any, env?: object): any;
    module open {
       /**
        * open a directory path as the biocyc workspace

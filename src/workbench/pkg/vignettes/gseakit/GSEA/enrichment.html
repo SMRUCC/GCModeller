@@ -28,6 +28,7 @@
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>enrichment</strong>(<i>background</i>, <i>geneSet</i>,
+    <i>expression</i> = <span style='color: blue !important;'>NULL</span>,
     <i>cut.size</i> = <span style='color: green;'>3</span>,
     <i>outputAll</i> = <span style='color: blue !important;'>TRUE</span>,
     <i>resize</i> = <span style='color: green;'>-1</span>,
@@ -47,6 +48,13 @@
 <dd><p>a given geneset id list</p></dd>
 
 
+<dt>expression</dt>
+<dd><p>the expression value of the given gene set. this parameter could be missing. 
+ default use the fisher test enrichment method for the given gene set when 
+ the expression vector is missing. GSEA method will be applied for the enrichment 
+ analysis if this parameter is not missing.</p></dd>
+
+
 <dt>args</dt>
 <dd><p>the additional argument list that may be used, 
  
@@ -57,9 +65,10 @@
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the expression value could be the raw expression mean value, different expression 
+ foldchange value for the group comparision, or other related gene set sort scores.</p>
 
         <h3 style="display: block">Authors</h3>
 
