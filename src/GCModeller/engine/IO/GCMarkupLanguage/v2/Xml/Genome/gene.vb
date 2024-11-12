@@ -55,6 +55,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace v2
 
@@ -103,6 +104,19 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         Public Property nucleotide_base As NumericVector
+
+        Sub New()
+        End Sub
+
+        Sub New(loci As NucleotideLocation)
+            left = loci.left
+            right = loci.right
+            strand = loci.Strand.Description.ToLower
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"({locus_tag}) " & product
+        End Function
 
     End Class
 End Namespace
