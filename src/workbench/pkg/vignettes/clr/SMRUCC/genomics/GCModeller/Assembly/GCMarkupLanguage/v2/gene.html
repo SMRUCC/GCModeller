@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.Reaction</title>
+    <title>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.gene</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,33 +13,36 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>Reaction {SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2}</td>
+                <td>gene {SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>Reaction</h2>
+        <h2>gene</h2>
 
         <h3>Description</h3>
 
-        <p>the reaction graph model</p>
+        <p>the gene model</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
-export class Reaction {
-   # [forward, reverse] boundary of the reaction speed
-   bounds: double;
-   equation: string;
-   # unique reference id of current reaction link
-   ID: string;
-   # 这个反应模型是否是需要酶促才会发生了生化反应过程？
-   is_enzymatic: boolean;
-   name: string;
-   product: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Assembly/GCMarkupLanguage/v2/CompoundFactor.html">CompoundFactor[]</a>;
-   substrate: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Assembly/GCMarkupLanguage/v2/CompoundFactor.html">CompoundFactor[]</a>;
+export class gene {
+   # 对于rRNA和tRNA不存在
+   amino_acid: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NumericVector.html">NumericVector</a>;
+   left: integer;
+   # the gene id
+   locus_tag: string;
+   # mRNA, tRNA, rRNA, etc
+   nucleotide_base: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NumericVector.html">NumericVector</a>;
+   # the protein function description
+   product: string;
+   # the corresponding ORF protein id, this will link to the metabolisom model
+   protein_id: string;
+   right: integer;
+   strand: string;
 }
 </code>
         </pre>
@@ -47,8 +50,8 @@ export class Reaction {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>product</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Assembly/GCMarkupLanguage/v2/CompoundFactor.html">CompoundFactor</a></li>
-<li>use by <i>property</i> member <code>substrate</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Assembly/GCMarkupLanguage/v2/CompoundFactor.html">CompoundFactor</a></li>
+<li>use by <i>property</i> member <code>amino_acid</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NumericVector.html">NumericVector</a></li>
+<li>use by <i>property</i> member <code>nucleotide_base</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NumericVector.html">NumericVector</a></li>
 </ol>
 
 
