@@ -54,7 +54,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
@@ -62,6 +61,9 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace MarkupCompiler
 
+    ''' <summary>
+    ''' workflow module for create genome replicon model
+    ''' </summary>
     Public Class CompileGenomeWorkflow : Inherits CompilerWorkflow
 
         Sub New(compiler As v2MarkupCompiler)
