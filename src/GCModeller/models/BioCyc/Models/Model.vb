@@ -56,7 +56,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
+''' <summary>
+''' the abstract biocyc element model
+''' </summary>
 Public MustInherit Class Model : Implements IReadOnlyId
 
     ''' <summary>
@@ -92,4 +98,16 @@ Public MustInherit Class Model : Implements IReadOnlyId
         Return If(commonName, uniqueId)
     End Function
 
+    Public Shared Iterator Function GetDbLinks(db_xrefs As IEnumerable(Of String)) As IEnumerable(Of DBLink)
+        For Each id As String In db_xrefs.SafeQuery
+            Dim tokens = Tokenizer _
+                .CharsParser(id.GetStackValue("(", ")"), delimiter:=" "c) _
+                .ToArray
+
+            Yield New DBLink With {
+                .DBName = tokens(0),
+                .entry = tokens(1)
+            }
+        Next
+    End Function
 End Class
