@@ -379,6 +379,13 @@ Namespace v2
         <XmlElement>
         Public Property parameter As KineticsParameter()
 
+        Sub New()
+        End Sub
+
+        Sub New(id As String)
+            reaction = id
+        End Sub
+
         Public Overrides Function ToString() As String
             If formula Is Nothing Then
                 Return "null"
