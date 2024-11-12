@@ -58,11 +58,25 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace v2
 
+    ''' <summary>
+    ''' the gene model
+    ''' </summary>
     Public Class gene
 
+        ''' <summary>
+        ''' the gene id
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property locus_tag As String
+        ''' <summary>
+        ''' the corresponding ORF protein id, this will link to the metabolisom model
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property protein_id As String
-
+        ''' <summary>
+        ''' the protein function description
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement>
         Public Property product As String
 
