@@ -86,9 +86,7 @@ Namespace MarkupCompiler
                                     ' no transcript unit information
                                     Return New TranscriptUnit With {
                                         .id = gene.locus_tag,
-                                        .genes = New XmlList(Of gene) With {
-                                            .items = {gene}
-                                        }
+                                        .genes = {gene}
                                     }
                                 End Function) _
                         .ToArray,
