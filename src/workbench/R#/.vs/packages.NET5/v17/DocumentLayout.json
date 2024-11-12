@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\biocyc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -24,7 +28,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -36,7 +40,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "genbankKit.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genbankKit.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
+              "RelativeToolTip": "seqtoolkit\\Annotations\\genbankKit.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEQAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-12T11:08:17.227Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "pipHelper.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\Rscript_shared\\pipHelper.vb",
               "RelativeDocumentMoniker": "Rscript_shared\\pipHelper.vb",
@@ -44,24 +61,22 @@
               "RelativeToolTip": "Rscript_shared\\pipHelper.vb",
               "ViewState": "AgIAAHsAAAAAAAAAAAAAAKQAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-11T13:59:58.386Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-11T13:59:58.386Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "R-cmd.NET5",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-11-11T13:58:14.712Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-11T13:58:14.712Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Workspace.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\BioCyc\\Workspace.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\BioCyc\\Workspace.vb",
@@ -69,18 +84,17 @@
               "RelativeToolTip": "..\\..\\GCModeller\\models\\BioCyc\\Workspace.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAKkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-11T13:16:06.851Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-11T13:16:06.851Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "BioCyc.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
               "RelativeDocumentMoniker": "annotationKit\\BioCyc.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\BioCyc.vb",
               "RelativeToolTip": "annotationKit\\BioCyc.vb",
-              "ViewState": "AgIAAOoAAAAAAAAAAAAIwPEAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAPEAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-11T13:05:48.951Z",
               "EditorCaption": ""

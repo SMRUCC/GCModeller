@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>add metadata into a given feature object</title>
+    <title>extract all gene features from genbank and cast to tabular data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>addMeta {GenBank}</td>
+                <td>as_tabular {GenBank}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>add metadata into a given feature object</h2>
+        <h2>extract all gene features from genbank and cast to tabular data</h2>
 
         <h3>Description</h3>
 
@@ -27,23 +27,15 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>addMeta</strong>(<i>feature</i>, <i>...</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>as_tabular</strong>(<i>gbff</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>feature</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/FEATURES/Feature.html">Feature</a>]</p></dd>
-
-
-<dt>meta</dt>
-<dd><p>[as list]</p></dd>
-
-
-<dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dt>gbff</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>]</p></dd>
 
         </table>
 
@@ -58,7 +50,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/FEATURES/Feature.html">Feature</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/FEATURES/Feature.html">Feature</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/GeneTable.html">GeneTable</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/GeneTable.html">GeneTable</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
