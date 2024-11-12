@@ -265,6 +265,14 @@ Namespace v2
         <XmlText>
         Public Property compound As String
 
+        Sub New()
+        End Sub
+
+        Sub New(factor As Double, compound As String)
+            Me.factor = factor
+            Me.compound = compound
+        End Sub
+
         Public Overrides Function ToString() As String
             Return compound
         End Function

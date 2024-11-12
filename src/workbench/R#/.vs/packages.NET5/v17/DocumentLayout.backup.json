@@ -3,11 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\markupcompiler\\compilegenomeworkflow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\markupcompiler\\compilegenemodelworkflow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\markupcompiler\\compilegenomeworkflow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,27 +29,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CompileGenomeWorkflow.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGenomeWorkflow.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGenomeWorkflow.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGenomeWorkflow.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGenomeWorkflow.vb",
-              "ViewState": "AgIAADcAAAAAAAAAAAAmwE8AAAAmAAAAAAAAAA==",
+              "Title": "CompileGeneModelWorkflow.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGeneModelWorkflow.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGeneModelWorkflow.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGeneModelWorkflow.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGeneModelWorkflow.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwEUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-12T12:53:28.748Z",
+              "WhenOpened": "2024-11-12T14:04:32.347Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "genbankKit.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
-              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genbankKit.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
-              "RelativeToolTip": "seqtoolkit\\Annotations\\genbankKit.vb",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAAAHMAAAAaAAAAAAAAAA==",
+              "Title": "CompileGenomeWorkflow.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGenomeWorkflow.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGenomeWorkflow.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGenomeWorkflow.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGenomeWorkflow.vb",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAYwFMAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-12T11:45:43.477Z",
+              "WhenOpened": "2024-11-12T12:53:28.748Z",
               "EditorCaption": ""
             }
           ]
