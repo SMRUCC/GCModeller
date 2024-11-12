@@ -1,104 +1,104 @@
 ﻿#Region "Microsoft.VisualBasic::3076da6bfa5e44f336e3375a9979f1c3, engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 254
-    '    Code Lines: 138 (54.33%)
-    ' Comment Lines: 69 (27.17%)
-    '    - Xml Docs: 95.65%
-    ' 
-    '   Blank Lines: 47 (18.50%)
-    '     File Size: 8.60 KB
+' Summaries:
 
 
-    '     Class MetabolismStructure
-    ' 
-    '         Properties: compounds, enzymes, maps, reactions
-    ' 
-    '         Function: GetAllFluxID
-    ' 
-    '     Class ReactionGroup
-    ' 
-    '         Properties: enzymatic, etc, size
-    ' 
-    '         Function: GenericEnumerator
-    ' 
-    '     Class Compound
-    ' 
-    '         Properties: ID, mass0, name
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Reaction
-    ' 
-    '         Properties: bounds, Equation, ID, is_enzymatic, name
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class FunctionalCategory
-    ' 
-    '         Properties: category, pathways
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Pathway
-    ' 
-    '         Properties: enzymes, ID, name
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Enzyme
-    ' 
-    '         Properties: catalysis, ECNumber, geneID, KO
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Catalysis
-    ' 
-    '         Properties: formula, parameter, PH, reaction, temperature
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class KineticsParameter
-    ' 
-    '         Properties: isModifier, name, target, value
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 254
+'    Code Lines: 138 (54.33%)
+' Comment Lines: 69 (27.17%)
+'    - Xml Docs: 95.65%
+' 
+'   Blank Lines: 47 (18.50%)
+'     File Size: 8.60 KB
+
+
+'     Class MetabolismStructure
+' 
+'         Properties: compounds, enzymes, maps, reactions
+' 
+'         Function: GetAllFluxID
+' 
+'     Class ReactionGroup
+' 
+'         Properties: enzymatic, etc, size
+' 
+'         Function: GenericEnumerator
+' 
+'     Class Compound
+' 
+'         Properties: ID, mass0, name
+' 
+'         Function: ToString
+' 
+'     Class Reaction
+' 
+'         Properties: bounds, Equation, ID, is_enzymatic, name
+' 
+'         Function: ToString
+' 
+'     Class FunctionalCategory
+' 
+'         Properties: category, pathways
+' 
+'         Function: ToString
+' 
+'     Class Pathway
+' 
+'         Properties: enzymes, ID, name
+' 
+'         Function: ToString
+' 
+'     Class Enzyme
+' 
+'         Properties: catalysis, ECNumber, geneID, KO
+' 
+'         Function: ToString
+' 
+'     Class Catalysis
+' 
+'         Properties: formula, parameter, PH, reaction, temperature
+' 
+'         Function: ToString
+' 
+'     Class KineticsParameter
+' 
+'         Properties: isModifier, name, target, value
+' 
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -112,6 +112,9 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace v2
 
+    ''' <summary>
+    ''' model of the metabolic network
+    ''' </summary>
     <XmlType("metabolome", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class MetabolismStructure
 
@@ -129,6 +132,10 @@ Namespace v2
         ''' <returns></returns>
         <XmlArray("enzymes")> Public Property enzymes As Enzyme()
 
+        ''' <summary>
+        ''' the pathway function category groups of the enzymes
+        ''' </summary>
+        ''' <returns></returns>
         <XmlArray("pathwayMaps")>
         Public Property maps As FunctionalCategory()
 
@@ -141,6 +148,9 @@ Namespace v2
         End Function
     End Class
 
+    ''' <summary>
+    ''' the reaction collection
+    ''' </summary>
     Public Class ReactionGroup : Implements IList(Of Reaction)
 
         <XmlAttribute>
@@ -208,9 +218,16 @@ Namespace v2
 
     End Class
 
+    ''' <summary>
+    ''' the reaction graph model
+    ''' </summary>
     <XmlType("reaction", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Reaction : Implements INamedValue
 
+        ''' <summary>
+        ''' unique reference id of current reaction link
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
         <XmlAttribute> Public Property name As String
         ''' <summary>
@@ -219,19 +236,24 @@ Namespace v2
         ''' <returns></returns>
         <XmlAttribute> Public Property is_enzymatic As Boolean
         ''' <summary>
-        ''' [forward, reverse]
+        ''' [forward, reverse] boundary of the reaction speed
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property bounds As Double()
 
-        <XmlText>
-        Public Property Equation As String
-
         Public Property substrate As CompoundFactor()
         Public Property product As CompoundFactor()
 
+        Public ReadOnly Property equation As String
+            Get
+                Return substrate.Select(Function(a) a.factorString).JoinBy(" + ") &
+                    " <=> " &
+                    product.Select(Function(a) a.factorString).JoinBy(" + ")
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
-            Return $"({ID}: {name}) {Equation}"
+            Return $"({ID}: {name}) {equation}"
         End Function
 
     End Class
@@ -245,6 +267,14 @@ Namespace v2
 
         Public Overrides Function ToString() As String
             Return compound
+        End Function
+
+        Friend Function factorString() As String
+            If factor <= 1 Then
+                Return compound
+            Else
+                Return factor & " " & compound
+            End If
         End Function
 
     End Class
