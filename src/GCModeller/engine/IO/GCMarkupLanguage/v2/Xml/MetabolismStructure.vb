@@ -229,7 +229,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
-        <XmlAttribute> Public Property name As String
+        <XmlElement> Public Property name As String
         ''' <summary>
         ''' 这个反应模型是否是需要酶促才会发生了生化反应过程？
         ''' </summary>
@@ -241,8 +241,8 @@ Namespace v2
         ''' <returns></returns>
         <XmlAttribute> Public Property bounds As Double()
 
-        Public Property substrate As CompoundFactor()
-        Public Property product As CompoundFactor()
+        <XmlElement> Public Property substrate As CompoundFactor()
+        <XmlElement> Public Property product As CompoundFactor()
 
         Public ReadOnly Property equation As String
             Get
