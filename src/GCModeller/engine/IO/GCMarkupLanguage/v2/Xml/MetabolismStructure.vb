@@ -156,7 +156,7 @@ Namespace v2
         <XmlAttribute>
         Public Property size As Integer Implements IList(Of Reaction).size
             Get
-                Return enzymatic.Length + etc.Length
+                Return enzymatic.TryCount + etc.TryCount
             End Get
             Set(value As Integer)
                 ' do nothing
