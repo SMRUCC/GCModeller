@@ -208,6 +208,13 @@ Namespace v2
         <XmlAttribute>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
+        ''' <summary>
+        ''' the kegg reference id of current metabolite
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute>
+        Public Property kegg_id As String
+
         <XmlText> Public Property name As String
 
         ''' <summary>
