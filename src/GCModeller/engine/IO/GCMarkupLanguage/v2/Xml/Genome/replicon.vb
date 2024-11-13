@@ -60,7 +60,6 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace v2
 
@@ -83,7 +82,7 @@ Namespace v2
         ''' 除了mRNA的其他的一切非蛋白编码RNA
         ''' </summary>
         ''' <returns></returns>
-        Public Property RNAs As XmlList(Of RNA)
+        Public Property RNAs As RNA()
 
         Public Function GetGeneNumbers() As Integer
             Return Aggregate TU As TranscriptUnit
@@ -115,7 +114,7 @@ Namespace v2
                 End If
             Next
 
-            RNAs.items = RNAs.items _
+            RNAs = RNAs.SafeQuery _
                 .Where(Function(RNA)
                            Return Not RNA.gene Like deleted
                        End Function) _

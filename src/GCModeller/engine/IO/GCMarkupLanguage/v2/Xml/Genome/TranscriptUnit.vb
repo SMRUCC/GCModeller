@@ -53,27 +53,30 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace v2
 
+    ''' <summary>
+    ''' an operon model is a single transcript unit
+    ''' </summary>
     Public Class TranscriptUnit
 
         <XmlAttribute>
         Public Property id As String
 
         ''' <summary>
-        ''' 基因列表，在这个属性之中定义了该基因组之中的所有基因的数据
+        ''' the operon gene list
         ''' </summary>
         ''' <returns></returns>
-        Public Property genes As XmlList(Of gene)
+        <XmlElement>
+        Public Property genes As gene()
 
         Public ReadOnly Property numOfGenes As Integer
             Get
                 If genes Is Nothing Then
                     Return 0
                 Else
-                    Return genes.size
+                    Return genes.TryCount
                 End If
             End Get
         End Property

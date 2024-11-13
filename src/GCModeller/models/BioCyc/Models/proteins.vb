@@ -7,8 +7,14 @@ Public Class proteins : Inherits Model
 
     <AttributeField("DBLINKS")>
     Public Property db_xrefs As String()
+
+    ''' <summary>
+    ''' the source gene id that make translation to this protein
+    ''' </summary>
+    ''' <returns></returns>
     <AttributeField("GENE")>
     Public Property gene As String
+
     <AttributeField("LOCATIONS")>
     Public Property locations As String()
 
