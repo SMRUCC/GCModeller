@@ -1,23 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\simulator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\xml\\metabolismstructure.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\interop\\rsharpapi\\rmethodinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\engine\\vcell\\engine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\loader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -25,21 +9,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MetabolismStructure.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAAAKoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-13T13:10:51.292Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -47,58 +18,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "RMethodInfo.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Interop\\RsharpApi\\RMethodInfo.vb",
-              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Interop\\RsharpApi\\RMethodInfo.vb",
-              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Interop\\RsharpApi\\RMethodInfo.vb",
-              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Runtime\\Interop\\RsharpApi\\RMethodInfo.vb",
-              "ViewState": "AgIAABYBAAAAAAAAAAAawD0BAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-13T12:17:20.548Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Simulator.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "ViewState": "AgIAAHYAAAAAAAAAAAA3wJYAAABDAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-13T12:17:03.604Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Engine.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Engine\\VCell\\Engine.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\VCell\\Engine.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Engine\\VCell\\Engine.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\VCell\\Engine.vb",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAlwGIAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-13T12:16:31.176Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Loader.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Loader.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Loader.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Loader.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Loader.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGYAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-13T12:15:39.557Z",
-              "EditorCaption": ""
             }
           ]
         },
