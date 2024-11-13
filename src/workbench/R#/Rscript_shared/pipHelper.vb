@@ -110,6 +110,8 @@ Module pipHelper
                     Else
                         Return Nothing
                     End If
+                ElseIf type Is GetType(String) Then
+                    Return fastaFromStrings(a)
                 Else
                     Return Nothing
                 End If

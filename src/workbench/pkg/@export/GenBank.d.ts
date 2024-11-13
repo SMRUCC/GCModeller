@@ -12,9 +12,14 @@ declare namespace GenBank {
    /**
      * @param env default value Is ``null``.
    */
-   function accession_id(genbank: any, env?: object): any;
+   function accession_id(genbank: any, env?: object): string;
    module add {
       /**
+       * add feature into a given genbank object
+       * 
+       * 
+        * @param gb -
+        * @param feature -
       */
       function feature(gb: object, feature: object): object;
       module RNA {
@@ -25,7 +30,14 @@ declare namespace GenBank {
       }
    }
    /**
-     * @param env default value Is ``null``.
+    * add metadata into a given feature object
+    * 
+    * 
+     * @param feature -
+     * @param meta -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function addMeta(feature: object, meta: object, env?: object): object;
    module as {
@@ -40,6 +52,13 @@ declare namespace GenBank {
       */
       function genbank(x: any, env?: object): object;
    }
+   /**
+    * extract all gene features from genbank and cast to tabular data
+    * 
+    * 
+     * @param gbff -
+   */
+   function as_tabular(gbff: object): object;
    /**
     * enumerate all features in the given NCBI genbank database object
     * 

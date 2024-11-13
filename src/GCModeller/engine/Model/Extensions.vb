@@ -85,6 +85,11 @@ Public Module Extensions
         }
     End Function
 
+    ''' <summary>
+    ''' cast the protein amino acid composition vector from a given numeric vector
+    ''' </summary>
+    ''' <param name="vector"></param>
+    ''' <returns></returns>
     Public Function ProteinFromVector(vector As NumericVector) As ProteinComposition
         Dim protein As New ProteinComposition With {
             .proteinID = vector.name

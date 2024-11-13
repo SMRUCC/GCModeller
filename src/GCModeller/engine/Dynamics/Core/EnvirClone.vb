@@ -63,7 +63,7 @@ Namespace Core
 
         <Extension>
         Public Function Clone(envir As Vessel) As Vessel
-
+            Throw New NotImplementedException
         End Function
     End Module
 End Namespace

@@ -237,22 +237,30 @@ Namespace MarkupCompiler.BioCyc
         End Function
 
         Private Function enzymaticReaction(rxn As reactions) As Reaction
+            Dim left = rxn.equation.Reactants.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID)).ToArray
+            Dim right = rxn.equation.Products.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID)).ToArray
+
             Return New Reaction With {
                 .ID = rxn.uniqueId,
                 .is_enzymatic = True,
                 .bounds = {5, 5},
-                .Equation = rxn.equation.ToString,
-                .name = rxn.commonName
+                .name = rxn.commonName,
+                .substrate = left,
+                .product = right
             }
         End Function
 
         Private Function nonEnzymaticReaction(rxn As reactions) As Reaction
+            Dim left = rxn.equation.Reactants.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID)).ToArray
+            Dim right = rxn.equation.Products.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID)).ToArray
+
             Return New Reaction With {
                 .ID = rxn.uniqueId,
                 .bounds = {5, 5},
                 .is_enzymatic = False,
                 .name = rxn.commonName,
-                .Equation = rxn.equation.ToString
+                .substrate = left,
+                .product = right
             }
         End Function
     End Class

@@ -60,7 +60,10 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports Microsoft.VisualBasic.Drawing
+Imports System.IO
+Imports System.Drawing.Imaging
+
+
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -178,7 +181,14 @@ Public Module PathwayMapRender
         For Each map As NamedValue(Of Image) In render.QueryMaps(idlist,, scale:=scale, throwException:=False)
             Dim save$ = $"{out}/{map.Name}.png"
 
-            map.Value.SaveAs(save, ImageFormats.Png)
+            Using s As Stream = save.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+#If NET48 Then
+                Call map.Value.Save(s, ImageFormat.Png)
+#Else
+                Call map.Value.Save(s, ImageFormats.Png)
+#End If
+            End Using
+
             maplist += New NamedValue(Of String) With {
                 .Name = map.Name,
                 .Value = render.GetTitle(map.Name),

@@ -59,15 +59,20 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
-''' The BioCyc database collection is an assortment of organism specific Pathway/Genome Databases (PGDBs) that provide reference to genome and metabolic pathway information for thousands of organisms.[1] As of July 2023, there were over 20,040 databases within BioCyc.[2] SRI International,[3] based in Menlo Park, California, maintains the BioCyc database family.
+''' The BioCyc database collection is an assortment of organism specific Pathway/Genome Databases (PGDBs) 
+''' that provide reference to genome and metabolic pathway information for thousands of organisms.
+''' As of July 2023, there were over 20,040 databases within BioCyc.[2] SRI International,[3] based in 
+''' Menlo Park, California, maintains the BioCyc database family.
 ''' </summary>
 <Package("BioCyc")>
 Public Module BioCycRepository
@@ -144,6 +149,7 @@ Public Module BioCycRepository
     End Function
 
     <ExportAPI("getReactions")>
+    <RApiReturn(GetType(reactions))>
     Public Function getReactions(repo As Object, Optional env As Environment = Nothing) As Object
         Dim file As AttrDataCollection(Of reactions) = Nothing
 
@@ -167,6 +173,116 @@ Public Module BioCycRepository
 
         If Not file Is Nothing Then
             Return file.features.ToArray
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    <ExportAPI("getGenes")>
+    <RApiReturn(GetType(genes))>
+    Public Function getGenes(repo As Object,
+                             Optional dnaseq As String = Nothing,
+                             Optional env As Environment = Nothing) As Object
+
+        Dim file As AttrDataCollection(Of genes) = Nothing
+        Dim seqfile As FastaFile = Nothing
+
+        If repo Is Nothing Then
+            Return Nothing
+        End If
+        If dnaseq.FileExists Then
+            seqfile = FastaFile.LoadNucleotideData(dnaseq)
+        End If
+
+        If TypeOf repo Is Workspace Then
+            file = DirectCast(repo, Workspace).genes
+        ElseIf repo.GetType.IsInheritsFrom(GetType(Stream)) Then
+            file = genes.OpenFile(DirectCast(repo, Stream))
+        ElseIf TypeOf repo Is String Then
+            If DirectCast(repo, String).FileExists Then
+                file = genes.OpenFile(DirectCast(repo, String))
+            Else
+                file = genes.ParseText(repo)
+            End If
+        Else
+            Return Message.InCompatibleType(GetType(Workspace), repo.GetType, env)
+        End If
+
+        If Not file Is Nothing Then
+            Dim seqs As Dictionary(Of String, FastaSeq) = Nothing
+
+            If Not seqfile Is Nothing Then
+                seqs = Workspace.CreateSequenceIndex(seqfile)
+            End If
+
+            If seqs.IsNullOrEmpty Then
+                Return file.features.ToArray
+            Else
+                Return file.features _
+                    .Select(Function(gene)
+                                If seqs.ContainsKey(gene.uniqueId) Then
+                                    gene.dnaseq = seqs(gene.uniqueId).SequenceData
+                                End If
+
+                                Return gene
+                            End Function) _
+                    .ToArray
+            End If
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    <ExportAPI("getProteins")>
+    <RApiReturn(GetType(proteins))>
+    Public Function getProteins(repo As Object,
+                                Optional protseq As String = Nothing,
+                                Optional env As Environment = Nothing) As Object
+
+        Dim file As AttrDataCollection(Of proteins) = Nothing
+        Dim seqfile As FastaFile = Nothing
+
+        If repo Is Nothing Then
+            Return Nothing
+        End If
+        If protseq.FileExists Then
+            seqfile = FastaFile.Read(protseq, strict:=False)
+        End If
+
+        If TypeOf repo Is Workspace Then
+            file = DirectCast(repo, Workspace).proteins
+        ElseIf repo.GetType.IsInheritsFrom(GetType(Stream)) Then
+            file = proteins.OpenFile(DirectCast(repo, Stream))
+        ElseIf TypeOf repo Is String Then
+            If DirectCast(repo, String).FileExists Then
+                file = proteins.OpenFile(DirectCast(repo, String))
+            Else
+                file = proteins.ParseText(repo)
+            End If
+        Else
+            Return Message.InCompatibleType(GetType(Workspace), repo.GetType, env)
+        End If
+
+        If Not file Is Nothing Then
+            Dim seqs As Dictionary(Of String, FastaSeq) = Nothing
+
+            If Not seqfile Is Nothing Then
+                seqs = Workspace.CreateSequenceIndex(seqfile)
+            End If
+
+            If seqs.IsNullOrEmpty Then
+                Return file.features.ToArray
+            Else
+                Return file.features _
+                    .Select(Function(prot)
+                                If seqs.ContainsKey(prot.uniqueId) Then
+                                    prot.protseq = seqs(prot.uniqueId).SequenceData
+                                End If
+
+                                Return prot
+                            End Function) _
+                    .ToArray
+            End If
         Else
             Return Nothing
         End If
@@ -212,8 +328,24 @@ Public Module BioCycRepository
     ''' <returns></returns>
     <ExportAPI("db_links")>
     <RApiReturn(TypeCodes.list)>
-    Public Function GetDbLinks(meta As compounds) As Object
-        Dim dblinks = compounds.GetDbLinks(meta).ToArray
+    Public Function GetDbLinks(meta As Model, Optional env As Environment = Nothing) As Object
+        Dim dblinks As DBLink() = Nothing
+
+        If meta Is Nothing Then
+            Call env.AddMessage("the given biocyc element model object is nothing!")
+            Return Nothing
+        End If
+
+        If TypeOf meta Is compounds Then
+            dblinks = compounds.GetDbLinks(DirectCast(meta, compounds)).ToArray
+        ElseIf TypeOf meta Is genes Then
+            dblinks = DirectCast(meta, genes).db_links
+        ElseIf TypeOf meta Is proteins Then
+            dblinks = DirectCast(meta, proteins).db_links
+        Else
+            Return Message.InCompatibleType(GetType(compounds), meta.GetType, env)
+        End If
+
         Dim dbgroups = dblinks _
             .GroupBy(Function(a) a.DBName.ToLower) _
             .ToDictionary(Function(a) a.Key,

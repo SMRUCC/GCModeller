@@ -65,6 +65,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -107,7 +108,19 @@ Module genbankKit
         End If
     End Function
 
+    ''' <summary>
+    ''' extract all gene features from genbank and cast to tabular data
+    ''' </summary>
+    ''' <param name="gbff"></param>
+    ''' <returns></returns>
+    <ExportAPI("as_tabular")>
+    <RApiReturn(GetType(GeneTable))>
+    Public Function create_tabular(gbff As GBFF.File) As Object
+        Return gbff.ExportGeneFeatures
+    End Function
+
     <ExportAPI("accession_id")>
+    <RApiReturn(TypeCodes.string)>
     Public Function accession_id(<RRawVectorArgument> genbank As Object, Optional env As Environment = Nothing) As Object
         Dim pull = pipeline.TryCreatePipeline(Of GBFF.File)(genbank, env)
 
@@ -272,6 +285,12 @@ Module genbankKit
         Return loci
     End Function
 
+    ''' <summary>
+    ''' add feature into a given genbank object
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="feature"></param>
+    ''' <returns></returns>
     <ExportAPI("add.feature")>
     Public Function addFeature(gb As GBFF.File, feature As Feature) As GBFF.File
         gb.Features.Add(feature)
@@ -383,6 +402,13 @@ Module genbankKit
         End If
     End Function
 
+    ''' <summary>
+    ''' add metadata into a given feature object
+    ''' </summary>
+    ''' <param name="feature"></param>
+    ''' <param name="meta"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("addMeta")>
     Public Function addMeta(feature As Feature, <RListObjectArgument> meta As list, Optional env As Environment = Nothing) As Feature
         Dim metadata As Dictionary(Of String, String) = meta.AsGeneric(Of String)(env)

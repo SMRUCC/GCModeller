@@ -5,7 +5,10 @@
 // ref=annotationKit.BioCycRepository@annotationKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
- * The BioCyc database collection is an assortment of organism specific Pathway/Genome Databases (PGDBs) that provide reference to genome and metabolic pathway information for thousands of organisms.[1] As of July 2023, there were over 20,040 databases within BioCyc.[2] SRI International,[3] based in Menlo Park, California, maintains the BioCyc database family.
+ * The BioCyc database collection is an assortment of organism specific Pathway/Genome Databases (PGDBs) 
+ *  that provide reference to genome and metabolic pathway information for thousands of organisms.
+ *  As of July 2023, there were over 20,040 databases within BioCyc.[2] SRI International,[3] based in 
+ *  Menlo Park, California, maintains the BioCyc database family.
  * 
 */
 declare namespace BioCyc {
@@ -21,8 +24,10 @@ declare namespace BioCyc {
     * 
     * 
      * @param meta -
+     * @param env 
+     * + default value Is ``null``.
    */
-   function db_links(meta: object): any;
+   function db_links(meta: object, env?: object): any;
    /**
     * get formula string of the given object model
     * 
@@ -46,9 +51,19 @@ declare namespace BioCyc {
    */
    function getCompounds(repo: any, env?: object): object;
    /**
+     * @param dnaseq default value Is ``null``.
      * @param env default value Is ``null``.
    */
-   function getReactions(repo: any, env?: object): any;
+   function getGenes(repo: any, dnaseq?: string, env?: object): object;
+   /**
+     * @param protseq default value Is ``null``.
+     * @param env default value Is ``null``.
+   */
+   function getProteins(repo: any, protseq?: string, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function getReactions(repo: any, env?: object): object;
    module open {
       /**
        * open a directory path as the biocyc workspace

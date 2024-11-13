@@ -57,6 +57,18 @@ Imports SMRUCC.genomics.Data.BioCyc
 Module Program
     Sub Main(args As String())
 
+        Using file As Stream = "F:\ecoli\28.1\data\proteins.dat".Open
+            Dim data = AttrDataCollection(Of proteins).LoadFile(file)
+
+            Pause()
+        End Using
+
+        Using file As Stream = "F:\ecoli\28.1\data\genes.dat".Open
+            Dim data = AttrDataCollection(Of genes).LoadFile(file)
+
+            Pause()
+        End Using
+
         Using file As Stream = "F:\ecoli\28.1\data\reactions.dat".Open
             Dim data = AttrDataCollection(Of reactions).LoadFile(file)
 

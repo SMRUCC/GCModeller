@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.gene</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>gene {SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>gene</h2>
+
+        <h3>Description</h3>
+
+        <p>the gene model</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+export class gene {
+   # 对于rRNA和tRNA不存在
+   amino_acid: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NumericVector.html">NumericVector</a>;
+   left: integer;
+   # the gene id
+   locus_tag: string;
+   # mRNA, tRNA, rRNA, etc
+   nucleotide_base: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NumericVector.html">NumericVector</a>;
+   # the protein function description
+   product: string;
+   # the corresponding ORF protein id, this will link to the metabolisom model
+   protein_id: string;
+   right: integer;
+   strand: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>amino_acid</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NumericVector.html">NumericVector</a></li>
+<li>use by <i>property</i> member <code>nucleotide_base</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NumericVector.html">NumericVector</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

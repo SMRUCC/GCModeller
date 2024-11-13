@@ -161,11 +161,16 @@ Namespace MarkupCompiler
                     .Phenotype _
                     .fluxes _
                     .Select(Function(r)
+                                Dim left = r.substrates.Select(Function(c) New CompoundFactor(c.factor, c.result)).ToArray
+                                Dim right = r.products.Select(Function(c) New CompoundFactor(c.factor, c.result)).ToArray
+
                                 Return New XmlReaction With {
                                     .ID = r.ID,
                                     .name = r.name,
-                                    .Equation = r.GetEquationString,
-                                    .is_enzymatic = r.is_enzymatic
+                                    .substrate = left,
+                                    .product = right,
+                                    .is_enzymatic = r.is_enzymatic,
+                                    .bounds = {1, 1}
                                 }
                             End Function) _
                     .ToArray,
