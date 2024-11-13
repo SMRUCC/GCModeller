@@ -152,6 +152,7 @@ Namespace v2
         Public Function FindByKEGG(id As String) As Compound
             If m_kegg Is Nothing Then
                 m_kegg = compounds _
+                    .Where(Function(c) Not c.kegg_id.StringEmpty) _
                     .GroupBy(Function(c) c.kegg_id) _
                     .ToDictionary(Function(c) c.Key,
                                   Function(c)
