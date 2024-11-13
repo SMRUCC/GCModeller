@@ -174,13 +174,31 @@ Namespace ModelLoader
             Return index
         End Function
 
+        Private Shared Function ProteinMatrixIndex(p As IEnumerable(Of ProteinComposition)) As Dictionary(Of String, ProteinComposition)
+            Dim proteinGroups = p.GroupBy(Function(r) r.proteinID)
+            Dim index As New Dictionary(Of String, ProteinComposition)
+
+            For Each group As IGrouping(Of String, ProteinComposition) In proteinGroups
+                If group.Count > 1 Then
+                    Dim warn As String = $"duplicated protein object: '{group.Key}' was found!"
+
+                    Call warn.Warning
+                    Call VBDebugger.EchoLine("[warn] " & warn)
+                Else
+                    Call index.Add(group.Key, group.First)
+                End If
+            Next
+
+            Return index
+        End Function
+
         Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
             Dim templateDNA As Variable()
             Dim productsRNA As Variable()
             Dim templateRNA As Variable()
             Dim productsPro As Variable()
             Dim rnaMatrix As Dictionary(Of String, RNAComposition) = RnaMatrixIndexing(cell.Genotype.RNAMatrix)
-            Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
+            Dim proteinMatrix = ProteinMatrixIndex(cell.Genotype.ProteinMatrix)
             Dim TFregulations = cell.Regulations _
                 .Where(Function(reg) reg.type = Processes.Transcription) _
                 .GroupBy(Function(reg) reg.process) _
