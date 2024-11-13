@@ -111,4 +111,8 @@
     <Import Include="System.Data" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="8.0.1" />
+  </ItemGroup>
+
 </Project>
