@@ -175,12 +175,16 @@ Namespace v2
         Public Property etc As Reaction()
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Reaction) Implements Enumeration(Of Reaction).GenericEnumerator
-            For Each reaction In enzymatic
-                Yield reaction
-            Next
-            For Each reaction In etc
-                Yield reaction
-            Next
+            If Not enzymatic.IsNullOrEmpty Then
+                For Each reaction As Reaction In enzymatic
+                    Yield reaction
+                Next
+            End If
+            If Not etc.IsNullOrEmpty Then
+                For Each reaction As Reaction In etc
+                    Yield reaction
+                Next
+            End If
         End Function
 
         Public Shared Widening Operator CType(reactions As Reaction()) As ReactionGroup
