@@ -146,6 +146,31 @@ Namespace v2
                 .Select(Function(r) r.ID) _
                 .ToArray
         End Function
+
+        Dim m_kegg As Dictionary(Of String, Compound)
+
+        Public Function FindByKEGG(id As String) As Compound
+            If m_kegg Is Nothing Then
+                m_kegg = compounds _
+                    .GroupBy(Function(c) c.kegg_id) _
+                    .ToDictionary(Function(c) c.Key,
+                                  Function(c)
+                                      Return c.First
+                                  End Function)
+            End If
+
+            Return m_kegg.TryGetValue(id)
+        End Function
+
+        Public Function GetKEGGMapping(id As String, map_define As String) As Compound
+            Dim kegg = FindByKEGG(id)
+
+            If kegg Is Nothing Then
+                Throw New MissingPrimaryKeyException($"no mapping for kegg term '{map_define}'({id})!")
+            End If
+
+            Return kegg
+        End Function
     End Class
 
     ''' <summary>
