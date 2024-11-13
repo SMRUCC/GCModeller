@@ -301,9 +301,13 @@ Namespace v2
 
         <Extension>
         Private Iterator Function exportRegulations(model As VirtualCell) As IEnumerable(Of Regulation)
-            Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso Not model.genome.replicons.IsNullOrEmpty
+            Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso
+                Not model.genome.replicons.IsNullOrEmpty
 
             If Not hasGenotype Then
+                Return
+            End If
+            If model.genome.regulations.IsNullOrEmpty Then
                 Return
             End If
 
