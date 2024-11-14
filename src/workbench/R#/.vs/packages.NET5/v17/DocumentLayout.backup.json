@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\biomoleculedegradation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\centraldogmafluxloader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -15,9 +18,6 @@
       "AbsoluteMoniker": "D:0:0:{22BA98C8-4E5F-413E-AF35-6B2B29D1EEAD}|..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\model\\cellular\\process\\centraldogma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\biomoleculedegradation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\mass\\massroles.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
@@ -28,21 +28,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ProteinComposition.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
-              "ViewState": "AgIAAJQAAAAAAAAAAAAWwLAAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-14T15:11:20.512Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -54,6 +41,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "ProteinComposition.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAWwLAAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-14T15:11:20.512Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MassTable.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
@@ -66,7 +66,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "CentralDogma.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
@@ -92,26 +92,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "BioMoleculeDegradation.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAEwJgAAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAAH0AAAAAAAAAAAArwFcAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-14T14:41:36.393Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "CentralDogmaFluxLoader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
-              "ViewState": "AgIAAIwBAAAAAAAAAAAEwI8BAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAADkBAAAAAAAAAAAWwG0BAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-14T11:46:49.166Z",
               "EditorCaption": ""

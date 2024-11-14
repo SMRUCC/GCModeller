@@ -96,7 +96,12 @@ Namespace ModelLoader
                                   ' protein
                                   Return cd.Select(Function(g) g.geneID).ToArray
                               End Function)
-            Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
+            Dim proteinMatrix = cell.Genotype.ProteinMatrix _
+                .GroupBy(Function(a) a.proteinID) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(r)
+                                  Return r.First
+                              End Function)
             Dim composition As ProteinComposition
             Dim aaResidue As Variable()
             Dim geneIDSet As String()
