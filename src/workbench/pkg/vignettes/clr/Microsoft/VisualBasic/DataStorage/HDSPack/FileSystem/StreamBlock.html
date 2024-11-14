@@ -5,7 +5,7 @@
     <title>Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem.StreamBlock</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
 </head>
 
 <body>
@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>A data file</p>
+        <p>A data file reference</p>
 
         <h3>Declare</h3>        
 
@@ -32,9 +32,12 @@
 export class StreamBlock extends <a href="/vignettes/clr/Microsoft/VisualBasic/DataStorage/HDSPack/FileSystem/StreamObject.html">StreamObject</a> {
    attributes: <a href="/vignettes/clr/Microsoft/VisualBasic/DataStorage/HDSPack/LazyAttribute.html">LazyAttribute</a>;
    description: string;
+   # get the extension suffix name of current file node
+   extensionSuffix: string;
    fileName: string;
    # tostring of the <a href="/vignettes/clr/Microsoft/VisualBasic/DataStorage/HDSPack/FileSystem/StreamObject.html">StreamObject</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/FileIO/Path/FilePath.html">referencePath</a> object.
    fullName: string;
+   # get http mime content type of current file object
    mimeType: <a href="/vignettes/clr/Microsoft/VisualBasic/Net/Protocols/ContentTypes/ContentType.html">ContentType</a>;
    # the byte offset of current file data
    offset: integer;
@@ -62,8 +65,8 @@ export class StreamBlock extends <a href="/vignettes/clr/Microsoft/VisualBasic/D
     </div>
 </body>
 
-<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
-<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
 </html>
