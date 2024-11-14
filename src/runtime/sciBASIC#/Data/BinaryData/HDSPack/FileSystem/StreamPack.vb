@@ -98,6 +98,9 @@ Namespace FileSystem
         ''' a messagepack schema should be defined for these types.
         ''' </summary>
         ReadOnly _registriedTypes As New Index(Of String)
+        ''' <summary>
+        ''' the pre-allocated metadata header size, includes of the global metadata and filesystem tree
+        ''' </summary>
         ReadOnly _meta_size As Long
 
         Dim disposedValue As Boolean
@@ -142,6 +145,12 @@ Namespace FileSystem
                     .ToArray
             End Get
         End Property
+
+        ''' <summary>
+        ''' the actual used file header size
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property HeaderSize As Long
 
         ''' <summary>
         ''' open or create new stream pack data object
@@ -204,9 +213,11 @@ Namespace FileSystem
             If Me.buffer.Length > 128 Then
                 ' load the filesystem tree
                 superBlock = ParseTree()
+                HeaderSize = buffer.Position
             Else
                 ' is empty file, initialize of the filesystem
                 Call Clear(meta_size)
+                HeaderSize = meta_size + Magic.Length
             End If
         End Sub
 
@@ -328,6 +339,10 @@ Namespace FileSystem
             Return Encoding.ASCII.GetString(magic) = StreamPack.Magic
         End Function
 
+        ''' <summary>
+        ''' parse the magic header/global metadata attribute/filesystem tree
+        ''' </summary>
+        ''' <returns></returns>
         Private Function ParseTree() As StreamGroup
             ' verify data at first
             Dim is_magic As Boolean = TestMagic(buffer)
