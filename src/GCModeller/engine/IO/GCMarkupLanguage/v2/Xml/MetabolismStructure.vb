@@ -167,14 +167,16 @@ Namespace v2
             Return m_kegg.TryGetValue(id)
         End Function
 
-        Public Function GetKEGGMapping(id As String, map_define As String) As Compound()
+        Public Function GetKEGGMapping(id As String, map_define As String, links As Dictionary(Of String, Reaction())) As Compound
             Dim kegg = FindByKEGG(id)
 
-            If kegg Is Nothing Then
+            If kegg.IsNullOrEmpty Then
                 Throw New MissingPrimaryKeyException($"no mapping for kegg term '{map_define}'({id})!")
             End If
 
-            Return kegg
+            Return kegg _
+                .OrderByDescending(Function(c) links(c.ID)) _
+                .First
         End Function
     End Class
 
@@ -203,6 +205,21 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         Public Property etc As Reaction()
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function CompoundLinks() As Dictionary(Of String, Reaction())
+            Return enzymatic _
+                .JoinIterates(etc) _
+                .Select(Function(r)
+                            Return r.AsEnumerable.Select(Function(c) (c, r))
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(l) l.c.compound) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(l)
+                                  Return l.Select(Function(a) a.r).ToArray
+                              End Function)
+        End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Reaction) Implements Enumeration(Of Reaction).GenericEnumerator
             If Not enzymatic.IsNullOrEmpty Then
@@ -263,7 +280,7 @@ Namespace v2
     ''' the reaction graph model
     ''' </summary>
     <XmlType("reaction", [Namespace]:=VirtualCell.GCMarkupLanguage)>
-    Public Class Reaction : Implements INamedValue
+    Public Class Reaction : Implements INamedValue, Enumeration(Of CompoundFactor)
 
         ''' <summary>
         ''' unique reference id of current reaction link
@@ -298,6 +315,14 @@ Namespace v2
             Return $"({ID}: {name}) {equation}"
         End Function
 
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of CompoundFactor) Implements Enumeration(Of CompoundFactor).GenericEnumerator
+            For Each c As CompoundFactor In substrate.SafeQuery
+                Yield c
+            Next
+            For Each c As CompoundFactor In product.SafeQuery
+                Yield c
+            Next
+        End Function
     End Class
 
     Public Class CompoundFactor
