@@ -89,56 +89,62 @@ Namespace ModelLoader
                 .Where(Function(cd)
                            Return Not cd.polypeptide.StringEmpty
                        End Function) _
-                .ToDictionary(Function(cd) cd.polypeptide,
+                .GroupBy(Function(a) a.polypeptide) _
+                .ToDictionary(Function(cd) cd.Key,
                               Function(cd)
-                                  Return cd.geneID
+                                  ' 20241115 some gene may translate identical sequence
+                                  ' protein
+                                  Return cd.Select(Function(g) g.geneID).ToArray
                               End Function)
             Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
             Dim composition As ProteinComposition
             Dim aaResidue As Variable()
-            Dim geneID$
+            Dim geneIDSet As String()
             Dim flux As Channel
 
             For Each complex As Channel In proteinMatures
                 proteinComplex = complex.right.First(Function(c) c.mass.ID.EndsWith(".complex")).mass.ID
                 peptideId = proteinComplex.Replace(".complex", "")
-                geneID = geneIDindex(peptideId)
-                composition = proteinMatrix(geneID)
-                aaResidue = composition _
-                    .Where(Function(i) i.Value > 0) _
-                    .Select(Function(aa)
-                                Dim aaName = loader.define.AminoAcid(aa.Name)
-                                Return MassTable.variable(aaName, aa.Value)
-                            End Function) _
-                    .ToArray
+                geneIDSet = geneIDindex(peptideId)
 
-                flux = New Channel(MassTable.variables({proteinComplex}, 1), MassTable.variables({peptideId}, 1)) With {
-                    .ID = $"proteinComplexDegradationOf{proteinComplex}",
-                    .forward = Controls.StaticControl(10),
-                    .reverse = Controls.StaticControl(0),
-                    .bounds = New Boundary With {
-                        .forward = 1000,
-                        .reverse = 0
+                For Each geneId As String In geneIDSet
+                    composition = proteinMatrix(geneId)
+                    aaResidue = composition _
+                        .Where(Function(i) i.Value > 0) _
+                        .Select(Function(aa)
+                                    Dim aaName = loader.define.AminoAcid(aa.Name)
+                                    Return MassTable.variable(aaName, aa.Value)
+                                End Function) _
+                        .ToArray
+
+                    flux = New Channel(MassTable.variables({proteinComplex}, 1), MassTable.variables({peptideId}, 1)) With {
+                        .ID = $"proteinComplexDegradationOf{proteinComplex}",
+                        .forward = Controls.StaticControl(10),
+                        .reverse = Controls.StaticControl(0),
+                        .bounds = New Boundary With {
+                            .forward = 1000,
+                            .reverse = 0
+                        }
                     }
-                }
 
-                Call loader.fluxIndex(NameOf(Me.proteinDegradation)).Add(flux.ID)
+                    Call loader.fluxIndex(NameOf(Me.proteinDegradation)).Add(flux.ID)
 
-                Yield flux
+                    Yield flux
 
-                flux = New Channel(MassTable.variables({peptideId}, 1), aaResidue) With {
-                    .ID = $"polypeptideDegradationOf{peptideId}",
-                    .forward = Controls.StaticControl(10),
-                    .reverse = Controls.StaticControl(0),
-                    .bounds = New Boundary With {
-                        .forward = 1000,
-                        .reverse = 0
+                    flux = New Channel(MassTable.variables({peptideId}, 1), aaResidue) With {
+                        .ID = $"polypeptideDegradationOf{peptideId}",
+                        .forward = Controls.StaticControl(10),
+                        .reverse = Controls.StaticControl(0),
+                        .bounds = New Boundary With {
+                            .forward = 1000,
+                            .reverse = 0
+                        }
                     }
-                }
 
-                Call loader.fluxIndex("polypeptideDegradation").Add(flux.ID)
+                    Call loader.fluxIndex("polypeptideDegradation").Add(flux.ID)
 
-                Yield flux
+                    Yield flux
+                Next
             Next
         End Function
 

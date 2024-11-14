@@ -435,7 +435,7 @@ Namespace ModelLoader
                 .L = 1,
                 .M = 1,
                 .N = 1,
-                .O = 1,
+                .O = 0,
                 .P = 1,
                 .proteinID = gene.translation,
                 .Q = 1,

@@ -174,7 +174,7 @@ Namespace Cellular.Vector
         ''' <returns></returns>
         Public Property U As Integer
         ''' <summary>
-        ''' L-Pyrrolysine
+        ''' * L-Pyrrolysine
         ''' </summary>
         ''' <returns></returns>
         Public Property O As Integer
