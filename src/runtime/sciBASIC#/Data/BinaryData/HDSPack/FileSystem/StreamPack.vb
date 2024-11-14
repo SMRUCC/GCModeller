@@ -98,6 +98,7 @@ Namespace FileSystem
         ''' a messagepack schema should be defined for these types.
         ''' </summary>
         ReadOnly _registriedTypes As New Index(Of String)
+        ReadOnly _meta_size As Long
 
         Dim disposedValue As Boolean
 
@@ -186,6 +187,7 @@ Namespace FileSystem
             Me.is_readonly = [readonly]
             Me.buffer = buffer
             Me.init_size = init_size
+            Me._meta_size = meta_size
 
             If Not buffer.CanSeek AndAlso [readonly] Then
                 ' zip stream, probably...
@@ -589,6 +591,10 @@ Namespace FileSystem
         ''' <summary>
         ''' just write stream header data
         ''' </summary>
+        ''' <remarks>
+        ''' check of the header size is larger than the pre-allocated metadata size,
+        ''' and populate warning message if it is.
+        ''' </remarks>
         Private Sub flushStreamPack()
             Dim treeMetadata As Byte() = New MemoryStream(superBlock.GetBuffer(_registriedTypes)).GZipStream.ToArray
             Dim registeryMetadata As Byte() = _registriedTypes.GetTypeCodes
@@ -604,6 +610,14 @@ Namespace FileSystem
             Call buffer.Write(globalMetadata, Scan0, globalMetadata.Length)
             Call buffer.Write(size, Scan0, size.Length)
             Call buffer.Write(treeMetadata, Scan0, treeMetadata.Length)
+
+            ' check of the actual header size is larger than the pre-allocated header size
+            If buffer.Position > _meta_size Then
+                Dim warn = $"the actual header size({StringFormats.Lanudry(buffer.Position)}) is greater than the pre-allocated metadata header size({StringFormats.Lanudry(_meta_size)})! some data file is damaged."
+
+                Call warn.Warning
+                Call VBDebugger.PrintException(warn, "HDS::flushStreamPack()")
+            End If
 
             Call buffer.Flush()
         End Sub
