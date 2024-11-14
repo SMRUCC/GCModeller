@@ -130,8 +130,11 @@ Namespace v2
 
             For Each replicon As replicon In model.genome.replicons
                 genomeName = replicon.genomeName
+                replicon.RNAs = replicon.RNAs.OrderBy(Function(r) r.gene).ToArray
                 rnaTable = replicon.RNAs _
                     .AsEnumerable _
+                    .GroupBy(Function(r) r.gene) _
+                    .Select(Function(r) r.First) _
                     .ToDictionary(Function(r) r.gene,
                                   Function(r)
                                       Return New NamedValue(Of RNATypes) With {
