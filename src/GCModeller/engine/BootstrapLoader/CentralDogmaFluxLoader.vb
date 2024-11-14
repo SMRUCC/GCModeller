@@ -293,7 +293,7 @@ Namespace ModelLoader
 
                 ' 翻译模板过程只针对CDS基因
                 If Not cd.polypeptide Is Nothing Then
-                    templateRNA = translationTemplate(cd.geneID, cd.RNAName, proteinMatrix)
+                    templateRNA = translationTemplate(cd, proteinMatrix)
                     productsPro = translationUncharged(cd.geneID, cd.polypeptide, proteinMatrix)
                     polypeptides += cd.polypeptide
 
@@ -380,16 +380,18 @@ Namespace ModelLoader
         ''' <summary>
         ''' mRNA模板加上氨基酸消耗，请注意，在这里并不是直接消耗的氨基酸，而是消耗的已经荷载的tRNA分子
         ''' </summary>
-        ''' <param name="mRNA">The name of the mRNA molecule</param>
+        ''' <param name="gene">The name of the mRNA molecule</param>
         ''' <param name="matrix"></param>
         ''' <returns></returns>
-        Private Function translationTemplate(geneID$, mRNA$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
-            Dim AAVector = matrix(geneID).Where(Function(i) i.Value > 0).ToArray
+        Private Function translationTemplate(gene As CentralDogma, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
+            Dim composit = If(matrix.ContainsKey(gene.geneID), matrix(gene.geneID), matrix.TryGetValue(gene.translation))
+            Dim AAVector = composit.Where(Function(i) i.Value > 0).ToArray
             Dim AAtRNA = AAVector _
                 .Select(Function(aa)
                             Return MassTable.variable(charged_tRNA(aa.Name), aa.Value)
                         End Function) _
                 .AsList
+            Dim mRNA As String = gene.RNAName
 
             Return AAtRNA + MassTable.template(mRNA) + MassTable.variable(loader.define.ATP)
         End Function
