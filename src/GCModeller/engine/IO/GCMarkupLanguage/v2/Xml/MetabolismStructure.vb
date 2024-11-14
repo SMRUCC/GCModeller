@@ -146,6 +146,32 @@ Namespace v2
                 .Select(Function(r) r.ID) _
                 .ToArray
         End Function
+
+        Dim m_kegg As Dictionary(Of String, Compound)
+
+        Public Function FindByKEGG(id As String) As Compound
+            If m_kegg Is Nothing Then
+                m_kegg = compounds _
+                    .Where(Function(c) Not c.kegg_id.StringEmpty) _
+                    .GroupBy(Function(c) c.kegg_id) _
+                    .ToDictionary(Function(c) c.Key,
+                                  Function(c)
+                                      Return c.First
+                                  End Function)
+            End If
+
+            Return m_kegg.TryGetValue(id)
+        End Function
+
+        Public Function GetKEGGMapping(id As String, map_define As String) As Compound
+            Dim kegg = FindByKEGG(id)
+
+            If kegg Is Nothing Then
+                Throw New MissingPrimaryKeyException($"no mapping for kegg term '{map_define}'({id})!")
+            End If
+
+            Return kegg
+        End Function
     End Class
 
     ''' <summary>
@@ -175,12 +201,16 @@ Namespace v2
         Public Property etc As Reaction()
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Reaction) Implements Enumeration(Of Reaction).GenericEnumerator
-            For Each reaction In enzymatic
-                Yield reaction
-            Next
-            For Each reaction In etc
-                Yield reaction
-            Next
+            If Not enzymatic.IsNullOrEmpty Then
+                For Each reaction As Reaction In enzymatic
+                    Yield reaction
+                Next
+            End If
+            If Not etc.IsNullOrEmpty Then
+                For Each reaction As Reaction In etc
+                    Yield reaction
+                Next
+            End If
         End Function
 
         Public Shared Widening Operator CType(reactions As Reaction()) As ReactionGroup
@@ -203,6 +233,13 @@ Namespace v2
 
         <XmlAttribute>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
+
+        ''' <summary>
+        ''' the kegg reference id of current metabolite
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute>
+        Public Property kegg_id As String
 
         <XmlText> Public Property name As String
 

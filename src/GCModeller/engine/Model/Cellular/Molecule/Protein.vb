@@ -80,5 +80,9 @@ Namespace Cellular.Molecule
             polypeptides = {proteinId}
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return ProteinID
+        End Function
+
     End Structure
 End Namespace

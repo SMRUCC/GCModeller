@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::d5c170102553c7a2bcf8d759a32a12a7, engine\BootstrapLoader\CentralDogmaFluxLoader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 305
-    '    Code Lines: 219 (71.80%)
-    ' Comment Lines: 43 (14.10%)
-    '    - Xml Docs: 58.14%
-    ' 
-    '   Blank Lines: 43 (14.10%)
-    '     File Size: 14.31 KB
+' Summaries:
 
 
-    '     Class CentralDogmaFluxLoader
-    ' 
-    '         Properties: componentRNA, mRNA, polypeptides
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux, ribosomeAssembly, transcriptionTemplate, translationTemplate, translationUncharged
-    '                   tRNAProcess
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 305
+'    Code Lines: 219 (71.80%)
+' Comment Lines: 43 (14.10%)
+'    - Xml Docs: 58.14%
+' 
+'   Blank Lines: 43 (14.10%)
+'     File Size: 14.31 KB
+
+
+'     Class CentralDogmaFluxLoader
+' 
+'         Properties: componentRNA, mRNA, polypeptides
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CreateFlux, ribosomeAssembly, transcriptionTemplate, translationTemplate, translationUncharged
+'                   tRNAProcess
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -156,13 +156,49 @@ Namespace ModelLoader
             Return flux
         End Function
 
+        Private Shared Function RnaMatrixIndexing(m As IEnumerable(Of RNAComposition)) As Dictionary(Of String, RNAComposition)
+            Dim geneGroups = m.GroupBy(Function(g) g.geneID)
+            Dim index As New Dictionary(Of String, RNAComposition)
+
+            For Each group As IGrouping(Of String, RNAComposition) In geneGroups
+                If group.Count > 1 Then
+                    Dim warn As String = $"duplicated rna object: '{group.Key}' was found!"
+
+                    Call warn.Warning
+                    Call VBDebugger.EchoLine("[warn] " & warn)
+                Else
+                    Call index.Add(group.Key, group.First)
+                End If
+            Next
+
+            Return index
+        End Function
+
+        Private Shared Function ProteinMatrixIndex(p As IEnumerable(Of ProteinComposition)) As Dictionary(Of String, ProteinComposition)
+            Dim proteinGroups = p.GroupBy(Function(r) r.proteinID)
+            Dim index As New Dictionary(Of String, ProteinComposition)
+
+            For Each group As IGrouping(Of String, ProteinComposition) In proteinGroups
+                If group.Count > 1 Then
+                    Dim warn As String = $"duplicated protein object: '{group.Key}' was found!"
+
+                    Call warn.Warning
+                    Call VBDebugger.EchoLine("[warn] " & warn)
+                Else
+                    Call index.Add(group.Key, group.First)
+                End If
+            Next
+
+            Return index
+        End Function
+
         Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
             Dim templateDNA As Variable()
             Dim productsRNA As Variable()
             Dim templateRNA As Variable()
             Dim productsPro As Variable()
-            Dim rnaMatrix = cell.Genotype.RNAMatrix.ToDictionary(Function(r) r.geneID)
-            Dim proteinMatrix = cell.Genotype.ProteinMatrix.ToDictionary(Function(r) r.proteinID)
+            Dim rnaMatrix As Dictionary(Of String, RNAComposition) = RnaMatrixIndexing(cell.Genotype.RNAMatrix)
+            Dim proteinMatrix = ProteinMatrixIndex(cell.Genotype.ProteinMatrix)
             Dim TFregulations = cell.Regulations _
                 .Where(Function(reg) reg.type = Processes.Transcription) _
                 .GroupBy(Function(reg) reg.process) _
@@ -202,7 +238,16 @@ Namespace ModelLoader
                 If Not cd.polypeptide Is Nothing Then
                     Call MassTable.AddNew(cd.polypeptide, MassRoles.popypeptide)
                     Call mRNA.Add(cd.geneID)
-                    Call proteinList.Add(cd.geneID, proteinComplex(cd.polypeptide))
+
+                    If proteinList.ContainsKey(cd.geneID) Then
+                        Dim warn = $"found duplicated gene: {cd.geneID}"
+
+                        Call warn.Warning
+                        Call VBDebugger.EchoLine("[warn] " & warn)
+                    Else
+                        Call proteinList.Add(cd.geneID, proteinComplex(cd.polypeptide))
+                    End If
+
                     Call MassTable.AddNew(cd.RNAName, MassRoles.mRNA)
                 Else
                     Call componentRNA.Add(cd.geneID)
