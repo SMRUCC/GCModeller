@@ -400,6 +400,11 @@ Namespace ModelLoader
         ''' <returns></returns>
         Private Function translationTemplate(gene As CentralDogma, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
             Dim composit = If(matrix.ContainsKey(gene.geneID), matrix(gene.geneID), matrix.TryGetValue(gene.translation))
+
+            If composit Is Nothing Then
+                composit = MissingAAComposition(gene)
+            End If
+
             Dim AAVector = composit.Where(Function(i) i.Value > 0).ToArray
             Dim AAtRNA = AAVector _
                 .Select(Function(aa)
@@ -411,8 +416,46 @@ Namespace ModelLoader
             Return AAtRNA + MassTable.template(mRNA) + MassTable.variable(loader.define.ATP)
         End Function
 
+        Private Function MissingAAComposition(gene As CentralDogma) As ProteinComposition
+            Dim warn As String = $"missing protein translation composition for gene: {gene.geneID}"
+
+            Call warn.Warning
+            Call VBDebugger.EchoLine("[warn] " & warn)
+
+            Return New ProteinComposition With {
+                .A = 1,
+                .C = 1,
+                .D = 1,
+                .E = 1,
+                .F = 1,
+                .G = 1,
+                .H = 1,
+                .I = 1,
+                .K = 1,
+                .L = 1,
+                .M = 1,
+                .N = 1,
+                .O = 1,
+                .P = 1,
+                .proteinID = gene.translation,
+                .Q = 1,
+                .R = 1,
+                .S = 1,
+                .T = 1,
+                .U = 1,
+                .V = 1,
+                .W = 1,
+                .Y = 1
+            }
+        End Function
+
         Private Function translationUncharged(gene As CentralDogma, peptide$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
             Dim composit = If(matrix.ContainsKey(gene.geneID), matrix(gene.geneID), matrix.TryGetValue(gene.translation))
+
+            If composit Is Nothing Then
+                composit = MissingAAComposition(gene)
+            End If
+
             Dim AAVector = composit.Where(Function(i) i.Value > 0).ToArray
             Dim AAtRNA = AAVector _
                 .Select(Function(aa)
