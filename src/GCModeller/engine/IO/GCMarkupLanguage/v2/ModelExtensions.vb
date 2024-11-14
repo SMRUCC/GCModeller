@@ -259,11 +259,11 @@ Namespace v2
                     If KO.IsNullOrEmpty Then
                         ' 当前的基因组内没有对应的酶来催化这个反应过程
                         ' 则限制一个很小的range
-                        bounds = {10, 10}
+                        bounds = If(reaction.bounds, {10, 10.0})
                         ' 标准的米氏方程？
                         kinetics = {}
                     Else
-                        bounds = {500, 1000.0}
+                        bounds = If(reaction.bounds, {500, 1000.0})
                         kinetics = KO _
                             .Where(Function(c) Not c.Value.formula Is Nothing) _
                             .Where(Function(c) c.Value.reaction = reaction.ID) _
@@ -271,7 +271,8 @@ Namespace v2
                                         Dim expr = ScriptEngine.ParseExpression(k.Value.formula.lambda)
                                         Dim refVals = k.Value.parameter _
                                                 .Select(Function(a) As Object
-                                                            Dim useReferenceId As String = (a.value = 0.0 OrElse a.value.IsNaNImaginary) AndAlso Not a.target.StringEmpty
+                                                            Dim useReferenceId As String = (a.value = 0.0 OrElse a.value.IsNaNImaginary) AndAlso
+                                                                Not a.target.StringEmpty
 
                                                             If useReferenceId Then
                                                                 Return a.target
@@ -295,7 +296,7 @@ Namespace v2
                     End If
                 Else
                     KO = {}
-                    bounds = {200, 200.0}
+                    bounds = If(reaction.bounds, {200, 200.0})
                     kinetics = {}
                 End If
 
