@@ -239,7 +239,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute>
-        Public Property kegg_id As String
+        Public Property kegg_id As String()
 
         <XmlText> Public Property name As String
 
