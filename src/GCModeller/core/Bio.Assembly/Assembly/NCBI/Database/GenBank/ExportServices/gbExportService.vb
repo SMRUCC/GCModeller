@@ -103,15 +103,8 @@ Namespace Assembly.NCBI.GenBank
             Return locus_id
         End Function
 
-        ''' <summary>
-        ''' Convert a feature site data in the NCBI GenBank file to the dump information table.
-        ''' </summary>
-        ''' <param name="obj">CDS标记的特性字段</param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        ''' 
         <Extension>
-        Public Function DumpEXPORT(obj As CDS) As GeneTable
+        Public Function DumpExportFeature(obj As Feature) As GeneTable
             Dim gene As New GeneTable With {
                 .locus_id = obj.EnsureNonEmptyLocusId
             }
@@ -123,29 +116,41 @@ Namespace Assembly.NCBI.GenBank
             Call obj.TryGetValue("function", gene.function)
             Call obj.TryGetValue("transl_table", gene.Transl_table)
 
-            gene.GI = obj.db_xref_GI
-            gene.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt
-            gene.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
-            gene.InterPro = obj.db_xref_InterPro
-            gene.GO = obj.db_xref_GO
             gene.species = obj.gb.Definition.Value
-            gene.EC_Number = obj.Query(FeatureQualifiers.EC_number)
             gene.SpeciesAccessionID = obj.gb.Locus.AccessionID
-
-            'If gene.Function.StringEmpty Then
-
-            'End If
+            gene.type = obj.KeyName
 
             Try
                 gene.left = obj.Location.ContiguousRegion.left
                 gene.right = obj.Location.ContiguousRegion.right
                 gene.strand = If(obj.Location.Complement, "-", "+")
             Catch ex As Exception
-                Dim msg As String = $"{obj.gb.Accession.AccessionId} location data is null!"
+                Dim msg As String = $"{gene.locus_id}@{obj.gb.Accession.AccessionId} nucleotide location data is null!"
                 ex = New Exception(msg)
                 Call VBDebugger.Warning(msg)
                 Call App.LogException(ex)
             End Try
+
+            Return gene
+        End Function
+
+        ''' <summary>
+        ''' Convert a feature site data in the NCBI GenBank file to the dump information table.
+        ''' </summary>
+        ''' <param name="obj">CDS标记的特性字段</param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        ''' 
+        <Extension>
+        Public Function DumpEXPORT(obj As CDS) As GeneTable
+            Dim gene = obj.DumpExportFeature
+
+            gene.GI = obj.db_xref_GI
+            gene.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt
+            gene.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
+            gene.InterPro = obj.db_xref_InterPro
+            gene.GO = obj.db_xref_GO
+            gene.EC_Number = obj.Query(FeatureQualifiers.EC_number)
 
             Return gene
         End Function
@@ -289,6 +294,14 @@ Namespace Assembly.NCBI.GenBank
             Return genomics
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="genbank"></param>
+        ''' <param name="ORF">
+        ''' CDS/tRNA/rRNA if set this parameter to false
+        ''' </param>
+        ''' <returns></returns>
         <Extension>
         Public Function EnumerateGeneFeatures(genbank As GBFF.File, Optional ORF As Boolean = True) As IEnumerable(Of Feature)
             Dim assert As Predicate(Of Feature)
@@ -622,14 +635,14 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         Private Function __exportWithAnnotation(data As GeneTable()) As FASTA.FastaFile
-            Dim LQuery = From gene As GeneTable
-                         In data.AsParallel
-                         Let attrs As String() = {gene.locus_id, gene.geneName, gene.GI, gene.commonName, gene.function, gene.species}
-                         Select New FASTA.FastaSeq With {
-                             .Headers = attrs,
-                             .SequenceData = gene.Translation
-                         }
-            Return New FASTA.FastaFile(LQuery)
+            Return New FastaFile(
+                From gene As GeneTable
+                In data.AsParallel
+                Let attrs As String() = {gene.locus_id, gene.geneName, gene.GI, gene.commonName, gene.function, gene.species}
+                Select New FASTA.FastaSeq With {
+                    .Headers = attrs,
+                    .SequenceData = gene.Translation
+                })
         End Function
 
         <Extension>
