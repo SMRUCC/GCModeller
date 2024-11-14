@@ -98,19 +98,19 @@ Namespace Engine
 
         Public ReadOnly Property rRNA As Factor()
             Get
-                Return GetRole(MassRoles.rRNA)
+                Return GetRole(MassRoles.rRNA).ToArray
             End Get
         End Property
 
         Public ReadOnly Property metabolites As Factor()
             Get
-                Return GetRole(MassRoles.compound)
+                Return GetRole(MassRoles.compound).ToArray
             End Get
         End Property
 
         Public ReadOnly Property polypeptide As Factor()
             Get
-                Return GetRole(MassRoles.polypeptide)
+                Return GetRole(MassRoles.polypeptide).ToArray
             End Get
         End Property
 
