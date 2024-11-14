@@ -467,13 +467,17 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         ''' <summary>
-        ''' Exports CDS feature
+        ''' Exports selective gene features
         ''' </summary>
         ''' <param name="gbk"></param>
         ''' <returns></returns>
-        <Extension> Public Function ExportGeneFeatures(gbk As GBFF.File) As GeneTable()
+        ''' <remarks>
+        ''' features was filter via the ``CDS`` key name
+        ''' </remarks>
+        <Extension>
+        Public Function ExportGeneFeatures(gbk As GBFF.File) As GeneTable()
             Dim dumps As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
- _
+                                                                    _
                 From feature As Feature
                 In gbk.Features._innerList.AsParallel
                 Where String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
@@ -628,7 +632,8 @@ Namespace Assembly.NCBI.GenBank
             Return New FASTA.FastaFile(LQuery)
         End Function
 
-        <Extension> Public Function TryParseGBKID(path As String) As String
+        <Extension>
+        Public Function TryParseGBKID(path As String) As String
             Dim Name As String = path.BaseName
             Name = Regex.Replace(Name, "\.\d+", "")
             Return Name.ToUpper
@@ -651,16 +656,11 @@ Namespace Assembly.NCBI.GenBank
 
             Dim reader As IPolymerSequenceModel = gb.Origin
             Dim list As New List(Of FastaSeq)
-            Dim loc As NucleotideLocation = Nothing
-            Dim attrs As String() = Nothing
-            Dim Sequence As String
             Dim products As Dictionary(Of GeneTable) = gb.ExportGeneFeatures.ToDictionary
             Dim geneFeatures = (From x As Feature
                                 In gb.Features._innerList
                                 Where String.Equals(x.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                 Select x).ToArray
-            Dim locus_tag As String
-            Dim function$
 
             If geneFeatures.Length = 0 Then
                 ' 在gb文件中没有定义gene feature
@@ -671,41 +671,54 @@ Namespace Assembly.NCBI.GenBank
             End If
 
             Try
-                For Each gene As Feature In geneFeatures
-                    If geneName Then
-                        locus_tag = gene.Query("gene")
-                        If String.IsNullOrEmpty(locus_tag) OrElse String.Equals(locus_tag, "-") Then
-                            locus_tag = gene.EnsureNonEmptyLocusId
-                        End If
-                    Else
-                        locus_tag = gene.EnsureNonEmptyLocusId
-                    End If
-
-                    [function] = products.SafeGetValue(locus_tag)?.function
-                    [function] = If([function].StringEmpty, products.SafeGetValue(locus_tag)?.commonName, [function])
-                    loc = gene.Location.ContiguousRegion
-
-                    If onlyLocus_tag Then
-                        attrs = {locus_tag}
-                    Else
-                        attrs = {locus_tag, gene.Location.ToString, [function]}
-                    End If
-
-                    Sequence = reader.CutSequenceLinear(loc.left, loc.right).SequenceData
-                    Sequence = If(gene.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
-
-                    list += New FastaSeq(attrs, Sequence)
-                Next
+                Call list.AddRange(geneFeatures.DnaSequenceExports(geneName, onlyLocus_tag, reader, products))
             Catch ex As Exception
                 ex = New Exception(gb.ToString, ex)
-                ex = New Exception(attrs.GetJson, ex)
-                ex = New Exception(loc.GetJson, ex)
                 ex = New Exception(gb.Accession.GetJson, ex)
                 Call App.LogException(ex)
                 Throw ex
             End Try
 
             Return New FASTA.FastaFile(list)
+        End Function
+
+        <Extension>
+        Private Iterator Function DnaSequenceExports(geneFeatures As IEnumerable(Of Feature),
+                                                     geneName As Boolean,
+                                                     onlyLocus_tag As Boolean,
+                                                     reader As IPolymerSequenceModel,
+                                                     products As Dictionary(Of GeneTable)) As IEnumerable(Of FastaSeq)
+            Dim sequence As String
+            Dim attrs As String() = Nothing
+            Dim locus_tag As String
+            Dim function$
+            Dim loc As NucleotideLocation = Nothing
+
+            For Each gene As Feature In geneFeatures
+                If geneName Then
+                    locus_tag = gene.Query("gene")
+                    If String.IsNullOrEmpty(locus_tag) OrElse String.Equals(locus_tag, "-") Then
+                        locus_tag = gene.EnsureNonEmptyLocusId
+                    End If
+                Else
+                    locus_tag = gene.EnsureNonEmptyLocusId
+                End If
+
+                [function] = products.SafeGetValue(locus_tag)?.function
+                [function] = If([function].StringEmpty, products.SafeGetValue(locus_tag)?.commonName, [function])
+                loc = gene.Location.ContiguousRegion
+
+                If onlyLocus_tag Then
+                    attrs = {locus_tag}
+                Else
+                    attrs = {locus_tag, gene.Location.ToString, [function]}
+                End If
+
+                sequence = reader.CutSequenceLinear(loc.left, loc.right).SequenceData
+                sequence = If(gene.Location.Complement, NucleicAcid.Complement(sequence), sequence)
+
+                Yield New FastaSeq(attrs, sequence)
+            Next
         End Function
     End Module
 End Namespace

@@ -66,9 +66,10 @@ Namespace ComponentModel.Annotation
 
     ''' <summary>
     ''' The gene dump information from the NCBI genbank.
-    ''' (从GBK文件之中所导出来的一个基因对象的简要信息，尝试使用这个对象以csv表格的格式存储一个基因的所有的注释信息)
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' (从GBK文件之中所导出来的一个基因对象的简要信息，尝试使用这个对象以csv表格的格式存储一个基因的所有的注释信息)
+    ''' </remarks>
     Public Class GeneTable : Implements INamedValue
         Implements IGeneBrief
 
@@ -143,6 +144,7 @@ Namespace ComponentModel.Annotation
         End Property
 
         Public Property EC_Number As String
+        Public Property type As String
 
         Public Overrides Function ToString() As String
             Return locus_id & ": " & commonName
