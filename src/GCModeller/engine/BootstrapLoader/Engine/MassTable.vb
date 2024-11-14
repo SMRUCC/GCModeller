@@ -102,6 +102,12 @@ Namespace Engine
             End Get
         End Property
 
+        Public ReadOnly Property micsRNA As Factor()
+            Get
+                Return GetRole(MassRoles.RNA).ToArray
+            End Get
+        End Property
+
         Public ReadOnly Property metabolites As Factor()
             Get
                 Return GetRole(MassRoles.compound).ToArray
