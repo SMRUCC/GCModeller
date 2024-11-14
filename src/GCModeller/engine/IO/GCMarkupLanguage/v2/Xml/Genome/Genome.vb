@@ -122,6 +122,10 @@ Namespace v2
         <XmlAttribute> Public Property type As RNATypes
         <XmlAttribute> Public Property val As String
 
+        Public Overrides Function ToString() As String
+            Return $"{gene} ({type}); ""{val}"""
+        End Function
+
     End Class
 
     ''' <summary>
