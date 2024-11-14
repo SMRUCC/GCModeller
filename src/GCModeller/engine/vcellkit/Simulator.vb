@@ -128,7 +128,9 @@ Public Module Simulator
     ''' get the initial mass value
     ''' </summary>
     ''' <param name="vcell"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' A mass environment for run vcell model in GCModeller
+    ''' </returns>
     <ExportAPI("mass0")>
     Public Function mass0(vcell As VirtualCell) As Definition
         Dim kegg_ref = Definition.KEGG({})

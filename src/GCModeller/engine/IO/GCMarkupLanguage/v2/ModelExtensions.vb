@@ -177,7 +177,8 @@ Namespace v2
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function createPhenotype(model As VirtualCell) As Phenotype
-            Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso Not model.genome.replicons.IsNullOrEmpty
+            Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso
+                Not model.genome.replicons.IsNullOrEmpty
             Dim fluxChannels = model.createFluxes _
                 .OrderByDescending(Function(r) r.enzyme.SafeQuery.Count) _
                 .ToArray

@@ -129,6 +129,12 @@ Namespace Engine
                         End Function)
         End Function
 
+        ''' <summary>
+        ''' Create a mass factor link to the current mass environment
+        ''' </summary>
+        ''' <param name="mass"></param>
+        ''' <param name="coefficient"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function variable(mass As String, Optional coefficient As Double = 1) As Variable
             Return New Variable(massTable(mass), coefficient, False)
