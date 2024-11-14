@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\drivers\\fluxemulator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\engine\\vcell\\engine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\simulator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\debugger\\debugger.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\biomoleculedegradation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -28,8 +40,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FluxEmulator.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Drivers\\FluxEmulator.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Drivers\\FluxEmulator.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Drivers\\FluxEmulator.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Drivers\\FluxEmulator.vb",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAawIIAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-14T15:23:50.283Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -40,7 +65,46 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Simulator.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
+              "ViewState": "AgIAAMYAAAAAAAAAAAArwOYAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-14T15:24:55.827Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Engine.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Engine\\VCell\\Engine.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\VCell\\Engine.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Engine\\VCell\\Engine.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\VCell\\Engine.vb",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAnwKkAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-14T15:24:48.779Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "Debugger.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
+              "ViewState": "AgIAAH4AAAAAAAAAAAArwJwAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-14T15:24:38.7Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "ProteinComposition.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
@@ -53,7 +117,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "MassTable.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
@@ -66,7 +130,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "CentralDogma.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
@@ -79,7 +143,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "MassRoles.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Mass\\MassRoles.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Mass\\MassRoles.vb",
@@ -92,20 +156,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "BioMoleculeDegradation.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
-              "ViewState": "AgIAAIAAAAAAAAAAAAAEwKUAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFAAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-14T14:41:36.393Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "CentralDogmaFluxLoader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
