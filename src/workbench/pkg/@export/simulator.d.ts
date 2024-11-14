@@ -50,6 +50,7 @@ declare namespace simulator {
     * 
     * 
      * @param vcell -
+     * @return A mass environment for run vcell model in GCModeller
    */
    function mass0(vcell: object): object;
    module vcell {
@@ -65,9 +66,11 @@ declare namespace simulator {
          /**
           * Create a new status profile data object with unify mass contents.
           * 
+          * > this function works for the data model which is based on the kegg database model
           * 
            * @param vcell -
-           * @param mass 
+           * @param mass -
+           * 
            * + default value Is ``5000``.
          */
          function kegg(vcell: object, mass?: number): object;
