@@ -303,6 +303,10 @@ Namespace v2
         <XmlElement> Public Property substrate As CompoundFactor()
         <XmlElement> Public Property product As CompoundFactor()
 
+        ''' <summary>
+        ''' the debug view of the current equation model
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property equation As String
             Get
                 Return substrate.Select(Function(a) a.factorString).JoinBy(" + ") &

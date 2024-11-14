@@ -6,6 +6,15 @@
       "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\modelextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\componentmodel\\equations\\defaulttypes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\xml\\metabolismstructure.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\workflow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -24,9 +33,6 @@
       "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\engine\\vcell\\engine.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\xml\\metabolismstructure.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
@@ -37,19 +43,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ModelExtensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
-              "ViewState": "AgIAAKoAAAAAAAAAAAAowLsAAAAqAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "DefaultTypes.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Equations\\DefaultTypes.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGEAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-14T12:13:20.011Z",
+              "WhenOpened": "2024-11-14T12:20:08.857Z",
               "EditorCaption": ""
             },
             {
@@ -62,7 +68,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Extensions.vb",
+              "ViewState": "AgIAABwCAAAAAAAAAAAvwDoCAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-14T12:14:58.058Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ModelExtensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "ViewState": "AgIAANcAAAAAAAAAAAAWwN8AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-14T12:13:20.011Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Workflow.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\Workflow.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\Workflow.vb",
@@ -75,7 +107,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "CentralDogmaFluxLoader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
@@ -88,7 +120,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "MassTable.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
@@ -101,7 +133,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Loader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Loader.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Loader.vb",
@@ -114,7 +146,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "Engine.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Engine\\VCell\\Engine.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\VCell\\Engine.vb",
@@ -127,20 +159,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "MetabolismStructure.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
-              "ViewState": "AgIAAIwAAAAAAAAAAAApwLMAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAABkBAAAAAAAAAAAlwDIBAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-14T11:33:26.783Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Simulator.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
@@ -153,7 +185,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "R-cmd.NET5",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",

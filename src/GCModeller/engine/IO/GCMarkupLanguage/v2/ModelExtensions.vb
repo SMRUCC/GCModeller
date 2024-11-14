@@ -180,7 +180,7 @@ Namespace v2
             Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso
                 Not model.genome.replicons.IsNullOrEmpty
             Dim fluxChannels = model.createFluxes _
-                .OrderByDescending(Function(r) r.enzyme.SafeQuery.Count) _
+                .OrderByDescending(Function(r) r.enzyme.TryCount) _
                 .ToArray
             Dim enzymes = model.metabolismStructure.enzymes _
                 .Select(Function(enz) enz.geneID) _
@@ -212,14 +212,27 @@ Namespace v2
         End Function
 
         <Extension>
+        Private Function BuildEquation(reaction As Reaction) As Equation
+            Return New Equation With {
+                .Id = reaction.ID,
+                .reversible = True,
+                .Reactants = reaction.substrate _
+                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound)) _
+                    .ToArray,
+                .Products = reaction.product _
+                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound)) _
+                    .ToArray
+            }
+        End Function
+
+        <Extension>
         Private Iterator Function createFluxes(model As VirtualCell) As IEnumerable(Of FluxModel)
             Dim equation As Equation
             ' {reactionID => KO()}
             Dim enzymes = model.metabolismStructure _
                 .enzymes _
                 .Select(Function(enz)
-                            Return enz _
-                                .catalysis _
+                            Return enz.catalysis _
                                 .SafeQuery _
                                 .Select(Function(ec)
                                             Return (rID:=ec.reaction, enz:=New NamedValue(Of Catalysis)(enz.KO, ec))
@@ -238,7 +251,7 @@ Namespace v2
             Dim kinetics As Kinetics()
 
             For Each reaction As Reaction In model.metabolismStructure.reactions.AsEnumerable
-                equation = Equation.TryParse(reaction.Equation)
+                equation = reaction.BuildEquation
 
                 If reaction.is_enzymatic Then
                     KO = enzymes.TryGetValue(reaction.ID, [default]:={}, mute:=True)
