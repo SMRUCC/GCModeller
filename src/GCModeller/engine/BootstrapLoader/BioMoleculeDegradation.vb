@@ -156,7 +156,12 @@ Namespace ModelLoader
         Private Iterator Function RNADegradation(cell As CellularModule) As IEnumerable(Of Channel)
             Dim centralDogmas = loader.GetCentralDogmaFluxLoader
             Dim composition As RNAComposition
-            Dim rnaMatrix = cell.Genotype.RNAMatrix.ToDictionary(Function(r) r.geneID)
+            Dim rnaMatrix = cell.Genotype.RNAMatrix _
+                .GroupBy(Function(a) a.geneID) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(r)
+                                  Return r.First
+                              End Function)
             Dim ntBase As Variable()
             Dim flux As Channel
 
