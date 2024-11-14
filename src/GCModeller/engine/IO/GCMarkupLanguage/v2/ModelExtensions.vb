@@ -117,9 +117,7 @@ Namespace v2
         <Extension>
         Private Iterator Function createGenotype(model As VirtualCell) As IEnumerable(Of CentralDogma)
             Dim genomeName$
-            Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure _
-                .enzymes _
-                .ToDictionary(Function(enzyme) enzyme.geneID)
+            Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure.enzymes.ToDictionary(Function(enzyme) enzyme.geneID)
             Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
             Dim RNA As NamedValue(Of RNATypes)
             Dim proteinId$
@@ -130,10 +128,9 @@ Namespace v2
                 Return
             End If
 
-            For Each replicon In model.genome.replicons
+            For Each replicon As replicon In model.genome.replicons
                 genomeName = replicon.genomeName
-                rnaTable = replicon _
-                    .RNAs _
+                rnaTable = replicon.RNAs _
                     .AsEnumerable _
                     .ToDictionary(Function(r) r.gene,
                                   Function(r)
@@ -168,7 +165,9 @@ Namespace v2
                         .geneID = gene.locus_tag,
                         .polypeptide = proteinId,
                         .orthology = enzymes.TryGetValue(.geneID)?.KO,
-                        .RNA = RNA
+                        .RNA = RNA,
+                        .transcript = gene.nucleotide_base?.name,
+                        .translation = gene.amino_acid?.name
                     }
                 Next
             Next

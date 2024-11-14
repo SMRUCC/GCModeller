@@ -104,6 +104,15 @@ Namespace Cellular.Process
         Dim replicon As String
 
         ''' <summary>
+        ''' matrix vector reference of the RNA composition
+        ''' </summary>
+        Dim transcript As String
+        ''' <summary>
+        ''' matrix vector reference of the protein composition
+        ''' </summary>
+        Dim translation As String
+
+        ''' <summary>
         ''' 如果这个属性返回false就说明不是编码蛋白序列的基因
         ''' </summary>
         ''' <returns></returns>
