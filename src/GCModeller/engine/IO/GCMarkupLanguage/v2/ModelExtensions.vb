@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::d7a4a2d316d53d751ac7b08c18db6ab6, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 267
-    '    Code Lines: 229 (85.77%)
-    ' Comment Lines: 14 (5.24%)
-    '    - Xml Docs: 42.86%
-    ' 
-    '   Blank Lines: 24 (8.99%)
-    '     File Size: 12.36 KB
+' Summaries:
 
 
-    '     Module ModelExtensions
-    ' 
-    '         Function: createFluxes, createGenotype, CreateModel, createPhenotype, exportRegulations
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 267
+'    Code Lines: 229 (85.77%)
+' Comment Lines: 14 (5.24%)
+'    - Xml Docs: 42.86%
+' 
+'   Blank Lines: 24 (8.99%)
+'     File Size: 12.36 KB
+
+
+'     Module ModelExtensions
+' 
+'         Function: createFluxes, createGenotype, CreateModel, createPhenotype, exportRegulations
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -153,7 +153,14 @@ Namespace v2
                         RNA = New NamedValue(Of RNATypes) With {
                             .Name = gene.locus_tag
                         }
-                        proteinId = gene.protein_id Or $"{gene.locus_tag}::peptide".AsDefault
+                        proteinId = gene.protein_id ' Or $"{gene.locus_tag}::peptide".AsDefault
+
+                        If proteinId.StringEmpty Then
+                            Dim warn = $"broken central dogma of '{gene.locus_tag}' was found. this gene should be a mRNA but missing polypeptide data."
+
+                            Call warn.Warning
+                            Call VBDebugger.EchoLine("[warn] " & warn)
+                        End If
                     End If
 
                     Yield New CentralDogma With {
@@ -301,9 +308,13 @@ Namespace v2
 
         <Extension>
         Private Iterator Function exportRegulations(model As VirtualCell) As IEnumerable(Of Regulation)
-            Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso Not model.genome.replicons.IsNullOrEmpty
+            Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso
+                Not model.genome.replicons.IsNullOrEmpty
 
             If Not hasGenotype Then
+                Return
+            End If
+            If model.genome.regulations.IsNullOrEmpty Then
                 Return
             End If
 

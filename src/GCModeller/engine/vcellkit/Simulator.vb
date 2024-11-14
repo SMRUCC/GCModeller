@@ -1,66 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::f688be89effff8a21284f2a3fa491eaf, engine\vcellkit\Simulator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 180
-    '    Code Lines: 121 (67.22%)
-    ' Comment Lines: 38 (21.11%)
-    '    - Xml Docs: 84.21%
-    ' 
-    '   Blank Lines: 21 (11.67%)
-    '     File Size: 7.59 KB
+' Summaries:
 
 
-    ' Enum ModuleSystemLevels
-    ' 
-    '     Metabolome, Proteome, Transcriptome
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' Module Simulator
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: ApplyModuleProfile, CreateObjectModel, CreateUnifyDefinition, CreateVCellEngine, FluxIndex
-    '               GetDefaultDynamics, mass0, MassIndex
-    ' 
-    '     Sub: TakeStatusSnapshot
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 180
+'    Code Lines: 121 (67.22%)
+' Comment Lines: 38 (21.11%)
+'    - Xml Docs: 84.21%
+' 
+'   Blank Lines: 21 (11.67%)
+'     File Size: 7.59 KB
+
+
+' Enum ModuleSystemLevels
+' 
+'     Metabolome, Proteome, Transcriptome
+' 
+'  
+' 
+' 
+' 
+' Module Simulator
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: ApplyModuleProfile, CreateObjectModel, CreateUnifyDefinition, CreateVCellEngine, FluxIndex
+'               GetDefaultDynamics, mass0, MassIndex
+' 
+'     Sub: TakeStatusSnapshot
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -109,8 +109,11 @@ Public Module Simulator
     ''' Create a new status profile data object with unify mass contents.
     ''' </summary>
     ''' <param name="vcell"></param>
-    ''' <param name="mass#"></param>
+    ''' <param name="mass"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' this function works for the data model which is based on the kegg database model
+    ''' </remarks>
     <ExportAPI("vcell.mass.kegg")>
     <Extension>
     Public Function CreateUnifyDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
@@ -128,14 +131,53 @@ Public Module Simulator
     ''' <returns></returns>
     <ExportAPI("mass0")>
     Public Function mass0(vcell As VirtualCell) As Definition
+        Dim kegg_ref = Definition.KEGG({})
+        Dim pool = vcell.metabolismStructure
+        Dim dnaseq = kegg_ref.NucleicAcid
+        Dim prot = kegg_ref.AminoAcid
+        Dim generic = kegg_ref.GenericCompounds
+
         Return New Definition With {
-            .status = vcell _
-                .metabolismStructure _
-                .compounds _
+            .status = pool.compounds _
                 .ToDictionary(Function(c) c.ID,
                               Function(c)
                                   Return c.mass0
-                              End Function)
+                              End Function),
+            .ADP = pool.GetKEGGMapping(kegg_ref.ADP, NameOf(kegg_ref.ADP)).ID,
+            .ATP = pool.GetKEGGMapping(kegg_ref.ATP, NameOf(kegg_ref.ATP)).ID,
+            .Oxygen = pool.GetKEGGMapping(kegg_ref.Oxygen, NameOf(kegg_ref.Oxygen)).ID,
+            .Water = pool.GetKEGGMapping(kegg_ref.Water, NameOf(kegg_ref.Water)).ID,
+            .NucleicAcid = New NucleicAcid With {
+                .A = pool.GetKEGGMapping(dnaseq.A, "dnaseq->A").ID,
+                .C = pool.GetKEGGMapping(dnaseq.C, "dnaseq->C").ID,
+                .G = pool.GetKEGGMapping(dnaseq.G, "dnaseq->G").ID,
+                .U = pool.GetKEGGMapping(dnaseq.U, "dnaseq->U").ID
+            },
+            .AminoAcid = New AminoAcid With {
+                .A = pool.GetKEGGMapping(prot.A, "prot->A").ID,
+                .U = pool.GetKEGGMapping(prot.U, "prot->U").ID,
+                .G = pool.GetKEGGMapping(prot.G, "prot->G").ID,
+                .C = pool.GetKEGGMapping(prot.C, "prot->C").ID,
+                .D = pool.GetKEGGMapping(prot.D, "prot->D").ID,
+                .E = pool.GetKEGGMapping(prot.E, "prot->E").ID,
+                .F = pool.GetKEGGMapping(prot.F, "prot->F").ID,
+                .H = pool.GetKEGGMapping(prot.H, "prot->H").ID,
+                .I = pool.GetKEGGMapping(prot.I, "prot->I").ID,
+                .K = pool.GetKEGGMapping(prot.K, "prot->K").ID,
+                .L = pool.GetKEGGMapping(prot.L, "prot->L").ID,
+                .M = pool.GetKEGGMapping(prot.M, "prot->M").ID,
+                .N = pool.GetKEGGMapping(prot.N, "prot->N").ID,
+                .O = pool.GetKEGGMapping(prot.O, "prot->O").ID,
+                .P = pool.GetKEGGMapping(prot.P, "prot->P").ID,
+                .Q = pool.GetKEGGMapping(prot.Q, "prot->Q").ID,
+                .R = pool.GetKEGGMapping(prot.R, "prot->R").ID,
+                .S = pool.GetKEGGMapping(prot.S, "prot->S").ID,
+                .T = pool.GetKEGGMapping(prot.T, "prot->T").ID,
+                .V = pool.GetKEGGMapping(prot.V, "prot->V").ID,
+                .W = pool.GetKEGGMapping(prot.W, "prot->W").ID,
+                .Y = pool.GetKEGGMapping(prot.Y, "prot->Y").ID
+            },
+            .GenericCompounds = New Dictionary(Of String, GeneralCompound)
         }
     End Function
 

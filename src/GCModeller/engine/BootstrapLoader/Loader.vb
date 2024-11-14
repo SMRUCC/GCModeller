@@ -71,6 +71,9 @@ Namespace ModelLoader
     ''' </summary>
     Public Class Loader
 
+        ''' <summary>
+        ''' some necessary constant mapping of the id name
+        ''' </summary>
         Friend ReadOnly define As Definition
         Friend ReadOnly dynamics As FluxBaseline
         Friend ReadOnly vcellEngine As New Vessel

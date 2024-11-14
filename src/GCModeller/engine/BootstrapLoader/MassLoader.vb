@@ -57,7 +57,6 @@
 
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
@@ -68,6 +67,9 @@ Namespace ModelLoader
 
         Public ReadOnly Property massTable As MassTable
 
+        ''' <summary>
+        ''' link mapping from protein to protein complex
+        ''' </summary>
         Public ReadOnly proteinComplex As New Dictionary(Of String, String)
 
         Sub New(loader As Loader)
@@ -104,9 +106,20 @@ Namespace ModelLoader
 
             Dim complexID As String
 
+            ' 20241113 protein id maybe duplicated, due to the reason of
+            ' some gene translate the protein with identicial protein sequence data
+            ' so reference to the identical protein model
             For Each complex As Protein In cell.Phenotype.proteins
                 complexID = massTable.AddNew(complex.ProteinID & ".complex", MassRoles.protein)
-                proteinComplex.Add(complex.ProteinID, complexID)
+
+                If proteinComplex.ContainsKey(complex.ProteinID) Then
+                    Dim warn As String = $"duplicated protein id: '{complex.ProteinID}' was found."
+
+                    Call warn.Warning
+                    Call VBDebugger.EchoLine("[warn] " & warn)
+                Else
+                    Call proteinComplex.Add(complex.ProteinID, complexID)
+                End If
             Next
         End Sub
 
