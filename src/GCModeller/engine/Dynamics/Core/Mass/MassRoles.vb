@@ -67,6 +67,10 @@ Namespace Core
         mRNA
         tRNA
         rRNA
+        ''' <summary>
+        ''' other RNA molecules
+        ''' </summary>
+        RNA
         polypeptide
         ''' <summary>
         ''' 蛋白包括单体蛋白或者复合物蛋白

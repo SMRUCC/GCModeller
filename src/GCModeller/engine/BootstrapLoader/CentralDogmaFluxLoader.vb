@@ -274,6 +274,9 @@ Namespace ModelLoader
                                     Yield proc
                                 Next
                         End Select
+                    Else
+                        ' add RNA molecule to mass table
+                        Call MassTable.AddNew(cd.RNAName, MassRoles.RNA)
                     End If
                 End If
             Next
