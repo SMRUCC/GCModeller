@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>A data file</p>
+        <p>A data file reference</p>
 
         <h3>Declare</h3>        
 
@@ -32,9 +32,12 @@
 export class StreamBlock extends <a href="/vignettes/clr/Microsoft/VisualBasic/DataStorage/HDSPack/FileSystem/StreamObject.html">StreamObject</a> {
    attributes: <a href="/vignettes/clr/Microsoft/VisualBasic/DataStorage/HDSPack/LazyAttribute.html">LazyAttribute</a>;
    description: string;
+   # get the extension suffix name of current file node
+   extensionSuffix: string;
    fileName: string;
    # tostring of the <a href="/vignettes/clr/Microsoft/VisualBasic/DataStorage/HDSPack/FileSystem/StreamObject.html">StreamObject</a>.<a href="/vignettes/clr/Microsoft/VisualBasic/FileIO/Path/FilePath.html">referencePath</a> object.
    fullName: string;
+   # get http mime content type of current file object
    mimeType: <a href="/vignettes/clr/Microsoft/VisualBasic/Net/Protocols/ContentTypes/ContentType.html">ContentType</a>;
    # the byte offset of current file data
    offset: integer;
