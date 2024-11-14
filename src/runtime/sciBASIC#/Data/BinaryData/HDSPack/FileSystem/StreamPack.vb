@@ -172,9 +172,11 @@ Namespace FileSystem
         ''' 
         ''' </summary>
         ''' <param name="buffer"></param>
-        ''' <param name="init_size"></param>
+        ''' <param name="init_size">
+        ''' the initialize block file of the memorystream for the block file when do create new file.
+        ''' </param>
         ''' <param name="meta_size">
-        ''' the size in bytes of the tree header data
+        ''' the size in bytes of the tree header data, used for create new file only
         ''' </param>
         Sub New(buffer As Stream,
                 Optional init_size As Integer = 1024,
@@ -198,8 +200,10 @@ Namespace FileSystem
             End If
 
             If Me.buffer.Length > 128 Then
+                ' load the filesystem tree
                 superBlock = ParseTree()
             Else
+                ' is empty file, initialize of the filesystem
                 Call Clear(meta_size)
             End If
         End Sub
@@ -222,7 +226,7 @@ Namespace FileSystem
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Clear the file tree
         ''' </summary>
         ''' <param name="meta_size">
         ''' the size in bytes of the tree header data
@@ -328,7 +332,7 @@ Namespace FileSystem
             Dim registry As New Dictionary(Of String, String)
 
             If Not is_magic Then
-                Throw New FormatException("invalid magic header!")
+                Throw New FormatException("invalid magic header for the current HDS pack stream!")
             Else
                 Call ParseMetadata(buffer, registry)
             End If
@@ -381,13 +385,18 @@ Namespace FileSystem
             Return superBlock.GetObject(New FilePath(fileName), throw_err:=False)
         End Function
 
+        ''' <summary>
+        ''' Open an existed block file
+        ''' </summary>
+        ''' <param name="block"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function OpenBlock(block As StreamBlock) As Stream
             Return New SubStream(buffer, block.offset, block.size)
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Check of the given file data stream is existsed inside current data pack file
         ''' </summary>
         ''' <param name="path"></param>
         ''' <param name="ZERO_Nonexists">
