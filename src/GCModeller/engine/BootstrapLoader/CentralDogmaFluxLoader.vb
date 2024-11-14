@@ -101,7 +101,8 @@ Namespace ModelLoader
         ''' <returns></returns>
         Private Iterator Function tRNAProcess(cd As CentralDogma) As IEnumerable(Of Channel)
             Dim chargeName As String = "*" & cd.RNAName
-            Dim AA As String = SequenceModel.Polypeptides.Abbreviate(cd.RNA.Description)
+            Dim AAKey = cd.RNA.Description.Replace("tRNA", "").Trim("-"c)
+            Dim AA As String = SequenceModel.Polypeptides.Abbreviate(AAKey)
 
             ' tRNA基因会存在多个拷贝
             ' 但是实际的反应只需要一个就好了，在这里跳过已经重复出现的tRNA拷贝
