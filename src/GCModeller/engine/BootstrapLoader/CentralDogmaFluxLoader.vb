@@ -237,7 +237,7 @@ Namespace ModelLoader
                 Call MassTable.AddNew(cd.geneID, MassRoles.gene)
 
                 If Not cd.polypeptide Is Nothing Then
-                    Call MassTable.AddNew(cd.polypeptide, MassRoles.popypeptide)
+                    Call MassTable.AddNew(cd.polypeptide, MassRoles.polypeptide)
                     Call mRNA.Add(cd.geneID)
 
                     If proteinList.ContainsKey(cd.geneID) Then

@@ -65,7 +65,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 
 Namespace Engine
 
@@ -74,10 +73,44 @@ Namespace Engine
 
         Dim massTable As New Dictionary(Of String, Factor)
 
+        ''' <summary>
+        ''' make a snapshot of current mass environment
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property GetMassValues As Dictionary(Of String, Double)
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Me.ToDictionary(Function(m) m.ID, Function(m) m.Value)
+            End Get
+        End Property
+
+        Public ReadOnly Property mRNA As Factor()
+            Get
+                Return GetRole(MassRoles.mRNA).ToArray
+            End Get
+        End Property
+
+        Public ReadOnly Property tRNA As Factor()
+            Get
+                Return GetRole(MassRoles.tRNA).ToArray
+            End Get
+        End Property
+
+        Public ReadOnly Property rRNA As Factor()
+            Get
+                Return GetRole(MassRoles.rRNA)
+            End Get
+        End Property
+
+        Public ReadOnly Property metabolites As Factor()
+            Get
+                Return GetRole(MassRoles.compound)
+            End Get
+        End Property
+
+        Public ReadOnly Property polypeptide As Factor()
+            Get
+                Return GetRole(MassRoles.polypeptide)
             End Get
         End Property
 
@@ -101,6 +134,14 @@ Namespace Engine
                 Call massTable.Remove(key)
             End If
         End Sub
+
+        Public Iterator Function GetRole(role As MassRoles) As IEnumerable(Of Factor)
+            For Each mass As Factor In massTable.Values
+                If mass.role = role Then
+                    Yield mass
+                End If
+            Next
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AddOrUpdate(entity As Factor, key As String) Implements IRepositoryWrite(Of String, Factor).AddOrUpdate
