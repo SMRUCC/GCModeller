@@ -3,10 +3,13 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\centraldogmafluxloader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{22BA98C8-4E5F-413E-AF35-6B2B29D1EEAD}|..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\model\\cellular\\process\\centraldogma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\engine\\masstable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\centraldogmafluxloader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\simulator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -29,9 +32,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\componentmodel\\annotation\\genetable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22BA98C8-4E5F-413E-AF35-6B2B29D1EEAD}|..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\model\\cellular\\process\\centraldogma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\loader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -62,7 +62,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -75,19 +75,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "gbExportService.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\ExportServices\\gbExportService.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\ExportServices\\gbExportService.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\ExportServices\\gbExportService.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\ExportServices\\gbExportService.vb",
-              "ViewState": "AgIAABMBAAAAAAAAAAAvwDEBAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-14T13:35:07.837Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "genbankKit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genbankKit.vb",
@@ -100,15 +87,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 0,
               "Title": "CentralDogma.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
-              "ViewState": "AgIAAG0AAAAAAAAAAAAnwG4AAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-14T13:07:25.672Z"
+              "WhenOpened": "2024-11-14T13:07:25.672Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -136,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ModelExtensions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
@@ -162,7 +150,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Simulator.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
@@ -175,13 +163,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "CentralDogmaFluxLoader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
-              "ViewState": "AgIAAP4AAAAAAAAAAAAWwB8BAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAP4AAAAAAAAAAAAWwCEBAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-14T11:46:49.166Z",
               "EditorCaption": ""
@@ -194,7 +182,7 @@
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAwwF8AAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-11-14T11:45:55.277Z",
               "EditorCaption": ""
@@ -202,6 +190,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "gbExportService.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\ExportServices\\gbExportService.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\ExportServices\\gbExportService.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\ExportServices\\gbExportService.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\ExportServices\\gbExportService.vb",
+              "ViewState": "AgIAABMBAAAAAAAAAAAvwDEBAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-14T13:35:07.837Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "CDS.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\Features\\CDS.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\Features\\CDS.vb",
@@ -214,7 +215,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "GeneTable.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Annotation\\GeneTable.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\ComponentModel\\Annotation\\GeneTable.vb",
@@ -227,7 +228,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Genome.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genome\\Genome.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genome\\Genome.vb",
