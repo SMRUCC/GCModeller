@@ -94,7 +94,7 @@ Namespace ModelLoader
                               Function(cd)
                                   ' 20241115 some gene may translate identical sequence
                                   ' protein
-                                  Return cd.Select(Function(g) g.geneID).ToArray
+                                  Return cd.Select(Function(g) g.translation).Distinct.ToArray
                               End Function)
             Dim proteinMatrix = cell.Genotype.ProteinMatrix _
                 .GroupBy(Function(a) a.proteinID) _
