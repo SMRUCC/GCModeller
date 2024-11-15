@@ -123,6 +123,7 @@ Namespace Cellular.Process
         End Property
 
         Public ReadOnly Property RNAName As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Select Case RNA.Value
                     Case RNATypes.mRNA

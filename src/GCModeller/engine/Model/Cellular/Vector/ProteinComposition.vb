@@ -64,6 +64,9 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Cellular.Vector
 
+    ''' <summary>
+    ''' the amino acid composition vector
+    ''' </summary>
     Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double))
 
         Public Property proteinID As String
