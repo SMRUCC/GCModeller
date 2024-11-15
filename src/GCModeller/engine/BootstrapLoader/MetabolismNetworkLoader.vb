@@ -84,8 +84,7 @@ Namespace ModelLoader
         ''' <returns></returns>
         Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
             Dim KOfunctions = cell.Genotype.centralDogmas _
-                .Where(Function(cd) Not cd.orthology.StringEmpty) _
-                .Select(Function(cd) (cd.orthology, cd.polypeptide)) _
+                .Select(Function(cd) (If(cd.orthology, cd.geneID), cd.polypeptide)) _
                 .GroupBy(Function(pro) pro.Item1) _
                 .ToDictionary(Function(KO) KO.Key,
                               Function(ortholog)
