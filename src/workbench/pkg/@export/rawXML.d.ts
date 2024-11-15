@@ -7,6 +7,19 @@
 /**
  * the virtual cell raw data
  * 
+ * > the combination of the stream frame data in the rawpack file:
+ * >  
+ * >  mass profile:
+ * >  
+ * >  + transcriptome -> mass_profile
+ * >  + proteome -> mass_profile
+ * >  + metabolome -> mass_profile
+ * >  
+ * >  flux profile:
+ * >  
+ * >  + transcriptome -> activity
+ * >  + proteome -> activity
+ * >  + metabolome -> flux_size
 */
 declare namespace rawXML {
    module entity {
@@ -37,7 +50,9 @@ declare namespace rawXML {
        * 
         * @param raw -
         * @param tick -
-        * @param stream -
+        * @param stream the frame stream reference to the matrix data, should be one of the module type:
+        *  
+        *  transcriptome/proteome/metabolome
         * @param env -
         * 
         * + default value Is ``null``.
