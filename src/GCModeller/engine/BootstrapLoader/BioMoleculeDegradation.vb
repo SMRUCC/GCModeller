@@ -76,7 +76,7 @@ Namespace ModelLoader
             Call loader.fluxIndex.Add("polypeptideDegradation", New List(Of String))
         End Sub
 
-        Public Overrides Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
+        Protected Overrides Function CreateFlux() As IEnumerable(Of Channel)
             Return proteinDegradation(cell).AsList + RNADegradation(cell)
         End Function
 

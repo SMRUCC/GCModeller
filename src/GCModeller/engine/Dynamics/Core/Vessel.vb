@@ -119,11 +119,21 @@ Namespace Core
             Return m_massIndex.Values.ToDictionary(Function(m) m.ID, Function(m) m.Value)
         End Function
 
+        ''' <summary>
+        ''' set mass factors to the container runtime
+        ''' </summary>
+        ''' <param name="massEnvir"></param>
+        ''' <returns></returns>
         Public Function load(massEnvir As IEnumerable(Of Factor)) As Vessel
             m_massIndex = massEnvir.ToDictionary(Function(m) m.ID)
             Return Me
         End Function
 
+        ''' <summary>
+        ''' set flux network for the cellular kinetics simulation
+        ''' </summary>
+        ''' <param name="flux"></param>
+        ''' <returns></returns>
         Public Function load(flux As IEnumerable(Of Channel)) As Vessel
             m_channels = flux.ToArray
 
