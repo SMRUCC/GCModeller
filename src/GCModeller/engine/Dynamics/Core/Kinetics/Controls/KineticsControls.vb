@@ -95,7 +95,7 @@ Namespace Core
         End Sub
 
         Public Overrides Function ToString() As String
-            Return raw.ToString
+            Return "[kinetics] " & raw.ToString
         End Function
     End Class
 End Namespace
