@@ -95,7 +95,7 @@ Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
-Imports stdvec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
+Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
 ''' the gene expression matrix data toolkit
@@ -855,8 +855,8 @@ Module geneExpression
     Public Function totalSumNorm(matrix As Matrix, Optional scale As Double = 10000) As Matrix
         Dim samples = matrix.sampleID _
             .Select(Function(ref)
-                        Dim v As stdvec = matrix.sample(ref)
-                        Dim col As New NamedValue(Of stdvec)(ref, scale * v / v.Sum)
+                        Dim v As std_vec = matrix.sample(ref)
+                        Dim col As New NamedValue(Of std_vec)(ref, scale * v / v.Sum)
 
                         Return col
                     End Function) _
@@ -895,7 +895,7 @@ Module geneExpression
                 .Select(Function(gene)
                             Return New DataFrameRow With {
                                 .geneID = gene.geneID,
-                                .experiments = New stdvec(gene.experiments) / gene.experiments.Max
+                                .experiments = New std_vec(gene.experiments) / gene.experiments.Max
                             }
                         End Function) _
                 .ToArray
@@ -1419,7 +1419,7 @@ Module geneExpression
     <ExportAPI("aggregate")>
     Public Function Aggregate(x As Matrix, Optional byrow As Boolean = True) As Object
         If byrow Then
-            Dim rows As New Dictionary(Of String, stdvec)
+            Dim rows As New Dictionary(Of String, std_vec)
 
             For Each gene As DataFrameRow In x.expression
                 If rows.ContainsKey(gene.geneID) Then
@@ -1457,7 +1457,7 @@ Module geneExpression
         Dim width As Integer = x.sampleID.Length
 
         For i As Integer = 0 To x.size - 1
-            x.expression(i).experiments += (x.expression(i) * stdvec.rand(-scale, scale, width))
+            x.expression(i).experiments += (x.expression(i) * std_vec.rand(-scale, scale, width))
         Next
 
         Return x
