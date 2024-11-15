@@ -68,6 +68,9 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 Namespace Engine
 
+    ''' <summary>
+    ''' the cellular mass environment 
+    ''' </summary>
     Public Class MassTable : Implements IRepository(Of String, Factor)
         Implements IEnumerable(Of Factor)
 

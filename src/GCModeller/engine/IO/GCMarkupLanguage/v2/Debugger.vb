@@ -70,7 +70,7 @@ Namespace v2
         ''' <returns></returns>
         <Extension>
         Public Function checkModel(vcell As VirtualCell, log As LogFile) As LogFile
-
+            Return log
         End Function
     End Module
 End Namespace

@@ -63,6 +63,9 @@ Namespace Definitions
     ''' <summary>
     ''' The baseline value of the flux controls and dynamics
     ''' </summary>
+    ''' <remarks>
+    ''' adjust the kinetics parameters at here
+    ''' </remarks>
     Public Class FluxBaseline
 
         Public Property transcriptionBaseline As Double = 100

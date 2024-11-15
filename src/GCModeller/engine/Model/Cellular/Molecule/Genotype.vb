@@ -58,8 +58,11 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 Namespace Cellular.Molecule
 
     ''' <summary>
-    ''' The genome information, contains the gene expression information.(目标细胞模型的基因组模型)
+    ''' The genome information, contains the gene expression information.
     ''' </summary>
+    ''' <remarks>
+    ''' (目标细胞模型的基因组模型)
+    ''' </remarks>
     Public Structure Genotype : Implements IEnumerable(Of CentralDogma)
 
         ''' <summary>

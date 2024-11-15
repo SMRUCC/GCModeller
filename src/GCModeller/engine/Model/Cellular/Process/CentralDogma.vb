@@ -122,7 +122,12 @@ Namespace Cellular.Process
             End Get
         End Property
 
+        ''' <summary>
+        ''' get reference key 
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property RNAName As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Select Case RNA.Value
                     Case RNATypes.mRNA
