@@ -129,6 +129,7 @@ Namespace ModelLoader
                 .Where(AddressOf KOfunctions.ContainsKey) _
                 .Select(Function(KO) KOfunctions(KO)) _
                 .IteratesALL _
+                .Where(Function(si) Not si.StringEmpty(, True)) _
                 .Distinct _
                 .ToArray
             ' mature protein complex
