@@ -119,11 +119,12 @@ Module RawXmlKit
             Return New Raw.Reader(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
         ElseIf LCase(mode) = "write" Then
             Dim vcell As Engine = arguments.getValue(Of Engine)("vcell", env)
+            Dim graph_debug As Boolean = arguments.getValue("graph_debug", env, [default]:=True)
 
             If vcell Is Nothing Then
                 Return RInternal.debug.stop("missing vcell engine argument value!", env)
             Else
-                Return New StorageDriver(file, vcell)
+                Return New StorageDriver(file, vcell, graph_debug:=graph_debug)
             End If
         Else
             Return RInternal.debug.stop($"unknown I/O mode: {mode}...", env)

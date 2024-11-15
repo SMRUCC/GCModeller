@@ -82,14 +82,16 @@ Namespace Raw
 
         Public ReadOnly Property mass As OmicsTuple(Of String()) Implements IOmicsDataAdapter.mass
 
-        Sub New(output$, engine As Engine.Engine)
+        Sub New(output$, engine As Engine.Engine, Optional graph_debug As Boolean = True)
             Dim model As CellularModule = engine.model
             Dim core = engine.getCore
 
             Me.output = New Writer(model, output.Open(FileMode.OpenOrCreate, doClear:=True)).Init
             Me.mass = New OmicsTuple(Of String())(transcriptome, proteome, metabolome)
 
-            Call WriteCellularGraph(graph:=core.ToGraph)
+            If graph_debug Then
+                Call WriteCellularGraph(graph:=core.ToGraph)
+            End If
         End Sub
 
         Private Sub WriteCellularGraph(graph As NetworkGraph)
