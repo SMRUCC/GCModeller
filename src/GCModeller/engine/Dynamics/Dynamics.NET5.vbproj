@@ -6,6 +6,10 @@
     <AssemblyName>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release</Configurations>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <UseApplicationFramework>True</UseApplicationFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>GCModeller Cellular Dynamics Simulation Engine</Title>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -3,22 +3,37 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4B352562-978B-4BB6-B034-017085B1CF7E}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Math.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\math\\scripting\\expression\\expressioncompiler.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\xml\\genomics\\gene.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\kinetics\\controls\\kineticscontrols.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\xml\\genomics\\class1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\kinetics\\controls\\profilecontrols.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\xml\\genomics\\genome.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\flux\\channel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\xml\\genomics\\transcriptunit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\simulator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\xml\\genomics\\replicon.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\definition\\definition.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\xml\\metabolismstructure.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\xml\\virtualcell.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\debugger.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\operationextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\modelextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{792B9A29-BBB0-47A4-86D4-CD0CA34912E7}|..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\GCMarkupXML.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\io\\gcmarkuplanguage\\v2\\namespacedoc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -28,73 +43,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 7,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ExpressionCompiler.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Scripting\\Expression\\ExpressionCompiler.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Scripting\\Expression\\ExpressionCompiler.vb",
-              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Scripting\\Expression\\ExpressionCompiler.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Scripting\\Expression\\ExpressionCompiler.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:30:45.742Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "KineticsControls.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFoAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:30:38.309Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ProfileControls.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\ProfileControls.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\ProfileControls.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\ProfileControls.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\ProfileControls.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:30:35.167Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Channel.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Channel.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Channel.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Channel.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Channel.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:30:28.683Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Definition.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Definition\\Definition.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Definition\\Definition.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Definition\\Definition.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Definition\\Definition.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEwAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:29:42.683Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -109,15 +59,145 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Simulator.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "ViewState": "AgIAAGgAAAAAAAAAAAAAAIkAAAASAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "Class1.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\Class1.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\Class1.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\Class1.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\Class1.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:29:06.134Z",
+              "WhenOpened": "2024-11-15T06:38:01.886Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TranscriptUnit.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\TranscriptUnit.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\TranscriptUnit.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\TranscriptUnit.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\TranscriptUnit.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:37:34.682Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "replicon.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\replicon.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\replicon.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\replicon.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\replicon.vb",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:37:29.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Genome.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\Genome.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\Genome.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\Genome.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\Genome.vb",
+              "ViewState": "AgIAAI4AAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:37:19.612Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "gene.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\gene.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\gene.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\gene.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\Genomics\\gene.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:37:12.962Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "VirtualCell.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\VirtualCell.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\VirtualCell.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\VirtualCell.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\VirtualCell.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGEAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:36:56.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MetabolismStructure.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Xml\\MetabolismStructure.vb",
+              "ViewState": "AgIAAM8BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:36:48.261Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Debugger.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Debugger.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Debugger.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Debugger.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\Debugger.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:36:36.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ModelExtensions.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:36:26.516Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "NamespaceDoc.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\NamespaceDoc.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\NamespaceDoc.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\NamespaceDoc.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\NamespaceDoc.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:36:24.763Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "OperationExtensions.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\OperationExtensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\OperationExtensions.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\OperationExtensions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\OperationExtensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:36:15.672Z",
               "EditorCaption": ""
             }
           ]
