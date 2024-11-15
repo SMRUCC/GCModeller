@@ -75,6 +75,21 @@ Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offs
 ''' <summary>
 ''' the virtual cell raw data
 ''' </summary>
+''' <remarks>
+''' the combination of the stream frame data in the rawpack file:
+''' 
+''' mass profile:
+''' 
+''' + transcriptome -> mass_profile
+''' + proteome -> mass_profile
+''' + metabolome -> mass_profile
+''' 
+''' flux profile:
+''' 
+''' + transcriptome -> activity
+''' + proteome -> activity
+''' + metabolome -> flux_size
+''' </remarks>
 <Package("rawXML", Category:=APICategories.UtilityTools, Publisher:="gg.xie@bionovogene.com")>
 Module RawXmlKit
 
@@ -205,7 +220,13 @@ Module RawXmlKit
     ''' </summary>
     ''' <param name="raw"></param>
     ''' <param name="tick"></param>
-    ''' <param name="stream"></param>
+    ''' <param name="stream">
+    ''' the frame stream reference to the matrix data, should be one of the module type:
+    ''' 
+    ''' transcriptome/proteome/metabolome
+    ''' 
+    ''' 
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("frame.matrix")>

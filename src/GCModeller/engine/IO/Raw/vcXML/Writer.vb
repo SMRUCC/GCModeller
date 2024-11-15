@@ -90,6 +90,21 @@ Namespace vcXML
             xmlConfig = xmlSettings
         End Sub
 
+        ''' <summary>
+        ''' mass profile:
+        ''' 
+        ''' + transcriptome -> mass_profile
+        ''' + proteome -> mass_profile
+        ''' + metabolome -> mass_profile
+        ''' 
+        ''' flux profile:
+        ''' 
+        ''' + transcriptome -> activity
+        ''' + proteome -> activity
+        ''' + metabolome -> flux_size
+        ''' </summary>
+        ''' <param name="entities"></param>
+        ''' <param name="args"></param>
         Friend Sub writeInit(entities As VcellAdapterDriver, args As FluxBaseline)
             fs.WriteLine("<?xml version=""1.0"" encoding=""utf8""?>")
             fs.WriteLine("<vcXML xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" 
