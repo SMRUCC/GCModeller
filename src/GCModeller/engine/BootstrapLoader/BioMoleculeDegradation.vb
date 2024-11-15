@@ -68,6 +68,8 @@ Namespace ModelLoader
 
         Public Property proteinMatures As Channel()
 
+        ReadOnly pull As New List(Of String)
+
         Public Sub New(loader As Loader)
             MyBase.New(loader)
 
@@ -191,6 +193,10 @@ Namespace ModelLoader
 
                 Yield flux
             Next
+        End Function
+
+        Protected Overrides Function GetMassSet() As IEnumerable(Of String)
+            Return pull
         End Function
     End Class
 End Namespace

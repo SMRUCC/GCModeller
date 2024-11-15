@@ -86,10 +86,16 @@ Namespace Core
                 Return Me.GetHashCode
             End Get
         End Property
+
         Sub New()
             role = MassRoles.compound
         End Sub
 
+        ''' <summary>
+        ''' create a new mass factor inside the runtime environment with value assigned ZERO.
+        ''' </summary>
+        ''' <param name="id$"></param>
+        ''' <param name="role"></param>
         Sub New(id$, role As MassRoles)
             Me.ID = id
             Me.role = role

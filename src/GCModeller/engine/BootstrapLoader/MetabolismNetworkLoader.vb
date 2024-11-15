@@ -69,6 +69,8 @@ Namespace ModelLoader
 
         Dim infinitySource As Index(Of String)
 
+        ReadOnly pull As New List(Of String)
+
         Public Sub New(loader As Loader)
             MyBase.New(loader)
 
@@ -80,9 +82,8 @@ Namespace ModelLoader
         ''' <summary>
         ''' create reaction flux data
         ''' </summary>
-        ''' <param name="cell"></param>
         ''' <returns></returns>
-        Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
+        Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
             Dim KOfunctions = cell.Genotype.centralDogmas _
                 .Select(Function(cd) (If(cd.orthology, cd.geneID), cd.polypeptide)) _
                 .GroupBy(Function(pro) pro.Item1) _
@@ -206,6 +207,10 @@ Namespace ModelLoader
                             Return MassTable.variables(objects, loader.dynamics.productInhibitionFactor)
                         End Function) _
                 .ToArray
+        End Function
+
+        Protected Overrides Function GetMassSet() As IEnumerable(Of String)
+            Return pull
         End Function
     End Class
 End Namespace

@@ -99,6 +99,8 @@ Namespace ModelLoader
             End Get
         End Property
 
+        Public Property strict As Boolean = False
+
         Sub New(define As Definition, dynamics As FluxBaseline)
             Me.define = define
             Me.dynamics = dynamics
@@ -182,8 +184,13 @@ Namespace ModelLoader
                 If Not massTable.Exists(link_ref) Then
                     Dim warn As String = $"found broken mass reference: {link_ref}"
 
-                    Call warn.Warning
-                    Call VBDebugger.EchoLine("[warn] " & warn)
+                    If strict Then
+                        Throw New InvalidProgramException(warn)
+                    Else
+                        Call massTable.AddNew(link_ref, MassRoles.compound)
+                        Call warn.Warning
+                        Call VBDebugger.EchoLine("[warn] " & warn)
+                    End If
                 End If
             Next
 
