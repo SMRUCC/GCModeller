@@ -150,7 +150,11 @@ Namespace ModelLoader
                     forward = New KineticsControls(
                         env:=loader.vcellEngine,
                         lambda:=scalar.CompileLambda,
-                        raw:=scalar.formula
+                        raw:=scalar.formula,
+                        pars:=scalar.paramVals _
+                            .SafeQuery _
+                            .Select(Function(a) a.ToString) _
+                            .ToArray
                     )
                 Else
                     ' multiple kineticis overlaps
@@ -158,7 +162,11 @@ Namespace ModelLoader
                         From k In reaction.kinetics Select New KineticsControls(
                             env:=loader.vcellEngine,
                             lambda:=k.CompileLambda,
-                            raw:=k.formula
+                            raw:=k.formula,
+                            pars:=k.paramVals _
+                                .SafeQuery _
+                                .Select(Function(a) a.ToString) _
+                                .ToArray
                         )
                     )
                 End If

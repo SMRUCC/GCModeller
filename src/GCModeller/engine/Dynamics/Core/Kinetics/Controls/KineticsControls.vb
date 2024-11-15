@@ -57,6 +57,7 @@
 
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Core
 
@@ -91,11 +92,16 @@ Namespace Core
         ReadOnly env As Vessel
         ReadOnly raw As Expression
         ReadOnly fp_getMass As Func(Of String, Double) = AddressOf getMass
+        ''' <summary>
+        ''' debug view of the kinetics function parameters
+        ''' </summary>
+        ReadOnly pars As String()
 
-        Sub New(env As Vessel, lambda As DynamicInvoke, raw As Expression)
+        Sub New(env As Vessel, lambda As DynamicInvoke, raw As Expression, Optional pars As String() = Nothing)
             Me.lambda = lambda
             Me.raw = raw
             Me.env = env
+            Me.pars = pars
         End Sub
 
         Private Function getMass(id As String) As Double
@@ -103,7 +109,7 @@ Namespace Core
         End Function
 
         Public Overrides Function ToString() As String
-            Return "[kinetics] " & raw.ToString
+            Return "[kinetics] " & raw.ToString & If(pars.IsNullOrEmpty, "", pars.GetJson)
         End Function
     End Class
 
