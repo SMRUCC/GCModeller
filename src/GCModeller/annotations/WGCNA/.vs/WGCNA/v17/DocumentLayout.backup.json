@@ -1,12 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{D1E9192F-96C3-4CA5-A314-4F9392016FB2}|test\\test.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D1E9192F-96C3-4CA5-A314-4F9392016FB2}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -14,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -27,19 +22,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Module1.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\test\\Module1.vb",
-              "RelativeDocumentMoniker": "test\\Module1.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\test\\Module1.vb",
-              "RelativeToolTip": "test\\Module1.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T09:05:43.165Z",
-              "EditorCaption": ""
             }
           ]
         },
