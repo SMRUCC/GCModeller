@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D4AC1BBB-453A-4A10-B3F3-2ACD1445E034}|WGCNA{D4AC1BBB-453A-4A10-B3F3-2ACD1445E034}|WGCNA||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|test||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D1E9192F-96C3-4CA5-A314-4F9392016FB2}|test\\test.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\test\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|8998e48e-b89a-4034-b66e-353d8c1fdc2e"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|8998e48e-b89a-4034-b66e-353d8c1fdc2e"
+      "AbsoluteMoniker": "D:0:0:{D1E9192F-96C3-4CA5-A314-4F9392016FB2}|test\\test.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{D1E9192F-96C3-4CA5-A314-4F9392016FB2}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,25 +31,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "WGCNA",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj",
-              "RelativeDocumentMoniker": "WGCNA\\WGCNA.vbproj",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj",
-              "RelativeToolTip": "WGCNA\\WGCNA.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-15T08:56:36.719Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "test",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\test\\test.vbproj",
-              "RelativeDocumentMoniker": "test\\test.vbproj",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\test\\test.vbproj",
-              "RelativeToolTip": "test\\test.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-15T08:56:31.888Z",
+              "Title": "Module1.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\test\\Module1.vb",
+              "RelativeDocumentMoniker": "test\\Module1.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\test\\Module1.vb",
+              "RelativeToolTip": "test\\Module1.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T09:05:43.165Z",
               "EditorCaption": ""
             }
           ]
