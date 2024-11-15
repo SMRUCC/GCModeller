@@ -76,7 +76,7 @@ Namespace Core
                 End If
 
                 Dim i = inhibition.Sum(Function(v) v.coefficient * v.mass.Value)
-                Dim a = lambda(getMass)
+                Dim a = lambda(fp_getMass)
 
                 ' 抑制的总量已经大于等于激活的总量的时候，返回零值，
                 ' 则反应过程可能不会发生
@@ -84,15 +84,23 @@ Namespace Core
             End Get
         End Property
 
+        ''' <summary>
+        ''' lambda function
+        ''' </summary>
         ReadOnly lambda As DynamicInvoke
-        ReadOnly getMass As Func(Of String, Double)
+        ReadOnly env As Vessel
         ReadOnly raw As Expression
+        ReadOnly fp_getMass As Func(Of String, Double) = AddressOf getMass
 
         Sub New(env As Vessel, lambda As DynamicInvoke, raw As Expression)
             Me.lambda = lambda
             Me.raw = raw
-            Me.getMass = Function(id) env.m_massIndex(id).Value
+            Me.env = env
         End Sub
+
+        Private Function getMass(id As String) As Double
+            Return env.m_massIndex(id).Value
+        End Function
 
         Public Overrides Function ToString() As String
             Return "[kinetics] " & raw.ToString
@@ -103,9 +111,12 @@ Namespace Core
 
         Public Overrides ReadOnly Property coefficient As Double
             Get
-                Return Aggregate k As KineticsControls
-                       In kinetics
-                       Into Sum(k.coefficient)
+                Dim i = inhibition.Sum(Function(v) v.coefficient * v.mass.Value)
+                Dim a = Aggregate k As KineticsControls
+                        In kinetics
+                        Into Sum(k.coefficient)
+
+                Return Math.Max((a + baseline) - i, 0)
             End Get
         End Property
 
@@ -115,5 +126,8 @@ Namespace Core
             kinetics = overlaps.ToArray
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"[overlaps] {kinetics.Length} kinetics"
+        End Function
     End Class
 End Namespace
