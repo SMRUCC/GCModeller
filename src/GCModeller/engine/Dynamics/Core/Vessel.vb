@@ -58,7 +58,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
-Imports stdVec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
+Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Namespace Core
 
@@ -181,7 +181,7 @@ Namespace Core
             End If
 
             Dim vector As MassDynamics() = m_dynamics
-            Dim df = Sub(dx#, ByRef dy As stdVec)
+            Dim df = Sub(dx#, ByRef dy As std_vec)
                          For Each x As MassDynamics In vector
                              dy(x) = x.Evaluate()
                          Next

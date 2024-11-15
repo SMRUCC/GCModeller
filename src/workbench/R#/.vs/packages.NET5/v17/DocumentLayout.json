@@ -3,31 +3,70 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\engine\\masstable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\flux\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\proteinmaturefluxloader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\flux\\directions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\metabolismnetworkloader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\flux\\channel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\massloader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\flux\\boundary.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\loader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\kinetics\\controls\\profilecontrols.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\kinetics\\controls\\kineticscontrols.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\biomoleculedegradation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\kinetics\\controls\\controls.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FE4C67EE-33C1-486F-9EC0-69AD86D7D647}|..\\..\\GCModeller\\engine\\BootstrapLoader\\BootstrapLoader.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\bootstraploader\\centraldogmafluxloader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\kinetics\\controls\\baselinecontrols.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\kinetics\\controls\\additivecontrols.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\kinetics\\modularratelaws.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\kinetics\\kineticsfactor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\mass\\factor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\mass\\variable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\mass\\massroles.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\mass\\massdynamics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\vessel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\namespacedoc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\envirclone.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\drivers\\omicstuple.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\drivers\\fluxemulator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\drivers\\fluxaggregater.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\drivers\\driver.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,118 +93,287 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MassTable.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Engine\\MassTable.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:18:48.654Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "MetabolismNetworkLoader.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\MetabolismNetworkLoader.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\MetabolismNetworkLoader.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\MetabolismNetworkLoader.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\MetabolismNetworkLoader.vb",
-              "ViewState": "AgIAAJkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:18:25.828Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MassLoader.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\MassLoader.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\MassLoader.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\MassLoader.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\MassLoader.vb",
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Extensions.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Extensions.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:18:20.674Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Loader.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Loader.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Loader.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Loader.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Loader.vb",
-              "ViewState": "AgIAAJIAAAAAAAAAAAA7wAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:18:12.276Z",
+              "WhenOpened": "2024-11-15T06:25:49.52Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ProteinMatureFluxLoader.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\ProteinMatureFluxLoader.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\ProteinMatureFluxLoader.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\ProteinMatureFluxLoader.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\ProteinMatureFluxLoader.vb",
-              "ViewState": "AgIAAEwAAAAAAAAAAAAAAGIAAAApAAAAAAAAAA==",
+              "Title": "Directions.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Directions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Directions.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Directions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Directions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:17:23.818Z",
+              "WhenOpened": "2024-11-15T06:25:47.05Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Channel.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Channel.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Channel.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Channel.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Channel.vb",
+              "ViewState": "AgIAAJUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:25:38.526Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Boundary.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Boundary.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Boundary.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Boundary.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Flux\\Boundary.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:25:32.051Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProfileControls.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\ProfileControls.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\ProfileControls.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\ProfileControls.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\ProfileControls.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:25:26.357Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Extensions.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Extensions.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Extensions.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\Extensions.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\Extensions.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAABHAAAAAAAAAA==",
+              "Title": "KineticsControls.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:16:37.112Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "CentralDogmaFluxLoader.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\CentralDogmaFluxLoader.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:16:26.916Z",
+              "WhenOpened": "2024-11-15T06:25:21.762Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "BioMoleculeDegradation.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BioMoleculeDegradation.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAnAAAAAAAAAA==",
+              "Title": "Controls.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\Controls.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\Controls.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\Controls.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\Controls.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:16:20.337Z",
+              "WhenOpened": "2024-11-15T06:25:01.851Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BaselineControls.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\BaselineControls.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\BaselineControls.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\BaselineControls.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\BaselineControls.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:24:57.048Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "zzz.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\zzz.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\zzz.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\zzz.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\zzz.vb",
+              "Title": "AdditiveControls.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\AdditiveControls.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\AdditiveControls.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\AdditiveControls.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\AdditiveControls.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:24:36.922Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ModularRateLaws.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:24:23.925Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "KineticsFactor.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\KineticsFactor.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\KineticsFactor.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\KineticsFactor.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\KineticsFactor.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFQAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:24:13.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Variable.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Mass\\Variable.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Mass\\Variable.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Mass\\Variable.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Mass\\Variable.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:23:52.923Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "MassRoles.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Mass\\MassRoles.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Mass\\MassRoles.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Mass\\MassRoles.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Mass\\MassRoles.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:16:06.675Z",
+              "WhenOpened": "2024-11-15T06:23:48.739Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MassDynamics.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Mass\\MassDynamics.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Mass\\MassDynamics.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Mass\\MassDynamics.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Mass\\MassDynamics.vb",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAIMAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:23:10.646Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Factor.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Mass\\Factor.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Mass\\Factor.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Mass\\Factor.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Mass\\Factor.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:23:01.632Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Vessel.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Vessel.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Vessel.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Vessel.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Vessel.vb",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAEcAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:22:12.767Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "NamespaceDoc.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\NamespaceDoc.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\NamespaceDoc.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\NamespaceDoc.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\NamespaceDoc.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:22:10.036Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "EnvirClone.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\EnvirClone.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\EnvirClone.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\EnvirClone.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\EnvirClone.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:22:06.459Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "OmicsTuple.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Drivers\\OmicsTuple.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Drivers\\OmicsTuple.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Drivers\\OmicsTuple.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Drivers\\OmicsTuple.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:21:59.881Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "FluxEmulator.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Drivers\\FluxEmulator.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Drivers\\FluxEmulator.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Drivers\\FluxEmulator.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Drivers\\FluxEmulator.vb",
+              "ViewState": "AgIAAIEAAAAAAAAAAAAAAD4AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:21:48.395Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "FluxAggregater.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Drivers\\FluxAggregater.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Drivers\\FluxAggregater.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Drivers\\FluxAggregater.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Drivers\\FluxAggregater.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:21:36.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Driver.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Drivers\\Driver.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Drivers\\Driver.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Drivers\\Driver.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Drivers\\Driver.vb",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAAAGQAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T06:21:03.944Z",
               "EditorCaption": ""
             }
           ]
