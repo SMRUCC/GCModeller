@@ -67,7 +67,6 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
@@ -853,30 +852,7 @@ Module geneExpression
     ''' </remarks>
     <ExportAPI("totalSumNorm")>
     Public Function totalSumNorm(matrix As Matrix, Optional scale As Double = 10000) As Matrix
-        Dim samples = matrix.sampleID _
-            .Select(Function(ref)
-                        Dim v As std_vec = matrix.sample(ref)
-                        Dim col As New NamedValue(Of std_vec)(ref, scale * v / v.Sum)
-
-                        Return col
-                    End Function) _
-            .ToArray
-        Dim norm As New Matrix With {
-           .sampleID = matrix.sampleID,
-           .tag = $"totalSumNorm({matrix.tag})",
-           .expression = matrix.expression _
-               .Select(Function(gene, i)
-                           Return New DataFrameRow With {
-                               .geneID = gene.geneID,
-                               .experiments = samples _
-                                   .Select(Function(v) v.Value(i)) _
-                                   .ToArray
-                           }
-                       End Function) _
-               .ToArray
-        }
-
-        Return norm
+        Return TPM.Normalize(matrix, scale)
     End Function
 
     ''' <summary>

@@ -3,43 +3,35 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\wgcna.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\wgcna.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\rscript.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\wgcna.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E47AAF5C-DFB4-4369-828F-8D480D850B8E}|..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\wgcna.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22BA98C8-4E5F-413E-AF35-6B2B29D1EEAD}|..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\model\\cellular\\process\\centraldogma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\math\\tpm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\rnaseq\\fastq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|solutionrelative:rnaseq\\fastq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\matrix\\matrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\rawxmlkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\math\\quantilenormalization.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22BA98C8-4E5F-413E-AF35-6B2B29D1EEAD}|..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\model\\cellular\\molecule\\genotype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\file\\reader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22BA98C8-4E5F-413E-AF35-6B2B29D1EEAD}|..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\model\\cellular\\vector\\proteincomposition.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\file\\document.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\simulator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\math\\ranking.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\debugger\\debugger.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\matrix\\dataframerow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\math.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\dataframe.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -49,21 +41,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Rscript.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
-              "ViewState": "AgIAAG0AAAAAAAAAAAArwIUAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T09:11:57.518Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -78,139 +57,133 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "WGCNA",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-11-15T09:10:03.026Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "WGCNA",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2024-11-15T09:09:39.099Z",
+              "DocumentIndex": 1,
+              "Title": "TPM.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Math\\TPM.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Math\\TPM.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Math\\TPM.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Math\\TPM.vb",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAwwC8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T09:22:15.302Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "WGCNA.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\WGCNA.vb",
-              "RelativeDocumentMoniker": "phenotype_kit\\WGCNA.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\WGCNA.vb",
-              "RelativeToolTip": "phenotype_kit\\WGCNA.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFUAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T09:09:19.262Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "geneExpression.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
               "RelativeDocumentMoniker": "phenotype_kit\\geneExpression.vb",
               "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
               "RelativeToolTip": "phenotype_kit\\geneExpression.vb",
-              "ViewState": "AgIAAJsBAAAAAAAAAAAowNABAABTAAAAAAAAAA==",
+              "ViewState": "AgIAAEEDAAAAAAAAAAAAAFEDAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T07:44:31.197Z",
+              "WhenOpened": "2024-11-15T09:20:36.444Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Reader.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\File\\Reader.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\File\\Reader.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\File\\Reader.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\File\\Reader.vb",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T09:20:25.333Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Document.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\File\\Document.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\File\\Document.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\File\\Document.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\File\\Document.vb",
+              "ViewState": "AgIAAFgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T09:20:20.908Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "FastQ.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\rnaseq\\FastQ.vb",
-              "RelativeDocumentMoniker": "rnaseq\\FastQ.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\rnaseq\\FastQ.vb",
-              "RelativeToolTip": "rnaseq\\FastQ.vb",
-              "ViewState": "AgIAAHMAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "Title": "Ranking.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Math\\Ranking.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Math\\Ranking.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Math\\Ranking.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Math\\Ranking.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T07:43:58.557Z"
+              "WhenOpened": "2024-11-15T09:20:16.972Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CentralDogma.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Process\\CentralDogma.vb",
-              "ViewState": "AgIAAHQAAAAAAAAAAAAAAH0AAAAeAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "QuantileNormalization.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Math\\QuantileNormalization.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Math\\QuantileNormalization.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Math\\QuantileNormalization.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Math\\QuantileNormalization.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T07:22:09.297Z"
+              "WhenOpened": "2024-11-15T09:20:14.528Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ProteinComposition.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Vector\\ProteinComposition.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAAApAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "Matrix.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
+              "ViewState": "AgIAALUAAAAAAAAAAAApwM4AAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T07:20:59.508Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Genotype.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Molecule\\Genotype.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Molecule\\Genotype.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\Model\\Cellular\\Molecule\\Genotype.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Model\\Cellular\\Molecule\\Genotype.vb",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAAAE8AAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T07:20:30.346Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Debugger.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
-              "ViewState": "AgIAAN4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T07:15:47.032Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Simulator.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "ViewState": "AgIAAKIAAAAAAAAAAAAAAMUAAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T07:15:18.62Z"
+              "WhenOpened": "2024-11-15T09:20:10.632Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "RawXmlKit.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "ViewState": "AgIAABcBAAAAAAAAAADwv0UBAAAYAAAAAAAAAA==",
+              "Title": "DataFrameRow.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T07:14:59.591Z"
+              "WhenOpened": "2024-11-15T09:20:09.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Math.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Math.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Math.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Math.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Math.vb",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T09:19:57.027Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DataFrame.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\DataFrame.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\DataFrame.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\DataFrame.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\DataFrame.vb",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-11-15T09:19:52.885Z",
+              "EditorCaption": ""
             }
           ]
         },

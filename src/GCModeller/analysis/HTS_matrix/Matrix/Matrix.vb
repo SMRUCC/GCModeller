@@ -199,6 +199,14 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
 
     Dim m_sampleIndex As Index(Of String)
 
+    Public Function GetSampleArray(name As String) As IEnumerable(Of Double)
+        Dim i As Integer = IndexOf(name)
+        Dim expr As IEnumerable(Of Double) = From v As DataFrameRow
+                                             In expression
+                                             Select v(i)
+        Return expr
+    End Function
+
     Private Function GetIndex() As Index(Of String)
         If m_sampleIndex Is Nothing Then
             m_sampleIndex = sampleID.Indexing
