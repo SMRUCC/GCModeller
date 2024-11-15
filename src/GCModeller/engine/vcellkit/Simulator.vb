@@ -82,6 +82,9 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' data type enumeration of the omics data
+''' </summary>
 Public Enum ModuleSystemLevels
     Transcriptome
     Proteome
@@ -89,7 +92,7 @@ Public Enum ModuleSystemLevels
 End Enum
 
 ''' <summary>
-''' 
+''' the GCModeller bio-system simulator
 ''' </summary>
 <Package("simulator", Category:=APICategories.ResearchTools)>
 Public Module Simulator
@@ -114,7 +117,7 @@ Public Module Simulator
     ''' <remarks>
     ''' this function works for the data model which is based on the kegg database model
     ''' </remarks>
-    <ExportAPI("vcell.mass.kegg")>
+    <ExportAPI("kegg_mass")>
     <Extension>
     Public Function CreateUnifyDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
         Return vcell.metabolismStructure.compounds _
@@ -127,7 +130,9 @@ Public Module Simulator
     ''' <summary>
     ''' get the initial mass value
     ''' </summary>
-    ''' <param name="vcell"></param>
+    ''' <param name="vcell">
+    ''' the initialize mass value has been defined inside this virtual cell model
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("mass0")>
     Public Function mass0(vcell As VirtualCell) As Definition
@@ -191,11 +196,21 @@ Public Module Simulator
         Return vcell.CreateModel
     End Function
 
+    ''' <summary>
+    ''' get mass key reference index collection
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <returns></returns>
     <ExportAPI("vcell.mass.index")>
     Public Function MassIndex(vcell As CellularModule) As OmicsTuple(Of String())
         Return vcell.DoCall(AddressOf OmicsDataAdapter.GetMassTuples)
     End Function
 
+    ''' <summary>
+    ''' get flux key reference index collection
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <returns></returns>
     <ExportAPI("vcell.flux.index")>
     Public Function FluxIndex(vcell As CellularModule) As OmicsTuple(Of String())
         Return vcell.DoCall(AddressOf OmicsDataAdapter.GetFluxTuples)
@@ -204,11 +219,17 @@ Public Module Simulator
     ''' <summary>
     ''' create a new virtual cell engine
     ''' </summary>
-    ''' <param name="inits"></param>
+    ''' <param name="inits">
+    ''' the initial mass environment definition
+    ''' </param>
     ''' <param name="vcell">The virtual cell object model, contains the definition of the cellular network graph data</param>
-    ''' <param name="iterations%"></param>
-    ''' <param name="time_resolutions%"></param>
-    ''' <param name="deletions$"></param>
+    ''' <param name="iterations">
+    ''' the number of the iteration loops for run the simulation
+    ''' </param>
+    ''' <param name="time_resolutions">
+    ''' the time steps
+    ''' </param>
+    ''' <param name="deletions">make a specific gene nodes deletions</param>
     ''' <param name="dynamics"></param>
     ''' <returns></returns>
     <ExportAPI("engine.load")>
@@ -244,8 +265,20 @@ Public Module Simulator
         Return New FluxBaseline
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="engine"></param>
+    ''' <param name="profile"></param>
+    ''' <param name="system">
+    ''' the omics data type
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("apply.module_profile")>
-    Public Function ApplyModuleProfile(engine As Engine, profile As Dictionary(Of String, Double), Optional system As ModuleSystemLevels = ModuleSystemLevels.Transcriptome) As Engine
+    Public Function ApplyModuleProfile(engine As Engine,
+                                       profile As Dictionary(Of String, Double),
+                                       Optional system As ModuleSystemLevels = ModuleSystemLevels.Transcriptome) As Engine
+
         If engine Is Nothing OrElse profile.IsNullOrEmpty Then
             Return engine
         End If
@@ -269,6 +302,13 @@ Public Module Simulator
         Return engine
     End Function
 
+    ''' <summary>
+    ''' make a snapshot of the mass and flux data
+    ''' </summary>
+    ''' <param name="engine"></param>
+    ''' <param name="massIndex"></param>
+    ''' <param name="fluxIndex"></param>
+    ''' <param name="save$"></param>
     <ExportAPI("vcell.snapshot")>
     <Extension>
     Public Sub TakeStatusSnapshot(engine As Engine, massIndex As OmicsTuple(Of String()), fluxIndex As OmicsTuple(Of String()), save$)

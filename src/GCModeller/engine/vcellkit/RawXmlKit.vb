@@ -69,8 +69,8 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports HTS_Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
-Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
+Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
 
 ''' <summary>
 ''' the virtual cell raw data
@@ -78,6 +78,18 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 <Package("rawXML", Category:=APICategories.UtilityTools, Publisher:="gg.xie@bionovogene.com")>
 Module RawXmlKit
 
+    ''' <summary>
+    ''' open the simulation data storage driver
+    ''' </summary>
+    ''' <param name="file">
+    ''' the file path to the storage data
+    ''' </param>
+    ''' <param name="mode">
+    ''' the binary file open mode for the data storage driver, should be ``read``/``write``.
+    ''' </param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("open.vcellPack")>
     <RApiReturn(GetType(StorageDriver), GetType(Raw.Reader))>
     Public Function binaryWriter(file$,
