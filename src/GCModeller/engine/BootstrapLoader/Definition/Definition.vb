@@ -74,8 +74,11 @@ Namespace Definitions
     End Enum
 
     ''' <summary>
-    ''' 因为物质编号可能会来自于不同的数据库，所以会需要使用这个对象将一些关键的物质映射为计算引擎所能够被识别的对象
+    ''' The definition for the mass environment for run the simulation
     ''' </summary>
+    ''' <remarks>
+    ''' 因为物质编号可能会来自于不同的数据库，所以会需要使用这个对象将一些关键的物质映射为计算引擎所能够被识别的对象
+    ''' </remarks>
     Public Class Definition
 
 #Region "Object maps"
