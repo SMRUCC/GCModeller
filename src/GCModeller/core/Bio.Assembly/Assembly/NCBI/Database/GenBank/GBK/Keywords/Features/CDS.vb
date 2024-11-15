@@ -85,7 +85,6 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' </summary>
         ''' <param name="cds"></param>
         Sub New(cds As Feature)
-
             Call cds.CopyTo(Me.innerList)
 
             With Me
@@ -99,9 +98,11 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                              Select Key = tokens.First, value = tokens.Last
                              Group By Key Into Group
                 Dim tmp As String() = Nothing
-                Dim db_xref = groups.ToDictionary(
-                    Function(k) k.Key,
-                    Function(a) (From o In a.Group Select o.value).ToArray)
+                Dim db_xref = groups _
+                    .ToDictionary(Function(k) k.Key,
+                                  Function(a)
+                                      Return (From o In a.Group Select o.value).ToArray
+                                  End Function)
 
                 Call db_xref.TryGetValue("GI", tmp) : If Not tmp.IsNullOrEmpty Then db_xref_GI = tmp.First
                 Call db_xref.TryGetValue("GOA", tmp) : If Not tmp.IsNullOrEmpty Then db_xref_GO = tmp

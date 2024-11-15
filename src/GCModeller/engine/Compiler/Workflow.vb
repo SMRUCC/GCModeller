@@ -135,7 +135,9 @@ Public Module Workflow
     ''' <param name="repo"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function AssemblingMetabolicNetwork(cell As CellularModule, KOfunction As Dictionary(Of String, String), repo As RepositoryArguments) As CellularModule
+    Public Function AssemblingMetabolicNetwork(cell As CellularModule,
+                                               KOfunction As Dictionary(Of String, String),
+                                               repo As RepositoryArguments) As CellularModule
         Dim phenotype As New Phenotype With {
             .fluxes = repo _
                 .GetReactions _

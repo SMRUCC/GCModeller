@@ -119,19 +119,11 @@ Namespace Engine
 
         Public Overridable Function Run() As Integer Implements ITaskDriver.Run
             Dim tick As Action(Of Integer)
-            Dim process As ProgressBar = Nothing
-            Dim progress As ProgressProvider = Nothing
+            Dim process As Tqdm.ProgressBar = Nothing
 
             If showProgress Then
-                process = New ProgressBar("Running simulator...")
-                progress = New ProgressProvider(process, resolution)
-
-                tick = Sub(i)
-                           Call ($"iteration: {i + 1}; ETA: {progress.ETA().FormatTime}") _
-                               .DoCall(Sub(msg)
-                                           Call process.SetProgress(progress.StepProgress, msg)
-                                       End Sub)
-                       End Sub
+                process = New Tqdm.ProgressBar(total:=resolution, useColor:=True)
+                tick = AddressOf process.Progress
             Else
                 tick = Sub()
                            ' do nothing
@@ -141,7 +133,7 @@ Namespace Engine
             Call loopInternal(tick)
 
             If Not process Is Nothing Then
-                Call process.Dispose()
+                Call process.Finish()
             End If
 
             Return 0

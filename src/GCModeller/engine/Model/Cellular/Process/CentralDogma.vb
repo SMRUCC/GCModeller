@@ -1,60 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::16d7fca837755ac48292e9697e84acd5, engine\Model\Cellular\Process\CentralDogma.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 91
-    '    Code Lines: 41 (45.05%)
-    ' Comment Lines: 40 (43.96%)
-    '    - Xml Docs: 85.00%
-    ' 
-    '   Blank Lines: 10 (10.99%)
-    '     File Size: 3.39 KB
+' Summaries:
 
 
-    '     Structure CentralDogma
-    ' 
-    '         Properties: geneID, IsRNAGene, RNAName
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 91
+'    Code Lines: 41 (45.05%)
+' Comment Lines: 40 (43.96%)
+'    - Xml Docs: 85.00%
+' 
+'   Blank Lines: 10 (10.99%)
+'     File Size: 3.39 KB
+
+
+'     Structure CentralDogma
+' 
+'         Properties: geneID, IsRNAGene, RNAName
+' 
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -102,6 +101,15 @@ Namespace Cellular.Process
         ''' 这个表达过程的目标基因所属的基因组
         ''' </summary>
         Dim replicon As String
+
+        ''' <summary>
+        ''' matrix vector reference of the RNA composition
+        ''' </summary>
+        Dim transcript As String
+        ''' <summary>
+        ''' matrix vector reference of the protein composition
+        ''' </summary>
+        Dim translation As String
 
         ''' <summary>
         ''' 如果这个属性返回false就说明不是编码蛋白序列的基因

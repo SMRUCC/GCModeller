@@ -147,30 +147,36 @@ Namespace v2
                 .ToArray
         End Function
 
-        Dim m_kegg As Dictionary(Of String, Compound)
+        Dim m_kegg As Dictionary(Of String, Compound())
 
-        Public Function FindByKEGG(id As String) As Compound
+        Public Function FindByKEGG(id As String) As Compound()
             If m_kegg Is Nothing Then
                 m_kegg = compounds _
-                    .Where(Function(c) Not c.kegg_id.StringEmpty) _
+                    .Where(Function(c) Not c.kegg_id.IsNullOrEmpty) _
+                    .Select(Function(c)
+                                Return c.kegg_id.Select(Function(kegg_id) (kegg_id, c))
+                            End Function) _
+                    .IteratesALL _
                     .GroupBy(Function(c) c.kegg_id) _
                     .ToDictionary(Function(c) c.Key,
                                   Function(c)
-                                      Return c.First
+                                      Return c.Select(Function(ci) ci.c).ToArray
                                   End Function)
             End If
 
             Return m_kegg.TryGetValue(id)
         End Function
 
-        Public Function GetKEGGMapping(id As String, map_define As String) As Compound
+        Public Function GetKEGGMapping(id As String, map_define As String, links As Dictionary(Of String, Reaction())) As Compound
             Dim kegg = FindByKEGG(id)
 
-            If kegg Is Nothing Then
+            If kegg.IsNullOrEmpty Then
                 Throw New MissingPrimaryKeyException($"no mapping for kegg term '{map_define}'({id})!")
             End If
 
-            Return kegg
+            Return kegg _
+                .OrderByDescending(Function(c) links(c.ID)) _
+                .First
         End Function
     End Class
 
@@ -199,6 +205,21 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         Public Property etc As Reaction()
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function CompoundLinks() As Dictionary(Of String, Reaction())
+            Return enzymatic _
+                .JoinIterates(etc) _
+                .Select(Function(r)
+                            Return r.AsEnumerable.Select(Function(c) (c, r))
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(l) l.c.compound) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(l)
+                                  Return l.Select(Function(a) a.r).ToArray
+                              End Function)
+        End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Reaction) Implements Enumeration(Of Reaction).GenericEnumerator
             If Not enzymatic.IsNullOrEmpty Then
@@ -239,7 +260,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute>
-        Public Property kegg_id As String
+        Public Property kegg_id As String()
 
         <XmlText> Public Property name As String
 
@@ -259,7 +280,7 @@ Namespace v2
     ''' the reaction graph model
     ''' </summary>
     <XmlType("reaction", [Namespace]:=VirtualCell.GCMarkupLanguage)>
-    Public Class Reaction : Implements INamedValue
+    Public Class Reaction : Implements INamedValue, Enumeration(Of CompoundFactor)
 
         ''' <summary>
         ''' unique reference id of current reaction link
@@ -282,6 +303,10 @@ Namespace v2
         <XmlElement> Public Property substrate As CompoundFactor()
         <XmlElement> Public Property product As CompoundFactor()
 
+        ''' <summary>
+        ''' the debug view of the current equation model
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property equation As String
             Get
                 Return substrate.Select(Function(a) a.factorString).JoinBy(" + ") &
@@ -294,6 +319,14 @@ Namespace v2
             Return $"({ID}: {name}) {equation}"
         End Function
 
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of CompoundFactor) Implements Enumeration(Of CompoundFactor).GenericEnumerator
+            For Each c As CompoundFactor In substrate.SafeQuery
+                Yield c
+            Next
+            For Each c As CompoundFactor In product.SafeQuery
+                Yield c
+            Next
+        End Function
     End Class
 
     Public Class CompoundFactor

@@ -101,7 +101,8 @@ Namespace ModelLoader
         ''' <returns></returns>
         Private Iterator Function tRNAProcess(cd As CentralDogma) As IEnumerable(Of Channel)
             Dim chargeName As String = "*" & cd.RNAName
-            Dim AA As String = SequenceModel.Polypeptides.Abbreviate(cd.RNA.Description)
+            Dim AAKey = cd.RNA.Description.Replace("tRNA", "").Trim("-"c)
+            Dim AA As String = SequenceModel.Polypeptides.Abbreviate(AAKey)
 
             ' tRNA基因会存在多个拷贝
             ' 但是实际的反应只需要一个就好了，在这里跳过已经重复出现的tRNA拷贝
@@ -236,7 +237,7 @@ Namespace ModelLoader
                 Call MassTable.AddNew(cd.geneID, MassRoles.gene)
 
                 If Not cd.polypeptide Is Nothing Then
-                    Call MassTable.AddNew(cd.polypeptide, MassRoles.popypeptide)
+                    Call MassTable.AddNew(cd.polypeptide, MassRoles.polypeptide)
                     Call mRNA.Add(cd.geneID)
 
                     If proteinList.ContainsKey(cd.geneID) Then
@@ -272,7 +273,13 @@ Namespace ModelLoader
                                 For Each proc As Channel In tRNAProcess(cd)
                                     Yield proc
                                 Next
+                            Case Else
+                                ' add RNA molecule to mass table
+                                Call MassTable.AddNew(cd.RNAName, MassRoles.RNA)
                         End Select
+                    Else
+                        ' add RNA molecule to mass table
+                        Call MassTable.AddNew(cd.RNAName, MassRoles.RNA)
                     End If
                 End If
             Next
@@ -293,8 +300,8 @@ Namespace ModelLoader
 
                 ' 翻译模板过程只针对CDS基因
                 If Not cd.polypeptide Is Nothing Then
-                    templateRNA = translationTemplate(cd.geneID, cd.RNAName, proteinMatrix)
-                    productsPro = translationUncharged(cd.geneID, cd.polypeptide, proteinMatrix)
+                    templateRNA = translationTemplate(cd, proteinMatrix)
+                    productsPro = translationUncharged(cd, cd.polypeptide, proteinMatrix)
                     polypeptides += cd.polypeptide
 
                     ' 针对mRNA对象，创建翻译过程
@@ -365,7 +372,15 @@ Namespace ModelLoader
         ''' <param name="matrix"></param>
         ''' <returns></returns>
         Private Function transcriptionTemplate(geneID$, matrix As Dictionary(Of String, RNAComposition)) As Variable()
-            Return matrix(geneID) _
+            Dim rna As RNAComposition = If(matrix.ContainsKey(geneID), matrix(geneID), New RNAComposition With {
+                .A = 1,
+                .C = 1,
+                .G = 1,
+                .U = 1,
+                .geneID = geneID
+            })
+
+            Return rna _
                 .Where(Function(i) i.Value > 0) _
                 .Select(Function(base)
                             Dim baseName = loader.define.NucleicAcid(base.Name)
@@ -380,22 +395,68 @@ Namespace ModelLoader
         ''' <summary>
         ''' mRNA模板加上氨基酸消耗，请注意，在这里并不是直接消耗的氨基酸，而是消耗的已经荷载的tRNA分子
         ''' </summary>
-        ''' <param name="mRNA">The name of the mRNA molecule</param>
+        ''' <param name="gene">The name of the mRNA molecule</param>
         ''' <param name="matrix"></param>
         ''' <returns></returns>
-        Private Function translationTemplate(geneID$, mRNA$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
-            Dim AAVector = matrix(geneID).Where(Function(i) i.Value > 0).ToArray
+        Private Function translationTemplate(gene As CentralDogma, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
+            Dim composit = If(matrix.ContainsKey(gene.geneID), matrix(gene.geneID), matrix.TryGetValue(gene.translation))
+
+            If composit Is Nothing Then
+                composit = MissingAAComposition(gene)
+            End If
+
+            Dim AAVector = composit.Where(Function(i) i.Value > 0).ToArray
             Dim AAtRNA = AAVector _
                 .Select(Function(aa)
                             Return MassTable.variable(charged_tRNA(aa.Name), aa.Value)
                         End Function) _
                 .AsList
+            Dim mRNA As String = gene.RNAName
 
             Return AAtRNA + MassTable.template(mRNA) + MassTable.variable(loader.define.ATP)
         End Function
 
-        Private Function translationUncharged(geneID$, peptide$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
-            Dim AAVector = matrix(geneID).Where(Function(i) i.Value > 0).ToArray
+        Private Function MissingAAComposition(gene As CentralDogma) As ProteinComposition
+            Dim warn As String = $"missing protein translation composition for gene: {gene.geneID}"
+
+            Call warn.Warning
+            Call VBDebugger.EchoLine("[warn] " & warn)
+
+            Return New ProteinComposition With {
+                .A = 1,
+                .C = 1,
+                .D = 1,
+                .E = 1,
+                .F = 1,
+                .G = 1,
+                .H = 1,
+                .I = 1,
+                .K = 1,
+                .L = 1,
+                .M = 1,
+                .N = 1,
+                .O = 0,
+                .P = 1,
+                .proteinID = gene.translation,
+                .Q = 1,
+                .R = 1,
+                .S = 1,
+                .T = 1,
+                .U = 1,
+                .V = 1,
+                .W = 1,
+                .Y = 1
+            }
+        End Function
+
+        Private Function translationUncharged(gene As CentralDogma, peptide$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
+            Dim composit = If(matrix.ContainsKey(gene.geneID), matrix(gene.geneID), matrix.TryGetValue(gene.translation))
+
+            If composit Is Nothing Then
+                composit = MissingAAComposition(gene)
+            End If
+
+            Dim AAVector = composit.Where(Function(i) i.Value > 0).ToArray
             Dim AAtRNA = AAVector _
                 .Select(Function(aa)
                             Return MassTable.variable(uncharged_tRNA(aa.Name), aa.Value)

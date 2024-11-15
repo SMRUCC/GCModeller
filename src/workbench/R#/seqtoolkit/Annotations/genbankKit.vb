@@ -115,8 +115,16 @@ Module genbankKit
     ''' <returns></returns>
     <ExportAPI("as_tabular")>
     <RApiReturn(GetType(GeneTable))>
-    Public Function create_tabular(gbff As GBFF.File) As Object
-        Return gbff.ExportGeneFeatures
+    Public Function create_tabular(gbff As GBFF.File, Optional ORF As Boolean = True) As Object
+        If ORF Then
+            Return gbff.ExportGeneFeatures
+        Else
+            Return gbff _
+                .EnumerateGeneFeatures(ORF:=False) _
+                .AsParallel _
+                .Select(Function(gene) gene.DumpExportFeature) _
+                .ToArray
+        End If
     End Function
 
     <ExportAPI("accession_id")>

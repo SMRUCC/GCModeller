@@ -57,8 +57,10 @@ declare namespace GenBank {
     * 
     * 
      * @param gbff -
+     * @param ORF 
+     * + default value Is ``true``.
    */
-   function as_tabular(gbff: object): object;
+   function as_tabular(gbff: object, ORF?: boolean): object;
    /**
     * enumerate all features in the given NCBI genbank database object
     * 

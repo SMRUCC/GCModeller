@@ -117,9 +117,7 @@ Namespace v2
         <Extension>
         Private Iterator Function createGenotype(model As VirtualCell) As IEnumerable(Of CentralDogma)
             Dim genomeName$
-            Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure _
-                .enzymes _
-                .ToDictionary(Function(enzyme) enzyme.geneID)
+            Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure.enzymes.ToDictionary(Function(enzyme) enzyme.geneID)
             Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
             Dim RNA As NamedValue(Of RNATypes)
             Dim proteinId$
@@ -130,11 +128,13 @@ Namespace v2
                 Return
             End If
 
-            For Each replicon In model.genome.replicons
+            For Each replicon As replicon In model.genome.replicons
                 genomeName = replicon.genomeName
-                rnaTable = replicon _
-                    .RNAs _
+                replicon.RNAs = replicon.RNAs.OrderBy(Function(r) r.gene).ToArray
+                rnaTable = replicon.RNAs _
                     .AsEnumerable _
+                    .GroupBy(Function(r) r.gene) _
+                    .Select(Function(r) r.First) _
                     .ToDictionary(Function(r) r.gene,
                                   Function(r)
                                       Return New NamedValue(Of RNATypes) With {
@@ -168,7 +168,9 @@ Namespace v2
                         .geneID = gene.locus_tag,
                         .polypeptide = proteinId,
                         .orthology = enzymes.TryGetValue(.geneID)?.KO,
-                        .RNA = RNA
+                        .RNA = RNA,
+                        .transcript = gene.nucleotide_base?.name,
+                        .translation = gene.amino_acid?.name
                     }
                 Next
             Next
@@ -177,9 +179,10 @@ Namespace v2
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function createPhenotype(model As VirtualCell) As Phenotype
-            Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso Not model.genome.replicons.IsNullOrEmpty
+            Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso
+                Not model.genome.replicons.IsNullOrEmpty
             Dim fluxChannels = model.createFluxes _
-                .OrderByDescending(Function(r) r.enzyme.SafeQuery.Count) _
+                .OrderByDescending(Function(r) r.enzyme.TryCount) _
                 .ToArray
             Dim enzymes = model.metabolismStructure.enzymes _
                 .Select(Function(enz) enz.geneID) _
@@ -211,14 +214,27 @@ Namespace v2
         End Function
 
         <Extension>
+        Private Function BuildEquation(reaction As Reaction) As Equation
+            Return New Equation With {
+                .Id = reaction.ID,
+                .reversible = True,
+                .Reactants = reaction.substrate _
+                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound)) _
+                    .ToArray,
+                .Products = reaction.product _
+                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound)) _
+                    .ToArray
+            }
+        End Function
+
+        <Extension>
         Private Iterator Function createFluxes(model As VirtualCell) As IEnumerable(Of FluxModel)
             Dim equation As Equation
             ' {reactionID => KO()}
             Dim enzymes = model.metabolismStructure _
                 .enzymes _
                 .Select(Function(enz)
-                            Return enz _
-                                .catalysis _
+                            Return enz.catalysis _
                                 .SafeQuery _
                                 .Select(Function(ec)
                                             Return (rID:=ec.reaction, enz:=New NamedValue(Of Catalysis)(enz.KO, ec))
@@ -237,7 +253,7 @@ Namespace v2
             Dim kinetics As Kinetics()
 
             For Each reaction As Reaction In model.metabolismStructure.reactions.AsEnumerable
-                equation = Equation.TryParse(reaction.Equation)
+                equation = reaction.BuildEquation
 
                 If reaction.is_enzymatic Then
                     KO = enzymes.TryGetValue(reaction.ID, [default]:={}, mute:=True)
@@ -245,11 +261,11 @@ Namespace v2
                     If KO.IsNullOrEmpty Then
                         ' 当前的基因组内没有对应的酶来催化这个反应过程
                         ' 则限制一个很小的range
-                        bounds = {10, 10}
+                        bounds = If(reaction.bounds, {10, 10.0})
                         ' 标准的米氏方程？
                         kinetics = {}
                     Else
-                        bounds = {500, 1000.0}
+                        bounds = If(reaction.bounds, {500, 1000.0})
                         kinetics = KO _
                             .Where(Function(c) Not c.Value.formula Is Nothing) _
                             .Where(Function(c) c.Value.reaction = reaction.ID) _
@@ -257,7 +273,8 @@ Namespace v2
                                         Dim expr = ScriptEngine.ParseExpression(k.Value.formula.lambda)
                                         Dim refVals = k.Value.parameter _
                                                 .Select(Function(a) As Object
-                                                            Dim useReferenceId As String = (a.value = 0.0 OrElse a.value.IsNaNImaginary) AndAlso Not a.target.StringEmpty
+                                                            Dim useReferenceId As String = (a.value = 0.0 OrElse a.value.IsNaNImaginary) AndAlso
+                                                                Not a.target.StringEmpty
 
                                                             If useReferenceId Then
                                                                 Return a.target
@@ -281,7 +298,7 @@ Namespace v2
                     End If
                 Else
                     KO = {}
-                    bounds = {200, 200.0}
+                    bounds = If(reaction.bounds, {200, 200.0})
                     kinetics = {}
                 End If
 

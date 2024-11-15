@@ -50,6 +50,7 @@ declare namespace simulator {
     * 
     * 
      * @param vcell -
+     * @return A mass environment for run vcell model in GCModeller
    */
    function mass0(vcell: object): object;
    module vcell {

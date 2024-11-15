@@ -54,6 +54,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -72,7 +73,7 @@ Public Module Visualizer
     Private Sub AttachReactionNode(g As NetworkGraph, cell As Vessel, flux As Dictionary(Of String, Double))
         Dim reactionMass#
 
-        For Each reaction As Channel In cell.Channels
+        For Each reaction As Channel In TqdmWrapper.Wrap(cell.Channels)
             If Not g.GetElementByID(reaction.ID) Is Nothing Then
                 Continue For
             End If
