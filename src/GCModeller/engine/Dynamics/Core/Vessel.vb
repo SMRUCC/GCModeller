@@ -229,6 +229,7 @@ Namespace Core
         Private Sub fp_dfdx_parallel(dx As Double, ByRef dy As std_vec)
             For Each y In m_dynamics _
                 .AsParallel _
+                .WithDegreeOfParallelism(8) _
                 .Select(Function(di)
                             Return (i:=di, dy:=di.Evaluate)
                         End Function)

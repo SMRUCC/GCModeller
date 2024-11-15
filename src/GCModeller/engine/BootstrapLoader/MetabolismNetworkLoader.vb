@@ -176,9 +176,9 @@ Namespace ModelLoader
             Else
                 forward = New AdditiveControls With {
                     .activation = MassTable _
-                        .variables(enzymeProteinComplexes, 10) _
+                        .variables(enzymeProteinComplexes, 1) _
                         .ToArray,
-                    .baseline = 15
+                    .baseline = 5
                 }
             End If
 
@@ -186,7 +186,7 @@ Namespace ModelLoader
                 .bounds = bounds,
                 .ID = reaction.ID,
                 .forward = forward,
-                .reverse = Controls.StaticControl(15)
+                .reverse = Controls.StaticControl(5)
             }
 
             ' 假设所有的反应过程化都存在产物抑制效应

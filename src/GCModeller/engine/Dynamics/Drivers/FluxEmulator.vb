@@ -148,6 +148,13 @@ Namespace Engine
                 ' run internal engine iteration
                 Call engine.Tick()
 
+                ' clip mass values, keeps positive
+                For Each factor As Factor In core.m_massIndex.Values
+                    If factor.Value < 0 Then
+                        factor.Value = 0
+                    End If
+                Next
+
                 ' and then populate result data snapshot
                 Call massSnapshotDriver(i, core.getMassValues)
                 Call fluxSnapshotDriver(i, flux.getFlux)
