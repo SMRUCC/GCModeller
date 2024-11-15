@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
@@ -228,12 +229,22 @@ Namespace v2
 
         <Extension>
         Private Iterator Function loadKinetics(reaction As Reaction, ko As IEnumerable(Of NamedValue(Of Catalysis))) As IEnumerable(Of Kinetics)
+            Dim expr As Expression
+
             For Each k As NamedValue(Of Catalysis) In ko
                 If k.Value.reaction <> reaction.ID Then
                     Continue For
+                Else
+                    If k.Value.formula Is Nothing Then
+                        ' apply of the default kinetics
+                        ' Michaelis-Menten equation
+                        ' V= (Vmax⋅[S]) / (km [S])
+                        expr = ScriptEngine.ParseExpression("(100*S)/(2+S)")
+                    Else
+                        expr = ScriptEngine.ParseExpression(k.Value.formula.lambda)
+                    End If
                 End If
 
-                Dim expr = ScriptEngine.ParseExpression(k.Value.formula.lambda)
                 Dim refVals = k.Value.parameter _
                     .Select(Function(a) As Object
                                 Dim useReferenceId As String = (a.value = 0.0 OrElse a.value.IsNaNImaginary) AndAlso
