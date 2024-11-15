@@ -97,6 +97,16 @@ Namespace Core
         ''' </summary>
         ReadOnly pars As String()
 
+        ''' <summary>
+        ''' get kinetics parameter mass reference names
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property parameters As IEnumerable(Of String)
+            Get
+                Return pars.AsEnumerable
+            End Get
+        End Property
+
         Sub New(env As Vessel, lambda As DynamicInvoke, raw As Expression, Optional pars As String() = Nothing)
             Me.lambda = lambda
             Me.raw = raw
@@ -127,6 +137,20 @@ Namespace Core
         End Property
 
         ReadOnly kinetics As KineticsControls()
+
+        ''' <summary>
+        ''' get kinetics parameter mass reference names
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Iterator Property parameters As IEnumerable(Of String)
+            Get
+                For Each overlap As KineticsControls In kinetics
+                    For Each name As String In overlap.parameters
+                        Yield name
+                    Next
+                Next
+            End Get
+        End Property
 
         Sub New(overlaps As IEnumerable(Of KineticsControls))
             kinetics = overlaps.ToArray

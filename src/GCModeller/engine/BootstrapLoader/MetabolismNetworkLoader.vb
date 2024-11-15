@@ -157,6 +157,7 @@ Namespace ModelLoader
                             .Select(Function(a) a.ToString) _
                             .ToArray
                     )
+                    pull.AddRange(DirectCast(forward, KineticsControls).parameters)
                 Else
                     ' multiple kineticis overlaps
                     forward = New KineticsOverlapsControls(
@@ -170,6 +171,7 @@ Namespace ModelLoader
                                 .ToArray
                         )
                     )
+                    pull.AddRange(DirectCast(forward, KineticsOverlapsControls).parameters)
                 End If
             Else
                 forward = New AdditiveControls With {
