@@ -147,7 +147,10 @@ Namespace Core
         ''' <param name="factors"></param>
         ''' <param name="regulation"></param>
         ''' <returns></returns>
-        Private Shared Function minimalUnit(parallel As Dictionary(Of String, Double), factors As IEnumerable(Of Variable), regulation#, max#) As Double
+        Private Shared Function minimalUnit(parallel As Dictionary(Of String, Double),
+                                            factors As IEnumerable(Of Variable),
+                                            regulation#,
+                                            max#) As Double
             Return factors _
                 .Select(Function(v)
                             Dim reactionUnit = minimalUnit(parallel, regulation, v)

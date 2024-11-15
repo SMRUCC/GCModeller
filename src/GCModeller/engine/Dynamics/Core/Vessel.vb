@@ -109,6 +109,10 @@ Namespace Core
 
         Friend m_massIndex As Dictionary(Of String, Factor)
         Friend m_channels As Channel()
+
+        ''' <summary>
+        ''' Dynamics wrapper to the RK4 odes solver
+        ''' </summary>
         Friend m_dynamics As MassDynamics()
 
         Public Function getMassValues() As Dictionary(Of String, Double)
