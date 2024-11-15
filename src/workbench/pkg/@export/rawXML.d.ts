@@ -46,9 +46,19 @@ declare namespace rawXML {
    }
    module open {
       /**
-        * @param mode default value Is ``'read'``.
-        * @param args default value Is ``null``.
-        * @param env default value Is ``null``.
+       * open the simulation data storage driver
+       * 
+       * 
+        * @param file the file path to the storage data
+        * @param mode the binary file open mode for the data storage driver, should be ``read``/``write``.
+        * 
+        * + default value Is ``'read'``.
+        * @param args -
+        * 
+        * + default value Is ``null``.
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function vcellPack(file: string, mode?: string, args?: any, env?: object): object|object;
       /**
