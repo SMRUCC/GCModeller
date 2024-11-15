@@ -132,6 +132,7 @@ Public Module Visualizer
             Call g.AddNode(mass)
         Next
 
+        Call VBDebugger.EchoLine("create cellular flux graph for debug visual...")
         Call g.AttachReactionNode(cell, flux)
 
         For Each reaction As Channel In cell.Channels
@@ -144,11 +145,10 @@ Public Module Visualizer
     <Extension>
     Private Sub ConstructCellularGraph(g As NetworkGraph, reaction As Channel)
         ' metadata for web view
-        Dim metadata As New Dictionary(Of String, String())
-
-        metadata.Add("reactants", reaction.GetReactants.Select(Function(a) a.mass.ID).ToArray)
-        metadata.Add("products", reaction.GetProducts.Select(Function(a) a.mass.ID).ToArray)
-
+        Dim metadata As New Dictionary(Of String, String()) From {
+            {"reactants", reaction.GetReactants.Select(Function(a) a.mass.ID).ToArray},
+            {"products", reaction.GetProducts.Select(Function(a) a.mass.ID).ToArray}
+        }
         Dim json As String = metadata.GetJson
 
         For Each left As Variable In reaction.GetReactants
