@@ -230,6 +230,8 @@ Namespace v2
         <Extension>
         Private Iterator Function loadKinetics(reaction As Reaction, ko As IEnumerable(Of NamedValue(Of Catalysis))) As IEnumerable(Of Kinetics)
             Dim expr As Expression
+            Dim refVals As Object()
+            Dim pars As String()
 
             For Each k As NamedValue(Of Catalysis) In ko
                 If k.Value.reaction <> reaction.ID Then
@@ -239,29 +241,32 @@ Namespace v2
                         ' apply of the default kinetics
                         ' Michaelis-Menten equation
                         ' V= (Vmax⋅[S]) / (km [S])
-                        expr = ScriptEngine.ParseExpression("(100*S)/(2+S)")
+                        ' Vmax = kcat [E]
+                        expr = ScriptEngine.ParseExpression("(2 * E *S)/(2+S)")
+                        refVals = New Object() {k.Name, reaction.substrate.First.compound}
+                        pars = {"E", "S"}
                     Else
                         expr = ScriptEngine.ParseExpression(k.Value.formula.lambda)
+                        refVals = k.Value.parameter _
+                            .Select(Function(a) As Object
+                                        Dim useReferenceId As String = (a.value = 0.0 OrElse a.value.IsNaNImaginary) AndAlso
+                                            Not a.target.StringEmpty
+
+                                        If useReferenceId Then
+                                            Return a.target
+                                        Else
+                                            Return a.value
+                                        End If
+                                    End Function) _
+                            .ToArray
+                        pars = k.Value.formula.parameters
                     End If
                 End If
-
-                Dim refVals = k.Value.parameter _
-                    .Select(Function(a) As Object
-                                Dim useReferenceId As String = (a.value = 0.0 OrElse a.value.IsNaNImaginary) AndAlso
-                                    Not a.target.StringEmpty
-
-                                If useReferenceId Then
-                                    Return a.target
-                                Else
-                                    Return a.value
-                                End If
-                            End Function) _
-                    .ToArray
 
                 Yield New Kinetics With {
                     .enzyme = k.Name,
                     .formula = expr,
-                    .parameters = k.Value.formula.parameters,
+                    .parameters = pars,
                     .paramVals = refVals,
                     .target = reaction.ID,
                     .PH = k.Value.PH,
