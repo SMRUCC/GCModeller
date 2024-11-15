@@ -3,10 +3,10 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\rawxmlkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\vcellkit.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\simulator.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|e:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\vcellkit.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -16,7 +16,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -32,28 +32,27 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RawXmlKit.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:11:01.929Z",
+              "DocumentIndex": 1,
+              "Title": "vcellkit",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-11-15T06:15:42.587Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Simulator.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Simulator.vb",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAAAEwAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2024-11-15T06:06:57.99Z",
+              "DocumentIndex": 0,
+              "Title": "vcellkit",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2024-11-15T06:15:39.934Z",
               "EditorCaption": ""
             }
           ]

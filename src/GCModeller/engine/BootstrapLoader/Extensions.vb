@@ -59,6 +59,12 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 <HideModuleName>
 Public Module Extensions
 
+    ''' <summary>
+    ''' Populate all the <paramref name="complex"/> related components.
+    ''' </summary>
+    ''' <param name="massTable"></param>
+    ''' <param name="complex"></param>
+    ''' <returns></returns>
     <Extension>
     Public Iterator Function variables(massTable As MassTable, complex As Protein) As IEnumerable(Of Variable)
         For Each compound In complex.compounds

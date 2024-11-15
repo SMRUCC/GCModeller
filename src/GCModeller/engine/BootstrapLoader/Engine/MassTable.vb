@@ -65,10 +65,12 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 
 Namespace Engine
 
+    ''' <summary>
+    ''' the cellular mass environment 
+    ''' </summary>
     Public Class MassTable : Implements IRepository(Of String, Factor)
         Implements IEnumerable(Of Factor)
 
