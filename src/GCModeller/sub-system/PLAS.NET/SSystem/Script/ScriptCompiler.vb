@@ -1,64 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::6b13fe3afb8dd7432913a8f219c8b71c, sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 118
-    '    Code Lines: 67 (56.78%)
-    ' Comment Lines: 33 (27.97%)
-    '    - Xml Docs: 90.91%
-    ' 
-    '   Blank Lines: 18 (15.25%)
-    '     File Size: 5.03 KB
+' Summaries:
 
 
-    '     Class ScriptCompiler
-    ' 
-    '         Properties: AutoFixError
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CheckConsist, Compile, CompileImpl
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 118
+'    Code Lines: 67 (56.78%)
+' Comment Lines: 33 (27.97%)
+'    - Xml Docs: 90.91%
+' 
+'   Blank Lines: 18 (15.25%)
+'     File Size: 5.03 KB
+
+
+'     Class ScriptCompiler
+' 
+'         Properties: AutoFixError
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CheckConsist, Compile, CompileImpl
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports System.Data
-#End If
-
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
@@ -101,7 +98,7 @@ Namespace Script
             '检查每一个反应函数所指向的目标底物的变量是否被正确的初始化了
             For Each r As SEquation In Reactions
                 Dim LQuery As var() = LinqAPI.Exec(Of var) <=
- _
+                                                             _
                     From var As var
                     In Metabolites
                     Where String.Equals(var.Id, r.x)

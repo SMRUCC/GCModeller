@@ -60,11 +60,6 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
-#If netcore5 = 0 Then
-Imports RDotNET
-Imports RDotNET.Extensions.VisualBasic.API
-Imports RServer = RDotNET.Extensions.VisualBasic.RSystem
-#End If
 
 Public Module AnalysisCommon
 
@@ -145,53 +140,51 @@ Public Module AnalysisCommon
     ''' <returns></returns>
     <Extension>
     Public Function ApplyDEPFilter(proteins As IEnumerable(Of DEP_iTraq), level#, pvalue#, FDR_threshold#) As DEP_iTraq()
-#If netcore5 = 0 Then
         ' enable vector programming language feature
-        With proteins.Shadows
+        'With proteins.Shadows
 
-            Dim test As BooleanVector
-            Dim log2FC As Vector = !log2FC
-            Dim p As Vector = !pvalue
-            Dim FDR As Vector
-            Dim n% = .Length
+        '    Dim test As BooleanVector
+        '    Dim log2FC As Vector = !log2FC
+        '    Dim p As Vector = !pvalue
+        '    Dim FDR As Vector
+        '    Dim n% = .Length
 
-            ' obtain the memory pointer to the R server memory
-            Dim var$ = stats.padjust(p, n:=p.Length)
+        '    ' obtain the memory pointer to the R server memory
+        '    Dim var$ = stats.padjust(p, n:=p.Length)
 
-            SyncLock RServer.R
-                With RServer.R
+        '    SyncLock RServer.R
+        '        With RServer.R
 
-                    ' read the Rserver memory from the memory pointer and 
-                    ' then convert the symbol to a numeric vector
-                    FDR = .Evaluate(var) _
-                          .AsNumeric _
-                          .ToArray
-                End With
-            End SyncLock
+        '            ' read the Rserver memory from the memory pointer and 
+        '            ' then convert the symbol to a numeric vector
+        '            FDR = .Evaluate(var) _
+        '                  .AsNumeric _
+        '                  .ToArray
+        '        End With
+        '    End SyncLock
 
-            ' vector shadows dynamics language feature
-            With CObj(.ByRef)
+        '    ' vector shadows dynamics language feature
+        '    With CObj(.ByRef)
 
-                test = (Math.Log(level, 2) <= Vector.Abs(log2FC)) & (p <= pvalue)
+        '        test = (Math.Log(level, 2) <= Vector.Abs(log2FC)) & (p <= pvalue)
 
-                ' apply FDR selector if the threshold is less than 1
-                .FDR = FDR
+        '        ' apply FDR selector if the threshold is less than 1
+        '        .FDR = FDR
 
-                If FDR_threshold < 1 Then
-                    test = test & (FDR <= FDR_threshold)
-                End If
+        '        If FDR_threshold < 1 Then
+        '            test = test & (FDR <= FDR_threshold)
+        '        End If
 
-                .isDEP = test
+        '        .isDEP = test
 
-                With Which.IsTrue(test).Count
-                    Call println("resulted %s DEPs from %s proteins!", .ByRef, n)
-                End With
-            End With
+        '        With which.IsTrue(test).Count
+        '            Call println("resulted %s DEPs from %s proteins!", .ByRef, n)
+        '        End With
+        '    End With
 
-            Return .ByRef
-        End With
-#Else
+        '    Return .ByRef
+        'End With
+
         Throw New NotImplementedException
-#End If
     End Function
 End Module
