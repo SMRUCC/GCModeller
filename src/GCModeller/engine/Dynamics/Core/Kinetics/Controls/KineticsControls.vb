@@ -98,4 +98,22 @@ Namespace Core
             Return "[kinetics] " & raw.ToString
         End Function
     End Class
+
+    Public Class KineticsOverlapsControls : Inherits Controls
+
+        Public Overrides ReadOnly Property coefficient As Double
+            Get
+                Return Aggregate k As KineticsControls
+                       In kinetics
+                       Into Sum(k.coefficient)
+            End Get
+        End Property
+
+        ReadOnly kinetics As KineticsControls()
+
+        Sub New(overlaps As IEnumerable(Of KineticsControls))
+            kinetics = overlaps.ToArray
+        End Sub
+
+    End Class
 End Namespace

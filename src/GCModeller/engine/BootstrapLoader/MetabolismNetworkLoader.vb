@@ -143,12 +143,25 @@ Namespace ModelLoader
 
             Dim forward As Controls
 
-            If Not reaction.kinetics.formula Is Nothing Then
-                forward = New KineticsControls(
-                    env:=loader.vcellEngine,
-                    lambda:=reaction.kinetics.CompileLambda,
-                    raw:=reaction.kinetics.formula
-                )
+            If Not reaction.kinetics.IsNullOrEmpty Then
+                If reaction.kinetics.Length = 1 Then
+                    Dim scalar = reaction.kinetics(0)
+
+                    forward = New KineticsControls(
+                        env:=loader.vcellEngine,
+                        lambda:=scalar.CompileLambda,
+                        raw:=scalar.formula
+                    )
+                Else
+                    ' multiple kineticis overlaps
+                    forward = New KineticsOverlapsControls(
+                        From k In reaction.kinetics Select New KineticsControls(
+                            env:=loader.vcellEngine,
+                            lambda:=k.CompileLambda,
+                            raw:=k.formula
+                        )
+                    )
+                End If
             Else
                 forward = New AdditiveControls With {
                     .activation = MassTable _
