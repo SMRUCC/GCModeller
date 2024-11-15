@@ -236,7 +236,7 @@ Namespace v2
                             Return enz.catalysis _
                                 .SafeQuery _
                                 .Select(Function(ec)
-                                            Return (rID:=ec.reaction, enz:=New NamedValue(Of Catalysis)(enz.KO, ec))
+                                            Return (rID:=ec.reaction, enz:=New NamedValue(Of Catalysis)(If(enz.KO, enz.geneID), ec))
                                         End Function)
                         End Function) _
                 .IteratesALL _
