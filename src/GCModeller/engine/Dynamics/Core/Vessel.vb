@@ -97,6 +97,7 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property MassEnvironment As Factor()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return m_massIndex.Values.ToArray
             End Get
@@ -117,6 +118,12 @@ Namespace Core
         ''' </summary>
         Friend m_dynamics As MassDynamics()
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub New(Optional is_debug As Boolean = False)
+            Me.is_debug = is_debug
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getMassValues() As Dictionary(Of String, Double)
             Return m_massIndex.Values.ToDictionary(Function(m) m.ID, Function(m) m.Value)
         End Function
