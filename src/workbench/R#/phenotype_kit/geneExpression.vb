@@ -1204,7 +1204,8 @@ Module geneExpression
                            xAxisLabelRotate:=45,
                            padding:="padding:100px 100px 300px 100px;",
                            membershipCutoff:=memberCutoff,
-                           topMembers:=top_members
+                           topMembers:=top_members,
+                           driver:=driver
                        )
                    End Function
 
