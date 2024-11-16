@@ -93,9 +93,12 @@ Namespace Engine
         Sub New(def As Definition, dynamics As FluxBaseline,
                 Optional iterations% = 500,
                 Optional timeResolution# = 10000,
-                Optional showProgress As Boolean = True)
+                Optional showProgress As Boolean = True,
+                Optional debug As Boolean = False)
 
-            Call MyBase.New(Nothing, iterations, timeResolution, showProgress)
+            Call MyBase.New(Nothing, iterations, timeResolution,
+                            showProgress:=showProgress,
+                            debug:=debug)
 
             Me.initials = def
             Me.dynamics = dynamics

@@ -243,7 +243,8 @@ Public Module Simulator
                                       Optional time_resolutions% = 10000,
                                       Optional deletions$() = Nothing,
                                       Optional dynamics As FluxBaseline = Nothing,
-                                      Optional showProgress As Boolean = True) As Object
+                                      Optional showProgress As Boolean = True,
+                                      Optional debug As Boolean = False) As Object
 
         Static defaultDynamics As [Default](Of FluxBaseline) = New FluxBaseline
         ' do initialize of the virtual cell engine
@@ -254,7 +255,8 @@ Public Module Simulator
             dynamics:=dynamics Or defaultDynamics,
             iterations:=iterations,
             showProgress:=showProgress,
-            timeResolution:=time_resolutions
+            timeResolution:=time_resolutions,
+            debug:=debug
         ) _
         .LoadModel(vcell, deletions)
     End Function

@@ -83,7 +83,8 @@ Namespace Engine
         Sub New(Optional core As Vessel = Nothing,
                 Optional maxTime As Integer = 50,
                 Optional resolution As Integer = 10000,
-                Optional showProgress As Boolean = True)
+                Optional showProgress As Boolean = True,
+                Optional debug As Boolean = False)
 
             Me.showProgress = showProgress
             Me.maxTime = maxTime
@@ -92,7 +93,7 @@ Namespace Engine
             If Not core Is Nothing Then
                 Me.core = core
             Else
-                Me.core = New Vessel
+                Me.core = New Vessel(is_debug:=debug)
             End If
         End Sub
 
