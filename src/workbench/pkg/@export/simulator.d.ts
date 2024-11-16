@@ -52,8 +52,10 @@ declare namespace simulator {
         * + default value Is ``null``.
         * @param showProgress 
         * + default value Is ``true``.
+        * @param debug 
+        * + default value Is ``false``.
       */
-      function load(vcell: object, inits?: object, iterations?: object, time_resolutions?: object, deletions?: string, dynamics?: object, showProgress?: boolean): object;
+      function load(vcell: object, inits?: object, iterations?: object, time_resolutions?: object, deletions?: string, dynamics?: object, showProgress?: boolean, debug?: boolean): object;
    }
    /**
     * Create a new status profile data object with unify mass contents.
