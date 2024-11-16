@@ -213,11 +213,12 @@ Namespace ExpressionPattern
                     End If
 
                     Call g.DrawString(label, clusterTagFont, Brushes.Black, tagPos)
-                    Call Console.WriteLine(label & "...")
+                    Call VBDebugger.WriteLine(label & "...")
 
                     Call Scatter.Plot(
                         c:=scatterData,
                         g:=g,
+                        drawLine:=True,
                         rect:=layout,
                         Xlabel:=xlabel,
                         Ylabel:=ylabel,
