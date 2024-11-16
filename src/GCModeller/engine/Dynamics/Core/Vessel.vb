@@ -121,6 +121,10 @@ Namespace Core
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub New(Optional is_debug As Boolean = False)
             Me.is_debug = is_debug
+
+            If is_debug Then
+                Call VBDebugger.EchoLine("virtual cell engine will be running in debug mode.")
+            End If
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

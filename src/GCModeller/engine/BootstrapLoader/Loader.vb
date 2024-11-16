@@ -56,6 +56,7 @@
 
 #End Region
 
+Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
@@ -76,8 +77,8 @@ Namespace ModelLoader
         ''' </summary>
         Friend ReadOnly define As Definition
         Friend ReadOnly dynamics As FluxBaseline
-        Friend ReadOnly vcellEngine As New Vessel
 
+        Dim vcellEngine As Vessel
         Dim centralDogmaFluxLoader As CentralDogmaFluxLoader
         Dim proteinMatureFluxLoader As ProteinMatureFluxLoader
         Dim metabolismNetworkLoader As MetabolismNetworkLoader
@@ -154,7 +155,10 @@ Namespace ModelLoader
             Return metabolismNetworkLoader
         End Function
 
-        Public Function CreateEnvironment(cell As CellularModule) As Vessel
+        Public Function CreateEnvironment(cell As CellularModule, <Out> ByRef core As Vessel) As Vessel
+            vcellEngine = core
+
+            ' create the flux simulation environment
             _massLoader = New MassLoader(Me)
             _massLoader.doMassLoadingOn(cell)
 

@@ -129,7 +129,7 @@ Namespace Engine
 
             getLoader = New Loader(initials, dynamics)
             core = getLoader _
-                .CreateEnvironment(virtualCell) _
+                .CreateEnvironment(virtualCell, core) _
                 .Initialize()
             _model = virtualCell
 
