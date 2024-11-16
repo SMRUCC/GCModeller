@@ -225,6 +225,10 @@ Namespace Core
                     End If
                 Next
 
+                If channels.IsNullOrEmpty Then
+                    Continue For
+                End If
+
                 Yield New MassDynamics With {
                     .mass = mass,
                     .factors = factors.ToArray,
