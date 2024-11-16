@@ -149,7 +149,7 @@ Namespace ModelLoader
                     Dim scalar = reaction.kinetics(0)
 
                     forward = New KineticsControls(
-                        env:=loader.vcellEngine,
+                        env:=loader.getKernel,
                         lambda:=scalar.CompileLambda,
                         raw:=scalar.formula,
                         pars:=scalar.paramVals _
@@ -162,7 +162,7 @@ Namespace ModelLoader
                     ' multiple kineticis overlaps
                     forward = New KineticsOverlapsControls(
                         From k In reaction.kinetics Select New KineticsControls(
-                            env:=loader.vcellEngine,
+                            env:=loader.getKernel,
                             lambda:=k.CompileLambda,
                             raw:=k.formula,
                             pars:=k.paramVals _

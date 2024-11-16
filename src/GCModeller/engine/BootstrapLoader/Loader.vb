@@ -56,6 +56,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
@@ -110,6 +111,11 @@ Namespace ModelLoader
                 Me.define = New Definition
             End If
         End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function getKernel() As Vessel
+            Return vcellEngine
+        End Function
 
         Public Function GetFluxIndex() As Dictionary(Of String, String())
             Return fluxIndex _
