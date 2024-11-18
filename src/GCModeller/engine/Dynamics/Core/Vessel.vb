@@ -97,10 +97,13 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property MassEnvironment As Factor()
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return m_massIndex.Values.ToArray
             End Get
         End Property
+
+        ReadOnly is_debug As Boolean = False
 
         ''' <summary>
         ''' 因为在现实中这些反应过程是同时发生的，所以在这里使用这个共享因子来模拟并行事件
@@ -109,17 +112,41 @@ Namespace Core
 
         Friend m_massIndex As Dictionary(Of String, Factor)
         Friend m_channels As Channel()
+
+        ''' <summary>
+        ''' Dynamics wrapper to the RK4 odes solver
+        ''' </summary>
         Friend m_dynamics As MassDynamics()
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub New(Optional is_debug As Boolean = False)
+            Me.is_debug = is_debug
+
+            If is_debug Then
+                Call VBDebugger.EchoLine("virtual cell engine will be running in debug mode.")
+            End If
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getMassValues() As Dictionary(Of String, Double)
             Return m_massIndex.Values.ToDictionary(Function(m) m.ID, Function(m) m.Value)
         End Function
 
+        ''' <summary>
+        ''' set mass factors to the container runtime
+        ''' </summary>
+        ''' <param name="massEnvir"></param>
+        ''' <returns></returns>
         Public Function load(massEnvir As IEnumerable(Of Factor)) As Vessel
             m_massIndex = massEnvir.ToDictionary(Function(m) m.ID)
             Return Me
         End Function
 
+        ''' <summary>
+        ''' set flux network for the cellular kinetics simulation
+        ''' </summary>
+        ''' <param name="flux"></param>
+        ''' <returns></returns>
         Public Function load(flux As IEnumerable(Of Channel)) As Vessel
             m_channels = flux.ToArray
 
@@ -176,21 +203,51 @@ Namespace Core
         ''' <param name="maxTime">最大的模拟时间长度</param>
         ''' <param name="resolution">时间分辨率，这个值应该是大于<paramref name="maxTime"/>参数的一个值</param>
         Public Function ContainerIterator(maxTime As Integer, resolution As Integer) As SolverIterator
+            Dim df As [Function]
+
             If resolution < maxTime Then
                 Call "invalid config of the time resolution parameter: resolution should greater than maxTime!".Warning
             End If
 
-            Dim vector As MassDynamics() = m_dynamics
-            Dim df = Sub(dx#, ByRef dy As std_vec)
-                         For Each x As MassDynamics In vector
-                             dy(x) = x.Evaluate()
-                         Next
-                     End Sub
-            Dim ODEs As New GenericODEs(vector, df)
+            If is_debug Then
+                df = AddressOf fp_dfdx_sequence
+            Else
+                df = AddressOf fp_dfdx_parallel
+            End If
+
+            Dim ODEs As New GenericODEs(m_dynamics, df)
             Dim iterator = New SolverIterator(New RungeKutta4(ODEs)).Config(ODEs.GetY0(False), resolution, 0, maxTime)
 
             Return iterator
         End Function
+
+        ''' <summary>
+        ''' debug mode, run ODEs in sequential
+        ''' </summary>
+        ''' <param name="dx"></param>
+        ''' <param name="dy"></param>
+        Private Sub fp_dfdx_sequence(dx As Double, ByRef dy As std_vec)
+            For Each x As MassDynamics In m_dynamics
+                dy(x) = x.Evaluate()
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' product mode, run ODEs in parallel
+        ''' </summary>
+        ''' <param name="dx"></param>
+        ''' <param name="dy"></param>
+        Private Sub fp_dfdx_parallel(dx As Double, ByRef dy As std_vec)
+            For Each y In m_dynamics _
+                .AsParallel _
+                .WithDegreeOfParallelism(8) _
+                .Select(Function(di)
+                            Return (i:=di, dy:=di.Evaluate)
+                        End Function)
+
+                dy(y.i) = y.dy
+            Next
+        End Sub
 
         ''' <summary>
         ''' 重置反应环境模拟器之中的内容

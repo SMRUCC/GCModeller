@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
+Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
@@ -227,6 +228,54 @@ Namespace v2
         End Function
 
         <Extension>
+        Private Iterator Function loadKinetics(reaction As Reaction, ko As IEnumerable(Of NamedValue(Of Catalysis))) As IEnumerable(Of Kinetics)
+            Dim expr As Expression
+            Dim refVals As Object()
+            Dim pars As String()
+
+            For Each k As NamedValue(Of Catalysis) In ko
+                If k.Value.reaction <> reaction.ID Then
+                    Continue For
+                Else
+                    If k.Value.formula Is Nothing Then
+                        ' apply of the default kinetics
+                        ' Michaelis-Menten equation
+                        ' V= (Vmax⋅[S]) / (km [S])
+                        ' Vmax = kcat [E]
+                        expr = ScriptEngine.ParseExpression("(2 * E *S)/(2+S)")
+                        refVals = New Object() {k.Name & ".complex", reaction.substrate.First.compound}
+                        pars = {"E", "S"}
+                    Else
+                        expr = ScriptEngine.ParseExpression(k.Value.formula.lambda)
+                        refVals = k.Value.parameter _
+                            .Select(Function(a) As Object
+                                        Dim useReferenceId As String = (a.value = 0.0 OrElse a.value.IsNaNImaginary) AndAlso
+                                            Not a.target.StringEmpty
+
+                                        If useReferenceId Then
+                                            Return a.target
+                                        Else
+                                            Return a.value
+                                        End If
+                                    End Function) _
+                            .ToArray
+                        pars = k.Value.formula.parameters
+                    End If
+                End If
+
+                Yield New Kinetics With {
+                    .enzyme = k.Name,
+                    .formula = expr,
+                    .parameters = pars,
+                    .paramVals = refVals,
+                    .target = reaction.ID,
+                    .PH = k.Value.PH,
+                    .temperature = k.Value.temperature
+                }
+            Next
+        End Function
+
+        <Extension>
         Private Iterator Function createFluxes(model As VirtualCell) As IEnumerable(Of FluxModel)
             Dim equation As Equation
             ' {reactionID => KO()}
@@ -236,7 +285,7 @@ Namespace v2
                             Return enz.catalysis _
                                 .SafeQuery _
                                 .Select(Function(ec)
-                                            Return (rID:=ec.reaction, enz:=New NamedValue(Of Catalysis)(enz.KO, ec))
+                                            Return (rID:=ec.reaction, enz:=New NamedValue(Of Catalysis)(If(enz.KO, enz.geneID), ec))
                                         End Function)
                         End Function) _
                 .IteratesALL _
@@ -265,35 +314,7 @@ Namespace v2
                         kinetics = {}
                     Else
                         bounds = If(reaction.bounds, {500, 1000.0})
-                        kinetics = KO _
-                            .Where(Function(c) Not c.Value.formula Is Nothing) _
-                            .Where(Function(c) c.Value.reaction = reaction.ID) _
-                            .Select(Function(k)
-                                        Dim expr = ScriptEngine.ParseExpression(k.Value.formula.lambda)
-                                        Dim refVals = k.Value.parameter _
-                                                .Select(Function(a) As Object
-                                                            Dim useReferenceId As String = (a.value = 0.0 OrElse a.value.IsNaNImaginary) AndAlso
-                                                                Not a.target.StringEmpty
-
-                                                            If useReferenceId Then
-                                                                Return a.target
-                                                            Else
-                                                                Return a.value
-                                                            End If
-                                                        End Function) _
-                                                .ToArray
-
-                                        Return New Kinetics With {
-                                            .enzyme = k.Name,
-                                            .formula = expr,
-                                            .parameters = k.Value.formula.parameters,
-                                            .paramVals = refVals,
-                                            .target = reaction.ID,
-                                            .PH = k.Value.PH,
-                                            .temperature = k.Value.temperature
-                                        }
-                                    End Function) _
-                            .ToArray
+                        kinetics = reaction.loadKinetics(KO).ToArray
                     End If
                 Else
                     KO = {}
@@ -317,7 +338,7 @@ Namespace v2
                         .ToArray,
                     .enzyme = KO.Keys.Distinct.ToArray,
                     .bounds = bounds,
-                    .kinetics = kinetics.FirstOrDefault
+                    .kinetics = kinetics
                 }
             Next
         End Function

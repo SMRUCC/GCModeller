@@ -59,7 +59,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
@@ -84,7 +83,8 @@ Namespace Engine
         Sub New(Optional core As Vessel = Nothing,
                 Optional maxTime As Integer = 50,
                 Optional resolution As Integer = 10000,
-                Optional showProgress As Boolean = True)
+                Optional showProgress As Boolean = True,
+                Optional debug As Boolean = False)
 
             Me.showProgress = showProgress
             Me.maxTime = maxTime
@@ -93,7 +93,7 @@ Namespace Engine
             If Not core Is Nothing Then
                 Me.core = core
             Else
-                Me.core = New Vessel
+                Me.core = New Vessel(is_debug:=debug)
             End If
         End Sub
 
@@ -147,6 +147,13 @@ Namespace Engine
             For i As Integer = 0 To iterations - 1
                 ' run internal engine iteration
                 Call engine.Tick()
+
+                ' clip mass values, keeps positive
+                For Each factor As Factor In core.m_massIndex.Values
+                    If factor.Value < 0 Then
+                        factor.Value = 0
+                    End If
+                Next
 
                 ' and then populate result data snapshot
                 Call massSnapshotDriver(i, core.getMassValues)

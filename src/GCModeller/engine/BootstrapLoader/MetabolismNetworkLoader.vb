@@ -69,6 +69,8 @@ Namespace ModelLoader
 
         Dim infinitySource As Index(Of String)
 
+        ReadOnly pull As New List(Of String)
+
         Public Sub New(loader As Loader)
             MyBase.New(loader)
 
@@ -80,12 +82,10 @@ Namespace ModelLoader
         ''' <summary>
         ''' create reaction flux data
         ''' </summary>
-        ''' <param name="cell"></param>
         ''' <returns></returns>
-        Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
+        Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
             Dim KOfunctions = cell.Genotype.centralDogmas _
-                .Where(Function(cd) Not cd.orthology.StringEmpty) _
-                .Select(Function(cd) (cd.orthology, cd.polypeptide)) _
+                .Select(Function(cd) (If(cd.orthology, cd.geneID), cd.polypeptide)) _
                 .GroupBy(Function(pro) pro.Item1) _
                 .ToDictionary(Function(KO) KO.Key,
                               Function(ortholog)
@@ -130,6 +130,7 @@ Namespace ModelLoader
                 .Where(AddressOf KOfunctions.ContainsKey) _
                 .Select(Function(KO) KOfunctions(KO)) _
                 .IteratesALL _
+                .Where(Function(si) Not si.StringEmpty(, True)) _
                 .Distinct _
                 .ToArray
             ' mature protein complex
@@ -143,18 +144,41 @@ Namespace ModelLoader
 
             Dim forward As Controls
 
-            If Not reaction.kinetics.formula Is Nothing Then
-                forward = New KineticsControls(
-                    env:=loader.vcellEngine,
-                    lambda:=reaction.kinetics.CompileLambda,
-                    raw:=reaction.kinetics.formula
-                )
+            If Not reaction.kinetics.IsNullOrEmpty Then
+                If reaction.kinetics.Length = 1 Then
+                    Dim scalar = reaction.kinetics(0)
+
+                    forward = New KineticsControls(
+                        env:=loader.getKernel,
+                        lambda:=scalar.CompileLambda,
+                        raw:=scalar.formula,
+                        pars:=scalar.paramVals _
+                            .SafeQuery _
+                            .Select(Function(a) a.ToString) _
+                            .ToArray
+                    )
+                    pull.AddRange(DirectCast(forward, KineticsControls).parameters)
+                Else
+                    ' multiple kineticis overlaps
+                    forward = New KineticsOverlapsControls(
+                        From k In reaction.kinetics Select New KineticsControls(
+                            env:=loader.getKernel,
+                            lambda:=k.CompileLambda,
+                            raw:=k.formula,
+                            pars:=k.paramVals _
+                                .SafeQuery _
+                                .Select(Function(a) a.ToString) _
+                                .ToArray
+                        )
+                    )
+                    pull.AddRange(DirectCast(forward, KineticsOverlapsControls).parameters)
+                End If
             Else
                 forward = New AdditiveControls With {
                     .activation = MassTable _
-                        .variables(enzymeProteinComplexes, 10) _
+                        .variables(enzymeProteinComplexes, 1) _
                         .ToArray,
-                    .baseline = 15
+                    .baseline = 5
                 }
             End If
 
@@ -162,7 +186,7 @@ Namespace ModelLoader
                 .bounds = bounds,
                 .ID = reaction.ID,
                 .forward = forward,
-                .reverse = Controls.StaticControl(15)
+                .reverse = Controls.StaticControl(5)
             }
 
             ' 假设所有的反应过程化都存在产物抑制效应
@@ -185,6 +209,10 @@ Namespace ModelLoader
                             Return MassTable.variables(objects, loader.dynamics.productInhibitionFactor)
                         End Function) _
                 .ToArray
+        End Function
+
+        Protected Overrides Function GetMassSet() As IEnumerable(Of String)
+            Return pull
         End Function
     End Class
 End Namespace

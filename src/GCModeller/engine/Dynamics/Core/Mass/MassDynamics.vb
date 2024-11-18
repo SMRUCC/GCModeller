@@ -102,7 +102,7 @@ Namespace Core
         Dim fluxVariants As var()
 
         Public Function Evaluate() As Double Implements INonlinearVar.Evaluate
-            Dim additions As Double
+            Dim additions As Double() = New Double(channels.Length - 1) {}
             Dim dir As Directions
             Dim variants As Double
             Dim flux As Channel
@@ -128,11 +128,13 @@ Namespace Core
                         Throw New InvalidProgramException
                 End Select
 
-                additions += variants
+                additions(i) = variants
                 fluxVariants(i).Value = fluxVariant
             Next
 
-            Return additions
+            Dim dy As Double = additions.Average
+            dy = (channels.Length * dy) / (channels.Length + Math.Abs(dy))
+            Return dy
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -222,6 +224,10 @@ Namespace Core
                         factors.Add(matter.coefficient)
                     End If
                 Next
+
+                If channels.IsNullOrEmpty Then
+                    Continue For
+                End If
 
                 Yield New MassDynamics With {
                     .mass = mass,

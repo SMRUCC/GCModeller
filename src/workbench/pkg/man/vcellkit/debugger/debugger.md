@@ -7,3 +7,4 @@
 + [flux.dynamics](debugger/flux.dynamics.1) 
 + [flux.load_driver](debugger/flux.load_driver.1) 
 + [test_network](debugger/test_network.1) run network dynamics
++ [dump_core](debugger/dump_core.1) dump core for debug

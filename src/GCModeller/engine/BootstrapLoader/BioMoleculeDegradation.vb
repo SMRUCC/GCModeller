@@ -68,6 +68,8 @@ Namespace ModelLoader
 
         Public Property proteinMatures As Channel()
 
+        ReadOnly pull As New List(Of String)
+
         Public Sub New(loader As Loader)
             MyBase.New(loader)
 
@@ -76,7 +78,7 @@ Namespace ModelLoader
             Call loader.fluxIndex.Add("polypeptideDegradation", New List(Of String))
         End Sub
 
-        Public Overrides Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
+        Protected Overrides Function CreateFlux() As IEnumerable(Of Channel)
             Return proteinDegradation(cell).AsList + RNADegradation(cell)
         End Function
 
@@ -191,6 +193,10 @@ Namespace ModelLoader
 
                 Yield flux
             Next
+        End Function
+
+        Protected Overrides Function GetMassSet() As IEnumerable(Of String)
+            Return pull
         End Function
     End Class
 End Namespace

@@ -88,10 +88,12 @@ Namespace Core
         End Property
 
         Public Overrides Function ToString() As String
-            If coefficient > 0 Then
-                Return $"active by {activation.Select(Function(a) a.mass.ID).GetJson}"
+            If coefficient > 0 AndAlso Not activation.IsNullOrEmpty Then
+                Return $"[additive] active by {activation.Select(Function(a) a.mass.ID).GetJson}"
+            ElseIf coefficient > 0 AndAlso activation.IsNullOrEmpty Then
+                Return "[additive] baseline"
             Else
-                Return "No activity!"
+                Return "[additive] but no activity!"
             End If
         End Function
 

@@ -7,6 +7,19 @@
 /**
  * the virtual cell raw data
  * 
+ * > the combination of the stream frame data in the rawpack file:
+ * >  
+ * >  mass profile:
+ * >  
+ * >  + transcriptome -> mass_profile
+ * >  + proteome -> mass_profile
+ * >  + metabolome -> mass_profile
+ * >  
+ * >  flux profile:
+ * >  
+ * >  + transcriptome -> activity
+ * >  + proteome -> activity
+ * >  + metabolome -> flux_size
 */
 declare namespace rawXML {
    module entity {
@@ -37,7 +50,9 @@ declare namespace rawXML {
        * 
         * @param raw -
         * @param tick -
-        * @param stream -
+        * @param stream the frame stream reference to the matrix data, should be one of the module type:
+        *  
+        *  transcriptome/proteome/metabolome
         * @param env -
         * 
         * + default value Is ``null``.
@@ -46,9 +61,19 @@ declare namespace rawXML {
    }
    module open {
       /**
-        * @param mode default value Is ``'read'``.
-        * @param args default value Is ``null``.
-        * @param env default value Is ``null``.
+       * open the simulation data storage driver
+       * 
+       * 
+        * @param file the file path to the storage data
+        * @param mode the binary file open mode for the data storage driver, should be ``read``/``write``.
+        * 
+        * + default value Is ``'read'``.
+        * @param args -
+        * 
+        * + default value Is ``null``.
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function vcellPack(file: string, mode?: string, args?: any, env?: object): object|object;
       /**

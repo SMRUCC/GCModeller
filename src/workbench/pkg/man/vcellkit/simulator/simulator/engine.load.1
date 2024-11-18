@@ -9,26 +9,33 @@ engine.load \- create a new virtual cell engine
 \fBtime_resolutions\fR as integer = 10000, 
 \fBdeletions\fR as string = \fB<NULL>\fR, 
 \fBdynamics\fR as <generic> FluxBaseline = \fB<NULL>\fR, 
-\fBshowProgress\fR as boolean = TRUE);\fR
+\fBshowProgress\fR as boolean = TRUE, 
+\fBdebug\fR as boolean = FALSE);\fR
 .SH DESCRIPTION
 .PP
 create a new virtual cell engine
 .PP
 .SH OPTIONS
 .PP
-\fBinits\fB \fR\- -. 
+\fBinits\fB \fR\- 
+ the initial mass environment definition
+. 
 .PP
 .PP
 \fBvcell\fB \fR\- The virtual cell object model, contains the definition of the cellular network graph data. 
 .PP
 .PP
-\fBiterations%\fB \fR\- -. 
+\fBiterations\fB \fR\- 
+ the number of the iteration loops for run the simulation
+. 
 .PP
 .PP
-\fBtime_resolutions%\fB \fR\- -. 
+\fBtime_resolutions\fB \fR\- 
+ the time steps
+. 
 .PP
 .PP
-\fBdeletions$\fB \fR\- -. 
+\fBdeletions\fB \fR\- make a specific gene nodes deletions. 
 .PP
 .PP
 \fBdynamics\fB \fR\- -. 

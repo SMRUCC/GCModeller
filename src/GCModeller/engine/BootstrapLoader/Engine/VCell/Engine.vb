@@ -1,63 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::fe60a6fc9eda3fc0b14e0b5f0354a1a5, engine\BootstrapLoader\Engine\VCell\Engine.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 113
-    '    Code Lines: 70 (61.95%)
-    ' Comment Lines: 22 (19.47%)
-    '    - Xml Docs: 86.36%
-    ' 
-    '   Blank Lines: 21 (18.58%)
-    '     File Size: 4.22 KB
+' Summaries:
 
 
-    '     Class Engine
-    ' 
-    '         Properties: dataStorageDriver, debugView, dynamics, initials, model
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: AttachBiologicalStorage, getMassPool, LoadModel, Run
-    ' 
-    '         Sub: Reset
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 113
+'    Code Lines: 70 (61.95%)
+' Comment Lines: 22 (19.47%)
+'    - Xml Docs: 86.36%
+' 
+'   Blank Lines: 21 (18.58%)
+'     File Size: 4.22 KB
+
+
+'     Class Engine
+' 
+'         Properties: dataStorageDriver, debugView, dynamics, initials, model
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: AttachBiologicalStorage, getMassPool, LoadModel, Run
+' 
+'         Sub: Reset
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
@@ -92,9 +93,12 @@ Namespace Engine
         Sub New(def As Definition, dynamics As FluxBaseline,
                 Optional iterations% = 500,
                 Optional timeResolution# = 10000,
-                Optional showProgress As Boolean = True)
+                Optional showProgress As Boolean = True,
+                Optional debug As Boolean = False)
 
-            Call MyBase.New(Nothing, iterations, timeResolution, showProgress)
+            Call MyBase.New(Nothing, iterations, timeResolution,
+                            showProgress:=showProgress,
+                            debug:=debug)
 
             Me.initials = def
             Me.dynamics = dynamics
@@ -125,7 +129,7 @@ Namespace Engine
 
             getLoader = New Loader(initials, dynamics)
             core = getLoader _
-                .CreateEnvironment(virtualCell) _
+                .CreateEnvironment(virtualCell, core) _
                 .Initialize()
             _model = virtualCell
 
@@ -142,6 +146,31 @@ Namespace Engine
 
             Return Me
         End Function
+
+        Public Sub DumpDynamicsCore(s As StreamWriter)
+            If core Is Nothing Then
+                Throw New InvalidProgramException("Please load model at first!")
+            End If
+
+            Call s.WriteLine($"----======== {core.MassEnvironment.Length} molecules =========----")
+
+            For Each mass In core.MassEnvironment
+                Call s.WriteLine(mass.ToString)
+            Next
+
+            Call s.WriteLine()
+            Call s.WriteLine()
+
+            Call s.WriteLine($"----========= {core.Channels.Length} dynamics channels ===========----")
+
+            For Each flux As Channel In core.Channels
+                Call s.WriteLine($"[{flux.ID}] {ModellingEngine.Dynamics.Core.ToString(flux)}")
+                Call s.WriteLine(flux.bounds.ToString)
+                Call s.WriteLine($"forward: {flux.forward.ToString}")
+                Call s.WriteLine($"reverse: {flux.reverse.ToString}")
+                Call s.WriteLine()
+            Next
+        End Sub
 
         ''' <summary>
         ''' Reset the reactor engine. (Do reset of the biological mass contents)

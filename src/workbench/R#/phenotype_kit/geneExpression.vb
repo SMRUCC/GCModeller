@@ -71,6 +71,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
@@ -1194,23 +1195,25 @@ Module geneExpression
             .slots = New Dictionary(Of String, Object)
         }
         Dim kmeans As EntityClusterModel() = patterns.GetCmeansPattern(memberCutoff, empty_shared, max_cluster_shared, env)
+        Dim plot = Function(driver As Drivers) As GraphicsData
+                       Return patterns.DrawMatrix(
+                           size:=InteropArgumentHelper.getSize(plotSize, env, "8100,5200"),
+                           colorSet:=colorSet,
+                           xlab:=xlab,
+                           ylab:=ylab,
+                           xAxisLabelRotate:=45,
+                           padding:="padding:100px 100px 300px 100px;",
+                           membershipCutoff:=memberCutoff,
+                           topMembers:=top_members,
+                           driver:=driver
+                       )
+                   End Function
 
         Call println($"membership cutoff for the cmeans patterns is: {memberCutoff}")
         Call println(patterns.ToSummaryText(memberCutoff))
-        Call patterns _
-            .DrawMatrix(
-                size:=InteropArgumentHelper.getSize(plotSize, env, "8100,5200"),
-                colorSet:=colorSet,
-                xlab:=xlab,
-                ylab:=ylab,
-                xAxisLabelRotate:=45,
-                padding:="padding:100px 100px 300px 100px;",
-                membershipCutoff:=memberCutoff,
-                topMembers:=top_members
-            ).AsGDIImage _
-                .DoCall(Sub(img)
-                            Call output.add("image", img)
-                        End Sub)
+
+        Call output.add("image", plot(Drivers.GDI))
+        Call output.add("pdf", plot(Drivers.PDF))
 
         Call println("export cmeans pattern matrix!")
         Call output.add("pattern", kmeans)

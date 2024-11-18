@@ -70,5 +70,9 @@ Namespace Core
 
         Sub New()
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"[baseline] {baseline}"
+        End Function
     End Class
 End Namespace

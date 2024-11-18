@@ -59,7 +59,7 @@ Namespace Core
     <HideModuleName>
     Public Module Extensions
 
-        Friend Function ToString(reaction As Channel) As String
+        Public Function ToString(reaction As Channel) As String
             Dim left = reaction.left.Select(AddressOf MassToString).JoinBy(" + ")
             Dim right = reaction.right.Select(AddressOf MassToString).JoinBy(" + ")
             Dim direct$ = If(reaction.direct = Directions.forward, "=>", "<=")

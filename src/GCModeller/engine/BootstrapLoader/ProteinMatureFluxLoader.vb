@@ -58,7 +58,6 @@
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 
 Namespace ModelLoader
@@ -71,13 +70,15 @@ Namespace ModelLoader
         Public ReadOnly Property polypeptides As String()
         Public ReadOnly Property proteinComplex As String()
 
+        ReadOnly pull As New List(Of String)
+
         Public Sub New(loader As Loader)
             MyBase.New(loader)
 
             Call loader.fluxIndex.Add(NameOf(ProteinMatureFluxLoader), New List(Of String))
         End Sub
 
-        Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
+        Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
             Dim polypeptides As New List(Of String)
             Dim proteinComplex As New List(Of String)
             Dim flux As Channel
@@ -104,7 +105,7 @@ Namespace ModelLoader
 
                 ' 酶的成熟过程也是一个不可逆的过程
                 flux = New Channel(unformed, {mature}) With {
-                    .ID = complex.DoCall(AddressOf loader.GetProteinMatureId),
+                    .ID = complex.DoCall(AddressOf Loader.GetProteinMatureId),
                     .reverse = Controls.StaticControl(0),
                     .forward = Controls.StaticControl(loader.dynamics.proteinMatureBaseline),
                     .bounds = New Boundary With {
@@ -120,6 +121,10 @@ Namespace ModelLoader
 
             _polypeptides = polypeptides
             _proteinComplex = proteinComplex
+        End Function
+
+        Protected Overrides Function GetMassSet() As IEnumerable(Of String)
+            Return pull
         End Function
     End Class
 End Namespace

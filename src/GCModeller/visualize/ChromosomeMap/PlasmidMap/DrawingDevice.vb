@@ -62,6 +62,12 @@ Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.PlasmidMap.DrawingModels
 
+#If NET48 Then
+
+#Else
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+#End If
+
 Namespace PlasmidMap
 
     Public Module DrawingDevice

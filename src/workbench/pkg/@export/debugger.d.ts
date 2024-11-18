@@ -8,6 +8,17 @@
  * 
 */
 declare namespace debugger {
+   /**
+    * dump core for debug
+    * 
+    * 
+     * @param core -
+     * @param file -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function dump_core(core: object, file: any, env?: object): any;
    module flux {
       /**
         * @param time default value Is ``50``.

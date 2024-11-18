@@ -91,6 +91,7 @@ Namespace Engine
 
         Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
         Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
+
     End Interface
 
     Public Class FinalSnapshotDriver : Implements IOmicsDataAdapter

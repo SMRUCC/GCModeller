@@ -83,6 +83,8 @@ Namespace ModelLoader
         Public ReadOnly Property polypeptides As String()
 #End Region
 
+        ReadOnly pull As New List(Of String)
+
         Public Sub New(loader As Loader)
             Call MyBase.New(loader)
 
@@ -193,7 +195,7 @@ Namespace ModelLoader
             Return index
         End Function
 
-        Public Overrides Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
+        Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
             Dim templateDNA As Variable()
             Dim productsRNA As Variable()
             Dim templateRNA As Variable()
@@ -464,6 +466,10 @@ Namespace ModelLoader
                 .AsList
 
             Return AAtRNA + MassTable.template(peptide) + MassTable.variable(loader.define.ADP)
+        End Function
+
+        Protected Overrides Function GetMassSet() As IEnumerable(Of String)
+            Return pull
         End Function
     End Class
 End Namespace

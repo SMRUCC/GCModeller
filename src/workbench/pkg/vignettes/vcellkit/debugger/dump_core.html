@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title></title>
+    <title>dump core for debug</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>apply.module_profile {simulator}</td>
+                <td>dump_core {debugger}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2></h2>
+        <h2>dump core for debug</h2>
 
         <h3>Description</h3>
 
@@ -27,24 +27,23 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>apply.module_profile</strong>(<i>engine</i>, <i>profile</i>,
-    <i>system</i> = Transcriptome);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>dump_core</strong>(<i>core</i>, <i>file</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>engine</dt>
+<dt>core</dt>
 <dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Engine/Engine.html">Engine</a>]</p></dd>
 
 
-<dt>profile</dt>
-<dd><p>[as list]</p></dd>
+<dt>file</dt>
+<dd><p>-</p></dd>
 
 
-<dt>system</dt>
-<dd><p>the omics data type. [as <a href="/vignettes/clr/vcellkit/ModuleSystemLevels.html">ModuleSystemLevels</a>]</p></dd>
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -59,15 +58,15 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Engine/Engine.html">Engine</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Engine/Engine.html">Engine</a></li></ul>
+        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
         
 
         <hr />
-        <div style="text-align: center;">[Package <em>simulator</em> version 1.0.0.0 <a
-                href="../simulator.html">Index</a>]
+        <div style="text-align: center;">[Package <em>debugger</em> version 1.0.0.0 <a
+                href="../debugger.html">Index</a>]
         </div>
     </div>
 </body>

@@ -72,12 +72,26 @@ Namespace ModelLoader
         End Property
 
         Protected ReadOnly loader As Loader
+        Protected cell As CellularModule
+
+        Public ReadOnly Property LinkingMassSet As String()
 
         Protected Sub New(loader As Loader)
             Me.loader = loader
         End Sub
 
-        Public MustOverride Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
+        Public Iterator Function CreateFlux(cell As CellularModule) As IEnumerable(Of Channel)
+            Me.cell = cell
+
+            For Each flux As Channel In CreateFlux()
+                Yield flux
+            Next
+
+            _LinkingMassSet = GetMassSet.ToArray
+        End Function
+
+        Protected MustOverride Function CreateFlux() As IEnumerable(Of Channel)
+        Protected MustOverride Function GetMassSet() As IEnumerable(Of String)
 
     End Class
 End Namespace
