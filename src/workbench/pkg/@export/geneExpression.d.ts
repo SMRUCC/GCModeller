@@ -380,6 +380,16 @@ declare namespace geneExpression {
      * + default value Is ``'z-score(Normalized Intensity)'``.
      * @param top_members 
      * + default value Is ``0.2``.
+     * @param cluster_label_css 
+     * + default value Is ``'font-style: normal; font-size: 20; font-family: Bookman Old Style;'``.
+     * @param legend_title_css 
+     * + default value Is ``'font-style: normal; font-size: 10; font-family: Microsoft YaHei;'``.
+     * @param legend_tick_css 
+     * + default value Is ``'font-style: normal; font-size: 10; font-family: Microsoft YaHei;'``.
+     * @param axis_tick_css 
+     * + default value Is ``'font-style: normal; font-size: 12; font-family: Segoe UI;'``.
+     * @param axis_label_css 
+     * + default value Is ``'font-style: normal; font-size: 10; font-family: Microsoft YaHei;'``.
      * @param env -
      * 
      * + default value Is ``null``.
@@ -389,7 +399,7 @@ declare namespace geneExpression {
      *  1. 'pattern' is a dataframe object that contains the object cluster patterns
      *  2. 'image' is a bitmap image that plot based on the object cluster patterns data.
    */
-   function peakCMeans(matrix: object, nsize?: string, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, env?: object): any;
+   function peakCMeans(matrix: object, nsize?: string, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, cluster_label_css?: string, legend_title_css?: string, legend_tick_css?: string, axis_tick_css?: string, axis_label_css?: string, env?: object): any;
    /**
     * read the cmeans expression pattern result from file
     * 
