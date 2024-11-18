@@ -249,6 +249,9 @@ declare namespace geneExpression {
    */
    function geneId(dep: any, env?: object): string;
    /**
+   */
+   function impute_missing(x: object): object;
+   /**
     * do matrix join by samples
     * 
     * 
