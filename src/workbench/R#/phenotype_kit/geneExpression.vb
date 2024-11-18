@@ -1201,11 +1201,11 @@ Module geneExpression
                            Optional xlab As String = "Spatial Regions",
                            Optional ylab As String = "z-score(Normalized Intensity)",
                            Optional top_members As Double = 0.2,
-                           Optional clusterLabelStyle As String = CSSFont.PlotSubTitle,
-                           Optional legendTitleStyle As String = CSSFont.Win7Small,
-                           Optional legendTickStyle As String = CSSFont.Win7Small,
-                           Optional axisTickCSS$ = CSSFont.Win10Normal,
-                           Optional axisLabelCSS$ = CSSFont.Win7Small,
+                           Optional cluster_label_css As String = CSSFont.PlotSubTitle,
+                           Optional legend_title_css As String = CSSFont.Win7Small,
+                           Optional legend_tick_css As String = CSSFont.Win7Small,
+                           Optional axis_tick_css$ = CSSFont.Win10Normal,
+                           Optional axis_label_css$ = CSSFont.Win7Small,
                            Optional env As Environment = Nothing) As Object
 
         Dim println As Action(Of Object) = env.WriteLineHandler
@@ -1239,11 +1239,11 @@ Module geneExpression
                            topMembers:=top_members,
                            driver:=driver,
                            ppi:=dpi,
-                           clusterLabelStyle:=clusterLabelStyle,
-                           legendTitleStyle:=legendTitleStyle,
-                           legendTickStyle:=legendTickStyle,
-                           axisTickCSS:=axisTickCSS,
-                           axisLabelCSS:=axisLabelCSS
+                           clusterLabelStyle:=cluster_label_css,
+                           legendTitleStyle:=legend_title_css,
+                           legendTickStyle:=legend_tick_css,
+                           axisTickCSS:=axis_tick_css,
+                           axisLabelCSS:=axis_label_css
                        )
                    End Function
 
