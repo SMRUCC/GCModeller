@@ -417,6 +417,31 @@ Module geneExpression
         Return x
     End Function
 
+    <ExportAPI("impute_missing")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function imputeMissing(x As Matrix) As Object
+        Dim samples = x.sampleID
+        Dim v As Double()
+        Dim posMin As Double
+        Dim pos As Double()
+
+        For i As Integer = 0 To samples.Length - 1
+            v = x.sample(i)
+            pos = v.Where(Function(vi) vi > 0).ToArray
+            posMin = If(pos.Length > 0, pos.Min, 0)
+
+            If posMin > 0 Then
+                For row As Integer = 0 To v.Length - 1
+                    If x.gene(row)(i) <= 0 Then
+                        x.gene(row).experiments(i) = posMin
+                    End If
+                Next
+            End If
+        Next
+
+        Return x
+    End Function
+
     ''' <summary>
     ''' load an expressin matrix data
     ''' </summary>
