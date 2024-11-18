@@ -78,6 +78,7 @@ Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.ANOVA
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -1200,6 +1201,11 @@ Module geneExpression
                            Optional xlab As String = "Spatial Regions",
                            Optional ylab As String = "z-score(Normalized Intensity)",
                            Optional top_members As Double = 0.2,
+                           Optional clusterLabelStyle As String = CSSFont.PlotSubTitle,
+                           Optional legendTitleStyle As String = CSSFont.Win7Small,
+                           Optional legendTickStyle As String = CSSFont.Win7Small,
+                           Optional axisTickCSS$ = CSSFont.Win10Normal,
+                           Optional axisLabelCSS$ = CSSFont.Win7Small,
                            Optional env As Environment = Nothing) As Object
 
         Dim println As Action(Of Object) = env.WriteLineHandler
@@ -1210,6 +1216,7 @@ Module geneExpression
             Return Nothing
         End If
 
+        Dim dpi As Integer = graphicsPipeline.getDpi(New Dictionary(Of String, Object), env, [default]:=300)
         Dim patterns As ExpressionPattern = ExpressionPattern.CMeansCluster(
             matrix:=matrix,
             [dim]:={size.Width, size.Height},
@@ -1230,7 +1237,13 @@ Module geneExpression
                            padding:="padding:100px 100px 300px 100px;",
                            membershipCutoff:=memberCutoff,
                            topMembers:=top_members,
-                           driver:=driver
+                           driver:=driver,
+                           ppi:=dpi,
+                           clusterLabelStyle:=clusterLabelStyle,
+                           legendTitleStyle:=legendTitleStyle,
+                           legendTickStyle:=legendTickStyle,
+                           axisTickCSS:=axisTickCSS,
+                           axisLabelCSS:=axisLabelCSS
                        )
                    End Function
 
