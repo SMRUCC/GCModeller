@@ -1795,15 +1795,15 @@ Namespace XLSX.Writer
         ''' <param name="name">Name to set.</param>
         Public Sub SetSheetName(name As String)
             If String.IsNullOrEmpty(name) Then
-                Throw New FormatException("the worksheet name must be between 1 and " & MAX_WORKSHEET_NAME_LENGTH.ToString() & " characters")
+                Throw New FormatException("the worksheet name is empty! length of the name string must be between 1 and " & MAX_WORKSHEET_NAME_LENGTH.ToString() & " characters")
             End If
             If name.Length > MAX_WORKSHEET_NAME_LENGTH Then
-                Throw New FormatException("the worksheet name must be between 1 and " & MAX_WORKSHEET_NAME_LENGTH.ToString() & " characters")
+                Throw New FormatException($"the worksheet name ({name}) contains {name.Length} chars, string length of the worksheet name must be between 1 and " & MAX_WORKSHEET_NAME_LENGTH.ToString() & " characters")
             End If
             Dim regex As Regex = New Regex("[\[\]\*\?/\\]")
             Dim match = regex.Match(name)
             If match.Captures.Count > 0 Then
-                Throw New FormatException("the worksheet name must not contain the characters [  ]  * ? / \ ")
+                Throw New FormatException($"invalid worksheet name: '{name}'! The worksheet name must not contain the characters [  ]  * ? / \ ")
             End If
             sheetNameField = name
         End Sub
