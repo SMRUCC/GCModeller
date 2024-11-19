@@ -55,6 +55,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -361,7 +362,7 @@ Module RawXmlKit
                         End If
                     Next
 
-                    m.sampleID = names.ToArray
+                    m.sampleID = names.UniqueNames.ToArray
                 End If
 
                 Return m
