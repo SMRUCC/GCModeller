@@ -68,6 +68,10 @@ Namespace Core
     Public Class Factor : Inherits Value(Of Double)
         Implements INamedValue
 
+        ''' <summary>
+        ''' the unique reference id of current molecule
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         ''' <summary>
@@ -77,15 +81,10 @@ Namespace Core
         Public ReadOnly Property role As MassRoles
 
         ''' <summary>
-        ''' debug view
+        ''' the molecule entity name, just used for debug view
         ''' </summary>
         ''' <returns></returns>
-        Private ReadOnly Property hashCode As Integer
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return Me.GetHashCode
-            End Get
-        End Property
+        Public Property name As String
 
         Sub New()
             role = MassRoles.compound
@@ -102,7 +101,7 @@ Namespace Core
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"{ID} ({Value} unit, {role.Description})"
+            Return $"{If(name, ID)} ({Value} unit, {role.Description})"
         End Function
     End Class
 End Namespace
