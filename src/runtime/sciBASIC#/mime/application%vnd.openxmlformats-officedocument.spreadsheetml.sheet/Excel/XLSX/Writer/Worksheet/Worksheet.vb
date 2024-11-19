@@ -614,9 +614,10 @@ Namespace XLSX.Writer
         ''' Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
         ''' </summary>
         ''' <param name="value">Unspecified value to insert.</param>
-        Public Sub AddNextCell(value As Object)
+        Public Function AddNextCell(value As Object) As Worksheet
             AddNextCell(CastValue(value, currentColumnNumber, currentRowNumber), True, Nothing)
-        End Sub
+            Return Me
+        End Function
 
         ''' <summary>
         ''' Adds an object to the next cell position. If the type of the value does not match with one of the supported data types, it will be casted to a String. A prepared object of the type Cell will not be casted but adjusted
@@ -1323,11 +1324,12 @@ Namespace XLSX.Writer
         ''' <summary>
         ''' Moves the current position to the next row (use for a new line)
         ''' </summary>
-        Public Sub GoToNextRow()
+        Public Function GoToNextRow() As Worksheet
             currentRowNumber += 1
             currentColumnNumber = 0
             ValidateRowNumber(currentRowNumber)
-        End Sub
+            Return Me
+        End Function
 
         ''' <summary>
         ''' Moves the current position to the next row with the number of cells to move (use for a new line)
