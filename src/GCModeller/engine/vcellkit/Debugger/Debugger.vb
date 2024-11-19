@@ -65,11 +65,13 @@ Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
@@ -83,6 +85,9 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports KeggReaction = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
 Imports MassFactor = SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Factor
 
+''' <summary>
+''' debug helper for the virtual cell model
+''' </summary>
 <Package("debugger", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 <RTypeExport("dataset.driver", GetType(DataSetDriver))>
 Module Debugger
@@ -286,5 +291,10 @@ Module Debugger
         End Using
 
         Return Nothing
+    End Function
+
+    <ExportAPI("set_symbols")>
+    Public Function set_symbols(driver As StorageDriver, vcell As VirtualCell)
+
     End Function
 End Module

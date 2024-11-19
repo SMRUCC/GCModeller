@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader
@@ -92,6 +93,10 @@ Namespace Raw
             If graph_debug Then
                 Call WriteCellularGraph(graph:=core.ToGraph)
             End If
+        End Sub
+
+        Public Sub SetSymbolNames(symbols As Dictionary(Of String, String))
+            Call output.GetStream.WriteText(symbols.GetJson, "/symbols.json", allocate:=False)
         End Sub
 
         Private Sub WriteCellularGraph(graph As NetworkGraph)
