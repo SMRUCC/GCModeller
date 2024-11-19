@@ -5,6 +5,7 @@
 // ref=vcellkit.Debugger@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * debug helper for the virtual cell model
  * 
 */
 declare namespace debugger {
@@ -43,6 +44,9 @@ declare namespace debugger {
       */
       function flux(map: object, reactions: object, init?: number): object;
    }
+   /**
+   */
+   function set_symbols(driver: object, vcell: object): ;
    /**
     * run network dynamics
     * 
