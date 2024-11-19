@@ -97,16 +97,16 @@ declare namespace rawXML {
        * 
        * 
         * @param raw -
-        * @param stream -
-        * 
-        * + default value Is ``null``.
         * @param symbol_name prefer the symbol name for export matrix data?
         * 
         * + default value Is ``false``.
+        * @param stream -
+        * 
+        * + default value Is ``null``.
         * @param env -
         * 
         * + default value Is ``null``.
       */
-      function frames(raw: any, stream?: any, symbol_name?: boolean, env?: object): object;
+      function frames(raw: any, symbol_name?: boolean, stream?: any, env?: object): object;
    }
 }

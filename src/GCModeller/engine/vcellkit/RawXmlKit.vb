@@ -318,9 +318,9 @@ Module RawXmlKit
     <RApiReturn(GetType(HTS_Matrix))>
     <ExportAPI("time.frames")>
     Public Function timeFrames(raw As Object,
+                               Optional symbol_name As Boolean = False,
                                <RListObjectArgument>
                                Optional stream As Object = Nothing,
-                               Optional symbol_name As Boolean = False,
                                Optional env As Environment = Nothing) As Object
 
         Dim args As list = RInternal.Invokes.base.Rlist(stream, env)
