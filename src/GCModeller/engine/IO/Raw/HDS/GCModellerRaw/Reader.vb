@@ -96,6 +96,11 @@ Namespace Raw
             tick_counts = Strings.Trim(stream.ReadText("/.etc/ticks.txt")).DoCall(AddressOf Integer.Parse)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetStream() As StreamPack
+            Return stream
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>

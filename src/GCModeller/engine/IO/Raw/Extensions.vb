@@ -53,8 +53,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports HTS_Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
@@ -70,6 +72,22 @@ Public Module Extensions
                 .Properties = raw.Read(time, [module])
             }
         Next
+    End Function
+
+    ''' <summary>
+    ''' load symbol names from the result pack file
+    ''' </summary>
+    ''' <param name="raw"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function LoadSymbols(raw As Raw.Reader) As Dictionary(Of String, String)
+        Dim json_str = Strings.Trim(raw.GetStream.ReadText("/symbols.json"))
+
+        If json_str.StringEmpty(, True) Then
+            Return New Dictionary(Of String, String)
+        Else
+            Return json_str.LoadJSON(Of Dictionary(Of String, String))
+        End If
     End Function
 
     <Extension>

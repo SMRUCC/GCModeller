@@ -309,6 +309,9 @@ Module RawXmlKit
     ''' </summary>
     ''' <param name="raw"></param>
     ''' <param name="stream"></param>
+    ''' <param name="symbol_name">
+    ''' prefer the symbol name for export matrix data?
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <RApiReturn(GetType(HTS_Matrix))>
@@ -316,6 +319,7 @@ Module RawXmlKit
     Public Function timeFrames(raw As Object,
                                <RListObjectArgument>
                                Optional stream As Object = Nothing,
+                               Optional symbol_name As Boolean = False,
                                Optional env As Environment = Nothing) As Object
 
         Dim args As list = RInternal.Invokes.base.Rlist(stream, env)
