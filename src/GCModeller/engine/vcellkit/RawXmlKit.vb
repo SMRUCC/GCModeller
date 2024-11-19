@@ -349,6 +349,21 @@ Module RawXmlKit
                 Dim modu As String = args.getValue(Of String)("module", env)
                 Dim m As HTS_Matrix = read.GetTimeFrames(modu)
 
+                If symbol_name Then
+                    Dim symbols = read.LoadSymbols
+                    Dim names As New List(Of String)
+
+                    For Each id As String In m.sampleID
+                        If symbols.ContainsKey(id) Then
+                            names.Add(symbols(id))
+                        Else
+                            names.Add(id)
+                        End If
+                    Next
+
+                    m.sampleID = names.ToArray
+                End If
+
                 Return m
             Else
                 ' export all molecules
