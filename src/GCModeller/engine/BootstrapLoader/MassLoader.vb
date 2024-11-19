@@ -87,8 +87,7 @@ Namespace ModelLoader
             For Each reaction As Reaction In cell.Phenotype.fluxes
                 For Each compound In reaction.AllCompounds
                     If Not massTable.Exists(compound) Then
-                        massTable.AddNew(compound, MassRoles.compound)
-                        massTable.GetByKey(compound).name =
+                        Call massTable.AddNew(compound, MassRoles.compound)
                     End If
                 Next
             Next
