@@ -84,7 +84,7 @@ Namespace Linq
         ''' -1 means not found
         ''' </returns>
         <Extension>
-        Public Function Which(Of T)(collection As IEnumerable(Of T), where As Func(Of T, Boolean)) As Integer
+        Public Function AtWhich(Of T)(collection As IEnumerable(Of T), where As Func(Of T, Boolean)) As Integer
             If collection Is Nothing Then
                 Return -1
             End If
