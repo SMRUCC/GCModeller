@@ -31,7 +31,7 @@ Namespace BITS
 
         <XmlElement("ref-list")> Public Property ref_list As RefList
 
-        <XmlElement> Public Property list As list()
+        <XmlElement> Public Property list As list_data()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetContentText() As String
@@ -44,7 +44,7 @@ Namespace BITS
 
     End Class
 
-    Public Class list
+    Public Class list_data
 
         <XmlAttribute("list-type")> Public Property list_type As String
 
