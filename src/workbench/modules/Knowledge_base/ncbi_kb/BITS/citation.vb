@@ -1,4 +1,5 @@
 ﻿Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 
 Namespace BITS
 
@@ -6,6 +7,17 @@ Namespace BITS
 
         <XmlAttribute("id")> Public Property id As String
         <XmlElement> Public Property ref As ref()
+
+        Public Iterator Function GetCitations() As IEnumerable(Of Citation)
+
+            For Each r As ref In ref.SafeQuery
+                If r.element_citation IsNot Nothing Then
+
+                ElseIf r.mixed_citation IsNot Nothing Then
+
+                End If
+            Next
+        End Function
 
     End Class
 
