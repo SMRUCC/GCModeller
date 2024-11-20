@@ -42,7 +42,7 @@ Namespace BITS
             Dim doi = cite.pub_id.SafeQuery.Where(Function(p) p.pub_id_type = "doi").FirstOrDefault?.id
             Dim pmid = cite.pub_id.SafeQuery.Where(Function(p) p.pub_id_type = "pmid").FirstOrDefault?.id
 
-            Return New Citation With {
+            Dim citation As New Citation With {
                 .authors = authors,
                 .abstract = cite.annotation _
                     .SafeQuery _
@@ -57,6 +57,33 @@ Namespace BITS
                 .volume = cite.volume,
                 .year = cite.year
             }
+
+            If citation.authors.IsNullOrEmpty AndAlso citation.title.StringEmpty AndAlso citation.journal.StringEmpty Then
+                ' needs to be parsed from the text?
+                Dim cite_text As String = cite.GetTextContent
+                Dim tokens As String() = cite_text.StringSplit("\.\s+")
+
+                authors = tokens(0).StringSplit(",\s+")
+                cite_text = tokens(2)
+
+                citation.authors = authors
+                citation.title = tokens(1)
+
+                tokens = cite_text.Split(";"c)
+                cite_text = tokens(0)
+
+                citation.year = cite_text.Match("\d{4}")
+                citation.journal = cite_text.Replace(citation.year, "").Trim
+
+                tokens = tokens(1).Split(":"c)
+
+                citation.volume = tokens(0)
+                tokens = tokens(1).Split("-"c)
+                citation.fpage = tokens(0)
+                citation.lpage = tokens(1)
+            End If
+
+            Return citation
         End Function
 
     End Class
