@@ -10,5 +10,7 @@ Namespace BITS
         <XmlAttribute("from-where")> Public Property from_where As String
         <XmlAttribute("dtd-version")> Public Property dtd_version As String
 
+        <XmlElement("book-part")> Public Property book_part As BookPart
+
     End Class
 End Namespace
