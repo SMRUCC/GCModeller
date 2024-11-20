@@ -56,6 +56,9 @@ Imports Microsoft.VisualBasic.Language
 
 Namespace Cellular.Process
 
+    ''' <summary>
+    ''' the regulation model for the biological process
+    ''' </summary>
     Public Structure Regulation
 
         ''' <summary>

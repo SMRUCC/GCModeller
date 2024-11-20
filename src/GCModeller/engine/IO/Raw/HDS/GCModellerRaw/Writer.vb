@@ -72,8 +72,10 @@ Namespace Raw
 
     ''' <summary>
     ''' The GCModeller raw data writer
-    ''' (写数据模块)
     ''' </summary>
+    ''' <remarks>
+    ''' (写数据模块)
+    ''' </remarks>
     Public Class Writer : Inherits CellularModules
 
         ReadOnly stream As StreamPack

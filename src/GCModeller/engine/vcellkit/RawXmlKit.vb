@@ -55,6 +55,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -309,11 +310,15 @@ Module RawXmlKit
     ''' </summary>
     ''' <param name="raw"></param>
     ''' <param name="stream"></param>
+    ''' <param name="symbol_name">
+    ''' prefer the symbol name for export matrix data?
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <RApiReturn(GetType(HTS_Matrix))>
     <ExportAPI("time.frames")>
     Public Function timeFrames(raw As Object,
+                               Optional symbol_name As Boolean = False,
                                <RListObjectArgument>
                                Optional stream As Object = Nothing,
                                Optional env As Environment = Nothing) As Object
@@ -344,6 +349,21 @@ Module RawXmlKit
             If args.hasName("module") Then
                 Dim modu As String = args.getValue(Of String)("module", env)
                 Dim m As HTS_Matrix = read.GetTimeFrames(modu)
+
+                If symbol_name Then
+                    Dim symbols = read.LoadSymbols
+                    Dim names As New List(Of String)
+
+                    For Each id As String In m.sampleID
+                        If symbols.ContainsKey(id) Then
+                            names.Add(symbols(id))
+                        Else
+                            names.Add(id)
+                        End If
+                    Next
+
+                    m.sampleID = names.UniqueNames.ToArray
+                End If
 
                 Return m
             Else

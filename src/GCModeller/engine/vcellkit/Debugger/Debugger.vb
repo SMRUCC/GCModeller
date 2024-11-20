@@ -65,11 +65,13 @@ Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
@@ -83,6 +85,9 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports KeggReaction = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
 Imports MassFactor = SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Factor
 
+''' <summary>
+''' debug helper for the virtual cell model
+''' </summary>
 <Package("debugger", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 <RTypeExport("dataset.driver", GetType(DataSetDriver))>
 Module Debugger
@@ -130,8 +135,16 @@ Module Debugger
             fluxes += New Channel(mass(model.Reactants), mass(model.Products)) With {
                 .ID = reaction.ID,
                 .bounds = {10, 10},
-                .forward = New AdditiveControls With {.baseline = 1, .activation = mass.variables(left, 1).ToArray, .inhibition = mass.variables(right, 0.5).ToArray},
-                .reverse = New AdditiveControls With {.baseline = 1, .activation = mass.variables(right, 1).ToArray, .inhibition = mass.variables(left, 0.5).ToArray}
+                .forward = New AdditiveControls With {
+                    .baseline = 1,
+                    .activation = mass.variables(left, 1).ToArray,
+                    .inhibition = mass.variables(right, 0.5).ToArray
+                },
+                .reverse = New AdditiveControls With {
+                    .baseline = 1,
+                    .activation = mass.variables(right, 1).ToArray,
+                    .inhibition = mass.variables(left, 0.5).ToArray
+                }
             }
         Next
 
@@ -279,4 +292,15 @@ Module Debugger
 
         Return Nothing
     End Function
+
+    <ExportAPI("set_symbols")>
+    Public Sub set_symbols(driver As StorageDriver, vcell As VirtualCell)
+        Dim symbolNames As New Dictionary(Of String, String)
+
+        For Each cpd In vcell.metabolismStructure.compounds
+            symbolNames(cpd.ID) = cpd.name
+        Next
+
+        Call driver.SetSymbolNames(symbolNames)
+    End Sub
 End Module

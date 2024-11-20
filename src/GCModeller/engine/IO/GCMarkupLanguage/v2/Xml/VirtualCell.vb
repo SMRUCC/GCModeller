@@ -66,8 +66,11 @@ Imports SMRUCC.genomics.Metagenomics
 Namespace v2
 
     ''' <summary>
-    ''' 虚拟细胞数据模型Xml文件
+    ''' The virtual cell model xml file 
     ''' </summary>
+    ''' <remarks>
+    ''' 虚拟细胞数据模型Xml文件
+    ''' </remarks>
     <XmlRoot(NameOf(VirtualCell), [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class VirtualCell : Inherits ModelBaseType
 
@@ -92,8 +95,7 @@ Namespace v2
         Public Const GCMarkupLanguage$ = "https://bioCAD.gcmodeller.org/XML/schema_revision/GCMarkup_2.0"
 
         Sub New()
-            Call MyBase.New
-
+            Call MyBase.New()
             Call xmlns.Add("GCModeller", SMRUCC.genomics.LICENSE.GCModeller)
         End Sub
 

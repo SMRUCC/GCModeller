@@ -235,7 +235,9 @@ Namespace Engine
         ''' 这个函数会先判断目标对象是否存在，只会添加不存在的对象
         ''' </summary>
         ''' <param name="entity"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' this function returns the entity id back
+        ''' </returns>
         Public Function AddNew(entity As String， role As MassRoles) As String
             If Not massTable.ContainsKey(entity) Then
                 Return AddNew(New Factor(entity, role))

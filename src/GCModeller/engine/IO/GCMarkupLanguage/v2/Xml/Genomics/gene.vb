@@ -56,6 +56,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
 Namespace v2
 
@@ -93,6 +94,8 @@ Namespace v2
         ''' 所以在这里使用字符串类型来解决这个问题
         ''' </remarks>
         <XmlAttribute> Public Property strand As String
+
+        <XmlAttribute> Public Property type As RNATypes
 
         ''' <summary>
         ''' 对于rRNA和tRNA不存在

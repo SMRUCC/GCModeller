@@ -81,5 +81,9 @@ Namespace v2
             End Get
         End Property
 
+        Public Overrides Function ToString() As String
+            Return $"[{id}] {genes.Select(Function(g) g.locus_tag).JoinBy(", ")}"
+        End Function
+
     End Class
 End Namespace
