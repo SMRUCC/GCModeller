@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace BITS
@@ -35,7 +36,7 @@ Namespace BITS
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetContentText() As String
-            Return p.Select(Function(pi) pi.text.JoinBy(" ")).JoinBy(vbCrLf & vbCrLf)
+            Return p.SafeQuery.Select(Function(pi) pi.text.JoinBy(" ")).JoinBy(vbCrLf & vbCrLf)
         End Function
 
         Public Overrides Function ToString() As String
