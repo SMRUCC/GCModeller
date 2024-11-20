@@ -52,6 +52,36 @@ Namespace BITS
 
         <XmlAttribute("publication-type")> Public Property publication_type As String
         <XmlElement> Public Property annotation As Annotation()
+        <XmlElement("string-name")> Public Property string_names As StringName()
+        Public Property etal As String
+        <XmlElement("article-title")> Public Property title As String
+        Public Property source As String
+        Public Property year As String
+        Public Property volume As String
+        Public Property fpage As String
+        Public Property lpage As String
+        <XmlElement("pub-id")> Public Property pub_id As PubId
+
+        Public Property collab As String
+        Public Property issue As String
+
+    End Class
+
+    Public Class PubId
+
+        <XmlAttribute("pub-id-type")>
+        Public Property pub_id_type As String
+
+        <XmlText> Public Property id As String
+
+    End Class
+
+    <XmlType("string-name")>
+    Public Class StringName
+
+        <XmlAttribute("name-style")> Public Property name_style As String
+        Public Property surname As String
+        <XmlElement("given-names")> Public Property given_names As String
 
     End Class
 
@@ -147,6 +177,12 @@ Namespace BITS
 
         <XmlText> Public Property text As String
 
+        <XmlNamespaceDeclarations()>
+        Public xmlns As New XmlSerializerNamespaces
+
+        Sub New()
+            xmlns.Add("xlink", xlink)
+        End Sub
     End Class
 
     <XmlType("related-object")>
