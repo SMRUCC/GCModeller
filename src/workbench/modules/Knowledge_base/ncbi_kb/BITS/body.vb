@@ -20,6 +20,8 @@ Namespace BITS
         <XmlElement("p")>
         Public Property p As Paragraph()
 
+        <XmlElement("table-wrap")> Public Property table_wrap As TableWrap
+
         <XmlElement("sec")> Public Property sections As section()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -29,12 +31,83 @@ Namespace BITS
 
     End Class
 
+    Public Class TableWrap
+
+        <XmlAttribute> Public Property id As String
+        <XmlAttribute> Public Property orientation As String
+        <XmlAttribute> Public Property position As String
+
+    End Class
+
+    Public Class Table
+
+        <XmlAttribute> Public Property frame As String
+        <XmlAttribute> Public Property rules As String
+
+        Public Property thead As THead
+        Public Property tbody As tbody
+
+    End Class
+
+    Public Class TBody
+
+        <XmlElement("tr")> Public Property tr As BodyRow()
+
+    End Class
+
+    Public Class THead
+
+        Public Property tr As HeaderRow
+
+    End Class
+
+    Public Class HeaderRow
+
+        <XmlElement("th")> Public Property header_cells As Cell()
+
+    End Class
+
+    Public Class BodyRow
+
+        <XmlElement("td")> Public Property row_cells As Cell()
+
+    End Class
+
+    Public Class Cell
+
+        <XmlAttribute> Public Property id As String
+        <XmlAttribute> Public Property valign As String
+        <XmlAttribute> Public Property align As String
+        <XmlAttribute> Public Property scope As String
+        <XmlAttribute> Public Property rowspan As String
+        <XmlAttribute> Public Property colspan As String
+        <XmlAttribute> Public Property headers As String
+        <XmlText> Public Property text As Paragraph
+
+    End Class
+
     Public Class Paragraph
 
         <XmlText> Public Property text As String
 
         <XmlElement("related-object")>
         Public Property related_object As RelatedObject()
+
+        <XmlElement> Public Property bold As String()
+
+        <XmlElement("ext-link")> Public Property links As ExtLink()
+
+    End Class
+
+    <XmlType("ext-link", [Namespace]:=ExtLink.xlink)>
+    Public Class ExtLink
+
+        <XmlAttribute("ext-link-type")> Public Property ext_link_type As String
+        <XmlAttribute("href", [Namespace]:=xlink)> Public Property href As String
+
+        Public Const xlink As String = "http://www.w3.org/1999/xlink"
+
+        <XmlText> Public Property text As String
 
     End Class
 
