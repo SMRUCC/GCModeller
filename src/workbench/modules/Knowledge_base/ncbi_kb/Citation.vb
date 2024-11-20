@@ -23,20 +23,23 @@
 
             cite_str = tokens(2)
             citation.authors = authors
-            citation.title = tokens(1)
+            citation.title = Strings.Trim(tokens(1))
 
             tokens = cite_str.Split(";"c)
             cite_str = tokens(0)
 
             citation.year = cite_str.Match("\d{4}")
-            citation.journal = cite_str.Replace(citation.year, "").Trim
+
+            If Not citation.year.StringEmpty Then
+                citation.journal = cite_str.Replace(citation.year, "").Trim
+            End If
 
             tokens = tokens(1).Split(":"c)
 
-            citation.volume = tokens(0)
+            citation.volume = Strings.Trim(tokens(0))
             tokens = tokens(1).Split("-"c)
-            citation.fpage = tokens(0)
-            citation.lpage = tokens(1)
+            citation.fpage = Strings.Trim(tokens(0))
+            citation.lpage = Strings.Trim(tokens(1))
         Catch ex As Exception
             ex = New Exception(cite_text, ex)
             Call App.LogException(ex)
