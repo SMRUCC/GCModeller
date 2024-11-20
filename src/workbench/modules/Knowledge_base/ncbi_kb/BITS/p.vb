@@ -3,7 +3,7 @@
 Namespace BITS
     Public Class Paragraph
 
-        <XmlText> Public Property text As String
+        <XmlText> Public Property text As String()
 
         <XmlElement("related-object")>
         Public Property related_object As RelatedObject()
@@ -13,9 +13,19 @@ Namespace BITS
         <XmlElement("ext-link")> Public Property links As ExtLink()
         <XmlElement("italic")> Public Property italic As Italic()
 
+        <XmlElement> Public Property xref As xref()
+
         Public Overrides Function ToString() As String
-            Return text
+            Return text.JoinBy(" ")
         End Function
+
+    End Class
+
+    Public Class xref
+
+        <XmlAttribute("ref-type")> Public Property ref_type As String
+        <XmlAttribute> Public Property rid As String
+        <XmlText> Public Property text As String
 
     End Class
 

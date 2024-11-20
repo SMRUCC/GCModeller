@@ -70,7 +70,7 @@ Namespace BITS
         <XmlAttribute> Public Property headers As String
 
         Public Overrides Function ToString() As String
-            Return text.ToString
+            Return text.JoinBy(" ")
         End Function
 
     End Class

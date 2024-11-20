@@ -39,7 +39,7 @@ Namespace BITS
         End Function
 
         Public Overrides Function ToString() As String
-            Return title
+            Return title.ToString
         End Function
 
     End Class
