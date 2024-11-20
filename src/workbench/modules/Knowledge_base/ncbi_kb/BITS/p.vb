@@ -15,6 +15,10 @@ Namespace BITS
 
         <XmlElement> Public Property xref As xref()
 
+        Public Function GetTextContent() As String
+            Return text.JoinBy(" ")
+        End Function
+
         Public Overrides Function ToString() As String
             Return text.JoinBy(" ")
         End Function
@@ -62,6 +66,8 @@ Namespace BITS
         <XmlAttribute("source-id")> Public Property source_id As String
         <XmlAttribute("document-id")> Public Property document_id As String
         <XmlAttribute("document-type")> Public Property document_type As String
+
+        <XmlText> Public Property text As String
 
         Public Overrides Function ToString() As String
             Return source_id

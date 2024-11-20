@@ -35,7 +35,7 @@ Namespace BITS
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetContentText() As String
-            Return p.Select(Function(pi) pi.text).JoinBy(vbCrLf & vbCrLf)
+            Return p.Select(Function(pi) pi.text.JoinBy(" ")).JoinBy(vbCrLf & vbCrLf)
         End Function
 
         Public Overrides Function ToString() As String
