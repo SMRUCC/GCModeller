@@ -164,7 +164,7 @@ Namespace BITS
 
     End Class
 
-    Public Class Cell
+    Public Class Cell : Inherits Paragraph
 
         <XmlAttribute> Public Property id As String
         <XmlAttribute> Public Property valign As String
@@ -173,7 +173,6 @@ Namespace BITS
         <XmlAttribute> Public Property rowspan As String
         <XmlAttribute> Public Property colspan As String
         <XmlAttribute> Public Property headers As String
-        <XmlText> Public Property text As Paragraph
 
         Public Overrides Function ToString() As String
             Return text.ToString
