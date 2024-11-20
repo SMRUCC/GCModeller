@@ -196,10 +196,6 @@
       <Project>{6f3ed30f-1aeb-42e9-88c9-f6d6a0d69df2}</Project>
       <Name>Bing.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\workbench\workbench.vbproj">
-      <Project>{29f5331d-ac97-4256-86cc-1231fbf798df}</Project>
-      <Name>workbench</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Knowledge_base\kb.NET5.vbproj">
       <Project>{19c089e0-f0c5-400d-97c5-77dc8b93193c}</Project>
       <Name>kb.NET5</Name>
