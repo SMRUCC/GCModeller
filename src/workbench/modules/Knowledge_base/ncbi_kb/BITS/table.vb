@@ -30,7 +30,7 @@ Namespace BITS
         Public Iterator Function RowText() As IEnumerable(Of String())
             For Each tri As BodyRow In tr
                 Yield tri.row_cells _
-                    .Select(Function(d) d.text.JoinBy(" ").Trim) _
+                    .Select(Function(d) d.GetContentText.Trim) _
                     .ToArray
             Next
         End Function
@@ -43,7 +43,7 @@ Namespace BITS
 
         Public Iterator Function HeaderText() As IEnumerable(Of String)
             For Each th In tr.header_cells
-                Yield th.text.JoinBy(" ").Trim
+                Yield th.GetContentText.Trim
             Next
         End Function
 
@@ -58,7 +58,7 @@ Namespace BITS
         <XmlElement("th")> Public Property header_cells As Cell()
 
         Public Overrides Function ToString() As String
-            Return header_cells.Select(Function(th) th.ToString).GetJson
+            Return header_cells.Select(Function(th) th.GetContentText).GetJson
         End Function
 
     End Class
@@ -82,6 +82,16 @@ Namespace BITS
         <XmlAttribute> Public Property rowspan As String
         <XmlAttribute> Public Property colspan As String
         <XmlAttribute> Public Property headers As String
+
+        Public Function GetContentText() As String
+            If Not text.IsNullOrEmpty Then
+                Return text.JoinBy(" ")
+            ElseIf Not links.IsNullOrEmpty Then
+                Return links.Select(Function(a) a.text).JoinBy(" ")
+            Else
+                Return ""
+            End If
+        End Function
 
         Public Overrides Function ToString() As String
             Return text.JoinBy(" ")
