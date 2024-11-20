@@ -11,6 +11,10 @@ Module Module2
 
         Call Console.WriteLine(doc.GetXml)
 
+        doc = "C:\Users\Administrator\Downloads\livertox_NBK547852\Abacavir.nxml".LoadXml(Of BookPartWrapper)
+
+        Dim cites = doc.GetCitations.ToArray
+
         Pause()
     End Sub
 End Module
