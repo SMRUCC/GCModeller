@@ -49,7 +49,7 @@ Namespace BITS
 
     Public Class BookMeta
 
-        <XmlAttribute("book-id")> Public Property book_id As bookId
+        <XmlElement("book-id")> Public Property book_id As bookId
         <XmlElement("book-title-group")> Public Property book_title_group As bookTitleGroup
 
     End Class
