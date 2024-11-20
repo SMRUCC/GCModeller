@@ -10,7 +10,6 @@ Namespace BITS
         <XmlElement> Public Property ref As ref()
 
         Public Iterator Function GetCitations() As IEnumerable(Of Citation)
-
             For Each r As ref In ref.SafeQuery
                 Dim authors As String()
                 Dim cite As MixedCitation

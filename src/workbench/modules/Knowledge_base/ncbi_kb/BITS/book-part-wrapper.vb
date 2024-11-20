@@ -53,6 +53,29 @@ Namespace BITS
             End If
         End Function
 
+        Public Iterator Function GetCitations() As IEnumerable(Of Citation)
+            For Each section As section In book_part.body.sections
+                For Each cite As Citation In GetCitations(section)
+                    Yield cite
+                Next
+            Next
+        End Function
+
+        Private Shared Iterator Function GetCitations(section As section) As IEnumerable(Of Citation)
+            If Not section.ref_list Is Nothing Then
+                For Each cite As Citation In section.ref_list.GetCitations
+                    Yield cite
+                Next
+            End If
+
+            If Not section.sections.IsNullOrEmpty Then
+                For Each sec As section In section.sections
+                    For Each cite As Citation In GetCitations(sec)
+                        Yield cite
+                    Next
+                Next
+            End If
+        End Function
     End Class
 
     Public Class BookMeta

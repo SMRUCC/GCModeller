@@ -133,6 +133,28 @@ Module pubmed_tools
     End Function
 
     ''' <summary>
+    ''' get the citation list about current article object
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' a collection of the citation object
+    ''' </returns>
+    <ExportAPI("citation_list")>
+    <RApiReturn(GetType(Citation))>
+    Public Function citation_list(x As Object, Optional env As Environment = Nothing) As Object
+        If x Is Nothing Then
+            Return Nothing
+        End If
+
+        If TypeOf x Is BookPartWrapper Then
+            Return DirectCast(x, BookPartWrapper).GetCitations.ToArray
+        Else
+            Return Message.InCompatibleType(GetType(PubmedArticle), x.GetType, env)
+        End If
+    End Function
+
+    ''' <summary>
     ''' Parse the document text as a set of article object
     ''' </summary>
     ''' <param name="text">
