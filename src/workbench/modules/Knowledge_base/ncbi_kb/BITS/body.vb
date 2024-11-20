@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Serialization.Bencoding
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace BITS
@@ -31,6 +32,8 @@ Namespace BITS
 
         <XmlElement("ref-list")> Public Property ref_list As RefList
 
+        <XmlElement> Public Property list As list()
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetContentText() As String
             Return p.Select(Function(pi) pi.text).JoinBy(vbCrLf & vbCrLf)
@@ -39,6 +42,21 @@ Namespace BITS
         Public Overrides Function ToString() As String
             Return title
         End Function
+
+    End Class
+
+    Public Class list
+
+        <XmlAttribute("list-type")> Public Property list_type As String
+
+        <XmlElement("list-item")> Public Property list_item As list_item()
+
+    End Class
+
+    Public Class list_item
+
+        Public Property label As String
+        <XmlElement("p")> Public Property p As Paragraph()
 
     End Class
 
@@ -56,9 +74,18 @@ Namespace BITS
         <XmlElement("mixed-citation")>
         Public Property mixed_citation As MixedCitation
 
+        <XmlElement("element-citation")>
+        Public Property element_citation As MixedCitation
+
         Public Overrides Function ToString() As String
             Return id
         End Function
+
+    End Class
+
+    Public Class personGroup
+
+        <XmlElement("name")> Public Property name As StringName()
 
     End Class
 
@@ -67,6 +94,7 @@ Namespace BITS
         <XmlAttribute("publication-type")> Public Property publication_type As String
         <XmlElement> Public Property annotation As Annotation()
         <XmlElement("string-name")> Public Property string_names As StringName()
+        <XmlElement("person-group")> Public Property person_group As personGroup
         Public Property etal As String
         <XmlElement("article-title")> Public Property title As String
         Public Property source As String
