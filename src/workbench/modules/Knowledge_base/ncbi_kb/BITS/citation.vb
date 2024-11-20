@@ -89,7 +89,7 @@ Namespace BITS
         <XmlElement("name")> Public Property names As StringName()
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of StringName) Implements Enumeration(Of StringName).GenericEnumerator
-            For Each name As StringName In Me.names
+            For Each name As StringName In Me.names.SafeQuery
                 Yield name
             Next
         End Function
