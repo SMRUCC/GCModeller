@@ -15,6 +15,34 @@
         Return nlm_cite()
     End Function
 
+    Public Shared Sub TryParse(cite_text As String, ByRef citation As Citation)
+        Try
+            Dim cite_str As String = cite_text
+            Dim tokens As String() = cite_str.StringSplit("\.\s+")
+            Dim authors = tokens(0).StringSplit(",\s+")
+
+            cite_str = tokens(2)
+            citation.authors = authors
+            citation.title = tokens(1)
+
+            tokens = cite_str.Split(";"c)
+            cite_str = tokens(0)
+
+            citation.year = cite_str.Match("\d{4}")
+            citation.journal = cite_str.Replace(citation.year, "").Trim
+
+            tokens = tokens(1).Split(":"c)
+
+            citation.volume = tokens(0)
+            tokens = tokens(1).Split("-"c)
+            citation.fpage = tokens(0)
+            citation.lpage = tokens(1)
+        Catch ex As Exception
+            ex = New Exception(cite_text, ex)
+            Call App.LogException(ex)
+        End Try
+    End Sub
+
     ''' <summary>
     ''' NLM
     ''' </summary>
