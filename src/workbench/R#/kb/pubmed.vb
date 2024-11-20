@@ -61,6 +61,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI
+Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.BITS
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.PubMed
 Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
@@ -123,6 +124,12 @@ Module pubmed_tools
                                  Optional size As Integer = 2000) As String
 
         Return PubMed.QueryPubmedRaw(term:=keyword, page:=page, size:=size)
+    End Function
+
+    <ExportAPI("read.bits_book")>
+    <RApiReturn(GetType(BookPartWrapper))>
+    Public Function read_bits_book(file As String) As Object
+        Return file.LoadXml(Of BookPartWrapper)
     End Function
 
     ''' <summary>
