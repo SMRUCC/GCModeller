@@ -27,11 +27,25 @@ Namespace BITS
 
         <XmlElement("tr")> Public Property tr As BodyRow()
 
+        Public Iterator Function RowText() As IEnumerable(Of String())
+            For Each tri As BodyRow In tr
+                Yield tri.row_cells _
+                    .Select(Function(d) d.text.JoinBy(" ").Trim) _
+                    .ToArray
+            Next
+        End Function
+
     End Class
 
     Public Class THead
 
         Public Property tr As HeaderRow
+
+        Public Iterator Function HeaderText() As IEnumerable(Of String)
+            For Each th In tr.header_cells
+                Yield th.text.JoinBy(" ").Trim
+            Next
+        End Function
 
         Public Overrides Function ToString() As String
             Return tr.ToString
