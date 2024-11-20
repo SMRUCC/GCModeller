@@ -51,4 +51,9 @@ declare namespace pubmed {
      * @param size default value Is ``2000``.
    */
    function query(keyword: string, page?: object, size?: object): string;
+   module read {
+      /**
+      */
+      function bits_book(file: string): object;
+   }
 }

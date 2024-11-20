@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.BITS.BookPartWrapper</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>BookPartWrapper {SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.BITS}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>BookPartWrapper</h2>
+
+        <h3>Description</h3>
+
+        <p>the xml definition of the ncbi book data</p>
+
+<p>A set of Book Interchange Tag Suite (BITS)
+ DTD modules was written as the basis for
+ publishing, interchange, and repository
+ book DTDs, with the intention that DTDs for
+ specific purposes, such as this Book
+ DTD, would be developed based on them.
+ 
+ This Book Interchange DTD has been developed
+ from the ANSI/NISO JATS Z39.96 DTD modules,
+ in the approved manner, making changes to the
+ declarations in those modules by over-riding
+ Parameter Entity contents. These overrides
+ are defined in the three BITS book
+ customization modules:
+
+<pre><code class="">     %bookcustom-classes.ent;
+     %bookcustom-mixes.ent;
+     %bookcustom-models.ent;
+</code></pre>
+
+
+ 
+ which are called from this DTD file.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.BITS
+export class BookPartWrapper {
+   book_meta: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/Knowledge_base/NCBI/BITS/BookMeta.html">BookMeta</a>;
+   book_part: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/Knowledge_base/NCBI/BITS/BookPart.html">BookPart</a>;
+   content_type: string;
+   dtd_version: string;
+   from_where: string;
+   id: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>book_meta</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/Knowledge_base/NCBI/BITS/BookMeta.html">BookMeta</a></li>
+<li>use by <i>property</i> member <code>book_part</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/Knowledge_base/NCBI/BITS/BookPart.html">BookPart</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
