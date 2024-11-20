@@ -14,10 +14,10 @@ Namespace BITS
                 Dim authors As String()
                 Dim cite As MixedCitation
 
-                If r.element_citation IsNot Nothing Then
+                If r.mixed_citation IsNot Nothing Then
                     cite = r.mixed_citation
                     authors = cite.string_names.Select(Function(name) name.ToString).ToArray
-                ElseIf r.mixed_citation IsNot Nothing Then
+                ElseIf r.element_citation IsNot Nothing Then
                     cite = r.element_citation
                     authors = cite.person_group.AsEnumerable.Select(Function(name) name.ToString).ToArray
                 Else
