@@ -53,7 +53,7 @@ Namespace BITS
                 .fpage = cite.fpage,
                 .lpage = cite.lpage,
                 .journal = cite.source,
-                .title = cite.title,
+                .title = cite.title?.GetTextContent(),
                 .volume = cite.volume,
                 .year = cite.year
             }
@@ -111,7 +111,7 @@ Namespace BITS
         ''' the article-title
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement("article-title")> Public Property title As String
+        <XmlElement("article-title")> Public Property title As Paragraph
         Public Property source As String
         Public Property year As String
         Public Property volume As String
