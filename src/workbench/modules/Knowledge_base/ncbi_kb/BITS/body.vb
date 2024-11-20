@@ -24,10 +24,40 @@ Namespace BITS
 
         <XmlElement("sec")> Public Property sections As section()
 
+        <XmlElement("ref-list")> Public Property ref_list As RefList
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetContentText() As String
             Return p.Select(Function(pi) pi.text).JoinBy(vbCrLf & vbCrLf)
         End Function
+
+    End Class
+
+    Public Class RefList
+
+        <XmlAttribute("id")> Public Property id As String
+        <XmlElement> Public Property ref As ref()
+
+    End Class
+
+    Public Class ref
+
+        <XmlAttribute> Public Property id As String
+
+        Public Property mixed_citation As MixedCitation
+
+    End Class
+
+    Public Class MixedCitation : Inherits Paragraph
+
+        <XmlAttribute("publication-type")> Public Property publication_type As String
+        <XmlElement> Public Property annotation As Annotation()
+
+    End Class
+
+    Public Class Annotation
+
+        <XmlElement> Public Property p As Paragraph()
 
     End Class
 
@@ -96,6 +126,14 @@ Namespace BITS
         <XmlElement> Public Property bold As String()
 
         <XmlElement("ext-link")> Public Property links As ExtLink()
+        <XmlElement("italic")> Public Property italic As Italic()
+
+    End Class
+
+    Public Class Italic
+
+        <XmlAttribute> Public Property toggle As String
+        <XmlText> Public Property text As String
 
     End Class
 
