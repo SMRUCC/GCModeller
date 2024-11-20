@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Serialization.Bencoding
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace BITS
@@ -21,7 +20,7 @@ Namespace BITS
         <XmlAttribute("id")> Public Property id As String
         <XmlAttribute("sec-type")> Public Property sec_type As String
 
-        Public Property title As String
+        Public Property title As Paragraph
 
         <XmlElement("p")>
         Public Property p As Paragraph()

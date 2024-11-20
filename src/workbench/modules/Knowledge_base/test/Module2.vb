@@ -7,6 +7,10 @@ Module Module2
 
         Call Console.WriteLine(doc.GetXml)
 
+        doc = "C:\Users\Administrator\Downloads\livertox_NBK547852\Acitretin.nxml".LoadXml(Of BookPartWrapper)
+
+        Call Console.WriteLine(doc.GetXml)
+
         Pause()
     End Sub
 End Module
