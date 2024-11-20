@@ -1,11 +1,16 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace BITS
 
     Public Class body
 
         <XmlElement("sec")> Public Property sections As section()
+
+        Public Overrides Function ToString() As String
+            Return sections.Select(Function(sec) sec.ToString).GetJson
+        End Function
 
     End Class
 
@@ -29,6 +34,10 @@ Namespace BITS
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetContentText() As String
             Return p.Select(Function(pi) pi.text).JoinBy(vbCrLf & vbCrLf)
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return title
         End Function
 
     End Class
@@ -74,6 +83,10 @@ Namespace BITS
 
         <XmlText> Public Property id As String
 
+        Public Overrides Function ToString() As String
+            Return id
+        End Function
+
     End Class
 
     <XmlType("string-name")>
@@ -82,6 +95,10 @@ Namespace BITS
         <XmlAttribute("name-style")> Public Property name_style As String
         Public Property surname As String
         <XmlElement("given-names")> Public Property given_names As String
+
+        Public Overrides Function ToString() As String
+            Return surname & " " & given_names
+        End Function
 
     End Class
 
@@ -96,6 +113,8 @@ Namespace BITS
         <XmlAttribute> Public Property id As String
         <XmlAttribute> Public Property orientation As String
         <XmlAttribute> Public Property position As String
+
+        Public Property table As Table
 
     End Class
 
@@ -119,17 +138,29 @@ Namespace BITS
 
         Public Property tr As HeaderRow
 
+        Public Overrides Function ToString() As String
+            Return tr.ToString
+        End Function
+
     End Class
 
     Public Class HeaderRow
 
         <XmlElement("th")> Public Property header_cells As Cell()
 
+        Public Overrides Function ToString() As String
+            Return header_cells.Select(Function(th) th.ToString).GetJson
+        End Function
+
     End Class
 
     Public Class BodyRow
 
         <XmlElement("td")> Public Property row_cells As Cell()
+
+        Public Overrides Function ToString() As String
+            Return row_cells.Select(Function(td) td.ToString).GetJson
+        End Function
 
     End Class
 
@@ -143,6 +174,10 @@ Namespace BITS
         <XmlAttribute> Public Property colspan As String
         <XmlAttribute> Public Property headers As String
         <XmlText> Public Property text As Paragraph
+
+        Public Overrides Function ToString() As String
+            Return text.ToString
+        End Function
 
     End Class
 
@@ -158,12 +193,20 @@ Namespace BITS
         <XmlElement("ext-link")> Public Property links As ExtLink()
         <XmlElement("italic")> Public Property italic As Italic()
 
+        Public Overrides Function ToString() As String
+            Return text
+        End Function
+
     End Class
 
     Public Class Italic
 
         <XmlAttribute> Public Property toggle As String
         <XmlText> Public Property text As String
+
+        Public Overrides Function ToString() As String
+            Return text
+        End Function
 
     End Class
 
@@ -183,6 +226,10 @@ Namespace BITS
         Sub New()
             xmlns.Add("xlink", xlink)
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"[{text}]({href})"
+        End Function
     End Class
 
     <XmlType("related-object")>
@@ -192,6 +239,10 @@ Namespace BITS
         <XmlAttribute("source-id")> Public Property source_id As String
         <XmlAttribute("document-id")> Public Property document_id As String
         <XmlAttribute("document-type")> Public Property document_type As String
+
+        Public Overrides Function ToString() As String
+            Return source_id
+        End Function
 
     End Class
 End Namespace

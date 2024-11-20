@@ -12,5 +12,9 @@ Namespace BITS
 
         <XmlElement("book-part")> Public Property book_part As BookPart
 
+        Public Overrides Function ToString() As String
+            Return id
+        End Function
+
     End Class
 End Namespace

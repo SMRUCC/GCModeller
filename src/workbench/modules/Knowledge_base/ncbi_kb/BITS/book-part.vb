@@ -7,6 +7,10 @@ Namespace BITS
 
         Public Property body As body
 
+        Public Overrides Function ToString() As String
+            Return body.ToString
+        End Function
+
     End Class
 
 End Namespace
