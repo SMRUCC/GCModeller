@@ -129,7 +129,7 @@ Module pubmed_tools
     <ExportAPI("read.bits_book")>
     <RApiReturn(GetType(BookPartWrapper))>
     Public Function read_bits_book(file As String) As Object
-        Return file.LoadXml(Of BookPartWrapper)
+        Return file.LoadXml(Of BookPartWrapper)(preprocess:=AddressOf BookPartWrapper.PreprocessingXml)
     End Function
 
     ''' <summary>

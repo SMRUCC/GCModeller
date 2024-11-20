@@ -45,6 +45,14 @@ Namespace BITS
             Return id
         End Function
 
+        Public Shared Function PreprocessingXml(xml As String) As String
+            If xml Is Nothing Then
+                Return ""
+            Else
+                Return xml.StringReplace("[<]break\s*/[>]", vbCrLf)
+            End If
+        End Function
+
     End Class
 
     Public Class BookMeta
