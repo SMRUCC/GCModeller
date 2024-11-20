@@ -11,44 +11,52 @@ Namespace BITS
 
         Public Iterator Function GetCitations() As IEnumerable(Of Citation)
             For Each r As ref In ref.SafeQuery
-                Dim authors As String()
-                Dim cite As MixedCitation
+                Dim cite As Citation = CreateCitation(r)
 
-                If r.mixed_citation IsNot Nothing Then
-                    cite = r.mixed_citation
-                    authors = cite.string_names _
-                        .SafeQuery _
-                        .Select(Function(name) name.ToString) _
-                        .ToArray
-                ElseIf r.element_citation IsNot Nothing Then
-                    cite = r.element_citation
-                    authors = cite.person_group _
-                        .AsEnumerable _
-                        .Select(Function(name) name.ToString) _
-                        .ToArray
-                Else
-                    Continue For
+                If Not cite Is Nothing Then
+                    Yield cite
                 End If
-
-                Dim doi = cite.pub_id.SafeQuery.Where(Function(p) p.pub_id_type = "doi").FirstOrDefault?.id
-                Dim pmid = cite.pub_id.SafeQuery.Where(Function(p) p.pub_id_type = "pmid").FirstOrDefault?.id
-
-                Yield New Citation With {
-                    .authors = authors,
-                    .abstract = cite.annotation _
-                        .SafeQuery _
-                        .Select(Function(a) a.GetContentText) _
-                        .JoinBy(vbCrLf & vbCrLf),
-                    .doi = doi,
-                    .pubmed_id = pmid,
-                    .fpage = cite.fpage,
-                    .lpage = cite.lpage,
-                    .journal = cite.source,
-                    .title = cite.title,
-                    .volume = cite.volume,
-                    .year = cite.year
-                }
             Next
+        End Function
+
+        Public Shared Function CreateCitation(r As ref) As Citation
+            Dim authors As String()
+            Dim cite As MixedCitation
+
+            If r.mixed_citation IsNot Nothing Then
+                cite = r.mixed_citation
+                authors = cite.string_names _
+                    .SafeQuery _
+                    .Select(Function(name) name.ToString) _
+                    .ToArray
+            ElseIf r.element_citation IsNot Nothing Then
+                cite = r.element_citation
+                authors = cite.person_group _
+                    .AsEnumerable _
+                    .Select(Function(name) name.ToString) _
+                    .ToArray
+            Else
+                Return Nothing
+            End If
+
+            Dim doi = cite.pub_id.SafeQuery.Where(Function(p) p.pub_id_type = "doi").FirstOrDefault?.id
+            Dim pmid = cite.pub_id.SafeQuery.Where(Function(p) p.pub_id_type = "pmid").FirstOrDefault?.id
+
+            Return New Citation With {
+                .authors = authors,
+                .abstract = cite.annotation _
+                    .SafeQuery _
+                    .Select(Function(a) a.GetContentText) _
+                    .JoinBy(vbCrLf & vbCrLf),
+                .doi = doi,
+                .pubmed_id = pmid,
+                .fpage = cite.fpage,
+                .lpage = cite.lpage,
+                .journal = cite.source,
+                .title = cite.title,
+                .volume = cite.volume,
+                .year = cite.year
+            }
         End Function
 
     End Class
