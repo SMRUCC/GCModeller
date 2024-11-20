@@ -9,6 +9,7 @@
     Public Property lpage As String
     Public Property doi As String
     Public Property pubmed_id As UInteger
+    Public Property abstract As String
 
     Public Overrides Function ToString() As String
         Return nlm_cite()
