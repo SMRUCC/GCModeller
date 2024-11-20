@@ -16,13 +16,22 @@ Namespace BITS
 
                 If r.mixed_citation IsNot Nothing Then
                     cite = r.mixed_citation
-                    authors = cite.string_names.Select(Function(name) name.ToString).ToArray
+                    authors = cite.string_names _
+                        .SafeQuery _
+                        .Select(Function(name) name.ToString) _
+                        .ToArray
                 ElseIf r.element_citation IsNot Nothing Then
                     cite = r.element_citation
-                    authors = cite.person_group.AsEnumerable.Select(Function(name) name.ToString).ToArray
+                    authors = cite.person_group _
+                        .AsEnumerable _
+                        .Select(Function(name) name.ToString) _
+                        .ToArray
                 Else
                     Continue For
                 End If
+
+                Dim doi = cite.pub_id.SafeQuery.Where(Function(p) p.pub_id_type = "doi").FirstOrDefault?.id
+                Dim pmid = cite.pub_id.SafeQuery.Where(Function(p) p.pub_id_type = "pmid").FirstOrDefault?.id
 
                 Yield New Citation With {
                     .authors = authors,
@@ -30,8 +39,8 @@ Namespace BITS
                         .SafeQuery _
                         .Select(Function(a) a.GetContentText) _
                         .JoinBy(vbCrLf & vbCrLf),
-                    .doi = cite.pub_id.SafeQuery.Where(Function(p) p.pub_id_type = "doi").FirstOrDefault?.id,
-                    .pubmed_id = cite.pub_id.SafeQuery.Where(Function(p) p.pub_id_type = "pmid").FirstOrDefault?.id,
+                    .doi = doi,
+                    .pubmed_id = pmid,
                     .fpage = cite.fpage,
                     .lpage = cite.lpage,
                     .journal = cite.source,
