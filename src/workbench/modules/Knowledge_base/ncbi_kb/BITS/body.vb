@@ -214,7 +214,7 @@ Namespace BITS
 
     End Class
 
-    <XmlType("ext-link", [Namespace]:=ExtLink.xlink)>
+    <XmlType("ext-link")>
     Public Class ExtLink
 
         <XmlAttribute("ext-link-type")> Public Property ext_link_type As String
@@ -223,13 +223,6 @@ Namespace BITS
         Public Const xlink As String = "http://www.w3.org/1999/xlink"
 
         <XmlText> Public Property text As String
-
-        <XmlNamespaceDeclarations()>
-        Public xmlns As New XmlSerializerNamespaces
-
-        Sub New()
-            xmlns.Add("xlink", xlink)
-        End Sub
 
         Public Overrides Function ToString() As String
             Return $"[{text}]({href})"

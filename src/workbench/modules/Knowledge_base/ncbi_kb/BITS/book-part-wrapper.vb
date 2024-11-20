@@ -37,11 +37,34 @@ Namespace BITS
         <XmlAttribute("from-where")> Public Property from_where As String
         <XmlAttribute("dtd-version")> Public Property dtd_version As String
 
+        <XmlElement("book-meta")> Public Property book_meta As BookMeta
+
         <XmlElement("book-part")> Public Property book_part As BookPart
 
         Public Overrides Function ToString() As String
             Return id
         End Function
+
+    End Class
+
+    Public Class BookMeta
+
+        <XmlAttribute("book-id")> Public Property book_id As bookId
+        <XmlElement("book-title-group")> Public Property book_title_group As bookTitleGroup
+
+    End Class
+
+    Public Class bookTitleGroup
+
+        <XmlElement("book-title")> Public Property book_title As String
+        Public Property subtitle As String
+
+    End Class
+
+    Public Class bookId
+
+        <XmlAttribute("book-id-type")> Public Property book_id_type As String
+        <XmlText> Public Property id As String
 
     End Class
 End Namespace
