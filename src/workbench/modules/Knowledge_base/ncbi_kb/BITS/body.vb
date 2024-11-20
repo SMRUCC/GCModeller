@@ -53,7 +53,12 @@ Namespace BITS
 
         <XmlAttribute> Public Property id As String
 
+        <XmlElement("mixed-citation")>
         Public Property mixed_citation As MixedCitation
+
+        Public Overrides Function ToString() As String
+            Return id
+        End Function
 
     End Class
 
