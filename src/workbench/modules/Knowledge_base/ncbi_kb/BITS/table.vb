@@ -79,7 +79,7 @@ Namespace BITS
         <XmlElement("th")> Public Property header_cells As Cell()
 
         Public Overrides Function ToString() As String
-            Return row_cells.Select(Function(td) td.ToString).GetJson
+            Return If(row_cells, header_cells).Select(Function(td) td.ToString).GetJson
         End Function
 
     End Class
