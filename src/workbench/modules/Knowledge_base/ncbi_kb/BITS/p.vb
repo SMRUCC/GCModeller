@@ -8,7 +8,7 @@ Namespace BITS
         <XmlElement("related-object")>
         Public Property related_object As RelatedObject()
 
-        <XmlElement> Public Property bold As String()
+        <XmlElement> Public Property bold As Bold()
 
         <XmlElement("ext-link")> Public Property links As ExtLink()
         <XmlElement("italic")> Public Property italic As Italic()
@@ -33,13 +33,20 @@ Namespace BITS
 
     End Class
 
-    Public Class Italic
+    Public Class Italic : Inherits Paragraph
 
         <XmlAttribute> Public Property toggle As String
-        <XmlText> Public Property text As String
 
         Public Overrides Function ToString() As String
-            Return text
+            Return GetTextContent()
+        End Function
+
+    End Class
+
+    Public Class Bold : Inherits Paragraph
+
+        Public Overrides Function ToString() As String
+            Return GetTextContent()
         End Function
 
     End Class
