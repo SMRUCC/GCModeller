@@ -28,8 +28,14 @@ Namespace BITS
         <XmlElement("tr")> Public Property tr As BodyRow()
 
         Public Iterator Function RowText() As IEnumerable(Of String())
+            If tr Is Nothing Then
+                Return
+            End If
+
             For Each tri As BodyRow In tr
-                Yield tri.row_cells _
+                Dim cells = If(tri.row_cells, tri.header_cells)
+
+                Yield cells _
                     .Select(Function(d) d.GetContentText.Trim) _
                     .ToArray
             Next
@@ -42,6 +48,10 @@ Namespace BITS
         Public Property tr As HeaderRow
 
         Public Iterator Function HeaderText() As IEnumerable(Of String)
+            If tr.header_cells Is Nothing Then
+                Return
+            End If
+
             For Each th In tr.header_cells
                 Yield th.GetContentText.Trim
             Next
@@ -66,6 +76,7 @@ Namespace BITS
     Public Class BodyRow
 
         <XmlElement("td")> Public Property row_cells As Cell()
+        <XmlElement("th")> Public Property header_cells As Cell()
 
         Public Overrides Function ToString() As String
             Return row_cells.Select(Function(td) td.ToString).GetJson
