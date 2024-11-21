@@ -61,6 +61,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI
+Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.BITS
 Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.PubMed
 Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
@@ -123,6 +124,34 @@ Module pubmed_tools
                                  Optional size As Integer = 2000) As String
 
         Return PubMed.QueryPubmedRaw(term:=keyword, page:=page, size:=size)
+    End Function
+
+    <ExportAPI("read.bits_book")>
+    <RApiReturn(GetType(BookPartWrapper))>
+    Public Function read_bits_book(file As String) As Object
+        Return file.LoadXml(Of BookPartWrapper)(preprocess:=AddressOf BookPartWrapper.PreprocessingXml)
+    End Function
+
+    ''' <summary>
+    ''' get the citation list about current article object
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' a collection of the citation object
+    ''' </returns>
+    <ExportAPI("citation_list")>
+    <RApiReturn(GetType(Citation))>
+    Public Function citation_list(x As Object, Optional env As Environment = Nothing) As Object
+        If x Is Nothing Then
+            Return Nothing
+        End If
+
+        If TypeOf x Is BookPartWrapper Then
+            Return DirectCast(x, BookPartWrapper).GetCitations.ToArray
+        Else
+            Return Message.InCompatibleType(GetType(PubmedArticle), x.GetType, env)
+        End If
     End Function
 
     ''' <summary>

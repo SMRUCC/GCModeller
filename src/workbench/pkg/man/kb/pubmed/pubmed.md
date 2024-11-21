@@ -13,6 +13,8 @@ PubMed is a free resource supporting the search and retrieval of biomedical and 
  Medicine (NLM), located at the National Institutes of Health (NIH).
 
 + [query](pubmed/query.1) 
++ [read.bits_book](pubmed/read.bits_book.1) 
++ [citation_list](pubmed/citation_list.1) get the citation list about current article object
 + [article](pubmed/article.1) Parse the document text as a set of article object
 + [parse](pubmed/parse.1) parse the text data as the article information
 + [parse.article_set](pubmed/parse.article_set.1) Parse the pubmed article set xml stream data

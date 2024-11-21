@@ -29,6 +29,17 @@ declare namespace pubmed {
      * + default value Is ``false``.
    */
    function article(text: string, xml?: boolean): object;
+   /**
+    * get the citation list about current article object
+    * 
+    * 
+     * @param x -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return a collection of the citation object
+   */
+   function citation_list(x: any, env?: object): object;
    module parse {
       /**
        * Parse the pubmed article set xml stream data
@@ -51,4 +62,9 @@ declare namespace pubmed {
      * @param size default value Is ``2000``.
    */
    function query(keyword: string, page?: object, size?: object): string;
+   module read {
+      /**
+      */
+      function bits_book(file: string): object;
+   }
 }

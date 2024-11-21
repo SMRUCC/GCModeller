@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{299BC67C-AF08-43EA-89D4-17624B1DA081}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>test.name_test</StartupObject>
+    <StartupObject>test.Module2</StartupObject>
     <RootNamespace>test</RootNamespace>
     <AssemblyName>test</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="Module1.vb" />
     <Compile Include="mesh_test.vb" />
+    <Compile Include="Module2.vb" />
     <Compile Include="name_test.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -195,10 +196,6 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Bing.NET5.vbproj">
       <Project>{6f3ed30f-1aeb-42e9-88c9-f6d6a0d69df2}</Project>
       <Name>Bing.NET5</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\workbench\workbench.vbproj">
-      <Project>{29f5331d-ac97-4256-86cc-1231fbf798df}</Project>
-      <Name>workbench</Name>
     </ProjectReference>
     <ProjectReference Include="..\Knowledge_base\kb.NET5.vbproj">
       <Project>{19c089e0-f0c5-400d-97c5-77dc8b93193c}</Project>
