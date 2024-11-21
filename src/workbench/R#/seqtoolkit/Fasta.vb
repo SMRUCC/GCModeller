@@ -372,26 +372,36 @@ Module Fasta
     ''' <returns></returns>
     ''' <keywords>save data</keywords>
     <ExportAPI("write.fasta")>
-    Public Function writeFasta(<RRawVectorArgument> seq As Object, file$,
+    Public Function writeFasta(<RRawVectorArgument> seq As Object, file As Object,
                                Optional lineBreak% = -1,
                                Optional delimiter As String = " ",
                                Optional encoding As Encodings = Encodings.ASCII,
                                Optional env As Environment = Nothing) As Boolean
 
         If TypeOf seq Is pipeline Then
-            ' save a huge bundle of the fasta sequence collection
-            Using buffer As New IO.StreamWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
-                For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
-                    Call buffer.WriteLine(fa.GenerateDocument(
-                        lineBreak:=lineBreak,
-                        [overrides]:=False,
-                        delimiter:=delimiter
-                    ))
-                Next
+            If TypeOf file Is FastaWriter Then
+                Call DirectCast(file, FastaWriter).Add(DirectCast(seq, pipeline).populates(Of FastaSeq)(env))
+            Else
+                Dim filepath As String = CStr(file)
+                Dim buffer = filepath.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
 
-                Call buffer.Flush()
-            End Using
+                ' save a huge bundle of the fasta sequence collection
+                Using s As New IO.StreamWriter(buffer)
+                    For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
+                        Call s.WriteLine(fa.GenerateDocument(
+                            lineBreak:=lineBreak,
+                            [overrides]:=False,
+                            delimiter:=delimiter
+                        ))
+                    Next
 
+                    Call s.Flush()
+                End Using
+            End If
+
+            Return True
+        ElseIf TypeOf file Is FastaWriter Then
+            Call DirectCast(file, FastaWriter).Add(GetFastaSeq(seq, env))
             Return True
         Else
             ' save a collection of the fasta sequence
