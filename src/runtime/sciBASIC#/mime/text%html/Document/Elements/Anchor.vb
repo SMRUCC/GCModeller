@@ -15,6 +15,12 @@ Namespace Document
         Public Property type As String
         Public Property media As String
 
+        ''' <summary>
+        ''' the inner plant/html text of current anchor
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property text As String
+
         Public Shared Function FromElement(element As HtmlElement) As Anchor
             Return New Anchor With {
                 .id = element.id,
@@ -27,7 +33,8 @@ Namespace Document
                 .style = element!style,
                 .target = element!target,
                 .title = element!title,
-                .type = element!type
+                .type = element!type,
+                .text = element.InnerText
             }
         End Function
 
