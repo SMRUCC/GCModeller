@@ -286,6 +286,9 @@ Module Fasta
     ''' Just contains one sequence
     ''' </param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' for input a genbank database file, this function will extract the origin sequence fasta object
+    ''' </remarks>
     ''' <keywords>read data</keywords>
     <ExportAPI("read.seq")>
     <RApiReturn(GetType(FastaSeq))>
@@ -295,6 +298,7 @@ Module Fasta
         If firstLine.First = ">"c Then
             Return FastaSeq.Load(file)
         ElseIf firstLine.StartsWith("LOCUS") Then
+            ' is a genbank file, returns the genome origin sequence
             Return GBFF.File.Load(file).Origin.ToFasta
         Else
             Return RInternal.debug.stop({"invalid file format!", "file: " & file, $"required: *.fa, *.gbk"}, env)
