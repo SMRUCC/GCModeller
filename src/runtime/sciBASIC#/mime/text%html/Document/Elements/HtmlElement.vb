@@ -177,6 +177,13 @@ Namespace Document
             End Get
         End Property
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' multiple class could be assigned to a html node
+        ''' </remarks>
         Public ReadOnly Property [class] As String()
             Get
                 Dim names As String = Trim(attrs.TryGetValue("class").Value)
