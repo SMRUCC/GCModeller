@@ -189,15 +189,6 @@ Namespace Document
             End Get
         End Property
 
-        Public Overrides Property InnerText As String
-            Get
-                Return If(MyBase.InnerText, GetPlantText())
-            End Get
-            Set(value As String)
-                MyBase.InnerText = value
-            End Set
-        End Property
-
         ''' <summary>
         ''' 大小写不敏感
         ''' </summary>

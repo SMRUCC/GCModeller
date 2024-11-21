@@ -34,7 +34,7 @@ Namespace Document
                 .target = element!target,
                 .title = element!title,
                 .type = element!type,
-                .text = element.InnerText
+                .text = element.GetPlantText
             }
         End Function
 
