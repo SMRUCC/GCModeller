@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Text
 
 Namespace SequenceModel.FASTA
@@ -17,6 +18,7 @@ Namespace SequenceModel.FASTA
             Me.lineBreak = lineBreak
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Add(seq As FastaSeq)
             Call file.WriteLine(seq.GenerateDocument(lineBreak))
         End Sub

@@ -427,7 +427,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="encoding">
         ''' 不同的程序会对这个由要求，例如meme程序在linux系统之中要求序列文件为unicode编码格式而windows版本的meme程序则要求ascii格式
         ''' </param>
-        ''' <remarks></remarks>
+        ''' <remarks>this function will split sequence data by 60 chars per line</remarks>
         Public Overloads Function Save(Path As String, encoding As Encoding) As Boolean
             Try
                 Return Save(60, Path, encoding)

@@ -82,6 +82,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
+Imports FastaWriter = SMRUCC.genomics.SequenceModel.FASTA.StreamWriter
 
 ''' <summary>
 ''' Fasta sequence toolkit
@@ -324,16 +325,26 @@ Module Fasta
     End Function
 
     ''' <summary>
-    ''' open file and load a set of fasta sequence data in lazy mode
+    ''' open the fasta sequence file 
     ''' </summary>
     ''' <param name="file"></param>
+    ''' <param name="read">
+    ''' load a set of fasta sequence data in lazy mode? default is yes.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns>a lazy collection of the fasta sequence data</returns>
     ''' <keywords>read data</keywords>
     <ExportAPI("open.fasta")>
-    <RApiReturn(GetType(FastaSeq))>
-    Public Function openFasta(file As String, Optional env As Environment = Nothing) As Object
-        Return StreamIterator.SeqSource(file).DoCall(AddressOf pipeline.CreateFromPopulator)
+    <RApiReturn(GetType(FastaSeq), GetType(FastaWriter))>
+    Public Function openFasta(file As String,
+                              Optional read As Boolean = True,
+                              Optional env As Environment = Nothing) As Object
+
+        If read Then
+            Return StreamIterator.SeqSource(file).DoCall(AddressOf pipeline.CreateFromPopulator)
+        Else
+            Return New FastaWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
+        End If
     End Function
 
     ''' <summary>
