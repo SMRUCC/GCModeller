@@ -127,6 +127,13 @@ Namespace Document
             End Set
         End Property
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="name">case insensitive</param>
+        ''' <returns>
+        ''' this property returns nothing if the attribute is not found from the current element node
+        ''' </returns>
         Default Public Property Attribute(name As String) As ValueAttribute
             Get
                 Return attrs.TryGetValue(LCase(name))
