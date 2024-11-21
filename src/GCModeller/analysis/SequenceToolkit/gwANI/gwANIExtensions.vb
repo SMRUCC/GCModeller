@@ -71,7 +71,7 @@ Public Module gwANIExtensions
     Public Sub Evaluate([in] As String, out As String, Optional fast As Boolean = True)
         Dim multipleSeq As FastaFile = FastaFile.LoadNucleotideData([in])
 
-        Using write As StreamWriter = out.OpenWriter(Encodings.ASCII, append:=False)
+        Using write As IO.StreamWriter = out.OpenWriter(Encodings.ASCII, append:=False)
             If fast Then
                 Call fast_calculate_gwani(multipleSeq).print(write)
             Else

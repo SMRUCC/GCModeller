@@ -95,7 +95,7 @@ Namespace SequenceModel.FASTA
                               Optional break As Integer = 80,
                               Optional prefix As String = "sequence")
 
-            Using printWriter As New StreamWriter(filename.Open(FileMode.OpenOrCreate, doClear:=True))
+            Using printWriter As New IO.StreamWriter(filename.Open(FileMode.OpenOrCreate, doClear:=True))
                 Dim i As Integer = 0
 
                 For Each sequence As String In sequences

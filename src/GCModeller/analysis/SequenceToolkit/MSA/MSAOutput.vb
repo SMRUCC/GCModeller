@@ -80,7 +80,7 @@ Public Class MSAOutput
 
     Public Overrides Function ToString() As String
         With New MemoryStream
-            Print(, New StreamWriter(.ByRef))
+            Print(, New IO.StreamWriter(.ByRef))
             Return .ToArray.UTF8String
         End With
     End Function

@@ -458,7 +458,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         End Function
 
         Public Overloads Function Save(lineBreak As Integer, s As Stream, encoding As Encoding) As Boolean
-            Using writer As New StreamWriter(s, encoding)
+            Using writer As New IO.StreamWriter(s, encoding)
                 For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=lineBreak))
                     Call writer.WriteLine(seq)
                 Next
@@ -476,7 +476,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         Public Overloads Function Save(LineBreak As Integer, Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
             Static ASCII As [Default](Of Encoding) = Encoding.ASCII
 
-            Using writer As StreamWriter = (Path Or FilePath.When(Path.StringEmpty)).OpenWriter(encoding Or ASCII)
+            Using writer As IO.StreamWriter = (Path Or FilePath.When(Path.StringEmpty)).OpenWriter(encoding Or ASCII)
                 For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=LineBreak))
                     Call writer.WriteLine(seq)
                 Next

@@ -142,8 +142,8 @@ Namespace gast
             Call "".SaveTo(out)
             Call "".SaveTo(tax)
 
-            Using ref As New StreamWriter(New FileStream(out, FileMode.OpenOrCreate)),
-                taxon As New StreamWriter(New FileStream(tax, FileMode.OpenOrCreate))
+            Using ref As New System.IO.StreamWriter(New FileStream(out, FileMode.OpenOrCreate)),
+                taxon As New System.IO.StreamWriter(New FileStream(tax, FileMode.OpenOrCreate))
 
                 ref.NewLine = vbLf
                 taxon.NewLine = vbLf
@@ -188,8 +188,8 @@ Namespace gast
                 NCBI.Taxonomy.AcquireAuto(gi2taxid)
             Dim tree As New NcbiTaxonomyTree(taxi_dmp)
 
-            Using ref As StreamWriter = out.OpenWriter(Encodings.ASCII,),
-                tax As StreamWriter = (out.TrimSuffix & ".tax").OpenWriter(Encodings.ASCII)
+            Using ref As System.IO.StreamWriter = out.OpenWriter(Encodings.ASCII,),
+                tax As System.IO.StreamWriter = (out.TrimSuffix & ".tax").OpenWriter(Encodings.ASCII)
 
                 For Each seq As FastaSeq In New StreamIterator(nt).ReadStream
                     Dim title As String = seq.Title

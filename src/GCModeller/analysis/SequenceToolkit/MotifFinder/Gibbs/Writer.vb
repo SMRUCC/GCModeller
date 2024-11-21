@@ -35,7 +35,7 @@ Public Class Writer
     ''' <param name="sitePositions"> </param>
     ''' <param name="filename"> </param>
     Public Shared Sub writeSites(sc As Integer, motifs As IList(Of String), sitePositions As IList(Of Integer), filename As String)
-        Using printWriter As New StreamWriter(filename.Open(FileMode.OpenOrCreate, doClear:=True))
+        Using printWriter As New IO.StreamWriter(filename.Open(FileMode.OpenOrCreate, doClear:=True))
             Call Enumerable.Range(0, sc).ForEach(Sub(i, j) printWriter.WriteLine(String.Format("{0} {1:D}", motifs(i), sitePositions(i))))
         End Using
     End Sub
@@ -46,7 +46,7 @@ Public Class Writer
     ''' <param name="motif"> </param>
     ''' <param name="filename"> </param>
     Public Shared Sub writeMotif(ml As Integer, motif As WeightMatrix, filename As String, icpc As Double)
-        Using printWriter As New StreamWriter(filename.Open(FileMode.OpenOrCreate, doClear:=True))
+        Using printWriter As New IO.StreamWriter(filename.Open(FileMode.OpenOrCreate, doClear:=True))
             printWriter.WriteLine(String.Format(">{0}_{1:F}" & vbTab & "{2:D}", filename, icpc, ml))
             printWriter.WriteLine(motif) 'not exactly right for debugging purposes
             printWriter.WriteLine("<")

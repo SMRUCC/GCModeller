@@ -369,7 +369,7 @@ Module Fasta
 
         If TypeOf seq Is pipeline Then
             ' save a huge bundle of the fasta sequence collection
-            Using buffer As New StreamWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
+            Using buffer As New IO.StreamWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
                 For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
                     Call buffer.WriteLine(fa.GenerateDocument(
                         lineBreak:=lineBreak,
