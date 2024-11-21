@@ -130,7 +130,7 @@ Namespace SequenceModel.FASTA
                    Select fa
         End Function
 
-        Sub New(fa As FASTA.FastaSeq)
+        Sub New(fa As FastaSeq)
             Call Me.New({fa})
         End Sub
 
@@ -240,19 +240,19 @@ Namespace SequenceModel.FASTA
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function LoadNucleotideData(path As String, Optional strict As Boolean = False) As FastaFile
-            Dim Data As FastaFile = FastaFile.Read(path)
+            Dim seqs As FastaFile = FastaFile.Read(path)
 
-            If Data.IsNullOrEmpty Then
+            If seqs.IsNullOrEmpty Then
 NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG_ECHO
                 Return Nothing
             End If
 
-            For Each Sequence As FastaSeq In Data._innerList
-                Sequence.SequenceData = Sequence.SequenceData.ToUpper.Replace("N", "-")
+            For Each fa As FastaSeq In seqs._innerList
+                fa.SequenceData = fa.SequenceData.ToUpper.Replace("N", "-")
             Next
 
             Dim LQuery = (From fa As FastaSeq
-                          In Data._innerList
+                          In seqs._innerList
                           Where Not fa.IsProtSource
                           Select fa).ToArray
             If strict Then
@@ -266,9 +266,9 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
                 GoTo NULL_DATA
             End If
 
-            Data = New FastaFile(LQuery, path)
+            seqs = New FastaFile(LQuery, path)
 
-            Return Data
+            Return seqs
         End Function
 
         ''' <summary>
@@ -323,8 +323,6 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         End Function
 
         Public Sub Split(saveDIR As Path)
-            Call FileIO.FileSystem.CreateDirectory(saveDIR)
-
             Dim Index As Integer
 
             For Each FASTA As FastaSeq In __innerList

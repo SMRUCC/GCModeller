@@ -615,7 +615,8 @@ AAGCGAACAAATGTTCTATA"
         End Function
 
         ''' <summary>
-        ''' Save the current fasta sequence object into the file system. <param name="lineBreak"></param> smaller than 1 will means no line break in the saved fasta sequence.
+        ''' Save the current fasta sequence object into the file system. <param name="lineBreak"></param> 
+        ''' smaller than 1 will means no line break in the saved fasta sequence.
         ''' </summary>
         ''' <param name="Path"></param>
         ''' <param name="encoding"></param>
