@@ -23,8 +23,12 @@ Namespace SequenceModel.FASTA
             Call file.WriteLine(seq.GenerateDocument(lineBreak))
         End Sub
 
-        Public Sub Add(seqs As IEnumerable(Of FastaSeq))
+        Public Sub Add(seqs As IEnumerable(Of FastaSeq), Optional filterEmpty As Boolean = False)
             For Each seq As FastaSeq In seqs
+                If filterEmpty AndAlso seq.Length = 0 Then
+                    Continue For
+                End If
+
                 Call Add(seq)
             Next
         End Sub

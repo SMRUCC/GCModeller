@@ -368,6 +368,9 @@ Module Fasta
     ''' <param name="lineBreak">
     ''' The sequence length in one line, negative value or ZERo means no line break.
     ''' </param>
+    ''' <param name="filter_empty">
+    ''' skip write sequence if the sequence object has no sequence data
+    ''' </param>
     ''' <param name="encoding">The text encoding value of the generated fasta file.</param>
     ''' <returns></returns>
     ''' <keywords>save data</keywords>
@@ -375,12 +378,13 @@ Module Fasta
     Public Function writeFasta(<RRawVectorArgument> seq As Object, file As Object,
                                Optional lineBreak% = -1,
                                Optional delimiter As String = " ",
+                               Optional filter_empty As Boolean = False,
                                Optional encoding As Encodings = Encodings.ASCII,
                                Optional env As Environment = Nothing) As Boolean
 
         If TypeOf seq Is pipeline Then
             If TypeOf file Is FastaWriter Then
-                Call DirectCast(file, FastaWriter).Add(DirectCast(seq, pipeline).populates(Of FastaSeq)(env))
+                Call DirectCast(file, FastaWriter).Add(DirectCast(seq, pipeline).populates(Of FastaSeq)(env), filter_empty)
             Else
                 Dim filepath As String = CStr(file)
                 Dim buffer = filepath.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
@@ -388,6 +392,10 @@ Module Fasta
                 ' save a huge bundle of the fasta sequence collection
                 Using s As New IO.StreamWriter(buffer)
                     For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
+                        If filter_empty And fa.Length = 0 Then
+                            Continue For
+                        End If
+
                         Call s.WriteLine(fa.GenerateDocument(
                             lineBreak:=lineBreak,
                             [overrides]:=False,
@@ -401,11 +409,19 @@ Module Fasta
 
             Return True
         ElseIf TypeOf file Is FastaWriter Then
-            Call DirectCast(file, FastaWriter).Add(GetFastaSeq(seq, env))
+            Call DirectCast(file, FastaWriter).Add(GetFastaSeq(seq, env), filter_empty)
             Return True
         Else
             ' save a collection of the fasta sequence
-            Dim seqs = GetFastaSeq(seq, env).ToArray
+            Dim seqs = GetFastaSeq(seq, env) _
+                .Where(Function(f)
+                           If filter_empty AndAlso f.Length = 0 Then
+                               Return False
+                           End If
+
+                           Return True
+                       End Function) _
+                .ToArray
             Dim fasta As New FastaFile(seqs)
 
             Return fasta.Save(lineBreak, file, encoding)
