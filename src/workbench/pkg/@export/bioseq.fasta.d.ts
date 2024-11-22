@@ -181,12 +181,15 @@ declare namespace bioseq.fasta {
         * + default value Is ``-1``.
         * @param delimiter 
         * + default value Is ``' '``.
+        * @param filter_empty skip write sequence if the sequence object has no sequence data
+        * 
+        * + default value Is ``false``.
         * @param encoding The text encoding value of the generated fasta file.
         * 
         * + default value Is ``null``.
         * @param env 
         * + default value Is ``null``.
       */
-      function fasta(seq: any, file: any, lineBreak?: object, delimiter?: string, encoding?: object, env?: object): boolean;
+      function fasta(seq: any, file: any, lineBreak?: object, delimiter?: string, filter_empty?: boolean, encoding?: object, env?: object): boolean;
    }
 }

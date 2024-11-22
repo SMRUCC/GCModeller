@@ -7,6 +7,7 @@ write.fasta \- write a fasta sequence or a collection of fasta sequence object
 \fBfile\fR as any, 
 \fBlineBreak\fR as integer = -1, 
 \fBdelimiter\fR as string = " ", 
+\fBfilter_empty\fR as boolean = FALSE, 
 \fBencoding\fR as <integer> Encodings = [ASCII], 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
@@ -23,6 +24,11 @@ write a fasta sequence or a collection of fasta sequence object
 .PP
 \fBlineBreak\fB \fR\- 
  The sequence length in one line, negative value or ZERo means no line break.
+. 
+.PP
+.PP
+\fBfilter_empty\fB \fR\- 
+ skip write sequence if the sequence object has no sequence data
 . 
 .PP
 .PP

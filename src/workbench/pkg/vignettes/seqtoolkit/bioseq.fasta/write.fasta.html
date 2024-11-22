@@ -30,6 +30,7 @@
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>write.fasta</strong>(<i>seq</i>, <i>file</i>,
     <i>lineBreak</i> = <span style='color: green;'>-1</span>,
     <i>delimiter</i> = <span style='color: brown;'><strong>" "</strong></span>,
+    <i>filter.empty</i> = <span style='color: blue !important;'>FALSE</span>,
     <i>encoding</i> = ASCII);</code></pre>
         </div>
 
@@ -47,6 +48,10 @@
 
 <dt>lineBreak</dt>
 <dd><p>The sequence length in one line, negative value or ZERo means no line break. [as integer]</p></dd>
+
+
+<dt>filter.empty</dt>
+<dd><p>skip write sequence if the sequence object has no sequence data. [as boolean]</p></dd>
 
 
 <dt>encoding</dt>
