@@ -130,7 +130,7 @@ Public Module Assembler
                             Dim contig$ = reads.AsList.ShortestCommonSuperString().First
                             Dim covTxt$ = $"{path.TrimSuffix}/{ref.NormalizePathString}.txt"
 
-                            Using view As StreamWriter = covTxt.OpenWriter
+                            Using view As IO.StreamWriter = covTxt.OpenWriter
                                 Call reads.TableView(contig, view)
                             End Using
                         Next
