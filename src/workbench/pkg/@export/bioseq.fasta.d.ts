@@ -96,16 +96,19 @@ declare namespace bioseq.fasta {
    }
    module open {
       /**
-       * open file and load a set of fasta sequence data in lazy mode
+       * open the fasta sequence file
        * 
        * 
         * @param file -
+        * @param read load a set of fasta sequence data in lazy mode? default is yes.
+        * 
+        * + default value Is ``true``.
         * @param env -
         * 
         * + default value Is ``null``.
         * @return a lazy collection of the fasta sequence data
       */
-      function fasta(file: string, env?: object): object;
+      function fasta(file: string, read?: boolean, env?: object): object|object;
    }
    module parse {
       /**
@@ -129,6 +132,7 @@ declare namespace bioseq.fasta {
       /**
        * Read a single fasta sequence file
        * 
+       * > for input a genbank database file, this function will extract the origin sequence fasta object
        * 
         * @param file Just contains one sequence
         * @param env 
@@ -183,6 +187,6 @@ declare namespace bioseq.fasta {
         * @param env 
         * + default value Is ``null``.
       */
-      function fasta(seq: any, file: string, lineBreak?: object, delimiter?: string, encoding?: object, env?: object): boolean;
+      function fasta(seq: any, file: any, lineBreak?: object, delimiter?: string, encoding?: object, env?: object): boolean;
    }
 }

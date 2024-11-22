@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>open file and load a set of fasta sequence data in lazy mode</title>
+    <title>open the fasta sequence file</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>open file and load a set of fasta sequence data in lazy mode</h2>
+        <h2>open the fasta sequence file</h2>
 
         <h3>Description</h3>
 
@@ -27,7 +27,8 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>open.fasta</strong>(<i>file</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>open.fasta</strong>(<i>file</i>,
+    <i>read</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -36,6 +37,10 @@
             
 <dt>file</dt>
 <dd><p>[as string]</p></dd>
+
+
+<dt>read</dt>
+<dd><p>load a set of fasta sequence data in lazy mode? default is yes. [as boolean]</p></dd>
 
 
 <dt>env</dt>
@@ -54,7 +59,7 @@
 
         <h3>Value</h3>
 
-        <p>a lazy collection of the fasta sequence data</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
+        <p>a lazy collection of the fasta sequence data</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/StreamWriter.html">StreamWriter</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
