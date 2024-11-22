@@ -187,6 +187,9 @@ Namespace SequenceModel.FASTA.Reflection
             Return files.Merge(trim, rawTitle)
         End Function
 
+        ''' <summary>
+        ''' invalid chars for check in sequence
+        ''' </summary>
         Const HTML_CHARS As String = "</>!\[].+:()0123456789"
 
         ''' <summary>
@@ -259,15 +262,6 @@ REDO:           seq = Mid(seq, i)
             }
         End Function
 
-        <ExportAPI("Read.Fasta")>
-        Public Function Load(path As String) As FastaFile
-            Return FastaFile.Read(path)
-        End Function
-
-        <ExportAPI("Read.FastaToken")>
-        Public Function LoadFastaToken(path As String) As FastaSeq
-            Return FastaSeq.Load(path)
-        End Function
 
         Public Function Export(Of T As ISequenceProvider)(source As IEnumerable(Of T)) As FastaFile
             Dim SchemaCache As SchemaCache = New SchemaCache(GetType(T))

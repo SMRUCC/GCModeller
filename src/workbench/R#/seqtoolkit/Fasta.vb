@@ -82,6 +82,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
+Imports FastaWriter = SMRUCC.genomics.SequenceModel.FASTA.StreamWriter
 
 ''' <summary>
 ''' Fasta sequence toolkit
@@ -286,6 +287,9 @@ Module Fasta
     ''' Just contains one sequence
     ''' </param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' for input a genbank database file, this function will extract the origin sequence fasta object
+    ''' </remarks>
     ''' <keywords>read data</keywords>
     <ExportAPI("read.seq")>
     <RApiReturn(GetType(FastaSeq))>
@@ -295,6 +299,7 @@ Module Fasta
         If firstLine.First = ">"c Then
             Return FastaSeq.Load(file)
         ElseIf firstLine.StartsWith("LOCUS") Then
+            ' is a genbank file, returns the genome origin sequence
             Return GBFF.File.Load(file).Origin.ToFasta
         Else
             Return RInternal.debug.stop({"invalid file format!", "file: " & file, $"required: *.fa, *.gbk"}, env)
@@ -320,16 +325,26 @@ Module Fasta
     End Function
 
     ''' <summary>
-    ''' open file and load a set of fasta sequence data in lazy mode
+    ''' open the fasta sequence file 
     ''' </summary>
     ''' <param name="file"></param>
+    ''' <param name="read">
+    ''' load a set of fasta sequence data in lazy mode? default is yes.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns>a lazy collection of the fasta sequence data</returns>
     ''' <keywords>read data</keywords>
     <ExportAPI("open.fasta")>
-    <RApiReturn(GetType(FastaSeq))>
-    Public Function openFasta(file As String, Optional env As Environment = Nothing) As Object
-        Return StreamIterator.SeqSource(file).DoCall(AddressOf pipeline.CreateFromPopulator)
+    <RApiReturn(GetType(FastaSeq), GetType(FastaWriter))>
+    Public Function openFasta(file As String,
+                              Optional read As Boolean = True,
+                              Optional env As Environment = Nothing) As Object
+
+        If read Then
+            Return StreamIterator.SeqSource(file).DoCall(AddressOf pipeline.CreateFromPopulator)
+        Else
+            Return New FastaWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
+        End If
     End Function
 
     ''' <summary>
@@ -357,26 +372,36 @@ Module Fasta
     ''' <returns></returns>
     ''' <keywords>save data</keywords>
     <ExportAPI("write.fasta")>
-    Public Function writeFasta(<RRawVectorArgument> seq As Object, file$,
+    Public Function writeFasta(<RRawVectorArgument> seq As Object, file As Object,
                                Optional lineBreak% = -1,
                                Optional delimiter As String = " ",
                                Optional encoding As Encodings = Encodings.ASCII,
                                Optional env As Environment = Nothing) As Boolean
 
         If TypeOf seq Is pipeline Then
-            ' save a huge bundle of the fasta sequence collection
-            Using buffer As New StreamWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
-                For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
-                    Call buffer.WriteLine(fa.GenerateDocument(
-                        lineBreak:=lineBreak,
-                        [overrides]:=False,
-                        delimiter:=delimiter
-                    ))
-                Next
+            If TypeOf file Is FastaWriter Then
+                Call DirectCast(file, FastaWriter).Add(DirectCast(seq, pipeline).populates(Of FastaSeq)(env))
+            Else
+                Dim filepath As String = CStr(file)
+                Dim buffer = filepath.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
 
-                Call buffer.Flush()
-            End Using
+                ' save a huge bundle of the fasta sequence collection
+                Using s As New IO.StreamWriter(buffer)
+                    For Each fa As FastaSeq In DirectCast(seq, pipeline).populates(Of FastaSeq)(env)
+                        Call s.WriteLine(fa.GenerateDocument(
+                            lineBreak:=lineBreak,
+                            [overrides]:=False,
+                            delimiter:=delimiter
+                        ))
+                    Next
 
+                    Call s.Flush()
+                End Using
+            End If
+
+            Return True
+        ElseIf TypeOf file Is FastaWriter Then
+            Call DirectCast(file, FastaWriter).Add(GetFastaSeq(seq, env))
             Return True
         Else
             ' save a collection of the fasta sequence

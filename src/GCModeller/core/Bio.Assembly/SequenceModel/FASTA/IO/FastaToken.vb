@@ -82,9 +82,11 @@ Namespace SequenceModel.FASTA
     ''' <summary>
     ''' The FASTA format file of a bimolecular sequence.(Notice that this file is 
     ''' only contains on sequence.)
-    ''' FASTA格式的生物分子序列文件。(但是请注意：文件中只包含一条序列的情况，假若需要自定义所生成的FASTA文件的标题的格式，请复写<see cref="FastaSeq.ToString"></see>方法)
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' FASTA格式的生物分子序列文件。(但是请注意：文件中只包含一条序列的情况，假若需要自定义所生成的FASTA文件的标题的格式，
+    ''' 请复写<see cref="FastaSeq.ToString"></see>方法)
+    ''' </remarks>
     ''' 
     <Package("GCModeller.IO.FastaToken", Publisher:="amethyst.asuka@gcmodeller.org")>
     <ActiveViewsAttribute(FastaSeq.SampleView, type:="bash")>
@@ -407,11 +409,11 @@ AAGCGAACAAATGTTCTATA"
         End Function
 
         ''' <summary>
-        ''' Try parsing a fasta sequence object from a string chunk value.(尝试从一个字符串之中解析出一个fasta序列数据)
+        ''' Try parsing a fasta sequence object from a string chunk value.
         ''' </summary>
         ''' <param name="s">The string text value which is in the Fasta format.(FASTA格式的序列文本)</param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(尝试从一个字符串之中解析出一个fasta序列数据)</remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("FastaToken.Parser")>
         Public Shared Function TryParse(s As String, Optional deli As Char = DefaultHeaderDelimiter) As FastaSeq
@@ -419,12 +421,12 @@ AAGCGAACAAATGTTCTATA"
         End Function
 
         ''' <summary>
-        ''' Generate a FASTA file data text string.(将这个FASTA对象转换为文件格式以方便进行存储)
+        ''' Generate a FASTA file data text string.
         ''' </summary>
         ''' <param name="overrides">是否使用<see cref="ToString"></see>方法进行标题的复写，假若为假，则默认使用Attributes属性进行标题的生成，
         ''' 因为在继承类之中可能会复写ToString函数以生成不同的标题格式，则可以使用这个参数来决定是否使用复写的格式。</param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(将这个FASTA对象转换为文件格式以方便进行存储)</remarks>
         ''' <param name="lineBreak">大于0的数值会换行，小于或者等于0的数值不会换行</param>
         Public Function GenerateDocument(lineBreak As Integer,
                                          Optional [overrides] As Boolean = True,
@@ -613,7 +615,8 @@ AAGCGAACAAATGTTCTATA"
         End Function
 
         ''' <summary>
-        ''' Save the current fasta sequence object into the file system. <param name="lineBreak"></param> smaller than 1 will means no line break in the saved fasta sequence.
+        ''' Save the current fasta sequence object into the file system. <param name="lineBreak"></param> 
+        ''' smaller than 1 will means no line break in the saved fasta sequence.
         ''' </summary>
         ''' <param name="Path"></param>
         ''' <param name="encoding"></param>

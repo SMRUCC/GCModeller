@@ -77,7 +77,7 @@ Public Module SSDB
         Dim cuts As New FastaFile(save, throwEx:=False)
         Dim titles As New Index(Of String)(cuts.Select(Function(f) f.Title))
 
-        Using write As StreamWriter = save.OpenWriter(Encodings.ASCII)
+        Using write As IO.StreamWriter = save.OpenWriter(Encodings.ASCII)
             For Each fa In cuts
                 Call write.WriteLine(fa.GenerateDocument(60))
             Next

@@ -130,7 +130,7 @@ Namespace SequenceModel.FASTA
                    Select fa
         End Function
 
-        Sub New(fa As FASTA.FastaSeq)
+        Sub New(fa As FastaSeq)
             Call Me.New({fa})
         End Sub
 
@@ -240,19 +240,19 @@ Namespace SequenceModel.FASTA
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function LoadNucleotideData(path As String, Optional strict As Boolean = False) As FastaFile
-            Dim Data As FastaFile = FastaFile.Read(path)
+            Dim seqs As FastaFile = FastaFile.Read(path)
 
-            If Data.IsNullOrEmpty Then
+            If seqs.IsNullOrEmpty Then
 NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG_ECHO
                 Return Nothing
             End If
 
-            For Each Sequence As FastaSeq In Data._innerList
-                Sequence.SequenceData = Sequence.SequenceData.ToUpper.Replace("N", "-")
+            For Each fa As FastaSeq In seqs._innerList
+                fa.SequenceData = fa.SequenceData.ToUpper.Replace("N", "-")
             Next
 
             Dim LQuery = (From fa As FastaSeq
-                          In Data._innerList
+                          In seqs._innerList
                           Where Not fa.IsProtSource
                           Select fa).ToArray
             If strict Then
@@ -266,9 +266,9 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
                 GoTo NULL_DATA
             End If
 
-            Data = New FastaFile(LQuery, path)
+            seqs = New FastaFile(LQuery, path)
 
-            Return Data
+            Return seqs
         End Function
 
         ''' <summary>
@@ -323,8 +323,6 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         End Function
 
         Public Sub Split(saveDIR As Path)
-            Call FileIO.FileSystem.CreateDirectory(saveDIR)
-
             Dim Index As Integer
 
             For Each FASTA As FastaSeq In __innerList
@@ -429,7 +427,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="encoding">
         ''' 不同的程序会对这个由要求，例如meme程序在linux系统之中要求序列文件为unicode编码格式而windows版本的meme程序则要求ascii格式
         ''' </param>
-        ''' <remarks></remarks>
+        ''' <remarks>this function will split sequence data by 60 chars per line</remarks>
         Public Overloads Function Save(Path As String, encoding As Encoding) As Boolean
             Try
                 Return Save(60, Path, encoding)
@@ -458,7 +456,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         End Function
 
         Public Overloads Function Save(lineBreak As Integer, s As Stream, encoding As Encoding) As Boolean
-            Using writer As New StreamWriter(s, encoding)
+            Using writer As New IO.StreamWriter(s, encoding)
                 For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=lineBreak))
                     Call writer.WriteLine(seq)
                 Next
@@ -476,7 +474,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         Public Overloads Function Save(LineBreak As Integer, Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
             Static ASCII As [Default](Of Encoding) = Encoding.ASCII
 
-            Using writer As StreamWriter = (Path Or FilePath.When(Path.StringEmpty)).OpenWriter(encoding Or ASCII)
+            Using writer As IO.StreamWriter = (Path Or FilePath.When(Path.StringEmpty)).OpenWriter(encoding Or ASCII)
                 For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=LineBreak))
                     Call writer.WriteLine(seq)
                 Next

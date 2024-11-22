@@ -81,7 +81,7 @@ Public Module Assembler
             Next
         End Using
 
-        Dim refs As New Dictionary(Of String, StreamWriter)
+        Dim refs As New Dictionary(Of String, IO.StreamWriter)
 
         Call "Split SAM target file...".__INFO_ECHO
 
@@ -108,7 +108,7 @@ Public Module Assembler
 
         Call "Write SAM file parts...".__INFO_ECHO
 
-        For Each ref As StreamWriter In refs.Values
+        For Each ref As IO.StreamWriter In refs.Values
             Call ref.Flush()
             Call ref.Close()
             Call ref.Dispose()
