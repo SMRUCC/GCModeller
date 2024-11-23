@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::07a7b583c6060365d50edd37db8a119d, models\Networks\Microbiome\Membrane_transport\Membrane_transport.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 327
-    '    Code Lines: 254 (77.68%)
-    ' Comment Lines: 32 (9.79%)
-    '    - Xml Docs: 40.62%
-    ' 
-    '   Blank Lines: 41 (12.54%)
-    '     File Size: 14.88 KB
+' Summaries:
 
 
-    ' Module Membrane_transport
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: BuildTransferNetwork, MembraneComponents, TransportProcessComponents
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 327
+'    Code Lines: 254 (77.68%)
+' Comment Lines: 32 (9.79%)
+'    - Xml Docs: 40.62%
+' 
+'   Blank Lines: 41 (12.54%)
+'     File Size: 14.88 KB
+
+
+' Module Membrane_transport
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: BuildTransferNetwork, MembraneComponents, TransportProcessComponents
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -56,6 +56,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
@@ -350,7 +351,7 @@ Public Module Membrane_transport
         metabolites = metabolites.Where(Function(m) m.data.neighborhoods > threshold).ToArray
 
         Dim edgeIndexByNodeLabel As Dictionary(Of String, Edge()) = g.graphEdges _
-            .Select(Function(e) {(DirectCast(e, IInteraction).source, e), (DirectCast(e, IInteraction).target, e)}) _
+            .Select(Function(e) {(DirectCast(e, SparseGraph.IInteraction).source, e), (DirectCast(e, SparseGraph.IInteraction).target, e)}) _
             .IteratesALL _
             .GroupBy(Function(t) t.Item1) _
             .ToDictionary(Function(gr) gr.Key,
