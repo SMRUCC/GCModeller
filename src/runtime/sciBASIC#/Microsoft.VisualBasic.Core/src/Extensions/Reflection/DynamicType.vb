@@ -69,7 +69,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
-''' 
+''' Build dynamics clr runtime type
 ''' </summary>
 ''' <remarks>
 ''' https://blog.wedport.co.uk/2020/06/10/generating-c-net-core-classes-at-runtime/
@@ -142,18 +142,18 @@ Public Class DynamicType
         Dim fieldBuilder = typeBuilder.DefineField("_" & propertyName, propertyType, FieldAttributes.Private)
         Dim propertyBuilder As PropertyBuilder = typeBuilder.DefineProperty(propertyName, PropertyAttributes.HasDefault, propertyType, null)
         Dim getMethod = typeBuilder.DefineMethod("get_" & propertyName,
-        MethodAttributes.Public Or
-        MethodAttributes.SpecialName Or
-        MethodAttributes.HideBySig, propertyType, Type.EmptyTypes)
+            MethodAttributes.Public Or
+            MethodAttributes.SpecialName Or
+            MethodAttributes.HideBySig, propertyType, Type.EmptyTypes)
         Dim getMethodIL = getMethod.GetILGenerator()
         getMethodIL.Emit(OpCodes.Ldarg_0)
         getMethodIL.Emit(OpCodes.Ldfld, fieldBuilder)
         getMethodIL.Emit(OpCodes.Ret)
         Dim setMethod = typeBuilder.DefineMethod("set_" & propertyName,
-          MethodAttributes.Public Or
-          MethodAttributes.SpecialName Or
-          MethodAttributes.HideBySig,
-          null, New Type() {propertyType})
+            MethodAttributes.Public Or
+            MethodAttributes.SpecialName Or
+            MethodAttributes.HideBySig,
+            null, New Type() {propertyType})
         Dim setMethodIL = setMethod.GetILGenerator()
         Dim modifyProperty = setMethodIL.DefineLabel()
         Dim exitSet = setMethodIL.DefineLabel()
@@ -193,6 +193,11 @@ Public Class DynamicType
         Call propertyBuilder.SetCustomAttribute(attr)
     End Sub
 
+    ''' <summary>
+    ''' Create dynamics object in debug view
+    ''' </summary>
+    ''' <param name="metadata"></param>
+    ''' <returns></returns>
     Public Shared Function Create(metadata As Dictionary(Of String, Object)) As Object
         Dim properties As New List(Of PropertyInfo)
 

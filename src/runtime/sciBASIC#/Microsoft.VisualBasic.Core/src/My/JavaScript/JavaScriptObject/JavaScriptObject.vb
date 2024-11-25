@@ -296,6 +296,16 @@ Namespace My.JavaScript
             })
         End Function
 
+        Public Shared Function CreateDynamicObject(names As String(), values As Object()) As Object
+            Dim obj As New Dictionary(Of String, Object)
+
+            For i As Integer = 0 To names.Length - 1
+                obj(names(i)) = values(i)
+            Next
+
+            Return DynamicType.Create(obj)
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CreateObject(Of T As Class)() As T
             Return CreateObject(GetType(T))
