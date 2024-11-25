@@ -72,8 +72,9 @@ Namespace My.JavaScript
     ''' <summary>
     ''' javascript object
     ''' </summary>
-    Public Class JavaScriptObject : Implements IEnumerable(Of String),
-            IEnumerable(Of NamedValue(Of Object)),
+    Public Class JavaScriptObject
+        Implements IEnumerable(Of String),          ' for each key name, implements javascript foreach
+            IEnumerable(Of NamedValue(Of Object)),  ' for each key-value pair tuple value
             IJavaScriptObjectAccessor
 
         Dim members As New Dictionary(Of String, JavaScriptValue)
@@ -84,6 +85,10 @@ Namespace My.JavaScript
         ''' <returns></returns>
         Protected ReadOnly Property this As JavaScriptObject = Me
 
+        ''' <summary>
+        ''' the size of the member collection in this javascript object
+        ''' </summary>
+        ''' <returns></returns>
         <DataIgnored>
         Public ReadOnly Property length As Integer
             Get
@@ -172,6 +177,18 @@ Namespace My.JavaScript
             For Each item As KeyValuePair(Of String, Object) In obj
                 Me(item.Key) = item.Value
             Next
+        End Sub
+
+        Sub New(keys As String(), values As Object())
+            Call Me.New()
+
+            If keys.Length <> values.Length Then
+                Throw New InvalidExpressionException($"this size of the keys({keys.Length}) should be equals to the size of the values data({values.Length})!")
+            Else
+                For i As Integer = 0 To keys.Length - 1
+                    Me(keys(i)) = values(i)
+                Next
+            End If
         End Sub
 
         Public Shared Function Join(left As JavaScriptObject, right As JavaScriptObject) As JavaScriptObject
