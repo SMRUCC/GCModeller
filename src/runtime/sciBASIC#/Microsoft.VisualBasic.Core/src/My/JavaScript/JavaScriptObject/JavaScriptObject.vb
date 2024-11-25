@@ -192,7 +192,7 @@ Namespace My.JavaScript
         End Sub
 
         Public Shared Function Join(left As JavaScriptObject, right As JavaScriptObject) As JavaScriptObject
-            Dim leftObj As Dictionary(Of String, Object) = left.GetGenericJson
+            Dim leftObj As Dictionary(Of String, Object) = left.GetGenericJSON
 
             For Each item As NamedValue(Of Object) In DirectCast(right, IEnumerable(Of NamedValue(Of Object)))
                 If Not leftObj.ContainsKey(item.Name) Then
@@ -281,21 +281,28 @@ Namespace My.JavaScript
         ''' <summary>
         ''' populate all members data
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' Apply for create json in dynamics
+        ''' </returns>
+        ''' <remarks>
+        ''' only works for the object in primitive type
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetGenericJson() As Dictionary(Of String, Object)
+        Public Function GetGenericJSON() As Dictionary(Of String, Object)
             Return members.ToDictionary(Function(a) a.Key, Function(a) a.Value.GetValue)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return GetGenericJson.GetJson(knownTypes:={
-                GetType(Integer),
-                GetType(String),
-                GetType(Double),
-                GetType(Boolean)
-            })
+            Return GetGenericJSON.GetJson(knownTypes:=DataFramework.GetPrimitiveTypes)
         End Function
 
+        ''' <summary>
+        ''' A wrapper for <see cref="DynamicType.Create"/>
+        ''' </summary>
+        ''' <param name="names"></param>
+        ''' <param name="values"></param>
+        ''' <returns></returns>
         Public Shared Function CreateDynamicObject(names As String(), values As Object()) As Object
             Dim obj As New Dictionary(Of String, Object)
 
@@ -304,6 +311,20 @@ Namespace My.JavaScript
             Next
 
             Return DynamicType.Create(obj)
+        End Function
+
+        Public Shared Function CreateDynamicObject(dynamic As Type, values As IEnumerable(Of KeyValuePair(Of String, Object))) As Object
+            Dim obj As Object = Activator.CreateInstance(dynamic)
+            Dim schema = DataFramework.Schema(dynamic, flag:=PropertyAccess.Writeable, nonIndex:=True)
+
+            For Each tuple As KeyValuePair(Of String, Object) In values
+                Dim value As Object = tuple.Value
+                Dim prop As PropertyInfo = schema(tuple.Key)
+
+                Call prop.SetValue(obj, value)
+            Next
+
+            Return obj
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
