@@ -67,8 +67,8 @@ Module fileParser2
     End Sub
 
     Sub HeaderTest()
-
-
+        Dim headers As String() = {"uid", "time", "url", "ip", "ua"}
+        Dim score = GetType(Visitor).HeaderMatchScore(headers)
 
         Pause()
     End Sub
