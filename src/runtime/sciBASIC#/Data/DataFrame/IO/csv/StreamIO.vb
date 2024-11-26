@@ -81,7 +81,12 @@ Namespace IO
         Public Function HeaderMatchScore(type As Type, headers As Index(Of String)) As (hits As Integer, total As Integer)
             Dim schema As SchemaProvider = SchemaProvider.CreateObjectInternal(type)
             Dim allNames$() = schema.Properties _
-                .Select(Function(x) x.Name) _
+                .Select(Function(pi)
+                            ' 20241126
+                            ' get mapping field name or the property name
+                            ' if the mapping file attribute tag is missing
+                            Return pi.Name
+                        End Function) _
                 .ToArray
             Dim matches = Aggregate p As String
                 In allNames
