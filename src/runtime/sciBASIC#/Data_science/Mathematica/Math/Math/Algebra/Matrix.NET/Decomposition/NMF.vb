@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::955f9ab6e90ad7de08334758cec3effb, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\Decomposition\NMF.vb"
+﻿#Region "Microsoft.VisualBasic::5be4e8549ffa265e9e5b208eb535f5d2, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\Decomposition\NMF.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 128
-    '    Code Lines: 68 (53.12%)
-    ' Comment Lines: 41 (32.03%)
+    '   Total Lines: 149
+    '    Code Lines: 84 (56.38%)
+    ' Comment Lines: 41 (27.52%)
     '    - Xml Docs: 85.37%
     ' 
-    '   Blank Lines: 19 (14.84%)
-    '     File Size: 5.90 KB
+    '   Blank Lines: 24 (16.11%)
+    '     File Size: 6.65 KB
 
 
     '     Class NMF
     ' 
-    '         Properties: cost, errors, H, W
+    '         Properties: cost, errors, H, rank, W
     ' 
-    '         Function: Factorisation
+    '         Function: Decompose, Factorisation
     ' 
     '         Sub: Factorisation
     ' 
@@ -100,6 +100,26 @@ Namespace LinearAlgebra.Matrix
         Public Property H As NumericMatrix
         Public Property cost As Double
         Public Property errors As Double()
+        Public Property rank As Integer
+
+        Public Iterator Function Decompose(raw As NumericMatrix) As IEnumerable(Of NumericMatrix)
+            Dim width As Integer = raw.ColumnDimension
+
+            For i As Integer = 0 To rank - 1
+                Dim factor As Vector = H(i)
+                Dim decomposer As New List(Of Double())
+
+                For j As Integer = 0 To raw.RowDimension - 1
+                    Dim offset = W(j)
+                    Dim weight = offset(i)
+                    Dim d As Vector = (factor * raw(j)) * weight
+
+                    Call decomposer.Add(d)
+                Next
+
+                Yield New NumericMatrix(decomposer)
+            Next
+        End Function
 
         ''' <summary>
         ''' Implements Lee and Seungs Multiplicative Update Algorithm
@@ -150,7 +170,8 @@ Namespace LinearAlgebra.Matrix
                 .cost = cost,
                 .H = H,
                 .W = W,
-                .errors = errors.ToArray
+                .errors = errors.ToArray,
+                .rank = k
             }
         End Function
 
