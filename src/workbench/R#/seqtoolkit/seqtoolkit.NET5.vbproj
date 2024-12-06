@@ -73,6 +73,10 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="System.Numerics.Vectors" Version="4.6.0" />
+  </ItemGroup>
 
   <Import Project="..\Rscript_shared\Rscript_shared.projitems" Label="Shared" />
 

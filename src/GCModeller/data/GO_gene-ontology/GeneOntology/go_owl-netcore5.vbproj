@@ -80,6 +80,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
