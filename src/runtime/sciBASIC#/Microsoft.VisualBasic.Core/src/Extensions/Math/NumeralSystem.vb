@@ -87,7 +87,7 @@ Namespace Math
         ''' </summary>
         ''' <param name="number">Source number.</param>
         ''' <param name="degree">Degree of root.</param>
-        ''' <param name="precision">Precision with which the calculations are performed.</param>
+        ''' <param name="precision">Precision with which the calculations are performed. value should be in range (0,1).</param>
         ''' <returns>Root of number.</returns>
         ''' <exception cref="ArgumentOutOfRangeException">Thrown when values of degree or precision are out of range.</exception>
         ''' <exception cref="ArgumentException">Thrown when root's degree is even for calculation with negative numbers.</exception>
