@@ -129,12 +129,30 @@ Namespace Math
 #End If
 
         ''' <summary>
+        ''' Function to calculate the Least Common Multiple (LCM)
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 计算最小公倍数
+        ''' </remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function LeastCommonMultiple(a As Integer, b As Integer) As Integer
+            Return (a / EuclidGcd(a, b)) * b
+        End Function
+
+        ''' <summary>
         ''' Method which computes GCD of two numbers using Euclid's algorithm.
         ''' </summary>
         ''' <param name="a">First number.</param>
         ''' <param name="b">Second number.</param>
         ''' <returns>GCD of source numbers.</returns>
         ''' <exception cref="ArgumentOutOfRangeException">Thrown when source numbers are out of range.</exception>
+        ''' <remarks>
+        ''' 计算最大公约数
+        ''' </remarks>
         Public Function EuclidGcd(a As Integer, b As Integer) As Integer
             If a < 0 Then
                 Throw New ArgumentOutOfRangeException($"{a} is out of range.")
@@ -174,6 +192,9 @@ Namespace Math
         ''' <param name="b">Second number.</param>
         ''' <returns>GCD of source numbers.</returns>
         ''' <exception cref="ArgumentOutOfRangeException">Thrown when source numbers are out of range.</exception>
+        ''' <remarks>
+        ''' 计算最大公约数
+        ''' </remarks>
         Public Function SteinGcd(a As Integer, b As Integer) As Integer
             If a < 0 Then
                 Throw New ArgumentOutOfRangeException($"{a} is out of range.")
