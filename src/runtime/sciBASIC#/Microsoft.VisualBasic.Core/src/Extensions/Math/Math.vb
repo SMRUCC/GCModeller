@@ -498,7 +498,7 @@ Namespace Math
             End If
         End Function
 
-#If NET_48 = 1 Or netcore5 = 1 Then
+#If NET48 Or NETCOREAPP Then
 
 #Region "Sum all tuple members"
 
