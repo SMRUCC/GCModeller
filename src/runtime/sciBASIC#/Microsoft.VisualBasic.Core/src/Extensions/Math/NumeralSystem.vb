@@ -59,19 +59,23 @@ Namespace Math
     Public Module NumeralSystem
 
         ''' <summary>
-        ''' 将十进制数转换到另外的一个数进制
+        ''' A helper function for translate decimal number to the number of another kind of custom number system
         ''' </summary>
-        ''' <param name="d%"></param>
-        ''' <param name="alphas"></param>
+        ''' <param name="d"></param>
+        ''' <param name="alphabets"></param>
         ''' <returns></returns>
-        <Extension> Public Function TranslateDecimal(d%, alphas As Char()) As String
-            Dim r = d Mod alphas.Length
+        ''' <remarks>
+        ''' 将十进制数转换到另外的一个数进制
+        ''' </remarks>
+        <Extension>
+        Public Function TranslateDecimal(d%, alphabets As Char()) As String
+            Dim r = d Mod alphabets.Length
             Dim result$
 
             If (d - r = 0) Then
-                result = alphas(r)
+                result = alphabets(r)
             Else
-                result = ((d - r) \ alphas.Length).TranslateDecimal(alphas) & alphas(r)
+                result = ((d - r) \ alphabets.Length).TranslateDecimal(alphabets) & alphabets(r)
             End If
 
             Return result

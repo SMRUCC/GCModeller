@@ -128,6 +128,92 @@ Namespace Math
         End Function
 #End If
 
+        ''' <summary>
+        ''' Method which computes GCD of two numbers using Euclid's algorithm.
+        ''' </summary>
+        ''' <param name="numberFirst">First number.</param>
+        ''' <param name="numberSecond">Second number.</param>
+        ''' <returns>GCD of source numbers.</returns>
+        ''' <exception cref="ArgumentOutOfRangeException">Thrown when source numbers are out of range.</exception>
+        Public Function EuclidGcd(numberFirst As Integer, numberSecond As Integer) As Integer
+            If numberFirst < 0 Then
+                Throw New ArgumentOutOfRangeException($"{numberFirst} is out of range.")
+            End If
+
+            If numberSecond < 0 Then
+                Throw New ArgumentOutOfRangeException($"{numberSecond} is out of range.")
+            End If
+
+            If numberFirst = numberSecond Then
+                Return numberFirst
+            End If
+
+            If numberFirst = 0 Then
+                Return numberSecond
+            End If
+
+            If numberSecond = 0 Then
+                Return numberFirst
+            End If
+
+            While numberFirst <> numberSecond
+                If numberFirst > numberSecond Then
+                    numberFirst = numberFirst - numberSecond
+                Else
+                    numberSecond = numberSecond - numberFirst
+                End If
+            End While
+
+            Return numberFirst
+        End Function
+
+        ''' <summary>
+        ''' Method which computes GCD of two numbers using Stein's algorithm.
+        ''' </summary>
+        ''' <param name="numberFirst">First number.</param>
+        ''' <param name="numberSecond">Second number.</param>
+        ''' <returns>GCD of source numbers.</returns>
+        ''' <exception cref="ArgumentOutOfRangeException">Thrown when source numbers are out of range.</exception>
+        Public Function SteinGcd(numberFirst As Integer, numberSecond As Integer) As Integer
+            If numberFirst < 0 Then
+                Throw New ArgumentOutOfRangeException($"{numberFirst} is out of range.")
+            End If
+
+            If numberSecond < 0 Then
+                Throw New ArgumentOutOfRangeException($"{numberSecond} is out of range.")
+            End If
+
+            If numberFirst = numberSecond Then
+                Return numberFirst
+            End If
+
+            If numberFirst = 0 Then
+                Return numberSecond
+            End If
+
+            If numberSecond = 0 Then
+                Return numberFirst
+            End If
+
+            If (Not numberFirst And 1) <> 0 Then
+                If (numberSecond And 1) <> 0 Then
+                    Return SteinGcd(numberFirst >> 1, numberSecond)
+                End If
+
+                Return SteinGcd(numberFirst >> 1, numberSecond >> 1) << 1
+            End If
+
+            If (Not numberSecond And 1) <> 0 Then
+                Return SteinGcd(numberFirst, numberSecond >> 1)
+            End If
+
+            If numberFirst > numberSecond Then
+                Return SteinGcd(numberFirst - numberSecond >> 1, numberSecond)
+            End If
+
+            Return SteinGcd(numberSecond - numberFirst >> 1, numberFirst)
+        End Function
+
         Public Function Permut(k As Integer, n As Integer) As Long
             Dim nfactors As Integer() = (n - 1).SeqIterator(offset:=1).ToArray
             Dim nkfactors As Integer() = (n - k - 1).SeqIterator(offset:=1).ToArray
