@@ -58,10 +58,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="8.0.10" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\FisherCore\Fisher.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj" />

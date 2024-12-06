@@ -147,10 +147,6 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="8.0.10" />
-  </ItemGroup>
-
 
 
   <Import Project="..\..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems" Label="Shared" />
