@@ -131,87 +131,87 @@ Namespace Math
         ''' <summary>
         ''' Method which computes GCD of two numbers using Euclid's algorithm.
         ''' </summary>
-        ''' <param name="numberFirst">First number.</param>
-        ''' <param name="numberSecond">Second number.</param>
+        ''' <param name="a">First number.</param>
+        ''' <param name="b">Second number.</param>
         ''' <returns>GCD of source numbers.</returns>
         ''' <exception cref="ArgumentOutOfRangeException">Thrown when source numbers are out of range.</exception>
-        Public Function EuclidGcd(numberFirst As Integer, numberSecond As Integer) As Integer
-            If numberFirst < 0 Then
-                Throw New ArgumentOutOfRangeException($"{numberFirst} is out of range.")
+        Public Function EuclidGcd(a As Integer, b As Integer) As Integer
+            If a < 0 Then
+                Throw New ArgumentOutOfRangeException($"{a} is out of range.")
             End If
 
-            If numberSecond < 0 Then
-                Throw New ArgumentOutOfRangeException($"{numberSecond} is out of range.")
+            If b < 0 Then
+                Throw New ArgumentOutOfRangeException($"{b} is out of range.")
             End If
 
-            If numberFirst = numberSecond Then
-                Return numberFirst
+            If a = b Then
+                Return a
             End If
 
-            If numberFirst = 0 Then
-                Return numberSecond
+            If a = 0 Then
+                Return b
             End If
 
-            If numberSecond = 0 Then
-                Return numberFirst
+            If b = 0 Then
+                Return a
             End If
 
-            While numberFirst <> numberSecond
-                If numberFirst > numberSecond Then
-                    numberFirst = numberFirst - numberSecond
+            While a <> b
+                If a > b Then
+                    a = a - b
                 Else
-                    numberSecond = numberSecond - numberFirst
+                    b = b - a
                 End If
             End While
 
-            Return numberFirst
+            Return a
         End Function
 
         ''' <summary>
         ''' Method which computes GCD of two numbers using Stein's algorithm.
         ''' </summary>
-        ''' <param name="numberFirst">First number.</param>
-        ''' <param name="numberSecond">Second number.</param>
+        ''' <param name="a">First number.</param>
+        ''' <param name="b">Second number.</param>
         ''' <returns>GCD of source numbers.</returns>
         ''' <exception cref="ArgumentOutOfRangeException">Thrown when source numbers are out of range.</exception>
-        Public Function SteinGcd(numberFirst As Integer, numberSecond As Integer) As Integer
-            If numberFirst < 0 Then
-                Throw New ArgumentOutOfRangeException($"{numberFirst} is out of range.")
+        Public Function SteinGcd(a As Integer, b As Integer) As Integer
+            If a < 0 Then
+                Throw New ArgumentOutOfRangeException($"{a} is out of range.")
             End If
 
-            If numberSecond < 0 Then
-                Throw New ArgumentOutOfRangeException($"{numberSecond} is out of range.")
+            If b < 0 Then
+                Throw New ArgumentOutOfRangeException($"{b} is out of range.")
             End If
 
-            If numberFirst = numberSecond Then
-                Return numberFirst
+            If a = b Then
+                Return a
             End If
 
-            If numberFirst = 0 Then
-                Return numberSecond
+            If a = 0 Then
+                Return b
             End If
 
-            If numberSecond = 0 Then
-                Return numberFirst
+            If b = 0 Then
+                Return a
             End If
 
-            If (Not numberFirst And 1) <> 0 Then
-                If (numberSecond And 1) <> 0 Then
-                    Return SteinGcd(numberFirst >> 1, numberSecond)
+            If (Not a And 1) <> 0 Then
+                If (b And 1) <> 0 Then
+                    Return SteinGcd(a >> 1, b)
                 End If
 
-                Return SteinGcd(numberFirst >> 1, numberSecond >> 1) << 1
+                Return SteinGcd(a >> 1, b >> 1) << 1
             End If
 
-            If (Not numberSecond And 1) <> 0 Then
-                Return SteinGcd(numberFirst, numberSecond >> 1)
+            If (Not b And 1) <> 0 Then
+                Return SteinGcd(a, b >> 1)
             End If
 
-            If numberFirst > numberSecond Then
-                Return SteinGcd(numberFirst - numberSecond >> 1, numberSecond)
+            If a > b Then
+                Return SteinGcd(a - b >> 1, b)
             End If
 
-            Return SteinGcd(numberSecond - numberFirst >> 1, numberFirst)
+            Return SteinGcd(b - a >> 1, a)
         End Function
 
         Public Function Permut(k As Integer, n As Integer) As Long
