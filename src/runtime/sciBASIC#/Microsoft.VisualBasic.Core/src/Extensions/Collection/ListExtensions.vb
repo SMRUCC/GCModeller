@@ -425,4 +425,10 @@ Public Module ListExtensions
             Next
         End If
     End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Sub AddFirst(Of T)(ByRef list As System.Collections.Generic.List(Of T), x As T)
+        Call list.Insert(0, x)
+    End Sub
 End Module
