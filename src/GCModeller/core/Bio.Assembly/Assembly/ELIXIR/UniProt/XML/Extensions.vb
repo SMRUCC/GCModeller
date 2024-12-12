@@ -74,9 +74,7 @@ Namespace Assembly.Uniprot.XML
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ProteinSequence(prot As entry) As String
-            Return prot _
-                .sequence _
-                .sequence _
+            Return prot.sequence.sequence _
                 .LineTokens _
                 .JoinBy("") _
                 .Replace(" ", "")
