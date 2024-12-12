@@ -171,6 +171,12 @@ Namespace SVG
                             .Y = y + M.Y
                         }
                     End If
+                ElseIf TypeOf svgElement Is SvgCircle Then
+                    Yield New GeometryElement With {
+                        .svgElement = svgElement,
+                        .X = x,
+                        .Y = y
+                    }
                 End If
             Next
         End Function
