@@ -142,7 +142,7 @@ Namespace SVG
                 Dim y As Double = Val(svgElement("y")) + offsetY
                 Dim transform As New Transform(svgElement("transform"))
 
-                With transform.translate
+                With transform.GetOffsetTransform
                     x += .X
                     y += .Y
                 End With
