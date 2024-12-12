@@ -52,7 +52,9 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -64,6 +66,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
+Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
 
 ''' <summary>
 ''' The Universal Protein Resource (UniProt)
@@ -112,7 +115,7 @@ Module uniprot
     End Sub
 
     <RGenericOverloads("as.data.frame")>
-    Private Function uniprotProteinTable(uniprot As entry(), args As list, env As Environment) As dataframe
+    Private Function uniprotProteinTable(uniprot As entry(), args As list, env As Environment) As DataFrame
         Return proteinTable(uniprot, env)
     End Function
 
@@ -169,6 +172,25 @@ Module uniprot
         Dim proteins As entry() = uniprot.entries
 
         Return proteins
+    End Function
+
+    ''' <summary>
+    ''' read uniprot protein export output tsv file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.proteinTable")>
+    <RApiReturn(GetType(SMRUCC.genomics.Assembly.Uniprot.Web.Entry))>
+    Public Function readProteinTable(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim buf = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
+
+        If buf Like GetType(Message) Then
+            Return buf.TryCast(Of Message)
+        End If
+
+        Dim df As New csv(FileLoader.Load(buf.TryCast(Of Stream), trimBlanks:=False, isTsv:=True))
+
     End Function
 
     ''' <summary>
@@ -231,7 +253,7 @@ Module uniprot
                     End Function) _
             .ToArray
 
-        Return New dataframe With {
+        Return New DataFrame With {
             .columns = New Dictionary(Of String, Array) From {
                 {"uniprotId", uniprotId},
                 {"name", name},
@@ -282,7 +304,7 @@ Module uniprot
             .Select(Function(c) c.subcellularLocations) _
             .IteratesALL _
             .ToArray
-        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim df As New DataFrame With {.columns = New Dictionary(Of String, Array)}
         Dim flat_all = locs.Select(Function(c) c.locations.SafeQuery.Select(Function(l) (l, c.topology))).IteratesALL.ToArray
 
         Call df.add("location", From loc In flat_all Select loc.l.value)
