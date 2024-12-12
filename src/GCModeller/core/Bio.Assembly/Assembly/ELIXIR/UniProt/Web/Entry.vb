@@ -60,7 +60,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Namespace Assembly.Uniprot.Web
 
     ''' <summary>
-    ''' tabular export of the protein list
+    ''' tabular export of the protein list in tsv format
     ''' </summary>
     Public Class Entry
 
