@@ -67,6 +67,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports proteinTable = SMRUCC.genomics.Assembly.Uniprot.Web.Entry
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
