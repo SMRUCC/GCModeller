@@ -54,6 +54,7 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -65,8 +66,9 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
-Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports proteinTable = SMRUCC.genomics.Assembly.Uniprot.Web.Entry
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' The Universal Protein Resource (UniProt)
@@ -181,7 +183,7 @@ Module uniprot
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("read.proteinTable")>
-    <RApiReturn(GetType(SMRUCC.genomics.Assembly.Uniprot.Web.Entry))>
+    <RApiReturn(GetType(proteinTable))>
     Public Function readProteinTable(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
         Dim buf = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
 
@@ -190,7 +192,9 @@ Module uniprot
         End If
 
         Dim df As New csv(FileLoader.Load(buf.TryCast(Of Stream), trimBlanks:=False, isTsv:=True))
+        Dim result As proteinTable() = df.AsDataSource(Of proteinTable)(silent:=True).ToArray
 
+        Return result
     End Function
 
     ''' <summary>
