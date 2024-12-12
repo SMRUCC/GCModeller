@@ -174,8 +174,8 @@ Namespace SVG
                 ElseIf TypeOf svgElement Is SvgCircle Then
                     Yield New GeometryElement With {
                         .svgElement = svgElement,
-                        .X = x,
-                        .Y = y
+                        .X = x + DirectCast(svgElement, SvgCircle).CX,
+                        .Y = y + DirectCast(svgElement, SvgCircle).CY
                     }
                 End If
             Next
