@@ -158,7 +158,7 @@ Namespace Plots
                 Optional hullConvexList As IEnumerable(Of String) = Nothing,
                 Optional verbose As Boolean = False)
 
-            Call Me.New({New SerialData("Scatter data", scatter)}, theme,
+            Call Me.New({New SerialData("Scatter data", scatter) With {.pointSize = theme.pointSize}}, theme,
                         scatterReorder:=scatterReorder,
                         fillPie:=fillPie,
                         ablines:=ablines,
