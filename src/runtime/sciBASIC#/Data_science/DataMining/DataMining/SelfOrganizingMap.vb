@@ -80,7 +80,7 @@ Public Class SelfOrganizingMap
             Next
 
             ' Decrease the learning rate
-            learningRate *= alpha
+            learningRate -= learningRate * alpha
         Next
 
         ' Set the neuron weights as representative colors
