@@ -104,7 +104,17 @@ Namespace Assembly.Uniprot.Web
             For Each loc As String In list1
                 If loc <> "" Then
                     Dim evidence = loc.Match("[{].+[}]")
+
+                    ' invalid format?
+                    If evidence = "" Then
+                        Continue For
+                    End If
+
                     Dim name As String = loc.Replace(evidence, "").Trim
+
+                    If name = "" Then
+                        Continue For
+                    End If
 
                     Yield New NamedCollection(Of String)(name, evidence.GetStackValue("{", "}").StringSplit("[,]\s*"))
                 End If
@@ -113,7 +123,17 @@ Namespace Assembly.Uniprot.Web
             For Each loc As String In list2
                 If loc <> "" Then
                     Dim evidence = loc.Match("\[.+\]")
+
+                    ' invalid format?
+                    If evidence = "" Then
+                        Continue For
+                    End If
+
                     Dim name As String = loc.Replace(evidence, "").Trim
+
+                    If name = "" Then
+                        Continue For
+                    End If
 
                     Yield New NamedCollection(Of String)(name, evidence.GetStackValue("[", "]").StringSplit("[;,]\s*"))
                 End If
