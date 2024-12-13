@@ -62,7 +62,7 @@ Public Class SelfOrganizingMap
         Dim w = RectangularArray.Matrix(Of Double)(numberOfNeurons, numberOfFeatures)
         For i As Integer = 0 To numberOfNeurons - 1
             For j As Integer = 0 To numberOfFeatures - 1
-                w(i)(j) = randf.Next(globalMax)
+                w(i)(j) = randf.NextDouble * globalMax
             Next
         Next
 
