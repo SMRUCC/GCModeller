@@ -44,7 +44,7 @@ Public Class SOMEmbedding : Inherits Plot
 
     Private Sub plot2D(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim points As New List(Of PointData)
-        Dim class_id As String() = som.class_id.AsCharacter
+        Dim class_id As String() = som.class_id.AsCharacter.ToArray
         Dim colors = New CategoryColorProfile(class_id, Designer.GetColors(theme.colorSet, class_id.Distinct.Count))
         Dim embedding = som.embeddings
 
