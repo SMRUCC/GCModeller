@@ -102,17 +102,21 @@ Namespace Assembly.Uniprot.Web
             Dim list2 = protein.GeneOntology_cellular_component.StringSplit("[;]\s*")
 
             For Each loc As String In list1
-                Dim evidence = loc.Match("[{].+[}]")
-                Dim name As String = loc.Replace(evidence, "").Trim
+                If loc <> "" Then
+                    Dim evidence = loc.Match("[{].+[}]")
+                    Dim name As String = loc.Replace(evidence, "").Trim
 
-                Yield New NamedCollection(Of String)(name, evidence.GetStackValue("{", "}").StringSplit("[,]\s*"))
+                    Yield New NamedCollection(Of String)(name, evidence.GetStackValue("{", "}").StringSplit("[,]\s*"))
+                End If
             Next
 
             For Each loc As String In list2
-                Dim evidence = loc.Match("\[.+\]")
-                Dim name As String = loc.Replace(evidence, "").Trim
+                If loc <> "" Then
+                    Dim evidence = loc.Match("\[.+\]")
+                    Dim name As String = loc.Replace(evidence, "").Trim
 
-                Yield New NamedCollection(Of String)(name, evidence.GetStackValue("[", "]").StringSplit("[;,]\s*"))
+                    Yield New NamedCollection(Of String)(name, evidence.GetStackValue("[", "]").StringSplit("[;,]\s*"))
+                End If
             Next
         End Function
     End Class
