@@ -55,6 +55,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Namespace Assembly.Uniprot.Web
@@ -92,6 +93,51 @@ Namespace Assembly.Uniprot.Web
 
         Public Overrides Function ToString() As String
             Return Entry.ToString
+        End Function
+
+        Public Shared Iterator Function ParseSubcellularLocation(protein As Entry) As IEnumerable(Of NamedCollection(Of String))
+            ' "SUBCELLULAR LOCATION: Cytoplasm {ECO:0000256|RuleBase:RU367123}. Golgi apparatus, trans-Golgi network membrane {ECO:0000256|ARBA:ARBA00004150, ECO:0000256|RuleBase:RU367123}; Peripheral membrane protein {ECO:0000256|ARBA:ARBA00004150, ECO:0000256|RuleBase:RU367123}. Endosome membrane {ECO:0000256|ARBA:ARBA00004481, ECO:0000256|RuleBase:RU367123}; Peripheral membrane protein {ECO:0000256|ARBA:ARBA00004481, ECO:0000256|RuleBase:RU367123}. Endoplasmic reticulum membrane {ECO:0000256|ARBA:ARBA00004406, ECO:0000256|RuleBase:RU367123}; Peripheral membrane protein {ECO:0000256|ARBA:ARBA00004406, ECO:0000256|RuleBase:RU367123}. Mitochondrion membrane {ECO:0000256|ARBA:ARBA00004318, ECO:0000256|RuleBase:RU367123}; Peripheral membrane protein {ECO:0000256|ARBA:ARBA00004318, ECO:0000256|RuleBase:RU367123}. Cytoplasmic vesicle, autophagosome {ECO:0000256|RuleBase:RU367123}. Nucleus {ECO:0000256|ARBA:ARBA00004123}."
+
+            Dim list1 = Strings.Trim(protein.Subcellular_location_CC).Replace("SUBCELLULAR LOCATION:", "").Trim.StringSplit("[.;]\s*")
+            Dim list2 = protein.GeneOntology_cellular_component.StringSplit("[;]\s*")
+
+            For Each loc As String In list1
+                If loc <> "" Then
+                    Dim evidence = loc.Match("[{].+[}]")
+
+                    ' invalid format?
+                    If evidence = "" Then
+                        Continue For
+                    End If
+
+                    Dim name As String = loc.Replace(evidence, "").Trim
+
+                    If name = "" Then
+                        Continue For
+                    End If
+
+                    Yield New NamedCollection(Of String)(name, evidence.GetStackValue("{", "}").StringSplit("[,]\s*"))
+                End If
+            Next
+
+            For Each loc As String In list2
+                If loc <> "" Then
+                    Dim evidence = loc.Match("\[.+\]")
+
+                    ' invalid format?
+                    If evidence = "" Then
+                        Continue For
+                    End If
+
+                    Dim name As String = loc.Replace(evidence, "").Trim
+
+                    If name = "" Then
+                        Continue For
+                    End If
+
+                    Yield New NamedCollection(Of String)(name, evidence.GetStackValue("[", "]").StringSplit("[;,]\s*"))
+                End If
+            Next
         End Function
     End Class
 End Namespace
