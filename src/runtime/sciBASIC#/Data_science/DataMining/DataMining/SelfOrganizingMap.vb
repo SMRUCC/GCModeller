@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
@@ -19,6 +20,8 @@ Public Class SelfOrganizingMap
     ''' weight matrix
     ''' </summary>
     Dim neuronWeights As Double()()
+    Dim pixelsData As Double()()
+    Dim class_id As Integer()
 
     ''' <summary>
     ''' 
@@ -35,10 +38,16 @@ Public Class SelfOrganizingMap
     ''' 
     ''' </summary>
     ''' <param name="pixels">dataset for run the training, data should be an rectangle array, with 2nd dimension size should be equals to <see cref="depth"/>.</param>
-    Public Overridable Sub train(pixels As Double()(), Optional learningRate As Double = 0.9, Optional numberOfIterations As Integer = 500)
+    Public Sub train(pixels As Double()(),
+                     Optional learningRate As Double = 0.9,
+                     Optional alpha As Double = 0.01,
+                     Optional numberOfIterations As Integer = 500)
+
         Dim numberOfPixels = pixels.Length
         Dim numberOfFeatures = pixels(0).Length
         Dim globalMax As Double = Aggregate f In pixels Into Max(f.Max)
+
+        pixelsData = RectangularArray.CopyOf(pixels)
 
         ' Initialize neuron weights randomly
         Dim w = RectangularArray.Matrix(Of Double)(numberOfNeurons, numberOfFeatures)
@@ -49,7 +58,7 @@ Public Class SelfOrganizingMap
         Next
 
         ' SOM training algorithm
-        For iteration As Integer = 0 To numberOfIterations - 1
+        For Each iteration As Integer In TqdmWrapper.Range(0, numberOfIterations)
             ' Randomly shuffle the pixels
             Call shufflePixels(pixels)
 
@@ -62,11 +71,12 @@ Public Class SelfOrganizingMap
             Next
 
             ' Decrease the learning rate
-            learningRate *= 0.1
+            learningRate *= alpha
         Next
 
         ' Set the neuron weights as representative colors
         neuronWeights = w
+        class_id = clusterId()
     End Sub
 
     Private Sub shufflePixels(ByRef pixels As Double()())
@@ -106,16 +116,15 @@ Public Class SelfOrganizingMap
     ''' <summary>
     ''' matrix data clustering
     ''' </summary>
-    ''' <param name="pixels"></param>
     ''' <returns></returns>
-    Public Overridable Function ClusterId(pixels As Double()()) As Integer()
-        Dim numberOfPixels = pixels.Length
-        Dim assignedNeurons = New Integer(numberOfPixels - 1) {}
+    Private Function clusterId() As Integer()
+        Dim numberOfPixels = pixelsData.Length
+        Dim class_id = New Integer(numberOfPixels - 1) {}
 
         For i As Integer = 0 To numberOfPixels - 1
-            assignedNeurons(i) = findNearestNeuron(pixels(i), neuronWeights)
+            class_id(i) = findNearestNeuron(pixelsData(i), neuronWeights)
         Next
 
-        Return assignedNeurons
+        Return class_id
     End Function
 End Class
