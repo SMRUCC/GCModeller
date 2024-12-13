@@ -46,11 +46,12 @@ Public Class SelfOrganizingMap
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="pixels">dataset for run the training, data should be an rectangle array, with 2nd dimension size should be equals to <see cref="depth"/>.</param>
+    ''' <param name="pixels">dataset for run the training, data should be an rectangle array, 
+    ''' with 2nd dimension size should be equals to <see cref="depth"/>.</param>
     Public Function train(ByRef pixels As Double()(),
                           Optional learningRate As Double = 0.9,
                           Optional alpha As Double = 0.01,
-                          Optional numberOfIterations As Integer = 500) As SelfOrganizingMap
+                          Optional epoch As Integer = 500) As SelfOrganizingMap
 
         Dim numberOfPixels = pixels.Length
         Dim numberOfFeatures = pixels(0).Length
@@ -67,7 +68,7 @@ Public Class SelfOrganizingMap
         Next
 
         ' SOM training algorithm
-        For Each iteration As Integer In TqdmWrapper.Range(0, numberOfIterations)
+        For Each iteration As Integer In TqdmWrapper.Range(0, epoch)
             ' Randomly shuffle the pixels
             Call shufflePixels(pixels)
 
@@ -120,7 +121,7 @@ Public Class SelfOrganizingMap
         Dim neuronWeights = neuronWeightsMatrix(nearestNeuron)
 
         For i As Integer = 0 To neuronWeights.Length - 1
-            neuronWeights(i) += CInt(learningRate * (pixel(i) - neuronWeights(i)))
+            neuronWeights(i) += learningRate * (pixel(i) - neuronWeights(i))
         Next
     End Sub
 
