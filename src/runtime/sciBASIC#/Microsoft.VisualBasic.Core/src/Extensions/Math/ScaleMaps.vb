@@ -231,11 +231,11 @@ Namespace Math
             Dim rms As Double = VBMath.RMS(data)
 
             If center Then
-                data = (From n In data Select n - avg).ToArray
+                data = (From n As Double In data Select n - avg).ToArray
             End If
 
             If isScale Then
-                data = (From n In data Select n / rms).ToArray
+                data = (From n As Double In data Select n / rms).ToArray
             End If
 
             Return data.ToArray
