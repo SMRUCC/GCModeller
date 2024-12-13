@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports std = System.Math
 
 ''' <summary>
 ''' SOM: Self-Organizing Map
@@ -56,6 +57,12 @@ Public Class SelfOrganizingMap
         Dim numberOfPixels = pixels.Length
         Dim numberOfFeatures = pixels(0).Length
         Dim globalMax As Double = Aggregate f In pixels Into Max(f.Max)
+        Dim globalMin As Double = Aggregate f In pixels Into Min(f.Min)
+        Dim delta As Double = globalMax - globalMin
+        Dim initialLearningRate = learningRate
+        Dim decaySteps As Integer = epoch / 5
+
+        Const minLearningRate = 0.001
 
         pixelsData = RectangularArray.CopyOf(pixels)
 
@@ -63,7 +70,8 @@ Public Class SelfOrganizingMap
         Dim w = RectangularArray.Matrix(Of Double)(numberOfNeurons, numberOfFeatures)
         For i As Integer = 0 To numberOfNeurons - 1
             For j As Integer = 0 To numberOfFeatures - 1
-                w(i)(j) = randf.NextDouble * globalMax
+                ' Initialize with a random value within the data range
+                w(i)(j) = globalMin + randf.NextDouble * delta
             Next
         Next
 
@@ -81,7 +89,8 @@ Public Class SelfOrganizingMap
             Next
 
             ' Decrease the learning rate
-            learningRate -= learningRate * alpha
+            ' Update the learning rate linearly
+            learningRate = std.Max(minLearningRate, initialLearningRate - (initialLearningRate - minLearningRate) * (iteration / decaySteps))
         Next
 
         ' Set the neuron weights as representative colors
