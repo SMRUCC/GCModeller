@@ -8,7 +8,7 @@ Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 ''' </summary>
 Public Class SelfOrganizingMap
 
-    ReadOnly numberOfNeurons As Integer
+    Public ReadOnly Property numberOfNeurons As Integer
 
     ''' <summary>
     ''' data channel depth
