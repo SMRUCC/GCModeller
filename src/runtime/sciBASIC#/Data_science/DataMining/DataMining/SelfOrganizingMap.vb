@@ -21,7 +21,8 @@ Public Class SelfOrganizingMap
     ''' </summary>
     Dim neuronWeights As Double()()
     Dim pixelsData As Double()()
-    Dim class_id As Integer()
+
+    Public ReadOnly Property class_id As IReadOnlyCollection(Of Integer)
 
     ''' <summary>
     ''' 
@@ -37,11 +38,19 @@ Public Class SelfOrganizingMap
     ''' <summary>
     ''' 
     ''' </summary>
+    ''' <returns></returns>
+    Public Function embeddings() As Double()()
+        Return neuronWeights.ToArray
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
     ''' <param name="pixels">dataset for run the training, data should be an rectangle array, with 2nd dimension size should be equals to <see cref="depth"/>.</param>
-    Public Sub train(pixels As Double()(),
-                     Optional learningRate As Double = 0.9,
-                     Optional alpha As Double = 0.01,
-                     Optional numberOfIterations As Integer = 500)
+    Public Function train(ByRef pixels As Double()(),
+                          Optional learningRate As Double = 0.9,
+                          Optional alpha As Double = 0.01,
+                          Optional numberOfIterations As Integer = 500) As SelfOrganizingMap
 
         Dim numberOfPixels = pixels.Length
         Dim numberOfFeatures = pixels(0).Length
@@ -76,8 +85,10 @@ Public Class SelfOrganizingMap
 
         ' Set the neuron weights as representative colors
         neuronWeights = w
-        class_id = clusterId()
-    End Sub
+        _class_id = clusterId()
+
+        Return Me
+    End Function
 
     Private Sub shufflePixels(ByRef pixels As Double()())
         For i As Integer = pixels.Length - 1 To 1 Step -1
