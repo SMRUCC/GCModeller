@@ -208,7 +208,7 @@ declare namespace geneExpression {
     * 
     * 
      * @param x -
-     * @param missingDefault -
+     * @param missingDefault set NA missing value to zero by default
      * 
      * + default value Is ``0``.
      * @param env -
@@ -249,6 +249,10 @@ declare namespace geneExpression {
    */
    function geneId(dep: any, env?: object): string;
    /**
+    * set the zero value to the half of the min positive value
+    * 
+    * 
+     * @param x an expression matrix object that may contains zero
    */
    function impute_missing(x: object): object;
    /**
