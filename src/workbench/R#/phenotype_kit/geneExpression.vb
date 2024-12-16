@@ -401,7 +401,9 @@ Module geneExpression
     ''' set the NaN missing value to default value
     ''' </summary>
     ''' <param name="x"></param>
-    ''' <param name="missingDefault"></param>
+    ''' <param name="missingDefault">
+    ''' set NA missing value to zero by default
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("filterNaNMissing")>
@@ -418,6 +420,11 @@ Module geneExpression
         Return x
     End Function
 
+    ''' <summary>
+    ''' set the zero value to the half of the min positive value
+    ''' </summary>
+    ''' <param name="x">an expression matrix object that may contains zero</param>
+    ''' <returns></returns>
     <ExportAPI("impute_missing")>
     <RApiReturn(GetType(Matrix))>
     Public Function imputeMissing(x As Matrix) As Object
