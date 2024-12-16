@@ -149,6 +149,13 @@ Public Class SparseGraph : Implements ISparseGraph
     Dim index_u As Dictionary(Of String, IInteraction())
     Dim graph As Edge()
 
+    Sub New()
+    End Sub
+
+    Sub New(edges As IEnumerable(Of Edge))
+        Me.Edges = edges.ToArray
+    End Sub
+
     Public Overrides Function ToString() As String
         Dim vlist = Vertex
         Return $"sparse graph of {vlist.Length}x{vlist.Length} vertex and {graph.Length} edges."
@@ -207,6 +214,11 @@ Public Class SparseGraph : Implements ISparseGraph
         Next
     End Function
 
+    ''' <summary>
+    ''' make graph structure data copy
+    ''' </summary>
+    ''' <param name="g"></param>
+    ''' <returns></returns>
     Public Shared Function Copy(g As ISparseGraph) As SparseGraph
         Dim edges As Edge() = g.GetGraph.Select(Function(e) New Edge(e)).ToArray
         Dim graph As New SparseGraph With {.Edges = edges}

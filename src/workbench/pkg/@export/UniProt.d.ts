@@ -108,4 +108,16 @@ declare namespace uniprot {
      * + default value Is ``null``.
    */
    function proteinTable(uniprot: any, env?: object): any;
+   module read {
+      /**
+       * read uniprot protein export output tsv file
+       * 
+       * 
+        * @param file -
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function proteinTable(file: any, env?: object): object;
+   }
 }

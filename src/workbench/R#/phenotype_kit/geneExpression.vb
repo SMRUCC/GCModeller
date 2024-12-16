@@ -401,7 +401,9 @@ Module geneExpression
     ''' set the NaN missing value to default value
     ''' </summary>
     ''' <param name="x"></param>
-    ''' <param name="missingDefault"></param>
+    ''' <param name="missingDefault">
+    ''' set NA missing value to zero by default
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("filterNaNMissing")>
@@ -418,6 +420,11 @@ Module geneExpression
         Return x
     End Function
 
+    ''' <summary>
+    ''' set the zero value to the half of the min positive value
+    ''' </summary>
+    ''' <param name="x">an expression matrix object that may contains zero</param>
+    ''' <returns></returns>
     <ExportAPI("impute_missing")>
     <RApiReturn(GetType(Matrix))>
     Public Function imputeMissing(x As Matrix) As Object
@@ -780,6 +787,9 @@ Module geneExpression
     <RApiReturn(GetType(Matrix), GetType(Double))>
     Public Function average(matrix As Matrix, Optional sampleinfo As SampleInfo() = Nothing) As Object
         If sampleinfo.IsNullOrEmpty Then
+            If Not sampleinfo Is Nothing Then
+                Call "the provided sample information is not nothing, but collection is empty. numeric vector of average for each gene expression will be returns.".Warning
+            End If
             Return matrix.expression.Select(Function(v) v.Average).ToArray
         Else
             Return Matrix.MatrixAverage(matrix, sampleinfo)
