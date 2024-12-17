@@ -111,6 +111,19 @@ Namespace Serialization.BinaryDumping
             Return vals
         End Function
 
+        Public Function Base64String(data As IEnumerable(Of Single), Optional gzip As Boolean = False) As String
+            Dim raw As Byte() = GetBytes(data)
+            Dim str As String
+
+            If gzip Then
+                str = raw.GZipAsBase64(noMagic:=False)
+            Else
+                str = Base64Codec.ToBase64String(raw)
+            End If
+
+            Return str
+        End Function
+
         Public Function Base64String(data As IEnumerable(Of Integer), Optional gzip As Boolean = False) As String
             Dim raw As Byte() = GetBytes(data)
             Dim str As String
@@ -162,6 +175,11 @@ Namespace Serialization.BinaryDumping
         Public Function ParseInteger(raw As Byte()) As Integer()
             Return decodei32(raw)
         End Function
+
+        Public Function GetBytes(i As IEnumerable(Of Single)) As Byte()
+            Return encode32(i.SafeQuery.ToArray)
+        End Function
+
 
         Public Function GetBytes(i As IEnumerable(Of Integer)) As Byte()
             Return encodei32(i.SafeQuery.ToArray)
