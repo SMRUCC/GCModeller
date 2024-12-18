@@ -117,6 +117,9 @@ Module GSEA
                 .ToArray
         }
 
+        table.columns("class") = result.Select(Function(d) d.class).ToArray
+        table.columns("category") = result.Select(Function(d) d.category).ToArray
+
         table.columns("name") = result.Select(Function(d) d.name).ToArray
         table.columns("description") = result.Select(Function(d) d.description).ToArray
         table.columns("cluster") = result.Select(Function(d) d.cluster).ToArray
