@@ -89,6 +89,9 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     <XmlElement>
     Public Property description As String
 
+    <XmlAttribute> Public Property category As String
+    <XmlAttribute> Public Property [class] As String
+
     ''' <summary>
     ''' 当前的这个聚类之中的基因列表
     ''' </summary>
