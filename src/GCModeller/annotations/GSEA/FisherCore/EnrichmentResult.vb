@@ -61,6 +61,9 @@ Public Class EnrichmentResult
 
     Public Property term As String
     Public Property name As String
+
+    Public Property [class] As String
+    Public Property category As String
     Public Property description As String
 
     Public Property score As Double
