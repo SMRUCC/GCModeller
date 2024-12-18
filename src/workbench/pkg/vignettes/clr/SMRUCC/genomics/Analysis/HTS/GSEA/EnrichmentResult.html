@@ -30,6 +30,8 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.HTS.GSEA
 export class EnrichmentResult {
+   category: string;
+   class: string;
    cluster: integer;
    description: string;
    # 我们的差异基因列表中，属于目标代谢途径的基因的数量 / 在我们的差异基因列表中，不属于当前的代谢途径的基因的数量
