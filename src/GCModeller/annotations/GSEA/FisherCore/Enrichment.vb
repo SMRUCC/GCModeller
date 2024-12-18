@@ -206,7 +206,9 @@ Public Module Enrichment
             .pvalue = pvalue,
             .score = score,
             .cluster = b,
-            .enriched = a
+            .enriched = a,
+            .category = cluster.category,
+            .[class] = cluster.class
         }
     End Function
 
