@@ -53,12 +53,53 @@
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Public Module Utils
+
+    <Extension>
+    Public Function Translate(Of V)(bin As BinaryTree(Of String, V)) As Tree(Of V, String)
+        Dim root As New Tree(Of V, String) With {
+            .Data = bin.Value,
+            .label = bin.Key,
+            .ID = bin.GetHashCode,
+            .Parent = Nothing,
+            .Childs = New Dictionary(Of String, Tree(Of V, String))
+        }
+
+        If Not bin.Left Is Nothing Then
+            Call root.Childs.Add("left", bin.Left.Translate(root))
+        End If
+        If Not bin.Right Is Nothing Then
+            Call root.Childs.Add("right", bin.Right.Translate(root))
+        End If
+
+        Return root
+    End Function
+
+    <Extension>
+    Private Function Translate(Of V)(bin As BinaryTree(Of String, V), parent As Tree(Of V, String)) As Tree(Of V, String)
+        Dim node As New Tree(Of V, String) With {
+            .Data = bin.Value,
+            .label = bin.Key,
+            .ID = bin.GetHashCode,
+            .Parent = parent,
+            .Childs = New Dictionary(Of String, Tree(Of V, String))
+        }
+
+        If Not bin.Left Is Nothing Then
+            Call node.Childs.Add("left", bin.Left.Translate(node))
+        End If
+        If Not bin.Right Is Nothing Then
+            Call node.Childs.Add("right", bin.Right.Translate(node))
+        End If
+
+        Return node
+    End Function
 
     ''' <summary>
     ''' Tree to string
@@ -67,20 +108,30 @@ Public Module Utils
     ''' <param name="tree"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function Build(Of T, K)(tree As Tree(Of T, K)) As String
+    Public Function Build(Of T, K)(tree As Tree(Of T, K), Optional labelKey As Boolean = False) As String
         If tree Is Nothing Then
             Return "()"
         End If
 
         If tree.IsLeaf Then
-            Return tree.ID
+            Return If(labelKey, EscapeLabel(tree.label), tree.ID)
         Else
             Dim children = tree _
                 .EnumerateChilds _
                 .Select(Function(tr) tr.Build) _
                 .JoinBy(", ")
 
-            Return $"{tree.ID}({children})"
+            Return $"{If(labelKey, EscapeLabel(tree.label), tree.ID)}({children})"
+        End If
+    End Function
+
+    Private Function EscapeLabel(label As String) As String
+        If label.IndexOf(","c) > -1 OrElse label.IndexOf("("c) > -1 OrElse label.IndexOf(")"c) > -1 Then
+            Return $"""{label}"""
+        ElseIf label.IndexOf(""""c) > -1 Then
+            Return $"'{label}'"
+        Else
+            Return label
         End If
     End Function
 
