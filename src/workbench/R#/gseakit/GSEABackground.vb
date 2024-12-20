@@ -105,6 +105,7 @@ Public Module GSEABackground
 
     Sub Main()
         Call REnv.AttachConsoleFormatter(Of Background)(AddressOf PrintBackground)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(Background), AddressOf backgroundTabular)
     End Sub
 
     <RGenericOverloads("as.data.frame")>
@@ -394,7 +395,7 @@ Public Module GSEABackground
         Call table.add("class", background.clusters.Select(Function(a) a.class))
         Call table.add("category", background.clusters.Select(Function(a) a.category))
         Call table.add("name", background.clusters.Select(Function(c) c.names))
-        Call table.add("description", background.clusters.Select(Function(c) c.description))
+        Call table.add("description", background.clusters.Select(Function(c) c.description.TrimNewLine.Trim))
         Call table.add("cluster_size", background.clusters.Select(Function(c) c.size))
         Call table.add("factors", background.clusters _
             .Select(Iterator Function(c) As IEnumerable(Of String)
