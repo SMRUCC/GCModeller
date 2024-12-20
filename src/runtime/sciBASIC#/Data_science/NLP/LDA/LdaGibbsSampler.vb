@@ -372,8 +372,8 @@ Namespace LDA
 
             ' initial state of the Markov chain:
             Call initialState(K)
-            Call println($"Sampling {ITERATIONS} iterations with burn-in of {BURN_IN} unique temp var.")
-            Call println($"gibbs run with {VectorTask.n_threads} CPU threads!")
+            Call println($"* Sampling {ITERATIONS} iterations with burn-in of {BURN_IN} unique temp var.")
+            Call println($"* gibbs run in {If(VectorTask.n_threads <= 1, "sequential mode", $"parallel with {VectorTask.n_threads} CPU threads")}!")
             Call println($"z_index size={z.Length}")
             Call VBDebugger.WaitOutput()
 
