@@ -342,7 +342,7 @@ Namespace LDA
             Dim v As Integer() = z(zi)
             Dim gibbs As New GibbsSamplingTask(v, zi, Me)
 
-            Call gibbs.Solve()
+            Call gibbs.Run()
         End Sub
 
         ''' <summary>
