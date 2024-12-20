@@ -1,5 +1,6 @@
-﻿Imports System
+﻿Imports std = System.Math
 Imports System.IO
+Imports System.Threading
 
 ' 
 ' 	
@@ -109,7 +110,7 @@ Public Class Stemmer
             Next
             b = new_b
         End If
-        b(Math.Min(Threading.Interlocked.Increment(i), i - 1)) = ch
+        b(std.Min(Interlocked.Increment(i), i - 1)) = ch
     End Sub
 
 
@@ -128,7 +129,7 @@ Public Class Stemmer
             b = new_b
         End If
         For c = 0 To wLen - 1
-            b(Math.Min(Threading.Interlocked.Increment(i), i - 1)) = w(c)
+            b(std.Min(Interlocked.Increment(i), i - 1)) = w(c)
         Next
     End Sub
 
@@ -221,6 +222,8 @@ Public Class Stemmer
             End While
             i += 1
         End While
+
+        Throw New InvalidCastException
     End Function
 
     ' vowelinstem() is true <=> 0,...j contains a vowel 
@@ -657,73 +660,5 @@ Public Class Stemmer
         End If
         i_end = k + 1
         i = 0
-    End Sub
-
-    ''' <summary>
-    ''' Test program for demonstrating the Stemmer.  It reads text from a
-    ''' a list of files, stems each word, and writes the result to standard
-    ''' output. Note that the word stemmed is expected to be in lower case:
-    ''' forcing lower case must be done outside the Stemmer class.
-    ''' Usage: Stemmer file-name file-name ...
-    ''' </summary>
-    Public Shared Sub Main(args As String())
-        args(0) = "data//stem.txt"
-        Dim w = New Char(500) {}
-        Dim s As Stemmer = New Stemmer()
-        For i As Integer = 0 To args.Length - 1
-            Try
-                Dim [in] As FileStream = New FileStream(args(i), FileMode.Open, FileAccess.Read)
-
-                Try
-                    While True
-                        Dim ch = 0 ' @in.Read();
-                        If Char.IsLetter(Microsoft.VisualBasic.ChrW(ch)) Then
-                            Dim j = 0
-                            While True
-                                ch = AscW(Char.ToLower(Microsoft.VisualBasic.ChrW(ch)))
-                                w(j) = Microsoft.VisualBasic.ChrW(ch)
-                                If j < 500 Then
-                                    j += 1
-                                End If
-                                ch = 0 ' @in.Read();
-                                If Not Char.IsLetter(Microsoft.VisualBasic.ChrW(ch)) Then
-                                    ' to test add(char ch) 
-                                    For c = 0 To j - 1
-                                        s.add(w(c))
-                                    Next
-
-                                    ' or, to test add(char[] w, int j) 
-                                    ' s.add(w, j); 
-
-                                    s.stem()
-                                    If True Then
-                                        Dim u As String
-
-                                        ' and now, to test toString() : 
-                                        u = s.ToString()
-
-                                        ' to test getResultBuffer(), getResultLength() : 
-                                        ' u = new String(s.getResultBuffer(), 0, s.getResultLength()); 
-
-                                        Console.Write(u)
-                                    End If
-                                    Exit While
-                                End If
-                            End While
-                        End If
-                        If ch < 0 Then
-                            Exit While
-                        End If
-                        Console.Write(Microsoft.VisualBasic.ChrW(ch))
-                    End While
-                Catch __unusedIOException1__ As IOException
-                    Console.WriteLine("error reading " & args(i))
-                    Exit For
-                End Try
-            Catch __unusedFileNotFoundException1__ As FileNotFoundException
-                Console.WriteLine("file " & args(i) & " not found")
-                Exit For
-            End Try
-        Next
     End Sub
 End Class

@@ -66,6 +66,12 @@ Public Class TF_IDF
     Private termWeight As Double()() ' tf-idf matrix
     Private docFreq As Integer() ' terms' frequency in all documents
 
+    Public ReadOnly Property docSize As Integer
+        Get
+            Return docs.Count
+        End Get
+    End Property
+
     ''' <summary>
     ''' Constructor </summary>
     ''' <param name="documents"> documents represented as strings </param>
