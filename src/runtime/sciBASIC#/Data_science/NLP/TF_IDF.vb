@@ -1,6 +1,6 @@
-﻿Imports System.IO
-Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math
 
 ''' <summary>
 ''' TF-IDF algorithm in Java. An explanation of this algorithm can be found at
@@ -75,10 +75,11 @@ Public Class TF_IDF
     ''' <summary>
     ''' Constructor </summary>
     ''' <param name="documents"> documents represented as strings </param>
-    Public Sub New(documents As String())
-
-        stopwords = loadStopWords("stoplist.txt")
-
+    ''' <remarks>
+    ''' document similarity measurement
+    ''' </remarks>
+    Public Sub New(documents As String(), listOfstopwords As IEnumerable(Of String))
+        stopwords = New HashSet(Of String)(listOfstopwords)
         docs = parseDocuments(documents)
         numDocs = docs.Count
 
@@ -92,28 +93,6 @@ Public Class TF_IDF
         countTermOccurrence()
         generateTermWeight()
     End Sub
-
-    ''' <summary>
-    ''' Load stopwords from a file </summary>
-    ''' <param name="filename"> </param>
-    ''' <returns>  </returns>
-    Private Function loadStopWords(filename As String) As ISet(Of String)
-        Dim stoplist As ISet(Of String) = New HashSet(Of String)()
-
-        Try
-            Dim [in] As Stream = Nothing '= this.GetType().getResourceAsStream(filename);
-            Dim br As StreamReader = New StreamReader([in])
-            Dim line As Value(Of String) = ""
-            While Not (line = br.ReadLine()) Is Nothing
-                stoplist.Add(line)
-            End While
-        Catch e As IOException
-            Console.WriteLine(e.ToString())
-            Console.Write(e.StackTrace)
-        End Try
-
-        Return stoplist
-    End Function
 
     ''' <summary>
     ''' Parse documents into bags of words </summary>
@@ -227,7 +206,7 @@ Public Class TF_IDF
     Public Overridable Function getSimilarity(doc_i As Integer, doc_j As Integer) As Double
         Dim vector1 = getDocumentVector(doc_i)
         Dim vector2 = getDocumentVector(doc_j)
-        Return computeCosineSimilarity(vector1, vector2)
+        Return SSM_SIMD(vector1, vector2)
     End Function
 
     ''' <summary>
@@ -240,48 +219,5 @@ Public Class TF_IDF
             v(i) = termWeight(i)(docIndex)
         Next
         Return v
-    End Function
-
-    ''' <summary>
-    ''' Calculate cosine similarity between two vectors </summary>
-    ''' <param name="vector1"> a vector </param>
-    ''' <param name="vector2"> another vector </param>
-    ''' <returns> cosine similarity score </returns>
-    Public Shared Function computeCosineSimilarity(vector1 As Double(), vector2 As Double()) As Double
-        If vector1.Length <> vector2.Length Then
-            Console.WriteLine("Different vector length.")
-        End If
-
-        Dim denom = vectorLength(vector1) * vectorLength(vector2)
-        If denom = 0.0R Then
-            Return 0.0R
-        Else
-            Return innerProduct(vector1, vector2) / denom
-        End If
-    End Function
-
-    ''' <summary>
-    ''' Calculate inner product of two vectors </summary>
-    ''' <param name="vector1"> a vector </param>
-    ''' <param name="vector2"> another vector </param>
-    ''' <returns> inner production of two vectors </returns>
-    Public Shared Function innerProduct(vector1 As Double(), vector2 As Double()) As Double
-        Dim result = 0.0R
-        For i = 0 To vector1.Length - 1
-            result += vector1(i) * vector2(i)
-        Next
-        Return result
-    End Function
-
-    ''' <summary>
-    ''' Calculate vector length </summary>
-    ''' <param name="vector"> a vector </param>
-    ''' <returns> vector length </returns>
-    Public Shared Function vectorLength(vector As Double()) As Double
-        Dim sum = 0.0R
-        For Each d In vector
-            sum += d * d
-        Next
-        Return System.Math.Sqrt(sum)
     End Function
 End Class
