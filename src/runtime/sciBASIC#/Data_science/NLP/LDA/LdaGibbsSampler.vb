@@ -342,7 +342,11 @@ Namespace LDA
             Dim v As Integer() = z(zi)
             Dim gibbs As New GibbsSamplingTask(v, zi, Me)
 
-            Call gibbs.Run()
+            If VectorTask.n_threads > 1 Then
+                Call gibbs.Run()
+            Else
+                Call gibbs.Solve()
+            End If
         End Sub
 
         ''' <summary>

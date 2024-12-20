@@ -76,7 +76,7 @@ Namespace LDA
         ReadOnly alpha As Double
         ReadOnly voca_size As Integer
 
-        Sub New(v As Integer(), zi As Integer, gibbs As LdaGibbsSampler)
+        Sub New(ByRef v As Integer(), zi As Integer, ByRef gibbs As LdaGibbsSampler)
             Call MyBase.New(v.Length)
 
             Me.alpha = gibbs.alpha
@@ -101,41 +101,50 @@ Namespace LDA
                 .voca_size = voca_size
             }
 
-            ' If sequenceMode Then
-            'nw = gibbs.nw
-            'nd = gibbs.nd
             ' get value
             nwsum = gibbs.nwsum
             ndsum = gibbs.ndsum
             nd = gibbs.nd(zi)
             nw = Nothing
-            'Else
-            '    nw = New Integer(K - 1) {}
-            '    nd = New Integer(K - 1) {}
-            '    nwsum = New Integer(K - 1) {}
-            '    ndsum = New Integer(gibbs.ndsum.Length - 1) {}
 
-            '    Array.ConstrainedCopy(gibbs.nwsum, Scan0, nwsum, Scan0, nwsum.Length)
-            '    Array.ConstrainedCopy(gibbs.ndsum, Scan0, ndsum, Scan0, ndsum.Length)
-            '    Array.ConstrainedCopy(gibbs.nd(zi), Scan0, nd, Scan0, nd.Length)
-            'End If
+            Dim nwcopy As Integer() = Nothing
+            Dim ndcopy As Integer() = Nothing
+            Dim nwsumcopy As Integer() = Nothing
+            Dim ndsumcopy As Integer() = Nothing
+
+            If Not sequenceMode Then
+                nwcopy = New Integer(K - 1) {}
+                ndcopy = New Integer(K - 1) {}
+                nwsumcopy = New Integer(K - 1) {}
+                ndsumcopy = New Integer(gibbs.ndsum.Length - 1) {}
+            End If
 
             For n As Integer = start To ends
                 topic = v(n)
-
-                ' If sequenceMode Then
                 nw = gibbs.nw(gibbs.documents(zi)(n))
-                'Else
-                '    Call Array.ConstrainedCopy(
-                '        gibbs.nw(gibbs.documents(zi)(n)), Scan0,
-                '        nw, Scan0,
-                '        nw.Length
-                '    )
-                'End If
+
+                ' remove z_i from the count variables
+                ' 先将这个词从计数器中抹掉
+                nw(topic) -= 1
+                nd(topic) -= 1
+                nwsum(topic) -= 1
+                ndsum(zi) -= 1
+
+                If sequenceMode Then
+                    nwcopy = nw
+                    ndcopy = nd
+                    nwsumcopy = nwsum
+                    ndsumcopy = ndsum
+                Else
+                    Call Array.ConstrainedCopy(nw, Scan0, nwcopy, Scan0, nw.Length)
+                    Call Array.ConstrainedCopy(nd, Scan0, ndcopy, Scan0, nd.Length)
+                    Call Array.ConstrainedCopy(nwsum, Scan0, nwsumcopy, Scan0, nwsum.Length)
+                    Call Array.ConstrainedCopy(ndsum, Scan0, ndsumcopy, Scan0, ndsum.Length)
+                End If
 
                 ' (z_i = z[m][n])
                 ' sample from p(z_i|z_-i, w)
-                topic = gibbs_sampling(topic, zi, nw, nd, nwsum, ndsum, pars)
+                topic = gibbs_sampling(topic, zi, nwcopy, ndcopy, nwsumcopy, ndsumcopy, pars)
                 v(n) = topic
 
                 ' add newly estimated z_i to count variables
@@ -160,16 +169,9 @@ Namespace LDA
         ''' 根据上述公式计算文档m中第n个词语的主题的完全条件分布，输出最可能的主题
         ''' </remarks>
         Private Shared Function gibbs_sampling(topic As Integer, m As Integer,
-                                               nw As Integer(), nd As Integer(),
-                                               nwsum As Integer(), ndsum As Integer(),
-                                               gibbs_pars As gibbs_pars) As Integer
-
-            ' remove z_i from the count variables
-            ' 先将这个词从计数器中抹掉
-            nw(topic) -= 1
-            nd(topic) -= 1
-            nwsum(topic) -= 1
-            ndsum(m) -= 1
+                                               ByRef nw As Integer(), ByRef nd As Integer(),
+                                               ByRef nwsum As Integer(), ByRef ndsum As Integer(),
+                                               ByRef gibbs_pars As gibbs_pars) As Integer
 
             ' do multinomial sampling via cumulative method: 通过多项式方法采样多项式分布
             Dim p = New Double(gibbs_pars.K - 1) {}
