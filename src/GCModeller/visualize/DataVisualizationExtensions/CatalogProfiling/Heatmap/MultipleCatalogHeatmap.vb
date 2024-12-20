@@ -143,6 +143,7 @@ Namespace CatalogProfiling
 
         Protected Sub drawColorLegends(pvalues As DoubleRange, right As Double, ByRef g As IGraphics, canvas As GraphicsRegion, Optional y As Double = Double.NaN)
             Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim padding As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, canvas.Padding)
             Dim maps As New ColorMapLegend(palette:=theme.colorSet, mapLevels) With {
                 .format = "F2",
                 .noblank = False,
@@ -157,9 +158,9 @@ Namespace CatalogProfiling
             }
             Dim layout As New Rectangle With {
                 .X = right,
-                .Width = canvas.Padding.Right * (2 / 3),
+                .Width = padding.Right * (2 / 3),
                 .Height = canvas.PlotRegion(css).Height / 2,
-                .Y = If(y.IsNaNImaginary, canvas.Padding.Top, y)
+                .Y = If(y.IsNaNImaginary, padding.Top, y)
             }
 
             Call maps.Draw(g, layout)

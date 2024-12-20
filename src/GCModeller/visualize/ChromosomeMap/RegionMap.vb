@@ -120,10 +120,10 @@ Public Module RegionMap
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim margin As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, region.Padding)
                 Dim width = region.Width
-                Dim top = region.Padding.Top
-                Dim margin As Padding = region.Padding
-                Dim scaleFactor# = (width - margin.Horizontal(css)) / model.Size
+                Dim top = margin.Top
+                Dim scaleFactor# = (width - margin.Horizontal) / model.Size
                 Dim pos As Point
                 Dim locusTagFont As Font = CSS.GetFont(CSSFont.TryParse(locusTagFontCSS))
                 Dim legendFont As Font = css.GetFont(CSSFont.TryParse(legendFontCSS))
