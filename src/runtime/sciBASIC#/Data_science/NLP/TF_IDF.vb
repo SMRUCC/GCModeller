@@ -68,7 +68,7 @@ Public Class TF_IDF
 
     ''' <summary>
     ''' Constructor </summary>
-    ''' <paramname="documents"> documents represented as strings </param>
+    ''' <param name="documents"> documents represented as strings </param>
     Public Sub New(documents As String())
 
         stopwords = loadStopWords("stoplist.txt")
@@ -89,7 +89,7 @@ Public Class TF_IDF
 
     ''' <summary>
     ''' Load stopwords from a file </summary>
-    ''' <paramname="filename"> </param>
+    ''' <param name="filename"> </param>
     ''' <returns>  </returns>
     Private Function loadStopWords(filename As String) As ISet(Of String)
         Dim stoplist As ISet(Of String) = New HashSet(Of String)()
@@ -111,7 +111,7 @@ Public Class TF_IDF
 
     ''' <summary>
     ''' Parse documents into bags of words </summary>
-    ''' <paramname="docs"> documents in strings </param>
+    ''' <param name="docs"> documents in strings </param>
     ''' <returns> a list of documents represented by bags of words </returns>
     Private Function parseDocuments(docs As String()) As IList(Of IList(Of String))
         Dim parsedDocs As IList(Of IList(Of String)) = New List(Of IList(Of String))()
@@ -133,7 +133,7 @@ Public Class TF_IDF
 
     ''' <summary>
     ''' Generate terms from a list of documents </summary>
-    ''' <paramname="docs"> </param>
+    ''' <param name="docs"> </param>
     ''' <returns>  </returns>
     Private Function generateTerms(docs As IList(Of IList(Of String))) As List(Of String)
         Dim uniqueTerms As List(Of String) = New List(Of String)()
@@ -168,7 +168,7 @@ Public Class TF_IDF
 
     ''' <summary>
     ''' Count term frequency in a document </summary>
-    ''' <paramname="doc"> a document as a bag of words </param>
+    ''' <param name="doc"> a document as a bag of words </param>
     ''' <returns> a map of term occurrence; key - term; value - occurrence. </returns>
     Private Function countTermOccurrenceInOneDoc(doc As IList(Of String)) As Dictionary(Of String, Integer)
 
@@ -215,8 +215,8 @@ Public Class TF_IDF
 
     ''' <summary>
     ''' Get similarity score between two documents </summary>
-    ''' <paramname="doc_i"> index of one document </param>
-    ''' <paramname="doc_j"> index of another document </param>
+    ''' <param name="doc_i"> index of one document </param>
+    ''' <param name="doc_j"> index of another document </param>
     ''' <returns> similarity score </returns>
     Public Overridable Function getSimilarity(doc_i As Integer, doc_j As Integer) As Double
         Dim vector1 = getDocumentVector(doc_i)
@@ -226,7 +226,7 @@ Public Class TF_IDF
 
     ''' <summary>
     ''' Compile a vector for a document </summary>
-    ''' <paramname="docIndex"> index of a document </param>
+    ''' <param name="docIndex"> index of a document </param>
     ''' <returns> the vector representation of the document </returns>
     Private Function getDocumentVector(docIndex As Integer) As Double()
         Dim v = New Double(numTerms - 1) {}
@@ -238,8 +238,8 @@ Public Class TF_IDF
 
     ''' <summary>
     ''' Calculate cosine similarity between two vectors </summary>
-    ''' <paramname="vector1"> a vector </param>
-    ''' <paramname="vector2"> another vector </param>
+    ''' <param name="vector1"> a vector </param>
+    ''' <param name="vector2"> another vector </param>
     ''' <returns> cosine similarity score </returns>
     Public Shared Function computeCosineSimilarity(vector1 As Double(), vector2 As Double()) As Double
         If vector1.Length <> vector2.Length Then
@@ -256,8 +256,8 @@ Public Class TF_IDF
 
     ''' <summary>
     ''' Calculate inner product of two vectors </summary>
-    ''' <paramname="vector1"> a vector </param>
-    ''' <paramname="vector2"> another vector </param>
+    ''' <param name="vector1"> a vector </param>
+    ''' <param name="vector2"> another vector </param>
     ''' <returns> inner production of two vectors </returns>
     Public Shared Function innerProduct(vector1 As Double(), vector2 As Double()) As Double
         Dim result = 0.0R
@@ -269,7 +269,7 @@ Public Class TF_IDF
 
     ''' <summary>
     ''' Calculate vector length </summary>
-    ''' <paramname="vector"> a vector </param>
+    ''' <param name="vector"> a vector </param>
     ''' <returns> vector length </returns>
     Public Shared Function vectorLength(vector As Double()) As Double
         Dim sum = 0.0R
@@ -282,7 +282,7 @@ Public Class TF_IDF
 
     ''' <summary>
     ''' Testing </summary>
-    ''' <paramname="args">  </param>
+    ''' <param name="args">  </param>
     Public Shared Sub Main(args As String())
         Dim docs = New String() {"knowledge building needs innovative environments are better at helping their inhabitants explore the adjacent possible", "As a basis for evaluating explanations, creative knowledge building weight of evidence is a poor substitute for the first two criteria listed above.", "A public idea database makes every passing idea visible to everyone else in the organization and do creative work.", "questioning and various disturbances initiate cycles of innovation and creative organization knowledge.", "We need some way to ensure knowledge to spread among environments that any notes that are dropped are dropped."}
 
