@@ -136,6 +136,11 @@ Namespace LDA
                     nwsumcopy = nwsum
                     ndsumcopy = ndsum
                 Else
+                    If nw(topic) < 1 Then nw(topic) = 1
+                    If nd(topic) < 1 Then nd(topic) = 1
+                    If nwsum(topic) < 1 Then nwsum(topic) = 1
+                    If ndsum(zi) < 1 Then ndsum(zi) = 1
+
                     Call Array.ConstrainedCopy(nw, Scan0, nwcopy, Scan0, nw.Length)
                     Call Array.ConstrainedCopy(nd, Scan0, ndcopy, Scan0, nd.Length)
                     Call Array.ConstrainedCopy(nwsum, Scan0, nwsumcopy, Scan0, nwsum.Length)
