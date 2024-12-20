@@ -357,7 +357,7 @@ Namespace Heatmap
                         ' 绘制出聚类树
                         Dim cluster As Cluster = Time(AddressOf array.RunCluster)
                         Dim topleft As New Point With {
-                                .X = rect.Padding.Left,
+                                .X = margin.Left,
                                 .Y = top
                             }
                         Dim dsize As New Size With {
