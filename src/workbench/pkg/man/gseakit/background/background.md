@@ -10,7 +10,7 @@ tools for handling GSEA background model.
 + [background.id_mapping](background/background.id_mapping.1) do id mapping of the members in the background cluster
 + [read.background](background/read.background.1) Load GSEA background model from a xml file.
 + [write.background](background/write.background.1) Save GSEA background model as xml file
-+ [background_summary](background/background_summary.1) 
++ [background_summary](background/background_summary.1) summary of the background model as dataframe
 + [clusterInfo](background/clusterInfo.1) get cluster info data table
 + [geneSet.annotations](background/geneSet.annotations.1) make gene set annotation via a given gsea background model
 + [geneSet.intersects](background/geneSet.intersects.1) get an intersection id list between the background
