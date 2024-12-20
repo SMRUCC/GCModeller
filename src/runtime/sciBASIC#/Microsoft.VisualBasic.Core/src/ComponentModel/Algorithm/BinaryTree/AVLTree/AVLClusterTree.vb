@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2299bbfc11de4d2633d71b105e646420, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\AVLTree\AVLClusterTree.vb"
+﻿#Region "Microsoft.VisualBasic::8b17577eeef3a89f575afc6c0101617f, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\AVLTree\AVLClusterTree.vb"
 
     ' Author:
     ' 
@@ -37,10 +37,10 @@
     '   Total Lines: 94
     '    Code Lines: 59 (62.77%)
     ' Comment Lines: 15 (15.96%)
-    '    - Xml Docs: 86.67%
+    '    - Xml Docs: 93.33%
     ' 
     '   Blank Lines: 20 (21.28%)
-    '     File Size: 3.78 KB
+    '     File Size: 3.83 KB
 
 
     '     Class AVLClusterTree
@@ -98,7 +98,7 @@ Namespace ComponentModel.Algorithm.BinaryTree
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Add(key As K)
-            addClusterMember.insertDuplicated = Sub(node, null) node.Key.Add(key)
+            addClusterMember.m_duplicated = Sub(node, null) node.Key.Add(key)
             avltree.Add(New ClusterKey(Of K)(key, views), key, callback:=addClusterMember)
             totals += 1
         End Sub
@@ -107,9 +107,9 @@ Namespace ComponentModel.Algorithm.BinaryTree
                        Optional left As Action(Of ClusterKey(Of K), K) = Nothing,
                        Optional right As Action(Of ClusterKey(Of K), K) = Nothing)
 
-            If Not cluster Is Nothing Then addClusterMember.insertDuplicated = Sub(node, null) Call cluster(node.Key, key)
-            If Not left Is Nothing Then addClusterMember.insertLeft = Sub(node, null) Call left(node.Key, key)
-            If Not right Is Nothing Then addClusterMember.insertRight = Sub(node, null) Call right(node.Key, key)
+            If Not cluster Is Nothing Then addClusterMember.m_duplicated = Sub(node, null) Call cluster(node.Key, key)
+            If Not left Is Nothing Then addClusterMember.m_left = Sub(node, null) Call left(node.Key, key)
+            If Not right Is Nothing Then addClusterMember.m_right = Sub(node, null) Call right(node.Key, key)
 
             Dim clusterRoot As New ClusterKey(Of K)(key, views)
 

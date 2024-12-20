@@ -105,7 +105,15 @@ Public Module GSEABackground
 
     Sub Main()
         Call REnv.AttachConsoleFormatter(Of Background)(AddressOf PrintBackground)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(Background), AddressOf backgroundTabular)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function backgroundTabular(bg As Background, args As list, env As Environment) As Rdataframe
+        Dim gene_names As Boolean = args.getValue(Of Boolean)("gene.names", env, [default]:=False)
+        Dim df = backgroundSummary(bg, gene_names)
+        Return df
+    End Function
 
     Private Function PrintBackground(x As Background) As String
         Dim summary As New StringBuilder
@@ -370,18 +378,40 @@ Public Module GSEABackground
         Return background.GetXml.SaveTo(file)
     End Function
 
+    ''' <summary>
+    ''' summary of the background model as dataframe
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <returns></returns>
     <ExportAPI("background_summary")>
-    Public Function backgroundSummary(background As Background) As Rdataframe
-        Dim table As New Dictionary(Of String, Array)
-
-        table("ID") = background.clusters.Select(Function(c) c.ID).ToArray
-        table("name") = background.clusters.Select(Function(c) c.names).ToArray
-        table("description") = background.clusters.Select(Function(c) c.description).ToArray
-        table("cluster_size") = background.clusters.Select(Function(c) c.size).ToArray
-
-        Return New Rdataframe With {
-            .columns = table
+    Public Function backgroundSummary(background As Background, Optional gene_names As Boolean = True) As Rdataframe
+        Dim table As New Rdataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = background.clusters _
+                .Select(Function(c) c.ID) _
+                .ToArray
         }
+
+        Call table.add("class", background.clusters.Select(Function(a) a.class))
+        Call table.add("category", background.clusters.Select(Function(a) a.category))
+        Call table.add("name", background.clusters.Select(Function(c) c.names))
+        Call table.add("description", background.clusters.Select(Function(c) c.description.TrimNewLine.Trim))
+        Call table.add("cluster_size", background.clusters.Select(Function(c) c.size))
+        Call table.add("factors", background.clusters _
+            .Select(Iterator Function(c) As IEnumerable(Of String)
+                        If gene_names Then
+                            For Each gene As BackgroundGene In c.members
+                                Yield gene.name
+                            Next
+                        Else
+                            For Each gene As BackgroundGene In c.members
+                                Yield gene.accessionID
+                            Next
+                        End If
+                    End Function) _
+            .Select(Function(a) a.Distinct.JoinBy("; ")))
+
+        Return table
     End Function
 
     ''' <summary>

@@ -74,8 +74,14 @@ declare namespace background {
       function id_mapping(background: object, mapping: object, subset?: string, env?: object): any;
    }
    /**
+    * summary of the background model as dataframe
+    * 
+    * 
+     * @param background -
+     * @param gene_names 
+     * + default value Is ``true``.
    */
-   function background_summary(background: object): object;
+   function background_summary(background: object, gene_names?: boolean): object;
    /**
     * get all of the cluster id set from the given background model object
     * 
