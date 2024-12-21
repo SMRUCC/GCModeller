@@ -279,11 +279,12 @@ Namespace CatalogProfiling
             Call DrawBubbleLegends(g, serials, region)
 
             Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim padding As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, region.Padding)
             Dim titleFont As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
             Dim fsize As SizeF = g.MeasureString(main, titleFont)
             Dim tloc As New PointF With {
                 .X = (region.Size.Width - fsize.Width) / 2,
-                .Y = (region.Padding.Top - fsize.Height) / 2
+                .Y = (padding.Top - fsize.Height) / 2
             }
 
             Call g.DrawString(main, titleFont, Brushes.Black, tloc)
