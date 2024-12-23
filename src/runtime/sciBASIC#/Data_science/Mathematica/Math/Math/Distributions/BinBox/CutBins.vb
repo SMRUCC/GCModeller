@@ -90,13 +90,21 @@ Namespace Distributions.BinBox
         ''' </remarks>
         Public Function FixedWidthBins(Of T)(data As IEnumerable(Of T), k%, eval As Evaluate(Of T),
                                              Optional eps As Double = 0.001,
-                                             Optional range As DoubleRange = Nothing) As IEnumerable(Of DataBinBox(Of T))
+                                             Optional range As DoubleRange = Nothing,
+                                             Optional allow_empty As Boolean = False) As IEnumerable(Of DataBinBox(Of T))
             ' 升序排序方便进行快速计算
             Dim v = data.OrderBy(Function(d) eval(d)).ToArray
             Dim min#, max#
 
             If v.Length = 0 Then
-                Throw New InvalidDataException("empty data collection for make evaluation of the data bin box!")
+                Dim err As String = "empty data collection for make evaluation of the data bin box!"
+
+                If allow_empty Then
+                    Call err.Warning
+                    Return {}
+                Else
+                    Throw New InvalidDataException(err)
+                End If
             Else
                 If range IsNot Nothing AndAlso range.Length > 0 Then
                     min = range.Min
