@@ -143,13 +143,13 @@ Namespace SBML
             End If
 
             For Each factor In left.JoinIterates(right)
-                Call xrefs.Add(factor.ref, factor.xref)
+                Call xrefs.Add(factor.rawId, factor.xref)
             Next
 
             Return $"{left.Select(Function(i) i.Item1).JoinBy(" + ")} -> {right.Select(Function(i) i.Item1).JoinBy(" + ")}"
         End Function
 
-        Private Function factorString(factor As SpeciesReference) As (String, ref As String, xref As String())
+        Private Function factorString(factor As SpeciesReference) As (rawId$, String, ref As String, xref As String())
             Dim ref = getSpecies(factor.species)
             Dim reference = ref.annotation?.RDF.description(0).is
             Dim annos As String() = reference _
@@ -161,7 +161,7 @@ Namespace SBML
                 .ToArray
             Dim i As String = ref.name.StringReplace("(\s+)|([*-])", "_")
 
-            Return ($"{factor.stoichiometry} {i}", i, annos)
+            Return (factor.species, $"{factor.stoichiometry} {i}", i, annos)
         End Function
 
         ''' <summary>
