@@ -61,6 +61,9 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace TabularDump
 
+    ''' <summary>
+    ''' data of enzyme information
+    ''' </summary>
     Public Class EnzymeModifier : Inherits SabiorkEntity
         Implements IPolymerSequenceModel, INamedValue
 

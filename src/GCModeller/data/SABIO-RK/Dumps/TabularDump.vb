@@ -67,8 +67,15 @@ Imports SMRUCC.genomics.Data.SABIORK.SBML
 
 Namespace TabularDump
 
+    ''' <summary>
+    ''' sabio-rk object reference
+    ''' </summary>
     Public MustInherit Class SabiorkEntity : Implements INamedValue
 
+        ''' <summary>
+        ''' the unique reference id of the kinetics
+        ''' </summary>
+        ''' <returns></returns>
         Public Property SabiorkId As String Implements INamedValue.Key
 
         Public Overrides Function ToString() As String

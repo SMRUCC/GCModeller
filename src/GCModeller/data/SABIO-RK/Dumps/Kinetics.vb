@@ -100,6 +100,10 @@ Namespace TabularDump
     ''' <remarks></remarks>
     Public Class EnzymeCatalystKineticLaw : Inherits SabiorkEntity
 
+        ''' <summary>
+        ''' list of compartment of current enzyme and kinetics
+        ''' </summary>
+        ''' <returns></returns>
         Public Property compartment As String()
         Public Property enzyme As Dictionary(Of String, String)
         Public Property reaction As String

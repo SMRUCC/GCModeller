@@ -137,33 +137,40 @@ Public Class SabiorkRepository : Implements IDisposable
     ' Vmax = kcat[E]
 
     Private Sub saveKineticsModel(ec_number As String, model As SbmlDocument)
-        Dim mathList = model.mathML.ToDictionary(Function(a) a.Name, Function(a) a.Value)
         Dim path As String
-        Dim math As LambdaExpression
-        Dim mathId As String
         Dim json As String
-        Dim kineticisModel As EnzymeCatalystKineticLaw
-        Dim indexer As New SBMLInternalIndexer(model)
         Dim pathDir As String = getEcNumberDirectoryPath(ec_number)
 
+        For Each kineticisModel As (rxnId As String, EnzymeCatalystKineticLaw) In CreateKineticsData(model)
+            path = $"{pathDir}/{kineticisModel.rxnId}.json"
+            json = kineticisModel.Item2.GetJson
+
+            Call cache.Delete(path)
+            Call cache.WriteText(json, path)
+        Next
+    End Sub
+
+    Public Shared Iterator Function CreateKineticsData(model As SbmlDocument) As IEnumerable(Of (rxnId As String, EnzymeCatalystKineticLaw))
+        Dim indexer As New SBMLInternalIndexer(model)
+        Dim mathList = model.mathML _
+            .ToDictionary(Function(a) a.Name,
+                          Function(a)
+                              Return a.Value
+                          End Function)
+
         For Each rxn As SBMLReaction In model.sbml.model.listOfReactions.AsEnumerable
-            path = $"{pathDir}/{rxn.id}.json"
-            mathId = "KL_" & rxn.kineticLawID
-            math = mathList.TryGetValue(mathId)
+            Dim mathId As String = "KL_" & rxn.kineticLawID
+            Dim math As LambdaExpression = mathList.TryGetValue(mathId)
 
             If math Is Nothing OrElse math.lambda Is Nothing Then
                 Continue For
             ElseIf math.parameters.Length <> rxn.kineticLaw.math.apply.ci.Length Then
                 Continue For
             Else
-                kineticisModel = EnzymeCatalystKineticLaw.Create(rxn, math, doc:=indexer)
-                json = kineticisModel.GetJson
+                Yield (rxn.id, EnzymeCatalystKineticLaw.Create(rxn, math, doc:=indexer))
             End If
-
-            Call cache.Delete(path)
-            Call cache.WriteText(json, path)
         Next
-    End Sub
+    End Function
 
     Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then

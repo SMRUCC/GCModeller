@@ -109,6 +109,15 @@ Public Module sabiork_repository
         Return model
     End Function
 
+    <ExportAPI("unset_sbml")>
+    Public Function unset(x As SbmlDocument) As EnzymeCatalystKineticLaw()
+        If x.empty Then
+            Return {}
+        Else
+
+        End If
+    End Function
+
     ''' <summary>
     ''' Create a helper reader for load element model from the sbml document
     ''' </summary>
