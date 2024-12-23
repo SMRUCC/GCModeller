@@ -64,6 +64,9 @@ Imports SMRUCC.genomics.Model.SBML.Level3
 
 Namespace SBML
 
+    ''' <summary>
+    ''' list of reactions and list of the lambda formula expression 
+    ''' </summary>
     Public Class SbmlDocument
 
         ''' <summary>
