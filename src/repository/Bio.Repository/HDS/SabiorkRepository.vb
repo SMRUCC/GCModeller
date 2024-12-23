@@ -164,7 +164,9 @@ Public Class SabiorkRepository : Implements IDisposable
 
             If math Is Nothing OrElse math.lambda Is Nothing Then
                 Continue For
-            ElseIf math.parameters.Length <> rxn.kineticLaw.math.apply.ci.Length Then
+                ' -1 situation: ci first maybe the kinetics id
+            ElseIf (math.parameters.Length <> rxn.kineticLaw.math.apply.ci.Length) AndAlso
+                (math.parameters.Length <> rxn.kineticLaw.math.apply.ci.Length - 1) Then
                 Continue For
             Else
                 Yield (rxn.id, EnzymeCatalystKineticLaw.Create(rxn, math, doc:=indexer))

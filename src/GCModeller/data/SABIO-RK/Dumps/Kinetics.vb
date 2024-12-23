@@ -125,6 +125,7 @@ Namespace TabularDump
 
         Public Shared Function Create(rxn As SBMLReaction, math As LambdaExpression, doc As SBMLInternalIndexer) As EnzymeCatalystKineticLaw
             Dim experiment = rxn.kineticLaw.annotation.sabiork.experimentalConditions
+            Dim mathId As String = "KL_" & rxn.kineticLawID
             Dim exp As String = math.lambda.ToString
             Dim pubmeds As String() = rxn.kineticLaw.annotation.RDF.description _
                 .Select(Function(part)
@@ -141,6 +142,7 @@ Namespace TabularDump
             Dim args As New Dictionary(Of String, String)
             Dim ci As String() = rxn.kineticLaw.math.apply.ci _
                 .Select(AddressOf Strings.Trim) _
+                .Where(Function(a) a <> mathId) _
                 .ToArray
             Dim locals = rxn.kineticLaw.listOfLocalParameters.ToDictionary(Function(l) l.id)
             Dim locations As String() = enzymes _
