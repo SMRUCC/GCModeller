@@ -143,7 +143,10 @@ Namespace SBML
             End If
 
             For Each factor In left.JoinIterates(right)
-                Call xrefs.Add(factor.rawId, factor.xref)
+                ' 20241223 duplicated compounds maybe existsed
+                If Not xrefs.ContainsKey(factor.rawId) Then
+                    Call xrefs.Add(factor.rawId, factor.xref)
+                End If
             Next
 
             Return $"{left.Select(Function(i) i.Item1).JoinBy(" + ")} -> {right.Select(Function(i) i.Item1).JoinBy(" + ")}"

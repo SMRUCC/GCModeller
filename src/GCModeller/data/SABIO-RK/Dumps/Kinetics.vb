@@ -159,18 +159,20 @@ Namespace TabularDump
                     ci_id = ci.Where(Function(e) e.StartsWith("KL")).FirstOrDefault
                 End If
 
-                If locals.ContainsKey(ci_id) Then
-                    args.Add(name, locals(ci_id).value)
-                Else
-                    args.Add(name, ci_id)
+                If Not args.ContainsKey(name) Then
+                    If locals.ContainsKey(ci_id) Then
+                        args.Add(name, locals(ci_id).value)
+                    Else
+                        args.Add(name, ci_id)
+                    End If
                 End If
             Next
 
             Return New EnzymeCatalystKineticLaw With {
                 .SabiorkId = rxn.kineticLaw.annotation.sabiork.kineticLawID,
-                .buffer = experiment.buffer.Trim,
-                .PH = experiment.pHValue.startValuepH,
-                .temperature = experiment.temperature.startValueTemperature,
+                .buffer = If(experiment Is Nothing, "*", Strings.Trim(experiment.buffer)),
+                .PH = If(experiment Is Nothing OrElse experiment.pHValue Is Nothing, 7.0, experiment.pHValue.startValuepH),
+                .temperature = If(experiment Is Nothing OrElse experiment.temperature Is Nothing, 36, experiment.temperature.startValueTemperature),
                 .lambda = exp,
                 .fast = rxn.fast,
                 .reversible = rxn.reversible,

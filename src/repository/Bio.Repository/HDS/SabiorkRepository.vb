@@ -168,6 +168,8 @@ Public Class SabiorkRepository : Implements IDisposable
             ElseIf (math.parameters.Length <> rxn.kineticLaw.math.apply.ci.Length) AndAlso
                 (math.parameters.Length <> rxn.kineticLaw.math.apply.ci.Length - 1) Then
                 Continue For
+            ElseIf rxn.kineticLaw Is Nothing OrElse rxn.kineticLaw.listOfLocalParameters.IsNullOrEmpty Then
+                Continue For
             Else
                 Yield (rxn.id, EnzymeCatalystKineticLaw.Create(rxn, math, doc:=indexer))
             End If
