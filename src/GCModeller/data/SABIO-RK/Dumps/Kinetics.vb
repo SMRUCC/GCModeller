@@ -169,7 +169,7 @@ Namespace TabularDump
             Next
 
             Return New EnzymeCatalystKineticLaw With {
-                .SabiorkId = rxn.kineticLaw.annotation.sabiork.kineticLawID,
+                .SabiorkId = mathId,
                 .buffer = If(experiment Is Nothing, "*", Strings.Trim(experiment.buffer)),
                 .PH = If(experiment Is Nothing OrElse experiment.pHValue Is Nothing, 7.0, experiment.pHValue.startValuepH),
                 .temperature = If(experiment Is Nothing OrElse experiment.temperature Is Nothing, 36, experiment.temperature.startValueTemperature),

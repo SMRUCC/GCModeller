@@ -114,7 +114,7 @@ Namespace SBML
             Dim text As String = Nothing
             Dim sbml As XmlFile(Of SBMLReaction) = LoadXml(path, text)
             Dim math = MathMLParser.ParseMathML(sbmlText:=text).ToArray
-            Dim formulas As NamedValue(Of LambdaExpression)() = Math _
+            Dim formulas As NamedValue(Of LambdaExpression)() = math _
                 .Select(Function(a)
                             Return New NamedValue(Of LambdaExpression) With {
                                 .Name = a.Name,
@@ -122,6 +122,7 @@ Namespace SBML
                                 .Value = getLambda(a.Value)
                             }
                         End Function) _
+                .Where(Function(l) l.Value IsNot Nothing) _
                 .ToArray
 
             Return New SbmlDocument With {
@@ -133,7 +134,14 @@ Namespace SBML
         Shared ReadOnly defaultParameters As Index(Of String) = {"Km", "kcat", "E"}
 
         Private Shared Function getLambda(xml As XmlElement) As LambdaExpression
-            Dim lambda = LambdaExpression.FromMathML(xml)
+            Dim lambda As LambdaExpression
+
+            Try
+                lambda = LambdaExpression.FromMathML(xml)
+            Catch ex As Exception
+                Call App.LogException(ex)
+                Return Nothing
+            End Try
 
             If lambda.lambda Is Nothing Then
                 If lambda.parameters.Length = 3 AndAlso
