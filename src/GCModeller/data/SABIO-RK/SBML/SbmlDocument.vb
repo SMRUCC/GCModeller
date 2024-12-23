@@ -80,6 +80,12 @@ Namespace SBML
         ''' <returns></returns>
         Public Property mathML As NamedValue(Of LambdaExpression)()
 
+        Public ReadOnly Property empty As Boolean
+            Get
+                Return sbml Is Nothing AndAlso mathML.IsNullOrEmpty
+            End Get
+        End Property
+
         ''' <summary>
         ''' Load a generic sbml xml document file
         ''' </summary>
