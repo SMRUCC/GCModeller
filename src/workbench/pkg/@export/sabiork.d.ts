@@ -47,4 +47,7 @@ declare namespace sabiork {
      * @param sbml -
    */
    function sbmlReader(sbml: object): object;
+   /**
+   */
+   function unset_sbml(x: object): object;
 }
