@@ -114,7 +114,11 @@ Public Module sabiork_repository
         If x.empty Then
             Return {}
         Else
-
+            Return SabiorkRepository.CreateKineticsData(x) _
+                .Select(Function(a)
+                            Return a.Item2
+                        End Function) _
+                .ToArray
         End If
     End Function
 
