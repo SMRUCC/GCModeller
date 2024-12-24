@@ -69,9 +69,7 @@ Namespace ComponentModel.DataStructures.Tree
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <remarks>https://www.codeproject.com/Articles/345191/Simple-Generic-Tree</remarks>
-    Public MustInherit Class TreeNodeBase(Of T As {
-                                              Class, ITreeNode(Of T)
-                                          })
+    Public MustInherit Class TreeNodeBase(Of T As {Class, ITreeNode(Of T)})
         Implements ITreeNode(Of T), IEnumerable(Of T)
 
         ''' <summary>

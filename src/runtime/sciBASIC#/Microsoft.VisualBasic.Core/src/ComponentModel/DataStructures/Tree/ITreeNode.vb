@@ -58,7 +58,7 @@
 
 Namespace ComponentModel.DataStructures.Tree
 
-    Public Interface ITreeNode(Of T)
+    Public Interface ITreeNodeData(Of T)
 
         Property Parent() As T
         ''' <summary>
@@ -66,7 +66,6 @@ Namespace ComponentModel.DataStructures.Tree
         ''' </summary>
         Property ChildNodes() As List(Of T)
 
-        ReadOnly Property FullyQualifiedName() As String
         ''' <summary>
         ''' Is this node have no childs
         ''' </summary>
@@ -77,6 +76,11 @@ Namespace ComponentModel.DataStructures.Tree
         ''' </summary>
         ''' <returns></returns>
         ReadOnly Property IsRoot() As Boolean
+        ReadOnly Property FullyQualifiedName() As String
+
+    End Interface
+
+    Public Interface ITreeNode(Of T) : Inherits ITreeNodeData(Of T)
 
         Function GetRootNode() As T
         Function IteratesAllChilds() As IEnumerable(Of T)
