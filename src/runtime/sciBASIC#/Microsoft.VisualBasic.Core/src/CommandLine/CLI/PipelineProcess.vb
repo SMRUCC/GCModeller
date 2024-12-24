@@ -145,6 +145,9 @@ Namespace CommandLine
                 workdir:=workdir
             )
 
+            ' 20241224 there is a bug about access the standard output stream:
+            ' thread needs to sleep for a while
+            ' or the file access error will happends when access the standard output stream
             Call Thread.Sleep(100)
 
             If p.StartInfo.RedirectStandardOutput Then
