@@ -56,6 +56,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures.Tree
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
@@ -116,8 +117,8 @@ Public Module Utils
         If tree.IsLeaf Then
             Return If(labelKey, EscapeLabel(tree.label), tree.ID)
         Else
-            Dim children = tree _
-                .EnumerateChilds _
+            Dim children = DirectCast(tree, ITreeNodeData(Of Tree(Of T, K))).ChildNodes _
+                .SafeQuery _
                 .Select(Function(tr) tr.Build) _
                 .JoinBy(", ")
 
@@ -153,7 +154,7 @@ Public Module Utils
 
         Yield tree.SummaryMe(Of V)(schema)
 
-        For Each c As Tree(Of T, K) In tree.EnumerateChilds.SafeQuery
+        For Each c As Tree(Of T, K) In DirectCast(tree, ITreeNodeData(Of Tree(Of T, K))).ChildNodes.SafeQuery
             For Each value In c.Summary(Of V)(schema)
                 Yield value
             Next

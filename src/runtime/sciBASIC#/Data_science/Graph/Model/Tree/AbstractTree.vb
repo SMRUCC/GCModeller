@@ -60,7 +60,6 @@ Imports System.Runtime.Serialization
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures.Tree
-Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' An abstract tree data model

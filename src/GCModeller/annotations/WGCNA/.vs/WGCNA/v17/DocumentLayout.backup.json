@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{44A0F91B-9BC0-498A-821E-3909BAE26434}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\utils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44A0F91B-9BC0-498A-821E-3909BAE26434}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44A0F91B-9BC0-498A-821E-3909BAE26434}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\model\\tree\\abstracttree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{44A0F91B-9BC0-498A-821E-3909BAE26434}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\model\\tree\\tree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5F61E770-F2B1-4F70-921F-DDBEA3E898BD}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\hctree.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hierarchical-clustering\\clusteringalgorithm\\cluster.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -15,22 +27,10 @@
       "AbsoluteMoniker": "D:0:0:{DA65F3F5-B19E-4651-9334-92832FBE9BF7}|..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\datastructures\\tree\\treetools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{44A0F91B-9BC0-498A-821E-3909BAE26434}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\model\\tree\\abstracttree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44A0F91B-9BC0-498A-821E-3909BAE26434}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\model\\tree\\tree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44A0F91B-9BC0-498A-821E-3909BAE26434}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\utils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{DA65F3F5-B19E-4651-9334-92832FBE9BF7}|..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\datastructures\\tree\\binarytree\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DA65F3F5-B19E-4651-9334-92832FBE9BF7}|..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\datastructures\\tree\\binarytree\\abstract.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{44A0F91B-9BC0-498A-821E-3909BAE26434}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44A0F91B-9BC0-498A-821E-3909BAE26434}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\graph-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\graph\\model\\tree\\trie.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -131,11 +131,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 23,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "TreeTools.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Tree\\TreeTools.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Tree\\TreeTools.vb",
@@ -148,7 +148,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Extensions.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Tree\\BinaryTree\\Extensions.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Tree\\BinaryTree\\Extensions.vb",
@@ -161,7 +161,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Abstract.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Tree\\BinaryTree\\Abstract.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Tree\\BinaryTree\\Abstract.vb",
@@ -174,13 +174,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "Utils.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Utils.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Utils.vb",
               "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Utils.vb",
               "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Utils.vb",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAIwG4AAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAIYAAAAAAAAAAAAAAJkAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-12-24T07:20:37.32Z",
               "EditorCaption": ""
@@ -200,13 +200,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "Tree.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\Tree.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\Tree.vb",
               "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\Tree.vb",
               "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\Tree.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwEgAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwEgAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-12-24T07:19:27.759Z",
               "EditorCaption": ""
@@ -226,26 +226,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "AbstractTree.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\AbstractTree.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\AbstractTree.vb",
               "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\AbstractTree.vb",
               "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Model\\Tree\\AbstractTree.vb",
-              "ViewState": "AgIAAKIAAAAAAAAAAAAAAEUAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAADkAAAAAAAAAAAAuwDwAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-12-24T07:19:21.001Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 1,
               "Title": "Extensions.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Extensions.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Extensions.vb",
               "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Graph\\Extensions.vb",
               "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Graph\\Extensions.vb",
-              "ViewState": "AgIAAJIAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIIAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-12-24T07:19:10.147Z",
               "EditorCaption": ""
@@ -265,7 +265,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "ITreeNode.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Tree\\ITreeNode.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Tree\\ITreeNode.vb",
@@ -278,7 +278,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "TreeNodeBase.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Tree\\TreeNodeBase.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Tree\\TreeNodeBase.vb",
@@ -434,13 +434,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Cluster.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\Cluster.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\Cluster.vb",
               "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\Cluster.vb",
               "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\Cluster.vb",
-              "ViewState": "AgIAAFgAAAAAAAAAAADwv1cAAABIAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFcAAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-12-24T07:07:29.218Z",
               "EditorCaption": ""
