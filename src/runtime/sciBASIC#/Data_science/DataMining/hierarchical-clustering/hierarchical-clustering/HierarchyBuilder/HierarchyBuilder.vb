@@ -77,6 +77,7 @@
 '
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 
 Namespace Hierarchy
 
@@ -163,7 +164,7 @@ Namespace Hierarchy
             Dim newCluster As Cluster = minDistLink.Agglomerate(Nothing)
             Dim distanceValues As New List(Of Distance)
 
-            For Each iClust As Cluster In Clusters
+            For Each iClust As Cluster In TqdmWrapper.Wrap(Clusters)
                 Dim link1 As HierarchyTreeNode = findByClusters(iClust, oldClusterL)
                 Dim link2 As HierarchyTreeNode = findByClusters(iClust, oldClusterR)
 
@@ -197,6 +198,12 @@ Namespace Hierarchy
             Call Clusters.Add(newCluster)
         End Sub
 
+        ''' <summary>
+        ''' dictionary key search
+        ''' </summary>
+        ''' <param name="c1"></param>
+        ''' <param name="c2"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function findByClusters(c1 As Cluster, c2 As Cluster) As HierarchyTreeNode
             Return Distances.FindByCodePair(c1, c2)
