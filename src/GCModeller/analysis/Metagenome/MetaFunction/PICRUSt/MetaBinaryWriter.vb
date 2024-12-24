@@ -120,7 +120,7 @@ Namespace PICRUSt
                 Call file.Write(tree.Data(id))
             Next
 
-            Call file.Write(tree.EnumerateChilds.Count)
+            Call file.Write(tree.Childs.Count)
 
             For Each node As ko_13_5_precalculated In tree.Childs.Values
                 Call SaveTree(node)

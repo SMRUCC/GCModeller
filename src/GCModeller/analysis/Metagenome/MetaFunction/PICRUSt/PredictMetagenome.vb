@@ -171,9 +171,12 @@ Namespace PICRUSt
                 Call println(" ~done!", True)
             Next
 
+            Dim offset As Integer = 0
+
             ' column is sample names
             ' row is the KO terms
             For i As Integer = 0 To KOResult.Length - 1
+                offset = i
                 KOResult(i) = New OTUData(Of Double) With {
                     .OTU = KOIds(i),
                     .taxonomy = KOIds(i),
@@ -183,7 +186,7 @@ Namespace PICRUSt
                                       End Function,
                                       Function(sample)
                                           Dim sum As Double = 0
-                                          Dim id As String = KOIds(i)
+                                          Dim id As String = KOIds(offset)
 
                                           For Each OTU In OTU_KO
                                               sum += OTU.data(sample)(id)
