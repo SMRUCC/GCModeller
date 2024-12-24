@@ -67,8 +67,10 @@ Public Module Analysis
         Call VBDebugger.EchoLine("build network graph!")
         Dim network As NumericMatrix = cor.WeightedCorrelation(beta.Power, pvalue:=False).Adjacency(adjacency)
         Dim K As New Vector(network.RowApply(AddressOf WeightedNetwork.sumK))
+        Call VBDebugger.EchoLine("create TOM matrix...")
         Dim tomMat As NumericMatrix = TOM.Matrix(network, K)
         Dim dist As New DistanceMatrix(samples.expression.Keys, 1 - tomMat)
+        Call VBDebugger.EchoLine("make tree clustering!")
         Dim alg As ClusteringAlgorithm = New DefaultClusteringAlgorithm With {.debug = True}
         Dim matrix As Double()() = dist.PopulateRows _
             .Select(Function(a) a.ToArray) _

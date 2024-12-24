@@ -3,7 +3,25 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\weightednetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\weightednetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\analysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\analysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\betatest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\betatest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5F61E770-F2B1-4F70-921F-DDBEA3E898BD}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\hctree.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hierarchical-clustering\\hierarchybuilder\\hierarchytreenode.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5F61E770-F2B1-4F70-921F-DDBEA3E898BD}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\hctree.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hierarchical-clustering\\hierarchybuilder\\hierarchybuilder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5F61E770-F2B1-4F70-921F-DDBEA3E898BD}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\hctree.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hierarchical-clustering\\hierarchybuilder\\distancemap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5F61E770-F2B1-4F70-921F-DDBEA3E898BD}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\hctree.NET5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\hierarchical-clustering\\hierarchical-clustering\\clusteringalgorithm\\defaultclusteringalgorithm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -16,22 +34,10 @@
       "RelativeMoniker": "D:0:0:{D1E9192F-96C3-4CA5-A314-4F9392016FB2}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\analysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\analysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\betatest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\betatest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{26205DB8-D7C5-402F-8518-71AA6C37420E}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\dataframeUtils-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\dataframe\\correlation\\builder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FD581BCA-B6B6-497F-B644-BE4E0FF076A5}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\stats-netcore5.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\math.statistics\\hypothesistesting\\manteltest\\corr.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\weightednetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\weightednetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\tom.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -53,11 +59,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
+              "Title": "DistanceMap.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\DistanceMap.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\DistanceMap.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\DistanceMap.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\DistanceMap.vb",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAiwIgAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-12-24T06:59:08.405Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "HierarchyTreeNode.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\HierarchyTreeNode.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\HierarchyTreeNode.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\HierarchyTreeNode.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\HierarchyTreeNode.vb",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAuwIIAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-12-24T06:57:50.404Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "LinkageStrategy.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\LinkageStrategy.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\LinkageStrategy.vb",
@@ -82,7 +114,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "corr.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\MantelTest\\corr.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\MantelTest\\corr.vb",
@@ -95,7 +127,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "Builder.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Builder.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFrame\\Correlation\\Builder.vb",
@@ -108,20 +140,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "HierarchyBuilder.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\HierarchyBuilder.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\HierarchyBuilder.vb",
               "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\HierarchyBuilder.vb",
               "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\HierarchyBuilder\\HierarchyBuilder.vb",
-              "ViewState": "AgIAAJgAAAAAAAAAAAAAAL4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAcwKMAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-12-24T06:19:28.462Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "DefaultClusteringAlgorithm.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DefaultClusteringAlgorithm.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\hierarchical-clustering\\hierarchical-clustering\\ClusteringAlgorithm\\DefaultClusteringAlgorithm.vb",
@@ -134,7 +166,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "Module1.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\test\\Module1.vb",
               "RelativeDocumentMoniker": "test\\Module1.vb",
@@ -147,20 +179,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 0,
               "Title": "WeightedNetwork.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\WeightedNetwork.vb",
               "RelativeDocumentMoniker": "WGCNA\\WeightedNetwork.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\WeightedNetwork.vb",
               "RelativeToolTip": "WGCNA\\WeightedNetwork.vb",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwD4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-12-24T05:52:52.235Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "TOM.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\TOM.vb",
               "RelativeDocumentMoniker": "WGCNA\\TOM.vb",
@@ -173,7 +205,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "SoftLinear.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\SoftLinear.vb",
               "RelativeDocumentMoniker": "WGCNA\\SoftLinear.vb",
@@ -186,7 +218,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "Result.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\Result.vb",
               "RelativeDocumentMoniker": "WGCNA\\Result.vb",
@@ -199,26 +231,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "BetaTest.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\BetaTest.vb",
               "RelativeDocumentMoniker": "WGCNA\\BetaTest.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\BetaTest.vb",
               "RelativeToolTip": "WGCNA\\BetaTest.vb",
-              "ViewState": "AgIAAFsAAAAAAAAAAAAmwHcAAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAuwGMAAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-12-24T05:49:34.774Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Analysis.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\Analysis.vb",
               "RelativeDocumentMoniker": "WGCNA\\Analysis.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\Analysis.vb",
               "RelativeToolTip": "WGCNA\\Analysis.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAA/AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAABdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2024-12-24T05:49:24.966Z",
               "EditorCaption": ""

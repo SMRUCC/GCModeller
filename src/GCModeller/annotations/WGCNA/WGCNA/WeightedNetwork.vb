@@ -49,13 +49,20 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 ''' </summary>
 Public Module WeightedNetwork
 
+    ''' <summary>
+    ''' set the element which value less than threshold to zero
+    ''' </summary>
+    ''' <param name="cor"></param>
+    ''' <param name="threshold"></param>
+    ''' <returns></returns>
     <Extension>
     Friend Function Adjacency(cor As NumericMatrix, threshold As Double) As GeneralMatrix
         Dim adj As NumericMatrix = cor.Copy
         Dim X As Double()() = adj.Array
+        Dim w As Integer = X(Scan0).Length
 
         For i As Integer = 0 To X.Length - 1
-            For j As Integer = 0 To X(Scan0).Length - 1
+            For j As Integer = 0 To w - 1
                 If X(i)(j) < threshold Then
                     X(i)(j) = 0
                 End If
