@@ -94,17 +94,32 @@ Public Module sabiork_repository
     End Function
 
     ''' <summary>
-    ''' 
+    ''' parse the sbml xml document text as kineticis data
     ''' </summary>
     ''' <param name="data">
     ''' the xml document text or the file path to the sbml xml document file.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a SBML document data that contains list of reactions and list of the lambda formula expression 
+    ''' </returns>
     <ExportAPI("parseSbml")>
     Public Function parseSbml(data As String) As SbmlDocument
         Dim xml As String = data.LineIterators.JoinBy(vbLf)
         Dim model As SbmlDocument = ModelQuery.parseSBML(xml, schema:=GetType(SbmlDocument))
         Return model
+    End Function
+
+    <ExportAPI("unset_sbml")>
+    Public Function unset(x As SbmlDocument) As EnzymeCatalystKineticLaw()
+        If x.empty Then
+            Return {}
+        Else
+            Return SabiorkRepository.CreateKineticsData(x) _
+                .Select(Function(a)
+                            Return a.Item2
+                        End Function) _
+                .ToArray
+        End If
     End Function
 
     ''' <summary>

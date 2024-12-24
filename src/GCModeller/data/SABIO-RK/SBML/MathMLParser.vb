@@ -72,6 +72,12 @@ Namespace SBML
             Dim start = sbmlText.IndexOf(startTag)
             Dim ends = sbmlText.IndexOf("</listOfFunctionDefinitions>")
 
+            ' 20241223
+            ' No results found for query
+            If start < 0 OrElse ends < 0 Then
+                Return
+            End If
+
             sbmlText = sbmlText _
                 .Substring(start + startTag.Length + 1, ends - start - startTag.Length - 1) _
                 .Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)
