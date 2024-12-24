@@ -64,7 +64,7 @@ Namespace ComponentModel.DataStructures.Tree
         ''' <summary>
         ''' Children
         ''' </summary>
-        Property ChildNodes() As List(Of T)
+        Property ChildNodes() As IReadOnlyCollection(Of T)
 
         ''' <summary>
         ''' Is this node have no childs

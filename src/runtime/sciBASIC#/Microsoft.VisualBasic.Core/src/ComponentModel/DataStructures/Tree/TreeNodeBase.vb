@@ -85,7 +85,7 @@ Namespace ComponentModel.DataStructures.Tree
         ''' <summary>
         ''' Children
         ''' </summary>
-        Public Property ChildNodes() As List(Of T) Implements ITreeNode(Of T).ChildNodes
+        Public Property ChildNodes() As IReadOnlyCollection(Of T) Implements ITreeNode(Of T).ChildNodes
 
         ''' <summary>
         ''' Me/this

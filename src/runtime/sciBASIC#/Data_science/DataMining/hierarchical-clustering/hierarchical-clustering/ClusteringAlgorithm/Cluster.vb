@@ -111,7 +111,7 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
     ''' </summary>
     ''' <returns></returns>
     Public Property Name As String Implements INamedValue.Key, ITreeNodeData(Of Cluster).FullyQualifiedName
-    Public Property Children As List(Of Cluster) Implements ITreeNodeData(Of Cluster).ChildNodes
+    Public Property Children As IReadOnlyCollection(Of Cluster) Implements ITreeNodeData(Of Cluster).ChildNodes
     Public ReadOnly Property LeafNames As List(Of String)
     Public ReadOnly Property IsRoot As Boolean Implements ITreeNodeData(Of Cluster).IsRoot
         Get
