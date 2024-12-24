@@ -61,8 +61,10 @@ Public Module Analysis
         Call VBDebugger.EchoLine("do correlation matrix evaluation...")
         Dim cor As CorrelationMatrix = samples.Correlation(Function(gene) gene.experiments)
         Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
+        Call VBDebugger.EchoLine("do beta test...")
         Dim betaList As BetaTest() = BetaTest.BetaTable(cor, betaSeq, adjacency).ToArray
         Dim beta As BetaTest = betaList(BetaTest.Best(betaList))
+        Call VBDebugger.EchoLine("build network graph!")
         Dim network As NumericMatrix = cor.WeightedCorrelation(beta.Power, pvalue:=False).Adjacency(adjacency)
         Dim K As New Vector(network.RowApply(AddressOf WeightedNetwork.sumK))
         Dim tomMat As NumericMatrix = TOM.Matrix(network, K)

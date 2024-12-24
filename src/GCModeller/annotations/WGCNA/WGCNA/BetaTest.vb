@@ -113,6 +113,13 @@ Public Class BetaTest
                     End Function)
     End Function
 
+    ''' <summary>
+    ''' get the index of the max beta score from the candidates
+    ''' </summary>
+    ''' <param name="beta">
+    ''' a set of the beta candidates on the correlation matrix
+    ''' </param>
+    ''' <returns></returns>
     Public Shared Function Best(beta As BetaTest()) As Integer
         Dim sftRsq As Vector = beta.Select(Function(b) If(b.sftRsq <= 0.8, 0, 1 - b.sftRsq)).AsVector
         Dim slope As Vector = (beta.Select(Function(b) b.slope).AsVector + 1).Abs
