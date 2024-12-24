@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D1E9192F-96C3-4CA5-A314-4F9392016FB2}|test\\test.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{D1E9192F-96C3-4CA5-A314-4F9392016FB2}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|e:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\analysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{BA633917-6AE5-4F55-987A-1E2C803A131C}|WGCNA\\WGCNA.vbproj|solutionrelative:wgcna\\analysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -34,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,7 +54,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
+              "Title": "Module1.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\test\\Module1.vb",
+              "RelativeDocumentMoniker": "test\\Module1.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\test\\Module1.vb",
+              "RelativeToolTip": "test\\Module1.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-12-24T05:55:32.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "WeightedNetwork.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\WeightedNetwork.vb",
               "RelativeDocumentMoniker": "WGCNA\\WeightedNetwork.vb",
@@ -63,7 +80,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "TOM.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\TOM.vb",
               "RelativeDocumentMoniker": "WGCNA\\TOM.vb",
@@ -76,7 +93,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "SoftLinear.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\SoftLinear.vb",
               "RelativeDocumentMoniker": "WGCNA\\SoftLinear.vb",
@@ -89,7 +106,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Result.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\Result.vb",
               "RelativeDocumentMoniker": "WGCNA\\Result.vb",
@@ -102,7 +119,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "BetaTest.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\BetaTest.vb",
               "RelativeDocumentMoniker": "WGCNA\\BetaTest.vb",
@@ -115,7 +132,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Analysis.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\Analysis.vb",
               "RelativeDocumentMoniker": "WGCNA\\Analysis.vb",
