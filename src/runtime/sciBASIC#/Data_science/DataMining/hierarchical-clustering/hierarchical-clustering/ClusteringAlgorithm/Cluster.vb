@@ -81,6 +81,9 @@ Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.Hierarchy
 ' *****************************************************************************
 '
 
+''' <summary>
+''' the hierarchy cluster tree
+''' </summary>
 Public Class Cluster : Implements INamedValue
 
     Public Property Distance As Distance
