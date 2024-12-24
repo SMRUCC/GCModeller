@@ -77,6 +77,8 @@ Public Module Analysis
             .ToArray
         Dim cluster As Cluster = alg.performClustering(matrix, dist.keys, New AverageLinkageStrategy)
 
+        Call VBDebugger.EchoLine(" ~ done!")
+
         Return New Result With {
             .beta = beta,
             .hclust = cluster,
