@@ -60,25 +60,41 @@ Namespace Hypothesis.Mantel
 
     Public Module corr
 
+        ''' <summary>
+        ''' An abstract delegate function for measure the correlation between two given numeric vector
+        ''' </summary>
+        ''' <param name="x">a numeric vector</param>
+        ''' <param name="y">another numeric vector, these two vector should be equals on dimension size!</param>
+        ''' <returns></returns>
+        Public Delegate Function corr(x As Double(), y As Double()) As (cor As Double, pvalue As Double)
+
+        Private Function evalInternal(d As SeqValue(Of Double()), mat As Double()(), cor As corr) As (i As Integer, cor As Double(), pval As Double())
+            Dim vec As New List(Of Double)
+            Dim vec2 As New List(Of Double)
+            Dim x As Double() = d.value
+            Dim r As (cor As Double, pvalue As Double)
+
+            For Each y As Double() In mat
+                r = cor(x, y)
+                vec += r.cor
+                vec2 += r.pvalue
+            Next
+
+            Return (d.i, vec.ToArray, vec2.ToArray)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="mat"></param>
+        ''' <param name="cor"></param>
+        ''' <returns></returns>
         <Extension>
-        Public Function GetCorrelations(mat As Double()(), cor As Func(Of Double(), Double(), (cor As Double, pvalue As Double))) As (cor As Double()(), pvalue As Double()())
+        Public Function GetCorrelations(mat As Double()(), cor As corr) As (cor As Double()(), pvalue As Double()())
             Dim evalData = mat _
                 .SeqIterator _
                 .AsParallel _
-                .Select(Function(d)
-                            Dim vec As New List(Of Double)
-                            Dim vec2 As New List(Of Double)
-                            Dim x As Double() = d.value
-                            Dim r As (cor As Double, pvalue As Double)
-
-                            For Each y As Double() In mat
-                                r = cor(x, y)
-                                vec += r.cor
-                                vec2 += r.pvalue
-                            Next
-
-                            Return (d.i, vec.ToArray, vec2.ToArray)
-                        End Function) _
+                .Select(Function(d) evalInternal(d, mat, cor)) _
                 .OrderBy(Function(d) d.i) _
                 .ToArray
             Dim corr As Double()() = evalData.Select(Function(i) i.Item2).ToArray

@@ -58,6 +58,7 @@ Public Module Analysis
     ''' <param name="adjacency"></param>
     ''' <returns></returns>
     Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6) As Result
+        Call VBDebugger.EchoLine("do correlation matrix evaluation...")
         Dim cor As CorrelationMatrix = samples.Correlation(Function(gene) gene.experiments)
         Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
         Dim betaList As BetaTest() = BetaTest.BetaTable(cor, betaSeq, adjacency).ToArray
