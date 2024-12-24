@@ -51,6 +51,12 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 Public Module Analysis
 
+    ''' <summary>
+    ''' run WGCNA analysis
+    ''' </summary>
+    ''' <param name="samples"></param>
+    ''' <param name="adjacency"></param>
+    ''' <returns></returns>
     Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6) As Result
         Dim cor As CorrelationMatrix = samples.Correlation(Function(gene) gene.experiments)
         Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
