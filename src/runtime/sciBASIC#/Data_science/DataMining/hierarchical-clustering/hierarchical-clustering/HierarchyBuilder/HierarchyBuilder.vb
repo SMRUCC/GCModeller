@@ -162,7 +162,8 @@ Namespace Hierarchy
             Dim oldClusterL As Cluster = minDistLink.Left()
             Dim oldClusterR As Cluster = minDistLink.Right()
             Dim newCluster As Cluster = minDistLink.Agglomerate(Nothing)
-            Dim distanceValues As New List(Of Distance)
+            Dim d1 As Distance = Nothing
+            Dim d2 As Distance = Nothing
 
             For Each iClust As Cluster In TqdmWrapper.Wrap(Clusters)
                 Dim link1 As HierarchyTreeNode = findByClusters(iClust, oldClusterL)
@@ -171,26 +172,26 @@ Namespace Hierarchy
                 If link1 IsNot Nothing Then
                     Dim distVal As Double = link1.LinkageDistance
                     Dim weightVal As Double = link1.GetOtherCluster(iClust).WeightValue
-                    distanceValues.Add(New Distance(distVal, weightVal))
+                    d1 = New Distance(distVal, weightVal)
                     Distances.Remove(link1)
                 End If
 
                 If link2 IsNot Nothing Then
                     Dim distVal As Double = link2.LinkageDistance
                     Dim weightVal As Double = link2.GetOtherCluster(iClust).WeightValue
-                    distanceValues.Add(New Distance(distVal, weightVal))
+                    d2 = New Distance(distVal, weightVal)
                     Distances.Remove(link2)
                 End If
 
                 Dim newLinkage As New HierarchyTreeNode With {
                     .Left = iClust,
                     .Right = newCluster,
-                    .LinkageDistance = linkageStrategy _
-                        .CalculateDistance(distanceValues) _
-                        .Distance
+                    .LinkageDistance = linkageStrategy.CalculateDistance(d1, d2)
                 }
 
-                Call distanceValues.Clear()
+                d1 = Nothing
+                d2 = Nothing
+
                 Call Distances.Add(newLinkage, direct:=True)
             Next
 
