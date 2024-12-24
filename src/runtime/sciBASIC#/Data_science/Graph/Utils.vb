@@ -126,6 +126,22 @@ Public Module Utils
         End If
     End Function
 
+    <Extension>
+    Public Function Build(Of T As ITreeNodeData(Of T))(tree As T) As String
+        If tree Is Nothing Then
+            Return "()"
+        ElseIf tree.IsLeaf Then
+            Return tree.FullyQualifiedName
+        End If
+
+        Dim children = DirectCast(tree, ITreeNodeData(Of T)).ChildNodes _
+            .SafeQuery _
+            .Select(Function(tr) tr.Build) _
+            .JoinBy(", ")
+
+        Return $"{tree.FullyQualifiedName}({children})"
+    End Function
+
     Private Function EscapeLabel(label As String) As String
         If label.IndexOf(","c) > -1 OrElse label.IndexOf("("c) > -1 OrElse label.IndexOf(")"c) > -1 Then
             Return $"""{label}"""
