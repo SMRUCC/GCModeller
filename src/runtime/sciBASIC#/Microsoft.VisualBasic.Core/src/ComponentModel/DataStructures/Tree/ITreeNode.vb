@@ -58,13 +58,14 @@
 
 Namespace ComponentModel.DataStructures.Tree
 
-    Public Interface ITreeNodeData(Of T)
+    Public Interface ITreeNodeData(Of T As ITreeNodeData(Of T))
 
         Property Parent() As T
+
         ''' <summary>
         ''' Children
         ''' </summary>
-        Property ChildNodes() As IReadOnlyCollection(Of T)
+        ReadOnly Property ChildNodes() As IReadOnlyCollection(Of T)
 
         ''' <summary>
         ''' Is this node have no childs
@@ -80,11 +81,11 @@ Namespace ComponentModel.DataStructures.Tree
 
     End Interface
 
-    Public Interface ITreeNode(Of T) : Inherits ITreeNodeData(Of T)
+    Public Interface ITreeNode(Of T As ITreeNode(Of T)) : Inherits ITreeNodeData(Of T)
 
         Function GetRootNode() As T
-        Function IteratesAllChilds() As IEnumerable(Of T)
         Sub ChildCountsTravel(distribute As Dictionary(Of String, Double), Optional getID As Func(Of T, String) = Nothing)
+        Sub Add(child As T)
 
     End Interface
 End Namespace
