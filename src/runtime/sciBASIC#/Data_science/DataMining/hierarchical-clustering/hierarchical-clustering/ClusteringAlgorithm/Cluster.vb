@@ -111,7 +111,14 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
     ''' </summary>
     ''' <returns></returns>
     Public Property Name As String Implements INamedValue.Key, ITreeNodeData(Of Cluster).FullyQualifiedName
-    Public Property Children As IReadOnlyCollection(Of Cluster) Implements ITreeNodeData(Of Cluster).ChildNodes
+    Public ReadOnly Property Children As IReadOnlyCollection(Of Cluster) Implements ITreeNodeData(Of Cluster).ChildNodes
+        Get
+            Return m_childs
+        End Get
+    End Property
+
+    Dim m_childs As New List(Of Cluster)
+
     Public ReadOnly Property LeafNames As List(Of String)
     Public ReadOnly Property IsRoot As Boolean Implements ITreeNodeData(Of Cluster).IsRoot
         Get
@@ -154,7 +161,6 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
     Public Sub New(name$)
         Me.Name = name
         LeafNames = New List(Of String)
-        Children = New List(Of Cluster)
         Distance = New Distance
     End Sub
 
@@ -166,8 +172,9 @@ Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
         LeafNames.AddRange(lnames)
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub AddChild(cluster As Cluster)
-        Children.Add(cluster)
+        m_childs.Add(cluster)
     End Sub
 
     Public Function contains(cluster As Cluster) As Boolean
