@@ -151,7 +151,7 @@ Namespace Hypothesis
                              Optional alternative As Hypothesis = Hypothesis.TwoSided,
                              Optional mu# = 0,
                              Optional alpha# = 0.05,
-                             Optional varEqual As Boolean = True,
+                             Optional varEqual As Boolean = False,
                              Optional [strict] As Boolean = True) As TwoSampleResult
 
             Dim va#() = a.ToArray, vb = b.ToArray
@@ -328,12 +328,17 @@ Namespace Hypothesis
         ''' tcdf(0,5) = 0.5
         ''' ```
         ''' </remarks>
-        Public Function Tcdf(t#, v#) As Decimal
-            Dim x# = v / (v + t ^ 2)
-            Dim inc As Double = SpecialFunctions.RegularizedIncompleteBetaFunction(v / 2.0, 0.5, x)
-            ' there is a bug about the precision in small number
-            ' this problem case the pvalue zero
-            Dim cdf As Double = d128_one - inc / d128_two
+        Public Function Tcdf(t#, v#) As Double
+            'Dim x# = v / (v + t ^ 2)
+            'Dim inc As Double = SpecialFunctions.RegularizedIncompleteBetaFunction(v / 2.0, 0.5, x)
+            '' there is a bug about the precision in small number
+            '' this problem case the pvalue zero
+            'Dim cdf As Double = d128_one - inc / d128_two
+
+            'Return cdf
+
+            Dim tdist As New StudenttDistribution(v)
+            Dim cdf As Double = tdist.cdf(t, resolution:=10000)
 
             Return cdf
         End Function
