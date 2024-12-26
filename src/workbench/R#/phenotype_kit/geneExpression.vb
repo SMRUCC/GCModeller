@@ -1195,6 +1195,7 @@ Module geneExpression
     ''' 
     ''' 1. 'pattern' is a dataframe object that contains the object cluster patterns
     ''' 2. 'image' is a bitmap image that plot based on the object cluster patterns data.
+    ''' 3. 'pdf' is a pdf image that could be edit
     ''' 
     ''' </returns>
     <ExportAPI("peakCMeans")>
