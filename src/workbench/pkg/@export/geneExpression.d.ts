@@ -402,6 +402,7 @@ declare namespace geneExpression {
      *  
      *  1. 'pattern' is a dataframe object that contains the object cluster patterns
      *  2. 'image' is a bitmap image that plot based on the object cluster patterns data.
+     *  3. 'pdf' is a pdf image that could be edit
    */
    function peakCMeans(matrix: object, nsize?: string, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, cluster_label_css?: string, legend_title_css?: string, legend_tick_css?: string, axis_tick_css?: string, axis_label_css?: string, env?: object): any;
    /**
