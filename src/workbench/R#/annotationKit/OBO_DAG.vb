@@ -57,6 +57,7 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures.Tree
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -175,7 +176,7 @@ Module OBO_DAG
 
     <ExportAPI("ontologyNodes")>
     Public Function ontologyNodes(tree As TermTree(Of Term)) As TermTree(Of Term)()
-        Return tree.EnumerateChilds(popAll:=True) _
+        Return tree.EnumerateAllChilds _
             .Select(Function(a) DirectCast(a, TermTree(Of Term))) _
             .ToArray
     End Function
@@ -183,7 +184,7 @@ Module OBO_DAG
     <ExportAPI("ontologyLeafs")>
     Public Function ontologyLeafs(tree As TermTree(Of Term)) As TermTree(Of Term)()
         Dim leafs As New List(Of TermTree(Of Term))
-        Dim popAllNodes = tree.EnumerateChilds(popAll:=True).ToArray
+        Dim popAllNodes = tree.EnumerateAllChilds.ToArray
 
         For Each term As TermTree(Of Term) In popAllNodes
             If term.IsLeaf Then

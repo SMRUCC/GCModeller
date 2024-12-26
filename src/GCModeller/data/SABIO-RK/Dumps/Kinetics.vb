@@ -100,6 +100,10 @@ Namespace TabularDump
     ''' <remarks></remarks>
     Public Class EnzymeCatalystKineticLaw : Inherits SabiorkEntity
 
+        ''' <summary>
+        ''' list of compartment of current enzyme and kinetics
+        ''' </summary>
+        ''' <returns></returns>
         Public Property compartment As String()
         Public Property enzyme As Dictionary(Of String, String)
         Public Property reaction As String
@@ -114,13 +118,16 @@ Namespace TabularDump
         Public Property parameters As Dictionary(Of String, String)
         Public Property lambda As String
         Public Property xref As Dictionary(Of String, String())
+        Public Property uniprot_id As String()
+        Public Property rhea_id As String
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0} -> {1}", enzyme, reaction)
+            Return String.Format("({0}) {1}", enzyme.Values.GetJson, reaction)
         End Function
 
         Public Shared Function Create(rxn As SBMLReaction, math As LambdaExpression, doc As SBMLInternalIndexer) As EnzymeCatalystKineticLaw
-            Dim experiment = rxn.kineticLaw.annotation.sabiork.experimentalConditions
+            Dim experiment As experimentalConditions = rxn.kineticLaw.annotation.sabiork?.experimentalConditions
+            Dim mathId As String = "KL_" & rxn.kineticLawID
             Dim exp As String = math.lambda.ToString
             Dim pubmeds As String() = rxn.kineticLaw.annotation.RDF.description _
                 .Select(Function(part)
@@ -137,6 +144,7 @@ Namespace TabularDump
             Dim args As New Dictionary(Of String, String)
             Dim ci As String() = rxn.kineticLaw.math.apply.ci _
                 .Select(AddressOf Strings.Trim) _
+                .Where(Function(a) a <> mathId) _
                 .ToArray
             Dim locals = rxn.kineticLaw.listOfLocalParameters.ToDictionary(Function(l) l.id)
             Dim locations As String() = enzymes _
@@ -145,32 +153,26 @@ Namespace TabularDump
 
             For i As Integer = 0 To ci.Length - 1
                 Dim name As String = math.parameters(i)
-                Dim prefix As String
-
-                If name = "E" Then
-                    prefix = "ENZ"
-                Else
-                    prefix = name
-                End If
-
-                Dim ci_id As String = ci.Where(Function(e) e.StartsWith(prefix)).FirstOrDefault
+                Dim ci_id As String = ci(i)
 
                 If ci_id.StringEmpty Then
                     ci_id = ci.Where(Function(e) e.StartsWith("KL")).FirstOrDefault
                 End If
 
-                If locals.ContainsKey(ci_id) Then
-                    args.Add(name, locals(ci_id).value)
-                Else
-                    args.Add(name, ci_id)
+                If Not args.ContainsKey(name) Then
+                    If locals.ContainsKey(ci_id) Then
+                        args.Add(name, locals(ci_id).value)
+                    Else
+                        args.Add(name, ci_id)
+                    End If
                 End If
             Next
 
             Return New EnzymeCatalystKineticLaw With {
-                .SabiorkId = rxn.kineticLaw.annotation.sabiork.kineticLawID,
-                .buffer = experiment.buffer.Trim,
-                .PH = experiment.pHValue.startValuepH,
-                .temperature = experiment.temperature.startValueTemperature,
+                .SabiorkId = mathId,
+                .buffer = If(experiment Is Nothing, "*", Strings.Trim(experiment.buffer)),
+                .PH = If(experiment Is Nothing OrElse experiment.pHValue Is Nothing, 7.0, experiment.pHValue.startValuepH),
+                .temperature = If(experiment Is Nothing OrElse experiment.temperature Is Nothing, 36, experiment.temperature.startValueTemperature),
                 .lambda = exp,
                 .fast = rxn.fast,
                 .reversible = rxn.reversible,
@@ -181,7 +183,16 @@ Namespace TabularDump
                 .parameters = args,
                 .xref = xrefs,
                 .enzyme = enzymes.ToDictionary(Function(e) e.id, Function(e) e.name),
-                .compartment = locations
+                .compartment = locations,
+                .uniprot_id = enzymes _
+                    .Select(Function(e)
+                                Return e.db_xrefs.SafeQuery _
+                                    .Where(Function(a) a.DBName.TextEquals("uniprot"))
+                            End Function) _
+                    .IteratesALL _
+                    .Select(Function(a) a.entry) _
+                    .Distinct _
+                    .ToArray
             }
         End Function
     End Class

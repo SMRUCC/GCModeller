@@ -30,9 +30,11 @@ declare namespace sabiork {
    */
    function open(file: string): object;
    /**
+    * parse the sbml xml document text as kineticis data
     * 
     * 
      * @param data the xml document text or the file path to the sbml xml document file.
+     * @return a SBML document data that contains list of reactions and list of the lambda formula expression
    */
    function parseSbml(data: string): object;
    /**
@@ -45,4 +47,7 @@ declare namespace sabiork {
      * @param sbml -
    */
    function sbmlReader(sbml: object): object;
+   /**
+   */
+   function unset_sbml(x: object): object;
 }
