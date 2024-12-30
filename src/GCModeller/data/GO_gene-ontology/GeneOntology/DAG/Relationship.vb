@@ -112,7 +112,7 @@ Namespace DAG
 
             If InStr(term_id, "{") > 0 AndAlso InStr(term_id, "}") > 0 Then
                 attributes = term_id.GetStackValue("{", "}")
-                term_id = term_id.Replace(attributes, "").Trim
+                term_id = term_id.Replace(attributes, "").Replace("{}", "").Trim
             End If
         End Sub
 
