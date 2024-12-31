@@ -18,7 +18,7 @@ Public Class SLIC
     ReadOnly width As Integer
 
     Sub New(bitmap As BitmapBuffer)
-        Me.width = width
+        Me.width = 4
         Me.bitmap = ReadImagePixels(bitmap).ToArray
     End Sub
 
