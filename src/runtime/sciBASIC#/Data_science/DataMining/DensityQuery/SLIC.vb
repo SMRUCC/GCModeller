@@ -18,16 +18,19 @@ Public Class SLIC
 
     End Function
 
+
+
 End Class
 
 Public Class SLICPixel
 
     Public Property x As Integer
     Public Property y As Integer
-    Public Property a As Double
-    Public Property r As Double
-    Public Property g As Double
-    Public Property b As Double
+    ''' <summary>
+    ''' a general vector for store the pixel color data in multiple data mode
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property color As Double()
     Public Property cluster As Integer
 
 End Class
