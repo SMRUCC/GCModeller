@@ -17,9 +17,18 @@ Public Class SLIC
     ReadOnly bitmap As SLICPixel()
     ReadOnly width As Integer
 
+    ''' <summary>
+    ''' argb
+    ''' </summary>
+    ''' <param name="bitmap"></param>
     Sub New(bitmap As BitmapBuffer)
         Me.width = 4
         Me.bitmap = ReadImagePixels(bitmap).ToArray
+    End Sub
+
+    Sub New(spatial As IEnumerable(Of SLICPixel))
+        Me.bitmap = spatial.ToArray
+        Me.width = bitmap(0).color.Length
     End Sub
 
     Public Shared Iterator Function ReadImagePixels(bitmap As BitmapBuffer) As IEnumerable(Of SLICPixel)
