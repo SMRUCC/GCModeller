@@ -102,12 +102,18 @@ Namespace DAG
         ''' 父节点的实例
         ''' </summary>
         Dim term As TermNode
+        Dim attributes As String
 
         Sub New(value$)
             Dim tokens$() = Strings.Split(value$, " ! ")
 
             term_id = tokens(Scan0%)
             name = tokens.ElementAtOrDefault(1%, [default]:=term_id)
+
+            If InStr(term_id, "{") > 0 AndAlso InStr(term_id, "}") > 0 Then
+                attributes = term_id.GetStackValue("{", "}")
+                term_id = term_id.Replace(attributes, "").Replace("{}", "").Trim
+            End If
         End Sub
 
         Public Overrides Function ToString() As String
