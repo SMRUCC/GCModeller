@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports std = System.Math
 
@@ -14,8 +15,10 @@ Imports std = System.Math
 Public Class SLIC
 
     ReadOnly bitmap As SLICPixel()
+    ReadOnly width As Integer
 
     Sub New(bitmap As BitmapBuffer)
+        Me.width = width
         Me.bitmap = ReadImagePixels(bitmap).ToArray
     End Sub
 
@@ -111,11 +114,7 @@ Public Class SLIC
             If clusterPixels.Count > 0 Then
                 Dim centerX As Single = clusterPixels.Average(Function(p) p.x)
                 Dim centerY As Single = clusterPixels.Average(Function(p) p.y)
-                Dim centerColor As Double() = New Double() {
-                    clusterPixels.Average(Function(p) p.color(0)),
-                    clusterPixels.Average(Function(p) p.color(1)),
-                    clusterPixels.Average(Function(p) p.color(2))
-                }
+                Dim centerColor As Double() = Mean(clusterPixels, width)
                 Dim centerPixel As New SLICPixel With {
                     .x = CInt(std.Round(centerX)),
                     .y = CInt(std.Round(centerY)),
@@ -132,6 +131,18 @@ Public Class SLIC
         centers.Clear()
         centers.AddRange(newCenters)
     End Sub
+
+    Private Shared Function Mean(clusterPixels As IEnumerable(Of SLICPixel), width As Integer) As Double()
+        Dim v As Double() = New Double(width - 1) {}
+        Dim n As Integer = 0
+
+        For Each pixel As SLICPixel In clusterPixels
+            v = SIMD.Add.f64_op_add_f64(v, pixel.color)
+            n += 1
+        Next
+
+        Return SIMD.Divide.f64_op_divide_f64_scalar(v, n)
+    End Function
 
 End Class
 
