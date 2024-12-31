@@ -24,12 +24,13 @@ Public Class SLIC
         For y As Integer = 0 To height - 1
             For x As Integer = 0 To width - 1
                 Dim color As Color = bitmap.GetPixel(x, y)
+
                 Yield New SLICPixel With {
-                .x = x,
-                .y = y,
-                .color = {color.A, color.R, color.G, color.B},
-                .cluster = -1
-            }
+                    .x = x,
+                    .y = y,
+                    .color = {color.A, color.R, color.G, color.B},
+                    .cluster = -1
+                }
             Next
         Next
     End Function
@@ -74,14 +75,14 @@ Public Class SLIC
         Next
     End Function
 
-    Public Function MeasureSegments(regionSize As Integer, numIterations As Integer)
+    Public Function MeasureSegments(regionSize As Integer, numIterations As Integer) As SLICPixel()
         Dim centers As List(Of SLICPixel) = InitializeCenters(bitmap, regionSize)
 
         For i As Integer = 0 To numIterations - 1
             IterateClustering(bitmap, centers, regionSize)
         Next
 
-
+        Return bitmap
     End Function
 
     Public Sub IterateClustering(pixels As SLICPixel(), centers As List(Of SLICPixel), regionSize As Integer)
@@ -105,7 +106,8 @@ Public Class SLIC
         Dim newCenters As New List(Of SLICPixel)
 
         For i As Integer = 0 To centers.Count - 1
-            Dim clusterPixels As List(Of SLICPixel) = pixels.Where(Function(p) p.cluster = i).ToList()
+            Dim offset As Integer = i
+            Dim clusterPixels As List(Of SLICPixel) = pixels.AsParallel.Where(Function(p) p.cluster = offset).ToList()
             If clusterPixels.Count > 0 Then
                 Dim centerX As Single = clusterPixels.Average(Function(p) p.x)
                 Dim centerY As Single = clusterPixels.Average(Function(p) p.y)
