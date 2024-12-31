@@ -1,5 +1,7 @@
 ﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports std = System.Math
 
@@ -76,10 +78,10 @@ Public Class SLIC
     End Function
 
     Public Function MeasureSegments(regionSize As Integer, numIterations As Integer) As SLICPixel()
-        Dim centers As List(Of SLICPixel) = InitializeCenters(bitmap, regionSize)
+        Dim centers As List(Of SLICPixel) = InitializeCenters(bitmap, regionSize).ToList
 
-        For i As Integer = 0 To numIterations - 1
-            IterateClustering(bitmap, centers, regionSize)
+        For Each i As Integer In TqdmWrapper.Range(0, numIterations)
+            Call IterateClustering(bitmap, centers, regionSize)
         Next
 
         Return bitmap
@@ -88,16 +90,14 @@ Public Class SLIC
     Public Sub IterateClustering(pixels As SLICPixel(), centers As List(Of SLICPixel), regionSize As Integer)
         ' 为每个像素点找到最近的聚类中心
         For Each pixel As SLICPixel In pixels
-            Dim minDistance As Single = Single.MaxValue
-            Dim closestCenter As Integer = -1
-
-            For i As Integer = 0 To centers.Count - 1
-                Dim dist As Single = pixel.DistanceTo(centers(i), regionSize)
-                If dist < minDistance Then
-                    minDistance = dist
-                    closestCenter = i
-                End If
-            Next
+            Dim closest = centers.SeqIterator _
+                .AsParallel _
+                .Select(Function(a)
+                            Return (pixel.DistanceTo(a, regionSize), a.i)
+                        End Function) _
+                .OrderBy(Function(d) d.Item1) _
+                .First
+            Dim closestCenter As Integer = closest.i
 
             pixel.cluster = closestCenter
         Next
