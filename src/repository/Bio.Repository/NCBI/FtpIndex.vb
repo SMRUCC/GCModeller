@@ -423,4 +423,8 @@ Public Class FtpIndex
     ''' <returns></returns>
     Public Property pubmed_id As String
 
+    Public Shared Function LoadIndex(file As String) As IEnumerable(Of FtpIndex)
+        Dim loader As New 
+    End Function
+
 End Class
