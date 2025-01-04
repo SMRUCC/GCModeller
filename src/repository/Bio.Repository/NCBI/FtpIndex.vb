@@ -279,7 +279,7 @@ Public Class FtpIndex
     ''' <returns></returns>
     Public Property gbrs_paired_asm As String
     ''' <summary>
-    ''' Paired assembly comparison: whether the paired GenBank & RefSeq assemblies 
+    ''' Paired assembly comparison: whether the paired GenBank &amp; RefSeq assemblies 
     '''    are identical or different.
     '''    Values:
     '''       identical - GenBank and RefSeq assemblies are identical
