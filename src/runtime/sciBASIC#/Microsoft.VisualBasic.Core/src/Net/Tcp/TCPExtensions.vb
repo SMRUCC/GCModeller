@@ -125,6 +125,9 @@ Namespace Net.Tcp
         ''' 获取操作系统已用的端口号
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' not supported on linux
+        ''' </remarks>
         Public Function PortIsUsed() As Integer()
             '获取本地计算机的网络连接和通信统计数据的信息
             Dim ipGlobalProperties As IPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties()
@@ -139,7 +142,9 @@ Namespace Net.Tcp
 
             Call allPorts.AddRange(From ep As System.Net.IPEndPoint In ipsTCP Select ep.Port)
             Call allPorts.AddRange(From ep As System.Net.IPEndPoint In ipsUDP Select ep.Port)
-            Call allPorts.AddRange(From conn As TcpConnectionInformation In tcpConnInfoArray Select conn.LocalEndPoint.Port)
+            Call allPorts.AddRange(From conn As TcpConnectionInformation
+                                   In tcpConnInfoArray
+                                   Select conn.LocalEndPoint.Port)
 
             Return allPorts.ToArray
         End Function
