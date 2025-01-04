@@ -158,6 +158,9 @@ declare namespace GCModeller {
    function metpa_enrich_ids(data: any, metpa: any): object;
    /**
    */
+   function ncbi_assembly_ftp(id: any): object;
+   /**
+   */
    function reference_genome(ncbi_taxid: any): object;
    taxonomy_query: any;
    /**
