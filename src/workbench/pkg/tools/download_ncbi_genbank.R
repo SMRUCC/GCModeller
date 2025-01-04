@@ -10,5 +10,5 @@ for(let ref in index_data) {
     let key = md5([ref]::assembly_accession);
     let subdir = `${substr(key,2,4)}/${substr(key,8,11)}`;
     
-    ncbi_assembly_ftp(ref, `${download_dir}/${subdir}`);
+    ncbi_assembly_ftp(ref, `${download_dir}/${subdir}`,overrides=FALSE);
 }
