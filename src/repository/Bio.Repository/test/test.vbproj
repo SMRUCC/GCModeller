@@ -131,37 +131,57 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\Bio.Annotation.vbproj">
-      <Project>{e5ad6940-d449-471d-9539-65b4e457e6e3}</Project>
-      <Name>Bio.Annotation</Name>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj">
+      <Project>{e29d9c82-314f-41ad-9395-6e0f25882a76}</Project>
+      <Name>annotation.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{bd223439-452e-430f-adeb-2926bcd3e432}</Project>
+      <Name>biocore-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\BinaryData.vbproj">
-      <Project>{487d7c92-d05a-4908-bf81-e6baba0bf592}</Project>
-      <Name>BinaryData</Name>
+    <ProjectReference Include="..\..\..\GCModeller\data\Rhea\Rhea.vbproj">
+      <Project>{57acfdb0-020f-49a8-94b2-19e5ccf6a3b6}</Project>
+      <Name>Rhea</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\DataStorage\DataStorage.vbproj">
-      <Project>{3c79ae03-a766-4b61-bdc4-824d78481b53}</Project>
-      <Name>DataStorage</Name>
+    <ProjectReference Include="..\..\..\GCModeller\data\SABIO-RK\SABIO-RK.NET.vbproj">
+      <Project>{ec6533c8-712f-44fb-ba4e-3a3690e3be8d}</Project>
+      <Name>SABIO-RK.NET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\msgpack\MessagePack.vbproj">
-      <Project>{c473d2d3-65b3-0220-32a8-1e0687d9ae6b}</Project>
-      <Name>MessagePack</Name>
+    <ProjectReference Include="..\..\..\GCModeller\models\SBML\SBML\sbml-netcore5.vbproj">
+      <Project>{4ff87ca7-d434-4069-8ea7-b9234c66ce0b}</Project>
+      <Name>sbml-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj">
+      <Project>{35e1d02a-e2a4-454b-b558-de3cf4aa4fb6}</Project>
+      <Name>binarydata-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\HDSPack\HDSPack.vbproj">
+      <Project>{f8f28f95-cb0d-4451-8162-e1124412b268}</Project>
+      <Name>HDSPack</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bio.Repository.vbproj">
-      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
-      <Name>Bio.Repository</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\msgpack\msgpack-netcore5.vbproj">
+      <Project>{86e65f58-ee21-4cf4-9d4c-ce0e3ece1c45}</Project>
+      <Name>msgpack-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj">
+      <Project>{a9714086-035c-4ea5-8e31-4c935e25033e}</Project>
+      <Name>dataframework-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{4640e1d3-9e07-4d89-ae1c-4dd221c8a7f3}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25rdf+xml\rdf_xml-netcore5.vbproj">
+      <Project>{0584781a-0e02-41bf-8258-36dcd8c1ff55}</Project>
+      <Name>rdf_xml-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%25xml\xml-netcore5.vbproj">
+      <Project>{184096f9-5266-4885-af8a-e831c7507f18}</Project>
+      <Name>xml-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\repository.NET5.vbproj">
+      <Project>{d2ad7ca5-c3cf-4ff0-a17d-0f320a844839}</Project>
+      <Name>repository.NET5</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
