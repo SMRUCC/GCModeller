@@ -1,5 +1,6 @@
 ﻿
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Data.csv.IO.Linq
 
 ''' <summary>
 ''' assembly_summary_genbank.txt
@@ -424,7 +425,9 @@ Public Class FtpIndex
     Public Property pubmed_id As String
 
     Public Shared Function LoadIndex(file As String) As IEnumerable(Of FtpIndex)
-        Dim loader As New 
+        Dim loader As New DataStream(file, trim:=True, skip:=1, tsv:=True)
+        Dim refs As IEnumerable(Of FtpIndex) = loader.AsLinq(Of FtpIndex)(, silent:=True)
+        Return refs
     End Function
 
 End Class
