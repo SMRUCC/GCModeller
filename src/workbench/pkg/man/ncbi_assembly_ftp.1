@@ -1,10 +1,12 @@
-﻿.TH NCBI_ASSEMBLY_FTP 1 2025-Jan "" "ncbi_assembly_ftp"
+﻿.TH NCBI_ASSEMBLY_FTP 1 2025-Jan "" "Do ftp download of the ncbi genbank assembly file."
 .SH NAME
 ncbi_assembly_ftp \- ncbi_assembly_ftp(ref,
-    <i>download.dir</i> = <span style='color: brown;'><strong>'./'</strong></span>)
+    <i>download.dir</i> = <span style='color: brown;'><strong>'./'</strong></span>,
+    <i>overrides</i> = <span style='color: blue !important;'>TRUE</span>)
 .SH SYNOPSIS
 \fIncbi_assembly_ftp(ref,
-    <i>download.dir</i> = <span style='color: brown;'><strong>'./'</strong></span>)\fR
+    <i>download.dir</i> = <span style='color: brown;'><strong>'./'</strong></span>,
+    <i>overrides</i> = <span style='color: blue !important;'>TRUE</span>)\fR
 .SH OPTIONS
 .PP
 \fBref\fB \fR\- . 
@@ -12,9 +14,12 @@ ncbi_assembly_ftp \- ncbi_assembly_ftp(ref,
 .PP
 \fBdownload.dir\fB \fR\- './'. 
 .PP
+.PP
+\fBoverrides\fB \fR\- TRUE. overrides the local existed file.
+.PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.ncbi_assembly_ftp at ftp.R:line 1
+SMRUCC/R#.declare_function.ncbi_assembly_ftp at ftp.R:line 5
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, GPL3 Licensed 2025
