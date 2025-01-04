@@ -205,7 +205,7 @@ Module genbankKit
                     "index: " & file.i
                 }, MSG_TYPES.WRN)
             ElseIf TypeOf file.value Is String Then
-                For Each gb As GBFF.File In GBFF.File.LoadDatabase(file, suppressError:=True)
+                For Each gb As GBFF.File In GBFF.File.LoadDatabase(file.value, suppressError:=True)
                     Yield gb
                 Next
             ElseIf TypeOf file.value Is Stream Then
