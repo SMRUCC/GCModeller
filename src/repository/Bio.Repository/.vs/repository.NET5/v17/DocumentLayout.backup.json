@@ -5,6 +5,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\ftpindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\ftpindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F04F1794-7E59-462B-892C-E57A7A04C505}|test\\test.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F04F1794-7E59-462B-892C-E57A7A04C505}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,13 +30,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Module1.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\test\\Module1.vb",
+              "RelativeDocumentMoniker": "test\\Module1.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\test\\Module1.vb",
+              "RelativeToolTip": "test\\Module1.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEQAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-01-04T07:54:03.203Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "FtpIndex.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\FtpIndex.vb",
               "RelativeDocumentMoniker": "NCBI\\FtpIndex.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\FtpIndex.vb",
               "RelativeToolTip": "NCBI\\FtpIndex.vb",
-              "ViewState": "AgIAAA4BAAAAAAAAAAAMwB8BAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-01-04T07:53:35.373Z",
               "EditorCaption": ""
