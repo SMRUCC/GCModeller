@@ -76,9 +76,11 @@ Imports std = System.Math
 Namespace Assembly.NCBI.GenBank.GBFF
 
     ''' <summary>
-    ''' NCBI GenBank database file.(NCBI GenBank数据库文件)
+    ''' NCBI GenBank database file.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' (NCBI GenBank数据库文件)
+    ''' </remarks>
     '''
     <Package("NCBI.Genbank.GBFF")>
     Public Class File : Implements ISaveHandle
@@ -124,11 +126,10 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
         ''' <summary>
         ''' Is plasmid source?
-        ''' (这个Genbank对象是否为一个质粒的基因组数据)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(这个Genbank对象是否为一个质粒的基因组数据)</remarks>
         Public ReadOnly Property isPlasmid As Boolean
             Get
                 Return Not String.IsNullOrEmpty(Features.source.Query("plasmid"))

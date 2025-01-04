@@ -181,7 +181,7 @@ Module genbankKit
     ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("populate.genbank")>
+    <ExportAPI("load_genbanks")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function populateGenbanks(<RRawVectorArgument>
                                      files As Object,
@@ -191,34 +191,42 @@ Module genbankKit
             Return RInternal.debug.stop("the required file list can not be nothing!", env)
         End If
 
-        Dim populator =
-            Iterator Function() As IEnumerable(Of GBFF.File)
-                For Each file As SeqValue(Of Object) In REnv.asVector(Of Object)(files).AsObjectEnumerator.SeqIterator
-                    If file.value Is Nothing Then
-                        env.AddMessage({$"file object in position {file.i} is nothing!", "index: " & file.i}, MSG_TYPES.WRN)
-                    ElseIf TypeOf file.value Is String Then
-                        For Each gb As GBFF.File In GBFF.File.LoadDatabase(file, suppressError:=True)
-                            Yield gb
-                        Next
-                    ElseIf TypeOf file.value Is Stream Then
-                        For Each gb As GBFF.File In GBFF.File.LoadDatabase(DirectCast(file.value, Stream), suppressError:=True)
-                            Yield gb
-                        Next
+        Return pipeline.CreateFromPopulator(Populates(files, autoClose, env))
+    End Function
 
-                        If autoClose Then
-                            Try
-                                Call DirectCast(file.value, Stream).Dispose()
-                            Catch ex As Exception
+    Private Iterator Function Populates(files As Object, autoClose As Boolean, env As Environment) As IEnumerable(Of GBFF.File)
+        For Each file As SeqValue(Of Object) In REnv.asVector(Of Object)(files) _
+            .AsObjectEnumerator _
+            .SeqIterator
 
-                            End Try
-                        End If
-                    Else
-                        env.AddMessage({$"file object in position {file.i} is not a file...", "index: " & file.i}, MSG_TYPES.WRN)
-                    End If
+            If file.value Is Nothing Then
+                Call env.AddMessage({
+                    $"file object in position {file.i} is nothing!",
+                    "index: " & file.i
+                }, MSG_TYPES.WRN)
+            ElseIf TypeOf file.value Is String Then
+                For Each gb As GBFF.File In GBFF.File.LoadDatabase(file, suppressError:=True)
+                    Yield gb
                 Next
-            End Function
+            ElseIf TypeOf file.value Is Stream Then
+                For Each gb As GBFF.File In GBFF.File.LoadDatabase(DirectCast(file.value, Stream), suppressError:=True)
+                    Yield gb
+                Next
 
-        Return pipeline.CreateFromPopulator(populator())
+                If autoClose Then
+                    Try
+                        Call DirectCast(file.value, Stream).Dispose()
+                    Catch ex As Exception
+                        ' just ignores of this file close error
+                    End Try
+                End If
+            Else
+                Call env.AddMessage({
+                    $"file object in position {file.i} is not a file...",
+                    "index: " & file.i
+                }, MSG_TYPES.WRN)
+            End If
+        Next
     End Function
 
     ''' <summary>
