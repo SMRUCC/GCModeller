@@ -392,7 +392,10 @@ Module uniprot
     Public Function get_keywords(prot As entry) As Object
         Dim labels = prot.keywords
         Dim df As New dataframe With {
-            .columns = New Dictionary(Of String, Array)
+            .columns = New Dictionary(Of String, Array),
+            .rownames = labels.SafeQuery _
+                .Select(Function(a) $"{a.id}:{a.value}") _
+                .ToArray
         }
 
         Call df.add("id", From word As value In labels.SafeQuery Select word.id)
