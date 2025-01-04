@@ -1,11 +1,12 @@
-const ncbi_assembly_ftp = function(id) {
+const ncbi_assembly_ftp = function(ref, download_dir = "./") {
     imports "ftp" from "webKit";
 
-    let ncbi = new ftp(server = "ftp://ftp.ncbi.nih.gov");
-    let str = gsub(id,"_","");
-    let split_length = 3;
-    let start_positions = seq(1, nchar(str), by = split_length);
-    let split_str = sapply(start_positions, start -> substr(str, start, start + split_length - 1));
+    let ncbi = new ftp(server = "ftp.ncbi.nih.gov");
+    let url  = gsub([ref]::ftp_path, "https://ftp.ncbi.nlm.nih.gov", "");
+    let name = basename(url,TRUE);
+    let ftp_url = `${url}/${name}_genomic.gbff.gz`;
 
-    str(split_str);
+    print(`ftp get: ${ftp_url}`);
+
+    ncbi |> ftp.get(ftp_url, download_dir & "/");
 }

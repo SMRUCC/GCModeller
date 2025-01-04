@@ -1,7 +1,10 @@
 require(GCModeller);
 
-let data = read.csv("K:\test\ASSEMBLY_REPORTS\ANI_report_prokaryotes.txt",tsv=TRUE);
+imports "NCBI" from "annotationKit";
 
-print(data);
+let data = NCBI::genome_assembly_index("K:\test\ASSEMBLY_REPORTS\assembly_summary_genbank.txt");
 
-ncbi_assembly_ftp(id = "GCA_000003135");
+for(let ref in data) {
+    ncbi_assembly_ftp(ref, "Z:/test_ftp");
+    stop();
+}
