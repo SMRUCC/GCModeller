@@ -76,9 +76,55 @@ Imports std = System.Math
 Namespace Assembly.NCBI.GenBank.GBFF
 
     ''' <summary>
-    ''' NCBI GenBank database file.(NCBI GenBank数据库文件)
+    ''' NCBI GenBank database file.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' The National Center for Biotechnology Information (NCBI) GenBank® database is a comprehensive, 
+    ''' annotated collection of all publicly available nucleotide sequences and their protein translations. 
+    ''' It is a key resource for bioinformatics researchers and scientists around the world. Here is 
+    ''' an introduction to the GenBank database file:
+    ''' 
+    ''' What is GenBank?
+    ''' 
+    ''' Establishment: GenBank was established in 1982 and is maintained by the NCBI, which is part of 
+    ''' the National Library of Medicine (NLM) at the National Institutes of Health (NIH) in the United
+    ''' States.
+    ''' Content: It contains sequences from various sources, including genomic, transcriptomic, and 
+    ''' metagenomic studies, as well as sequences from viruses, prokaryotes, eukaryotes, and organelles.
+    ''' Purpose: The primary purpose of GenBank is to provide scientists with a reliable and freely 
+    ''' accessible database to deposit and retrieve genetic sequence data.
+    ''' Key Components of a GenBank File:
+    ''' A GenBank file is typically composed of several sections, each containing specific information about
+    ''' the sequence entry. Here are the main components:
+    ''' Header Section: This includes the LOCUS line, which provides a summary of the entry, including the
+    ''' length of the sequence, the type of molecule (DNA, RNA, or protein), the date of the last update,
+    ''' and the unique accession number.
+    ''' Definition Line: This is the DEFINITION line, which gives a brief description of the sequence.
+    ''' Accession and Version: The ACCESSION line contains the unique identifier for the sequence entry, and
+    ''' the VERSION line indicates the version number of the entry and may include a secondary accession number.
+    ''' Keywords: The KEYWORDS line provides terms that are associated with the sequence and can be used for searching.
+    ''' Source: The SOURCE section describes the organism from which the sequence was derived, including 
+    ''' taxonomy and often the specific tissue or cell type.
+    ''' References: This section lists the literature citations associated with the sequence data, including
+    ''' the authors, title, journal, and publication year.
+    ''' Comment: The COMMENT section can contain various types of information, such as the method used for 
+    ''' sequence determination, the experimental procedures, or additional notes relevant to the sequence.
+    ''' Features Table: This is one of the most important sections, as it provides a detailed annotation of 
+    ''' the sequence. It includes feature key-value pairs that describe the locations and characteristics of
+    ''' genes, exons, introns, regulatory regions, and other sequence features.
+    ''' Sequence Data: The actual nucleotide sequence is presented in the sequence data section, usually in a 
+    ''' 60-character-per-line format. This section can be quite long depending on the size of the sequence.
+    ''' File Format:
+    ''' GenBank files are typically plain text files and can be opened with any text editor. However, they are 
+    ''' often handled using bioinformatics tools and software that can parse and interpret the data more effectively. 
+    ''' The file extension for GenBank files is usually .gb or .gbk.
+    ''' How to Access GenBank:
+    ''' You can access GenBank directly through the NCBI website (https://www.ncbi.nlm.nih.gov/genbank/).
+    ''' Sequences can be searched by various criteria, including accession number, keyword, author, or organism name.
+    ''' Users can also download sequences in various formats, including GenBank flatfile format, FASTA, and others.
+    ''' GenBank providing a wealth of data that scientists use for comparative genomics, evolutionary studies,
+    ''' and many other types of biological research.
+    ''' </remarks>
     '''
     <Package("NCBI.Genbank.GBFF")>
     Public Class File : Implements ISaveHandle
@@ -124,11 +170,10 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
         ''' <summary>
         ''' Is plasmid source?
-        ''' (这个Genbank对象是否为一个质粒的基因组数据)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(这个Genbank对象是否为一个质粒的基因组数据)</remarks>
         Public ReadOnly Property isPlasmid As Boolean
             Get
                 Return Not String.IsNullOrEmpty(Features.source.Query("plasmid"))

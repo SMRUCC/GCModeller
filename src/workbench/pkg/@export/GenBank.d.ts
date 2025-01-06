@@ -118,6 +118,19 @@ declare namespace GenBank {
       */
       function plasmid(gb: any, env?: object): boolean;
    }
+   /**
+    * populate a list of genbank data objects from a given list of files or stream.
+    * 
+    * 
+     * @param files a list of files or file stream
+     * @param autoClose auto close of the @``T:System.IO.Stream`` if the **`files`** contains stream object?
+     * 
+     * + default value Is ``true``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function load_genbanks(files: any, autoClose?: boolean, env?: object): object;
    module origin {
       /**
        * get, add or replace the genome origin fasta sequence in the given genbank assembly file.
@@ -137,21 +150,6 @@ declare namespace GenBank {
         *  the modified genbank assembly object.
       */
       function fasta(gb: object, nt?: object, mol_type?: string): object|object;
-   }
-   module populate {
-      /**
-       * populate a list of genbank data objects from a given list of files or stream.
-       * 
-       * 
-        * @param files a list of files or file stream
-        * @param autoClose auto close of the @``T:System.IO.Stream`` if the **`files`** contains stream object?
-        * 
-        * + default value Is ``true``.
-        * @param env -
-        * 
-        * + default value Is ``null``.
-      */
-      function genbank(files: any, autoClose?: boolean, env?: object): object;
    }
    module protein {
       /**

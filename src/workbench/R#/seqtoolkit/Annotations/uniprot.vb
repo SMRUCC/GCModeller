@@ -388,6 +388,22 @@ Module uniprot
         Return list
     End Function
 
+    <ExportAPI("get_keywords")>
+    Public Function get_keywords(prot As entry) As Object
+        Dim labels = prot.keywords
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = labels.SafeQuery _
+                .Select(Function(a) $"{a.id}:{a.value}") _
+                .ToArray
+        }
+
+        Call df.add("id", From word As value In labels.SafeQuery Select word.id)
+        Call df.add("keyword", From word As value In labels.SafeQuery Select word.value)
+
+        Return df
+    End Function
+
     ''' <summary>
     ''' populate all protein fasta sequence from the given uniprot database reader
     ''' </summary>

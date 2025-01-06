@@ -157,6 +157,11 @@ declare namespace GCModeller {
    */
    function metpa_enrich_ids(data: any, metpa: any): object;
    /**
+     * @param download_dir default value Is ``./``.
+     * @param overrides default value Is ``true``.
+   */
+   function ncbi_assembly_ftp(ref: any, download_dir?: any, overrides?: any): object;
+   /**
    */
    function reference_genome(ncbi_taxid: any): object;
    taxonomy_query: any;

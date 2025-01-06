@@ -6,7 +6,7 @@ NCBI genbank assembly file I/O toolkit
 + [as_tabular](GenBank/as_tabular.1) extract all gene features from genbank and cast to tabular data
 + [accession_id](GenBank/accession_id.1) 
 + [is.plasmid](GenBank/is.plasmid.1) 
-+ [populate.genbank](GenBank/populate.genbank.1) populate a list of genbank data objects from a given list of files or stream.
++ [load_genbanks](GenBank/load_genbanks.1) populate a list of genbank data objects from a given list of files or stream.
 + [write.genbank](GenBank/write.genbank.1) save the modified genbank file
 + [as.genbank](GenBank/as.genbank.1) converts tabular data file to genbank assembly object
 + [feature](GenBank/feature.1) create new feature site

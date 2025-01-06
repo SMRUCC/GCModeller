@@ -58,10 +58,17 @@ Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Module Module1
 
     Sub Main()
+        Call loadIndexTest()
         ' Call write1()
         ' Call read1()
         ' Call readTest()
         Call writeTest()
+    End Sub
+
+    Sub loadIndexTest()
+        Dim index = FtpIndex.LoadIndex("K:\test\ASSEMBLY_REPORTS\assembly_summary_genbank.txt").ToArray
+
+        Pause()
     End Sub
 
     Sub write1()
