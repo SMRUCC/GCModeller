@@ -9,10 +9,10 @@ kegg_colors \- kegg_colors(id, log2FC,
     <i>down</i> = <span style='color: #0000FF;'><strong>'blue'</strong></span>)\fR
 .SH OPTIONS
 .PP
-\fBid\fB \fR\- . 
+\fBid\fB \fR\- . a character vector of a collection of the kegg id
 .PP
 .PP
-\fBlog2FC\fB \fR\- . 
+\fBlog2FC\fB \fR\- . a numeric vector of the log2 Foldchange value of the corresponding kegg id
 .PP
 .PP
 \fBup\fB \fR\- 'red'. 
@@ -20,9 +20,13 @@ kegg_colors \- kegg_colors(id, log2FC,
 .PP
 \fBdown\fB \fR\- 'blue'. 
 .PP
+.SH VALUE
+.PP
+a lambda function that accept two parameters for generates the kegg pathway map url: 1. map_id: the kegg pathway map id 2. idset: a character vector of the kegg id for make url
+.PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.kegg_colors at url_encode.R:line 42
+SMRUCC/R#.declare_function.kegg_colors at url_encode.R:line 50
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, GPL3 Licensed 2025
