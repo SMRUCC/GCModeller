@@ -165,7 +165,11 @@ Module WGCNA
     ''' <returns></returns>
     <ExportAPI("cor_network")>
     <RApiReturn(GetType(Result))>
-    Public Function runAnalysis(x As Matrix, Optional adjacency As Double = 0.6, Optional env As Environment = Nothing) As Object
-        Return Analysis.Run(x, adjacency)
+    Public Function runAnalysis(x As Matrix,
+                                Optional adjacency As Double = 0.6,
+                                Optional umap_layout As Boolean = True,
+                                Optional env As Environment = Nothing) As Object
+
+        Return Analysis.Run(x, adjacency, umap_layout)
     End Function
 End Module
