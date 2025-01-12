@@ -55,7 +55,9 @@ Public Module Analysis
     ''' <summary>
     ''' run WGCNA analysis
     ''' </summary>
-    ''' <param name="samples"></param>
+    ''' <param name="samples">
+    ''' an expression matrix object of gene features in rows and sample id in columns
+    ''' </param>
     ''' <param name="adjacency"></param>
     ''' <returns></returns>
     Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6) As Result
