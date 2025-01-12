@@ -67,6 +67,19 @@ declare namespace WGCNA {
    */
    function applyModuleColors(g: object, modules: object): any;
    /**
+    * Create correlation network based on WGCNA method
+    * 
+    * 
+     * @param x should be an expression matrix object of gene features in rows and sample id in columns
+     * @param adjacency -
+     * 
+     * + default value Is ``0.6``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function cor_network(x: object, adjacency?: number, env?: object): object;
+   /**
     * append protein iteration network based on the WGCNA weights.
     * 
     * 
