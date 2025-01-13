@@ -161,6 +161,14 @@ Namespace Hierarchy
             End If
         End Function
 
+        Public Function Remove(pending As IEnumerable(Of HierarchyTreeNode)) As Boolean
+            For Each i As HierarchyTreeNode In pending
+                Call Remove(i)
+            Next
+
+            Return True
+        End Function
+
         Public Function Remove(link As HierarchyTreeNode) As Boolean
             Dim removed As HierarchyLink = linkTable.RemoveAndGet(hashCodePair(link))
 
@@ -183,8 +191,9 @@ Namespace Hierarchy
             Dim hlink As New HierarchyLink(link)
 
             If linkTable.ContainsKey(hlink.HashKey) Then
-                Dim existingItem As HierarchyLink = linkTable(hlink.HashKey)
 #If DEBUG Then
+                Dim existingItem As HierarchyLink = linkTable(hlink.HashKey)
+
                 Call Console _
                     .Error _
                     .WriteLine("hashCode = " & existingItem.HashKey & " adding redundant link:" & link.ToString & " (exist:" & existingItem.ToString & ")")

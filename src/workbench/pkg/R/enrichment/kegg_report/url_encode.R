@@ -39,6 +39,14 @@ const __parseIdvector = function(set) {
 
 #' generate color map for do colorful encode of the kegg map url
 #' 
+#' @param id a character vector of a collection of the kegg id
+#' @param log2FC a numeric vector of the log2 Foldchange value of the corresponding kegg id
+#' 
+#' @return a lambda function that accept two parameters for generates the kegg pathway map url:
+#' 
+#'   1. map_id: the kegg pathway map id
+#'   2. idset: a character vector of the kegg id for make url 
+#' 
 const kegg_colors = function(id, log2FC, up = "red", down = "blue") {
     let i  = (id != "") && (id != "NULL");  
 

@@ -53,7 +53,7 @@ Public Module WeightedNetwork
     ''' set the element which value less than threshold to zero
     ''' </summary>
     ''' <param name="cor"></param>
-    ''' <param name="threshold"></param>
+    ''' <param name="threshold">edge cutoff value</param>
     ''' <returns></returns>
     <Extension>
     Friend Function Adjacency(cor As NumericMatrix, threshold As Double) As GeneralMatrix
