@@ -52,6 +52,10 @@ Public Class Result
     Public Property K As Vector
     Public Property TOM As GeneralMatrix
     Public Property hclust As Cluster
+    ''' <summary>
+    ''' modules is clustered based on the <see cref="TOM"/> matrix
+    ''' </summary>
+    ''' <returns></returns>
     Public Property modules As Dictionary(Of String, String())
     Public Property softBeta As BetaTest()
 

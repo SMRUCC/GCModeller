@@ -56,3 +56,4 @@ WGCNA, which stands for Weighted Gene Co-expression Network Analysis, is a syste
 + [read.modules](WGCNA/read.modules.1) 
 + [read.weightMatrix](WGCNA/read.weightMatrix.1) 
 + [applyModuleColors](WGCNA/applyModuleColors.1) 
++ [cor_network](WGCNA/cor_network.1) Create correlation network based on WGCNA method

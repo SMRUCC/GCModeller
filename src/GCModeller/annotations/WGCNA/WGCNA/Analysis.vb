@@ -39,10 +39,14 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
+Imports Microsoft.VisualBasic.DataMining.UMAP
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.DataFrame
@@ -55,10 +59,12 @@ Public Module Analysis
     ''' <summary>
     ''' run WGCNA analysis
     ''' </summary>
-    ''' <param name="samples"></param>
+    ''' <param name="samples">
+    ''' an expression matrix object of gene features in rows and sample id in columns
+    ''' </param>
     ''' <param name="adjacency"></param>
     ''' <returns></returns>
-    Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6) As Result
+    Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6, Optional umapLayout As Boolean = True) As Result
         Call VBDebugger.EchoLine("do correlation matrix evaluation...")
         Dim cor As CorrelationMatrix = samples.Correlation(Function(gene) gene.experiments)
         Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
@@ -67,6 +73,7 @@ Public Module Analysis
         Dim beta As BetaTest = betaList(BetaTest.Best(betaList))
         Call VBDebugger.EchoLine("build network graph!")
         Dim network As NumericMatrix = cor.WeightedCorrelation(beta.Power, pvalue:=False).Adjacency(adjacency)
+        Dim g As NetworkGraph = network.createGraph(samples, umapLayout)
         Dim K As New Vector(network.RowApply(AddressOf WeightedNetwork.sumK))
         Call VBDebugger.EchoLine("create TOM matrix...")
         Dim tomMat As NumericMatrix = TOM.Matrix(network, K)
@@ -76,6 +83,9 @@ Public Module Analysis
         Dim matrix As Double()() = dist.PopulateRows _
             .Select(Function(a) a.ToArray) _
             .ToArray
+
+        Call VBDebugger.EchoLine("make metabolite cluster modules...")
+
         Dim cluster As Cluster = alg.performClustering(matrix, dist.keys, New AverageLinkageStrategy)
 
         Call VBDebugger.EchoLine(" ~ done!")
@@ -84,7 +94,7 @@ Public Module Analysis
             .beta = beta,
             .hclust = cluster,
             .K = K,
-            .network = createGraph(network, samples),
+            .network = g,
             .TOM = tomMat,
             .modules = cluster _
                 .CreateModules _
@@ -96,14 +106,28 @@ Public Module Analysis
         }
     End Function
 
-    Private Function createGraph(mat As GeneralMatrix, samples As Matrix) As NetworkGraph
+    <Extension>
+    Private Function createGraph(mat As NumericMatrix, samples As Matrix, umapLayout As Boolean) As NetworkGraph
         Dim geneId As String() = samples.expression.Keys.ToArray
         Dim g As New NetworkGraph
+        Dim umap As Umap = Nothing
+        Dim layout As Double()() = Nothing
+        Dim offset As i32 = 0
+
+        If umapLayout Then
+            umap = New Umap(dimensions:=3)
+            umap = umap.Step(umap.InitializeFit(mat.ArrayPack(deepcopy:=True)))
+            layout = umap.GetEmbedding
+        End If
 
         Call VBDebugger.EchoLine("assign the gene id nodes.")
 
         For Each id As String In geneId
-            Call g.CreateNode(id)
+            Dim node As Node = g.CreateNode(id)
+
+            If umapLayout Then
+                node.data.initialPostion = New FDGVector3(layout(++offset))
+            End If
         Next
 
         Call VBDebugger.EchoLine("create links between the gene expression.")

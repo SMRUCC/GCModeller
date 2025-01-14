@@ -253,7 +253,7 @@ Namespace Assembly.KEGG.WebServices
 
             Static SimSum As [Default](Of Font) = New Font(FontFace.SimSun, 10, FontStyle.Regular)
 
-            Using g As IGraphics = DriverLoad.CreateGraphicsDevice(pathway.GetImage, direct_access:=True)
+            Using g As IGraphics = DriverLoad.CreateGraphicsDevice(pathway.GetImage, direct_access:=True, driver:=Drivers.GDI)
                 Call renderGenes(g, font Or SimSum, pen, pathway, scaleFactor, nodes)
                 Call renderCompound(g, font Or SimSum, pathway, scaleFactor, nodes.compounds)
 

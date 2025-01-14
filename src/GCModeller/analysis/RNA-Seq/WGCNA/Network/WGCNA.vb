@@ -56,7 +56,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Network
 
@@ -141,7 +141,7 @@ Namespace Network
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Find(geneId As String, cutOff As Double) As Weight()
-            Return Find(geneId).Where(Function(itr) stdNum.Abs(itr.Weight) >= cutOff)
+            Return Find(geneId).Where(Function(itr) std.Abs(itr.Weight) >= cutOff)
         End Function
 
         ''' <summary>

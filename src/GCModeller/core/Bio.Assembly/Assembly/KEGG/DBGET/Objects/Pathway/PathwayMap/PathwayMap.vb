@@ -158,7 +158,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return cids.Distinct.Indexing
         End Function
 
-        Public Function GetMapImage() As Bitmap
+        Public Function GetMapImage() As Image
             If String.IsNullOrEmpty(Map) Then
                 Return Nothing
             Else
