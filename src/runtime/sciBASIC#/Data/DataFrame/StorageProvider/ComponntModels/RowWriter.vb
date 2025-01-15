@@ -363,7 +363,8 @@ Namespace StorageProvider.ComponentModels
                 Return _metaBlank.Repeats(__cachedIndex.Length)
             End If
 
-            Dim values As String() = New String(Me.__cachedIndex.Length - 1) {}
+            Dim metaSize As Integer = If(__cachedIndex Is Nothing, 0, __cachedIndex.Length)
+            Dim values As String() = New String(metaSize - 1) {}
             Dim hash As IDictionary = DirectCast(source, IDictionary)
 
             For i As Integer = 0 To __cachedIndex.Length - 1
