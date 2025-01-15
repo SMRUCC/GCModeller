@@ -359,11 +359,14 @@ Namespace StorageProvider.ComponentModels
             ' 得到实体之中的字典类型的属性值
             Dim source As Object = metaRow.BindProperty.GetValue(obj, Nothing)
 
+            If __cachedIndex Is Nothing Then
+                Throw New NullReferenceException("the cache index is nothing, you should run index cached at first, and then write the data!")
+            End If
             If source Is Nothing Then
                 Return _metaBlank.Repeats(__cachedIndex.Length)
             End If
 
-            Dim metaSize As Integer = If(__cachedIndex Is Nothing, 0, __cachedIndex.Length)
+            Dim metaSize As Integer = __cachedIndex.Length
             Dim values As String() = New String(metaSize - 1) {}
             Dim hash As IDictionary = DirectCast(source, IDictionary)
 
