@@ -208,7 +208,9 @@ Namespace SVG.XML
         ''' get/set of the xml attribute value of current svg element.
         ''' </summary>
         ''' <param name="name"></param>
-        ''' <returns></returns>
+        ''' <returns>The value of the specified attribute. An empty string is returned if a matching
+        ''' attribute is not found or if the attribute does not have a specified or default
+        ''' value.</returns>
         Default Public Property Attribute(name As String) As String
             Get
                 Return Element.GetAttribute(name)
