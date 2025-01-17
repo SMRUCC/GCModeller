@@ -100,7 +100,7 @@ Namespace docuRESTfulWeb
             Dim q As Dictionary(Of QueryFields, String)
             Dim ECNumber As String
 
-            For Each id As BriteHText In TqdmWrapper.Wrap(ecNumbers)
+            For Each id As BriteHText In TqdmWrapper.Wrap(ecNumbers, wrap_console:=App.EnableTqdm)
                 saveXml = id.BuildPath(export)
                 ECNumber = id.parent.classLabel.Split.First
                 q = New Dictionary(Of QueryFields, String) From {
