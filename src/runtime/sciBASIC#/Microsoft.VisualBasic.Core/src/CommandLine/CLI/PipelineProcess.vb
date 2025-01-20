@@ -202,7 +202,7 @@ Namespace CommandLine
                 Call onReadLine(reader.ReadLine)
             End While
 
-            For Each line As String In reader.ReadToEnd
+            For Each line As String In reader.ReadToEnd.LineTokens
                 Call onReadLine(line)
             Next
         End Sub
