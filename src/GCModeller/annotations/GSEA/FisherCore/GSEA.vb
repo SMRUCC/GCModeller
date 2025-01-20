@@ -78,7 +78,7 @@ Public Module GSEACalculate
 
         Dim geneInputs As String() = geneExpression.Keys
 
-        For Each pathway As Cluster In TqdmWrapper.Wrap(background.clusters)
+        For Each pathway As Cluster In TqdmWrapper.Wrap(background.clusters, wrap_console:=App.EnableTqdm)
             Dim geneSet As Index(Of String) = pathway.memberIds
             Dim enrich = geneExpression.ToArray.Enrich(geneSet, permutations)
             Dim intersect = geneInputs.Intersect(geneSet.Objects).ToArray
