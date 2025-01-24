@@ -235,11 +235,14 @@ Namespace Graphic.Axis
                 If xRotate <> 0 Then
                     Dim yoffset As Single
 
-                    If xRotate > 0 Then
-                        yoffset = ZERO.Y + d + sz.Height * std.Abs(std.Cos(xRotate * 180 / std.PI)) * 1.25
-                    Else
-                        yoffset = ZERO.Y + d + sz.Height * std.Abs(std.Sin(xRotate * 180 / std.PI)) * 1.25
-                    End If
+                    'If xRotate > 0 Then
+                    '    yoffset = sz.Height * std.Abs(std.Cos(xRotate * 180 / std.PI)) * 1.5
+                    'Else
+                    '    yoffset = sz.Height * std.Abs(std.Sin(xRotate * 180 / std.PI)) * 1.5
+                    'End If
+
+                    yoffset = sz.Height * 1.5
+                    yoffset += ZERO.Y + d
 
                     Call g.DrawString(labelText, tickFont, tickColor, x, yoffset, angle:=xRotate)
                 Else
