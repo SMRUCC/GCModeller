@@ -235,7 +235,7 @@ Module visualPlot
             .xlabel = "Number of Metabolites"
         }
 
-        Return app.Plot(InteropArgumentHelper.getSize(size, env), ppi:=ppi)
+        Return app.Plot(InteropArgumentHelper.getSize(size, env), ppi:=ppi, driver:=env.getDriver)
     End Function
 
     ''' <summary>
@@ -556,7 +556,7 @@ Module visualPlot
             }
         Dim size_str As String = InteropArgumentHelper.getSize(size, env, "10000,6500")
 
-        Return heatmap.Plot(size_str.SizeParser, dpi, env.getDriver)
+        Return heatmap.Plot(size_str.SizeParser, dpi, driver:=env.getDriver)
     End Function
 
     ''' <summary>
