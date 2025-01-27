@@ -64,7 +64,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Math
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Drawing2D.Shapes
 
@@ -92,7 +92,7 @@ Namespace Drawing2D.Shapes
         Public ReadOnly Property Length As Double
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return stdNum.Sqrt((A.X - B.X) ^ 2 + (A.Y - B.Y) ^ 2)
+                Return std.Sqrt((A.X - B.X) ^ 2 + (A.Y - B.Y) ^ 2)
             End Get
         End Property
 
@@ -122,7 +122,7 @@ Namespace Drawing2D.Shapes
             Get
                 Dim dx! = B.X - Me.A.X
                 Dim dy! = B.Y - Me.A.Y
-                Dim cos = dx / stdNum.Sqrt(dx ^ 2 + dy ^ 2)
+                Dim cos = dx / std.Sqrt(dx ^ 2 + dy ^ 2)
                 Dim a = Arccos(cos)
 
                 If dy < 0 Then
