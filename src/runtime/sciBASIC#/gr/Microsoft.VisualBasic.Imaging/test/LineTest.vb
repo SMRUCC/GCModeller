@@ -81,7 +81,7 @@ Module LineTest
             }
 
                 Dim cor = line.ParallelShift(-150)
-                cor.Stroke.Color = Color.Red
+                cor.Stroke.fill = NameOf(Color.Red)
                 cor.Stroke.Width = 5
 
                 Call line.Draw(g)
