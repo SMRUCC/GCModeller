@@ -65,6 +65,7 @@ Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports std = System.Math
 
 Namespace Drawing2D.Shapes
@@ -223,6 +224,8 @@ Namespace Drawing2D.Shapes
 
         Public Overrides Function Draw(ByRef g As IGraphics, Optional overridesLoci As Point = Nothing) As RectangleF
             Dim rect As RectangleF = MyBase.Draw(g, overridesLoci)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim stroke As Pen = css.GetPen(Me.Stroke, allowNull:=True)
             Call g.DrawLine(Stroke, A, B)
             Return rect
         End Function
@@ -234,7 +237,7 @@ Namespace Drawing2D.Shapes
         ''' <returns></returns>
         Public Function ParallelShift(d#) As Line
             With Stroke
-                Dim color As Color = DirectCast(.Brush, SolidBrush).Color
+                Dim color As Color = .fill.TranslateColor
                 Dim dx = d * Sin
                 Dim dy = d * Cos
                 Dim offset As New Point(dx, -dy)
