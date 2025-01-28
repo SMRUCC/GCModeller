@@ -1,13 +1,8 @@
-﻿Imports System.Drawing
-Imports Microsoft.VisualBasic.MIME.Html.CSS
+﻿Imports Microsoft.VisualBasic.Imaging.Drawing2D
 
 Namespace PostScript.Elements
 
-    Public Class Line : Inherits PSElement
-
-        Public Property a As PointF
-        Public Property b As PointF
-        Public Property stroke As Stroke
+    Public Class Line : Inherits PSElement(Of Shapes.Line)
 
     End Class
 End Namespace

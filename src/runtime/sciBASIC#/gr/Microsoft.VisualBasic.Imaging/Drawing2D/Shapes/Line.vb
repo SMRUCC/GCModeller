@@ -64,13 +64,14 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports std = System.Math
 
 Namespace Drawing2D.Shapes
 
     Public Class Line : Inherits Shape
 
-        Public Property Stroke As Pen
+        Public Property Stroke As Stroke
 
         Public ReadOnly Property A As PointF
         Public ReadOnly Property B As PointF
@@ -157,10 +158,10 @@ Namespace Drawing2D.Shapes
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(a As PointF, b As PointF, c As Color, width%)
-            Call Me.New(a, b, pen:=New Pen(New SolidBrush(c), width))
+            Call Me.New(a, b, pen:=New Stroke(width, c))
         End Sub
 
-        Sub New(a As PointF, b As PointF, pen As Pen)
+        Sub New(a As PointF, b As PointF, pen As Stroke)
             Call MyBase.New(a.ToPoint)
 
             Me.A = a
