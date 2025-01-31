@@ -1,6 +1,13 @@
-﻿Namespace PostScript.Elements
+﻿Imports Microsoft.VisualBasic.MIME.Html.CSS
 
-    Public Class Text
+Namespace PostScript.Elements
+
+    Public Class Text : Inherits PSElement
+
+        Public Property text As String
+        Public Property font As CSSFont
+        Public Property fill As String
+        Public Property rotation As Single
 
     End Class
 
