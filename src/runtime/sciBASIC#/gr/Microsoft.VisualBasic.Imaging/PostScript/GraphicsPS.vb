@@ -86,8 +86,7 @@ Namespace PostScript
         End Property
 
         Dim ps_fontsize% = 15
-        Dim buffer As New MemoryStream
-        Dim fp As StreamWriter
+        Dim painting As New PostScriptBuilder
         Dim originx, originy As Single
 
         Sub New(size As Size, dpi As Size)
@@ -96,24 +95,7 @@ Namespace PostScript
             Me.fp = New StreamWriter(buffer)
             Me.Size = size
 
-            fprintf(fp, "%%!PS-Adobe-3.0 EPSF-3.0\n")
-            fprintf(fp, "%%%%DocumentData: Clean7Bit\n")
-            fprintf(fp, "%%%\%Origin: %10.2f %10.2f\n", originx, originy)
-            fprintf(fp, "%%%%BoundingBox: %10.2f %10.2f %10.2f %10.2f\n", originx, originy, size.Width, size.Height)
-            fprintf(fp, "%%%%LanguageLevel: 2\n")
-            fprintf(fp, "%%%%Pages: 1\n")
-            fprintf(fp, "%%%%Page: 1 1                           \n")
-            fprintf(fp, "%% Convert to PDF with something like this:\n")
-            fprintf(fp, "%% gs -o OutputFileName.pdf -sDEVICE=pdfwrite -dEPSCrop InputFileName.ps\n")
-            fprintf(fp, "%% PostScript generated using the PStools library\n")
-            fprintf(fp, "%% from the Binghamton Optimality Research Group\n")
-            fprintf(fp, "%% Get the library at https://github.com/profmadden/pstools\n")
-            fprintf(fp, "%% This library is free to use, however you see fit.  It would be\n")
-            fprintf(fp, "%% nice if you let us know that you're using it, though!\n")
-            fprintf(fp, "%% Drop us an email at pmadden@binghamton.edu, or pop by our\n")
-            fprintf(fp, "%% web page, https://optimal.cs.binghamton.edu\n")
-            fprintf(fp, "%% Standard use-at-your-own-risk stuff applies....\n")
-            fprintf(fp, "/Courier findfont 15 scalefont setfont\n")
+
         End Sub
 
         Public Function linewidth(width As Single) As GraphicsPS
