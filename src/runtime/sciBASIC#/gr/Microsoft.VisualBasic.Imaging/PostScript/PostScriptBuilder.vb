@@ -5,6 +5,8 @@
     ''' </summary>
     Public Class PostScriptBuilder
 
+        Dim paint As PSElement()
+
         ''' <summary>
         ''' Get ascii postscript text
         ''' </summary>

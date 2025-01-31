@@ -6,6 +6,10 @@ Namespace PostScript.Elements
 
         Public Property text As String
         Public Property font As CSSFont
+        ''' <summary>
+        ''' usually be the fill color
+        ''' </summary>
+        ''' <returns></returns>
         Public Property fill As String
         Public Property rotation As Single
 

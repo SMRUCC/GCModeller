@@ -2,6 +2,9 @@
 
 Namespace PostScript
 
+    ''' <summary>
+    ''' abstract model of the painting elements
+    ''' </summary>
     Public MustInherit Class PSElement
 
     End Class
