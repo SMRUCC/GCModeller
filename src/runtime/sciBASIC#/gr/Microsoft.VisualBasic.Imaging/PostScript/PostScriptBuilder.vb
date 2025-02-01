@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Language.C
 
@@ -10,7 +11,31 @@ Namespace PostScript
     ''' </summary>
     Public Class PostScriptBuilder
 
-        Dim paint As PSElement()
+        Dim paints As New List(Of PSElement)
+
+        Friend size As Size
+        Friend originx, originy As Single
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub Add(paint As PSElement)
+            Call Me.paints.Add(paint)
+        End Sub
+
+        Private Sub linewidth(width As Single)
+            fprintf(fp, "%f setlinewidth\n", width)
+        End Sub
+
+        Private Sub color(r!, g!, b!)
+            fprintf(fp, "%3.2f %3.2f %3.2f setrgbcolor\n", r, g, b)
+        End Sub
+
+        Private Sub font(name As String, fontsize!)
+            fprintf(fp, "/%s findfont %f scalefont setfont\n", name, fontsize)
+        End Sub
+
+        Private Sub note(noteText As String)
+            fprintf(fp, "%% %s\n", noteText)
+        End Sub
 
         ''' <summary>
         ''' Get ascii postscript text
@@ -46,6 +71,10 @@ Namespace PostScript
             fprintf(fp, "%% web page, https://optimal.cs.binghamton.edu\n")
             fprintf(fp, "%% Standard use-at-your-own-risk stuff applies....\n")
             fprintf(fp, "/Courier findfont 15 scalefont setfont\n")
+
+            For Each paint As PSElement In Me.paints
+                Call paint.WriteAscii(fp)
+            Next
         End Sub
     End Class
 End Namespace

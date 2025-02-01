@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 
 Namespace PostScript
 
@@ -6,6 +7,8 @@ Namespace PostScript
     ''' abstract model of the painting elements
     ''' </summary>
     Public MustInherit Class PSElement
+
+        Friend MustOverride Sub WriteAscii(fp As StreamWriter)
 
     End Class
 

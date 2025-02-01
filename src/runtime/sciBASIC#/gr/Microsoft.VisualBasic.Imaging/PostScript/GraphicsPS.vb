@@ -78,6 +78,10 @@ Namespace PostScript
         Public Overrides Property RenderingOrigin As Point
         Public Overrides Property TextContrast As Integer
         Public Overrides ReadOnly Property Size As Size
+            Get
+                Return painting.size
+            End Get
+        End Property
 
         Public Overrides ReadOnly Property Driver As Drivers
             Get
@@ -92,32 +96,8 @@ Namespace PostScript
         Sub New(size As Size, dpi As Size)
             Call MyBase.New(dpi)
 
-            Me.fp = New StreamWriter(buffer)
-            Me.Size = size
-
-
+            painting.size = size
         End Sub
-
-        Public Function linewidth(width As Single) As GraphicsPS
-            fprintf(fp, "%f setlinewidth\n", width)
-            Return Me
-        End Function
-
-        Public Function color(r!, g!, b!) As GraphicsPS
-            fprintf(fp, "%3.2f %3.2f %3.2f setrgbcolor\n", r, g, b)
-            Return Me
-        End Function
-
-        Public Shadows Function font(name As String, fontsize!) As GraphicsPS
-            fprintf(fp, "/%s findfont %f scalefont setfont\n", name, fontsize)
-            ps_fontsize = fontsize
-            Return Me
-        End Function
-
-        Public Function note(noteText As String) As GraphicsPS
-            fprintf(fp, "%% %s\n", noteText)
-            Return Me
-        End Function
 
         Public Overrides Sub AddMetafileComment(data() As Byte)
             Throw New NotImplementedException()
