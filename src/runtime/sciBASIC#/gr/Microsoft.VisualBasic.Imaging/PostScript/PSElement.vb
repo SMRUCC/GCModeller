@@ -41,6 +41,10 @@ Namespace PostScript
             Return css.GetPen(stroke)
         End Function
 
+        Public Sub text(s As String, x!, y!)
+            fprintf(fp, "%f %f moveto (%s) show\n", x, y, s)
+        End Sub
+
         Public Sub line(x1!, y1!, x2!, y2!)
             fprintf(fp, "newpath\n %f %f moveto\n %f %f lineto\n stroke\n", x1, y1, x2, y2)
         End Sub

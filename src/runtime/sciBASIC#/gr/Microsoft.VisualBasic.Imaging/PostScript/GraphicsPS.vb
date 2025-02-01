@@ -347,7 +347,7 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, x As Single, y As Single)
-            fprintf(fp, "%f %f moveto (%s) show\n", x, y, s)
+
         End Sub
 
         Public Overrides Sub ExcludeClip(rect As Rectangle)
