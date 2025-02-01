@@ -19,6 +19,12 @@ Namespace PostScript.Elements
             Dim b = shape.B
             Dim pen As Pen = ps.pen(shape.Stroke)
 
+            If pen.DashStyle <> DashStyle.Solid Then
+                ps.dash({2, 3})
+            Else
+                ps.dash(Nothing)
+            End If
+
             Call ps.line(a.X, a.Y, b.X, b.Y)
             Call ps.linewidth(pen.Width)
             Call ps.color(shape.Stroke.fill.TranslateColor)

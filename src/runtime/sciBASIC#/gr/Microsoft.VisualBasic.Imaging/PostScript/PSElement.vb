@@ -45,6 +45,14 @@ Namespace PostScript
             fprintf(fp, "newpath\n %f %f moveto\n %f %f lineto\n stroke\n", x1, y1, x2, y2)
         End Sub
 
+        Public Sub dash(dash As Integer())
+            If dash.IsNullOrEmpty Then
+                fprintf(fp, "[] 0 setdash\n")
+            Else
+                fprintf(fp, "[%s %s] 0 setdash", dash(0), dash(1))
+            End If
+        End Sub
+
         Public Sub linewidth(width As Single)
             fprintf(fp, "%f setlinewidth\n", width)
         End Sub
