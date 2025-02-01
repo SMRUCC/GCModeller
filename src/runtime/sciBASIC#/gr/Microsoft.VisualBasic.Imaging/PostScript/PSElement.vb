@@ -41,6 +41,10 @@ Namespace PostScript
             Return css.GetPen(stroke)
         End Function
 
+        Public Sub moveto(x!, y!)
+            fprintf(fp, "%f %f moveto\n", x, y)
+        End Sub
+
         Public Sub text(s As String, x!, y!)
             fprintf(fp, "%f %f moveto (%s) show\n", x, y, s)
         End Sub
@@ -108,14 +112,27 @@ Namespace PostScript
             fprintf(fp, "gr\n")
         End Sub
 
+        Public Sub font(font As CSSFont)
+            With css.GetFont(font)
+                Call Me.font(.Name, .Size)
+            End With
+        End Sub
+
         Public Sub font(name As String, fontsize!)
-            fprintf(fp, "/%s findfont %f scalefont setfont\n", name, fontsize)
+            fprintf(fp, "/%s findfont\n %f scalefont\n setfont\n", name, fontsize)
         End Sub
 
         Public Sub note(noteText As String)
             For Each line As String In noteText.LineTokens
                 Call fprintf(fp, "%% %s\n", line)
             Next
+        End Sub
+
+        ''' <summary>
+        ''' mark the end of current page
+        ''' </summary>
+        Public Sub showpage()
+            Call fp.WriteLine("showpage")
         End Sub
 
         Protected Overridable Sub Dispose(disposing As Boolean)

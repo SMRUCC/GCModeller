@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.MIME.Html.CSS
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace PostScript.Elements
 
@@ -6,15 +7,13 @@ Namespace PostScript.Elements
 
         Public Property text As String
         Public Property font As CSSFont
-        ''' <summary>
-        ''' usually be the fill color
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property fill As String
         Public Property rotation As Single
+        Public Property location As PointF
 
         Friend Overrides Sub WriteAscii(ps As Writer)
-            Throw New NotImplementedException()
+            ps.font(font)
+            ps.color(font.color.TranslateColor)
+            ps.text(text, location.X, location.Y)
         End Sub
 
         Friend Overrides Sub Paint(g As IGraphics)
