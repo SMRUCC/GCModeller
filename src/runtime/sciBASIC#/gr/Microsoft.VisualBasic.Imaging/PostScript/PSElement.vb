@@ -65,6 +65,18 @@ Namespace PostScript
             fprintf(fp, "%3.2f %3.2f %3.2f setrgbcolor\n", color.R / 255, color.G / 255, color.B / 255)
         End Sub
 
+        Public Sub transparency(ca As Single)
+            fprintf(fp, "<< /CA %f /ca %f >> /TransparentState exch def\n", ca, ca)
+        End Sub
+
+        Public Sub beginTransparent()
+            fprintf(fp, "TransparentState gs\n")
+        End Sub
+
+        Public Sub endTransparent()
+            fprintf(fp, "gr\n")
+        End Sub
+
         Public Sub font(name As String, fontsize!)
             fprintf(fp, "/%s findfont %f scalefont setfont\n", name, fontsize)
         End Sub

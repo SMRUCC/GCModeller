@@ -61,6 +61,8 @@ Namespace PostScript
             Dim g As New Writer(fp, New CSSEnvirnment(size))
 
             fprintf(fp, "%%!PS-Adobe-3.0 EPSF-3.0\n")
+            fprintf(fp, "%%Extensions: CMYK ProcessColorModel")
+            fprintf(fp, "%%+ExtGState")
             fprintf(fp, "%%%%DocumentData: Clean7Bit\n")
             fprintf(fp, "%%%\%Origin: %10.2f %10.2f\n", originx, originy)
             fprintf(fp, "%%%%BoundingBox: %10.2f %10.2f %10.2f %10.2f\n", originx, originy, size.Width, size.Height)

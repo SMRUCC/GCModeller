@@ -25,9 +25,10 @@ Namespace PostScript.Elements
                 ps.dash(Nothing)
             End If
 
-            Call ps.line(a.X, a.Y, b.X, b.Y)
             Call ps.linewidth(pen.Width)
             Call ps.color(shape.Stroke.fill.TranslateColor)
+
+            Call ps.line(a.X, a.Y, b.X, b.Y)
         End Sub
 
         Friend Overrides Sub Paint(g As IGraphics)
