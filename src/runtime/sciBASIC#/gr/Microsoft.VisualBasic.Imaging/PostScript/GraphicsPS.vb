@@ -68,7 +68,6 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
-Imports System.IO
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language.C
 
@@ -439,11 +438,6 @@ Namespace PostScript
 
         Public Overrides Sub FillRectangle(brush As Brush, x As Single, y As Single, width As Single, height As Single)
             Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub Flush()
-            fprintf(fp, "%%%%EOF\n")
-            fp.Flush()
         End Sub
 
         Public Overrides Sub IntersectClip(rect As RectangleF)

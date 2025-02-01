@@ -75,6 +75,8 @@ Namespace PostScript
             For Each paint As PSElement In Me.paints
                 Call paint.WriteAscii(fp)
             Next
+
+            fprintf(fp, "%%%%EOF\n")
         End Sub
     End Class
 End Namespace
