@@ -45,6 +45,11 @@ Namespace PostScript
             fprintf(fp, "newpath\n %f %f moveto\n %f %f lineto\n stroke\n", x1, y1, x2, y2)
         End Sub
 
+        Public Sub circle(center As PointF, radius As Single)
+            fprintf(fp, "%f %f %f 0 360 arc closepath\n", center.X, center.Y, radius)
+            fprintf(fp, "stroke\n")
+        End Sub
+
         Public Sub rectangle(rect As RectangleF, fill As Boolean, stroke As Boolean)
             Dim x1 = rect.X, y1 = rect.Y
             Dim x2 = x1 + rect.Width

@@ -303,13 +303,7 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub DrawCircle(center As PointF, fill As Color, stroke As Pen, radius As Single)
-            fprintf(fp, "%f %f %f 0 360 arc closepath\n", center.X, center.Y, radius)
 
-            If Not fill.IsTransparent Then
-                fprintf(fp, "gsave fill grestore stroke\n")
-            Else
-                fprintf(fp, "stroke\n")
-            End If
         End Sub
 
         Public Overrides Sub DrawPolygon(pen As Pen, points() As PointF)
