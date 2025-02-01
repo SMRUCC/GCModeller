@@ -33,6 +33,10 @@ Namespace PostScript
             Me.fp = fp
         End Sub
 
+        Public Sub line(x1!, y1!, x2!, y2!)
+            fprintf(fp, "newpath %f %f moveto %f %f lineto stroke\n", x1, y1, x2, y2)
+        End Sub
+
         Public Sub linewidth(width As Single)
             fprintf(fp, "%f setlinewidth\n", width)
         End Sub

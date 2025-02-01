@@ -259,19 +259,19 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub DrawLine(pen As Pen, pt1 As PointF, pt2 As PointF)
-            Throw New NotImplementedException()
+            Call painting.Add(New Elements.Line(pen, pt1, pt2))
         End Sub
 
         Public Overrides Sub DrawLine(pen As Pen, pt1 As Point, pt2 As Point)
-            Throw New NotImplementedException()
+            Call painting.Add(New Elements.Line(pen, pt1.PointF, pt2.PointF))
         End Sub
 
         Public Overrides Sub DrawLine(pen As Pen, x1 As Integer, y1 As Integer, x2 As Integer, y2 As Integer)
-            Throw New NotImplementedException()
+            Call painting.Add(New Elements.Line(pen, New PointF(x1, y1), New PointF(x2, y2)))
         End Sub
 
         Public Overrides Sub DrawLine(pen As Pen, x1 As Single, y1 As Single, x2 As Single, y2 As Single)
-            fprintf(fp, "newpath %f %f moveto %f %f lineto stroke\n", x1, y1, x2, y2)
+            Call painting.Add(New Elements.Line(pen, New PointF(x1, y1), New PointF(x2, y2)))
         End Sub
 
         Public Overrides Sub DrawLines(pen As Pen, points() As PointF)

@@ -174,6 +174,11 @@ Namespace Drawing2D.Shapes
             Call Me.New(New PointF(x1, y1), New PointF(x2, y2))
         End Sub
 
+        Sub New(pen As Pen, a As PointF, b As PointF)
+            Call Me.New(a, b)
+            Stroke = New Stroke(pen)
+        End Sub
+
         Sub New(a As PointF, b As PointF)
             Call Me.New(a, b, Color.Black, 1)
         End Sub
