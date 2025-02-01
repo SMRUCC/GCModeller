@@ -1,6 +1,8 @@
-﻿Imports System.IO
+﻿Imports System.Drawing
+Imports System.IO
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Language.C
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace PostScript
 
@@ -26,12 +28,18 @@ Namespace PostScript
     Public Class Writer : Implements IDisposable
 
         ReadOnly fp As StreamWriter
+        ReadOnly css As CSSEnvirnment
 
         Private disposedValue As Boolean
 
-        Sub New(fp As StreamWriter)
+        Sub New(fp As StreamWriter, css As CSSEnvirnment)
             Me.fp = fp
+            Me.css = css
         End Sub
+
+        Public Function pen(stroke As Stroke) As Pen
+            Return css.GetPen(stroke)
+        End Function
 
         Public Sub line(x1!, y1!, x2!, y2!)
             fprintf(fp, "newpath\n %f %f moveto\n %f %f lineto\n stroke\n", x1, y1, x2, y2)
@@ -45,12 +53,18 @@ Namespace PostScript
             fprintf(fp, "%3.2f %3.2f %3.2f setrgbcolor\n", r, g, b)
         End Sub
 
+        Public Sub color(color As Color)
+            fprintf(fp, "%3.2f %3.2f %3.2f setrgbcolor\n", color.R / 255, color.G / 255, color.B / 255)
+        End Sub
+
         Public Sub font(name As String, fontsize!)
             fprintf(fp, "/%s findfont %f scalefont setfont\n", name, fontsize)
         End Sub
 
         Public Sub note(noteText As String)
-            fprintf(fp, "%% %s\n", noteText)
+            For Each line As String In noteText.LineTokens
+                Call fprintf(fp, "%% %s\n", line)
+            Next
         End Sub
 
         Protected Overridable Sub Dispose(disposing As Boolean)

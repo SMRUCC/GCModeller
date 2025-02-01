@@ -4,6 +4,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language.C
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace PostScript
 
@@ -57,7 +58,7 @@ Namespace PostScript
         End Function
 
         Public Overloads Sub BuildString(fp As StreamWriter)
-            Dim g As New Writer(fp)
+            Dim g As New Writer(fp, New CSSEnvirnment(size))
 
             fprintf(fp, "%%!PS-Adobe-3.0 EPSF-3.0\n")
             fprintf(fp, "%%%%DocumentData: Clean7Bit\n")
