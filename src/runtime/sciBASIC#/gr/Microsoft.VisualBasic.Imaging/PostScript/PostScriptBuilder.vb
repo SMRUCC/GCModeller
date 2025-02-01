@@ -66,7 +66,7 @@ Namespace PostScript
             fprintf(fp, "%%%%DocumentData: Clean7Bit\n")
             fprintf(fp, "%%%\%Origin: %10.2f %10.2f\n", originx, originy)
             fprintf(fp, "%%%%BoundingBox: %10.2f %10.2f %10.2f %10.2f\n", originx, originy, size.Width, size.Height)
-            fprintf(fp, "%%%%LanguageLevel: 2\n")
+            fprintf(fp, "%%%%LanguageLevel: 3\n")
             fprintf(fp, "%%%%Pages: 1\n")
             fprintf(fp, "%%%%Page: 1 1                           \n")
             fprintf(fp, "%% Convert to PDF with something like this:\n")

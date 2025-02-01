@@ -18,17 +18,26 @@ Namespace PostScript.Elements
             Dim a = shape.A
             Dim b = shape.B
             Dim pen As Pen = ps.pen(shape.Stroke)
+            Dim color As Color = shape.Stroke.fill.TranslateColor
 
             If pen.DashStyle <> DashStyle.Solid Then
                 ps.dash({2, 3})
             Else
                 ps.dash(Nothing)
             End If
+            If color.A <> 255 Then
+                ps.transparency(color.A / 255)
+                ps.beginTransparent()
+            End If
 
             Call ps.linewidth(pen.Width)
-            Call ps.color(shape.Stroke.fill.TranslateColor)
+            Call ps.color(color)
 
             Call ps.line(a.X, a.Y, b.X, b.Y)
+
+            If color.A <> 255 Then
+                ps.endTransparent()
+            End If
         End Sub
 
         Friend Overrides Sub Paint(g As IGraphics)
