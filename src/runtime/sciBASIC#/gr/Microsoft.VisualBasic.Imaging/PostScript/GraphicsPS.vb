@@ -74,6 +74,7 @@ Imports Microsoft.VisualBasic.Language.C
 Namespace PostScript
 
     Public Class GraphicsPS : Inherits IGraphics
+
         Public Overrides Property RenderingOrigin As Point
         Public Overrides Property TextContrast As Integer
         Public Overrides ReadOnly Property Size As Size
@@ -523,5 +524,9 @@ Namespace PostScript
         Public Overrides Function GetStringPath(s As String, rect As RectangleF, font As Font) As GraphicsPath
             Throw New NotImplementedException()
         End Function
+
+        Public Overrides Sub Flush()
+            Throw New NotImplementedException()
+        End Sub
     End Class
 End Namespace

@@ -21,22 +21,6 @@ Namespace PostScript
             Call Me.paints.Add(paint)
         End Sub
 
-        Private Sub linewidth(width As Single)
-            fprintf(fp, "%f setlinewidth\n", width)
-        End Sub
-
-        Private Sub color(r!, g!, b!)
-            fprintf(fp, "%3.2f %3.2f %3.2f setrgbcolor\n", r, g, b)
-        End Sub
-
-        Private Sub font(name As String, fontsize!)
-            fprintf(fp, "/%s findfont %f scalefont setfont\n", name, fontsize)
-        End Sub
-
-        Private Sub note(noteText As String)
-            fprintf(fp, "%% %s\n", noteText)
-        End Sub
-
         ''' <summary>
         ''' make painting
         ''' </summary>
@@ -65,6 +49,8 @@ Namespace PostScript
         End Function
 
         Public Overloads Sub BuildString(fp As StreamWriter)
+            Dim g As New Writer(fp)
+
             fprintf(fp, "%%!PS-Adobe-3.0 EPSF-3.0\n")
             fprintf(fp, "%%%%DocumentData: Clean7Bit\n")
             fprintf(fp, "%%%\%Origin: %10.2f %10.2f\n", originx, originy)
@@ -85,7 +71,7 @@ Namespace PostScript
             fprintf(fp, "/Courier findfont 15 scalefont setfont\n")
 
             For Each paint As PSElement In Me.paints
-                Call paint.WriteAscii(fp)
+                Call paint.WriteAscii(g)
             Next
 
             fprintf(fp, "%%%%EOF\n")
