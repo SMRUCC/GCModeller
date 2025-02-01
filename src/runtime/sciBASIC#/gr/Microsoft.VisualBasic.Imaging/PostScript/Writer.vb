@@ -135,24 +135,21 @@ Namespace PostScript
             fprintf(fp, "xPos yPos translate\n")
 
             ' Scale the image
-            psCode.AppendLine(scaleX.ToString("0.##") & " " & scaleY.ToString("0.##") & " scale")
+            fp.WriteLine(scaleX.ToString("0.##") & " " & scaleY.ToString("0.##") & " scale")
 
             ' Begin the image dictionary
-            psCode.AppendLine("<<")
-            psCode.AppendLine("  /ImageType 1")
-            psCode.AppendLine("  /Width " & width)
-            psCode.AppendLine("  /Height " & height)
-            psCode.AppendLine("  /BitsPerComponent 8")
-            psCode.AppendLine("  /ColorSpace /DeviceRGB")
-            psCode.AppendLine("  /DataSource imageSource")
-            psCode.AppendLine("  /Interpolate true")
-            psCode.AppendLine(">>")
+            fprintf(fp, "<<\n")
+            fprintf(fp, "  /ImageType 1\n")
+            fprintf(fp, "  /Width %s\n", width)
+            fprintf(fp, "  /Height %s\n", height)
+            fprintf(fp, "  /BitsPerComponent 8\n")
+            fprintf(fp, "  /ColorSpace /DeviceRGB\n")
+            fprintf(fp, "  /DataSource imageSource\n")
+            fprintf(fp, "  /Interpolate true\n")
+            fprintf(fp, ">>\n")
 
             ' Draw the image on the page
-            psCode.AppendLine("image")
-
-            ' Show the page
-            psCode.AppendLine("showpage")
+            fprintf(fp, "image\n")
         End Sub
 
         ''' <summary>
