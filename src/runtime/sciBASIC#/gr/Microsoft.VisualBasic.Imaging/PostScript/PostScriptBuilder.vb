@@ -38,6 +38,18 @@ Namespace PostScript
         End Sub
 
         ''' <summary>
+        ''' make painting
+        ''' </summary>
+        ''' <param name="g">
+        ''' should be png/svg/pdf graphics
+        ''' </param>
+        Public Sub MakePaint(g As IGraphics)
+            For Each paint As PSElement In paints
+                Call paint.Paint(g)
+            Next
+        End Sub
+
+        ''' <summary>
         ''' Get ascii postscript text
         ''' </summary>
         ''' <returns></returns>

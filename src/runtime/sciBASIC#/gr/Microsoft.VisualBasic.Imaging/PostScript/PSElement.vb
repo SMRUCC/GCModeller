@@ -9,6 +9,7 @@ Namespace PostScript
     Public MustInherit Class PSElement
 
         Friend MustOverride Sub WriteAscii(fp As StreamWriter)
+        Friend MustOverride Sub Paint(g As IGraphics)
 
     End Class
 
