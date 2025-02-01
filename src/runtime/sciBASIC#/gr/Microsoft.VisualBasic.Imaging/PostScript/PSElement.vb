@@ -3,6 +3,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.Net.Http
 
 Namespace PostScript
 
@@ -126,6 +127,49 @@ Namespace PostScript
             For Each line As String In noteText.LineTokens
                 Call fprintf(fp, "%% %s\n", line)
             Next
+        End Sub
+
+        Public Sub image(img As DataURI, x As Integer, y As Integer, width As Integer, height As Integer, scaleX As Double, scaleY As Double)
+            ' Convert image data to Base64 string
+            Dim base64Image As String = img.base64
+            ' Calculate the new dimensions after scaling
+            Dim newWidth As Integer = CInt(width * scaleX)
+            Dim newHeight As Integer = CInt(height * scaleY)
+
+            ' Start constructing the PostScript code
+            fprintf(fp, "/width %s def\n", newWidth)
+            fprintf(fp, "/height %s def\n", newHeight)
+            fprintf(fp, "/xPos %s def\n", x)
+            fprintf(fp, "/yPos %s def\n", y)
+
+            ' Embed the Base64 encoded image data
+            fprintf(fp, "/jpegData <~%s~> def\n", base64Image)
+
+            ' Define the image source
+            fprintf(fp, "/imageSource jpegData /Base64Decode filter /DCTDecode filter def\n")
+
+            ' Translate the coordinate system to the desired position
+            fprintf(fp, "xPos yPos translate\n")
+
+            ' Scale the image
+            psCode.AppendLine(scaleX.ToString("0.##") & " " & scaleY.ToString("0.##") & " scale")
+
+            ' Begin the image dictionary
+            psCode.AppendLine("<<")
+            psCode.AppendLine("  /ImageType 1")
+            psCode.AppendLine("  /Width " & width)
+            psCode.AppendLine("  /Height " & height)
+            psCode.AppendLine("  /BitsPerComponent 8")
+            psCode.AppendLine("  /ColorSpace /DeviceRGB")
+            psCode.AppendLine("  /DataSource imageSource")
+            psCode.AppendLine("  /Interpolate true")
+            psCode.AppendLine(">>")
+
+            ' Draw the image on the page
+            psCode.AppendLine("image")
+
+            ' Show the page
+            psCode.AppendLine("showpage")
         End Sub
 
         ''' <summary>
