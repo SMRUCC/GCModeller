@@ -142,6 +142,11 @@ Namespace CSS
             fill = color.ToHtmlColor
         End Sub
 
+        Sub New(color As Color, w!)
+            Call Me.New(w)
+            fill = color.ToHtmlColor
+        End Sub
+
         Sub New(width As Double)
             Call Me.New(CSng(width))
         End Sub
