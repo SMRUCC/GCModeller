@@ -13,6 +13,13 @@ Namespace PostScript.Elements
         Public Property fill As String
         Public Property rotation As Single
 
+        Friend Overrides Sub WriteAscii(ps As Writer)
+            Throw New NotImplementedException()
+        End Sub
+
+        Friend Overrides Sub Paint(g As IGraphics)
+            Throw New NotImplementedException()
+        End Sub
     End Class
 
 End Namespace

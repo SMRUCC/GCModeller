@@ -329,24 +329,7 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, x As Single, y As Single, width As Single, height As Single)
-            Dim x1 = x, y1 = y
-            Dim x2 = x1 + width
-            Dim y2 = y1 + height
 
-            fprintf(fp, "newpath %f %f moveto ", x1, y1)
-            fprintf(fp, "%f %f lineto ", x2, y1)
-            fprintf(fp, "%f %f lineto ", x2, y2)
-            fprintf(fp, "%f %f lineto ", x1, y2)
-            fprintf(fp, "%f %f lineto ", x1, y1)
-            '           If (Fill())Then
-            '{
-            '	If (stroke) Then
-            '                   fprintf(context -> fp, "closepath gsave fill grestore stroke\n");
-            '	Else
-            '                   fprintf(context -> fp, "closepath fill\n");
-            '}
-
-            fprintf(fp, "closepath stroke\n")
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, x As Integer, y As Integer, width As Integer, height As Integer)

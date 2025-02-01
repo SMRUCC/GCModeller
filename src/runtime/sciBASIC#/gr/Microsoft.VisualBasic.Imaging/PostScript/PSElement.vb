@@ -45,6 +45,28 @@ Namespace PostScript
             fprintf(fp, "newpath\n %f %f moveto\n %f %f lineto\n stroke\n", x1, y1, x2, y2)
         End Sub
 
+        Public Sub rectangle(rect As RectangleF, fill As Boolean, stroke As Boolean)
+            Dim x1 = rect.X, y1 = rect.Y
+            Dim x2 = x1 + rect.Width
+            Dim y2 = y1 + rect.Height
+
+            fprintf(fp, "newpath %f %f moveto ", x1, y1)
+            fprintf(fp, "%f %f lineto ", x2, y1)
+            fprintf(fp, "%f %f lineto ", x2, y2)
+            fprintf(fp, "%f %f lineto ", x1, y2)
+            fprintf(fp, "%f %f lineto ", x1, y1)
+
+            If fill Then
+                If stroke Then
+                    fprintf(fp, "closepath gsave fill grestore stroke\n")
+                Else
+                    fprintf(fp, "closepath fill\n")
+                End If
+            End If
+
+            fprintf(fp, "closepath stroke\n")
+        End Sub
+
         Public Sub dash(dash As Integer())
             If dash.IsNullOrEmpty Then
                 fprintf(fp, "[] 0 setdash\n")

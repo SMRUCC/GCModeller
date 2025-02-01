@@ -2,6 +2,11 @@
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.MIME.Html.Render
 
+#If NETCOREAPP Then
+#Else
+Imports System.Drawing.Drawing2D
+#End If
+
 Namespace PostScript.Elements
 
     Public Class Line : Inherits PSElement(Of Shapes.Line)
