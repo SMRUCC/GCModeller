@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language.C
 
 Namespace PostScript
@@ -32,6 +33,13 @@ Namespace PostScript
                 Call paint.Paint(g)
             Next
         End Sub
+
+        Public Function MakePaint(driver As Drivers) As GraphicsData
+            Dim drv As DeviceInterop = DriverLoad.UseGraphicsDevice(driver)
+            Dim g As IGraphics = drv.CreateGraphic(size, Color.Transparent, 100)
+            Call MakePaint(g)
+            Return drv.GetData(g, {0, 0, 0, 0})
+        End Function
 
         ''' <summary>
         ''' Get ascii postscript text
