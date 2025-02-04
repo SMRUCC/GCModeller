@@ -180,29 +180,16 @@ Namespace Linq
         ''' <param name="counts">当目标数目大于或者等于目标集合的数目的时候，则返回目标集合</param>
         ''' <returns></returns>
         ''' <remarks>
-        ''' this function use the default <see cref="RandomExtensions.seeds"/>
+        ''' this function use the default <see cref="RandomExtensions.seeds"/>; this function is very slow on processing huge dataset
         ''' </remarks>
         <Extension>
         Public Function TakeRandomly(Of T)(array As T(), counts%, Optional unsafe As Boolean = True) As IEnumerable(Of T)
             If counts <= 0 AndAlso Not unsafe Then
                 Return New T() {}
             ElseIf counts >= array.Length Then
-                Dim out As T() = New T(array.Length - 1) {}
-                Call System.Array.ConstrainedCopy(array, Scan0, out, Scan0, array.Length)
-                Return out
+                Return array.Shuffles
             Else
-                Dim out As T() = New T(counts - 1) {}
-                Dim input As New List(Of T)(array)
-                Dim ind As Integer
-                Dim seeds As Random = randf.seeds
-
-                For i As Integer = 0 To counts - 1
-                    ind = seeds.Next(input.Count)
-                    out(i) = input(ind)
-                    input.RemoveAt(ind)
-                Next
-
-                Return out
+                Return array.Shuffles.Take(counts)
             End If
         End Function
     End Module
