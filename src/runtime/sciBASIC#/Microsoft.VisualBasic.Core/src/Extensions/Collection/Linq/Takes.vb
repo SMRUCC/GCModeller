@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Linq
 
@@ -193,6 +194,7 @@ Namespace Linq
                 Dim out As T() = New T(counts - 1) {}
                 Dim input As New List(Of T)(array)
                 Dim ind As Integer
+                Dim seeds As Random = randf.seeds
 
                 For i As Integer = 0 To counts - 1
                     ind = seeds.Next(input.Count)
