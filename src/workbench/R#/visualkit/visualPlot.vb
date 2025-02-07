@@ -235,7 +235,7 @@ Module visualPlot
             .xlabel = "Number of Metabolites"
         }
 
-        Return app.Plot(InteropArgumentHelper.getSize(size, env), ppi:=ppi)
+        Return app.Plot(InteropArgumentHelper.getSize(size, env), ppi:=ppi, driver:=env.getDriver)
     End Function
 
     ''' <summary>
@@ -556,7 +556,7 @@ Module visualPlot
             }
         Dim size_str As String = InteropArgumentHelper.getSize(size, env, "10000,6500")
 
-        Return heatmap.Plot(size_str.SizeParser, dpi, env.getDriver)
+        Return heatmap.Plot(size_str.SizeParser, dpi, driver:=env.getDriver)
     End Function
 
     ''' <summary>
@@ -608,6 +608,7 @@ Module visualPlot
             .axisTickCSS = "font-style: normal; font-size: 10; font-family: " & FontFace.BookmanOldStyle & ";",
             .colorSet = themeColors
         }
+        Dim driver As Drivers = env.getDriver
 
         If bubbleSize Like GetType(Message) Then
             Return bubbleSize.TryCast(Of Message)
@@ -631,7 +632,8 @@ Module visualPlot
                 ppi:=ppi,
                 bubbleRadius:=bubbleSize,
                 displays:=displays,
-                serialTopn:=serialTopn
+                serialTopn:=serialTopn,
+                driver:=driver
             )
         ElseIf TypeOf profiles Is list Then
             ' multiple groups on multiple dataframe
@@ -678,7 +680,7 @@ Module visualPlot
                 }
             End If
 
-            Return app.Plot(sizeStr, ppi:=ppi)
+            Return app.Plot(sizeStr, ppi:=ppi, driver:=driver)
         Else
             Throw New NotImplementedException
         End If
@@ -712,7 +714,7 @@ Module visualPlot
                                 ppi As Integer,
                                 displays As Integer,
                                 serialTopn As Boolean,
-                                bubbleRadius As DoubleRange) As Object
+                                bubbleRadius As DoubleRange, driver As Drivers) As Object
 
         Dim bubbleData As Dictionary(Of String, BubbleTerm()) = enrichment.toBubbles
         Dim enrichColors = BubbleTerm.CreateEnrichColors(
@@ -735,7 +737,7 @@ Module visualPlot
         }
 
         Try
-            Return bubble.Plot(sizeStr, ppi:=ppi)
+            Return bubble.Plot(sizeStr, ppi:=ppi, driver:=driver)
         Catch ex As Exception
             With sizeStr.SizeParser
                 Return New Bitmap(.Width, .Height)

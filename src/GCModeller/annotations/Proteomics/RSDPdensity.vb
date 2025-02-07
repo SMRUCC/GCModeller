@@ -160,7 +160,7 @@ Public Module RSDPdensity
             ' P直线是横向的，即(0,P) (maxX,P)
             ' RSD线是竖向的，即(RSD,minY) (RSD, maxY)
             Dim P = P_threshold
-            Dim line As Pen = css.GetPen(Stroke.TryParse(lineStroke))
+            Dim line As Stroke = Stroke.TryParse(lineStroke)
             Dim xMax# = {1, ticksX.Max}.Max
 
             Dim Pa As New PointF(0!, P)
