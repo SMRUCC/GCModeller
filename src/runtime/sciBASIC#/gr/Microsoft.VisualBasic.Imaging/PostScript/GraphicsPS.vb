@@ -101,7 +101,7 @@ Namespace PostScript
 
         Protected Overrides Sub ClearCanvas(color As Color)
             Call painting.Clear
-            Call painting.Add(New Elements.Rectangle())
+            Call painting.Add(New Elements.Rectangle(New Rectangle(New Point, painting.size), color))
         End Sub
 
         Protected Overrides Sub ReleaseHandle()
