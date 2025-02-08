@@ -18,6 +18,10 @@ Namespace PostScript.Elements
             shape = New Shapes.Line(stroke, a, b)
         End Sub
 
+        Sub New(stroke As Pen, a As Point, b As Point)
+            shape = New Shapes.Line(stroke, a, b)
+        End Sub
+
         Friend Overrides Sub WriteAscii(ps As Writer)
             Dim a = shape.A
             Dim b = shape.B

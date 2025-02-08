@@ -69,6 +69,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 
@@ -294,11 +295,15 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub DrawLines(pen As Pen, points() As PointF)
-            Throw New NotImplementedException()
+            For Each ab As SlideWindow(Of PointF) In points.SlideWindows(2)
+                Call painting.Add(New Elements.Line(pen, ab(0), ab(1)))
+            Next
         End Sub
 
         Public Overrides Sub DrawLines(pen As Pen, points() As Point)
-            Throw New NotImplementedException()
+            For Each ab As SlideWindow(Of Point) In points.SlideWindows(2)
+                Call painting.Add(New Elements.Line(pen, ab(0), ab(1)))
+            Next
         End Sub
 
         Public Overrides Sub DrawPath(pen As Pen, path As GraphicsPath)
