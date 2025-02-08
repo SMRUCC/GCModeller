@@ -362,11 +362,17 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, rect As Rectangle)
-            Throw New NotImplementedException()
+            Dim box As New Elements.Rectangle(rect, Nothing)
+
+            box.shape.border = New Stroke(pen)
+            painting.Add(box)
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, rect As RectangleF)
-            Throw New NotImplementedException()
+            Dim box As New Elements.Rectangle(rect, Nothing)
+
+            box.shape.border = New Stroke(pen)
+            painting.Add(box)
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, x As Single, y As Single, width As Single, height As Single)
@@ -377,15 +383,19 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, x As Integer, y As Integer, width As Integer, height As Integer)
-            Throw New NotImplementedException()
+            Call DrawRectangle(pen, CSng(x), CSng(y), CSng(width), CSng(height))
         End Sub
 
         Public Overrides Sub DrawRectangles(pen As Pen, rects() As RectangleF)
-            Throw New NotImplementedException()
+            For Each rect As RectangleF In rects
+                Call DrawRectangle(pen, rect)
+            Next
         End Sub
 
         Public Overrides Sub DrawRectangles(pen As Pen, rects() As Rectangle)
-            Throw New NotImplementedException()
+            For Each rect As RectangleF In rects
+                Call DrawRectangle(pen, rect)
+            Next
         End Sub
 
         Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, ByRef point As PointF)
