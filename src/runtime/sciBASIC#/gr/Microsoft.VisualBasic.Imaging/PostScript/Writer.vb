@@ -21,6 +21,11 @@ Namespace PostScript
             Me.css = css
         End Sub
 
+        ''' <summary>
+        ''' A helper function for make conversion from the css stroke object to the gdi+ pen object
+        ''' </summary>
+        ''' <param name="stroke"></param>
+        ''' <returns></returns>
         Public Function pen(stroke As Stroke) As Pen
             Return css.GetPen(stroke)
         End Function
@@ -35,6 +40,13 @@ Namespace PostScript
         End Sub
 
         ''' <summary>
+        ''' moveto
+        ''' </summary>
+        Public Sub moveto(position As PointF)
+            fprintf(fp, "%f %f moveto\n", position.X, position.Y)
+        End Sub
+
+        ''' <summary>
         ''' show text
         ''' </summary>
         ''' <param name="s"></param>
@@ -42,6 +54,10 @@ Namespace PostScript
         ''' <param name="y!"></param>
         Public Sub text(s As String, x!, y!)
             fprintf(fp, "%f %f moveto (%s) show\n", x, y, s)
+        End Sub
+
+        Public Sub lineto(x!, y!)
+            fprintf(fp, "%f %f lineto\n", x, y)
         End Sub
 
         Public Sub line(x1!, y1!, x2!, y2!)
@@ -71,6 +87,10 @@ Namespace PostScript
         ''' </summary>
         Public Sub stroke()
             fprintf(fp, "stroke\n")
+        End Sub
+
+        Public Sub closepath()
+            fprintf(fp, "closepath\n")
         End Sub
 
         Public Sub rectangle(rect As RectangleF, fill As Boolean, stroke As Boolean)
