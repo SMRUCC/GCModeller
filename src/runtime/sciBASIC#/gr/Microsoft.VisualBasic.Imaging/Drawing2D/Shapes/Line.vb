@@ -77,10 +77,10 @@ Namespace Drawing2D.Shapes
         Public ReadOnly Property A As PointF
         Public ReadOnly Property B As PointF
 
-        Public Overrides ReadOnly Property Size As Size
+        Public Overrides ReadOnly Property Size As SizeF
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return New Size With {
+                Return New SizeF With {
                     .Width = A.X - B.X,
                     .Height = A.Y - B.Y
                 }

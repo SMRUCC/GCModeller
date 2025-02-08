@@ -91,7 +91,7 @@ Namespace Drawing2D.Shapes
         ''' <remarks></remarks>
         Public Sub New(topLeft As Point, d As Integer, FillColor As Color)
             Call MyBase.New(topLeft)
-            _Size = New Size(d, d)
+            _Size = New SizeF(d, d)
             Me.FillColor = FillColor
         End Sub
 
@@ -99,7 +99,7 @@ Namespace Drawing2D.Shapes
             Me.New(Nothing, d, fill)
         End Sub
 
-        Public Overrides ReadOnly Property Size As Size
+        Public Overrides ReadOnly Property Size As SizeF
 
         Public ReadOnly Property Radius As Single
             Get
