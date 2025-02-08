@@ -40,6 +40,11 @@ Namespace PostScript
             Me.text = binary.ToBase64String
         End Sub
 
+        Sub New(text As String)
+            Me.text = text
+            Me.binary = False
+        End Sub
+
         Friend Overrides Sub WriteAscii(ps As Writer)
             If binary Then
                 Call ps.comment("binary meta data")
