@@ -22,8 +22,17 @@ Namespace PostScript.Elements
         Friend Overrides Sub WriteAscii(ps As Writer)
             Dim startAngleRad As Double = startAngle * (std.PI / 180)
             Dim sweepAngleRad As Double = sweepAngle * (std.PI / 180)
+            Dim startX As Double = x + (width / 2) + std.Cos(startAngleRad) * (width / 2)
+            Dim startY As Double = y + (height / 2) + std.Sin(startAngleRad) * (height / 2)
+            Dim endX As Double = x + (width / 2) + std.Cos(startAngleRad + sweepAngleRad) * (width / 2)
+            Dim endY As Double = y + (height / 2) + std.Sin(startAngleRad + sweepAngleRad) * (height / 2)
+            Dim pen As Pen = ps.pen(stroke)
 
-
+            Call ps.linewidth(pen.Width)
+            Call ps.color(pen.Color)
+            Call ps.moveto(startX, startY)
+            Call ps.arct(x, y, width, height, startAngle, sweepAngle)
+            Call ps.stroke()
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

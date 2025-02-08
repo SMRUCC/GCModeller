@@ -25,10 +25,21 @@ Namespace PostScript
             Return css.GetPen(stroke)
         End Function
 
+        ''' <summary>
+        ''' moveto
+        ''' </summary>
+        ''' <param name="x!"></param>
+        ''' <param name="y!"></param>
         Public Sub moveto(x!, y!)
             fprintf(fp, "%f %f moveto\n", x, y)
         End Sub
 
+        ''' <summary>
+        ''' show text
+        ''' </summary>
+        ''' <param name="s"></param>
+        ''' <param name="x!"></param>
+        ''' <param name="y!"></param>
         Public Sub text(s As String, x!, y!)
             fprintf(fp, "%f %f moveto (%s) show\n", x, y, s)
         End Sub
@@ -39,6 +50,26 @@ Namespace PostScript
 
         Public Sub circle(center As PointF, radius As Single)
             fprintf(fp, "%f %f %f 0 360 arc closepath\n", center.X, center.Y, radius)
+            fprintf(fp, "stroke\n")
+        End Sub
+
+        ''' <summary>
+        ''' arct
+        ''' </summary>
+        ''' <param name="x!"></param>
+        ''' <param name="y!"></param>
+        ''' <param name="width!"></param>
+        ''' <param name="height!"></param>
+        ''' <param name="startAngle!"></param>
+        ''' <param name="sweepAngle!"></param>
+        Public Sub arct(x!, y!, width!, height!, startAngle!, sweepAngle!)
+            fprintf(fp, "%s %s %s %s %s %s arct\n", x, y, width, height, startAngle, sweepAngle)
+        End Sub
+
+        ''' <summary>
+        ''' stroke
+        ''' </summary>
+        Public Sub stroke()
             fprintf(fp, "stroke\n")
         End Sub
 
@@ -64,6 +95,10 @@ Namespace PostScript
             fprintf(fp, "closepath stroke\n")
         End Sub
 
+        ''' <summary>
+        ''' setdash
+        ''' </summary>
+        ''' <param name="dash"></param>
         Public Sub dash(dash As Integer())
             If dash.IsNullOrEmpty Then
                 fprintf(fp, "[] 0 setdash\n")
@@ -72,14 +107,31 @@ Namespace PostScript
             End If
         End Sub
 
+        ''' <summary>
+        ''' setlinewidth
+        ''' </summary>
+        ''' <param name="width"></param>
         Public Sub linewidth(width As Single)
             fprintf(fp, "%f setlinewidth\n", width)
         End Sub
 
+        ''' <summary>
+        ''' setrgbcolor
+        ''' </summary>
+        ''' <param name="r"></param>
+        ''' <param name="g"></param>
+        ''' <param name="b"></param>
+        ''' <remarks>
+        ''' the rgb color value parameter should be in value range of [0,1]
+        ''' </remarks>
         Public Sub color(r!, g!, b!)
             fprintf(fp, "%3.2f %3.2f %3.2f setrgbcolor\n", r, g, b)
         End Sub
 
+        ''' <summary>
+        ''' setrgbcolor
+        ''' </summary>
+        ''' <param name="color"></param>
         Public Sub color(color As Color)
             fprintf(fp, "%3.2f %3.2f %3.2f setrgbcolor\n", color.R / 255, color.G / 255, color.B / 255)
         End Sub
@@ -102,6 +154,11 @@ Namespace PostScript
             End With
         End Sub
 
+        ''' <summary>
+        ''' setfont
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <param name="fontsize!"></param>
         Public Sub font(name As String, fontsize!)
             fprintf(fp, "/%s findfont\n %f scalefont\n setfont\n", name, fontsize)
         End Sub
@@ -167,7 +224,7 @@ Namespace PostScript
         End Sub
 
         ''' <summary>
-        ''' mark the end of current page
+        ''' [showpage] mark the end of current page
         ''' </summary>
         Public Sub showpage()
             Call fp.WriteLine("showpage")
