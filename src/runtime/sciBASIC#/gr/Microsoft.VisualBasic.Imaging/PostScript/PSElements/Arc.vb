@@ -1,4 +1,11 @@
-﻿Imports Microsoft.VisualBasic.MIME.Html.CSS
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports std = System.Math
+
+#If NET48 Then
+Imports System.Drawing
+#End If
 
 Namespace PostScript.Elements
 
@@ -13,11 +20,15 @@ Namespace PostScript.Elements
         Public Property sweepAngle As Single
 
         Friend Overrides Sub WriteAscii(ps As Writer)
-            Throw New NotImplementedException()
+            Dim startAngleRad As Double = startAngle * (std.PI / 180)
+            Dim sweepAngleRad As Double = sweepAngle * (std.PI / 180)
+
+
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Friend Overrides Sub Paint(g As IGraphics)
-            Throw New NotImplementedException()
+            Call g.DrawArc(g.LoadEnvironment.GetPen(stroke), x, y, width, height, startAngle, sweepAngle)
         End Sub
     End Class
 End Namespace
