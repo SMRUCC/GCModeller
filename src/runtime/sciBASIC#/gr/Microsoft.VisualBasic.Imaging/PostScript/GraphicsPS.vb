@@ -96,11 +96,12 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub AddMetafileComment(data() As Byte)
-            Throw New NotImplementedException()
+            Call painting.Add(New PsComment(data))
         End Sub
 
         Protected Overrides Sub ClearCanvas(color As Color)
-            Throw New NotImplementedException()
+            Call painting.Clear
+            Call painting.Add(New Elements.Rectangle())
         End Sub
 
         Protected Overrides Sub ReleaseHandle()

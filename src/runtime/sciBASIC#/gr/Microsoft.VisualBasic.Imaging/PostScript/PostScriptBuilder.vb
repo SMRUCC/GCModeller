@@ -23,6 +23,10 @@ Namespace PostScript
             Call Me.paints.Add(paint)
         End Sub
 
+        Public Sub Clear()
+            Call paints.Clear()
+        End Sub
+
         ''' <summary>
         ''' make painting
         ''' </summary>
