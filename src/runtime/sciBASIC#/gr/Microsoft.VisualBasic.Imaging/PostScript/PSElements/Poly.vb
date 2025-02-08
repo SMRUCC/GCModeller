@@ -9,6 +9,7 @@ Namespace PostScript.Elements
         Public Property points As PointF()
         Public Property stroke As Stroke
         Public Property fill As String
+        Public Property closedPath As Boolean = True
 
         Friend Overrides Sub WriteAscii(ps As Writer)
             Dim pen As Pen = ps.pen(stroke)
@@ -25,7 +26,10 @@ Namespace PostScript.Elements
                 Call ps.lineto(_points(i).X, _points(i).Y)
             Next
 
-            Call ps.closepath()
+            If closedPath Then
+                Call ps.closepath()
+            End If
+
             Call ps.stroke()
         End Sub
 
