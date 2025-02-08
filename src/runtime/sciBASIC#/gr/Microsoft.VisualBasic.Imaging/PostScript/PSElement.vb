@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text
 
 Namespace PostScript
@@ -30,6 +31,14 @@ Namespace PostScript
         ''' </summary>
         ''' <returns></returns>
         Public Property text As String
+
+        Sub New()
+        End Sub
+
+        Sub New(binary As Byte())
+            Me.binary = True
+            Me.text = binary.ToBase64String
+        End Sub
 
         Friend Overrides Sub WriteAscii(ps As Writer)
             If binary Then
