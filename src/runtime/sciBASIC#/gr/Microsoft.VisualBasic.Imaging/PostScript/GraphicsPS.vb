@@ -346,11 +346,19 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub DrawPolygon(pen As Pen, points() As PointF)
-            Throw New NotImplementedException()
+            Call painting.Add(New Elements.Polygon With {
+                .points = points,
+                .fill = Nothing,
+                .stroke = New Stroke(pen)
+            })
         End Sub
 
         Public Overrides Sub DrawPolygon(pen As Pen, points() As Point)
-            Throw New NotImplementedException()
+            Call painting.Add(New Elements.Polygon With {
+                .points = points.PointF.ToArray,
+                .fill = Nothing,
+                .stroke = New Stroke(pen)
+            })
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, rect As Rectangle)
@@ -362,7 +370,10 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, x As Single, y As Single, width As Single, height As Single)
+            Dim rect As New Elements.Rectangle(New RectangleF(x, y, width, height), Nothing)
 
+            rect.shape.border = New Stroke(pen)
+            painting.Add(rect)
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, x As Integer, y As Integer, width As Integer, height As Integer)

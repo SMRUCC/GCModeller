@@ -18,11 +18,18 @@ Namespace PostScript
         Friend size As Size
         Friend originx, originy As Single
 
+        ''' <summary>
+        ''' Add a painting shape element into the canvas
+        ''' </summary>
+        ''' <param name="paint"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Add(paint As PSElement)
             Call Me.paints.Add(paint)
         End Sub
 
+        ''' <summary>
+        ''' Clear all painting elements from the internal buffer.
+        ''' </summary>
         Public Sub Clear()
             Call paints.Clear()
         End Sub

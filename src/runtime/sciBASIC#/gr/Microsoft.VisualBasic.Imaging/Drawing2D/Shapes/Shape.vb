@@ -61,15 +61,27 @@ Imports Microsoft.VisualBasic.Imaging
 Namespace Drawing2D.Shapes
 
     ''' <summary>
-    ''' 矢量图形
+    ''' An abstract shape element with layout information data.(矢量图形)
     ''' </summary>
     Public MustInherit Class Shape
 
+        ''' <summary>
+        ''' the location of the current shape element
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Location As PointF
+        ''' <summary>
+        ''' the metadata string of current shape element
+        ''' </summary>
+        ''' <returns></returns>
         Public Property TooltipTag As String
 
         Public MustOverride ReadOnly Property Size As SizeF
 
+        ''' <summary>
+        ''' create the layout rectangle value based on the shape <see cref="Location"/> and its shape <see cref="Size"/>.
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property DrawingRegion As RectangleF
             Get
                 Return New RectangleF(Location, Size)
