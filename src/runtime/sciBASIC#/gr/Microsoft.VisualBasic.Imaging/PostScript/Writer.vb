@@ -106,10 +106,24 @@ Namespace PostScript
             fprintf(fp, "/%s findfont\n %f scalefont\n setfont\n", name, fontsize)
         End Sub
 
+        ''' <summary>
+        ''' write comment text
+        ''' </summary>
+        ''' <param name="noteText">
+        ''' the comment text that may contains multiple data lines
+        ''' </param>
         Public Sub note(noteText As String)
             For Each line As String In noteText.LineTokens
                 Call fprintf(fp, "%% %s\n", line)
             Next
+        End Sub
+
+        ''' <summary>
+        ''' write a line of comment text
+        ''' </summary>
+        ''' <param name="line"></param>
+        Public Sub comment(line As String)
+            Call fprintf(fp, "%% %s\n", line)
         End Sub
 
         Public Sub image(img As DataURI, x As Integer, y As Integer, width As Integer, height As Integer, scaleX As Double, scaleY As Double)

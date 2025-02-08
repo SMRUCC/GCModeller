@@ -85,7 +85,7 @@ Namespace PostScript
                 Call paint.WriteAscii(g)
             Next
 
-            fprintf(fp, "%%%%EOF\n")
+            fprintf(fp, "%\n%\n%\n%EOF\n")
         End Sub
     End Class
 End Namespace

@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
+Imports Microsoft.VisualBasic.Text
 
 Namespace PostScript
 
@@ -19,6 +20,38 @@ Namespace PostScript
 
         Public Property shape As S
 
+    End Class
+
+    Public Class PsComment : Inherits PSElement
+
+        Public Property binary As Boolean
+        ''' <summary>
+        ''' this text data will be base64 data string if is <see cref="binary"/> metadata
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property text As String
+
+        Friend Overrides Sub WriteAscii(ps As Writer)
+            If binary Then
+                Call ps.comment("binary meta data")
+
+                ' split into parts by 160 chars
+                For Each part As String In text.Chunks(160)
+                    Call ps.comment(part)
+                Next
+
+                Call ps.comment("EOF_binarydata")
+            Else
+                Call ps.note(text)
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' do nothing on comment node
+        ''' </summary>
+        ''' <param name="g"></param>
+        Friend Overrides Sub Paint(g As IGraphics)
+        End Sub
     End Class
 
 End Namespace

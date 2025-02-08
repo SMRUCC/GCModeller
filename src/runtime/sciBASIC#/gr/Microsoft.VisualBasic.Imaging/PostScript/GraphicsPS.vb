@@ -69,7 +69,6 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.Language.C
 
 Namespace PostScript
 
@@ -89,13 +88,10 @@ Namespace PostScript
             End Get
         End Property
 
-        Dim ps_fontsize% = 15
         Dim painting As New PostScriptBuilder
-        Dim originx, originy As Single
 
         Sub New(size As Size, dpi As Size)
             Call MyBase.New(dpi)
-
             painting.size = size
         End Sub
 
