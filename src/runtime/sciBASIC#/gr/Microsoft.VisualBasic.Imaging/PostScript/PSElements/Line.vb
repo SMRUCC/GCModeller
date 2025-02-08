@@ -12,7 +12,6 @@ Namespace PostScript.Elements
     Public Class Line : Inherits PSElement(Of Shapes.Line)
 
         Sub New()
-
         End Sub
 
         Sub New(stroke As Pen, a As PointF, b As PointF)

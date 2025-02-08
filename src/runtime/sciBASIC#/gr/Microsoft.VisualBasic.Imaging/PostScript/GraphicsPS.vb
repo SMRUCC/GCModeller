@@ -68,7 +68,9 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace PostScript
 
@@ -100,27 +102,47 @@ Namespace PostScript
         End Sub
 
         Protected Overrides Sub ClearCanvas(color As Color)
-            Call painting.Clear
+            Call painting.Clear()
             Call painting.Add(New Elements.Rectangle(New Rectangle(New Point, painting.size), color))
         End Sub
 
+        ''' <summary>
+        ''' do nothing at here
+        ''' </summary>
         Protected Overrides Sub ReleaseHandle()
         End Sub
 
         Public Overrides Sub DrawArc(pen As Pen, rect As RectangleF, startAngle As Single, sweepAngle As Single)
-            Throw New NotImplementedException()
+            Call DrawArc(pen, (rect.X), (rect.Y), (rect.Width), (rect.Height), startAngle, sweepAngle)
         End Sub
 
         Public Overrides Sub DrawArc(pen As Pen, rect As Rectangle, startAngle As Single, sweepAngle As Single)
-            Throw New NotImplementedException()
+            Call DrawArc(pen, CSng(rect.X), CSng(rect.Y), CSng(rect.Width), CSng(rect.Height), startAngle, sweepAngle)
         End Sub
 
         Public Overrides Sub DrawArc(pen As Pen, x As Integer, y As Integer, width As Integer, height As Integer, startAngle As Integer, sweepAngle As Integer)
-            Throw New NotImplementedException()
+            Call painting.Add(New Elements.Arc With {
+                .height = height,
+                .startAngle = startAngle,
+                .stroke = New Stroke(pen),
+                .sweepAngle = sweepAngle,
+                .width = width,
+                .x = x,
+                .y = y
+            })
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Sub DrawArc(pen As Pen, x As Single, y As Single, width As Single, height As Single, startAngle As Single, sweepAngle As Single)
-            Throw New NotImplementedException()
+            Call painting.Add(New Elements.Arc With {
+                .height = height,
+                .startAngle = startAngle,
+                .stroke = New Stroke(pen),
+                .sweepAngle = sweepAngle,
+                .width = width,
+                .x = x,
+                .y = y
+            })
         End Sub
 
         Public Overrides Sub DrawBezier(pen As Pen, pt1 As Point, pt2 As Point, pt3 As Point, pt4 As Point)
