@@ -522,8 +522,12 @@ Namespace PostScript
             Throw New NotImplementedException()
         End Sub
 
+        ''' <summary>
+        ''' get the current postscript canvas context information
+        ''' </summary>
+        ''' <returns>An object in clr type <see cref="PostScriptBuilder"/>.</returns>
         Public Overrides Function GetContextInfo() As Object
-            Throw New NotImplementedException()
+            Return painting
         End Function
 
         Public Overrides Function IsVisible(rect As Rectangle) As Boolean
@@ -562,8 +566,10 @@ Namespace PostScript
             Throw New NotImplementedException()
         End Function
 
+        ''' <summary>
+        ''' do nothing on flush
+        ''' </summary>
         Public Overrides Sub Flush()
-            Throw New NotImplementedException()
         End Sub
     End Class
 End Namespace
