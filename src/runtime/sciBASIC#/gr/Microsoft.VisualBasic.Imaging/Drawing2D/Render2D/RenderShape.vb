@@ -70,13 +70,13 @@ Namespace Drawing2D
             Return s.shape
         End Operator
 
+#If NET48 Then
         Shared ReadOnly boidArrow As Point() = New Point() {
             New Point(0, 0), New Point(-4, -1),
             New Point(0, 8),
             New Point(4, -1), New Point(0, 0)
         }
 
-#If NET48 Then
 #Disable Warning
         ''' <summary>
         ''' Arrow drawing for the winform application
