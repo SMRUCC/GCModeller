@@ -85,6 +85,10 @@ Namespace Drawing2D.Shapes
             Me.Color = Color
         End Sub
 
+        Sub New()
+            Call MyBase.New(Nothing)
+        End Sub
+
         ''' <summary>
         ''' 直角三角形
         ''' </summary>
