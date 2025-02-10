@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c701908b65e0dd76789e07b4a1d5d2c0, engine\BootstrapLoader\MetabolismNetworkLoader.vb"
+﻿#Region "Microsoft.VisualBasic::957fa9dec7590460df6632ca64ba0f72, engine\BootstrapLoader\MetabolismNetworkLoader.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 135
-    '    Code Lines: 103 (76.30%)
-    ' Comment Lines: 13 (9.63%)
-    '    - Xml Docs: 61.54%
+    '   Total Lines: 163
+    '    Code Lines: 128 (78.53%)
+    ' Comment Lines: 13 (7.98%)
+    '    - Xml Docs: 53.85%
     ' 
-    '   Blank Lines: 19 (14.07%)
-    '     File Size: 5.83 KB
+    '   Blank Lines: 22 (13.50%)
+    '     File Size: 7.07 KB
 
 
     '     Class MetabolismNetworkLoader
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux, fluxByReaction, generalFluxExpansion, productInhibitionFactor
+    '         Function: CreateFlux, fluxByReaction, generalFluxExpansion, GetMassSet, productInhibitionFactor
     ' 
     ' 
     ' /********************************************************************************/

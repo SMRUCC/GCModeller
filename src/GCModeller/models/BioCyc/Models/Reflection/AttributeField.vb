@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27b57f1d2cda1c8722ca5dd6cd6217ee, models\BioCyc\Models\Reflection\AttributeField.vb"
+﻿#Region "Microsoft.VisualBasic::f6f1a3622566e0b9689e5acea34240a9, models\BioCyc\Models\Reflection\AttributeField.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 26
-    '    Code Lines: 19 (73.08%)
+    '   Total Lines: 28
+    '    Code Lines: 21 (75.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 7 (26.92%)
-    '     File Size: 680 B
+    '   Blank Lines: 7 (25.00%)
+    '     File Size: 777 B
 
 
     ' Class AttributeField

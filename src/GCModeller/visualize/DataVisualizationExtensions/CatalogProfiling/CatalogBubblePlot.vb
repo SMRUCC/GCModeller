@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04ef136cf97f3ba595bd0f4c96b91392, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb"
+﻿#Region "Microsoft.VisualBasic::c7e5e18955d98b0ceae0d209654f2ac5, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 260
-    '    Code Lines: 213 (81.92%)
-    ' Comment Lines: 20 (7.69%)
+    '   Total Lines: 287
+    '    Code Lines: 239 (83.28%)
+    ' Comment Lines: 20 (6.97%)
     '    - Xml Docs: 85.00%
     ' 
-    '   Blank Lines: 27 (10.38%)
-    '     File Size: 11.17 KB
+    '   Blank Lines: 28 (9.76%)
+    '     File Size: 12.37 KB
 
 
     '     Class CatalogBubblePlot

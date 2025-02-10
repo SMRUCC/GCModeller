@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4222f1b2d526d8dc8f3a377e38896a09, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\Metpa\metpa.vb"
+﻿#Region "Microsoft.VisualBasic::cbffc33c1e047eb9e8eb226f3f327c66, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\Metpa\metpa.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 105
-    '    Code Lines: 51 (48.57%)
-    ' Comment Lines: 41 (39.05%)
+    '   Total Lines: 109
+    '    Code Lines: 55 (50.46%)
+    ' Comment Lines: 41 (37.61%)
     '    - Xml Docs: 87.80%
     ' 
-    '   Blank Lines: 13 (12.38%)
-    '     File Size: 4.22 KB
+    '   Blank Lines: 13 (11.93%)
+    '     File Size: 4.43 KB
 
 
     '     Class metpa

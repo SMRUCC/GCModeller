@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fcaf954b98770a41bffbfedd126eaf7, annotations\WGCNA\WGCNA\WeightedNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::b6f36179f230efbca9d4063ad28ed39d, annotations\WGCNA\WGCNA\WeightedNetwork.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 40 (42.11%)
+    ' Comment Lines: 44 (46.32%)
+    '    - Xml Docs: 93.18%
+    ' 
+    '   Blank Lines: 11 (11.58%)
+    '     File Size: 3.47 KB
+
 
     ' Module WeightedNetwork
     ' 

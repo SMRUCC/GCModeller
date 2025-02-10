@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1f026125530fa188045b852439588c3, models\Networks\KEGG\PathwayMaps\ReferenceMap.vb"
+﻿#Region "Microsoft.VisualBasic::21bb36fa231e9226d531ec4fbb780a8f, models\Networks\KEGG\PathwayMaps\ReferenceMap.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 541
-    '    Code Lines: 441 (81.52%)
-    ' Comment Lines: 38 (7.02%)
+    '   Total Lines: 567
+    '    Code Lines: 466 (82.19%)
+    ' Comment Lines: 38 (6.70%)
     '    - Xml Docs: 47.37%
     ' 
-    '   Blank Lines: 62 (11.46%)
-    '     File Size: 25.59 KB
+    '   Blank Lines: 63 (11.11%)
+    '     File Size: 26.73 KB
 
 
     '     Module ReferenceMap

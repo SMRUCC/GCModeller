@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4ced4b5b162429ddf33d23d8f5fc6fa, visualize\ChromosomeMap\FootPrintMap\TSSs.vb"
+﻿#Region "Microsoft.VisualBasic::639ea810e4d13465d7e663d7dbad0383, visualize\ChromosomeMap\FootPrintMap\TSSs.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 32
-    '    Code Lines: 16 (50.00%)
-    ' Comment Lines: 11 (34.38%)
+    '   Total Lines: 60
+    '    Code Lines: 42 (70.00%)
+    ' Comment Lines: 11 (18.33%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 5 (15.62%)
-    '     File Size: 1.35 KB
+    '   Blank Lines: 7 (11.67%)
+    '     File Size: 2.52 KB
 
 
     '     Class TSSs

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b5d3745530fa09c81faf9fb3abed8b5, annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
+﻿#Region "Microsoft.VisualBasic::c6526e4d6faa9e9dcb06d7f0a11abfeb, annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 116
-    '    Code Lines: 77 (66.38%)
-    ' Comment Lines: 26 (22.41%)
+    '   Total Lines: 119
+    '    Code Lines: 79 (66.39%)
+    ' Comment Lines: 26 (21.85%)
     '    - Xml Docs: 92.31%
     ' 
-    '   Blank Lines: 13 (11.21%)
-    '     File Size: 4.29 KB
+    '   Blank Lines: 14 (11.76%)
+    '     File Size: 4.42 KB
 
 
     ' Class Cluster
     ' 
-    '     Properties: description, ID, memberIds, members, names
+    '     Properties: [class], category, description, ID, memberIds
+    '                 members, names
     ' 
     '     Function: getCollection, GetMemberById, getSize, Intersect, ToString
     ' 

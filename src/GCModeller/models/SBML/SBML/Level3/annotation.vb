@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f7e9c0d1ed58b61112f7819685a9b2a, models\SBML\SBML\Level3\annotation.vb"
+﻿#Region "Microsoft.VisualBasic::e0afee58d223b2293ef25bccdb1c0cc2, models\SBML\SBML\Level3\annotation.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 108
-    '    Code Lines: 80 (74.07%)
-    ' Comment Lines: 7 (6.48%)
+    '   Total Lines: 124
+    '    Code Lines: 90 (72.58%)
+    ' Comment Lines: 11 (8.87%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 21 (19.44%)
-    '     File Size: 3.82 KB
+    '   Blank Lines: 23 (18.55%)
+    '     File Size: 4.40 KB
 
 
     '     Class SbmlAnnotationData
@@ -54,7 +54,7 @@
     ' 
     '         Properties: Bag
     ' 
-    '         Function: ToString
+    '         Function: GenericEnumerator, ToString
     ' 
     '     Class annotation
     ' 

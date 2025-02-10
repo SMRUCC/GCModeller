@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1292f43efeb4bc407e595fc921bedee8, core\Bio.Assembly\ComponentModel\Locus\Location.vb"
+﻿#Region "Microsoft.VisualBasic::5d0fbdd35bd7d4423f73709822814862, core\Bio.Assembly\ComponentModel\Locus\Location.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 82.14%
     ' 
     '   Blank Lines: 33 (11.91%)
-    '     File Size: 10.41 KB
+    '     File Size: 10.40 KB
 
 
     '     Class Location

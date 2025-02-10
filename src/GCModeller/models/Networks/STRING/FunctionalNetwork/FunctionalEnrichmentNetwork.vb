@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c683abda82ae15d1ebcef24381456e76, models\Networks\STRING\FunctionalNetwork\FunctionalEnrichmentNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::adb85c9fbdc572fdee7ff462cfc753aa, models\Networks\STRING\FunctionalNetwork\FunctionalEnrichmentNetwork.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 211
-    '    Code Lines: 161 (76.30%)
-    ' Comment Lines: 23 (10.90%)
+    '   Total Lines: 237
+    '    Code Lines: 186 (78.48%)
+    ' Comment Lines: 23 (9.70%)
     '    - Xml Docs: 86.96%
     ' 
-    '   Blank Lines: 27 (12.80%)
-    '     File Size: 8.11 KB
+    '   Blank Lines: 28 (11.81%)
+    '     File Size: 9.24 KB
 
 
     ' Module FunctionalEnrichmentNetwork

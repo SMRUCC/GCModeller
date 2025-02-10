@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56d31176172a30f46bf56c6f5c4c7ab9, core\Bio.Assembly\Assembly\KEGG\Web\Map\URLEncoder.vb"
+﻿#Region "Microsoft.VisualBasic::f93e697122458d08747300292fd40599, core\Bio.Assembly\Assembly\KEGG\Web\Map\URLEncoder.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 180
-    '    Code Lines: 111 (61.67%)
-    ' Comment Lines: 52 (28.89%)
+    '   Total Lines: 206
+    '    Code Lines: 136 (66.02%)
+    ' Comment Lines: 52 (25.24%)
     '    - Xml Docs: 90.38%
     ' 
-    '   Blank Lines: 17 (9.44%)
-    '     File Size: 7.77 KB
+    '   Blank Lines: 18 (8.74%)
+    '     File Size: 8.90 KB
 
 
     '     Module URLEncoder

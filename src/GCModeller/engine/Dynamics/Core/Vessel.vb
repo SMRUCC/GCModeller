@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a064c7fe24b165e13cd281760855b888, engine\Dynamics\Core\Vessel.vb"
+﻿#Region "Microsoft.VisualBasic::c67f38bde7bcac06d65ec738a32ee4de, engine\Dynamics\Core\Vessel.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,25 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 151
-    '    Code Lines: 79 (52.32%)
-    ' Comment Lines: 51 (33.77%)
-    '    - Xml Docs: 70.59%
+    '   Total Lines: 208
+    '    Code Lines: 104 (50.00%)
+    ' Comment Lines: 74 (35.58%)
+    '    - Xml Docs: 79.73%
     ' 
-    '   Blank Lines: 21 (13.91%)
-    '     File Size: 5.96 KB
+    '   Blank Lines: 30 (14.42%)
+    '     File Size: 7.80 KB
 
 
     '     Class Vessel
     ' 
     '         Properties: Channels, MassEnvironment
     ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: ContainerIterator, factorsByCount, getMassValues, Initialize, (+2 Overloads) load
     '                   Reset
+    ' 
+    '         Sub: fp_dfdx_parallel, fp_dfdx_sequence
     ' 
     ' 
     ' /********************************************************************************/

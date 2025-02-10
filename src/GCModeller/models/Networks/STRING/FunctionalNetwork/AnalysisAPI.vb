@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::781bafc2bc46ca2356d037cdeb6a8a18, models\Networks\STRING\FunctionalNetwork\AnalysisAPI.vb"
+﻿#Region "Microsoft.VisualBasic::ac12ce18b42aef91f20069953cb11579, models\Networks\STRING\FunctionalNetwork\AnalysisAPI.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 76
-    '    Code Lines: 67 (88.16%)
-    ' Comment Lines: 3 (3.95%)
+    '   Total Lines: 105
+    '    Code Lines: 94 (89.52%)
+    ' Comment Lines: 3 (2.86%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (7.89%)
-    '     File Size: 3.59 KB
+    '   Blank Lines: 8 (7.62%)
+    '     File Size: 4.83 KB
 
 
     ' Module AnalysisAPI

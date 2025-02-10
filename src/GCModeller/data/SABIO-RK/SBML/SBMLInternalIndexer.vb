@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd2439106b6fa11d2ae51808a990c080, data\SABIO-RK\SBML\SBMLInternalIndexer.vb"
+﻿#Region "Microsoft.VisualBasic::3f837d22bbfd1dce24befb326440cea7, data\SABIO-RK\SBML\SBMLInternalIndexer.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 138
-    '    Code Lines: 109 (78.99%)
-    ' Comment Lines: 5 (3.62%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 171
+    '    Code Lines: 118 (69.01%)
+    ' Comment Lines: 28 (16.37%)
+    '    - Xml Docs: 96.43%
     ' 
-    '   Blank Lines: 24 (17.39%)
-    '     File Size: 5.83 KB
+    '   Blank Lines: 25 (14.62%)
+    '     File Size: 7.16 KB
 
 
     '     Class SBMLInternalIndexer
     ' 
+    '         Properties: molecules, reactions
+    ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: factorString, getCompartmentName, getEnzymes, getFormula, getKEGGCompoundId
-    '                   GetKeggReactionId, getKEGGreactions, getSpecies, ToString
+    '         Function: factorString, getCompartmentName, getEnzymes, getKEGGCompoundId, GetKeggReactionId
+    '                   getKEGGreactions, getKineticLaw, getSpecies, ToString
     ' 
     ' 
     ' /********************************************************************************/

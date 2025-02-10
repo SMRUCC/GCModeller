@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b620d3bb68fed094b24b778e8b573852, data\SABIO-RK\docuRESTfulWeb\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::9641406f3aeff640da20978d1f68ee8b, data\SABIO-RK\docuRESTfulWeb\WebRequest.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 68
-    '    Code Lines: 49 (72.06%)
-    ' Comment Lines: 9 (13.24%)
+    '   Total Lines: 72
+    '    Code Lines: 52 (72.22%)
+    ' Comment Lines: 9 (12.50%)
     '    - Xml Docs: 88.89%
     ' 
-    '   Blank Lines: 10 (14.71%)
-    '     File Size: 2.73 KB
+    '   Blank Lines: 11 (15.28%)
+    '     File Size: 3.10 KB
 
 
-    ' Module WebRequest
+    '     Module WebRequest
     ' 
-    '     Function: QueryByECNumber, QueryByECNumbers, QueryUsing_KEGGId
+    '         Function: QueryByECNumber, QueryByECNumbers, QueryUsing_KEGGId
+    ' 
     ' 
     ' /********************************************************************************/
 

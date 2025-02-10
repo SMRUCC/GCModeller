@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab4588f1d5a45c582494715a40130abc, engine\Compiler\MarkupCompiler\KEGG\v2KEGGCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::f6ca7d863fcf5cfd17107f46eaa3aa70, engine\Compiler\MarkupCompiler\KEGG\v2KEGGCompiler.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 131
-    '    Code Lines: 103 (78.63%)
-    ' Comment Lines: 13 (9.92%)
+    '   Total Lines: 136
+    '    Code Lines: 107 (78.68%)
+    ' Comment Lines: 13 (9.56%)
     '    - Xml Docs: 69.23%
     ' 
-    '   Blank Lines: 15 (11.45%)
-    '     File Size: 5.56 KB
+    '   Blank Lines: 16 (11.76%)
+    '     File Size: 5.91 KB
 
 
     '     Class v2KEGGCompiler

@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::a73f9d73d1f05901b6ec3a248043a1aa, visualize\ChromosomeMap\FootPrintMap\RegulationMotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::45fa0dfc69dc9503fe0b40251d86ef04, visualize\ChromosomeMap\FootPrintMap\RegulationMotifSite.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 64
-'    Code Lines: 37 (57.81%)
-' Comment Lines: 12 (18.75%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 15 (23.44%)
-'     File Size: 2.70 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class RegulationMotifSite
-' 
-'         Function: __topVertex, __vertexDown, TriangleModel
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 63 (68.48%)
+    ' Comment Lines: 12 (13.04%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (18.48%)
+    '     File Size: 3.55 KB
+
+
+    '     Class RegulationMotifSite
+    ' 
+    '         Function: __topVertex, __vertexDown, TriangleModel
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

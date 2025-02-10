@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fe64589608ff4220271b02477ab9e42, visualize\DataVisualizationExtensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e73bc8072727e5628fb61a6e00db58a4, visualize\DataVisualizationExtensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 96
-    '    Code Lines: 72 (75.00%)
-    ' Comment Lines: 7 (7.29%)
+    '   Total Lines: 122
+    '    Code Lines: 97 (79.51%)
+    ' Comment Lines: 7 (5.74%)
     '    - Xml Docs: 71.43%
     ' 
-    '   Blank Lines: 17 (17.71%)
-    '     File Size: 3.76 KB
+    '   Blank Lines: 18 (14.75%)
+    '     File Size: 4.89 KB
 
 
     ' Module Extensions

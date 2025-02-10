@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14fd31a6603b0c417bb8abea0f6b5338, annotations\GSEA\FisherCore\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::73adb18bfca2ce5db701f6d925eab9f1, annotations\GSEA\FisherCore\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 29
-    '    Code Lines: 23 (79.31%)
+    '   Total Lines: 30
+    '    Code Lines: 24 (80.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (20.69%)
-    '     File Size: 1.17 KB
+    '   Blank Lines: 6 (20.00%)
+    '     File Size: 1.19 KB
 
 
     ' Module Extensions

@@ -1,104 +1,113 @@
-﻿#Region "Microsoft.VisualBasic::3076da6bfa5e44f336e3375a9979f1c3, engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::c22d1be31c3f5b28cb36f7fde37405d2, engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 254
-'    Code Lines: 138 (54.33%)
-' Comment Lines: 69 (27.17%)
-'    - Xml Docs: 95.65%
-' 
-'   Blank Lines: 47 (18.50%)
-'     File Size: 8.60 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class MetabolismStructure
-' 
-'         Properties: compounds, enzymes, maps, reactions
-' 
-'         Function: GetAllFluxID
-' 
-'     Class ReactionGroup
-' 
-'         Properties: enzymatic, etc, size
-' 
-'         Function: GenericEnumerator
-' 
-'     Class Compound
-' 
-'         Properties: ID, mass0, name
-' 
-'         Function: ToString
-' 
-'     Class Reaction
-' 
-'         Properties: bounds, Equation, ID, is_enzymatic, name
-' 
-'         Function: ToString
-' 
-'     Class FunctionalCategory
-' 
-'         Properties: category, pathways
-' 
-'         Function: ToString
-' 
-'     Class Pathway
-' 
-'         Properties: enzymes, ID, name
-' 
-'         Function: ToString
-' 
-'     Class Enzyme
-' 
-'         Properties: catalysis, ECNumber, geneID, KO
-' 
-'         Function: ToString
-' 
-'     Class Catalysis
-' 
-'         Properties: formula, parameter, PH, reaction, temperature
-' 
-'         Function: ToString
-' 
-'     Class KineticsParameter
-' 
-'         Properties: isModifier, name, target, value
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 388
+    '    Code Lines: 228 (58.76%)
+    ' Comment Lines: 94 (24.23%)
+    '    - Xml Docs: 96.81%
+    ' 
+    '   Blank Lines: 66 (17.01%)
+    '     File Size: 13.36 KB
+
+
+    '     Class MetabolismStructure
+    ' 
+    '         Properties: compounds, enzymes, maps, reactions
+    ' 
+    '         Function: FindByKEGG, GetAllFluxID, GetKEGGMapping
+    ' 
+    '     Class ReactionGroup
+    ' 
+    '         Properties: enzymatic, etc, size
+    ' 
+    '         Function: CompoundLinks, GenericEnumerator
+    ' 
+    '     Class Compound
+    ' 
+    '         Properties: ID, kegg_id, mass0, name
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Reaction
+    ' 
+    '         Properties: bounds, equation, ID, is_enzymatic, name
+    '                     note, product, substrate
+    ' 
+    '         Function: GenericEnumerator, ToString
+    ' 
+    '     Class CompoundFactor
+    ' 
+    '         Properties: compound, factor
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: factorString, ToString
+    ' 
+    '     Class FunctionalCategory
+    ' 
+    '         Properties: category, pathways
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Pathway
+    ' 
+    '         Properties: enzymes, ID, name
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Enzyme
+    ' 
+    '         Properties: catalysis, ECNumber, geneID, KO
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Catalysis
+    ' 
+    '         Properties: formula, parameter, PH, reaction, temperature
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    '     Class KineticsParameter
+    ' 
+    '         Properties: isModifier, name, target, value
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

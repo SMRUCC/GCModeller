@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af6deeeee1064b4b779b2a09eb31a434, engine\IO\GCMarkupLanguage\v2\Xml\Genome\gene.vb"
+﻿#Region "Microsoft.VisualBasic::9d52f96a9a3beb27624432b773bedab7, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\gene.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 39
-    '    Code Lines: 15 (38.46%)
-    ' Comment Lines: 16 (41.03%)
-    '    - Xml Docs: 93.75%
+    '   Total Lines: 70
+    '    Code Lines: 28 (40.00%)
+    ' Comment Lines: 31 (44.29%)
+    '    - Xml Docs: 96.77%
     ' 
-    '   Blank Lines: 8 (20.51%)
-    '     File Size: 1.18 KB
+    '   Blank Lines: 11 (15.71%)
+    '     File Size: 2.15 KB
 
 
     '     Class gene
     ' 
     '         Properties: amino_acid, left, locus_tag, nucleotide_base, product
-    '                     protein_id, right, strand
+    '                     protein_id, right, strand, type
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

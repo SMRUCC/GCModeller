@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::677b06e3de840934046339d8ab2c8737, annotations\GSEA\FisherCore\EnrichmentResult.vb"
+﻿#Region "Microsoft.VisualBasic::aa8d3231f8170c738601123851d926ee, annotations\GSEA\FisherCore\EnrichmentResult.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 29
-    '    Code Lines: 14 (48.28%)
-    ' Comment Lines: 11 (37.93%)
+    '   Total Lines: 33
+    '    Code Lines: 16 (48.48%)
+    ' Comment Lines: 11 (33.33%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 4 (13.79%)
-    '     File Size: 971 B
+    '   Blank Lines: 6 (18.18%)
+    '     File Size: 1.05 KB
 
 
     ' Class EnrichmentResult
     ' 
-    '     Properties: cluster, description, enriched, FDR, geneIDs
-    '                 name, pvalue, score, term
+    '     Properties: [class], category, cluster, description, enriched
+    '                 FDR, IDs, name, pvalue, score
+    '                 term
     ' 
     '     Function: ToString
     ' 

@@ -1,56 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::520ab7b2bf7622e9c76fc6c95e08bd4f, models\BioCyc\Models\Model.vb"
+﻿#Region "Microsoft.VisualBasic::eb77da93da99b722c69c16fce0245299, models\BioCyc\Models\Model.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 37
-'    Code Lines: 22 (59.46%)
-' Comment Lines: 5 (13.51%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 10 (27.03%)
-'     File Size: 1.06 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class Model
-' 
-'     Properties: citations, comment, commonName, credits, instanceNameTemplate
-'                 synonyms, types, uniqueId
-' 
-'     Function: ToString
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 38 (66.67%)
+    ' Comment Lines: 8 (14.04%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (19.30%)
+    '     File Size: 1.83 KB
+
+
+    ' Class Model
+    ' 
+    '     Properties: citations, comment, commonName, credits, instanceNameTemplate
+    '                 synonyms, types, uniqueId
+    ' 
+    '     Function: GetDbLinks, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

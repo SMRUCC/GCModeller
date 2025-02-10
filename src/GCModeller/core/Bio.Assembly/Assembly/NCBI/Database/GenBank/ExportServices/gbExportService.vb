@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b54a29cd1ac8c4873eb24384ed4ddf6e, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
+﻿#Region "Microsoft.VisualBasic::886abf30b7394af0310710b85e6508ac, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 654
-    '    Code Lines: 485 (74.16%)
-    ' Comment Lines: 90 (13.76%)
-    '    - Xml Docs: 83.33%
+    '   Total Lines: 680
+    '    Code Lines: 499 (73.38%)
+    ' Comment Lines: 99 (14.56%)
+    '    - Xml Docs: 85.86%
     ' 
-    '   Blank Lines: 79 (12.08%)
-    '     File Size: 32.33 KB
+    '   Blank Lines: 82 (12.06%)
+    '     File Size: 33.32 KB
 
 
     '     Module gbExportService
     ' 
     '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, BatchExport, BatchExportPlasmid
-    '                   CopyGenomeSequence, (+2 Overloads) Distinct, DumpEXPORT, EnsureNonEmptyLocusId, EnumerateGeneFeatures
-    '                   ExportGeneFeatures, ExportGeneNtFasta, ExportPTTAsDump, FeatureGenes, GbffToPTT
-    '                   InvokeExport, LoadGbkSource, TryParseGBKID
+    '                   CopyGenomeSequence, (+2 Overloads) Distinct, DnaSequenceExports, DumpEXPORT, DumpExportFeature
+    '                   EnsureNonEmptyLocusId, EnumerateGeneFeatures, ExportGeneFeatures, ExportGeneNtFasta, ExportPTTAsDump
+    '                   FeatureGenes, GbffToPTT, InvokeExport, LoadGbkSource, TryParseGBKID
     ' 
     ' 
     ' /********************************************************************************/

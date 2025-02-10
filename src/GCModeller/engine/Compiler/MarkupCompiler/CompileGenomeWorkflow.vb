@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2a5f07b076a3771cb7a93f25f31d716, engine\Compiler\MarkupCompiler\CompileGenomeWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::55d09e3418cbb5ba8082d50836dc3eee, engine\Compiler\MarkupCompiler\CompileGenomeWorkflow.vb"
 
     ' Author:
     ' 
@@ -35,12 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 68
-    '    Code Lines: 51 (75.00%)
-    ' Comment Lines: 8 (11.76%)
-    '    - Xml Docs: 50.00%
+    '    Code Lines: 48 (70.59%)
+    ' Comment Lines: 11 (16.18%)
+    '    - Xml Docs: 63.64%
     ' 
     '   Blank Lines: 9 (13.24%)
-    '     File Size: 2.87 KB
+    '     File Size: 2.79 KB
 
 
     '     Class CompileGenomeWorkflow

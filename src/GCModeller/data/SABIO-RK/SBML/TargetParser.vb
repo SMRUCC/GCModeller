@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b6ff5dc0c196c903e212bf7e0404be6, data\SABIO-RK\SBML\TargetParser.vb"
+﻿#Region "Microsoft.VisualBasic::c2f115cc2919e9d5cbfe66490c88bc06, data\SABIO-RK\SBML\TargetParser.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 7 (17.50%)
-    '     File Size: 1.36 KB
+    '     File Size: 1.37 KB
 
 
     '     Module TargetParser

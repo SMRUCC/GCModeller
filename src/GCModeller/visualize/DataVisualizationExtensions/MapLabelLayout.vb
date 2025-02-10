@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::a1d4340af6455740d001ec9405453845, visualize\DataVisualizationExtensions\MapLabelLayout.vb"
+﻿#Region "Microsoft.VisualBasic::7ad661c1e61de696954442669910683c, visualize\DataVisualizationExtensions\MapLabelLayout.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 69
-'    Code Lines: 43 (62.32%)
-' Comment Lines: 15 (21.74%)
-'    - Xml Docs: 86.67%
-' 
-'   Blank Lines: 11 (15.94%)
-'     File Size: 2.16 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Structure MapLabelLayout
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: ForceNextLocation
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 47 (63.51%)
+    ' Comment Lines: 15 (20.27%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 12 (16.22%)
+    '     File Size: 2.29 KB
+
+
+    ' Structure MapLabelLayout
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: ForceNextLocation
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

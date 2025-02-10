@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffd08c3f79b0437b5abb9f4ff4033dc4, engine\IO\Raw\HDS\GCModellerRaw\StorageDriver.vb"
+﻿#Region "Microsoft.VisualBasic::f194300ea30f873a838ff12b3352c81f, engine\IO\Raw\HDS\GCModellerRaw\StorageDriver.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 155
-    '    Code Lines: 107 (69.03%)
-    ' Comment Lines: 19 (12.26%)
+    '   Total Lines: 162
+    '    Code Lines: 113 (69.75%)
+    ' Comment Lines: 19 (11.73%)
     '    - Xml Docs: 15.79%
     ' 
-    '   Blank Lines: 29 (18.71%)
-    '     File Size: 6.52 KB
+    '   Blank Lines: 30 (18.52%)
+    '     File Size: 6.86 KB
 
 
     '     Class StorageDriver
@@ -51,7 +51,7 @@
     ' 
     '         Function: metabolome, proteome, transcriptome
     ' 
-    '         Sub: (+2 Overloads) Dispose, FluxSnapshot, MassSnapshot, WriteCellularGraph
+    '         Sub: (+2 Overloads) Dispose, FluxSnapshot, MassSnapshot, SetSymbolNames, WriteCellularGraph
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e61df22310d9cd324848208aab086e17, core\Bio.Assembly\Assembly\DOOR\IO.vb"
+﻿#Region "Microsoft.VisualBasic::0ebbec22be88397f1611a7cb9a236afa, core\Bio.Assembly\Assembly\DOOR\IO.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 75
-    '    Code Lines: 55 (73.33%)
-    ' Comment Lines: 12 (16.00%)
+    '   Total Lines: 73
+    '    Code Lines: 53 (72.60%)
+    ' Comment Lines: 12 (16.44%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (10.67%)
-    '     File Size: 2.57 KB
+    '   Blank Lines: 8 (10.96%)
+    '     File Size: 2.51 KB
 
 
     '     Module DOOR_IO

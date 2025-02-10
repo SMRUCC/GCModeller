@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::500384d078aa4c830aaaec68b7068a9f, engine\IO\Raw\vcXML\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::c9d4af56b4a605d2c4e86529c4f56650, engine\IO\Raw\vcXML\Writer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 231
-    '    Code Lines: 173 (74.89%)
-    ' Comment Lines: 14 (6.06%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 246
+    '    Code Lines: 173 (70.33%)
+    ' Comment Lines: 29 (11.79%)
+    '    - Xml Docs: 41.38%
     ' 
-    '   Blank Lines: 44 (19.05%)
-    '     File Size: 8.75 KB
+    '   Blank Lines: 44 (17.89%)
+    '     File Size: 9.22 KB
 
 
     '     Class Writer

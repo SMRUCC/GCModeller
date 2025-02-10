@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be26bce7b26189f140c889a660cd2038, engine\Dynamics.Debugger\Visualizer.vb"
+﻿#Region "Microsoft.VisualBasic::b75f2f55466a8afc1a693d5d25f985fb, engine\Dynamics.Debugger\Visualizer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 164
-    '    Code Lines: 135 (82.32%)
-    ' Comment Lines: 8 (4.88%)
+    '   Total Lines: 165
+    '    Code Lines: 138 (83.64%)
+    ' Comment Lines: 8 (4.85%)
     '    - Xml Docs: 75.00%
     ' 
-    '   Blank Lines: 21 (12.80%)
-    '     File Size: 6.76 KB
+    '   Blank Lines: 19 (11.52%)
+    '     File Size: 6.94 KB
 
 
     ' Module Visualizer

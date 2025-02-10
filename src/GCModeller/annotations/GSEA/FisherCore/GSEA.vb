@@ -1,60 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::13f24510a930824155598c91e8fc7b87, annotations\GSEA\GSEA\KOBAS\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::cd38aa797c5aa8c03bb64c0569b1cbe4, annotations\GSEA\FisherCore\GSEA.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 329
-'    Code Lines: 238 (72.34%)
-' Comment Lines: 44 (13.37%)
-'    - Xml Docs: 52.27%
-' 
-'   Blank Lines: 47 (14.29%)
-'     File Size: 16.10 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module KOBAS_GSEA
-' 
-'         Function: ES_all, ES_for_permutation, ES_null, fdr_cal, get_hit_matrix
-'                   nominal_p, normalized, output_set, rank_pro
-'         Structure hitMatrix
-' 
-' 
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 78 (70.27%)
+    ' Comment Lines: 14 (12.61%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (17.12%)
+    '     File Size: 4.62 KB
+
+
+    ' Module GSEACalculate
+    ' 
+    '     Function: Enrich, enrich_score, Enrichment, pvalue
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

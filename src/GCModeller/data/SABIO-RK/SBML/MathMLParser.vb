@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70d56aef8b5e469921cfea2273b30e37, data\SABIO-RK\SBML\MathMLParser.vb"
+﻿#Region "Microsoft.VisualBasic::647b14244c038e7e04fd4c742a4b33fc, data\SABIO-RK\SBML\MathMLParser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 73
-    '    Code Lines: 59 (80.82%)
-    ' Comment Lines: 2 (2.74%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 88
+    '    Code Lines: 62 (70.45%)
+    ' Comment Lines: 14 (15.91%)
+    '    - Xml Docs: 78.57%
     ' 
-    '   Blank Lines: 12 (16.44%)
-    '     File Size: 2.82 KB
+    '   Blank Lines: 12 (13.64%)
+    '     File Size: 3.28 KB
 
 
     '     Module MathMLParser

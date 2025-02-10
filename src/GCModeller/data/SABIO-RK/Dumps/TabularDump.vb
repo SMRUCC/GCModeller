@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7168de394bfdb93999be662a365972de, data\SABIO-RK\Dumps\TabularDump.vb"
+﻿#Region "Microsoft.VisualBasic::5d5d1feae846cc614f09962e929b1d84, data\SABIO-RK\Dumps\TabularDump.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 83
-    '    Code Lines: 37 (44.58%)
-    ' Comment Lines: 29 (34.94%)
-    '    - Xml Docs: 20.69%
+    '   Total Lines: 90
+    '    Code Lines: 37 (41.11%)
+    ' Comment Lines: 36 (40.00%)
+    '    - Xml Docs: 36.11%
     ' 
-    '   Blank Lines: 17 (20.48%)
-    '     File Size: 3.68 KB
+    '   Blank Lines: 17 (18.89%)
+    '     File Size: 3.88 KB
 
 
     '     Class SabiorkEntity

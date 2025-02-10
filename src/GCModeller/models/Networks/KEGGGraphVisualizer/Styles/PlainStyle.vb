@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e185befc11493ae6d66ae7e6d41a63e1, models\Networks\KEGGGraphVisualizer\Styles\PlainStyle.vb"
+﻿#Region "Microsoft.VisualBasic::50017ba4328d7fd79e02137130c22e5e, models\Networks\KEGGGraphVisualizer\Styles\PlainStyle.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 90
-    '    Code Lines: 71 (78.89%)
-    ' Comment Lines: 3 (3.33%)
+    '   Total Lines: 116
+    '    Code Lines: 96 (82.76%)
+    ' Comment Lines: 3 (2.59%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 16 (17.78%)
-    '     File Size: 3.50 KB
+    '   Blank Lines: 17 (14.66%)
+    '     File Size: 4.63 KB
 
 
     '     Class PlainStyle

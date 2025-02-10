@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22f5d3b2606a14f2a0f4b479a1be9faf, visualize\ChromosomeMap\FootPrintMap\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::eab4da9f53a00127646bf71539eba46e, visualize\ChromosomeMap\FootPrintMap\MotifSite.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 109
-    '    Code Lines: 70 (64.22%)
-    ' Comment Lines: 23 (21.10%)
+    '   Total Lines: 135
+    '    Code Lines: 95 (70.37%)
+    ' Comment Lines: 23 (17.04%)
     '    - Xml Docs: 95.65%
     ' 
-    '   Blank Lines: 16 (14.68%)
-    '     File Size: 4.36 KB
+    '   Blank Lines: 17 (12.59%)
+    '     File Size: 5.41 KB
 
 
     '     Class MotifSite

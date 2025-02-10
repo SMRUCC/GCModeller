@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fede5c27f3f9505a91ef86e02e40aacb, engine\Dynamics\NamespaceDoc.vb"
+﻿#Region "Microsoft.VisualBasic::0009be3e3e7bd77814a4c0e980e16e0a, engine\Dynamics\NamespaceDoc.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 11
-    '    Code Lines: 6 (54.55%)
-    ' Comment Lines: 3 (27.27%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 59
+    '    Code Lines: 6 (10.17%)
+    ' Comment Lines: 51 (86.44%)
+    '    - Xml Docs: 78.43%
     ' 
-    '   Blank Lines: 2 (18.18%)
-    '     File Size: 290 B
+    '   Blank Lines: 2 (3.39%)
+    '     File Size: 4.35 KB
 
 
     ' Class NamespaceDoc

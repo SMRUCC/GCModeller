@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67d97a05a6fb44748d7d2d3703871dc7, core\Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::e8c65bd096f294a860e78a85ecffa073, core\Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 281
-    '    Code Lines: 195 (69.40%)
-    ' Comment Lines: 50 (17.79%)
-    '    - Xml Docs: 90.00%
+    '   Total Lines: 275
+    '    Code Lines: 187 (68.00%)
+    ' Comment Lines: 53 (19.27%)
+    '    - Xml Docs: 90.57%
     ' 
-    '   Blank Lines: 36 (12.81%)
-    '     File Size: 12.20 KB
+    '   Blank Lines: 35 (12.73%)
+    '     File Size: 11.96 KB
 
 
     '     Module FastaExportMethods
     ' 
     '         Function: __seqCorrupted, Complement, (+3 Overloads) Export, FastaCorrupted, FastaTrimCorrupt
-    '                   Load, LoadFastaToken, (+3 Overloads) Merge, Reverse
+    '                   (+3 Overloads) Merge, Reverse
     '         Class SchemaCache
     ' 
     '             Properties: attributes, TitleFormat

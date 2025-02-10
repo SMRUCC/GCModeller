@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::2a7e16457295c1560872881b725b0ed6, core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcidObjUtility.vb"
+﻿#Region "Microsoft.VisualBasic::6c90b186ab77d5fb4490f65fad6f7ad8, core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcidObjUtility.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 522
-'    Code Lines: 497 (95.21%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 25 (4.79%)
-'     File Size: 11.86 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module AminoAcidObjUtility
-' 
-'         Function: (+3 Overloads) IsAAEqual
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 552
+    '    Code Lines: 523 (94.75%)
+    ' Comment Lines: 3 (0.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 26 (4.71%)
+    '     File Size: 14.39 KB
+
+
+    '     Module AminoAcidObjUtility
+    ' 
+    '         Function: (+3 Overloads) IsAAEqual
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

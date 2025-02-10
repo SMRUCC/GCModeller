@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47260c7cacab47e188c402b8383bc205, visualize\DataVisualizationExtensions\RenderingColor.vb"
+﻿#Region "Microsoft.VisualBasic::a101fd2338999440bbb45cc2d1ca02e7, visualize\DataVisualizationExtensions\RenderingColor.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 167
-    '    Code Lines: 106 (63.47%)
-    ' Comment Lines: 32 (19.16%)
+    '   Total Lines: 183
+    '    Code Lines: 121 (66.12%)
+    ' Comment Lines: 32 (17.49%)
     '    - Xml Docs: 81.25%
     ' 
-    '   Blank Lines: 29 (17.37%)
-    '     File Size: 6.16 KB
+    '   Blank Lines: 30 (16.39%)
+    '     File Size: 6.88 KB
 
 
     ' Module RenderingColor

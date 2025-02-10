@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0555c5f8d6463128b744284f5085f38c, engine\Dynamics\Core\Flux\Channel.vb"
+﻿#Region "Microsoft.VisualBasic::da6d1d6e4776870a9401ee5d7f9657ab, engine\Dynamics\Core\Flux\Channel.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 133
-    '    Code Lines: 71 (53.38%)
-    ' Comment Lines: 42 (31.58%)
+    '   Total Lines: 136
+    '    Code Lines: 74 (54.41%)
+    ' Comment Lines: 42 (30.88%)
     '    - Xml Docs: 80.95%
     ' 
-    '   Blank Lines: 20 (15.04%)
-    '     File Size: 5.15 KB
+    '   Blank Lines: 20 (14.71%)
+    '     File Size: 5.29 KB
 
 
     '     Class Channel

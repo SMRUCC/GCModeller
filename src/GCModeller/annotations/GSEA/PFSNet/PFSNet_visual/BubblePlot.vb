@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::295a7b9f15514df2e9ac7c7a8f67c219, annotations\GSEA\PFSNet\PFSNet_visual\BubblePlot.vb"
+﻿#Region "Microsoft.VisualBasic::c7d7fa842cdfd145b1bc9ee912134249, annotations\GSEA\PFSNet\PFSNet_visual\BubblePlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 108
-    '    Code Lines: 93 (86.11%)
-    ' Comment Lines: 3 (2.78%)
+    '   Total Lines: 134
+    '    Code Lines: 118 (88.06%)
+    ' Comment Lines: 3 (2.24%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 12 (11.11%)
-    '     File Size: 4.32 KB
+    '   Blank Lines: 13 (9.70%)
+    '     File Size: 5.44 KB
 
 
     ' Module BubblePlot

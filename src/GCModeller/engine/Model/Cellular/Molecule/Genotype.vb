@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e36fd021044338d026ec5c257ea44f78, engine\Model\Cellular\Molecule\Genotype.vb"
+﻿#Region "Microsoft.VisualBasic::c5cd61d53f4cb9e5e61be60f54ab0b79, engine\Model\Cellular\Molecule\Genotype.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 48
-    '    Code Lines: 20 (41.67%)
-    ' Comment Lines: 21 (43.75%)
-    '    - Xml Docs: 95.24%
+    '   Total Lines: 51
+    '    Code Lines: 20 (39.22%)
+    ' Comment Lines: 24 (47.06%)
+    '    - Xml Docs: 95.83%
     ' 
-    '   Blank Lines: 7 (14.58%)
-    '     File Size: 2.35 KB
+    '   Blank Lines: 7 (13.73%)
+    '     File Size: 2.40 KB
 
 
     '     Structure Genotype

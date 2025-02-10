@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca8b5b78c726509ac70f995c0afea263, visualize\ChromosomeMap\Configuration\Config.vb"
+﻿#Region "Microsoft.VisualBasic::24393f8fe8f63475cfa58a2229bba0a9, visualize\ChromosomeMap\Configuration\Config.vb"
 
     ' Author:
     ' 

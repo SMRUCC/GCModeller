@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95a8ab10b338afa8067cf2daccba0ab7, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\UniprotXML.vb"
+﻿#Region "Microsoft.VisualBasic::b367694a258f4be910856665ad672f5f, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\UniprotXML.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 151
-    '    Code Lines: 91 (60.26%)
-    ' Comment Lines: 42 (27.81%)
+    '   Total Lines: 163
+    '    Code Lines: 102 (62.58%)
+    ' Comment Lines: 42 (25.77%)
     '    - Xml Docs: 88.10%
     ' 
-    '   Blank Lines: 18 (11.92%)
-    '     File Size: 6.95 KB
+    '   Blank Lines: 19 (11.66%)
+    '     File Size: 7.83 KB
 
 
     '     Class UniProtXML

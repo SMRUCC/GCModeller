@@ -1,4 +1,62 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿#Region "Microsoft.VisualBasic::7c695b444b3309089345cb60ac4d4977, analysis\SequenceToolkit\MotifFinder\Gibbs\Matrix\MotifMatrix.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 129
+    '    Code Lines: 82 (63.57%)
+    ' Comment Lines: 32 (24.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (11.63%)
+    '     File Size: 5.43 KB
+
+
+    '     Class MotifMatrix
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: pickDecrementIndex
+    ' 
+    '         Sub: initCountMatrix, initMotifMatrix, stochasticGradientDescent
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Matrix
@@ -127,3 +185,4 @@ Namespace Matrix
     End Class
 
 End Namespace
+

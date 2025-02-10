@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a101938487d55baccab6d7be21c9de7, engine\BootstrapLoader\FluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::a08f4f2b5367acc62def8a3e0be25062, engine\BootstrapLoader\FluxLoader.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 27
-    '    Code Lines: 17 (62.96%)
-    ' Comment Lines: 3 (11.11%)
+    '   Total Lines: 41
+    '    Code Lines: 27 (65.85%)
+    ' Comment Lines: 3 (7.32%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (25.93%)
-    '     File Size: 830 B
+    '   Blank Lines: 11 (26.83%)
+    '     File Size: 1.30 KB
 
 
     '     Class FluxLoader
     ' 
-    '         Properties: MassTable
+    '         Properties: LinkingMassSet, MassTable
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    '         Function: CreateFlux
     ' 
     ' 
     ' /********************************************************************************/
