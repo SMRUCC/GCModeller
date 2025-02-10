@@ -1,53 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::fbeade0794c19db1c48104dc12207054, engine\vcellkit\Modeller\Sabiork.vb"
+﻿#Region "Microsoft.VisualBasic::1b4af0aef0b0a6f6a3b7d32b5ce310ed, R#\biosystem\Sabiork.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 37
-'    Code Lines: 31 (83.78%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 6 (16.22%)
-'     File Size: 1.36 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module sabiork_repository
-' 
-'     Function: createNewRepository, getKineticis, openRepository, parseSbml, query
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 127
+    '    Code Lines: 90 (70.87%)
+    ' Comment Lines: 23 (18.11%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (11.02%)
+    '     File Size: 4.94 KB
+
+
+    ' Module sabiork_repository
+    ' 
+    '     Function: createNewRepository, documentReader, enzyme_info, getKineticis, getMetabolites
+    '               openRepository, parseSbml, query, unset
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

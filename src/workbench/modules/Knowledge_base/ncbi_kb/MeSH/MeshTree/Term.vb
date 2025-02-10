@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20f1bfe8dcb67883e7557a5c22a25076, modules\Knowledge_base\ncbi_kb\MeSH\MeshTree\Term.vb"
+﻿#Region "Microsoft.VisualBasic::fd776c2bd9df9f5348df8b53ae5d19c7, modules\Knowledge_base\ncbi_kb\MeSH\MeshTree\Term.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 48
-    '    Code Lines: 28 (58.33%)
-    ' Comment Lines: 11 (22.92%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 55
+    '    Code Lines: 31 (56.36%)
+    ' Comment Lines: 13 (23.64%)
+    '    - Xml Docs: 84.62%
     ' 
-    '   Blank Lines: 9 (18.75%)
-    '     File Size: 1.43 KB
+    '   Blank Lines: 11 (20.00%)
+    '     File Size: 1.66 KB
 
 
     '     Class Term
     ' 
     '         Properties: description, term, tree
     ' 
-    '         Function: isSimpleTree, ToString
+    '         Function: GetClass, isSimpleTree, ToString
     ' 
     ' 
     ' /********************************************************************************/

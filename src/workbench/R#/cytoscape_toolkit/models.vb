@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66e2c3457a2b74a00ccb1a1d1fef044a, R#\cytoscape_toolkit\models.vb"
+﻿#Region "Microsoft.VisualBasic::628c2daee0b778c59f8f7b98964637e9, R#\cytoscape_toolkit\models.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 145
-    '    Code Lines: 97 (66.90%)
-    ' Comment Lines: 34 (23.45%)
+    '   Total Lines: 146
+    '    Code Lines: 98 (67.12%)
+    ' Comment Lines: 34 (23.29%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 14 (9.66%)
-    '     File Size: 6.08 KB
+    '   Blank Lines: 14 (9.59%)
+    '     File Size: 6.14 KB
 
 
     ' Module models

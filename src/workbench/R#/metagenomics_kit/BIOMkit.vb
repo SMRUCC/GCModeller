@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf6a55c8fee19093430b6d75f1a7a4e8, R#\metagenomics_kit\BIOMkit.vb"
+﻿#Region "Microsoft.VisualBasic::f8c935ee1dd568307f24669340e18944, R#\metagenomics_kit\BIOMkit.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 134
-    '    Code Lines: 99 (73.88%)
-    ' Comment Lines: 21 (15.67%)
+    '   Total Lines: 135
+    '    Code Lines: 100 (74.07%)
+    ' Comment Lines: 21 (15.56%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 14 (10.45%)
-    '     File Size: 5.33 KB
+    '   Blank Lines: 14 (10.37%)
+    '     File Size: 5.39 KB
 
 
     ' Module BIOMkit

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c8f56ff14b8c1bdd2229dcb5a986f44, modules\ExperimentDesigner\Templates\SampleGroup.vb"
+﻿#Region "Microsoft.VisualBasic::e31e5a1240c580fa1c063c4106361ac3, modules\ExperimentDesigner\Templates\SampleGroup.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 42
-    '    Code Lines: 15 (35.71%)
-    ' Comment Lines: 21 (50.00%)
-    '    - Xml Docs: 95.24%
+    '   Total Lines: 58
+    '    Code Lines: 23 (39.66%)
+    ' Comment Lines: 27 (46.55%)
+    '    - Xml Docs: 96.30%
     ' 
-    '   Blank Lines: 6 (14.29%)
-    '     File Size: 1.36 KB
+    '   Blank Lines: 8 (13.79%)
+    '     File Size: 1.78 KB
 
 
     ' Class SampleGroup
     ' 
     '     Properties: color, sample_info, sample_name, shape
     ' 
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: ToString
     ' 
     ' /********************************************************************************/

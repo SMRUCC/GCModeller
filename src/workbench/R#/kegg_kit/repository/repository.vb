@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cd6484a117d08cd83d21bd23ad3fb65, R#\kegg_kit\repository\repository.vb"
+﻿#Region "Microsoft.VisualBasic::e25b35c0cb29a713637ce498c7576b46, R#\kegg_kit\repository\repository.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 910
-    '    Code Lines: 667 (73.30%)
-    ' Comment Lines: 153 (16.81%)
-    '    - Xml Docs: 96.08%
+    '   Total Lines: 917
+    '    Code Lines: 667 (72.74%)
+    ' Comment Lines: 160 (17.45%)
+    '    - Xml Docs: 96.25%
     ' 
-    '   Blank Lines: 90 (9.89%)
-    '     File Size: 38.93 KB
+    '   Blank Lines: 90 (9.81%)
+    '     File Size: 39.18 KB
 
 
     ' Module repository

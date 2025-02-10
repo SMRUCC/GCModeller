@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af0550553acc237de31a31b2af91a6fd, R#\kegg_kit\britekit.vb"
+﻿#Region "Microsoft.VisualBasic::cdd1ecbf4001bedf88a3ffce5a6a61d2, R#\kegg_kit\britekit.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 258
-    '    Code Lines: 182 (70.54%)
-    ' Comment Lines: 50 (19.38%)
+    '   Total Lines: 279
+    '    Code Lines: 197 (70.61%)
+    ' Comment Lines: 50 (17.92%)
     '    - Xml Docs: 88.00%
     ' 
-    '   Blank Lines: 26 (10.08%)
-    '     File Size: 10.00 KB
+    '   Blank Lines: 32 (11.47%)
+    '     File Size: 11.02 KB
 
 
     ' Module britekit
     ' 
     '     Constructor: (+1 Overloads) Sub New
     '     Function: briteMaps, BriteTable, getHtextTable, getIdPrefix, KOgeneNames
-    '               MapCategoryTerm, ParseBriteJson, ParseBriteTree
+    '               MapCategoryTerm, ParseBriteJson, ParseBriteTree, parseEnzymeInfo
     ' 
     ' /********************************************************************************/
 

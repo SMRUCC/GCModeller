@@ -1,4 +1,62 @@
-﻿Public Class Citation
+﻿#Region "Microsoft.VisualBasic::e2a3218c7ef04947002234f1c96235de, modules\Knowledge_base\ncbi_kb\Citation.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 65 (66.33%)
+    ' Comment Lines: 16 (16.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (17.35%)
+    '     File Size: 3.10 KB
+
+
+    ' Class Citation
+    ' 
+    '     Properties: abstract, authors, doi, fpage, journal
+    '                 lpage, pubmed_id, title, volume, year
+    ' 
+    '     Function: ama_cite, apa_cite, mla_cite, nlm_cite, ToString
+    ' 
+    '     Sub: TryParse
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Public Class Citation
 
     Public Property authors As String()
     Public Property title As String
@@ -96,3 +154,4 @@
         Return $"{authors}. ""{title}."" {journal} vol. {volume}({year}): {fpage}-{lpage}. doi:{doi}"
     End Function
 End Class
+

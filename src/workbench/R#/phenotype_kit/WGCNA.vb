@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::b779bb459c2bafcca1f6e1167702747b, R#\phenotype_kit\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::720fa8ed837ef3314b611090c2b3f386, R#\phenotype_kit\WGCNA.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 46
-'    Code Lines: 41 (89.13%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 5 (10.87%)
-'     File Size: 1.88 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module WGCNA
-' 
-'     Function: applyModuleColors, readModules, readWeightMatrix
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 52 (42.62%)
+    ' Comment Lines: 63 (51.64%)
+    '    - Xml Docs: 82.54%
+    ' 
+    '   Blank Lines: 7 (5.74%)
+    '     File Size: 7.23 KB
+
+
+    ' Module WGCNA
+    ' 
+    '     Function: applyModuleColors, readModules, readWeightMatrix, runAnalysis
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

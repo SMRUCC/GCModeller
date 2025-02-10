@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0956a5449d146f4413490fed676e47d9, R#\kegg_kit\report.vb"
+﻿#Region "Microsoft.VisualBasic::af4544a2edac6bfa850e5b8cf954041a, R#\kegg_kit\report.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 343
-    '    Code Lines: 235 (68.51%)
-    ' Comment Lines: 72 (20.99%)
+    '   Total Lines: 344
+    '    Code Lines: 236 (68.60%)
+    ' Comment Lines: 72 (20.93%)
     '    - Xml Docs: 91.67%
     ' 
-    '   Blank Lines: 36 (10.50%)
-    '     File Size: 14.40 KB
+    '   Blank Lines: 36 (10.47%)
+    '     File Size: 14.46 KB
 
 
     ' Module report

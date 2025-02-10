@@ -1,55 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::73b069155375485c4015634246b1f388, R#\kb\pubmed.vb"
+﻿#Region "Microsoft.VisualBasic::b04b20d133838312d7035ef2895dc8d7, R#\kb\pubmed.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 56
-'    Code Lines: 34 (60.71%)
-' Comment Lines: 18 (32.14%)
-'    - Xml Docs: 88.89%
-' 
-'   Blank Lines: 4 (7.14%)
-'     File Size: 2.81 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module pubmed
-' 
-'     Function: createArticleTable, ParsePubmed
-' 
-'     Sub: Main
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 196
+    '    Code Lines: 125 (63.78%)
+    ' Comment Lines: 49 (25.00%)
+    '    - Xml Docs: 89.80%
+    ' 
+    '   Blank Lines: 22 (11.22%)
+    '     File Size: 8.02 KB
+
+
+    ' Module pubmed_tools
+    ' 
+    '     Function: citation_list, createArticleTable, get_article_info, Parse, ParseArticleSetXml
+    '               ParsePubmed, QueryKeyword, read_bits_book
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,87 @@
-﻿Imports System.Xml.Serialization
+﻿#Region "Microsoft.VisualBasic::7476763617e251053b2c8b664ec73c95, modules\Knowledge_base\ncbi_kb\BITS\p.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 55 (65.48%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 29 (34.52%)
+    '     File Size: 2.42 KB
+
+
+    '     Class Paragraph
+    ' 
+    '         Properties: bold, italic, links, related_object, text
+    '                     xref
+    ' 
+    '         Function: GetTextContent, ToString
+    ' 
+    '     Class xref
+    ' 
+    '         Properties: ref_type, rid, text
+    ' 
+    '     Class Italic
+    ' 
+    '         Properties: toggle
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Bold
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class ExtLink
+    ' 
+    '         Properties: ext_link_type, href, text
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class RelatedObject
+    ' 
+    '         Properties: document_id, document_type, link_type, source_id, text
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Xml.Serialization
 
 Namespace BITS
     Public Class Paragraph

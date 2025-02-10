@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb066ef0cddb4d6471a16e3bdaaeab71, modules\Knowledge_base\ncbi_kb\PubMed\Components\PubDate.vb"
+﻿#Region "Microsoft.VisualBasic::2967b1852a5b328e264ab31bdede8ed4, modules\Knowledge_base\ncbi_kb\PubMed\Components\PubDate.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 6 (24.00%)
-    '     File Size: 791 B
+    '     File Size: 804 B
 
 
     '     Class PubDate

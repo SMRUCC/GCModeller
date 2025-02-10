@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::962dcea90e40f76f925d80a6f3b2136e, R#\annotationKit\BioCyc.vb"
+﻿#Region "Microsoft.VisualBasic::690ce6a163a07d8b8cfb940bd84f9514, R#\annotationKit\BioCyc.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 168
-    '    Code Lines: 128 (76.19%)
-    ' Comment Lines: 19 (11.31%)
+    '   Total Lines: 375
+    '    Code Lines: 288 (76.80%)
+    ' Comment Lines: 39 (10.40%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 21 (12.50%)
-    '     File Size: 6.13 KB
+    '   Blank Lines: 48 (12.80%)
+    '     File Size: 13.99 KB
 
 
     ' Module BioCycRepository
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: (+2 Overloads) createBackground, formulaString, getCompounds, getCompoundsTable, openBioCyc
+    '     Function: (+2 Overloads) createBackground, formulaString, getCompounds, getCompoundsTable, GetDbLinks
+    '               getGenes, getProteins, getReactions, openBioCyc
     ' 
     ' /********************************************************************************/
 

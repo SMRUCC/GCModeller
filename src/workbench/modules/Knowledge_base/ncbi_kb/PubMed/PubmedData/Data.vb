@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4c71d7a70174d45d598dca8bad70956, modules\Knowledge_base\ncbi_kb\PubMed\PubmedData\Data.vb"
+﻿#Region "Microsoft.VisualBasic::a80fe60307ee3cf8781e8e4da836e5ad, modules\Knowledge_base\ncbi_kb\PubMed\PubmedData\Data.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 20
-    '    Code Lines: 15 (75.00%)
+    '   Total Lines: 27
+    '    Code Lines: 19 (70.37%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (25.00%)
-    '     File Size: 480 B
+    '   Blank Lines: 8 (29.63%)
+    '     File Size: 659 B
 
 
     '     Class History
     ' 
     '         Properties: PubMedPubDate
+    ' 
+    '         Function: ToString
     ' 
     '     Class ArticleId
     ' 

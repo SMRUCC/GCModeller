@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fbf9f0ef357cefe385a37c3b9846d55, modules\ExperimentDesigner\SampleIndex.vb"
+﻿#Region "Microsoft.VisualBasic::ead9f9bf2e8b4d35a5e3361a880d6b17, modules\ExperimentDesigner\SampleIndex.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 10 (19.61%)
-    '     File Size: 1.56 KB
+    '     File Size: 1.55 KB
 
 
     ' Class SampleIndex
@@ -105,4 +105,3 @@ Public Class SampleIndex
     End Function
 
 End Class
-
