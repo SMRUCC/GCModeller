@@ -9,14 +9,22 @@
 #' 3. symbol: the gene name of the enzyme
 #' 4. name: the gene function, or the full name
 #' 
-const ecnumber_to_ko = function(ec_number) {
+const ecnumber_to_ko = function(ec_number = "*") {
     imports "brite" from "kegg_kit";
 
     let brite = brite::parse("ko00001");
     let df = as.data.frame(brite.as.table(brite));
     
-    print(df, max.print = 6);
-    str(df);
+    df <- parse_kegg_enzyme(df);
 
-    stop();
+    print(df, max.print = 6);
+    
+    if (!isTRUE(ec_number == "*")) {
+        let ec_ko = df$ec_number;
+        let i = ec_ko in ec_number;
+
+        df <- df[i, ];
+    }
+    
+    return(df);
 }
