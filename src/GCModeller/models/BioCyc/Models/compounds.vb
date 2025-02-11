@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::3fc3b7aebfceebd1c21002b23b4c564b, models\BioCyc\Models\compounds.vb"
+﻿#Region "Microsoft.VisualBasic::7572289fd08b319504653e6d0c0f9165, models\BioCyc\Models\compounds.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 53
-'    Code Lines: 47 (88.68%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 6 (11.32%)
-'     File Size: 2.09 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class compounds
-' 
-'     Properties: atomCharges, chemicalFormula, componentOf, dbLinks, exactMass
-'                 Gibbs0, InChI, InChIKey, molecularWeight, nonStandardInChI
-'                 SMILES
-' 
-'     Function: FormulaString, (+2 Overloads) OpenFile, ParseText
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 56 (81.16%)
+    ' Comment Lines: 4 (5.80%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (13.04%)
+    '     File Size: 2.66 KB
+
+
+    ' Class compounds
+    ' 
+    '     Properties: atomCharges, chemicalFormula, componentOf, dbLinks, exactMass
+    '                 Gibbs0, InChI, InChIKey, molecularWeight, nonStandardInChI
+    '                 regulates, SMILES
+    ' 
+    '     Function: FormulaString, GetDbLinks, (+2 Overloads) OpenFile, ParseText
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41c9af7cc2c65f339c95a89bca8e8aa0, engine\Dynamics\Drivers\FluxEmulator.vb"
+﻿#Region "Microsoft.VisualBasic::47278ae3f42433813f372adddb4aa97c, engine\Dynamics\Drivers\FluxEmulator.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 109
-    '    Code Lines: 79 (72.48%)
-    ' Comment Lines: 9 (8.26%)
-    '    - Xml Docs: 66.67%
+    '   Total Lines: 108
+    '    Code Lines: 77 (71.30%)
+    ' Comment Lines: 10 (9.26%)
+    '    - Xml Docs: 60.00%
     ' 
-    '   Blank Lines: 21 (19.27%)
-    '     File Size: 3.90 KB
+    '   Blank Lines: 21 (19.44%)
+    '     File Size: 3.79 KB
 
 
     '     Class FluxEmulator

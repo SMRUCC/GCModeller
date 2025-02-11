@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::755faea7a2ac05b30e6dd2e73023fdaf, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\BlastX\OutputReader.vb"
+﻿#Region "Microsoft.VisualBasic::6d3e8131ddf2ac1e3309babf3679e089, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\BlastX\OutputReader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 247
-    '    Code Lines: 179 (72.47%)
-    ' Comment Lines: 27 (10.93%)
+    '   Total Lines: 248
+    '    Code Lines: 180 (72.58%)
+    ' Comment Lines: 27 (10.89%)
     '    - Xml Docs: 62.96%
     ' 
-    '   Blank Lines: 41 (16.60%)
-    '     File Size: 9.41 KB
+    '   Blank Lines: 41 (16.53%)
+    '     File Size: 9.46 KB
 
 
     '     Module OutputReader

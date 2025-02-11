@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::863beddc25104a79bf8b10a0865ffd98, core\Bio.Annotation\GFF\GFF.vb"
+﻿#Region "Microsoft.VisualBasic::8d5e4f42245da6741e7260d76e7489b3, core\Bio.Annotation\GFF\GFF.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 293
-    '    Code Lines: 141 (48.12%)
-    ' Comment Lines: 112 (38.23%)
+    '   Total Lines: 294
+    '    Code Lines: 142 (48.30%)
+    ' Comment Lines: 112 (38.10%)
     '    - Xml Docs: 87.50%
     ' 
-    '   Blank Lines: 40 (13.65%)
-    '     File Size: 12.42 KB
+    '   Blank Lines: 40 (13.61%)
+    '     File Size: 12.47 KB
 
 
     '     Class GFFTable

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a005e85be29acdec46a6d518f92bf905, modules\keggReport\ReportRender.vb"
+﻿#Region "Microsoft.VisualBasic::4edda3117569b3af7f57ccdd51ef2f3e, modules\keggReport\ReportRender.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 123
-    '    Code Lines: 87 (70.73%)
-    ' Comment Lines: 21 (17.07%)
+    '   Total Lines: 149
+    '    Code Lines: 112 (75.17%)
+    ' Comment Lines: 21 (14.09%)
     '    - Xml Docs: 85.71%
     ' 
-    '   Blank Lines: 15 (12.20%)
-    '     File Size: 4.46 KB
+    '   Blank Lines: 16 (10.74%)
+    '     File Size: 5.59 KB
 
 
     ' Class ReportRender

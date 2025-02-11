@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75ba20bd63786f7de19812f25c0ad24e, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\network\EdgeGraphics.vb"
+﻿#Region "Microsoft.VisualBasic::6ae0ca98e4a43c5a149983c3550739b9, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\network\EdgeGraphics.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 79
-    '    Code Lines: 67 (84.81%)
+    '   Total Lines: 105
+    '    Code Lines: 92 (87.62%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 12 (15.19%)
-    '     File Size: 2.63 KB
+    '   Blank Lines: 13 (12.38%)
+    '     File Size: 3.76 KB
 
 
     '     Class EdgeGraphics

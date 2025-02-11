@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::178e1d6a5c9830a0467cf85dd03a943c, analysis\SequenceToolkit\MSA\MSAOutput.vb"
+﻿#Region "Microsoft.VisualBasic::7e43792094aa96c2e9b36f1ca8e5e42d, analysis\SequenceToolkit\MSA\MSAOutput.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 74
-    '    Code Lines: 59 (79.73%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 77
+    '    Code Lines: 59 (76.62%)
+    ' Comment Lines: 3 (3.90%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (20.27%)
-    '     File Size: 2.23 KB
+    '   Blank Lines: 15 (19.48%)
+    '     File Size: 2.31 KB
 
 
     ' Class MSAOutput

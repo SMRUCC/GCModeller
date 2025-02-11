@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1ed3f982c85f6cd0127442f09b43679, visualize\ChromosomeMap\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::4151c0e4329b51962db15ada50e0eed2, visualize\ChromosomeMap\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 444
-    '    Code Lines: 319 (71.85%)
-    ' Comment Lines: 47 (10.59%)
+    '   Total Lines: 470
+    '    Code Lines: 344 (73.19%)
+    ' Comment Lines: 47 (10.00%)
     '    - Xml Docs: 85.11%
     ' 
-    '   Blank Lines: 78 (17.57%)
-    '     File Size: 17.35 KB
+    '   Blank Lines: 79 (16.81%)
+    '     File Size: 18.53 KB
 
 
     ' Class DrawingDevice

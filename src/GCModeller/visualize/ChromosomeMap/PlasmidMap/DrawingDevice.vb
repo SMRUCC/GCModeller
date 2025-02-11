@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6dbb305b6bec23ac4321e7835dfaee3d, visualize\ChromosomeMap\PlasmidMap\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::88e3f8eaee3624ad3fcc5e654ab1cb2d, visualize\ChromosomeMap\PlasmidMap\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 41
-    '    Code Lines: 35 (85.37%)
-    ' Comment Lines: 1 (2.44%)
+    '   Total Lines: 50
+    '    Code Lines: 42 (84.00%)
+    ' Comment Lines: 1 (2.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (12.20%)
-    '     File Size: 1.88 KB
+    '   Blank Lines: 7 (14.00%)
+    '     File Size: 2.14 KB
 
 
     '     Module DrawingDevice

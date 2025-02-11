@@ -1,56 +1,64 @@
-﻿#Region "Microsoft.VisualBasic::ad680aaa9ee39f2003c31cff062ba176, core\Bio.Assembly\ComponentModel\PeriodicTable.vb"
+﻿#Region "Microsoft.VisualBasic::b6211674170f080d4d5fcb909f8b30af, core\Bio.Assembly\ComponentModel\PeriodicTable.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 67
-'    Code Lines: 48 (71.64%)
-' Comment Lines: 10 (14.93%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 9 (13.43%)
-'     File Size: 4.24 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module PeriodicTable
-' 
-'         Properties: PeriodicTable
-' 
-'         Function: MolecularWeightCalculate
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 216
+    '    Code Lines: 164 (75.93%)
+    ' Comment Lines: 11 (5.09%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 41 (18.98%)
+    '     File Size: 9.12 KB
+
+
+    '     Structure FormulaData
+    ' 
+    '         Properties: Empty
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: Add, ToString
+    '         Operators: -, *, /, +
+    ' 
+    '     Module PeriodicTable
+    ' 
+    '         Properties: PeriodicTable
+    ' 
+    '         Function: MolecularWeightCalculate, SimpleParser, Sum
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

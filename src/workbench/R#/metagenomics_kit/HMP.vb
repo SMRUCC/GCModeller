@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb65a4f6c18461bb8a65cf1e21e0b11a, R#\metagenomics_kit\HMP.vb"
+﻿#Region "Microsoft.VisualBasic::c06e290ad97ad28e21c1c822dc9b3b9b, R#\metagenomics_kit\HMP.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 47
-    '    Code Lines: 31 (65.96%)
-    ' Comment Lines: 11 (23.40%)
+    '   Total Lines: 48
+    '    Code Lines: 32 (66.67%)
+    ' Comment Lines: 11 (22.92%)
     '    - Xml Docs: 90.91%
     ' 
-    '   Blank Lines: 5 (10.64%)
-    '     File Size: 1.73 KB
+    '   Blank Lines: 5 (10.42%)
+    '     File Size: 1.78 KB
 
 
     ' Module HMP

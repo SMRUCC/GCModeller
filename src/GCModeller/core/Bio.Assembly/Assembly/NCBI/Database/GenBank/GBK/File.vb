@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa0ed8e42a6ac2578692b16a7b368e7e, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
+﻿#Region "Microsoft.VisualBasic::71530ae6f9ac74361b6ee808e7122830, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 306
-    '    Code Lines: 173 (56.54%)
-    ' Comment Lines: 98 (32.03%)
-    '    - Xml Docs: 94.90%
+    '   Total Lines: 351
+    '    Code Lines: 173 (49.29%)
+    ' Comment Lines: 143 (40.74%)
+    '    - Xml Docs: 95.10%
     ' 
-    '   Blank Lines: 35 (11.44%)
-    '     File Size: 12.00 KB
+    '   Blank Lines: 35 (9.97%)
+    '     File Size: 15.85 KB
 
 
     '     Class File

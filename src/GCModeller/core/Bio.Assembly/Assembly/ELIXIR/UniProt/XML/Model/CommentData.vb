@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3115fd35db05bb9d8374bf33686624c0, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\CommentData.vb"
+﻿#Region "Microsoft.VisualBasic::f653428082c3847fce32516b36d326e3, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\CommentData.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 68
-    '    Code Lines: 53 (77.94%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 99
+    '    Code Lines: 73 (73.74%)
+    ' Comment Lines: 8 (8.08%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (22.06%)
-    '     File Size: 2.07 KB
+    '   Blank Lines: 18 (18.18%)
+    '     File Size: 3.05 KB
 
 
     '     Class comment
@@ -48,11 +48,13 @@
     '         Properties: [event], dbReferences, evidence, isoforms, physiologicalReaction
     '                     reaction, subcellularLocations, text, type
     ' 
-    '         Function: ToString
+    '         Function: GetText, ToString
     ' 
     '     Class reaction
     ' 
     '         Properties: dbReferences, direction, evidence, text
+    ' 
+    '         Function: GetChEBI, GetECNumber
     ' 
     '     Class subcellularLocation
     ' 

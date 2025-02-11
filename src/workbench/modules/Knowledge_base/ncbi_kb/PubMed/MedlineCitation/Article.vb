@@ -1,124 +1,127 @@
-﻿#Region "Microsoft.VisualBasic::44f7cf99697e77da57bf1696a100c032, modules\Knowledge_base\ncbi_kb\PubMed\MedlineCitation\Article.vb"
+﻿#Region "Microsoft.VisualBasic::d1e5d545db2ea3c6ce1eb625947e95c7, modules\Knowledge_base\ncbi_kb\PubMed\MedlineCitation\Article.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 169
-'    Code Lines: 134 (79.29%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 35 (20.71%)
-'     File Size: 5.04 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class PMID
-' 
-'         Properties: ID, Version
-' 
-'         Function: ToString
-' 
-'     Class Article
-' 
-'         Properties: Abstract, ArticleDate, ArticleTitle, AuthorList, ELocationID
-'                     Journal, Language, Pagination, PublicationTypeList, PubModel
-' 
-'         Function: ToString
-' 
-'     Class PublicationTypeList
-' 
-'         Properties: PublicationType
-' 
-'     Class AuthorList
-' 
-'         Properties: Authors, CompleteYN
-' 
-'         Function: GenericEnumerator, ToString
-' 
-'     Class Author
-' 
-'         Properties: AffiliationInfo, ForeName, Initials, LastName, ValidYN
-' 
-'         Function: ToString
-' 
-'     Class AffiliationInfo
-' 
-'         Properties: Affiliation
-' 
-'         Function: ToString
-' 
-'     Class AbstractText
-' 
-'         Properties: Label, NlmCategory, Text
-' 
-'         Function: ToString
-' 
-'     Class Abstract
-' 
-'         Properties: AbstractText, CopyrightInformation
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: ToString
-' 
-'     Class ELocationID
-' 
-'         Properties: EIdType, ValidYN, Value
-' 
-'         Function: ToString
-' 
-'     Class Pagination
-' 
-'         Properties: MedlinePgn
-' 
-'     Class Journal
-' 
-'         Properties: ISOAbbreviation, ISSN, JournalIssue, Title
-' 
-'         Function: ToString
-' 
-'     Class ISSN
-' 
-'         Properties: ID, IssnType
-' 
-'         Function: ToString
-' 
-'     Class JournalIssue
-' 
-'         Properties: CitedMedium, Issue, PubDate, Volume
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 139 (76.80%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 42 (23.20%)
+    '     File Size: 5.34 KB
+
+
+    '     Class PMID
+    ' 
+    '         Properties: ID, Version
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Article
+    ' 
+    '         Properties: Abstract, ArticleDate, ArticleTitle, AuthorList, ELocationID
+    '                     Journal, Language, Pagination, PublicationTypeList, PubModel
+    '                     VernacularTitle
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class PublicationTypeList
+    ' 
+    '         Properties: PublicationType
+    ' 
+    '     Class AuthorList
+    ' 
+    '         Properties: Authors, CompleteYN
+    ' 
+    '         Function: GenericEnumerator, ToString
+    ' 
+    '     Class Author
+    ' 
+    '         Properties: AffiliationInfo, ForeName, Initials, LastName, ValidYN
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class AffiliationInfo
+    ' 
+    '         Properties: Affiliation
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class AbstractText
+    ' 
+    '         Properties: Label, NlmCategory, Text
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Abstract
+    ' 
+    '         Properties: AbstractText, CopyrightInformation
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    '     Class ELocationID
+    ' 
+    '         Properties: EIdType, ValidYN, Value
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Pagination
+    ' 
+    '         Properties: MedlinePgn
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Journal
+    ' 
+    '         Properties: ISOAbbreviation, ISSN, JournalIssue, Title
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class ISSN
+    ' 
+    '         Properties: ID, IssnType
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class JournalIssue
+    ' 
+    '         Properties: CitedMedium, Issue, PubDate, Volume
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

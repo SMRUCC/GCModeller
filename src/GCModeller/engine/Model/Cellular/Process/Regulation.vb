@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::476c08a1297fa0dc010e61f3c75fb724, engine\Model\Cellular\Process\Regulation.vb"
+﻿#Region "Microsoft.VisualBasic::3b227c91bfe5eb99c2cca781371b41af, engine\Model\Cellular\Process\Regulation.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 37
-    '    Code Lines: 15 (40.54%)
-    ' Comment Lines: 16 (43.24%)
+    '   Total Lines: 40
+    '    Code Lines: 15 (37.50%)
+    ' Comment Lines: 19 (47.50%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (16.22%)
-    '     File Size: 1.08 KB
+    '   Blank Lines: 6 (15.00%)
+    '     File Size: 1.18 KB
 
 
     '     Structure Regulation

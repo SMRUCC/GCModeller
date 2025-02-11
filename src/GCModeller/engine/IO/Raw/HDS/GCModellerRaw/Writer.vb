@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c39b6addf5f9192fa575d8ab849c2d12, engine\IO\Raw\HDS\GCModellerRaw\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::c5e958e2a543c96e10a283594db5ed09, engine\IO\Raw\HDS\GCModellerRaw\Writer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 124
-    '    Code Lines: 88 (70.97%)
-    ' Comment Lines: 15 (12.10%)
-    '    - Xml Docs: 93.33%
+    '   Total Lines: 126
+    '    Code Lines: 88 (69.84%)
+    ' Comment Lines: 17 (13.49%)
+    '    - Xml Docs: 94.12%
     ' 
-    '   Blank Lines: 21 (16.94%)
-    '     File Size: 5.28 KB
+    '   Blank Lines: 21 (16.67%)
+    '     File Size: 5.32 KB
 
 
     '     Class Writer

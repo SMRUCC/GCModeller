@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb831e6871353820f5a217c2e1dfcb0a, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::d7ea6e9f4bc027693c42a17a2b27e383, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\Parser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 466
-    '    Code Lines: 294 (63.09%)
-    ' Comment Lines: 93 (19.96%)
+    '   Total Lines: 467
+    '    Code Lines: 295 (63.17%)
+    ' Comment Lines: 93 (19.91%)
     '    - Xml Docs: 93.55%
     ' 
-    '   Blank Lines: 79 (16.95%)
-    '     File Size: 21.21 KB
+    '   Blank Lines: 79 (16.92%)
+    '     File Size: 21.26 KB
 
 
     '     Module Parser

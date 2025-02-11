@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::104af7c7cf918bd95dd83381d61a447d, data\GO_gene-ontology\GeneOntology\Files\GAF.vb"
+﻿#Region "Microsoft.VisualBasic::47e8d0431f2dd47192d8e409c717891b, data\GO_gene-ontology\GeneOntology\Files\GAF.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 410
-    '    Code Lines: 118 (28.78%)
-    ' Comment Lines: 259 (63.17%)
+    '   Total Lines: 411
+    '    Code Lines: 119 (28.95%)
+    ' Comment Lines: 259 (63.02%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 33 (8.05%)
-    '     File Size: 21.94 KB
+    '   Blank Lines: 33 (8.03%)
+    '     File Size: 21.99 KB
 
 
     ' Class GAF

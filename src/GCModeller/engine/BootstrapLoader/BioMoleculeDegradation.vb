@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bc3947662587dd3df4033c0c8f985fd, engine\BootstrapLoader\BioMoleculeDegradation.vb"
+﻿#Region "Microsoft.VisualBasic::dd7414dd9199863196c588a5b8965f9a, engine\BootstrapLoader\BioMoleculeDegradation.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 123
-    '    Code Lines: 97 (78.86%)
-    ' Comment Lines: 7 (5.69%)
-    '    - Xml Docs: 42.86%
+    '   Total Lines: 145
+    '    Code Lines: 114 (78.62%)
+    ' Comment Lines: 9 (6.21%)
+    '    - Xml Docs: 33.33%
     ' 
-    '   Blank Lines: 19 (15.45%)
-    '     File Size: 5.41 KB
+    '   Blank Lines: 22 (15.17%)
+    '     File Size: 6.41 KB
 
 
     '     Class BioMoleculeDegradation
@@ -48,7 +48,7 @@
     '         Properties: proteinMatures
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux, proteinDegradation, RNADegradation
+    '         Function: CreateFlux, GetMassSet, proteinDegradation, RNADegradation
     ' 
     ' 
     ' /********************************************************************************/

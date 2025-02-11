@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d65633b5d9805800ce1707cce402571b, core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
+﻿#Region "Microsoft.VisualBasic::1ebe09aec05f6bea11b9716e43812e6a, core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
 
     ' Author:
     ' 
@@ -34,25 +34,25 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 167
-    '    Code Lines: 127 (76.05%)
-    ' Comment Lines: 13 (7.78%)
+    '   Total Lines: 184
+    '    Code Lines: 138 (75.00%)
+    ' Comment Lines: 16 (8.70%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 27 (16.17%)
-    '     File Size: 6.67 KB
+    '   Blank Lines: 30 (16.30%)
+    '     File Size: 7.09 KB
 
 
     '     Class CompoundSpecieReference
     ' 
     '         Properties: Compartment, ID, Stoichiometry
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: AsFactor, Equals, ToString
     ' 
     '     Class Equation
     ' 
-    '         Constructor: (+3 Overloads) Sub New
+    '         Constructor: (+4 Overloads) Sub New
     ' 
     '         Function: __equals, GetBuffer, GetCoEfficient, ParseBuffer, ReadMetabolite
     '                   TryParse

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6db39878282c4861d45e7dca5a829ea, analysis\SequenceToolkit\MotifFinder\Seeds\FileName.vb"
+﻿#Region "Microsoft.VisualBasic::4af458a849805254e458f33a8f75e481, analysis\SequenceToolkit\MotifFinder\Seeds\FileName.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 26 (16.56%)
-    '     File Size: 5.57 KB
+    '     File Size: 5.59 KB
 
 
     ' Module FileName

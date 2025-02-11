@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18cc7bf28aa977ee370f3b2d3ea96601, engine\Model\Cellular\Molecule\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::f9caefd18b025ee2a9e8af2eb2f8eebd, engine\Model\Cellular\Molecule\Protein.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 28
-    '    Code Lines: 10 (35.71%)
-    ' Comment Lines: 13 (46.43%)
+    '   Total Lines: 32
+    '    Code Lines: 13 (40.62%)
+    ' Comment Lines: 13 (40.62%)
     '    - Xml Docs: 92.31%
     ' 
-    '   Blank Lines: 5 (17.86%)
-    '     File Size: 732 B
+    '   Blank Lines: 6 (18.75%)
+    '     File Size: 842 B
 
 
     '     Structure Protein
@@ -48,6 +48,7 @@
     '         Properties: ProteinID
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

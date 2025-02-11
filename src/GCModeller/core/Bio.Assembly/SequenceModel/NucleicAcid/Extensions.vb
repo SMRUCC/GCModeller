@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::117a4ac8d8d5b07abff7f4a6bd477366, core\Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d0de1da6ded30277067c3e91b04d7727, core\Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 59.26%
     ' 
     '   Blank Lines: 54 (19.85%)
-    '     File Size: 9.85 KB
+    '     File Size: 9.83 KB
 
 
     '     Module Extensions

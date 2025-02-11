@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bcb9fb0eaf3db42800f4e1922a5512a, annotations\Proteomics\AnalysisCommon.vb"
+﻿#Region "Microsoft.VisualBasic::a53454d3e4bfe178b8cd9da44594b8fe, annotations\Proteomics\AnalysisCommon.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 144
-    '    Code Lines: 102 (70.83%)
-    ' Comment Lines: 16 (11.11%)
-    '    - Xml Docs: 43.75%
+    '   Total Lines: 137
+    '    Code Lines: 67 (48.91%)
+    ' Comment Lines: 43 (31.39%)
+    '    - Xml Docs: 16.28%
     ' 
-    '   Blank Lines: 26 (18.06%)
-    '     File Size: 5.07 KB
+    '   Blank Lines: 27 (19.71%)
+    '     File Size: 4.91 KB
 
 
     ' Module AnalysisCommon

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04674db16e9bbdca163bd298e3a4b855, analysis\Metagenome\MetaFunction\PICRUSt\PredictMetagenome.vb"
+﻿#Region "Microsoft.VisualBasic::a1bdf21a5baf9d846431f586e5135917, analysis\Metagenome\MetaFunction\PICRUSt\PredictMetagenome.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 146
-    '    Code Lines: 86 (58.90%)
-    ' Comment Lines: 37 (25.34%)
+    '   Total Lines: 149
+    '    Code Lines: 88 (59.06%)
+    ' Comment Lines: 37 (24.83%)
     '    - Xml Docs: 81.08%
     ' 
-    '   Blank Lines: 23 (15.75%)
-    '     File Size: 6.42 KB
+    '   Blank Lines: 24 (16.11%)
+    '     File Size: 6.49 KB
 
 
     '     Module PredictMetagenome

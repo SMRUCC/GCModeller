@@ -1,66 +1,66 @@
-﻿#Region "Microsoft.VisualBasic::8013d204ac660905c6b0577d1ba32f67, visualize\Cytoscape\Cytoscape\API\ImportantNodes\Models.vb"
+﻿#Region "Microsoft.VisualBasic::f385afc9a1736b0955dfbef56cb28cb3, visualize\Cytoscape\Cytoscape\API\ImportantNodes\Models.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 46
-'    Code Lines: 26 (56.52%)
-' Comment Lines: 10 (21.74%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 10 (21.74%)
-'     File Size: 1.49 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Regulations
-' 
-'         Properties: ORF, Regulator
-' 
-'     Class RankRegulations
-' 
-'         Properties: GeneCluster, RankScore, Regulators
-' 
-'         Function: ToString
-' 
-'     Class NodeRank
-' 
-'         Properties: Nodes, Rank
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 25 (54.35%)
+    ' Comment Lines: 10 (21.74%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (23.91%)
+    '     File Size: 1.48 KB
+
+
+    '     Class Regulations
+    ' 
+    '         Properties: ORF, Regulator
+    ' 
+    '     Class RankRegulations
+    ' 
+    '         Properties: GeneCluster, RankScore, Regulators
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class NodeRank
+    ' 
+    '         Properties: Nodes, Rank
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

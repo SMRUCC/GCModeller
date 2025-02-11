@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0fb7534df2ecd3f2bfd913dba41e013, Bio.Repository\KEGG\MessagePack\KEGGCompoundPack.vb"
+﻿#Region "Microsoft.VisualBasic::c19a6f6f7ff48179400a849b1f2438ff, Bio.Repository\KEGG\MessagePack\KEGGCompoundPack.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 94
-    '    Code Lines: 63 (67.02%)
-    ' Comment Lines: 20 (21.28%)
-    '    - Xml Docs: 95.00%
+    '   Total Lines: 99
+    '    Code Lines: 63 (63.64%)
+    ' Comment Lines: 25 (25.25%)
+    '    - Xml Docs: 96.00%
     ' 
-    '   Blank Lines: 11 (11.70%)
-    '     File Size: 4.09 KB
+    '   Blank Lines: 11 (11.11%)
+    '     File Size: 4.32 KB
 
 
     '     Class KEGGCompoundPack

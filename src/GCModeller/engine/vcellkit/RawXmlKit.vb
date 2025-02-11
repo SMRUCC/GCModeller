@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c316d68b87865363161b6afcd85b79c, engine\vcellkit\RawXmlKit.vb"
+﻿#Region "Microsoft.VisualBasic::d3c1bdb097902ea9fbaa1aa19f6c5aae, engine\vcellkit\RawXmlKit.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 266
-    '    Code Lines: 182 (68.42%)
-    ' Comment Lines: 44 (16.54%)
-    '    - Xml Docs: 93.18%
+    '   Total Lines: 321
+    '    Code Lines: 198 (61.68%)
+    ' Comment Lines: 80 (24.92%)
+    '    - Xml Docs: 87.50%
     ' 
-    '   Blank Lines: 40 (15.04%)
-    '     File Size: 10.39 KB
+    '   Blank Lines: 43 (13.40%)
+    '     File Size: 12.31 KB
 
 
     ' Module RawXmlKit

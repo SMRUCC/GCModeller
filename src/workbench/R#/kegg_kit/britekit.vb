@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af0550553acc237de31a31b2af91a6fd, R#\kegg_kit\britekit.vb"
+﻿#Region "Microsoft.VisualBasic::cdd1ecbf4001bedf88a3ffce5a6a61d2, R#\kegg_kit\britekit.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 258
-    '    Code Lines: 182 (70.54%)
-    ' Comment Lines: 50 (19.38%)
+    '   Total Lines: 279
+    '    Code Lines: 197 (70.61%)
+    ' Comment Lines: 50 (17.92%)
     '    - Xml Docs: 88.00%
     ' 
-    '   Blank Lines: 26 (10.08%)
-    '     File Size: 10.00 KB
+    '   Blank Lines: 32 (11.47%)
+    '     File Size: 11.02 KB
 
 
     ' Module britekit
     ' 
     '     Constructor: (+1 Overloads) Sub New
     '     Function: briteMaps, BriteTable, getHtextTable, getIdPrefix, KOgeneNames
-    '               MapCategoryTerm, ParseBriteJson, ParseBriteTree
+    '               MapCategoryTerm, ParseBriteJson, ParseBriteTree, parseEnzymeInfo
     ' 
     ' /********************************************************************************/
 
@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -66,6 +67,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
@@ -234,6 +236,25 @@ Module britekit
         Next
 
         Return New list(TypeCodes.string) With {.slots = names}
+    End Function
+
+    <ExportAPI("parse_kegg_enzyme")>
+    Public Function parseEnzymeInfo(ko00001 As rdataframe, Optional env As Environment = Nothing) As Object
+        Dim name As String() = CLRVector.asCharacter(ko00001!name)
+
+        If name Is Nothing Then
+            Return RInternal.debug.stop($"the required enzyme information data field 'name' is not existed in the given dataframe, dataframe fields that we have: {ko00001.colnames.GetJson}", env)
+        End If
+
+        ko00001 = New rdataframe(ko00001)
+
+        Dim symbol As String() = name.Select(Function(str) str.Split(";"c).FirstOrDefault).ToArray
+        Dim ec_number As String() = name.Select(Function(str) str.Match("\[EC[:].+\]").GetStackValue("[", "]").GetTagValue(":").Value).ToArray
+
+        Call ko00001.add("symbol", symbol)
+        Call ko00001.add("ec_number", ec_number)
+
+        Return ko00001
     End Function
 
     ''' <summary>

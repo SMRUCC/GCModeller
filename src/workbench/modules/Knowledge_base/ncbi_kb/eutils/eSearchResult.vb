@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::614bb257f6e67c8de96489010def1ede, modules\Knowledge_base\ncbi_kb\PubMed\eutils\eSearchResult.vb"
+﻿#Region "Microsoft.VisualBasic::757f9637c6b47b27fdfc0418c18e2570, modules\Knowledge_base\ncbi_kb\eutils\eSearchResult.vb"
 
     ' Author:
     ' 
@@ -34,41 +34,42 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 54
-    '    Code Lines: 45 (83.33%)
+    '   Total Lines: 57
+    '    Code Lines: 47 (82.46%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 9 (16.67%)
-    '     File Size: 1.58 KB
+    '   Blank Lines: 10 (17.54%)
+    '     File Size: 1.79 KB
 
 
-    ' Class eSearchResult
+    '     Class eSearchResult
     ' 
-    '     Properties: Count, IdList, QueryTranslation, RetMax, RetStart
-    '                 TranslationSet, TranslationStack
+    '         Properties: Count, IdList, QueryTranslation, RetMax, RetStart
+    '                     TranslationSet, TranslationStack
     ' 
-    ' Class IdList
+    '     Class IdList
     ' 
-    '     Properties: Id
+    '         Properties: Id
     ' 
-    '     Function: GenericEnumerator, ToString
+    '         Function: GenericEnumerator, ToString
     ' 
-    ' Class TranslationSet
+    '     Class TranslationSet
     ' 
-    '     Properties: Translation
+    '         Properties: Translation
     ' 
-    ' Class Translation
+    '     Class Translation
     ' 
-    '     Properties: [To], From
+    '         Properties: [To], From
     ' 
-    ' Class TranslationStack
+    '     Class TranslationStack
     ' 
-    '     Properties: OP, TermSet
+    '         Properties: OP, TermSet
     ' 
-    ' Class TermSet
+    '     Class TermSet
     ' 
-    '     Properties: Count, Explode, Field, Term
+    '         Properties: Count, Explode, Field, Term
+    ' 
     ' 
     ' /********************************************************************************/
 

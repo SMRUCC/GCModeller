@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e529903ec2c47ae2578e87511ce0379b, R#\seqtoolkit\SigmaDifference.vb"
+﻿#Region "Microsoft.VisualBasic::5fed0fecbfb17ec6d0ebd20b513a573e, R#\seqtoolkit\SigmaDifference.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 916
-    '    Code Lines: 665 (72.60%)
-    ' Comment Lines: 128 (13.97%)
-    '    - Xml Docs: 85.94%
+    '   Total Lines: 920
+    '    Code Lines: 666 (72.39%)
+    ' Comment Lines: 131 (14.24%)
+    '    - Xml Docs: 86.26%
     ' 
-    '   Blank Lines: 123 (13.43%)
-    '     File Size: 46.95 KB
+    '   Blank Lines: 123 (13.37%)
+    '     File Size: 47.13 KB
 
 
     ' Module SigmaDifference

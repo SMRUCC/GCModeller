@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6f0adb617ec773303f8bc33cd4774c3, visualize\ChromosomeMap\DrawingModels\ChromesomeDrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::d7064a0da3834e915b4de21e78a256c8, visualize\ChromosomeMap\DrawingModels\ChromesomeDrawingModel.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 71
-    '    Code Lines: 26 (36.62%)
-    ' Comment Lines: 38 (53.52%)
+    '   Total Lines: 97
+    '    Code Lines: 51 (52.58%)
+    ' Comment Lines: 38 (39.18%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (9.86%)
-    '     File Size: 2.64 KB
+    '   Blank Lines: 8 (8.25%)
+    '     File Size: 3.77 KB
 
 
     '     Class ChromesomeDrawingModel

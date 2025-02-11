@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::278d3cc5cbf19a681da658aa2ce33804, engine\Model\Cellular\Process\Metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::0fdd4e593f9ba4ad0f81c4cf0fe518ee, engine\Model\Cellular\Process\Metabolism.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 119
-    '    Code Lines: 72 (60.50%)
-    ' Comment Lines: 30 (25.21%)
-    '    - Xml Docs: 96.67%
+    '   Total Lines: 122
+    '    Code Lines: 72 (59.02%)
+    ' Comment Lines: 33 (27.05%)
+    '    - Xml Docs: 96.97%
     ' 
-    '   Blank Lines: 17 (14.29%)
-    '     File Size: 4.44 KB
+    '   Blank Lines: 17 (13.93%)
+    '     File Size: 4.53 KB
 
 
     '     Class Reaction

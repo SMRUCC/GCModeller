@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9389dd98d0995a4026f332c772a2141f, models\SBML\SBML\Export\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::ab35ad1ae0cd16bf7d7c45cec1f7c177, models\SBML\SBML\Export\KEGG.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.71%
     ' 
     '   Blank Lines: 8 (9.76%)
-    '     File Size: 3.79 KB
+    '     File Size: 3.77 KB
 
 
     '     Module KEGG

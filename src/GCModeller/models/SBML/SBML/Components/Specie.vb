@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30b8b115963f946ad4d774a0fe33eecc, models\SBML\SBML\Components\Specie.vb"
+﻿#Region "Microsoft.VisualBasic::c1778490f74f7b1a438210786f616dae, models\SBML\SBML\Components\Specie.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 25
-    '    Code Lines: 20 (80.00%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 28
+    '    Code Lines: 20 (71.43%)
+    ' Comment Lines: 3 (10.71%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 5 (20.00%)
-    '     File Size: 822 B
+    '   Blank Lines: 5 (17.86%)
+    '     File Size: 906 B
 
 
     '     Class Specie

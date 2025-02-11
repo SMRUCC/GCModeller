@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ec6374454bb9a765454001c7bde44ac, annotations\GSEA\FisherCore\KnowledgeBase\BackgroundGene.vb"
+﻿#Region "Microsoft.VisualBasic::c7444c9dfbbeec5ff77aff18ab32dccd, annotations\GSEA\FisherCore\KnowledgeBase\BackgroundGene.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 76
-    '    Code Lines: 44 (57.89%)
-    ' Comment Lines: 19 (25.00%)
+    '   Total Lines: 81
+    '    Code Lines: 48 (59.26%)
+    ' Comment Lines: 19 (23.46%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 13 (17.11%)
-    '     File Size: 2.07 KB
+    '   Blank Lines: 14 (17.28%)
+    '     File Size: 2.18 KB
 
 
     ' Class BackgroundGene
     ' 
     '     Properties: locus_tag, name, term_id
     ' 
-    '     Constructor: (+2 Overloads) Sub New
+    '     Constructor: (+3 Overloads) Sub New
     '     Function: EnumerateAllIds, ToString, UnknownTerms
     ' 
     ' /********************************************************************************/

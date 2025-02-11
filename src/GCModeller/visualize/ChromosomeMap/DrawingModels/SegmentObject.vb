@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8488dbc127aa01dc72f9e2ac74fef1be, visualize\ChromosomeMap\DrawingModels\SegmentObject.vb"
+﻿#Region "Microsoft.VisualBasic::d10adcce4c469160f5b9b2e985e67ddb, visualize\ChromosomeMap\DrawingModels\SegmentObject.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 152
-    '    Code Lines: 95 (62.50%)
-    ' Comment Lines: 29 (19.08%)
+    '   Total Lines: 178
+    '    Code Lines: 120 (67.42%)
+    ' Comment Lines: 29 (16.29%)
     '    - Xml Docs: 93.10%
     ' 
-    '   Blank Lines: 28 (18.42%)
-    '     File Size: 5.47 KB
+    '   Blank Lines: 29 (16.29%)
+    '     File Size: 6.61 KB
 
 
     '     Class SegmentObject

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c7a7c93cbcd86af45f17b6829e30ab3, R#\gseakit\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::2e2aee27639973be8c4e23c7680b89de, R#\gseakit\GSEA.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 385
-    '    Code Lines: 259 (67.27%)
-    ' Comment Lines: 93 (24.16%)
-    '    - Xml Docs: 95.70%
+    '   Total Lines: 426
+    '    Code Lines: 286 (67.14%)
+    ' Comment Lines: 103 (24.18%)
+    '    - Xml Docs: 96.12%
     ' 
-    '   Blank Lines: 33 (8.57%)
-    '     File Size: 17.01 KB
+    '   Blank Lines: 37 (8.69%)
+    '     File Size: 19.10 KB
 
 
     ' Module GSEA

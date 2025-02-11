@@ -1,58 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::d5c170102553c7a2bcf8d759a32a12a7, engine\BootstrapLoader\CentralDogmaFluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::84db09775d538b8958d20f33f4656096, engine\BootstrapLoader\CentralDogmaFluxLoader.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 305
-'    Code Lines: 219 (71.80%)
-' Comment Lines: 43 (14.10%)
-'    - Xml Docs: 58.14%
-' 
-'   Blank Lines: 43 (14.10%)
-'     File Size: 14.31 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class CentralDogmaFluxLoader
-' 
-'         Properties: componentRNA, mRNA, polypeptides
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: CreateFlux, ribosomeAssembly, transcriptionTemplate, translationTemplate, translationUncharged
-'                   tRNAProcess
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 417
+    '    Code Lines: 308 (73.86%)
+    ' Comment Lines: 45 (10.79%)
+    '    - Xml Docs: 55.56%
+    ' 
+    '   Blank Lines: 64 (15.35%)
+    '     File Size: 18.48 KB
+
+
+    '     Class CentralDogmaFluxLoader
+    ' 
+    '         Properties: componentRNA, mRNA, polypeptides
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: CreateFlux, GetMassSet, MissingAAComposition, ProteinMatrixIndex, ribosomeAssembly
+    '                   RnaMatrixIndexing, transcriptionTemplate, translationTemplate, translationUncharged, tRNAProcess
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

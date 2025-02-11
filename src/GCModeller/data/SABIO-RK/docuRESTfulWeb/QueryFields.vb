@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::357db2e3ebbdc92fbbbd0dfcb72bb3c6, data\SABIO-RK\docuRESTfulWeb\QueryFields.vb"
+﻿#Region "Microsoft.VisualBasic::aaa32fc26ff9fe3a565de4f01641f961, data\SABIO-RK\docuRESTfulWeb\QueryFields.vb"
 
     ' Author:
     ' 
@@ -34,29 +34,30 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 84
-    '    Code Lines: 56 (66.67%)
-    ' Comment Lines: 27 (32.14%)
+    '   Total Lines: 87
+    '    Code Lines: 58 (66.67%)
+    ' Comment Lines: 27 (31.03%)
     '    - Xml Docs: 92.59%
     ' 
-    '   Blank Lines: 1 (1.19%)
-    '     File Size: 2.31 KB
+    '   Blank Lines: 2 (2.30%)
+    '     File Size: 2.68 KB
 
 
-    ' Enum QueryFields
+    '     Enum QueryFields
     ' 
-    '     Activator, AnyRole, AssociatedSpecies, Author, Catalyst
-    '     CellularLocation, ChebiID, Cofactor, DataIdentifier, DateSubmitted
-    '     ECNumber, EntryID, Enzymename, EnzymeType, ExperimentID
-    '     HasKineticData, InChI, Inhibitor, IsRecombinant, KeggCompoundID
-    '     KeggID, KeggPathwayID, KeggReactionID, KineticMechanismType, MetaCycReactionID
-    '     MetaNetXReactionID, Organism, Organization, OtherModifier, Parametertype
-    '     Pathway, pHValueRange, Product, PubChemID, PubMedCID
-    '     PubMedID, ReactomeReactionID, RheaReactionID, SabioCompoundID, SabioReactionID
-    '     Smiles, Substrate, TemperatureRange, Tissue, Title
-    '     UniProtID, UniProtKB_AC, UniprotOmimID, Year
+    '         Activator, AnyRole, AssociatedSpecies, Author, Catalyst
+    '         CellularLocation, ChebiID, Cofactor, DataIdentifier, DateSubmitted
+    '         ECNumber, EntryID, Enzymename, EnzymeType, ExperimentID
+    '         HasKineticData, InChI, Inhibitor, IsRecombinant, KeggCompoundID
+    '         KeggID, KeggPathwayID, KeggReactionID, KineticMechanismType, MetaCycReactionID
+    '         MetaNetXReactionID, Organism, Organization, OtherModifier, Parametertype
+    '         Pathway, pHValueRange, Product, PubChemID, PubMedCID
+    '         PubMedID, ReactomeReactionID, RheaReactionID, SabioCompoundID, SabioReactionID
+    '         Smiles, Substrate, TemperatureRange, Tissue, Title
+    '         UniProtID, UniProtKB_AC, UniprotOmimID, Year
     ' 
     '  
+    ' 
     ' 
     ' 
     ' 

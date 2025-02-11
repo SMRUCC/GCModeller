@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87fb3367b6274af78c3340eff4a4d5e3, engine\Dynamics\Core\Mass\MassRoles.vb"
+﻿#Region "Microsoft.VisualBasic::f56ec3f31c900fe4d84bee362e1aba39, engine\Dynamics\Core\Mass\MassRoles.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 21
-    '    Code Lines: 11 (52.38%)
-    ' Comment Lines: 9 (42.86%)
+    '   Total Lines: 25
+    '    Code Lines: 12 (48.00%)
+    ' Comment Lines: 12 (48.00%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 1 (4.76%)
-    '     File Size: 445 B
+    '   Blank Lines: 1 (4.00%)
+    '     File Size: 538 B
 
 
     '     Enum MassRoles
     ' 
-    '         compound, gene, mRNA, popypeptide, protein
-    '         rRNA, tRNA
+    '         compound, gene, mRNA, polypeptide, protein
+    '         RNA, rRNA, tRNA
     ' 
     '  
     ' 

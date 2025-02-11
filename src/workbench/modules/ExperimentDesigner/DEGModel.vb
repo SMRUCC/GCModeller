@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e18ce4308dc71b5ec58f59c387acd41, modules\ExperimentDesigner\DEGModel.vb"
+﻿#Region "Microsoft.VisualBasic::77b03c01b2df660112b639ed27255546, modules\ExperimentDesigner\DEGModel.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 20
-    '    Code Lines: 14 (70.00%)
-    ' Comment Lines: 4 (20.00%)
+    '   Total Lines: 27
+    '    Code Lines: 19 (70.37%)
+    ' Comment Lines: 4 (14.81%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 2 (10.00%)
-    '     File Size: 657 B
+    '   Blank Lines: 4 (14.81%)
+    '     File Size: 749 B
 
 
     ' Class DEGModel
     ' 
     '     Properties: [class], label, logFC, pvalue, VIP
     ' 
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: ToString
     ' 
     ' /********************************************************************************/

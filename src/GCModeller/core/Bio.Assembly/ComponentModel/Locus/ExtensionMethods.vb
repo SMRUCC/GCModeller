@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ad779fb38713ae0f7e8cb4e53be8ad5, core\Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
+﻿#Region "Microsoft.VisualBasic::fba11fe59cae7baa83e4492ed85e738a, core\Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 89.66%
     ' 
     '   Blank Lines: 24 (14.46%)
-    '     File Size: 7.52 KB
+    '     File Size: 7.51 KB
 
 
     '     Module LociAPI

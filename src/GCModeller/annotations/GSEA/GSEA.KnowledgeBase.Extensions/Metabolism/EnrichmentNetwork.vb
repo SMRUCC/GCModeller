@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e869097551e734a401cc4300dc9bd332, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\EnrichmentNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::79b169620e1ef9163c12b316725897f2, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\EnrichmentNetwork.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 276
-    '    Code Lines: 203 (73.55%)
-    ' Comment Lines: 41 (14.86%)
+    '   Total Lines: 288
+    '    Code Lines: 214 (74.31%)
+    ' Comment Lines: 41 (14.24%)
     '    - Xml Docs: 68.29%
     ' 
-    '   Blank Lines: 32 (11.59%)
-    '     File Size: 12.46 KB
+    '   Blank Lines: 33 (11.46%)
+    '     File Size: 13.11 KB
 
 
     '     Module EnrichmentNetwork

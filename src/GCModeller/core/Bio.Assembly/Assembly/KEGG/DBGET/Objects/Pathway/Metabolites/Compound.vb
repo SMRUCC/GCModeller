@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9af1b8eac9809c1612887812f6a13574, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::15029536163a936315d3d8bc3dbb8d02, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 115
-    '    Code Lines: 72 (62.61%)
-    ' Comment Lines: 25 (21.74%)
+    '   Total Lines: 119
+    '    Code Lines: 72 (60.50%)
+    ' Comment Lines: 29 (24.37%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 18 (15.65%)
-    '     File Size: 4.03 KB
+    '   Blank Lines: 18 (15.13%)
+    '     File Size: 4.16 KB
 
 
     '     Class Compound

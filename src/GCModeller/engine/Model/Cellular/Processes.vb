@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::492f9513b2bc143ff16df932f8f6a901, engine\Model\Cellular\Processes.vb"
+﻿#Region "Microsoft.VisualBasic::e3b8133b516f463052e5e3d37909182a, engine\Model\Cellular\Processes.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 20
-    '    Code Lines: 7 (35.00%)
-    ' Comment Lines: 12 (60.00%)
+    '   Total Lines: 23
+    '    Code Lines: 7 (30.43%)
+    ' Comment Lines: 15 (65.22%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 1 (5.00%)
-    '     File Size: 551 B
+    '   Blank Lines: 1 (4.35%)
+    '     File Size: 600 B
 
 
     '     Enum Processes

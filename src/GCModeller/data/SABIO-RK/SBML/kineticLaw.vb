@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f2b817ea185769751ce47f5a7458421, data\SABIO-RK\SBML\kineticLaw.vb"
+﻿#Region "Microsoft.VisualBasic::7c97e52caa77e593259734df1331e1ad, data\SABIO-RK\SBML\kineticLaw.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 102
-    '    Code Lines: 73 (71.57%)
+    '   Total Lines: 108
+    '    Code Lines: 76 (70.37%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 29 (28.43%)
-    '     File Size: 3.44 KB
+    '   Blank Lines: 32 (29.63%)
+    '     File Size: 3.60 KB
 
 
     '     Class kineticLaw
@@ -81,6 +81,8 @@
     '     Class localParameter
     ' 
     '         Properties: id, name, sboTerm, units, value
+    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

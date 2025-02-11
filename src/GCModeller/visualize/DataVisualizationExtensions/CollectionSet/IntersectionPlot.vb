@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::487c6ef3d3a75f9dab8459aebb50da94, visualize\DataVisualizationExtensions\CollectionSet\IntersectionPlot.vb"
+﻿#Region "Microsoft.VisualBasic::ab6cb40533b29a2e100505e15b465057, visualize\DataVisualizationExtensions\CollectionSet\IntersectionPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 444
-    '    Code Lines: 322 (72.52%)
-    ' Comment Lines: 55 (12.39%)
+    '   Total Lines: 470
+    '    Code Lines: 347 (73.83%)
+    ' Comment Lines: 55 (11.70%)
     '    - Xml Docs: 40.00%
     ' 
-    '   Blank Lines: 67 (15.09%)
-    '     File Size: 19.33 KB
+    '   Blank Lines: 68 (14.47%)
+    '     File Size: 20.50 KB
 
 
     '     Class IntersectionPlot

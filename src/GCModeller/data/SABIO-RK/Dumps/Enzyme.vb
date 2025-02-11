@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6afc15717d281da9ab89a18396734c6, data\SABIO-RK\Dumps\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::57f51a7d2f72698e815295f17f2c4183, data\SABIO-RK\Dumps\Enzyme.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 38
-    '    Code Lines: 23 (60.53%)
-    ' Comment Lines: 9 (23.68%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 41
+    '    Code Lines: 23 (56.10%)
+    ' Comment Lines: 12 (29.27%)
+    '    - Xml Docs: 25.00%
     ' 
-    '   Blank Lines: 6 (15.79%)
-    '     File Size: 1.60 KB
+    '   Blank Lines: 6 (14.63%)
+    '     File Size: 1.67 KB
 
 
     '     Class EnzymeModifier

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a9565220ca837b2eaba367f492fcfa4, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\CDS.vb"
+﻿#Region "Microsoft.VisualBasic::9b8201b68c3ce520b5627ff48a69c500, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\CDS.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 88
-    '    Code Lines: 58 (65.91%)
-    ' Comment Lines: 16 (18.18%)
+    '   Total Lines: 89
+    '    Code Lines: 60 (67.42%)
+    ' Comment Lines: 16 (17.98%)
     '    - Xml Docs: 93.75%
     ' 
-    '   Blank Lines: 14 (15.91%)
-    '     File Size: 3.33 KB
+    '   Blank Lines: 13 (14.61%)
+    '     File Size: 3.44 KB
 
 
     '     Class CDS

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::772b744f4bf0e9ed38c2949595ca590f, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\Data.vb"
+﻿#Region "Microsoft.VisualBasic::3e758b1a1d9bc050a92eac45db671223, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\Data.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 484
-    '    Code Lines: 295 (60.95%)
-    ' Comment Lines: 122 (25.21%)
-    '    - Xml Docs: 96.72%
+    '   Total Lines: 492
+    '    Code Lines: 299 (60.77%)
+    ' Comment Lines: 125 (25.41%)
+    '    - Xml Docs: 96.80%
     ' 
-    '   Blank Lines: 67 (13.84%)
-    '     File Size: 16.80 KB
+    '   Blank Lines: 68 (13.82%)
+    '     File Size: 17.02 KB
 
 
     '     Class sequence

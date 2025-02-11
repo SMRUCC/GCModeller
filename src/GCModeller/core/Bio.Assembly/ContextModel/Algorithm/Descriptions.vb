@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::140958a8c08c1cb770845a6c8b40be1a, core\Bio.Assembly\ContextModel\Algorithm\Descriptions.vb"
+﻿#Region "Microsoft.VisualBasic::76cf1e801ff5c049d5c0486815f45a78, core\Bio.Assembly\ContextModel\Algorithm\Descriptions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 97.56%
     ' 
     '   Blank Lines: 19 (12.75%)
-    '     File Size: 6.69 KB
+    '     File Size: 6.68 KB
 
 
     '     Module LocationDescriptions

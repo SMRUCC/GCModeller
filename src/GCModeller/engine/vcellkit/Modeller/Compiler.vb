@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2df7a0240cd3e116a8ca7646dedcc537, engine\vcellkit\Modeller\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::125df33de7fabd583008762e0fb3db77, engine\vcellkit\Modeller\Compiler.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 176
-    '    Code Lines: 113 (64.20%)
-    ' Comment Lines: 48 (27.27%)
+    '   Total Lines: 179
+    '    Code Lines: 115 (64.25%)
+    ' Comment Lines: 48 (26.82%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (8.52%)
-    '     File Size: 8.36 KB
+    '   Blank Lines: 16 (8.94%)
+    '     File Size: 8.45 KB
 
 
     ' Module Compiler

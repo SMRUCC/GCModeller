@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::252ff3ecb8dd9fb2cff5f8c198dd4ac4, core\Bio.Annotation\PTF\Document\PtfParser.vb"
+﻿#Region "Microsoft.VisualBasic::90879a3044a87ea9bcc1f79b00a966b7, core\Bio.Annotation\PTF\Document\PtfParser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 76
-    '    Code Lines: 58 (76.32%)
-    ' Comment Lines: 10 (13.16%)
+    '   Total Lines: 77
+    '    Code Lines: 59 (76.62%)
+    ' Comment Lines: 10 (12.99%)
     '    - Xml Docs: 90.00%
     ' 
-    '   Blank Lines: 8 (10.53%)
-    '     File Size: 3.05 KB
+    '   Blank Lines: 8 (10.39%)
+    '     File Size: 3.10 KB
 
 
     '     Module PtfParser

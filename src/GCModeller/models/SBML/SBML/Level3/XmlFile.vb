@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae8f7399e5cd44a3b4c4deb1d1f7aadc, models\SBML\SBML\Level3\XmlFile.vb"
+﻿#Region "Microsoft.VisualBasic::b2958581a2b2bcfb766d6850d4fb87fa, models\SBML\SBML\Level3\XmlFile.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 101
-    '    Code Lines: 64 (63.37%)
-    ' Comment Lines: 16 (15.84%)
+    '   Total Lines: 161
+    '    Code Lines: 103 (63.98%)
+    ' Comment Lines: 27 (16.77%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 21 (20.79%)
-    '     File Size: 3.57 KB
+    '   Blank Lines: 31 (19.25%)
+    '     File Size: 5.87 KB
 
 
     '     Class XmlFile
@@ -55,6 +55,12 @@
     '         Properties: listOfCompartments, listOfFunctionDefinitions, listOfReactions, listOfSpecies, listOfUnitDefinitions
     '                     notes
     ' 
+    '     Class reactionList
+    ' 
+    '         Properties: reactions
+    ' 
+    '         Function: GenericEnumerator
+    ' 
     '     Class functionDefinition
     ' 
     '         Properties: expression, math, sboTerm
@@ -67,8 +73,8 @@
     ' 
     '     Class species
     ' 
-    '         Properties: annotation, constant, hasOnlySubstanceUnits, initialConcentration, metaid
-    '                     notes
+    '         Properties: annotation, constant, db_xrefs, hasOnlySubstanceUnits, initialConcentration
+    '                     metaid, notes
     ' 
     ' 
     ' /********************************************************************************/

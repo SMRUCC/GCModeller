@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec602bb4f430bd36be5975979058269e, engine\Compiler\Workflow.vb"
+﻿#Region "Microsoft.VisualBasic::6e960ec6fda136834d26a78bf1bfa26b, engine\Compiler\Workflow.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 308
-    '    Code Lines: 233 (75.65%)
-    ' Comment Lines: 41 (13.31%)
+    '   Total Lines: 310
+    '    Code Lines: 235 (75.81%)
+    ' Comment Lines: 41 (13.23%)
     '    - Xml Docs: 65.85%
     ' 
-    '   Blank Lines: 34 (11.04%)
-    '     File Size: 13.40 KB
+    '   Blank Lines: 34 (10.97%)
+    '     File Size: 13.49 KB
 
 
     ' Module Workflow

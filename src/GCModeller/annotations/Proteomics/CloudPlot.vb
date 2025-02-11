@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d87f44d64327af5848cc69f79ae0785, annotations\Proteomics\CloudPlot.vb"
+﻿#Region "Microsoft.VisualBasic::ad9693117e6ca7ae070447e0f9eaa124, annotations\Proteomics\CloudPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 115
-    '    Code Lines: 90 (78.26%)
-    ' Comment Lines: 15 (13.04%)
+    '   Total Lines: 147
+    '    Code Lines: 120 (81.63%)
+    ' Comment Lines: 15 (10.20%)
     '    - Xml Docs: 93.33%
     ' 
-    '   Blank Lines: 10 (8.70%)
-    '     File Size: 4.72 KB
+    '   Blank Lines: 12 (8.16%)
+    '     File Size: 6.12 KB
 
 
     ' Module CloudPlot

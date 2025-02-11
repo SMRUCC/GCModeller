@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f5dabca5381641bd3ddb58ea4d15280, engine\IO\Raw\HDS\GCModellerRaw\Reader.vb"
+﻿#Region "Microsoft.VisualBasic::606081922d20b17cd89a90e6e5a8ac16, engine\IO\Raw\HDS\GCModellerRaw\Reader.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 130
-    '    Code Lines: 92 (70.77%)
-    ' Comment Lines: 12 (9.23%)
+    '   Total Lines: 135
+    '    Code Lines: 96 (71.11%)
+    ' Comment Lines: 12 (8.89%)
     '    - Xml Docs: 91.67%
     ' 
-    '   Blank Lines: 26 (20.00%)
-    '     File Size: 5.37 KB
+    '   Blank Lines: 27 (20.00%)
+    '     File Size: 5.53 KB
 
 
     '     Class Reader
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: AllTimePoints, GetFrameFile, GetGraphData, GetIdCounts, GetMoleculeIdList
-    '                   GetRelatedReactions, LoadIndex, PopulateFrames, Read, ReadModule
+    '                   GetRelatedReactions, GetStream, LoadIndex, PopulateFrames, Read
+    '                   ReadModule
     ' 
     ' 
     ' /********************************************************************************/

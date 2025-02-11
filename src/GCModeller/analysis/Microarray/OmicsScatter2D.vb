@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f19e936f2bea42c3378821abce623519, analysis\Microarray\OmicsScatter2D.vb"
+﻿#Region "Microsoft.VisualBasic::623ea6eb0b860a5b9399c7747cd20d00, analysis\Microarray\OmicsScatter2D.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 176
-    '    Code Lines: 141 (80.11%)
-    ' Comment Lines: 19 (10.80%)
+    '   Total Lines: 205
+    '    Code Lines: 168 (81.95%)
+    ' Comment Lines: 19 (9.27%)
     '    - Xml Docs: 94.74%
     ' 
-    '   Blank Lines: 16 (9.09%)
-    '     File Size: 7.29 KB
+    '   Blank Lines: 18 (8.78%)
+    '     File Size: 8.53 KB
 
 
     ' Module OmicsScatter2D

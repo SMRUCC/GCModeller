@@ -1,4 +1,96 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::9e95fb555e5928abd11f5dc714859b57, modules\Knowledge_base\ncbi_kb\BITS\citation.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 163
+    '    Code Lines: 118 (72.39%)
+    ' Comment Lines: 5 (3.07%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 40 (24.54%)
+    '     File Size: 5.42 KB
+
+
+    '     Class RefList
+    ' 
+    '         Properties: id, ref
+    ' 
+    '         Function: CreateCitation, GetCitations
+    ' 
+    '     Class ref
+    ' 
+    '         Properties: element_citation, id, mixed_citation
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class personGroup
+    ' 
+    '         Properties: names
+    ' 
+    '         Function: GenericEnumerator
+    ' 
+    '     Class MixedCitation
+    ' 
+    '         Properties: annotation, collab, etal, fpage, issue
+    '                     lpage, person_group, pub_id, publication_type, source
+    '                     string_names, title, volume, year
+    ' 
+    '     Class PubId
+    ' 
+    '         Properties: id, pub_id_type
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class StringName
+    ' 
+    '         Properties: given_names, name_style, surname
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Annotation
+    ' 
+    '         Properties: p
+    ' 
+    '         Function: GetContentText
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 

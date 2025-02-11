@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8851236c844e6a47964e928d1c70bf9f, visualize\ChromosomeMap\PlasmidMap\DrawGene.vb"
+﻿#Region "Microsoft.VisualBasic::f23e39c7cd655220175668f5f1014fec, visualize\ChromosomeMap\PlasmidMap\DrawGene.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 40
-    '    Code Lines: 26 (65.00%)
-    ' Comment Lines: 9 (22.50%)
+    '   Total Lines: 68
+    '    Code Lines: 53 (77.94%)
+    ' Comment Lines: 9 (13.24%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 5 (12.50%)
-    '     File Size: 1.62 KB
+    '   Blank Lines: 6 (8.82%)
+    '     File Size: 2.86 KB
 
 
     '     Module DrawGene

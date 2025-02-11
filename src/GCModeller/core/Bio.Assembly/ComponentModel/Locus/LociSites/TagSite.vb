@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3503e92f460f1908613cfaa634dba434, core\Bio.Assembly\ComponentModel\Locus\LociSites\TagSite.vb"
+﻿#Region "Microsoft.VisualBasic::17547859fa68a942c227b4022fb56459, core\Bio.Assembly\ComponentModel\Locus\LociSites\TagSite.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 15 (17.44%)
-    '     File Size: 3.35 KB
+    '     File Size: 3.34 KB
 
 
     '     Interface ITagSite

@@ -1,4 +1,63 @@
-﻿Imports System.Text.RegularExpressions
+﻿#Region "Microsoft.VisualBasic::f6b57ad0edb1f2657b4aa17ce8b53d91, data\Rhea\RDF\RheaDescription.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 80 (79.21%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 21 (20.79%)
+    '     File Size: 3.83 KB
+
+
+    ' Class RheaDescription
+    ' 
+    '     Properties: accession, bidirectionalReaction, chebi, compound, contains
+    '                 contains1, directionalReaction, ec, equation, formula
+    '                 id, isTransport, name, products, seeAlso
+    '                 status, subClassOf, substrates, substratesOrProducts
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: GetClassType, GetCompound, GetDbXrefs, GetECNumber
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports Microsoft.VisualBasic.Text.Xml.Models

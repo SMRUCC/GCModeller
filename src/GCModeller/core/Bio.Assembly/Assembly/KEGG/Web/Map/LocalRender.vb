@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::061d5eaf8c30af2e2323b67c09314217, core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
+﻿#Region "Microsoft.VisualBasic::b01443e6ffdf25b514936c32edaacfb0, core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 360
-    '    Code Lines: 245 (68.06%)
-    ' Comment Lines: 68 (18.89%)
+    '   Total Lines: 384
+    '    Code Lines: 269 (70.05%)
+    ' Comment Lines: 68 (17.71%)
     '    - Xml Docs: 92.65%
     ' 
-    '   Blank Lines: 47 (13.06%)
-    '     File Size: 15.82 KB
+    '   Blank Lines: 47 (12.24%)
+    '     File Size: 17.04 KB
 
 
     '     Class LocalRender
