@@ -1,4 +1,4 @@
-﻿Imports System
+﻿Imports std = System.Math
 
 Namespace EMD
     ''' <summary>
@@ -19,7 +19,7 @@ Namespace EMD
             Dim f2d = CType(f, Feature2D)
             Dim deltaX = x - f2d.x
             Dim deltaY = y - f2d.y
-            Return Math.Sqrt(deltaX * deltaX + deltaY * deltaY)
+            Return std.Sqrt(deltaX * deltaX + deltaY * deltaY)
         End Function
     End Class
 End Namespace

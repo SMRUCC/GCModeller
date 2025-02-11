@@ -1,19 +1,16 @@
-﻿Imports System
-Imports System.Collections.Generic
+﻿Imports std = System.Math
 
-''' <summary>
-''' This class computes the Earth Mover's Distance, using the EMD-HAT algorithm
-''' created by Ofir Pele and Michael Werman.
-''' 
-''' This implementation is strongly based on the C++ code by the same authors,
-''' that can be found here:
-''' http://www.cs.huji.ac.il/~ofirpele/FastEMD/code/
-''' 
-''' Some of the author's comments on the original were kept or edited for 
-''' this context.
-''' </summary>
-
-
+'
+' This class computes the Earth Mover's Distance, using the EMD-HAT algorithm
+' created by Ofir Pele and Michael Werman.
+' 
+' This implementation is strongly based on the C++ code by the same authors,
+' that can be found here:
+' http://www.cs.huji.ac.il/~ofirpele/FastEMD/code/
+' 
+' Some of the author's comments on the original were kept or edited for 
+' this context.
+'
 
 Namespace EMD
 
@@ -22,7 +19,11 @@ Namespace EMD
     ''' @author Ofir Pele
     ''' 
     ''' </summary>
+    ''' <remarks>
+    ''' https://github.com/telmomenezes/JFastEMD
+    ''' </remarks>
     Public Class JFastEMD
+
         ''' <summary>
         ''' This interface is similar to Rubner's interface. See:
         ''' http://www.cs.duke.edu/~tomasi/software/emd.htm
@@ -330,19 +331,19 @@ Namespace EMD
                     End If
                 Next
             Next
-            Dim minSum = Math.Min(sumP, sumQ)
-            Dim maxSum = Math.Max(sumP, sumQ)
+            Dim minSum = std.Min(sumP, sumQ)
+            Dim maxSum = std.Max(sumP, sumQ)
             Dim PQnormFactor = MULT_FACTOR / maxSum
             Dim CnormFactor = MULT_FACTOR / maxC
 
             For i = 0 To N - 1
-                iP(i) = CLng(Math.Floor(P(i) * PQnormFactor + 0.5))
-                iQ(i) = CLng(Math.Floor(Q(i) * PQnormFactor + 0.5))
+                iP(i) = CLng(std.Floor(P(i) * PQnormFactor + 0.5))
+                iQ(i) = CLng(std.Floor(Q(i) * PQnormFactor + 0.5))
                 For j = 0 To N - 1
                     If C(i)(j) = 0.0 Then
                         iC(i)(j) = CLng(0.5)
                     Else
-                        iC(i)(j) = CLng(Math.Floor(C(i)(j) * CnormFactor + 0.5))
+                        iC(i)(j) = CLng(std.Floor(C(i)(j) * CnormFactor + 0.5))
                     End If
                 Next
             Next

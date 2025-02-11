@@ -1,5 +1,4 @@
-﻿Imports System
-Imports System.Collections.Generic
+﻿Imports std = System.Math
 
 Namespace EMD
 
@@ -73,7 +72,7 @@ Namespace EMD
                     U = e(i)
                 End If
             Next
-            Dim delta As Long = Math.Pow(2.0, Math.Ceiling(Math.Log(U) / Math.Log(2.0)))
+            Dim delta As Long = std.Pow(2.0, std.Ceiling(std.Log(U) / std.Log(2.0)))
 
             Dim d As List(Of Long) = New List(Of Long)()
             Dim prev As List(Of Integer) = New List(Of Integer)()
