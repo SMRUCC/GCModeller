@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::2f4415825de6f23262fddb5f9b35ab74, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Map.vb"
+﻿#Region "Microsoft.VisualBasic::d01721dab037a1649810d64058d4037d, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Map.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 97
-'    Code Lines: 67 (69.07%)
-' Comment Lines: 15 (15.46%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 15 (15.46%)
-'     File Size: 3.38 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Map
-' 
-'         Properties: PathwayImage, shapes, URL
-' 
-'         Function: GenericEnumerator, GetCompoundSet, GetImage, GetMembers, GetPathwayGenes
-'                   ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 76 (62.81%)
+    ' Comment Lines: 27 (22.31%)
+    '    - Xml Docs: 92.59%
+    ' 
+    '   Blank Lines: 18 (14.88%)
+    '     File Size: 4.11 KB
+
+
+    '     Class Map
+    ' 
+    '         Properties: PathwayImage, shapes, URL
+    ' 
+    '         Function: GenericEnumerator, GetCompoundSet, GetImage, GetMembers, GetPathwayGenes
+    '                   ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

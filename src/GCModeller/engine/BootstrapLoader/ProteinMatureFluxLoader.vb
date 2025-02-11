@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e6074b231cf96028efa80b6328b9f92, engine\BootstrapLoader\ProteinMatureFluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::e05dbaf4c62fef723c726b003bda23b3, engine\BootstrapLoader\ProteinMatureFluxLoader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 68
-    '    Code Lines: 51 (75.00%)
-    ' Comment Lines: 4 (5.88%)
+    '   Total Lines: 73
+    '    Code Lines: 54 (73.97%)
+    ' Comment Lines: 4 (5.48%)
     '    - Xml Docs: 75.00%
     ' 
-    '   Blank Lines: 13 (19.12%)
-    '     File Size: 2.76 KB
+    '   Blank Lines: 15 (20.55%)
+    '     File Size: 2.85 KB
 
 
     '     Class ProteinMatureFluxLoader
@@ -48,7 +48,7 @@
     '         Properties: polypeptides, proteinComplex
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux
+    '         Function: CreateFlux, GetMassSet
     ' 
     ' 
     ' /********************************************************************************/

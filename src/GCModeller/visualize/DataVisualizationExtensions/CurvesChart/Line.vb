@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed60a8e0fc9501b79cdd5c23beee29d7, visualize\DataVisualizationExtensions\CurvesChart\Line.vb"
+﻿#Region "Microsoft.VisualBasic::c05a6ec0aff7966ca9c65db960f54cf4, visualize\DataVisualizationExtensions\CurvesChart\Line.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 65
-    '    Code Lines: 48 (73.85%)
-    ' Comment Lines: 2 (3.08%)
+    '   Total Lines: 91
+    '    Code Lines: 73 (80.22%)
+    ' Comment Lines: 2 (2.20%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 15 (23.08%)
-    '     File Size: 2.64 KB
+    '   Blank Lines: 16 (17.58%)
+    '     File Size: 3.77 KB
 
 
     ' Class Line

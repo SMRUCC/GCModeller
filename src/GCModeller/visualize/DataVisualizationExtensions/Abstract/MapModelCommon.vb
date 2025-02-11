@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e17f8cfe3278117b20b3a9710a8de398, visualize\DataVisualizationExtensions\Abstract\MapModelCommon.vb"
+﻿#Region "Microsoft.VisualBasic::27b9befdf34d18a9aaa1f8d702db1f34, visualize\DataVisualizationExtensions\Abstract\MapModelCommon.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 225
-    '    Code Lines: 106 (47.11%)
-    ' Comment Lines: 76 (33.78%)
+    '   Total Lines: 251
+    '    Code Lines: 131 (52.19%)
+    ' Comment Lines: 76 (30.28%)
     '    - Xml Docs: 81.58%
     ' 
-    '   Blank Lines: 43 (19.11%)
-    '     File Size: 7.88 KB
+    '   Blank Lines: 44 (17.53%)
+    '     File Size: 9.01 KB
 
 
     ' Class MapModelCommon

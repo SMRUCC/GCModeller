@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22e5be5f815630600b195677ffe376dd, foundation\PSICQUIC\psidev\TAB\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::f29bdf2322c0ea98cc33343e6512a4e9, foundation\PSICQUIC\psidev\TAB\Parser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 30
-    '    Code Lines: 24 (80.00%)
+    '   Total Lines: 31
+    '    Code Lines: 25 (80.65%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (20.00%)
-    '     File Size: 1.10 KB
+    '   Blank Lines: 6 (19.35%)
+    '     File Size: 1.14 KB
 
 
     '     Module Parser

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34fd24ffc49cc9a9cfdaec7d7eedb867, R#\gseakit\Profiles.vb"
+﻿#Region "Microsoft.VisualBasic::18ef23a2e37e8cb0af6c26f28bf86921, R#\gseakit\Profiles.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 91.43%
     ' 
     '   Blank Lines: 24 (11.71%)
-    '     File Size: 8.25 KB
+    '     File Size: 8.28 KB
 
 
     ' Module profiles

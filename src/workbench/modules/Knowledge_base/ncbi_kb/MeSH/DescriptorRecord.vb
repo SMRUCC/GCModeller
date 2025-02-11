@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4030d747d049c1620c310901f833a1d5, modules\Knowledge_base\ncbi_kb\MeSH\DescriptorRecord.vb"
+﻿#Region "Microsoft.VisualBasic::3c5de82c3467db8d4a96c39a4f3e2d4f, modules\Knowledge_base\ncbi_kb\MeSH\DescriptorRecord.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 142
-    '    Code Lines: 93 (65.49%)
-    ' Comment Lines: 4 (2.82%)
+    '   Total Lines: 54
+    '    Code Lines: 38 (70.37%)
+    ' Comment Lines: 7 (12.96%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 45 (31.69%)
-    '     File Size: 3.93 KB
+    '   Blank Lines: 9 (16.67%)
+    '     File Size: 1.95 KB
 
 
     '     Class DescriptorRecord
@@ -49,61 +49,7 @@
     '                     DescriptorClass, DescriptorName, DescriptorUI, HistoryNote, OnlineNote
     '                     PharmacologicalActionList, PreviousIndexingList, PublicMeSHNote, TreeNumberList
     ' 
-    '         Function: ToString
-    ' 
-    '     Class Term
-    ' 
-    '         Properties: ConceptPreferredTermYN, DateCreated, IsPermutedTermYN, LexicalTag, RecordPreferredTermYN
-    '                     TermUI, ThesaurusIDlist
-    ' 
-    '     Class ThesaurusID
-    ' 
-    '         Properties: Value
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Concept
-    ' 
-    '         Properties: CASN1Name, ConceptName, ConceptRelationList, ConceptUI, PreferredConceptYN
-    '                     RegistryNumber, RelatedRegistryNumberList, ScopeNote, TermList
-    ' 
-    '     Class ConceptRelation
-    ' 
-    '         Properties: Concept1UI, Concept2UI, RelationName
-    ' 
-    '     Class RelatedRegistryNumber
-    ' 
-    '         Properties: Value
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class TreeNumber
-    ' 
-    '         Properties: Value
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class PharmacologicalAction
-    ' 
-    '         Properties: DescriptorReferredTo
-    ' 
-    '     Class DescriptorReferredTo
-    ' 
-    '         Properties: DescriptorName, DescriptorUI
-    ' 
-    '     Class PreviousIndexing
-    ' 
-    '         Properties: Value
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class AllowableQualifier
-    ' 
-    '         Properties: Abbreviation, QualifierReferredTo
-    ' 
-    '     Class QualifierReferredTo
-    ' 
-    '         Properties: QualifierName, QualifierUI
+    '         Function: GetTopClass, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4135102272c8fa48e55e42b515ff6849, visualize\DataVisualizationExtensions\CurvesChart\Histogram.vb"
+﻿#Region "Microsoft.VisualBasic::d83a45f7783f59b0efc2ab87e54ca612, visualize\DataVisualizationExtensions\CurvesChart\Histogram.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 92
-    '    Code Lines: 63 (68.48%)
-    ' Comment Lines: 9 (9.78%)
+    '   Total Lines: 118
+    '    Code Lines: 88 (74.58%)
+    ' Comment Lines: 9 (7.63%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 20 (21.74%)
-    '     File Size: 3.85 KB
+    '   Blank Lines: 21 (17.80%)
+    '     File Size: 4.99 KB
 
 
     ' Class Histogram

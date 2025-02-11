@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d15467c75785d65eb6a8ece9fdf24ce3, data\SABIO-RK\docuRESTfulWeb\docuRESTfulWeb.vb"
+﻿#Region "Microsoft.VisualBasic::b760c57cccb2bf77083d483478769a5f, data\SABIO-RK\docuRESTfulWeb\docuRESTfulWeb.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 56
-    '    Code Lines: 31 (55.36%)
-    ' Comment Lines: 17 (30.36%)
+    '   Total Lines: 59
+    '    Code Lines: 33 (55.93%)
+    ' Comment Lines: 17 (28.81%)
     '    - Xml Docs: 88.24%
     ' 
-    '   Blank Lines: 8 (14.29%)
-    '     File Size: 2.12 KB
+    '   Blank Lines: 9 (15.25%)
+    '     File Size: 2.33 KB
 
 
-    ' Module docuRESTfulWeb
+    '     Module docuRESTfulWebHelper
     ' 
-    '     Function: getModelById, searchKineticLaws, searchKineticLawsRawXml
+    '         Function: getModelById, searchKineticLaws, searchKineticLawsRawXml
+    ' 
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f75a764ec0a48cb760f4265a35dcc7b8, data\SABIO-RK\Dumps\LocalParameterParser.vb"
+﻿#Region "Microsoft.VisualBasic::71348734118cfa5105fe40be79b7980d, data\SABIO-RK\Dumps\LocalParameterParser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 114
-    '    Code Lines: 60 (52.63%)
-    ' Comment Lines: 42 (36.84%)
+    '   Total Lines: 115
+    '    Code Lines: 61 (53.04%)
+    ' Comment Lines: 42 (36.52%)
     '    - Xml Docs: 9.52%
     ' 
-    '   Blank Lines: 12 (10.53%)
-    '     File Size: 6.16 KB
+    '   Blank Lines: 12 (10.43%)
+    '     File Size: 6.21 KB
 
 
     '     Module LocalParameterParser

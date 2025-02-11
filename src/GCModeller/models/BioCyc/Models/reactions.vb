@@ -1,58 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::d1c0ba9f45f79b5567bd0acd0b7119ff, models\BioCyc\Models\reactions.vb"
+﻿#Region "Microsoft.VisualBasic::a05e2c150c491efa9bbf8f5986ffb7dd, models\BioCyc\Models\reactions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 79
-'    Code Lines: 73 (92.41%)
-' Comment Lines: 1 (1.27%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 5 (6.33%)
-'     File Size: 3.14 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class reactions
-' 
-'     Properties: atomMappings, cannotBalance, ec_number, enzymaticReaction, equation
-'                 gibbs0, inPathway, left, orphan, physiologicallyRelevant
-'                 reactionBalanceStatus, reactionDirection, reactionList, reactionLocations, right
-'                 signal, species, spontaneous, systematicName
-' 
-'     Function: ToString
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 90 (90.00%)
+    ' Comment Lines: 1 (1.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (9.00%)
+    '     File Size: 3.96 KB
+
+
+    ' Class reactions
+    ' 
+    '     Properties: atomMappings, cannotBalance, ec_number, enzymaticReaction, equation
+    '                 gibbs0, inPathway, left, orphan, physiologicallyRelevant
+    '                 reactionBalanceStatus, reactionDirection, reactionList, reactionLocations, right
+    '                 signal, species, spontaneous, systematicName
+    ' 
+    '     Function: (+2 Overloads) OpenFile, ParseText, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

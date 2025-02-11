@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49e73e46bfebb0bfd50230746de62ec4, core\Bio.Assembly\Assembly\DOOR\csv.vb"
+﻿#Region "Microsoft.VisualBasic::d3d3f58170acd460f020d7b75b559e98, core\Bio.Assembly\Assembly\DOOR\csv.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 83.33%
     ' 
     '   Blank Lines: 13 (17.81%)
-    '     File Size: 2.57 KB
+    '     File Size: 2.58 KB
 
 
     '     Module DOOR_IO

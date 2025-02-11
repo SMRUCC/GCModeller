@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::99da6a58e920530fd260cd71a432fac8, engine\Dynamics\Drivers\FluxAggregater.vb"
+﻿#Region "Microsoft.VisualBasic::30efa58ca33aa7b6fd9623fdb32e818d, engine\Dynamics\Drivers\FluxAggregater.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 27
-'    Code Lines: 22 (81.48%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 5 (18.52%)
-'     File Size: 932 B
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class FluxAggregater
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: getFlux
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 25 (83.33%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (16.67%)
+    '     File Size: 1.09 KB
+
+
+    '     Class FluxAggregater
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: getFlux
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37e942fb68bbbf27ce88c91c255761eb, modules\Knowledge_base\ncbi_kb\MeSH\MeshTree\MeshCategory.vb"
+﻿#Region "Microsoft.VisualBasic::9742eddf445ef4fe89e3932abc1bc0a9, modules\Knowledge_base\ncbi_kb\MeSH\MeshTree\MeshCategory.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 115
-    '    Code Lines: 21 (18.26%)
-    ' Comment Lines: 92 (80.00%)
-    '    - Xml Docs: 95.65%
+    '   Total Lines: 121
+    '    Code Lines: 22 (18.18%)
+    ' Comment Lines: 95 (78.51%)
+    '    - Xml Docs: 95.79%
     ' 
-    '   Blank Lines: 2 (1.74%)
-    '     File Size: 4.99 KB
+    '   Blank Lines: 4 (3.31%)
+    '     File Size: 5.08 KB
 
 
     '     Enum MeshCategory

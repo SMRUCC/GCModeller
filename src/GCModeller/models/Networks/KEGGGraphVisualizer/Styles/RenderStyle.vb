@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::947e6d29b8d54680e1543729c23fdac0, models\Networks\KEGGGraphVisualizer\Styles\RenderStyle.vb"
+﻿#Region "Microsoft.VisualBasic::ec24f07369a566ac89c043c43bec82ac, models\Networks\KEGGGraphVisualizer\Styles\RenderStyle.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 105
-    '    Code Lines: 86 (81.90%)
-    ' Comment Lines: 2 (1.90%)
+    '   Total Lines: 131
+    '    Code Lines: 111 (84.73%)
+    ' Comment Lines: 2 (1.53%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 17 (16.19%)
-    '     File Size: 4.42 KB
+    '   Blank Lines: 18 (13.74%)
+    '     File Size: 5.55 KB
 
 
     '     Class RenderStyle

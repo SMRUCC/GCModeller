@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd04445225ccf2cc1cb7ed25c06f834d, R#\annotationKit\OBO_DAG.vb"
+﻿#Region "Microsoft.VisualBasic::c332114f4651bc7a1c6598b42c31d46e, R#\annotationKit\OBO_DAG.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 211
-    '    Code Lines: 159 (75.36%)
-    ' Comment Lines: 18 (8.53%)
+    '   Total Lines: 212
+    '    Code Lines: 160 (75.47%)
+    ' Comment Lines: 18 (8.49%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 34 (16.11%)
-    '     File Size: 7.34 KB
+    '   Blank Lines: 34 (16.04%)
+    '     File Size: 7.39 KB
 
 
     ' Module OBO_DAG

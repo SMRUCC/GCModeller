@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bb3f62c5336c2ae766b4f22b5303eb2, analysis\HTS_matrix\Math.vb"
+﻿#Region "Microsoft.VisualBasic::059b17e665bbf104f7059d48161d6d99, analysis\HTS_matrix\Math.vb"
 
     ' Author:
     ' 
@@ -34,24 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 137
-    '    Code Lines: 108 (78.83%)
-    ' Comment Lines: 12 (8.76%)
-    '    - Xml Docs: 91.67%
+    '   Total Lines: 126
+    '    Code Lines: 91 (72.22%)
+    ' Comment Lines: 23 (18.25%)
+    '    - Xml Docs: 95.65%
     ' 
-    '   Blank Lines: 17 (12.41%)
-    '     File Size: 5.35 KB
+    '   Blank Lines: 12 (9.52%)
+    '     File Size: 5.09 KB
 
 
     ' Module Math
     ' 
-    '     Function: AsNumeric, log, rowSds, Sum, TRanking
-    ' 
-    ' Class Ranking
-    ' 
-    '     Properties: expression, geneID, pvalue, ranking
-    ' 
-    '     Function: ToString
+    '     Function: log, rowSds, Sum, TRanking
     ' 
     ' /********************************************************************************/
 
@@ -183,5 +177,3 @@ Public Module Math
         Next
     End Function
 End Module
-
-

@@ -1,60 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::37810c02fac67a78b51808a957ef82fe, analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
+﻿#Region "Microsoft.VisualBasic::bdf6bdc312a82a611b9c1bf40a8b6df3, analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 83
-'    Code Lines: 54 (65.06%)
-' Comment Lines: 18 (21.69%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 11 (13.25%)
-'     File Size: 3.22 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class MotifPWM
-' 
-'         Properties: Alphabets, PWM
-' 
-'         Function: AA_PWM, NT_PWM
-' 
-'     Module PWM
-' 
-'         Function: __residue, FromMla
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 53 (64.63%)
+    ' Comment Lines: 18 (21.95%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (13.41%)
+    '     File Size: 3.17 KB
+
+
+    '     Class MotifPWM
+    ' 
+    '         Properties: Alphabets, PWM
+    ' 
+    '         Function: AA_PWM, NT_PWM
+    ' 
+    '     Module PWM
+    ' 
+    '         Function: __residue, FromMla
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

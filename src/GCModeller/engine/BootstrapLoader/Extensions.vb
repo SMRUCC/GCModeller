@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7ece50a430d061b498b6d57541d71e6, engine\BootstrapLoader\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::fc36bc79f81fd766a4567399d433d9d0, engine\BootstrapLoader\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 18
-    '    Code Lines: 16 (88.89%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 24
+    '    Code Lines: 16 (66.67%)
+    ' Comment Lines: 6 (25.00%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 2 (11.11%)
-    '     File Size: 684 B
+    '   Blank Lines: 2 (8.33%)
+    '     File Size: 907 B
 
 
     ' Module Extensions

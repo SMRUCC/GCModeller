@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26db482767ff0d8be7562148c8da19c7, Data_science\MachineLearning\DeepLearning\RNN\CharRNN.vb"
+﻿#Region "Microsoft.VisualBasic::0735ea838aec62a89685c20ab7b7f3a6, Data_science\MachineLearning\DeepLearning\RNN\CharRNN.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 187
-    '    Code Lines: 110 (58.82%)
-    ' Comment Lines: 42 (22.46%)
-    '    - Xml Docs: 35.71%
+    '   Total Lines: 184
+    '    Code Lines: 101 (54.89%)
+    ' Comment Lines: 51 (27.72%)
+    '    - Xml Docs: 50.98%
     ' 
-    '   Blank Lines: 35 (18.72%)
-    '     File Size: 7.64 KB
+    '   Blank Lines: 32 (17.39%)
+    '     File Size: 7.52 KB
 
 
     '     Class CharRNN
@@ -93,13 +93,18 @@ Namespace RNN
             End If
         End Function
 
-        ' Trains the network.
+        ''' <summary>
+        ''' Trains the network.
+        ''' </summary>
+        ''' <param name="options"></param>
+        ''' <param name="net"></param>
+        ''' <param name="snapshotName"></param>
         Public Shared Sub train(options As Options, net As CharLevelRNN, snapshotName As String)
             ' Load the training set.
 
             Dim trainingSet = StringTrainingSet.fromFile(options.inputFile)
 
-            Console.WriteLine("Data size: " & trainingSet.size().ToString() & ", vocabulary size: " & trainingSet.vocabularySize().ToString())
+            VBDebugger.EchoLine("Data size: " & trainingSet.size().ToString() & ", vocabulary size: " & trainingSet.vocabularySize().ToString())
 
             ' Initialize the network and its trainer.
 
@@ -158,16 +163,12 @@ Namespace RNN
             End While
         End Sub
 
-        ' Saves a network snapshot with this name to file.
+        ''' <summary>
+        ''' Saves a network snapshot with this name to file.
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <param name="net"></param>
         Public Shared Sub saveASnapshot(name As String, net As CharLevelRNN)
-            If ReferenceEquals(name, Nothing) Then
-                Throw New NullReferenceException("Network name can't be null.")
-            End If
-
-            If net Is Nothing Then
-                Throw New NullReferenceException("Network can't be null.")
-            End If
-
             ' Take a snapshot
             Try
                 Using str As FileStream = New FileStream(name & ".snapshot", FileMode.Create, FileAccess.Write)
@@ -188,10 +189,6 @@ Namespace RNN
         ''' <param name="name"></param>
         ''' <returns></returns>
         Public Shared Function loadASnapshot(name As String) As CharLevelRNN
-            If ReferenceEquals(name, Nothing) Then
-                Throw New NullReferenceException("Name can't be null.")
-            End If
-
             Dim net As CharLevelRNN = Nothing
 
             ' Load the snapshot

@@ -1,58 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::5a2a932b6a6c3bf495719e14cc1d8cce, models\Networks\KEGG\ReactionNetwork\Builder\BuilderBase.vb"
+﻿#Region "Microsoft.VisualBasic::3ed4c354ade1ca594d1b4753ff7c92c5, models\Networks\KEGG\ReactionNetwork\Builder\BuilderBase.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 244
-'    Code Lines: 169 (69.26%)
-' Comment Lines: 41 (16.80%)
-'    - Xml Docs: 70.73%
-' 
-'   Blank Lines: 34 (13.93%)
-'     File Size: 10.20 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class BuilderBase
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: BuildModel, doExpansion, doNetworkExpansion
-' 
-'         Sub: addNewEdge
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 272
+    '    Code Lines: 195 (71.69%)
+    ' Comment Lines: 41 (15.07%)
+    '    - Xml Docs: 70.73%
+    ' 
+    '   Blank Lines: 36 (13.24%)
+    '     File Size: 11.40 KB
+
+
+    '     Class BuilderBase
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: BuildModel, doExpansion, doNetworkExpansion
+    ' 
+    '         Sub: addNewEdge
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

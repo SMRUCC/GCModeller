@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffd85abe93ebab5394aa58a84a8d5a2a, engine\Model\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::451ac49aeaff1e63a1bc19fa31c8cc38, engine\Model\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 65
-    '    Code Lines: 56 (86.15%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 70
+    '    Code Lines: 56 (80.00%)
+    ' Comment Lines: 5 (7.14%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (13.85%)
-    '     File Size: 1.97 KB
+    '   Blank Lines: 9 (12.86%)
+    '     File Size: 2.16 KB
 
 
     ' Module Extensions

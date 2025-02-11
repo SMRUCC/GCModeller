@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b404397c9af137635051b34156e2f2e1, R#\cytoscape_toolkit\PathVisio.vb"
+﻿#Region "Microsoft.VisualBasic::be5710aa902870b6df042ce32e1e3688, R#\cytoscape_toolkit\PathVisio.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 47
-    '    Code Lines: 42 (89.36%)
+    '   Total Lines: 48
+    '    Code Lines: 43 (89.58%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (10.64%)
-    '     File Size: 1.94 KB
+    '   Blank Lines: 5 (10.42%)
+    '     File Size: 2.00 KB
 
 
     ' Module PathVisio

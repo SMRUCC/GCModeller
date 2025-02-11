@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95ba3336503c80dbbd213758cdaafd75, core\Bio.Assembly\SequenceModel\Bits.vb"
+﻿#Region "Microsoft.VisualBasic::892644b7d77d02a93cf0c8b7f297d1ba, core\Bio.Assembly\SequenceModel\Bits.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 50.00%
     ' 
     '   Blank Lines: 18 (15.13%)
-    '     File Size: 4.41 KB
+    '     File Size: 4.40 KB
 
 
     '     Class Bits

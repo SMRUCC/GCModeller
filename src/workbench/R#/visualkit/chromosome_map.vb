@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e1b7d07b2e3749d5f029b52b057f7b5, R#\visualkit\chromosome_map.vb"
+﻿#Region "Microsoft.VisualBasic::6405cf6d8a00e6112c04fac6b92f8982, R#\visualkit\chromosome_map.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 52
-    '    Code Lines: 32 (61.54%)
-    ' Comment Lines: 15 (28.85%)
+    '   Total Lines: 53
+    '    Code Lines: 33 (62.26%)
+    ' Comment Lines: 15 (28.30%)
     '    - Xml Docs: 93.33%
     ' 
-    '   Blank Lines: 5 (9.62%)
-    '     File Size: 1.94 KB
+    '   Blank Lines: 5 (9.43%)
+    '     File Size: 2.00 KB
 
 
     ' Module chromosome_map

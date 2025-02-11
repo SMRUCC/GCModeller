@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::500e54f0c2db19f1d601c21f2b5219d1, visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
+﻿#Region "Microsoft.VisualBasic::b28a888558178071e821db030a34ae20, visualize\DataVisualizationExtensions\DEGPlot\GSVADiffBar.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 119
-    '    Code Lines: 98 (82.35%)
-    ' Comment Lines: 7 (5.88%)
+    '   Total Lines: 145
+    '    Code Lines: 123 (84.83%)
+    ' Comment Lines: 7 (4.83%)
     '    - Xml Docs: 42.86%
     ' 
-    '   Blank Lines: 14 (11.76%)
-    '     File Size: 4.47 KB
+    '   Blank Lines: 15 (10.34%)
+    '     File Size: 5.61 KB
 
 
     ' Class GSVADiffBar

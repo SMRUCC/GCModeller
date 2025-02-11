@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7b680509d51c189159e4f0cc65f8551, annotations\WGCNA\WGCNA\Result.vb"
+﻿#Region "Microsoft.VisualBasic::c8242282d49ea0e8ffb49ea28b71bfd7, annotations\WGCNA\WGCNA\Result.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 13 (65.00%)
+    ' Comment Lines: 4 (20.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (15.00%)
+    '     File Size: 709 B
+
 
     ' Class Result
     ' 

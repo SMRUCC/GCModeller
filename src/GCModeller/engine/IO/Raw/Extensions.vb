@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b62ceff59d2b4e48b0d0b951844f06f, engine\IO\Raw\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b9b58c6f5f9fddea714430963ffd15d9, engine\IO\Raw\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 93
-    '    Code Lines: 76 (81.72%)
-    ' Comment Lines: 7 (7.53%)
-    '    - Xml Docs: 57.14%
+    '   Total Lines: 111
+    '    Code Lines: 87 (78.38%)
+    ' Comment Lines: 12 (10.81%)
+    '    - Xml Docs: 75.00%
     ' 
-    '   Blank Lines: 10 (10.75%)
-    '     File Size: 3.38 KB
+    '   Blank Lines: 12 (10.81%)
+    '     File Size: 4.04 KB
 
 
     ' Module Extensions
     ' 
-    '     Function: GetMatrix, (+2 Overloads) GetTimeFrames
+    '     Function: GetMatrix, (+2 Overloads) GetTimeFrames, LoadSymbols
     ' 
     ' /********************************************************************************/
 

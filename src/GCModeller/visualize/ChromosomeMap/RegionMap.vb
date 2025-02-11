@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b3238097c978c6058b7aa71fb4d71199, visualize\ChromosomeMap\RegionMap.vb"
+﻿#Region "Microsoft.VisualBasic::0d09cc80cc8e4376e8df29ae89710d99, visualize\ChromosomeMap\RegionMap.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 117
-    '    Code Lines: 89 (76.07%)
-    ' Comment Lines: 15 (12.82%)
+    '   Total Lines: 143
+    '    Code Lines: 114 (79.72%)
+    ' Comment Lines: 15 (10.49%)
     '    - Xml Docs: 86.67%
     ' 
-    '   Blank Lines: 13 (11.11%)
-    '     File Size: 4.93 KB
+    '   Blank Lines: 14 (9.79%)
+    '     File Size: 6.09 KB
 
 
     ' Module RegionMap

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e611eaa947f1c8061fa447087455b55, visualize\ChromosomeMap\DrawingModels\Multation.vb"
+﻿#Region "Microsoft.VisualBasic::e2410c73c6a28eae7e17ebe620258267, visualize\ChromosomeMap\DrawingModels\Multation.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 104
-    '    Code Lines: 60 (57.69%)
-    ' Comment Lines: 29 (27.88%)
+    '   Total Lines: 130
+    '    Code Lines: 85 (65.38%)
+    ' Comment Lines: 29 (22.31%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (14.42%)
-    '     File Size: 4.04 KB
+    '   Blank Lines: 16 (12.31%)
+    '     File Size: 5.17 KB
 
 
     '     Enum MutationTypes

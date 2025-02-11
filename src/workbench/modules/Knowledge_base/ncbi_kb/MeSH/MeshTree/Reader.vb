@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e31b544a6f635e954e2793340b83d941, modules\Knowledge_base\ncbi_kb\MeSH\MeshTree\Reader.vb"
+﻿#Region "Microsoft.VisualBasic::b619adf0f278ad400842bfd3be4ea5ff, modules\Knowledge_base\ncbi_kb\MeSH\MeshTree\Reader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 82
-    '    Code Lines: 65 (79.27%)
-    ' Comment Lines: 2 (2.44%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 103
+    '    Code Lines: 66 (64.08%)
+    ' Comment Lines: 22 (21.36%)
+    '    - Xml Docs: 90.91%
     ' 
-    '   Blank Lines: 15 (18.29%)
-    '     File Size: 2.92 KB
+    '   Blank Lines: 15 (14.56%)
+    '     File Size: 3.74 KB
 
 
     '     Module Reader

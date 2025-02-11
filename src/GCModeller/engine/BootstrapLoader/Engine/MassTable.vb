@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9e192b187c01fefaae5810a77f8d2f6, engine\BootstrapLoader\Engine\MassTable.vb"
+﻿#Region "Microsoft.VisualBasic::0db14e5a85fef8a3a746204327f5d7c2, engine\BootstrapLoader\Engine\MassTable.vb"
 
     ' Author:
     ' 
@@ -34,23 +34,25 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 140
-    '    Code Lines: 107 (76.43%)
-    ' Comment Lines: 9 (6.43%)
-    '    - Xml Docs: 55.56%
+    '   Total Lines: 198
+    '    Code Lines: 143 (72.22%)
+    ' Comment Lines: 24 (12.12%)
+    '    - Xml Docs: 83.33%
     ' 
-    '   Blank Lines: 24 (17.14%)
-    '     File Size: 6.29 KB
+    '   Blank Lines: 31 (15.66%)
+    '     File Size: 8.06 KB
 
 
     '     Class MassTable
     ' 
-    '         Properties: GetMassValues
+    '         Properties: GetMassValues, metabolites, micsRNA, mRNA, polypeptide
+    '                     rRNA, tRNA
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: (+2 Overloads) AddNew, Exists, GetAll, (+2 Overloads) GetByKey, GetEnumerator
-    '                   GetWhere, IEnumerable_GetEnumerator, template, variable, (+3 Overloads) variables
+    '                   GetRole, GetWhere, IEnumerable_GetEnumerator, template, variable
+    '                   (+3 Overloads) variables
     ' 
     '         Sub: AddOrUpdate, Delete
     ' 

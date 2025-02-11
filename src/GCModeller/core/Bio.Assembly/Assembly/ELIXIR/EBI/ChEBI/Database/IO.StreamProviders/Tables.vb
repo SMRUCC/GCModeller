@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76ed38aa781610d639e29c70669165e8, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
+﻿#Region "Microsoft.VisualBasic::a826e87f228d600ee721cbc49a0a7a04, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\Tables.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.45%
     ' 
     '   Blank Lines: 26 (14.29%)
-    '     File Size: 6.80 KB
+    '     File Size: 6.79 KB
 
 
     '     Class Entity

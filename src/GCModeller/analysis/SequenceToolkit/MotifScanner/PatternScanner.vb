@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ce54fdaf06797a5bc8f0dc228201b75, analysis\SequenceToolkit\MotifScanner\PatternScanner.vb"
+﻿#Region "Microsoft.VisualBasic::23dff8037025408c54452d03094e627b, analysis\SequenceToolkit\MotifScanner\PatternScanner.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 118
-    '    Code Lines: 94 (79.66%)
-    ' Comment Lines: 12 (10.17%)
+    '   Total Lines: 117
+    '    Code Lines: 93 (79.49%)
+    ' Comment Lines: 12 (10.26%)
     '    - Xml Docs: 58.33%
     ' 
-    '   Blank Lines: 12 (10.17%)
-    '     File Size: 4.12 KB
+    '   Blank Lines: 12 (10.26%)
+    '     File Size: 4.05 KB
 
 
     ' Class PatternScanner

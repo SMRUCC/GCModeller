@@ -1,61 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::a6c98eed02e9ccd2677ae96ce55e6fb0, core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
+﻿#Region "Microsoft.VisualBasic::786849d1d156e42d38f2e63f879a185c, core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 147
-'    Code Lines: 115 (78.23%)
-' Comment Lines: 9 (6.12%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 23 (15.65%)
-'     File Size: 6.78 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class MiST2
-' 
-'         Properties: GC, Genes, MajorModules, MiST2Code, Organism
-'                     ProfileImageUrl, Proteins, Replicons, Size, Status
-'                     Taxonomy
-' 
-'         Function: GetProfileImage, IsHisK, IsRR, ParseLine, (+3 Overloads) Save
-'                   ToString
-' 
-'         Sub: Parse
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 157
+    '    Code Lines: 124 (78.98%)
+    ' Comment Lines: 9 (5.73%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 24 (15.29%)
+    '     File Size: 7.16 KB
+
+
+    '     Class MiST2
+    ' 
+    '         Properties: GC, Genes, MajorModules, MiST2Code, Organism
+    '                     ProfileImageUrl, Proteins, Replicons, Size, Status
+    '                     Taxonomy
+    ' 
+    '         Function: GetProfileImage, IsHisK, IsRR, ParseLine, (+3 Overloads) Save
+    '                   ToString
+    ' 
+    '         Sub: Parse
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

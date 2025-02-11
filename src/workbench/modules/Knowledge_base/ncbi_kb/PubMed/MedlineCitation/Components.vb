@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63e22542fa9a135caf39a5000b909bef, modules\Knowledge_base\ncbi_kb\PubMed\MedlineCitation\Components.vb"
+﻿#Region "Microsoft.VisualBasic::bdcf82e739cd80e4a344709ed10e0487, modules\Knowledge_base\ncbi_kb\PubMed\MedlineCitation\Components.vb"
 
     ' Author:
     ' 
@@ -34,26 +34,32 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 26
-    '    Code Lines: 21 (80.77%)
+    '   Total Lines: 44
+    '    Code Lines: 31 (70.45%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (19.23%)
-    '     File Size: 702 B
+    '   Blank Lines: 13 (29.55%)
+    '     File Size: 1.12 KB
 
 
     '     Class MedlineJournalInfo
     ' 
     '         Properties: Country, ISSNLinking, MedlineTA, NlmUniqueID
     ' 
+    '         Function: ToString
+    ' 
     '     Class Chemical
     ' 
     '         Properties: NameOfSubstance, RegistryNumber
     ' 
+    '         Function: ToString
+    ' 
     '     Class RegisterObject
     ' 
     '         Properties: MajorTopicYN, UI, Value
+    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

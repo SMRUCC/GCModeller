@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5daa726c8b0a014a2389462701a0fe34, core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
+﻿#Region "Microsoft.VisualBasic::7a4512e3d4ac99b41dce63d7e579ac1a, core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 91
-    '    Code Lines: 45 (49.45%)
-    ' Comment Lines: 39 (42.86%)
+    '   Total Lines: 93
+    '    Code Lines: 46 (49.46%)
+    ' Comment Lines: 40 (43.01%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (7.69%)
-    '     File Size: 3.54 KB
+    '   Blank Lines: 7 (7.53%)
+    '     File Size: 3.59 KB
 
 
     '     Class GeneTable
@@ -49,7 +49,7 @@
     '                     GC_Content, geneName, GI, GO, InterPro
     '                     KO, left, length, Location, locus_id
     '                     ProteinId, right, species, SpeciesAccessionID, strand
-    '                     Transl_table, Translation, UniprotSwissProt, UniprotTrEMBL
+    '                     Transl_table, Translation, type, UniprotSwissProt, UniprotTrEMBL
     ' 
     '         Function: ToString
     ' 

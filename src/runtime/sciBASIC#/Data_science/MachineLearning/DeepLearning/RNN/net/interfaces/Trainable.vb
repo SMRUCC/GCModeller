@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b68e0afbe63fac08c109499e401e6b1, Data_science\MachineLearning\DeepLearning\RNN\net\interfaces\Trainable.vb"
+﻿#Region "Microsoft.VisualBasic::36c5635da05afdcaa42489d18300079e, Data_science\MachineLearning\DeepLearning\RNN\net\interfaces\Trainable.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 17
-    '    Code Lines: 5 (29.41%)
-    ' Comment Lines: 9 (52.94%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 20
+    '    Code Lines: 5 (25.00%)
+    ' Comment Lines: 11 (55.00%)
+    '    - Xml Docs: 27.27%
     ' 
-    '   Blank Lines: 3 (17.65%)
-    '     File Size: 487 B
+    '   Blank Lines: 4 (20.00%)
+    '     File Size: 530 B
 
 
     '     Interface Trainable
@@ -53,7 +53,10 @@
 #End Region
 
 Namespace RNN
-    ' Trainable neural network.
+
+    ''' <summary>
+    ''' Trainable neural network.
+    ''' </summary>
     Public Interface Trainable
 
         ' 
@@ -65,7 +68,7 @@ Namespace RNN
         ' 			Returns the cross-entropy loss.
         ' 		
         Function forwardBackward(ix As Integer(), iy As Integer()) As Double
-    End Interface
 
+    End Interface
 
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be623d486cecf328d08394e91f62a145, R#\cytoscape_toolkit\automation.vb"
+﻿#Region "Microsoft.VisualBasic::cb3d29a7dc73095012fa5fef55d433cc, R#\cytoscape_toolkit\automation.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 148
-    '    Code Lines: 116 (78.38%)
-    ' Comment Lines: 10 (6.76%)
+    '   Total Lines: 149
+    '    Code Lines: 117 (78.52%)
+    ' Comment Lines: 10 (6.71%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 22 (14.86%)
-    '     File Size: 6.71 KB
+    '   Blank Lines: 22 (14.77%)
+    '     File Size: 6.77 KB
 
 
     ' Module automation

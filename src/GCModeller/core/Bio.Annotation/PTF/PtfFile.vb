@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5af39e05e8310c5030177e3dbdea4a77, core\Bio.Annotation\PTF\PtfFile.vb"
+﻿#Region "Microsoft.VisualBasic::e607a001aa3d379054421ead06aa353a, core\Bio.Annotation\PTF\PtfFile.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 101
-    '    Code Lines: 76 (75.25%)
-    ' Comment Lines: 7 (6.93%)
+    '   Total Lines: 102
+    '    Code Lines: 77 (75.49%)
+    ' Comment Lines: 7 (6.86%)
     '    - Xml Docs: 42.86%
     ' 
-    '   Blank Lines: 18 (17.82%)
-    '     File Size: 3.90 KB
+    '   Blank Lines: 18 (17.65%)
+    '     File Size: 3.95 KB
 
 
     '     Class PtfFile

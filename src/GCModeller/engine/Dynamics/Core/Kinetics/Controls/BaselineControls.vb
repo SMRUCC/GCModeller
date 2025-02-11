@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63069cb4570b40601c515b003a500b10, engine\Dynamics\Core\Kinetics\Controls\BaselineControls.vb"
+﻿#Region "Microsoft.VisualBasic::98b39180925ae046c895514ad3ecab71, engine\Dynamics\Core\Kinetics\Controls\BaselineControls.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 18
-    '    Code Lines: 14 (77.78%)
+    '   Total Lines: 22
+    '    Code Lines: 17 (77.27%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 4 (22.22%)
-    '     File Size: 392 B
+    '   Blank Lines: 5 (22.73%)
+    '     File Size: 517 B
 
 
     '     Class BaselineControls
@@ -48,6 +48,7 @@
     '         Properties: coefficient
     ' 
     '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

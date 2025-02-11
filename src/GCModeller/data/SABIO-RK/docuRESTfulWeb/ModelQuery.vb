@@ -1,55 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::7233f25c97db46da85daab23f74c454a, data\SABIO-RK\docuRESTfulWeb\ModelQuery.vb"
+﻿#Region "Microsoft.VisualBasic::f339976db4f4febfe15306b66ea95dea, data\SABIO-RK\docuRESTfulWeb\ModelQuery.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 65
-'    Code Lines: 53 (81.54%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 12 (18.46%)
-'     File Size: 2.57 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class ModelQuery
-' 
-'     Constructor: (+2 Overloads) Sub New
-'     Function: contextPrefix, CreateQueryURL, doParseGuid, doParseObject, doParseUrl
-'               parseSBML
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 70 (82.35%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (17.65%)
+    '     File Size: 3.41 KB
+
+
+    '     Class ModelQuery
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: contextPrefix, CreateQueryURL, doParseGuid, doParseObject, doParseUrl
+    '                   isEmptyContent, parseSBML
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

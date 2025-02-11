@@ -1,55 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::268fdd3eefc38dc70137f4e015b2c1df, R#\kb\mesh.vb"
+﻿#Region "Microsoft.VisualBasic::2fe578e582d326233f6c909103cac264, R#\kb\mesh.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 49
-'    Code Lines: 40 (81.63%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 9 (18.37%)
-'     File Size: 1.68 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module meshTools
-' 
-'     Function: loadMeshTree, loadMeshXml, mesh_category
-' 
-'     Sub: Main
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 201
+    '    Code Lines: 97 (48.26%)
+    ' Comment Lines: 88 (43.78%)
+    '    - Xml Docs: 95.45%
+    ' 
+    '   Blank Lines: 16 (7.96%)
+    '     File Size: 8.66 KB
+
+
+    ' Module meshTools
+    ' 
+    '     Function: ClusterMembers, ClusterTermByLevel, convertMeshBackground, loadMeshTree, loadMeshXml
+    '               mesh_category
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

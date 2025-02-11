@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76357f34bd09f6c4a1c3ddd66b042e4a, modules\Knowledge_base\ncbi_kb\MeSH\DescriptorRecordSet.vb"
+﻿#Region "Microsoft.VisualBasic::ba028b49d2ec594e1c216c667fa2ebcb, modules\Knowledge_base\ncbi_kb\MeSH\DescriptorRecordSet.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 36
-    '    Code Lines: 16 (44.44%)
-    ' Comment Lines: 13 (36.11%)
-    '    - Xml Docs: 92.31%
+    '   Total Lines: 39
+    '    Code Lines: 16 (41.03%)
+    ' Comment Lines: 16 (41.03%)
+    '    - Xml Docs: 87.50%
     ' 
-    '   Blank Lines: 7 (19.44%)
-    '     File Size: 1.39 KB
+    '   Blank Lines: 7 (17.95%)
+    '     File Size: 1.60 KB
 
 
     '     Class DescriptorRecordSet

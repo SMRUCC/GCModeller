@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42b0d31e3e15013ffa93da5a1af8ff18, RNA-Seq\RNA-seq.Data\FastQ\Stream.vb"
+﻿#Region "Microsoft.VisualBasic::dfd570ac09e335b345ce1897dcbce6b9, RNA-Seq\RNA-seq.Data\FastQ\Stream.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 61
-    '    Code Lines: 30 (49.18%)
-    ' Comment Lines: 18 (29.51%)
+    '   Total Lines: 88
+    '    Code Lines: 56 (63.64%)
+    ' Comment Lines: 18 (20.45%)
     '    - Xml Docs: 27.78%
     ' 
-    '   Blank Lines: 13 (21.31%)
-    '     File Size: 3.08 KB
+    '   Blank Lines: 14 (15.91%)
+    '     File Size: 4.26 KB
 
 
     '     Module Stream

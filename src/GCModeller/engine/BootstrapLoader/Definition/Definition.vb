@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::735fdeee85d23ea2e6c8059dfd0b97dd, engine\BootstrapLoader\Definition\Definition.vb"
+﻿#Region "Microsoft.VisualBasic::d4dc0bcf1896dd06d51f09e49f6a3239, engine\BootstrapLoader\Definition\Definition.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 113
-    '    Code Lines: 78 (69.03%)
-    ' Comment Lines: 21 (18.58%)
-    '    - Xml Docs: 85.71%
+    '   Total Lines: 116
+    '    Code Lines: 78 (67.24%)
+    ' Comment Lines: 24 (20.69%)
+    '    - Xml Docs: 87.50%
     ' 
-    '   Blank Lines: 14 (12.39%)
-    '     File Size: 3.72 KB
+    '   Blank Lines: 14 (12.07%)
+    '     File Size: 3.83 KB
 
 
     '     Enum GeneralCompound

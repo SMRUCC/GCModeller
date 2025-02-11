@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f1929257b9161e93dade9a0ca047880, engine\Model\Cellular\RNATypes.vb"
+﻿#Region "Microsoft.VisualBasic::3fc29851d21350021506e01c733e5ccc, engine\Model\Cellular\RNATypes.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 28
-    '    Code Lines: 10 (35.71%)
-    ' Comment Lines: 15 (53.57%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 79
+    '    Code Lines: 17 (21.52%)
+    ' Comment Lines: 49 (62.03%)
+    '    - Xml Docs: 97.96%
     ' 
-    '   Blank Lines: 3 (10.71%)
-    '     File Size: 666 B
+    '   Blank Lines: 13 (16.46%)
+    '     File Size: 3.44 KB
 
 
     '     Enum RNATypes
     ' 
-    '         micsRNA, ribosomalRNA, tRNA
+    '         AntisenseRNAs, hnRNA, micsRNA, miRNAs, ribosomalRNA
+    '         Riboswitches, snoRNAs, sRNAs, tmRNA, tRNA
     ' 
     '  
     ' 

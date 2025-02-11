@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab68996389ea81b9772690a474c06472, engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
+﻿#Region "Microsoft.VisualBasic::7d57433fa9a2b993e3ade8ec1b979496, engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,23 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 44
-    '    Code Lines: 27 (61.36%)
-    ' Comment Lines: 9 (20.45%)
-    '    - Xml Docs: 77.78%
+    '   Total Lines: 106
+    '    Code Lines: 66 (62.26%)
+    ' Comment Lines: 23 (21.70%)
+    '    - Xml Docs: 91.30%
     ' 
-    '   Blank Lines: 8 (18.18%)
-    '     File Size: 1.52 KB
+    '   Blank Lines: 17 (16.04%)
+    '     File Size: 3.68 KB
 
 
     '     Class KineticsControls
+    ' 
+    '         Properties: coefficient, parameters
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: getMass, ToString
+    ' 
+    '     Class KineticsOverlapsControls
     ' 
     '         Properties: coefficient
     ' 

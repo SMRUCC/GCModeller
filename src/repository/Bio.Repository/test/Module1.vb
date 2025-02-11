@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7206aaccc5e2c6514129103e61b1ae4, Bio.Repository\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::0606059fcf3e972aebbd8bb17a85669f, Bio.Repository\test\Module1.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 53
-    '    Code Lines: 37 (69.81%)
-    ' Comment Lines: 3 (5.66%)
+    '   Total Lines: 60
+    '    Code Lines: 42 (70.00%)
+    ' Comment Lines: 3 (5.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 13 (24.53%)
-    '     File Size: 1.48 KB
+    '   Blank Lines: 15 (25.00%)
+    '     File Size: 1.68 KB
 
 
     ' Module Module1
     ' 
-    '     Sub: Main, read1, readTest, write1, writeTest
+    '     Sub: loadIndexTest, Main, read1, readTest, write1
+    '          writeTest
     ' 
     ' /********************************************************************************/
 

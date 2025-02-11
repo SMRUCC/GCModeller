@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::6b13fe3afb8dd7432913a8f219c8b71c, sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::3c2db55ecb268d43a377265e3d205a0e, sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 118
-'    Code Lines: 67 (56.78%)
-' Comment Lines: 33 (27.97%)
-'    - Xml Docs: 90.91%
-' 
-'   Blank Lines: 18 (15.25%)
-'     File Size: 5.03 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class ScriptCompiler
-' 
-'         Properties: AutoFixError
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: CheckConsist, Compile, CompileImpl
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 115
+    '    Code Lines: 65 (56.52%)
+    ' Comment Lines: 33 (28.70%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 17 (14.78%)
+    '     File Size: 5.06 KB
+
+
+    '     Class ScriptCompiler
+    ' 
+    '         Properties: AutoFixError
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: CheckConsist, Compile, CompileImpl
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

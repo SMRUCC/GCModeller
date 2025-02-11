@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::774d40e0820fbe112a5a84fcaf12bfdc, engine\IO\GCMarkupLanguage\v2\Xml\Genome\Genome.vb"
+﻿#Region "Microsoft.VisualBasic::f29e28b0827e8ee720da9d0fcd6aaba0, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\Genome.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 106
-    '    Code Lines: 49 (46.23%)
-    ' Comment Lines: 37 (34.91%)
+    '   Total Lines: 61
+    '    Code Lines: 30 (49.18%)
+    ' Comment Lines: 19 (31.15%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 20 (18.87%)
-    '     File Size: 3.46 KB
+    '   Blank Lines: 12 (19.67%)
+    '     File Size: 2.07 KB
 
 
     '     Class Genome
@@ -53,15 +53,7 @@
     ' 
     '         Properties: gene, type, val
     ' 
-    '     Class transcription
-    ' 
-    '         Properties: biological_process, centralDogma, effector, mode, motif
-    '                     regulator, target
-    ' 
-    '     Class Motif
-    ' 
-    '         Properties: distance, family, left, right, sequence
-    '                     strand
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::848365570c7bdf93665057a8e57a1273, R#\kegg_kit\profiles.vb"
+﻿#Region "Microsoft.VisualBasic::2312f73dd40d86166d1639d3e00a890a, R#\kegg_kit\profiles.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 234
-    '    Code Lines: 186 (79.49%)
-    ' Comment Lines: 19 (8.12%)
+    '   Total Lines: 235
+    '    Code Lines: 187 (79.57%)
+    ' Comment Lines: 19 (8.09%)
     '    - Xml Docs: 89.47%
     ' 
-    '   Blank Lines: 29 (12.39%)
-    '     File Size: 10.19 KB
+    '   Blank Lines: 29 (12.34%)
+    '     File Size: 10.24 KB
 
 
     ' Module profiles

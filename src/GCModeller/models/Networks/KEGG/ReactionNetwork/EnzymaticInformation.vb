@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfd7bb9321a2fe45be89b61a4fb33a43, models\Networks\KEGG\ReactionNetwork\EnzymaticInformation.vb"
+﻿#Region "Microsoft.VisualBasic::adf6c1f5a181197127fb81ed6287cd72, models\Networks\KEGG\ReactionNetwork\EnzymaticInformation.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 176
-    '    Code Lines: 139 (78.98%)
-    ' Comment Lines: 17 (9.66%)
+    '   Total Lines: 202
+    '    Code Lines: 164 (81.19%)
+    ' Comment Lines: 17 (8.42%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 20 (11.36%)
-    '     File Size: 7.84 KB
+    '   Blank Lines: 21 (10.40%)
+    '     File Size: 8.97 KB
 
 
     '     Module EnzymaticInformation

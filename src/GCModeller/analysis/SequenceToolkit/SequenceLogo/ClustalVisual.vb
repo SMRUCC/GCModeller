@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::877a23414a9763efafbaea02efd983dd, analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
+﻿#Region "Microsoft.VisualBasic::d1c4e54ec960740591d130534debc5df, analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 140
-    '    Code Lines: 93 (66.43%)
-    ' Comment Lines: 25 (17.86%)
+    '   Total Lines: 167
+    '    Code Lines: 118 (70.66%)
+    ' Comment Lines: 25 (14.97%)
     '    - Xml Docs: 92.00%
     ' 
-    '   Blank Lines: 22 (15.71%)
-    '     File Size: 5.67 KB
+    '   Blank Lines: 24 (14.37%)
+    '     File Size: 6.79 KB
 
 
     ' Module ClustalVisual

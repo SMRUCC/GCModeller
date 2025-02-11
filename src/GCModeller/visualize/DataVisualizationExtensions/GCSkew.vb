@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50dc7d3ae29f405eabf200dce5562ebf, visualize\DataVisualizationExtensions\GCSkew.vb"
+﻿#Region "Microsoft.VisualBasic::dee499bbde82777e7e3c4c4cbc3d75c0, visualize\DataVisualizationExtensions\GCSkew.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 118
-    '    Code Lines: 74 (62.71%)
-    ' Comment Lines: 32 (27.12%)
+    '   Total Lines: 144
+    '    Code Lines: 99 (68.75%)
+    ' Comment Lines: 32 (22.22%)
     '    - Xml Docs: 87.50%
     ' 
-    '   Blank Lines: 12 (10.17%)
-    '     File Size: 4.99 KB
+    '   Blank Lines: 13 (9.03%)
+    '     File Size: 6.12 KB
 
 
     ' Module GCSkew

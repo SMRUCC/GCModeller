@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b81315e277779c5c7d5c08e07b728e85, engine\Compiler\MarkupCompiler\BioCyc\v2Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::8b5b694d1cedeec045f40007d3aea205, engine\Compiler\MarkupCompiler\BioCyc\v2Compiler.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 203
-    '    Code Lines: 174 (85.71%)
-    ' Comment Lines: 3 (1.48%)
+    '   Total Lines: 211
+    '    Code Lines: 180 (85.31%)
+    ' Comment Lines: 3 (1.42%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 26 (12.81%)
-    '     File Size: 8.12 KB
+    '   Blank Lines: 28 (13.27%)
+    '     File Size: 8.62 KB
 
 
     '     Class v2Compiler

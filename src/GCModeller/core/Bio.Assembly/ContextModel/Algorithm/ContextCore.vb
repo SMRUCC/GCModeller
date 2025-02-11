@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ede238136b36f43c7becdc97a1a432d, core\Bio.Assembly\ContextModel\Algorithm\ContextCore.vb"
+﻿#Region "Microsoft.VisualBasic::77503a96f2761828c82f4eb9a159a9a7, core\Bio.Assembly\ContextModel\Algorithm\ContextCore.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 94.12%
     ' 
     '   Blank Lines: 7 (9.72%)
-    '     File Size: 3.20 KB
+    '     File Size: 3.19 KB
 
 
     '     Structure RelationDelegate

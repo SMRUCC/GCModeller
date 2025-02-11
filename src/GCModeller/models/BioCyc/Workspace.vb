@@ -1,56 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::c353a42518fef07c6b1df55af0ec7e72, models\BioCyc\Workspace.vb"
+﻿#Region "Microsoft.VisualBasic::538828b10f78d430da78ff62b55d6de9, models\BioCyc\Workspace.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 83
-'    Code Lines: 60 (72.29%)
-' Comment Lines: 6 (7.23%)
-'    - Xml Docs: 50.00%
-' 
-'   Blank Lines: 17 (20.48%)
-'     File Size: 2.97 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class Workspace
-' 
-'     Properties: compounds, enzrxns, pathways, reactions
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: getFileName, openFile, ToString
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 86 (76.11%)
+    ' Comment Lines: 6 (5.31%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 21 (18.58%)
+    '     File Size: 4.26 KB
+
+
+    ' Class Workspace
+    ' 
+    '     Properties: compounds, enzrxns, genes, IWorkspace_Workspace, pathways
+    '                 proteins, reactions
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: CreateSequenceIndex, getFileName, openFile, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

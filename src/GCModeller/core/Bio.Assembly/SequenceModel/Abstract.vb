@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f65938ec01eb1838ba020d74156fe12, core\Bio.Assembly\SequenceModel\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::72367cc627ca192f804e58c55c5e2191, core\Bio.Assembly\SequenceModel\Abstract.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 60
-    '    Code Lines: 24 (40.00%)
-    ' Comment Lines: 28 (46.67%)
+    '   Total Lines: 69
+    '    Code Lines: 24 (34.78%)
+    ' Comment Lines: 37 (53.62%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (13.33%)
-    '     File Size: 1.87 KB
+    '   Blank Lines: 8 (11.59%)
+    '     File Size: 2.14 KB
 
 
     '     Enum SeqTypes

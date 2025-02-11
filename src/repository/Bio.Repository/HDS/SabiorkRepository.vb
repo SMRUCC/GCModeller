@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::f3bb3463b72d8f71b23fd70451c1c5e0, Bio.Repository\HDS\SabiorkRepository.vb"
+﻿#Region "Microsoft.VisualBasic::9a71ee0b318bb2659b2aa64efb03c2f8, Bio.Repository\HDS\SabiorkRepository.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 135
-'    Code Lines: 90 (66.67%)
-' Comment Lines: 25 (18.52%)
-'    - Xml Docs: 32.00%
-' 
-'   Blank Lines: 20 (14.81%)
-'     File Size: 5.26 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class SabiorkRepository
-' 
-'     Constructor: (+1 Overloads) Sub New
-' 
-'     Function: GetByECNumber, getEcNumberDirectoryPath, GetKineticisLaw
-' 
-'     Sub: (+2 Overloads) Dispose, saveKineticsModel
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 147
+    '    Code Lines: 99 (67.35%)
+    ' Comment Lines: 26 (17.69%)
+    '    - Xml Docs: 30.77%
+    ' 
+    '   Blank Lines: 22 (14.97%)
+    '     File Size: 5.96 KB
+
+
+    ' Class SabiorkRepository
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: CreateKineticsData, GetByECNumber, getEcNumberDirectoryPath, GetKineticisLaw
+    ' 
+    '     Sub: (+2 Overloads) Dispose, saveKineticsModel
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

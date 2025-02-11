@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a702b3cdb037bc2cbeec1d13916a47e0, core\Bio.Assembly\ComponentModel\Annotation\EC\ECNumber.vb"
+﻿#Region "Microsoft.VisualBasic::b11be941daf67bb8020ae871a105650c, core\Bio.Assembly\ComponentModel\Annotation\EC\ECNumber.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 147
-    '    Code Lines: 75 (51.02%)
-    ' Comment Lines: 50 (34.01%)
+    '   Total Lines: 153
+    '    Code Lines: 80 (52.29%)
+    ' Comment Lines: 50 (32.68%)
     '    - Xml Docs: 94.00%
     ' 
-    '   Blank Lines: 22 (14.97%)
-    '     File Size: 4.73 KB
+    '   Blank Lines: 23 (15.03%)
+    '     File Size: 4.97 KB
 
 
     '     Class ECNumber
     ' 
-    '         Properties: serialNumber, subCategory, subType, type
+    '         Properties: ECNumberString, serialNumber, subCategory, subType, type
     ' 
     '         Function: (+2 Overloads) Contains, ToString, ValidateValue, ValueParser
     ' 

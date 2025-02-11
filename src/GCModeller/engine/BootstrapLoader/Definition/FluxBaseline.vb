@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87137babaf096348c49a70538baa6fc8, engine\BootstrapLoader\Definition\FluxBaseline.vb"
+﻿#Region "Microsoft.VisualBasic::baf73be44c60c7ff53f68004a8a47492, engine\BootstrapLoader\Definition\FluxBaseline.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 36
-    '    Code Lines: 20 (55.56%)
-    ' Comment Lines: 7 (19.44%)
+    '   Total Lines: 39
+    '    Code Lines: 20 (51.28%)
+    ' Comment Lines: 10 (25.64%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (25.00%)
-    '     File Size: 1.31 KB
+    '   Blank Lines: 9 (23.08%)
+    '     File Size: 1.40 KB
 
 
     '     Class FluxBaseline

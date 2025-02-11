@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::195a46a7ff2dcff1fed9076c022839d1, data\STRING\Tsv.vb"
+﻿#Region "Microsoft.VisualBasic::f78490e0d6b2d740cbd7009cdb6dfe99, data\STRING\Tsv.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 255
-    '    Code Lines: 191 (74.90%)
-    ' Comment Lines: 34 (13.33%)
+    '   Total Lines: 256
+    '    Code Lines: 192 (75.00%)
+    ' Comment Lines: 34 (13.28%)
     '    - Xml Docs: 94.12%
     ' 
-    '   Blank Lines: 30 (11.76%)
-    '     File Size: 13.03 KB
+    '   Blank Lines: 30 (11.72%)
+    '     File Size: 13.07 KB
 
 
     '     Class LinkAction

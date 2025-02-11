@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f3ec0cec798005df7bf335c95cf5fed, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryBubble.vb"
+﻿#Region "Microsoft.VisualBasic::e1531ef00763cde200e3ea9224bff853, visualize\DataVisualizationExtensions\KeggPlot\EnrichmentCategoryBubble.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 159
-    '    Code Lines: 136 (85.53%)
-    ' Comment Lines: 2 (1.26%)
+    '   Total Lines: 186
+    '    Code Lines: 162 (87.10%)
+    ' Comment Lines: 2 (1.08%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 21 (13.21%)
-    '     File Size: 7.86 KB
+    '   Blank Lines: 22 (11.83%)
+    '     File Size: 8.94 KB
 
 
     ' Class EnrichmentCategoryBubble

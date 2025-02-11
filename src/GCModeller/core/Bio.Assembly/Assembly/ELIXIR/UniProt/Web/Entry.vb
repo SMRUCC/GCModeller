@@ -1,57 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::2b016c17b772b5bfa649eed22fddfa41, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Entry.vb"
+﻿#Region "Microsoft.VisualBasic::251271aa66be0058524faba54437287d, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Entry.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 18
-'    Code Lines: 15 (83.33%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 3 (16.67%)
-'     File Size: 572 B
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Entry
-' 
-'         Properties: Entry, EntryName, GeneNames, Length, Organism
-'                     ProteinNames, StatusReviewed
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 64 (74.42%)
+    ' Comment Lines: 6 (6.98%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 16 (18.60%)
+    '     File Size: 4.67 KB
+
+
+    '     Class Entry
+    ' 
+    '         Properties: Annotation, Catalytic_activity, Caution, EC_number, Entry
+    '                     EntryName, GeneNames, GeneNames_ordered_locus, GeneNames_ORF, GeneNames_primary
+    '                     GeneNames_synonym, GeneOntology_cellular_component, Intramembrane, KeywordID, Keywords
+    '                     Length, Organism, PlantReactome, Protein_names, Reactome
+    '                     Reviewed, Subcellular_location_CC, Tissue_specificity, Topological_domain, Transmembrane
+    ' 
+    '         Function: ParseSubcellularLocation, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

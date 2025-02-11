@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51a9d20a61b4d80112c1b6e7dcc3821c, engine\Model\Cellular\Vector\ProteinComposition.vb"
+﻿#Region "Microsoft.VisualBasic::98dd192408632bea11b0a3ce17763ff8, engine\Model\Cellular\Vector\ProteinComposition.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 161
-    '    Code Lines: 61 (37.89%)
-    ' Comment Lines: 88 (54.66%)
+    '   Total Lines: 164
+    '    Code Lines: 61 (37.20%)
+    ' Comment Lines: 91 (55.49%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 12 (7.45%)
-    '     File Size: 5.10 KB
+    '   Blank Lines: 12 (7.32%)
+    '     File Size: 5.18 KB
 
 
     '     Class ProteinComposition

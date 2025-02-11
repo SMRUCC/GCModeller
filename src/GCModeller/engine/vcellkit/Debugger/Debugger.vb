@@ -1,56 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::5019940e0bdad2d44b94f77b6d1b10ca, engine\vcellkit\Debugger\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::2d32d950888a8d920d8a2e4ec2a2d508, engine\vcellkit\Debugger\Debugger.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 203
-'    Code Lines: 161 (79.31%)
-' Comment Lines: 18 (8.87%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 24 (11.82%)
-'     File Size: 9.01 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Debugger
-' 
-'     Function: createFluxDynamicsEngine, CreateNetwork, GetFactor, GetFactors, loadDataDriver
-'               ModelPathwayMap
-' 
-'     Sub: createDynamicsSummary
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 250
+    '    Code Lines: 191 (76.40%)
+    ' Comment Lines: 28 (11.20%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 31 (12.40%)
+    '     File Size: 10.45 KB
+
+
+    ' Module Debugger
+    ' 
+    '     Function: createFluxDynamicsEngine, CreateNetwork, dump_core, GetFactor, GetFactors
+    '               loadDataDriver, ModelPathwayMap
+    ' 
+    '     Sub: createDynamicsSummary, set_symbols
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

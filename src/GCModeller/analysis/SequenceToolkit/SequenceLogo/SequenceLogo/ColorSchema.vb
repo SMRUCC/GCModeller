@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2569dfec63a7793c9142e4bac5632001, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\ColorSchema.vb"
+﻿#Region "Microsoft.VisualBasic::a29e66d35151b3585f58ee54eccc602f, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\ColorSchema.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 99
-    '    Code Lines: 67 (67.68%)
-    ' Comment Lines: 22 (22.22%)
+    '   Total Lines: 121
+    '    Code Lines: 89 (73.55%)
+    ' Comment Lines: 22 (18.18%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 10 (10.10%)
-    '     File Size: 6.22 KB
+    '   Blank Lines: 10 (8.26%)
+    '     File Size: 7.29 KB
 
 
     '     Module ColorSchema
