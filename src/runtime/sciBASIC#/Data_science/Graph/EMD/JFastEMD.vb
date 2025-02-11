@@ -15,6 +15,8 @@
 Namespace EMD
 
     ''' <summary>
+    ''' Earth Mover's Distance
+    ''' 
     ''' @author Telmo Menezes (telmo@telmomenezes.com)
     ''' @author Ofir Pele
     ''' 

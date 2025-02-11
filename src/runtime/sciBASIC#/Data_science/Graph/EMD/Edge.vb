@@ -12,6 +12,10 @@
 
         Friend _to As Integer
         Friend _cost As Long
+
+        Public Overrides Function ToString() As String
+            Return $"->{_to} (cost:{_cost})"
+        End Function
     End Class
 
     Friend Class Edge0
@@ -24,6 +28,10 @@
         Friend _to As Integer
         Friend _cost As Long
         Friend _flow As Long
+
+        Public Overrides Function ToString() As String
+            Return $"->{_to} (cost:{_cost}; flow:{_flow})"
+        End Function
     End Class
 
     Friend Class Edge1
@@ -34,6 +42,10 @@
 
         Friend _to As Integer
         Friend _reduced_cost As Long
+
+        Public Overrides Function ToString() As String
+            Return $"->{_to} (reduced_cost:{_reduced_cost})"
+        End Function
     End Class
 
     Friend Class Edge2
@@ -46,6 +58,10 @@
         Friend _to As Integer
         Friend _reduced_cost As Long
         Friend _residual_capacity As Long
+
+        Public Overrides Function ToString() As String
+            Return $"->{_to} (reduced_cost:{_reduced_cost}; residual_capacity:{_residual_capacity})"
+        End Function
     End Class
 
     Friend Class Edge3
@@ -61,6 +77,10 @@
 
         Friend _to As Integer
         Friend _dist As Long
+
+        Public Overrides Function ToString() As String
+            Return $"->{_to} (dist:{_dist})"
+        End Function
     End Class
 
 End Namespace

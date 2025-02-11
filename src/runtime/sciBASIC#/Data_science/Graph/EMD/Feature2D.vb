@@ -7,6 +7,7 @@ Namespace EMD
     ''' </summary>
     Public Class Feature2D
         Implements Feature
+
         Private x As Double
         Private y As Double
 
@@ -20,6 +21,10 @@ Namespace EMD
             Dim deltaX = x - f2d.x
             Dim deltaY = y - f2d.y
             Return std.Sqrt(deltaX * deltaX + deltaY * deltaY)
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return $"({x}, {y})"
         End Function
     End Class
 End Namespace
