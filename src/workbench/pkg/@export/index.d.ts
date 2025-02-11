@@ -85,6 +85,10 @@ declare namespace GCModeller {
      * @param make.pathway_cluster default value Is ``true``.
    */
    function CompoundNetwork(compoundsId: any, make.pathway_cluster?: any): object;
+   /**
+     * @param ec_number default value Is ``*``.
+   */
+   function ecnumber_to_ko(ec_number?: any): object;
    eutils: any;
    /**
    */

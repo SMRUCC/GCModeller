@@ -68,4 +68,8 @@ declare namespace brite {
      * + default value Is ``null``.
    */
    function parse(file: string, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function parse_kegg_enzyme(ko00001: object, env?: object): any;
 }
