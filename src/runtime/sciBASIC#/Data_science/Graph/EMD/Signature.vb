@@ -3,6 +3,10 @@
 Namespace EMD
 
     ''' <summary>
+    ''' Signatures can be used to represent sparse n-dimensional matrices. They are a collection of 
+    ''' features and their respective weights. Feature is an interface that you must implement for
+    ''' your specific application.
+    ''' 
     ''' @author Telmo Menezes (telmo@telmomenezes.com)
     ''' 
     ''' </summary>
