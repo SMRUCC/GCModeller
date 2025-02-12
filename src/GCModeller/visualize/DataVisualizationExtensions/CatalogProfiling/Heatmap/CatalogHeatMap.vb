@@ -147,7 +147,7 @@ Namespace CatalogProfiling
                 .Width = plotRect.Width - maxTag.Width,
                 .Height = plotRect.Height
             }
-            Dim gap As Double = labelHeight * 1.5
+            Dim gap As Double = labelHeight * 1.75
             Dim dh As Double = (region.Height - gap * (pathways.Count - 1)) / (pathways.Values.IteratesALL.Count)
             Dim dw As Double = region.Width / multiples.Count
             Dim sizeRange As DoubleRange = New Double() {0, dw}
@@ -182,7 +182,7 @@ Namespace CatalogProfiling
                             End Function) _
                     .ToArray
 
-                Call g.DrawString(catName, categoryFont, Brushes.Black, New PointF(region.Right, y - labelHeight))
+                Call g.DrawString(catName, categoryFont, Brushes.Black, New PointF(region.Right + 10, y - labelHeight))
 
                 Dim deltaY As Double = dh * pathIds.Length
                 Dim block As New Rectangle(region.Left, y, region.Width, deltaY)
@@ -213,7 +213,7 @@ Namespace CatalogProfiling
                         x += dw
                     Next
 
-                    g.DrawString(id, pathwayNameFont, foreColor, New PointF(x, y))
+                    g.DrawString(id, pathwayNameFont, foreColor, New PointF(x + 10, y))
                     y += dh
                 Next
 
@@ -222,7 +222,7 @@ Namespace CatalogProfiling
 
             ' draw sample labels
             x = region.Left + dw / 2
-            y -= gap
+            y += gap * 2
 
             ' Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
 
