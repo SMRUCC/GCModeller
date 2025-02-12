@@ -606,7 +606,8 @@ Module visualPlot
             .legendLabelCSS = "font-style: normal; font-size: 12; font-family: " & FontFace.MicrosoftYaHei & ";",
             .axisLabelCSS = "font-style: normal; font-size: 16; font-family: " & FontFace.MicrosoftYaHei & ";",
             .axisTickCSS = "font-style: normal; font-size: 10; font-family: " & FontFace.BookmanOldStyle & ";",
-            .colorSet = themeColors
+            .colorSet = themeColors,
+            .axisStroke = "stroke: black; stroke-width: 1px; stroke-dash: solid;"
         }
         Dim driver As Drivers = env.getDriver
 

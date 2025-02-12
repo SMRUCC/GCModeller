@@ -208,7 +208,7 @@ Namespace CatalogProfiling
 
             ' draw sample labels
             x = region.Left + dx / 2
-            y -= dy / 3
+            y += dy
 
             For Each sample In multiples
                 g.DrawString(sample.Name, pathwayNameFont, Brushes.Black, x, y, angle:=45)
