@@ -200,14 +200,14 @@ Namespace CatalogProfiling
                 Next
 
                 labelSize = g.MeasureString(pid, pathwayNameFont)
-                x = region.Left - labelSize.Width - dx / 2
+                x = region.Left - labelSize.Width / 1.125 - dx / 2
                 g.DrawString(pid, pathwayNameFont, Brushes.Black, New PointF(x, y - dy / 2 + (dy - pad.Height) / 2))
 
                 y += dy
             Next
 
             ' draw sample labels
-            x = region.Left + dx / 2
+            x = region.Left + dx
             y += dy
 
             For Each sample In multiples
