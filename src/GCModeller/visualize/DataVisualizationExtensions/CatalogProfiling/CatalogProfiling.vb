@@ -188,7 +188,8 @@ Namespace CatalogProfiling
                                      Optional disableLabelColor As Boolean = False,
                                      Optional valueFormat$ = "F2",
                                      Optional labelTrimLength% = 64,
-                                     Optional dpi As Integer = 300) As GraphicsData
+                                     Optional dpi As Integer = 300,
+                                     Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             If removeNotAssign Then
                 profile = profile.removesNotAssign
@@ -234,7 +235,7 @@ Namespace CatalogProfiling
 
             Call $"Run catalog profile bar plot with size={size}, dpi={dpi}".__DEBUG_ECHO
 
-            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal, Drivers.GDI, $"{dpi},{dpi}")
+            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal, driver, $"{dpi},{dpi}")
         End Function
 
         ''' <summary>
