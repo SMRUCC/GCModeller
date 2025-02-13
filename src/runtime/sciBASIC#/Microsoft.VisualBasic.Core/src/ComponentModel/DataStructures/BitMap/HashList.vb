@@ -15,9 +15,37 @@ Namespace ComponentModel
                 End If
             End Get
             Set(value As T)
-                value.Assign(i)
-                list(key:=i) = value
+                If value Is Nothing Then
+                    Call list.Remove(i)
+                Else
+                    value.Assign(i)
+                    list(key:=i) = value
+                End If
             End Set
+        End Property
+
+        Public ReadOnly Property Count As Integer
+            Get
+                Return list.Count
+            End Get
+        End Property
+
+        Public ReadOnly Property MaxMap As Integer
+            Get
+                If list.Count = 0 Then
+                    Return 0
+                End If
+                Return list.Keys.Max
+            End Get
+        End Property
+
+        Public ReadOnly Property MinMap As Integer
+            Get
+                If list.Count = 0 Then
+                    Return 0
+                End If
+                Return list.Keys.Min
+            End Get
         End Property
 
         Public Sub New()
@@ -27,21 +55,41 @@ Namespace ComponentModel
             Call list.Clear()
         End Sub
 
+        ''' <summary>
+        ''' overrides the item value at specific address
+        ''' </summary>
+        ''' <param name="item"></param>
         Public Sub Replace(item As T)
             list(key:=item.Address) = item
         End Sub
 
+        ''' <summary>
+        ''' overrides the item value at specific index
+        ''' </summary>
+        ''' <param name="i"></param>
+        ''' <param name="item"></param>
         Public Sub ReplaceAt(i As Integer, item As T)
             item.Assign(i)
             list(key:=i) = item
         End Sub
 
-        Public Sub AddRange(items As IEnumerable(Of T))
+        Public Sub ReplaceRange(items As IEnumerable(Of T))
             If Not items Is Nothing Then
                 For Each item As T In items
                     Call Replace(item)
                 Next
             End If
+        End Sub
+
+        Public Sub Append(item As T)
+            Dim i As Integer = MaxMap
+
+            If i <> 0 Then
+                i += 1
+            End If
+
+            item.Assign(i)
+            list(key:=i) = item
         End Sub
 
         Public Function IndexOf(item As T) As Integer
