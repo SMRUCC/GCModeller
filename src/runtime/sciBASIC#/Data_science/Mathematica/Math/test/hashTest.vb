@@ -75,13 +75,16 @@ Module hashTest
     Sub hashindex_test()
         Dim list As New List(Of String)
 
-        For i As Integer = 0 To 100000
+        For i As Integer = 0 To 1000000
             Call list.Add(i.ToString)
         Next
 
-        Dim index As Index(Of String) = list
+        Dim index As New Index(Of String)(list)
         Dim check As Integer
         Dim check2 As Integer
+
+        Call index.Delete("10000")
+        Call list.Remove("10000")
 
         For Each str As String In list
             If str Like index Then
