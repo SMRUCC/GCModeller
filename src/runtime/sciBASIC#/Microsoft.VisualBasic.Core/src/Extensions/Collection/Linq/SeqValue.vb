@@ -83,7 +83,7 @@ Namespace Linq
         ''' The position of this object value in the original sequence.
         ''' </summary>
         ''' <returns></returns>
-        Public Property i As Integer Implements IAddressOf.Address
+        Public Property i As Integer Implements IAddress(Of Integer).Address
         ''' <summary>
         ''' The Object data
         ''' </summary>

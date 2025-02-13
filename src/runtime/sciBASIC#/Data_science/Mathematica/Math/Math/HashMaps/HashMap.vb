@@ -1,61 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::089529aa3a6de7169fa31baf0ec5d8f6, Data_science\Mathematica\Math\Math\HashMaps\HashMap.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 363
-    '    Code Lines: 247 (68.04%)
-    ' Comment Lines: 57 (15.70%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 59 (16.25%)
-    '     File Size: 12.97 KB
+' Summaries:
 
 
-    '     Module HashMap
-    ' 
-    '         Function: (+2 Overloads) HashAP, (+2 Overloads) HashBKDR, (+2 Overloads) HashCMyMap, (+2 Overloads) HashDEK, (+2 Overloads) HashDJB
-    '                   (+2 Overloads) HashELF, (+2 Overloads) HashJS, (+2 Overloads) HashPJW, (+2 Overloads) HashRS, (+2 Overloads) HashSDBM
-    '                   (+2 Overloads) HashTimeMap
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 363
+'    Code Lines: 247 (68.04%)
+' Comment Lines: 57 (15.70%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 59 (16.25%)
+'     File Size: 12.97 KB
+
+
+'     Module HashMap
+' 
+'         Function: (+2 Overloads) HashAP, (+2 Overloads) HashBKDR, (+2 Overloads) HashCMyMap, (+2 Overloads) HashDEK, (+2 Overloads) HashDJB
+'                   (+2 Overloads) HashELF, (+2 Overloads) HashJS, (+2 Overloads) HashPJW, (+2 Overloads) HashRS, (+2 Overloads) HashSDBM
+'                   (+2 Overloads) HashTimeMap
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Numerics
-Imports System.Runtime.CompilerServices
 Imports UncheckedUInt64 = System.Numerics.BigInteger
 
 Namespace HashMaps
@@ -413,6 +411,24 @@ Namespace HashMaps
             End While
 
             Return nHash
+        End Function
+
+        ''' <summary>
+        ''' generate unique hashcode for a tuple object
+        ''' </summary>
+        ''' <param name="a">hashcode of one clr object.</param>
+        ''' <param name="b">hashcode of another clr object.</param>
+        ''' <returns></returns>
+        Public Function HashCodePair(a As Integer, b As Integer) As ULong
+            Dim hash As ULong = 17 ' 一个小的质数， 作为初始哈希值
+
+            Const prime1 As ULong = 2654435761 ' 一个大的质数
+            Const prime2 As ULong = 1597334677 ' 另一个大的质数
+
+            hash = hash * prime1 + CULng(a)
+            hash = hash * prime2 + CULng(b)
+
+            Return hash
         End Function
 #End Region
     End Module
