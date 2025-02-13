@@ -156,7 +156,7 @@ Namespace CatalogProfiling
                 .Select(Function(c) New SolidBrush(c)) _
                 .ToArray
             Dim indexRange As DoubleRange = New Double() {0, mapLevels - 1}
-            Dim y As Double = region.Top
+            Dim y As Double = region.Top - dh / 2
             Dim x As Double
             Dim categoryColors As LoopArray(Of SolidBrush) = Designer _
                 .GetColors("Set1:c8") _
@@ -221,7 +221,7 @@ Namespace CatalogProfiling
             Next
 
             ' draw sample labels
-            x = region.Left + dw / 2
+            x = region.Left + dw
             y += gap * 1.25
 
             ' Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
