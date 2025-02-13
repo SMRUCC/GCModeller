@@ -48,7 +48,15 @@ Namespace ComponentModel
             End Get
         End Property
 
-        Public Sub New()
+        Sub New()
+        End Sub
+
+        Sub New(capacity As Integer)
+            list = New Dictionary(Of Integer, T)(capacity)
+        End Sub
+
+        Sub New(items As IEnumerable(Of T))
+            Call ReplaceRange(items)
         End Sub
 
         Public Sub Clear()
@@ -93,7 +101,14 @@ Namespace ComponentModel
         End Sub
 
         Public Function IndexOf(item As T) As Integer
+            If Not list.ContainsKey(item.Address) Then
+                Return -1
+            End If
             Return item.Address
+        End Function
+
+        Public Function Contains(item As T) As Boolean
+            Return list.ContainsKey(item.Address)
         End Function
 
         Public Sub Remove(item As T)
