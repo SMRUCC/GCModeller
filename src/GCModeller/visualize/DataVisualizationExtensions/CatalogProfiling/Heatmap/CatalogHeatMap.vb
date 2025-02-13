@@ -213,7 +213,7 @@ Namespace CatalogProfiling
                         x += dw
                     Next
 
-                    g.DrawString(id, pathwayNameFont, foreColor, New PointF(x + 10, y))
+                    g.DrawString(id, pathwayNameFont, foreColor, New PointF(x + 10, y + dh / 3))
                     y += dh
                 Next
 
@@ -222,7 +222,7 @@ Namespace CatalogProfiling
 
             ' draw sample labels
             x = region.Left + dw / 2
-            y += gap * 2
+            y += gap * 1.25
 
             ' Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
 
