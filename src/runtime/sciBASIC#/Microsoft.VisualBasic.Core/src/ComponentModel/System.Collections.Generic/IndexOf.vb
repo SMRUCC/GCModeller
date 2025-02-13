@@ -466,7 +466,7 @@ Namespace ComponentModel.Collection
         End Operator
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of SeqValue(Of T)) Implements IEnumerable(Of SeqValue(Of T)).GetEnumerator
-            For Each o As SeqValue(Of T) In index
+            For Each o As SeqValue(Of T) In index.AsEnumerable
                 ' 20231227
                 ' handling of the delete operation result
                 If o.value Is Nothing AndAlso o.i = 0 Then
