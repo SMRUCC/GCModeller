@@ -54,6 +54,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
@@ -113,6 +114,7 @@ Public Module Analysis
                                 Return a.ToArray
                             End Function)
 
+        Call g.ApplyAnalysis
         Call VBDebugger.EchoLine(" ~ done!")
 
         Return New Result With {
@@ -151,7 +153,7 @@ Public Module Analysis
 
     <Extension>
     Private Function createGraph(mat As NumericMatrix, samples As Matrix, umapLayout As Boolean) As NetworkGraph
-        Dim geneId As String() = samples.expression.Keys.ToArray
+        Dim geneId As String() = samples.expression.Keys.UniqueNames.ToArray
         Dim g As New NetworkGraph
         Dim umap As Umap = Nothing
         Dim layout As Double()() = Nothing
