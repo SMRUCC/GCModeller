@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
@@ -143,6 +144,7 @@ Public Module Analysis
 
                 If Not v Is Nothing Then
                     v.data("module_set") = module_set.Key
+                    v.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = module_set.Key
                     v.data.color = color
                 End If
             Next
