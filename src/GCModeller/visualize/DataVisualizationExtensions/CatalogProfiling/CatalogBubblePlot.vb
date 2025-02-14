@@ -267,7 +267,7 @@ Namespace CatalogProfiling
             Dim bubbles As New Bubble(serials, False, True, theme) With {
                 .xlabel = xlabel,
                 .ylabel = ylabel,
-                .main = main,
+                .main = main
             }
 
             Call bubbles.Plot(g, region)
