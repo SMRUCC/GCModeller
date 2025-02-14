@@ -235,7 +235,7 @@ Namespace CatalogProfiling
 
             Call $"Run catalog profile bar plot with size={size}, dpi={dpi}".__DEBUG_ECHO
 
-            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal, driver, $"{dpi},{dpi}")
+            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal, driver, dpi)
         End Function
 
         ''' <summary>
