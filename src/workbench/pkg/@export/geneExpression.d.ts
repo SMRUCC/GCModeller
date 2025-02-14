@@ -420,8 +420,11 @@ declare namespace geneExpression {
     * > row/max(row)
     * 
      * @param matrix a gene expression matrix
+     * @param median normalize the matrix row by median value of each row?
+     * 
+     * + default value Is ``false``.
    */
-   function relative(matrix: object): object;
+   function relative(matrix: object, median?: boolean): object;
    /**
     * save the cmeans expression pattern result to local file
     * 

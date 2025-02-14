@@ -27,7 +27,8 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>relative</strong>(<i>matrix</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>relative</strong>(<i>matrix</i>,
+    <i>median</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -36,6 +37,10 @@
             
 <dt>matrix</dt>
 <dd><p>a gene expression matrix. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>median</dt>
+<dd><p>normalize the matrix row by median value of each row?. [as boolean]</p></dd>
 
         </table>
 
