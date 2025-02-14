@@ -283,7 +283,10 @@ Namespace CatalogProfiling
                 .Y = (padding.Top - fsize.Height) / 2
             }
 
-            Call g.DrawString(main, titleFont, Brushes.Black, tloc)
+            If Not main.StringEmpty Then
+                Call g.DrawString(main, titleFont, Brushes.Black, tloc)
+            End If
+
             Call MultipleBubble.drawRadiusLegend(
                 g:=g,
                 impacts:=radiusData,
