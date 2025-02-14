@@ -255,27 +255,23 @@ Namespace CatalogProfiling
                 serials = displays.filterLabelDisplays(serials)
             End If
             If showBubbleBorder Then
-                bubbleBorder = New Stroke With {
+                theme.shapeStroke = New Stroke With {
                     .dash = DashStyle.Solid,
                     .fill = "lightgray",
                     .width = 1.5
-                }
+                }.CSSValue
             End If
 
-            Dim plot As GraphicsData = Bubble.Plot(
-                serials,
-                padding:=theme.padding,
-                size:=$"{region.Size.Width},{region.Size.Height}",
-                legend:=False,
-                xlabel:=xlabel,
-                ylabel:=ylabel,
-                bubbleBorder:=bubbleBorder,
-                strokeColorAsMainColor:=True,
-                axisLabelFontCSS:=CSSFont.Win10NormalLarge,
-                positiveRangeY:=True
-            )
+            theme.drawLegend = False
 
-            Call g.DrawImageUnscaled(plot, New Point)
+            Dim bubbles As New Bubble(serials, False, True, theme) With {
+                .xlabel = xlabel,
+                .ylabel = ylabel,
+                .main = main,
+            }
+
+            Call bubbles.Plot(g, region)
+
             Call DrawBubbleLegends(g, serials, region)
 
             Dim css As CSSEnvirnment = g.LoadEnvironment
