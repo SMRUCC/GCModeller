@@ -217,6 +217,11 @@ Module OBO_DAG
         Return data
     End Function
 
+    ''' <summary>
+    ''' removes all terms which is ``is_obsolete``
+    ''' </summary>
+    ''' <param name="obo"></param>
+    ''' <returns></returns>
     <ExportAPI("filter.is_obsolete")>
     Public Function filterObsolete(obo As GO_OBO) As GO_OBO
         obo = New GO_OBO With {
@@ -230,6 +235,14 @@ Module OBO_DAG
         Return obo
     End Function
 
+    ''' <summary>
+    ''' make data filter of the ``property_value`` in a term
+    ''' </summary>
+    ''' <param name="obo"></param>
+    ''' <param name="excludes">
+    ''' the property name list for make excludes
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("filter_properties")>
     Public Function filterProperty(obo As GO_OBO, excludes As String()) As GO_OBO
         If excludes.IsNullOrEmpty Then
@@ -258,10 +271,17 @@ Module OBO_DAG
         Return obo
     End Function
 
+    ''' <summary>
+    ''' write ontology file as ascii plant text file
+    ''' </summary>
+    ''' <param name="obo"></param>
+    ''' <param name="path"></param>
+    ''' <param name="excludes"></param>
+    ''' <returns></returns>
     <ExportAPI("write.obo")>
-    Public Function saveObo(obo As GO_OBO, path As String, Optional excludes As String() = Nothing) As Boolean
+    Public Function saveObo(obo As GO_OBO, path As String, Optional excludes As String() = Nothing, Optional strip_namespace_prefix As String = Nothing) As Boolean
         Using file As Stream = path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
-            Call obo.Save(file, excludes)
+            Call obo.Save(file, excludes, strip_namespace_prefix)
         End Using
 
         Return True

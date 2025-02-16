@@ -73,10 +73,13 @@ Namespace IO
         <Extension>
         Public Iterator Function ToLines(Of T As Class)(target As T,
                                                         schema As Dictionary(Of BindProperty(Of Field)),
-                                                        Optional excludes As Index(Of String) = Nothing) As IEnumerable(Of String)
+                                                        Optional excludes As Index(Of String) = Nothing,
+                                                        Optional strip_namespace_prefix As String = Nothing) As IEnumerable(Of String)
             Dim name$
             Dim value As Object
-            Dim vals As Array
+            Dim vals As Array = Nothing
+            Dim pvalue As IEnumerable(Of String)
+            Dim property_namespace_prefix As Boolean = strip_namespace_prefix Is Nothing
 
             For Each [property] As BindProperty(Of Field) In schema.Values
                 If [property].Type Is GetType(String) Then
@@ -115,10 +118,19 @@ Namespace IO
                         End If
                     End If
 
-                    Dim pvalue = From o As Object
+                    If property_namespace_prefix OrElse name <> "property_value" Then
+                        ' do nothing when reserved namespace prefix
+                        pvalue = From o As Object
                                  In vals
                                  Let str As String = any.ToString(o)
                                  Select String.Format("{0}: {1}", name, str)
+                    Else
+                        ' trim namespace prefix for property valye
+                        pvalue = From o As Object
+                                 In vals.AsParallel
+                                 Let str As String = any.ToString(o).Replace(strip_namespace_prefix, "")
+                                 Select String.Format("{0}: {1}", name, str)
+                    End If
 
                     For Each line As String In pvalue
                         Yield line
