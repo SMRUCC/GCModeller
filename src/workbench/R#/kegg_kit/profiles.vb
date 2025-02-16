@@ -187,7 +187,7 @@ Module profiles
                     End If
                 Next
 
-                If Not catProfiles.isEmpty Then
+                If Not catProfiles.is_empty Then
                     profiles.catalogs(catalog.Key) = catProfiles
                 End If
             Next

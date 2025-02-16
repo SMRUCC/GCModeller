@@ -75,7 +75,7 @@ Namespace ComponentModel.Annotation
         ''' does the <see cref="profile"/> is empty?
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property isEmpty As Boolean Implements Language.Default.IsEmpty.IsEmpty
+        Private ReadOnly Property isEmpty As Boolean Implements Language.Default.IsEmpty.IsEmpty
             Get
                 Return profile.IsNullOrEmpty
             End Get
