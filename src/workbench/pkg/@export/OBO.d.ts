@@ -19,6 +19,14 @@ declare namespace OBO {
       function is_obsolete(obo: object): object;
    }
    /**
+    * removes terms that associated with the given terms id directly
+    * 
+    * 
+     * @param obo -
+     * @param direct_parent reference id collection that will be filtered and filter theirs direct associations
+   */
+   function filter_direct_parent(obo: object, direct_parent: string): object;
+   /**
     * make data filter of the ``property_value`` in a term
     * 
     * 

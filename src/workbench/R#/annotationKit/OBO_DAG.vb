@@ -330,7 +330,13 @@ Module OBO_DAG
             .Where(Function(t)
                        If t.id Like parent_index Then
                            Return False
-                       ElseIf t.is_a.Any(Function(id) id Like parent_index) Then
+                       End If
+
+                       If t.is_a Is Nothing Then
+                           Return True
+                       End If
+
+                       If t.is_a.Any(Function(id) id Like parent_index) Then
                            Return False
                        Else
                            Return True
