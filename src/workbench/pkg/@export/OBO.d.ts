@@ -82,8 +82,10 @@ declare namespace OBO {
      * @param dag -
      * @param namespace 
      * + default value Is ``null``.
+     * @param env 
+     * + default value Is ``null``.
    */
-   function set_namespace(obo: object, dag: object, namespace?: string): object;
+   function set_namespace(obo: object, dag: object, namespace?: string, env?: object): object;
    /**
     * set property_value list to a term or obo file headers
     * 
