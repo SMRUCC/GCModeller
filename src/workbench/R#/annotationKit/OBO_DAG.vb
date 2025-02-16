@@ -272,6 +272,91 @@ Module OBO_DAG
     End Function
 
     ''' <summary>
+    ''' set remakrs comment text into the header of the obo file object.
+    ''' </summary>
+    ''' <param name="obo"></param>
+    ''' <param name="remarks"></param>
+    ''' <param name="append"></param>
+    ''' <returns></returns>
+    <ExportAPI("set_remarks")>
+    Public Function setRemark(obo As GO_OBO, remarks As String(), Optional append As Boolean = True) As GO_OBO
+        If obo Is Nothing Then
+            Call "the given obo object for set header remarks is nothing.".Warning
+            Return Nothing
+        ElseIf obo.headers Is Nothing Then
+            obo.headers = New header
+        End If
+
+        If Not append Then
+            obo.headers.Remark = remarks
+        Else
+            obo.headers.Remark = obo.headers.Remark.JoinIterates(remarks).ToArray
+        End If
+
+        Return obo
+    End Function
+
+    ''' <summary>
+    ''' set property_value list to a term or obo file headers
+    ''' 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="property_value"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("set_propertyValue")>
+    Public Function setPropertyValues(x As Object, <RListObjectArgument> property_value As list,
+                                      Optional append As Boolean = True,
+                                      Optional env As Environment = Nothing) As Object
+
+        Dim list_vals As Dictionary(Of String, String()) = property_value.AsGeneric(Of String())(env)
+        Dim vals As String() = {}
+
+        If list_vals IsNot Nothing Then
+            vals = list_vals _
+                .Select(Function(p)
+                            Return p.Value _
+                                .SafeQuery _
+                                .Select(Function(val) $"{p.Key} {val}")
+                        End Function) _
+                .IteratesALL _
+                .ToArray
+        End If
+
+        If TypeOf x Is GO_OBO Then
+            Dim obo As GO_OBO = x
+
+            If obo.headers Is Nothing Then
+                obo.headers = New header
+            End If
+            If append Then
+                obo.headers.property_value = obo.headers.property_value _
+                    .JoinIterates(vals) _
+                    .ToArray
+            Else
+                obo.headers.property_value = vals
+            End If
+
+            Return obo
+        ElseIf TypeOf x Is Term Then
+            Dim term As Term = x
+
+            If append Then
+                term.property_value = term.property_value _
+                    .JoinIterates(vals) _
+                    .ToArray
+            Else
+                term.property_value = vals
+            End If
+
+            Return term
+        Else
+            Return Message.InCompatibleType(GetType(GO_OBO), x.GetType, env)
+        End If
+    End Function
+
+    ''' <summary>
     ''' write ontology file as ascii plant text file
     ''' </summary>
     ''' <param name="obo"></param>
