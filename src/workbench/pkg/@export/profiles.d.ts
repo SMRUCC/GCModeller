@@ -62,13 +62,17 @@ declare namespace profiles {
           * Create catalog profiles data for GO enrichment result its data visualization.
           * 
           * 
-           * @param enrichments -
+           * @param enrichments the kobas @``T:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm`` or gcmodeller @``T:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult``.
            * @param goDb -
            * @param top display the top n enriched GO terms.
            * 
            * + default value Is ``10``.
+           * @param pvalue_cut 
+           * + default value Is ``1``.
+           * @param env 
+           * + default value Is ``null``.
          */
-         function profile(enrichments: object, goDb: object, top?: object): object;
+         function profile(enrichments: any, goDb: object, top?: object, pvalue_cut?: number, env?: object): object;
       }
    }
    module kegg {

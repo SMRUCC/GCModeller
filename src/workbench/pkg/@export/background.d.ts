@@ -119,10 +119,12 @@ declare namespace background {
         *  applied via the ``enrichment`` function.
         * 
         * + default value Is ``false``.
+        * @param verbose_progress 
+        * + default value Is ``true``.
         * @param env 
         * + default value Is ``null``.
       */
-      function background(dag: object, flat?: boolean, env?: object): object;
+      function background(dag: object, flat?: boolean, verbose_progress?: boolean, env?: object): object;
    }
    module geneSet {
       /**
