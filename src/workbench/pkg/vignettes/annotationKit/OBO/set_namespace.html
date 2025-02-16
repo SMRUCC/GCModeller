@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title></title>
+    <title>set the namespace of the obo terms</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>ontologyNodes {OBO}</td>
+                <td>set_namespace {OBO}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2></h2>
+        <h2>set the namespace of the obo terms</h2>
 
         <h3>Description</h3>
 
@@ -27,15 +27,20 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>ontologyNodes</strong>(<i>tree</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>set_namespace</strong>(<i>obo</i>, <i>dag</i>,
+    <i>namespace</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>tree</dt>
-<dd><p><code>@</code>P:SMRUCC.genomics.Data.GeneOntology.obographs.DAGTree.dag<code></code> which could be build from the <code>ontologyTree</code> function. [as <a href="/vignettes/clr/Microsoft/VisualBasic/Data/GraphTheory/TermTree`1.html">TermTree`1</a>]</p></dd>
+<dt>obo</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/GO_OBO.html">GO_OBO</a>]</p></dd>
+
+
+<dt>dag</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/obographs/DAGTree.html">DAGTree</a>]</p></dd>
 
         </table>
 
@@ -50,7 +55,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/Microsoft/VisualBasic/Data/GraphTheory/TermTree`1.html">TermTree`1[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/Microsoft/VisualBasic/Data/GraphTheory/TermTree`1.html">TermTree`1[]</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/GO_OBO.html">GO_OBO</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/GO_OBO.html">GO_OBO</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

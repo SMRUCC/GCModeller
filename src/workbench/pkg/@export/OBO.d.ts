@@ -27,20 +27,30 @@ declare namespace OBO {
    */
    function filter_properties(obo: object, excludes: string): object;
    /**
+    * 
+    * 
+     * @param term ``@``P:SMRUCC.genomics.Data.GeneOntology.obographs.DAGTree.dag```` which could be build from the ``ontologyTree`` function.
    */
    function lineage_term(term: object): object;
    /**
    */
    function obo_terms(obo: object): object;
    /**
+    * 
+    * 
+     * @param tree ``@``P:SMRUCC.genomics.Data.GeneOntology.obographs.DAGTree.dag```` which could be build from the ``ontologyTree`` function.
    */
    function ontologyLeafs(tree: object): object;
    /**
+    * 
+    * 
+     * @param tree ``@``P:SMRUCC.genomics.Data.GeneOntology.obographs.DAGTree.dag```` which could be build from the ``ontologyTree`` function.
    */
    function ontologyNodes(tree: object): object;
    /**
+     * @param verbose_progress default value Is ``true``.
    */
-   function ontologyTree(obo: object): object;
+   function ontologyTree(obo: object, verbose_progress?: boolean): object;
    module open {
       /**
        * open the ontology obo file reader
@@ -64,6 +74,16 @@ declare namespace OBO {
       */
       function obo(path: string): object;
    }
+   /**
+    * set the namespace of the obo terms
+    * 
+    * 
+     * @param obo -
+     * @param dag -
+     * @param namespace 
+     * + default value Is ``null``.
+   */
+   function set_namespace(obo: object, dag: object, namespace?: string): object;
    /**
     * set property_value list to a term or obo file headers
     * 
