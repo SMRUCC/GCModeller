@@ -56,6 +56,7 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures.Tree
 Imports Microsoft.VisualBasic.Data.GraphTheory
@@ -130,11 +131,11 @@ Module OBO_DAG
     End Function
 
     <ExportAPI("ontologyTree")>
-    Public Function ontologyTree(obo As GO_OBO) As TermTree(Of Term)
-        Dim hash = obo.CreateTermTable
+    Public Function ontologyTree(obo As GO_OBO, Optional verbose_progress As Boolean = True) As TermTree(Of Term)
+        Dim hash As Dictionary(Of String, Term) = obo.CreateTermTable
         Dim index As New Dictionary(Of String, TermTree(Of Term))
 
-        For Each term As Term In hash.Values
+        For Each term As Term In TqdmWrapper.Wrap(hash.Values, wrap_console:=verbose_progress)
             Dim is_a As is_a() = term.is_a _
                 .SafeQuery _
                 .Select(Function(si) New is_a(si)) _
