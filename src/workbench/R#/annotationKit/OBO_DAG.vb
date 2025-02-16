@@ -57,7 +57,6 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures.Tree
@@ -65,7 +64,6 @@ Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Data.GeneOntology.DAG
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Data.GeneOntology.obographs
 Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Models
@@ -317,6 +315,34 @@ Module OBO_DAG
         }
 
         Return obo
+    End Function
+
+    ''' <summary>
+    ''' removes terms that associated with the given terms id directly
+    ''' </summary>
+    ''' <param name="obo"></param>
+    ''' <param name="direct_parent">reference id collection that will be filtered and filter theirs direct associations</param>
+    ''' <returns></returns>
+    <ExportAPI("filter_direct_parent")>
+    Public Function filterDirectParent(obo As GO_OBO, direct_parent As String()) As GO_OBO
+        Dim parent_index As Index(Of String) = direct_parent
+        Dim terms = obo.terms.AsParallel _
+            .Where(Function(t)
+                       If t.id Like parent_index Then
+                           Return False
+                       ElseIf t.is_a.Any(Function(id) id Like parent_index) Then
+                           Return False
+                       Else
+                           Return True
+                       End If
+                   End Function) _
+            .ToArray
+
+        Return New GO_OBO With {
+            .headers = obo.headers,
+            .terms = terms,
+            .typedefs = obo.typedefs
+        }
     End Function
 
     ''' <summary>
