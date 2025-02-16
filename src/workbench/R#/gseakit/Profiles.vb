@@ -89,16 +89,37 @@ Public Module profiles
     ''' <summary>
     ''' Create catalog profiles data for GO enrichment result its data visualization.
     ''' </summary>
-    ''' <param name="enrichments"></param>
+    ''' <param name="enrichments">the kobas <see cref="EnrichmentTerm"/> or gcmodeller <see cref="EnrichmentResult"/>.</param>
     ''' <param name="goDb"></param>
     ''' <param name="top">display the top n enriched GO terms.</param>
     ''' <returns></returns>
     <ExportAPI("GO.enrichment.profile")>
-    Public Function GOEnrichmentProfiles(enrichments As EnrichmentTerm(), goDb As GO_OBO, Optional top% = 10, Optional pvalue_cut As Double = 1) As CatalogProfiles
-        Dim GO_terms = goDb.AsEnumerable.ToDictionary
+    <RApiReturn(GetType(CatalogProfiles))>
+    Public Function GOEnrichmentProfiles(<RRawVectorArgument>
+                                         enrichments As Object,
+                                         goDb As GO_OBO,
+                                         Optional top% = 10,
+                                         Optional pvalue_cut As Double = 1,
+                                         Optional env As Environment = Nothing) As Object
+
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of EnrichmentTerm)(enrichments, env)
+
+        If pull.isError Then
+            pull = pipeline.TryCreatePipeline(Of EnrichmentResult)(enrichments, env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            pull = pipeline.CreateFromPopulator(pull.populates(Of EnrichmentResult)(env).Converts.ToArray)
+        End If
+
+        Dim GO_terms As Dictionary(Of Term) = goDb.AsEnumerable.ToDictionary
         ' 在这里是不进行筛选的
         ' 筛选应该是发生在脚本之中
-        Dim profiles = enrichments.CreateEnrichmentProfiles(GO_terms, False, top, pvalue:=pvalue_cut)
+        Dim profiles As CatalogProfiles = pull _
+            .populates(Of EnrichmentTerm)(env) _
+            .CreateEnrichmentProfiles(GO_terms, False, top, pvalue:=pvalue_cut)
 
         Return profiles
     End Function
