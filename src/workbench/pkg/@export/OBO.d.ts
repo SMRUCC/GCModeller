@@ -64,6 +64,30 @@ declare namespace OBO {
       */
       function obo(path: string): object;
    }
+   /**
+    * set property_value list to a term or obo file headers
+    * 
+    * 
+     * @param x -
+     * @param property_value -
+     * @param append 
+     * + default value Is ``true``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function set_propertyValue(x: any, property_value: object, append?: boolean, env?: object): any;
+   /**
+    * set remakrs comment text into the header of the obo file object.
+    * 
+    * 
+     * @param obo -
+     * @param remarks -
+     * @param append -
+     * 
+     * + default value Is ``true``.
+   */
+   function set_remarks(obo: object, remarks: string, append?: boolean): object;
    module write {
       /**
        * write ontology file as ascii plant text file
@@ -76,7 +100,9 @@ declare namespace OBO {
         * + default value Is ``null``.
         * @param strip_namespace_prefix 
         * + default value Is ``null``.
+        * @param strip_property_unit 
+        * + default value Is ``false``.
       */
-      function obo(obo: object, path: string, excludes?: string, strip_namespace_prefix?: string): boolean;
+      function obo(obo: object, path: string, excludes?: string, strip_namespace_prefix?: string, strip_property_unit?: boolean): boolean;
    }
 }
