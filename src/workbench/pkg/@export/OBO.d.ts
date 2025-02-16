@@ -69,14 +69,16 @@ declare namespace OBO {
     * 
     * 
      * @param x -
-     * @param property_value -
      * @param append 
      * + default value Is ``true``.
+     * @param property_value -
+     * 
+     * + default value Is ``null``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function set_propertyValue(x: any, property_value: object, append?: boolean, env?: object): any;
+   function set_propertyValue(x: any, append?: boolean, property_value?: object, env?: object): any;
    /**
     * set remakrs comment text into the header of the obo file object.
     * 
