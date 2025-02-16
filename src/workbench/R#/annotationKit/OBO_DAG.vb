@@ -306,8 +306,10 @@ Module OBO_DAG
     ''' <returns></returns>
     ''' 
     <ExportAPI("set_propertyValue")>
-    Public Function setPropertyValues(x As Object, <RListObjectArgument> property_value As list,
+    Public Function setPropertyValues(x As Object,
                                       Optional append As Boolean = True,
+                                      <RListObjectArgument>
+                                      Optional property_value As list = Nothing,
                                       Optional env As Environment = Nothing) As Object
 
         Dim list_vals As Dictionary(Of String, String()) = property_value.AsGeneric(Of String())(env)
