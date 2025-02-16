@@ -94,11 +94,11 @@ Public Module profiles
     ''' <param name="top">display the top n enriched GO terms.</param>
     ''' <returns></returns>
     <ExportAPI("GO.enrichment.profile")>
-    Public Function GOEnrichmentProfiles(enrichments As EnrichmentTerm(), goDb As GO_OBO, Optional top% = 10) As CatalogProfiles
+    Public Function GOEnrichmentProfiles(enrichments As EnrichmentTerm(), goDb As GO_OBO, Optional top% = 10, Optional pvalue_cut As Double = 1) As CatalogProfiles
         Dim GO_terms = goDb.AsEnumerable.ToDictionary
         ' 在这里是不进行筛选的
         ' 筛选应该是发生在脚本之中
-        Dim profiles = enrichments.CreateEnrichmentProfiles(GO_terms, False, top, 1)
+        Dim profiles = enrichments.CreateEnrichmentProfiles(GO_terms, False, top, pvalue:=pvalue_cut)
 
         Return profiles
     End Function
