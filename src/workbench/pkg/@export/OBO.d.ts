@@ -11,10 +11,19 @@
 declare namespace OBO {
    module filter {
       /**
+       * removes all terms which is ``is_obsolete``
+       * 
+       * 
+        * @param obo -
       */
       function is_obsolete(obo: object): object;
    }
    /**
+    * make data filter of the ``property_value`` in a term
+    * 
+    * 
+     * @param obo -
+     * @param excludes the property name list for make excludes
    */
    function filter_properties(obo: object, excludes: string): object;
    /**
@@ -57,8 +66,17 @@ declare namespace OBO {
    }
    module write {
       /**
-        * @param excludes default value Is ``null``.
+       * write ontology file as ascii plant text file
+       * 
+       * 
+        * @param obo -
+        * @param path -
+        * @param excludes -
+        * 
+        * + default value Is ``null``.
+        * @param strip_namespace_prefix 
+        * + default value Is ``null``.
       */
-      function obo(obo: object, path: string, excludes?: string): boolean;
+      function obo(obo: object, path: string, excludes?: string, strip_namespace_prefix?: string): boolean;
    }
 }

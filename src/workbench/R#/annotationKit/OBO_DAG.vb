@@ -279,9 +279,13 @@ Module OBO_DAG
     ''' <param name="excludes"></param>
     ''' <returns></returns>
     <ExportAPI("write.obo")>
-    Public Function saveObo(obo As GO_OBO, path As String, Optional excludes As String() = Nothing, Optional strip_namespace_prefix As String = Nothing) As Boolean
+    Public Function saveObo(obo As GO_OBO, path As String,
+                            Optional excludes As String() = Nothing,
+                            Optional strip_namespace_prefix As String = Nothing,
+                            Optional strip_property_unit As Boolean = False) As Boolean
+
         Using file As Stream = path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
-            Call obo.Save(file, excludes, strip_namespace_prefix)
+            Call obo.Save(file, excludes, strip_namespace_prefix, strip_property_unit)
         End Using
 
         Return True

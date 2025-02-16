@@ -74,7 +74,8 @@ Namespace IO
         Public Iterator Function ToLines(Of T As Class)(target As T,
                                                         schema As Dictionary(Of BindProperty(Of Field)),
                                                         Optional excludes As Index(Of String) = Nothing,
-                                                        Optional strip_namespace_prefix As String = Nothing) As IEnumerable(Of String)
+                                                        Optional strip_namespace_prefix As String = Nothing,
+                                                        Optional strip_property_unit As Boolean = False) As IEnumerable(Of String)
             Dim name$
             Dim value As Object
             Dim vals As Array = Nothing
@@ -121,15 +122,15 @@ Namespace IO
                     If property_namespace_prefix OrElse name <> "property_value" Then
                         ' do nothing when reserved namespace prefix
                         pvalue = From o As Object
-                                 In vals
+                                 In vals.AsParallel
                                  Let str As String = any.ToString(o)
-                                 Select String.Format("{0}: {1}", name, str)
+                                 Select String.Format("{0}: {1}", name, If(strip_property_unit, str.stripUnit, str))
                     Else
                         ' trim namespace prefix for property valye
                         pvalue = From o As Object
                                  In vals.AsParallel
                                  Let str As String = any.ToString(o).Replace(strip_namespace_prefix, "")
-                                 Select String.Format("{0}: {1}", name, str)
+                                 Select String.Format("{0}: {1}", name, If(strip_property_unit, str.stripUnit, str))
                     End If
 
                     For Each line As String In pvalue
@@ -137,6 +138,21 @@ Namespace IO
                     Next
                 End If
             Next
+        End Function
+
+        <Extension>
+        Private Function stripUnit(value As String) As String
+            Static xsd_units As String() = {"xsd:string", "xsd:double", "xsd:boolean", "xsd:integer"}
+
+            If value Is Nothing Then
+                Return value
+            End If
+
+            For Each unit As String In xsd_units
+                value = value.Replace(unit, "")
+            Next
+
+            Return value.Trim
         End Function
 
         ''' <summary>

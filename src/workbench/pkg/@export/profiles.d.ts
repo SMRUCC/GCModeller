@@ -69,10 +69,13 @@ declare namespace profiles {
            * + default value Is ``10``.
            * @param pvalue_cut 
            * + default value Is ``1``.
+           * @param sort sort of the namespace
+           * 
+           * + default value Is ``true``.
            * @param env 
            * + default value Is ``null``.
          */
-         function profile(enrichments: any, goDb: object, top?: object, pvalue_cut?: number, env?: object): object;
+         function profile(enrichments: any, goDb: object, top?: object, pvalue_cut?: number, sort?: boolean, env?: object): object;
       }
    }
    module kegg {
