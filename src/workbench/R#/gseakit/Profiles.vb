@@ -92,6 +92,9 @@ Public Module profiles
     ''' <param name="enrichments">the kobas <see cref="EnrichmentTerm"/> or gcmodeller <see cref="EnrichmentResult"/>.</param>
     ''' <param name="goDb"></param>
     ''' <param name="top">display the top n enriched GO terms.</param>
+    ''' <param name="sort">
+    ''' sort of the namespace
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("GO.enrichment.profile")>
     <RApiReturn(GetType(CatalogProfiles))>
@@ -100,9 +103,10 @@ Public Module profiles
                                          goDb As GO_OBO,
                                          Optional top% = 10,
                                          Optional pvalue_cut As Double = 1,
+                                         Optional sort As Boolean = True,
                                          Optional env As Environment = Nothing) As Object
 
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of EnrichmentTerm)(enrichments, env)
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of EnrichmentTerm)(enrichments, env, suppress:=True)
 
         If pull.isError Then
             pull = pipeline.TryCreatePipeline(Of EnrichmentResult)(enrichments, env)
@@ -119,7 +123,13 @@ Public Module profiles
         ' 筛选应该是发生在脚本之中
         Dim profiles As CatalogProfiles = pull _
             .populates(Of EnrichmentTerm)(env) _
-            .CreateEnrichmentProfiles(GO_terms, False, top, pvalue:=pvalue_cut)
+            .CreateEnrichmentProfiles(
+                GO_terms:=GO_terms,
+                usingCorrected:=False,
+                top:=top,
+                pvalue:=pvalue_cut,
+                sort:=sort
+        )
 
         Return profiles
     End Function
