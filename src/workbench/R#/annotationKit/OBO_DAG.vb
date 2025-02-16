@@ -210,17 +210,25 @@ Module OBO_DAG
     ''' <param name="dag"></param>
     ''' <returns></returns>
     <ExportAPI("set_namespace")>
-    Public Function setNamespace(obo As GO_OBO, dag As DAGTree, Optional [namespace] As String() = Nothing) As GO_OBO
+    Public Function setNamespace(obo As GO_OBO, dag As DAGTree,
+                                 Optional [namespace] As String() = Nothing,
+                                 Optional env As Environment = Nothing) As GO_OBO
+
         Dim nsIndex As Index(Of String) = [namespace]
         Dim hash As Dictionary(Of String, Term) = obo.CreateTermTable
 
         If Not [namespace].IsNullOrEmpty Then
             nsIndex = [namespace]
         Else
+            Dim println = env.WriteLineHandler()
+
             nsIndex = obo.terms _
                 .Where(Function(a) a.is_a.IsNullOrEmpty) _
                 .Select(Function(a) a.name) _
                 .ToArray
+
+            Call println("Find the root node of the DAG tree as the namespace:")
+            Call println(nsIndex.Objects)
         End If
 
         obo.terms = obo.terms _
