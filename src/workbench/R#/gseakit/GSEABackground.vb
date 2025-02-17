@@ -1,66 +1,68 @@
 ﻿#Region "Microsoft.VisualBasic::3ed4ca94ad5ab065dbfb5a5cb13da13d, R#\gseakit\GSEABackground.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 986
-    '    Code Lines: 666 (67.55%)
-    ' Comment Lines: 223 (22.62%)
-    '    - Xml Docs: 94.62%
-    ' 
-    '   Blank Lines: 97 (9.84%)
-    '     File Size: 40.37 KB
+' Summaries:
 
 
-    ' Module GSEABackground
-    ' 
-    '     Function: appendIdTerms, asGenesetList, assembleBackground, BackgroundIDmapping, backgroundSummary
-    '               backgroundTabular, clusterIDs, ClusterIntersections, create_metpa, CreateCluster
-    '               createGene, CreateKOBackground, CreateKOReference, DAGbackground, (+2 Overloads) geneSetAnnotation
-    '               GetCluster, getMemberItem, (+2 Overloads) id_translation, KEGGCompoundBriteClassBackground, KOTable
-    '               metabolismBackground, MetaEnrichBackground, moleculeIDs, ParsePathwayObject, PrintBackground
-    '               ReadBackground, WriteBackground
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 986
+'    Code Lines: 666 (67.55%)
+' Comment Lines: 223 (22.62%)
+'    - Xml Docs: 94.62%
+' 
+'   Blank Lines: 97 (9.84%)
+'     File Size: 40.37 KB
+
+
+' Module GSEABackground
+' 
+'     Function: appendIdTerms, asGenesetList, assembleBackground, BackgroundIDmapping, backgroundSummary
+'               backgroundTabular, clusterIDs, ClusterIntersections, create_metpa, CreateCluster
+'               createGene, CreateKOBackground, CreateKOReference, DAGbackground, (+2 Overloads) geneSetAnnotation
+'               GetCluster, getMemberItem, (+2 Overloads) id_translation, KEGGCompoundBriteClassBackground, KOTable
+'               metabolismBackground, MetaEnrichBackground, moleculeIDs, ParsePathwayObject, PrintBackground
+'               ReadBackground, WriteBackground
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -169,40 +171,50 @@ Public Module GSEABackground
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("dag.background")>
-    Public Function DAGbackground(dag As GO_OBO, Optional flat As Boolean = False, Optional env As Environment = Nothing) As Background
+    Public Function DAGbackground(dag As GO_OBO,
+                                  Optional flat As Boolean = False,
+                                  Optional verbose_progress As Boolean = True,
+                                  Optional env As Environment = Nothing) As Background
+
         Dim getCluster = dag.terms.GOClusters
         Dim background = dag.terms _
             .Select(Function(t) t.id) _
             .CreateGOGeneric(getCluster, dag.terms.Length)
 
         If flat Then
-            Dim ontology As New GeneOntology.DAG.Graph(DirectCast(dag, GO_OBO).AsEnumerable)
-            Dim index = background.GetClusterTable
-            Dim clusters As New List(Of Cluster)
-            Dim n As Integer = background.clusters.Length
-            Dim d As Integer = n / 20
-            Dim pc As New PerformanceCounter
-            Dim i As i32 = 0
-            Dim println = env.WriteLineHandler
-
-            Call pc.Set()
-
-            For Each cluster As Cluster In background.clusters
-                cluster = cluster.PullOntologyTerms(ontology, index)
-                clusters.Add(cluster)
-
-                If ++i Mod d = 0 Then
-                    Call println(pc.Mark($"({i}/{n})  extract DAG graph ... {(i / n * 100).ToString("F1")}% {cluster.names}").ToString)
-                End If
-            Next
-
-            background.clusters = clusters.ToArray
-            background.size = background.clusters.BackgroundSize
+            background = dag.flatDAGBackground(background, verbose_progress, env)
         End If
 
         background.name = dag.headers.Ontology
         background.id = background.name
         background.comments = dag.ToString
+
+        Return background
+    End Function
+
+    <Extension>
+    Private Function flatDAGBackground(dag As GO_OBO, background As Background, verbose_progress As Boolean, env As Environment)
+        Dim ontology As New GeneOntology.DAG.Graph(DirectCast(dag, GO_OBO).AsEnumerable)
+        Dim index = background.GetClusterTable
+        Dim clusters As New List(Of Cluster)
+        Dim n As Integer = background.clusters.Length
+        Dim d As Integer = n / 20
+        Dim pc As New PerformanceCounter
+        Dim i As i32 = 0
+        Dim println = env.WriteLineHandler
+        Dim bar As Tqdm.ProgressBar = Nothing
+
+        Call pc.Set()
+
+        For Each cluster As Cluster In TqdmWrapper.Wrap(background.clusters, bar:=bar, wrap_console:=verbose_progress)
+            cluster = cluster.PullOntologyTerms(ontology, index)
+            clusters.Add(cluster)
+
+            Call bar.SetLabel(pc.Mark(cluster.names).ToString)
+        Next
+
+        background.clusters = clusters.ToArray
+        background.size = background.clusters.BackgroundSize
 
         Return background
     End Function

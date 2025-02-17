@@ -783,7 +783,8 @@ Module visualPlot
             labelRightAlignment:=False,
             valueFormat:=args.getValue("format", env, "F2"),
             colorSchema:=args.getValue("colors", env, "#E41A1C,#377EB8,#4DAF4A,#984EA3,#FF7F00,#CECE00"),
-            dpi:=args.getValue("dpi", env, 300)
+            dpi:=args.getValue("dpi", env, 300),
+            driver:=env.getDriver
         )
     End Function
 

@@ -3,22 +3,30 @@
 .SH NAME
 GO.enrichment.profile \- Create catalog profiles data for GO enrichment result its data visualization.
 .SH SYNOPSIS
-\fIGO.enrichment.profile(\fBenrichments\fR as <generic> EnrichmentTerm[], 
+\fIGO.enrichment.profile(\fBenrichments\fR as any, 
 \fBgoDb\fR as <generic> GO_OBO, 
-\fBtop\fR as integer = 10);\fR
+\fBtop\fR as integer = 10, 
+\fBpvalue_cut\fR as double = 1, 
+\fBsort\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 Create catalog profiles data for GO enrichment result its data visualization.
 .PP
 .SH OPTIONS
 .PP
-\fBenrichments\fB \fR\- -. 
+\fBenrichments\fB \fR\- the kobas @\fBT:SMRUCC.genomics.Analysis.Microarray.KOBAS.EnrichmentTerm\fR or gcmodeller @\fBT:SMRUCC.genomics.Analysis.HTS.GSEA.EnrichmentResult\fR.. 
 .PP
 .PP
 \fBgoDb\fB \fR\- -. 
 .PP
 .PP
 \fBtop\fB \fR\- display the top n enriched GO terms.. 
+.PP
+.PP
+\fBsort\fB \fR\- 
+ sort of the namespace
+. 
 .PP
 .SH SEE ALSO
 profiles

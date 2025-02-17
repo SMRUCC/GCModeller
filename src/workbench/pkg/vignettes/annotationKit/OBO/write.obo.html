@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>write.obo</title>
+    <title>write ontology file as ascii plant text file</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,23 +18,36 @@
             </tr>
         </table>
 
-        <h2>write.obo</h2>
+        <h2>write ontology file as ascii plant text file</h2>
 
         <h3>Description</h3>
 
-        write.obo
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>write.obo</strong>(<i>obo</i>, <i>path</i>,
-    <i>excludes</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+    <i>excludes</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>strip.namespace.prefix</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>strip.property.unit</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>obo</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/GO_OBO.html">GO_OBO</a>]</p></dd>
+
+
+<dt>path</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>excludes</dt>
+<dd><p>[as string]</p></dd>
+
         </table>
 
 

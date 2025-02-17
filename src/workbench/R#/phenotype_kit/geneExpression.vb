@@ -79,6 +79,7 @@ Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.ANOVA
+Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -897,19 +898,26 @@ Module geneExpression
     ''' normalize data by feature rows
     ''' </summary>
     ''' <param name="matrix">a gene expression matrix</param>
+    ''' <param name="median">
+    ''' normalize the matrix row by median value of each row?
+    ''' </param>
     ''' <returns></returns>
     ''' <remarks>
     ''' row/max(row)
     ''' </remarks>
     <ExportAPI("relative")>
-    Public Function relative(matrix As Matrix) As Matrix
+    Public Function relative(matrix As Matrix, Optional median As Boolean = False) As Matrix
         Return New Matrix With {
             .sampleID = matrix.sampleID,
             .expression = matrix.expression _
                 .Select(Function(gene)
+                            Dim factor As Double = If(median,
+                                gene.experiments.Median,
+                                gene.experiments.Max)
+
                             Return New DataFrameRow With {
                                 .geneID = gene.geneID,
-                                .experiments = New std_vec(gene.experiments) / gene.experiments.Max
+                                .experiments = New std_vec(gene.experiments) / factor
                             }
                         End Function) _
                 .ToArray

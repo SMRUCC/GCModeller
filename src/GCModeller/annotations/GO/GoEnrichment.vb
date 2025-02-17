@@ -120,26 +120,8 @@ Public Module GoEnrichment
                                         Optional isLocustag As Boolean = False,
                                         Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
 
-        Dim doProgress As Action(Of String)
-        Dim progress As ProgressBar = Nothing
-        Dim ETA$
         Dim termResult As New Value(Of EnrichmentResult)
         Dim genes As Integer
-
-        If showProgress Then
-            Dim tick As ProgressProvider
-
-            progress = New ProgressBar("Do enrichment...")
-            tick = New ProgressProvider(progress, genome.clusters.Length)
-            doProgress = Sub(id)
-                             ETA = $"{id}.... ETA: {tick.ETA().FormatTime}"
-                             progress.SetProgress(tick.StepProgress, ETA)
-                         End Sub
-        Else
-            doProgress = Sub()
-                             ' Do Nothing
-                         End Sub
-        End If
 
         If genome.size <= 0 Then
             genes = genome.clusters _
@@ -155,23 +137,17 @@ Public Module GoEnrichment
             Dim backgroundClusterTable As Dictionary(Of String, Cluster) = genome.GetClusterTable
 
             ' 一个cluster就是一个Go term
-            For Each cluster As Cluster In genome.clusters
+            For Each cluster As Cluster In Tqdm.Wrap(genome.clusters, wrap_console:=showProgress)
                 Dim newCluster = cluster.PullOntologyTerms(goClusters, backgroundClusterTable)
                 Dim enriched$() = newCluster _
                     .Intersect(.ByRef, isLocustag) _
                     .ToArray
-
-                Call doProgress(cluster.ID)
 
                 If Not (termResult = newCluster.calcResult(enriched, .Length, genes, outputAll)) Is Nothing Then
                     Yield termResult
                 End If
             Next
         End With
-
-        If Not progress Is Nothing Then
-            progress.Dispose()
-        End If
     End Function
 
     ''' <summary>
