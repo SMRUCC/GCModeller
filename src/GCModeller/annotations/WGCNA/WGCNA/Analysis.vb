@@ -162,7 +162,7 @@ Public Module Analysis
         Dim offset As i32 = 0
 
         If umapLayout Then
-            umap = New Umap(dimensions:=3, numberOfNeighbors:=32, localConnectivity:=2, customMapCutoff:=0.1)
+            umap = New Umap(dimensions:=3, numberOfNeighbors:=64, localConnectivity:=2, customMapCutoff:=0.45)
             umap.InitializeFit(mat.ArrayPack(deepcopy:=True))
             umap = umap.Step(1200)
             layout = umap.GetEmbedding
