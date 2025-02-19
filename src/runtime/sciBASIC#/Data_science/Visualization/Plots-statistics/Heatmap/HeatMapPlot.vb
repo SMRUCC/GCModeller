@@ -63,6 +63,7 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
@@ -86,8 +87,6 @@ Namespace Heatmap
         Dim dendrogramLayout As (A!, B!)
         Dim dataTable As Dictionary(Of String, DataSet)
 
-        Public Property logTransform As Double
-
         Public Property scaleMethod As DrawElements = DrawElements.None
         Public Property drawLabels As DrawElements = DrawElements.Both
         Public Property drawDendrograms As DrawElements = DrawElements.Rows
@@ -97,10 +96,32 @@ Namespace Heatmap
         Public Property LegendLayout As Layouts = Layouts.Horizon
         Public Property legendSize As New Size(600, 100)
 
-        Public Sub New(matrix As IEnumerable(Of DataSet), dlayout As SizeF, theme As Theme)
+        Public Sub New(matrix As IEnumerable(Of DataSet), rowLabelsMaxChars As Integer, dlayout As SizeF, theme As Theme)
             MyBase.New(theme)
 
             Me.array = matrix.ToArray
+
+            Dim keys As String() = array.Keys.ToArray
+
+            If rowLabelsMaxChars > 0 Then
+                keys = keys _
+                    .Select(Function(d)
+                                Dim label As String = If(
+                                    d.Length > rowLabelsMaxChars,
+                                    d.Substring(0, rowLabelsMaxChars) & "...",
+                                    d)
+
+                                Return label
+                            End Function) _
+                    .ToArray
+            End If
+
+            keys = keys.UniqueNames
+
+            For i As Integer = 0 To array.Length - 1
+                array(i) = New DataSet(keys(i), array(i).Properties)
+            Next
+
             Me.dendrogramLayout = (dlayout.Width, dlayout.Height)
             Me.dataTable = array.ToDictionary(Function(r) r.ID)
             Me.globalRange = array _
@@ -110,7 +131,7 @@ Namespace Heatmap
         End Sub
 
         Private Function configDendrogramCanvas(cluster As Cluster, [class] As Dictionary(Of String, String)) As DendrogramPanelV2
-            Return New DendrogramPanelV2(cluster, New Theme)
+            Return New DendrogramPanelV2(cluster, New Theme With {.gridStrokeX = .axisStroke}, showLeafLabels:=False)
         End Function
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
@@ -265,7 +286,7 @@ Namespace Heatmap
             Dim args As New PlotArguments With {
                 .colors = colors,
                 .left = left,
-                .levels = array.DataScaleLevels(keys, logTransform, scaleMethod, colors.Length),
+                .levels = array.DataScaleLevels(keys, -1, scaleMethod, colors.Length),
                 .top = top,
                 .ColOrders = colKeys,
                 .RowOrders = rowKeys,
@@ -282,7 +303,7 @@ Namespace Heatmap
 
             ' 绘制下方的矩阵的列标签
             If drawLabels = DrawElements.Both OrElse drawLabels = DrawElements.Cols Then
-                For Each key$ In keys
+                For Each key As String In keys
                     Dim sz = g.MeasureString(key$, colLabelFont) ' 得到斜边的长度
                     Dim dx! = sz.Width * std.Cos(angle) + sz.Height / 2
                     Dim dy! = sz.Width * std.Sin(angle) + (sz.Width / 2) * std.Cos(angle) - sz.Height

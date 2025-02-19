@@ -138,13 +138,10 @@ Public Module forceNetwork
                                   Optional Damping# = 0.83,
                                   Optional iterations% = 1000,
                                   Optional showProgress As Boolean = False,
-                                  Optional clearScreen As Boolean = False,
                                   Optional progressCallback As Action(Of String) = Nothing,
                                   Optional cancel As Value(Of Boolean) = Nothing) As NetworkGraph
 
         Dim physicsEngine As New ForceDirected2D(net, Stiffness, Repulsion, Damping)
-        Dim tick As Action(Of Integer)
-        Dim progress As ProgressBar = Nothing
         Dim args$ = New ForceDirectedArgs With {
                 .Damping = Damping,
                 .Iterations = iterations,
@@ -155,49 +152,19 @@ Public Module forceNetwork
         If cancel Is Nothing Then
             cancel = New Value(Of Boolean)(False)
         End If
-        If progressCallback Is Nothing Then
-            progressCallback = Sub()
 
-                               End Sub
-        End If
-
-        If showProgress Then
-            Dim ticking As ProgressProvider
-            Dim ETA$
-            Dim details$
-
-            progress = New ProgressBar("Do Force Directed Layout...", 1, CLS:=clearScreen)
-            ticking = New ProgressProvider(progress, iterations)
-            tick = Sub(i%)
-                       ETA = "ETA=" & ticking.ETA().FormatTime
-                       details = args & $" ({i}/{iterations}) " & ETA
-                       progress.SetProgress(ticking.StepProgress, details)
-                       progressCallback(details)
-                   End Sub
-        Else
-            tick = Sub(i%)
-                       Dim details = args & $" [{i}/{iterations}]"
-                       progressCallback(details)
-                   End Sub
-        End If
-
-        For i As Integer = 0 To iterations
+        For Each i As Integer In Tqdm.Range(0, iterations, wrap_console:=showProgress)
             If True = cancel.Value Then
                 Exit For
             End If
 
             Call physicsEngine.Calculate(0.05F)
-            Call tick(i)
         Next
 
         Call physicsEngine.EachNode(
             Sub(node As Node, point As LayoutPoint)
                 node.data.initialPostion = point.position
             End Sub)
-
-        If Not progress Is Nothing Then
-            Call progress.Dispose()
-        End If
 
         Return net
     End Function
