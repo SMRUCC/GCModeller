@@ -139,6 +139,37 @@ Namespace DAG
         ''' </summary>
         Const molecular_function$ = NameOf(molecular_function)
 
+        Public Function Family(id As String, root As String) As IEnumerable(Of InheritsChain)
+            Dim term As TermNode = DAG(id)
+
+            If term Is Nothing OrElse term.GO_term.name = root Then
+                Return {}
+            ElseIf term.is_a.IsNullOrEmpty Then
+                Dim break As New InheritsChain With {
+                    .Route = New List(Of TermNode) From {term}
+                }
+
+                Return {break}
+            Else
+                Dim routes As New List(Of InheritsChain)
+
+                For Each parent As is_a In term.is_a
+                    Dim chain As New InheritsChain With {
+                        .Route = New List(Of TermNode)
+                    }
+
+                    Dim parentChains = Family(parent.term_id, root).ToArray
+
+                    For Each c As InheritsChain In parentChains
+                        c.Route.Insert(0, parent.term)
+                        routes.Add(c)
+                    Next
+                Next
+
+                Return routes
+            End If
+        End Function
+
         ''' <summary>
         ''' Create family tree of the GO terms based on the ``is_a`` relationship.
         ''' </summary>
