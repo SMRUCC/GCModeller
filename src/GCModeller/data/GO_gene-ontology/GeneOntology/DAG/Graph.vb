@@ -159,7 +159,7 @@ Namespace DAG
                     }
 
                     If parent.term.GO_term.name = root Then
-                        chain.Route.Add(DAG(parent.term_id))
+                        chain.Route.Add(term)
                         routes.Add(chain)
                     Else
                         Dim parentChains = Family(parent.term_id, root).ToArray
