@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>A method for cast the kegg enrichment result to the</title>
+    <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,22 +13,24 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>KEGG.enrichment.profile {profiles}</td>
+                <td>dag_enrichment_profile {profiles}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>A method for cast the kegg enrichment result to the</h2>
+        <h2></h2>
 
         <h3>Description</h3>
 
-        <p>category profiles for run data visualization</p>
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>KEGG.enrichment.profile</strong>(<i>enrichments</i>,
-    <i>top</i> = <span style='color: green;'>10</span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>dag_enrichment_profile</strong>(<i>enrichments</i>, <i>obo</i>, <i>root</i>,
+    <i>top</i> = <span style='color: green;'>10</span>,
+    <i>pvalue.cut</i> = <span style='color: green;'>1</span>,
+    <i>sort</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -39,8 +41,24 @@
 <dd><p>-</p></dd>
 
 
+<dt>obo</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Data/GeneOntology/OBO/GO_OBO.html">GO_OBO</a>]</p></dd>
+
+
+<dt>root</dt>
+<dd><p>the root term id. [as string]</p></dd>
+
+
 <dt>top</dt>
 <dd><p>[as integer]</p></dd>
+
+
+<dt>pvalue.cut</dt>
+<dd><p>[as double]</p></dd>
+
+
+<dt>sort</dt>
+<dd><p>[as boolean]</p></dd>
 
 
 <dt>env</dt>
@@ -59,7 +77,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/CatalogProfiles.html">CatalogProfiles</a></li></ul>
+        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

@@ -197,11 +197,11 @@ Public Module profiles
                               Function(a)
                                   Dim list As New CatalogProfile
 
-                                  For Each term As EnrichmentTerm In a.Value
+                                  For Each term As EnrichmentTerm In a.Value.Where(Function(t) t.Pvalue <= pvalue_cut)
                                       Call list.Add(term.Term, term.P)
                                   Next
 
-                                  Return list
+                                  Return list.Take(top)
                               End Function)
         }
     End Function

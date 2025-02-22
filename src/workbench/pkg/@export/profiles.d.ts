@@ -44,6 +44,26 @@ declare namespace profiles {
    /**
    */
    function cut_profiles(profile: object, valueCut: number): object;
+   /**
+    * 
+    * 
+     * @param enrichments -
+     * @param obo -
+     * @param root the root term id
+     * @param top -
+     * 
+     * + default value Is ``10``.
+     * @param pvalue_cut -
+     * 
+     * + default value Is ``1``.
+     * @param sort -
+     * 
+     * + default value Is ``true``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function dag_enrichment_profile(enrichments: any, obo: object, root: string, top?: object, pvalue_cut?: number, sort?: boolean, env?: object): any;
    module flux {
       module map {
          /**
@@ -95,7 +115,8 @@ declare namespace profiles {
           * 
           * 
            * @param enrichments -
-           * @param top 
+           * @param top -
+           * 
            * + default value Is ``10``.
            * @param env -
            * 
