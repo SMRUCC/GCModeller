@@ -158,12 +158,17 @@ Namespace DAG
                         .Route = New List(Of TermNode)
                     }
 
-                    Dim parentChains = Family(parent.term_id, root).ToArray
+                    If parent.term.GO_term.name = root Then
+                        chain.Route.Add(DAG(parent.term_id))
+                        routes.Add(chain)
+                    Else
+                        Dim parentChains = Family(parent.term_id, root).ToArray
 
-                    For Each c As InheritsChain In parentChains
-                        c.Route.Insert(0, parent.term)
-                        routes.Add(c)
-                    Next
+                        For Each c As InheritsChain In parentChains
+                            c.Route.Insert(0, parent.term)
+                            routes.Add(c)
+                        Next
+                    End If
                 Next
 
                 Return routes
