@@ -1209,7 +1209,8 @@ Module geneExpression
     ''' </returns>
     <ExportAPI("peakCMeans")>
     Public Function cmeans(matrix As Matrix,
-                           Optional nsize$ = "3,3",
+                           <RRawVectorArgument>
+                           Optional nsize As Object = "3,3",
                            Optional threshold As Double = 10,
                            Optional fuzzification# = 2,
                            <RRawVectorArgument>
