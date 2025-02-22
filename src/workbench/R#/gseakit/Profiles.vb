@@ -181,7 +181,7 @@ Public Module profiles
             If chain.IsNullOrEmpty Then
                 category_label = "Unknown"
             Else
-                category_label = chain(0).Route(0).GO_term.name
+                category_label = chain(0).Family(0)
             End If
 
             If Not category.ContainsKey(category_label) Then
