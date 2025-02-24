@@ -80,8 +80,48 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.BinaryDumping
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.StoreProcedure
+
+    ''' <summary>
+    ''' a collection of the samples data
+    ''' </summary>
+    Public Class MLDataFrame
+
+        ''' <summary>
+        ''' a collection of the samples data.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property samples As SampleData()
+        ''' <summary>
+        ''' the column name of the <see cref="SampleData.features"/> 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property featureNames As String()
+        ''' <summary>
+        ''' the column name of the <see cref="SampleData.labels"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property featureLabels As String()
+
+        Public ReadOnly Property N_attributes As Integer
+            Get
+                Return featureNames.Length
+            End Get
+        End Property
+
+        Public ReadOnly Property N_tot As Integer
+            Get
+                Return samples.Length
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            Return featureNames.GetJson & " -> " & featureLabels.GetJson
+        End Function
+
+    End Class
 
     ''' <summary>
     ''' the in-memory sample data object
@@ -97,6 +137,12 @@ Namespace ComponentModel.StoreProcedure
         Public Property labels As Double()
 
         Sub New()
+        End Sub
+
+        Sub New(id As String, features As Double(), label As Double)
+            Me.id = id
+            Me.features = features
+            Me.labels = {label}
         End Sub
 
         ''' <summary>
