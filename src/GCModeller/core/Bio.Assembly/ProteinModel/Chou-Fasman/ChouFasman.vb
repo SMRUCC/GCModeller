@@ -61,7 +61,7 @@ Namespace ProteinModel.ChouFasmanRules
 
     ''' <summary>
     ''' @ - <see cref="SecondaryStructures.AlphaHelix"></see>;
-    ''' 1 - <see cref="SecondaryStructures.BetaSheet"></see>;
+    ''' - - <see cref="SecondaryStructures.BetaSheet"></see>;
     ''' ^ - <see cref="SecondaryStructures.BetaTurn"></see>;
     ''' &amp; - <see cref="SecondaryStructures.Coils"></see>
     ''' </summary>

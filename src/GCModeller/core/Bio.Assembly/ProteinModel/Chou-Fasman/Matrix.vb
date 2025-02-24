@@ -61,6 +61,7 @@ Imports SMRUCC.genomics.SequenceModel
 
 Namespace ProteinModel.ChouFasmanRules
 
+    <HideModuleName>
     Module MatrixAPI
 
         Public ReadOnly ChouFasmanTable As ChouFasmanParameter() = ChouFasmanParameter.ChouFasmanTable
@@ -74,6 +75,7 @@ Namespace ProteinModel.ChouFasmanRules
                           In window
                           Let prob = ChouFasmanTable(a)
                           Select GetValue(prob)).ToArray
+
             Return LQuery.Average
         End Function
     End Module
@@ -114,12 +116,20 @@ Namespace ProteinModel.ChouFasmanRules
         ''' 天冬酰胺（N）
         ''' </summary>
         ''' <remarks></remarks>
-        Shared ReadOnly _N As New ChouFasmanParameter With {.AminoAcid = Polypeptides.AminoAcid.Asparagine, .Pa = 67, .Pb = 89, .Pt = 156, .f = New Double() {0.161, 0.083, 0.191, 0.091}}
+        Shared ReadOnly _N As New ChouFasmanParameter With {
+            .AminoAcid = Polypeptides.AminoAcid.Asparagine,
+            .Pa = 67, .Pb = 89, .Pt = 156,
+            .f = New Double() {0.161, 0.083, 0.191, 0.091}
+        }
         ''' <summary>
         ''' 天冬氨酸（D）
         ''' </summary>
         ''' <remarks></remarks>
-        Shared ReadOnly _D As New ChouFasmanParameter With {.AminoAcid = Polypeptides.AminoAcid.AsparticAcid, .Pa = 101, .Pb = 54, .Pt = 146, .f = New Double() {0.147, 0.11, 0.179, 0.081}}
+        Shared ReadOnly _D As New ChouFasmanParameter With {
+            .AminoAcid = Polypeptides.AminoAcid.AsparticAcid,
+            .Pa = 101, .Pb = 54, .Pt = 146,
+            .f = New Double() {0.147, 0.11, 0.179, 0.081}
+        }
         ''' <summary>
         ''' 半胱氨酸（C）
         ''' </summary>
@@ -134,22 +144,22 @@ Namespace ProteinModel.ChouFasmanRules
         ''' 谷氨酰胺（Q）
         ''' </summary>
         ''' <remarks></remarks>
-        Private Shared ReadOnly _Q As New ChouFasmanParameter With {.AminoAcid = Polypeptides.AminoAcid.Glutamine, .Pa = 111, .Pb = 110, .Pt = 98, .f = New Double() {0.074, 0.098, 0.037, 0.098}}
+        Shared ReadOnly _Q As New ChouFasmanParameter With {.AminoAcid = Polypeptides.AminoAcid.Glutamine, .Pa = 111, .Pb = 110, .Pt = 98, .f = New Double() {0.074, 0.098, 0.037, 0.098}}
         ''' <summary>
         ''' 甘氨酸（G）
         ''' </summary>
         ''' <remarks></remarks>
-        Private Shared ReadOnly _G As New ChouFasmanParameter With {.AminoAcid = Polypeptides.AminoAcid.Glycine, .Pa = 57, .Pb = 75, .Pt = 156, .f = New Double() {0.102, 0.085, 0.19, 0.152}}
+        Shared ReadOnly _G As New ChouFasmanParameter With {.AminoAcid = Polypeptides.AminoAcid.Glycine, .Pa = 57, .Pb = 75, .Pt = 156, .f = New Double() {0.102, 0.085, 0.19, 0.152}}
         ''' <summary>
         ''' 组氨酸（H）
         ''' </summary>
         ''' <remarks></remarks>
-        Private Shared ReadOnly _H As New ChouFasmanParameter With {.AminoAcid = Polypeptides.AminoAcid.Histidine, .Pa = 100, .Pb = 87, .Pt = 95, .f = New Double() {0.14, 0.047, 0.093, 0.054}}
+        Shared ReadOnly _H As New ChouFasmanParameter With {.AminoAcid = Polypeptides.AminoAcid.Histidine, .Pa = 100, .Pb = 87, .Pt = 95, .f = New Double() {0.14, 0.047, 0.093, 0.054}}
         ''' <summary>
         ''' 异亮氨酸（I）
         ''' </summary>
         ''' <remarks></remarks>
-        Private Shared ReadOnly _I As New ChouFasmanParameter With {.AminoAcid = Polypeptides.AminoAcid.Isoleucine, .Pa = 108, .Pb = 160, .Pt = 47, .f = New Double() {0.043, 0.034, 0.013, 0.056}}
+        Shared ReadOnly _I As New ChouFasmanParameter With {.AminoAcid = Polypeptides.AminoAcid.Isoleucine, .Pa = 108, .Pb = 160, .Pt = 47, .f = New Double() {0.043, 0.034, 0.013, 0.056}}
         ''' <summary>
         ''' 亮氨酸（L）
         ''' </summary>
@@ -201,7 +211,11 @@ Namespace ProteinModel.ChouFasmanRules
         ''' <remarks></remarks>
         Private Shared ReadOnly _V As New ChouFasmanParameter With {.AminoAcid = Polypeptides.AminoAcid.Valine, .Pa = 106, .Pb = 170, .Pt = 50, .f = New Double() {0.062, 0.048, 0.028, 0.053}}
 
-        Public Shared ReadOnly Property ChouFasmanTable As ChouFasmanParameter() = {_A, _R, _N, _D, _C, _E, _Q, _G, _H, _I, _L, _K, _M, _F, _P, _S, _T, _W, _Y, _V}
+        Public Shared ReadOnly Property ChouFasmanTable As ChouFasmanParameter()
+            Get
+                Return {_A, _R, _N, _D, _C, _E, _Q, _G, _H, _I, _L, _K, _M, _F, _P, _S, _T, _W, _Y, _V}
+            End Get
+        End Property
 
 #End Region
     End Structure
