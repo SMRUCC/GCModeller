@@ -1,57 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::f988711a32d722dd0e849e0abc691369, core\Bio.Assembly\ProteinModel\Chou-Fasman\ChouFasmanAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 82
-    '    Code Lines: 49 (59.76%)
-    ' Comment Lines: 20 (24.39%)
-    '    - Xml Docs: 95.00%
-    ' 
-    '   Blank Lines: 13 (15.85%)
-    '     File Size: 3.77 KB
+' Summaries:
 
 
-    '     Module ChouFasman
-    ' 
-    '         Function: __sequenceData, (+2 Overloads) Calculate, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 82
+'    Code Lines: 49 (59.76%)
+' Comment Lines: 20 (24.39%)
+'    - Xml Docs: 95.00%
+' 
+'   Blank Lines: 13 (15.85%)
+'     File Size: 3.77 KB
+
+
+'     Module ChouFasman
+' 
+'         Function: __sequenceData, (+2 Overloads) Calculate, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports SMRUCC.genomics.SequenceModel
@@ -120,7 +121,7 @@ Namespace ProteinModel.ChouFasmanRules
             Return ChouFasman.Calculate(sequence.SequenceData)
         End Function
 
-        Public Function ToString(aa As AminoAcid()) As String
+        Public Sub Print(aa As AminoAcid(), str As TextWriter)
             Dim aa_Builder As New StringBuilder(aa.Length - 1)
             Dim st_Builder As New StringBuilder(aa.Length - 1)
 
@@ -129,14 +130,21 @@ Namespace ProteinModel.ChouFasmanRules
                 Call st_Builder.Append(ChouFasman.StructureTypesToChar(residue.StructureType))
             Next
 
-            Dim sb As New StringBuilder(String.Format("Key,Value" & vbCrLf & "SequenceData,{0}" & vbCrLf & "Structure,{1}", aa_Builder.ToString, st_Builder.ToString))
-
-            Call sb.AppendLine()
-            Call sb.AppendLine()
+            Call str.WriteLine(String.Format("Key,Value" & vbCrLf & "SequenceData,{0}" & vbCrLf & "Structure,{1}", aa_Builder.ToString, st_Builder.ToString))
 
             For Each item As KeyValuePair(Of SecondaryStructures, String) In ChouFasman.StructureTypesToChar
-                Call sb.AppendLine(String.Format("{0},{1}", item.Key.ToString, item.Value))
+                Call str.WriteLine(String.Format("{0},{1}", item.Key.ToString, item.Value))
             Next
+
+            Call str.Flush()
+        End Sub
+
+        Public Function ToString(aa As AminoAcid()) As String
+            Dim sb As New StringBuilder
+
+            Using writer As New StringWriter(sb)
+                Call Print(aa, writer)
+            End Using
 
             Return sb.ToString
         End Function
