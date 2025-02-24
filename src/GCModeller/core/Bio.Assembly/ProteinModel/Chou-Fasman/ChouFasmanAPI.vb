@@ -124,13 +124,16 @@ Namespace ProteinModel.ChouFasmanRules
                 Call st_Builder.Append(ChouFasman.StructureTypesToChar(residue.StructureType))
             Next
 
-            Dim sBuilder As StringBuilder = New StringBuilder(String.Format("Key,Value" & vbCrLf & "SequenceData,{0}" & vbCrLf & "Structure,{1}", aa_Builder.ToString, st_Builder.ToString))
-            Call sBuilder.AppendLine()
-            Call sBuilder.AppendLine()
+            Dim sb As New StringBuilder(String.Format("Key,Value" & vbCrLf & "SequenceData,{0}" & vbCrLf & "Structure,{1}", aa_Builder.ToString, st_Builder.ToString))
+
+            Call sb.AppendLine()
+            Call sb.AppendLine()
+
             For Each item As KeyValuePair(Of SecondaryStructures, String) In ChouFasman.StructureTypesToChar
-                Call sBuilder.AppendLine(String.Format("{0},{1}", item.Key.ToString, item.Value))
+                Call sb.AppendLine(String.Format("{0},{1}", item.Key.ToString, item.Value))
             Next
-            Return sBuilder.ToString
+
+            Return sb.ToString
         End Function
     End Module
 End Namespace
