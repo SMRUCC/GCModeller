@@ -173,6 +173,12 @@ Namespace ProteinModel.ChouFasmanRules
         End Sub
 
         Public Function ToString(aa As AminoAcid()) As String
+            Return (From a As AminoAcid
+                    In aa
+                    Select ChouFasman.StructureTypesToChar(a.StructureType)).JoinBy("")
+        End Function
+
+        Public Function Tabular(aa As AminoAcid()) As String
             Dim sb As New StringBuilder
 
             Using writer As New StringWriter(sb)

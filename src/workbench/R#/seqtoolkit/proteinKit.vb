@@ -1,9 +1,12 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("proteinKit")>
@@ -58,7 +61,32 @@ Module proteinKit
             Return Message.InCompatibleType(GetType(FastaSeq), prot.GetType, env)
         End If
 
+        Dim pool As FastaSeq() = seq.ToArray
 
+        If pool.Length = 1 Then
+            Return pool(0).ChouFasman(polyaa)
+        Else
+            Dim result As list = list.empty
+
+            For Each aa As FastaSeq In pool
+                Call result.unique_add(aa.Title, aa.ChouFasman(polyaa))
+            Next
+
+            Return result
+        End If
+    End Function
+
+    <Extension>
+    Private Function ChouFasman(prot As FastaSeq, polyaa As Boolean) As Object
+        Dim aa As AminoAcid() = ChouFasmanRules.Calculate(prot)
+
+        If polyaa Then
+            Return New StructuralAnnotation With {
+                .polyseq = aa
+            }
+        Else
+            Return ChouFasmanRules.ToString(aa)
+        End If
     End Function
 
 End Module
