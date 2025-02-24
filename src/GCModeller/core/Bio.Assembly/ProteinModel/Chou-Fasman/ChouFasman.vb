@@ -61,12 +61,45 @@ Imports SMRUCC.genomics.SequenceModel.Polypeptides
 Namespace ProteinModel.ChouFasmanRules
 
     ''' <summary>
+    ''' The Chou-Fasman method is a bioinformatics technique used for predicting the secondary structure of proteins. 
+    ''' It was developed by Peter Y. Chou and Gerald D. Fasman in the 1970s. The method is based on the observation 
+    ''' that certain amino acids have a propensity to form specific types of secondary structures, such as alpha-helices, 
+    ''' beta-sheets, and turns.
+    ''' 
+    ''' Here's a brief overview of how the Chou-Fasman method works:
+    ''' 
+    ''' 1. **Amino Acid Propensities**: Each amino acid is assigned a set of probability values that reflect its 
+    '''    tendency to be found in alpha-helices, beta-sheets, and turns. These values are derived from statistical 
+    '''    analysis of known protein structures.
+    ''' 2. **Sliding Window Technique**: A sliding window of typically 7 to 9 amino acids is moved along the protein 
+    '''    sequence. At each position, the average propensity for each type of secondary structure is calculated 
+    '''    for the amino acids within the window.
+    ''' 3. **Thresholds and Rules**: The method uses predefined thresholds and rules to identify regions of the 
+    '''    protein sequence that are likely to form alpha-helices or beta-sheets based on the calculated propensities. 
+    '''    For example, a region with a high average propensity for alpha-helix and meeting certain criteria 
+    '''    might be predicted to form an alpha-helix.
+    ''' 4. **Secondary Structure Prediction**: The method predicts the secondary structure by identifying contiguous 
+    '''    regions of the sequence that exceed the thresholds for helix or sheet formation. It also takes into 
+    '''    account the likelihood of turns, which are important for the overall folding of the protein.
+    ''' 5. **Refinement**: The initial predictions are often refined using additional rules and considerations, such 
+    '''    as the tendency of certain amino acids to stabilize or destabilize specific structures, and the overall 
+    '''    composition of the protein.
+    '''    
+    ''' The Chou-Fasman method was one of the first widely used techniques for predicting protein secondary structure
+    ''' and played a significant role in the field of structural bioinformatics. However, it has largely been superseded
+    ''' by more accurate methods, such as those based on machine learning and neural networks, which can take into
+    ''' account more complex patterns and interactions within protein sequences.
+    ''' 
+    ''' Despite its limitations, the Chou-Fasman method remains a historical milestone in the understanding of 
+    ''' protein structure and the development of computational methods for predicting it. It also serves as a 
+    ''' foundational concept for those learning about protein structure prediction and bioinformatics.
+    ''' </summary>
+    ''' <remarks>
     ''' @ - <see cref="SecondaryStructures.AlphaHelix"></see>;
     ''' - - <see cref="SecondaryStructures.BetaSheet"></see>;
     ''' ^ - <see cref="SecondaryStructures.BetaTurn"></see>;
     ''' &amp; - <see cref="SecondaryStructures.Coils"></see>
-    ''' </summary>
-    ''' <remarks></remarks>
+    ''' </remarks>
     Public Module ChouFasman
 
         Friend ReadOnly StructureTypesToChar As Dictionary(Of SecondaryStructures, String) =

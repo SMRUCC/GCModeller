@@ -88,34 +88,34 @@ Namespace ProteinModel.ChouFasmanRules
             End Get
         End Property
 
-        Sub New(aa As Polypeptides.AminoAcid)
-            _AminoAcid = aa
-        End Sub
-
-        Protected Friend ReadOnly Property HelixSheetOverlap As Boolean
+        Public ReadOnly Property HelixSheetOverlap As Boolean
             Get
                 Return _MaskAlphaHelix AndAlso _MaskBetaSheet_
             End Get
         End Property
 
-        Protected Friend ReadOnly Property HelixTurnOverlap As Boolean
+        Public ReadOnly Property HelixTurnOverlap As Boolean
             Get
                 Return _MaskAlphaHelix AndAlso _MastBetaTurn__
             End Get
         End Property
 
-        Protected Friend ReadOnly Property SheetTurnOverlap As Boolean
+        Public ReadOnly Property SheetTurnOverlap As Boolean
             Get
                 Return _MaskBetaSheet_ AndAlso _MastBetaTurn__
             End Get
         End Property
 
-        Protected Friend ReadOnly Property Coil As Boolean
+        Public ReadOnly Property Coil As Boolean
             Get
                 Return (_MaskAlphaHelix AndAlso _MaskBetaSheet_ AndAlso _MastBetaTurn__) OrElse
                     (Not _MaskAlphaHelix AndAlso Not _MaskBetaSheet_ AndAlso Not _MastBetaTurn__)
             End Get
         End Property
+
+        Sub New(aa As Polypeptides.AminoAcid)
+            _AminoAcid = aa
+        End Sub
 
         Public Overrides Function ToString() As String
             Return String.Format("{0};  [alpha-helix:={1},  beta_sheet:={2},  beta_turn:={3}]", _AminoAcid.ToString, _MaskAlphaHelix, _MaskBetaSheet_, _MastBetaTurn__)
