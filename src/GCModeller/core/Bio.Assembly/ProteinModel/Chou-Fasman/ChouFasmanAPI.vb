@@ -68,16 +68,21 @@ Namespace ProteinModel.ChouFasmanRules
     ''' <remarks></remarks>
     Public Module ChouFasman
 
-        Friend ReadOnly StructureTypesToChar As New Dictionary(Of SecondaryStructures, String) From {
-            {SecondaryStructures.AlphaHelix, "@"},
-            {SecondaryStructures.BetaSheet, "-"},
-            {SecondaryStructures.BetaTurn, "^"},
-            {SecondaryStructures.Coils, "&"}
-        }
+        Friend ReadOnly StructureTypesToChar As Dictionary(Of SecondaryStructures, String) =
+            Enums(Of SecondaryStructures) _
+            .ToDictionary(Function(a) a,
+                          Function(a)
+                              Return a.Description
+                          End Function)
 
-        Private Function __sequenceData(SequenceData As String) As AminoAcid()
+        ''' <summary>
+        ''' convert sequence string data as poly array
+        ''' </summary>
+        ''' <param name="SequenceData"></param>
+        ''' <returns></returns>
+        Private Function sequencePoly(SequenceData As String) As AminoAcid()
             Dim SequenceEnums = Polypeptide.ConstructVector(SequenceData).ToArray
-            Dim AA = (From a In SequenceEnums Where a <> SequenceModel.Polypeptides.AminoAcid.NULL Select New AminoAcid(a)).ToArray
+            Dim AA = (From a In SequenceEnums Where a <> Polypeptides.AminoAcid.NULL Select New AminoAcid(a)).ToArray
 
             If AA.Length < SequenceEnums.Length Then
                 Call VBDebugger.Warning("There is illegal character contains in your protein sequence, they was removed:  " & SequenceData)
@@ -93,14 +98,14 @@ Namespace ProteinModel.ChouFasmanRules
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function Calculate(sequence As String) As AminoAcid()
-            Dim SequenceData As AminoAcid() = __sequenceData(sequence)
-            Dim AlphaMaskCounts = Rules.RuleAlphaHelix.Invoke(SequenceData)
-            Dim BetaSheetMasks_ = Rules.RuleBetaSheet.Invoke(SequenceData)
-            Dim BetaTurnMasks__ = Rules.RuleBetaTurn.Invoke(SequenceData)
+            Dim poly As AminoAcid() = sequencePoly(sequence)
+            Dim AlphaMaskCounts = Rules.RuleAlphaHelix.Invoke(poly)
+            Dim BetaSheetMasks_ = Rules.RuleBetaSheet.Invoke(poly)
+            Dim BetaTurnMasks__ = Rules.RuleBetaTurn.Invoke(poly)
 
-            Call Rules.RuleOverlap.Invoke(SequenceData)
+            Call Rules.RuleOverlap.Invoke(poly)
 
-            Return SequenceData
+            Return poly
         End Function
 
         ''' <summary>
