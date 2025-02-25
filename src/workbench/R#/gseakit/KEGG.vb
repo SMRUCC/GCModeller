@@ -96,6 +96,8 @@ Module KEGG
     <ExportAPI("kegg_category_annotation")>
     Public Function kegg_category_annotation(kegg As Background, anno As dataframe,
                                              Optional kegg_id As String = "kegg_id",
+                                             Optional class_field As String = "kegg_class",
+                                             Optional category_field As String = "kegg_category",
                                              Optional env As Environment = Nothing) As Object
         If Not anno.hasName(kegg_id) Then
             Return RInternal.debug.stop($"the required specific data field '{kegg_id}' is not existed inside the given dataframe!", env)
@@ -118,8 +120,8 @@ Module KEGG
             .ToArray
         Dim maps = ids.Select(Function(id) kegg.GetClusterByMemberGeneId(id)).ToArray
 
-        Call anno.add("kegg_class", maps.Select(Function(m) If(m Is Nothing, Nothing, m.class)))
-        Call anno.add("kegg_category", maps.Select(Function(m) If(m Is Nothing, Nothing, m.category)))
+        Call anno.add(class_field, maps.Select(Function(m) If(m Is Nothing, Nothing, m.class)))
+        Call anno.add(category_field, maps.Select(Function(m) If(m Is Nothing, Nothing, m.category)))
 
         Return anno
     End Function
