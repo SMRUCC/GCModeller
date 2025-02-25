@@ -1,50 +1,51 @@
 ﻿#Region "Microsoft.VisualBasic::e4bee3eafa5695800d8891292e7c46f4, data\RCSB PDB\PDB\PDB.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class PDB
-    ' 
-    '     Properties: AminoAcidSequenceData, AtomStructures, Author, Compound, Header
-    '                 Journal, Keywords, MaxSpace, MinSpace, Remark
-    '                 Sequence, Source, Title
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: Load, LoadDocument
-    ' 
-    ' /********************************************************************************/
+' Class PDB
+' 
+'     Properties: AminoAcidSequenceData, AtomStructures, Author, Compound, Header
+'                 Journal, Keywords, MaxSpace, MinSpace, Remark
+'                 Sequence, Source, Title
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: Load, LoadDocument
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Text
+Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
@@ -57,6 +58,7 @@ Public Class PDB
     Public Property Compound As Compound
     Public Property Source As Source
     Public Property Keywords As Keywords.Keywords
+    Public Property Experiment As ExperimentData
     Public Property Author As Author
     Public Property Journal As Journal
     Public Property Remark As Remark
@@ -113,34 +115,48 @@ Public Class PDB
     ''' <param name="Path"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function Load(Path As String) As PDB
-        Dim strDatas As String() = IO.File.ReadAllLines(Path)
-        Dim PDBItems = LoadDocument(strDatas)
-        Dim pdbFile As PDB = New PDB
+        Return Load(Path.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+    End Function
 
-        pdbFile._Header = New Header(Keyword.GetData(Keyword.KEYWORD_HEADER, PDBItems))
-        pdbFile.AtomStructures = New Atom(Keyword.GetData(Keyword.KEYWORD_ATOM, PDBItems))
+    Public Shared Function Load(s As Stream) As PDB
+        Dim pdb As New PDB
+        Dim last As Keyword = Nothing
 
-        Return pdbFile
+        For Each line As String In s.ReadAllLines
+            Dim data = line.GetTagValue(trim:=True)
+
+            If Not last Is Nothing Then
+                If data.Name <> last.Keyword Then
+                    last.Flush()
+                    last = Nothing
+                End If
+            End If
+
+            Select Case data.Name
+                Case Keyword.KEYWORD_HEADER : pdb.Header = Header.Parse(data.Value)
+                Case Keyword.KEYWORD_TITLE : pdb.Title = Title.Append(last, data.Value)
+                Case Keyword.KEYWORD_COMPND : pdb.Compound = Compound.Append(last, data.Value)
+                Case Keyword.KEYWORD_SOURCE : pdb.Source = Source.Append(last, data.Value)
+                Case Keyword.KEYWORD_KEYWDS : pdb.Keywords = RCSB.PDB.Keywords.Keywords.Parse(data.Value)
+                Case Keyword.KEYWORD_EXPDTA : pdb.Experiment = ExperimentData.Parse(data.Value)
+                Case Keyword.KEYWORD_AUTHOR : pdb.Author = Author.Parse(data.Value)
+
+                Case Else
+                    Throw New NotImplementedException(data.Name)
+            End Select
+        Next
+
+        If Not last Is Nothing Then
+            Call last.Flush()
+        End If
+
+        Return pdb
     End Function
 
     Public Overloads Shared Widening Operator CType(Path As String) As PDB
         Return PDB.Load(Path)
     End Operator
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <returns></returns>
-    ''' <remarks>{Head, value}</remarks>
-    Public Shared Function LoadDocument(strDataLines As String()) As KeyValuePair(Of String, String)()
-        Dim LQuery = (From strData As String In strDataLines.AsParallel
-                      Let head As String = Regex.Match(strData, REGEX_HEAD).Value
-                      Let value As String = Mid(strData, Len(head) + 1).Trim
-                      Let item = New KeyValuePair(Of String, String)(head, value)
-                      Where Not String.IsNullOrEmpty(head)
-                      Select item
-                      Order By item.Key Ascending).ToArray
-        Return LQuery
-    End Function
 End Class

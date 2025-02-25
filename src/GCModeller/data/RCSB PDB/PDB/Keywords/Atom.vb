@@ -49,7 +49,6 @@ Namespace Keywords
         Implements IEnumerable(Of AtomUnit)
 
         Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
             Atoms = (From item In itemDatas.AsParallel Select AtomUnit.InternalParser(item.Value, InternalIndex:=item.Key)).ToArray
         End Sub
 

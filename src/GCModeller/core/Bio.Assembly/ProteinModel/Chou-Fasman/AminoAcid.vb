@@ -1,62 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::9e504899a885eb633249aad2448ee196, core\Bio.Assembly\ProteinModel\Chou-Fasman\AminoAcid.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 67
-    '    Code Lines: 43 (64.18%)
-    ' Comment Lines: 12 (17.91%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 12 (17.91%)
-    '     File Size: 2.32 KB
+' Summaries:
 
 
-    '     Class AminoAcid
-    ' 
-    '         Properties: [StructureType], AminoAcid, Coil, HelixSheetOverlap, HelixTurnOverlap
-    '                     SheetTurnOverlap, StructureChar
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 67
+'    Code Lines: 43 (64.18%)
+' Comment Lines: 12 (17.91%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 12 (17.91%)
+'     File Size: 2.32 KB
+
+
+'     Class AminoAcid
+' 
+'         Properties: [StructureType], AminoAcid, Coil, HelixSheetOverlap, HelixTurnOverlap
+'                     SheetTurnOverlap, StructureChar
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Text
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace ProteinModel.ChouFasmanRules
@@ -89,34 +88,34 @@ Namespace ProteinModel.ChouFasmanRules
             End Get
         End Property
 
-        Sub New(aa As Polypeptides.AminoAcid)
-            _AminoAcid = aa
-        End Sub
-
-        Protected Friend ReadOnly Property HelixSheetOverlap As Boolean
+        Public ReadOnly Property HelixSheetOverlap As Boolean
             Get
                 Return _MaskAlphaHelix AndAlso _MaskBetaSheet_
             End Get
         End Property
 
-        Protected Friend ReadOnly Property HelixTurnOverlap As Boolean
+        Public ReadOnly Property HelixTurnOverlap As Boolean
             Get
                 Return _MaskAlphaHelix AndAlso _MastBetaTurn__
             End Get
         End Property
 
-        Protected Friend ReadOnly Property SheetTurnOverlap As Boolean
+        Public ReadOnly Property SheetTurnOverlap As Boolean
             Get
                 Return _MaskBetaSheet_ AndAlso _MastBetaTurn__
             End Get
         End Property
 
-        Protected Friend ReadOnly Property Coil As Boolean
+        Public ReadOnly Property Coil As Boolean
             Get
                 Return (_MaskAlphaHelix AndAlso _MaskBetaSheet_ AndAlso _MastBetaTurn__) OrElse
                     (Not _MaskAlphaHelix AndAlso Not _MaskBetaSheet_ AndAlso Not _MastBetaTurn__)
             End Get
         End Property
+
+        Sub New(aa As Polypeptides.AminoAcid)
+            _AminoAcid = aa
+        End Sub
 
         Public Overrides Function ToString() As String
             Return String.Format("{0};  [alpha-helix:={1},  beta_sheet:={2},  beta_turn:={3}]", _AminoAcid.ToString, _MaskAlphaHelix, _MaskBetaSheet_, _MastBetaTurn__)
