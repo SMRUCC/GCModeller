@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 ''' <summary>
@@ -78,12 +79,16 @@ Public Module KEGGCompounds
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function CreateGeneralBackground(Of T As Map)(maps As IEnumerable(Of T), Optional KO As Index(Of String) = Nothing) As Background
+    Public Function CreateGeneralBackground(Of T As Map)(maps As IEnumerable(Of T),
+                                                         Optional KO As Index(Of String) = Nothing,
+                                                         Optional mapIdPattern$ = "map\d+") As Background
+
         ' The total number of metabolites in background genome. 
         Dim backgroundSize% = 0
         Dim clusters As New List(Of Cluster)
         Dim names As NamedValue(Of String)()
         Dim members As BackgroundGene()
+        Dim pathway_class = BriteHText.Load_ko00001.Deflate(mapIdPattern).ToDictionary(Function(a) a.kegg_id)
 
         If KO Is Nothing Then
             KO = New String() {}
@@ -101,7 +106,7 @@ Public Module KEGGCompounds
                 .ToArray
 
             If KO.Count > 0 AndAlso Not names.Any(Function(id) id.Name Like KO) Then
-                Call $"Skip {map.name}".__INFO_ECHO
+                Call VBDebugger.EchoLine($"Skip {map.name}")
                 Continue For
             Else
                 members = names _
@@ -123,12 +128,21 @@ Public Module KEGGCompounds
                 End If
             End If
 
-            clusters += New Cluster With {
+            Dim term As New Cluster With {
                 .description = map.name,
                 .ID = map.EntryId,
                 .names = map.name,
                 .members = members
             }
+
+            If pathway_class.ContainsKey(map.EntryId) Then
+                Dim label = pathway_class(map.EntryId)
+
+                term.class = label.class
+                term.category = label.category
+            End If
+
+            clusters += term
         Next
 
         backgroundSize = clusters.BackgroundSize
