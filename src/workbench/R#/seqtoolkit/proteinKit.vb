@@ -2,6 +2,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data.RCSB.PDB
 Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -79,7 +80,7 @@ Module proteinKit
 
     <Extension>
     Private Function ChouFasman(prot As FastaSeq, polyaa As Boolean) As Object
-        Dim aa As AminoAcid() = ChouFasmanRules.Calculate(prot)
+        Dim aa As ChouFasmanRules.AminoAcid() = ChouFasmanRules.Calculate(prot)
 
         If polyaa Then
             Return New StructuralAnnotation With {
@@ -105,7 +106,13 @@ Module proteinKit
             Return s.TryCast(Of Message)
         End If
 
+        Dim pdb As PDB = PDB.Load(s.TryCast(Of Stream))
 
+        If is_path Then
+            Call s.TryCast(Of Stream).Dispose()
+        End If
+
+        Return pdb
     End Function
 
 End Module
