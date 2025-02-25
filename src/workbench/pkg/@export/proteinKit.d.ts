@@ -51,4 +51,16 @@ declare namespace proteinKit {
      * + default value Is ``null``.
    */
    function chou_fasman(prot: any, polyaa?: boolean, env?: object): string|object;
+   module read {
+      /**
+       * read the protein database file
+       * 
+       * 
+        * @param file -
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function pdb(file: any, env?: object): any;
+   }
 }
