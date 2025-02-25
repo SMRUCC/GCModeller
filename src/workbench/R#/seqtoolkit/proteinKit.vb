@@ -1,4 +1,5 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ProteinModel
@@ -87,6 +88,24 @@ Module proteinKit
         Else
             Return ChouFasmanRules.ToString(aa)
         End If
+    End Function
+
+    ''' <summary>
+    ''' read the protein database file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.pdb")>
+    Public Function readPdb(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim is_path As Boolean = False
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env, is_filepath:=is_path)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+
     End Function
 
 End Module
