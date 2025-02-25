@@ -107,7 +107,7 @@ Module KEGG
                 .ToArray
         End If
 
-        Dim ids As String() = CLRVector.asCharacter(anno!kegg_id) _
+        Dim ids As String() = CLRVector.asCharacter(anno(kegg_id)) _
             .Select(AddressOf Strings.Trim) _
             .Select(Function(str)
                         Return str _

@@ -88,7 +88,15 @@ Public Module KEGGCompounds
         Dim clusters As New List(Of Cluster)
         Dim names As NamedValue(Of String)()
         Dim members As BackgroundGene()
-        Dim pathway_class = BriteHText.Load_ko00001.Deflate(mapIdPattern).ToDictionary(Function(a) a.kegg_id)
+        Dim ko00001 = BriteHText.Load_ko00001.Deflate(mapIdPattern).ToArray
+        Dim pathway_class = ko00001 _
+            .GroupBy(Function(gene)
+                         Return gene.subcategory.Split.First.ParseInteger.ToString
+                     End Function) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.First
+                          End Function)
 
         If KO Is Nothing Then
             KO = New String() {}
@@ -134,9 +142,10 @@ Public Module KEGGCompounds
                 .names = map.name,
                 .members = members
             }
+            Dim int As String = map.EntryId.Match("\d+").ParseInteger.ToString
 
-            If pathway_class.ContainsKey(map.EntryId) Then
-                Dim label = pathway_class(map.EntryId)
+            If pathway_class.ContainsKey(int) Then
+                Dim label = pathway_class(int)
 
                 term.class = label.class
                 term.category = label.category
