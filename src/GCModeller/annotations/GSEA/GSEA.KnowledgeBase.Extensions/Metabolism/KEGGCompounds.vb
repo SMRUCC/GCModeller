@@ -57,10 +57,10 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Organism
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
+Imports Pathway = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway
 
 ''' <summary>
 ''' Create background model for KEGG pathway enrichment based on the kegg metabolites, 
