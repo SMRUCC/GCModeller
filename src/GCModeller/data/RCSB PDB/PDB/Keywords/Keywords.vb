@@ -77,16 +77,6 @@ Namespace Keywords
             Me._originalData = itemDatas
         End Sub
 
-        Protected Friend Shared Function GetData(Keyword As String, strData As KeyValuePair(Of String, String)()) As KeyValuePair(Of Integer, String)()
-            Dim LQuery = (From item As KeyValuePair(Of String, String) In strData.AsParallel
-                          Let Tokens As String() = (From s As String In item.Key.Split Where Not String.IsNullOrEmpty(s) Select s).ToArray
-                          Where String.Equals(Keyword, Tokens.First)
-                          Let itemData = New KeyValuePair(Of Integer, String)(Val(Tokens.Last), item.Value)
-                          Select itemData
-                          Order By itemData.Key Ascending).ToArray
-            Return LQuery
-        End Function
-
         Public Overrides Function ToString() As String
             Return Keyword
         End Function

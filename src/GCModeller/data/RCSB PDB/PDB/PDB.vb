@@ -121,33 +121,13 @@ Public Class PDB
     End Function
 
     Public Shared Function Load(s As Stream) As PDB
-        Dim strDatas As String() = s.ReadAllLines.ToArray
-        Dim PDBItems = LoadDocument(strDatas)
-        Dim pdbFile As PDB = New PDB
+        Dim pdb As New PDB
 
-        pdbFile._Header = New Header(Keyword.GetData(Keyword.KEYWORD_HEADER, PDBItems))
-        pdbFile.AtomStructures = New Atom(Keyword.GetData(Keyword.KEYWORD_ATOM, PDBItems))
 
-        Return pdbFile
+        Return pdb
     End Function
 
     Public Overloads Shared Widening Operator CType(Path As String) As PDB
         Return PDB.Load(Path)
     End Operator
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <returns></returns>
-    ''' <remarks>{Head, value}</remarks>
-    Public Shared Function LoadDocument(strDataLines As String()) As KeyValuePair(Of String, String)()
-        Dim LQuery = (From strData As String In strDataLines.AsParallel
-                      Let head As String = Regex.Match(strData, REGEX_HEAD).Value
-                      Let value As String = Mid(strData, Len(head) + 1).Trim
-                      Let item = New KeyValuePair(Of String, String)(head, value)
-                      Where Not String.IsNullOrEmpty(head)
-                      Select item
-                      Order By item.Key Ascending).ToArray
-        Return LQuery
-    End Function
 End Class

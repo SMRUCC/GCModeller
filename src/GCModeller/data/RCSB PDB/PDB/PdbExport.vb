@@ -48,7 +48,9 @@ Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 ''' <summary>
 ''' PDB File Format
-''' The Protein Data Bank (PDB) format provides a standard representation for macromolecular structure data derived from X-ray diffraction and NMR studies. This representation was created in the 1970's and a large amount of software using it has been written.
+''' The Protein Data Bank (PDB) format provides a standard representation for macromolecular structure data derived from
+''' X-ray diffraction and NMR studies. This representation was created in the 1970's and a large amount of software 
+''' using it has been written.
 ''' 
 ''' Documentation describing the PDB file format is available from the wwPDB at http://www.wwpdb.org/docs.html.
 ''' 
