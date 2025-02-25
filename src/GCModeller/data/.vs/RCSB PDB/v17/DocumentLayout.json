@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\data\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\rcsb pdb.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\rcsb pdb.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +27,18 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RCSB PDB",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\RCSB PDB.vbproj",
+              "RelativeDocumentMoniker": "RCSB PDB\\RCSB PDB.vbproj",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\RCSB PDB.vbproj",
+              "RelativeToolTip": "RCSB PDB\\RCSB PDB.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-02-25T03:23:58.966Z",
+              "EditorCaption": ""
             }
           ]
         },
