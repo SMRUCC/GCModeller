@@ -171,17 +171,11 @@ Namespace Keywords
 
     End Class
 
-    Public Class Compound : Inherits Keyword
-
-        Public Overrides ReadOnly Property Keyword As String
-            Get
-                Return Keywords.KEYWORD_COMPND
-            End Get
-        End Property
+    Public MustInherit Class MoleculeMetadata : Inherits Keyword
 
         Public Property Mols As Dictionary(Of String, Properties)
 
-        Dim lines As New List(Of String)
+        Protected lines As New List(Of String)
 
         Friend Overrides Sub Flush()
             Dim last As String = Nothing
@@ -240,6 +234,15 @@ Namespace Keywords
                 Mols.Add(mol.id, mol)
             End If
         End Sub
+    End Class
+
+    Public Class Compound : Inherits MoleculeMetadata
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return Keywords.KEYWORD_COMPND
+            End Get
+        End Property
 
         Friend Shared Function Append(ByRef compound As Compound, str As String) As Compound
             If compound Is Nothing Then
@@ -266,12 +269,26 @@ Namespace Keywords
 
     End Class
 
-    Public Class Source : Inherits Keyword
+    Public Class Source : Inherits MoleculeMetadata
+
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return Keywords.KEYWORD_SOURCE
             End Get
         End Property
+
+        Friend Shared Function Append(ByRef src As Source, str As String) As Source
+            If src Is Nothing Then
+                src = New Source With {
+                    .lines = New List(Of String) From {str}
+                }
+            Else
+                src.lines.Add(str)
+            End If
+
+            Return src
+        End Function
+
     End Class
 
     Public Class Keywords : Inherits Keyword

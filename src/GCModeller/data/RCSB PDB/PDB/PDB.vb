@@ -138,6 +138,7 @@ Public Class PDB
                 Case Keyword.KEYWORD_HEADER : pdb.Header = Header.Parse(data.Value)
                 Case Keyword.KEYWORD_TITLE : pdb.Title = Title.Append(last, data.Value)
                 Case Keyword.KEYWORD_COMPND : pdb.Compound = Compound.Append(last, data.Value)
+                Case Keyword.KEYWORD_SOURCE : pdb.Source = Source.Append(last, data.Value)
 
                 Case Else
                     Throw New NotImplementedException(data.Name)
