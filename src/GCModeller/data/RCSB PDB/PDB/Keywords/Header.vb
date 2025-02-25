@@ -295,9 +295,32 @@ Namespace Keywords
 
         Public Overrides ReadOnly Property Keyword As String
             Get
-                Return Keywords.KEYWORD_KEYWDS
+                Return RCSB.PDB.Keywords.Keyword.KEYWORD_KEYWDS
             End Get
         End Property
+
+        Public Property keywords As String()
+
+        Friend Shared Function Parse(line As String) As Keywords
+            Return New Keywords With {.keywords = line.StringSplit(",\s+")}
+        End Function
+
+    End Class
+
+    Public Class ExperimentData : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return Keywords.KEYWORD_EXPDTA
+            End Get
+        End Property
+
+        Public Property Experiment As String
+
+        Friend Shared Function Parse(line As String) As ExperimentData
+            Return New ExperimentData With {.Experiment = line}
+        End Function
+
     End Class
 
     Public Class Author : Inherits Keyword
@@ -307,6 +330,13 @@ Namespace Keywords
                 Return Keywords.KEYWORD_AUTHOR
             End Get
         End Property
+
+        Public Property Name As String
+
+        Friend Shared Function Parse(line As String) As Author
+            Return New Author With {.Name = line}
+        End Function
+
     End Class
 
     Public Class Journal : Inherits Keyword

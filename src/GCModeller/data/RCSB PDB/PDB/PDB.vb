@@ -58,6 +58,7 @@ Public Class PDB
     Public Property Compound As Compound
     Public Property Source As Source
     Public Property Keywords As Keywords.Keywords
+    Public Property Experiment As ExperimentData
     Public Property Author As Author
     Public Property Journal As Journal
     Public Property Remark As Remark
@@ -139,6 +140,9 @@ Public Class PDB
                 Case Keyword.KEYWORD_TITLE : pdb.Title = Title.Append(last, data.Value)
                 Case Keyword.KEYWORD_COMPND : pdb.Compound = Compound.Append(last, data.Value)
                 Case Keyword.KEYWORD_SOURCE : pdb.Source = Source.Append(last, data.Value)
+                Case Keyword.KEYWORD_KEYWDS : pdb.Keywords = RCSB.PDB.Keywords.Keywords.Parse(data.Value)
+                Case Keyword.KEYWORD_EXPDTA : pdb.Experiment = ExperimentData.Parse(data.Value)
+                Case Keyword.KEYWORD_AUTHOR : pdb.Author = Author.Parse(data.Value)
 
                 Case Else
                     Throw New NotImplementedException(data.Name)
