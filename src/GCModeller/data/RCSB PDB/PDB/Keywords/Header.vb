@@ -1,124 +1,126 @@
 ﻿#Region "Microsoft.VisualBasic::4152fc0d72667c992837985db6ac8f6e, data\RCSB PDB\PDB\Keywords\Header.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class Header
-    ' 
-    '         Properties: [Date], Keyword, pdbID, Title
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Title
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Compound
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Source
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Keywords
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Author
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Journal
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Remark
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class DbReference
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Sequence
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Helix
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Sheet
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Site
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Class Master
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class Header
+' 
+'         Properties: [Date], Keyword, pdbID, Title
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Title
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Compound
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Source
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Keywords
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Author
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Journal
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Remark
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class DbReference
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Sequence
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Helix
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Sheet
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Site
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'     Class Master
+' 
+'         Properties: Keyword
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+' 
+' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Keywords
 
@@ -182,11 +184,61 @@ Namespace Keywords
         Dim lines As New List(Of String)
 
         Friend Overrides Sub Flush()
+            Dim last As String = Nothing
+            Dim tag As NamedValue(Of String)
+            Dim mol As Properties = Nothing
+
             Mols = New Dictionary(Of String, Properties)
 
             For Each line As String In lines
+                If line.Last <> ";"c Then
+                    If last Is Nothing Then
+                        last = line
+                    Else
+                        last = last & " " & line.GetTagValue(" ", trim:=True).Value
+                    End If
 
+                    Continue For
+                ElseIf InStr(line, ": ") > 0 Then
+                    ' end of multiple line
+                    If last Is Nothing Then
+                        Throw New InvalidProgramException("invalid multiple line document data!")
+                    Else
+                        last = last & " " & line.GetTagValue(" ", trim:=True).Value
+                        tag = last.GetTagValue(":", trim:=True)
+                        last = Nothing
+                    End If
+                Else
+                    tag = line.GetTagValue(":", trim:=True)
+                End If
+
+                If tag.Name.IsPattern("\d+ [^\s]+") Then
+                    tag = New NamedValue(Of String)(tag.Name.GetTagValue(" ").Value, tag.Value)
+                End If
+
+                If tag.Name = "MOL_ID" Then
+                    If Not mol Is Nothing Then
+                        Mols.Add(mol.id, mol)
+                        last = Nothing
+                    End If
+
+                    mol = New Properties With {
+                        .id = tag.Value,
+                        .metadata = New Dictionary(Of String, String)
+                    }
+                Else
+                    mol.add(tag.Name, tag.Value)
+                End If
             Next
+
+            If Not mol Is Nothing Then
+                If Not last Is Nothing Then
+                    tag = last.GetTagValue(":", trim:=True)
+                    mol.add(tag.Name, tag.Value)
+                End If
+
+                Mols.Add(mol.id, mol)
+            End If
         End Sub
 
         Friend Shared Function Append(ByRef compound As Compound, str As String) As Compound
@@ -206,6 +258,11 @@ Namespace Keywords
     Public Class Properties
 
         Public Property metadata As Dictionary(Of String, String)
+        Public Property id As String
+
+        Public Sub add(key As String, value As String)
+            Call metadata.Add(key, value)
+        End Sub
 
     End Class
 
