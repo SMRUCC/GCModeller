@@ -43,6 +43,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Data.csv.Extensions
 Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 ''' <summary>
@@ -116,15 +117,15 @@ Public Module PdbExport
                     Continue For
                 End If
 
-                Dim TempChunk As List(Of String()) = New List(Of String()) From {TargetProtein}
+                Dim TempChunk As New List(Of String()) From {TargetProtein}
                 Call TempChunk.AddRange(ChainIdLQuery)
 
-                Dim ProteinComplexesAssembly = Combination.Generate(TempChunk.ToArray) '利用Entry里面的记录在Lquery里面进行筛选，使用组合的方式进行组装蛋白质
+                Dim ProteinComplexesAssembly = TempChunk.ToArray.AllCombinations '利用Entry里面的记录在Lquery里面进行筛选，使用组合的方式进行组装蛋白质
 
                 For Each item In ProteinComplexesAssembly
                     Dim Row As New RowObject From {item.Count}
                     Dim sBuilder As New StringBuilder(1024)
-                    For Each ProteinId As String In (From strData As String In item Select strData Order By strData Ascending).ToArray
+                    For Each ProteinId As String In (From strData As String In item.IteratesALL Select strData Order By strData Ascending).ToArray
                         Call sBuilder.Append(ProteinId & ", ")
                     Next
                     Call sBuilder.Remove(sBuilder.Length - 2, 2)

@@ -3,8 +3,15 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\rcsb pdb.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\rcsb pdb.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\pdbexport.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\pdbexport.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6A933D3-A04D-0D7B-C14A-D8F9A9F8FA51}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|e:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\algorithm\\base\\combination\\combinationextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\pdbexportobjs.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\pdbexportobjs.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +21,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,14 +37,41 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CombinationExtensions.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\base\\Combination\\CombinationExtensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\base\\Combination\\CombinationExtensions.vb",
+              "ToolTip": "E:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\base\\Combination\\CombinationExtensions.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Algorithm\\base\\Combination\\CombinationExtensions.vb",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAYwIAAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-02-25T03:27:53.297Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RCSB PDB",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\RCSB PDB.vbproj",
-              "RelativeDocumentMoniker": "RCSB PDB\\RCSB PDB.vbproj",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\RCSB PDB.vbproj",
-              "RelativeToolTip": "RCSB PDB\\RCSB PDB.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-02-25T03:23:58.966Z",
+              "Title": "PdbExport.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PdbExport.vb",
+              "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PdbExport.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PdbExport.vb",
+              "RelativeToolTip": "RCSB PDB\\PDB\\PdbExport.vb",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAQwHQAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-02-25T03:27:16.171Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PdbExportObjs.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PdbExportObjs.vb",
+              "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PdbExportObjs.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PdbExportObjs.vb",
+              "RelativeToolTip": "RCSB PDB\\PDB\\PdbExportObjs.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-02-25T03:25:55.748Z",
               "EditorCaption": ""
             }
           ]
