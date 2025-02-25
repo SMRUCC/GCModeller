@@ -71,14 +71,12 @@ Namespace Keywords
 
         Public MustOverride ReadOnly Property Keyword As String
 
-        Protected Friend _originalData As KeyValuePair(Of Integer, String)()
-
-        Protected Friend Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Me._originalData = itemDatas
-        End Sub
-
         Public Overrides Function ToString() As String
             Return Keyword
         End Function
+
+        Friend Overridable Sub Flush()
+
+        End Sub
     End Class
 End Namespace

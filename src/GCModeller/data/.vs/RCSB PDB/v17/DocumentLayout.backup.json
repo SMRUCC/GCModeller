@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1151A50B-DFEE-48E2-9283-E0405660E7A2}|RCSB PDB\\test\\test.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1151A50B-DFEE-48E2-9283-E0405660E7A2}|RCSB PDB\\test\\test.vbproj|solutionrelative:rcsb pdb\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\header.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\header.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\pdb.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\pdb.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +18,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Header.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Header.vb",
+              "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Header.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Header.vb",
+              "RelativeToolTip": "RCSB PDB\\PDB\\Keywords\\Header.vb",
+              "ViewState": "AgIAAIgAAAAAAAAAAAA5wJgAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-02-25T05:21:45.164Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PDB.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PDB.vb",
+              "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PDB.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PDB.vb",
+              "RelativeToolTip": "RCSB PDB\\PDB\\PDB.vb",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAAAIIAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-02-25T05:12:29.05Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -27,19 +57,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Module1.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\test\\Module1.vb",
-              "RelativeDocumentMoniker": "RCSB PDB\\test\\Module1.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\test\\Module1.vb",
-              "RelativeToolTip": "RCSB PDB\\test\\Module1.vb",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAwwAUAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-02-25T05:11:41.726Z",
-              "EditorCaption": ""
             }
           ]
         },

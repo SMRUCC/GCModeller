@@ -126,7 +126,7 @@ Namespace Keywords
 
         Public Property pdbID As String
         Public Property [Date] As String
-        Public Shadows Property Title As String
+        Public Property Title As String
 
         Public Overrides ReadOnly Property Keyword As String
             Get
@@ -134,46 +134,82 @@ Namespace Keywords
             End Get
         End Property
 
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
+        Friend Shared Function Parse(line As String) As Header
+            Dim str = line.StringSplit("\s+")
+            Dim header As New Header With {
+                .pdbID = str(str.Length - 1),
+                .[Date] = str(str.Length - 2),
+                .Title = str.Take(str.Length - 2).JoinBy(" ")
+            }
 
-        End Sub
+            Return header
+        End Function
+
     End Class
 
     Public Class Title : Inherits Keyword
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
 
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return Keywords.KEYWORD_TITLE
             End Get
         End Property
+
+        Public Property Title As String
+
+        Friend Shared Function Append(ByRef title As Title, str As String) As Title
+            If title Is Nothing Then
+                title = New Title With {.Title = str}
+            Else
+                title.Title = title.Title & " " & str.GetTagValue(" ", trim:=True).Value
+            End If
+
+            Return title
+        End Function
+
     End Class
 
     Public Class Compound : Inherits Keyword
-
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
 
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return Keywords.KEYWORD_COMPND
             End Get
         End Property
+
+        Public Property Mols As Dictionary(Of String, Properties)
+
+        Dim lines As New List(Of String)
+
+        Friend Overrides Sub Flush()
+            Mols = New Dictionary(Of String, Properties)
+
+            For Each line As String In lines
+
+            Next
+        End Sub
+
+        Friend Shared Function Append(ByRef compound As Compound, str As String) As Compound
+            If compound Is Nothing Then
+                compound = New Compound With {
+                    .lines = New List(Of String) From {str}
+                }
+            Else
+                compound.lines.Add(str)
+            End If
+
+            Return compound
+        End Function
+
+    End Class
+
+    Public Class Properties
+
+        Public Property metadata As Dictionary(Of String, String)
+
     End Class
 
     Public Class Source : Inherits Keyword
-
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
-
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return Keywords.KEYWORD_SOURCE
@@ -182,11 +218,6 @@ Namespace Keywords
     End Class
 
     Public Class Keywords : Inherits Keyword
-
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
 
         Public Overrides ReadOnly Property Keyword As String
             Get
@@ -197,11 +228,6 @@ Namespace Keywords
 
     Public Class Author : Inherits Keyword
 
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
-
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return Keywords.KEYWORD_AUTHOR
@@ -210,11 +236,6 @@ Namespace Keywords
     End Class
 
     Public Class Journal : Inherits Keyword
-
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
 
         Public Overrides ReadOnly Property Keyword As String
             Get
@@ -225,11 +246,6 @@ Namespace Keywords
 
     Public Class Remark : Inherits Keyword
 
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
-
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return Keywords.KEYWORD_REMARK
@@ -238,11 +254,6 @@ Namespace Keywords
     End Class
 
     Public Class DbReference : Inherits Keyword
-
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
 
         Public Overrides ReadOnly Property Keyword As String
             Get
@@ -253,11 +264,6 @@ Namespace Keywords
 
     Public Class Sequence : Inherits Keyword
 
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
-
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return Keywords.KEYWORD_SEQRES
@@ -266,11 +272,6 @@ Namespace Keywords
     End Class
 
     Public Class Helix : Inherits Keyword
-
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
 
         Public Overrides ReadOnly Property Keyword As String
             Get
@@ -281,11 +282,6 @@ Namespace Keywords
 
     Public Class Sheet : Inherits Keyword
 
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
-
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return Keywords.KEYWORD_SHEET
@@ -295,11 +291,6 @@ Namespace Keywords
 
     Public Class Site : Inherits Keyword
 
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
-
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return Keywords.KEYWORD_SITE
@@ -308,11 +299,6 @@ Namespace Keywords
     End Class
 
     Public Class Master : Inherits Keyword
-
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Call MyBase.New(itemDatas)
-
-        End Sub
 
         Public Overrides ReadOnly Property Keyword As String
             Get

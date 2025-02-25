@@ -122,7 +122,31 @@ Public Class PDB
 
     Public Shared Function Load(s As Stream) As PDB
         Dim pdb As New PDB
+        Dim last As Keyword = Nothing
 
+        For Each line As String In s.ReadAllLines
+            Dim data = line.GetTagValue(trim:=True)
+
+            If Not last Is Nothing Then
+                If data.Name <> last.Keyword Then
+                    last.Flush()
+                    last = Nothing
+                End If
+            End If
+
+            Select Case data.Name
+                Case Keyword.KEYWORD_HEADER : pdb.Header = Header.Parse(data.Value)
+                Case Keyword.KEYWORD_TITLE : pdb.Title = Title.Append(last, data.Value)
+                Case Keyword.KEYWORD_COMPND : pdb.Compound = Compound.Append(last, data.Value)
+
+                Case Else
+                    Throw New NotImplementedException(data.Name)
+            End Select
+        Next
+
+        If Not last Is Nothing Then
+            Call last.Flush()
+        End If
 
         Return pdb
     End Function
