@@ -199,10 +199,10 @@ Namespace Keywords
                     End If
 
                     Continue For
-                ElseIf InStr(line, ": ") > 0 Then
+                ElseIf InStr(line, ": ") = 0 Then
                     ' end of multiple line
                     If last Is Nothing Then
-                        Throw New InvalidProgramException("invalid multiple line document data!")
+                        Throw New InvalidProgramException("invalid multiple line document for the metadata parser!")
                     Else
                         last = last & " " & line.GetTagValue(" ", trim:=True).Value
                         tag = last.GetTagValue(":", trim:=True)
