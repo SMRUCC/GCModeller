@@ -62,7 +62,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
 Imports Microsoft.VisualBasic.MachineLearning.QLearning
 Imports Microsoft.VisualBasic.MachineLearning.QLearning.DataModel
-Imports row = Microsoft.VisualBasic.Data.csv.IO.DataSet
+Imports row = Microsoft.VisualBasic.Data.Framework.IO.DataSet
 
 Public Module Extensions
 

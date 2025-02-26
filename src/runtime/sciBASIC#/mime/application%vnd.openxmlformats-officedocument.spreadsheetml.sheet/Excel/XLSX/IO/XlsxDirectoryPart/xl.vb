@@ -63,7 +63,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.FileIO
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.XML.xl
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.XML.xl.worksheets
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Namespace XLSX.Model.Directory
 

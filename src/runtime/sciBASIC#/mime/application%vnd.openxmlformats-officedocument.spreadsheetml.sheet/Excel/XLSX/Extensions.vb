@@ -58,10 +58,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.Writer
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
 Imports XlsxFile = Microsoft.VisualBasic.MIME.Office.Excel.XLSX.File
 
 Namespace XLSX

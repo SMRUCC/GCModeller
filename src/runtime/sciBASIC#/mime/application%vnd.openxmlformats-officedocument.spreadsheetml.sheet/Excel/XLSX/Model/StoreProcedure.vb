@@ -54,12 +54,12 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.Excel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.Excel
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.XML.xl
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.XML.xl.worksheets
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Namespace XLSX.Model
 

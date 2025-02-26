@@ -56,7 +56,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.XML.xl
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.XML.xl.worksheets
 

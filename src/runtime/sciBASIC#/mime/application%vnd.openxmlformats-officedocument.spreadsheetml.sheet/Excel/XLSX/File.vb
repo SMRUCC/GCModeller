@@ -65,14 +65,14 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.FileIO
 Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.Model.Directory
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.OpenXml
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Namespace XLSX
 

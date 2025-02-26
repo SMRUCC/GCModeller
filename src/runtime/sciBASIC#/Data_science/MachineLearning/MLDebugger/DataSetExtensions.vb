@@ -54,7 +54,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
-Imports Table = Microsoft.VisualBasic.Data.csv.IO.DataSet
+Imports Table = Microsoft.VisualBasic.Data.Framework.IO.DataSet
 
 <HideModuleName>
 Public Module DataSetExtensions

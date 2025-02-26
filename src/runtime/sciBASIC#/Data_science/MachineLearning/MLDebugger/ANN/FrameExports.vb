@@ -59,8 +59,8 @@ Imports Microsoft.VisualBasic.DataStorage.netCDF.DataVector
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
 Imports Basic = Microsoft.VisualBasic.Language.Runtime
-Imports DataFrame = Microsoft.VisualBasic.Data.csv.IO.DataFrame
-Imports Excel = Microsoft.VisualBasic.Data.csv.IO.DataSet
+Imports DataFrame = Microsoft.VisualBasic.Data.Framework.IO.DataFrame
+Imports Excel = Microsoft.VisualBasic.Data.Framework.IO.DataSet
 
 Public Module FrameExports
 

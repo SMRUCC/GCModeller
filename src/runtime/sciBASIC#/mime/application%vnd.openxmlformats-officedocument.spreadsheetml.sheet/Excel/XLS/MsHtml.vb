@@ -54,9 +54,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DATA
-Imports Table = Microsoft.VisualBasic.Data.csv.IO.File
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.DATA
+Imports Table = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Namespace XLS
 
