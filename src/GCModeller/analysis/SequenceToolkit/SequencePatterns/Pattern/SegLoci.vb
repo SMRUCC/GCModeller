@@ -56,7 +56,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace Pattern

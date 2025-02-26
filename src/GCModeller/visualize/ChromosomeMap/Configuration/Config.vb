@@ -65,7 +65,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Data.csv.IO.Properties
+Imports Microsoft.VisualBasic.Data.Framework.IO.Properties
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Html.CSS
