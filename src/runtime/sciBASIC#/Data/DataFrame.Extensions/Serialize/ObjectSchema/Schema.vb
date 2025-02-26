@@ -60,7 +60,7 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection.TypeSchemaProvider
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection.TypeSchemaProvider
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 

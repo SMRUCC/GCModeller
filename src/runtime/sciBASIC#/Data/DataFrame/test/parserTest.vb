@@ -1,66 +1,67 @@
 ﻿#Region "Microsoft.VisualBasic::6ef3282c031882bafed72a0a9e396c87, Data\DataFrame\test\parserTest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 49
-    '    Code Lines: 26 (53.06%)
-    ' Comment Lines: 3 (6.12%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 20 (40.82%)
-    '     File Size: 3.92 KB
+' Summaries:
 
 
-    ' Module parserTest
-    ' 
-    '     Sub: fileLoaderTest, Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 49
+'    Code Lines: 26 (53.06%)
+' Comment Lines: 3 (6.12%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 20 (40.82%)
+'     File Size: 3.92 KB
+
+
+' Module parserTest
+' 
+'     Sub: fileLoaderTest, Main
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile.Tokenizer
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Data.csv.IO.Tokenizer
 
 Module parserTest
 
     Sub Main()
 
-        Dim tokens1 As String() = Microsoft.VisualBasic.Data.csv.IO.Tokenizer.CharsParser("1,2,3,""4,5,6,7,8""").ToArray
-        Dim tokens2 As String() = Microsoft.VisualBasic.Data.csv.IO.Tokenizer.CharsParser("1,2,3,""Hello, world!""").ToArray
+        Dim tokens1 As String() = Tokenizer.CharsParser("1,2,3,""4,5,6,7,8""").ToArray
+        Dim tokens2 As String() = Tokenizer.CharsParser("1,2,3,""Hello, world!""").ToArray
 
         Call Console.WriteLine(tokens1.GetJson)
         Call Console.WriteLine(tokens2.GetJson)

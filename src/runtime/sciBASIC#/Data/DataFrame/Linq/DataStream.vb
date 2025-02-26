@@ -82,7 +82,7 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq

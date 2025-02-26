@@ -51,8 +51,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.DATA
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.DATA
 
 Module MySQLImportsTest
     Sub Main()

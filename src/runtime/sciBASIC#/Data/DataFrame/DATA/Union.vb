@@ -55,7 +55,7 @@
 
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 
 Namespace DATA
 

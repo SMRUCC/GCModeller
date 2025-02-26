@@ -56,14 +56,14 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports TableSchema = Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels.SchemaProvider
+Imports TableSchema = Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels.SchemaProvider
 
 Namespace StorageProvider.Reflection
 

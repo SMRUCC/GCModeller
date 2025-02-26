@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::56479ba0ea3136d11d7fcc87fceb0fab, Data\DataFrame\DATA\MySQL.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 202
-    '    Code Lines: 122 (60.40%)
-    ' Comment Lines: 55 (27.23%)
-    '    - Xml Docs: 96.36%
-    ' 
-    '   Blank Lines: 25 (12.38%)
-    '     File Size: 8.02 KB
+' Summaries:
 
 
-    '     Module MySQL
-    ' 
-    '         Function: DumpToTable, ImportsMySQLDump, INSERT_LineParser, SQLData, SQLEntityData
-    '                   SQLFields, SQLValues
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 202
+'    Code Lines: 122 (60.40%)
+' Comment Lines: 55 (27.23%)
+'    - Xml Docs: 96.36%
+' 
+'   Blank Lines: 25 (12.38%)
+'     File Size: 8.02 KB
+
+
+'     Module MySQL
+' 
+'         Function: DumpToTable, ImportsMySQLDump, INSERT_LineParser, SQLData, SQLEntityData
+'                   SQLFields, SQLValues
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,7 +60,8 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -207,7 +208,7 @@ Namespace DATA
             Dim values As IEnumerable(Of String)
 
             For Each block As String In blocks
-                values = IO.Tokenizer _
+                values = Tokenizer _
                     .CharsParser(block,, ASCII.Mark) _
                     .ToArray
 
@@ -226,7 +227,7 @@ Namespace DATA
         <Extension>
         Public Function SQLValues(insertSQL$) As String()
             Dim values$ = Regex.Split(insertSQL, "\)\s*VALUES\s*\(", RegexICSng).Last
-            Dim t$() = IO.Tokenizer _
+            Dim t$() = Tokenizer _
                 .CharsParser(values, quot:=ASCII.Mark) _
                 .Select(Function(s) s.GetStackValue("'", "'")) _
                 .ToArray
@@ -246,7 +247,7 @@ Namespace DATA
                 .StringSplit("\s*VALUES\s*\(") _
                 .First _
                 .GetStackValue("(", ")")
-            Dim names$() = IO.Tokenizer _
+            Dim names$() = Tokenizer _
                 .CharsParser(fields) _
                 .Select(Function(s) s.GetStackValue("`", "`")) _
                 .ToArray

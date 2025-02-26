@@ -67,9 +67,9 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.My

@@ -1,80 +1,80 @@
 ﻿#Region "Microsoft.VisualBasic::2ce131e7595c81e568ed800967c4e843, Data\DataFrame\IO\csv\File.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 976
-    '    Code Lines: 592 (60.66%)
-    ' Comment Lines: 259 (26.54%)
-    '    - Xml Docs: 96.91%
-    ' 
-    '   Blank Lines: 125 (12.81%)
-    '     File Size: 39.60 KB
+' Summaries:
 
 
-    '     Class File
-    ' 
-    '         Properties: Cell, Columns, EstimatedFileSize, Headers, Rows
-    '                     Width
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    ' 
-    '         Function: __createTableVector, AppendLine, AppendLines, AppendRange, FindAll
-    '                   FindAtColumn, Generate, GenerateDocument, GetAllStringTokens, GetByLine
-    '                   InsertEmptyColumnBefore, Project, Remove, (+3 Overloads) Save, (+2 Overloads) ToArray
-    '                   TokenCounts, ToString, Transpose, Trim
-    ' 
-    '         Sub: __setColumn, Append, (+2 Overloads) AppendLine, DeleteCell, RemoveRange
-    ' 
-    '         Operators: (+2 Overloads) +
-    '         Delegate Function
-    ' 
-    '             Properties: IsReadOnly, RowNumbers
-    ' 
-    '             Function: __LINQ_LOAD, AsMatrix, Contains, Distinct, GetEnumerator
-    '                       GetEnumerator1, IndexOf, IsNullOrEmpty, (+2 Overloads) Join, Load
-    '                       (+2 Overloads) loads, (+2 Overloads) LoadTsv, Parse, ReadHeaderRow, Remove
-    '                       RemoveSubRow, Save
-    ' 
-    '             Sub: (+3 Overloads) Add, Clear, CopyTo, Insert, InsertAt
-    '                  RemoveAt, Save
-    ' 
-    '             Operators: <, <=, >, >=
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 976
+'    Code Lines: 592 (60.66%)
+' Comment Lines: 259 (26.54%)
+'    - Xml Docs: 96.91%
+' 
+'   Blank Lines: 125 (12.81%)
+'     File Size: 39.60 KB
+
+
+'     Class File
+' 
+'         Properties: Cell, Columns, EstimatedFileSize, Headers, Rows
+'                     Width
+' 
+'         Constructor: (+4 Overloads) Sub New
+' 
+'         Function: __createTableVector, AppendLine, AppendLines, AppendRange, FindAll
+'                   FindAtColumn, Generate, GenerateDocument, GetAllStringTokens, GetByLine
+'                   InsertEmptyColumnBefore, Project, Remove, (+3 Overloads) Save, (+2 Overloads) ToArray
+'                   TokenCounts, ToString, Transpose, Trim
+' 
+'         Sub: __setColumn, Append, (+2 Overloads) AppendLine, DeleteCell, RemoveRange
+' 
+'         Operators: (+2 Overloads) +
+'         Delegate Function
+' 
+'             Properties: IsReadOnly, RowNumbers
+' 
+'             Function: __LINQ_LOAD, AsMatrix, Contains, Distinct, GetEnumerator
+'                       GetEnumerator1, IndexOf, IsNullOrEmpty, (+2 Overloads) Join, Load
+'                       (+2 Overloads) loads, (+2 Overloads) LoadTsv, Parse, ReadHeaderRow, Remove
+'                       RemoveSubRow, Save
+' 
+'             Sub: (+3 Overloads) Add, Clear, CopyTo, Insert, InsertAt
+'                  RemoveAt, Save
+' 
+'             Operators: <, <=, >, >=
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -84,7 +84,8 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -655,7 +656,7 @@ B21,B22,B23,...
         End Function
 
         ''' <summary>
-        ''' 这个方法是保存<see cref="Csv.DataFrame"></see>对象之中的数据所需要的
+        ''' 这个方法是保存<see cref="DataFrame"></see>对象之中的数据所需要的
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
@@ -750,7 +751,7 @@ B21,B22,B23,...
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function LoadTsv(path$, Optional encoding As Encodings = Encodings.UTF8) As File
-            Return csv.Imports(path, ASCII.TAB, encoding.CodePage)
+            Return Framework.Imports(path, ASCII.TAB, encoding.CodePage)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -764,7 +765,7 @@ B21,B22,B23,...
             If tsv Then
                 Return New RowObject(firstLine.Split(ASCII.TAB))
             Else
-                Return New RowObject(IO.Tokenizer.CharsParser(firstLine))
+                Return New RowObject(Tokenizer.CharsParser(firstLine))
             End If
         End Function
 

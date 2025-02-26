@@ -73,7 +73,7 @@
 Option Strict Off
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 

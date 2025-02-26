@@ -1,70 +1,71 @@
 ﻿#Region "Microsoft.VisualBasic::b02acc0cf5846eb63357dce6d8fb7e68, Data\DataFrame\IO\csv\RowObject.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 502
-    '    Code Lines: 300 (59.76%)
-    ' Comment Lines: 141 (28.09%)
-    '    - Xml Docs: 97.87%
-    ' 
-    '   Blank Lines: 61 (12.15%)
-    '     File Size: 18.97 KB
+' Summaries:
 
 
-    '     Class RowObject
-    ' 
-    '         Properties: AsLine, DirectGet, IsReadOnly, NumbersOfColumn, Width
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    ' 
-    '         Function: AddRange, AppendItem, (+2 Overloads) Contains, CreateObject, GetALLNonEmptys
-    '                   GetColumn, GetEnumerator, GetEnumerator1, IndexAny, IndexOf
-    '                   InsertAt, LocateKeyWord, PopLine, Remove, (+2 Overloads) Takes
-    '                   (+2 Overloads) ToString, TryParse
-    ' 
-    '         Sub: Add, Clear, CopyTo, Insert, RemoveAt
-    '              Trim
-    ' 
-    '         Operators: -, (+4 Overloads) +
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 502
+'    Code Lines: 300 (59.76%)
+' Comment Lines: 141 (28.09%)
+'    - Xml Docs: 97.87%
+' 
+'   Blank Lines: 61 (12.15%)
+'     File Size: 18.97 KB
+
+
+'     Class RowObject
+' 
+'         Properties: AsLine, DirectGet, IsReadOnly, NumbersOfColumn, Width
+' 
+'         Constructor: (+4 Overloads) Sub New
+' 
+'         Function: AddRange, AppendItem, (+2 Overloads) Contains, CreateObject, GetALLNonEmptys
+'                   GetColumn, GetEnumerator, GetEnumerator1, IndexAny, IndexOf
+'                   InsertAt, LocateKeyWord, PopLine, Remove, (+2 Overloads) Takes
+'                   (+2 Overloads) ToString, TryParse
+' 
+'         Sub: Add, Clear, CopyTo, Insert, RemoveAt
+'              Trim
+' 
+'         Operators: -, (+4 Overloads) +
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text

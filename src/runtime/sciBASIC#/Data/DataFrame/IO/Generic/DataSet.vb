@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::f6a50ebf99ff4f8b0d1178550ac32261, Data\DataFrame\IO\Generic\DataSet.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 231
-    '    Code Lines: 134 (58.01%)
-    ' Comment Lines: 71 (30.74%)
-    '    - Xml Docs: 94.37%
-    ' 
-    '   Blank Lines: 26 (11.26%)
-    '     File Size: 9.80 KB
+' Summaries:
 
 
-    '     Class DataSet
-    ' 
-    '         Properties: ID, MyHashCode, Vector
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: Append, Copy, JoinVector, (+2 Overloads) LoadDataSet, LoadMatrix
-    '                   SubSet, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 231
+'    Code Lines: 134 (58.01%)
+' Comment Lines: 71 (30.74%)
+'    - Xml Docs: 94.37%
+' 
+'   Blank Lines: 26 (11.26%)
+'     File Size: 9.80 KB
+
+
+'     Class DataSet
+' 
+'         Properties: ID, MyHashCode, Vector
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: Append, Copy, JoinVector, (+2 Overloads) LoadDataSet, LoadMatrix
+'                   SubSet, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -61,7 +61,8 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII

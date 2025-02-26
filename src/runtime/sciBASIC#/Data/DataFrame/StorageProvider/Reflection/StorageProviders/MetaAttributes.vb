@@ -53,7 +53,7 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 

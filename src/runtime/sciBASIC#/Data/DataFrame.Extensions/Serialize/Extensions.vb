@@ -54,14 +54,14 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.Serialize.ObjectSchema
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.Serialize.ObjectSchema
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Schema = Microsoft.VisualBasic.Data.csv.Serialize.ObjectSchema.Schema
+Imports Schema = Microsoft.VisualBasic.Data.Framework.Serialize.ObjectSchema.Schema
 
 Public Module SchemasAPI
 

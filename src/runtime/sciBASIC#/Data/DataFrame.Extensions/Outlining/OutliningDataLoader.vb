@@ -53,9 +53,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
-Imports TableSchema = Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels.SchemaProvider
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
+Imports TableSchema = Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels.SchemaProvider
 
 Namespace Outlining
 

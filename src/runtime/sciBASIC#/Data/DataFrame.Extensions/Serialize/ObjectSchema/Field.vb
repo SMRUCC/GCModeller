@@ -57,8 +57,8 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 
 Namespace Serialize.ObjectSchema
 

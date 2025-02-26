@@ -58,8 +58,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports VisualBasic = Microsoft.VisualBasic.Language.Runtime
 
 Module Reflection

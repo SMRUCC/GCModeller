@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Microsoft.VisualBasic.Data.csv</RootNamespace>
+    <RootNamespace>Microsoft.VisualBasic.Data.Framework</RootNamespace>
     <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
     <AssemblyName>Microsoft.VisualBasic.Data.Framework.Extensions</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>

@@ -55,9 +55,9 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
-Imports Table = Microsoft.VisualBasic.Data.csv.IO.File
+Imports Table = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Public Module PipeStream
 

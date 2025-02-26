@@ -1,59 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::dd9da75f3dfa839d979fa06bbe406e40, Data\DataFrame\Extensions\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 666
-    '    Code Lines: 380 (57.06%)
-    ' Comment Lines: 212 (31.83%)
-    '    - Xml Docs: 92.92%
-    ' 
-    '   Blank Lines: 74 (11.11%)
-    '     File Size: 28.70 KB
+' Summaries:
 
 
-    ' Module Extensions
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: (+4 Overloads) AsDataSource, AsLinq, (+5 Overloads) DataFrame, GetLocusMapName, IsEmptyTable
-    '               (+3 Overloads) LoadCsv, LoadDataFrame, LoadDblVector, LoadStream, LoadTsv
-    '               SaveDataSet, (+2 Overloads) SaveTable, (+6 Overloads) SaveTo, TabExport, ToCsvDoc
-    ' 
-    '     Sub: Cable, ForEach
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 666
+'    Code Lines: 380 (57.06%)
+' Comment Lines: 212 (31.83%)
+'    - Xml Docs: 92.92%
+' 
+'   Blank Lines: 74 (11.11%)
+'     File Size: 28.70 KB
+
+
+' Module Extensions
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: (+4 Overloads) AsDataSource, AsLinq, (+5 Overloads) DataFrame, GetLocusMapName, IsEmptyTable
+'               (+3 Overloads) LoadCsv, LoadDataFrame, LoadDblVector, LoadStream, LoadTsv
+'               SaveDataSet, (+2 Overloads) SaveTable, (+6 Overloads) SaveTo, TabExport, ToCsvDoc
+' 
+'     Sub: Cable, ForEach
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -64,10 +64,11 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -76,7 +77,7 @@ Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports any = Microsoft.VisualBasic.Scripting
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
-Imports File_csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports File_csv = Microsoft.VisualBasic.Data.Framework.IO.File
 
 ''' <summary>
 ''' The shortcuts operation for the common csv document operations.

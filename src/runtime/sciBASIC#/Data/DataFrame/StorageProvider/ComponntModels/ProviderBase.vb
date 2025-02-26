@@ -61,7 +61,7 @@
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Scripting
 
 Namespace StorageProvider.ComponentModels

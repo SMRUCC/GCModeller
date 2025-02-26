@@ -58,12 +58,12 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
-Imports csvFile = Microsoft.VisualBasic.Data.csv.IO.File
+Imports csvFile = Microsoft.VisualBasic.Data.Framework.IO.File
 
 ''' <summary>
 ''' Module provides the csv data imports operation of the csv document creates from a text file.

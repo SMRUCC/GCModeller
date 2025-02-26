@@ -51,7 +51,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.Outlining
+Imports Microsoft.VisualBasic.Data.Framework.Outlining
 
 Module OutliningTest
 

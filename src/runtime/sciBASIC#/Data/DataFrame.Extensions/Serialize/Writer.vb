@@ -53,8 +53,8 @@
 #End Region
 
 Imports System.IO
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.Serialize.ObjectSchema
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.Serialize.ObjectSchema
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 
