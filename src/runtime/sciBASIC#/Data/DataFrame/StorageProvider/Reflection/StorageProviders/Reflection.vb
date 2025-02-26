@@ -189,7 +189,7 @@ Namespace StorageProvider.Reflection
         ''' <typeparam name="T"></typeparam>
         ''' <param name="Explicit">
         ''' 当本参数值为False的时候，所有的简单属性值都将被解析出来，而忽略掉其是否带有
-        ''' <see cref="Csv.StorageProvider.Reflection.ColumnAttribute"></see>自定义属性
+        ''' <see cref="StorageProvider.Reflection.ColumnAttribute"></see>自定义属性
         ''' </param>
         ''' <param name="path"></param>
         ''' <returns></returns>
