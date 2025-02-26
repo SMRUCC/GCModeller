@@ -137,6 +137,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Data\DataFrame\dataframework-netcore5.vbproj">
+      <Project>{d410907f-a387-b1c5-6417-66b7623d41be}</Project>
+      <Name>dataframework-netcore5</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Data_science\Graph\graph-netcore5.vbproj">
       <Project>{294962ba-2365-487a-9810-0679d26c1ab5}</Project>
       <Name>graph-netcore5</Name>
@@ -148,6 +152,18 @@
     <ProjectReference Include="..\..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj">
       <Project>{7c7d0129-8931-fdff-7c5a-c8a634b419a7}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\physics\physics-netcore5.vbproj">
+      <Project>{fe524930-28af-654b-77b4-9370b6df623a}</Project>
+      <Name>physics-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Network.IO.Extensions\network_io-netcore5.vbproj">
+      <Project>{84b8b586-af1a-7006-6185-4e89001add34}</Project>
+      <Name>network_io-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\network_layout\network_layout.vbproj">
+      <Project>{8d33eef9-4e68-e33f-97f2-98723cd7d2ba}</Project>
+      <Name>network_layout</Name>
     </ProjectReference>
     <ProjectReference Include="..\network_graph-netcore5.vbproj">
       <Project>{fbc0cde1-53c8-0593-7872-ab16fabe966e}</Project>
