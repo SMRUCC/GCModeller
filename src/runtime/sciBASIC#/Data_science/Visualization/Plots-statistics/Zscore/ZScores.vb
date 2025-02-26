@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94024f54b951cc01ce8fa295a5ae7f4b, Data_science\Visualization\Plots-statistics\Zscore\ZScores.vb"
+﻿#Region "Microsoft.VisualBasic::006bf68221cea44c8b9862ace08a5459, Data_science\Visualization\Plots-statistics\Zscore\ZScores.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 5 (11.90%)
-    '     File Size: 1.89 KB
+    '     File Size: 1.90 KB
 
 
     ' Module ZScoresPlots

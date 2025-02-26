@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d81155e61152ed021bd0ef6a9827699, Data\DataFrame.Extensions\Templates\TemplateHelper.vb"
+﻿#Region "Microsoft.VisualBasic::49379ac0453ce65d6e914a00e93ad7a7, Data\DataFrame.Extensions\Templates\TemplateHelper.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 10 (15.87%)
-    '     File Size: 2.36 KB
+    '     File Size: 2.37 KB
 
 
     ' Module TemplateHelper

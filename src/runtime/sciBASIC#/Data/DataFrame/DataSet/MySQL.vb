@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::56479ba0ea3136d11d7fcc87fceb0fab, Data\DataFrame\DATA\MySQL.vb"
+﻿#Region "Microsoft.VisualBasic::a0e7d4c2ff4e5488dc319edd63614288, Data\DataFrame\DataSet\MySQL.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 202
-'    Code Lines: 122 (60.40%)
-' Comment Lines: 55 (27.23%)
-'    - Xml Docs: 96.36%
-' 
-'   Blank Lines: 25 (12.38%)
-'     File Size: 8.02 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module MySQL
-' 
-'         Function: DumpToTable, ImportsMySQLDump, INSERT_LineParser, SQLData, SQLEntityData
-'                   SQLFields, SQLValues
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 203
+    '    Code Lines: 123 (60.59%)
+    ' Comment Lines: 55 (27.09%)
+    '    - Xml Docs: 96.36%
+    ' 
+    '   Blank Lines: 25 (12.32%)
+    '     File Size: 8.08 KB
+
+
+    '     Module MySQL
+    ' 
+    '         Function: DumpToTable, ImportsMySQLDump, INSERT_LineParser, SQLData, SQLEntityData
+    '                   SQLFields, SQLValues
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

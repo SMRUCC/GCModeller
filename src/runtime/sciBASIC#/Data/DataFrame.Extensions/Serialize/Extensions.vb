@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93e4af80684106fb91ef4edf332e73f2, Data\DataFrame.Extensions\Serialize\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::4f1144bd505985493341466df8538f99, Data\DataFrame.Extensions\Serialize\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.31%
     ' 
     '   Blank Lines: 19 (13.48%)
-    '     File Size: 5.33 KB
+    '     File Size: 5.35 KB
 
 
     ' Module SchemasAPI

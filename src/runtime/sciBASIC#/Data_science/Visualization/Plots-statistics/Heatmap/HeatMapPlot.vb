@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dbe614c5ec33994b1685aa45b2517ee, Data_science\Visualization\Plots-statistics\HeatMap\HeatMapPlot.vb"
+﻿#Region "Microsoft.VisualBasic::104aaf030c900bfbaeb2c42edeaf5d2d, Data_science\Visualization\Plots-statistics\Heatmap\HeatMapPlot.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 306
-    '    Code Lines: 226 (73.86%)
-    ' Comment Lines: 30 (9.80%)
+    '   Total Lines: 326
+    '    Code Lines: 242 (74.23%)
+    ' Comment Lines: 30 (9.20%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 50 (16.34%)
-    '     File Size: 13.43 KB
+    '   Blank Lines: 54 (16.56%)
+    '     File Size: 14.29 KB
 
 
     '     Class HeatMapPlot
     ' 
     '         Properties: drawClass, drawDendrograms, drawLabels, globalRange, LegendLayout
-    '                     legendSize, logTransform, scaleMethod
+    '                     legendSize, scaleMethod
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -58,7 +58,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ApplicationServices

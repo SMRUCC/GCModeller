@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63af967c53085db088ff23da5f9f8c58, Data\DataFrame\StorageProvider\ComponntModels\RowBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::ac98d82a1ababb387feb45e34a9ee396, Data\DataFrame\StorageProvider\ComponntModels\RowBuilder.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.16%
     ' 
     '   Blank Lines: 46 (17.42%)
-    '     File Size: 10.60 KB
+    '     File Size: 10.61 KB
 
 
     '     Interface ISchema

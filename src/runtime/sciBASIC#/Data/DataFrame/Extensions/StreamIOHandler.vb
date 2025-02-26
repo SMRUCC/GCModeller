@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::b9d53861eb2c7e0809d9f5a72b44e7ac, Data\DataFrame\Extensions\StreamIOHandler.vb"
+﻿#Region "Microsoft.VisualBasic::b2b99777c0624840b092e0b6ad899e15, Data\DataFrame\Extensions\StreamIOHandler.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 53
-'    Code Lines: 39 (73.58%)
-' Comment Lines: 3 (5.66%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 11 (20.75%)
-'     File Size: 2.66 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module StreamIOHandler
-' 
-'     Function: ISaveCsv, ISaveDataFrame, ISaveDataSet, ISaveEntitySet
-' 
-'     Sub: initStreamIOHandlers
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 40 (74.07%)
+    ' Comment Lines: 3 (5.56%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (20.37%)
+    '     File Size: 2.73 KB
+
+
+    ' Module StreamIOHandler
+    ' 
+    '     Function: ISaveCsv, ISaveDataFrame, ISaveDataSet, ISaveEntitySet
+    ' 
+    '     Sub: initStreamIOHandlers
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

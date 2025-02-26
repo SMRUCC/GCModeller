@@ -1,56 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::f522846f339112e3ac9ff7d6d43d592e, Data\DataFrame\DATA\Excel\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::29d209f352bcb66e6d08af3e34480af6, Data\DataFrame\DataSet\Excel\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 93
-'    Code Lines: 48 (51.61%)
-' Comment Lines: 34 (36.56%)
-'    - Xml Docs: 94.12%
-' 
-'   Blank Lines: 11 (11.83%)
-'     File Size: 3.58 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module Extensions
-' 
-'         Function: LoadDataSet, LoadEntitySet, (+2 Overloads) ReadXlsx
-' 
-'         Sub: doUpdateMaps
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 48 (51.61%)
+    ' Comment Lines: 34 (36.56%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 11 (11.83%)
+    '     File Size: 3.58 KB
+
+
+    '     Module Extensions
+    ' 
+    '         Function: LoadDataSet, LoadEntitySet, (+2 Overloads) ReadXlsx
+    ' 
+    '         Sub: doUpdateMaps
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

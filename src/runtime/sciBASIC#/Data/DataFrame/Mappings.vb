@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::9061108d6e4da6b89aedbbf152b1b0e9, Data\DataFrame\Mappings.vb"
+﻿#Region "Microsoft.VisualBasic::368904758eb2fd622f58b41f34b59944, Data\DataFrame\Mappings.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 115
-'    Code Lines: 60 (52.17%)
-' Comment Lines: 42 (36.52%)
-'    - Xml Docs: 92.86%
-' 
-'   Blank Lines: 13 (11.30%)
-'     File Size: 5.02 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class MappingsHelper
-' 
-'     Function: [Typeof], CheckFieldConsistent, ColumnName, NamedValueMapsWrite, PropertyNames
-'               TagFieldName
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 118
+    '    Code Lines: 61 (51.69%)
+    ' Comment Lines: 44 (37.29%)
+    '    - Xml Docs: 93.18%
+    ' 
+    '   Blank Lines: 13 (11.02%)
+    '     File Size: 5.12 KB
+
+
+    ' Class MappingsHelper
+    ' 
+    '     Function: [Typeof], CheckFieldConsistent, ColumnName, NamedValueMapsWrite, PropertyNames
+    '               TagFieldName
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

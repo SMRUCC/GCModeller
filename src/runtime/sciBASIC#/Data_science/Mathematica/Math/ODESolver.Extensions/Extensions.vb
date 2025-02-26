@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b1aa8b0f8662239a8cbb4123c7ad2f7, Data_science\Mathematica\Math\ODESolver.Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::366330416950cb6bf475e9f3703d3f31, Data_science\Mathematica\Math\ODESolver.Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 84.00%
     ' 
     '   Blank Lines: 24 (14.72%)
-    '     File Size: 6.19 KB
+    '     File Size: 6.20 KB
 
 
     ' Module Extensions

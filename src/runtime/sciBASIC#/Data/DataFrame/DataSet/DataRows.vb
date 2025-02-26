@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9cb52eef12222618ddfc34ef63606cca, Data\DataFrame\DATA\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::579e1073f79dac06364700886f26a3d8, Data\DataFrame\DataSet\DataRows.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@
     '     File Size: 7.68 KB
 
 
-    '     Class DataFrame
+    '     Class DataRows
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 

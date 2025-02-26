@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::872b4a56f1e3f3b7899fbf3287e91187, Data\DataFrame.Extensions\Serialize\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::f32be3bca31ce6fbc35e1f1d81e27297, Data\DataFrame.Extensions\Serialize\Writer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 51.52%
     ' 
     '   Blank Lines: 20 (17.70%)
-    '     File Size: 3.96 KB
+    '     File Size: 3.97 KB
 
 
     ' Class Writer

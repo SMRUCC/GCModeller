@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17ed0afe998827fe008da60b118e5705, Data\DataFrame\test\MySQLImportsTest.vb"
+﻿#Region "Microsoft.VisualBasic::3f1d8d2c0a7b6f8d420238661026a1e7, Data\DataFrame\test\MySQLImportsTest.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 3 (27.27%)
-    '     File Size: 300 B
+    '     File Size: 312 B
 
 
     ' Module MySQLImportsTest

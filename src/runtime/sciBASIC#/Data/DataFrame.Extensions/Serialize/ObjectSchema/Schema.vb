@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0608a57a4031a51be02b2312409fb656, Data\DataFrame.Extensions\Serialize\ObjectSchema\Schema.vb"
+﻿#Region "Microsoft.VisualBasic::09d2293b3edf323abcce6196ec162a5a, Data\DataFrame.Extensions\Serialize\ObjectSchema\Schema.vb"
 
     ' Author:
     ' 

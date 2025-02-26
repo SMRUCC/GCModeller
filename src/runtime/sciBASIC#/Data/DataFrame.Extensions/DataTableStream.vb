@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3be9a1b3192d104bdf0bc6f97dbf6c4f, Data\DataFrame.Extensions\DataTableStream.vb"
+﻿#Region "Microsoft.VisualBasic::54948aefd358337bf611f4dbea19489e, Data\DataFrame.Extensions\DataTableStream.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 18 (12.00%)
-    '     File Size: 6.92 KB
+    '     File Size: 6.94 KB
 
 
     ' Module DataTableStream

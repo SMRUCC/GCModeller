@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::173bfb3b84059653648c9d5a76894fea, Data\DataFrame.Extensions\Outlining\OutliningDataLoader.vb"
+﻿#Region "Microsoft.VisualBasic::9634d27089176d443e847f5be323dc05, Data\DataFrame.Extensions\Outlining\OutliningDataLoader.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 66.67%
     ' 
     '   Blank Lines: 14 (14.89%)
-    '     File Size: 3.90 KB
+    '     File Size: 3.92 KB
 
 
     '     Module OutliningDataLoader

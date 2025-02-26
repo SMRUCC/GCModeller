@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa113a65ebd06a6494d1db2793dd191e, Data\DataFrame.Extensions\My Project\Resources.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::ee75158b2ff3b8fcdbccc097c6ae3b02, Data\DataFrame.Extensions\My Project\Resources.Designer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 17.39%
     ' 
     '   Blank Lines: 8 (12.70%)
-    '     File Size: 2.79 KB
+    '     File Size: 2.80 KB
 
 
     '     Module Resources

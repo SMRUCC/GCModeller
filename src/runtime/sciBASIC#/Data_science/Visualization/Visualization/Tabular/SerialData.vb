@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ecd94cd4d39c278a343ee0713fd74f7, Data_science\Visualization\Visualization\Tabular\SerialData.vb"
+﻿#Region "Microsoft.VisualBasic::7bbcca03b7e26d6f8cdf907c2cb00d11, Data_science\Visualization\Visualization\Tabular\SerialData.vb"
 
     ' Author:
     ' 

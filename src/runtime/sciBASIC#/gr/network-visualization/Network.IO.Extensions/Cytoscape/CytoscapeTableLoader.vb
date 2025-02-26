@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::066960b9d55c9ce6ac612f43edd29f7f, gr\network-visualization\Network.IO.Extensions\Cytoscape\CytoscapeTableLoader.vb"
+﻿#Region "Microsoft.VisualBasic::aaf3f83872684f4277ab8afa8d4e5ec0, gr\network-visualization\Network.IO.Extensions\Cytoscape\CytoscapeTableLoader.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 14 (12.73%)
-    '     File Size: 4.87 KB
+    '     File Size: 4.88 KB
 
 
     '     Module CytoscapeTableLoader

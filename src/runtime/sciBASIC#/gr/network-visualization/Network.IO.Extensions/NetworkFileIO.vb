@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd466a5010eaf0083801b104825fecbd, gr\network-visualization\Network.IO.Extensions\NetworkFileIO.vb"
+﻿#Region "Microsoft.VisualBasic::218048263a97266602c2faa5695ca138, gr\network-visualization\Network.IO.Extensions\NetworkFileIO.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.00%
     ' 
     '   Blank Lines: 14 (12.73%)
-    '     File Size: 4.99 KB
+    '     File Size: 5.00 KB
 
 
     ' Module NetworkFileIO

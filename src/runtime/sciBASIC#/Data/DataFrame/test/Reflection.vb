@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a1e40038193c35737e2ea618ec124ed, Data\DataFrame\test\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::51c1bfc807433305b499b890e7920da2, Data\DataFrame\test\Reflection.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 11 (22.45%)
-    '     File Size: 1.38 KB
+    '     File Size: 1.39 KB
 
 
     ' Module Reflection
