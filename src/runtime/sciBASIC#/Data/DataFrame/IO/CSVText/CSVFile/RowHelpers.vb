@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 
-Namespace IO
+Namespace IO.CSVFile
 
     Public Module RowHelpers
 

@@ -61,7 +61,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
-Namespace IO
+Namespace IO.CSVFile
 
     Public Module StreamIO
 

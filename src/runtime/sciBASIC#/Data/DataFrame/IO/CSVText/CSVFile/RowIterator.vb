@@ -60,7 +60,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
-Namespace IO
+Namespace IO.CSVFile
 
     Public Class RowIterator : Implements IDisposable
 

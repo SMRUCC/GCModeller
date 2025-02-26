@@ -60,7 +60,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 
-Namespace IO
+Namespace IO.CSVFile
 
     ''' <summary>
     ''' RowObject parsers

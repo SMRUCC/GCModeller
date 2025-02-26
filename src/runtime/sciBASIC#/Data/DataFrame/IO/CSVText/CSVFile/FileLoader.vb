@@ -63,7 +63,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
-Namespace IO
+Namespace IO.CSVFile
 
     ''' <summary>
     ''' Wrapper module for read csv/tsv file

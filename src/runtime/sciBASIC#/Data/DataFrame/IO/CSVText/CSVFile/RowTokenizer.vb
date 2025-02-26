@@ -57,7 +57,7 @@ Imports Microsoft.VisualBasic.Scripting.TokenIcer
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser
 
-Namespace IO
+Namespace IO.CSVFile
 
     ''' <summary>
     ''' Parse the csv row by char scanning
