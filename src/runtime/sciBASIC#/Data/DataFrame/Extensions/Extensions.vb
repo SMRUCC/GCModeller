@@ -92,8 +92,8 @@ Public Module Extensions
     End Sub
 
     <Extension>
-    Public Function LoadDataFrame(path As String, Optional encoding As Encoding = Nothing) As DATA.DataFrame
-        Return New DATA.DataFrame(EntityObject.LoadDataSet(path, encoding:=encoding))
+    Public Function LoadDataFrame(path As String, Optional encoding As Encoding = Nothing) As DATA.DataRows
+        Return New DATA.DataRows(EntityObject.LoadDataSet(path, encoding:=encoding))
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
