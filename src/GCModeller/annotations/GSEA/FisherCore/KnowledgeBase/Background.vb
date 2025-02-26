@@ -129,6 +129,22 @@ Public Class Background : Inherits XmlDataModel
         Return Nothing
     End Function
 
+    Public Function GetClusterByMemberGeneId(geneId As String) As Cluster
+        If geneId.StringEmpty(, True) Then
+            Return Nothing
+        End If
+
+        For Each cluster As Cluster In clusters
+            Dim gene As BackgroundGene = cluster.GetMemberById(geneId)
+
+            If Not gene Is Nothing Then
+                Return cluster
+            End If
+        Next
+
+        Return Nothing
+    End Function
+
     ''' <summary>
     ''' Make a dictionary index of the <see cref="clusters"/>, via the <see cref="Cluster.ID"/> as key.
     ''' </summary>

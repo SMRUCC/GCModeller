@@ -19,4 +19,11 @@ declare namespace kegg {
      * + default value Is ``null``.
    */
    function compound_set(maps: any, env?: object): any;
+   /**
+     * @param kegg_id default value Is ``'kegg_id'``.
+     * @param class_field default value Is ``'kegg_class'``.
+     * @param category_field default value Is ``'kegg_category'``.
+     * @param env default value Is ``null``.
+   */
+   function kegg_category_annotation(kegg: object, anno: object, kegg_id?: string, class_field?: string, category_field?: string, env?: object): any;
 }

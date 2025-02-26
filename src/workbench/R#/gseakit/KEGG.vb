@@ -55,10 +55,13 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' the kegg background helper
@@ -88,6 +91,39 @@ Module KEGG
         Next
 
         Return cpd_set
+    End Function
+
+    <ExportAPI("kegg_category_annotation")>
+    Public Function kegg_category_annotation(kegg As Background, anno As dataframe,
+                                             Optional kegg_id As String = "kegg_id",
+                                             Optional class_field As String = "kegg_class",
+                                             Optional category_field As String = "kegg_category",
+                                             Optional env As Environment = Nothing) As Object
+        If Not anno.hasName(kegg_id) Then
+            Return RInternal.debug.stop($"the required specific data field '{kegg_id}' is not existed inside the given dataframe!", env)
+        Else
+            ' we should sort the cluster with member size asc
+            ' for avoid the global map always has hits
+            kegg.clusters = kegg.clusters _
+                .OrderBy(Function(c) c.members.TryCount) _
+                .ToArray
+        End If
+
+        Dim ids As String() = CLRVector.asCharacter(anno(kegg_id)) _
+            .Select(AddressOf Strings.Trim) _
+            .Select(Function(str)
+                        Return str _
+                            .StringSplit("[;,\s]+") _
+                            .Where(Function(si) Not si.StringEmpty(, True)) _
+                            .FirstOrDefault
+                    End Function) _
+            .ToArray
+        Dim maps = ids.Select(Function(id) kegg.GetClusterByMemberGeneId(id)).ToArray
+
+        Call anno.add(class_field, maps.Select(Function(m) If(m Is Nothing, Nothing, m.class)))
+        Call anno.add(category_field, maps.Select(Function(m) If(m Is Nothing, Nothing, m.category)))
+
+        Return anno
     End Function
 
 End Module
