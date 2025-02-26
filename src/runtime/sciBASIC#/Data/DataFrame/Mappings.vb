@@ -61,8 +61,10 @@ Imports Field = Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels.S
 ''' <summary>
 ''' Handling the data fields mapping for make processing of
 ''' the csv headers.
-''' (在写csv的时候生成列域名的映射的一些快捷函数)
 ''' </summary>
+''' <remarks>
+''' (在写csv的时候生成列域名的映射的一些快捷函数)
+''' </remarks>
 Public Class MappingsHelper
 
     ''' <summary>

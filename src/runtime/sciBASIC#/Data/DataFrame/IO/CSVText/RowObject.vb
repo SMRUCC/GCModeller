@@ -73,9 +73,9 @@ Imports any = Microsoft.VisualBasic.Scripting
 Namespace IO
 
     ''' <summary>
-    ''' A line of data in the csv file.(Csv表格文件之中的一行)
+    ''' A line of data in the csv file.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(Csv表格文件之中的一行)</remarks>
     Public Class RowObject : Implements IEnumerable(Of String)
         Implements IList(Of String)
 
