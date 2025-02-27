@@ -91,7 +91,7 @@ Namespace IO
     ''' <remarks>
     ''' (第一行总是没有的，即本对象类型适用于第一行为列标题行的数据)
     ''' </remarks>
-    Public Class DataFrame
+    Public Class DataFrameResolver
         Implements ISchema
         Implements IDataReader
         Implements IDisposable
@@ -182,7 +182,7 @@ Namespace IO
             Return columnList.AddAttribute(Name)
         End Function
 
-        Public Function MeasureTypeSchema() As DataFrame
+        Public Function MeasureTypeSchema() As DataFrameResolver
             Dim types As New List(Of Type)
 
             For Each col As String() In table.GetColumns
@@ -299,9 +299,9 @@ Namespace IO
             End Get
         End Property
 
-        Public Function Slice(index As IEnumerable(Of Integer)) As DataFrame
+        Public Function Slice(index As IEnumerable(Of Integer)) As DataFrameResolver
             Dim subset = Rows.ToArray.CopyOf(index.ToArray)
-            Dim df As New DataFrame With {
+            Dim df As New DataFrameResolver With {
                 .columnList = columnList,
                 .current = Nothing,
                 .p = Nothing,
@@ -346,7 +346,7 @@ Namespace IO
             Return table.GetColumns
         End Function
 
-        Public Function AppendLine(row As IEnumerable(Of String)) As DataFrame
+        Public Function AppendLine(row As IEnumerable(Of String)) As DataFrameResolver
             Call table.Add(New RowObject(row))
             Return Me
         End Function
@@ -406,7 +406,7 @@ Namespace IO
                                               Optional fast As Boolean = False,
                                               Optional skipWhile As NamedValue(Of Func(Of String, Boolean)) = Nothing,
                                               Optional simpleRowIterators As Boolean = True,
-                                              Optional tsv As Boolean = False) As DataFrame
+                                              Optional tsv As Boolean = False) As DataFrameResolver
             Dim file As File
 
             If fast Then
@@ -422,7 +422,7 @@ Namespace IO
 
         Public Overloads Shared Function Load(stream As Stream,
                                               Optional encoding As Encoding = Nothing,
-                                              Optional isTsv As Boolean = False) As DataFrame
+                                              Optional isTsv As Boolean = False) As DataFrameResolver
             Dim file As New File With {
                 ._innerTable = File.loads(
                     file:=stream,
@@ -432,7 +432,7 @@ Namespace IO
                     isTsv:=isTsv
                 )
             }
-            Dim table As DataFrame = CreateObject(file)
+            Dim table As DataFrameResolver = CreateObject(file)
 
             Return table
         End Function
@@ -456,44 +456,51 @@ Namespace IO
         ''' just check for the table header and give the warning message
         ''' </remarks>
         Private Shared Function getColumnList(table As IEnumerable(Of RowObject)) As List(Of String)
-            Dim empty_ordinal As New List(Of Integer)
-            Dim whitespace_padding As New List(Of (String, Integer))
             Dim colnames As List(Of String) = table.FirstOrDefault.AsList
 
             If colnames.IsNullOrEmpty Then
                 Call "empty table data!".Warning
             Else
-                For i As Integer = 0 To colnames.Count - 1
-                    If colnames(i).StringEmpty(whitespaceAsEmpty:=True) Then
-                        Call empty_ordinal.Add(i)
-                    Else
-                        Dim lc As Char = colnames(i).First
-                        Dim rc As Char = colnames(i).Last
+                colnames = getColumnList(colnames)
+            End If
 
-                        If lc = " "c OrElse lc = ASCII.TAB OrElse rc = " "c OrElse rc = ASCII.TAB Then
-                            Call whitespace_padding.Add((colnames(i), i))
-                        End If
+            Return colnames
+        End Function
+
+        Private Shared Function getColumnList(colnames As List(Of String)) As List(Of String)
+            Dim empty_ordinal As New List(Of Integer)
+            Dim whitespace_padding As New List(Of (String, Integer))
+
+            For i As Integer = 0 To colnames.Count - 1
+                If colnames(i).StringEmpty(whitespaceAsEmpty:=True) Then
+                    Call empty_ordinal.Add(i)
+                Else
+                    Dim lc As Char = colnames(i).First
+                    Dim rc As Char = colnames(i).Last
+
+                    If lc = " "c OrElse lc = ASCII.TAB OrElse rc = " "c OrElse rc = ASCII.TAB Then
+                        Call whitespace_padding.Add((colnames(i), i))
                     End If
-                Next
-
-                ' 20240430
-                ' 这里不能够使用Trim函数，因为Column也可能是故意定义了空格在其实或者结束的位置的，
-                ' 使用Trim函数之后，反而可能会导致GetOrder函数执行失败。故而在这里只给出警告信息即可
-                If empty_ordinal.Any OrElse whitespace_padding.Any Then
-                    Dim warnings As New List(Of String)
-
-                    If empty_ordinal.Any Then
-                        warnings.Add($"there are empty column header in your table data in columns: {empty_ordinal.ToArray.GetJson}.")
-                    End If
-                    If whitespace_padding.Any Then
-                        If warnings.Any Then
-                            warnings.Add("and also ")
-                        End If
-                        warnings.Add($"there are column headers that padding with whitespace in left or right: {whitespace_padding.Select(Function(c) $"[{c.Item2}] '{c.Item1}'").JoinBy(", ")}. these may caused the ``GetOrder()`` function execute failure!")
-                    End If
-
-                    Call warnings.JoinBy("").Warning
                 End If
+            Next
+
+            ' 20240430
+            ' 这里不能够使用Trim函数，因为Column也可能是故意定义了空格在其实或者结束的位置的，
+            ' 使用Trim函数之后，反而可能会导致GetOrder函数执行失败。故而在这里只给出警告信息即可
+            If empty_ordinal.Any OrElse whitespace_padding.Any Then
+                Dim warnings As New List(Of String)
+
+                If empty_ordinal.Any Then
+                    warnings.Add($"there are empty column header in your table data in columns: {empty_ordinal.ToArray.GetJson}.")
+                End If
+                If whitespace_padding.Any Then
+                    If warnings.Any Then
+                        warnings.Add("and also ")
+                    End If
+                    warnings.Add($"there are column headers that padding with whitespace in left or right: {whitespace_padding.Select(Function(c) $"[{c.Item2}] '{c.Item1}'").JoinBy(", ")}. these may caused the ``GetOrder()`` function execute failure!")
+                End If
+
+                Call warnings.JoinBy("").Warning
             End If
 
             Return colnames
@@ -506,7 +513,7 @@ Namespace IO
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Shared Function CreateObject(file As File) As DataFrame
+        Public Overloads Shared Function CreateObject(file As File) As DataFrameResolver
             Return createObjectInternal(file)
         End Function
 
@@ -516,8 +523,8 @@ Namespace IO
         ''' <param name="headers">the header text data of each columns</param>
         ''' <param name="rows">the table data that exlcudes the first header row.</param>
         ''' <returns></returns>
-        Public Overloads Shared Function CreateObject(headers As IEnumerable(Of String), rows As IEnumerable(Of RowObject)) As DataFrame
-            Dim df As New DataFrame With {
+        Public Overloads Shared Function CreateObject(headers As IEnumerable(Of String), rows As IEnumerable(Of RowObject)) As DataFrameResolver
+            Dim df As New DataFrameResolver With {
                 .table = rows.AsList,
                 .columnList = New HeaderSchema(headers)
             }
@@ -529,13 +536,13 @@ Namespace IO
         ''' </summary>
         ''' <param name="table"></param>
         ''' <param name="dataframe"></param>
-        Private Shared Sub Initialize(table As List(Of RowObject), ByRef dataframe As DataFrame)
+        Private Shared Sub Initialize(table As List(Of RowObject), ByRef dataframe As DataFrameResolver)
             dataframe.table = table.Skip(1).AsList
             dataframe.columnList = New HeaderSchema(getColumnList(table))
         End Sub
 
-        Private Shared Function createObjectInternal(file As File) As DataFrame
-            Dim dataframe As New DataFrame
+        Private Shared Function createObjectInternal(file As File) As DataFrameResolver
+            Dim dataframe As New DataFrameResolver
             Call Initialize(file._innerTable, dataframe)
             Return dataframe
         End Function
@@ -669,7 +676,7 @@ Namespace IO
         ''' </summary>
         ''' <param name="columnList"></param>
         ''' <returns></returns>
-        Public Function [Select](columnList As String()) As DataFrame
+        Public Function [Select](columnList As String()) As DataFrameResolver
             Dim newTable As New List(Of RowObject)
             ' Location pointer to the column
             Dim pList As Integer() = GetOrdinalSchema(columnList)
@@ -680,7 +687,7 @@ Namespace IO
                 newTable += New RowObject(pList.Select(Function(i) current.Column(i)))
             Loop
 
-            Return New DataFrame With {
+            Return New DataFrameResolver With {
                 .columnList = New HeaderSchema(columnList),
                 .table = newTable
             }
@@ -703,7 +710,7 @@ Namespace IO
         End Function
 
         ''' <summary>
-        ''' Closes the <see cref="System.Data.IDataReader"/>:<see cref="DataFrame"/> Object.  
+        ''' Closes the <see cref="System.Data.IDataReader"/>:<see cref="DataFrameResolver"/> Object.  
         ''' </summary>
         Private Sub Close() Implements IDataReader.Close
             ' Do Nothing
