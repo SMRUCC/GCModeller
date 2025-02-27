@@ -84,6 +84,9 @@ Namespace FileSystem
             End If
 
             response.AccessControlAllowOrigin = "*"
+            ' 20250227
+            ' deal with the possible url encode string parts
+            path = path.UrlDecode
 
             If fs.FileExists(path) Then
                 Dim mime As ContentType = fs.GetContentType(path)
