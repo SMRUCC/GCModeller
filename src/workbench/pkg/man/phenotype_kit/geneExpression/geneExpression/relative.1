@@ -3,7 +3,8 @@
 .SH NAME
 relative \- normalize data by feature rows
 .SH SYNOPSIS
-\fIrelative(\fBmatrix\fR as <generic> Matrix);\fR
+\fIrelative(\fBmatrix\fR as <generic> Matrix, 
+\fBmedian\fR as boolean = FALSE);\fR
 .SH DESCRIPTION
 .PP
 normalize data by feature rows
@@ -11,6 +12,11 @@ normalize data by feature rows
 .SH OPTIONS
 .PP
 \fBmatrix\fB \fR\- a gene expression matrix. 
+.PP
+.PP
+\fBmedian\fB \fR\- 
+ normalize the matrix row by median value of each row?
+. 
 .PP
 .SH DETAILS
 .PP

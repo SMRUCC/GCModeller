@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9906ab1c222c5bf319f28aab1fd2e11a, Data_science\Mathematica\Math\ANOVA\MultivariateAnalysis\DataSet.vb"
+﻿#Region "Microsoft.VisualBasic::cbe78d34170ada4380dee1a3c1736afe, Data_science\Mathematica\Math\ANOVA\MultivariateAnalysis\DataSet.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 81
-    '    Code Lines: 58 (71.60%)
-    ' Comment Lines: 13 (16.05%)
-    '    - Xml Docs: 84.62%
+    '   Total Lines: 89
+    '    Code Lines: 58 (65.17%)
+    ' Comment Lines: 21 (23.60%)
+    '    - Xml Docs: 85.71%
     ' 
-    '   Blank Lines: 10 (12.35%)
-    '     File Size: 3.44 KB
+    '   Blank Lines: 10 (11.24%)
+    '     File Size: 3.73 KB
 
 
     ' Module DataSetHelper
@@ -66,6 +66,14 @@ Imports df = Microsoft.VisualBasic.Math.DataFrame.DataFrame
 ''' </summary>
 Public Module DataSetHelper
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="df"></param>
+    ''' <param name="labels">
+    ''' should be the sample name of each sample data, should be unique, and should not be the class label of each sample.
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
     Public Function CommonDataSet(df As df, Optional labels As Array = Nothing) As StatisticsObject
         Return df.NumericMatrix().CommonDataSet(colnames:=df.featureNames, labels)

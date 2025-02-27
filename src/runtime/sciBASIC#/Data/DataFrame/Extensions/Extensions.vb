@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd9da75f3dfa839d979fa06bbe406e40, Data\DataFrame\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d9d5f22ad5d8b442042f07ae294a5e8d, Data\DataFrame\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 666
-    '    Code Lines: 380 (57.06%)
-    ' Comment Lines: 212 (31.83%)
+    '   Total Lines: 667
+    '    Code Lines: 381 (57.12%)
+    ' Comment Lines: 212 (31.78%)
     '    - Xml Docs: 92.92%
     ' 
-    '   Blank Lines: 74 (11.11%)
-    '     File Size: 28.70 KB
+    '   Blank Lines: 74 (11.09%)
+    '     File Size: 28.80 KB
 
 
     ' Module Extensions
@@ -64,10 +64,11 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -76,7 +77,7 @@ Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
 Imports any = Microsoft.VisualBasic.Scripting
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
-Imports File_csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports File_csv = Microsoft.VisualBasic.Data.Framework.IO.File
 
 ''' <summary>
 ''' The shortcuts operation for the common csv document operations.
@@ -91,8 +92,8 @@ Public Module Extensions
     End Sub
 
     <Extension>
-    Public Function LoadDataFrame(path As String, Optional encoding As Encoding = Nothing) As DATA.DataFrame
-        Return New DATA.DataFrame(EntityObject.LoadDataSet(path, encoding:=encoding))
+    Public Function LoadDataFrame(path As String, Optional encoding As Encoding = Nothing) As DATA.DataRows
+        Return New DATA.DataRows(EntityObject.LoadDataSet(path, encoding:=encoding))
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -135,7 +136,7 @@ Public Module Extensions
     '''   at System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark&amp; stackMark)
     '''   at System.Activator.CreateInstance(Type type, Boolean nonPublic)
     '''   at System.Activator.CreateInstance(Type type)
-    '''   at Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection.Reflector._Closure$__1-0._Lambda$__0(SeqValue`1 line) In G:\GCModeller\src\runtime\sciBASIC#\Data\DataFrame\StorageProvider\Reflection\StorageProviders\Reflection.vb:line 96
+    '''   at Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection.Reflector._Closure$__1-0._Lambda$__0(SeqValue`1 line) In G:\GCModeller\src\runtime\sciBASIC#\Data\DataFrame\StorageProvider\Reflection\StorageProviders\Reflection.vb:line 96
     '''   at System.Linq.Parallel.SelectQueryOperator`2.SelectQueryOperatorEnumerator`1.MoveNext(TOutput&amp; currentElement, TKey&amp; currentKey)
     '''   at System.Linq.Parallel.PipelineSpoolingTask`2.SpoolingWork()
     '''   at System.Linq.Parallel.SpoolingTaskBase.Work()
@@ -260,7 +261,7 @@ Public Module Extensions
     ''' <remarks></remarks>
     '''
     <Extension>
-    Public Function DataFrame(reader As DbDataReader) As DataFrame
+    Public Function DataFrame(reader As DbDataReader) As DataFrameResolver
         Dim csv As New IO.File
         Dim fields As Integer() = reader.FieldCount.Sequence.ToArray
 
@@ -275,11 +276,11 @@ Public Module Extensions
                    Select s = Scripting.ToString(val)
         Loop
 
-        Return DataFrame.CreateObject(csv)
+        Return DataFrameResolver.CreateObject(csv)
     End Function
 
     <Extension>
-    Public Function DataFrame(table As DataTable) As DataFrame
+    Public Function DataFrame(table As DataTable) As DataFrameResolver
         Dim headers As New List(Of String)
         Dim rows As New List(Of RowObject)
         Dim rowObj As DataRow
@@ -300,7 +301,7 @@ Public Module Extensions
             rows.Add(New RowObject(rowData))
         Next
 
-        Return DataFrame.CreateObject(headers, rows)
+        Return DataFrameResolver.CreateObject(headers, rows)
     End Function
 
     ''' <summary>
@@ -324,7 +325,7 @@ Public Module Extensions
 
     <Extension>
     Public Function DataFrame(Of T)(source As IEnumerable(Of T)) As EntityObject()
-        Return IO.DataFrame.CreateObject(source.ToCsvDoc).AsDataSource(Of EntityObject)(False).ToArray
+        Return IO.DataFrameResolver.CreateObject(source.ToCsvDoc).AsDataSource(Of EntityObject)(False).ToArray
     End Function
 
     <Extension>
@@ -345,7 +346,7 @@ Public Module Extensions
     ''' (这个函数不会被申明为拓展函数了，因为这个object序列类型的函数如果为拓展函数的话，会与T泛型函数产生冲突)
     ''' </summary>
     ''' <param name="data">A generic .NET collection, using for scripting API.</param>
-    ''' <param name="path$">The file path of the csv file for saved.</param>
+    ''' <param name="path">The file path of the csv file for saved.</param>
     ''' <param name="encoding">Default is utf-8 without BOM</param>
     ''' <param name="type">
     ''' If this <see cref="Type"/> information provider is nothing, then the function will peeks of the first sevral element for the type information.
@@ -421,8 +422,8 @@ Public Module Extensions
     '''
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function DataFrame(data As File) As DataFrame
-        Return DataFrame.CreateObject(data)
+    Public Function DataFrame(data As File) As DataFrameResolver
+        Return DataFrameResolver.CreateObject(data)
     End Function
 
     ''' <summary>
@@ -456,7 +457,7 @@ Public Module Extensions
             sheet = dataSet
         End If
 
-        Return IO.DataFrame _
+        Return IO.DataFrameResolver _
             .CreateObject(file:=sheet) _
             .AsDataSource(Of T)(strict, maps, silent:=silent)
     End Function
@@ -470,7 +471,7 @@ Public Module Extensions
     ''' <returns></returns>
     ''' <remarks></remarks>
     <Extension>
-    Public Function AsDataSource(Of T As Class)(dataframe As DataFrame,
+    Public Function AsDataSource(Of T As Class)(dataframe As DataFrameResolver,
                                                 Optional explicit As Boolean = False,
                                                 Optional maps As Dictionary(Of String, String) = Nothing,
                                                 Optional silent As Boolean = False) As IEnumerable(Of T)
@@ -498,7 +499,7 @@ Public Module Extensions
                                                 Optional explicit As Boolean = True,
                                                 Optional silent As Boolean = False) As T()
 
-        Dim df As DataFrame = IO.DataFrame.CreateObject([Imports](importsFile, delimiter))
+        Dim df As DataFrameResolver = IO.DataFrameResolver.CreateObject([Imports](importsFile, delimiter))
         Dim data As T() = Reflector.Convert(Of T)(df, explicit, silent:=silent).ToArray
 
         Return data

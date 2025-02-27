@@ -52,7 +52,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -74,7 +74,7 @@ Namespace R.Graph
         ''' </param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Frame(d As GraphEdge(), Optional directed As Boolean = True, Optional vertices As DataFrame = Nothing) As PFSNetGraph
+        Public Function Frame(d As GraphEdge(), Optional directed As Boolean = True, Optional vertices As DataFrameResolver = Nothing) As PFSNetGraph
             Dim allsId As String() = (From edge As GraphEdge
                                       In d
                                       Select {edge.g1, edge.g2}).IteratesALL.Distinct.ToArray

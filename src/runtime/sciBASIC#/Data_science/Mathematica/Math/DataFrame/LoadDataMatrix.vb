@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6ace6f916b84f94c734ad76c5f54991, Data_science\Mathematica\Math\DataFrame\LoadDataMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::817e3e20be0c220b6ed46d7d4fcde9b2, Data_science\Mathematica\Math\DataFrame\LoadDataMatrix.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 94
-    '    Code Lines: 78 (82.98%)
-    ' Comment Lines: 5 (5.32%)
+    '   Total Lines: 97
+    '    Code Lines: 81 (83.51%)
+    ' Comment Lines: 5 (5.15%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 11 (11.70%)
-    '     File Size: 4.14 KB
+    '   Blank Lines: 11 (11.34%)
+    '     File Size: 4.43 KB
 
 
     ' Module LoadDataMatrix
@@ -78,7 +78,10 @@ Public Module LoadDataMatrix
     End Property
 
     <Extension>
-    Private Function loadAsMatrix(Of DataSet As {INamedValue, DynamicPropertyBase(Of String)})(allData As IEnumerable(Of DataSet), item1$, item2$, correlation$, ByRef names As String()) As Dictionary(Of String, Dictionary(Of String, Double))
+    Private Function loadAsMatrix(Of DataSet As {INamedValue, DynamicPropertyBase(Of String)})(allData As IEnumerable(Of DataSet),
+                                                                                               item1$, item2$,
+                                                                                               correlation$,
+                                                                                               ByRef names As String()) As Dictionary(Of String, Dictionary(Of String, Double))
         Dim hash As New Dictionary(Of String, Dictionary(Of String, Double))
         Dim a, b As String
         Dim c As Double

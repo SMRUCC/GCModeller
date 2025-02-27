@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b7686ea3592f3b7ccb53e02739afa19, Data\DataFrame\test\fileParser2.vb"
+﻿#Region "Microsoft.VisualBasic::9d920c3902ee1712e58581ff81cd633c, Data\DataFrame\test\fileParser2.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 30
-    '    Code Lines: 18 (60.00%)
-    ' Comment Lines: 1 (3.33%)
+    '   Total Lines: 31
+    '    Code Lines: 19 (61.29%)
+    ' Comment Lines: 1 (3.23%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 11 (36.67%)
-    '     File Size: 777 B
+    '   Blank Lines: 11 (35.48%)
+    '     File Size: 840 B
 
 
     ' Module fileParser2
@@ -51,7 +51,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 
 Module fileParser2
 

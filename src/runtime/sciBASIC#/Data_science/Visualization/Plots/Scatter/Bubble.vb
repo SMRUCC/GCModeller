@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4228e73d1a81c199ff918e9e1c4998bb, Data_science\Visualization\Plots\Scatter\Bubble.vb"
+﻿#Region "Microsoft.VisualBasic::2391e61a3db0bb1443641c7f768daa3d, Data_science\Visualization\Plots\Scatter\Bubble.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 359
-    '    Code Lines: 296 (82.45%)
-    ' Comment Lines: 21 (5.85%)
+    '   Total Lines: 358
+    '    Code Lines: 294 (82.12%)
+    ' Comment Lines: 21 (5.87%)
     '    - Xml Docs: 80.95%
     ' 
-    '   Blank Lines: 42 (11.70%)
-    '     File Size: 14.82 KB
+    '   Blank Lines: 43 (12.01%)
+    '     File Size: 14.88 KB
 
 
     ' Class Bubble
@@ -116,8 +116,13 @@ Public Class Bubble : Inherits Plot
     Dim bubbleBorder As Stroke
     Dim strokeColorAsMainColor As Boolean
 
-    Friend Sub New(theme As Theme)
+    Sub New(data As IEnumerable(Of SerialData), usingLogScaleRadius As Boolean, positiveRangeY As Boolean, theme As Theme)
         Call MyBase.New(theme)
+
+        Me.data = data.ToArray
+        Me.usingLogScaleRadius = usingLogScaleRadius
+        Me.positiveRangeY = positiveRangeY
+        Me.bubbleBorder = Stroke.TryParse(theme.shapeStroke)
     End Sub
 
     ''' <summary>
@@ -136,7 +141,7 @@ Public Class Bubble : Inherits Plot
                                           Optional legend As Boolean = True,
                                           Optional usingLogScaleRadius As Boolean = False,
                                           Optional legendBorder As Stroke = Nothing,
-                                          Optional bubbleBorder As Stroke = Nothing,
+                                          Optional bubbleBorder As String = Nothing,
                                           Optional xAxis$ = Nothing,
                                           Optional yAxis$ = Nothing,
                                           Optional xlabel$ = "",
@@ -165,20 +170,14 @@ Public Class Bubble : Inherits Plot
             .legendLayout = New Absolute(legendAnchor),
             .legendBoxStroke = legendBorder?.ToString,
             .axisLabelCSS = axisLabelFontCSS,
-            .gridFill = gridFill
+            .gridFill = gridFill,
+            .shapeStroke = bubbleBorder
         }
 
-        Return New Bubble(theme) With {
-            .data = data.ToArray,
-            .xAxis = xAxis,
-            .yAxis = yAxis,
-            .usingLogScaleRadius = usingLogScaleRadius,
-            .positiveRangeY = positiveRangeY,
-            .bubbleBorder = bubbleBorder,
+        Return New Bubble(data, usingLogScaleRadius, positiveRangeY, theme) With {
             .xlabel = xlabel,
             .ylabel = ylabel,
-            .main = title,
-            .strokeColorAsMainColor = strokeColorAsMainColor
+            .main = title
         }.Plot(size, driver:=driver)
     End Function
 

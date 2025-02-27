@@ -52,7 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
+Imports gene = Microsoft.VisualBasic.Data.Framework.IO.EntityObject
 
 Public Module DEGProfiling
 

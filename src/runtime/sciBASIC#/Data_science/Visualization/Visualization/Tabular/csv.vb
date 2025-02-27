@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0092445ce09a2fbf11fed7b32d2ce0b8, Data_science\Visualization\Visualization\Tabular\csv.vb"
+﻿#Region "Microsoft.VisualBasic::efb2cd4822bc15ecff3dc2c9465589e8, Data_science\Visualization\Visualization\Tabular\csv.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 33.33%
     ' 
     '   Blank Lines: 17 (11.26%)
-    '     File Size: 5.53 KB
+    '     File Size: 5.54 KB
 
 
     '     Module BarDataTableExtensions
@@ -56,8 +56,8 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Data
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
@@ -162,13 +162,13 @@ Namespace TabularRender
 
         <Extension>
         Public Function LoadBarData(csv$, colors As Color()) As BarDataGroup
-            Dim file As DataFrame = DataFrame.CreateObject(New File(csv))
+            Dim file As DataFrameResolver = DataFrameResolver.CreateObject(New File(csv))
             Dim model As BarDataGroup = file.LoadBarData(colors)
             Return model
         End Function
 
         <Extension>
-        Public Function LoadBarData(csv As DataFrame, colors As Color()) As BarDataGroup
+        Public Function LoadBarData(csv As DataFrameResolver, colors As Color()) As BarDataGroup
             Dim header As RowObject = csv.Headers
             Dim names$() = header.Skip(1).ToArray
             Dim clData As Color()

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1db91a0197c8dbd7fbcc3789cad71cd1, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\DefaultClusteringAlgorithm.vb"
+﻿#Region "Microsoft.VisualBasic::e2446cf9274b188b39e302338285633f, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\DefaultClusteringAlgorithm.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 174
-    '    Code Lines: 112 (64.37%)
-    ' Comment Lines: 28 (16.09%)
+    '   Total Lines: 172
+    '    Code Lines: 110 (63.95%)
+    ' Comment Lines: 28 (16.28%)
     '    - Xml Docs: 17.86%
     ' 
-    '   Blank Lines: 34 (19.54%)
-    '     File Size: 7.55 KB
+    '   Blank Lines: 34 (19.77%)
+    '     File Size: 7.30 KB
 
 
     ' Class DefaultClusteringAlgorithm
     ' 
     '     Properties: debug
     ' 
-    '     Function: (+2 Overloads) createClusters, createLinkages, performClustering, performFlatClustering, performWeightedClustering
+    '     Function: alignRow, (+2 Overloads) createClusters, createLinkages, performClustering, performFlatClustering
+    '               performWeightedClustering
     ' 
     '     Sub: checkArguments
     ' 
@@ -172,30 +173,13 @@ Public Class DefaultClusteringAlgorithm : Implements ClusteringAlgorithm
             Return linkages
         Else
             ' 当数量很大的时候，这里也是一个限速步骤，需要使用并行
+            Dim copy As Cluster() = clusters.ToArray
             Dim LQuery = From c As SeqValue(Of Cluster)
                          In clusters.SeqIterator.AsParallel
                          Let col As Integer = c.i
                          Let lCluster As Cluster = c.value
-                         Let factory =
-                             Function()
-                                 Dim list As New List(Of HierarchyTreeNode)
-                                 Dim n = clusters.Count
-                                 Dim copy = clusters.ToArray
-
-                                 For row As Integer = col + 1 To n - 1
-                                     Dim rCluster As Cluster = copy(row)
-                                     Dim link As New HierarchyTreeNode With {
-                                         .LinkageDistance = distances(col)(row),
-                                         .Left = (lCluster),
-                                         .Right = (rCluster)
-                                     }
-
-                                     Call list.Add(link)
-                                 Next
-
-                                 Return list
-                             End Function
-                         Select factory()
+                         Let list = alignRow(lCluster, col, distances, copy)
+                         Select list.ToArray
 
             Dim links = LQuery _
                 .IteratesALL _
@@ -203,6 +187,21 @@ Public Class DefaultClusteringAlgorithm : Implements ClusteringAlgorithm
 
             Return New DistanceMap(links)
         End If
+    End Function
+
+    Private Iterator Function alignRow(lCluster As Cluster, col As Integer, distances As Double()(), clusters As Cluster()) As IEnumerable(Of HierarchyTreeNode)
+        Dim n = clusters.Length
+
+        For row As Integer = col + 1 To n - 1
+            Dim rCluster As Cluster = clusters(row)
+            Dim link As New HierarchyTreeNode With {
+                .LinkageDistance = distances(col)(row),
+                .Left = lCluster,
+                .Right = rCluster
+            }
+
+            Yield link
+        Next
     End Function
 
     ''' <summary>

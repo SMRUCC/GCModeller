@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30ab150ae4acddcce2951f1237fcf900, mime\application%json\Javascript\JsonElement.vb"
+﻿#Region "Microsoft.VisualBasic::f8318e74705c915ca4cbfeb0789eca83, mime\application%json\Javascript\JsonElement.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 42
-    '    Code Lines: 27 (64.29%)
-    ' Comment Lines: 8 (19.05%)
+    '   Total Lines: 50
+    '    Code Lines: 27 (54.00%)
+    ' Comment Lines: 16 (32.00%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (16.67%)
-    '     File Size: 1.44 KB
+    '   Blank Lines: 7 (14.00%)
+    '     File Size: 1.84 KB
 
 
     '     Class JsonElement
@@ -76,9 +76,17 @@ Namespace Javascript
             Return DirectCast(Me, T)
         End Function
 
+        ''' <summary>
+        ''' Parse the json string as clr json element
+        ''' </summary>
+        ''' <param name="jsonStr"></param>
+        ''' <param name="default">
+        ''' set the default json value returns if the given json string is nothing or ``null`` literal.
+        ''' </param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function ParseJSON(jsonStr As String) As JsonElement
-            Return New JsonParser(jsonStr).OpenJSON()
+        Public Shared Function ParseJSON(jsonStr As String, Optional [default] As JsonElement = Nothing) As JsonElement
+            Return If(New JsonParser(jsonStr).OpenJSON, [default])
         End Function
 
         Public Shared Function Parse(json_str As String) As Task(Of JsonElement)

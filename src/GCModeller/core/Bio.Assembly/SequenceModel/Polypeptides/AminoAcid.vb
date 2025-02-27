@@ -62,13 +62,13 @@
 Namespace SequenceModel.Polypeptides
 
     ''' <summary>
-    ''' Enumerates all of the 20 amino acids.(枚举20种常见的氨基酸)
+    ''' Enumerates all of the 20 amino acids.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(枚举20种常见的氨基酸)</remarks>
     Public Enum AminoAcid As Byte
 
         ''' <summary>
-        ''' 用于表示空载的tRNA
+        ''' Unknown, invalid chars.(用于表示空载的tRNA)
         ''' </summary>
         ''' <remarks></remarks>
         NULL = 0

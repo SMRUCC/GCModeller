@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b510d238878c33357b7e5c243e27fe41, Microsoft.VisualBasic.Core\src\Serialization\BinaryDumping\NetworkByteOrderBuffer.vb"
+﻿#Region "Microsoft.VisualBasic::f1d5e00721720af9b546353f3621d708, Microsoft.VisualBasic.Core\src\Serialization\BinaryDumping\NetworkByteOrderBuffer.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,30 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 381
-    '    Code Lines: 273 (71.65%)
-    ' Comment Lines: 19 (4.99%)
-    '    - Xml Docs: 84.21%
+    '   Total Lines: 408
+    '    Code Lines: 288 (70.59%)
+    ' Comment Lines: 26 (6.37%)
+    '    - Xml Docs: 88.46%
     ' 
-    '   Blank Lines: 89 (23.36%)
-    '     File Size: 13.60 KB
+    '   Blank Lines: 94 (23.04%)
+    '     File Size: 14.55 KB
 
 
     '     Class NetworkByteOrderBuffer
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+4 Overloads) Base64String, defaultDecoder, defaultDecoder32, defaultDecoderi16, defaultDecoderi32
-    '                   (+4 Overloads) defaultEncoder, (+6 Overloads) GetBytes, networkByteOrderDecoder, networkByteOrderDecoder32, networkByteOrderDecoderi16
-    '                   networkByteOrderDecoderi32, (+4 Overloads) networkByteOrderEncoder, (+2 Overloads) ParseDouble, ParseInteger, ToDouble
-    '                   ToFloat
+    '         Enum Compression
+    ' 
+    '             gzip, none, zlib
+    ' 
+    ' 
+    ' 
+    '  
+    ' 
+    '     Function: (+4 Overloads) Base64String, defaultDecoder, defaultDecoder32, defaultDecoderi16, defaultDecoderi32
+    '               (+4 Overloads) defaultEncoder, (+6 Overloads) GetBytes, networkByteOrderDecoder, networkByteOrderDecoder32, networkByteOrderDecoderi16
+    '               networkByteOrderDecoderi32, (+4 Overloads) networkByteOrderEncoder, (+2 Overloads) ParseDouble, ParseInteger, ToDouble
+    '               ToFloat
     ' 
     ' 
     ' /********************************************************************************/
@@ -106,9 +114,36 @@ Namespace Serialization.BinaryDumping
             End If
         End Sub
 
-        Public Function ParseDouble(base64 As String, Optional gzip As Boolean = False) As Double()
+        Public Enum Compression
+            none
+            gzip
+            zlib
+        End Enum
+
+        ''' <summary>
+        ''' parse the given base64 string as the numeric vector
+        ''' </summary>
+        ''' <param name="base64"></param>
+        ''' <param name="zip">does the given base64 string is gzip compressed data?</param>
+        ''' <param name="noMagic">does the zip compression data has two byte of magic number, default is false which means it has the magic number</param>
+        ''' <returns></returns>
+        Public Function ParseDouble(base64 As String,
+                                    Optional zip As Compression = Compression.none,
+                                    Optional noMagic As Boolean = False) As Double()
+
             Dim raw As Byte() = Base64Codec.Base64RawBytes(base64)
-            Dim vals As Double() = decode(If(gzip, raw.UnZipStream.ToArray, raw))
+            Dim data As Byte() = raw
+
+            If zip <> Compression.none Then
+                If zip = Compression.gzip Then
+                    data = raw.UnGzipStream.ToArray
+                Else
+                    data = raw.UnZipStream(noMagic).ToArray
+                End If
+            End If
+
+            Dim vals As Double() = decode(data)
+
             Return vals
         End Function
 

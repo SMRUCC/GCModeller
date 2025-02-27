@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>proteinKit</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; proteinKit; seqtoolkit" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {proteinKit}">
+      <tbody>
+        <tr>
+          <td>{proteinKit}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>proteinKit</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "proteinKit"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
+                           </code>
+    </p>
+    <p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: none">
+        <caption>.NET clr type export</caption>
+        <tbody></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="chou_fasman">
+    <a href="./proteinKit/chou_fasman.html">chou_fasman</a>
+  </td>
+  <td><p>The Chou-Fasman method is a bioinformatics technique used for predicting the secondary structure of proteins. 
+ It was developed by Peter Y. Chou and Gerald D. Fasman in the 1970s. The method is based on the observation 
+ that certain amino acids have a propensity to form specific types of secondary structures, such as alpha-helices, 
+ beta-sheets, and turns.
+ 
+ Here's a brief overview of how the Chou-Fasman method works:
+ 
+ 1. <strong>Amino Acid Propensities</strong>: Each amino acid is assigned a set of probability values that reflect its 
+    tendency to be found in alpha-helices, beta-sheets, and turns. These values are derived from statistical 
+    analysis of known protein structures.
+ 2. <strong>Sliding Window Technique</strong>: A sliding window of typically 7 to 9 amino acids is moved along the protein 
+    sequence. At each position, the average propensity for each type of secondary structure is calculated 
+    for the amino acids within the window.
+ 3. <strong>Thresholds and Rules</strong>: The method uses predefined thresholds and rules to identify regions of the 
+    protein sequence that are likely to form alpha-helices or beta-sheets based on the calculated propensities. 
+    For example, a region with a high average propensity for alpha-helix and meeting certain criteria 
+    might be predicted to form an alpha-helix.
+ 4. <strong>Secondary Structure Prediction</strong>: The method predicts the secondary structure by identifying contiguous 
+    regions of the sequence that exceed the thresholds for helix or sheet formation. It also takes into 
+    account the likelihood of turns, which are important for the overall folding of the protein.
+ 5. <strong>Refinement</strong>: The initial predictions are often refined using additional rules and considerations, such 
+    as the tendency of certain amino acids to stabilize or destabilize specific structures, and the overall 
+    composition of the protein.
+    
+ The Chou-Fasman method was one of the first widely used techniques for predicting protein secondary structure
+ and played a significant role in the field of structural bioinformatics. However, it has largely been superseded
+ by more accurate methods, such as those based on machine learning and neural networks, which can take into
+ account more complex patterns and interactions within protein sequences.
+ 
+ Despite its limitations, the Chou-Fasman method remains a historical milestone in the understanding of 
+ protein structure and the development of computational methods for predicting it. It also serves as a 
+ foundational concept for those learning about protein structure prediction and bioinformatics.</p></td>
+</tr>
+<tr>
+  <td id="read.pdb">
+    <a href="./proteinKit/read.pdb.html">read.pdb</a>
+  </td>
+  <td><p>read the protein database file</p></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

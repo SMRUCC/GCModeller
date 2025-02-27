@@ -71,24 +71,12 @@ Namespace Keywords
 
         Public MustOverride ReadOnly Property Keyword As String
 
-        Protected Friend _originalData As KeyValuePair(Of Integer, String)()
-
-        Protected Friend Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Me._originalData = itemDatas
-        End Sub
-
-        Protected Friend Shared Function GetData(Keyword As String, strData As KeyValuePair(Of String, String)()) As KeyValuePair(Of Integer, String)()
-            Dim LQuery = (From item As KeyValuePair(Of String, String) In strData.AsParallel
-                          Let Tokens As String() = (From s As String In item.Key.Split Where Not String.IsNullOrEmpty(s) Select s).ToArray
-                          Where String.Equals(Keyword, Tokens.First)
-                          Let itemData = New KeyValuePair(Of Integer, String)(Val(Tokens.Last), item.Value)
-                          Select itemData
-                          Order By itemData.Key Ascending).ToArray
-            Return LQuery
-        End Function
-
         Public Overrides Function ToString() As String
             Return Keyword
         End Function
+
+        Friend Overridable Sub Flush()
+
+        End Sub
     End Class
 End Namespace

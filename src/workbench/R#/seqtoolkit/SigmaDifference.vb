@@ -62,10 +62,10 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -359,10 +359,10 @@ Module SigmaDifference
     ''' genome nt fasta sequence.
     ''' </param>
     ''' <returns></returns>
-    Public Function MeasureHomogeneity(PartitionData As IEnumerable(Of PartitioningData), RuleSource As String) As IO.DataFrame
-        Dim Df = IO.DataFrame.CreateObject(PartitionData.ToCsvDoc(False))
-        Call Df.AppendLine({"GC%"})
-        Dim Ddf = Df.CreateDataSource
+    Public Function MeasureHomogeneity(PartitionData As IEnumerable(Of PartitioningData), RuleSource As String) As DataFrameResolver
+        Dim df = DataFrameResolver.CreateObject(PartitionData.ToCsvDoc(False))
+        Call df.AppendLine({"GC%"})
+        Dim Ddf = df.CreateDataSource
 
         For Each Folder As String In FileIO.FileSystem.GetDirectories(RuleSource)
             Dim genes = From path
@@ -423,7 +423,7 @@ Module SigmaDifference
             Next
         Next
 
-        Return Df
+        Return df
     End Function
 
     ''' <summary>
@@ -869,7 +869,7 @@ Module SigmaDifference
     ''' <remarks></remarks>
     <ExportAPI("Partition.Similarity.Calculates")>
     Public Function PartitionSimilarity(data As IEnumerable(Of PartitioningData)) As IO.File
-        Dim DF As DataFrame = IO.DataFrame.CreateObject(data.ToCsvDoc(False))
+        Dim DF As DataFrameResolver = DataFrameResolver.CreateObject(data.ToCsvDoc(False))
         Dim DataSource = DF.CreateDataSource
         Dim DeltaLQuery = (From i As Integer
                            In data.Sequence
@@ -891,7 +891,7 @@ Module SigmaDifference
     End Function
 
     <ExportAPI("Partitions.Creates")>
-    Public Function PartionDataCreates(PartitionRaw As IO.DataFrame,
+    Public Function PartionDataCreates(PartitionRaw As DataFrameResolver,
                                        TagCol As String,
                                        StartTag As String,
                                        StopTag As String,
@@ -958,13 +958,13 @@ Module SigmaDifference
     Public Function MeasureHomogeneity(partition_data As IEnumerable(Of PartitioningData),
                                        rule As FastaSeq,
                                        st As Integer,
-                                       sp As Integer) As IO.DataFrame
+                                       sp As Integer) As DataFrameResolver
         Dim Reader As IPolymerSequenceModel = rule
         Dim fa As New FastaSeq With {
             .SequenceData = Reader.CutSequenceLinear(st, sp - st).SequenceData
         }
         Dim RuleSegment As New NucleotideModels.NucleicAcid(fa)
-        Dim Df = IO.DataFrame.CreateObject(partition_data.ToCsvDoc(False))
+        Dim Df = DataFrameResolver.CreateObject(partition_data.ToCsvDoc(False))
         Dim i As Integer
 
         For Each Partition As DynamicObjectLoader In Df.CreateDataSource

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9d53861eb2c7e0809d9f5a72b44e7ac, Data\DataFrame\Extensions\StreamIOHandler.vb"
+﻿#Region "Microsoft.VisualBasic::b2b99777c0624840b092e0b6ad899e15, Data\DataFrame\Extensions\StreamIOHandler.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 53
-    '    Code Lines: 39 (73.58%)
-    ' Comment Lines: 3 (5.66%)
+    '   Total Lines: 54
+    '    Code Lines: 40 (74.07%)
+    ' Comment Lines: 3 (5.56%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 11 (20.75%)
-    '     File Size: 2.66 KB
+    '   Blank Lines: 11 (20.37%)
+    '     File Size: 2.73 KB
 
 
     ' Module StreamIOHandler
@@ -54,8 +54,9 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.My.FrameworkInternal
 
 Module StreamIOHandler
@@ -66,7 +67,7 @@ Module StreamIOHandler
     Friend Sub initStreamIOHandlers()
         Call IOHandler.RegisterHandle(AddressOf ISaveDataFrame, GetType(IEnumerable))
         Call IOHandler.RegisterHandle(AddressOf ISaveCsv, GetType(File))
-        Call IOHandler.RegisterHandle(AddressOf ISaveCsv, GetType(DataFrame))
+        Call IOHandler.RegisterHandle(AddressOf ISaveCsv, GetType(DataFrameResolver))
 
         Call IOHandler.RegisterHandle(AddressOf ISaveDataSet, GetType(IEnumerable(Of DataSet)))
         Call IOHandler.RegisterHandle(AddressOf ISaveDataSet, GetType(DataSet()))
@@ -78,18 +79,28 @@ Module StreamIOHandler
     End Sub
 
     Public Function ISaveDataSet(source As IEnumerable, path$, encoding As Encoding) As Boolean
-        Return DirectCast(source, IEnumerable(Of DataSet)).SaveTo(path, encoding:=encoding, layout:=New Dictionary(Of String, Integer) From {{NameOf(DataSet.ID), -999}})
+        Return DirectCast(source, IEnumerable(Of DataSet)) _
+            .SaveTo(path,
+                    encoding:=encoding,
+                    layout:=New Dictionary(Of String, Integer) From {
+                        {NameOf(DataSet.ID), -999}
+                    })
     End Function
 
     Public Function ISaveEntitySet(source As IEnumerable, path$, encoding As Encoding) As Boolean
-        Return DirectCast(source, IEnumerable(Of EntityObject)).SaveTo(path, encoding:=encoding, layout:=New Dictionary(Of String, Integer) From {{NameOf(EntityObject.ID), -999}})
+        Return DirectCast(source, IEnumerable(Of EntityObject)) _
+            .SaveTo(path,
+                    encoding:=encoding,
+                    layout:=New Dictionary(Of String, Integer) From {
+                        {NameOf(EntityObject.ID), -999}
+                    })
     End Function
 
     Public Function ISaveCsv(source As IEnumerable, path$, encoding As Encoding) As Boolean
         If TypeOf source Is File Then
             Return DirectCast(source, File).Save(path, encoding)
         Else
-            Return DirectCast(source, DataFrame).csv.Save(path, encoding)
+            Return DirectCast(source, DataFrameResolver).csv.Save(path, encoding)
         End If
     End Function
 

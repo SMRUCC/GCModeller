@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
@@ -141,7 +142,7 @@ Public Module KEGG
         Dim clusters As New List(Of Cluster)
         Dim cluster As Cluster
 
-        For Each setA In CompoundBrite.GetAllCompoundResources
+        For Each setA As NamedValue(Of BriteTerm()) In CompoundBrite.GetAllCompoundResources
             For Each setB In setA.Value.GroupBy(Function(a) a.category)
                 Dim info = setB.First
 
@@ -160,7 +161,9 @@ Public Module KEGG
                                         .name = c.entry.Value
                                     }
                                 End Function) _
-                        .ToArray
+                        .ToArray,
+                    .[class] = setA.Name,
+                    .category = setB.Key
                 }
 
                 Call clusters.Add(cluster)

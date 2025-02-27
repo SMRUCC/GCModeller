@@ -61,8 +61,8 @@
 #End Region
 
 
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 
 ''' <summary>
 ''' assembly_summary_genbank.txt

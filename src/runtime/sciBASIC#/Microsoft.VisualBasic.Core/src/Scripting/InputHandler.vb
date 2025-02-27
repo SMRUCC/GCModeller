@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e923b9d61f442ece0836adf846822ed, Microsoft.VisualBasic.Core\src\Scripting\InputHandler.vb"
+﻿#Region "Microsoft.VisualBasic::0201d27f5e39f79af459ccfee7416407, Microsoft.VisualBasic.Core\src\Scripting\InputHandler.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 91.04%
     ' 
     '   Blank Lines: 47 (10.51%)
-    '     File Size: 19.67 KB
+    '     File Size: 19.71 KB
 
 
     '     Module InputHandler
@@ -197,7 +197,7 @@ Namespace Scripting
         Public Function CTypeDynamic(expression$, target As Type) As Object
             If target Is GetType(String) Then
                 Return expression
-            ElseIf expression.StringEmpty Then
+            ElseIf expression.StringEmpty OrElse expression.ToLower = "null" Then
                 Return Nothing
             End If
 

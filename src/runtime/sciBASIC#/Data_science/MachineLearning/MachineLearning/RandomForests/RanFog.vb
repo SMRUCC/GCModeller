@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d32077e185eda46b8b8b2cce7694489c, Data_science\MachineLearning\MachineLearning\RandomForests\RanFog.vb"
+﻿#Region "Microsoft.VisualBasic::e30489689be61313da887d4ddbc8a00a, Data_science\MachineLearning\MachineLearning\RandomForests\RanFog.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 405
-    '    Code Lines: 222 (54.81%)
-    ' Comment Lines: 151 (37.28%)
-    '    - Xml Docs: 33.77%
+    '   Total Lines: 411
+    '    Code Lines: 222 (54.01%)
+    ' Comment Lines: 157 (38.20%)
+    '    - Xml Docs: 36.31%
     ' 
-    '   Blank Lines: 32 (7.90%)
-    '     File Size: 20.97 KB
+    '   Blank Lines: 32 (7.79%)
+    '     File Size: 21.16 KB
 
 
     '     Class RanFog
@@ -77,6 +77,12 @@ Namespace RandomForests
     '
     ''''''''''''''''''''''''''' 80 columns wide //////////////////////////////////
 
+    ''' <summary>
+    ''' Random Forest for classified and regression problems 
+    ''' </summary>
+    ''' <remarks>
+    ''' https://github.com/ogrecio/RanFog
+    ''' </remarks>
     Public Class RanFog : Inherits MachineLearning.Model
 
         ''' <summary>
@@ -361,7 +367,7 @@ Namespace RandomForests
             '    MSEval_tree = MSEval_tree + (tst.phenotype(i) - y_hat(i) / (n_tree + 1)) * (tst.phenotype(i) - y_hat(i) / (n_tree + 1))
             'Next
             'Console.WriteLine("Iteration #" & n_tree + 1 & ";MSE in testing set=" & MSEval_tree / N_tst)
-            Console.WriteLine("average Loss Function in OOB=" & MSE_oob_ave / CSng(n_tree + 1) & "; N_oob=" & N_oob)
+            VBDebugger.EchoLine("average Loss Function in OOB=" & MSE_oob_ave / CSng(n_tree + 1) & "; N_oob=" & N_oob)
 
             Return (MSE_oob_ave / CSng(n_tree + 1), MSE_oob)
             ' outTreeTest.WriteLine(MSEval_tree / N_tst)
@@ -443,9 +449,9 @@ Namespace RandomForests
 
             ' outPred.Close()
             ' outEGBV.Close()
-            Console.WriteLine("TERMINATED WITHOUT ERRORS")
-            Console.WriteLine("Random Forest algorithm for regression and classification problems (Ver.Beta)")
-            Console.WriteLine("by Oscar Gonzalez-Recio (2019) ")
+            VBDebugger.EchoLine("TERMINATED WITHOUT ERRORS")
+            VBDebugger.EchoLine("Random Forest algorithm for regression and classification problems (Ver.Beta)")
+            VBDebugger.EchoLine("by Oscar Gonzalez-Recio (2019) ")
 
             Return New Result With {.Model = Me, .outGEBV = outEGBV.ToArray, .data = train}
         End Function

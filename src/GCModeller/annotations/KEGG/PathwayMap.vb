@@ -60,7 +60,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.GCModeller.Workbench.KEGGReport
-Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
+Imports gene = Microsoft.VisualBasic.Data.Framework.IO.EntityObject
 
 ''' <summary>
 ''' 这个仅支持代谢反应过程，即<see cref="PathwayMap.KEGGReaction"/>集合不能够为空

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2ea574ad3073fb176f72036be9f6149, Data_science\MachineLearning\MachineLearning\test\simpleANNtest.vb"
+﻿#Region "Microsoft.VisualBasic::960cd1390534080d80438e768fceb44a, Data_science\MachineLearning\MachineLearning\test\simpleANNtest.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 85
-    '    Code Lines: 68 (80.00%)
-    ' Comment Lines: 1 (1.18%)
+    '   Total Lines: 83
+    '    Code Lines: 56 (67.47%)
+    ' Comment Lines: 11 (13.25%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 16 (18.82%)
-    '     File Size: 5.60 KB
+    '   Blank Lines: 16 (19.28%)
+    '     File Size: 5.50 KB
 
 
     ' Module simpleANNtest
@@ -53,8 +53,6 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
-Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module simpleANNtest
 
@@ -116,23 +114,23 @@ Module simpleANNtest
 
         Pause()
 
-        Dim trainer As New TrainingUtils(6, {100, 300, 30}, 5, momentum:=0.9)
+        'Dim trainer As New TrainingUtils(6, {100, 300, 30}, 5, momentum:=0.9)
 
-        Helpers.MaxEpochs = 5000
+        'Helpers.MaxEpochs = 5000
 
-        ' trainer.SetDropOut(0.8)
+        '' trainer.SetDropOut(0.8)
 
-        Call samples.DoEach(Sub(dset) trainer.Add(dset))
-        Call trainer.Train(parallel:=True)
+        'Call samples.DoEach(Sub(dset) trainer.Add(dset))
+        'Call trainer.Train(parallel:=True)
 
-        trainer.SetDropOut(0)
+        'trainer.SetDropOut(0)
 
-        Dim predict1 = trainer.NeuronNetwork.Compute(0, 0, 0, 0, 0, 1)
-        Dim predict2 = trainer.NeuronNetwork.Compute(0.8, 0.002, 0, 0, 0, 0.0008)
+        'Dim predict1 = trainer.NeuronNetwork.Compute(0, 0, 0, 0, 0, 1)
+        'Dim predict2 = trainer.NeuronNetwork.Compute(0.8, 0.002, 0, 0, 0, 0.0008)
 
-        Call Console.WriteLine(predict1.GetJson)
-        Call Console.WriteLine(predict2.GetJson)
+        'Call Console.WriteLine(predict1.GetJson)
+        'Call Console.WriteLine(predict2.GetJson)
 
-        Pause()
+        'Pause()
     End Sub
 End Module

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>The Chou-Fasman method is a bioinformatics technique used for predicting the secondary structure of proteins.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>chou_fasman {proteinKit}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>The Chou-Fasman method is a bioinformatics technique used for predicting the secondary structure of proteins.</h2>
+
+        <h3>Description</h3>
+
+        <p>It was developed by Peter Y. Chou and Gerald D. Fasman in the 1970s. The method is based on the observation <br /> that certain amino acids have a propensity to form specific types of secondary structures, such as alpha-helices, <br /> beta-sheets, and turns.<br /> <br /> Here's a brief overview of how the Chou-Fasman method works:<br /> <br /> 1. <strong>Amino Acid Propensities<em></em>: Each amino acid is assigned a set of probability values that reflect its <br />    tendency to be found in alpha-helices, beta-sheets, and turns. These values are derived from statistical <br />    analysis of known protein structures.<br /> 2. <em></em>Sliding Window Technique<em></em>: A sliding window of typically 7 to 9 amino acids is moved along the protein <br />    sequence. At each position, the average propensity for each type of secondary structure is calculated <br />    for the amino acids within the window.<br /> 3. <em></em>Thresholds and Rules<em></em>: The method uses predefined thresholds and rules to identify regions of the <br />    protein sequence that are likely to form alpha-helices or beta-sheets based on the calculated propensities. <br />    For example, a region with a high average propensity for alpha-helix and meeting certain criteria <br />    might be predicted to form an alpha-helix.<br /> 4. <em></em>Secondary Structure Prediction<em></em>: The method predicts the secondary structure by identifying contiguous <br />    regions of the sequence that exceed the thresholds for helix or sheet formation. It also takes into <br />    account the likelihood of turns, which are important for the overall folding of the protein.<br /> 5. <em></em>Refinement</strong>: The initial predictions are often refined using additional rules and considerations, such <br />    as the tendency of certain amino acids to stabilize or destabilize specific structures, and the overall <br />    composition of the protein.<br />    <br /> The Chou-Fasman method was one of the first widely used techniques for predicting protein secondary structure<br /> and played a significant role in the field of structural bioinformatics. However, it has largely been superseded<br /> by more accurate methods, such as those based on machine learning and neural networks, which can take into<br /> account more complex patterns and interactions within protein sequences.<br /> <br /> Despite its limitations, the Chou-Fasman method remains a historical milestone in the understanding of <br /> protein structure and the development of computational methods for predicting it. It also serves as a <br /> foundational concept for those learning about protein structure prediction and bioinformatics.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>chou_fasman</strong>(<i>prot</i>,
+    <i>polyaa</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>prot</dt>
+<dd><p>a collection of the protein sequence data</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        seqtoolkit
+
+        <h3>Value</h3>
+
+        this function returns data object in these one of the listed data types: string, <a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/StructuralAnnotation.html">StructuralAnnotation</a>.<h4>clr value class</h4><ul><li>string</li><li><a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/StructuralAnnotation.html">StructuralAnnotation</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>proteinKit</em> version 1.0.0.0 <a
+                href="../proteinKit.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

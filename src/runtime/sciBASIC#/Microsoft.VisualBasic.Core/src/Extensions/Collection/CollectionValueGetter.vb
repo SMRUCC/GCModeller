@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1726423392f749ddde3ee829a789a195, Microsoft.VisualBasic.Core\src\Extensions\Collection\CollectionValueGetter.vb"
+﻿#Region "Microsoft.VisualBasic::1459c331cc43d0daaa83845adaca1223, Microsoft.VisualBasic.Core\src\Extensions\Collection\CollectionValueGetter.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 368
-    '    Code Lines: 205 (55.71%)
-    ' Comment Lines: 129 (35.05%)
-    '    - Xml Docs: 93.02%
+    '   Total Lines: 374
+    '    Code Lines: 207 (55.35%)
+    ' Comment Lines: 133 (35.56%)
+    '    - Xml Docs: 93.23%
     ' 
-    '   Blank Lines: 34 (9.24%)
-    '     File Size: 13.32 KB
+    '   Blank Lines: 34 (9.09%)
+    '     File Size: 13.61 KB
 
 
     ' Module CollectionValueGetter
@@ -253,9 +253,15 @@ Public Module CollectionValueGetter
     ''' <param name="table"></param>
     ''' <param name="key"></param>
     ''' <param name="default"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' the value that associated with the given <paramref name="key"/>,
+    ''' which is going to be removed from the specific dictionary 
+    ''' <paramref name="table"/> object.
+    ''' </returns>
     <Extension>
-    Public Function TryPopOut(Of TKey, TValue)(table As Dictionary(Of TKey, TValue), key As TKey, Optional [default] As TValue = Nothing) As TValue
+    Public Function TryPopOut(Of TKey, TValue)(table As Dictionary(Of TKey, TValue),
+                                               key As TKey,
+                                               Optional [default] As TValue = Nothing) As TValue
         If table Is Nothing Then
             Return [default]
         ElseIf Not table.ContainsKey(key) Then

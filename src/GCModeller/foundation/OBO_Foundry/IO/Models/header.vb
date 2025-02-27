@@ -76,7 +76,7 @@ Namespace IO.Models
         <Field("default-namespace")> Public Property DefaultNamespace As String
         <Field("remark")> Public Property Remark As String()
         <Field("ontology")> Public Property Ontology As String
-        <Field("property_value")> Public Property property_value As String
+        <Field("property_value")> Public Property property_value As String()
 
         Public Overrides Function ToString() As String
             Return $"[ontology] {Ontology}, version={DataVersion}"

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b1518c31d6d2f9dbe0dcd8ef2766c99, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\PathExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::89e540e864fc1732a05a3f1187c419a6, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\PathExtensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.92%
     ' 
     '   Blank Lines: 114 (10.62%)
-    '     File Size: 41.82 KB
+    '     File Size: 41.84 KB
 
 
     ' Module PathExtensions
@@ -643,7 +643,7 @@ Public Module PathExtensions
 
             Call FileIO.FileSystem.CopyFile(source, copyTo)
         Catch ex As Exception
-            ex = New Exception({source, copyTo}.GetJson, ex)
+            ex = New Exception($"copy '{source}' -> '{copyTo}'; {ex.Message}", ex)
             App.LogException(ex)
 
             Return False

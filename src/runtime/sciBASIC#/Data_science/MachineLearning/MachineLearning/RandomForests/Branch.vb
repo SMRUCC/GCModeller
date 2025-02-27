@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c5922e15b937867f5b478d5785ba5e08, Data_science\MachineLearning\MachineLearning\RandomForests\Branch.vb"
+﻿#Region "Microsoft.VisualBasic::6a90cecc3f09fa1dee719093c04d4a42, Data_science\MachineLearning\MachineLearning\RandomForests\Branch.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.00%
     ' 
     '   Blank Lines: 8 (9.41%)
-    '     File Size: 2.91 KB
+    '     File Size: 2.90 KB
 
 
     '     Class Branch
@@ -52,7 +52,7 @@
 
 #End Region
 
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace RandomForests
 
@@ -130,7 +130,7 @@ Namespace RandomForests
             getClass(phen)
             Dim MSE = 0.0R
             For i = 0 To list.Count - 1
-                MSE = MSE + stdNum.Abs(CInt(phen(list(i))) - class_val)
+                MSE = MSE + std.Abs(CInt(phen(list(i))) - class_val)
             Next
             'MSE=MSE/list.size();
             Return MSE

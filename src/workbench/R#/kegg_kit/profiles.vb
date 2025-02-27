@@ -55,7 +55,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -187,7 +187,7 @@ Module profiles
                     End If
                 Next
 
-                If Not catProfiles.isEmpty Then
+                If Not catProfiles.is_empty Then
                     profiles.catalogs(catalog.Key) = catProfiles
                 End If
             Next

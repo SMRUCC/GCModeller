@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa8566016b4d5ce8bdb2cae3df9d94e5, Data_science\DataMining\DataMining\ComponentModel\Encoder\ClassEncoder.vb"
+﻿#Region "Microsoft.VisualBasic::066cc25489e7c9e1f5422a63b2626def, Data_science\DataMining\DataMining\ComponentModel\Encoder\ClassEncoder.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 137
-    '    Code Lines: 87 (63.50%)
-    ' Comment Lines: 27 (19.71%)
-    '    - Xml Docs: 92.59%
+    '   Total Lines: 160
+    '    Code Lines: 101 (63.12%)
+    ' Comment Lines: 33 (20.62%)
+    '    - Xml Docs: 93.94%
     ' 
-    '   Blank Lines: 23 (16.79%)
-    '     File Size: 4.19 KB
+    '   Blank Lines: 26 (16.25%)
+    '     File Size: 4.93 KB
 
 
     '     Class ClassEncoder
     ' 
-    '         Properties: Colors
+    '         Properties: Colors, labels
     ' 
     '         Constructor: (+3 Overloads) Sub New
-    '         Function: (+2 Overloads) AddClass, GetColor, PopulateFactors, Union
+    '         Function: (+2 Overloads) AddClass, AsNumeric, GetColor, PopulateFactors, ToString
+    '                   Union
     ' 
     ' 
     ' /********************************************************************************/
@@ -57,14 +58,21 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports std = System.Math
 
 Namespace ComponentModel.Encoder
 
     Public Class ClassEncoder
 
+        ''' <summary>
+        ''' label class enums
+        ''' </summary>
         Dim m_colors As New Dictionary(Of String, ColorClass)
-        Dim labels As New List(Of String)
+        ''' <summary>
+        ''' the input label list
+        ''' </summary>
+        Dim m_labels As New List(Of String)
 
         ''' <summary>
         ''' get unique class label list
@@ -76,6 +84,12 @@ Namespace ComponentModel.Encoder
         Public ReadOnly Property Colors As ColorClass()
             Get
                 Return m_colors.Values.ToArray
+            End Get
+        End Property
+
+        Public ReadOnly Property labels As Double()
+            Get
+                Return AsNumeric(m_labels).ToArray
             End Get
         End Property
 
@@ -100,6 +114,12 @@ Namespace ComponentModel.Encoder
             Next
         End Sub
 
+        Public Iterator Function AsNumeric(labels As IEnumerable(Of String)) As IEnumerable(Of Double)
+            For Each str As String In labels
+                Yield m_colors(str).factor
+            Next
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -113,7 +133,7 @@ Namespace ComponentModel.Encoder
                 m_colors.Add(color.name, color)
             End If
 
-            labels.Add(color.name)
+            m_labels.Add(color.name)
 
             Return Me
         End Function
@@ -143,15 +163,19 @@ Namespace ComponentModel.Encoder
                 Call m_colors.Add(label, tag)
             End If
 
-            labels.Add(label)
+            Call m_labels.Add(label)
 
             Return Me
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return m_colors.Keys.GetJson
         End Function
 
         Public Function GetColor(value As Double) As ColorClass
             Dim min = m_colors.Values _
                 .Select(Function(cls)
-                            Return (ds:=stdNum.Abs(cls.factor - value), cls)
+                            Return (ds:=std.Abs(cls.factor - value), cls)
                         End Function) _
                 .OrderBy(Function(a) a.ds) _
                 .First
@@ -160,7 +184,7 @@ Namespace ComponentModel.Encoder
         End Function
 
         Public Iterator Function PopulateFactors() As IEnumerable(Of ColorClass)
-            For Each label As String In labels
+            For Each label As String In m_labels
                 Dim template As ColorClass = m_colors(label)
                 Dim factor As New ColorClass With {
                     .color = template.color,

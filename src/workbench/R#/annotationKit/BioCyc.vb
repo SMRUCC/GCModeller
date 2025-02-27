@@ -68,6 +68,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' The BioCyc database collection is an assortment of organism specific Pathway/Genome Databases (PGDBs) 
@@ -79,7 +80,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Public Module BioCycRepository
 
     Sub New()
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(compounds()), AddressOf getCompoundsTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(compounds()), AddressOf getCompoundsTable)
     End Sub
 
     Private Function getCompoundsTable(compounds As compounds(), args As list, env As Environment) As dataframe

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::703a22500c45f1b912a839a7145cd9c4, Data_science\Visualization\Visualization\Tabular\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a3c66f57eba6b41da70d83f6a065f478, Data_science\Visualization\Visualization\Tabular\Extensions.vb"
 
     ' Author:
     ' 
@@ -55,7 +55,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
@@ -66,7 +66,7 @@ Namespace TabularRender
 
         <Extension>
         Public Function ScatterSerials(csv As File, fieldX$, fieldY$, color$, Optional ptSize! = 5) As ChartPlots.SerialData
-            With DataFrame.CreateObject(csv)
+            With DataFrameResolver.CreateObject(csv)
                 Dim index As (X%, y%) = (.GetOrdinal(fieldX), .GetOrdinal(fieldY))
                 Dim columns = .GetColumnVectors.ToArray
                 Dim X = columns(index.X)

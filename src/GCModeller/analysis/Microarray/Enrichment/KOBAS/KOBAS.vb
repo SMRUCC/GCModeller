@@ -59,7 +59,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 
 Namespace KOBAS
 
@@ -112,14 +112,14 @@ Namespace KOBAS
                 .Where(Function(s) Not s.StringEmpty AndAlso Not Regex.Match(s, "[-]+").Value = s) _
                 .Skip(3) _
                 .ToArray
-            Dim terms = csv _
+            Dim terms = Framework _
                 .ImportsTsv(Of EnrichmentTerm)(lines) _
                 .GroupBy(Function(t) t.Database) _
                 .Where(Function(g)
                            Return Not g.Key.TextEquals("Database")
                        End Function)
 
-            For Each part In terms
+            For Each part As IGrouping(Of String, EnrichmentTerm) In terms
                 Yield New NamedCollection(Of EnrichmentTerm) With {
                     .name = part.Key,
                     .value = part.ToArray

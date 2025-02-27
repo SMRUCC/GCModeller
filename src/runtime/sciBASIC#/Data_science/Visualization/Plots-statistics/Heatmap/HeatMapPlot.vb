@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dbe614c5ec33994b1685aa45b2517ee, Data_science\Visualization\Plots-statistics\HeatMap\HeatMapPlot.vb"
+﻿#Region "Microsoft.VisualBasic::104aaf030c900bfbaeb2c42edeaf5d2d, Data_science\Visualization\Plots-statistics\Heatmap\HeatMapPlot.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 306
-    '    Code Lines: 226 (73.86%)
-    ' Comment Lines: 30 (9.80%)
+    '   Total Lines: 326
+    '    Code Lines: 242 (74.23%)
+    ' Comment Lines: 30 (9.20%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 50 (16.34%)
-    '     File Size: 13.43 KB
+    '   Blank Lines: 54 (16.56%)
+    '     File Size: 14.29 KB
 
 
     '     Class HeatMapPlot
     ' 
     '         Properties: drawClass, drawDendrograms, drawLabels, globalRange, LegendLayout
-    '                     legendSize, logTransform, scaleMethod
+    '                     legendSize, scaleMethod
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -59,14 +59,14 @@
 
 #End Region
 
-
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -86,8 +86,6 @@ Namespace Heatmap
         Dim dendrogramLayout As (A!, B!)
         Dim dataTable As Dictionary(Of String, DataSet)
 
-        Public Property logTransform As Double
-
         Public Property scaleMethod As DrawElements = DrawElements.None
         Public Property drawLabels As DrawElements = DrawElements.Both
         Public Property drawDendrograms As DrawElements = DrawElements.Rows
@@ -97,10 +95,32 @@ Namespace Heatmap
         Public Property LegendLayout As Layouts = Layouts.Horizon
         Public Property legendSize As New Size(600, 100)
 
-        Public Sub New(matrix As IEnumerable(Of DataSet), dlayout As SizeF, theme As Theme)
+        Public Sub New(matrix As IEnumerable(Of DataSet), rowLabelsMaxChars As Integer, dlayout As SizeF, theme As Theme)
             MyBase.New(theme)
 
             Me.array = matrix.ToArray
+
+            Dim keys As String() = array.Keys.ToArray
+
+            If rowLabelsMaxChars > 0 Then
+                keys = keys _
+                    .Select(Function(d)
+                                Dim label As String = If(
+                                    d.Length > rowLabelsMaxChars,
+                                    d.Substring(0, rowLabelsMaxChars) & "...",
+                                    d)
+
+                                Return label
+                            End Function) _
+                    .ToArray
+            End If
+
+            keys = keys.UniqueNames
+
+            For i As Integer = 0 To array.Length - 1
+                array(i) = New DataSet(keys(i), array(i).Properties)
+            Next
+
             Me.dendrogramLayout = (dlayout.Width, dlayout.Height)
             Me.dataTable = array.ToDictionary(Function(r) r.ID)
             Me.globalRange = array _
@@ -110,7 +130,7 @@ Namespace Heatmap
         End Sub
 
         Private Function configDendrogramCanvas(cluster As Cluster, [class] As Dictionary(Of String, String)) As DendrogramPanelV2
-            Return New DendrogramPanelV2(cluster, New Theme)
+            Return New DendrogramPanelV2(cluster, New Theme With {.gridStrokeX = .axisStroke}, showLeafLabels:=False)
         End Function
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
@@ -265,7 +285,7 @@ Namespace Heatmap
             Dim args As New PlotArguments With {
                 .colors = colors,
                 .left = left,
-                .levels = array.DataScaleLevels(keys, logTransform, scaleMethod, colors.Length),
+                .levels = array.DataScaleLevels(keys, -1, scaleMethod, colors.Length),
                 .top = top,
                 .ColOrders = colKeys,
                 .RowOrders = rowKeys,
@@ -282,7 +302,7 @@ Namespace Heatmap
 
             ' 绘制下方的矩阵的列标签
             If drawLabels = DrawElements.Both OrElse drawLabels = DrawElements.Cols Then
-                For Each key$ In keys
+                For Each key As String In keys
                     Dim sz = g.MeasureString(key$, colLabelFont) ' 得到斜边的长度
                     Dim dx! = sz.Width * std.Cos(angle) + sz.Height / 2
                     Dim dy! = sz.Width * std.Sin(angle) + (sz.Width / 2) * std.Cos(angle) - sz.Height
