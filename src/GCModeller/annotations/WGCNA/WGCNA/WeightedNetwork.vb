@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::b6f36179f230efbca9d4063ad28ed39d, annotations\WGCNA\WGCNA\WeightedNetwork.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 95
-    '    Code Lines: 40 (42.11%)
-    ' Comment Lines: 44 (46.32%)
-    '    - Xml Docs: 93.18%
-    ' 
-    '   Blank Lines: 11 (11.58%)
-    '     File Size: 3.47 KB
+' Summaries:
 
 
-    ' Module WeightedNetwork
-    ' 
-    '     Function: Adjacency, Connectivity, sumK, WeightedCorrelation
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 95
+'    Code Lines: 40 (42.11%)
+' Comment Lines: 44 (46.32%)
+'    - Xml Docs: 93.18%
+' 
+'   Blank Lines: 11 (11.58%)
+'     File Size: 3.47 KB
+
+
+' Module WeightedNetwork
+' 
+'     Function: Adjacency, Connectivity, sumK, WeightedCorrelation
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.Matrix
 
 ''' <summary>
 ''' Category 1: Functions for network construction

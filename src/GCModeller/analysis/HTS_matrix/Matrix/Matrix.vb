@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::62a799fce2a1f2eadaf3c95ed93cf189, analysis\HTS_matrix\Matrix\Matrix.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 395
-    '    Code Lines: 265 (67.09%)
-    ' Comment Lines: 83 (21.01%)
-    '    - Xml Docs: 98.80%
-    ' 
-    '   Blank Lines: 47 (11.90%)
-    '     File Size: 13.94 KB
+' Summaries:
 
 
-    ' Class Matrix
-    ' 
-    '     Properties: expression, rownames, (+2 Overloads) sample, sampleID, size
-    '                 tag
-    ' 
-    '     Function: ArrayPack, Exp, GenericEnumerator, GetIndex, GetLabels
-    '               GetSampleArray, (+3 Overloads) IndexOf, LoadData, MatrixAverage, Project
-    '               T, TakeSamples, ToString, TrimZeros
-    ' 
-    '     Sub: checkMatrix, eachGene
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 395
+'    Code Lines: 265 (67.09%)
+' Comment Lines: 83 (21.01%)
+'    - Xml Docs: 98.80%
+' 
+'   Blank Lines: 47 (11.90%)
+'     File Size: 13.94 KB
+
+
+' Class Matrix
+' 
+'     Properties: expression, rownames, (+2 Overloads) sample, sampleID, size
+'                 tag
+' 
+'     Function: ArrayPack, Exp, GenericEnumerator, GetIndex, GetLabels
+'               GetSampleArray, (+3 Overloads) IndexOf, LoadData, MatrixAverage, Project
+'               T, TakeSamples, ToString, TrimZeros
+' 
+'     Sub: checkMatrix, eachGene
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Serialization.JSON
