@@ -62,8 +62,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Parallel
 Imports SMRUCC.genomics.Assembly.NCBI
 
 Public Module DownloaderWebAPI
