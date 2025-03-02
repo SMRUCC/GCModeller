@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\repository\\Bio.Repository\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\webapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\webapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\repositoryextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\repositoryextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\genbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\genbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\ftpindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\ftpindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\geodataset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\geodataset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,53 +27,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "WebAPI.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\WebAPI.vb",
-              "RelativeDocumentMoniker": "NCBI\\WebAPI.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\WebAPI.vb",
-              "RelativeToolTip": "NCBI\\WebAPI.vb",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAAAEwAAAAzAAAAAAAAAA==",
+              "Title": "GEODataSet.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\GEODataSet.vb",
+              "RelativeDocumentMoniker": "NCBI\\GEODataSet.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\GEODataSet.vb",
+              "RelativeToolTip": "NCBI\\GEODataSet.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-02T13:07:59.293Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "RepositoryExtensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\RepositoryExtensions.vb",
-              "RelativeDocumentMoniker": "NCBI\\RepositoryExtensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\RepositoryExtensions.vb",
-              "RelativeToolTip": "NCBI\\RepositoryExtensions.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-02T13:07:55.534Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Genbank.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\Genbank.vb",
-              "RelativeDocumentMoniker": "NCBI\\Genbank.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\Genbank.vb",
-              "RelativeToolTip": "NCBI\\Genbank.vb",
-              "ViewState": "AgIAAHcBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-02T13:07:40.821Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FtpIndex.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\FtpIndex.vb",
-              "RelativeDocumentMoniker": "NCBI\\FtpIndex.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\FtpIndex.vb",
-              "RelativeToolTip": "NCBI\\FtpIndex.vb",
-              "ViewState": "AgIAANQBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-02T13:07:32.999Z",
+              "WhenOpened": "2025-03-02T13:08:28.111Z",
               "EditorCaption": ""
             }
           ]
