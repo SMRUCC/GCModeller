@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Net.WebClient
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports Microsoft.VisualBasic.Net.WebClient
