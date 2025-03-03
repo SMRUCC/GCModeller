@@ -64,7 +64,7 @@ Imports System.Net
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
 
-Namespace Net.Http
+Namespace Net.WebClient
 
     ''' <summary>
     ''' 提供一些比较详细的数据信息和事件处理
