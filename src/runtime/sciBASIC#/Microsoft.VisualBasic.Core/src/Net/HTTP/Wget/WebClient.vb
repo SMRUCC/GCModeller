@@ -13,7 +13,7 @@ Namespace Net.WebClient
         End Sub
 
         Protected Sub ProgressFinished()
-            RaiseEvent DownloadCompleted(Me, New EventArgs)
+            RaiseEvent DownloadCompleted(Me, EventArgs.Empty)
         End Sub
 
     End Class
