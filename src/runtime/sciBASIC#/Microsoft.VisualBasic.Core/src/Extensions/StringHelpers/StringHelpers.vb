@@ -805,9 +805,9 @@ Public Module StringHelpers
     ''' <summary>
     ''' Get sub string value from the region that between the <paramref name="left"/> and <paramref name="right"/>.
     ''' </summary>
-    ''' <param name="str$"></param>
-    ''' <param name="left$"></param>
-    ''' <param name="right$"></param>
+    ''' <param name="str"></param>
+    ''' <param name="left"></param>
+    ''' <param name="right"></param>
     ''' <returns></returns>
     ''' <remarks>
     ''' (这个函数是直接分别查找左右两边的定位字符串来进行切割的) 
