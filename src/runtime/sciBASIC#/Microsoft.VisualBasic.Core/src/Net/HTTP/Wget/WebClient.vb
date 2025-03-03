@@ -6,6 +6,7 @@ Namespace Net.WebClient
         Public Event DownloadProgressChanged As EventHandler(Of ProgressChangedEventArgs)
         Public Event DownloadCompleted As EventHandler
 
+        Public MustOverride ReadOnly Property LocalSaveFile As String
         Public MustOverride Async Function DownloadFileAsync() As Task
 
         Protected Sub ProgressUpdate(args As ProgressChangedEventArgs)

@@ -9,6 +9,11 @@ Namespace Net.WebClient
         ReadOnly localFilePath As String
         ReadOnly request As FtpWebRequest
         ReadOnly _bufferSize As Integer = 8192
+        Public Overrides ReadOnly Property LocalSaveFile As String
+            Get
+                Return localFilePath
+            End Get
+        End Property
 
         Public Sub New(ftpUri As String, localPath As String,
                    Optional user As String = "anonymous",

@@ -9,6 +9,12 @@ Namespace Net.WebClient
         ReadOnly _localPath As String
         ReadOnly _bufferSize As Integer = 8192
 
+        Public Overrides ReadOnly Property LocalSaveFile As String
+            Get
+                Return _localPath
+            End Get
+        End Property
+
         Public Sub New(url As String, localPath As String)
             _url = url
             _localPath = localPath
