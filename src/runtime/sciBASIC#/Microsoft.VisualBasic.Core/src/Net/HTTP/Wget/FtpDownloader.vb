@@ -9,6 +9,8 @@ Namespace Net.WebClient
         ReadOnly localFilePath As String
         ReadOnly request As FtpWebRequest
         ReadOnly _bufferSize As Integer = 8192
+        ReadOnly _buffer As Stream
+
         Public Overrides ReadOnly Property LocalSaveFile As String
             Get
                 Return localFilePath
@@ -22,6 +24,15 @@ Namespace Net.WebClient
             Me.ftpUri = New Uri(ftpUri)
             Me.localFilePath = localPath
             Me.request = ftpRequest(user, password)
+        End Sub
+
+        Sub New(ftpUri As String, buffer As Stream,
+                Optional user As String = "anonymous",
+                Optional password As String = "user@example.com")
+
+            Me.ftpUri = New Uri(ftpUri)
+            Me.request = ftpRequest(user, password)
+            Me._buffer = buffer
         End Sub
 
         Private Function ftpRequest(user As String, password As String) As FtpWebRequest
@@ -49,11 +60,10 @@ Namespace Net.WebClient
         Private Async Function RequestStream(response As FtpWebResponse) As Task
             Dim totalBytes As Long = response.ContentLength
 
-            ProgressUpdate(New ProgressChangedEventArgs(0, CLng(totalBytes)))
+            Call ProgressUpdate(New ProgressChangedEventArgs(0, CLng(totalBytes)))
 
-            Using responseStream As Stream = response.GetResponseStream(),
-                localFileStream As FileStream = New FileStream(localFilePath, FileMode.Create, FileAccess.Write)
-
+            Using responseStream As Stream = response.GetResponseStream()
+                Dim localFileStream As Stream = OpenSaveStream()
                 Dim buffer As Byte() = New Byte(_bufferSize - 1) {}
                 Dim bytesRead As Integer = Await responseStream.ReadAsync(buffer, 0, buffer.Length)
                 Dim totalBytesRead As Long = bytesRead
@@ -64,11 +74,21 @@ Namespace Net.WebClient
                     bytesRead = Await responseStream.ReadAsync(buffer, 0, buffer.Length)
                     totalBytesRead += bytesRead
 
-                    ProgressUpdate(New ProgressChangedEventArgs(totalBytesRead, CLng(totalBytes)))
+                    Call ProgressUpdate(New ProgressChangedEventArgs(totalBytesRead, CLng(totalBytes)))
                 End While
+
+                Await localFileStream.FlushAsync
             End Using
 
             Call ProgressFinished()
+        End Function
+
+        Protected Overrides Function OpenSaveStream() As Stream
+            If Not _buffer Is Nothing Then
+                Return _buffer
+            End If
+
+            Return localFilePath.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
         End Function
     End Class
 End Namespace
