@@ -1,58 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::e0052410d7407b3fd38eab82f2c1db94, mime\text%html\Render\CSS\CssDefaults.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 55
-    '    Code Lines: 14 (25.45%)
-    ' Comment Lines: 30 (54.55%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 11 (20.00%)
-    '     File Size: 9.35 KB
+' Summaries:
 
 
-    '     Class CssDefaults
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 55
+'    Code Lines: 14 (25.45%)
+' Comment Lines: 30 (54.55%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 11 (20.00%)
+'     File Size: 9.35 KB
+
+
+'     Class CssDefaults
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
-
-Imports System.Drawing
 
 Namespace Render.CSS
 
@@ -149,7 +147,18 @@ Namespace Render.CSS
             "        style, title," & vbCr & vbLf &
             "        script, link," & vbCr & vbLf &
             "        meta, area," & vbCr & vbLf &
-            "        base, param     { display:none }" & vbCr & vbLf & "        hr              { border-color: #ccc }  " & vbCr & vbLf & "        pre             { font-size:10pt }" & vbCr & vbLf & "        " & vbCr & vbLf & "        /*This is the background of the HtmlToolTip*/" & vbCr & vbLf & "        .htmltooltipbackground {" & vbCr & vbLf & "              border:solid 1px #767676;" & vbCr & vbLf & "              corner-radius:3px;" & vbCr & vbLf & "              background-color:#white;" & vbCr & vbLf & "              background-gradient:#E4E5F0;" & vbCr & vbLf & "        }" & vbCr & vbLf & vbCr & vbLf & "        "
+            "        base, param     { display:none }" & vbCr & vbLf &
+            "        hr              { border-color: #ccc }  " & vbCr & vbLf &
+            "        pre             { font-size:10pt }" & vbCr & vbLf &
+            "        " & vbCr & vbLf &
+            "        /*This is the background of the HtmlToolTip*/" & vbCr & vbLf &
+            "        .htmltooltipbackground {" & vbCr & vbLf &
+            "              border:solid 1px #767676;" & vbCr & vbLf &
+            "              corner-radius:3px;" & vbCr & vbLf &
+            "              background-color:#white;" & vbCr & vbLf &
+            "              background-gradient:#E4E5F0;" & vbCr & vbLf &
+            "        }" & vbCr & vbLf & vbCr & vbLf &
+            "        "
 
         ''' <summary>
         ''' Html Fragment used to draw the icon that shows an error on an IMG HTML element
@@ -178,7 +187,26 @@ Namespace Render.CSS
         ''' <summary>
         ''' Html Fragment used to draw the icon that shows an error on an OBJECT HTML element
         ''' </summary>
-        Public Const ErrorOnObjectIcon As String = vbCr & vbLf & "        <style>" & vbCr & vbLf & "          table { " & vbCr & vbLf & vbCr & vbLf & "               border-bottom:1px solid #bbb;" & vbCr & vbLf & "               border-right:1px solid #bbb;" & vbCr & vbLf & "               border-spacing:0;" & vbCr & vbLf & "          }" & vbCr & vbLf & "          td { " & vbCr & vbLf & "               border:1px solid #555;" & vbCr & vbLf & "               font:bold 7pt Arial;" & vbCr & vbLf & "               padding:3px;" & vbCr & vbLf & "               color:red;" & vbCr & vbLf & "               background-color:#fbfbfb;" & vbCr & vbLf & "           }" & vbCr & vbLf & "        </style>" & vbCr & vbLf & "        <table>" & vbCr & vbLf & "        <tr>" & vbCr & vbLf & "        <td>X</td>" & vbCr & vbLf & "        </tr>" & vbCr & vbLf & "        </table>"
+        Public Const ErrorOnObjectIcon As String = vbCr & vbLf &
+            "        <style>" & vbCr & vbLf &
+            "          table { " & vbCr & vbLf & vbCr & vbLf &
+            "               border-bottom:1px solid #bbb;" & vbCr & vbLf &
+            "               border-right:1px solid #bbb;" & vbCr & vbLf &
+            "               border-spacing:0;" & vbCr & vbLf &
+            "          }" & vbCr & vbLf &
+            "          td { " & vbCr & vbLf &
+            "               border:1px solid #555;" & vbCr & vbLf &
+            "               font:bold 7pt Arial;" & vbCr & vbLf &
+            "               padding:3px;" & vbCr & vbLf &
+            "               color:red;" & vbCr & vbLf &
+            "               background-color:#fbfbfb;" & vbCr & vbLf &
+            "           }" & vbCr & vbLf &
+            "        </style>" & vbCr & vbLf &
+            "        <table>" & vbCr & vbLf &
+            "        <tr>" & vbCr & vbLf &
+            "        <td>X</td>" & vbCr & vbLf &
+            "        </tr>" & vbCr & vbLf &
+            "        </table>"
 
         ''' <summary>
         ''' Default font size in points. Change this value to modify the default font size.
@@ -209,5 +237,6 @@ Namespace Render.CSS
         ''' Default font used for the generic 'monospace' family
         ''' </summary>
         Public Shared FontMonospace As String = "monospace"
+
     End Class
 End Namespace
