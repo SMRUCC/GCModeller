@@ -6,8 +6,9 @@ Namespace Net.WebClient
     Public Class HttpDownloader : Inherits WebClient
 
         ReadOnly _url As String
-        ReadOnly _localPath As String
+        ReadOnly _localPath As String = Nothing
         ReadOnly _bufferSize As Integer = 8192
+        ReadOnly _buffer As Stream = Nothing
 
         Public Overrides ReadOnly Property LocalSaveFile As String
             Get
@@ -18,6 +19,11 @@ Namespace Net.WebClient
         Public Sub New(url As String, localPath As String)
             _url = url
             _localPath = localPath
+        End Sub
+
+        Sub New(url As String, save As Stream)
+            _url = url
+            _buffer = save
         End Sub
 
         Public Overrides Async Function DownloadFileAsync() As Task
@@ -35,10 +41,8 @@ Namespace Net.WebClient
         Private Async Function RequestStream(response As HttpResponseMessage) As Task
             Dim totalBytes As Long? = response.Content.Headers.ContentLength
 
-            Using contentStream As Stream = Await response.Content.ReadAsStreamAsync(),
-                fileStream As FileStream = New FileStream(_localPath, FileMode.Create, FileAccess.Write, FileShare.None,
-                                                          bufferSize:=_bufferSize,
-                                                          useAsync:=True)
+            Using contentStream As Stream = Await response.Content.ReadAsStreamAsync()
+                Dim fileStream As Stream = OpenSaveStream()
                 Dim totalRead As Long = 0L
                 Dim buffer As Byte() = New Byte(_bufferSize - 1) {}
                 Dim isMoreToRead As Boolean = True
@@ -58,7 +62,16 @@ Namespace Net.WebClient
                         Call ProgressUpdate(New ProgressChangedEventArgs(totalRead, CLng(totalBytes)))
                     End If
                 End While
+
+                Await fileStream.FlushAsync
             End Using
+        End Function
+
+        Protected Overrides Function OpenSaveStream() As Stream
+            If Not _buffer Is Nothing Then
+                Return _buffer
+            End If
+            Return LocalSaveFile.Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=False)
         End Function
     End Class
 End Namespace

@@ -1,4 +1,6 @@
 ﻿
+Imports System.IO
+
 Namespace Net.WebClient
 
     Public MustInherit Class WebClient
@@ -8,6 +10,12 @@ Namespace Net.WebClient
 
         Public MustOverride ReadOnly Property LocalSaveFile As String
         Public MustOverride Async Function DownloadFileAsync() As Task
+
+        ''' <summary>
+        ''' open save stream
+        ''' </summary>
+        ''' <returns></returns>
+        Protected MustOverride Function OpenSaveStream() As Stream
 
         Protected Sub ProgressUpdate(args As ProgressChangedEventArgs)
             RaiseEvent DownloadProgressChanged(Me, args)
