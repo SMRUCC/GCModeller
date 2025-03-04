@@ -54,6 +54,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.TypeCast
 Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Language
@@ -118,7 +119,7 @@ Public Module FastLoader
                               Function(a)
                                   Return a.Value.ParseFeature(a.Key)
                               End Function),
-            .rownames = rowHeaders.ToArray
+            .rownames = rowHeaders.UniqueNames.ToArray
         }
     End Function
 

@@ -61,6 +61,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -199,6 +200,11 @@ Public Class DataFrame : Implements INumericMatrix
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function delete(featureName As String) As Boolean
         Return features.Remove(featureName)
+    End Function
+
+    Public Function add(featureName As String, v As StringVector) As DataFrame
+        Call features.Add(featureName, New FeatureVector(featureName, v.AsEnumerable))
+        Return Me
     End Function
 
     ''' <summary>
