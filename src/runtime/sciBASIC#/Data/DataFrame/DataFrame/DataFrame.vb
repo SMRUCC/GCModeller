@@ -370,11 +370,19 @@ Public Class DataFrame : Implements INumericMatrix
         Return $"[{size.Width}x{size.Height}] {featureSet}"
     End Function
 
+    Public Shared Function read_csv(file As String,
+                                    Optional delimiter As Char = ","c,
+                                    Optional rowHeader As Boolean = True,
+                                    Optional encoding As Encodings = Encodings.UTF8) As DataFrame
+        Using s As Stream = file.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+            Return FastLoader.ReadCsv(s, delimiter, rowHeader, encoding)
+        End Using
+    End Function
+
     Public Shared Function read_csv(file As Stream,
                                     Optional delimiter As Char = ","c,
                                     Optional rowHeader As Boolean = True,
                                     Optional encoding As Encodings = Encodings.UTF8) As DataFrame
-
         Return FastLoader.ReadCsv(file, delimiter, rowHeader, encoding)
     End Function
 
