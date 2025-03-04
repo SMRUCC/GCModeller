@@ -198,8 +198,8 @@ Public Class DataFrame : Implements INumericMatrix
     ''' <param name="featureName"></param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function delete(featureName As String) As Boolean
-        Return features.Remove(featureName)
+    Public Function delete(featureName As String) As FeatureVector
+        Return features.Popout(featureName)
     End Function
 
     Public Function add(featureName As String, v As StringVector) As DataFrame
