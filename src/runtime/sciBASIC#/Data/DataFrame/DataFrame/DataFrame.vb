@@ -57,6 +57,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -64,6 +65,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 
 ''' <summary>
 ''' R language liked dataframe object
@@ -368,7 +370,15 @@ Public Class DataFrame : Implements INumericMatrix
         Return $"[{size.Width}x{size.Height}] {featureSet}"
     End Function
 
-    Public Function ArrayPack(Optional deepcopy As Boolean = False) As Double()() Implements INumericMatrix.ArrayPack
+    Public Shared Function read_csv(file As Stream,
+                                    Optional delimiter As Char = ","c,
+                                    Optional rowHeader As Boolean = True,
+                                    Optional encoding As Encodings = Encodings.UTF8) As DataFrame
+
+        Return FastLoader.ReadCsv(file, delimiter, rowHeader, encoding)
+    End Function
+
+    Private Function ArrayPack(Optional deepcopy As Boolean = False) As Double()() Implements INumericMatrix.ArrayPack
         Dim m As Double()() = New Double(nsamples - 1)() {}
         Dim colnames As String() = featureNames
         Dim getters As Func(Of Integer, Double)() = colnames _
