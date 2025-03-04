@@ -57,7 +57,6 @@
 
 #End Region
 
-Imports System.Drawing
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -66,8 +65,6 @@ Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.WebClient
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.Annotation
-Imports Microsoft.VisualBasic.Net.WebClient
-
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
