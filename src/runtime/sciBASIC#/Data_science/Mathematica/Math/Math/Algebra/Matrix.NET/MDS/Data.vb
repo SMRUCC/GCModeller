@@ -18,7 +18,7 @@ Imports System
 '  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ' 
 
-Namespace mdscale
+Namespace LinearAlgebra.Matrix.MDSScale
 
     ''' <summary>
     ''' Created by IntelliJ IDEA.
@@ -135,7 +135,7 @@ Namespace mdscale
                 evals(m) = normalize(evecs(m))
             Next
             Dim iterations = 0
-            While r < 0.9999900000000001R
+            While r < 0.99999R
                 Dim tempOld = RectangularArray.Matrix(Of Double)(d, k)
 
                 For m = 0 To d - 1

@@ -18,7 +18,8 @@ Imports System
 '  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ' 
 
-Namespace mdscale
+Namespace LinearAlgebra.Matrix.MDSScale
+
     ''' <summary>
     ''' A class implementing Stress Minimization by Majorizing a Complex Function (SMACOF).
     ''' 
