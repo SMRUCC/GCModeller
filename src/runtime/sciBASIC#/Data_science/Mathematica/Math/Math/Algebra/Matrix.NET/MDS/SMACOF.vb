@@ -1,5 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports System
+Imports stdf = System.Math
 
 ' 
 '  Copyright (C) 2014. Daniel Asarnow
@@ -156,7 +156,7 @@ Namespace LinearAlgebra.Matrix.MDSScale
             For i = 0 To k - 1
                 For j = 0 To n - 1
                     If D(i)(j) > 0.0R Then
-                        result(i)(j) = Math.Pow(D(i)(j), exponent)
+                        result(i)(j) = stdf.Pow(D(i)(j), exponent)
                     End If
                 Next
             Next
@@ -184,7 +184,7 @@ Namespace LinearAlgebra.Matrix.MDSScale
                     wSum(i) += w(j)(i)
                 Next
             Next
-            Dim eps = Math.Pow(10.0R, -threshold)
+            Dim eps = stdf.Pow(10.0R, -threshold)
 
             If iter = 0 Then
                 iter = 10000000
@@ -197,10 +197,10 @@ Namespace LinearAlgebra.Matrix.MDSScale
                     For j = 0 To k - 1
                         Dim inv = 0.0R
                         For m = 0 To [dim] - 1
-                            inv += Math.Pow(x(m)(i) - x(m)(j), 2.0R)
+                            inv += stdf.Pow(x(m)(i) - x(m)(j), 2.0R)
                         Next
                         If inv <> 0.0R Then
-                            inv = Math.Pow(inv, -0.5R)
+                            inv = stdf.Pow(inv, -0.5R)
                         End If
                         For m = 0 To [dim] - 1
                             xnew(m) += w(j)(i) * (x(m)(j) + d(j)(i) * (x(m)(i) - x(m)(j)) * inv)
@@ -208,13 +208,13 @@ Namespace LinearAlgebra.Matrix.MDSScale
                     Next
                     If wSum(i) <> 0.0R Then
                         For m = 0 To [dim] - 1
-                            change += Math.Pow(xnew(m) / wSum(i) - x(m)(i), 2.0R)
-                            magnitude += Math.Pow(x(m)(i), 2.0R)
+                            change += stdf.Pow(xnew(m) / wSum(i) - x(m)(i), 2.0R)
+                            magnitude += stdf.Pow(x(m)(i), 2.0R)
                             x(m)(i) = xnew(m) / wSum(i)
                         Next
                     End If
                 Next
-                change = Math.Sqrt(change / magnitude)
+                change = stdf.Sqrt(change / magnitude)
 
                 If iter > 0 AndAlso c >= iter - 1 Then
                     report = c + 1.ToString() & " iterations, " & change.ToString() & " relative change"
@@ -237,7 +237,7 @@ Namespace LinearAlgebra.Matrix.MDSScale
             Dim k = d.Length
             Dim [dim] = x.Length
 
-            Dim eps = Math.Pow(10.0R, -threshold)
+            Dim eps = stdf.Pow(10.0R, -threshold)
 
             If iter = 0 Then
                 iter = 10000000
@@ -250,22 +250,22 @@ Namespace LinearAlgebra.Matrix.MDSScale
                     For j = 0 To k - 1
                         Dim inv = 0.0R
                         For m = 0 To [dim] - 1
-                            inv += Math.Pow(x(m)(i) - x(m)(j), 2.0R)
+                            inv += stdf.Pow(x(m)(i) - x(m)(j), 2.0R)
                         Next
                         If inv <> 0.0R Then
-                            inv = Math.Pow(inv, -0.5R)
+                            inv = stdf.Pow(inv, -0.5R)
                         End If
                         For m = 0 To [dim] - 1
                             xnew(m) += x(m)(j) + d(j)(i) * (x(m)(i) - x(m)(j)) * inv
                         Next
                     Next
                     For m = 0 To [dim] - 1
-                        change += Math.Pow(xnew(m) / n - x(m)(i), 2.0R)
-                        magnitude += Math.Pow(x(m)(i), 2.0R)
+                        change += stdf.Pow(xnew(m) / n - x(m)(i), 2.0R)
+                        magnitude += stdf.Pow(x(m)(i), 2.0R)
                         x(m)(i) = xnew(m) / n
                     Next
                 Next
-                change = Math.Sqrt(change / magnitude)
+                change = stdf.Sqrt(change / magnitude)
 
                 If iter > 0 AndAlso c >= iter - 1 Then
                     report = c + 1.ToString() & " iterations, " & change.ToString() & " relative change"
@@ -295,10 +295,10 @@ Namespace LinearAlgebra.Matrix.MDSScale
                     For j = 0 To n - 1
                         Dim inv = 0.0R
                         For k = 0 To [dim] - 1
-                            inv += Math.Pow(x(k)(i) - x(k)(j), 2.0R)
+                            inv += stdf.Pow(x(k)(i) - x(k)(j), 2.0R)
                         Next
                         If inv <> 0.0R Then
-                            inv = Math.Pow(inv, -0.5R)
+                            inv = stdf.Pow(inv, -0.5R)
                         End If
                         For k = 0 To [dim] - 1
                             xnew(k) += w(i)(j) * (x(k)(j) + d(i)(j) * (x(k)(i) - x(k)(j)) * inv)
@@ -329,9 +329,9 @@ Namespace LinearAlgebra.Matrix.MDSScale
                 For j = i + 1 To n - 1
                     Dim dist = 0.0R
                     For m = 0 To [dim] - 1
-                        dist += Math.Pow(x(m)(i) - x(m)(j), 2.0R)
+                        dist += stdf.Pow(x(m)(i) - x(m)(j), 2.0R)
                     Next
-                    result += w(i)(j) * Math.Pow(d(i)(j) - Math.Sqrt(dist), 2.0R)
+                    result += w(i)(j) * stdf.Pow(d(i)(j) - stdf.Sqrt(dist), 2.0R)
                 Next
             Next
             Return result
@@ -352,9 +352,9 @@ Namespace LinearAlgebra.Matrix.MDSScale
                 For j = i + 1 To n - 1
                     Dim dist = 0.0R
                     For m = 0 To [dim] - 1
-                        dist += Math.Pow(x(m)(i) - x(m)(j), 2.0R)
+                        dist += stdf.Pow(x(m)(i) - x(m)(j), 2.0R)
                     Next
-                    result += Math.Pow(d(i)(j) - Math.Sqrt(dist), 2.0R)
+                    result += stdf.Pow(d(i)(j) - stdf.Sqrt(dist), 2.0R)
                 Next
             Next
             Return result
@@ -377,10 +377,10 @@ Namespace LinearAlgebra.Matrix.MDSScale
                 For j = i + 1 To n - 1
                     Dim dist = 0.0R
                     For m = 0 To [dim] - 1
-                        dist += Math.Pow(x(m)(i) - x(m)(j), 2.0R)
+                        dist += stdf.Pow(x(m)(i) - x(m)(j), 2.0R)
                     Next
-                    result += w(i)(j) * Math.Pow(d(i)(j) - Math.Sqrt(dist), 2.0R)
-                    sum += w(i)(j) * Math.Pow(d(i)(j), 2.0R)
+                    result += w(i)(j) * stdf.Pow(d(i)(j) - stdf.Sqrt(dist), 2.0R)
+                    sum += w(i)(j) * stdf.Pow(d(i)(j), 2.0R)
                 Next
             Next
             Return result / sum
@@ -402,10 +402,10 @@ Namespace LinearAlgebra.Matrix.MDSScale
                 For j = i + 1 To n - 1
                     Dim dist = 0.0R
                     For m = 0 To [dim] - 1
-                        dist += Math.Pow(x(m)(i) - x(m)(j), 2.0R)
+                        dist += stdf.Pow(x(m)(i) - x(m)(j), 2.0R)
                     Next
-                    result += Math.Pow(d(i)(j) - Math.Sqrt(dist), 2.0R)
-                    sum += Math.Pow(d(i)(j), 2.0R)
+                    result += stdf.Pow(d(i)(j) - stdf.Sqrt(dist), 2.0R)
+                    sum += stdf.Pow(d(i)(j), 2.0R)
                 Next
             Next
             Return result / sum

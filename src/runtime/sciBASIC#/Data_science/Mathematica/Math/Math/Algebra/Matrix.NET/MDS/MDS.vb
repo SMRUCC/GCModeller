@@ -1,5 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports System
+Imports stdf = System.Math
 
 ' 
 '  Copyright (C) 2014. Daniel Asarnow
@@ -40,7 +40,7 @@ Namespace LinearAlgebra.Matrix.MDSScale
             Data.multiply(d, -0.5R)
             Data.eigen(d, result, evals)
             For i = 0 To result.Length - 1
-                evals(i) = Math.Sqrt(evals(i))
+                evals(i) = stdf.Sqrt(evals(i))
                 For j = 0 To result(0).Length - 1
                     result(i)(j) *= evals(i)
                 Next

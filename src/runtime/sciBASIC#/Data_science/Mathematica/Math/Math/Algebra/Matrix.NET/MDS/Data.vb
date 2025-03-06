@@ -1,5 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports System
+Imports stdf = System.Math
 
 ' 
 '  Copyright (C) 2014. Daniel Asarnow
@@ -68,7 +68,7 @@ Namespace LinearAlgebra.Matrix.MDSScale
             Dim k = matrix.Length
             For i = 0 To k - 1
                 For j = 0 To n - 1
-                    matrix(i)(j) = Math.Pow(matrix(i)(j), 2.0R)
+                    matrix(i)(j) = stdf.Pow(matrix(i)(j), 2.0R)
                 Next
             Next
         End Sub
@@ -80,7 +80,7 @@ Namespace LinearAlgebra.Matrix.MDSScale
         End Sub
 
         Public Shared Function normalize(x As Double()) As Double
-            Dim norm = Math.Sqrt(prod(x, x))
+            Dim norm = stdf.Sqrt(prod(x, x))
             For i = 0 To x.Length - 1
                 x(i) /= norm
             Next
@@ -89,7 +89,7 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         Public Shared Function prod(x As Double(), y As Double()) As Double
             Dim result = 0.0R
-            Dim length = Math.Min(x.Length, y.Length)
+            Dim length = stdf.Min(x.Length, y.Length)
             For i = 0 To length - 1
                 result += x(i) * y(i)
             Next
@@ -166,7 +166,7 @@ Namespace LinearAlgebra.Matrix.MDSScale
                 Next
                 r = 1.0R
                 For m = 0 To d - 1
-                    r = Math.Min(Math.Abs(prod(evecs(m), tempOld(m))), r)
+                    r = stdf.Min(stdf.Abs(prod(evecs(m), tempOld(m))), r)
                 Next
 
                 iterations += 1
