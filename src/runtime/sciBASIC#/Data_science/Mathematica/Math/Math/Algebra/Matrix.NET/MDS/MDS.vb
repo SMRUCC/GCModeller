@@ -26,6 +26,9 @@ Namespace LinearAlgebra.Matrix.MDSScale
     ''' Date: 10/8/11
     ''' Time: 2:25 AM
     ''' </summary>
+    ''' <remarks>
+    ''' https://github.com/asarnow/mdscale
+    ''' </remarks>
     Public Class MDS
 
         Public Shared Function fullmds(d As Double()(), [dim] As Integer) As Double()()
