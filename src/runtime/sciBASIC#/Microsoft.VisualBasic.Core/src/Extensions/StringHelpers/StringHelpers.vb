@@ -457,8 +457,10 @@ Public Module StringHelpers
     ''' <param name="s"></param>
     ''' <param name="delimiter"></param>
     ''' <param name="trim">Needs Removes all leading and trailing white-space characters from 
-    ''' the current <see cref="System.String"/> object.</param>
-    ''' <returns></returns>
+    ''' the current <see cref="String"/> object.</param>
+    ''' <returns>
+    ''' this function will returns empty data if the given string is nothing
+    ''' </returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
