@@ -30,15 +30,16 @@ Namespace LinearAlgebra.Matrix.MDSScale
     ''' </summary>
 
     Public Class SMACOF
+
         Private x As Double()()
         Private d As Double()()
         Private w As Double()()
 
         ''' <summary>
         ''' Construct a new SMACOF instance. </summary>
-        ''' <paramname="d"> distance matrix </param>
-        ''' <paramname="x"> initial coordinate matrix </param>
-        ''' <paramname="w"> weights matrix </param>
+        ''' <param name="d"> distance matrix </param>
+        ''' <param name="x"> initial coordinate matrix </param>
+        ''' <param name="w"> weights matrix </param>
         Public Sub New(d As Double()(), x As Double()(), w As Double()())
             Me.x = x
             Me.d = d
@@ -47,8 +48,8 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         ''' <summary>
         ''' Construct a SMACOF instance without weights. </summary>
-        ''' <paramname="d"> distance matrix </param>
-        ''' <paramname="x"> initial coordinate matrix </param>
+        ''' <param name="d"> distance matrix </param>
+        ''' <param name="x"> initial coordinate matrix </param>
         Public Sub New(d As Double()(), x As Double()())
             Me.x = x
             Me.d = d
@@ -95,7 +96,7 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         ''' <summary>
         ''' Perform n majorization iterations using this SMACOF instance. </summary>
-        ''' <paramname="n"> number of iterations </param>
+        ''' <param name="n"> number of iterations </param>
         ''' <returns> report </returns>
         Public Overridable Function iterate(n As Integer) As String
             If w IsNot Nothing Then
@@ -108,9 +109,8 @@ Namespace LinearAlgebra.Matrix.MDSScale
         ''' Perform majorization iterations until the maximum number of iterations
         ''' is reached, the maximum runtime has elapsed, or the change in
         ''' normalized stress falls below the threshold, whichever comes first. </summary>
-        ''' <paramname="iter"> maximum number of iterations </param>
-        ''' <paramname="threshold"> threshold for change in normalized stress </param>
-        ''' <paramname="timeout"> maximum runtime in milliseconds </param>
+        ''' <param name="iter"> maximum number of iterations </param>
+        ''' <param name="threshold"> threshold for change in normalized stress </param>
         ''' <returns> report </returns>
         Public Overridable Function iterate(iter As Integer, threshold As Integer) As String
             If w IsNot Nothing Then
@@ -145,8 +145,8 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         ''' <summary>
         ''' Element-wise matrix exponentiation for self-weighting of distances. </summary>
-        ''' <paramname="D"> distance matrix or initial weights </param>
-        ''' <paramname="exponent"> power to raise each element the matrix </param>
+        ''' <param name="D"> distance matrix or initial weights </param>
+        ''' <param name="exponent"> power to raise each element the matrix </param>
         ''' <returns> exponentiated weights </returns>
         Public Shared Function weightMatrix(D As Double()(), exponent As Double) As Double()()
             Dim n = D(0).Length
@@ -165,12 +165,11 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         ''' <summary>
         ''' SMACOF algorithm (weighted). </summary>
-        ''' <paramname="x"> coordinates matrix </param>
-        ''' <paramname="d"> distance matrix </param>
-        ''' <paramname="w"> weights matrix </param>
-        ''' <paramname="iter"> maximum iterations </param>
-        ''' <paramname="threshold"> halting threshold for change in normalized stress </param>
-        ''' <paramname="timeout"> maximum runtime in milliseconds </param>
+        ''' <param name="x"> coordinates matrix </param>
+        ''' <param name="d"> distance matrix </param>
+        ''' <param name="w"> weights matrix </param>
+        ''' <param name="iter"> maximum iterations </param>
+        ''' <param name="threshold"> halting threshold for change in normalized stress </param>
         ''' <returns> report </returns>
         Public Shared Function majorize(x As Double()(), d As Double()(), w As Double()(), iter As Integer, threshold As Integer) As String
             Dim report = ""
@@ -225,11 +224,10 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         ''' <summary>
         ''' SMACOF algorithm (unweighted). </summary>
-        ''' <paramname="x"> coordinates matrix </param>
-        ''' <paramname="d"> distance matrix </param>
-        ''' <paramname="iter"> maximum iterations </param>
-        ''' <paramname="threshold"> halting threshold for change in normalized stress </param>
-        ''' <paramname="timeout"> maximum runtime in milliseconds </param>
+        ''' <param name="x"> coordinates matrix </param>
+        ''' <param name="d"> distance matrix </param>
+        ''' <param name="iter"> maximum iterations </param>
+        ''' <param name="threshold"> halting threshold for change in normalized stress </param>
         ''' <returns> report </returns>
         Public Shared Function majorize(x As Double()(), d As Double()(), iter As Integer, threshold As Integer) As String
             Dim report = ""
@@ -276,10 +274,10 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         ''' <summary>
         ''' Bare SMACOF algorithm. Convenient for reading the algorithm. </summary>
-        ''' <paramname="x"> coordinates matrix </param>
-        ''' <paramname="d"> distance matrix </param>
-        ''' <paramname="w"> weights matrix </param>
-        ''' <paramname="iter"> number of iterations </param>
+        ''' <param name="x"> coordinates matrix </param>
+        ''' <param name="d"> distance matrix </param>
+        ''' <param name="w"> weights matrix </param>
+        ''' <param name="iter"> number of iterations </param>
         Public Shared Sub majorize(x As Double()(), d As Double()(), w As Double()(), iter As Integer)
             Dim n = x(0).Length
             Dim [dim] = x.Length
@@ -315,9 +313,9 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         ''' <summary>
         ''' Compute the absolute stress between a weighted distance matrix and a configuration of coordinates. </summary>
-        ''' <paramname="d"> distance matrix </param>
-        ''' <paramname="w"> weights matrix </param>
-        ''' <paramname="x"> coordinates matrix </param>
+        ''' <param name="d"> distance matrix </param>
+        ''' <param name="w"> weights matrix </param>
+        ''' <param name="x"> coordinates matrix </param>
         ''' <returns> stress </returns>
         Public Shared Function stress(d As Double()(), w As Double()(), x As Double()()) As Double
             Dim result = 0.0R
@@ -339,8 +337,8 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         ''' <summary>
         ''' Compute the absolute stress between a distance matrix and a configuration of coordinates. </summary>
-        ''' <paramname="d"> distance matrix </param>
-        ''' <paramname="x"> coordinates matrix </param>
+        ''' <param name="d"> distance matrix </param>
+        ''' <param name="x"> coordinates matrix </param>
         ''' <returns> stress </returns>
         Public Shared Function stress(d As Double()(), x As Double()()) As Double
             Dim result = 0.0R
@@ -362,9 +360,9 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         ''' <summary>
         ''' Compute the normlized stress between a weighted distance matrix and a configuration of coordinates. </summary>
-        ''' <paramname="d"> distance matrix </param>
-        ''' <paramname="w"> weights matrix </param>
-        ''' <paramname="x"> coordinate matrix </param>
+        ''' <param name="d"> distance matrix </param>
+        ''' <param name="w"> weights matrix </param>
+        ''' <param name="x"> coordinate matrix </param>
         ''' <returns> normalized stress </returns>
         Public Shared Function normalizedStress(d As Double()(), w As Double()(), x As Double()()) As Double
             Dim result = 0.0R
@@ -388,8 +386,8 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         ''' <summary>
         ''' Return the normlized stress between a distance matrix and a configuration of coordinates. </summary>
-        ''' <paramname="d"> distance matrix </param>
-        ''' <paramname="x"> coordinate matrix </param>
+        ''' <param name="d"> distance matrix </param>
+        ''' <param name="x"> coordinate matrix </param>
         ''' <returns> normalized stress </returns>
         Public Shared Function normalizedStress(d As Double()(), x As Double()()) As Double
             Dim result = 0.0R
