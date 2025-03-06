@@ -235,7 +235,8 @@ Public Module IOExtensions
                          Optional mode As FileMode = FileMode.OpenOrCreate,
                          Optional doClear As Boolean = False,
                          Optional [readOnly] As Boolean = False,
-                         Optional verbose As Boolean = True) As Stream
+                         Optional verbose As Boolean = True,
+                         Optional aggressive As Boolean = True) As Stream
 
         Dim shares As FileShare
         Dim access As FileAccess = If([readOnly], FileAccess.Read, FileAccess.ReadWrite)
@@ -277,7 +278,7 @@ Public Module IOExtensions
                 ' use a single memorystream object when file size 
                 ' is smaller than 2GB
                 Return New MemoryStream(path.ReadBinary)
-            ElseIf App.MemoryLoad = My.FrameworkInternal.MemoryLoads.Max Then
+            ElseIf aggressive AndAlso App.MemoryLoad = My.FrameworkInternal.MemoryLoads.Max Then
                 ' 20221101
                 '
                 ' use a memorystream pool object when the file size
