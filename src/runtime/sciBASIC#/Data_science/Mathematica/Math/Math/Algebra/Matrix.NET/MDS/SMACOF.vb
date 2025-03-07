@@ -81,6 +81,25 @@ Namespace LinearAlgebra.Matrix.MDSScale
         ''' <returns> report </returns>
         Public MustOverride Function iterate(iter As Integer, threshold As Integer) As String
 
+        ''' <summary>
+        ''' Element-wise matrix exponentiation for self-weighting of distances. </summary>
+        ''' <param name="D"> distance matrix or initial weights </param>
+        ''' <param name="exponent"> power to raise each element the matrix </param>
+        ''' <returns> exponentiated weights </returns>
+        Public Shared Function weightMatrix(D As Double()(), exponent As Double) As Double()()
+            Dim n = D(0).Length
+            Dim k = D.Length
+            Dim result = RectangularArray.Matrix(Of Double)(k, n)
+
+            For i = 0 To k - 1
+                For j = 0 To n - 1
+                    If D(i)(j) > 0.0R Then
+                        result(i)(j) = stdf.Pow(D(i)(j), exponent)
+                    End If
+                Next
+            Next
+            Return result
+        End Function
     End Class
 
     ''' <summary>
@@ -159,26 +178,6 @@ Namespace LinearAlgebra.Matrix.MDSScale
                 Return normalizedStress(d, x)
             End Get
         End Property
-
-        ''' <summary>
-        ''' Element-wise matrix exponentiation for self-weighting of distances. </summary>
-        ''' <param name="D"> distance matrix or initial weights </param>
-        ''' <param name="exponent"> power to raise each element the matrix </param>
-        ''' <returns> exponentiated weights </returns>
-        Public Shared Function weightMatrix(D As Double()(), exponent As Double) As Double()()
-            Dim n = D(0).Length
-            Dim k = D.Length
-            Dim result = RectangularArray.Matrix(Of Double)(k, n)
-
-            For i = 0 To k - 1
-                For j = 0 To n - 1
-                    If D(i)(j) > 0.0R Then
-                        result(i)(j) = stdf.Pow(D(i)(j), exponent)
-                    End If
-                Next
-            Next
-            Return result
-        End Function
 
         ''' <summary>
         ''' SMACOF algorithm (weighted). </summary>

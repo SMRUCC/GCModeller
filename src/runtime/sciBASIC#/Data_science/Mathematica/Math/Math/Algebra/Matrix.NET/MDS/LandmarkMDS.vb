@@ -56,20 +56,6 @@ Namespace LinearAlgebra.Matrix.MDSScale
             End Get
         End Property
 
-        Public Shared Function weightMatrix(D As Double()(), exponent As Double) As Double()()
-            Dim n = D(0).Length
-            Dim k = D.Length
-            Dim result = RectangularArray.Matrix(Of Double)(k, n)
-            For i = 0 To k - 1
-                For j = 0 To n - 1
-                    If D(i)(j) > 0.0R Then
-                        result(i)(j) = stdf.Pow(D(i)(j), exponent)
-                    End If
-                Next
-            Next
-            Return result
-        End Function
-
         Public Shared Function majorize(x As Double()(), d As Double()(), w As Double()(), iter As Integer, threshold As Integer) As String
             Dim report = ""
             Dim n = x(0).Length
