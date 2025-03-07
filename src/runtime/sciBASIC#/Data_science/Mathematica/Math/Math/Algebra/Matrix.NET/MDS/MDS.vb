@@ -31,6 +31,12 @@ Namespace LinearAlgebra.Matrix.MDSScale
     ''' </remarks>
     Public Class MDS
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="d">should be a NxN distance matrix.</param>
+        ''' <param name="dim"></param>
+        ''' <returns></returns>
         Public Shared Function fullmds(d As Double()(), [dim] As Integer) As Double()()
             Dim result = RectangularArray.Matrix(Of Double)([dim], d.Length)
             Dim evals = New Double(result.Length - 1) {}
