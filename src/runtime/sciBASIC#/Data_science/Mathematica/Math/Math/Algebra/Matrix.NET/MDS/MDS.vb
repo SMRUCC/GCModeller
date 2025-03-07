@@ -33,12 +33,14 @@ Namespace LinearAlgebra.Matrix.MDSScale
 
         Public Shared Function fullmds(d As Double()(), [dim] As Integer) As Double()()
             Dim result = RectangularArray.Matrix(Of Double)([dim], d.Length)
-            Data.randomize(result)
             Dim evals = New Double(result.Length - 1) {}
+
+            Data.randomize(result)
             Data.squareEntries(d)
             Data.doubleCenter(d)
             Data.multiply(d, -0.5R)
             Data.eigen(d, result, evals)
+
             For i = 0 To result.Length - 1
                 evals(i) = stdf.Sqrt(evals(i))
                 For j = 0 To result(0).Length - 1
