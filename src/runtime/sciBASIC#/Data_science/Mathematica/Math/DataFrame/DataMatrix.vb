@@ -71,7 +71,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 ''' <remarks>
 ''' a matrix data wrapper for pairwise comparision analysis
 ''' </remarks>
-Public Class DataMatrix : Implements IBucketVector, INumericMatrix
+Public Class DataMatrix : Implements IBucketVector, INumericMatrix, ILabeledMatrix
 
     Protected Friend ReadOnly names As Index(Of String)
     Protected Friend ReadOnly matrix As Double()()
@@ -226,5 +226,9 @@ Public Class DataMatrix : Implements IBucketVector, INumericMatrix
         Else
             Return matrix
         End If
+    End Function
+
+    Public Function GetLabels() As IEnumerable(Of String) Implements ILabeledMatrix.GetLabels
+        Return names.Objects
     End Function
 End Class
