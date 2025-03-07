@@ -36,7 +36,9 @@ Namespace LinearAlgebra.Matrix.MDSScale
         ''' </summary>
         ''' <param name="d">should be a NxN distance matrix.</param>
         ''' <param name="dim"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' this function returns an column array with <paramref name="dim"/> elements, each elements is a dimension column result
+        ''' </returns>
         Public Shared Function fullmds(d As Double()(), [dim] As Integer) As Double()()
             Dim result = RectangularArray.Matrix(Of Double)([dim], d.Length)
             Dim evals = New Double(result.Length - 1) {}
