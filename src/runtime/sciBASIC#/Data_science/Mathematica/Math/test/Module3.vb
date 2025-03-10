@@ -2,12 +2,13 @@
 Imports Microsoft.VisualBasic.Math.Framework.Optimization
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.SIMD
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module Module3
 
     Private Class fitFunction : Inherits OptimizationObject
 
-        Dim ab As Double() = New Double(1) {}
+        Public ab As Double() = New Double() {3, 9}
         Dim loss As New List(Of Double())
 
         Public Overrides ReadOnly Property GradientDims As Integer
@@ -38,14 +39,20 @@ Module Module3
     End Class
 
     Sub Main()
-        Dim xValues As Double()() = 10000.Sequence.Select(Function(i) New Double() {i}).ToArray
+        Dim xValues As Double()() = 100000.Sequence.Select(Function(i) New Double() {i}).ToArray
         Dim yValues As Double() = xValues.Select(Function(xi)
                                                      Dim x As Double = xi(0)
                                                      Dim y = -1.257 * x + 6.83 * x ^ 2
                                                      Return y
                                                  End Function).ToArray
 
-        Dim fit_result = SteepestDescentFit(Of fitFunction).SteepestDescent(xValues, yValues, iterations:=100000, learningRate:=0.0001)
+        Dim fit_result = SteepestDescentFit(Of fitFunction).SteepestDescent(xValues, yValues,
+                                                                            iterations:=1000,
+                                                                            learningRate:=0.01,
+                                                                            maxNorm:=10000,
+                                                                            progress:=True)
+
+        Call Console.WriteLine(fit_result.ab.GetJson)
 
         Pause()
     End Sub

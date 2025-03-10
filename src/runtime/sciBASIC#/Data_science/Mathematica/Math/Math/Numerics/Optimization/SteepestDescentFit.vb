@@ -1,4 +1,7 @@
-﻿Imports Microsoft.VisualBasic.Parallel
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Parallel
+
 
 Namespace Framework.Optimization
 
@@ -19,6 +22,8 @@ Namespace Framework.Optimization
         Dim xValues As Double()()
         Dim yValues As Double()
         Dim errors As Double() = Nothing
+        Dim maxNorm As Double
+        Dim makeL2Clamp As Boolean = False
 
         Private Sub ComputeGradients(fit As T, ByRef grad As Double())
             Dim task As New SDTask(Me, fit)
@@ -27,8 +32,25 @@ Namespace Framework.Optimization
             task.Run()
 
             For Each batch As Double() In task.batches
+                If batch Is Nothing Then
+                    Exit For
+                End If
+
                 grad = SIMD.Add.f64_op_add_f64(grad, batch)
             Next
+
+            If makeL2Clamp Then
+                Dim L2Norm As Double = grad.EuclideanDistance
+
+                If L2Norm > maxNorm Then
+                    Dim scaleFactor As Double = maxNorm / L2Norm
+
+                    ' 缩放梯度
+                    For i As Integer = 0 To grad.Length - 1
+                        grad(i) *= scaleFactor
+                    Next
+                End If
+            End If
 
             grad = SIMD.Multiply.f64_scalar_op_multiply_f64(learningRate, grad)
         End Sub
@@ -48,7 +70,7 @@ Namespace Framework.Optimization
                 MyBase.New(sdf.xValues.Length, verbose, workers)
 
                 fit = obj
-                errors = sd.errors
+                errors = sdf.errors
                 sd = sdf
                 batches = Allocate(Of Double())(all:=False)
             End Sub
@@ -70,17 +92,21 @@ Namespace Framework.Optimization
 
         Public Shared Function SteepestDescent(xValues As Double()(), yValues As Double(),
                                                Optional iterations As Integer = 1000,
-                                               Optional learningRate As Double = 0.05) As T
+                                               Optional learningRate As Double = 0.05,
+                                               Optional maxNorm As Double = 0,
+                                               Optional progress As Boolean = False) As T
             Dim t As T = New T()
             Dim grad As Double() = Nothing
             Dim sdf As New SteepestDescentFit(Of T) With {
                 .learningRate = learningRate,
                 .xValues = xValues,
                 .yValues = yValues,
-                .errors = New Double(xValues.Length - 1) {}
+                .errors = New Double(xValues.Length - 1) {},
+                .maxNorm = maxNorm,
+                .makeL2Clamp = maxNorm > 0
             }
 
-            For iter As Integer = 0 To iterations - 1
+            For Each iter As Integer In TqdmWrapper.Range(0, iterations, wrap_console:=progress)
                 Call sdf.ComputeGradients(t, grad)
                 Call t.Update(grad)
                 Call t.AddLoss(sdf.errors)
