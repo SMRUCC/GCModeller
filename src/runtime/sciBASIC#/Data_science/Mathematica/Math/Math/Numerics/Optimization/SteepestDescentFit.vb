@@ -1,24 +1,27 @@
 ﻿Namespace Framework.Optimization
 
-    Public Class SteepestDescentFit(Of T)
+    Public MustInherit Class OptimizationObject
 
-        ReadOnly predict As Func(Of Double(), T, Double)
-        ReadOnly dims As Integer
-        ReadOnly dx As Func(Of Double(), Double, Double)()
-        ReadOnly init As Func(Of T)
-        ReadOnly update As Action(Of T, Double())
+        Public ReadOnly Property GradientDims As Integer
+
+        Public MustOverride Function PartialDerivative(x As Double(), err As Double) As Double()
+        Public MustOverride Function Predict(x As Double()) As Double
+        Public MustOverride Sub Update(gradient As Double())
+        Public MustOverride Sub AddLoss(errors As Double())
+
+    End Class
+
+    Public Class SteepestDescentFit(Of T As {New, OptimizationObject})
 
         Private Sub ComputeGradients(fit As T, xValues As Double()(), yValues As Double(), ByRef grad As Double(), ByRef errors As Double())
-            grad = New Double(dims - 1) {}
+            grad = New Double(fit.GradientDims - 1) {}
             errors = New Double(xValues.Length - 1) {}
 
             For i As Integer = 0 To xValues.Length - 1
-                Dim [error] As Double = yValues(i) - predict(xValues(i), fit)
+                Dim [error] As Double = yValues(i) - fit.Predict(xValues(i))
+                Dim pdx As Double() = fit.PartialDerivative(xValues(i), [error])
 
-                For j As Integer = 0 To grad.Length - 1
-                    grad(j) += dx(j)(xValues(i), [error])
-                Next
-
+                grad = SIMD.Add.f64_op_add_f64(pdx, grad)
                 errors(i) = [error]
             Next
         End Sub
@@ -26,15 +29,14 @@
         Public Function SteepestDescent(xValues As Double()(), yValues As Double(),
                                         Optional iterations As Integer = 1000,
                                         Optional learningRate As Double = 0.05) As T
-            Dim t As T = init()
+            Dim t As T = New T()
             Dim grad As Double() = Nothing
-            Dim loss As New List(Of Double)
             Dim errors As Double() = Nothing
 
             For iter As Integer = 0 To iterations - 1
                 Call ComputeGradients(t, xValues, yValues, grad, errors)
-                Call update(t, SIMD.Multiply.f64_scalar_op_multiply_f64(learningRate, grad))
-                Call loss.Add(errors.Sum(Function(a) a ^ 2))
+                Call t.Update(SIMD.Multiply.f64_scalar_op_multiply_f64(learningRate, grad))
+                Call t.AddLoss(errors)
             Next
 
             Return t
