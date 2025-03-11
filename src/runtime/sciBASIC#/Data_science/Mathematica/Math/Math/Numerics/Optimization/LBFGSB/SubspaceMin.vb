@@ -66,7 +66,7 @@ Namespace Framework.Optimization.LBFGSB
         End Function
 
         Public Shared Sub subspace_minimize(bfgs As BFGSMat, x0 As Double(), g As Double(), lb As Double(), ub As Double(), cauchy As Cauchy, maxit As Integer, drt As Double())
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "subspace minimize")
             End If
 
@@ -77,7 +77,7 @@ Namespace Framework.Optimization.LBFGSB
             Dim nfree = cauchy.fv_set.Count
 
             If nfree < 1 Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("-"c, "leaving subspace_minimize, nfree<1")
                 End If
                 Return
@@ -107,7 +107,7 @@ Namespace Framework.Optimization.LBFGSB
 
             If in_bounds(vecy, vecl, vecu) Then
                 subvec_assign(drt, cauchy.fv_set, vecy)
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("-"c, "leaving subspace_minimize, solution has been found")
                 End If
                 Return
@@ -230,7 +230,7 @@ Namespace Framework.Optimization.LBFGSB
                 Dim dg = Vector.dot(drt, g)
 
                 If dg <= meps Then
-                    If Debug.DEBUGFlag Then
+                    If Debug.flag Then
                         Debug.debug("-"c, "leaving subspace_minimize, projected")
                     End If
                     Return
@@ -244,7 +244,7 @@ Namespace Framework.Optimization.LBFGSB
                 dg = Vector.dot(drt, g)
 
                 If dg <= meps Then
-                    If Debug.DEBUGFlag Then
+                    If Debug.flag Then
                         Debug.debug("-"c, "leaving subspace_minimize, projected unconstrained")
                     End If
                     Return
@@ -254,7 +254,7 @@ Namespace Framework.Optimization.LBFGSB
 
                 subvec_assign(drt, cauchy.fv_set, yfallback)
 
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("-"c, "leaving subspace_minimize, projected unconstrained")
                 End If
 
@@ -263,7 +263,7 @@ Namespace Framework.Optimization.LBFGSB
 
             subvec_assign(drt, cauchy.fv_set, vecy)
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "leaving subspace_minimize, converged")
             End If
 

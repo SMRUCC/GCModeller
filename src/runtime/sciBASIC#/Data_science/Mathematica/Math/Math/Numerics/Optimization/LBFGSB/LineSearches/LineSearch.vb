@@ -133,7 +133,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
         Public Const delta As Double = 1.1
 
         Public Sub New(f As IGradFunction, param As Parameters, xp As Double(), drt As Double(), step_max As Double, _step As Double, _fx As Double, grad As Double(), _dg As Double, x As Double(), weak_wolfe As Boolean)
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "line search")
                 Debug.debug("      xp: ", xp)
                 Debug.debug("       x: ", x)
@@ -172,7 +172,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
             MyBase._fx = f.eval(x, grad)
             MyBase._dg = Vector.dot(grad, drt)
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-> before wolfe and loop")
                 Call Debug.debug("test_decr: " & test_decr.ToString())
                 Call Debug.debug("test_curv: " & test_curv.ToString())
@@ -185,13 +185,13 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
             End If
 
             If fx <= fx_init + [step] * test_decr AndAlso std.Abs(dg) <= test_curv Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("-"c, "leaving line search, criteria met")
                 End If
                 Return
             End If
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-> entering loop")
             End If
 
@@ -200,7 +200,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                 Dim ft = fx - fx_init - [step] * test_decr
                 Dim gt = dg - param.ftol * dg_init
 
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Call Debug.debug("iter: " & iter.ToString())
                     Call Debug.debug("  ft: " & ft.ToString())
                     Call Debug.debug("  gt: " & gt.ToString())
@@ -218,7 +218,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                     fI_hi = ft
                     gI_hi = gt
 
-                    If Debug.DEBUGFlag Then
+                    If Debug.flag Then
                         Call Debug.debug("-- case 1, " & ft.ToString() & " > " & fI_lo.ToString())
                         Call Debug.debug("-- new_step: " & new_step.ToString())
                     End If
@@ -229,7 +229,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                     fI_lo = ft
                     gI_lo = gt
 
-                    If Debug.DEBUGFlag Then
+                    If Debug.flag Then
                         Call Debug.debug("-- case 2, " & (gt * (I_lo - [step])).ToString() & " > 0.0")
                         Call Debug.debug("-- new_step: " & new_step.ToString())
                     End If
@@ -244,14 +244,14 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                     fI_lo = ft
                     gI_lo = gt
 
-                    If Debug.DEBUGFlag Then
+                    If Debug.flag Then
                         Debug.debug("-- case 3")
                         Call Debug.debug("-- new_step: " & new_step.ToString())
                     End If
                 End If
 
                 If [step] = step_max AndAlso new_step >= step_max Then
-                    If Debug.DEBUGFlag Then
+                    If Debug.flag Then
                         Debug.debug("-"c, "leaving line search, maximum step size reached")
                     End If
                     Return
@@ -273,7 +273,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                 MyBase._fx = f.eval(x, grad)
                 MyBase._dg = Vector.dot(grad, drt)
 
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("     x: ", x)
                     Call Debug.debug("    fx: " & fx.ToString())
                     Debug.debug("  grad: ", grad)
@@ -283,7 +283,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                 End If
 
                 If Not weak_wolfe AndAlso fx <= fx_init + [step] * test_decr AndAlso std.Abs(dg) <= -test_curv OrElse weak_wolfe AndAlso fx <= fx_init + [step] * test_decr AndAlso std.Abs(dg) >= test_curv Then
-                    If Debug.DEBUGFlag Then
+                    If Debug.flag Then
                         Debug.debug("-"c, "leaving line search, criteria met (2)")
                     End If
                     Return
@@ -292,7 +292,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                 If [step] >= step_max Then
                     Dim ft2 = fx - fx_init - [step] * test_decr
                     If ft2 <= fI_lo Then
-                        If Debug.DEBUGFlag Then
+                        If Debug.flag Then
                             Debug.debug("-"c, "leaving line search, maximum step size reached (2)")
                         End If
                         Return

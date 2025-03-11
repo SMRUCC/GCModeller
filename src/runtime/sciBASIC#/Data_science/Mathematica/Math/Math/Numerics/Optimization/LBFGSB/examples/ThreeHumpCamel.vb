@@ -28,7 +28,7 @@ Public NotInheritable Class ThreeHumpCamel
 
     Public Shared Sub Main16(args As String())
 
-        Debug.DEBUGFlag = True
+        Debug.flag = True
 
         Dim param As Parameters = New Parameters()
         Dim lbfgsb As LBFGSB = New LBFGSB(param)

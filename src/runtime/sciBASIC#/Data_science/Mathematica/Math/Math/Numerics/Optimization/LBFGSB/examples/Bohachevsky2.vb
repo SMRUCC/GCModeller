@@ -15,7 +15,7 @@ Public Class Bohachevsky2
 
     Public Shared Sub Main3(args As String())
 
-        Debug.DEBUGFlag = True
+        Debug.flag = True
 
         Dim param As Parameters = New Parameters()
         param.linesearch = LINESEARCH.MORETHUENTE_LBFGSPP

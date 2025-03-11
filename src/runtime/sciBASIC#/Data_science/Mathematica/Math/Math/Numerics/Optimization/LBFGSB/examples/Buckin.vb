@@ -15,7 +15,7 @@ Public Class Buckin
 
     Public Shared Sub Main6(args As String())
 
-        Debug.DEBUGFlag = True
+        Debug.flag = True
 
         Dim param As Parameters = New Parameters()
         Dim lbfgsb As LBFGSB = New LBFGSB(param)

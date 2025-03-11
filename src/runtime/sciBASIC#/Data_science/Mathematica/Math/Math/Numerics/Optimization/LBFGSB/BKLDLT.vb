@@ -314,10 +314,10 @@ Namespace Framework.Optimization.LBFGSB
         End Function
 
         Public Sub compute(mat As Matrix)
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "compute BKLDLT")
             End If
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("mat: ", mat)
             End If
 
@@ -362,16 +362,16 @@ Namespace Framework.Optimization.LBFGSB
 
             computed = True
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "compute BKLDLT - end")
             End If
         End Sub
 
         Public Sub solve_inplace(b As Double())
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "solve BKLDLT")
             End If
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("b: ", b)
             End If
 
@@ -442,7 +442,7 @@ Namespace Framework.Optimization.LBFGSB
                 swap(b, p.a, p.b)
             Next
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "solve BKLDLT - end")
             End If
         End Sub

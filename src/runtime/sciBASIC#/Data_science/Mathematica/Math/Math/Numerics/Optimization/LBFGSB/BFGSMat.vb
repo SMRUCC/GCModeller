@@ -38,7 +38,7 @@
         End Sub
 
         Public Sub add_correction(s As Double(), y As Double())
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "add correction")
                 Debug.debug("s: ", s)
                 Debug.debug("y: ", y)
@@ -96,13 +96,13 @@
                 Next
             Next
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "add correction - end")
             End If
         End Sub
 
         Public Sub apply_Wtv(v As Double(), res As Double())
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "apply_Wtv")
                 Debug.debug("v:  ", v)
             End If
@@ -115,20 +115,20 @@
                 res(i + m_ncorr) = m_theta * m_s.colDot(i, v)
             Next
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("res: ", res)
                 Debug.debug("-"c, "apply_Wtv - end")
             End If
         End Sub
 
         Public Sub apply_Mv(v As Double(), res As Double())
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "apply Mv")
                 Debug.debug("v:  ", v)
             End If
 
             If m_ncorr < 1 Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("-"c, "leaving apply_Mv, m_ncorr < 1")
                 End If
                 Return
@@ -147,14 +147,14 @@
                 res(i + m_ncorr) = vpadding(m_m + i)
             Next
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("res: ", res)
                 Debug.debug("-"c, "apply Mv - end")
             End If
         End Sub
 
         Public Function Wb(b As Integer) As Double()
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "Wb")
                 Call Debug.debug("b: " & b.ToString())
             End If
@@ -166,7 +166,7 @@
                 res(m_ncorr + j) = m_theta * m_s.get(b, j)
             Next
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("res: ", res)
                 Debug.debug("-"c, "Wb - end")
             End If
@@ -175,7 +175,7 @@
         End Function
 
         Public Function Wb(b As List(Of Integer)) As Matrix
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "Wb")
                 Call Debug.debug("b: " & b.ToString())
             End If
@@ -191,7 +191,7 @@
                 Next
             Next
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("res: ", res)
                 Debug.debug("-"c, "Wb - end")
             End If
@@ -204,7 +204,7 @@
         End Function
 
         Public Function apply_WtPv(P_set As List(Of Integer), v As Double(), res As Double(), test_zero As Boolean) As Boolean
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Call Debug.debug("-"c, "apply_WtPv, test_zero=" & test_zero.ToString())
                 Call Debug.debug("P_set: " & P_set.ToString())
                 Debug.debug("v: ", v)
@@ -234,7 +234,7 @@
             End If
 
             If m_ncorr < 1 OrElse nP < 1 Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("-"c, "leaving apply_WtPv")
                 End If
                 Vector.setAll(res, 0.0)
@@ -253,7 +253,7 @@
                 res(m_ncorr + j) = m_theta * ress
             Next
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("res: ", res)
                 Debug.debug("-"c, "apply_WtPv - end")
             End If
@@ -262,7 +262,7 @@
         End Function
 
         Public Function apply_PtWMv(P_set As List(Of Integer), v As Double(), res As Double(), scale As Double) As Boolean
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Call Debug.debug("-"c, "apply_PtWMv, scale=" & scale.ToString())
                 Call Debug.debug("P_set: " & P_set.ToString())
                 Debug.debug("v: ", v)
@@ -271,7 +271,7 @@
             Dim nP = P_set.Count
             Vector.setAll(res, 0.0)
             If m_ncorr < 1 OrElse nP < 1 Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("-"c, "leaving apply_PTWMv, m_ncorr < 1 || np < 1")
                 End If
                 Return False
@@ -296,7 +296,7 @@
                 res(i) *= scale
             Next
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("res: ", res)
                 Debug.debug("-"c, "apply_PtWMv - end")
             End If
@@ -305,7 +305,7 @@
         End Function
 
         Public Function apply_PtWMv(WP As Matrix, v As Double(), res As Double(), scale As Double) As Boolean
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Call Debug.debug("-"c, "apply_PtWMv, scale=" & scale.ToString())
                 Debug.debug("WP: ", WP)
                 Debug.debug("v:", v)
@@ -314,7 +314,7 @@
             Dim nP = WP.rows
 
             If m_ncorr < 1 OrElse nP < 1 Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("-"c, "leaving apply_PtWMv, m_ncorr < 1 || nP < 1")
                 End If
                 Vector.setAll(res, 0.0)
@@ -336,7 +336,7 @@
                 res(i) = scale * dot
             Next
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("res: ", res)
                 Debug.debug("-"c, "apply_PtWMv - end")
             End If
@@ -346,7 +346,7 @@
 
         Public Sub compute_FtBAb(WF As Matrix, fv_set As List(Of Integer), newact_set As List(Of Integer), Wd As Double(), drt As Double(), res As Double())
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "compute_FtBAb")
                 Debug.debug("WF: ", WF)
                 Call Debug.debug("fv_set: " & fv_set.ToString())
@@ -359,7 +359,7 @@
             Dim nfree = WF.rows
 
             If m_ncorr < 1 OrElse nact < 1 OrElse nfree < 1 Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("-"c, "leaving compute_FtBAb, m_ncorr < 1 || nact < 1 || nfree < 1")
                 End If
                 Vector.setAll(res, 0.0)
@@ -396,7 +396,7 @@
 
             apply_PtWMv(WF, rhs, res, -1.0)
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("res: ", res)
                 Debug.debug("-"c, "compute_FtBAb - end")
             End If
@@ -408,7 +408,7 @@
 
         Public Function apply_PtBQv(WP As Matrix, Q_set As List(Of Integer), v As Double(), res As Double(), test_zero As Boolean) As Boolean
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Call Debug.debug("-"c, "PtBQv, test_zero=" & test_zero.ToString())
                 Debug.debug("WP: ", WP)
                 Call Debug.debug("Q_set: " & Q_set.ToString())
@@ -419,7 +419,7 @@
             Dim nQ = Q_set.Count
 
             If m_ncorr < 1 OrElse nP < 1 OrElse nQ < 1 Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("-"c, "leaving PtBQv, m_ncorr < 1 || nP < 1 || nQ < 1")
                 End If
 
@@ -430,7 +430,7 @@
             Dim WQtv = New Double(2 * m_ncorr - 1) {}
             Dim nonzero = apply_WtPv(Q_set, v, WQtv, test_zero)
             If Not nonzero Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("-"c, "leaving PtBQv, !nonzero")
                 End If
                 Vector.setAll(res, 0.0)
@@ -452,7 +452,7 @@
                 res(row) = -dot
             Next
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("res: ", res)
                 Debug.debug("-"c, "PtBQv - end")
             End If
@@ -461,7 +461,7 @@
         End Function
 
         Public Sub solve_PtBP(WP As Matrix, v As Double(), res As Double())
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "solve_PtBP")
                 Debug.debug("WP: ", WP)
                 Debug.debug("v: ", v)
@@ -473,7 +473,7 @@
                     res(i) = v(i) / m_theta
                 Next
 
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("res: ", res)
                     Debug.debug("-"c, "leaving PtBQv, m_ncorr < 1 || nP < 1")
                 End If
@@ -544,7 +544,7 @@
                 res(i) = v(i) / m_theta + dot / t2
             Next
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("res: ", res)
                 Debug.debug("-"c, "PtBP - end")
             End If

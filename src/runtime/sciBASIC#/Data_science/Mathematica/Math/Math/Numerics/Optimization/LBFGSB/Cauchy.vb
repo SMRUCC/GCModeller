@@ -23,7 +23,7 @@ Namespace Framework.Optimization.LBFGSB
         End Function
 
         Public Sub New(bfgs As BFGSMat, x0 As Double(), g As Double(), lb As Double(), ub As Double())
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("="c, "Cauchy")
                 Debug.debug("x0: ", x0)
                 Debug.debug(" g: ", g)
@@ -64,7 +64,7 @@ Namespace Framework.Optimization.LBFGSB
             Dim nord = ord.Count
             Dim nfree = fv_set.Count
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("    brk: ", brk)
                 Debug.debug("   vecd: ", vecd)
                 Call Debug.debug("   nord: " & nord.ToString())
@@ -74,7 +74,7 @@ Namespace Framework.Optimization.LBFGSB
             End If
 
             If nfree < 1 AndAlso nord < 1 Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("="c, "leaving Cauchy, nfree < 1 && nord < 1")
                 End If
                 Return
@@ -166,7 +166,7 @@ Namespace Framework.Optimization.LBFGSB
                 Next
             End If
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("vecc: ", vecc)
                 Debug.debug("xcp: ", xcp)
                 Call Debug.debug("newact_set: " & newact_set.ToString())

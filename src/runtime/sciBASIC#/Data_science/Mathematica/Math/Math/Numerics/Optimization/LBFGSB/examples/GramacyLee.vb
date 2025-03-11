@@ -14,7 +14,7 @@ Public Class GramacyLee
 
     Public Shared Sub Main10(args As String())
 
-        Debug.DEBUGFlag = True
+        Debug.flag = True
 
         Dim param As Parameters = New Parameters()
         param.weak_wolfe = True

@@ -70,7 +70,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
         Public Shared ReadOnly iterfinitemax As Integer = -std.Log(eps) / std.Log(2.0)
 
         Public Sub New(fun As IGradFunction, param As Parameters, xp As Double(), drt As Double(), step_max As Double, _step As Double, _fx As Double, grad As Double(), _dg As Double, x As Double(), weak_wolfe As Boolean)
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "line search")
                 Debug.debug("      xp: ", xp)
                 Debug.debug("       x: ", x)
@@ -133,7 +133,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                 iterfinite += 1
             End While
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug(">"c, "entering loop")
                 Call Debug.debug("       stp: " & stp.ToString())
                 Call Debug.debug("       stx: " & stx.ToString())
@@ -141,7 +141,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
 
             Dim iter = 0
             While True
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Call Debug.debug("  line search iter:" & iter.ToString())
                 End If
 
@@ -153,7 +153,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                     Me._step = stp
                     Me._fx = f
 
-                    If Debug.DEBUGFlag Then
+                    If Debug.flag Then
                         Call Debug.debug("    step: " & stp.ToString())
                         Call Debug.debug("      fx: " & f.ToString())
                         Debug.debug("       x: ", x)
@@ -192,7 +192,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                     Me._step = stp
                     Me._fx = f
 
-                    If Debug.DEBUGFlag Then
+                    If Debug.flag Then
                         Call Debug.debug("    step: " & stp.ToString())
                         Call Debug.debug("      fx: " & f.ToString())
                         Debug.debug("       x: ", x)
@@ -283,7 +283,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                 stp = If(stp < stpmin, stpmin, stp)
                 stp = If(stp > stpmax, stpmax, stp)
 
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Call Debug.debug("  stmin: " & stmin.ToString())
                     Call Debug.debug("  stmax: " & stmax.ToString())
                     Call Debug.debug("  stp: " & stp.ToString())
@@ -292,7 +292,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                 iter += 1
 
                 If bracketed.b AndAlso (stp <= stmin OrElse stp >= stmax) OrElse bracketed.b AndAlso stmax - stmin <= param.xtol * stmax OrElse iter >= param.max_linesearch Then
-                    If Debug.DEBUGFlag Then
+                    If Debug.flag Then
                         Call Debug.debug("  fallback to stx: " & stx.ToString())
                     End If
                     stp = stx
@@ -304,7 +304,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
         Private Sub cstep(cs As CStepType, stpmin As Double, stpmax As Double)
             Dim sgnd = cs.dp * (cs.dx / std.Abs(cs.dx))
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("<< cstep")
                 Call Debug.debug(" stx=" & cs.stx.ToString())
                 Call Debug.debug("  fx=" & cs.fx.ToString())
@@ -325,7 +325,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
 
             If cs.fp > cs.fx Then
 
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("= Case 1")
                 End If
 
@@ -346,12 +346,12 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                 Else
                     stpf = (stpc + stpq) / 2.0
                 End If
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Call Debug.debug("= stpf: " & stpf.ToString())
                 End If
                 cs.bracketed = True
             ElseIf sgnd < 0.0 Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("= Case 2")
                 End If
 
@@ -372,12 +372,12 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                 Else
                     stpf = stpq
                 End If
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Call Debug.debug("= stpf: " & stpf.ToString())
                 End If
                 cs.bracketed = True
             ElseIf std.Abs(cs.dp) < std.Abs(cs.dx) Then
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("= Case 3")
                 End If
 
@@ -426,11 +426,11 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                     End If
                     stpf = std.Min(std.Max(stpmin, stpf), stpmax)
                 End If
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Call Debug.debug("= stpf: " & stpf.ToString())
                 End If
             Else
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Debug.debug("= Case 4")
                 End If
                 If cs.bracketed Then
@@ -451,7 +451,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                     stpf = stpmin
                 End If
 
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Call Debug.debug("= stpf: " & stpf.ToString())
                 End If
             End If
@@ -473,7 +473,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
 
             cs.stp = stpf
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Call Debug.debug("= [2]stp: " & cs.stp.ToString())
             End If
         End Sub

@@ -15,7 +15,7 @@ Public Class Parabola2
 
     Public Shared Sub Main13(args As String())
 
-        Debug.DEBUGFlag = True
+        Debug.flag = True
 
         Dim param As Parameters = New Parameters()
         Dim lbfgsb As LBFGSB = New LBFGSB(param)

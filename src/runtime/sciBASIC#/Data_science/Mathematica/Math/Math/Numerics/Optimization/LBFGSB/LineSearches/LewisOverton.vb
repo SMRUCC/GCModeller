@@ -54,7 +54,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
             _step = stp
             Me.info = info
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Call Debug.debug("    step: " & stp.ToString())
                 Call Debug.debug("      fx: " & f.ToString())
                 Call Debug.debug("-"c, "leaving line search, dg = " & MyBase.dg.ToString())
@@ -62,7 +62,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
         End Sub
 
         Public Sub New(fun As IGradFunction, param As Parameters, xp As Double(), drt As Double(), step_max As Double, _step As Double, _fx As Double, grad As Double(), _dg As Double, x As Double())
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug("-"c, "LewisOverton line search")
                 Debug.debug("      xp: ", xp)
                 Debug.debug("       x: ", x)
@@ -110,14 +110,14 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
                 MyBase._dg = phidphi.dg
             End While
 
-            If Debug.DEBUGFlag Then
+            If Debug.flag Then
                 Debug.debug(">"c, "entering loop")
                 Call Debug.debug("       stp: " & stp.ToString())
             End If
 
             Dim iter = 0
             While True
-                If Debug.DEBUGFlag Then
+                If Debug.flag Then
                     Call Debug.debug("  line search iter:" & iter.ToString())
                 End If
 

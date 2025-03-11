@@ -4,7 +4,7 @@ Namespace Framework.Optimization.LBFGSB
 
     Public Class Debug
 
-        Public Shared DEBUGFlag As Boolean = False
+        Public Shared flag As Boolean = False
 
         ' array and matrix cell formatting
         Private Const cellfmt As String = "%12s"
