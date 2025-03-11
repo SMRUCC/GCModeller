@@ -1,7 +1,7 @@
-﻿
+﻿Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 ' Gramacy & Lee (2012)
 ' https://www.sfu.ca/~ssurjano/grlee12.html
-Imports LBFGSB.org.generateme.lbfgsb
+
 
 Public Class GramacyLee
     Inherits IGradFunction

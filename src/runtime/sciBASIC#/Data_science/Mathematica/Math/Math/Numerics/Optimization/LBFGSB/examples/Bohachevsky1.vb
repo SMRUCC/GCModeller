@@ -1,8 +1,8 @@
-﻿
+﻿Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 
 
 ' https://www.sfu.ca/~ssurjano/boha.html
-Imports LBFGSB.org.generateme.lbfgsb
+
 
 Public Class Bohachevsky1
     Inherits IGradFunction

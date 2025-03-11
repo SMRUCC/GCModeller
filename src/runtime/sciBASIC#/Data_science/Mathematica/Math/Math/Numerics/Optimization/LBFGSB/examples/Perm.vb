@@ -1,5 +1,5 @@
-﻿Imports LBFGSB.org.generateme.lbfgsb
-Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 
 
 Public Class Perm

@@ -1,9 +1,8 @@
-﻿
+﻿Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 
 ' CROSS-IN-TRAY
 ' https://www.sfu.ca/~ssurjano/crossit.html
 ' f(+/-1.3491, +/-1.3491) = -2.06261
-Imports LBFGSB.org.generateme.lbfgsb
 
 Public Class CrossInTray
     Inherits IGradFunction

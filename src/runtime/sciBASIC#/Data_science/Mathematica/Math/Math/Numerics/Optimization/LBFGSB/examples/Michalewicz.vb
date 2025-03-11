@@ -1,8 +1,4 @@
-﻿
-
-
-
-Imports LBFGSB.org.generateme.lbfgsb
+﻿Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 
 Public Class Michalewicz
     Inherits IGradFunction

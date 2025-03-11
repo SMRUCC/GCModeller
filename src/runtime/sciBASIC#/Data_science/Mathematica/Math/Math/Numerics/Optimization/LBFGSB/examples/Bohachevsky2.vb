@@ -1,8 +1,7 @@
 ﻿
-
+Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 
 ' https://www.sfu.ca/~ssurjano/boha.html
-Imports LBFGSB.org.generateme.lbfgsb
 
 Public Class Bohachevsky2
     Inherits IGradFunction
@@ -19,7 +18,7 @@ Public Class Bohachevsky2
         Debug.DEBUGFlag = True
 
         Dim param As Parameters = New Parameters()
-        param.linesearchField = Parameters.LINESEARCH.MORETHUENTE_LBFGSPP
+        param.linesearch = LINESEARCH.MORETHUENTE_LBFGSPP
         Dim lbfgsb As LBFGSB = New LBFGSB(param)
 
         Try

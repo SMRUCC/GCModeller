@@ -1,10 +1,10 @@
 ﻿
-
+Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 
 ' ROSENBROCK
 ' https://www.sfu.ca/~ssurjano/rosen.html
 ' Global minimum: f(1,1,...,1) = 0;
-Imports LBFGSB.org.generateme.lbfgsb
+
 
 Public Class Rosenbrock
     Inherits IGradFunction

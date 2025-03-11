@@ -1,10 +1,10 @@
 ﻿
-
+Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 
 ' EGGHOLDER
 ' https://www.sfu.ca/~ssurjano/egg.html
 ' f(512,404.2319) = -959.6407
-Imports LBFGSB.org.generateme.lbfgsb
+
 
 Public Class Eggholder
     Inherits IGradFunction

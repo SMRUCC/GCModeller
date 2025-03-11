@@ -1,11 +1,11 @@
-﻿
+﻿Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 
 
 
 ' DROP-WAVE
 ' https://www.sfu.ca/~ssurjano/drop.html
 ' f(0,0)=-1
-Imports LBFGSB.org.generateme.lbfgsb
+
 
 Public Class DropWave
     Inherits IGradFunction

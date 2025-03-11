@@ -1,11 +1,11 @@
 ﻿
-
+Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 
 
 ' THREE-HUMP CAMEL FUNCTION
 ' https://www.sfu.ca/~ssurjano/camel3.html
 ' Global minimum: f(0,0)=0 
-Imports LBFGSB.org.generateme.lbfgsb
+
 
 Public NotInheritable Class ThreeHumpCamel
     Inherits IGradFunction

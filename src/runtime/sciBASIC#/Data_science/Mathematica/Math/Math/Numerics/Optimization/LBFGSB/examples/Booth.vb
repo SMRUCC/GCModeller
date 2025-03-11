@@ -1,9 +1,9 @@
-﻿
+﻿Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 
 
 ' https://www.sfu.ca/~ssurjano/booth.html
 ' f(1,3) = 0
-Imports LBFGSB.org.generateme.lbfgsb
+
 
 Public Class Booth
     Inherits IGradFunction

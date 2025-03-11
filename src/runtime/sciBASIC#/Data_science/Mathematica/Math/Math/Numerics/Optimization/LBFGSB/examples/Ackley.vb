@@ -1,5 +1,4 @@
-﻿Imports System
-Imports LBFGSB.org.generateme.lbfgsb
+﻿Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB
 
 
 ' ACKLEY
