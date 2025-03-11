@@ -1,5 +1,4 @@
-﻿Imports System
-Imports std = System.Math
+﻿Imports std = System.Math
 
 Namespace Framework.Optimization.LBFGSB
     Public NotInheritable Class Matrix

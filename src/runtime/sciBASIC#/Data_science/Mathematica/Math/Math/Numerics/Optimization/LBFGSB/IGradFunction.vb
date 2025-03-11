@@ -14,8 +14,13 @@
             gradient(x, grad, 0.0001)
         End Sub
 
-        ' finite difference, symmetrical gradient, stores result in grad[]
-        Public Sub gradient(x As Double(), grad As Double(), eps As Double)
+        ''' <summary>
+        ''' finite difference, symmetrical gradient, stores result in grad[]
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="grad"></param>
+        ''' <param name="eps"></param>
+        Public Sub gradient(ByRef x As Double(), ByRef grad As Double(), eps As Double)
             Dim n = grad.Length
 
             For i = 0 To n - 1

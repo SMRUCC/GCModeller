@@ -1,4 +1,5 @@
-﻿Imports std = System.Math
+﻿Imports Microsoft.VisualBasic.Serialization.JSON
+Imports std = System.Math
 
 Namespace Framework.Optimization.LBFGSB
 
@@ -68,9 +69,9 @@ Namespace Framework.Optimization.LBFGSB
                 Debug.debug("    brk: ", brk)
                 Debug.debug("   vecd: ", vecd)
                 Call Debug.debug("   nord: " & nord.ToString())
-                Call Debug.debug("    ord: " & ord.ToString())
+                Call Debug.debug("    ord: " & ord.GetJson())
                 Call Debug.debug("  nfree: " & nfree.ToString())
-                Call Debug.debug(" fv_set: " & fv_set.ToString())
+                Call Debug.debug(" fv_set: " & fv_set.GetJson())
             End If
 
             If nfree < 1 AndAlso nord < 1 Then
@@ -169,8 +170,8 @@ Namespace Framework.Optimization.LBFGSB
             If Debug.flag Then
                 Debug.debug("vecc: ", vecc)
                 Debug.debug("xcp: ", xcp)
-                Call Debug.debug("newact_set: " & newact_set.ToString())
-                Call Debug.debug("fv_set: " & fv_set.ToString())
+                Call Debug.debug("newact_set: " & newact_set.GetJson())
+                Call Debug.debug("fv_set: " & fv_set.GetJson())
                 Debug.debug("="c, "Cauchy - end")
             End If
         End Sub
