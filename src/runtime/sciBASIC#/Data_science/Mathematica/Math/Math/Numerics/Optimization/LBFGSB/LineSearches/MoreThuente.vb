@@ -6,8 +6,7 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
     ' https://github.com/JuliaNLSolvers/LineSearches.jl/blob/master/src/morethuente.jl
     ' https://github.com/SurajGupta/r-source/blob/master/src/appl/lbfgsb.c#L2976
 
-    Public Class MoreThuente
-        Inherits AbstractLineSearch
+    Public Class MoreThuente : Inherits AbstractLineSearch
 
         Public Enum RESULT
             NONE

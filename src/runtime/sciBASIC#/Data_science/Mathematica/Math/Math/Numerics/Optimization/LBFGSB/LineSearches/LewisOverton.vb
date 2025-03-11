@@ -18,12 +18,29 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
         End Enum
 
         Public Class PhiDPhi
+
             Friend f As IGradFunction
-            Friend drt As Double() ' search direction (cauchy point - x)
-            Friend xp As Double() ' previous x
-            Friend x As Double() ' current x
-            Friend grad As Double() ' gradient
-            Public dg As Double ' dot(grad,drt)
+
+            ''' <summary>
+            ''' search direction (cauchy point - x)
+            ''' </summary>
+            Friend drt As Double()
+            ''' <summary>
+            ''' previous x
+            ''' </summary>
+            Friend xp As Double()
+            ''' <summary>
+            ''' current x
+            ''' </summary>
+            Friend x As Double()
+            ''' <summary>
+            ''' gradient
+            ''' </summary>
+            Friend grad As Double()
+            ''' <summary>
+            ''' dot(grad,drt)
+            ''' </summary>
+            Public dg As Double
 
             Public Sub New(f As IGradFunction, x As Double(), grad As Double(), xp As Double(), drt As Double())
                 Me.f = f

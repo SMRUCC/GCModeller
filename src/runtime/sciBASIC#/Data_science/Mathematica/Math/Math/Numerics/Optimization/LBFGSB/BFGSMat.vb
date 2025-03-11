@@ -2,6 +2,7 @@
 
 
     Public NotInheritable Class BFGSMat
+
         Public m_m As Integer
         Public m_theta As Double
         Public m_s As Matrix
