@@ -1,4 +1,4 @@
-﻿Namespace org.generateme.lbfgsb
+﻿Namespace Framework.Optimization.LBFGSB
 
     ''' <summary>
     ''' Bunch-Kaufman LDLT decomposition

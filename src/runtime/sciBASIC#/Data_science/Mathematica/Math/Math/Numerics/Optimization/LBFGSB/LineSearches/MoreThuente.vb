@@ -1,4 +1,4 @@
-﻿Namespace org.generateme.lbfgsb.linesearch
+﻿Namespace Framework.Optimization.LBFGSB.LineSearches
 
 
     ' https://github.com/JuliaNLSolvers/LineSearches.jl/blob/master/src/morethuente.jl

@@ -1,4 +1,4 @@
-﻿Namespace org.generateme.lbfgsb.linesearch
+﻿Namespace Framework.Optimization.LBFGSB.LineSearches
     Public MustInherit Class AbstractLineSearch
 
         Protected _fx As Double

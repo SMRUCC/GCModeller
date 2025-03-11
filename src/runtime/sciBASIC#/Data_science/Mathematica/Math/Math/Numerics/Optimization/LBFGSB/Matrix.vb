@@ -1,6 +1,6 @@
 ﻿Imports System
 
-Namespace org.generateme.lbfgsb
+Namespace Framework.Optimization.LBFGSB
     Public NotInheritable Class Matrix
         Public mat As Double()
         Public rows As Integer

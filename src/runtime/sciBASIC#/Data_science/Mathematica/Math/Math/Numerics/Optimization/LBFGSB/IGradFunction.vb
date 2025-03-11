@@ -1,4 +1,5 @@
-﻿Namespace org.generateme.lbfgsb
+﻿Namespace Framework.Optimization.LBFGSB
+
     Public MustInherit Class IGradFunction
 
         Public Overridable Function evaluate(x As Double(), grad As Double()) As Double

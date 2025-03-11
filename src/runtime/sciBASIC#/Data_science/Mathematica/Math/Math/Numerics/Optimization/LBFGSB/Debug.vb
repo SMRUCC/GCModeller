@@ -1,7 +1,6 @@
-﻿Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.Language.C.CLangStringFormatProvider
+﻿Imports Microsoft.VisualBasic.Language.C.CLangStringFormatProvider
 
-Namespace org.generateme.lbfgsb
+Namespace Framework.Optimization.LBFGSB
 
     Public Class Debug
 

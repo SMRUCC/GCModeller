@@ -2,7 +2,6 @@
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Parallel
 
-
 Namespace Framework.Optimization
 
     Public MustInherit Class OptimizationObject

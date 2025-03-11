@@ -1,5 +1,8 @@
-﻿Namespace org.generateme.lbfgsb.linesearch
+﻿Namespace Framework.Optimization.LBFGSB.LineSearches
 
+    ''' <summary>
+    ''' Line search methods for optimization and root-finding
+    ''' </summary>
     Public NotInheritable Class LineSearch
         Inherits AbstractLineSearch
 

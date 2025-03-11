@@ -1,6 +1,5 @@
-﻿Imports System
+﻿Namespace Framework.Optimization.LBFGSB
 
-Namespace org.generateme.lbfgsb
     Public NotInheritable Class Vector
 
         ' Eigen resize functionality

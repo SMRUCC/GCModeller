@@ -1,6 +1,6 @@
 ﻿Imports System
 
-Namespace org.generateme.lbfgsb
+Namespace Framework.Optimization.LBFGSB
     Public Class LBFGSBException
         Inherits Exception
 

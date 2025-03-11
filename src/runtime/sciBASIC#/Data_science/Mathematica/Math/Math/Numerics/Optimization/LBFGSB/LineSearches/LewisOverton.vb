@@ -1,4 +1,4 @@
-﻿Namespace org.generateme.lbfgsb.linesearch
+﻿Namespace Framework.Optimization.LBFGSB.LineSearches
 
 
     ' https://github.com/ZJU-FAST-Lab/LBFGS-Lite/blob/master/include/lbfgs.hpp#L276
