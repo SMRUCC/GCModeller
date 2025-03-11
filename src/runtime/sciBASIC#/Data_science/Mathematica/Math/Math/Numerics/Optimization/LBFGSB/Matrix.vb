@@ -1,4 +1,5 @@
 ﻿Imports System
+Imports std = System.Math
 
 Namespace Framework.Optimization.LBFGSB
     Public NotInheritable Class Matrix
@@ -62,7 +63,7 @@ Namespace Framework.Optimization.LBFGSB
 
         Public WriteOnly Property Diag As Double
             Set(value As Double)
-                For i = 0 To Math.Min(rows, cols) - 1
+                For i = 0 To std.Min(rows, cols) - 1
                     [set](i, i, value)
                 Next
             End Set
@@ -78,7 +79,7 @@ Namespace Framework.Optimization.LBFGSB
         End Function
 
         Public Function colNorm(col As Integer) As Double
-            Return Math.Sqrt(colSquaredNorm(col))
+            Return std.Sqrt(colSquaredNorm(col))
         End Function
 
         Public Function colDot(col As Integer, v As Double()) As Double

@@ -1,4 +1,6 @@
-﻿Namespace Framework.Optimization.LBFGSB.LineSearches
+﻿Imports std = System.Math
+
+Namespace Framework.Optimization.LBFGSB.LineSearches
 
     ''' <summary>
     ''' Line search methods for optimization and root-finding
@@ -40,7 +42,7 @@
             Dim z2 = 0.5 * (gba * ba2 - 3.0 * apb * z3)
             Dim z1 = fba * ba2 - apb * z2 - (a * apb + b * b) * z3
 
-            If Math.Abs(z3) < eps * Math.Abs(z2) OrElse Math.Abs(z3) < eps * Math.Abs(z1) Then
+            If std.Abs(z3) < eps * std.Abs(z2) OrElse std.Abs(z3) < eps * std.Abs(z1) Then
                 ' Minimizer exists if c2 > 0
                 exists.b = z2 * ba > 0.0
                 ' Return the end point if the minimizer does not exist
@@ -70,16 +72,16 @@
             ' r = -u (+-) sqrt(delta), where
             ' sqrt(delta) = sqrt(|u|) * sqrt(|v|) * sqrt(1-u/v)
             Dim r1 = 0.0, r2 = 0.0
-            If Math.Abs(u) >= Math.Abs(v) Then
-                Dim w = 1.0 + Math.Sqrt(1.0 - vu)
+            If std.Abs(u) >= std.Abs(v) Then
+                Dim w = 1.0 + std.Sqrt(1.0 - vu)
                 r1 = -u * w
                 r2 = -v / w
             Else
-                Dim sqrtd = Math.Sqrt(Math.Abs(u)) * Math.Sqrt(Math.Abs(v)) * Math.Sqrt(1 - u / v)
+                Dim sqrtd = std.Sqrt(std.Abs(u)) * std.Sqrt(std.Abs(v)) * std.Sqrt(1 - u / v)
                 r1 = -u - sqrtd
                 r2 = -u + sqrtd
             End If
-            Return If(z3 * ba > 0.0, Math.Max(r1, r2), Math.Min(r1, r2))
+            Return If(z3 * ba > 0.0, std.Max(r1, r2), std.Min(r1, r2))
 
         End Function
 
@@ -105,18 +107,18 @@
                     Return aq
                 End If
 
-                Return If(Math.Abs(ac - al) < Math.Abs(aq - al), ac, (aq + ac) / 2.0)
+                Return If(std.Abs(ac - al) < std.Abs(aq - al), ac, (aq + ac) / 2.0)
 
             End If
 
             Dim [as] = quadratic_minimizer(al, at, gl, gt)
             If gt * gl < 0.0 Then
-                Return If(Math.Abs(ac - at) >= Math.Abs([as] - at), ac, [as])
+                Return If(std.Abs(ac - at) >= std.Abs([as] - at), ac, [as])
             End If
 
-            If Math.Abs(gt) < Math.Abs(gl) Then
-                Dim res = If(ac_exists.b AndAlso (ac - at) * (at - al) > 0.0 AndAlso Math.Abs(ac - at) < Math.Abs([as] - at), ac, [as])
-                Return If(at > al, Math.Min(at + deltau * (au - at), res), Math.Max(at + deltau * (au - at), res))
+            If std.Abs(gt) < std.Abs(gl) Then
+                Dim res = If(ac_exists.b AndAlso (ac - at) * (at - al) > 0.0 AndAlso std.Abs(ac - at) < std.Abs([as] - at), ac, [as])
+                Return If(at > al, std.Min(at + deltau * (au - at), res), std.Max(at + deltau * (au - at), res))
             End If
 
             If Double.IsInfinity(au) OrElse Double.IsInfinity(fu) OrElse Double.IsInfinity(gu) Then
@@ -125,7 +127,7 @@
 
             Dim ae_exists As Bool = New Bool()
             Dim ae = cubic_minimizer(at, au, ft, fu, gt, gu, ae_exists)
-            Return If(at > al, Math.Min(at + deltau * (au - at), ae), Math.Max(at + deltau * (au - at), ae))
+            Return If(at > al, std.Min(at + deltau * (au - at), ae), std.Max(at + deltau * (au - at), ae))
         End Function
 
         Public Const delta As Double = 1.1
@@ -179,10 +181,10 @@
                 Debug.debug("     grad: ", grad)
                 Call Debug.debug("       dg: " & dg.ToString())
                 Call Debug.debug("wolfe cond 1: " & fx.ToString() & " <= " & (fx_init + [step] * test_decr).ToString() & " == " & (fx <= fx_init + [step] * test_decr).ToString())
-                Call Debug.debug("wolfe cond 2: " & Math.Abs(dg).ToString() & " <= " & test_curv.ToString() & " == " & (Math.Abs(dg) <= test_curv).ToString())
+                Call Debug.debug("wolfe cond 2: " & std.Abs(dg).ToString() & " <= " & test_curv.ToString() & " == " & (std.Abs(dg) <= test_curv).ToString())
             End If
 
-            If fx <= fx_init + [step] * test_decr AndAlso Math.Abs(dg) <= test_curv Then
+            If fx <= fx_init + [step] * test_decr AndAlso std.Abs(dg) <= test_curv Then
                 If Debug.DEBUGFlag Then
                     Debug.debug("-"c, "leaving line search, criteria met")
                 End If
@@ -221,7 +223,7 @@
                         Call Debug.debug("-- new_step: " & new_step.ToString())
                     End If
                 ElseIf gt * (I_lo - [step]) > 0.0 Then
-                    new_step = Math.Min(step_max, [step] + delta * ([step] - I_lo))
+                    new_step = std.Min(step_max, [step] + delta * ([step] - I_lo))
 
                     I_lo = [step]
                     fI_lo = ft
@@ -277,10 +279,10 @@
                     Debug.debug("  grad: ", grad)
                     Call Debug.debug("    dg: " & dg.ToString())
                     Call Debug.debug("  wolfe cond 1: " & fx.ToString() & " <= " & (fx_init + [step] * test_decr).ToString() & " == " & (fx <= fx_init + [step] * test_decr).ToString())
-                    Call Debug.debug("  wolfe cond 2: " & Math.Abs(dg).ToString() & " <= " & test_curv.ToString() & " == " & (Math.Abs(dg) <= test_curv).ToString())
+                    Call Debug.debug("  wolfe cond 2: " & std.Abs(dg).ToString() & " <= " & test_curv.ToString() & " == " & (std.Abs(dg) <= test_curv).ToString())
                 End If
 
-                If Not weak_wolfe AndAlso fx <= fx_init + [step] * test_decr AndAlso Math.Abs(dg) <= -test_curv OrElse weak_wolfe AndAlso fx <= fx_init + [step] * test_decr AndAlso Math.Abs(dg) >= test_curv Then
+                If Not weak_wolfe AndAlso fx <= fx_init + [step] * test_decr AndAlso std.Abs(dg) <= -test_curv OrElse weak_wolfe AndAlso fx <= fx_init + [step] * test_decr AndAlso std.Abs(dg) >= test_curv Then
                     If Debug.DEBUGFlag Then
                         Debug.debug("-"c, "leaving line search, criteria met (2)")
                     End If

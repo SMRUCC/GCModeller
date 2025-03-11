@@ -1,4 +1,6 @@
-﻿Namespace Framework.Optimization.LBFGSB.LineSearches
+﻿Imports std = System.Math
+
+Namespace Framework.Optimization.LBFGSB.LineSearches
 
 
     ' https://github.com/JuliaNLSolvers/LineSearches.jl/blob/master/src/morethuente.jl
@@ -65,7 +67,7 @@
         Public info As RESULT
 
         Public Shared ReadOnly eps As Double = Microsoft.VisualBasic.Math.Ulp(1.0)
-        Public Shared ReadOnly iterfinitemax As Integer = -Math.Log(eps) / Math.Log(2.0)
+        Public Shared ReadOnly iterfinitemax As Integer = -std.Log(eps) / std.Log(2.0)
 
         Public Sub New(fun As IGradFunction, param As Parameters, xp As Double(), drt As Double(), step_max As Double, _step As Double, _fx As Double, grad As Double(), _dg As Double, x As Double(), weak_wolfe As Boolean)
             If Debug.DEBUGFlag Then
@@ -146,7 +148,7 @@
                 f = phidphi.evaluate(stp)
                 MyBase._dg = phidphi.dg
 
-                If Math.Abs(MyBase.dg) < eps Then
+                If std.Abs(MyBase.dg) < eps Then
                     info = RESULT.ZERODG
                     Me._step = stp
                     Me._fx = f
@@ -182,7 +184,7 @@
                 If bracketed.b AndAlso stmax - stmin <= param.xtol * stmax Then
                     info = RESULT.XTOL
                 End If
-                If Not weak_wolfe AndAlso f <= ftest AndAlso Math.Abs(MyBase.dg) <= -ctest OrElse weak_wolfe AndAlso f <= ftest AndAlso MyBase.dg >= ctest Then
+                If Not weak_wolfe AndAlso f <= ftest AndAlso std.Abs(MyBase.dg) <= -ctest OrElse weak_wolfe AndAlso f <= ftest AndAlso MyBase.dg >= ctest Then
                     info = RESULT.CONVERGED
                 End If
 
@@ -262,7 +264,7 @@
                 End If
 
                 If bracketed.b Then
-                    Dim adiff = Math.Abs(sty - stx)
+                    Dim adiff = std.Abs(sty - stx)
                     If adiff >= width1 * 0.66 Then
                         stp = stx + (sty - stx) / 2.0
                     End If
@@ -271,8 +273,8 @@
                 End If
 
                 If bracketed.b Then
-                    stmin = Math.Min(stx, sty)
-                    stmax = Math.Max(stx, sty)
+                    stmin = std.Min(stx, sty)
+                    stmax = std.Max(stx, sty)
                 Else
                     stmin = stp + 1.1 * (stp - stx)
                     stmax = stp + 4.0 * (stp - stx)
@@ -300,7 +302,7 @@
         End Sub
 
         Private Sub cstep(cs As CStepType, stpmin As Double, stpmax As Double)
-            Dim sgnd = cs.dp * (cs.dx / Math.Abs(cs.dx))
+            Dim sgnd = cs.dp * (cs.dx / std.Abs(cs.dx))
 
             If Debug.DEBUGFlag Then
                 Debug.debug("<< cstep")
@@ -328,9 +330,9 @@
                 End If
 
                 Dim theta = 3.0 * (cs.fx - cs.fp) / (cs.stp - cs.stx) + cs.dx + cs.dp
-                Dim s = Math.Max(Math.Max(Math.Abs(theta), Math.Abs(cs.dx)), Math.Abs(cs.dp))
+                Dim s = std.Max(std.Max(std.Abs(theta), std.Abs(cs.dx)), std.Abs(cs.dp))
                 Dim d1 = theta / s
-                Dim gamm = s * Math.Sqrt(d1 * d1 - cs.dx / s * (cs.dp / s))
+                Dim gamm = s * std.Sqrt(d1 * d1 - cs.dx / s * (cs.dp / s))
                 If cs.stp < cs.stx Then
                     gamm = -gamm
                 End If
@@ -339,7 +341,7 @@
                 Dim r = p / q
                 Dim stpc = cs.stx + r * (cs.stp - cs.stx)
                 Dim stpq = cs.stx + cs.dx / ((cs.fx - cs.fp) / (cs.stp - cs.stx) + cs.dx) / 2.0 * (cs.stp - cs.stx)
-                If Math.Abs(stpc - cs.stx) < Math.Abs(stpq - cs.stx) Then
+                If std.Abs(stpc - cs.stx) < std.Abs(stpq - cs.stx) Then
                     stpf = stpc
                 Else
                     stpf = (stpc + stpq) / 2.0
@@ -354,9 +356,9 @@
                 End If
 
                 Dim theta = 3.0 * (cs.fx - cs.fp) / (cs.stp - cs.stx) + cs.dx + cs.dp
-                Dim s = Math.Max(Math.Max(Math.Abs(theta), Math.Abs(cs.dx)), Math.Abs(cs.dp))
+                Dim s = std.Max(std.Max(std.Abs(theta), std.Abs(cs.dx)), std.Abs(cs.dp))
                 Dim d1 = theta / s
-                Dim gamm = s * Math.Sqrt(d1 * d1 - cs.dx / s * (cs.dp / s))
+                Dim gamm = s * std.Sqrt(d1 * d1 - cs.dx / s * (cs.dp / s))
                 If cs.stp > cs.stx Then
                     gamm = -gamm
                 End If
@@ -365,7 +367,7 @@
                 Dim r = p / q
                 Dim stpc = cs.stp + r * (cs.stx - cs.stp)
                 Dim stpq = cs.stp + cs.dp / (cs.dp - cs.dx) * (cs.stx - cs.stp)
-                If Math.Abs(stpc - cs.stp) < Math.Abs(stpq - cs.stp) Then
+                If std.Abs(stpc - cs.stp) < std.Abs(stpq - cs.stp) Then
                     stpf = stpc
                 Else
                     stpf = stpq
@@ -374,17 +376,17 @@
                     Call Debug.debug("= stpf: " & stpf.ToString())
                 End If
                 cs.bracketed = True
-            ElseIf Math.Abs(cs.dp) < Math.Abs(cs.dx) Then
+            ElseIf std.Abs(cs.dp) < std.Abs(cs.dx) Then
                 If Debug.DEBUGFlag Then
                     Debug.debug("= Case 3")
                 End If
 
                 Dim theta = 3.0 * (cs.fx - cs.fp) / (cs.stp - cs.stx) + cs.dx + cs.dp
-                Dim s = Math.Max(Math.Max(Math.Abs(theta), Math.Abs(cs.dx)), Math.Abs(cs.dp))
+                Dim s = std.Max(std.Max(std.Abs(theta), std.Abs(cs.dx)), std.Abs(cs.dp))
 
                 Dim d1 = theta / s
                 d1 = d1 * d1 - cs.dx / s * (cs.dp / s)
-                Dim gamm = If(d1 <= 0.0, 0.0, s * Math.Sqrt(d1))
+                Dim gamm = If(d1 <= 0.0, 0.0, s * std.Sqrt(d1))
 
                 If cs.stp > cs.stx Then
                     gamm = -gamm
@@ -405,24 +407,24 @@
 
                 Dim stpq = cs.stp + cs.dp / (cs.dp - cs.dx) * (cs.stx - cs.stp)
                 If cs.bracketed Then
-                    If Math.Abs(stpc - cs.stp) < Math.Abs(stpq - cs.stp) Then
+                    If std.Abs(stpc - cs.stp) < std.Abs(stpq - cs.stp) Then
                         stpf = stpc
                     Else
                         stpf = stpq
                     End If
                     d1 = cs.stp + (cs.sty - cs.stp) * 0.66
                     If cs.stp > cs.stx Then
-                        stpf = Math.Min(d1, stpf)
+                        stpf = std.Min(d1, stpf)
                     Else
-                        stpf = Math.Max(d1, stpf)
+                        stpf = std.Max(d1, stpf)
                     End If
                 Else
-                    If Math.Abs(stpc - cs.stp) > Math.Abs(stpq - cs.stp) Then
+                    If std.Abs(stpc - cs.stp) > std.Abs(stpq - cs.stp) Then
                         stpf = stpc
                     Else
                         stpf = stpq
                     End If
-                    stpf = Math.Min(Math.Max(stpmin, stpf), stpmax)
+                    stpf = std.Min(std.Max(stpmin, stpf), stpmax)
                 End If
                 If Debug.DEBUGFlag Then
                     Call Debug.debug("= stpf: " & stpf.ToString())
@@ -433,9 +435,9 @@
                 End If
                 If cs.bracketed Then
                     Dim theta = 3.0 * (cs.fp - cs.fy) / (cs.sty - cs.stp) + cs.dy + cs.dp
-                    Dim s = Math.Max(Math.Max(Math.Abs(theta), Math.Abs(cs.dy)), Math.Abs(cs.dp))
+                    Dim s = std.Max(std.Max(std.Abs(theta), std.Abs(cs.dy)), std.Abs(cs.dp))
                     Dim d1 = theta / s
-                    Dim gamm = s * Math.Sqrt(d1 * d1 - cs.dy / s * (cs.dp / s))
+                    Dim gamm = s * std.Sqrt(d1 * d1 - cs.dy / s * (cs.dp / s))
                     If cs.stp > cs.sty Then
                         gamm = -gamm
                     End If

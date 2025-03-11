@@ -1,4 +1,7 @@
-﻿Namespace Framework.Optimization.LBFGSB
+﻿Imports Microsoft.VisualBasic.Math.Framework.Optimization.LBFGSB.LineSearches
+Imports std = System.Math
+
+Namespace Framework.Optimization.LBFGSB
 
     ''' <summary>
     ''' L-BFGS-B optimizer
@@ -68,7 +71,7 @@
 
         Public Shared Sub force_bounds(x As Double(), lb As Double(), ub As Double())
             For i = 0 To x.Length - 1
-                x(i) = Math.Max(Math.Min(x(i), ub(i)), lb(i))
+                x(i) = std.Max(std.Min(x(i), ub(i)), lb(i))
             Next
         End Sub
 
@@ -76,8 +79,8 @@
             Dim res = 0.0
 
             For i = 0 To x.Length - 1
-                Dim proj = Math.Max(Math.Min(x(i) - g(i), ub(i)), lb(i))
-                res = Math.Max(res, Math.Abs(proj - x(i)))
+                Dim proj = std.Max(std.Min(x(i) - g(i), ub(i)), lb(i))
+                res = std.Max(res, std.Abs(proj - x(i)))
             Next
 
             Return res
@@ -88,9 +91,9 @@
 
             For i = 0 To x0.Length - 1
                 If drt(i) > 0.0 Then
-                    [step] = Math.Min([step], (ub(i) - x0(i)) / drt(i))
+                    [step] = std.Min([step], (ub(i) - x0(i)) / drt(i))
                 ElseIf drt(i) < 0 Then
-                    [step] = Math.Min([step], (lb(i) - x0(i)) / drt(i))
+                    [step] = std.Min([step], (lb(i) - x0(i)) / drt(i))
                 End If
             Next
 
@@ -152,7 +155,7 @@
             Dim cauchy As Cauchy = New Cauchy(m_bfgs, x, m_grad, lb, ub)
 
             Vector.sub(cauchy.xcp, x, m_drt)
-            If m_param.linesearchField = Parameters.linesearch.MORETHUENTE_LBFGSPP Then
+            If m_param.linesearch = LINESEARCH.MORETHUENTE_LBFGSPP Then
                 Vector.normalize(m_drt) ' problematic
             End If
 
@@ -179,14 +182,14 @@
                     step_max = max_step_size(x, m_drt, lb, ub)
                 End If
 
-                step_max = Math.Min(step_max, m_param.max_step)
-                Dim [step] = Math.Min(1.0, step_max)
+                step_max = std.Min(step_max, m_param.max_step)
+                Dim [step] = std.Min(1.0, step_max)
 
                 Dim ls As AbstractLineSearch
-                Select Case m_param.linesearchField
-                    Case Parameters.linesearch.MORETHUENTE_LBFGSPP
-                        ls = New LINESEARCH.LineSearch(f, m_param, m_xp, m_drt, step_max, [step], fx, m_grad, dg, x, m_param.weak_wolfe)
-                    Case Parameters.linesearch.LEWISOVERTON
+                Select Case m_param.linesearch
+                    Case LINESEARCH.MORETHUENTE_LBFGSPP
+                        ls = New LineSearches.LineSearch(f, m_param, m_xp, m_drt, step_max, [step], fx, m_grad, dg, x, m_param.weak_wolfe)
+                    Case LINESEARCH.LEWISOVERTON
                         ls = New LewisOverton(f, m_param, m_xp, m_drt, step_max, [step], fx, m_grad, dg, x)
                     Case Else
                         ls = New MoreThuente(f, m_param, m_xp, m_drt, step_max, [step], fx, m_grad, dg, x, m_param.weak_wolfe)
@@ -220,7 +223,7 @@
 
                 If fpast > 0 Then
                     Dim fxd = m_fx(k Mod fpast)
-                    If k >= fpast AndAlso Math.Abs(fxd - fx) <= m_param.delta * Math.Max(Math.Max(Math.Abs(fx), Math.Abs(fxd)), 1.0) Then
+                    If k >= fpast AndAlso std.Abs(fxd - fx) <= m_param.delta * std.Max(std.Max(std.Abs(fx), std.Abs(fxd)), 1.0) Then
                         If Debug.DEBUGFlag Then
                             Debug.debug("="c, "leaving minimization, past results less than delta")
                         End If

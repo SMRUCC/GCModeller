@@ -1,4 +1,6 @@
-﻿Namespace Framework.Optimization.LBFGSB.LineSearches
+﻿Imports std = System.Math
+
+Namespace Framework.Optimization.LBFGSB.LineSearches
 
 
     ' https://github.com/ZJU-FAST-Lab/LBFGS-Lite/blob/master/include/lbfgs.hpp#L276
@@ -45,7 +47,7 @@
         Public info As RESULT
 
         Public Shared ReadOnly eps As Double = Microsoft.VisualBasic.Math.Ulp(1.0)
-        Public Shared ReadOnly iterfinitemax As Integer = -Math.Log(eps) / Math.Log(2.0)
+        Public Shared ReadOnly iterfinitemax As Integer = -std.Log(eps) / std.Log(2.0)
 
         Private Sub finish(info As RESULT, f As Double, stp As Double)
             _fx = f
@@ -122,7 +124,7 @@
                 f = phidphi.evaluate(stp)
                 MyBase._dg = phidphi.dg
 
-                If Math.Abs(MyBase.dg) < eps Then
+                If std.Abs(MyBase.dg) < eps Then
                     finish(RESULT.ZERODG, f, stp)
                     Return
                 End If

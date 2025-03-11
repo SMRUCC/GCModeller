@@ -1,4 +1,6 @@
-﻿Namespace Framework.Optimization.LBFGSB
+﻿Imports std = System.Math
+
+Namespace Framework.Optimization.LBFGSB
 
     Public NotInheritable Class Cauchy
 
@@ -148,7 +150,7 @@
             End If
 
             If Not crossed_all Then
-                deltatmin = Math.Max(deltatmin, 0.0)
+                deltatmin = std.Max(deltatmin, 0.0)
                 For j = 0 To vecc.Length - 1
                     vecc(j) += deltatmin * vecp(j)
                 Next

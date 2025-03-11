@@ -1,4 +1,6 @@
-﻿Namespace Framework.Optimization.LBFGSB
+﻿Imports std = System.Math
+
+Namespace Framework.Optimization.LBFGSB
 
     Public NotInheritable Class Vector
 
@@ -34,7 +36,7 @@
         End Function
 
         Public Shared Function norm(x As Double()) As Double
-            Return Math.Sqrt(squaredNorm(x))
+            Return std.Sqrt(squaredNorm(x))
         End Function
 
         Public Shared Sub normalize(x As Double())

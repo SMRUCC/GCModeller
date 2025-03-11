@@ -1,4 +1,6 @@
-﻿Namespace Framework.Optimization.LBFGSB
+﻿Imports std = System.Math
+
+Namespace Framework.Optimization.LBFGSB
 
     Public NotInheritable Class SubspaceMin
 
@@ -221,7 +223,7 @@
 
             If k >= maxit Then
                 For i = 0 To vecy.Length - 1
-                    vecy(i) = Math.Max(Math.Min(vecy(i), vecu(i)), vecl(i))
+                    vecy(i) = std.Max(std.Min(vecy(i), vecu(i)), vecl(i))
                 Next
                 subvec_assign(drt, cauchy.fv_set, vecy)
 
@@ -235,7 +237,7 @@
                 End If
 
                 For i = 0 To vecy.Length - 1
-                    vecy(i) = Math.Max(Math.Min(yfallback(i), vecu(i)), vecl(i))
+                    vecy(i) = std.Max(std.Min(yfallback(i), vecu(i)), vecl(i))
                 Next
 
                 subvec_assign(drt, cauchy.fv_set, vecy)

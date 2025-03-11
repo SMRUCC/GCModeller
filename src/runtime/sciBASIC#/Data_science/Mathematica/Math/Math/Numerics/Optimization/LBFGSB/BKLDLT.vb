@@ -1,4 +1,6 @@
-﻿Namespace Framework.Optimization.LBFGSB
+﻿Imports std = System.Math
+
+Namespace Framework.Optimization.LBFGSB
 
     ''' <summary>
     ''' Bunch-Kaufman LDLT decomposition
@@ -8,7 +10,7 @@
 	''' </remarks>
     Public NotInheritable Class BKLDLT
 
-        Friend Shared ReadOnly alpha As Double = (1.0 + Math.Sqrt(17.0)) / 8.0
+        Friend Shared ReadOnly alpha As Double = (1.0 + std.Sqrt(17.0)) / 8.0
 
         Public Enum Info
             SUCCESSFUL
@@ -124,10 +126,10 @@
             Dim head = colptr(k)
             Dim [end] = colptr(k + 1)
             r.v = k + 1
-            Dim lambda = Math.Abs(data(head + 1))
+            Dim lambda = std.Abs(data(head + 1))
 
             For ptr = head + 2 To [end] - 1
-                Dim abs_elem = Math.Abs(data(ptr))
+                Dim abs_elem = std.Abs(data(ptr))
                 If lambda < abs_elem Then
                     lambda = abs_elem
                     r.v = k + (ptr - head)
@@ -145,7 +147,7 @@
             End If
 
             For j = k To r - 1
-                Dim abs_elem = Math.Abs(coeff(r, j))
+                Dim abs_elem = std.Abs(coeff(r, j))
                 If sigma < abs_elem Then
                     sigma = abs_elem
                     p.v = j
@@ -195,7 +197,7 @@
 
             If lambda > 0 Then
 
-                Dim abs_akk = Math.Abs(diag_coeff(k))
+                Dim abs_akk = std.Abs(diag_coeff(k))
                 Dim alambda = alpha * lambda
 
                 If abs_akk < alambda Then
