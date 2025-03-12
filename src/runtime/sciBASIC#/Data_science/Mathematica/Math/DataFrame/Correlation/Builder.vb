@@ -1,57 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::91287eca37372863bddd1344a24efe6f, Data_science\Mathematica\Math\DataFrame\Correlation\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::2d33fde54ccc3aa5dddf94b6b5fd373c, Data_science\Mathematica\Math\DataFrame\Correlation\Builder.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 116
-'    Code Lines: 81 (69.83%)
-' Comment Lines: 24 (20.69%)
-'    - Xml Docs: 95.83%
-' 
-'   Blank Lines: 11 (9.48%)
-'     File Size: 4.95 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Builder
-' 
-'     Function: Correlation, (+4 Overloads) MatrixBuilder
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 117
+    '    Code Lines: 82 (70.09%)
+    ' Comment Lines: 24 (20.51%)
+    '    - Xml Docs: 95.83%
+    ' 
+    '   Blank Lines: 11 (9.40%)
+    '     File Size: 4.99 KB
+
+
+    ' Module Builder
+    ' 
+    '     Function: Correlation, (+4 Overloads) MatrixBuilder
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -144,16 +145,21 @@ Public Module Builder
         Dim matrix As Double()() = evalData _
             .Select(Function(d) d.cor) _
             .ToArray
+        Dim nameIndex = keys.Indexing
+
+        If keys.Length <> nameIndex.Count Then
+            Throw New InvalidDataContractException("there are some duplicated names of your data matrix, please makes the label of each data object be unique!")
+        End If
 
         If type = DataType.Correlation Then
             Return New CorrelationMatrix(
-                names:=keys.Indexing,
+                names:=nameIndex,
                 matrix:=matrix,
                 pvalue:=evalData.Select(Function(d) d.pval).ToArray
             )
         Else
             Return New DistanceMatrix(
-                names:=keys.Indexing,
+                names:=nameIndex,
                 matrix:=matrix,
                 isDistance:=(type = DataType.Distance)
             )

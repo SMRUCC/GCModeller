@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4aacb526634afe2328c66289f8b181f5, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Repository\ILocalSearchHandle.vb"
+﻿#Region "Microsoft.VisualBasic::ec86e043968d4a344451b1f320648d28, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Repository\ILocalSearchHandle.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 98
-    '    Code Lines: 61 (62.24%)
-    ' Comment Lines: 23 (23.47%)
-    '    - Xml Docs: 91.30%
+    '   Total Lines: 124
+    '    Code Lines: 75 (60.48%)
+    ' Comment Lines: 32 (25.81%)
+    '    - Xml Docs: 84.38%
     ' 
-    '   Blank Lines: 14 (14.29%)
-    '     File Size: 3.98 KB
+    '   Blank Lines: 17 (13.71%)
+    '     File Size: 5.18 KB
 
 
     '     Interface ILocalSearchHandle
@@ -49,7 +49,7 @@
     ' 
     '     Module SearchFramework
     ' 
-    '         Function: MultipleQuery, Query, UniqueNames
+    '         Function: MultipleQuery, Query, (+2 Overloads) UniqueNames
     ' 
     ' 
     ' /********************************************************************************/
@@ -59,6 +59,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.DataSourceModel.Repository
 
@@ -115,18 +116,45 @@ Namespace ComponentModel.DataSourceModel.Repository
             Return source.MultipleQuery({New NamedValue(Of Term())("null", queries.ToArray)}, assert).Values
         End Function
 
+        <Extension>
+        Public Function UniqueNames(list As IEnumerable(Of NamedValue(Of String)), <Out> Optional ByRef duplicated As String() = Nothing) As IEnumerable(Of NamedValue(Of String))
+            Dim alldata As NamedValue(Of String)() = list.SafeQuery.ToArray
+            Dim allnames As String() = alldata.Select(Function(i) i.Name).UniqueNames(duplicated).ToArray
+
+            If duplicated.IsNullOrEmpty Then
+                ' no duplicated items
+                ' returns the rawdata directly
+                Return alldata
+            Else
+                ' replace the old name with new unique names
+                For i As Integer = 0 To alldata.Length - 1
+                    alldata(i) = New NamedValue(Of String)(allnames(i), alldata(i).Value, alldata(i).Description)
+                Next
+
+                Return alldata
+            End If
+        End Function
+
         ''' <summary>
         ''' makes the name string unique by adding an additional numeric suffix
         ''' </summary>
         ''' <param name="names"></param>
+        ''' <param name="duplicated">
+        ''' get the duplicated names
+        ''' </param>
         ''' <returns>
         ''' this function is a safe function, it will returns an empty string collection 
         ''' if the given <paramref name="names"/> is nothing.
         ''' </returns>
+        ''' <remarks>
+        ''' this function will erase the <paramref name="duplicated"/> at first and then make value assigned.
+        ''' </remarks>
         <Extension>
         Public Function UniqueNames(names As IEnumerable(Of String), <Out> Optional ByRef duplicated As String() = Nothing) As String()
             Dim nameUniques As New Dictionary(Of String, Counter)
             Dim duplicates As New List(Of String)
+
+            Erase duplicated
 
             If names Is Nothing Then
                 Return New String() {}
@@ -143,8 +171,6 @@ RE0:
                     nameUniques.Add(name, Scan0)
                 End If
             Next
-
-            Erase duplicated
 
             If duplicates.Any Then
                 duplicated = duplicates.ToArray
