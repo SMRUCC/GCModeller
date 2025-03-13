@@ -96,6 +96,47 @@ Namespace Distributions
                 Yield x
             Next
         End Function
+
+        <Extension>
+        Public Function Skewness(data As IEnumerable(Of Double)) As Double
+            Dim pool As Double() = data.SafeQuery.ToArray
+            Dim n As Integer = pool.Length
+
+            If n = 0 Then
+                Return 0
+            End If
+
+            Dim mean As Double = pool.Average
+            Dim stdDev As Double = data.SD
+            Dim sumOfCubedDeviations As Double = 0
+
+            For Each value As Double In data
+                sumOfCubedDeviations += ((value - mean) / stdDev) ^ 3
+            Next
+
+            Return (n / ((n - 1) * (n - 2))) * sumOfCubedDeviations
+        End Function
+
+        <Extension>
+        Public Function Kurtosis(data As IEnumerable(Of Double)) As Double
+            Dim pool As Double() = data.SafeQuery.ToArray
+            Dim n As Integer = pool.Length
+
+            If n = 0 Then
+                Return 0
+            End If
+
+            Dim mean As Double = pool.Average
+            Dim stdDev As Double = pool.SD
+            Dim fourthMoment As Double = 0
+
+            For Each value As Double In data
+                fourthMoment += (value - mean) ^ 4
+            Next
+
+            ' Excess kurtosis (subtracting 3 to compare with the normal distribution)
+            Return (n * (n + 1) * fourthMoment) / ((n - 1) * (n - 2) * (n - 3) * stdDev ^ 4) - (3 * (n - 1) ^ 2) / ((n - 2) * (n - 3))
+        End Function
     End Module
 
     Public Interface ISample : Inherits INamedValue
