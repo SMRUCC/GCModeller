@@ -186,6 +186,25 @@ Namespace MomentFunctions
             Return CentralMoment(data, n)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function AbsoluteMoment(n As Integer) As Double
+            Return AbsoluteMoment(data, n)
+        End Function
+
+        ' 函数用于计算数据的第n阶绝对矩
+        Public Shared Function AbsoluteMoment(data As IEnumerable(Of Double), n As Integer) As Double
+            Dim sum As Double = 0
+            Dim i As Integer = 0
+
+            For Each x As Double In data
+                sum += std.Abs(x) ^ n
+                i += 1
+            Next
+
+            Return sum / i
+        End Function
+
+
         ' 函数用于计算数据的第n阶原点矩
         Public Shared Function Moment(data As IEnumerable(Of Double), n As Integer) As Double
             Dim sum As Double = 0
