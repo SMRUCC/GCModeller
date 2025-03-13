@@ -166,5 +166,34 @@ Namespace MomentFunctions
         Public Overrides Function ToString() As String
             Return GetJson
         End Function
+
+        ' 函数用于计算数据的第n阶原点矩
+        Public Shared Function Moment(data As List(Of Double), n As Integer) As Double
+            Dim sum As Double = 0
+            For Each x As Double In data
+                sum += x ^ n
+            Next
+            Return sum / data.Count
+        End Function
+
+        ' 函数用于计算数据的第n阶中心矩
+        Public Shared Function CentralMoment(data As List(Of Double), n As Integer) As Double
+            Dim mean As Double = data.Average()
+            Dim sum As Double = 0
+            For Each x As Double In data
+                sum += (x - mean) ^ n
+            Next
+            Return sum / data.Count
+        End Function
+
+        ' 函数用于计算2阶矩（方差）
+        Public Shared Function SecondMoment(data As List(Of Double)) As Double
+            Return Moment(data, 2)
+        End Function
+
+        ' 函数用于计算3阶中心矩
+        Public Shared Function ThirdCentralMoment(data As List(Of Double)) As Double
+            Return CentralMoment(data, 3)
+        End Function
     End Class
 End Namespace
