@@ -1,64 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::5627d797e358395d6809a740869d3048, Data_science\Mathematica\Math\Math\Distributions\Abundance.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 47
-    '    Code Lines: 36 (76.60%)
-    ' Comment Lines: 6 (12.77%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 5 (10.64%)
-    '     File Size: 1.89 KB
+' Summaries:
 
 
-    '     Module Abundance
-    ' 
-    '         Function: RelativeAbundances
-    ' 
-    '     Interface ISample
-    ' 
-    '         Properties: Samples
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 47
+'    Code Lines: 36 (76.60%)
+' Comment Lines: 6 (12.77%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 5 (10.64%)
+'     File Size: 1.89 KB
+
+
+'     Module Abundance
+' 
+'         Function: RelativeAbundances
+' 
+'     Interface ISample
+' 
+'         Properties: Samples
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
+Imports std = System.Math
 
 Namespace Distributions
 
@@ -139,24 +140,68 @@ Namespace Distributions
         ''' sciences.
         ''' 
         ''' </summary>
+        ''' <remarks>
+        ''' If x contains missings and these are not removed, the skewness is NA.
+        ''' Otherwise, write xi for the non-missing elements of x, n for their number, μ for their mean, s for their standard deviation, and 
+        ''' mr =∑i (xi −μ) ^ r /n for the sample moments of order r.
+        '''
+        ''' Joanes and Gill (1998) discuss three methods for estimating skewness:
+        '''
+        ''' Type 1: g1 = m3 / m2 ^ (3/2). This is the typical definition used in many older textbooks.
+        ''' Type 2: G1 = g1 * sqrt(n(n−1)) /(n−2). Used in SAS and SPSS.
+        ''' Type 3: b1 = m3 /s^3 = g1 * ((n−1)/n) ^ (3/2) . Used in MINITAB and BMDP.
+        '''
+        ''' All three skewness measures are unbiased under normality.
+        ''' </remarks>
         <Extension>
-        Public Function Skewness(data As IEnumerable(Of Double), Optional type As AlgorithmType = AlgorithmType.Classical) As Double
-            Dim pool As Double() = data.SafeQuery.ToArray
-            Dim n As Integer = pool.Length
+        Public Function Skewness(x As IEnumerable(Of Double), Optional type As AlgorithmType = AlgorithmType.Classical) As Double
+            ' Remove missing values (assuming missing values are represented as Double.NaN)
+            Dim cleanData As IEnumerable(Of Double) = x.Where(Function(value) Not Double.IsNaN(value))
 
-            If n = 0 Then
-                Return 0
+            ' If there are missing values and they are not removed, return NaN
+            If cleanData.Count() <> x.Count() Then
+                Return Double.NaN
             End If
 
-            Dim mean As Double = pool.Average
-            Dim stdDev As Double = data.SD
-            Dim sumOfCubedDeviations As Double = 0
+            ' Calculate the number of non-missing elements
+            Dim n As Integer = cleanData.Count()
 
-            For Each value As Double In data
-                sumOfCubedDeviations += ((value - mean) / stdDev) ^ 3
-            Next
+            ' If there are not enough data points, return NaN
+            If n < 3 Then
+                Return Double.NaN
+            End If
 
-            Return (n / ((n - 1) * (n - 2))) * sumOfCubedDeviations
+            ' Calculate the mean
+            Dim mean As Double = cleanData.Average()
+
+            ' Calculate the standard deviation
+            Dim stdDev As Double = std.Sqrt(cleanData.Sum(Function(xi) std.Pow(xi - mean, 2)) / (n - 1))
+
+            ' Calculate the third moment
+            Dim m3 As Double = cleanData.Sum(Function(xi) std.Pow(xi - mean, 3)) / n
+
+            ' Calculate the second moment (variance)
+            Dim m2 As Double = cleanData.Sum(Function(xi) std.Pow(xi - mean, 2)) / n
+
+            ' Calculate skewness based on the selected algorithm
+            Select Case type
+                Case AlgorithmType.Classical
+                    ' Type 1: g1 = m3 / m2 ^ (3/2)
+                    Return m3 / std.Pow(m2, 1.5)
+
+                Case AlgorithmType.SAS
+                    ' Type 2: G1 = g1 * sqrt(n(n−1)) /(n−2)
+                    Dim g1 As Double = m3 / std.Pow(m2, 1.5)
+                    Return g1 * std.Sqrt(n * (n - 1)) / (n - 2)
+
+                Case AlgorithmType.MINITAB
+                    ' Type 3: b1 = m3 /s^3 = g1 * ((n−1)/n) ^ (3/2)
+                    Dim g1 As Double = m3 / std.Pow(m2, 1.5)
+                    Return g1 * std.Pow((n - 1) / n, 1.5)
+
+                Case Else
+                    Throw New NotImplementedException("The specified algorithm type is not implemented.")
+            End Select
         End Function
 
         ''' <summary>
@@ -222,25 +267,54 @@ Namespace Distributions
         ''' kurtosis is a statistical measure for understanding the shape of a data distribution, particularly the behavior 
         ''' of its tails. It is widely used in various fields, including finance, data analysis, and statistics.
         ''' </summary>
+        ''' <remarks>
+        ''' If x contains missings and these are not removed, the kurtosis is NA.
+        '''
+        ''' Otherwise, write xi for the non-missing elements of x, n for their number, μ for their mean, s for their standard deviation, and 
+        ''' mr = ∑i (xi −μ) ^ r /n for the sample moments of order r.
+        '''
+        ''' Joanes and Gill (1998) discuss three methods for estimating kurtosis:
+        '''
+        ''' Type 1: g2 = m4/m2 ^ 2 −3. This is the typical definition used in many older textbooks.
+        ''' Type 2: G2 = ((n+1)*g2 +6)∗(n−1)/((n−2)(n−3)). Used in SAS and SPSS.
+        ''' Type 3: b2 = m4 /s ^ 4 −3 = (g2 +3)(1−1/n) ^ 2 −3. Used in MINITAB and BMDP.
+        '''
+        ''' Only G2 (corresponding to type = 2) is unbiased under normality.
+        ''' </remarks>
         <Extension>
-        Public Function Kurtosis(data As IEnumerable(Of Double), Optional type As AlgorithmType = AlgorithmType.Classical) As Double
-            Dim pool As Double() = data.SafeQuery.ToArray
-            Dim n As Integer = pool.Length
+        Public Function Kurtosis(x As IEnumerable(Of Double), Optional type As AlgorithmType = AlgorithmType.Classical) As Double
+            ' 移除缺失值
+            Dim cleanData As Double() = x.Where(Function(value) Not Double.IsNaN(value)).ToArray()
+            Dim n As Integer = cleanData.Length
 
-            If n = 0 Then
-                Return 0
+            ' 如果没有数据或数据不足，则返回NaN
+            If n = 0 OrElse n < 4 Then
+                Return Double.NaN
             End If
 
-            Dim mean As Double = pool.Average
-            Dim stdDev As Double = pool.SD
-            Dim fourthMoment As Double = 0
+            ' 计算均值
+            Dim mean As Double = cleanData.Average()
 
-            For Each value As Double In data
-                fourthMoment += (value - mean) ^ 4
-            Next
+            ' 计算二阶、四阶样本矩
+            Dim m2 As Double = cleanData.Sum(Function(xi) (xi - mean) ^ 2) / n
+            Dim m4 As Double = cleanData.Sum(Function(xi) (xi - mean) ^ 4) / n
 
-            ' Excess kurtosis (subtracting 3 to compare with the normal distribution)
-            Return (n * (n + 1) * fourthMoment) / ((n - 1) * (n - 2) * (n - 3) * stdDev ^ 4) - (3 * (n - 1) ^ 2) / ((n - 2) * (n - 3))
+            ' 计算峰度
+            Dim g2 As Double = m4 / (m2 ^ 2) - 3
+            Dim result As Double = 0.0
+
+            Select Case type
+                Case AlgorithmType.Classical
+                    result = g2
+                Case AlgorithmType.SAS
+                    result = ((n + 1) * g2 + 6) * (n - 1) / ((n - 2) * (n - 3))
+                Case AlgorithmType.MINITAB
+                    result = (g2 + 3) * ((1 - 1 / n) ^ 2) - 3
+                Case Else
+                    Throw New NotImplementedException("The specified algorithm type is not implemented.")
+            End Select
+
+            Return result
         End Function
     End Module
 
