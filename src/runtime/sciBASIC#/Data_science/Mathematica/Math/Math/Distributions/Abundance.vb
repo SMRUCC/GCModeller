@@ -140,7 +140,7 @@ Namespace Distributions
         ''' 
         ''' </summary>
         <Extension>
-        Public Function Skewness(data As IEnumerable(Of Double)) As Double
+        Public Function Skewness(data As IEnumerable(Of Double), Optional type As AlgorithmType = AlgorithmType.Classical) As Double
             Dim pool As Double() = data.SafeQuery.ToArray
             Dim n As Integer = pool.Length
 
@@ -158,6 +158,24 @@ Namespace Distributions
 
             Return (n / ((n - 1) * (n - 2))) * sumOfCubedDeviations
         End Function
+
+        ''' <summary>
+        ''' the algorithms for computing kurtosis/skewness
+        ''' </summary>
+        Public Enum AlgorithmType
+            ''' <summary>
+            ''' This is the typical definition used in many older textbooks.
+            ''' </summary>
+            Classical = 1
+            ''' <summary>
+            ''' Used in SAS and SPSS.
+            ''' </summary>
+            SAS = 2
+            ''' <summary>
+            ''' Used in MINITAB and BMDP.
+            ''' </summary>
+            MINITAB = 3
+        End Enum
 
         ''' <summary>
         ''' **Kurtosis** is a statistical measure that describes the "tailedness" of the probability distribution of a
@@ -205,7 +223,7 @@ Namespace Distributions
         ''' of its tails. It is widely used in various fields, including finance, data analysis, and statistics.
         ''' </summary>
         <Extension>
-        Public Function Kurtosis(data As IEnumerable(Of Double)) As Double
+        Public Function Kurtosis(data As IEnumerable(Of Double), Optional type As AlgorithmType = AlgorithmType.Classical) As Double
             Dim pool As Double() = data.SafeQuery.ToArray
             Dim n As Integer = pool.Length
 
