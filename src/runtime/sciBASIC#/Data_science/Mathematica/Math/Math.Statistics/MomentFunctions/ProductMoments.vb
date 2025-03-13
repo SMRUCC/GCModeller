@@ -56,6 +56,8 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports std = System.Math
@@ -136,6 +138,12 @@ Namespace MomentFunctions
         Public ReadOnly Property standardDeviation As Double
         Public ReadOnly Property sampleSize As Integer
 
+        ''' <summary>
+        ''' the input raw data vector
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property data As IReadOnlyCollection(Of Double)
+
         Public Sub New(data As Double())
             Dim count = data.Length
             Dim BPM As New BasicProductMoments(data)
@@ -145,6 +153,7 @@ Namespace MomentFunctions
             _mean = BPM.Mean()
             _standardDeviation = BPM.StDev()
             _sampleSize = count
+            _data = data
 
             Dim skewsums As Double = 0
             Dim ksums As Double = 0
@@ -167,32 +176,47 @@ Namespace MomentFunctions
             Return GetJson
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Moment(n As Integer) As Double
+            Return Moment(data, n)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function CentralMoment(n As Integer) As Double
+            Return CentralMoment(data, n)
+        End Function
+
         ' 函数用于计算数据的第n阶原点矩
-        Public Shared Function Moment(data As List(Of Double), n As Integer) As Double
+        Public Shared Function Moment(data As IEnumerable(Of Double), n As Integer) As Double
             Dim sum As Double = 0
+            Dim i As Integer = 0
+
             For Each x As Double In data
                 sum += x ^ n
+                i += 1
             Next
-            Return sum / data.Count
+
+            Return sum / i
         End Function
 
         ' 函数用于计算数据的第n阶中心矩
-        Public Shared Function CentralMoment(data As List(Of Double), n As Integer) As Double
-            Dim mean As Double = data.Average()
+        Public Shared Function CentralMoment(data As IEnumerable(Of Double), n As Integer) As Double
+            Dim pool As Double() = data.SafeQuery.ToArray
+            Dim mean As Double = pool.Average()
             Dim sum As Double = 0
-            For Each x As Double In data
+            For Each x As Double In pool
                 sum += (x - mean) ^ n
             Next
-            Return sum / data.Count
+            Return sum / pool.Length
         End Function
 
         ' 函数用于计算2阶矩（方差）
-        Public Shared Function SecondMoment(data As List(Of Double)) As Double
+        Public Shared Function SecondMoment(data As IEnumerable(Of Double)) As Double
             Return Moment(data, 2)
         End Function
 
         ' 函数用于计算3阶中心矩
-        Public Shared Function ThirdCentralMoment(data As List(Of Double)) As Double
+        Public Shared Function ThirdCentralMoment(data As IEnumerable(Of Double)) As Double
             Return CentralMoment(data, 3)
         End Function
     End Class
