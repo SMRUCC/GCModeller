@@ -67,8 +67,62 @@ Imports std = System.Math
 ' 
 Namespace MomentFunctions
 
-    ''' 
     ''' <summary>
+    ''' In statistics, moments are a set of numerical characteristics that describe the shape and features of a probability distribution. 
+    ''' Sample moments are the same concept applied to a sample of data, rather than an entire population. They are used to estimate 
+    ''' the corresponding population moments and to understand the properties of the data distribution.
+    ''' 
+    ''' Here's a basic introduction to the concept of sample moments:
+    ''' 
+    ''' ### Definition:
+    ''' 
+    ''' 1. **Sample Mean (First Moment):**
+    '''    The sample mean is the average of the data points in a sample. It is a measure of the central tendency of the data.
+    '''      \[
+    '''      \bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
+    '''      \]
+    '''    where \( x_i \) are the data points and \( n \) is the number of data points in the sample.
+    ''' 2. **Sample Variance (Second Central Moment):**
+    '''    The sample variance measures the spread or dispersion of the data points around the sample mean.
+    '''      \[
+    '''      s^2 = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2
+    '''      \]
+    '''    The denominator \( n-1 \) is used instead of \( n \) to provide an unbiased estimate of the population variance.
+    ''' 3. **Sample Standard Deviation:**
+    '''    The sample standard deviation is the square root of the sample variance and is also a measure of dispersion.
+    '''      \[
+    '''      s = \sqrt{s^2}
+    '''      \]
+    ''' 4. **Higher-Order Sample Moments:**
+    '''    Higher-order moments describe the shape of the distribution. For example:
+    '''    - **Third Moment:** Measures skewness, which indicates the asymmetry of the data distribution.
+    '''    - **Fourth Moment:** Measures kurtosis, which indicates the "tailedness" of the data distribution.
+    '''    
+    ''' ### Calculation:
+    ''' 
+    ''' To calculate sample moments, you simply apply the formulas to your data set. For instance, to find the sample mean,
+    ''' you add up all the data points and divide by the number of points.
+    ''' 
+    ''' ### Use:
+    ''' 
+    ''' Sample moments are used to:
+    ''' - Estimate population parameters.
+    ''' - Assess the shape of the data distribution (e.g., normality, skewness, kurtosis).
+    ''' - Form the basis for many statistical tests and procedures.
+    ''' 
+    ''' ### Properties:
+    ''' - **Unbiasedness:** Some sample moments are designed to be unbiased estimators, meaning that the expected value of the sample moment equals the population moment.
+    ''' - **Efficiency:** Different sample moments may have different levels of variability; some are more efficient than others.
+    ''' - **Robustness:** Certain moments are more robust to outliers than others.
+    ''' 
+    ''' ### Example:
+    ''' If you have a sample of data: \( \{2, 4, 4, 4, 5, 5, 7, 9\} \), you can calculate the sample mean, variance, 
+    ''' and other moments to understand the central tendency, dispersion, and shape of the data distribution.
+    ''' 
+    ''' sample moments are fundamental tools in statistics for summarizing and understanding the characteristics of
+    ''' a data set. They provide a way to quantify features such as location, spread, and shape, which are essential 
+    ''' for further statistical analysis.
+    ''' 
     ''' @author Will_and_Sara
     ''' </summary>
     Public Class ProductMoments
