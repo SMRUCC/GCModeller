@@ -58,7 +58,7 @@
 
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
+Imports std = System.Math
 
 '
 ' * To change this license header, choose License Headers in Project Properties.
@@ -96,14 +96,14 @@ Namespace MomentFunctions
             Dim ksums As Double = 0
 
             For i As Integer = 0 To data.Length - 1
-                skewsums += stdNum.Pow((data(i) - _Mean), 3)
-                ksums += stdNum.Pow(((data(i) - _Mean) / _StandardDeviation), 4)
+                skewsums += std.Pow((data(i) - _Mean), 3)
+                ksums += std.Pow(((data(i) - _Mean) / _StandardDeviation), 4)
             Next
 
-            'just alittle more stdNum...
+            'just alittle more math...
             ksums *= (count * (count + 1)) \ ((count - 1) * (count - 2) * (count - 3))
-            _Skew = (count * skewsums) / ((count - 1) * (count - 2) * stdNum.Pow(_StandardDeviation, 3))
-            _Kurtosis = ksums - ((3 * (stdNum.Pow(count - 1, 2))) / ((count - 2) * (count - 3)))
+            _Skew = (count * skewsums) / ((count - 1) * (count - 2) * std.Pow(_StandardDeviation, 3))
+            _Kurtosis = ksums - ((3 * (std.Pow(count - 1, 2))) / ((count - 2) * (count - 3)))
 
             'figure out an efficent algorithm for median...
             Median = data.Median
