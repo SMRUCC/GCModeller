@@ -139,21 +139,21 @@ Namespace BarPlot.Histogram
             For Each block As HistogramData In hist.data
                 Dim pos As PointF = scaler.Translate(block.x1, block.y)
                 Dim sizeF As New SizeF With {
-                            .Width = scaler.TranslateX(block.x2) - scaler.TranslateX(block.x1),
-                            .Height = region.Bottom - scaler.TranslateY(block.y)
-                        }
+                    .Width = scaler.TranslateX(block.x2) - scaler.TranslateX(block.x1),
+                    .Height = region.Bottom - scaler.TranslateY(block.y)
+                }
                 Dim rect As New RectangleF With {
-                            .Location = pos,
-                            .Size = sizeF
-                        }
+                    .Location = pos,
+                    .Size = sizeF
+                }
 
                 Call g.FillRectangle(b, rect)
 
                 If drawRect Then
                     Call g.DrawRectangle(
-                                Pens.Black,
-                                rect.Left, rect.Top,
-                                rect.Width, rect.Height)
+                        Pens.Black,
+                        rect.Left, rect.Top,
+                        rect.Width, rect.Height)
                 End If
             Next
         End Sub

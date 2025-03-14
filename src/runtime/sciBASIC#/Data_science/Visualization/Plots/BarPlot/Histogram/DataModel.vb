@@ -285,7 +285,13 @@ Namespace BarPlot.Histogram
         End Sub
 
         Public Overrides Function ToString() As String
-            Return legend.ToString
+            If data.IsNullOrEmpty Then
+                Return legend.ToString
+            End If
+
+            Dim range As New DoubleRange(data.Select(Function(a) {a.x1, a.x2}).IteratesALL)
+
+            Return $"[{range.Min} - {range.Max}] {legend.ToString}"
         End Function
 
         Public Function GetLine(color As Color, width!, ptSize!, Optional type As DashStyle = DashStyle.Solid) As SerialData
