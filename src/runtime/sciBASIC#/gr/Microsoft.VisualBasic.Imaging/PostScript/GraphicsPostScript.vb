@@ -566,7 +566,12 @@ Namespace PostScript
         End Function
 
         Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, ByRef x As Single, ByRef y As Single, angle As Single)
-            Throw New NotImplementedException()
+            Call painting.Add(New Elements.Text With {
+                .font = New CSSFont(font, brush),
+                .location = New PointF(x, y),
+                .rotation = angle,
+                .text = s
+            })
         End Sub
 
         Public Overrides Function GetStringPath(s As String, rect As RectangleF, font As Font) As GraphicsPath
