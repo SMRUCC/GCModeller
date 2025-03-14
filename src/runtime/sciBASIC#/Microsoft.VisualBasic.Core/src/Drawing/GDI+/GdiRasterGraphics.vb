@@ -108,14 +108,11 @@ Namespace Imaging.Driver
         Public ReadOnly Property content_type As String
             Get
                 Select Case Driver
-                    Case Drivers.GDI
-                        Return "image/png"
-                    Case Drivers.PS
-                        Return "application/postscript"
-                    Case Drivers.SVG
-                        Return "image/svg+xml"
-                    Case Drivers.WMF
-                        Return "application/x-wmf"
+                    Case Drivers.GDI : Return "image/png"
+                    Case Drivers.PostScript : Return "application/postscript"
+                    Case Drivers.SVG : Return "image/svg+xml"
+                    Case Drivers.WMF : Return "application/x-wmf"
+
                     Case Else
                         Return "application/octet-stream"
                 End Select

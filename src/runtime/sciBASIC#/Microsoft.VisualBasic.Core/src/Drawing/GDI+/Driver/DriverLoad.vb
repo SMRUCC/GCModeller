@@ -142,6 +142,10 @@ Namespace Imaging.Driver
             Return __default
         End Function
 
+        Public Function GetData(g As IGraphics, padding As Integer()) As IGraphicsData
+            Return UseGraphicsDevice(g.Driver).GetData(g, padding)
+        End Function
+
         Public Function CreateGraphicsDevice(background As Image,
                                              Optional direct_access As Boolean = True,
                                              Optional driver As Drivers = Drivers.Default) As IGraphics
@@ -149,14 +153,7 @@ Namespace Imaging.Driver
                 driver = DefaultGraphicsDevice()
             End If
 
-            Select Case driver
-                Case Drivers.GDI : Return libgdiplus_raster.CreateCanvas2D(background, direct_access)
-                Case Drivers.PDF : Return pdf.CreateCanvas2D(background, direct_access)
-                Case Drivers.SVG : Return svg.CreateCanvas2D(background, direct_access)
-                Case Drivers.PostScript : Return ps.CreateCanvas2D(background, direct_access)
-                Case Else
-                    Throw New NotImplementedException(driver.Description)
-            End Select
+            Return UseGraphicsDevice(driver).CreateCanvas2D(background, direct_access)
         End Function
 
         Public Function CreateGraphicsDevice(background As Bitmap,
@@ -166,14 +163,7 @@ Namespace Imaging.Driver
                 driver = DefaultGraphicsDevice()
             End If
 
-            Select Case driver
-                Case Drivers.GDI : Return libgdiplus_raster.CreateCanvas2D(background, direct_access)
-                Case Drivers.PDF : Return pdf.CreateCanvas2D(background, direct_access)
-                Case Drivers.SVG : Return svg.CreateCanvas2D(background, direct_access)
-                Case Drivers.PostScript : Return ps.CreateCanvas2D(background, direct_access)
-                Case Else
-                    Throw New NotImplementedException(driver.Description)
-            End Select
+            Return UseGraphicsDevice(driver).CreateCanvas2D(background, direct_access)
         End Function
 
         Const skia_driver = "A skiasharp graphics driver was wrapped by the Microsoft.VisualBasic.Drawing(https://github.com/xieguigang/Microsoft.VisualBasic.Drawing) project, call the method at the very begining of your program startup: Microsoft.VisualBasic.Drawing.SkiaDriver.Register()."
