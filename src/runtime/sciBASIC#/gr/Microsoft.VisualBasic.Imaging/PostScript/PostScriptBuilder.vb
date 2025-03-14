@@ -77,6 +77,18 @@ Namespace PostScript
         Friend size As Size
         Friend originx, originy As Single
 
+        Public ReadOnly Property width As Integer
+            Get
+                Return size.Width
+            End Get
+        End Property
+
+        Public ReadOnly Property height As Integer
+            Get
+                Return size.Height
+            End Get
+        End Property
+
         Sub New()
         End Sub
 
