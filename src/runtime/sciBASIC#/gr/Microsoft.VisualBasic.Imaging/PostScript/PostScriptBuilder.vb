@@ -109,7 +109,7 @@ Namespace PostScript
             Dim scaleY = d3js.scale.linear.domain(values:=New Integer() {0, size.Height}).range(values:={0, newSize.Height})
 
             For Each element As PSElement In paints
-
+                Call canvas.Add(element.ScaleTo(scaleX, scaleY))
             Next
 
             Return canvas
