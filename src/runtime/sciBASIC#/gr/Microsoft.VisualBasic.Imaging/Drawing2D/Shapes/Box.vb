@@ -70,6 +70,12 @@ Namespace Drawing2D.Shapes
         Public Property fill As String
         Public Property border As Stroke
 
+        Public Overrides ReadOnly Property Size As SizeF
+            Get
+                Return box
+            End Get
+        End Property
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -88,7 +94,7 @@ Namespace Drawing2D.Shapes
         Sub New(rect As Rectangle, color As Color)
             Call MyBase.New(rect.Location)
 
-            Me.box = rect.Size
+            Me.box = New SizeF(rect.Width, rect.Height)
             Me.fill = color.ToHtmlColor
         End Sub
 
@@ -103,12 +109,6 @@ Namespace Drawing2D.Shapes
             Me.box = rect.Size
             Me.fill = color.ToHtmlColor
         End Sub
-
-        Public Overrides ReadOnly Property Size As SizeF
-            Get
-                Return box
-            End Get
-        End Property
 
         Public Shared Sub DrawRectangle(ByRef g As IGraphics,
                                         topLeft As Point,

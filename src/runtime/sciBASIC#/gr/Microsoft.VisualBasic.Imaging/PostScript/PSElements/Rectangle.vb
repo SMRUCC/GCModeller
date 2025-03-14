@@ -99,7 +99,7 @@ Namespace PostScript.Elements
 
         Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
             Dim box = shape.DrawingRegion
-            box = New RectangleF(scaleX(box.X), scaleY(box.Y), box.Width, box.Height)
+            box = New RectangleF(scaleX(box.X), scaleY(box.Y), scaleX(box.Width), scaleY(box.Height))
             Return New Rectangle(box, shape.fill.TranslateColor)
         End Function
     End Class
