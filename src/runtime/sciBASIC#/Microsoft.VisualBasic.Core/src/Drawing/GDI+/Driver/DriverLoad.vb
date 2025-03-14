@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6e2731b70e20865198cd9e22da1b4d1, Microsoft.VisualBasic.Core\src\Drawing\GDI+\Driver\DriverLoad.vb"
+﻿#Region "Microsoft.VisualBasic::82c8423344d9eb9b1b81b5e03cf5d4c8, Microsoft.VisualBasic.Core\src\Drawing\GDI+\Driver\DriverLoad.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 176
-    '    Code Lines: 137 (77.84%)
-    ' Comment Lines: 11 (6.25%)
+    '   Total Lines: 190
+    '    Code Lines: 147 (77.37%)
+    ' Comment Lines: 11 (5.79%)
     '    - Xml Docs: 81.82%
     ' 
-    '   Blank Lines: 28 (15.91%)
-    '     File Size: 8.14 KB
+    '   Blank Lines: 32 (16.84%)
+    '     File Size: 8.63 KB
 
 
     '     Module DriverLoad
@@ -49,9 +49,10 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: CreateDefaultRasterGraphics, (+4 Overloads) CreateGraphicsDevice, DefaultGraphicsDevice, LoadFromStream, UseGraphicsDevice
+    '         Function: CreateDefaultRasterGraphics, (+4 Overloads) CreateGraphicsDevice, DefaultGraphicsDevice, GetData, LoadFromStream
+    '                   MeasureTextSize, UseGraphicsDevice
     ' 
-    '         Sub: (+2 Overloads) Register
+    '         Sub: (+3 Overloads) Register
     ' 
     ' 
     ' /********************************************************************************/

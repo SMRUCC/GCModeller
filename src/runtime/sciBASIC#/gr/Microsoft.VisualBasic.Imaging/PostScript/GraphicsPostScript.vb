@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e36980e56afc3a1508913f687405548d, gr\Microsoft.VisualBasic.Imaging\PostScript\GraphicsPS.vb"
+﻿#Region "Microsoft.VisualBasic::2d129aa4ec27c6f433ef2c8466ed0e4e, gr\Microsoft.VisualBasic.Imaging\PostScript\GraphicsPostScript.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 507
-    '    Code Lines: 385 (75.94%)
-    ' Comment Lines: 10 (1.97%)
+    '   Total Lines: 520
+    '    Code Lines: 396 (76.15%)
+    ' Comment Lines: 13 (2.50%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 112 (22.09%)
-    '     File Size: 20.29 KB
+    '   Blank Lines: 111 (21.35%)
+    '     File Size: 21.00 KB
 
 
-    '     Class GraphicsPS
+    '     Class GraphicsPostScript
     ' 
     '         Properties: Driver, RenderingOrigin, Size, TextContrast
     ' 

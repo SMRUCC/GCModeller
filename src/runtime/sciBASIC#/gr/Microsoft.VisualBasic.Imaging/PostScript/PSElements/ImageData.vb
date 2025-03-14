@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::340ff9bbe8d4bfbd8770bec267f212aa, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\ImageData.vb"
+﻿#Region "Microsoft.VisualBasic::2c1255deca4463ed10ecf3ff11082323, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\ImageData.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 27
-    '    Code Lines: 18 (66.67%)
-    ' Comment Lines: 4 (14.81%)
+    '   Total Lines: 37
+    '    Code Lines: 27 (72.97%)
+    ' Comment Lines: 4 (10.81%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 5 (18.52%)
-    '     File Size: 881 B
+    '   Blank Lines: 6 (16.22%)
+    '     File Size: 1.38 KB
 
 
     '     Class ImageData
     ' 
     '         Properties: image, location, scale, size
+    ' 
+    '         Function: ScaleTo
     ' 
     '         Sub: Paint, WriteAscii
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f0cadfe8b5f6d55ee45469740864206, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::aeb9c96aa664b2f9dc2467642b5ebc4b, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\Vector.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 10 (16.13%)
-    '     File Size: 1.81 KB
+    '     File Size: 1.80 KB
 
 
     '     Class Vector
@@ -116,4 +116,3 @@ Namespace Framework.Optimization.LBFGSB
     End Class
 
 End Namespace
-

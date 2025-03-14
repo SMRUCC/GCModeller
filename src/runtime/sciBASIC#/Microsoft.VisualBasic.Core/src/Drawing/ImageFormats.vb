@@ -1,60 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::ba60de70c07f968bb38f3064d7d38265, Microsoft.VisualBasic.Core\src\Drawing\ImageFormats.vb"
+﻿#Region "Microsoft.VisualBasic::084d32e4d441911c934ff6c225faafb9, Microsoft.VisualBasic.Core\src\Drawing\ImageFormats.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 60
-'    Code Lines: 19 (31.67%)
-' Comment Lines: 36 (60.00%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 5 (8.33%)
-'     File Size: 1.55 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Enum ImageFormats
-' 
-'         Base64, Bmp, Emf, Exif, Gif
-'         Icon, Jpeg, MemoryBmp, Pdf, Png
-'         Svg, Tiff, Webp, Wmf
-' 
-'  
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 21 (31.82%)
+    ' Comment Lines: 39 (59.09%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (9.09%)
+    '     File Size: 1.92 KB
+
+
+    '     Enum ImageFormats
+    ' 
+    '         Base64, Exif, MemoryBmp
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

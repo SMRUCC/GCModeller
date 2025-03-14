@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8a7fe56b7ec019453fec05098d17219, gr\Microsoft.VisualBasic.Imaging\Drawing2D\g.vb"
+﻿#Region "Microsoft.VisualBasic::340438475cf552c6950c804c1063774b, gr\Microsoft.VisualBasic.Imaging\Drawing2D\g.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 325
-    '    Code Lines: 192 (59.08%)
-    ' Comment Lines: 94 (28.92%)
+    '   Total Lines: 326
+    '    Code Lines: 193 (59.20%)
+    ' Comment Lines: 94 (28.83%)
     '    - Xml Docs: 88.30%
     ' 
-    '   Blank Lines: 39 (12.00%)
-    '     File Size: 13.36 KB
+    '   Blank Lines: 39 (11.96%)
+    '     File Size: 13.43 KB
 
 
     '     Delegate Sub

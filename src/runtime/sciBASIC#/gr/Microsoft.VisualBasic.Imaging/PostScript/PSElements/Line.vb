@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d4ea742408a44b8263061d20daf764e, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Line.vb"
+﻿#Region "Microsoft.VisualBasic::3dc9ac7a8ff2d416901e53d886400d39, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Line.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 59
-    '    Code Lines: 46 (77.97%)
+    '   Total Lines: 72
+    '    Code Lines: 56 (77.78%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 13 (22.03%)
-    '     File Size: 1.62 KB
+    '   Blank Lines: 16 (22.22%)
+    '     File Size: 2.20 KB
 
 
     '     Class Line
     ' 
     '         Constructor: (+3 Overloads) Sub New
+    ' 
+    '         Function: ScaleTo, ToString
+    ' 
     '         Sub: Paint, WriteAscii
     ' 
     ' 

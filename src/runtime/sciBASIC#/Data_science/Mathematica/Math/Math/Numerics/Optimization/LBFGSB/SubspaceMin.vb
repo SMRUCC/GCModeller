@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::073aad306b227363fcf8fa482e98961c, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\SubspaceMin.vb"
+﻿#Region "Microsoft.VisualBasic::aae66f861993435c8cb74793c7682fc8, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\SubspaceMin.vb"
 
     ' Author:
     ' 
@@ -327,4 +327,3 @@ Namespace Framework.Optimization.LBFGSB
     End Class
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f577ec6c85f1a0b2f180ddd0bef76d4, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\Linq.vb"
+﻿#Region "Microsoft.VisualBasic::cc390267510c534b936f70d1b4d4753c, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\Linq.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 500
-    '    Code Lines: 279 (55.80%)
-    ' Comment Lines: 169 (33.80%)
+    '   Total Lines: 517
+    '    Code Lines: 293 (56.67%)
+    ' Comment Lines: 169 (32.69%)
     '    - Xml Docs: 95.86%
     ' 
-    '   Blank Lines: 52 (10.40%)
-    '     File Size: 18.93 KB
+    '   Blank Lines: 55 (10.64%)
+    '     File Size: 19.37 KB
 
 
     '     Module Extensions
@@ -49,7 +49,7 @@
     '         Delegate Sub
     ' 
     '             Function: (+2 Overloads) [With], CopyVector, DefaultFirst, FirstOrDefault, LastOrDefault
-    '                       MaxInd, (+2 Overloads) Read, RemoveLeft, (+2 Overloads) Removes, Repeats
+    '                       MaxInd, (+2 Overloads) Read, RemoveLeft, (+2 Overloads) Removes, (+2 Overloads) Repeats
     '                       (+2 Overloads) SeqIterator, (+4 Overloads) Sequence, (+3 Overloads) ToArray, ToVector, TryCatch
     ' 
     ' 

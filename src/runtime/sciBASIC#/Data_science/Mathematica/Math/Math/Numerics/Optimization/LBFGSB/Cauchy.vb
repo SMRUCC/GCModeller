@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fe52af78750ec4cfcbdb9af09cd4110, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\Cauchy.vb"
+﻿#Region "Microsoft.VisualBasic::33f684f420861f4b3909c76d0b37df06, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\Cauchy.vb"
 
     ' Author:
     ' 
@@ -233,4 +233,3 @@ Namespace Framework.Optimization.LBFGSB
     End Class
 
 End Namespace
-

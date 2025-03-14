@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::315f192f2c3c8445f67a874edf3a4dd1, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\LineSearches\MoreThuente.vb"
+﻿#Region "Microsoft.VisualBasic::dcd9ad6aeb26539d3c7436cc21ba85bb, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\LineSearches\MoreThuente.vb"
 
     ' Author:
     ' 
@@ -557,4 +557,3 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
     End Class
 
 End Namespace
-

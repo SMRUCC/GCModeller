@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b516eaad80b7fdd14cea1c4430831ba, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElement.vb"
+﻿#Region "Microsoft.VisualBasic::26d0d125fced7574791a9313a8ea8d9c, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElement.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 71
-    '    Code Lines: 39 (54.93%)
-    ' Comment Lines: 15 (21.13%)
-    '    - Xml Docs: 93.33%
+    '   Total Lines: 86
+    '    Code Lines: 46 (53.49%)
+    ' Comment Lines: 21 (24.42%)
+    '    - Xml Docs: 95.24%
     ' 
-    '   Blank Lines: 17 (23.94%)
-    '     File Size: 1.90 KB
+    '   Blank Lines: 19 (22.09%)
+    '     File Size: 2.52 KB
 
 
     '     Class PSElement
@@ -56,6 +56,9 @@
     '         Properties: binary, text
     ' 
     '         Constructor: (+3 Overloads) Sub New
+    ' 
+    '         Function: ScaleTo
+    ' 
     '         Sub: Paint, WriteAscii
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ae98d6c966a89573901ddbdd09861ac, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Arc.vb"
+﻿#Region "Microsoft.VisualBasic::1d4437bd32c425ecc5d5ff443547f32c, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Arc.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 43
-    '    Code Lines: 36 (83.72%)
+    '   Total Lines: 55
+    '    Code Lines: 47 (85.45%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 7 (16.28%)
-    '     File Size: 1.73 KB
+    '   Blank Lines: 8 (14.55%)
+    '     File Size: 2.19 KB
 
 
     '     Class Arc
     ' 
     '         Properties: height, startAngle, stroke, sweepAngle, width
     '                     x, y
+    ' 
+    '         Function: ScaleTo
     ' 
     '         Sub: Paint, WriteAscii
     ' 

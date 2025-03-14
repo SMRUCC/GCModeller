@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e0cab9f6c20aefbd31850820d0ead63b, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Shape.vb"
+﻿#Region "Microsoft.VisualBasic::320a1f4cad52c5c786ff6202641b40b1, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Shape.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 86
-    '    Code Lines: 42 (48.84%)
-    ' Comment Lines: 30 (34.88%)
-    '    - Xml Docs: 96.67%
+    '   Total Lines: 94
+    '    Code Lines: 42 (44.68%)
+    ' Comment Lines: 38 (40.43%)
+    '    - Xml Docs: 97.37%
     ' 
-    '   Blank Lines: 14 (16.28%)
-    '     File Size: 2.76 KB
+    '   Blank Lines: 14 (14.89%)
+    '     File Size: 3.10 KB
 
 
     '     Class Shape

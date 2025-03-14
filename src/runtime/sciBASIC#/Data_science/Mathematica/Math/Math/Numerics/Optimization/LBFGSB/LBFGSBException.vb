@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9150c579b3fd29a8bdc3deab02796326, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\LBFGSBException.vb"
+﻿#Region "Microsoft.VisualBasic::f6e10c5b137a58891f0658a26f8e2595, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\LBFGSBException.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 5 (27.78%)
-    '     File Size: 374 B
+    '     File Size: 372 B
 
 
     '     Class LBFGSBException
@@ -70,4 +70,3 @@ Namespace Framework.Optimization.LBFGSB
     End Class
 
 End Namespace
-

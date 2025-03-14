@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a1fcb0df2adea2804a14751971c3529, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\Parameters.vb"
+﻿#Region "Microsoft.VisualBasic::b1ad0481a4e44c0fecc059e882448bf7, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\Parameters.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 5 (17.24%)
-    '     File Size: 937 B
+    '     File Size: 935 B
 
 
     '     Class Parameters
@@ -89,4 +89,3 @@ Namespace Framework.Optimization.LBFGSB
     End Enum
 
 End Namespace
-

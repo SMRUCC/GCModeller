@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::491d34732d3435f3aa2583f1784a98b4, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\BFGSMat.vb"
+﻿#Region "Microsoft.VisualBasic::c368d045b42e6ba591b59075ba446c2b, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\BFGSMat.vb"
 
     ' Author:
     ' 
@@ -612,4 +612,3 @@ Namespace Framework.Optimization.LBFGSB
     End Class
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::522ae03365c5c6cb2e6a7dd55671d64a, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\IGradFunction.vb"
+﻿#Region "Microsoft.VisualBasic::8b83c891cc2b84c92170a6dadd1767e3, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\IGradFunction.vb"
 
     ' Author:
     ' 
@@ -108,4 +108,3 @@ Namespace Framework.Optimization.LBFGSB
     End Class
 
 End Namespace
-

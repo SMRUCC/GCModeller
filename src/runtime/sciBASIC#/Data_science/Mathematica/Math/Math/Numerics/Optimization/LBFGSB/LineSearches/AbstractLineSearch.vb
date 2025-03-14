@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcad9caa11020bb24193671c55fe1184, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\LineSearches\AbstractLineSearch.vb"
+﻿#Region "Microsoft.VisualBasic::589cbb02424af2b8160391b0232b169c, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\LineSearches\AbstractLineSearch.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 4 (15.38%)
-    '     File Size: 689 B
+    '     File Size: 687 B
 
 
     '     Class AbstractLineSearch
@@ -78,4 +78,3 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
     End Class
 
 End Namespace
-

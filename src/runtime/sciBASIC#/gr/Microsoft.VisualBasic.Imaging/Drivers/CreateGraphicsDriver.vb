@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d9d97f64e93b1c4908d5b6e87077390, gr\Microsoft.VisualBasic.Imaging\Drivers\CreateGraphicsDriver.vb"
+﻿#Region "Microsoft.VisualBasic::f38d0136737c64d00ed0f623d915169a, gr\Microsoft.VisualBasic.Imaging\Drivers\CreateGraphicsDriver.vb"
 
     ' Author:
     ' 
@@ -34,25 +34,29 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 95
-    '    Code Lines: 68 (71.58%)
-    ' Comment Lines: 9 (9.47%)
+    '   Total Lines: 128
+    '    Code Lines: 94 (73.44%)
+    ' Comment Lines: 9 (7.03%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 18 (18.95%)
-    '     File Size: 4.00 KB
+    '   Blank Lines: 25 (19.53%)
+    '     File Size: 5.60 KB
 
 
     '     Module ImageDriver
     ' 
     '         Function: GraphicsPlot
     ' 
-    '         Sub: Register
+    '         Sub: Register, RegisterPostScript
     '         Class RasterInterop
     ' 
     '             Function: (+2 Overloads) CreateCanvas2D, CreateGraphic, GetData
     ' 
     '         Class SvgInterop
+    ' 
+    '             Function: (+2 Overloads) CreateCanvas2D, CreateGraphic, GetData
+    ' 
+    '         Class PostScriptInterop
     ' 
     '             Function: (+2 Overloads) CreateCanvas2D, CreateGraphic, GetData
     ' 

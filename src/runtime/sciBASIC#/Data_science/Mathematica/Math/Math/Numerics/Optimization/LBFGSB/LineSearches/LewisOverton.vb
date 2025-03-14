@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::49b9e17b714c75b241c821dc9fdbb9fc, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\LineSearches\LewisOverton.vb"
+﻿#Region "Microsoft.VisualBasic::8ea3db0c09f604ce912a70196b59ac6c, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\LineSearches\LewisOverton.vb"
 
     ' Author:
     ' 
@@ -264,4 +264,3 @@ Namespace Framework.Optimization.LBFGSB.LineSearches
     End Class
 
 End Namespace
-
