@@ -130,6 +130,7 @@ Namespace Drawing2D
             Dim defaultDriver = ParseDriverEnumValue(type)
 
             Call Driver.DefaultGraphicsDevice([default]:=defaultDriver)
+            Call ImageDriver.RegisterPostScript()
 
 #If NET48 Then
             ' use the internal windows gdi+ library

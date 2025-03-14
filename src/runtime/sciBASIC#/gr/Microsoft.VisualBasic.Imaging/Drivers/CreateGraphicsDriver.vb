@@ -66,6 +66,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.PostScript
 Imports Microsoft.VisualBasic.Imaging.SVG
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 
@@ -95,6 +96,10 @@ Namespace Driver
                 Return device.GetData(g, PaddingLayout.EvaluateFromCSS(css, desc.padding))
             End Using
         End Function
+
+        Public Sub RegisterPostScript()
+            Call DriverLoad.Register(New PostScriptInterop, Drivers.PostScript)
+        End Sub
 
 #If NET48 Then
 
@@ -160,19 +165,23 @@ Namespace Driver
         Private Class PostScriptInterop : Inherits DeviceInterop
 
             Public Overrides Function CreateGraphic(size As Size, fill As Color, dpi As Integer) As IGraphics
-                Throw New NotImplementedException()
+                Dim g As New GraphicsPostScript(size, New Size(dpi, dpi))
+                g.Clear(fill)
+                Return g
             End Function
 
             Public Overrides Function CreateCanvas2D(background As Bitmap, direct_access As Boolean) As IGraphics
-                Throw New NotImplementedException()
+                Return CreateCanvas2D(CType(background, Image), direct_access)
             End Function
 
             Public Overrides Function CreateCanvas2D(background As Image, direct_access As Boolean) As IGraphics
-                Throw New NotImplementedException()
+                Dim g As New GraphicsPostScript(background.Size, New Size(100, 100))
+                Call g.DrawImageUnscaled(background, New Point)
+                Return g
             End Function
 
             Public Overrides Function GetData(g As IGraphics, padding() As Integer) As IGraphicsData
-                Throw New NotImplementedException()
+                Return New PostScriptData(g.GetContextInfo, g.Size, New Padding(padding))
             End Function
         End Class
     End Module
