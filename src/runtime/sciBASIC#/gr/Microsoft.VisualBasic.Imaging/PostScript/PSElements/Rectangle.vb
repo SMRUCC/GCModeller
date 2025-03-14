@@ -86,7 +86,8 @@ Namespace PostScript.Elements
             Dim rect = shape.DrawingRegion
 
             If Not shape.border Is Nothing Then
-                Call g.DrawRectangle(g.LoadEnvironment.GetPen(shape.border), rect)
+                Dim pen = g.LoadEnvironment.GetPen(shape.border)
+                Call g.DrawRectangle(pen, rect)
             Else
                 ' 20250314
                 ' draw rectangle of the fill color always black
@@ -104,7 +105,9 @@ Namespace PostScript.Elements
         Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
             Dim box = shape.DrawingRegion
             box = New RectangleF(scaleX(box.X), scaleY(box.Y), scaleX(box.Width), scaleY(box.Height))
-            Return New Rectangle(box, shape.fill.TranslateColor)
+            Dim rect As New Rectangle(box, shape.fill.TranslateColor)
+            rect.shape.border = shape.border
+            Return rect
         End Function
     End Class
 End Namespace
