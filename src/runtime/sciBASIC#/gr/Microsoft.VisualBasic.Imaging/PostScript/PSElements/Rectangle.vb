@@ -83,7 +83,14 @@ Namespace PostScript.Elements
         End Sub
 
         Friend Overrides Sub Paint(g As IGraphics)
-            Call g.DrawRectangle(g.LoadEnvironment.GetPen(shape.border), shape.DrawingRegion)
+            Dim rect = shape.DrawingRegion
+
+            If Not shape.border Is Nothing Then
+                Call g.DrawRectangle(g.LoadEnvironment.GetPen(shape.border), rect)
+            End If
+            If Not shape.fill.StringEmpty(, True) Then
+                Call g.FillRectangle(shape.fill.GetBrush, rect)
+            End If
         End Sub
 
         Public Overrides Function ToString() As String
