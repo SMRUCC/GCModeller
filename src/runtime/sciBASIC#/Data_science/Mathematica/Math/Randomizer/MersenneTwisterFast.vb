@@ -1,62 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::fb7d384016451b2e147093e9fe1a3eff, Microsoft.VisualBasic.Core\src\Language\Language\Java\MersenneTwisterFast.vb"
+﻿#Region "Microsoft.VisualBasic::2c4e4e4e0fd0b3c720ddf592d597b8c2, Data_science\Mathematica\Math\Randomizer\MersenneTwisterFast.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 917
-'    Code Lines: 625 (68.16%)
-' Comment Lines: 159 (17.34%)
-'    - Xml Docs: 54.09%
-' 
-'   Blank Lines: 133 (14.50%)
-'     File Size: 41.24 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class MersenneTwisterFast
-' 
-'         Properties: Seed
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: nextBoolean, nextByte, nextChar, nextDouble, nextFloat
-'                   nextGamma, nextGaussian, (+2 Overloads) nextInt, nextLong, nextShort
-'                   permuted, shuffled
-' 
-'         Sub: nextBytes, permute, (+2 Overloads) shuffle
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 917
+    '    Code Lines: 623 (67.94%)
+    ' Comment Lines: 161 (17.56%)
+    '    - Xml Docs: 53.42%
+    ' 
+    '   Blank Lines: 133 (14.50%)
+    '     File Size: 38.17 KB
+
+
+    ' Class MersenneTwisterFast
+    ' 
+    '     Properties: Seed
+    ' 
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Function: nextBoolean, nextByte, nextChar, nextDouble, nextFloat
+    '               nextGamma, nextGaussian, (+2 Overloads) nextInt, nextLong, nextShort
+    '               permuted, shuffled
+    ' 
+    '     Sub: nextBytes, permute, (+2 Overloads) shuffle
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
