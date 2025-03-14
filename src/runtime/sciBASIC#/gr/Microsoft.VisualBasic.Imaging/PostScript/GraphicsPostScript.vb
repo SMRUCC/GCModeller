@@ -76,7 +76,10 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace PostScript
 
-    Public Class GraphicsPS : Inherits IGraphics
+    ''' <summary>
+    ''' Graphics for create postscript 
+    ''' </summary>
+    Public Class GraphicsPostScript : Inherits IGraphics
 
         Public Overrides Property RenderingOrigin As Point
         Public Overrides Property TextContrast As Integer

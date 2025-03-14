@@ -156,5 +156,24 @@ Namespace Driver
             End Function
         End Class
 #End If
+
+        Private Class PostScriptInterop : Inherits DeviceInterop
+
+            Public Overrides Function CreateGraphic(size As Size, fill As Color, dpi As Integer) As IGraphics
+                Throw New NotImplementedException()
+            End Function
+
+            Public Overrides Function CreateCanvas2D(background As Bitmap, direct_access As Boolean) As IGraphics
+                Throw New NotImplementedException()
+            End Function
+
+            Public Overrides Function CreateCanvas2D(background As Image, direct_access As Boolean) As IGraphics
+                Throw New NotImplementedException()
+            End Function
+
+            Public Overrides Function GetData(g As IGraphics, padding() As Integer) As IGraphicsData
+                Throw New NotImplementedException()
+            End Function
+        End Class
     End Module
 End Namespace
