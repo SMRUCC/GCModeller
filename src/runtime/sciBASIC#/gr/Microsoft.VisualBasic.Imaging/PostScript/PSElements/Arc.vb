@@ -63,10 +63,6 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports std = System.Math
 
-#If NET48 Then
-Imports System.Drawing
-#End If
-
 Namespace PostScript.Elements
 
     Public Class Arc : Inherits PSElement
