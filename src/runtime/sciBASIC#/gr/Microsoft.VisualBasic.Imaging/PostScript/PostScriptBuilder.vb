@@ -60,6 +60,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language.C
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace PostScript
@@ -67,12 +68,19 @@ Namespace PostScript
     ''' <summary>
     ''' A helper module for convert the postscript object as ASCII script text
     ''' </summary>
-    Public Class PostScriptBuilder
+    Public Class PostScriptBuilder : Implements Enumeration(Of PSElement)
 
         Dim paints As New List(Of PSElement)
 
         Friend size As Size
         Friend originx, originy As Single
+
+        Sub New()
+        End Sub
+
+        Sub New(size As Size)
+            Me.size = size
+        End Sub
 
         ''' <summary>
         ''' Add a painting shape element into the canvas
@@ -96,7 +104,15 @@ Namespace PostScript
         ''' <param name="newSize"></param>
         ''' <returns></returns>
         Public Function Resize(newSize As Size) As PostScriptBuilder
-            Throw New NotImplementedException
+            Dim canvas As New PostScriptBuilder(newSize)
+            Dim scaleX = d3js.scale.linear.domain(values:=New Integer() {0, size.Width}).range(values:={0, newSize.Width})
+            Dim scaleY = d3js.scale.linear.domain(values:=New Integer() {0, size.Height}).range(values:={0, newSize.Height})
+
+            For Each element As PSElement In paints
+
+            Next
+
+            Return canvas
         End Function
 
         ''' <summary>
@@ -167,5 +183,11 @@ Namespace PostScript
 
             fprintf(fp, "%\n%\n%\n%EOF\n")
         End Sub
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of PSElement) Implements Enumeration(Of PSElement).GenericEnumerator
+            For Each element As PSElement In paints
+                Yield element
+            Next
+        End Function
     End Class
 End Namespace

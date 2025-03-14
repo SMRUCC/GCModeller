@@ -77,6 +77,14 @@ Namespace PostScript
         Friend MustOverride Sub WriteAscii(ps As Writer)
         Friend MustOverride Sub Paint(g As IGraphics)
 
+        ''' <summary>
+        ''' scale the current element to new location
+        ''' </summary>
+        ''' <param name="scaleX"></param>
+        ''' <param name="scaleY"></param>
+        ''' <returns></returns>
+        Friend MustOverride Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+
     End Class
 
     ''' <summary>
@@ -131,6 +139,13 @@ Namespace PostScript
         ''' <param name="g"></param>
         Friend Overrides Sub Paint(g As IGraphics)
         End Sub
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Return New PsComment With {
+                .binary = binary,
+                .text = text
+            }
+        End Function
     End Class
 
 End Namespace
