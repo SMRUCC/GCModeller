@@ -89,5 +89,11 @@ Namespace PostScript.Elements
         Public Overrides Function ToString() As String
             Return $"({shape.Location.X},{shape.Location.Y}) rectangle(fill={shape.fill}, size=[{shape.Size.Width},{shape.Size.Height}])"
         End Function
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Dim box = shape.DrawingRegion
+            box = New RectangleF(scaleX(box.X), scaleY(box.Y), box.Width, box.Height)
+            Return New Rectangle(box, shape.fill.TranslateColor)
+        End Function
     End Class
 End Namespace

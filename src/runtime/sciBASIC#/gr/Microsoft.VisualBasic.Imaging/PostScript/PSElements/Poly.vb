@@ -79,6 +79,10 @@ Namespace PostScript.Elements
         Friend Overrides Sub Paint(g As IGraphics)
             Throw New NotImplementedException()
         End Sub
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Throw New NotImplementedException()
+        End Function
     End Class
 
     Public Class Poly : Inherits Polygon

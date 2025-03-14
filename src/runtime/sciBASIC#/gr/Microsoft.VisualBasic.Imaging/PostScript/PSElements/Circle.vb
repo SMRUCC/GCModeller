@@ -86,5 +86,15 @@ Namespace PostScript.Elements
                 Call g.DrawCircle(center, shape.Radius, g.LoadEnvironment.GetPen(stroke), fill:=False)
             End If
         End Sub
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Dim O As Shapes.Circle = shape
+            Dim moveTo As New PointF(scaleX(O.Location.X), scaleY(O.Location.Y))
+
+            Return New Circle With {
+                .stroke = stroke,
+                .shape = New Shapes.Circle(moveTo, O.Radius * 2, O.fill.TranslateColor)
+            }
+        End Function
     End Class
 End Namespace

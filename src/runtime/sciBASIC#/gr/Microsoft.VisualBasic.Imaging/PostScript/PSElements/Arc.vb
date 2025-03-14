@@ -96,5 +96,17 @@ Namespace PostScript.Elements
         Friend Overrides Sub Paint(g As IGraphics)
             Call g.DrawArc(g.LoadEnvironment.GetPen(stroke), x, y, width, height, startAngle, sweepAngle)
         End Sub
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Return New Arc With {
+                .height = height,
+                .startAngle = startAngle,
+                .stroke = stroke,
+                .sweepAngle = sweepAngle,
+                .width = width,
+                .x = scaleX(x),
+                .y = scaleY(y)
+            }
+        End Function
     End Class
 End Namespace

@@ -99,10 +99,18 @@ Namespace Drawing2D.Shapes
         ''' <remarks></remarks>
         Public Property EnableAutoLayout As Boolean = True
 
+        ''' <summary>
+        ''' create new shape element with a given <see cref="Location"/> value
+        ''' </summary>
+        ''' <param name="initLoci"></param>
         Sub New(initLoci As Point)
             Location = initLoci.PointF
         End Sub
 
+        ''' <summary>
+        ''' create new shape element with a given <see cref="Location"/> value
+        ''' </summary>
+        ''' <param name="loc"></param>
         Sub New(loc As PointF)
             Location = loc
         End Sub

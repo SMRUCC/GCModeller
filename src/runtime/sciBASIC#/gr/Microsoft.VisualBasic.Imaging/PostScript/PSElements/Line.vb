@@ -114,5 +114,14 @@ Namespace PostScript.Elements
         Public Overrides Function ToString() As String
             Return $"({shape.A.X},{shape.A.Y}) -> line({shape.B.X},{shape.B.Y}) [{shape.Stroke.fill}]"
         End Function
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Dim a = shape.A
+            Dim b = shape.B
+
+            Return New Line With {
+                .shape = New Shapes.Line(New PointF(scaleX(a.X), scaleY(a.Y)), New PointF(scaleX(b.X), scaleY(b.Y)), shape.Stroke)
+            }
+        End Function
     End Class
 End Namespace

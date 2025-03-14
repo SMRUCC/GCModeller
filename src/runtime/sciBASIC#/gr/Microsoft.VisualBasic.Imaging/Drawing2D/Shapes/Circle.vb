@@ -73,6 +73,13 @@ Namespace Drawing2D.Shapes
     Public Class Circle : Inherits Shape
 
         Public Property fill As String
+        Public Overrides ReadOnly Property Size As SizeF
+
+        Public ReadOnly Property Radius As Single
+            Get
+                Return std.Min(Size.Width, Size.Height) / 2
+            End Get
+        End Property
 
         ''' <summary>
         ''' 
@@ -89,14 +96,6 @@ Namespace Drawing2D.Shapes
         Public Sub New(d%, fill As Color)
             Me.New(Nothing, d, fill)
         End Sub
-
-        Public Overrides ReadOnly Property Size As SizeF
-
-        Public ReadOnly Property Radius As Single
-            Get
-                Return std.Min(Size.Width, Size.Height) / 2
-            End Get
-        End Property
 
         Public Overrides Function Draw(ByRef g As IGraphics, Optional overridesLoci As Point = Nothing) As RectangleF
             Dim rect = MyBase.Draw(g, overridesLoci)

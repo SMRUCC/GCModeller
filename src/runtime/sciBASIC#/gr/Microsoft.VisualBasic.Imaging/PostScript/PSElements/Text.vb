@@ -84,6 +84,15 @@ Namespace PostScript.Elements
         Public Overrides Function ToString() As String
             Return $"({location.X},{location.Y}) {text} [{font.color}]"
         End Function
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Return New Text With {
+                .font = font,
+                .location = New PointF(scaleX(location.X), scaleY(location.Y)),
+                .rotation = rotation,
+                .text = text
+            }
+        End Function
     End Class
 
 End Namespace

@@ -80,5 +80,14 @@ Namespace PostScript.Elements
         Friend Overrides Sub Paint(g As IGraphics)
             Call g.DrawImage(DriverLoad.LoadFromStream(image.ToStream), location.X, location.Y, size.Width, size.Height)
         End Sub
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Return New ImageData With {
+                .image = image,
+                .location = New PointF(scaleX(location.X), scaleY(location.Y)),
+                .scale = scale,
+                .size = size
+            }
+        End Function
     End Class
 End Namespace
