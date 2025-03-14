@@ -85,5 +85,9 @@ Namespace PostScript.Elements
         Friend Overrides Sub Paint(g As IGraphics)
             Call g.DrawRectangle(g.LoadEnvironment.GetPen(shape.border), shape.DrawingRegion)
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"({shape.Location.X},{shape.Location.Y}) rectangle(fill={shape.fill}, size=[{shape.Size.Width},{shape.Size.Height}])"
+        End Function
     End Class
 End Namespace

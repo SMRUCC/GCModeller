@@ -110,5 +110,9 @@ Namespace PostScript.Elements
 
             Call g.DrawLine(pen, a, b)
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"({shape.A.X},{shape.A.Y}) -> line({shape.B.X},{shape.B.Y}) [{shape.Stroke.fill}]"
+        End Function
     End Class
 End Namespace

@@ -56,6 +56,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace PostScript.Elements
 
@@ -73,8 +74,16 @@ Namespace PostScript.Elements
         End Sub
 
         Friend Overrides Sub Paint(g As IGraphics)
-            Throw New NotImplementedException()
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim font As Font = css.GetFont(Me.font)
+            Dim br As New SolidBrush(Me.font.color.TranslateColor)
+
+            Call g.DrawString(text, font, br, location.X, location.Y, rotation)
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"({location.X},{location.Y}) {text} [{font.color}]"
+        End Function
     End Class
 
 End Namespace

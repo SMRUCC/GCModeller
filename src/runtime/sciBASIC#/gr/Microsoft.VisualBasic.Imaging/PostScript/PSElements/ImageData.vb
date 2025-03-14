@@ -56,6 +56,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Net.Http
 
 Namespace PostScript.Elements
@@ -77,7 +78,7 @@ Namespace PostScript.Elements
         End Sub
 
         Friend Overrides Sub Paint(g As IGraphics)
-            Throw New NotImplementedException()
+            Call g.DrawImage(DriverLoad.LoadFromStream(image.ToStream), location.X, location.Y, size.Width, size.Height)
         End Sub
     End Class
 End Namespace
