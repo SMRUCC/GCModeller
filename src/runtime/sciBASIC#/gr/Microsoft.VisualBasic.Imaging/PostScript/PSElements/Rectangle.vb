@@ -87,8 +87,12 @@ Namespace PostScript.Elements
 
             If Not shape.border Is Nothing Then
                 Call g.DrawRectangle(g.LoadEnvironment.GetPen(shape.border), rect)
-            End If
-            If Not shape.fill.StringEmpty(, True) Then
+            Else
+                ' 20250314
+                ' draw rectangle of the fill color always black
+                ' so if border is not nothing
+                ' then it means is draw rectangle action
+                ' skip of fill rectangle or the rectangle black always
                 Call g.FillRectangle(shape.fill.GetBrush, rect)
             End If
         End Sub
