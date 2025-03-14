@@ -126,5 +126,9 @@ Namespace PostScript.Elements
                 .shape = New Shapes.Line(New PointF(scaleX(a.X), scaleY(a.Y)), New PointF(scaleX(b.X), scaleY(b.Y)), shape.Stroke)
             }
         End Function
+
+        Friend Overrides Function GetXy() As PointF
+            Return shape.Location
+        End Function
     End Class
 End Namespace

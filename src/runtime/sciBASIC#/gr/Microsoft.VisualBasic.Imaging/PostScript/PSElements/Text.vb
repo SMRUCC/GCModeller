@@ -95,6 +95,10 @@ Namespace PostScript.Elements
                 .text = text
             }
         End Function
+
+        Friend Overrides Function GetXy() As PointF
+            Return location
+        End Function
     End Class
 
 End Namespace

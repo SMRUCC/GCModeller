@@ -112,5 +112,9 @@ Namespace PostScript.Elements
             rect.shape.border = shape.border
             Return rect
         End Function
+
+        Friend Overrides Function GetXy() As PointF
+            Return shape.Location
+        End Function
     End Class
 End Namespace

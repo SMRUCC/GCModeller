@@ -91,5 +91,9 @@ Namespace PostScript.Elements
                 .size = size
             }
         End Function
+
+        Friend Overrides Function GetXy() As PointF
+            Return location
+        End Function
     End Class
 End Namespace

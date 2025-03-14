@@ -85,6 +85,10 @@ Namespace PostScript.Elements
         Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
             Throw New NotImplementedException()
         End Function
+
+        Friend Overrides Function GetXy() As PointF
+            Return New PointF(points.Average(Function(p) p.X), points.Average(Function(p) p.Y))
+        End Function
     End Class
 
     Public Class Poly : Inherits Polygon

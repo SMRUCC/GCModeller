@@ -98,5 +98,9 @@ Namespace PostScript.Elements
                 .shape = New Shapes.Circle(moveTo, O.Radius * 2, O.fill.TranslateColor)
             }
         End Function
+
+        Friend Overrides Function GetXy() As PointF
+            Return shape.Location
+        End Function
     End Class
 End Namespace
