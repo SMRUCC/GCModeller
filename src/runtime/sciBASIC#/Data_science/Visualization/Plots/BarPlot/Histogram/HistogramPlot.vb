@@ -117,6 +117,16 @@ Namespace BarPlot.Histogram
             Me.groups = groups
         End Sub
 
+        ''' <summary>
+        ''' Draw histogram with <see cref="HistProfile.data"/>.
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="region"></param>
+        ''' <param name="hist"></param>
+        ''' <param name="ann"></param>
+        ''' <param name="scaler"></param>
+        ''' <param name="alpha"></param>
+        ''' <param name="drawRect"></param>
         Public Shared Sub DrawSample(g As IGraphics, region As Rectangle,
                                      hist As HistProfile,
                                      ann As NamedValue(Of Color),
