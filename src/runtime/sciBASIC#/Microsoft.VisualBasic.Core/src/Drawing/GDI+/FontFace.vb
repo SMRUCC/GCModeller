@@ -193,9 +193,10 @@ Namespace Imaging
         ''' <param name="s"></param>
         ''' <param name="font"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function MeasureString(s As String, font As Font) As SizeF
-            Static g As IGraphics = DriverLoad.CreateGraphicsDevice(New Size(12, 12), driver:=Drivers.GDI)
-            Return g.MeasureString(s, font)
+            Return DriverLoad.MeasureTextSize(s, font)
         End Function
 
     End Class

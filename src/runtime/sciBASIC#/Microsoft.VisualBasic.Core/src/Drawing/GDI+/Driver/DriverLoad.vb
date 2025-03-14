@@ -114,6 +114,14 @@ Namespace Imaging.Driver
             End If
         End Function
 
+        Public Function MeasureTextSize(text As String, font As Font) As SizeF
+            If measureString Is Nothing Then
+                Throw New InvalidProgramException("missing text size measurement driver!")
+            Else
+                Return measureString(text, font)
+            End If
+        End Function
+
         ''' <summary>
         ''' 用户所指定的图形引擎驱动程序类型，但是这个值会被开发人员设定的驱动程序类型的值所覆盖，
         ''' 通常情况下，默认引擎选用的是``gdi+``引擎

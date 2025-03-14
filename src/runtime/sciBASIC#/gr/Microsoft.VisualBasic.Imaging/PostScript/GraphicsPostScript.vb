@@ -401,15 +401,20 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, ByRef point As PointF)
-            Throw New NotImplementedException()
+            Call painting.Add(New Elements.Text With {
+                .font = New CSSFont(font, brush),
+                .location = point,
+                .rotation = 0,
+                .text = s
+            })
         End Sub
 
         Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, layoutRectangle As RectangleF)
-            Throw New NotImplementedException()
+            Call DrawString(s, font, brush, layoutRectangle.Location)
         End Sub
 
         Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, x As Single, y As Single)
-
+            Call DrawString(s, font, brush, New PointF(x, y))
         End Sub
 
         Public Overrides Sub ExcludeClip(rect As Rectangle)
@@ -549,15 +554,15 @@ Namespace PostScript
         End Function
 
         Public Overrides Function MeasureString(text As String, font As Font) As SizeF
-            Throw New NotImplementedException()
+            Return DriverLoad.MeasureTextSize(text, font)
         End Function
 
         Public Overrides Function MeasureString(text As String, font As Font, width As Integer) As SizeF
-            Throw New NotImplementedException()
+            Return DriverLoad.MeasureTextSize(text, font)
         End Function
 
         Public Overrides Function MeasureString(text As String, font As Font, layoutArea As SizeF) As SizeF
-            Throw New NotImplementedException()
+            Return DriverLoad.MeasureTextSize(text, font)
         End Function
 
         Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, ByRef x As Single, ByRef y As Single, angle As Single)

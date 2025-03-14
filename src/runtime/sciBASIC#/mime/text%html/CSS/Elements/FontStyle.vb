@@ -208,6 +208,11 @@ Namespace CSS
             size = fontSize
         End Sub
 
+        Sub New(font As Font, fill As Brush)
+            Call Me.New(font)
+            color = DirectCast(fill, SolidBrush).Color.ToHtmlColor
+        End Sub
+
         Sub New(font As Font)
             family = font.Name
             style = font.Style
