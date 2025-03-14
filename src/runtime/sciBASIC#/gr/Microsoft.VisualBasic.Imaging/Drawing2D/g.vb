@@ -149,7 +149,7 @@ Namespace Drawing2D
             Select Case type
                 Case "svg" : Return Drivers.SVG
                 Case "gdi" : Return Drivers.GDI
-                Case "ps" : Return Drivers.PS
+                Case "ps" : Return Drivers.PostScript
                 Case "wmf" : Return Drivers.WMF
                 Case "pdf" : Return Drivers.PDF
                 Case Else
@@ -178,7 +178,7 @@ Namespace Drawing2D
                     Case Drivers.SVG : Return "svg"
                     Case Drivers.GDI, Drivers.Default
                         Return "png"
-                    Case Drivers.PS : Return "ps"
+                    Case Drivers.PostScript : Return "ps"
                     Case Drivers.WMF : Return "wmf"
                     Case Drivers.PDF : Return "pdf"
                     Case Else

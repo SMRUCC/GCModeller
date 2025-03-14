@@ -91,7 +91,7 @@ Namespace PostScript
 
         Public Overrides ReadOnly Property Driver As Drivers
             Get
-                Return Drivers.PS
+                Return Drivers.PostScript
             End Get
         End Property
 
