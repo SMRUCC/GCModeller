@@ -71,6 +71,7 @@ Namespace Imaging.Driver
         Dim pdf As DeviceInterop
         Dim ps As DeviceInterop
         Dim loadImage As Func(Of Stream, Image)
+        Dim measureString As Func(Of String, Font, SizeF)
 
         Public ReadOnly Property CheckRasterImageLoader As Boolean
             Get
@@ -94,6 +95,10 @@ Namespace Imaging.Driver
 
         Public Sub Register(loader As Func(Of Stream, Image))
             loadImage = loader
+        End Sub
+
+        Public Sub Register(measure As Func(Of String, Font, SizeF))
+            measureString = measure
         End Sub
 
         ''' <summary>

@@ -465,19 +465,19 @@ Namespace PostScript
         End Sub
 
         Public Overrides Sub FillRectangle(brush As Brush, rect As Rectangle)
-            Throw New NotImplementedException()
+            Call painting.Add(New Elements.Rectangle(rect, DirectCast(brush, SolidBrush).Color))
         End Sub
 
         Public Overrides Sub FillRectangle(brush As Brush, rect As RectangleF)
-            Throw New NotImplementedException()
+            Call painting.Add(New Elements.Rectangle(rect, DirectCast(brush, SolidBrush).Color))
         End Sub
 
         Public Overrides Sub FillRectangle(brush As Brush, x As Integer, y As Integer, width As Integer, height As Integer)
-            Throw New NotImplementedException()
+            Call FillRectangle(brush, New Rectangle(x, y, width, height))
         End Sub
 
         Public Overrides Sub FillRectangle(brush As Brush, x As Single, y As Single, width As Single, height As Single)
-            Throw New NotImplementedException()
+            Call FillRectangle(brush, New RectangleF(x, y, width, height))
         End Sub
 
         Public Overrides Sub IntersectClip(rect As RectangleF)

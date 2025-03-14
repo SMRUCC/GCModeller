@@ -80,6 +80,11 @@ Namespace Drawing2D.Shapes
             Call MyBase.New(location)
         End Sub
 
+        ''' <summary>
+        ''' Create new rectangle box with fill color
+        ''' </summary>
+        ''' <param name="rect"></param>
+        ''' <param name="color">the fill color</param>
         Sub New(rect As Rectangle, color As Color)
             Call MyBase.New(rect.Location)
 
@@ -87,6 +92,11 @@ Namespace Drawing2D.Shapes
             Me.fill = color.ToHtmlColor
         End Sub
 
+        ''' <summary>
+        ''' Create new rectangle box with fill color
+        ''' </summary>
+        ''' <param name="rect"></param>
+        ''' <param name="color">the fill color</param>
         Sub New(rect As RectangleF, color As Color)
             Call MyBase.New(rect.Location)
 
