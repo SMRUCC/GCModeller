@@ -851,6 +851,9 @@ Public Class MersenneTwisterFast
         Return array
     End Function
 
+    ' Mean = alpha / lambda
+    ' Variance = alpha / (lambda*lambda)
+
     ''' <summary>
     '''****************************************************************
     ''' * Gamma Distribution - Acceptance Rejection combined with *
@@ -868,7 +871,7 @@ Public Class MersenneTwisterFast
     ''' N(0,1). * *
     ''' *****************************************************************
     ''' </summary>
-    Public Overridable Function nextGamma(alpha As Double, lambda As Double) As Double
+    Public Function nextGamma(alpha As Double, lambda As Double) As Double
         Dim a As Double = alpha
         Dim aa As Double = -1.0, aaa As Double = -1.0, b As Double = 0.0, c As Double = 0.0, d As Double = 0.0, e As Double, r As Double, s As Double = 0.0, si As Double = 0.0, ss As Double = 0.0, q0 As Double = 0.0, q1 As Double = 0.0416666664, q2 As Double = 0.0208333723, q3 As Double = 0.0079849875, q4 As Double = 0.0015746717, q5 As Double = -0.0003349403, q6 As Double = 0.0003340332, q7 As Double = 0.0006053049, q8 As Double = -0.0004701849, q9 As Double = 0.000171032, a1 As Double = 0.333333333, a2 As Double = -0.249999949, a3 As Double = 0.199999867, a4 As Double = -0.166677482, a5 As Double = 0.142873973, a6 As Double = -0.124385581, a7 As Double = 0.11036831, a8 As Double = -0.112750886, a9 As Double = 0.104089866, e1 As Double = 1.0, e2 As Double = 0.499999994, e3 As Double = 0.166666848, e4 As Double = 0.041664508, e5 As Double = 0.008345522, e6 As Double = 0.001353826, e7 As Double = 0.000247453
 

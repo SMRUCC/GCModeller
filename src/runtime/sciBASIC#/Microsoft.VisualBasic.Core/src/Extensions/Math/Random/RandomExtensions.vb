@@ -438,6 +438,36 @@ Namespace Math
         End Sub
 
         ''' <summary>
+        ''' Shuffles a list in O(n) time by using the Fisher-Yates/Knuth algorithm.
+        ''' </summary>
+        ''' <param name="r"></param>
+        ''' <param name = "list"></param>
+        <Extension>
+        Public Sub Shuffle(Of T)(r As Random, ByRef list As T(), Optional numberOfShuffles As Integer? = Nothing)
+            Dim j As Integer
+            Dim temp As T
+            Dim nsize As Integer = list.Length
+
+            If numberOfShuffles Is Nothing Then
+                For i As Integer = 0 To nsize - 1
+                    j = r.Next(0, i + 1)
+                    temp = list(j)
+                    list(j) = list(i)
+                    list(i) = temp
+                Next
+            Else
+                Dim max As Integer = CInt(numberOfShuffles)
+
+                For i As Integer = 0 To max
+                    j = r.Next(0, nsize)
+                    temp = list(j)
+                    list(j) = list(i)
+                    list(i) = temp
+                Next
+            End If
+        End Sub
+
+        ''' <summary>
         ''' makes the element inside the input list random orders
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
@@ -445,6 +475,17 @@ Namespace Math
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Sub Shuffle(Of T)(ByRef list As List(Of T))
+            Call seeds.Shuffle(list)
+        End Sub
+
+        ''' <summary>
+        ''' makes the element inside the input list random orders
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="list"></param>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Sub Shuffle(Of T)(ByRef list As T())
             Call seeds.Shuffle(list)
         End Sub
 
