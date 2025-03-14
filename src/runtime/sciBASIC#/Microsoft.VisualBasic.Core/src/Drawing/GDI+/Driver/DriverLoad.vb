@@ -69,6 +69,7 @@ Namespace Imaging.Driver
         Dim libgdiplus_raster As DeviceInterop
         Dim svg As DeviceInterop
         Dim pdf As DeviceInterop
+        Dim ps As DeviceInterop
         Dim loadImage As Func(Of Stream, Image)
 
         Public ReadOnly Property CheckRasterImageLoader As Boolean
@@ -85,6 +86,7 @@ Namespace Imaging.Driver
                 Case Drivers.GDI : libgdiplus_raster = interop
                 Case Drivers.PDF : pdf = interop
                 Case Drivers.SVG : svg = interop
+                Case Drivers.PostScript : ps = interop
                 Case Else
                     Throw New NotSupportedException(driver.Description)
             End Select
@@ -138,6 +140,7 @@ Namespace Imaging.Driver
                 Case Drivers.GDI : Return libgdiplus_raster.CreateCanvas2D(background, direct_access)
                 Case Drivers.PDF : Return pdf.CreateCanvas2D(background, direct_access)
                 Case Drivers.SVG : Return svg.CreateCanvas2D(background, direct_access)
+                Case Drivers.PostScript : Return ps.CreateCanvas2D(background, direct_access)
                 Case Else
                     Throw New NotImplementedException(driver.Description)
             End Select
@@ -154,6 +157,7 @@ Namespace Imaging.Driver
                 Case Drivers.GDI : Return libgdiplus_raster.CreateCanvas2D(background, direct_access)
                 Case Drivers.PDF : Return pdf.CreateCanvas2D(background, direct_access)
                 Case Drivers.SVG : Return svg.CreateCanvas2D(background, direct_access)
+                Case Drivers.PostScript : Return ps.CreateCanvas2D(background, direct_access)
                 Case Else
                     Throw New NotImplementedException(driver.Description)
             End Select
@@ -165,6 +169,7 @@ Namespace Imaging.Driver
         Const missing_svg = "Missing the graphics device driver for svg graphics, you should register the corresponding graphics driver at first!" & vbCrLf
         Const missing_pdf = "Missing the graphics device driver for pdf drawing, you should register the corresponding pdf drawing driver at first!" & vbCrLf
         Const missing_gdi = "Missing the raster graphics driver for the image drawing, you should register the corresponding raster rendering driver at first!" & vbCrLf
+        Const missing_ps = "Missing the graphics driver for the postscript generates, you should register the corresponding postscript rendering driver at first!" & vbCrLf
 
         Public Function UseGraphicsDevice(driver As Drivers) As DeviceInterop
             If driver = Drivers.Default Then
@@ -206,6 +211,12 @@ Namespace Imaging.Driver
                     End If
 
                     Return libgdiplus_raster
+                Case Drivers.PostScript
+                    If ps Is Nothing Then
+                        Throw New MissingMethodException(missing_ps & windows_gdi_driver)
+                    End If
+
+                    Return ps
                 Case Else
                     Throw New NotImplementedException(driver.Description)
             End Select
