@@ -86,6 +86,10 @@ Namespace Linq
             Next
         End Function
 
+        Public Function Concatenate(Of T)(ParamArray source As IEnumerable(Of T)()) As IEnumerable(Of T)
+            Return source.IteratesALL
+        End Function
+
         ''' <summary>
         ''' First, iterate populates the elements in collection <paramref name="a"/>, 
         ''' and then populate out all of the elements on collection <paramref name="b"/>

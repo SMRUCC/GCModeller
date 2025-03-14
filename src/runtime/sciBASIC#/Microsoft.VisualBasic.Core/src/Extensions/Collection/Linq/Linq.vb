@@ -209,7 +209,8 @@ Namespace Linq
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
         ''' <returns></returns>
-        <Extension> Public Function MaxInd(Of T As IComparable)(source As IEnumerable(Of T)) As Integer
+        <Extension>
+        Public Function MaxInd(Of T As IComparable)(source As IEnumerable(Of T)) As Integer
             Dim i As Integer = 0
             Dim m As T
             Dim mi As Integer
@@ -233,7 +234,8 @@ Namespace Linq
         ''' <param name="source"></param>
         ''' <param name="match">符合这个条件的所有的元素都将会被移除</param>
         ''' <returns></returns>
-        <Extension> Public Function Removes(Of T)(source As IEnumerable(Of T), match As Func(Of T, Boolean), Optional parallel As Boolean = False) As T()
+        <Extension>
+        Public Function Removes(Of T)(source As IEnumerable(Of T), match As Func(Of T, Boolean), Optional parallel As Boolean = False) As T()
             Dim LQuery As T()
             If parallel Then
                 LQuery = (From x In source.AsParallel Where Not match(x) Select x).ToArray
@@ -243,7 +245,8 @@ Namespace Linq
             Return LQuery
         End Function
 
-        <Extension> Public Function Removes(Of T)(lst As List(Of T), match As Func(Of T, Boolean)) As List(Of T)
+        <Extension>
+        Public Function Removes(Of T)(lst As List(Of T), match As Func(Of T, Boolean)) As List(Of T)
             If lst.IsNullOrEmpty Then
                 Return New List(Of T)
             Else
@@ -311,6 +314,18 @@ Namespace Linq
             Return times.Sequence.Select(Function(x) source).ToArray
         End Function
 
+        <Extension>
+        Public Function Repeats(Of T)(source As T(), each%) As T()
+            Dim out As T() = New T([each] * source.Length - 1) {}
+            Dim i As i32 = 0
+
+            For Each xi As T In source
+                Call Array.ConstrainedCopy(xi.Repeats(each%), Scan0, out, (++i) * [each], [each])
+            Next
+
+            Return out
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -324,7 +339,8 @@ Namespace Linq
             Return n.Sequence.Select(Function(x) source()).ToArray
         End Function
 
-        <Extension> Public Function Read(Of T)(array As T(), ByRef i As Integer, ByRef out As T) As T
+        <Extension>
+        Public Function Read(Of T)(array As T(), ByRef i As Integer, ByRef out As T) As T
             out = array(i)
             i += 1
             Return out
@@ -338,7 +354,8 @@ Namespace Linq
         ''' <param name="array"></param>
         ''' <param name="i"></param>
         ''' <returns></returns>
-        <Extension> Public Function Read(Of T)(array As T(), ByRef i As Integer) As T
+        <Extension>
+        Public Function Read(Of T)(array As T(), ByRef i As Integer) As T
             Dim out As T = array(i)
             i += 1
             Return out
