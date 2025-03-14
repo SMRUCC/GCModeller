@@ -87,9 +87,14 @@ Namespace Imaging
     <HideModuleName>
     Public Module GraphicsExtensions
 
-        ReadOnly enumFormats As Dictionary(Of String, ImageFormats) =
-            [Enums](Of ImageFormats)() _
-            .ToDictionary(Function(t) t.ToString.ToLower)
+        ReadOnly enumFormats As New Dictionary(Of String, ImageFormats)
+
+        Sub New()
+            For Each flag As ImageFormats In [Enums](Of ImageFormats)()
+                enumFormats(flag.ToString.ToLower) = flag
+                enumFormats(flag.Description.ToLower) = flag
+            Next
+        End Sub
 
         ''' <summary>
         ''' 不存在的名称会返回<see cref="ImageFormats.Png"/>类型
