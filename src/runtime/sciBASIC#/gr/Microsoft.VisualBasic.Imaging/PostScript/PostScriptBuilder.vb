@@ -91,6 +91,15 @@ Namespace PostScript
         End Sub
 
         ''' <summary>
+        ''' resize the canvase and returns a new postscript builder model
+        ''' </summary>
+        ''' <param name="newSize"></param>
+        ''' <returns></returns>
+        Public Function Resize(newSize As Size) As PostScriptBuilder
+            Throw New NotImplementedException
+        End Function
+
+        ''' <summary>
         ''' make painting
         ''' </summary>
         ''' <param name="g">
@@ -107,6 +116,10 @@ Namespace PostScript
             Dim g As IGraphics = drv.CreateGraphic(size, Color.Transparent, 100)
             Call MakePaint(g)
             Return drv.GetData(g, {0, 0, 0, 0})
+        End Function
+
+        Public Function GetGdiPlusRasterImageResource() As Image
+            Return MakePaint(Drivers.GDI).AsGDIImage
         End Function
 
         ''' <summary>

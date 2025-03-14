@@ -126,7 +126,9 @@ Namespace Graphic
         ''' <param name="dpi"></param>
         ''' <param name="driver"></param>
         ''' <returns>this function returns a graphics plot wrapper object that supports save png/svg/pdf file</returns>
-        Public Overloads Function Plot(size As SizeF, Optional dpi As Integer = 300, Optional driver As Drivers = Drivers.Default) As GraphicsData
+        Public Overloads Function Plot(size As SizeF,
+                                       Optional dpi As Integer = 300,
+                                       Optional driver As Drivers = Drivers.Default) As GraphicsData
             Return g.GraphicsPlots(
                 size:=size.ToSize,
                 padding:=theme.padding,
@@ -145,7 +147,9 @@ Namespace Graphic
         ''' <param name="driver"></param>
         ''' <returns>this function returns a graphics plot wrapper object that supports save png/svg/pdf file</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overridable Overloads Function Plot(Optional size$ = Resolution2K.Size, Optional ppi As Integer = 300, Optional driver As Drivers = Drivers.Default) As GraphicsData
+        Public Overridable Overloads Function Plot(Optional size$ = Resolution2K.Size,
+                                                   Optional ppi As Integer = 300,
+                                                   Optional driver As Drivers = Drivers.Default) As GraphicsData
             Return g.GraphicsPlots(
                 size:=size.SizeParser,
                 padding:=theme.padding,
