@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>ProteinMatrix</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Model.MotifGraph.ProteinStructure</RootNamespace>
     <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
     <Title>Protein Matrix Embedding Generator</Title>
     <Description>Generates the protein secondary structure information embedding matrix data for run the CNN learning.</Description>
@@ -14,6 +14,7 @@
     <Copyright>GCModeller</Copyright>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <AssemblyName>SMRUCC.genomics.Model.MotifGraph.ProteinStructure</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">
