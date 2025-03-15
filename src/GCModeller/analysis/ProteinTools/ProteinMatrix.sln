@@ -5,6 +5,22 @@ VisualStudioVersion = 17.13.35828.75 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ProteinMatrix", "ProteinMatrix\ProteinMatrix.vbproj", "{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Core", "..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj", "{8E0DAC93-81D0-4261-2CF9-087F28F0B285}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "biocore-netcore5", "..\..\core\Bio.Assembly\biocore-netcore5.vbproj", "{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Math.NET5", "..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj", "{858324EE-999E-E068-4C90-86B664A177CB}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "graph-netcore5", "..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj", "{D17E56C6-6614-15D0-9C04-1E190CD2D512}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "DataMining.NET5", "..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj", "{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "machine_learning-netcore5", "..\..\..\runtime\sciBASIC#\Data_science\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj", "{E32B510D-22BF-5359-6159-1CDEF03338E6}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RCSB PDB", "..\..\data\RCSB PDB\RCSB PDB.vbproj", "{C79DC1E2-025F-9AB6-B0C9-384429FA0863}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +43,101 @@ Global
 		{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
 		{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
 		{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|x64.ActiveCfg = Debug|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|x64.Build.0 = Debug|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|x64.ActiveCfg = Release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|x64.Build.0 = Release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Debug|x64.ActiveCfg = Debug|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Debug|x64.Build.0 = Debug|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Release|x64.ActiveCfg = Release|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Release|x64.Build.0 = Release|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|x64.ActiveCfg = Debug|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|x64.Build.0 = Debug|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|x64.ActiveCfg = Release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|x64.Build.0 = Release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Debug|x64.ActiveCfg = Debug|x64
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Debug|x64.Build.0 = Debug|x64
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Release|x64.ActiveCfg = Release|x64
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Release|x64.Build.0 = Release|x64
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Debug|x64.ActiveCfg = Debug|x64
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Debug|x64.Build.0 = Debug|x64
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Release|x64.ActiveCfg = Release|x64
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Release|x64.Build.0 = Release|x64
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Debug|x64.ActiveCfg = Debug|x64
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Debug|x64.Build.0 = Debug|x64
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Release|x64.ActiveCfg = Release|x64
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Release|x64.Build.0 = Release|x64
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{E32B510D-22BF-5359-6159-1CDEF03338E6}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Debug|x64.ActiveCfg = Debug|x64
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Debug|x64.Build.0 = Debug|x64
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Release|x64.ActiveCfg = Release|x64
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Release|x64.Build.0 = Release|x64
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{C79DC1E2-025F-9AB6-B0C9-384429FA0863}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{858324EE-999E-E068-4C90-86B664A177CB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D17E56C6-6614-15D0-9C04-1E190CD2D512} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{EB7C1849-FA41-CC32-9E61-36C70DF2EFEC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{E32B510D-22BF-5359-6159-1CDEF03338E6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F285B51D-1AEF-402F-B1AF-206B120E078D}
