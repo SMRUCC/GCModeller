@@ -1,6 +1,4 @@
-﻿
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.GraphTheory.Network
+﻿Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 
 Namespace Analysis.MorganFingerprint
 
@@ -80,8 +78,8 @@ Namespace Analysis.MorganFingerprint
                 Dim newCodes As ULong() = New ULong(struct.Atoms.Length - 1) {}
 
                 For Each bound As E In struct.Graph
-                    newCodes(bound.U) = HashEdge(atoms, bound)
-                    newCodes(bound.V) = HashEdge(atoms, bound)
+                    newCodes(bound.U) = HashEdge(atoms, bound, flip:=False)
+                    newCodes(bound.V) = HashEdge(atoms, bound, flip:=True)
                 Next
 
                 For i As Integer = 0 To struct.Atoms.Length - 1
@@ -100,7 +98,7 @@ Namespace Analysis.MorganFingerprint
         End Function
 
         Protected MustOverride Function HashAtom(v As V) As Integer
-        Protected MustOverride Function HashEdge(atoms As V(), e As E) As ULong
+        Protected MustOverride Function HashEdge(atoms As V(), e As E, flip As Boolean) As ULong
 
     End Class
 End Namespace
