@@ -4,6 +4,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.HashMaps
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
+''' <summary>
+''' k-mer graph
+''' </summary>
 Public Class KMerGraph : Implements MorganGraph(Of KmerNode, KmerEdge)
 
     Public ReadOnly Property KMers As KmerNode() Implements MorganGraph(Of KmerNode, KmerEdge).Atoms
@@ -13,6 +16,16 @@ Public Class KMerGraph : Implements MorganGraph(Of KmerNode, KmerEdge)
         _KMers = kmers.ToArray
         _Graph = graph.ToArray
     End Sub
+
+    ''' <summary>
+    ''' evaluate the morgan fingerprint of current sequence k-mer graph object
+    ''' </summary>
+    ''' <param name="radius"></param>
+    ''' <param name="len"></param>
+    ''' <returns></returns>
+    Public Function GetFingerprint(Optional radius As Integer = 3, Optional len As Integer = 4096) As Byte()
+        Return New MorganFingerprint(len).CalculateFingerprintCheckSum(Me, radius)
+    End Function
 
     Public Shared Function FromSequence(seq As ISequenceProvider, Optional k As Integer = 3) As KMerGraph
         Dim kmers As New List(Of KmerNode)
@@ -62,6 +75,16 @@ Public Class KMerGraph : Implements MorganGraph(Of KmerNode, KmerEdge)
         Next
 
         Return hashcode
+    End Function
+
+    Public Shared Function HashKMer(kmer As String) As Integer
+        Dim hashcode As ULong = 0
+
+        For Each c As Char In kmer
+            hashcode = HashMap.HashCodePair(hashcode, CULng(Asc(c)))
+        Next
+
+        Return CInt(hashcode)
     End Function
 
 End Class
