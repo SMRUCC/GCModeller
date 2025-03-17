@@ -57,6 +57,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.ChartPlots
@@ -69,19 +70,13 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Imaging.Driver
-Imports System.Runtime.InteropServices.JavaScript.JSType
-
-
-
-
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
