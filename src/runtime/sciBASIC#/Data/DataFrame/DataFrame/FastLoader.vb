@@ -100,7 +100,7 @@ Public Module FastLoader
         End If
 
         Do While Not (line = read.ReadLine) Is Nothing
-            tokens = line.Split(delimiter)
+            tokens = Tokenizer.CharsParser(line, delimiter).ToArray
 
             If rowHeader Then
                 rowHeaders.Add(tokens(Scan0))
