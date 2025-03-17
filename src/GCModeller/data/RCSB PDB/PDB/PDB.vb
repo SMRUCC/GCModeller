@@ -46,7 +46,6 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
 Public Class PDB

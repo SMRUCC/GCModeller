@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f19750d7227979e657980b345226860e, Data_science\Graph\MST\DJSet.vb"
+﻿#Region "Microsoft.VisualBasic::7826f4f65201ccfc44e8b9cb9bf09293, Data_science\Graph\Analysis\MorganFingerprint\MorganAtom.vb"
 
     ' Author:
     ' 
@@ -34,58 +34,35 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 34
-    '    Code Lines: 26 (76.47%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 14
+    '    Code Lines: 7 (50.00%)
+    ' Comment Lines: 4 (28.57%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (23.53%)
-    '     File Size: 796 B
+    '   Blank Lines: 3 (21.43%)
+    '     File Size: 317 B
 
 
-    '     Class DJSet
+    '     Interface IMorganAtom
     ' 
-    '         Properties: Root
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: add, print
+    '         Properties: Code, Index, Type
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace MinimumSpanningTree
+Namespace Analysis.MorganFingerprint
 
-    Friend Class DJSet
+    Public Interface IMorganAtom
 
-        Public Property Root As Integer
+        Property Index As Integer
+        Property Code As ULong
+        ''' <summary>
+        ''' the node type
+        ''' </summary>
+        ''' <returns></returns>
+        Property Type As String
 
-        Private [set] As HashSet(Of Integer)
-
-        Public Sub New(root As Integer)
-            [set] = New HashSet(Of Integer)()
-            _Root = root
-        End Sub
-
-        Public Sub add(i As Integer)
-            [set].Add(i)
-        End Sub
-
-        Public Sub print()
-            Dim firstTime = True
-
-            Console.Write("{")
-            For Each i In [set]
-                If firstTime Then
-                    firstTime = False
-                    Console.Write(i)
-                Else
-                    Console.Write(",{0}", i)
-                End If
-            Next
-            Console.Write("}")
-        End Sub
-    End Class
-
+    End Interface
 End Namespace

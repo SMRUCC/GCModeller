@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f19750d7227979e657980b345226860e, Data_science\Graph\MST\DJSet.vb"
+﻿#Region "Microsoft.VisualBasic::53b851bcb3f9131bac80e4dddc3837eb, gr\Microsoft.VisualBasic.Imaging\Drivers\IElementCommentWriter.vb"
 
     ' Author:
     ' 
@@ -34,58 +34,34 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 34
-    '    Code Lines: 26 (76.47%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 13
+    '    Code Lines: 5 (38.46%)
+    ' Comment Lines: 4 (30.77%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (23.53%)
-    '     File Size: 796 B
+    '   Blank Lines: 4 (30.77%)
+    '     File Size: 299 B
 
 
-    '     Class DJSet
+    '     Interface IElementCommentWriter
     ' 
-    '         Properties: Root
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: add, print
+    '         Sub: SetLastComment
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace MinimumSpanningTree
 
-    Friend Class DJSet
+Namespace Driver
 
-        Public Property Root As Integer
+    Public Interface IElementCommentWriter
 
-        Private [set] As HashSet(Of Integer)
+        ''' <summary>
+        ''' set comment text to the last graphics element
+        ''' </summary>
+        ''' <param name="comment"></param>
+        Sub SetLastComment(comment As String)
 
-        Public Sub New(root As Integer)
-            [set] = New HashSet(Of Integer)()
-            _Root = root
-        End Sub
-
-        Public Sub add(i As Integer)
-            [set].Add(i)
-        End Sub
-
-        Public Sub print()
-            Dim firstTime = True
-
-            Console.Write("{")
-            For Each i In [set]
-                If firstTime Then
-                    firstTime = False
-                    Console.Write(i)
-                Else
-                    Console.Write(",{0}", i)
-                End If
-            Next
-            Console.Write("}")
-        End Sub
-    End Class
-
+    End Interface
 End Namespace

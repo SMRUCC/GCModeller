@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c1255deca4463ed10ecf3ff11082323, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\ImageData.vb"
+﻿#Region "Microsoft.VisualBasic::1a5bd5afa4215fb60773ba10f8bb68be, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\ImageData.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 37
-    '    Code Lines: 27 (72.97%)
-    ' Comment Lines: 4 (10.81%)
+    '   Total Lines: 54
+    '    Code Lines: 34 (62.96%)
+    ' Comment Lines: 12 (22.22%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (16.22%)
-    '     File Size: 1.38 KB
+    '   Blank Lines: 8 (14.81%)
+    '     File Size: 1.86 KB
 
 
     '     Class ImageData
     ' 
     '         Properties: image, location, scale, size
     ' 
-    '         Function: ScaleTo
+    '         Function: GetSize, GetXy, ScaleTo
     ' 
     '         Sub: Paint, WriteAscii
     ' 
@@ -70,7 +70,15 @@ Namespace PostScript.Elements
         ''' </summary>
         ''' <returns></returns>
         Public Property image As DataURI
+        ''' <summary>
+        ''' the image dimension size
+        ''' </summary>
+        ''' <returns></returns>
         Public Property size As Size
+        ''' <summary>
+        ''' the image drawing size
+        ''' </summary>
+        ''' <returns></returns>
         Public Property scale As SizeF
         Public Property location As PointF
 
@@ -80,7 +88,7 @@ Namespace PostScript.Elements
         End Sub
 
         Friend Overrides Sub Paint(g As IGraphics)
-            Call g.DrawImage(DriverLoad.LoadFromStream(image.ToStream), location.X, location.Y, size.Width, size.Height)
+            Call g.DrawImage(DriverLoad.LoadFromStream(image.ToStream), location.X, location.Y, scale.Width, scale.Height)
         End Sub
 
         Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
@@ -88,12 +96,17 @@ Namespace PostScript.Elements
                 .image = image,
                 .location = New PointF(scaleX(location.X), scaleY(location.Y)),
                 .scale = scale,
-                .size = size
+                .size = size,
+                .comment = comment
             }
         End Function
 
         Friend Overrides Function GetXy() As PointF
             Return location
+        End Function
+
+        Friend Overrides Function GetSize() As SizeF
+            Return scale
         End Function
     End Class
 End Namespace

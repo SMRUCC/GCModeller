@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae94a619f886e1415945bbd6cbf34226, Data_science\Visualization\Plots\BarPlot\Histogram\HistogramPlot.vb"
+﻿#Region "Microsoft.VisualBasic::7fecc1a309e9b259caa804636e84f0f2, Data_science\Visualization\Plots\BarPlot\Histogram\HistogramPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 193
-    '    Code Lines: 153 (79.27%)
-    ' Comment Lines: 12 (6.22%)
+    '   Total Lines: 205
+    '    Code Lines: 162 (79.02%)
+    ' Comment Lines: 12 (5.85%)
     '    - Xml Docs: 83.33%
     ' 
-    '   Blank Lines: 28 (14.51%)
-    '     File Size: 7.95 KB
+    '   Blank Lines: 31 (15.12%)
+    '     File Size: 8.54 KB
 
 
     '     Class HistogramPlot
@@ -69,7 +69,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
-Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Emit.Delegates
 
 
 #If NET48 Then
@@ -132,9 +132,17 @@ Namespace BarPlot.Histogram
                                      ann As NamedValue(Of Color),
                                      scaler As DataScaler,
                                      Optional alpha As Integer = 255,
-                                     Optional drawRect As Boolean = True)
+                                     Optional drawRect As Boolean = True,
+                                     Optional commentText As Boolean = False)
 
             Dim b As New SolidBrush(Color.FromArgb(alpha, ann.Value))
+            Dim writer As IElementCommentWriter = Nothing
+
+            If g.GetContextInfo IsNot Nothing AndAlso g.GetContextInfo.GetType.ImplementInterface(Of IElementCommentWriter) Then
+                writer = g.GetContextInfo
+            End If
+
+            commentText = commentText AndAlso Not writer Is Nothing
 
             For Each block As HistogramData In hist.data
                 Dim pos As PointF = scaler.Translate(block.x1, block.y)
@@ -148,6 +156,10 @@ Namespace BarPlot.Histogram
                 }
 
                 Call g.FillRectangle(b, rect)
+
+                If commentText Then
+                    Call writer.SetLastComment($"histogram bar of [{block.x1}~{block.x2}] frequency:{block.y} - serial:{ann.Name}")
+                End If
 
                 If drawRect Then
                     Call g.DrawRectangle(

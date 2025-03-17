@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30e5c911930e258ea4058e0de5192ced, Data_science\Graph\Analysis\PQDijkstra\Example.vb"
+﻿#Region "Microsoft.VisualBasic::40b498dea6a0295ab4f6f3078ad544d9, Data_science\Graph\Analysis\PQDijkstra\Finder.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 73
-    '    Code Lines: 52 (71.23%)
-    ' Comment Lines: 8 (10.96%)
+    '   Total Lines: 74
+    '    Code Lines: 51 (68.92%)
+    ' Comment Lines: 8 (10.81%)
     '    - Xml Docs: 75.00%
     ' 
-    '   Blank Lines: 13 (17.81%)
-    '     File Size: 2.54 KB
+    '   Blank Lines: 15 (20.27%)
+    '     File Size: 2.53 KB
 
 
     '     Class Finder
@@ -53,6 +53,8 @@
 
 #End Region
 
+Imports rv = Microsoft.VisualBasic.Math.RandomExtensions
+
 Namespace Dijkstra.PQDijkstra
 
     Public Class Finder : Inherits PQDijkstraProvider
@@ -60,19 +62,18 @@ Namespace Dijkstra.PQDijkstra
         Private totalNodes As Integer = 100000
         Private cost As Single(,)
         Private dijkstra As DijkstraFast
-        Private rv As Random
 
         Sub New(totalNodes As Integer)
             Call MyBase.New(totalNodes)
 
             cost = New Single(totalNodes - 1, 3) {}
+
             ' initialize the cost matrix
-            rv = New Random()
             For i As Integer = 0 To totalNodes - 1
-                cost(i, 0) = CSng(rv.[Next](1000)) * 0.01F
-                cost(i, 1) = CSng(rv.[Next](1000)) * 0.01F
-                cost(i, 2) = CSng(rv.[Next](1000)) * 0.01F
-                cost(i, 3) = CSng(rv.[Next](1000)) * 0.01F
+                cost(i, 0) = CSng(rv.Next(1000)) * 0.01F
+                cost(i, 1) = CSng(rv.Next(1000)) * 0.01F
+                cost(i, 2) = CSng(rv.Next(1000)) * 0.01F
+                cost(i, 3) = CSng(rv.Next(1000)) * 0.01F
             Next
         End Sub
 

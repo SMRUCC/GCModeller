@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2ac8d0c6bb29410ddd947bd1c3ec59e, Microsoft.VisualBasic.Core\src\Extensions\Collection\ByteStreamExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::426bd9c986446979dddff031842c1627, Microsoft.VisualBasic.Core\src\Extensions\Collection\ByteStreamExtensions.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 37
-    '    Code Lines: 31 (83.78%)
+    '   Total Lines: 46
+    '    Code Lines: 39 (84.78%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (16.22%)
-    '     File Size: 1.30 KB
+    '   Blank Lines: 7 (15.22%)
+    '     File Size: 1.58 KB
 
 
     ' Module ByteStreamExtensions
     ' 
     '     Function: AsciiString, RotateLeft, RotateRight, UnicodeString, UTF8String
+    ' 
+    '     Sub: [Xor]
     ' 
     ' /********************************************************************************/
 
@@ -87,4 +89,13 @@ Public Module ByteStreamExtensions
     Public Function RotateRight(value As Integer, count As Integer) As Integer
         Return (value >> count) Or (value << (32 - count))
     End Function
+
+    <Extension>
+    Public Sub [Xor](ByRef fingerprint As BitArray, position As Integer)
+        If fingerprint.Get(position) Then
+            Call fingerprint.Set(position, False)
+        Else
+            Call fingerprint.Set(position, True)
+        End If
+    End Sub
 End Module

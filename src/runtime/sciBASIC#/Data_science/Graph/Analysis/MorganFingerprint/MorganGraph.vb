@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f19750d7227979e657980b345226860e, Data_science\Graph\MST\DJSet.vb"
+﻿#Region "Microsoft.VisualBasic::c1e47242e55cd2f4c3ca6bdd39420705, Data_science\Graph\Analysis\MorganFingerprint\MorganGraph.vb"
 
     ' Author:
     ' 
@@ -34,58 +34,41 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 34
-    '    Code Lines: 26 (76.47%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 20
+    '    Code Lines: 7 (35.00%)
+    ' Comment Lines: 8 (40.00%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (23.53%)
-    '     File Size: 796 B
+    '   Blank Lines: 5 (25.00%)
+    '     File Size: 544 B
 
 
-    '     Class DJSet
+    '     Interface MorganGraph
     ' 
-    '         Properties: Root
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Sub: add, print
+    '         Properties: Atoms, Graph
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace MinimumSpanningTree
 
-    Friend Class DJSet
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 
-        Public Property Root As Integer
+Namespace Analysis.MorganFingerprint
 
-        Private [set] As HashSet(Of Integer)
+    Public Interface MorganGraph(Of V As IMorganAtom, E As IndexEdge)
 
-        Public Sub New(root As Integer)
-            [set] = New HashSet(Of Integer)()
-            _Root = root
-        End Sub
+        ''' <summary>
+        ''' vertex nodes
+        ''' </summary>
+        ''' <returns></returns>
+        ReadOnly Property Atoms As V()
+        ''' <summary>
+        ''' the graph structure for make morgan fingerprint embedding
+        ''' </summary>
+        ''' <returns></returns>
+        ReadOnly Property Graph As E()
 
-        Public Sub add(i As Integer)
-            [set].Add(i)
-        End Sub
-
-        Public Sub print()
-            Dim firstTime = True
-
-            Console.Write("{")
-            For Each i In [set]
-                If firstTime Then
-                    firstTime = False
-                    Console.Write(i)
-                Else
-                    Console.Write(",{0}", i)
-                End If
-            Next
-            Console.Write("}")
-        End Sub
-    End Class
-
+    End Interface
 End Namespace

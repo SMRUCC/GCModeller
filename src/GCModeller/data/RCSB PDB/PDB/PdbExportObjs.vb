@@ -47,7 +47,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Public Class PdbItem
     Public Property PdbId As String
@@ -61,7 +61,7 @@ End Class
 Public Class PdbComplexesAssembly
     <Column("PdbId")> Public Property PdbId As String
     Public Property ChainId As String
-    <Collection("InteractionChainId", "; ")>
+    <Column("InteractionChainId")>
     Public Property InteractionChainId As String()
 
     Public Overrides Function ToString() As String

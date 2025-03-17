@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3a2c7f17a7800fa06736f4685b007b58, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Rectangle.vb"
+﻿#Region "Microsoft.VisualBasic::705a5ec8142e2148722cc0b016571142, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Rectangle.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 58
-    '    Code Lines: 41 (70.69%)
-    ' Comment Lines: 5 (8.62%)
+    '   Total Lines: 67
+    '    Code Lines: 48 (71.64%)
+    ' Comment Lines: 5 (7.46%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 12 (20.69%)
-    '     File Size: 2.16 KB
+    '   Blank Lines: 14 (20.90%)
+    '     File Size: 2.48 KB
 
 
     '     Class Rectangle
     ' 
     '         Constructor: (+3 Overloads) Sub New
     ' 
-    '         Function: ScaleTo, ToString
+    '         Function: GetSize, GetXy, ScaleTo, ToString
     ' 
     '         Sub: Paint, WriteAscii
     ' 
@@ -102,7 +102,7 @@ Namespace PostScript.Elements
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"({shape.Location.X},{shape.Location.Y}) rectangle(fill={shape.fill}, size=[{shape.Size.Width},{shape.Size.Height}])"
+            Return $"({shape.Location.X.ToString("F1")},{shape.Location.Y.ToString("F1")}) rectangle(fill={shape.fill}, size=[{shape.Size.Width.ToString("F1")},{shape.Size.Height.ToString("F1")}])"
         End Function
 
         Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
@@ -110,11 +110,16 @@ Namespace PostScript.Elements
             box = New RectangleF(scaleX(box.X), scaleY(box.Y), scaleX(box.Width), scaleY(box.Height))
             Dim rect As New Rectangle(box, shape.fill.TranslateColor)
             rect.shape.border = shape.border
+            rect.comment = comment
             Return rect
         End Function
 
         Friend Overrides Function GetXy() As PointF
             Return shape.Location
+        End Function
+
+        Friend Overrides Function GetSize() As SizeF
+            Return shape.Size
         End Function
     End Class
 End Namespace

@@ -3,6 +3,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.RCSB.PDB
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -115,6 +116,37 @@ Module proteinKit
         Return pdb
     End Function
 
+    <ExportAPI("kmer_graph")>
+    <RApiReturn(GetType(KMerGraph))>
+    Public Function kmer_graph(<RRawVectorArgument>
+                               prot As Object,
+                               Optional k As Integer = 3,
+                               Optional env As Environment = Nothing) As Object
 
+        Dim seq = GetFastaSeq(prot, env)
+
+        If seq Is Nothing Then
+            Return Message.InCompatibleType(GetType(FastaSeq), prot.GetType, env)
+        End If
+
+        Dim pool As FastaSeq() = seq.ToArray
+
+        If pool.Length = 1 Then
+            Return KMerGraph.FromSequence(seq(0), k)
+        Else
+            Dim graphSet As list = list.empty
+
+            For Each p As FastaSeq In seq
+                Call graphSet.unique_add(p.Title, KMerGraph.FromSequence(p, k))
+            Next
+
+            Return graphSet
+        End If
+    End Function
+
+    <ExportAPI("kmer_fingerprint")>
+    Public Function kmer_fingerprint(graph As KMerGraph, Optional radius As Integer = 3, Optional len As Integer = 4096) As Object
+        Return graph.GetFingerprint(radius, len)
+    End Function
 
 End Module

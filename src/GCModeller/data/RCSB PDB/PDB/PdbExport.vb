@@ -41,8 +41,6 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
-Imports Microsoft.VisualBasic.Data.Framework.Extensions
-Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
@@ -101,11 +99,7 @@ Public Module PdbExport
         Return LQuery
     End Function
 
-    Public Function AssemblyProteinComplexes(bhCsv As File, PdbComplexesAssemblyCsv As String) As File
-        Dim bhPairs = LoadBhCsv(bhCsv)
-        Dim PdbAssemblies = PdbComplexesAssemblyCsv.LoadCsv(Of PdbComplexesAssembly)(False)
-        Dim AssemblyList As File = New File From {New String() {"UnitCounts", "AssemblyComponents"}}
-
+    Public Iterator Function AssemblyProteinComplexes(bhPairs As KeyValuePair(Of String, PdbItem)(), PdbAssemblies As IEnumerable(Of PdbComplexesAssembly)) As IEnumerable(Of AssemblyComplex)
         For Each Entry In PdbAssemblies '每一个Entry相当于一个蛋白质复合物
             Dim LQuery = (From item In bhPairs.AsParallel Where String.Equals(item.Value.PdbId, Entry.PdbId) Select item).ToArray
 
@@ -125,48 +119,21 @@ Public Module PdbExport
                 Dim ProteinComplexesAssembly = TempChunk.ToArray.AllCombinations '利用Entry里面的记录在Lquery里面进行筛选，使用组合的方式进行组装蛋白质
 
                 For Each item In ProteinComplexesAssembly
-                    Dim Row As New RowObject From {item.Count}
-                    Dim sBuilder As New StringBuilder(1024)
-                    For Each ProteinId As String In (From strData As String In item.IteratesALL Select strData Order By strData Ascending).ToArray
-                        Call sBuilder.Append(ProteinId & ", ")
-                    Next
-                    Call sBuilder.Remove(sBuilder.Length - 2, 2)
-                    Call Row.Add(sBuilder.ToString)
+                    Dim Row As New AssemblyComplex With {.UnitCounts = item.Count}
+                    Dim ProteinId As String() = (From strData As String In item.IteratesALL Select strData Order By strData Ascending).ToArray
 
-                    Call AssemblyList.Add(Row)
+                    Row.AssemblyComponents = ProteinId
+
+                    Yield Row
                 Next
             End If
         Next
-
-        Return AssemblyList
-    End Function
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <param name="CsvFile">目标基因组和ProtIn数据库的最佳双向比对结果，第一列为目标基因组中的蛋白质，第二列为ProtIn数据库中的蛋白质</param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public Function LoadBhCsv(CsvFile As File) As KeyValuePair(Of String, PdbItem)()
-        Dim LQuery = (From row As RowObject In CsvFile.Skip(1).AsParallel
-                      Let result = New KeyValuePair(Of String, PdbItem)(row.First, __generateItem(row))
-                      Where Not result.Value Is Nothing
-                      Select result
-                      Order By result.Key Ascending).ToArray
-        Return LQuery
-    End Function
-
-    Private Function __generateItem(row As RowObject) As PdbItem
-        Dim strData As String = row(1).Trim
-
-        If String.IsNullOrEmpty(strData) Then
-            Return Nothing
-        Else
-            Dim Tokens = Strings.Split(strData, "-")
-            Return New PdbItem With {
-                .PdbId = Tokens.First,
-                .ChainId = Tokens.Last
-            }
-        End If
     End Function
 End Module
+
+Public Class AssemblyComplex
+
+    Public Property UnitCounts As Integer
+    Public Property AssemblyComponents As String()
+
+End Class
