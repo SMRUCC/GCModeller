@@ -109,9 +109,11 @@ Namespace Text.Similarity
             Dim len2 = s2.Length
             Dim diff As Double = If(strlen_diff, std.Min(len1, len2) / std.Max(len1, len2), 1)
 
+            Static deli As Char() = {" "c, ASCII.TAB, ","c, ";"c, "-"c, "_"c, "."c, ASCII.CR, ASCII.LF, "'"c, """"c}
+
             dist = LevenshteinDistance.ComputeDistance(
-                s1.Split,
-                s2.Split,
+                s1.Split(deli),
+                s2.Split(deli),
                 tokenEquals,
                 Function(s) s.FirstOrDefault,
                 cost)
