@@ -311,7 +311,7 @@ Namespace Text.Similarity
         ''' <param name="query">the text for the similarity measurement</param>
         ''' <param name="collection">a given string collection for compares with the 
         ''' given <paramref name="query"/> text string.</param>
-        ''' <param name="cutoff"></param>
+        ''' <param name="cutoff">the similarity score cutoff for the string filter</param>
         ''' <param name="ignoreCase"></param>
         ''' <param name="tokenBased"></param>
         ''' <returns></returns>
