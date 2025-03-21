@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::06be2e56ad7ea7250b3de1026326b88a, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Circle.vb"
+﻿#Region "Microsoft.VisualBasic::a749bde3427c010c08091d360770f368, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Circle.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 34
-    '    Code Lines: 26 (76.47%)
+    '   Total Lines: 57
+    '    Code Lines: 44 (77.19%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 8 (23.53%)
-    '     File Size: 1.07 KB
+    '   Blank Lines: 13 (22.81%)
+    '     File Size: 2.00 KB
 
 
     '     Class Circle
     ' 
     '         Properties: center, stroke
+    ' 
+    '         Function: GetSize, GetXy, ScaleTo, ToString
     ' 
     '         Sub: Paint, WriteAscii
     ' 
@@ -86,5 +88,28 @@ Namespace PostScript.Elements
                 Call g.DrawCircle(center, shape.Radius, g.LoadEnvironment.GetPen(stroke), fill:=False)
             End If
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"({center.X.ToString("F1")},{center.Y.ToString("F1")}) circle(radius={shape.Radius.ToString("F2")}) [{shape.fill}]"
+        End Function
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Dim O As Shapes.Circle = shape
+            Dim moveTo As New PointF(scaleX(O.Location.X), scaleY(O.Location.Y))
+
+            Return New Circle With {
+                .stroke = stroke,
+                .shape = New Shapes.Circle(moveTo, O.Radius * 2, O.fill.TranslateColor),
+                .comment = comment
+            }
+        End Function
+
+        Friend Overrides Function GetXy() As PointF
+            Return shape.Location
+        End Function
+
+        Friend Overrides Function GetSize() As SizeF
+            Return shape.Size
+        End Function
     End Class
 End Namespace

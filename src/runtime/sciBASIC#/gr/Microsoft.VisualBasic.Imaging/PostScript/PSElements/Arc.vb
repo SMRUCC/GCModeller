@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ae98d6c966a89573901ddbdd09861ac, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Arc.vb"
+﻿#Region "Microsoft.VisualBasic::378ac06f6d1bb4a1e0b3ab77909e19a3, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Arc.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 43
-    '    Code Lines: 36 (83.72%)
+    '   Total Lines: 61
+    '    Code Lines: 52 (85.25%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 7 (16.28%)
-    '     File Size: 1.73 KB
+    '   Blank Lines: 9 (14.75%)
+    '     File Size: 2.43 KB
 
 
     '     Class Arc
     ' 
     '         Properties: height, startAngle, stroke, sweepAngle, width
     '                     x, y
+    ' 
+    '         Function: GetSize, GetXy, ScaleTo
     ' 
     '         Sub: Paint, WriteAscii
     ' 
@@ -55,16 +57,53 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports std = System.Math
 
-#If NET48 Then
-Imports System.Drawing
-#End If
-
 Namespace PostScript.Elements
+
+    Public Class Pie : Inherits PSElement
+
+        Public Property x As Single
+        Public Property y As Single
+        Public Property width As Single
+        Public Property height As Single
+        Public Property startAngle As Single
+        Public Property sweepAngle As Single
+        Public Property fill As String
+
+        Friend Overrides Sub WriteAscii(ps As Writer)
+            Throw New NotImplementedException()
+        End Sub
+
+        Friend Overrides Sub Paint(g As IGraphics)
+            Call g.FillPie(fill.GetBrush, x, y, width, height, startAngle, sweepAngle)
+        End Sub
+
+        Friend Overrides Function GetXy() As PointF
+            Return New PointF(x, y)
+        End Function
+
+        Friend Overrides Function GetSize() As SizeF
+            Return New SizeF(width, height)
+        End Function
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Return New Pie With {
+                .comment = comment,
+                .fill = fill,
+                .height = scaleY(height),
+                .startAngle = startAngle,
+                .sweepAngle = sweepAngle,
+                .width = scaleX(width),
+                .x = scaleX(x),
+                .y = scaleY(y)
+            }
+        End Function
+    End Class
 
     Public Class Arc : Inherits PSElement
 
@@ -96,5 +135,26 @@ Namespace PostScript.Elements
         Friend Overrides Sub Paint(g As IGraphics)
             Call g.DrawArc(g.LoadEnvironment.GetPen(stroke), x, y, width, height, startAngle, sweepAngle)
         End Sub
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Return New Arc With {
+                .height = scaleY(height),
+                .startAngle = startAngle,
+                .stroke = stroke,
+                .sweepAngle = sweepAngle,
+                .width = scaleX(width),
+                .x = scaleX(x),
+                .y = scaleY(y),
+                .comment = comment
+            }
+        End Function
+
+        Friend Overrides Function GetXy() As PointF
+            Return New PointF(x, y)
+        End Function
+
+        Friend Overrides Function GetSize() As SizeF
+            Return New SizeF(width, height)
+        End Function
     End Class
 End Namespace

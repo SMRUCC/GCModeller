@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b12b62b1875f35258c7bcf44918d0f4, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Rectangle.vb"
+﻿#Region "Microsoft.VisualBasic::705a5ec8142e2148722cc0b016571142, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Rectangle.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 34
-    '    Code Lines: 25 (73.53%)
-    ' Comment Lines: 0 (0.00%)
+    '   Total Lines: 67
+    '    Code Lines: 48 (71.64%)
+    ' Comment Lines: 5 (7.46%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 9 (26.47%)
-    '     File Size: 1020 B
+    '   Blank Lines: 14 (20.90%)
+    '     File Size: 2.48 KB
 
 
     '     Class Rectangle
     ' 
     '         Constructor: (+3 Overloads) Sub New
+    ' 
+    '         Function: GetSize, GetXy, ScaleTo, ToString
+    ' 
     '         Sub: Paint, WriteAscii
     ' 
     ' 
@@ -83,7 +86,40 @@ Namespace PostScript.Elements
         End Sub
 
         Friend Overrides Sub Paint(g As IGraphics)
-            Call g.DrawRectangle(g.LoadEnvironment.GetPen(shape.border), shape.DrawingRegion)
+            Dim rect = shape.DrawingRegion
+
+            If Not shape.border Is Nothing Then
+                Dim pen = g.LoadEnvironment.GetPen(shape.border)
+                Call g.DrawRectangle(pen, rect)
+            Else
+                ' 20250314
+                ' draw rectangle of the fill color always black
+                ' so if border is not nothing
+                ' then it means is draw rectangle action
+                ' skip of fill rectangle or the rectangle black always
+                Call g.FillRectangle(shape.fill.GetBrush, rect)
+            End If
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"({shape.Location.X.ToString("F1")},{shape.Location.Y.ToString("F1")}) rectangle(fill={shape.fill}, size=[{shape.Size.Width.ToString("F1")},{shape.Size.Height.ToString("F1")}])"
+        End Function
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Dim box = shape.DrawingRegion
+            box = New RectangleF(scaleX(box.X), scaleY(box.Y), scaleX(box.Width), scaleY(box.Height))
+            Dim rect As New Rectangle(box, shape.fill.TranslateColor)
+            rect.shape.border = shape.border
+            rect.comment = comment
+            Return rect
+        End Function
+
+        Friend Overrides Function GetXy() As PointF
+            Return shape.Location
+        End Function
+
+        Friend Overrides Function GetSize() As SizeF
+            Return shape.Size
+        End Function
     End Class
 End Namespace

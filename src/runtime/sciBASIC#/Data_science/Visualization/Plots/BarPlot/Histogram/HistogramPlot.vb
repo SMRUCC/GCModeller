@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd246722f9733a79ad64227cec1cd926, Data_science\Visualization\Plots\BarPlot\Histogram\HistogramPlot.vb"
+﻿#Region "Microsoft.VisualBasic::7fecc1a309e9b259caa804636e84f0f2, Data_science\Visualization\Plots\BarPlot\Histogram\HistogramPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 183
-    '    Code Lines: 153 (83.61%)
-    ' Comment Lines: 2 (1.09%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 205
+    '    Code Lines: 162 (79.02%)
+    ' Comment Lines: 12 (5.85%)
+    '    - Xml Docs: 83.33%
     ' 
-    '   Blank Lines: 28 (15.30%)
-    '     File Size: 7.62 KB
+    '   Blank Lines: 31 (15.12%)
+    '     File Size: 8.54 KB
 
 
     '     Class HistogramPlot
@@ -69,7 +69,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
-Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Emit.Delegates
 
 
 #If NET48 Then
@@ -117,33 +117,51 @@ Namespace BarPlot.Histogram
             Me.groups = groups
         End Sub
 
+        ''' <summary>
+        ''' Draw histogram with <see cref="HistProfile.data"/>.
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="region"></param>
+        ''' <param name="hist"></param>
+        ''' <param name="ann"></param>
+        ''' <param name="scaler"></param>
+        ''' <param name="alpha"></param>
+        ''' <param name="drawRect"></param>
         Public Shared Sub DrawSample(g As IGraphics, region As Rectangle,
                                      hist As HistProfile,
                                      ann As NamedValue(Of Color),
                                      scaler As DataScaler,
                                      Optional alpha As Integer = 255,
-                                     Optional drawRect As Boolean = True)
+                                     Optional drawRect As Boolean = True,
+                                     Optional commentText As Boolean = False)
 
             Dim b As New SolidBrush(Color.FromArgb(alpha, ann.Value))
+            Dim writer As IElementCommentWriter = g.CheckElementWriter
+
+            commentText = commentText AndAlso Not writer Is Nothing
 
             For Each block As HistogramData In hist.data
                 Dim pos As PointF = scaler.Translate(block.x1, block.y)
                 Dim sizeF As New SizeF With {
-                            .Width = scaler.TranslateX(block.x2) - scaler.TranslateX(block.x1),
-                            .Height = region.Bottom - scaler.TranslateY(block.y)
-                        }
+                    .Width = scaler.TranslateX(block.x2) - scaler.TranslateX(block.x1),
+                    .Height = region.Bottom - scaler.TranslateY(block.y)
+                }
                 Dim rect As New RectangleF With {
-                            .Location = pos,
-                            .Size = sizeF
-                        }
+                    .Location = pos,
+                    .Size = sizeF
+                }
 
                 Call g.FillRectangle(b, rect)
 
+                If commentText Then
+                    Call writer.SetLastComment($"histogram bar of [{block.x1}~{block.x2}] frequency:{block.y} - serial:{ann.Name}")
+                End If
+
                 If drawRect Then
                     Call g.DrawRectangle(
-                                Pens.Black,
-                                rect.Left, rect.Top,
-                                rect.Width, rect.Height)
+                        Pens.Black,
+                        rect.Left, rect.Top,
+                        rect.Width, rect.Height)
                 End If
             Next
         End Sub

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d658848f4deea7889c359430a6f6422, Data_science\Mathematica\Math\Math.Statistics\Distributions\MethodOfMoments\LogPearsonIII.vb"
+﻿#Region "Microsoft.VisualBasic::63b961991e12f0841226c87392f2f354, Data_science\Mathematica\Math\Math.Statistics\Distributions\MethodOfMoments\LogPearsonIII.vb"
 
     ' Author:
     ' 
@@ -94,7 +94,7 @@ Namespace Distributions.MethodOfMoments
             Dim PM As New MomentFunctions.ProductMoments(data)
             _Mean = PM.Mean()
             _StDev = PM.StandardDeviation
-            _Skew = PM.Skew()
+            _Skew = PM.skewness()
             PeriodOfRecord = (PM.SampleSize())
         End Sub
         Public Overrides Function GetInvCDF(probability As Double) As Double

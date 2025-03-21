@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::537ac7b94170e12aa9b2095a2cb98ee0, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Poly.vb"
+﻿#Region "Microsoft.VisualBasic::c51d914874b1dc3092f6cc7f420b3dda, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Poly.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 57
-    '    Code Lines: 42 (73.68%)
+    '   Total Lines: 73
+    '    Code Lines: 54 (73.97%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 15 (26.32%)
-    '     File Size: 1.74 KB
+    '   Blank Lines: 19 (26.03%)
+    '     File Size: 2.41 KB
 
 
     '     Class Polygon
     ' 
     '         Properties: fill, points, stroke
+    ' 
+    '         Function: GetSize, GetXy, ScaleTo
     ' 
     '         Sub: Paint, WriteAscii
     ' 
@@ -61,6 +63,7 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
 
@@ -79,6 +82,21 @@ Namespace PostScript.Elements
         Friend Overrides Sub Paint(g As IGraphics)
             Throw New NotImplementedException()
         End Sub
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Throw New NotImplementedException()
+        End Function
+
+        Friend Overrides Function GetXy() As PointF
+            Return New PointF(points.Average(Function(p) p.X), points.Average(Function(p) p.Y))
+        End Function
+
+        Friend Overrides Function GetSize() As SizeF
+            Dim x As New List(Of Single)
+            Dim y As New List(Of Single)
+
+            Return New SizeF(New DoubleRange(x).Length, New DoubleRange(y).Length)
+        End Function
     End Class
 
     Public Class Poly : Inherits Polygon

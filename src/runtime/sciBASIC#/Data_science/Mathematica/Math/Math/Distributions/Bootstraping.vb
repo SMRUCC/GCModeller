@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::614b707a4fd23b444c1007f683c4404e, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
+﻿#Region "Microsoft.VisualBasic::836e2f0c99bcb08f40aa581a25436c21, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
 
     ' Author:
     ' 
@@ -61,8 +61,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions.BinBox
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports std = System.Math
 Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
+Imports std = System.Math
 
 Namespace Distributions
 

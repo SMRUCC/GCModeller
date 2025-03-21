@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ce42aec2440a1a3a6710f079bddf2ee4, Data_science\Graph\Network\Bipartite\BipartiteMatching.vb"
+﻿#Region "Microsoft.VisualBasic::5d596e2edf7ff708f20685b67e546bd8, Data_science\Graph\Network\Bipartite\BipartiteMatching.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 262
-    '    Code Lines: 153 (58.40%)
-    ' Comment Lines: 66 (25.19%)
+    '   Total Lines: 263
+    '    Code Lines: 154 (58.56%)
+    ' Comment Lines: 66 (25.10%)
     '    - Xml Docs: 84.85%
     ' 
-    '   Blank Lines: 43 (16.41%)
-    '     File Size: 10.44 KB
+    '   Blank Lines: 43 (16.35%)
+    '     File Size: 10.58 KB
 
 
     ' Class BipartiteMatching
@@ -54,7 +54,7 @@
     '     Sub: addEdge, connectSinkToRightHalf, connectSourceToLeftHalf, depthFirstSearch
     '     Class Edge
     ' 
-    '         Properties: Capacity, Flow
+    '         Properties: Capacity, Flow, fromVertex, toVertex
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -68,17 +68,18 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports std = System.Math
 
 Public Class BipartiteMatching
 
-    Friend Class Edge
+    Friend Class Edge : Implements IndexEdge
 
         ''' <summary>
         ''' an edge is composed of 2 vertices
         ''' </summary>
-        Friend fromVertex As Integer
-        Friend toVertex As Integer
+        Public Property fromVertex As Integer Implements IndexEdge.U
+        Public Property toVertex As Integer Implements IndexEdge.V
         ''' <summary>
         ''' edges also have a capacity &amp; a flow
         ''' </summary>

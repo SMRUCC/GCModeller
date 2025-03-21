@@ -320,7 +320,9 @@ Public Module PathExtensions
     ''' default filter is ``*.*``, which means select all files. 
     ''' 如果匹配的模式字符串是带有文件后缀名的，那么文件夹之中所有没有后缀名的文件都可能会被忽略掉
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' scan for all sub-folder in recursive mode.
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ListFiles(directory$, ParamArray pattern$()) As IEnumerable(Of String)
@@ -710,13 +712,16 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
-    ''' Determine that the target directory is exists on the file system or not?(判断文件夹是否存在)
+    ''' Determine that the target directory is exists on the file system or not?
     ''' </summary>
     ''' <param name="DIR"></param>
     ''' <returns>
     ''' 1. for directory parameter <paramref name="DIR"/> is nothing or empty string: return false
     ''' 2. for directory not exists: return false
     ''' </returns>
+    ''' <remarks>
+    ''' (判断文件夹是否存在)
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function DirectoryExists(DIR As String) As Boolean

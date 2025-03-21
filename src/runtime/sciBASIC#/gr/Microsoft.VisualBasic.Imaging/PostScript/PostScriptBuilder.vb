@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9603a168195d56fe688acfcc2caf0cce, gr\Microsoft.VisualBasic.Imaging\PostScript\PostScriptBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::925ae2268d245273120507bebc043544, gr\Microsoft.VisualBasic.Imaging\PostScript\PostScriptBuilder.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,24 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 102
-    '    Code Lines: 68 (66.67%)
-    ' Comment Lines: 20 (19.61%)
+    '   Total Lines: 155
+    '    Code Lines: 106 (68.39%)
+    ' Comment Lines: 25 (16.13%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 14 (13.73%)
-    '     File Size: 4.04 KB
+    '   Blank Lines: 24 (15.48%)
+    '     File Size: 5.95 KB
 
 
     '     Class PostScriptBuilder
     ' 
-    '         Function: MakePaint, ToString
+    '         Properties: height, width
     ' 
-    '         Sub: Add, BuildString, Clear, MakePaint
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: GenericEnumerator, GetGdiPlusRasterImageResource, MakePaint, Resize, ToString
+    ' 
+    '         Sub: Add, BuildString, Clear, MakePaint, SetLastComment
     ' 
     ' 
     ' /********************************************************************************/
@@ -60,6 +64,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language.C
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace PostScript
@@ -67,12 +72,31 @@ Namespace PostScript
     ''' <summary>
     ''' A helper module for convert the postscript object as ASCII script text
     ''' </summary>
-    Public Class PostScriptBuilder
+    Public Class PostScriptBuilder : Implements Enumeration(Of PSElement), IElementCommentWriter
 
         Dim paints As New List(Of PSElement)
 
         Friend size As Size
         Friend originx, originy As Single
+
+        Public ReadOnly Property width As Integer
+            Get
+                Return size.Width
+            End Get
+        End Property
+
+        Public ReadOnly Property height As Integer
+            Get
+                Return size.Height
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
+
+        Sub New(size As Size)
+            Me.size = size
+        End Sub
 
         ''' <summary>
         ''' Add a painting shape element into the canvas
@@ -91,6 +115,23 @@ Namespace PostScript
         End Sub
 
         ''' <summary>
+        ''' resize the canvase and returns a new postscript builder model
+        ''' </summary>
+        ''' <param name="newSize"></param>
+        ''' <returns></returns>
+        Public Function Resize(newSize As Size) As PostScriptBuilder
+            Dim canvas As New PostScriptBuilder(newSize)
+            Dim scaleX = d3js.scale.linear.domain(values:=New Integer() {0, size.Width}).range(values:={0, newSize.Width})
+            Dim scaleY = d3js.scale.linear.domain(values:=New Integer() {0, size.Height}).range(values:={0, newSize.Height})
+
+            For Each element As PSElement In paints
+                Call canvas.Add(element.ScaleTo(scaleX, scaleY))
+            Next
+
+            Return canvas
+        End Function
+
+        ''' <summary>
         ''' make painting
         ''' </summary>
         ''' <param name="g">
@@ -107,6 +148,10 @@ Namespace PostScript
             Dim g As IGraphics = drv.CreateGraphic(size, Color.Transparent, 100)
             Call MakePaint(g)
             Return drv.GetData(g, {0, 0, 0, 0})
+        End Function
+
+        Public Function GetGdiPlusRasterImageResource() As Image
+            Return MakePaint(Drivers.GDI).AsGDIImage
         End Function
 
         ''' <summary>
@@ -153,6 +198,18 @@ Namespace PostScript
             Next
 
             fprintf(fp, "%\n%\n%\n%EOF\n")
+        End Sub
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of PSElement) Implements Enumeration(Of PSElement).GenericEnumerator
+            For Each element As PSElement In paints
+                Yield element
+            Next
+        End Function
+
+        Public Sub SetLastComment(comment As String) Implements IElementCommentWriter.SetLastComment
+            If paints.Any Then
+                paints.Last.comment = comment
+            End If
         End Sub
     End Class
 End Namespace

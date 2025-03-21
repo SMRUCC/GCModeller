@@ -51,6 +51,16 @@ declare namespace proteinKit {
      * + default value Is ``null``.
    */
    function chou_fasman(prot: any, polyaa?: boolean, env?: object): string|object;
+   /**
+     * @param radius default value Is ``3``.
+     * @param len default value Is ``4096``.
+   */
+   function kmer_fingerprint(graph: object, radius?: object, len?: object): any;
+   /**
+     * @param k default value Is ``3``.
+     * @param env default value Is ``null``.
+   */
+   function kmer_graph(prot: any, k?: object, env?: object): object;
    module read {
       /**
        * read the protein database file

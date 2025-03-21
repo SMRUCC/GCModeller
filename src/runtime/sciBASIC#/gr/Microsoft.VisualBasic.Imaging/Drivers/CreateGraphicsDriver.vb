@@ -1,71 +1,77 @@
-﻿#Region "Microsoft.VisualBasic::9d9d97f64e93b1c4908d5b6e87077390, gr\Microsoft.VisualBasic.Imaging\Drivers\CreateGraphicsDriver.vb"
+﻿#Region "Microsoft.VisualBasic::f38d0136737c64d00ed0f623d915169a, gr\Microsoft.VisualBasic.Imaging\Drivers\CreateGraphicsDriver.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 95
-    '    Code Lines: 68 (71.58%)
-    ' Comment Lines: 9 (9.47%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 18 (18.95%)
-    '     File Size: 4.00 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    '     Module ImageDriver
-    ' 
-    '         Function: GraphicsPlot
-    ' 
-    '         Sub: Register
-    '         Class RasterInterop
-    ' 
-    '             Function: (+2 Overloads) CreateCanvas2D, CreateGraphic, GetData
-    ' 
-    '         Class SvgInterop
-    ' 
-    '             Function: (+2 Overloads) CreateCanvas2D, CreateGraphic, GetData
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 128
+'    Code Lines: 94 (73.44%)
+' Comment Lines: 9 (7.03%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 25 (19.53%)
+'     File Size: 5.60 KB
+
+
+'     Module ImageDriver
+' 
+'         Function: GraphicsPlot
+' 
+'         Sub: Register, RegisterPostScript
+'         Class RasterInterop
+' 
+'             Function: (+2 Overloads) CreateCanvas2D, CreateGraphic, GetData
+' 
+'         Class SvgInterop
+' 
+'             Function: (+2 Overloads) CreateCanvas2D, CreateGraphic, GetData
+' 
+'         Class PostScriptInterop
+' 
+'             Function: (+2 Overloads) CreateCanvas2D, CreateGraphic, GetData
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.PostScript
 Imports Microsoft.VisualBasic.Imaging.SVG
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 
@@ -76,6 +82,19 @@ Imports Microsoft.VisualBasic.Drawing
 Namespace Driver
 
     Public Module ImageDriver
+
+        <Extension>
+        Public Function CheckElementWriter(g As IGraphics) As IElementCommentWriter
+            Dim context As Object = g.GetContextInfo
+
+            If context IsNot Nothing Then
+                If context.GetType.ImplementInterface(Of IElementCommentWriter) Then
+                    Return DirectCast(context, IElementCommentWriter)
+                End If
+            End If
+
+            Return Nothing
+        End Function
 
         ''' <summary>
         ''' a unify method for create graphics plot
@@ -96,14 +115,23 @@ Namespace Driver
             End Using
         End Function
 
+        Public Sub RegisterPostScript()
+            Call DriverLoad.Register(New PostScriptInterop, Drivers.PostScript)
+        End Sub
+
 #If NET48 Then
 
         ''' <summary>
         ''' register the default System.Drawing.Common graphics driver for .net 4.8 runtime
         ''' </summary>
         Public Sub Register()
+            Static gfx As Graphics = Graphics.FromImage(New Bitmap(10, 10))
+
             Call DriverLoad.Register(New RasterInterop, Drivers.GDI)
             Call DriverLoad.Register(New SvgInterop, Drivers.SVG)
+            Call DriverLoad.Register(Function(text As String, font As Font)
+                                         Return gfx.MeasureString(text, font)
+                                     End Function)
         End Sub
 
         Private Class RasterInterop : Inherits DeviceInterop
@@ -156,5 +184,28 @@ Namespace Driver
             End Function
         End Class
 #End If
+
+        Private Class PostScriptInterop : Inherits DeviceInterop
+
+            Public Overrides Function CreateGraphic(size As Size, fill As Color, dpi As Integer) As IGraphics
+                Dim g As New GraphicsPostScript(size, New Size(dpi, dpi))
+                g.Clear(fill)
+                Return g
+            End Function
+
+            Public Overrides Function CreateCanvas2D(background As Bitmap, direct_access As Boolean) As IGraphics
+                Return CreateCanvas2D(CType(background, Image), direct_access)
+            End Function
+
+            Public Overrides Function CreateCanvas2D(background As Image, direct_access As Boolean) As IGraphics
+                Dim g As New GraphicsPostScript(background.Size, New Size(100, 100))
+                Call g.DrawImageUnscaled(background, New Point)
+                Return g
+            End Function
+
+            Public Overrides Function GetData(g As IGraphics, padding() As Integer) As IGraphicsData
+                Return New PostScriptData(g.GetContextInfo, g.Size, New Padding(padding))
+            End Function
+        End Class
     End Module
 End Namespace

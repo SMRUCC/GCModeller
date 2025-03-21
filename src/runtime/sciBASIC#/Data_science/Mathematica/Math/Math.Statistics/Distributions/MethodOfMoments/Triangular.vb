@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99d292df53e70397a605c1c0824c7bdf, Data_science\Mathematica\Math\Math.Statistics\Distributions\MethodOfMoments\Triangular.vb"
+﻿#Region "Microsoft.VisualBasic::029b5b10261d6d2d4053ef0c25936d06, Data_science\Mathematica\Math\Math.Statistics\Distributions\MethodOfMoments\Triangular.vb"
 
     ' Author:
     ' 
@@ -104,7 +104,7 @@ Namespace Distributions.MethodOfMoments
             'Alternate Method from Ben Chaon
             Dim sqrt2 As Double = stdNum.Sqrt(2)
             Dim sqrt3 As Double = stdNum.Sqrt(3)
-            Dim a3 As Double = PM.Skew()
+            Dim a3 As Double = PM.skewness()
             Dim b3 As Double
             Dim angle As Double
             Dim aa As Double

@@ -99,5 +99,15 @@ Namespace SequenceModel.FASTA
         Public Overrides Function ToString() As String
             Return Name
         End Function
+
+        Public Shared Iterator Function Kmers(seq As ISequenceProvider, k As Integer) As IEnumerable(Of KSeq)
+            Dim seq_str As String = seq.GetSequenceData
+
+            For i As Integer = 0 To seq_str.Length - k - 1
+                Yield New KSeq With {
+                    .Seq = seq_str.Substring(i, length:=k).ToArray
+                }
+            Next
+        End Function
     End Class
 End Namespace

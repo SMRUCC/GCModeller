@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d4ea742408a44b8263061d20daf764e, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Line.vb"
+﻿#Region "Microsoft.VisualBasic::ac7c753bb027de4d468608565abb34ea, gr\Microsoft.VisualBasic.Imaging\PostScript\PSElements\Line.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 59
-    '    Code Lines: 46 (77.97%)
+    '   Total Lines: 81
+    '    Code Lines: 63 (77.78%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 13 (22.03%)
-    '     File Size: 1.62 KB
+    '   Blank Lines: 18 (22.22%)
+    '     File Size: 2.52 KB
 
 
     '     Class Line
     ' 
     '         Constructor: (+3 Overloads) Sub New
+    ' 
+    '         Function: GetSize, GetXy, ScaleTo, ToString
+    ' 
     '         Sub: Paint, WriteAscii
     ' 
     ' 
@@ -110,5 +113,27 @@ Namespace PostScript.Elements
 
             Call g.DrawLine(pen, a, b)
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"({shape.A.X.ToString("F1")},{shape.A.Y.ToString("F1")}) -> line({shape.B.X.ToString("F1")},{shape.B.Y.ToString("F1")}) [{shape.Stroke.fill}]"
+        End Function
+
+        Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
+            Dim a = shape.A
+            Dim b = shape.B
+
+            Return New Line With {
+                .shape = New Shapes.Line(New PointF(scaleX(a.X), scaleY(a.Y)), New PointF(scaleX(b.X), scaleY(b.Y)), shape.Stroke),
+                .comment = comment
+            }
+        End Function
+
+        Friend Overrides Function GetXy() As PointF
+            Return shape.Location
+        End Function
+
+        Friend Overrides Function GetSize() As SizeF
+            Return shape.Size
+        End Function
     End Class
 End Namespace
