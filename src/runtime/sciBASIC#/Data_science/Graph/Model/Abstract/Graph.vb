@@ -342,6 +342,10 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
         Return Me
     End Function
 
+    Public Overloads Function Add(edge As (u$, v$)) As G
+        Return AddEdge(edge.u, edge.v, 1)
+    End Function
+
     ''' <summary>
     ''' 这个函数仅仅是使用图对象中的node数据来创建edge对象，并不会添加edge到图中的edge列表中
     ''' </summary>
