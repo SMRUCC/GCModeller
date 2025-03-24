@@ -243,7 +243,7 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     ''' </summary>
     ''' <param name="label$"></param>
     ''' <returns></returns>
-    Public Function AddVertex(label As String) As V
+    Public Overridable Function AddVertex(label As String) As V
         If vertices.ContainsKey(label) Then
             ' skip of current already existed vertex node
             Return vertices(label)
