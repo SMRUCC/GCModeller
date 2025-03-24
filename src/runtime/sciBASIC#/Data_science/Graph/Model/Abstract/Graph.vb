@@ -343,6 +343,9 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     End Function
 
     Public Overloads Function Add(edge As (u$, v$)) As G
+        If Not ExistVertex(edge.u) Then Call AddVertex(edge.u)
+        If Not ExistVertex(edge.v) Then Call AddVertex(edge.v)
+
         Return AddEdge(edge.u, edge.v, 1)
     End Function
 
