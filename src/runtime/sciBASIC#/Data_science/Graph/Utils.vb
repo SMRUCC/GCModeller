@@ -216,8 +216,10 @@ Public Module Utils
         For Each e As Edge In g.graphEdges
             Dim i As Integer = hash(e.U.label)
             Dim j As Integer = hash(e.V.label)
+            Dim fx = f(e)
 
-            edges(i)(j) = f(e)
+            edges(i)(j) = fx
+            edges(j)(i) = fx
         Next
 
         labels = hash.Objects
