@@ -267,7 +267,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             Next
 
             ' draw sample label
-            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width, y + rotateDelta + 30, 90)
+            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width, y + rotateDelta + 40, 90)
 
             x += dx
             y = heatmap_region.Top
@@ -295,9 +295,9 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Next
 
         If Not IsMicrosoftPlatform Then
-            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width * 1.5, y, 90)
+            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width * 1.5, y + rotateDelta * 2, 90)
         Else
-            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width, y + rotateDelta * 2, 90)
+            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width, y, 90)
         End If
 
         Dim axis_line_pen As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
@@ -330,7 +330,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             y += dy
         Next
 
-        Call g.DrawString("-log(P)", big_label, Brushes.Black, x + big_char.Height, y + rotateDelta * 1.5, 90)
+        Call g.DrawString("-log(P)", big_label, Brushes.Black, x + big_char.Height, y + rotateDelta * 2, 90)
 
         ' draw average VIP
         Dim vip = metadata("VIP").TryCast(Of Double)
@@ -409,7 +409,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim scale_intensity_region As New Rectangle(legend_region.Left, legend_region.Top, legend_region.Width, legend_region.Height / 5)
         Dim group_mean_region As New Rectangle(legend_region.Left, legend_region.Top + 1 * (legend_region.Height / 4.5), legend_region.Width, legend_region.Height / 5)
         Dim logp_legend_region As New Rectangle(legend_region.Left, legend_region.Top + 2 * (legend_region.Height / 4.5), legend_region.Width, legend_region.Height / 5)
-        Dim kegg_class_legend As New Rectangle(legend_region.Left, legend_region.Top + 3 * (legend_region.Height / 4.5), legend_region.Width, legend_region.Height / 4)
+        Dim kegg_class_legend As New Rectangle(legend_region.Left, legend_region.Top + 3 * (legend_region.Height / 4.5), legend_region.Width, legend_region.Height / 5)
 
         'Call g.DrawString("Scaled Intensity", label_font, Brushes.Black, scale_intensity_region.Left, scale_intensity_region.Top)
         'Call g.DrawString("Scaled Mean Intensity", label_font, Brushes.Black, group_mean_region.Left, group_mean_region.Top)
@@ -421,7 +421,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         dy = (kegg_class_legend.Height - 20) / class_colors.size
 
         boxCell = New RectangleF(x, y, dy, dy)
-        y += dy * 1.25
+        y += dy * 5
 
         g.FillRectangle(Brushes.Gray, boxCell)
         g.DrawString("no class", label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
