@@ -246,6 +246,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim [class] As String() = metadata(kegg_class).TryCast(Of String)
         Dim class_colors As New CategoryColorProfile([class].Where(Function(str) Not str.StringEmpty), "paper")
         Dim heatmap_ticks As Double() = range.CreateAxisTicks
+        Dim rotateDelta As Single = 100
 
         x = heatmap_region.Left
         y = heatmap_region.Top
@@ -266,7 +267,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             Next
 
             ' draw sample label
-            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width, y + 20, 90)
+            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width, y + rotateDelta, 90)
 
             x += dx
             y = heatmap_region.Top
@@ -296,7 +297,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         If Not IsMicrosoftPlatform Then
             Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width * 1.5, y, 90)
         Else
-            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width, y, 90)
+            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width, y + rotateDelta, 90)
         End If
 
         Dim axis_line_pen As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
@@ -329,7 +330,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             y += dy
         Next
 
-        Call g.DrawString("-log(P)", big_label, Brushes.Black, x + big_char.Height, y, 90)
+        Call g.DrawString("-log(P)", big_label, Brushes.Black, x + big_char.Height, y + rotateDelta, 90)
 
         ' draw average VIP
         Dim vip = metadata("VIP").TryCast(Of Double)
@@ -393,7 +394,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 g.FillRectangle(group_heatcolors(color), boxCell)
             Next
 
-            Call g.DrawString(group_name, label_font, Brushes.Black, x + boxCell.Width / 2, y + 10, 90)
+            Call g.DrawString(group_name, label_font, Brushes.Black, x + boxCell.Width / 2, y + rotateDelta, 90)
 
             x += dx
             y = group_heatmap_region.Top
