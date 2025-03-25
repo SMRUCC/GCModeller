@@ -202,7 +202,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim max_label_size As SizeF = g.MeasureString(data.rownames.MaxLengthString, label_font)
         Dim width As Double
         Dim label_region As New Rectangle(rect.Left, rect.Top, std.Max(rect.Width * 0.2, max_label_size.Width), rect.Height)
-        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.55, rect.Height)
+        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.65, rect.Height)
         Dim tree_left As Double = heatmap_region.Right + delta / 2
 
         width = std.Min(rect.Width * 0.05, 4 * charRectangle.Width)
@@ -211,7 +211,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim mean_log_region As New Rectangle(vip_region.Left - width - delta, rect.Top, width, rect.Height)
         width = std.Min(rect.Width * 0.1, 3 * charRectangle.Width * group_labels.Length)
         Dim group_heatmap_region As New Rectangle(mean_log_region.Left - width - delta, rect.Top, width, rect.Height)
-        width = group_heatmap_region.Left - tree_left - delta
+        width = (group_heatmap_region.Left - tree_left - delta)
         Dim tree_region As New Rectangle(tree_left, rect.Top, width, rect.Height)
 
         Dim label_maxh As Single = label_region.Height / data.nsamples
@@ -246,6 +246,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim [class] As String() = metadata(kegg_class).TryCast(Of String)
         Dim class_colors As New CategoryColorProfile([class].Where(Function(str) Not str.StringEmpty), "paper")
         Dim heatmap_ticks As Double() = range.CreateAxisTicks
+        Dim rotateDelta As Single = 100
 
         x = heatmap_region.Left
         y = heatmap_region.Top
@@ -266,7 +267,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             Next
 
             ' draw sample label
-            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width, y + 20, 90)
+            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width, y + rotateDelta + 40, 90)
 
             x += dx
             y = heatmap_region.Top
@@ -294,7 +295,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Next
 
         If Not IsMicrosoftPlatform Then
-            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width * 1.5, y, 90)
+            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width * 1.5, y + rotateDelta * 2, 90)
         Else
             Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width, y, 90)
         End If
@@ -329,7 +330,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             y += dy
         Next
 
-        Call g.DrawString("-log(P)", big_label, Brushes.Black, x + big_char.Height, y, 90)
+        Call g.DrawString("-log(P)", big_label, Brushes.Black, x + big_char.Height, y + rotateDelta * 2, 90)
 
         ' draw average VIP
         Dim vip = metadata("VIP").TryCast(Of Double)
@@ -393,7 +394,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
                 g.FillRectangle(group_heatcolors(color), boxCell)
             Next
 
-            Call g.DrawString(group_name, label_font, Brushes.Black, x + boxCell.Width / 2, y + 10, 90)
+            Call g.DrawString(group_name, label_font, Brushes.Black, x + boxCell.Width / 2, y + rotateDelta, 90)
 
             x += dx
             y = group_heatmap_region.Top
@@ -408,16 +409,18 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim scale_intensity_region As New Rectangle(legend_region.Left, legend_region.Top, legend_region.Width, legend_region.Height / 5)
         Dim group_mean_region As New Rectangle(legend_region.Left, legend_region.Top + 1 * (legend_region.Height / 4.5), legend_region.Width, legend_region.Height / 5)
         Dim logp_legend_region As New Rectangle(legend_region.Left, legend_region.Top + 2 * (legend_region.Height / 4.5), legend_region.Width, legend_region.Height / 5)
-        Dim kegg_class_legend As New Rectangle(legend_region.Left, legend_region.Top + 3 * (legend_region.Height / 4.5), legend_region.Width, legend_region.Height / 4)
+        Dim kegg_class_legend As New Rectangle(legend_region.Left, legend_region.Top + 3 * (legend_region.Height / 4.5), legend_region.Width, legend_region.Height / 5)
 
         'Call g.DrawString("Scaled Intensity", label_font, Brushes.Black, scale_intensity_region.Left, scale_intensity_region.Top)
         'Call g.DrawString("Scaled Mean Intensity", label_font, Brushes.Black, group_mean_region.Left, group_mean_region.Top)
         'Call g.DrawString("-log(p)", label_font, Brushes.Black, logp_legend_region.Left, logp_legend_region.Top)
         Call g.DrawString(ClassLabel, big_label, Brushes.Black, kegg_class_legend.Left, kegg_class_legend.Top)
 
-        x = kegg_class_legend.Left
-        y = kegg_class_legend.Top + big_label.Height * 2
         dy = (kegg_class_legend.Height - 20) / class_colors.size
+
+        x = kegg_class_legend.Left
+        y = kegg_class_legend.Top + big_label.Height + dy * 2
+
 
         boxCell = New RectangleF(x, y, dy, dy)
         y += dy * 1.25
