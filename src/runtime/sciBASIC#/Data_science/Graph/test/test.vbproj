@@ -11,7 +11,7 @@
     <AssemblyName>Testing</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Console</MyType>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -75,6 +75,7 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -108,17 +109,25 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Graph.vbproj">
-      <Project>{203bc68f-a0cd-443a-ab62-4af4110f752f}</Project>
-      <Name>Graph</Name>
-    </ProjectReference>
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="NewFolder1\" />
+    <ProjectReference Include="..\..\..\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj">
+      <Project>{19660918-07d8-1f8e-017c-84facee368a9}</Project>
+      <Name>network_graph-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{4f05b9a5-3cff-4f74-a277-e0204282e447}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Mathematica\Math\Math\Math.NET5.vbproj">
+      <Project>{eb865119-17b6-4cad-9862-6cf6609810ee}</Project>
+      <Name>Math.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\graph-netcore5.vbproj">
+      <Project>{8b6f9c07-7204-4877-a46a-777cfc9a6738}</Project>
+      <Name>graph-netcore5</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
