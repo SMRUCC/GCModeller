@@ -24,7 +24,11 @@
 		<Description>sciBASIC#: Microsoft VisualBasic for Scientific Computing</Description>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
-    <UseApplicationFramework>True</UseApplicationFramework>    
+    <UseApplicationFramework>True</UseApplicationFramework>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>    
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
