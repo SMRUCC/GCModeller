@@ -267,7 +267,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             Next
 
             ' draw sample label
-            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width, y + rotateDelta, 90)
+            Call g.DrawString(col, label_font, Brushes.Black, x + boxCell.Width, y + rotateDelta + 30, 90)
 
             x += dx
             y = heatmap_region.Top
@@ -297,7 +297,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         If Not IsMicrosoftPlatform Then
             Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width * 1.5, y, 90)
         Else
-            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width, y + rotateDelta, 90)
+            Call g.DrawString(ClassLabel, big_label, Brushes.Black, x + big_char.Width, y + rotateDelta * 2, 90)
         End If
 
         Dim axis_line_pen As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
@@ -330,7 +330,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
             y += dy
         Next
 
-        Call g.DrawString("-log(P)", big_label, Brushes.Black, x + big_char.Height, y + rotateDelta, 90)
+        Call g.DrawString("-log(P)", big_label, Brushes.Black, x + big_char.Height, y + rotateDelta * 1.5, 90)
 
         ' draw average VIP
         Dim vip = metadata("VIP").TryCast(Of Double)
