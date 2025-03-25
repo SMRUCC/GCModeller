@@ -202,7 +202,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim max_label_size As SizeF = g.MeasureString(data.rownames.MaxLengthString, label_font)
         Dim width As Double
         Dim label_region As New Rectangle(rect.Left, rect.Top, std.Max(rect.Width * 0.2, max_label_size.Width), rect.Height)
-        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.55, rect.Height)
+        Dim heatmap_region As New Rectangle(label_region.Right, rect.Top, rect.Width * 0.65, rect.Height)
         Dim tree_left As Double = heatmap_region.Right + delta / 2
 
         width = std.Min(rect.Width * 0.05, 4 * charRectangle.Width)
@@ -211,7 +211,7 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         Dim mean_log_region As New Rectangle(vip_region.Left - width - delta, rect.Top, width, rect.Height)
         width = std.Min(rect.Width * 0.1, 3 * charRectangle.Width * group_labels.Length)
         Dim group_heatmap_region As New Rectangle(mean_log_region.Left - width - delta, rect.Top, width, rect.Height)
-        width = group_heatmap_region.Left - tree_left - delta
+        width = (group_heatmap_region.Left - tree_left - delta)
         Dim tree_region As New Rectangle(tree_left, rect.Top, width, rect.Height)
 
         Dim label_maxh As Single = label_region.Height / data.nsamples
@@ -416,12 +416,14 @@ Public Class EnrichmentCategoryHeatmap : Inherits HeatMapPlot
         'Call g.DrawString("-log(p)", label_font, Brushes.Black, logp_legend_region.Left, logp_legend_region.Top)
         Call g.DrawString(ClassLabel, big_label, Brushes.Black, kegg_class_legend.Left, kegg_class_legend.Top)
 
-        x = kegg_class_legend.Left
-        y = kegg_class_legend.Top + big_label.Height * 2
         dy = (kegg_class_legend.Height - 20) / class_colors.size
 
+        x = kegg_class_legend.Left
+        y = kegg_class_legend.Top + big_label.Height + dy * 2
+
+
         boxCell = New RectangleF(x, y, dy, dy)
-        y += dy * 5
+        y += dy * 1.25
 
         g.FillRectangle(Brushes.Gray, boxCell)
         g.DrawString("no class", label_font, Brushes.Black, boxCell.Right + 5, boxCell.Top)
