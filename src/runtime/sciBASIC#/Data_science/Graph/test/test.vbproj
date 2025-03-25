@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{06DD75F9-A007-4D93-AB20-86554B4E2973}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Testing.DijkstraTest</StartupObject>
+    <StartupObject>Testing.ullmannTest</StartupObject>
     <RootNamespace>Testing</RootNamespace>
     <AssemblyName>Testing</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DijkstraTest.vb" />
+    <Compile Include="ullmannTest.vb" />
     <Compile Include="TreeTest.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
