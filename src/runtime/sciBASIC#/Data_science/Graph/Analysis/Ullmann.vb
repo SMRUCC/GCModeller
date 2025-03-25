@@ -15,16 +15,21 @@ Namespace Analysis
         ''' </summary>
         ReadOnly Q As Integer()()
 
-        ReadOnly m0Matrix As Integer()()
+        ReadOnly M0 As Integer()()
 
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="largeGraphMatrix">target graph, should be a graph with larger vertex count</param>
+        ''' <param name="searchGraphMatrix">query graph, should be a graph with smaller vertex count</param>
         Public Sub New(largeGraphMatrix As Integer()(), searchGraphMatrix As Integer()())
             Call checkMatrix(largeGraphMatrix, searchGraphMatrix)
 
             Me.T = largeGraphMatrix
             Me.Q = searchGraphMatrix
 
-            m0Matrix = creatM0Matrix()
+            M0 = creatM0Matrix()
         End Sub
 
         Private Shared Sub checkMatrix(ByRef largeGraphMatrix As Integer()(), ByRef searchGraphMatrix As Integer()())
@@ -41,7 +46,6 @@ Namespace Analysis
                 Throw New InvalidDataException($"dimension not matched: the given data object '{obj}' is not a valid matrix data!")
             End If
         End Sub
-
 
         Private Function getDegree(vertex As Integer, graph As Integer()()) As Integer
             Return graph(vertex).Sum()
@@ -60,9 +64,9 @@ Namespace Analysis
             Return res
         End Function
 
-        Public Function FindIsomorphisms() As List(Of Integer())
+        Public Function FindIsomorphisms() As IEnumerable(Of Integer())
             Dim results As New List(Of Integer())
-            Dim M0 As Integer()() = creatM0Matrix()
+            Dim M0 As Integer()() = Me.M0
             Dim currentMatch(Q.Length - 1) As Integer
             Dim used(T.Length - 1) As Boolean
             Backtrack(0, currentMatch.Clone(), used.Clone(), M0, results)
