@@ -75,7 +75,7 @@ Namespace Analysis
         End Function
 
         ''' <summary>
-        ''' get vertex node mapping result, which could be explained via the <see cref="ExplainNodeMapping(Integer()(), String(), String())"/> function.
+        ''' get vertex node mapping result, which could be explained via the <see cref="ExplainNodeMapping"/> function.
         ''' </summary>
         ''' <returns></returns>
         Public Function FindIsomorphisms() As IEnumerable(Of Integer())
