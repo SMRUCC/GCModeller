@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Analysis
@@ -8,126 +9,139 @@ Namespace Analysis
         ''' <summary>
         ''' The target graph
         ''' </summary>
-        Private ReadOnly T As Integer()()
+        ReadOnly T As Integer()()
         ''' <summary>
         ''' the query graph
         ''' </summary>
-        Private ReadOnly Q As Integer()()
+        ReadOnly Q As Integer()()
 
-        Private ReadOnly m0Matrix As Integer()()
+        ReadOnly m0Matrix As Integer()()
 
 
         Public Sub New(largeGraphMatrix As Integer()(), searchGraphMatrix As Integer()())
-            checkMatrix(largeGraphMatrix, searchGraphMatrix)
+            Call checkMatrix(largeGraphMatrix, searchGraphMatrix)
+
             Me.T = largeGraphMatrix
             Me.Q = searchGraphMatrix
 
             m0Matrix = creatM0Matrix()
         End Sub
 
-        Private Shared Sub checkMatrix(largeGraphMatrix As Integer()(), searchGraphMatrix As Integer()())
-            If largeGraphMatrix Is Nothing OrElse searchGraphMatrix Is Nothing Then
-                Throw New ArgumentException("参数不为空")
+        Private Shared Sub checkMatrix(ByRef largeGraphMatrix As Integer()(), ByRef searchGraphMatrix As Integer()())
+            Call checkMatrix(largeGraphMatrix, "target graph")
+            Call checkMatrix(searchGraphMatrix, "query graph")
+        End Sub
+
+        Private Shared Sub checkMatrix(ByRef x As Integer()(), obj$)
+            If x Is Nothing OrElse x.Length = 0 Then
+                Throw New NullReferenceException($"the required graph matrix object '{obj}' should not be nothing!")
             End If
-            If largeGraphMatrix.Length <> largeGraphMatrix(0).Length OrElse searchGraphMatrix.Length <> searchGraphMatrix(0).Length Then
-                Throw New ArgumentException("矩阵不合法")
+            ' check dimension matched
+            If x.Length <> x(0).Length Then
+                Throw New InvalidDataException($"dimension not matched: the given data object '{obj}' is not a valid matrix data!")
             End If
         End Sub
 
-        Public Overridable Function cal() As IList(Of Integer()())
-            Dim res As IList(Of Integer()()) = New List(Of Integer()())()
-            Dim m1 = RectangularArray.Matrix(Of Integer)(m0Matrix.Length, m0Matrix(0).Length)
-            dfs(m1, res, 0)
+
+        Private Function getDegree(vertex As Integer, graph As Integer()()) As Integer
+            Return graph(vertex).Sum()
+        End Function
+
+        Private Function creatM0Matrix() As Integer()()
+            Dim res(Q.Length - 1)() As Integer
+            For i As Integer = 0 To Q.Length - 1
+                res(i) = New Integer(T.Length - 1) {}
+                For j As Integer = 0 To T.Length - 1
+                    Dim targetDegree As Integer = getDegree(j, T)
+                    Dim queryDegree As Integer = getDegree(i, Q)
+                    res(i)(j) = If(targetDegree >= queryDegree, 1, 0)
+                Next
+            Next
             Return res
         End Function
 
-        Public Shared Iterator Function ExplainNodeMapping(ullmann As Integer()(), G As String(), H As String()) As IEnumerable(Of NamedValue(Of String))
-            For Each gv As (map As Integer(), gid As String) In ullmann.Zip(join:=G)
-                For i As Integer = 0 To H.Length - 1
-                    If gv.map(i) > 0 Then
-                        Yield New NamedValue(Of String)(gv.gid, H(i))
-                    End If
-                Next
-            Next
+        Public Function FindIsomorphisms() As List(Of Integer())
+            Dim results As New List(Of Integer())
+            Dim M0 As Integer()() = creatM0Matrix()
+            Dim currentMatch(Q.Length - 1) As Integer
+            Dim used(T.Length - 1) As Boolean
+            Backtrack(0, currentMatch.Clone(), used.Clone(), M0, results)
+            Return results
         End Function
 
-        Private Sub dfs(m1 As Integer()(), res As IList(Of Integer()()), d As Integer)
-            For i = 0 To m1(d).Length - 1
-                If m0Matrix(d)(i) = 1 Then
-                    m1(d)(i) = 1
-                    If d = m1.Length - 1 Then
-                        If check(m1) Then
-                            res.Add(copy(m1))
-                        End If
-                    Else
-                        dfs(m1, res, d + 1)
+        Private Sub Backtrack(
+        depth As Integer,
+        currentMatch() As Integer,
+        used() As Boolean,
+        M As Integer()(),
+        ByRef results As List(Of Integer())
+    )
+            If depth = Q.Length Then
+                results.Add(CType(currentMatch.Clone(), Integer()))
+                Return
+            End If
+
+            For j As Integer = 0 To T.Length - 1
+                If M(depth)(j) = 1 AndAlso Not used(j) Then
+                    If CheckAdjacencyConstraints(depth, j, currentMatch, depth) Then
+                        used(j) = True
+                        currentMatch(depth) = j
+                        Dim newM As Integer()() = RefineM(M, depth, j, currentMatch)
+                        Backtrack(depth + 1, currentMatch.Clone(), used.Clone(), newM, results)
+                        used(j) = False
+                        currentMatch(depth) = -1
                     End If
-                    m1(d)(i) = 0
                 End If
             Next
         End Sub
 
-        Private Function copy(m1 As Integer()()) As Integer()()
-
-            Dim res = RectangularArray.Matrix(Of Integer)(m1.Length, m1(0).Length)
-            For i = 0 To res.Length - 1
-                Array.Copy(m1(i), 0, res(i), 0, res(i).Length)
-            Next
-            Return res
-        End Function
-
-        Private Function check(m1 As Integer()()) As Boolean
-            Dim mc = getMC(m1)
-            For i = 0 To Q.Length - 1
-                For j = 0 To Q(i).Length - 1
-                    If Q(i)(j) = 1 AndAlso mc(i)(j) <> 1 Then
-                        Return False
-                    End If
-                Next
+        Private Function CheckAdjacencyConstraints(
+        currentQVertex As Integer,
+        currentTVertex As Integer,
+        currentMatch() As Integer,
+        depth As Integer
+    ) As Boolean
+            For l As Integer = 0 To depth - 1
+                If Q(currentQVertex)(l) = 1 AndAlso T(currentTVertex)(currentMatch(l)) <> 1 Then
+                    Return False
+                End If
+                If Q(l)(currentQVertex) = 1 AndAlso T(currentMatch(l))(currentTVertex) <> 1 Then
+                    Return False
+                End If
             Next
             Return True
         End Function
 
-        Private Function getMC(m1 As Integer()()) As Integer()()
-            'M'⋅B
+        Private Function RefineM(
+        oldM As Integer()(),
+        currentDepth As Integer,
+        selectedTVertex As Integer,
+        currentMatch() As Integer
+    ) As Integer()()
+            Dim newM = oldM.Select(Function(row) row.ToArray()).ToArray()
 
-            Dim m1b = MatrixUtils.multiplication(m1, T)
-            '（M'⋅B)T
+            For j As Integer = 0 To newM(currentDepth).Length - 1
+                newM(currentDepth)(j) = If(j = selectedTVertex, 1, 0)
+            Next
 
-            Dim m1bt = MatrixUtils.transpose(m1b)
-            'MC=M'（M'⋅B)T
-            Return MatrixUtils.multiplication(m1, m1bt)
-        End Function
-
-        ''' <summary>
-        ''' 创建M0矩阵 M0 矩阵以小图的点为行，大图的点为列
-        ''' <para>
-        ''' 当大图的j点的度大于小图j点的度，m[i][j]=1,否则m[i][j]=0。
-        ''' </para>
-        ''' </summary>
-        Private Function creatM0Matrix() As Integer()()
-            Dim res = RectangularArray.Matrix(Of Integer)(Q.Length, T.Length)
-            For i = 0 To res.Length - 1
-                For j = 0 To res(i).Length - 1
-                    Dim l = getDegree(j, T)
-                    Dim s = getDegree(i, Q)
-                    res(i)(j) = If(l >= s, 1, 0)
+            For i As Integer = currentDepth + 1 To Q.Length - 1
+                For j As Integer = 0 To T.Length - 1
+                    If newM(i)(j) = 1 Then
+                        For l As Integer = 0 To currentDepth
+                            If Q(i)(l) = 1 AndAlso T(j)(currentMatch(l)) = 0 Then
+                                newM(i)(j) = 0
+                                Exit For
+                            End If
+                            If Q(l)(i) = 1 AndAlso T(currentMatch(l))(j) = 0 Then
+                                newM(i)(j) = 0
+                                Exit For
+                            End If
+                        Next
+                    End If
                 Next
             Next
-            Return res
-        End Function
 
-        ''' <summary>
-        ''' 获取点的度
-        ''' </summary>
-        ''' <paramname="i">           点的编号 </param>
-        ''' <paramname="graphMatrix"> 图的矩阵 </param>
-        Private Function getDegree(i As Integer, graphMatrix As Integer()()) As Integer
-            Dim res = 0
-            For k = 0 To graphMatrix(i).Length - 1
-                res += If(graphMatrix(i)(k) = 1, 1, 0)
-            Next
-            Return res
+            Return newM
         End Function
 
     End Class
