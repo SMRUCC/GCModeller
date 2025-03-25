@@ -88,7 +88,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Numerics.Vectors" Version="4.6.0" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
   </ItemGroup>
 
   <Import Project="..\..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
