@@ -47,7 +47,17 @@ Namespace Analysis
             End If
         End Sub
 
-        Private Function getDegree(vertex As Integer, graph As Integer()()) As Integer
+        Public Shared Iterator Function ExplainNodeMapping(ullmann As Integer()(), G As String(), H As String()) As IEnumerable(Of NamedValue(Of String))
+            For Each gv As (map As Integer(), gid As String) In ullmann.Zip(join:=G)
+                For i As Integer = 0 To H.Length - 1
+                    If gv.map(i) > 0 Then
+                        Yield New NamedValue(Of String)(gv.gid, H(i))
+                    End If
+                Next
+            Next
+        End Function
+
+        Private Shared Function getDegree(vertex As Integer, graph As Integer()()) As Integer
             Return graph(vertex).Sum()
         End Function
 
@@ -64,12 +74,16 @@ Namespace Analysis
             Return res
         End Function
 
+        ''' <summary>
+        ''' get vertex node mapping result, which could be explained via the <see cref="ExplainNodeMapping(Integer()(), String(), String())"/> function.
+        ''' </summary>
+        ''' <returns></returns>
         Public Function FindIsomorphisms() As IEnumerable(Of Integer())
             Dim results As New List(Of Integer())
             Dim M0 As Integer()() = Me.M0
             Dim currentMatch(Q.Length - 1) As Integer
             Dim used(T.Length - 1) As Boolean
-            Backtrack(0, currentMatch.Clone(), used.Clone(), M0, results)
+            Call Backtrack(0, currentMatch.Clone(), used.Clone(), M0, results)
             Return results
         End Function
 
