@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7085f420d43acd9f8f405bfb7aaa6a13, localblast\LocalBLAST\Pipeline\Models\SpeciesBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::a55dca8b5d7937f2eeaadbdf8f0416d1, localblast\LocalBLAST\Pipeline\Models\SpeciesBesthit.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.42%
     ' 
     '   Blank Lines: 53 (13.05%)
-    '     File Size: 17.18 KB
+    '     File Size: 17.19 KB
 
 
     '     Class SpeciesBesthit

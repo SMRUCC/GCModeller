@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f19222889e6aaa064788b6b124e0fc05, localblast\LocalBLAST\LocalBLAST\BlastOutput\Views.vb"
+﻿#Region "Microsoft.VisualBasic::2513732b64337cbd2cec339d484dfcb2, localblast\LocalBLAST\LocalBLAST\BlastOutput\Views.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 17 (16.04%)
-    '     File Size: 3.74 KB
+    '     File Size: 3.75 KB
 
 
     '     Class Overview

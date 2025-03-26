@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b67e287e7d13ae5fe21ee53579fa5377, visualize\Cytoscape\Cytoscape\API\ImportantNodes\ImportantNodes.vb"
+﻿#Region "Microsoft.VisualBasic::7c9f42112b1afd021a2f0a58a109527a, visualize\Cytoscape\Cytoscape\API\ImportantNodes\ImportantNodes.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.00%
     ' 
     '   Blank Lines: 21 (10.77%)
-    '     File Size: 9.92 KB
+    '     File Size: 9.94 KB
 
 
     '     Module ImportantNodes

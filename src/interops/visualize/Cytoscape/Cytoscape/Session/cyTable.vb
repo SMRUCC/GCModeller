@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab9886a03cccf82e0777c3a46345c3e7, visualize\Cytoscape\Cytoscape\Session\cyTable.vb"
+﻿#Region "Microsoft.VisualBasic::d9f69d6c83f1ef2f548c2841abfa0c93, visualize\Cytoscape\Cytoscape\Session\cyTable.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 14 (17.72%)
-    '     File Size: 2.79 KB
+    '     File Size: 2.80 KB
 
 
     '     Class cyTable
