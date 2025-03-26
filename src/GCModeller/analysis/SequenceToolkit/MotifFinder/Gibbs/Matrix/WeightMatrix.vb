@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59a70fb1da16ae08b856d9c57ab3348d, analysis\SequenceToolkit\MotifFinder\Gibbs\Matrix\WeightMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::d56d192101878673bad7418c23c36350, analysis\SequenceToolkit\MotifFinder\Gibbs\Matrix\WeightMatrix.vb"
 
     ' Author:
     ' 
@@ -111,4 +111,3 @@ Namespace Matrix
     End Class
 
 End Namespace
-

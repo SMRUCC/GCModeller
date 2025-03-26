@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5a16f8be712a5e3fa2a6c2a6d3366ba, analysis\SequenceToolkit\SequencePatterns\Pattern\SegLoci.vb"
+﻿#Region "Microsoft.VisualBasic::91a862bf87d4e15189e876467b7b47d7, analysis\SequenceToolkit\SequencePatterns\Pattern\SegLoci.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 8 (15.38%)
-    '     File Size: 1.98 KB
+    '     File Size: 1.99 KB
 
 
     '     Class SegLoci

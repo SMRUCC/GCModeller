@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd787ead6fbb03d6a0b6b41b5cfe5604, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\PalindromeAPI.vb"
+﻿#Region "Microsoft.VisualBasic::ebe7a3937a2f0894e8d76fc40ae487db, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\PalindromeAPI.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 88.79%
     ' 
     '   Blank Lines: 47 (11.16%)
-    '     File Size: 20.68 KB
+    '     File Size: 20.69 KB
 
 
     '     Module Palindrome

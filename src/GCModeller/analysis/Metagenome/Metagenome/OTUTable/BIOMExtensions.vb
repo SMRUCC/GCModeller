@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb11f010b7e19dd5d4990a1640094468, analysis\Metagenome\Metagenome\OTUTable\BIOMExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::a29227749a286085f4d85f5501cfa54d, analysis\Metagenome\Metagenome\OTUTable\BIOMExtensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 5 (20.00%)
-    '     File Size: 821 B
+    '     File Size: 827 B
 
 
     ' Module BIOMExtensions

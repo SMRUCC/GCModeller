@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3526f620043186b3dc3ee6c8afcd745, data\Rhea\ReactionList.vb"
+﻿#Region "Microsoft.VisualBasic::c8dd299c8134371855ab1e7f70807b56, data\Rhea\ReactionList.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 2 (40.00%)
-    '     File Size: 121 B
+    '     File Size: 119 B
 
 
     ' Class ReactionList
@@ -56,4 +56,3 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Public Class ReactionList : Inherits XmlList(Of Reaction)
 
 End Class
-

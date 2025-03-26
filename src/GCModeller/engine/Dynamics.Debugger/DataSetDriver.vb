@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::347e5bd0846f3dfa05b47bed84946bc4, engine\Dynamics.Debugger\DataSetDriver.vb"
+﻿#Region "Microsoft.VisualBasic::0621b1eba8dc9c60fc1fdf30498e2c0f, engine\Dynamics.Debugger\DataSetDriver.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 7 (22.58%)
-    '     File Size: 1.11 KB
+    '     File Size: 1.12 KB
 
 
     ' Class DataSetDriver

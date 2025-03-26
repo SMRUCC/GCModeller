@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fffe9a0cfb156f7e9811b69edb282111, data\Xfam\Pfam\Pipeline\PfamString\PfamString.vb"
+﻿#Region "Microsoft.VisualBasic::647149809afaefa7cd57fc747115b1a4, data\Xfam\Pfam\Pipeline\PfamString\PfamString.vb"
 
     ' Author:
     ' 

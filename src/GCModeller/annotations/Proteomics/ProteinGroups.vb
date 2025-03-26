@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b02a1bf87f72f6e398043d8328b4b978, annotations\Proteomics\ProteinGroups.vb"
+﻿#Region "Microsoft.VisualBasic::1768c3c1bd794933e197d1a8f032c81d, annotations\Proteomics\ProteinGroups.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 63.33%
     ' 
     '   Blank Lines: 55 (11.68%)
-    '     File Size: 19.80 KB
+    '     File Size: 19.81 KB
 
 
     ' Module ProteinGroups

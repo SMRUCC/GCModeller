@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71ed69ac4f4690c1805490eff336f286, analysis\Microarray\DEGDesigner.vb"
+﻿#Region "Microsoft.VisualBasic::1653441a906adcf9289e4436d8d50893, analysis\Microarray\DEGDesigner.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 87.88%
     ' 
     '   Blank Lines: 56 (11.91%)
-    '     File Size: 18.96 KB
+    '     File Size: 18.98 KB
 
 
     ' Module DEGDesigner

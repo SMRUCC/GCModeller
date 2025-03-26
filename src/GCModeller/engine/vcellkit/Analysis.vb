@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a27c9458f652c672b2db336bdf0ad310, engine\vcellkit\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::f048cf1e2ce14196c58c4cd2dbe952f4, engine\vcellkit\Analysis.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 10 (8.85%)
-    '     File Size: 4.32 KB
+    '     File Size: 4.33 KB
 
 
     ' Module Analysis

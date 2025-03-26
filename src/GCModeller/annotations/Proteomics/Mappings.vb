@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1db89429b5e94abd30a44a6ae87ef117, annotations\Proteomics\Mappings.vb"
+﻿#Region "Microsoft.VisualBasic::982b5e1f7bee038771a98d43d9095a23, annotations\Proteomics\Mappings.vb"
 
     ' Author:
     ' 

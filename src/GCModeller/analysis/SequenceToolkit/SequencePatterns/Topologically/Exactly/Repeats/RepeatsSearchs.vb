@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c5fa4c09b9bd6ea3fd57ef5a240f9631, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\RepeatsSearchs.vb"
+﻿#Region "Microsoft.VisualBasic::3bd7635a2f981203a934d812bd853b22, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\RepeatsSearchs.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 7 (17.07%)
-    '     File Size: 1.68 KB
+    '     File Size: 1.69 KB
 
 
     '     Class RepeatsSearcher

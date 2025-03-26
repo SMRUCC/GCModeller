@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd53a6f53cf9cd29328c32516bbd3a15, annotations\Proteomics\iTraq\iTraqSample.vb"
+﻿#Region "Microsoft.VisualBasic::1beaa80ace10f9c71969f366b9e8e602, annotations\Proteomics\iTraq\iTraqSample.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 68.33%
     ' 
     '   Blank Lines: 47 (13.43%)
-    '     File Size: 14.21 KB
+    '     File Size: 14.22 KB
 
 
     ' Module iTraqSample

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f7cbd831057598253d0967c2c0d7bb3, data\Xfam\Pfam\MPAlignment\Output\CsvArchive.vb"
+﻿#Region "Microsoft.VisualBasic::664ea2fb68b7453bc6b6a4b88ac37189, data\Xfam\Pfam\MPAlignment\Output\CsvArchive.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 10 (9.35%)
-    '     File Size: 4.16 KB
+    '     File Size: 4.17 KB
 
 
     '     Class MPCsvArchive

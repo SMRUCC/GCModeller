@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a56d7a63de4ca6be6646a02d3e41eabb, annotations\GSEA\GSEA\KnowledgeBase\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::21985bcf4971a7e9070f1348fbb753b4, annotations\GSEA\GSEA\KnowledgeBase\KEGG.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 124
-    '    Code Lines: 107 (86.29%)
-    ' Comment Lines: 4 (3.23%)
+    '   Total Lines: 127
+    '    Code Lines: 110 (86.61%)
+    ' Comment Lines: 4 (3.15%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 13 (10.48%)
-    '     File Size: 4.93 KB
+    '   Blank Lines: 13 (10.24%)
+    '     File Size: 5.11 KB
 
 
     ' Module KEGG

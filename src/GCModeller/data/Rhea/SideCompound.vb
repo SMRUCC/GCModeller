@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db1bf3a7df6866ef9a921a3e3f0027f4, data\Rhea\SideCompound.vb"
+﻿#Region "Microsoft.VisualBasic::a9cf68723251821ca4d3924551e8ea45, data\Rhea\SideCompound.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 22
-    '    Code Lines: 15 (68.18%)
+    '   Total Lines: 21
+    '    Code Lines: 15 (71.43%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 7 (31.82%)
-    '     File Size: 430 B
+    '   Blank Lines: 6 (28.57%)
+    '     File Size: 428 B
 
 
     ' Class SideCompound
@@ -53,7 +53,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.Xml.Serialization
 

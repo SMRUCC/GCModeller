@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21b0ed77a8214b996b9622cbaf290b58, analysis\SequenceToolkit\MotifFinder\Gibbs\GibbsSampler.vb"
+﻿#Region "Microsoft.VisualBasic::e9f1fa682b82c6156e328d6e210cc674, analysis\SequenceToolkit\MotifFinder\Gibbs\GibbsSampler.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 294
-    '    Code Lines: 180 (61.22%)
-    ' Comment Lines: 74 (25.17%)
+    '   Total Lines: 293
+    '    Code Lines: 180 (61.43%)
+    ' Comment Lines: 74 (25.26%)
     '    - Xml Docs: 85.14%
     ' 
-    '   Blank Lines: 40 (13.61%)
+    '   Blank Lines: 39 (13.31%)
     '     File Size: 13.85 KB
 
 
@@ -55,7 +55,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.IO
 Imports Microsoft.VisualBasic.Math.GibbsSampling

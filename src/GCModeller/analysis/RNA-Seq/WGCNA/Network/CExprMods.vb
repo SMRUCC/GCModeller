@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6402eb025b428af7b97ae51cae538316, analysis\RNA-Seq\WGCNA\Network\CExprMods.vb"
+﻿#Region "Microsoft.VisualBasic::bc581ea1215ab9a26ea031127ab816a1, analysis\RNA-Seq\WGCNA\Network\CExprMods.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 7 (21.21%)
-    '     File Size: 965 B
+    '     File Size: 971 B
 
 
     '     Class CExprMods

@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::866e15bb294b4fc0e34153d296a1d70c, analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::daf6b691f69067c0da747ccaa72ab00a, analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 191
-'    Code Lines: 142 (74.35%)
-' Comment Lines: 20 (10.47%)
-'    - Xml Docs: 95.00%
-' 
-'   Blank Lines: 29 (15.18%)
-'     File Size: 6.62 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module LociExtensions
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: __ip, __pl, __revp, __revpcsv, __rps
-'               __rpscsv, ConvertsAuto, MirrorsLoci, (+4 Overloads) ToLoci, (+6 Overloads) ToLocis
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 191
+    '    Code Lines: 142 (74.35%)
+    ' Comment Lines: 20 (10.47%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 29 (15.18%)
+    '     File Size: 6.64 KB
+
+
+    ' Module LociExtensions
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: __ip, __pl, __revp, __revpcsv, __rps
+    '               __rpscsv, ConvertsAuto, MirrorsLoci, (+4 Overloads) ToLoci, (+6 Overloads) ToLocis
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

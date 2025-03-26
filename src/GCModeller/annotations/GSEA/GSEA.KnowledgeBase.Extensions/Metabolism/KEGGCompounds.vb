@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd502f615ae81b4866aaacbc71cf4228, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\KEGGCompounds.vb"
+﻿#Region "Microsoft.VisualBasic::34c9a61d30824a9681579009693d051e, annotations\GSEA\GSEA.KnowledgeBase.Extensions\Metabolism\KEGGCompounds.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 139
-    '    Code Lines: 103 (74.10%)
-    ' Comment Lines: 23 (16.55%)
+    '   Total Lines: 162
+    '    Code Lines: 122 (75.31%)
+    ' Comment Lines: 23 (14.20%)
     '    - Xml Docs: 82.61%
     ' 
-    '   Blank Lines: 13 (9.35%)
-    '     File Size: 5.50 KB
+    '   Blank Lines: 17 (10.49%)
+    '     File Size: 6.51 KB
 
 
     ' Module KEGGCompounds

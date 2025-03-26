@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::045cc257430ceb757fd23a70ecedff77, analysis\SequenceToolkit\MotifFinder\Gibbs\Utils.vb"
+﻿#Region "Microsoft.VisualBasic::e7af95c1ddb8b59edc6bb63552d546d9, analysis\SequenceToolkit\MotifFinder\Gibbs\Utils.vb"
 
     ' Author:
     ' 
@@ -92,4 +92,3 @@ Public Class Utils
                                                                                          End Function, Func(Of Double, Double))).Sum()
     End Function
 End Class
-

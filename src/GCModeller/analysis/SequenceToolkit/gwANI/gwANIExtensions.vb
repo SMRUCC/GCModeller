@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fb52d447bacd6874beebdda1a72037a, analysis\SequenceToolkit\gwANI\gwANIExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::4004e3a471c16fe64104c522732b6b15, analysis\SequenceToolkit\gwANI\gwANIExtensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.86%
     ' 
     '   Blank Lines: 5 (11.11%)
-    '     File Size: 1.65 KB
+    '     File Size: 1.66 KB
 
 
     ' Module gwANIExtensions

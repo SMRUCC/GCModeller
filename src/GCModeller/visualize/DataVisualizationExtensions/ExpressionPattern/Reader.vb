@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa9dd77f03f4e425a9ec94f6e090db07, visualize\DataVisualizationExtensions\ExpressionPattern\Reader.vb"
+﻿#Region "Microsoft.VisualBasic::e91997886c7eef77ae23185a56793d90, visualize\DataVisualizationExtensions\ExpressionPattern\Reader.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 18 (15.65%)
-    '     File Size: 4.60 KB
+    '     File Size: 4.61 KB
 
 
     '     Module Reader

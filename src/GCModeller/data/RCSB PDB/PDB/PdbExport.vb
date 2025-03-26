@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53ca133a3017def80a7b8268f2f45f2c, data\RCSB PDB\PDB\PdbExport.vb"
+﻿#Region "Microsoft.VisualBasic::541ab9d1b1debde6a144c80d45583099, data\RCSB PDB\PDB\PdbExport.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 64 (65.31%)
+    ' Comment Lines: 14 (14.29%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 20 (20.41%)
+    '     File Size: 5.03 KB
+
+
     ' Module PdbExport
     ' 
-    '     Function: __generateItem, AssemblyProteinComplexes, ExportSequence, GetByKeyword, LoadBhCsv
+    '     Function: AssemblyProteinComplexes, ExportSequence, GetByKeyword
+    ' 
+    ' Class AssemblyComplex
+    ' 
+    '     Properties: AssemblyComponents, UnitCounts
     ' 
     ' /********************************************************************************/
 

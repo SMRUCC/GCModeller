@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3c1bdb097902ea9fbaa1aa19f6c5aae, engine\vcellkit\RawXmlKit.vb"
+﻿#Region "Microsoft.VisualBasic::3b37fd8bf560885bd2ae1aea0b135714, engine\vcellkit\RawXmlKit.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 87.50%
     ' 
     '   Blank Lines: 43 (13.40%)
-    '     File Size: 12.31 KB
+    '     File Size: 12.32 KB
 
 
     ' Module RawXmlKit

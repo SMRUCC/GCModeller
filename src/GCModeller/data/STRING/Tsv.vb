@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f78490e0d6b2d740cbd7009cdb6dfe99, data\STRING\Tsv.vb"
+﻿#Region "Microsoft.VisualBasic::f90cec9e8e004a9a70ca1df9736eec3f, data\STRING\Tsv.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 94.12%
     ' 
     '   Blank Lines: 30 (11.72%)
-    '     File Size: 13.07 KB
+    '     File Size: 13.09 KB
 
 
     '     Class LinkAction

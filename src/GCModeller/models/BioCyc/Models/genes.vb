@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e9bd16825b0d4e878c481398ef1a49c, models\BioCyc\Models\genes.vb"
+﻿#Region "Microsoft.VisualBasic::2c268c41727383e6c052dcb08455fcb8, models\BioCyc\Models\genes.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 42
-    '    Code Lines: 34 (80.95%)
+    '   Total Lines: 41
+    '    Code Lines: 34 (82.93%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 8 (19.05%)
-    '     File Size: 1.48 KB
+    '   Blank Lines: 7 (17.07%)
+    '     File Size: 1.47 KB
 
 
     ' Class genes
@@ -53,7 +53,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
@@ -96,4 +95,3 @@ Public Class genes : Inherits Model
         Return AttrDataCollection(Of genes).LoadFile(New StringReader(data))
     End Function
 End Class
-

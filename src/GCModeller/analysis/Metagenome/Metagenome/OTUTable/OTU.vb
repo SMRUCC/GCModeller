@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74335936b7f8b0e577daf5ff8e7fbcc3, analysis\Metagenome\Metagenome\OTUTable\OTU.vb"
+﻿#Region "Microsoft.VisualBasic::82433e84ade5f828e997e497d5d6e050, analysis\Metagenome\Metagenome\OTUTable\OTU.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 88.89%
     ' 
     '   Blank Lines: 12 (8.22%)
-    '     File Size: 6.05 KB
+    '     File Size: 6.06 KB
 
 
     ' Module OTU

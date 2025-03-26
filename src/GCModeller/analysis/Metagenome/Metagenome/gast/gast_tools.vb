@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8951a8f7e66a3673fbcb8655f8034282, analysis\Metagenome\Metagenome\gast\gast_tools.vb"
+﻿#Region "Microsoft.VisualBasic::5fe6c358377dbcea9bfcab693f5450d7, analysis\Metagenome\Metagenome\gast\gast_tools.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 18.18%
     ' 
     '   Blank Lines: 45 (18.07%)
-    '     File Size: 10.10 KB
+    '     File Size: 10.11 KB
 
 
     '     Module gast_tools

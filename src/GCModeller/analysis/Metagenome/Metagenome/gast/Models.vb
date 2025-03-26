@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bfbb92ad668300b69bb834b3f0e4ab73, analysis\Metagenome\Metagenome\gast\Models.vb"
+﻿#Region "Microsoft.VisualBasic::149496856fb70af4d6623f3c4cbab6f4, analysis\Metagenome\Metagenome\gast\Models.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 8 (10.67%)
-    '     File Size: 2.70 KB
+    '     File Size: 2.71 KB
 
 
     '     Class Names

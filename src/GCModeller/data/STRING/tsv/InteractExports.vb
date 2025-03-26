@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61d9c7efcbf9df9995d2d54f13f7a56f, data\STRING\tsv\InteractExports.vb"
+﻿#Region "Microsoft.VisualBasic::66357d1e0626a204e20d43465214dac5, data\STRING\tsv\InteractExports.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 6 (11.11%)
-    '     File Size: 2.35 KB
+    '     File Size: 2.36 KB
 
 
     ' Class InteractExports

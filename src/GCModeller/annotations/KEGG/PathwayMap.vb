@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2aa460e7520b79e34f25316fe5a58454, annotations\KEGG\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::1ed34a19659bd74b2ce1f78eef062e87, annotations\KEGG\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 13 (14.13%)
-    '     File Size: 3.45 KB
+    '     File Size: 3.46 KB
 
 
     ' Module PathwayMapVisualize
