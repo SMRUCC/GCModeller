@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d9e9ec16a7a466520469e8481f22cc6, Bio.Repository\NCBI\Genbank.vb"
+﻿#Region "Microsoft.VisualBasic::cb28ef22de22ac0c3d1c02ff28ff9c92, Bio.Repository\NCBI\Genbank.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 98.53%
     ' 
     '   Blank Lines: 54 (15.56%)
-    '     File Size: 13.35 KB
+    '     File Size: 13.36 KB
 
 
     ' Module Installer

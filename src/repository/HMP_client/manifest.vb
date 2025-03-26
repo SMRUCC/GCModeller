@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28480b1b6bdfcf1be0ada64291b38172, HMP_client\manifest.vb"
+﻿#Region "Microsoft.VisualBasic::479c7bab930799dacc768c29bed7ef63, HMP_client\manifest.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 8 (12.90%)
-    '     File Size: 2.01 KB
+    '     File Size: 2.03 KB
 
 
     ' Class manifest
