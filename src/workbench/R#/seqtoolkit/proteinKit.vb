@@ -1,4 +1,57 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::0eb0ebf1077c7a7170520b48903abe11, R#\seqtoolkit\proteinKit.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 85 (55.92%)
+    ' Comment Lines: 43 (28.29%)
+    '    - Xml Docs: 90.70%
+    ' 
+    '   Blank Lines: 24 (15.79%)
+    '     File Size: 6.83 KB
+
+
+    ' Module proteinKit
+    ' 
+    '     Function: (+2 Overloads) ChouFasman, kmer_fingerprint, kmer_graph, readPdb
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -150,3 +203,4 @@ Module proteinKit
     End Function
 
 End Module
+

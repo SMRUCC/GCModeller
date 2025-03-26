@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdd1ecbf4001bedf88a3ffce5a6a61d2, R#\kegg_kit\britekit.vb"
+﻿#Region "Microsoft.VisualBasic::3f4374128f7595ef2efad4f0cfab82fb, R#\kegg_kit\britekit.vb"
 
     ' Author:
     ' 

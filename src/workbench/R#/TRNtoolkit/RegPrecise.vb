@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b55a81de9848ee3839d322219339b2b4, R#\TRNtoolkit\RegPrecise.vb"
+﻿#Region "Microsoft.VisualBasic::f6291955274e322858805c3063e26d94, R#\TRNtoolkit\RegPrecise.vb"
 
     ' Author:
     ' 

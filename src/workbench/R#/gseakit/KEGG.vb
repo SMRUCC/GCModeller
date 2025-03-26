@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab9eea3e20a39f1a368c050181664831, R#\gseakit\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::2a4ae92283bc0f02a984d4090cf8b4a9, R#\gseakit\KEGG.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 40
-    '    Code Lines: 23 (57.50%)
-    ' Comment Lines: 10 (25.00%)
-    '    - Xml Docs: 90.00%
+    '   Total Lines: 76
+    '    Code Lines: 53 (69.74%)
+    ' Comment Lines: 12 (15.79%)
+    '    - Xml Docs: 75.00%
     ' 
-    '   Blank Lines: 7 (17.50%)
-    '     File Size: 1.33 KB
+    '   Blank Lines: 11 (14.47%)
+    '     File Size: 3.20 KB
 
 
     ' Module KEGG
     ' 
-    '     Function: compoundSet
+    '     Function: compoundSet, kegg_category_annotation
     ' 
     ' /********************************************************************************/
 
@@ -127,4 +127,3 @@ Module KEGG
     End Function
 
 End Module
-

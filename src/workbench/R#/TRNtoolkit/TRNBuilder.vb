@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25bedaae1e58b9e84e7c6d3d7556203e, R#\TRNtoolkit\TRNBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::f1995bff75da5ac8424857856c48d9b4, R#\TRNtoolkit\TRNBuilder.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 32.79%
     ' 
     '   Blank Lines: 28 (12.96%)
-    '     File Size: 9.77 KB
+    '     File Size: 9.79 KB
 
 
     ' Module TRNBuilder
