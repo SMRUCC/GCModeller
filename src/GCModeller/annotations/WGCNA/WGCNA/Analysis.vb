@@ -86,7 +86,7 @@ Public Module Analysis
     ''' <param name="adjacency"></param>
     ''' <returns></returns>
     Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6, Optional umapLayout As Boolean = True) As Result
-        Call VBDebugger.EchoLine("do correlation matrix evaluation...")
+        Call VBDebugger.EchoLine("do pearson correlation matrix evaluation...")
         Dim cor As CorrelationMatrix = samples.Correlation(Function(gene) gene.experiments)
         Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
         Call VBDebugger.EchoLine("do beta test...")
@@ -94,11 +94,11 @@ Public Module Analysis
         Dim beta As BetaTest = betaList(BetaTest.Best(betaList))
         Call VBDebugger.EchoLine("build network graph!")
         Dim network As NumericMatrix = cor.WeightedCorrelation(beta.Power, pvalue:=False).Adjacency(adjacency)
-        Dim g As NetworkGraph = network.createGraph(samples, umapLayout)
         Dim K As New Vector(network.RowApply(AddressOf WeightedNetwork.sumK))
         Call VBDebugger.EchoLine("create TOM matrix...")
         Dim tomMat As NumericMatrix = TOM.Matrix(network, K)
         Dim dist As New DistanceMatrix(samples.expression.Keys, 1 - tomMat)
+        Dim g As NetworkGraph = network.createGraph(samples, umapLayout, cor, tomMat)
         Call VBDebugger.EchoLine("make tree clustering!")
         Dim alg As ClusteringAlgorithm = New DefaultClusteringAlgorithm With {.debug = True}
         Dim matrix As Double()() = dist.PopulateRows _
@@ -154,7 +154,7 @@ Public Module Analysis
     End Function
 
     <Extension>
-    Private Function createGraph(mat As NumericMatrix, samples As Matrix, umapLayout As Boolean) As NetworkGraph
+    Private Function createGraph(mat As NumericMatrix, samples As Matrix, umapLayout As Boolean, cor As CorrelationMatrix, TOM As NumericMatrix) As NetworkGraph
         Dim geneId As String() = samples.expression.Keys.UniqueNames.ToArray
         Dim g As New NetworkGraph
         Dim umap As Umap = Nothing
@@ -180,10 +180,16 @@ Public Module Analysis
 
         Call VBDebugger.EchoLine("create links between the gene expression.")
 
+        Dim edge As Edge = Nothing
+
         For Each i As Integer In TqdmWrapper.Range(0, geneId.Length)
             For j As Integer = 0 To geneId.Length - 1
                 If i <> j AndAlso mat(i, j) <> 0.0 Then
-                    Call g.AddEdge(geneId(i), geneId(j), weight:=mat(i, j))
+                    Call g.AddEdge(geneId(i), geneId(j), weight:=mat(i, j), getNewEdge:=edge)
+
+                    edge.data("TOM") = TOM(i, j)
+                    edge.data("pearson") = cor(i, j)
+                    edge.data("pvalue") = cor.pvalue(i, j)
                 End If
             Next
         Next
