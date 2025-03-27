@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7572289fd08b319504653e6d0c0f9165, models\BioCyc\Models\compounds.vb"
+﻿#Region "Microsoft.VisualBasic::ae28a79e97cb80b49d34fe71a17b3473, models\BioCyc\Models\compounds.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 9 (13.04%)
-    '     File Size: 2.66 KB
+    '     File Size: 2.67 KB
 
 
     ' Class compounds

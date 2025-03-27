@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbe0b2ac474e00591d540dd015c8641f, localblast\LocalBLAST\Pipeline\COG\Reports\COG.vb"
+﻿#Region "Microsoft.VisualBasic::593b303b1e4e0770ae848d8c9c6651ee, localblast\LocalBLAST\Pipeline\COG\Reports\COG.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 9 (13.85%)
-    '     File Size: 2.69 KB
+    '     File Size: 2.71 KB
 
 
     '     Class MGACOG

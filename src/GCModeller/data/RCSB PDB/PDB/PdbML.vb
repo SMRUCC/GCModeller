@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 205
+    '    Code Lines: 145 (70.73%)
+    ' Comment Lines: 16 (7.80%)
+    '    - Xml Docs: 62.50%
+    ' 
+    '   Blank Lines: 44 (21.46%)
+    '     File Size: 8.64 KB
+
+
     '     Class PdbML
     ' 
     '         Properties: AtomSiteCategory, datablockName, entityPolyCategory

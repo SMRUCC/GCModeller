@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a88b0f5a83464b98f9155613a7c36f9, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Files\RepeatPlant.vb"
+﻿#Region "Microsoft.VisualBasic::81819480aac71e239df300d48f9748b0, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Files\RepeatPlant.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 31 (13.36%)
-    '     File Size: 9.02 KB
+    '     File Size: 9.03 KB
 
 
     '     Class RepeatsLoci

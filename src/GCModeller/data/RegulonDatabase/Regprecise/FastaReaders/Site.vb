@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f098f1b498c439c0c51b02292ae23ea2, data\RegulonDatabase\Regprecise\FastaReaders\Site.vb"
+﻿#Region "Microsoft.VisualBasic::de9654b501366911987c1733df3aee09, data\RegulonDatabase\Regprecise\FastaReaders\Site.vb"
 
     ' Author:
     ' 

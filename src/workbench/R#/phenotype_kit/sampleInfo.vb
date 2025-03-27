@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::805606d2421fec761feed4e277e06ab4, R#\phenotype_kit\sampleInfo.vb"
+﻿#Region "Microsoft.VisualBasic::4e1d2ec674546d87029e319299ec628c, R#\phenotype_kit\sampleInfo.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 95.24%
     ' 
     '   Blank Lines: 52 (12.97%)
-    '     File Size: 15.87 KB
+    '     File Size: 15.88 KB
 
 
     ' Module DEGSample

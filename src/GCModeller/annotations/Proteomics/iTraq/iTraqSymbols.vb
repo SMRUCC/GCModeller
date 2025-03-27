@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45a4806c0f8d58f0f23df2b29f5d9ebe, annotations\Proteomics\iTraq\iTraqSymbols.vb"
+﻿#Region "Microsoft.VisualBasic::644bd1d758ed7a7a70453e492cabb7d6, annotations\Proteomics\iTraq\iTraqSymbols.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 3 (10.34%)
-    '     File Size: 933 B
+    '     File Size: 939 B
 
 
     ' Class iTraqSymbols

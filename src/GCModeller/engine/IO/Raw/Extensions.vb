@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9b58c6f5f9fddea714430963ffd15d9, engine\IO\Raw\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::40386598d46b5bbc682eef66798814b7, engine\IO\Raw\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 75.00%
     ' 
     '   Blank Lines: 12 (10.81%)
-    '     File Size: 4.04 KB
+    '     File Size: 4.05 KB
 
 
     ' Module Extensions

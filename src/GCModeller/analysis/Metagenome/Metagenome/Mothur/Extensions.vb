@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4fecba039ba3cc2cd16a8de460eeccf7, analysis\Metagenome\Metagenome\Mothur\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::2a103f5a95e13093a1573cc85a67bbe0, analysis\Metagenome\Metagenome\Mothur\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 3 (8.57%)
-    '     File Size: 1.33 KB
+    '     File Size: 1.34 KB
 
 
     ' Module Extensions

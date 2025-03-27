@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aeefe88d55e5aedc919a2018e8298d30, R#\visualkit\visualPlot.vb"
+﻿#Region "Microsoft.VisualBasic::7dadf2a47e74e8cf0a5b9f9be06d06df, R#\visualkit\visualPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 986
-    '    Code Lines: 731 (74.14%)
-    ' Comment Lines: 173 (17.55%)
+    '   Total Lines: 978
+    '    Code Lines: 723 (73.93%)
+    ' Comment Lines: 173 (17.69%)
     '    - Xml Docs: 92.49%
     ' 
-    '   Blank Lines: 82 (8.32%)
-    '     File Size: 45.98 KB
+    '   Blank Lines: 82 (8.38%)
+    '     File Size: 45.53 KB
 
 
     ' Module visualPlot

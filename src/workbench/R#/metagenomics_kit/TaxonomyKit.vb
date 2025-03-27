@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0038dbe1b3c1ef9688a15d029cd44dbd, R#\metagenomics_kit\TaxonomyKit.vb"
+﻿#Region "Microsoft.VisualBasic::b06f5fd63c0c97c990ff4ea896344a4d, R#\metagenomics_kit\TaxonomyKit.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 95.97%
     ' 
     '   Blank Lines: 46 (10.02%)
-    '     File Size: 19.25 KB
+    '     File Size: 19.26 KB
 
 
     ' Module TaxonomyKit

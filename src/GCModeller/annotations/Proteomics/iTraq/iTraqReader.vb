@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa7c131d6c8113c1f519fbf15ff05275, annotations\Proteomics\iTraq\iTraqReader.vb"
+﻿#Region "Microsoft.VisualBasic::98d6cc88f209d95acd36203355a8e705, annotations\Proteomics\iTraq\iTraqReader.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 70.00%
     ' 
     '   Blank Lines: 13 (16.46%)
-    '     File Size: 3.26 KB
+    '     File Size: 3.27 KB
 
 
     ' Class iTraqReader

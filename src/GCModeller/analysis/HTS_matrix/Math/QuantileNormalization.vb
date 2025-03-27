@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::630b19174e4c2048402d9b92aca9c89f, analysis\HTS_matrix\Math\QuantileNormalization.vb"
+﻿#Region "Microsoft.VisualBasic::fd617166ec6bebc1bada54fc6b83039e, analysis\HTS_matrix\Math\QuantileNormalization.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 1 (33.33%)
-    '     File Size: 51 B
+    '     File Size: 49 B
 
 
     ' Module QuantileNormalization
@@ -54,4 +54,3 @@
 Public Module QuantileNormalization
 
 End Module
-

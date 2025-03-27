@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2a3218c7ef04947002234f1c96235de, modules\Knowledge_base\ncbi_kb\Citation.vb"
+﻿#Region "Microsoft.VisualBasic::3fdbe0d9d6a9237c63678f7e06f05cb9, modules\Knowledge_base\ncbi_kb\Citation.vb"
 
     ' Author:
     ' 
@@ -154,4 +154,3 @@ Public Class Citation
         Return $"{authors}. ""{title}."" {journal} vol. {volume}({year}): {fpage}-{lpage}. doi:{doi}"
     End Function
 End Class
-

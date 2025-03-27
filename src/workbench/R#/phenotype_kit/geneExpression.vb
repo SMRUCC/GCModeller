@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb9829d04900038ef5a7557825a64cf0, R#\phenotype_kit\geneExpression.vb"
+﻿#Region "Microsoft.VisualBasic::7ccfe680dd8b4ff1f1d23c41f233d5d2, R#\phenotype_kit\geneExpression.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1429
-    '    Code Lines: 873 (61.09%)
-    ' Comment Lines: 425 (29.74%)
-    '    - Xml Docs: 95.06%
+    '   Total Lines: 1438
+    '    Code Lines: 878 (61.06%)
+    ' Comment Lines: 428 (29.76%)
+    '    - Xml Docs: 95.09%
     ' 
-    '   Blank Lines: 131 (9.17%)
-    '     File Size: 58.18 KB
+    '   Blank Lines: 132 (9.18%)
+    '     File Size: 58.60 KB
 
 
     ' Module geneExpression

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c695b444b3309089345cb60ac4d4977, analysis\SequenceToolkit\MotifFinder\Gibbs\Matrix\MotifMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::b8451bffc47c2e101abfcccb5a6a4268, analysis\SequenceToolkit\MotifFinder\Gibbs\Matrix\MotifMatrix.vb"
 
     ' Author:
     ' 
@@ -185,4 +185,3 @@ Namespace Matrix
     End Class
 
 End Namespace
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fde281938336ff99d03d22e1f2ddf490, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\PartialBestBLAST.vb"
+﻿#Region "Microsoft.VisualBasic::79ad20a1acfe9f7e3b4742db4e97b706, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\PartialBestBLAST.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 94.44%
     ' 
     '   Blank Lines: 12 (11.21%)
-    '     File Size: 6.11 KB
+    '     File Size: 6.12 KB
 
 
     '     Class PartialBestBLAST

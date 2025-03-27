@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c624bc2532a46d4510c0094b2ff15a58, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
+﻿#Region "Microsoft.VisualBasic::1aaf38e20f8a6b51daad49521520882f, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 84.00%
     ' 
     '   Blank Lines: 41 (10.41%)
-    '     File Size: 18.18 KB
+    '     File Size: 18.19 KB
 
 
     '     Module BBHParser

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bb39ae7019ac1f5432d345d2354492a, R#\seqtoolkit\Blast.vb"
+﻿#Region "Microsoft.VisualBasic::7613257916436c22dcfcb01ec3b823f8, R#\seqtoolkit\Blast.vb"
 
     ' Author:
     ' 

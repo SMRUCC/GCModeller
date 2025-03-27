@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8437e72e0e4a985b1c8732250e0dbb1, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::c9f1ba47d356161817bcdd6958190ed7, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 459
-    '    Code Lines: 329 (71.68%)
-    ' Comment Lines: 78 (16.99%)
+    '   Total Lines: 460
+    '    Code Lines: 330 (71.74%)
+    ' Comment Lines: 78 (16.96%)
     '    - Xml Docs: 67.95%
     ' 
-    '   Blank Lines: 52 (11.33%)
-    '     File Size: 21.55 KB
+    '   Blank Lines: 52 (11.30%)
+    '     File Size: 21.62 KB
 
 
     '     Module CatalogProfilingPlot

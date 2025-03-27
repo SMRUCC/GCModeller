@@ -1,57 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::c332114f4651bc7a1c6598b42c31d46e, R#\annotationKit\OBO_DAG.vb"
+﻿#Region "Microsoft.VisualBasic::613e20fb883ed844022ef3387a8d2518, R#\annotationKit\OBO_DAG.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 212
-'    Code Lines: 160 (75.47%)
-' Comment Lines: 18 (8.49%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 34 (16.04%)
-'     File Size: 7.39 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module OBO_DAG
-' 
-'     Function: filterObsolete, filterProperty, getOboTerms, lineage_term, ontologyLeafs
-'               ontologyNodes, ontologyTree, openOboFile, readOboDAG, saveObo
-'               termTable
-' 
-'     Sub: Main
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 403
+    '    Code Lines: 259 (64.27%)
+    ' Comment Lines: 87 (21.59%)
+    '    - Xml Docs: 94.25%
+    ' 
+    '   Blank Lines: 57 (14.14%)
+    '     File Size: 14.00 KB
+
+
+    ' Module OBO_DAG
+    ' 
+    '     Function: filterDirectParent, filterObsolete, filterProperty, FindRoot, getOboTerms
+    '               lineage_term, ontologyLeafs, ontologyNodes, ontologyTree, openOboFile
+    '               readOboDAG, saveObo, setNamespace, setPropertyValues, setRemark
+    '               termTable
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

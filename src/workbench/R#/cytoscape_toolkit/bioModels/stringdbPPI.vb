@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::ff0e53545c8e9fd51b5900d4276487ef, R#\cytoscape_toolkit\bioModels\stringdbPPI.vb"
+﻿#Region "Microsoft.VisualBasic::5adb10494aabb5c803e19ff46ba112c2, R#\cytoscape_toolkit\bioModels\stringdbPPI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 100
-'    Code Lines: 66 (66.00%)
-' Comment Lines: 22 (22.00%)
-'    - Xml Docs: 95.45%
-' 
-'   Blank Lines: 12 (12.00%)
-'     File Size: 3.98 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module stringdbPPI
-' 
-'     Function: buildNetworkModel, intersect, parseStringDb, readLayout, readNetwork
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 66 (66.00%)
+    ' Comment Lines: 22 (22.00%)
+    '    - Xml Docs: 95.45%
+    ' 
+    '   Blank Lines: 12 (12.00%)
+    '     File Size: 3.98 KB
+
+
+    ' Module stringdbPPI
+    ' 
+    '     Function: buildNetworkModel, intersect, parseStringDb, readLayout, readNetwork
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

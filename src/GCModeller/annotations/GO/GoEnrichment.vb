@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e22073b1ba22440215656a1739add89e, annotations\GO\GoEnrichment.vb"
+﻿#Region "Microsoft.VisualBasic::48646b4ff4ca265a34f53997b3f8930b, annotations\GO\GoEnrichment.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 187
-    '    Code Lines: 121 (64.71%)
-    ' Comment Lines: 44 (23.53%)
-    '    - Xml Docs: 68.18%
+    '   Total Lines: 163
+    '    Code Lines: 102 (62.58%)
+    ' Comment Lines: 43 (26.38%)
+    '    - Xml Docs: 69.77%
     ' 
-    '   Blank Lines: 22 (11.76%)
-    '     File Size: 7.67 KB
+    '   Blank Lines: 18 (11.04%)
+    '     File Size: 6.89 KB
 
 
     ' Module GoEnrichment

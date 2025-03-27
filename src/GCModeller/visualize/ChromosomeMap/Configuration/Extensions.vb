@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::341cdad17a1ad1bd0aa8937c1574ac85, visualize\ChromosomeMap\Configuration\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d1cbea41000448e878dfa882f3556ace, visualize\ChromosomeMap\Configuration\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 6 (12.50%)
-    '     File Size: 1.88 KB
+    '     File Size: 1.89 KB
 
 
     '     Module Extensions

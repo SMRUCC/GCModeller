@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01af36eaddee517ae264a9a38661b0b3, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb"
+﻿#Region "Microsoft.VisualBasic::85a1c5671c7fb2134a30ebda2e325bd3, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 14 (11.29%)
-    '     File Size: 5.04 KB
+    '     File Size: 5.05 KB
 
 
     '     Class BBHIndex

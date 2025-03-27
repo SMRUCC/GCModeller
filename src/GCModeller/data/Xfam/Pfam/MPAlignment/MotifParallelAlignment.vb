@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97ead1b23fdb5e0ea2a8b56b0a235557, data\Xfam\Pfam\MPAlignment\MotifParallelAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::8de0ac0b2d95a0c9b0c04c62dea3c4b3, data\Xfam\Pfam\MPAlignment\MotifParallelAlignment.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.45%
     ' 
     '   Blank Lines: 22 (10.63%)
-    '     File Size: 12.12 KB
+    '     File Size: 12.13 KB
 
 
     '     Module MotifParallelAlignment

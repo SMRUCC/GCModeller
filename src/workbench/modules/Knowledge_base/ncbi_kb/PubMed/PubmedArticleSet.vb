@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::521577941829e5e4dd9f08d3d20f8c5a, modules\Knowledge_base\ncbi_kb\PubMed\PubmedArticleSet.vb"
+﻿#Region "Microsoft.VisualBasic::505dbbbbedd57128cd04b2efc1d35e5d, modules\Knowledge_base\ncbi_kb\PubMed\PubmedArticleSet.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 69
-    '    Code Lines: 46 (66.67%)
-    ' Comment Lines: 6 (8.70%)
+    '   Total Lines: 68
+    '    Code Lines: 46 (67.65%)
+    ' Comment Lines: 6 (8.82%)
     '    - Xml Docs: 66.67%
     ' 
-    '   Blank Lines: 17 (24.64%)
+    '   Blank Lines: 16 (23.53%)
     '     File Size: 2.63 KB
 
 
@@ -53,7 +53,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports System.IO
 Imports System.Runtime.CompilerServices

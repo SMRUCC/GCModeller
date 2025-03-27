@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9a6b1583aff115ca75574acf02ab07d, analysis\SequenceToolkit\MotifFinder\MSAMotif.vb"
+﻿#Region "Microsoft.VisualBasic::be2e81a9f5686d84b932468680716c5c, analysis\SequenceToolkit\MotifFinder\MSAMotif.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 5 (26.32%)
-    '     File Size: 502 B
+    '     File Size: 500 B
 
 
     ' Class MSAMotif
@@ -71,4 +71,3 @@ Public Class MSAMotif : Inherits MSAOutput
     End Property
 
 End Class
-

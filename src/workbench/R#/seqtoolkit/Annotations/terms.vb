@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fc76633bc5e2be2829d0b037271cab8, R#\seqtoolkit\Annotations\terms.vb"
+﻿#Region "Microsoft.VisualBasic::384b5df159833b117e5acd310e689986, R#\seqtoolkit\Annotations\terms.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 146
-    '    Code Lines: 103 (70.55%)
-    ' Comment Lines: 22 (15.07%)
+    '   Total Lines: 147
+    '    Code Lines: 104 (70.75%)
+    ' Comment Lines: 22 (14.97%)
     '    - Xml Docs: 95.45%
     ' 
-    '   Blank Lines: 21 (14.38%)
-    '     File Size: 6.15 KB
+    '   Blank Lines: 21 (14.29%)
+    '     File Size: 6.22 KB
 
 
     ' Module terms

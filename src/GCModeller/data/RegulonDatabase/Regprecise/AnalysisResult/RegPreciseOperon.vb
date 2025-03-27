@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ea3aa361246c8eb69291d94deaa458b, data\RegulonDatabase\Regprecise\AnalysisResult\RegPreciseOperon.vb"
+﻿#Region "Microsoft.VisualBasic::c836e49a2e8a77621b98a6d676816406, data\RegulonDatabase\Regprecise\AnalysisResult\RegPreciseOperon.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 10 (9.35%)
-    '     File Size: 3.75 KB
+    '     File Size: 3.76 KB
 
 
     '     Class RegPreciseOperon

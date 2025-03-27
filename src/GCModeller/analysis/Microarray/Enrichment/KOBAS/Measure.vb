@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58f680e504c0786f468cb2924cea8ebd, analysis\Microarray\Enrichment\KOBAS\Measure.vb"
+﻿#Region "Microsoft.VisualBasic::31f8a32314d8f390473eef3ca99bbcce, analysis\Microarray\Enrichment\KOBAS\Measure.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.71%
     ' 
     '   Blank Lines: 8 (12.50%)
-    '     File Size: 2.70 KB
+    '     File Size: 2.71 KB
 
 
     '     Module Measure

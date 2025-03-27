@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53b243eee14a98c49c6756b4b7b3d8c0, data\RegulonDatabase\Regprecise\RegPreciseRegulatorMatch.vb"
+﻿#Region "Microsoft.VisualBasic::09236346dbd392a364cd5e1d8dd479e5, data\RegulonDatabase\Regprecise\RegPreciseRegulatorMatch.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10beab2f1b52ebefdb1c58aa3384ef3c, analysis\Metagenome\Metagenome\RankLevelView.vb"
+﻿#Region "Microsoft.VisualBasic::398cdf11bd713271d0d9ee67e62ffc80, analysis\Metagenome\Metagenome\RankLevelView.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 4 (25.00%)
-    '     File Size: 468 B
+    '     File Size: 474 B
 
 
     ' Class RankLevelView

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8e24c50283305cbd0854b12e9584bf3, visualize\DataVisualizationExtensions\DEGPlot\Volcano.vb"
+﻿#Region "Microsoft.VisualBasic::c115179ce7f99ddce0278412e200db20, visualize\DataVisualizationExtensions\DEGPlot\Volcano.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 42.86%
     ' 
     '   Blank Lines: 46 (10.98%)
-    '     File Size: 18.02 KB
+    '     File Size: 18.03 KB
 
 
     ' Module Volcano

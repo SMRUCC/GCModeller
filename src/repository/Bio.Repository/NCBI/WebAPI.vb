@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39ec07b95489cb2ef4d62dd0c12cc01b, Bio.Repository\NCBI\WebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::9d500cb4f3428488b3372b1d3b5eda14, Bio.Repository\NCBI\WebAPI.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 61
-    '    Code Lines: 42 (68.85%)
-    ' Comment Lines: 7 (11.48%)
+    '   Total Lines: 59
+    '    Code Lines: 40 (67.80%)
+    ' Comment Lines: 7 (11.86%)
     '    - Xml Docs: 71.43%
     ' 
-    '   Blank Lines: 12 (19.67%)
-    '     File Size: 1.96 KB
+    '   Blank Lines: 12 (20.34%)
+    '     File Size: 1.89 KB
 
 
     ' Module DownloaderWebAPI
