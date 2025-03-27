@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1670dc54600ce13a8770adb3dab31012, analysis\Metagenome\Metagenome\MeganImports.vb"
+﻿#Region "Microsoft.VisualBasic::5bf3dfcee616f02ea36150f0d4df4c0c, analysis\Metagenome\Metagenome\MeganImports.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 90.00%
     ' 
     '   Blank Lines: 13 (19.40%)
-    '     File Size: 2.28 KB
+    '     File Size: 2.30 KB
 
 
     ' Class MeganImports

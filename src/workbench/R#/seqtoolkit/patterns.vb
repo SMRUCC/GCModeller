@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ad7a22fa8962d52a7258d476e7345ef, R#\seqtoolkit\patterns.vb"
+﻿#Region "Microsoft.VisualBasic::2b28612c6ea57b9ce50a2b6ee7158d63, R#\seqtoolkit\patterns.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 86.14%
     ' 
     '   Blank Lines: 65 (12.20%)
-    '     File Size: 22.18 KB
+    '     File Size: 22.20 KB
 
 
     ' Module patterns

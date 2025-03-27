@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc011e70e221d3b2d9fa2c37bc86f15b, analysis\SequenceToolkit\gwANI\gwANI.vb"
+﻿#Region "Microsoft.VisualBasic::ef170bbd0125d1a8b740f193311e4ae2, analysis\SequenceToolkit\gwANI\gwANI.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 65.74%
     ' 
     '   Blank Lines: 36 (12.68%)
-    '     File Size: 11.24 KB
+    '     File Size: 11.25 KB
 
 
     ' Class gwANI

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed2fdb26306c20aa1b3074f094cc4d8a, HMP_client\metadata.vb"
+﻿#Region "Microsoft.VisualBasic::60c6c9e7345874200f3097fbd09b836f, HMP_client\metadata.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 4 (9.30%)
-    '     File Size: 1.58 KB
+    '     File Size: 1.59 KB
 
 
     ' Class metadata

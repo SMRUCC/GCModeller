@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::965501ef23153ff98521aad07df701be, sub-system\PLAS.NET\SSystem\System\Kernel.vb"
+﻿#Region "Microsoft.VisualBasic::6d5ba5ac98e5baa125157536aa5e3071, sub-system\PLAS.NET\SSystem\System\Kernel.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 96.88%
     ' 
     '   Blank Lines: 25 (12.63%)
-    '     File Size: 6.94 KB
+    '     File Size: 6.95 KB
 
 
     '     Class Kernel

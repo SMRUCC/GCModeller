@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b51c0df1ee86d1996ce2e81c82ac5049, annotations\Proteomics\DEP.vb"
+﻿#Region "Microsoft.VisualBasic::12e6217702ab74a250b1dddb743633d0, annotations\Proteomics\DEP.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 80.00%
     ' 
     '   Blank Lines: 4 (16.00%)
-    '     File Size: 991 B
+    '     File Size: 1003 B
 
 
     ' Class DEP_iTraq

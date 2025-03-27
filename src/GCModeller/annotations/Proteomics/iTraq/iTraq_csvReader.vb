@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4c70cb2dd21e1fc201e63489f21aad1, annotations\Proteomics\iTraq\iTraq_csvReader.vb"
+﻿#Region "Microsoft.VisualBasic::7ed074c4d3a409650049b2cd960fc5f8, annotations\Proteomics\iTraq\iTraq_csvReader.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 25.00%
     ' 
     '   Blank Lines: 23 (12.17%)
-    '     File Size: 7.32 KB
+    '     File Size: 7.33 KB
 
 
     ' Module iTraq_csvReader

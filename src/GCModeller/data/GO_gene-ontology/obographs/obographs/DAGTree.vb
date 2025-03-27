@@ -1,4 +1,59 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+﻿#Region "Microsoft.VisualBasic::fe910193939316af617fd4fc0c1f4391, data\GO_gene-ontology\obographs\obographs\DAGTree.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 51 (76.12%)
+    ' Comment Lines: 4 (5.97%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (17.91%)
+    '     File Size: 2.34 KB
+
+
+    ' Class DAGTree
+    ' 
+    '     Properties: dag, nodes
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.GeneOntology.DAG
@@ -65,3 +120,4 @@ Public Class DAGTree
         dag = ontology
     End Sub
 End Class
+

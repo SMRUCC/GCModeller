@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5daaf0eeb37e4f37dd2edd277ce4b29b, data\RCSB PDB\PDB\Keywords\Atom.vb"
+﻿#Region "Microsoft.VisualBasic::cb59b3885dc2337dbe4f83a7c4ba5f28, data\RCSB PDB\PDB\Keywords\Atom.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 22 (78.57%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (21.43%)
+    '     File Size: 983 B
+
 
     '     Class Atom
     ' 

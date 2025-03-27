@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3808ad2b06004d925fe7d86a3247eeb4, localblast\LocalBLAST\Web\Alignment\Hit.vb"
+﻿#Region "Microsoft.VisualBasic::8faf73e7dfdd1c777481879bd31c44ac, localblast\LocalBLAST\Web\Alignment\Hit.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 15 (10.95%)
-    '     File Size: 4.95 KB
+    '     File Size: 4.96 KB
 
 
     '     Class HitRecord

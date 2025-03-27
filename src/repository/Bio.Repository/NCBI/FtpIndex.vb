@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bba91c1b1d57405a1ed428ec59e60863, Bio.Repository\NCBI\FtpIndex.vb"
+﻿#Region "Microsoft.VisualBasic::ad461e5977adb49159bbb42bbf3455fa, Bio.Repository\NCBI\FtpIndex.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 433
-    '    Code Lines: 47 (10.85%)
-    ' Comment Lines: 380 (87.76%)
+    '   Total Lines: 432
+    '    Code Lines: 47 (10.88%)
+    ' Comment Lines: 380 (87.96%)
     '    - Xml Docs: 95.79%
     ' 
-    '   Blank Lines: 6 (1.39%)
-    '     File Size: 22.11 KB
+    '   Blank Lines: 5 (1.16%)
+    '     File Size: 22.12 KB
 
 
     ' Class FtpIndex
@@ -59,7 +59,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
@@ -493,4 +492,3 @@ Public Class FtpIndex
     End Function
 
 End Class
-

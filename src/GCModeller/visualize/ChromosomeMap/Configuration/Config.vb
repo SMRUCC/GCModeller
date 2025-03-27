@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24393f8fe8f63475cfa58a2229bba0a9, visualize\ChromosomeMap\Configuration\Config.vb"
+﻿#Region "Microsoft.VisualBasic::a52b22c15e6ace4b0ad242290c491db4, visualize\ChromosomeMap\Configuration\Config.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 87.50%
     ' 
     '   Blank Lines: 35 (13.94%)
-    '     File Size: 12.73 KB
+    '     File Size: 12.74 KB
 
 
     '     Class Config

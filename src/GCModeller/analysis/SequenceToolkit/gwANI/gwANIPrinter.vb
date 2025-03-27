@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f4fafbf372cb0e788329d0f53bd55db, analysis\SequenceToolkit\gwANI\gwANIPrinter.vb"
+﻿#Region "Microsoft.VisualBasic::b78d3dc700512fdc85e036e3100a314a, analysis\SequenceToolkit\gwANI\gwANIPrinter.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 10 (20.41%)
-    '     File Size: 1.54 KB
+    '     File Size: 1.55 KB
 
 
     ' Module gwANIPrinter

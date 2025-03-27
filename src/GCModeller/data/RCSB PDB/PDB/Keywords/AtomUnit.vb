@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 39 (57.35%)
+    ' Comment Lines: 21 (30.88%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 8 (11.76%)
+    '     File Size: 2.35 KB
+
+
     '     Structure Point3D
     ' 
     '         Function: ToString

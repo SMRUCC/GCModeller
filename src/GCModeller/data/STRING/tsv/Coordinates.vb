@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20e7fb7819ebfd7162d77e336540dc7f, data\STRING\tsv\Coordinates.vb"
+﻿#Region "Microsoft.VisualBasic::2585480b81dfa4c4380a6a37fb32223f, data\STRING\tsv\Coordinates.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 3 (15.00%)
-    '     File Size: 806 B
+    '     File Size: 812 B
 
 
     ' Class Coordinates

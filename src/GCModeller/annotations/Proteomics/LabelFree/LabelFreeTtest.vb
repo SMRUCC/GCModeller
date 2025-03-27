@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27981ee7a60bbe81381ee52293638991, annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
+﻿#Region "Microsoft.VisualBasic::f1b030deb0df1cba3cf194134e84a28f, annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 83.33%
     ' 
     '   Blank Lines: 9 (7.89%)
-    '     File Size: 4.67 KB
+    '     File Size: 4.68 KB
 
 
     ' Module LabelFreeTtest

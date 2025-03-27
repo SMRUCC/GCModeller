@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::690ce6a163a07d8b8cfb940bd84f9514, R#\annotationKit\BioCyc.vb"
+﻿#Region "Microsoft.VisualBasic::dfb5f7ddea4e6464393abe7bd095e3cb, R#\annotationKit\BioCyc.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 375
-    '    Code Lines: 288 (76.80%)
-    ' Comment Lines: 39 (10.40%)
+    '   Total Lines: 376
+    '    Code Lines: 289 (76.86%)
+    ' Comment Lines: 39 (10.37%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 48 (12.80%)
-    '     File Size: 13.99 KB
+    '   Blank Lines: 48 (12.77%)
+    '     File Size: 14.04 KB
 
 
     ' Module BioCycRepository

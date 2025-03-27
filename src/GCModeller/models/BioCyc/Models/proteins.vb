@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34470f95eb540b63dd918a7e68b6e081, models\BioCyc\Models\proteins.vb"
+﻿#Region "Microsoft.VisualBasic::9de1d57d415d03e13cbe2cd64858c3b8, models\BioCyc\Models\proteins.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 9 (20.45%)
-    '     File Size: 1.51 KB
+    '     File Size: 1.50 KB
 
 
     ' Class proteins
@@ -97,4 +97,3 @@ Public Class proteins : Inherits Model
         Return AttrDataCollection(Of proteins).LoadFile(New StringReader(data))
     End Function
 End Class
-

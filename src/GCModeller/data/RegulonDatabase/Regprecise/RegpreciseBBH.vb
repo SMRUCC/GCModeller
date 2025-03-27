@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4654ef3049779e443ff793d210533308, data\RegulonDatabase\Regprecise\RegpreciseBBH.vb"
+﻿#Region "Microsoft.VisualBasic::78196c5d3fa6d9a094799c6ad63b3ce0, data\RegulonDatabase\Regprecise\RegpreciseBBH.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.00%
     ' 
     '   Blank Lines: 27 (16.07%)
-    '     File Size: 6.53 KB
+    '     File Size: 6.54 KB
 
 
     '     Class RegpreciseBBH

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84417f6277c33eed046743e2c0e47746, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::b43e1f475542d7b03ff6f7fb5576e56b, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 9 (10.11%)
-    '     File Size: 3.46 KB
+    '     File Size: 3.47 KB
 
 
     '     Class I_BlastQueryHit

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d7c2b91bf1029d55a282df663f0721e, R#\annotationKit\NCBI.vb"
+﻿#Region "Microsoft.VisualBasic::cd10aa7e705b0b1e54584aa8f194f0f5, R#\annotationKit\NCBI.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 3 (15.00%)
-    '     File Size: 629 B
+    '     File Size: 627 B
 
 
     ' Module NCBI
@@ -71,4 +71,3 @@ Module NCBI
     End Function
 
 End Module
-

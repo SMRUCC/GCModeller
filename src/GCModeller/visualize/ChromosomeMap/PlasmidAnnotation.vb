@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1d41874509933f4f58f6a7a575f0bcb, visualize\ChromosomeMap\PlasmidAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::0b8035192b557909dd0c5f7196280a91, visualize\ChromosomeMap\PlasmidAnnotation.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 8 (5.80%)
-    '     File Size: 5.79 KB
+    '     File Size: 5.81 KB
 
 
     ' Class PlasmidAnnotation

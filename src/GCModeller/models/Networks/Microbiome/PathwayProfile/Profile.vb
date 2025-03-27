@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65350523ba9e89ba9d3d6ea5fd9d9b19, models\Networks\Microbiome\PathwayProfile\Profile.vb"
+﻿#Region "Microsoft.VisualBasic::8070f4663ff704201423bd7795ffefd6, models\Networks\Microbiome\PathwayProfile\Profile.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 88.89%
     ' 
     '   Blank Lines: 8 (14.81%)
-    '     File Size: 1.73 KB
+    '     File Size: 1.74 KB
 
 
     '     Class Profile

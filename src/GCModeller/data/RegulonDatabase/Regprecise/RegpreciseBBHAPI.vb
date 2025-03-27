@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9256f36c9e70668bb82645a428faa78d, data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
+﻿#Region "Microsoft.VisualBasic::1695331307415c489919ff82549bc9fb, data\RegulonDatabase\Regprecise\RegpreciseBBHAPI.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 18.18%
     ' 
     '   Blank Lines: 28 (9.79%)
-    '     File Size: 17.91 KB
+    '     File Size: 17.92 KB
 
 
     '     Module RegpreciseBidirectionalBh_Methods

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 51 (79.69%)
+    ' Comment Lines: 6 (9.38%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (10.94%)
+    '     File Size: 3.55 KB
+
+
     ' Class ProteinChain
     ' 
     '     Properties: ChainId, InterfaceOnSurface, PdbId, SequenceData, Surface

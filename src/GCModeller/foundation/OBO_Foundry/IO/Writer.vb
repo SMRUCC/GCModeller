@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21c4b77c869f821f1b7476e626fc24dd, foundation\OBO_Foundry\IO\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::06e8c51feab8f3a5ed1e44acaceb8ed1, foundation\OBO_Foundry\IO\Writer.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 91
-    '    Code Lines: 65 (71.43%)
-    ' Comment Lines: 14 (15.38%)
-    '    - Xml Docs: 92.86%
+    '   Total Lines: 119
+    '    Code Lines: 87 (73.11%)
+    ' Comment Lines: 16 (13.45%)
+    '    - Xml Docs: 81.25%
     ' 
-    '   Blank Lines: 12 (13.19%)
-    '     File Size: 3.73 KB
+    '   Blank Lines: 16 (13.45%)
+    '     File Size: 5.20 KB
 
 
     '     Module Writer
     ' 
-    '         Function: (+2 Overloads) ToLines
+    '         Function: stripUnit, (+2 Overloads) ToLines
     ' 
     ' 
     ' /********************************************************************************/

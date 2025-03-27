@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::884ed7e6dfbf9c99a9685012125de4b4, visualize\Cytoscape\Cytoscape\Graph\Serialization\ExportToFile.vb"
+﻿#Region "Microsoft.VisualBasic::357356d0f32bb210035c9e90aa44d2c5, visualize\Cytoscape\Cytoscape\Graph\Serialization\ExportToFile.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 96.77%
     ' 
     '   Blank Lines: 50 (12.76%)
-    '     File Size: 17.80 KB
+    '     File Size: 17.81 KB
 
 
     '     Module ExportToFile

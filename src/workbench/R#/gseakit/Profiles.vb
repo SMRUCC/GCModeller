@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::18ef23a2e37e8cb0af6c26f28bf86921, R#\gseakit\Profiles.vb"
+﻿#Region "Microsoft.VisualBasic::15ee386adb3d642ec212207619f2027d, R#\gseakit\Profiles.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 205
-'    Code Lines: 146 (71.22%)
-' Comment Lines: 35 (17.07%)
-'    - Xml Docs: 91.43%
-' 
-'   Blank Lines: 24 (11.71%)
-'     File Size: 8.28 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module profiles
-' 
-'     Function: categoryLabels, CreateKEGGCategory, cutProfile, GOEnrichmentProfiles, KEGGEnrichmentProfiles
-'               NoCatagoryProfile, sortProfile
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 308
+    '    Code Lines: 215 (69.81%)
+    ' Comment Lines: 51 (16.56%)
+    '    - Xml Docs: 92.16%
+    ' 
+    '   Blank Lines: 42 (13.64%)
+    '     File Size: 12.42 KB
+
+
+    ' Module profiles
+    ' 
+    '     Function: categoryLabels, CreateKEGGCategory, cutProfile, dag_enrichment_profile, GOEnrichmentProfiles
+    '               KEGGEnrichmentProfiles, NoCatagoryProfile, sortProfile
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

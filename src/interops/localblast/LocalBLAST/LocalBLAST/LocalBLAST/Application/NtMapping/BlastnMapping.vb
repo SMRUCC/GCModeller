@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::758d94c9cbd5d615e13c63bf4ffedff6, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\BlastnMapping.vb"
+﻿#Region "Microsoft.VisualBasic::1c0c38ffea4144a26f1cd7b4878c0815, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\BlastnMapping.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 80.43%
     ' 
     '   Blank Lines: 24 (11.54%)
-    '     File Size: 8.50 KB
+    '     File Size: 8.51 KB
 
 
     '     Class BlastnMapping

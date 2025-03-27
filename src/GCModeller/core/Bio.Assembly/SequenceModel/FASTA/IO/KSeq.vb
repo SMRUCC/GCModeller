@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::631b715c7e0f817fb7437e53af615f5d, core\Bio.Assembly\SequenceModel\FASTA\IO\KSeq.vb"
+﻿#Region "Microsoft.VisualBasic::aa25fa879f2820afab48741787c74636, core\Bio.Assembly\SequenceModel\FASTA\IO\KSeq.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 47
-    '    Code Lines: 12 (25.53%)
-    ' Comment Lines: 28 (59.57%)
+    '   Total Lines: 57
+    '    Code Lines: 20 (35.09%)
+    ' Comment Lines: 28 (49.12%)
     '    - Xml Docs: 7.14%
     ' 
-    '   Blank Lines: 7 (14.89%)
-    '     File Size: 1.83 KB
+    '   Blank Lines: 9 (15.79%)
+    '     File Size: 2.23 KB
 
 
     '     Class KSeq
     ' 
     '         Properties: Seq
     ' 
-    '         Function: GetSequenceData, ToString
+    '         Function: GetSequenceData, Kmers, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a443c8c2dea5b4d9dd5349c58f428100, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Repeats.vb"
+﻿#Region "Microsoft.VisualBasic::a01925ccdd85f20c4913e6ea50dba269, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Repeats.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 76.60%
     ' 
     '   Blank Lines: 33 (12.64%)
-    '     File Size: 13.38 KB
+    '     File Size: 13.39 KB
 
 
     '     Module Repeats

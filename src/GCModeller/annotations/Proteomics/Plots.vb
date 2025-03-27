@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92273ad417f769fbb8235127562b3c7f, annotations\Proteomics\Plots.vb"
+﻿#Region "Microsoft.VisualBasic::60e2ccf533f9f76379293fc6ec82f630, annotations\Proteomics\Plots.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 87.50%
     ' 
     '   Blank Lines: 13 (11.82%)
-    '     File Size: 4.34 KB
+    '     File Size: 4.35 KB
 
 
     ' Module Plots

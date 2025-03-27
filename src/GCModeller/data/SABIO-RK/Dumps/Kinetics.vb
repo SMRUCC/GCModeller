@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65d27733d67ae6e82daf6bc0cf07983d, data\SABIO-RK\Dumps\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::7296cd70935ccfc3f0f32e5c4ec5fe12, data\SABIO-RK\Dumps\Kinetics.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 97.14%
     ' 
     '   Blank Lines: 17 (9.09%)
-    '     File Size: 8.97 KB
+    '     File Size: 8.98 KB
 
 
     '     Class EnzymeCatalystKineticLaw

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38e4da842964962ec773d2ee03ac539c, annotations\GO\CatalogPlots.vb"
+﻿#Region "Microsoft.VisualBasic::de7c515e7bd4f604fd110f81f32336be, annotations\GO\CatalogPlots.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 396
-    '    Code Lines: 304 (76.77%)
-    ' Comment Lines: 43 (10.86%)
+    '   Total Lines: 410
+    '    Code Lines: 316 (77.07%)
+    ' Comment Lines: 43 (10.49%)
     '    - Xml Docs: 95.35%
     ' 
-    '   Blank Lines: 49 (12.37%)
-    '     File Size: 17.39 KB
+    '   Blank Lines: 51 (12.44%)
+    '     File Size: 17.94 KB
 
 
     ' Module CatalogPlots

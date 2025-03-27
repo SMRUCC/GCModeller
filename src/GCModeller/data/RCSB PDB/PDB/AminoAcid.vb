@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 26 (66.67%)
+    ' Comment Lines: 10 (25.64%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (7.69%)
+    '     File Size: 1.33 KB
+
+
     ' Class AminoAcid
     ' 
     '     Properties: AA_ID, Atoms, Carbon, Index

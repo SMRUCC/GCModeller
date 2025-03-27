@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97568352e7c5052a719001ba5d3e01f1, core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::da8a6fa31c6bb91875a5b3406d080c21, core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcid.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 24 (16.44%)
-    '     File Size: 3.26 KB
+    '     File Size: 3.29 KB
 
 
     '     Enum AminoAcid

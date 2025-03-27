@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c72f437014949d0c4bbfdd0aa6ad10f, sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
+﻿#Region "Microsoft.VisualBasic::1519e7b1227c5856eddf7ffbe81ee331, sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 19.35%
     ' 
     '   Blank Lines: 31 (20.39%)
-    '     File Size: 5.46 KB
+    '     File Size: 5.47 KB
 
 
     '     Class DataSnapshot

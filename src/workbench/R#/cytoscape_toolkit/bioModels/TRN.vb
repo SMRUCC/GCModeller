@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab9aafced8b603fbdacd3ba36acdd80b, R#\cytoscape_toolkit\bioModels\TRN.vb"
+﻿#Region "Microsoft.VisualBasic::a95f6c0ba8a5b86818681723037ca628, R#\cytoscape_toolkit\bioModels\TRN.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 75.00%
     ' 
     '   Blank Lines: 2 (11.11%)
-    '     File Size: 597 B
+    '     File Size: 603 B
 
 
     ' Module TRN

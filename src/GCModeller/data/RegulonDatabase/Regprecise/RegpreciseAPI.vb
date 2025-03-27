@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a79c697e8ae1c10be708fe9225df2f4f, data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
+﻿#Region "Microsoft.VisualBasic::5981bcb0c0637e9720f0c36ab9e1ead5, data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 67.24%
     ' 
     '   Blank Lines: 62 (13.60%)
-    '     File Size: 28.16 KB
+    '     File Size: 28.17 KB
 
 
     '     Module RegpreciseAPI

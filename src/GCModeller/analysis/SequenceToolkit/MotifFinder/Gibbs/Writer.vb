@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63cb61a69c478b04e0dea256ed5a023a, analysis\SequenceToolkit\MotifFinder\Gibbs\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::d19b563cc5005b435f2d5c0c38859ac7, analysis\SequenceToolkit\MotifFinder\Gibbs\Writer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 94.74%
     ' 
     '   Blank Lines: 9 (11.25%)
-    '     File Size: 4.01 KB
+    '     File Size: 4.00 KB
 
 
     ' Class Writer
@@ -132,4 +132,3 @@ Public Class Writer
 
     End Sub
 End Class
-

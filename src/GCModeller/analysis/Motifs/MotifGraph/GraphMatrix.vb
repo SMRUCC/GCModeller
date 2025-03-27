@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48acc262fa68b54fcb06dc183c50e1dd, analysis\Motifs\MotifGraph\GraphMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::e940a16e7b9f2e0f72b69df3a9edbfdb, analysis\Motifs\MotifGraph\GraphMatrix.vb"
 
     ' Author:
     ' 
@@ -91,4 +91,3 @@ Public Module GraphMatrix
     End Function
 
 End Module
-

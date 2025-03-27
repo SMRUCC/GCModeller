@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b9db4c792b4d8cbdac5770108630a9a, annotations\GSEA\FisherCore\KnowledgeBase\Background.vb"
+﻿#Region "Microsoft.VisualBasic::4520c65b3c18902b697d2546c7835da7, annotations\GSEA\FisherCore\KnowledgeBase\Background.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 88
-    '    Code Lines: 48 (54.55%)
-    ' Comment Lines: 30 (34.09%)
+    '   Total Lines: 104
+    '    Code Lines: 60 (57.69%)
+    ' Comment Lines: 30 (28.85%)
     '    - Xml Docs: 96.67%
     ' 
-    '   Blank Lines: 10 (11.36%)
-    '     File Size: 2.98 KB
+    '   Blank Lines: 14 (13.46%)
+    '     File Size: 3.42 KB
 
 
     ' Class Background
@@ -48,7 +48,7 @@
     '     Properties: build, clusters, comments, id, name
     '                 size
     ' 
-    '     Function: GetBackgroundGene, GetClusterTable, SubsetOf, ToString
+    '     Function: GetBackgroundGene, GetClusterByMemberGeneId, GetClusterTable, SubsetOf, ToString
     ' 
     ' /********************************************************************************/
 
