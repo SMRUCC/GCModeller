@@ -137,6 +137,7 @@ Namespace BarPlot
                                       Optional gridStrokeX As String = PlotAlignmentGroup.DefaultGridXStroke,
                                       Optional gridStrokeY As String = PlotAlignmentGroup.DefaultGridYStroke,
                                       Optional highlights As Double() = Nothing,
+                                      Optional highlightStyle As String = Stroke.StrongHighlightStroke,
                                       Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim q As New Signal With {
@@ -169,7 +170,8 @@ Namespace BarPlot
                 drawGridX:=drawGridX,
                 gridStrokeX:=gridStrokeX,
                 gridStrokeY:=gridStrokeY,
-                hitsHightLights:=highlights
+                hitsHightLights:=highlights,
+                highlight:=highlightStyle
             )
         End Function
 
