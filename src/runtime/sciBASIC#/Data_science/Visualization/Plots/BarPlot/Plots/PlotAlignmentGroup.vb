@@ -407,13 +407,14 @@ Namespace BarPlot
             For Each part As Signal In query
                 For Each o As (x#, value#) In part.signals
                     Dim xCSSFont As Font
+                    Dim checkHighlight = isHighlight(o.x)
 
                     y = o.value
                     y = ymid - scaleY(y)
                     left = scaleX(o.x)
                     rect = New RectangleF(New PointF(left, y), New SizeF(bw, scaleY(o.value)))
 
-                    If hasHighlights AndAlso isHighlight(o.x).yes Then
+                    If hasHighlights AndAlso checkHighlight.yes Then
                         xCSSFont = tag_highlights
                     Else
                         xCSSFont = tag_label
@@ -423,6 +424,11 @@ Namespace BarPlot
 
                     If displayX AndAlso o.value / yrange.Max >= labelPlotStrength Then
                         xlabel = o.x.ToString(theme.tagFormat)
+
+                        If checkHighlight.yes Then
+                            xlabel = xlabel & $" [{checkHighlight.X.Name}]"
+                        End If
+
                         xsz = g.MeasureString(xlabel, xCSSFont)
                         xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Top - xsz.Height)
                         text = New TextRectangle(xlabel, New RectangleF(xpos, xsz))
@@ -472,13 +478,14 @@ Namespace BarPlot
             For Each part As Signal In subject
                 For Each o As (x#, value#) In part.signals
                     Dim xCssFont As Font = Nothing
+                    Dim checkHighlight = isHighlight(o.x)
 
                     y = o.value
                     y = ymid + scaleY(y)
                     left = scaleX(o.x)
                     rect = Rectangle(ymid, left, left + bw, y)
 
-                    If hasHighlights AndAlso isHighlight(o.x).yes Then
+                    If hasHighlights AndAlso checkHighlight.yes Then
                         xCssFont = tag_highlights
                     Else
                         xCssFont = tag_label
@@ -488,6 +495,11 @@ Namespace BarPlot
 
                     If displayX AndAlso o.value / yrange.Max >= labelPlotStrength Then
                         xlabel = o.x.ToString(theme.tagFormat)
+
+                        If checkHighlight.yes Then
+                            xlabel = xlabel & $" [{checkHighlight.X.Name}]"
+                        End If
+
                         xsz = g.MeasureString(xlabel, xCssFont)
                         xpos = New PointF(rect.Left + (rect.Width - xsz.Width) / 2, rect.Bottom + 3)
                         text = New TextRectangle(xlabel, New RectangleF(xpos, xsz))
