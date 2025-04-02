@@ -75,6 +75,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports std = System.Math
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -115,7 +117,7 @@ Namespace BarPlot
         Public Property queryName As String
         Public Property subjectName As String
         Public Property highlightMargin As Single
-        Public Property hitsHightLights As Double()
+        Public Property hitsHightLights As NamedValue(Of Double)()
         Public Property labelPlotStrength As Double
         Public Property idTag As String
         ''' <summary>
@@ -595,22 +597,22 @@ Namespace BarPlot
             Call g.DrawString(subjectName, legendFont, Brushes.Black, box.Location.OffSet2D(25, -y))
         End Sub
 
-        Private Shared Function Hit(highlights#(), err#) As Func(Of Double, (err#, X#, yes As Boolean))
+        Private Shared Function Hit(highlights As NamedValue(Of Double)(), err#) As Func(Of Double, (err#, X As NamedValue(Of Double), yes As Boolean))
             If highlights.IsNullOrEmpty Then
-                Return Function() (-1, -1, False)
+                Return Function() (-1, Nothing, False)
             Else
                 Return Function(x)
                            Dim e#
 
-                           For Each n In highlights
-                               e = std.Abs(n - x)
+                           For Each n As NamedValue(Of Double) In highlights
+                               e = std.Abs(n.Value - x)
 
                                If e <= err Then
                                    Return (e, n, True)
                                End If
                            Next
 
-                           Return (-1, -1, False)
+                           Return (-1, Nothing, False)
                        End Function
             End If
         End Function
