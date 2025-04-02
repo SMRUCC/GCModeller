@@ -62,6 +62,7 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
@@ -75,8 +76,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports std = System.Math
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -111,6 +110,7 @@ Namespace BarPlot
         Dim query As Signal(), subject As Signal()
         Dim xrange As DoubleRange, yrange As DoubleRange
         Dim rectangleStyle As RectangleStyling
+        Dim highlightStyle As RectangleStyling
 
         Public Property XAxisLabelCss As String
         Public Property displayX As Boolean
@@ -142,6 +142,18 @@ Namespace BarPlot
             Me.xrange = xrange
             Me.yrange = yrange
             Me.rectangleStyle = rectangleStyle Or RectangleStyles.DefaultStyle
+
+            Dim highlights = Stroke.TryParse(theme.lineStroke)
+            Dim highlightColor As Brush = Nothing
+
+            If highlights IsNot Nothing Then
+                highlightColor = highlights.fill.GetBrush
+            End If
+
+            Me.highlightStyle =
+                Sub(g As IGraphics, color As SolidBrush, layout As Rectangle, unsealSide As RectangleSides)
+                    Call g.FillRectangle(highlightColor, layout)
+                End Sub
 
             If xrange Is Nothing Then
                 Dim ALL = query _
@@ -206,8 +218,11 @@ Namespace BarPlot
                         .Size = sz
                     }
 
-                    ' Call g.FillRectangle(ba, rect)
-                    Call rectangleStyle(g, ba, rect, RectangleSides.Bottom)
+                    If makeHighlights Then
+                        Call highlightStyle(g, ba, rect, RectangleSides.Bottom)
+                    Else
+                        Call rectangleStyle(g, ba, rect, RectangleSides.Bottom)
+                    End If
                 Next
             Next
 
@@ -242,8 +257,11 @@ Namespace BarPlot
                         rect = Rectangle(ymid, left, left + bw, y)
                     End If
 
-                    ' g.FillRectangle(bb, rect)
-                    Call rectangleStyle(g, bb, rect, RectangleSides.Top)
+                    If makeHighlights Then
+                        Call highlightStyle(g, bb, rect, RectangleSides.Top)
+                    Else
+                        Call rectangleStyle(g, bb, rect, RectangleSides.Top)
+                    End If
                 Next
             Next
         End Sub
