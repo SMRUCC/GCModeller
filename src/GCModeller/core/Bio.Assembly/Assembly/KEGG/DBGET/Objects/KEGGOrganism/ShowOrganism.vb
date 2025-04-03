@@ -64,6 +64,9 @@ Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
+    ''' <summary>
+    ''' http web handler for the kegg organism info page
+    ''' </summary>
     Friend Class ShowOrganism : Inherits WebQuery(Of String)
 
         Public Sub New(<CallerMemberName>
@@ -72,7 +75,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                        Optional offline As Boolean = False
                    )
 
-            MyBase.New(url:=AddressOf ShowOrganism.url,
+            Call MyBase.New(url:=AddressOf ShowOrganism.url,
                        contextGuid:=Function(code) code,
                        parser:=AddressOf ParseShowOrganism,
                        prefix:=Nothing,
