@@ -86,7 +86,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         End Sub
 
         Private Shared Function url(code As String) As String
-            Return $"http://www.kegg.jp/kegg-bin/show_organism?org={code}"
+            Return $"https://www.kegg.jp/kegg-bin/show_organism?org={code}"
         End Function
 
         Public Shared Function ParseShowOrganism(html$, schema As Type) As OrganismInfo
