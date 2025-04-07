@@ -65,6 +65,47 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' A computational biology toolkit for protein structural analysis and sequence-based modeling. 
+''' This module provides R-language interfaces for predicting secondary structures, parsing molecular 
+''' structure files, and generating graph-based protein sequence fingerprints.
+''' 
+''' Key functionalities include:
+''' 1. Chou-Fasman secondary structure prediction algorithm implementation
+''' 2. Protein Data Bank (PDB) file format parsing
+''' 3. K-mer graph construction for sequence pattern analysis
+''' 4. Morgan fingerprint generation for structural similarity comparison
+''' </summary>
+''' <remarks>
+''' This module bridges biological sequence analysis with graph theory concepts, enabling:
+''' - Rapid prediction of alpha-helices and beta-sheets from amino acid sequences
+''' - Structural feature extraction from PDB files
+''' - Topological representation of proteins as k-mer adjacency graphs
+''' - Fixed-length hashing of structural patterns for machine learning applications
+''' 
+''' Dependencies: 
+''' - Requires R# runtime environment for interop
+''' - Relies on SMRUCC.genomics libraries for core bioinformatics operations
+''' </remarks>
+''' <example>
+''' # Basic workflow example:
+''' let seqs = read.fasta("./proteome.fa");
+''' 
+''' # 1. Secondary structure prediction
+''' let structures = sapply(seqs, x => chou_fasman(x));
+''' 
+''' # 2. Create k-mer graphs
+''' let graphs = kmer_graph(seqs, k = 3);
+''' 
+''' # 3. Generate fingerprints
+''' let fingerprints = lapply(graphs, g => kmer_fingerprint(g, radius = 2));
+''' 
+''' </example>
+''' <seealso cref="ChouFasmanRules"/> Class implementing core prediction logic
+''' <seealso cref="KMerGraph"/> Data structure for k-mer adjacency relationships
+''' <seealso cref="PDB"/> Protein Data Bank object model
+''' <author type="copyright">SMRUCC genomics Institute</author>
+''' <version>1.6.0</version>
 <Package("proteinKit")>
 Module proteinKit
 
@@ -153,11 +194,15 @@ Module proteinKit
     End Function
 
     ''' <summary>
-    ''' read the protein database file
+    ''' Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="file">A file path string or Stream object representing the PDB file to read.</param>
+    ''' <param name="env">The R runtime environment for error handling and resource management.</param>
+    ''' <returns>Returns a parsed <see cref="PDB"/> object if successful. Returns a <see cref="Message"/> 
+    ''' error object if file loading fails due to invalid path or format issues.</returns>
+    ''' <example>
+    ''' let pdb = read.pdb("1abc.pdb");
+    ''' </example>
     <ExportAPI("read.pdb")>
     Public Function readPdb(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
         Dim is_path As Boolean = False
@@ -177,12 +222,17 @@ Module proteinKit
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length 
+    ''' subsequences, edges connect k-mers appearing consecutively in the sequence.
     ''' </summary>
-    ''' <param name="prot">should be a collection of the fasta sequence object</param>
-    ''' <param name="k"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="prot">A FASTA sequence or collection of FASTA sequences to process.</param>
+    ''' <param name="k">The subsequence length parameter for k-mer generation. Default is 3.</param>
+    ''' <param name="env">The R runtime environment for error handling and resource cleanup.</param>
+    ''' <returns>Returns a single <see cref="KMerGraph"/> for single sequence input. Returns a named list 
+    ''' of KMerGraph objects for multiple sequences. Returns error message for invalid inputs.</returns>
+    ''' <example>
+    ''' let graphs = kmer_graph(sequences, k = 3);
+    ''' </example>
     <ExportAPI("kmer_graph")>
     <RApiReturn(GetType(KMerGraph))>
     Public Function kmer_graph(<RRawVectorArgument>
@@ -213,11 +263,15 @@ Module proteinKit
 
     ''' <summary>
     ''' Calculate the morgan fingerprint based on the k-mer graph data 
+    ''' 
+    ''' Generates fixed-length molecular fingerprint vectors from k-mer graphs using 
+    ''' Morgan algorithm with circular topology hashing.
     ''' </summary>
-    ''' <param name="graph"></param>
-    ''' <param name="radius"></param>
-    ''' <param name="len"></param>
-    ''' <returns></returns>
+    ''' <param name="graph">The k-mer graph object to fingerprint</param>
+    ''' <param name="radius">Neighborhood radius for structural feature capture. Larger values 
+    ''' consider more distant node relationships. Default is 3.</param>
+    ''' <param name="len">Output vector length (uses modulo hashing). Default 4096.</param>
+    ''' <returns>Integer array fingerprint where indices represent structural features</returns>
     ''' <example>
     ''' let seqs = read.fasta("./proteins.fa");
     ''' # create protein sequence graph based on k-mer(k=3)
