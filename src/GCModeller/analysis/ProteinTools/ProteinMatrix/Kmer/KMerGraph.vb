@@ -120,11 +120,11 @@ Namespace Kmer
                         Call graph(u.Value).Add(key, New KmerEdge With {
                         .U = koffset(u.Value),
                         .V = koffset(key),
-                        .NSzie = 0
+                        .NSize = 0
                     })
                     End If
 
-                    graph(u.Value)(key).NSzie += 1
+                    graph(u.Value)(key).NSize += 1
                     u = key
                 End If
             Next
