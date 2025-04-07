@@ -5,7 +5,25 @@
 // ref=seqtoolkit.proteinKit@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * A computational biology toolkit for protein structural analysis and sequence-based modeling. 
+ *  This module provides R-language interfaces for predicting secondary structures, parsing molecular 
+ *  structure files, and generating graph-based protein sequence fingerprints.
+ *  
+ *  Key functionalities include:
+ *  1. Chou-Fasman secondary structure prediction algorithm implementation
+ *  2. Protein Data Bank (PDB) file format parsing
+ *  3. K-mer graph construction for sequence pattern analysis
+ *  4. Morgan fingerprint generation for structural similarity comparison
  * 
+ * > This module bridges biological sequence analysis with graph theory concepts, enabling:
+ * >  - Rapid prediction of alpha-helices and beta-sheets from amino acid sequences
+ * >  - Structural feature extraction from PDB files
+ * >  - Topological representation of proteins as k-mer adjacency graphs
+ * >  - Fixed-length hashing of structural patterns for machine learning applications
+ * >  
+ * >  Dependencies: 
+ * >  - Requires R# runtime environment for interop
+ * >  - Relies on SMRUCC.genomics libraries for core bioinformatics operations
 */
 declare namespace proteinKit {
    /**
@@ -44,7 +62,9 @@ declare namespace proteinKit {
     * 
     * 
      * @param prot a collection of the protein sequence data
-     * @param polyaa 
+     * @param polyaa returns @``T:SMRUCC.genomics.ProteinModel.ChouFasmanRules.StructuralAnnotation`` clr object model if this parameter is set TRUE, otherwise returns 
+     *  the string representitive of the chou-fasman structure information.
+     * 
      * + default value Is ``false``.
      * @param env -
      * 
@@ -52,24 +72,50 @@ declare namespace proteinKit {
    */
    function chou_fasman(prot: any, polyaa?: boolean, env?: object): string|object;
    /**
-     * @param radius default value Is ``3``.
-     * @param len default value Is ``4096``.
+    * Calculate the morgan fingerprint based on the k-mer graph data 
+    *  
+    *  Generates fixed-length molecular fingerprint vectors from k-mer graphs using 
+    *  Morgan algorithm with circular topology hashing.
+    * 
+    * 
+     * @param graph The k-mer graph object to fingerprint
+     * @param radius Neighborhood radius for structural feature capture. Larger values 
+     *  consider more distant node relationships. Default is 3.
+     * 
+     * + default value Is ``3``.
+     * @param len Output vector length (uses modulo hashing). Default 4096.
+     * 
+     * + default value Is ``4096``.
+     * @return Integer array fingerprint where indices represent structural features
    */
    function kmer_fingerprint(graph: object, radius?: object, len?: object): any;
    /**
-     * @param k default value Is ``3``.
-     * @param env default value Is ``null``.
+    * Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length 
+    *  subsequences, edges connect k-mers appearing consecutively in the sequence.
+    * 
+    * 
+     * @param prot A FASTA sequence or collection of FASTA sequences to process.
+     * @param k The subsequence length parameter for k-mer generation. Default is 3.
+     * 
+     * + default value Is ``3``.
+     * @param env The R runtime environment for error handling and resource cleanup.
+     * 
+     * + default value Is ``null``.
+     * @return Returns a single @``T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer.KMerGraph`` for single sequence input. Returns a named list 
+     *  of KMerGraph objects for multiple sequences. Returns error message for invalid inputs.
    */
    function kmer_graph(prot: any, k?: object, env?: object): object;
    module read {
       /**
-       * read the protein database file
+       * Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.
        * 
        * 
-        * @param file -
-        * @param env -
+        * @param file A file path string or Stream object representing the PDB file to read.
+        * @param env The R runtime environment for error handling and resource management.
         * 
         * + default value Is ``null``.
+        * @return Returns a parsed @``T:SMRUCC.genomics.Data.RCSB.PDB.PDB`` object if successful. Returns a @``T:SMRUCC.Rsharp.Runtime.Components.Message`` 
+        *  error object if file loading fails due to invalid path or format issues.
       */
       function pdb(file: any, env?: object): any;
    }

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>kmer_graph</title>
+    <title>Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>kmer_graph</h2>
+        <h2>Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length</h2>
 
         <h3>Description</h3>
 
-        kmer_graph
+        <p>subsequences, edges connect k-mers appearing consecutively in the sequence.</p>
 
         <h3>Usage</h3>
 
@@ -35,6 +35,17 @@
 
         <table>
             
+<dt>prot</dt>
+<dd><p>A FASTA sequence or collection of FASTA sequences to process.</p></dd>
+
+
+<dt>k</dt>
+<dd><p>The subsequence length parameter for k-mer generation. Default is 3. [as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>The R runtime environment for error handling and resource cleanup. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
         </table>
 
 
@@ -48,11 +59,12 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/KMerGraph.html">KMerGraph</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/KMerGraph.html">KMerGraph</a></li></ul>
+        <p>Returns a single <a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/Kmer/KMerGraph.html">KMerGraph</a> for single sequence input. Returns a named list 
+ of KMerGraph objects for multiple sequences. Returns error message for invalid inputs.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Model/MotifGraph/ProteinStructure/Kmer/KMerGraph.html">KMerGraph</a></li></ul>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r"> let graphs = kmer_graph(sequences, k = 3);</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>proteinKit</em> version 1.0.0.0 <a

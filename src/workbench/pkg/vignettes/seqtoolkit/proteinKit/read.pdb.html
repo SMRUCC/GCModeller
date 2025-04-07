@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>read the protein database file</title>
+    <title>Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>read the protein database file</h2>
+        <h2>Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.</h2>
 
         <h3>Description</h3>
 
@@ -35,11 +35,11 @@
         <table>
             
 <dt>file</dt>
-<dd><p>-</p></dd>
+<dd><p>A file path string or Stream object representing the PDB file to read.</p></dd>
 
 
 <dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dd><p>The R runtime environment for error handling and resource management. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -54,11 +54,12 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>Returns a parsed @<code>T:SMRUCC.genomics.Data.RCSB.PDB.PDB</code> object if successful. Returns a <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Components/Message.html">Message</a> 
+ error object if file loading fails due to invalid path or format issues.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r"> let pdb = read.pdb("1abc.pdb");</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>proteinKit</em> version 1.0.0.0 <a

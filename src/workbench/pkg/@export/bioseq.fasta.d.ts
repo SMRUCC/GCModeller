@@ -127,6 +127,7 @@ declare namespace bioseq.fasta {
         * @param file -
         * @param lazyStream 
         * + default value Is ``false``.
+        * @return A collection of the fasta sequence object
       */
       function fasta(file: string, lazyStream?: boolean): object;
       /**

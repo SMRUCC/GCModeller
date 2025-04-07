@@ -10,7 +10,7 @@
     <meta name="keywords" content="R#; proteinKit; seqtoolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="..." />
+    <meta name="description" content="A computational biology toolkit for protein structural analysis ..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -63,13 +63,29 @@ table caption {font-size:14px;font-weight:bolder;}
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "proteinKit"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
+                               <br /><br /><span style="color: green;">#' A computational biology toolkit for protein structural analysis and sequence-based modeling.</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "proteinKit"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
                            </code>
     </p>
-    <p></p>
+    <p><p>A computational biology toolkit for protein structural analysis and sequence-based modeling. 
+ This module provides R-language interfaces for predicting secondary structures, parsing molecular 
+ structure files, and generating graph-based protein sequence fingerprints.
+ 
+ Key functionalities include:
+ 1. Chou-Fasman secondary structure prediction algorithm implementation
+ 2. Protein Data Bank (PDB) file format parsing
+ 3. K-mer graph construction for sequence pattern analysis
+ 4. Morgan fingerprint generation for structural similarity comparison</p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           
+                           <p>This module bridges biological sequence analysis with graph theory concepts, enabling:
+ - Rapid prediction of alpha-helices and beta-sheets from amino acid sequences
+ - Structural feature extraction from PDB files
+ - Topological representation of proteins as k-mer adjacency graphs
+ - Fixed-length hashing of structural patterns for machine learning applications
+ 
+ Dependencies: 
+ - Requires R# runtime environment for interop
+ - Relies on SMRUCC.genomics libraries for core bioinformatics operations</p>
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -122,19 +138,23 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="read.pdb">
     <a href="./proteinKit/read.pdb.html">read.pdb</a>
   </td>
-  <td><p>read the protein database file</p></td>
+  <td><p>Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.</p></td>
 </tr>
 <tr>
   <td id="kmer_graph">
     <a href="./proteinKit/kmer_graph.html">kmer_graph</a>
   </td>
-  <td></td>
+  <td><p>Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length 
+ subsequences, edges connect k-mers appearing consecutively in the sequence.</p></td>
 </tr>
 <tr>
   <td id="kmer_fingerprint">
     <a href="./proteinKit/kmer_fingerprint.html">kmer_fingerprint</a>
   </td>
-  <td></td>
+  <td><p>Calculate the morgan fingerprint based on the k-mer graph data 
+ 
+ Generates fixed-length molecular fingerprint vectors from k-mer graphs using 
+ Morgan algorithm with circular topology hashing.</p></td>
 </tr></tbody>
       </table>
     </div>

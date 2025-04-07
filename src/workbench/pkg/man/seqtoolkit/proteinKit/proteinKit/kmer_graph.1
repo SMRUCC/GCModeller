@@ -1,11 +1,35 @@
 .\" man page create by R# package system.
 .TH PROTEINKIT 1 2000-Jan "kmer_graph" "kmer_graph"
 .SH NAME
-kmer_graph \- 
+kmer_graph \- Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length
 .SH SYNOPSIS
 \fIkmer_graph(\fBprot\fR as any, 
 \fBk\fR as integer = 3, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length 
+ subsequences, edges connect k-mers appearing consecutively in the sequence.
+.PP
+.SH OPTIONS
+.PP
+\fBprot\fB \fR\- A FASTA sequence or collection of FASTA sequences to process.. 
+.PP
+.PP
+\fBk\fB \fR\- The subsequence length parameter for k-mer generation. Default is 3.. 
+.PP
+.PP
+\fBenv\fB \fR\- The R runtime environment for error handling and resource cleanup.. 
+.PP
+.SH VALUE
+.PP
+Returns a single @\fBT:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer.KMerGraph\fR for single sequence input. Returns a named list 
+ of KMerGraph objects for multiple sequences. Returns error message for invalid inputs.
+.PP
+.SH EXAMPLES
+.PP
+let graphs = kmer_graph(sequences, k = 3);
+.PP
 .SH SEE ALSO
 proteinKit
 .SH FILES

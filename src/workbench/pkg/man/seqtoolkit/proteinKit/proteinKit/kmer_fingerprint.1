@@ -1,11 +1,43 @@
 .\" man page create by R# package system.
 .TH PROTEINKIT 1 2000-Jan "kmer_fingerprint" "kmer_fingerprint"
 .SH NAME
-kmer_fingerprint \- 
+kmer_fingerprint \- Calculate the morgan fingerprint based on the k-mer graph data
 .SH SYNOPSIS
 \fIkmer_fingerprint(\fBgraph\fR as <generic> KMerGraph, 
 \fBradius\fR as integer = 3, 
 \fBlen\fR as integer = 4096);\fR
+.SH DESCRIPTION
+.PP
+Calculate the morgan fingerprint based on the k-mer graph data 
+ 
+ Generates fixed-length molecular fingerprint vectors from k-mer graphs using 
+ Morgan algorithm with circular topology hashing.
+.PP
+.SH OPTIONS
+.PP
+\fBgraph\fB \fR\- The k-mer graph object to fingerprint. 
+.PP
+.PP
+\fBradius\fB \fR\- Neighborhood radius for structural feature capture. Larger values 
+ consider more distant node relationships. Default is 3.. 
+.PP
+.PP
+\fBlen\fB \fR\- Output vector length (uses modulo hashing). Default 4096.. 
+.PP
+.SH VALUE
+.PP
+Integer array fingerprint where indices represent structural features
+.PP
+.SH EXAMPLES
+.PP
+let seqs = read.fasta("./proteins.fa");
+ # create protein sequence graph based on k-mer(k=3)
+ let g = kmer_graph(seqs, k = 3);
+ 
+ for(let kmer in g) {
+     print(kmer |> kmer_fingerprint());
+ }
+.PP
 .SH SEE ALSO
 proteinKit
 .SH FILES
