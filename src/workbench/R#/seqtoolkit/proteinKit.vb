@@ -103,8 +103,15 @@ Module proteinKit
     ''' foundational concept for those learning about protein structure prediction and bioinformatics.
     ''' </summary>
     ''' <param name="prot">a collection of the protein sequence data</param>
+    ''' <param name="polyaa">
+    ''' returns <see cref="StructuralAnnotation"/> clr object model if this parameter is set TRUE, otherwise returns 
+    ''' the string representitive of the chou-fasman structure information.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' print(chou_fasman("AAABAAGKKKJLLMMMMMM"));
+    ''' </example>
     <ExportAPI("chou_fasman")>
     <RApiReturn(GetType(String), GetType(StructuralAnnotation))>
     Public Function ChouFasman(<RRawVectorArgument> prot As Object,
@@ -169,6 +176,13 @@ Module proteinKit
         Return pdb
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="prot">should be a collection of the fasta sequence object</param>
+    ''' <param name="k"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("kmer_graph")>
     <RApiReturn(GetType(KMerGraph))>
     Public Function kmer_graph(<RRawVectorArgument>
@@ -204,6 +218,15 @@ Module proteinKit
     ''' <param name="radius"></param>
     ''' <param name="len"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' let seqs = read.fasta("./proteins.fa");
+    ''' # create protein sequence graph based on k-mer(k=3)
+    ''' let g = kmer_graph(seqs, k = 3);
+    ''' 
+    ''' for(let kmer in g) {
+    '''     print(kmer |> kmer_fingerprint());
+    ''' }
+    ''' </example>
     <ExportAPI("kmer_fingerprint")>
     Public Function kmer_fingerprint(graph As KMerGraph, Optional radius As Integer = 3, Optional len As Integer = 4096) As Object
         Return graph.GetFingerprint(radius, len)
