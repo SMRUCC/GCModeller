@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a7d636707ca415d2f82faeb5e9a1eae, Data_science\Visualization\Plots\Scatter\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::140f627d2f00bd997850d7ad5ed29471, Data_science\Visualization\Plots\Scatter\Scatter.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 614
-    '    Code Lines: 507 (82.57%)
-    ' Comment Lines: 65 (10.59%)
+    '   Total Lines: 625
+    '    Code Lines: 518 (82.88%)
+    ' Comment Lines: 65 (10.40%)
     '    - Xml Docs: 90.77%
     ' 
-    '   Blank Lines: 42 (6.84%)
-    '     File Size: 27.48 KB
+    '   Blank Lines: 42 (6.72%)
+    '     File Size: 27.99 KB
 
 
     ' Module Scatter
@@ -275,7 +275,9 @@ Public Module Scatter
                     Optional axisStroke$ = Stroke.AxisStroke,
                     Optional axisLabelCSS$ = CSSFont.Win10Normal,
                     Optional scatterReorder As Boolean = False,
-                    Optional xAxisLabelRotate As Double = 0)
+                    Optional xAxisLabelRotate As Double = 0,
+                    Optional nticksX As Integer = 9,
+                    Optional nticksY As Integer = 9)
 
         Dim theme As New Theme With {
             .drawLegend = showLegend,
@@ -294,12 +296,17 @@ Public Module Scatter
             .legendLabelCSS = legendFontCSS,
             .legendSplitSize = legendSplit,
             .YaxisTickFormat = YtickFormat,
-            .xAxisRotate = xAxisLabelRotate
+            .xAxisRotate = xAxisLabelRotate,
+            .nticksX = nticksX,
+            .nticksY = nticksY
         }
         Dim plot As Plot
 
         If drawLine Then
-            plot = New Plots.LinePlot2D(data:=c, theme:=theme, fill:=fill, interplot:=interplot) With {
+            plot = New Plots.LinePlot2D(data:=c, theme:=theme,
+                                        fill:=fill,
+                                        fillPie:=fillPie,
+                                        interplot:=interplot) With {
                 .xlabel = Xlabel,
                 .ylabel = Ylabel,
                 .main = title,
@@ -392,6 +399,8 @@ Public Module Scatter
                          Optional axisStroke$ = Stroke.AxisStroke,
                          Optional axisLabelCSS$ = CSSFont.Win10Normal,
                          Optional scatterReorder As Boolean = False,
+                         Optional nticksX As Integer = 9,
+                         Optional nticksY As Integer = 9,
                          Optional dpi As Integer = 100,
                          Optional driver As Drivers = Drivers.Default) As GraphicsData
 
@@ -440,7 +449,9 @@ Public Module Scatter
                     YtickFormat:=YtickFormat,
                     axisStroke:=axisStroke,
                     scatterReorder:=scatterReorder,
-                    axisLabelCSS:=axisLabelCSS
+                    axisLabelCSS:=axisLabelCSS,
+                    nticksX:=nticksX,
+                    nticksY:=nticksY
                 )
             End Sub
 

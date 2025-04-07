@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14cf020671ca03342d947da20a8e12b7, mime\text%html\CSS\Elements\Stroke.vb"
+﻿#Region "Microsoft.VisualBasic::f4d1dde0dabb4626c436b260895819d2, mime\text%html\CSS\Elements\Stroke.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 195
-    '    Code Lines: 116 (59.49%)
-    ' Comment Lines: 55 (28.21%)
-    '    - Xml Docs: 98.18%
+    '   Total Lines: 200
+    '    Code Lines: 116 (58.00%)
+    ' Comment Lines: 61 (30.50%)
+    '    - Xml Docs: 98.36%
     ' 
-    '   Blank Lines: 24 (12.31%)
-    '     File Size: 6.48 KB
+    '   Blank Lines: 23 (11.50%)
+    '     File Size: 6.77 KB
 
 
     '     Class Stroke
@@ -55,12 +55,11 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.Language.CSS
-Imports System.Drawing
-
 
 #If NET48 Then
 Imports Font = System.Drawing.Font

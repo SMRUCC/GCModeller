@@ -69,6 +69,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
@@ -914,6 +915,21 @@ Module geneExpression
                             Dim factor As Double = If(median,
                                 gene.experiments.Median,
                                 gene.experiments.Max)
+
+                            If median AndAlso factor = 0.0 Then
+                                Dim minmax As DoubleRange = gene.experiments
+
+                                ' try to avoid divid zero
+                                If minmax.Length = 0 Then
+                                    ' all zero
+                                    Return New DataFrameRow With {
+                                        .geneID = gene.geneID,
+                                        .experiments = gene.experiments.ToArray
+                                    }
+                                Else
+                                    factor = minmax.Max / 2
+                                End If
+                            End If
 
                             Return New DataFrameRow With {
                                 .geneID = gene.geneID,
