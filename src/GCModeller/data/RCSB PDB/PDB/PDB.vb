@@ -84,6 +84,8 @@ Public Class PDB
     Public Property Scale2 As SCALE123
     Public Property Scale3 As SCALE123
 
+    Public Property Master As Master
+
     Public Property AtomStructures As Atom
         Get
             Return _atomStructuresData
@@ -178,6 +180,17 @@ Public Class PDB
                 Case "SCALE1" : pdb.Scale1 = Spatial3D.Parse(Of SCALE123)(data.Value)
                 Case "SCALE2" : pdb.Scale2 = Spatial3D.Parse(Of SCALE123)(data.Value)
                 Case "SCALE3" : pdb.Scale3 = Spatial3D.Parse(Of SCALE123)(data.Value)
+
+                Case Keyword.KEYWORD_ATOM : pdb.AtomStructures = Atom.Append(last, data.Value)
+                Case "TER"
+                    pdb.AtomStructures = Atom.Append(pdb.AtomStructures, data.Value)
+                    pdb.AtomStructures.Flush()
+
+                Case Keyword.KEYWORD_MASTER : pdb.Master = Master.Parse(data.Value)
+
+                Case "END"
+                    ' end of current protein/molecule structure data
+                    Exit For
 
                 Case Else
                     Throw New NotImplementedException(data.Name)

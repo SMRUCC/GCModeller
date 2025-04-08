@@ -60,10 +60,6 @@ Namespace Keywords
     Public Class Atom : Inherits Keyword
         Implements IEnumerable(Of AtomUnit)
 
-        Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Atoms = (From item In itemDatas.AsParallel Select AtomUnit.InternalParser(item.Value, InternalIndex:=item.Key)).ToArray
-        End Sub
-
         Public Property Atoms As AtomUnit()
 
         Public Overrides ReadOnly Property Keyword As String
@@ -71,6 +67,21 @@ Namespace Keywords
                 Return Keywords.KEYWORD_ATOM
             End Get
         End Property
+
+        Dim cache As New List(Of (key As Integer, value As String))
+
+        Friend Shared Function Append(ByRef atoms As Atom, str As String) As Atom
+            If atoms Is Nothing Then
+                atoms = New Atom
+            End If
+            Dim index = str.GetTagValue(" ", trim:=True)
+            atoms.cache.Add((CInt(Val(index.Name)), index.Value))
+            Return atoms
+        End Function
+
+        Friend Overrides Sub Flush()
+            Atoms = (From item In cache.AsParallel Select AtomUnit.InternalParser(item.value, InternalIndex:=item.key)).ToArray
+        End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of AtomUnit) Implements IEnumerable(Of AtomUnit).GetEnumerator
             For Each Atom As AtomUnit In Me.Atoms

@@ -313,6 +313,15 @@ Namespace Keywords
                 Return Keywords.KEYWORD_MASTER
             End Get
         End Property
+
+        Public Property line As String
+
+        Public Shared Function Parse(str As String) As Master
+            Return New Master With {
+                .line = str
+            }
+        End Function
+
     End Class
 
     Public Class CRYST1 : Inherits Keyword
