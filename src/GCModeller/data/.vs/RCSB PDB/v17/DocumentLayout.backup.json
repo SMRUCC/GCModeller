@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1151A50B-DFEE-48E2-9283-E0405660E7A2}|RCSB PDB\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1151A50B-DFEE-48E2-9283-E0405660E7A2}|RCSB PDB\\test\\test.vbproj|solutionrelative:rcsb pdb\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\pdb.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\pdb.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -64,10 +68,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\headers\\journal.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\headers\\journal.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1151A50B-DFEE-48E2-9283-E0405660E7A2}|RCSB PDB\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1151A50B-DFEE-48E2-9283-E0405660E7A2}|RCSB PDB\\test\\test.vbproj|solutionrelative:rcsb pdb\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -77,7 +77,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 18,
           "Children": [
             {
               "$type": "Bookmark",
@@ -89,7 +89,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "PointF3D.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\PointF3D.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\PointF3D.vb",
@@ -102,7 +102,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "AminoAcid.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\AminoAcid.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\AminoAcid.vb",
@@ -115,7 +115,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "PdbExport.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PdbExport.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PdbExport.vb",
@@ -128,7 +128,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "PdbExportObjs.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PdbExportObjs.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PdbExportObjs.vb",
@@ -141,7 +141,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "CifDictionary.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\CifDictionary.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\CifDictionary.vb",
@@ -154,7 +154,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "PdbML.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PdbML.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PdbML.vb",
@@ -167,7 +167,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "3D.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\3D.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\3D.vb",
@@ -180,7 +180,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Remark.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\Remark.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\Remark.vb",
@@ -193,7 +193,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "PDB.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PDB.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PDB.vb",
@@ -206,7 +206,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Journal.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\Journal.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\Journal.vb",
@@ -219,7 +219,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "Revision.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\Revision.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\Revision.vb",
@@ -232,7 +232,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "MoleculeMetadata.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\MoleculeMetadata.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\MoleculeMetadata.vb",
@@ -245,7 +245,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Keywords.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Keywords.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Keywords.vb",
@@ -258,7 +258,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Header.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\Header.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\Header.vb",
@@ -271,7 +271,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "AtomUnit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\AtomUnit.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\AtomUnit.vb",
@@ -284,7 +284,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Atom.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Atom.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Atom.vb",
@@ -297,7 +297,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 0,
               "Title": "Module1.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\test\\Module1.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\test\\Module1.vb",
