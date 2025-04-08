@@ -171,6 +171,14 @@ Public Class PDB
                 Case Keyword.KEYWORD_SEQRES : pdb.Sequence = Sequence.Append(last, data.Value)
                 Case Keyword.KEYWORD_CRYST1 : pdb.crystal1 = CRYST1.Append(last, data.Value)
 
+                Case "ORIGX1" : pdb.Origin1 = Spatial3D.Parse(Of ORIGX123)(data.Value)
+                Case "ORIGX2" : pdb.Origin2 = Spatial3D.Parse(Of ORIGX123)(data.Value)
+                Case "ORIGX3" : pdb.Origin3 = Spatial3D.Parse(Of ORIGX123)(data.Value)
+
+                Case "SCALE1" : pdb.Scale1 = Spatial3D.Parse(Of SCALE123)(data.Value)
+                Case "SCALE2" : pdb.Scale2 = Spatial3D.Parse(Of SCALE123)(data.Value)
+                Case "SCALE3" : pdb.Scale3 = Spatial3D.Parse(Of SCALE123)(data.Value)
+
                 Case Else
                     Throw New NotImplementedException(data.Name)
             End Select
