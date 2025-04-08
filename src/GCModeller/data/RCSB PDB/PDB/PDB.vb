@@ -157,6 +157,7 @@ Public Class PDB
                 Case Keyword.KEYWORD_EXPDTA : pdb.Experiment = ExperimentData.Parse(data.Value)
                 Case Keyword.KEYWORD_AUTHOR : pdb.Author = Author.Parse(data.Value)
                 Case Keyword.KEYWORD_REVDAT : pdb.Revisions = Revision.Append(last, data.Value)
+                Case Keyword.KEYWORD_JRNL : pdb.Journal = Journal.Append(last, data.Value)
 
                 Case Else
                     Throw New NotImplementedException(data.Name)
