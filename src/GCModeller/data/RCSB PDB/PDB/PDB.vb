@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::46de3c9ccf949a9f0fad949aebfc3a9e, data\RCSB PDB\PDB\PDB.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 115
-    '    Code Lines: 85 (73.91%)
-    ' Comment Lines: 13 (11.30%)
-    '    - Xml Docs: 92.31%
-    ' 
-    '   Blank Lines: 17 (14.78%)
-    '     File Size: 4.38 KB
+' Summaries:
 
 
-    ' Class PDB
-    ' 
-    '     Properties: AminoAcidSequenceData, AtomStructures, Author, Compound, Experiment
-    '                 Header, Journal, Keywords, MaxSpace, MinSpace
-    '                 Remark, Sequence, Source, Title
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: (+2 Overloads) Load
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 115
+'    Code Lines: 85 (73.91%)
+' Comment Lines: 13 (11.30%)
+'    - Xml Docs: 92.31%
+' 
+'   Blank Lines: 17 (14.78%)
+'     File Size: 4.38 KB
+
+
+' Class PDB
+' 
+'     Properties: AminoAcidSequenceData, AtomStructures, Author, Compound, Experiment
+'                 Header, Journal, Keywords, MaxSpace, MinSpace
+'                 Remark, Sequence, Source, Title
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: (+2 Overloads) Load
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -123,13 +123,13 @@ Public Class PDB
     ''' <summary>
     ''' 加载一个蛋白质的三维空间结构的数据文件
     ''' </summary>
-    ''' <param name="Path"></param>
+    ''' <param name="path"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function Load(Path As String) As PDB
-        Return Load(Path.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+    Public Shared Function Load(path As String) As PDB
+        Return Load(path.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
     End Function
 
     Public Shared Function Load(s As Stream) As PDB
@@ -167,7 +167,7 @@ Public Class PDB
         Return pdb
     End Function
 
-    Public Overloads Shared Widening Operator CType(Path As String) As PDB
-        Return PDB.Load(Path)
+    Public Overloads Shared Widening Operator CType(path As String) As PDB
+        Return PDB.Load(path)
     End Operator
 End Class

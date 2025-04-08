@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1151A50B-DFEE-48E2-9283-E0405660E7A2}|RCSB PDB\\test\\test.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1151A50B-DFEE-48E2-9283-E0405660E7A2}|RCSB PDB\\test\\test.vbproj|solutionrelative:rcsb pdb\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\pdb.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\pdb.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -46,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,7 +66,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "Module1.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\test\\Module1.vb",
+              "RelativeDocumentMoniker": "RCSB PDB\\test\\Module1.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\test\\Module1.vb",
+              "RelativeToolTip": "RCSB PDB\\test\\Module1.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-04-08T01:17:50.441Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "AtomUnit.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\AtomUnit.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\AtomUnit.vb",
@@ -70,12 +87,11 @@
               "RelativeToolTip": "RCSB PDB\\PDB\\Keywords\\AtomUnit.vb",
               "ViewState": "AgIAAFEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-02-25T05:30:09.078Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T05:30:09.078Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Atom.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Atom.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Atom.vb",
@@ -83,12 +99,11 @@
               "RelativeToolTip": "RCSB PDB\\PDB\\Keywords\\Atom.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-02-25T05:29:54.31Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T05:29:54.31Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Keywords.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Keywords.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Keywords.vb",
@@ -96,12 +111,11 @@
               "RelativeToolTip": "RCSB PDB\\PDB\\Keywords\\Keywords.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAE4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-02-25T05:22:47.697Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T05:22:47.697Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "PdbML.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PdbML.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PdbML.vb",
@@ -109,12 +123,11 @@
               "RelativeToolTip": "RCSB PDB\\PDB\\PdbML.vb",
               "ViewState": "AgIAADcBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-02-25T05:29:01.82Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T05:29:01.82Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "PdbExportObjs.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PdbExportObjs.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PdbExportObjs.vb",
@@ -122,12 +135,11 @@
               "RelativeToolTip": "RCSB PDB\\PDB\\PdbExportObjs.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-02-25T05:29:00.233Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T05:29:00.233Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "PdbExport.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PdbExport.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PdbExport.vb",
@@ -135,12 +147,11 @@
               "RelativeToolTip": "RCSB PDB\\PDB\\PdbExport.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-02-25T05:28:59.06Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T05:28:59.06Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "AminoAcid.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\AminoAcid.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\AminoAcid.vb",
@@ -148,12 +159,11 @@
               "RelativeToolTip": "RCSB PDB\\PDB\\AminoAcid.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-02-25T05:28:53.963Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T05:28:53.963Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Header.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Header.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Header.vb",
@@ -161,18 +171,17 @@
               "RelativeToolTip": "RCSB PDB\\PDB\\Keywords\\Header.vb",
               "ViewState": "AgIAAC8BAAAAAAAAAAA4wEUBAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-02-25T05:21:45.164Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-25T05:21:45.164Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "PDB.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PDB.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PDB.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PDB.vb",
               "RelativeToolTip": "RCSB PDB\\PDB\\PDB.vb",
-              "ViewState": "AgIAAHYAAAAAAAAAAAAAAJsAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAuwKgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-02-25T05:12:29.05Z",
               "EditorCaption": ""
