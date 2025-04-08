@@ -134,6 +134,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Keywords
@@ -231,15 +232,6 @@ Namespace Keywords
             Return New Author With {.Name = line}
         End Function
 
-    End Class
-
-    Public Class Remark : Inherits Keyword
-
-        Public Overrides ReadOnly Property Keyword As String
-            Get
-                Return Keywords.KEYWORD_REMARK
-            End Get
-        End Property
     End Class
 
     Public Class DbReference : Inherits Keyword

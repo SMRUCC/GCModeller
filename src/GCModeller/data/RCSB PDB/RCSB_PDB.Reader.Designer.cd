@@ -14,81 +14,74 @@
       <FileName>WebServices\ProtInDb\ProtInDb.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Title" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Title">
     <Position X="0.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
+      <FileName>PDB\Keywords\Headers\Header.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Compound" Collapsed="true">
     <Position X="30.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
+      <FileName>PDB\Keywords\Headers\MoleculeMetadata.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Source" Collapsed="true">
     <Position X="27.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
+      <FileName>PDB\Keywords\Headers\MoleculeMetadata.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Journal" Collapsed="true">
     <Position X="20.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
+      <HashCode>gCAAAAAAQAAAAAAAgAIIAIAAAAAAAQAAAAAAAAAIAAA=</HashCode>
+      <FileName>PDB\Keywords\Headers\Journal.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Remark" Collapsed="true">
-    <Position X="2.75" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.DbReference" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.DbReference">
     <Position X="5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
+      <FileName>PDB\Keywords\Headers\Header.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Sequence" Collapsed="true">
     <Position X="9.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
+      <FileName>PDB\Keywords\Headers\Header.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Helix">
     <Position X="11.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
+      <FileName>PDB\Keywords\Headers\Header.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Sheet" Collapsed="true">
     <Position X="14" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
+      <FileName>PDB\Keywords\Headers\Header.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Site" Collapsed="true">
     <Position X="23" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
+      <FileName>PDB\Keywords\Headers\Header.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Master" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Master">
     <Position X="7.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
+      <FileName>PDB\Keywords\Headers\Header.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Data.RCSB.PDB.PDBML.PdbML" Collapsed="true">
@@ -146,7 +139,7 @@
     <Position X="18.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAEAAAGAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
-      <FileName>PDB\Keywords\Header.vb</FileName>
+      <FileName>PDB\Keywords\Headers\Header.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Keyword" Collapsed="true">
@@ -154,6 +147,13 @@
     <TypeIdentifier>
       <HashCode>IAAAAAAgUAWAQAgkABCAAyAQAlAAAQAAAAAgIAAoAAA=</HashCode>
       <FileName>PDB\Keywords\Keywords.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Remark">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAABAAAAAIAAA=</HashCode>
+      <FileName>PDB\Keywords\Headers\Remark.vb</FileName>
     </TypeIdentifier>
   </Class>
   <Struct Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Point3D" Collapsed="true">
