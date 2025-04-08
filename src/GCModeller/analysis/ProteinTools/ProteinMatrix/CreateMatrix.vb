@@ -61,6 +61,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
+''' <summary>
+''' Create sgt embedding matrix
+''' </summary>
 Public Class CreateMatrix
 
     Dim sgt As SequenceGraphTransform

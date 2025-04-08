@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76da688a18194d022ef52a078039239d, Data_science\Visualization\Plots\Scatter\Plot\LinePlot2D.vb"
+﻿#Region "Microsoft.VisualBasic::a07d732ee320ea62722614d4241d04bd, Data_science\Visualization\Plots\Scatter\Plot\LinePlot2D.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 340
-    '    Code Lines: 251 (73.82%)
-    ' Comment Lines: 35 (10.29%)
+    '   Total Lines: 338
+    '    Code Lines: 251 (74.26%)
+    ' Comment Lines: 35 (10.36%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 54 (15.88%)
-    '     File Size: 13.96 KB
+    '   Blank Lines: 52 (15.38%)
+    '     File Size: 14.26 KB
 
 
     '     Class LinePlot2D
@@ -76,8 +76,6 @@ Imports Microsoft.VisualBasic.Math.Interpolation
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
-
-
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -360,21 +358,21 @@ Namespace Plots
                         .Distinct _
                         .ToArray
 
-                    YTicks = YTicks.Range.CreateAxisTicks
+                    YTicks = YTicks.Range.CreateAxisTicks(ticks:=theme.nticksY, decimalDigits:=theme.GetYAxisDecimals)
                     X = d3js.scale _
                         .ordinal _
                         .domain(allTermLabels) _
                         .range(integers:={region.Left, region.Right})
                 Else
                     If Not xlim.IsNullOrEmpty Then
-                        XTicks = xlim.CreateAxisTicks
+                        XTicks = xlim.CreateAxisTicks(ticks:=theme.nticksX, decimalDigits:=theme.GetXAxisDecimals)
                     Else
-                        XTicks = XTicks.Range.CreateAxisTicks
+                        XTicks = XTicks.Range.CreateAxisTicks(ticks:=theme.nticksX, decimalDigits:=theme.GetXAxisDecimals)
                     End If
                     If Not ylim.IsNullOrEmpty Then
-                        YTicks = ylim.CreateAxisTicks
+                        YTicks = ylim.CreateAxisTicks(ticks:=theme.nticksY, decimalDigits:=theme.GetYAxisDecimals)
                     Else
-                        YTicks = YTicks.Range.CreateAxisTicks
+                        YTicks = YTicks.Range.CreateAxisTicks(ticks:=theme.nticksY, decimalDigits:=theme.GetYAxisDecimals)
                     End If
 
                     X = d3js.scale _

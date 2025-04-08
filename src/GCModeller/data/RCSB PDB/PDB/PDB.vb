@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::46de3c9ccf949a9f0fad949aebfc3a9e, data\RCSB PDB\PDB\PDB.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 115
-    '    Code Lines: 85 (73.91%)
-    ' Comment Lines: 13 (11.30%)
-    '    - Xml Docs: 92.31%
-    ' 
-    '   Blank Lines: 17 (14.78%)
-    '     File Size: 4.38 KB
+' Summaries:
 
 
-    ' Class PDB
-    ' 
-    '     Properties: AminoAcidSequenceData, AtomStructures, Author, Compound, Experiment
-    '                 Header, Journal, Keywords, MaxSpace, MinSpace
-    '                 Remark, Sequence, Source, Title
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: (+2 Overloads) Load
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 115
+'    Code Lines: 85 (73.91%)
+' Comment Lines: 13 (11.30%)
+'    - Xml Docs: 92.31%
+' 
+'   Blank Lines: 17 (14.78%)
+'     File Size: 4.38 KB
+
+
+' Class PDB
+' 
+'     Properties: AminoAcidSequenceData, AtomStructures, Author, Compound, Experiment
+'                 Header, Journal, Keywords, MaxSpace, MinSpace
+'                 Remark, Sequence, Source, Title
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: (+2 Overloads) Load
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -74,6 +74,18 @@ Public Class PDB
     Public Property Journal As Journal
     Public Property Remark As Remark
     Public Property Sequence As Sequence
+    Public Property Revisions As Revision
+    Public Property DbRef As DbReference
+    Public Property crystal1 As CRYST1
+    Public Property Origin1 As ORIGX123
+    Public Property Origin2 As ORIGX123
+    Public Property Origin3 As ORIGX123
+    Public Property Scale1 As SCALE123
+    Public Property Scale2 As SCALE123
+    Public Property Scale3 As SCALE123
+
+    Public Property Master As Master
+
     Public Property AtomStructures As Atom
         Get
             Return _atomStructuresData
@@ -123,13 +135,13 @@ Public Class PDB
     ''' <summary>
     ''' 加载一个蛋白质的三维空间结构的数据文件
     ''' </summary>
-    ''' <param name="Path"></param>
+    ''' <param name="path"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function Load(Path As String) As PDB
-        Return Load(Path.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+    Public Shared Function Load(path As String) As PDB
+        Return Load(path.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
     End Function
 
     Public Shared Function Load(s As Stream) As PDB
@@ -154,6 +166,31 @@ Public Class PDB
                 Case Keyword.KEYWORD_KEYWDS : pdb.Keywords = RCSB.PDB.Keywords.Keywords.Parse(data.Value)
                 Case Keyword.KEYWORD_EXPDTA : pdb.Experiment = ExperimentData.Parse(data.Value)
                 Case Keyword.KEYWORD_AUTHOR : pdb.Author = Author.Parse(data.Value)
+                Case Keyword.KEYWORD_REVDAT : pdb.Revisions = Revision.Append(last, data.Value)
+                Case Keyword.KEYWORD_JRNL : pdb.Journal = Journal.Append(last, data.Value)
+                Case Keyword.KEYWORD_REMARK : pdb.Remark = Remark.Append(last, data.Value)
+                Case Keyword.KEYWORD_DBREF : pdb.DbRef = DbReference.Append(last, data.Value)
+                Case Keyword.KEYWORD_SEQRES : pdb.Sequence = Sequence.Append(last, data.Value)
+                Case Keyword.KEYWORD_CRYST1 : pdb.crystal1 = CRYST1.Append(last, data.Value)
+
+                Case "ORIGX1" : pdb.Origin1 = Spatial3D.Parse(Of ORIGX123)(data.Value)
+                Case "ORIGX2" : pdb.Origin2 = Spatial3D.Parse(Of ORIGX123)(data.Value)
+                Case "ORIGX3" : pdb.Origin3 = Spatial3D.Parse(Of ORIGX123)(data.Value)
+
+                Case "SCALE1" : pdb.Scale1 = Spatial3D.Parse(Of SCALE123)(data.Value)
+                Case "SCALE2" : pdb.Scale2 = Spatial3D.Parse(Of SCALE123)(data.Value)
+                Case "SCALE3" : pdb.Scale3 = Spatial3D.Parse(Of SCALE123)(data.Value)
+
+                Case Keyword.KEYWORD_ATOM : pdb.AtomStructures = Atom.Append(last, data.Value)
+                Case "TER"
+                    pdb.AtomStructures = Atom.Append(pdb.AtomStructures, data.Value)
+                    pdb.AtomStructures.Flush()
+
+                Case Keyword.KEYWORD_MASTER : pdb.Master = Master.Parse(data.Value)
+
+                Case "END"
+                    ' end of current protein/molecule structure data
+                    Exit For
 
                 Case Else
                     Throw New NotImplementedException(data.Name)
@@ -167,7 +204,7 @@ Public Class PDB
         Return pdb
     End Function
 
-    Public Overloads Shared Widening Operator CType(Path As String) As PDB
-        Return PDB.Load(Path)
+    Public Overloads Shared Widening Operator CType(path As String) As PDB
+        Return PDB.Load(path)
     End Operator
 End Class

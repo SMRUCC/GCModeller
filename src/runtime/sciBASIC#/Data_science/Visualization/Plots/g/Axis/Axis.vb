@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c6c5aa6604544b0a7167ed142054bd6, Data_science\Visualization\Plots\g\Axis\Axis.vb"
+﻿#Region "Microsoft.VisualBasic::c6188848d60021d6d6df678791b138f0, Data_science\Visualization\Plots\g\Axis\Axis.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 521
-    '    Code Lines: 354 (67.95%)
-    ' Comment Lines: 113 (21.69%)
-    '    - Xml Docs: 85.84%
+    '   Total Lines: 529
+    '    Code Lines: 360 (68.05%)
+    ' Comment Lines: 116 (21.93%)
+    '    - Xml Docs: 83.62%
     ' 
-    '   Blank Lines: 54 (10.36%)
-    '     File Size: 24.30 KB
+    '   Blank Lines: 53 (10.02%)
+    '     File Size: 24.99 KB
 
 
     '     Module Axis
-    ' 
-    '         Properties: delta
     ' 
     '         Function: __plotLabel, (+2 Overloads) DrawLabel
     ' 
@@ -245,8 +243,9 @@ Namespace Graphic.Axis
             ' 填充网格要先于坐标轴的绘制操作进行，否则会将坐标轴给覆盖掉
             Dim env As CSSEnvirnment = g.LoadEnvironment
             Dim rect As Rectangle = scaler.region
-            Dim tickFont As Font = env.GetFont(CSSFont.TryParse(tickFontStyle))
-            Dim tickColor As Brush = CSSFont.TryParse(tickFontStyle).color.GetBrush
+            ' 20250405 style css string maybe empty if the both x and y axis layout is config as none
+            Dim tickFont As Font = If(tickFontStyle.StringEmpty(, True), Nothing, env.GetFont(CSSFont.TryParse(tickFontStyle)))
+            Dim tickColor As Brush = If(tickFontStyle.StringEmpty(, True), Nothing, CSSFont.TryParse(tickFontStyle).color.GetBrush)
             Dim gridPenX As Pen = env.GetPen(Stroke.TryParse(gridX))
             Dim gridPenY As Pen = env.GetPen(Stroke.TryParse(gridY))
 
@@ -300,8 +299,10 @@ Namespace Graphic.Axis
                 Next
             End If
 
+            ' 20250405 style css string maybe empty if the
+            ' both x and y axis layout is config as none
             Dim pen As Pen = env.GetPen(Stroke.TryParse(axisStroke))
-            Dim labelColor As SolidBrush = CSSFont.TryParse(labelFontStyle).color.GetBrush
+            Dim labelColor As SolidBrush = If(labelFontStyle.StringEmpty(, True), Nothing, CSSFont.TryParse(labelFontStyle).color.GetBrush)
 
             If xlayout <> XAxisLayoutStyles.None Then
                 Call g.DrawX(pen, xlabel, scaler, xlayout, scaler.Y(0), offset,
@@ -359,8 +360,6 @@ Namespace Graphic.Axis
             End With
         End Sub
 
-        Public Property delta As Integer = 10
-
         ''' <summary>
         ''' 
         ''' </summary>
@@ -395,6 +394,7 @@ Namespace Graphic.Axis
             Dim env As CSSEnvirnment = g.LoadEnvironment
             Dim X%  ' y轴的layout的变化只需要变换x的值即可
             Dim size = scaler.region.Size
+            Dim delta As Single = g.MeasureString("A", tickFont).Width
 
             Select Case layout
                 Case YAxisLayoutStyles.Centra
@@ -426,9 +426,9 @@ Namespace Graphic.Axis
 
                     If showAxisLine Then
                         If layout = YAxisLayoutStyles.Right Then
-                            Call g.DrawLine(pen, axisY, New PointF(ZERO.X + delta, y))
+                            Call g.DrawLine(pen, axisY, New PointF(ZERO.X + delta / 2, y))
                         Else
-                            Call g.DrawLine(pen, axisY, New PointF(ZERO.X - delta, y))
+                            Call g.DrawLine(pen, axisY, New PointF(ZERO.X - delta / 2, y))
                         End If
                     End If
 
@@ -471,6 +471,12 @@ Namespace Graphic.Axis
                         .Y = fSize.Width + (size.Height - fSize.Width) / 2 + scaler.region.Top
                     }
 
+#If NET8_0_OR_GREATER Then
+                    location = New PointF With {
+                        .X = scaler.region.Left - fSize.Height - maxYTickSize * 1.5,
+                        .Y = fSize.Width / 2 + (size.Height - fSize.Width) / 2 + scaler.region.Top
+                    }
+#End If
                     If location.X < 5 Then
                         location = New PointF(5, location.Y)
                     End If

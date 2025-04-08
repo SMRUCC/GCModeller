@@ -1,20 +1,29 @@
 .\" man page create by R# package system.
 .TH PROTEINKIT 1 2000-Jan "read.pdb" "read.pdb"
 .SH NAME
-read.pdb \- read the protein database file
+read.pdb \- Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.
 .SH SYNOPSIS
 \fIread.pdb(\fBfile\fR as any, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-read the protein database file
+Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- -. 
+\fBfile\fB \fR\- A file path string or Stream object representing the PDB file to read.. 
 .PP
 .PP
-\fBenv\fB \fR\- -. 
+\fBenv\fB \fR\- The R runtime environment for error handling and resource management.. 
+.PP
+.SH VALUE
+.PP
+Returns a parsed @\fBT:SMRUCC.genomics.Data.RCSB.PDB.PDB\fR object if successful. Returns a @\fBT:SMRUCC.Rsharp.Runtime.Components.Message\fR 
+ error object if file loading fails due to invalid path or format issues.
+.PP
+.SH EXAMPLES
+.PP
+let pdb = read.pdb("1abc.pdb");
 .PP
 .SH SEE ALSO
 proteinKit

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e973852794b918177942dcc6a28c37a, mime\text%html\CSS\Elements\FontStyle.vb"
+﻿#Region "Microsoft.VisualBasic::99f8f1e4de8c1a14e26c9141f98bd52a, mime\text%html\CSS\Elements\FontStyle.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 89.47%
     ' 
     '   Blank Lines: 36 (11.08%)
-    '     File Size: 14.72 KB
+    '     File Size: 14.82 KB
 
 
     '     Class CSSFont
@@ -278,7 +278,7 @@ Namespace CSS
         ''' <param name="hasValue">
         ''' 所输入到这个函数进行解析的<paramref name="css"/>样式字符串之中是否包含有字体的定义?
         ''' </param>
-        ''' <returns></returns>
+        ''' <returns>this function returns default nothing if the input <paramref name="css"/> string is nothing or empty.</returns>
         Public Shared Function TryParse(css$, Optional [default] As CSSFont = Nothing, Optional ByRef hasValue As Boolean = False) As CSSFont
             hasValue = False
 

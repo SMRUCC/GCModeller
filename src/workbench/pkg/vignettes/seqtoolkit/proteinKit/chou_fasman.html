@@ -39,6 +39,11 @@
 <dd><p>a collection of the protein sequence data</p></dd>
 
 
+<dt>polyaa</dt>
+<dd><p>returns <a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/StructuralAnnotation.html">StructuralAnnotation</a> clr object model if this parameter is set TRUE, otherwise returns 
+ the string representitive of the chou-fasman structure information. [as boolean]</p></dd>
+
+
 <dt>env</dt>
 <dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
@@ -57,9 +62,9 @@
 
         this function returns data object in these one of the listed data types: string, <a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/StructuralAnnotation.html">StructuralAnnotation</a>.<h4>clr value class</h4><ul><li>string</li><li><a href="/vignettes/clr/SMRUCC/genomics/ProteinModel/ChouFasmanRules/StructuralAnnotation.html">StructuralAnnotation</a></li></ul>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r"> print(chou_fasman("AAABAAGKKKJLLMMMMMM"));</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>proteinKit</em> version 1.0.0.0 <a

@@ -77,11 +77,11 @@ Public Class DataFrameRow : Implements INamedValue, IVector
     Public Property geneID As String Implements INamedValue.Key
 
     ''' <summary>
-    ''' This gene's expression value in the different experiment condition.(同一个基因在不同实验之下的表达值)
+    ''' This gene's expression value in the different experiment condition.
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>(同一个基因在不同实验之下的表达值)</remarks>
     Public Property experiments As Double() Implements IVector.Data
 
     ''' <summary>

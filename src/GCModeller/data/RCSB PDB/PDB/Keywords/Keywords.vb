@@ -56,6 +56,9 @@
 
 Namespace Keywords
 
+    ''' <summary>
+    ''' A general base class of the keyword section inside the pdb file.
+    ''' </summary>
     Public MustInherit Class Keyword
 
         Public Const KEYWORD_HEADER As String = "HEADER"

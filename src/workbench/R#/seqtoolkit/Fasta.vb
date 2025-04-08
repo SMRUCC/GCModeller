@@ -311,7 +311,7 @@ Module Fasta
     ''' read a fasta sequence collection file
     ''' </summary>
     ''' <param name="file"></param>
-    ''' <returns></returns>
+    ''' <returns>A collection of the fasta sequence object</returns>
     ''' <keywords>read data</keywords>
     <ExportAPI("read.fasta")>
     <RApiReturn(GetType(FastaSeq))>

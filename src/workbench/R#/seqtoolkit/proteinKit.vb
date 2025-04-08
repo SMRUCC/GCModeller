@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::0eb0ebf1077c7a7170520b48903abe11, R#\seqtoolkit\proteinKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 152
-    '    Code Lines: 85 (55.92%)
-    ' Comment Lines: 43 (28.29%)
-    '    - Xml Docs: 90.70%
-    ' 
-    '   Blank Lines: 24 (15.79%)
-    '     File Size: 6.83 KB
+' Summaries:
 
 
-    ' Module proteinKit
-    ' 
-    '     Function: (+2 Overloads) ChouFasman, kmer_fingerprint, kmer_graph, readPdb
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 152
+'    Code Lines: 85 (55.92%)
+' Comment Lines: 43 (28.29%)
+'    - Xml Docs: 90.70%
+' 
+'   Blank Lines: 24 (15.79%)
+'     File Size: 6.83 KB
+
+
+' Module proteinKit
+' 
+'     Function: (+2 Overloads) ChouFasman, kmer_fingerprint, kmer_graph, readPdb
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -56,7 +56,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.RCSB.PDB
-Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer
 Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -65,6 +65,47 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' A computational biology toolkit for protein structural analysis and sequence-based modeling. 
+''' This module provides R-language interfaces for predicting secondary structures, parsing molecular 
+''' structure files, and generating graph-based protein sequence fingerprints.
+''' 
+''' Key functionalities include:
+''' 1. Chou-Fasman secondary structure prediction algorithm implementation
+''' 2. Protein Data Bank (PDB) file format parsing
+''' 3. K-mer graph construction for sequence pattern analysis
+''' 4. Morgan fingerprint generation for structural similarity comparison
+''' </summary>
+''' <remarks>
+''' This module bridges biological sequence analysis with graph theory concepts, enabling:
+''' - Rapid prediction of alpha-helices and beta-sheets from amino acid sequences
+''' - Structural feature extraction from PDB files
+''' - Topological representation of proteins as k-mer adjacency graphs
+''' - Fixed-length hashing of structural patterns for machine learning applications
+''' 
+''' Dependencies: 
+''' - Requires R# runtime environment for interop
+''' - Relies on SMRUCC.genomics libraries for core bioinformatics operations
+''' </remarks>
+''' <example>
+''' # Basic workflow example:
+''' let seqs = read.fasta("./proteome.fa");
+''' 
+''' # 1. Secondary structure prediction
+''' let structures = sapply(seqs, x => chou_fasman(x));
+''' 
+''' # 2. Create k-mer graphs
+''' let graphs = kmer_graph(seqs, k = 3);
+''' 
+''' # 3. Generate fingerprints
+''' let fingerprints = lapply(graphs, g => kmer_fingerprint(g, radius = 2));
+''' 
+''' </example>
+''' <seealso cref="ChouFasmanRules"/> Class implementing core prediction logic
+''' <seealso cref="KMerGraph"/> Data structure for k-mer adjacency relationships
+''' <seealso cref="PDB"/> Protein Data Bank object model
+''' <author type="copyright">SMRUCC genomics Institute</author>
+''' <version>1.6.0</version>
 <Package("proteinKit")>
 Module proteinKit
 
@@ -103,8 +144,15 @@ Module proteinKit
     ''' foundational concept for those learning about protein structure prediction and bioinformatics.
     ''' </summary>
     ''' <param name="prot">a collection of the protein sequence data</param>
+    ''' <param name="polyaa">
+    ''' returns <see cref="StructuralAnnotation"/> clr object model if this parameter is set TRUE, otherwise returns 
+    ''' the string representitive of the chou-fasman structure information.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' print(chou_fasman("AAABAAGKKKJLLMMMMMM"));
+    ''' </example>
     <ExportAPI("chou_fasman")>
     <RApiReturn(GetType(String), GetType(StructuralAnnotation))>
     Public Function ChouFasman(<RRawVectorArgument> prot As Object,
@@ -146,11 +194,15 @@ Module proteinKit
     End Function
 
     ''' <summary>
-    ''' read the protein database file
+    ''' Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <param name="file">A file path string or Stream object representing the PDB file to read.</param>
+    ''' <param name="env">The R runtime environment for error handling and resource management.</param>
+    ''' <returns>Returns a parsed <see cref="PDB"/> object if successful. Returns a <see cref="Message"/> 
+    ''' error object if file loading fails due to invalid path or format issues.</returns>
+    ''' <example>
+    ''' let pdb = read.pdb("1abc.pdb");
+    ''' </example>
     <ExportAPI("read.pdb")>
     Public Function readPdb(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
         Dim is_path As Boolean = False
@@ -169,6 +221,18 @@ Module proteinKit
         Return pdb
     End Function
 
+    ''' <summary>
+    ''' Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length 
+    ''' subsequences, edges connect k-mers appearing consecutively in the sequence.
+    ''' </summary>
+    ''' <param name="prot">A FASTA sequence or collection of FASTA sequences to process.</param>
+    ''' <param name="k">The subsequence length parameter for k-mer generation. Default is 3.</param>
+    ''' <param name="env">The R runtime environment for error handling and resource cleanup.</param>
+    ''' <returns>Returns a single <see cref="KMerGraph"/> for single sequence input. Returns a named list 
+    ''' of KMerGraph objects for multiple sequences. Returns error message for invalid inputs.</returns>
+    ''' <example>
+    ''' let graphs = kmer_graph(sequences, k = 3);
+    ''' </example>
     <ExportAPI("kmer_graph")>
     <RApiReturn(GetType(KMerGraph))>
     Public Function kmer_graph(<RRawVectorArgument>
@@ -197,6 +261,26 @@ Module proteinKit
         End If
     End Function
 
+    ''' <summary>
+    ''' Calculate the morgan fingerprint based on the k-mer graph data 
+    ''' 
+    ''' Generates fixed-length molecular fingerprint vectors from k-mer graphs using 
+    ''' Morgan algorithm with circular topology hashing.
+    ''' </summary>
+    ''' <param name="graph">The k-mer graph object to fingerprint</param>
+    ''' <param name="radius">Neighborhood radius for structural feature capture. Larger values 
+    ''' consider more distant node relationships. Default is 3.</param>
+    ''' <param name="len">Output vector length (uses modulo hashing). Default 4096.</param>
+    ''' <returns>Integer array fingerprint where indices represent structural features</returns>
+    ''' <example>
+    ''' let seqs = read.fasta("./proteins.fa");
+    ''' # create protein sequence graph based on k-mer(k=3)
+    ''' let g = kmer_graph(seqs, k = 3);
+    ''' 
+    ''' for(let kmer in g) {
+    '''     print(kmer |> kmer_fingerprint());
+    ''' }
+    ''' </example>
     <ExportAPI("kmer_fingerprint")>
     Public Function kmer_fingerprint(graph As KMerGraph, Optional radius As Integer = 3, Optional len As Integer = 4096) As Object
         Return graph.GetFingerprint(radius, len)

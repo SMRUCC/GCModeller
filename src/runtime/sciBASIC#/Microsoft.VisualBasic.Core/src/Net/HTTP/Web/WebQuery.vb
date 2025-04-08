@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7aab0171dafc5638eb2aa49b88e7b34, Microsoft.VisualBasic.Core\src\Net\HTTP\Web\WebQuery.vb"
+﻿#Region "Microsoft.VisualBasic::33035effeb80cc86e79f91111f1f6074, Microsoft.VisualBasic.Core\src\Net\HTTP\Web\WebQuery.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 370
-    '    Code Lines: 208 (56.22%)
-    ' Comment Lines: 108 (29.19%)
-    '    - Xml Docs: 72.22%
+    '   Total Lines: 375
+    '    Code Lines: 208 (55.47%)
+    ' Comment Lines: 113 (30.13%)
+    '    - Xml Docs: 72.57%
     ' 
-    '   Blank Lines: 54 (14.59%)
-    '     File Size: 15.50 KB
+    '   Blank Lines: 54 (14.40%)
+    '     File Size: 15.67 KB
 
 
     '     Class WebQuery
@@ -118,6 +118,11 @@ Namespace Net.Http
 
         Friend Const WebQueryDebug As String = "webquery.debug"
 
+        ''' <summary>
+        ''' config default web query parameters:
+        ''' 
+        ''' from cli: /@set sleep=3000;webquery.debug=TRUE
+        ''' </summary>
         Shared Sub New()
             Static defaultInterval As [Default](Of String) = "3000"
 
