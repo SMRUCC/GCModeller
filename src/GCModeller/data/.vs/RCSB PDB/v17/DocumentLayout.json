@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\headers\\remark.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\headers\\remark.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\headers\\3d.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\headers\\3d.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\keywords.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\keywords.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\pdb.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -15,24 +19,20 @@
       "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\headers\\header.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\keywords.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\keywords.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\headers\\journal.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\headers\\journal.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\rcsb_pdb.reader.designer.cd||{59B0B277-7DDF-4E36-A3ED-02DAC5B9E2FA}|",
-      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\rcsb_pdb.reader.designer.cd||{59B0B277-7DDF-4E36-A3ED-02DAC5B9E2FA}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\headers\\revision.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\headers\\revision.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\headers\\remark.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\headers\\remark.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\headers\\moleculemetadata.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\headers\\moleculemetadata.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\headers\\journal.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|solutionrelative:rcsb pdb\\pdb\\keywords\\headers\\journal.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2012B86D-493A-40A6-986B-4AA164C1D74C}|RCSB PDB\\RCSB PDB.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\rcsb pdb\\pdb\\keywords\\atomunit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -67,44 +67,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "3D.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\3D.vb",
+              "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\3D.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\3D.vb",
+              "RelativeToolTip": "RCSB PDB\\PDB\\Keywords\\Headers\\3D.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-04-08T02:17:16.37Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Remark.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\Remark.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\Remark.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\Remark.vb",
               "RelativeToolTip": "RCSB PDB\\PDB\\Keywords\\Headers\\Remark.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-04-08T02:03:10.62Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "RCSB_PDB.Reader.Designer.cd",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\RCSB_PDB.Reader.Designer.cd",
-              "RelativeDocumentMoniker": "RCSB PDB\\RCSB_PDB.Reader.Designer.cd",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\RCSB_PDB.Reader.Designer.cd",
-              "RelativeToolTip": "RCSB PDB\\RCSB_PDB.Reader.Designer.cd",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000463|",
-              "WhenOpened": "2025-04-08T01:59:41.153Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "PDB.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PDB.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\PDB.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\PDB.vb",
               "RelativeToolTip": "RCSB PDB\\PDB\\PDB.vb",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAAAKEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAIwKgAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-04-08T01:47:51.481Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "Journal.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\Journal.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\Journal.vb",
@@ -117,7 +118,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "Revision.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\Revision.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\Revision.vb",
@@ -130,7 +131,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "MoleculeMetadata.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\MoleculeMetadata.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\MoleculeMetadata.vb",
@@ -143,7 +144,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "Keywords.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Keywords.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Keywords.vb",
@@ -156,13 +157,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Header.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\Header.vb",
               "RelativeDocumentMoniker": "RCSB PDB\\PDB\\Keywords\\Headers\\Header.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RCSB PDB\\PDB\\Keywords\\Headers\\Header.vb",
               "RelativeToolTip": "RCSB PDB\\PDB\\Keywords\\Headers\\Header.vb",
-              "ViewState": "AgIAANYAAAAAAAAAAAA7wOwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAC0BAAAAAAAAAAAxwFEBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-04-08T01:43:16.885Z",
               "EditorCaption": ""

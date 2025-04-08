@@ -150,7 +150,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Remark">
-    <Position X="2.75" Y="1.75" Width="1.5" />
+    <Position X="2.25" Y="1.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAABAAAAAIAAA=</HashCode>
       <FileName>PDB\Keywords\Headers\Remark.vb</FileName>

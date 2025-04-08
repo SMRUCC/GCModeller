@@ -135,7 +135,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Keywords
 
@@ -241,6 +240,23 @@ Namespace Keywords
                 Return Keywords.KEYWORD_DBREF
             End Get
         End Property
+
+        Public Property db_xrefs As NamedValue(Of String)()
+
+        Dim cache As New List(Of String)
+
+        Friend Shared Function Append(ByRef ref As DbReference, str As String) As DbReference
+            If ref Is Nothing Then
+                ref = New DbReference
+            End If
+            ref.cache.Add(str)
+            Return ref
+        End Function
+
+        Friend Overrides Sub Flush()
+
+        End Sub
+
     End Class
 
     Public Class Sequence : Inherits Keyword
@@ -250,6 +266,17 @@ Namespace Keywords
                 Return Keywords.KEYWORD_SEQRES
             End Get
         End Property
+
+        Dim cache As New List(Of String)
+
+        Friend Shared Function Append(ByRef res As Sequence, str As String) As Sequence
+            If res Is Nothing Then
+                res = New Sequence
+            End If
+            res.cache.Add(str)
+            Return res
+        End Function
+
     End Class
 
     Public Class Helix : Inherits Keyword
@@ -286,5 +313,25 @@ Namespace Keywords
                 Return Keywords.KEYWORD_MASTER
             End Get
         End Property
+    End Class
+
+    Public Class CRYST1 : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return Keywords.KEYWORD_CRYST1
+            End Get
+        End Property
+
+        Dim cache As New List(Of String)
+
+        Friend Shared Function Append(ByRef res As CRYST1, str As String) As CRYST1
+            If res Is Nothing Then
+                res = New CRYST1
+            End If
+            res.cache.Add(str)
+            Return res
+        End Function
+
     End Class
 End Namespace

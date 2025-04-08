@@ -75,6 +75,14 @@ Public Class PDB
     Public Property Remark As Remark
     Public Property Sequence As Sequence
     Public Property Revisions As Revision
+    Public Property DbRef As DbReference
+    Public Property crystal1 As CRYST1
+    Public Property Origin1 As ORIGX123
+    Public Property Origin2 As ORIGX123
+    Public Property Origin3 As ORIGX123
+    Public Property Scale1 As SCALE123
+    Public Property Scale2 As SCALE123
+    Public Property Scale3 As SCALE123
 
     Public Property AtomStructures As Atom
         Get
@@ -159,6 +167,9 @@ Public Class PDB
                 Case Keyword.KEYWORD_REVDAT : pdb.Revisions = Revision.Append(last, data.Value)
                 Case Keyword.KEYWORD_JRNL : pdb.Journal = Journal.Append(last, data.Value)
                 Case Keyword.KEYWORD_REMARK : pdb.Remark = Remark.Append(last, data.Value)
+                Case Keyword.KEYWORD_DBREF : pdb.DbRef = DbReference.Append(last, data.Value)
+                Case Keyword.KEYWORD_SEQRES : pdb.Sequence = Sequence.Append(last, data.Value)
+                Case Keyword.KEYWORD_CRYST1 : pdb.crystal1 = CRYST1.Append(last, data.Value)
 
                 Case Else
                     Throw New NotImplementedException(data.Name)
