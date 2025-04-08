@@ -135,6 +135,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Keywords
 
@@ -453,7 +454,7 @@ Namespace Keywords
         Public Property modify As String()
 
         Public Overrides Function ToString() As String
-            Return $"({[date]}) {modify}"
+            Return $"({[date]}) {modify.GetJson}"
         End Function
 
         Friend Shared Function Parse(str As String) As RevVersion
