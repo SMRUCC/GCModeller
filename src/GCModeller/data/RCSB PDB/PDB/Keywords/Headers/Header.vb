@@ -1,140 +1,139 @@
 ﻿#Region "Microsoft.VisualBasic::e6ad5bd331452203eea231a7e8393d94, data\RCSB PDB\PDB\Keywords\Header.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 291
-    '    Code Lines: 220 (75.60%)
-    ' Comment Lines: 1 (0.34%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 70 (24.05%)
-    '     File Size: 8.58 KB
+' Summaries:
 
 
-    '     Class Header
-    ' 
-    '         Properties: [Date], Keyword, pdbID, Title
-    ' 
-    '         Function: Parse
-    ' 
-    '     Class Title
-    ' 
-    '         Properties: Keyword, Title
-    ' 
-    '         Function: Append
-    ' 
-    '     Class MoleculeMetadata
-    ' 
-    '         Properties: Mols
-    ' 
-    '         Sub: Flush
-    ' 
-    '     Class Compound
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class Properties
-    ' 
-    '         Properties: id, metadata
-    ' 
-    '         Sub: add
-    ' 
-    '     Class Source
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class Keywords
-    ' 
-    '         Properties: Keyword, keywords
-    ' 
-    '         Function: Parse
-    ' 
-    '     Class ExperimentData
-    ' 
-    '         Properties: Experiment, Keyword
-    ' 
-    '         Function: Parse
-    ' 
-    '     Class Author
-    ' 
-    '         Properties: Keyword, Name
-    ' 
-    '         Function: Parse
-    ' 
-    '     Class Journal
-    ' 
-    '         Properties: Keyword
-    ' 
-    '     Class Remark
-    ' 
-    '         Properties: Keyword
-    ' 
-    '     Class DbReference
-    ' 
-    '         Properties: Keyword
-    ' 
-    '     Class Sequence
-    ' 
-    '         Properties: Keyword
-    ' 
-    '     Class Helix
-    ' 
-    '         Properties: Keyword
-    ' 
-    '     Class Sheet
-    ' 
-    '         Properties: Keyword
-    ' 
-    '     Class Site
-    ' 
-    '         Properties: Keyword
-    ' 
-    '     Class Master
-    ' 
-    '         Properties: Keyword
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 291
+'    Code Lines: 220 (75.60%)
+' Comment Lines: 1 (0.34%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 70 (24.05%)
+'     File Size: 8.58 KB
+
+
+'     Class Header
+' 
+'         Properties: [Date], Keyword, pdbID, Title
+' 
+'         Function: Parse
+' 
+'     Class Title
+' 
+'         Properties: Keyword, Title
+' 
+'         Function: Append
+' 
+'     Class MoleculeMetadata
+' 
+'         Properties: Mols
+' 
+'         Sub: Flush
+' 
+'     Class Compound
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class Properties
+' 
+'         Properties: id, metadata
+' 
+'         Sub: add
+' 
+'     Class Source
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class Keywords
+' 
+'         Properties: Keyword, keywords
+' 
+'         Function: Parse
+' 
+'     Class ExperimentData
+' 
+'         Properties: Experiment, Keyword
+' 
+'         Function: Parse
+' 
+'     Class Author
+' 
+'         Properties: Keyword, Name
+' 
+'         Function: Parse
+' 
+'     Class Journal
+' 
+'         Properties: Keyword
+' 
+'     Class Remark
+' 
+'         Properties: Keyword
+' 
+'     Class DbReference
+' 
+'         Properties: Keyword
+' 
+'     Class Sequence
+' 
+'         Properties: Keyword
+' 
+'     Class Helix
+' 
+'         Properties: Keyword
+' 
+'     Class Sheet
+' 
+'         Properties: Keyword
+' 
+'     Class Site
+' 
+'         Properties: Keyword
+' 
+'     Class Master
+' 
+'         Properties: Keyword
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Keywords
@@ -234,15 +233,6 @@ Namespace Keywords
 
     End Class
 
-    Public Class Journal : Inherits Keyword
-
-        Public Overrides ReadOnly Property Keyword As String
-            Get
-                Return Keywords.KEYWORD_JRNL
-            End Get
-        End Property
-    End Class
-
     Public Class Remark : Inherits Keyword
 
         Public Overrides ReadOnly Property Keyword As String
@@ -304,49 +294,5 @@ Namespace Keywords
                 Return Keywords.KEYWORD_MASTER
             End Get
         End Property
-    End Class
-
-    Public Class Revision : Inherits Keyword
-
-        Public Overrides ReadOnly Property Keyword As String
-            Get
-                Return Keywords.KEYWORD_REVDAT
-            End Get
-        End Property
-
-        Public Property Versions As New List(Of RevVersion)
-
-        Public Shared Function Append(ByRef rev As Revision, str As String) As Revision
-            If rev Is Nothing Then
-                rev = New Revision With {
-                    .Versions = New List(Of RevVersion)
-                }
-            End If
-            Call rev.Versions.Add(RevVersion.Parse(str))
-            Return rev
-        End Function
-
-    End Class
-
-    Public Class RevVersion
-
-        Public Property [date] As String
-        Public Property modify As String()
-
-        Public Overrides Function ToString() As String
-            Return $"({[date]}) {modify.GetJson}"
-        End Function
-
-        Friend Shared Function Parse(str As String) As RevVersion
-            Dim t = str.StringSplit("\s+")
-            Dim dat = t(1)
-            Dim modifys = t.Skip(4).ToArray
-
-            Return New RevVersion With {
-                .[date] = dat,
-                .modify = modifys
-            }
-        End Function
-
     End Class
 End Namespace
