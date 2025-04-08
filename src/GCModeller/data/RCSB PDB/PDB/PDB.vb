@@ -74,6 +74,8 @@ Public Class PDB
     Public Property Journal As Journal
     Public Property Remark As Remark
     Public Property Sequence As Sequence
+    Public Property Revisions As Revision
+
     Public Property AtomStructures As Atom
         Get
             Return _atomStructuresData
@@ -154,6 +156,7 @@ Public Class PDB
                 Case Keyword.KEYWORD_KEYWDS : pdb.Keywords = RCSB.PDB.Keywords.Keywords.Parse(data.Value)
                 Case Keyword.KEYWORD_EXPDTA : pdb.Experiment = ExperimentData.Parse(data.Value)
                 Case Keyword.KEYWORD_AUTHOR : pdb.Author = Author.Parse(data.Value)
+                Case Keyword.KEYWORD_REVDAT : pdb.Revisions = Revision.Append(last, data.Value)
 
                 Case Else
                     Throw New NotImplementedException(data.Name)
