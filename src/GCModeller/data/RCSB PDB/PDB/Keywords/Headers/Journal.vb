@@ -34,7 +34,7 @@ Namespace Keywords
                     .Select(Function(t)
                                 Dim numprefix = t.Value.Match("\d+\s+")
 
-                                If numprefix.Length > 0 Then
+                                If numprefix.Length > 0 AndAlso InStr(t.Value, numprefix) = 1 Then
                                     Return t.Value.Substring(numprefix.Length).Trim
                                 End If
 
