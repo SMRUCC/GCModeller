@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="SMRUCC.genomics.Data.RCSB.PDB.CifDictionary" Collapsed="true">
     <Position X="29" Y="0.5" Width="1.5" />
     <TypeIdentifier>
@@ -63,7 +63,7 @@
       <FileName>PDB\Keywords\Header.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Helix" Collapsed="true">
+  <Class Name="SMRUCC.genomics.Data.RCSB.PDB.Keywords.Helix">
     <Position X="11.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
