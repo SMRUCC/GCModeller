@@ -211,6 +211,8 @@ Namespace Assembly.NCBI.GenBank
         ''' get mRNA sequence
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <Extension>
         Public Function GetmRNASequence(gb As GBFF.File, mRNA As Feature) As String
             Dim locs = mRNA.Location
 
