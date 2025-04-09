@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::6aaf9640ad1904e80694d9d74f3bb56a, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 153
-    '    Code Lines: 127 (83.01%)
-    ' Comment Lines: 10 (6.54%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 16 (10.46%)
-    '     File Size: 7.02 KB
+' Summaries:
 
 
-    '     Module GBFFFeatureDumps
-    ' 
-    '         Function: FeatureDumps, GbffToPTT, InternalDump3UTRs, InternalDump5UTRs, InternalDumpCDS
-    '                   InternalDumpMiscFeature, InternalDumpRegulatory
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 153
+'    Code Lines: 127 (83.01%)
+' Comment Lines: 10 (6.54%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 16 (10.46%)
+'     File Size: 7.02 KB
+
+
+'     Module GBFFFeatureDumps
+' 
+'         Function: FeatureDumps, GbffToPTT, InternalDump3UTRs, InternalDump5UTRs, InternalDumpCDS
+'                   InternalDumpMiscFeature, InternalDumpRegulatory
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -61,6 +61,8 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Assembly.NCBI.GenBank
 
@@ -117,7 +119,7 @@ Namespace Assembly.NCBI.GenBank
                 LinqAPI.Exec(Of Feature, GeneTable)(features) <=
                     Function(feature As Feature) New GeneTable With {
                         .COG = "misc_feature",
-                        .Function = feature("note"),
+                        .function = feature("note"),
                         .commonName = feature("note"),
                         .Location = feature.Location.ContiguousRegion,
                         .locus_id = feature("locus_tag"),
@@ -133,7 +135,7 @@ Namespace Assembly.NCBI.GenBank
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "regulatory",
-                    .Function = feature("regulatory_class"),
+                    .function = feature("regulatory_class"),
                     .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .locus_id = feature("locus_tag"),
@@ -150,7 +152,7 @@ Namespace Assembly.NCBI.GenBank
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "CDS",
-                    .Function = feature("function"),
+                    .function = feature("function"),
                     .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .locus_id = feature("locus_tag"),
@@ -166,7 +168,7 @@ Namespace Assembly.NCBI.GenBank
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "5'UTR",
-                    .Function = feature("function"),
+                    .function = feature("function"),
                     .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .locus_id = $"5'UTR_{feature.Location.ContiguousRegion.left}..{feature.Location.ContiguousRegion.right}",
@@ -180,7 +182,7 @@ Namespace Assembly.NCBI.GenBank
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "3'UTR",
-                    .Function = feature("function"),
+                    .function = feature("function"),
                     .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .locus_id = $"3'UTR_{feature.Location.ContiguousRegion.left}..{feature.Location.ContiguousRegion.right}",
@@ -210,7 +212,19 @@ Namespace Assembly.NCBI.GenBank
         ''' </summary>
         ''' <returns></returns>
         Public Function GetmRNASequence(gb As GBFF.File, mRNA As Feature) As String
+            Dim locs = mRNA.Location
 
+            If locs.Locations.IsNullOrEmpty Then
+                Return mRNA.SequenceData
+            Else
+                Dim extrons As New List(Of String)
+
+                For Each loc As NucleotideLocation In locs.JoinLocations
+                    Call extrons.Add(gb.Origin.CutSequenceLinear(loc).SequenceData)
+                Next
+
+                Return extrons.JoinBy("")
+            End If
         End Function
     End Module
 End Namespace

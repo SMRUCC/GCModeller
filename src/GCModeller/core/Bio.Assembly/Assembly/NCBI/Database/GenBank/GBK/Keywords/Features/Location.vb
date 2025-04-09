@@ -84,6 +84,15 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' </summary>
         ''' <remarks></remarks>
         <XmlAttribute> Public Property Complement As Boolean
+
+        ''' <summary>
+        ''' join mutliple location for the extron.
+        ''' join(...,...,...)
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 这个主要是应用于记录真核生物的mRNA外显子区域的位置，基于这个列表进行相应的序列片段提取，构建出一段完整的mRNA序列数据
+        ''' </remarks>
         <XmlAttribute> Public Property Locations As RegionSegment()
             Get
                 Return _locis
@@ -118,6 +127,17 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Const LOCATION_PAIRED As String = "\d+[.]{2}[>]?\d+"
 
+        Public Iterator Function JoinLocations() As IEnumerable(Of NucleotideLocation)
+            For Each loc As RegionSegment In Locations
+                Yield New NucleotideLocation(loc.Left, loc.Right, Complement)
+            Next
+        End Function
+
+        ''' <summary>
+        ''' parse the location string
+        ''' </summary>
+        ''' <param name="strData"></param>
+        ''' <returns></returns>
         Public Shared Widening Operator CType(strData As String) As Location
             Dim LocationComplement As Boolean = InStr(strData, "complement(") > 0
             Dim LQuery As List(Of RegionSegment) =
@@ -193,9 +213,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
     End Class
 
     ''' <summary>
-    ''' A site region on the sequence.(序列上面的一个位点)
+    ''' A site region on the sequence.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(序列上面的一个位点)</remarks>
     Public Class RegionSegment
         <XmlAttribute> Public Property Left As Long
         <XmlAttribute> Public Property Right As Long
