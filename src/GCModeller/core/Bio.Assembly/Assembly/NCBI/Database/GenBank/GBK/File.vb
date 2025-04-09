@@ -181,9 +181,12 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Property
 
         ''' <summary>
-        ''' 物种数据
+        ''' get ncbi taxonomy id
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 物种数据
+        ''' </remarks>
         Public ReadOnly Property Taxon As String
             Get
                 Dim db_xref As String() = Features.source.QueryDuplicated("db_xref")
