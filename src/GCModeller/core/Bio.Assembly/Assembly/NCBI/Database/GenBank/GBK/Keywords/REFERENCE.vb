@@ -62,7 +62,6 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 

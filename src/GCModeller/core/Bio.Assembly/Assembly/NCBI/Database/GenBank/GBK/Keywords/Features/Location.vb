@@ -65,7 +65,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
@@ -102,7 +102,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         Dim _left, _right As Long
 
         ''' <summary>
-        ''' 假若目标对象是真核生物基因组的话，则可能会因为内含子的原因出现不连续的片段，故而此时的<see cref="Locations"></see>属性会有多个值，这个属性会尝试将连续的区域返回。对于原核生物而言，也可以直接使用这个属性来获取特性位点的在基因组序列之上的位置
+        ''' 假若目标对象是真核生物基因组的话，则可能会因为内含子的原因出现不连续的片段，
+        ''' 故而此时的<see cref="Locations"></see>属性会有多个值，这个属性会尝试将连续
+        ''' 的区域返回。对于原核生物而言，也可以直接使用这个属性来获取特性位点的在
+        ''' 基因组序列之上的位置
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
@@ -199,7 +202,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Public ReadOnly Property RegionLength As Integer
             Get
-                Return stdNum.Abs(Left - Right)
+                Return std.Abs(Left - Right)
             End Get
         End Property
 
