@@ -62,6 +62,9 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.NCBI.GenBank.TabularFormat
 
+    ''' <summary>
+    ''' tabular data model for protein data information
+    ''' </summary>
     Public Class ProteinDescription : Implements INamedValue
 
         ''' <summary>

@@ -70,9 +70,9 @@ Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
     ''' <summary>
-    ''' A sequence feature site on the genome DNA sequence.(基因组序列上面的特性区域片段)
+    ''' A sequence feature site on the genome DNA sequence.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(基因组序列上面的特性区域片段)</remarks>
     Public Class Feature : Inherits IgbComponent
         Implements IDictionary(Of String, String)
 
@@ -82,9 +82,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <remarks></remarks>
         <XmlAttribute> Public Property KeyName As String
         ''' <summary>
-        ''' The location of this feature site on the DNA chain.(本特性位点在DNA链上面的位置)
+        ''' The location of this feature site on the DNA chain.
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>(本特性位点在DNA链上面的位置)</remarks>
         <XmlElement> Public Property Location As Location
 
         ''' <summary>

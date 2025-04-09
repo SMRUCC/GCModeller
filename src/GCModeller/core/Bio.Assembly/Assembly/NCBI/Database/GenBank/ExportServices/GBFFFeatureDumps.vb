@@ -204,5 +204,13 @@ Namespace Assembly.NCBI.GenBank
 
             Return description
         End Function
+
+        ''' <summary>
+        ''' get mRNA sequence
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetmRNASequence(gb As GBFF.File, mRNA As Feature) As String
+
+        End Function
     End Module
 End Namespace
