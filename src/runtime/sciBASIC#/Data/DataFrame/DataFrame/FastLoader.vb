@@ -105,6 +105,10 @@ Public Class DataFrameReader
     Private Sub ReadLine(i As i32, line As String)
         Dim tokens As String() = Tokenizer.CharsParser(line, delimiter).ToArray
 
+        If tokens.Length = 0 Then
+            Return
+        End If
+
         If rowHeader Then
             rowHeaders.Add(tokens(Scan0))
         Else
