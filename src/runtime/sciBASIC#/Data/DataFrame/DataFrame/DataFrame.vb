@@ -71,7 +71,7 @@ Imports Microsoft.VisualBasic.Text
 ''' <summary>
 ''' R language liked dataframe object
 ''' </summary>
-Public Class DataFrame : Implements INumericMatrix
+Public Class DataFrame : Implements INumericMatrix, ILabeledMatrix
 
     ''' <summary>
     ''' the dataframe columns
@@ -410,5 +410,9 @@ Public Class DataFrame : Implements INumericMatrix
         Next
 
         Return m
+    End Function
+
+    Private Function GetLabels() As IEnumerable(Of String) Implements ILabeledMatrix.GetLabels
+        Return rownames
     End Function
 End Class
