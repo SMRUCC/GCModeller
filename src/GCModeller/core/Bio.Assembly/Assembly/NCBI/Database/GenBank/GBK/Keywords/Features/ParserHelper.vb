@@ -56,11 +56,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
-Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 

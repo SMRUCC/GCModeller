@@ -181,9 +181,12 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Property
 
         ''' <summary>
-        ''' 物种数据
+        ''' get ncbi taxonomy id
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 物种数据
+        ''' </remarks>
         Public ReadOnly Property Taxon As String
             Get
                 Dim db_xref As String() = Features.source.QueryDuplicated("db_xref")
@@ -342,6 +345,13 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Return LoadDatabase(filePath.Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=True), filePath.BaseName, suppressError)
         End Function
 
+        ''' <summary>
+        ''' Load multiple genbank assembly data that parsed from a specific data file
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <param name="defaultAccession"></param>
+        ''' <param name="suppressError"></param>
+        ''' <returns></returns>
         Public Shared Iterator Function LoadDatabase(file As Stream, Optional defaultAccession$ = Nothing, Optional suppressError As Boolean = False) As IEnumerable(Of File)
             If defaultAccession.StringEmpty Then
                 If TypeOf file Is FileStream Then

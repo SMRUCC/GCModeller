@@ -65,7 +65,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
@@ -84,6 +84,15 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' </summary>
         ''' <remarks></remarks>
         <XmlAttribute> Public Property Complement As Boolean
+
+        ''' <summary>
+        ''' join mutliple location for the extron.
+        ''' join(...,...,...)
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 这个主要是应用于记录真核生物的mRNA外显子区域的位置，基于这个列表进行相应的序列片段提取，构建出一段完整的mRNA序列数据
+        ''' </remarks>
         <XmlAttribute> Public Property Locations As RegionSegment()
             Get
                 Return _locis
@@ -102,7 +111,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         Dim _left, _right As Long
 
         ''' <summary>
-        ''' 假若目标对象是真核生物基因组的话，则可能会因为内含子的原因出现不连续的片段，故而此时的<see cref="Locations"></see>属性会有多个值，这个属性会尝试将连续的区域返回。对于原核生物而言，也可以直接使用这个属性来获取特性位点的在基因组序列之上的位置
+        ''' 假若目标对象是真核生物基因组的话，则可能会因为内含子的原因出现不连续的片段，
+        ''' 故而此时的<see cref="Locations"></see>属性会有多个值，这个属性会尝试将连续
+        ''' 的区域返回。对于原核生物而言，也可以直接使用这个属性来获取特性位点的在
+        ''' 基因组序列之上的位置
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
@@ -115,6 +127,17 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Const LOCATION_PAIRED As String = "\d+[.]{2}[>]?\d+"
 
+        Public Iterator Function JoinLocations() As IEnumerable(Of NucleotideLocation)
+            For Each loc As RegionSegment In Locations
+                Yield New NucleotideLocation(loc.Left, loc.Right, Complement)
+            Next
+        End Function
+
+        ''' <summary>
+        ''' parse the location string
+        ''' </summary>
+        ''' <param name="strData"></param>
+        ''' <returns></returns>
         Public Shared Widening Operator CType(strData As String) As Location
             Dim LocationComplement As Boolean = InStr(strData, "complement(") > 0
             Dim LQuery As List(Of RegionSegment) =
@@ -190,16 +213,16 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
     End Class
 
     ''' <summary>
-    ''' A site region on the sequence.(序列上面的一个位点)
+    ''' A site region on the sequence.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(序列上面的一个位点)</remarks>
     Public Class RegionSegment
         <XmlAttribute> Public Property Left As Long
         <XmlAttribute> Public Property Right As Long
 
         Public ReadOnly Property RegionLength As Integer
             Get
-                Return stdNum.Abs(Left - Right)
+                Return std.Abs(Left - Right)
             End Get
         End Property
 

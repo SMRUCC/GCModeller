@@ -63,6 +63,12 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
         <XmlIgnore> Public Property Comment As String
 
+        ''' <summary>
+        ''' This constant using for NCBI.Genbank keywords parsing.
+        ''' </summary>
+        ''' <remarks></remarks>
+        Public Const BLANKS_INDEX As UInteger = 12
+
         Public Overrides Function ToString() As String
             Return Comment
         End Function
@@ -84,11 +90,5 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
             Return New COMMENT With {.Comment = sBuilder.ToString}
         End Operator
-
-        ''' <summary>
-        ''' This constant using for NCBI.Genbank keywords parsing.
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Const BLANKS_INDEX As UInteger = 12
     End Class
 End Namespace

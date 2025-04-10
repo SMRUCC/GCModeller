@@ -56,12 +56,11 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
@@ -164,11 +163,12 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         End Operator
 
         ''' <summary>
-        ''' Returns the whole genome sequence which was records in this GenBank database file.
-        ''' (返回记录在本Genbank数据库文件之中的全基因组核酸序列)
+        ''' Returns the whole genome sequence which was records in this GenBank database file. 
         ''' </summary>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (返回记录在本Genbank数据库文件之中的全基因组核酸序列)
+        ''' </remarks>
         Public Function ToFasta() As FastaSeq
             Dim attrs As String() = {Title & " " & Len(SequenceData) & "bp"}
             Dim seq$ = SequenceData.ToUpper

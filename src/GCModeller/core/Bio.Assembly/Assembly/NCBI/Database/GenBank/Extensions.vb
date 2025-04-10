@@ -185,6 +185,11 @@ Namespace Assembly.NCBI.GenBank
             End If
         End Function
 
+        ''' <summary>
+        ''' a shortcut of the <see cref="PTT.Load(String, Boolean)"/> function.
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
         <ExportAPI("Read.PTT")>
         Public Function LoadPTT(path As String) As PTT
             Return PTT.Load(path)
