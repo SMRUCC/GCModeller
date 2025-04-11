@@ -73,10 +73,9 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -124,7 +123,7 @@ Partial Module Utilities
     <ArgumentAttribute("/out", AcceptTypes:={GetType(FastaFile)})>
     Public Function Sites2Fasta(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim assemble As Boolean = args.GetBoolean("/assemble")
+        Dim assemble As Boolean = args("/assemble")
         Dim out As String = args.GetValue(
             "/out",
             [in].TrimSuffix & $"{If(assemble, "-assemble", "")}.fasta")
@@ -200,7 +199,7 @@ Partial Module Utilities
     Public Function SelectByLocus(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim fa As String = args("/fa")
-        Dim reversed As Boolean = args.GetBoolean("/reverse")
+        Dim reversed As Boolean = args("/reverse")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & fa.BaseName & $"{If(reversed, "-reversed-selected", "")}.fasta")
         Dim fasta As FastaSeq() = StreamIterator.SeqSource(fa, {"*.faa", "*.fasta", "*.fsa", "*.fa"}).ToArray
         Dim field As String = args("/field")
@@ -276,7 +275,7 @@ Partial Module Utilities
         Dim list As New List(Of String)(keywords)
         Dim mapMultiples As Boolean = args.IsTrue("/keyword.map.multiple")
 
-        Using writer As StreamWriter = out.OpenWriter
+        Using writer As System.IO.StreamWriter = out.OpenWriter
             For Each fasta As FastaSeq In StreamIterator.SeqSource(handle:=db)
                 Dim header$ = fasta.Title.NormalizePathString.ToLower
 
@@ -313,7 +312,7 @@ Partial Module Utilities
         Dim attrs$() = args.GetValue("/attrs", {"gene", "locus_tag", "gi", "location", "product"}, cast:=Function(s) s.Split(";"c))
         Dim seq As String = args.GetValue("/seq", "sequence")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & "-" & seq.NormalizePathString & ".Fasta")
-        Dim csv As csv.IO.File = inFile
+        Dim csv As Microsoft.VisualBasic.Data.Framework.IO.File = inFile
         Dim headers As Index(Of String) = csv.Headers.Indexing
         Dim columns$()() = csv _
             .Columns _
@@ -365,7 +364,7 @@ Partial Module Utilities
         Dim exts As String() =
             args.GetValue("/exts", "*.fasta,*.fa").Split(","c)
 
-        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+        Using writer As System.IO.StreamWriter = out.OpenWriter(Encodings.ASCII)
             Call Tasks.Parallel.ForEach(
                 StreamIterator.SeqSource(inDIR, ext:=exts, debug:=True),
                 Sub(fa)
@@ -389,15 +388,15 @@ Partial Module Utilities
         Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".fasta")
         Dim ext As String = args("/ext")
         Dim fasta As FASTA.FastaFile
-        Dim raw As Boolean = Not args.GetBoolean("/brief")
+        Dim raw As Boolean = Not args("/brief")
 
         If String.IsNullOrEmpty(ext) Then
-            fasta = FastaExportMethods.Merge(inDIR, args.GetBoolean("/trim"), raw)
+            fasta = FastaExportMethods.Merge(inDIR, CBool(args("/trim")), raw)
         Else
-            fasta = FastaExportMethods.Merge(inDIR, ext, args.GetBoolean("/trim"), raw)
+            fasta = FastaExportMethods.Merge(inDIR, ext, args("/trim"), raw)
         End If
 
-        If args.GetBoolean("/unique") Then
+        If args("/unique") Then
             Dim Groups = From f As FastaSeq
                          In fasta
                          Let sid As String = f.Title.Split.First
@@ -432,9 +431,9 @@ Partial Module Utilities
 
             If String.IsNullOrEmpty(PTT) Then
 
-                Dim Left As Integer = args.GetInt32("/left")
-                Dim Right As Integer = args.GetInt32("/right")
-                Dim Length As Integer = args.GetInt32("/length")
+                Dim Left As Integer = args("/left")
+                Dim Right As Integer = args("/right")
+                Dim Length As Integer = args("/length")
                 Dim Reverse As Boolean = args.HavebFlag("/reverse")
 
                 If Length > 0 Then
@@ -446,7 +445,7 @@ Partial Module Utilities
             Else
 
                 Dim GeneID As String = args("/geneid")
-                Dim Distance As Integer = args.GetInt32("/dist")
+                Dim Distance As Integer = args("/dist")
                 Dim PTTData = TabularFormat.PTT.Load(PTT)
                 Dim GeneObject = PTTData.GeneObject(GeneID)
                 Dim DownStream As Boolean = args.HavebFlag("/downstream")
@@ -469,7 +468,7 @@ Partial Module Utilities
             SegmentFasta = SegmentFasta.CutSequenceLinear(LociData).SimpleFasta
         End If
 
-        Dim LineBreak As Integer = If(args.ContainsParameter("-line.break", False), args.GetInt32("-line.break"), 100)  ' 默认100个碱基换行
+        Dim LineBreak As Integer = If(args.ContainsParameter("-line.break", False), args("-line.break"), 100)  ' 默认100个碱基换行
 
         Return If(SegmentFasta.SaveTo(LineBreak, SaveTo), 0, -1)
     End Function
@@ -484,10 +483,10 @@ Partial Module Utilities
     Public Function GetSegments(args As CommandLine) As Integer
         Dim Regions As List(Of SimpleSegment) = args.GetObject(Of List(Of SimpleSegment))("/regions", AddressOf LoadCsv(Of SimpleSegment))
         Dim Fasta As New FASTA.FastaSeq(args("/fasta"))
-        Dim Complement As Boolean = args.GetBoolean("/complement")
-        Dim reversed As Boolean = args.GetBoolean("/reversed")
+        Dim Complement As Boolean = args("/complement")
+        Dim reversed As Boolean = args("/reversed")
         Dim Segments = Regions.Select(Function(region) __fillSegment(region, Fasta, Complement, reversed))
-        Dim briefDumping As Boolean = args.GetBoolean("/brief-dump")
+        Dim briefDumping As Boolean = args("/brief-dump")
         Dim input As String = args("/regions").TrimSuffix
         Dim dumpMethod As attrDump = simpleAttributes Or fullAttributes.When(Not briefDumping)
 
@@ -579,9 +578,9 @@ Partial Module Utilities
         Dim break As Integer = args.GetValue("/break", -1)
         Dim out As String = args.GetValue("/out", Input.TrimSuffix & "-Trim.fasta")
         Dim fasta As New StreamIterator(Input)
-        Dim brief As Boolean = args.GetBoolean("/brief")
+        Dim brief As Boolean = args("/brief")
 
-        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+        Using writer As System.IO.StreamWriter = out.OpenWriter(Encodings.ASCII)
             For Each seq As FastaSeq In fasta _
                 .ReadStream _
                 .Where(Function(fa) Not String.IsNullOrEmpty(Trim(fa.SequenceData))) ' 过滤掉零长度的序列

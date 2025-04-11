@@ -56,8 +56,8 @@ Imports System.ComponentModel
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
@@ -117,7 +117,7 @@ Partial Module Utilities
                 Dim nt As FastaSeq = replicon.Origin.ToFasta
                 Dim ntModel As New DeltaSimilarity1998.NucleicAcid(nt)
 
-                Using writer As StreamWriter = $"{out}/{genome.BaseName}/{replicon.Accession.AccessionId}.csv".OpenWriter()
+                Using writer As System.IO.StreamWriter = $"{out}/{genome.BaseName}/{replicon.Accession.AccessionId}.csv".OpenWriter()
                     writer.WriteLine("title=," & nt.Title)
 
                     For Each segment As DeltaSimilarity1998.NucleicAcid In ntModel.CreateFragments(winSize, [step]:=steps)
@@ -139,7 +139,7 @@ Partial Module Utilities
     Public Function gwANIEvaluate(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gwANI.Csv")
-        Dim fast As Boolean = args.GetBoolean("/fast")
+        Dim fast As Boolean = args("/fast")
         Call gwANI.Evaluate([in], out, fast)
         Return 0
     End Function
@@ -158,7 +158,7 @@ Partial Module Utilities
         Dim [in] As String = args("/in")
         Dim out As String = args("/out") Or ([in].TrimSuffix & ".Sigma.Csv")
         Dim fasta As New FastaFile([in])
-        Dim simple As Boolean = args.GetBoolean("/simple")
+        Dim simple As Boolean = args("/simple")
         Dim round As Integer = args("/round") Or -1
         Dim keys As String()
 

@@ -1,65 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::3050e1002bcc53d35019013f2f56629e, analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 270
-    '    Code Lines: 188 (69.63%)
-    ' Comment Lines: 55 (20.37%)
-    '    - Xml Docs: 58.18%
-    ' 
-    '   Blank Lines: 27 (10.00%)
-    '     File Size: 12.75 KB
+' Summaries:
 
 
-    ' Module Utilities
-    ' 
-    '     Function: Complement, DrawClustalW, FindMotifs, PatternSearchA, PromoterRegionParser_gb
-    '               Reverse, SequenceLogo
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 270
+'    Code Lines: 188 (69.63%)
+' Comment Lines: 55 (20.37%)
+'    - Xml Docs: 58.18%
+' 
+'   Blank Lines: 27 (10.00%)
+'     File Size: 12.75 KB
+
+
+' Module Utilities
+' 
+'     Function: Complement, DrawClustalW, FindMotifs, PatternSearchA, PromoterRegionParser_gb
+'               Reverse, SequenceLogo
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
-Imports System.Drawing
-Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -79,7 +77,6 @@ Imports SMRUCC.genomics.ContextModel.Promoter
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 ''' <summary>
 ''' Sequence Utilities

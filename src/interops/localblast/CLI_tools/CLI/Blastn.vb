@@ -1,80 +1,80 @@
 ﻿#Region "Microsoft.VisualBasic::d318c7bd36a11c3a8eccc4b0b9e6d3e1, localblast\CLI_tools\CLI\Blastn.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 517
-    '    Code Lines: 416 (80.46%)
-    ' Comment Lines: 31 (6.00%)
-    '    - Xml Docs: 51.61%
-    ' 
-    '   Blank Lines: 70 (13.54%)
-    '     File Size: 24.31 KB
+' Summaries:
 
 
-    ' Module CLI
-    ' 
-    '     Function: __loads, __loadsMaps, BlastnMapsSummery, BlastnMapsTaxonomy, BlastnQuery
-    '               BlastnQueryAll, ChromosomesBlastnResult, ExportBlastn, ExportBlastnMaps, ExportBlastnMapsBatch
-    '               ExportBlastnMapsBatchWrite, ExportBlastnMapsSmall, MatchTaxid, SelectMaps, TopBlastnMapReads
-    '     Class __writeIO
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: __creates
-    ' 
-    '         Sub: (+2 Overloads) Dispose, InvokeWrite
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 517
+'    Code Lines: 416 (80.46%)
+' Comment Lines: 31 (6.00%)
+'    - Xml Docs: 51.61%
+' 
+'   Blank Lines: 70 (13.54%)
+'     File Size: 24.31 KB
+
+
+' Module CLI
+' 
+'     Function: __loads, __loadsMaps, BlastnMapsSummery, BlastnMapsTaxonomy, BlastnQuery
+'               BlastnQueryAll, ChromosomesBlastnResult, ExportBlastn, ExportBlastnMaps, ExportBlastnMapsBatch
+'               ExportBlastnMapsBatchWrite, ExportBlastnMapsSmall, MatchTaxid, SelectMaps, TopBlastnMapReads
+'     Class __writeIO
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: __creates
+' 
+'         Sub: (+2 Overloads) Dispose, InvokeWrite
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Darwinism.HPC.Parallel.ThreadTask
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
-Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
@@ -222,7 +222,7 @@ Partial Module CLI
                 .reward = reward
             }
         }
-        Dim isThread As Boolean = args.GetBoolean("/thread")
+        Dim isThread As Boolean = args("/thread")
 
         For Each subject As String In ls - l - r - {"*.fna", "*.fa", "*.fsa", "*.fasta", "*.ffn"} <= DbDIR
             Dim out As String
@@ -258,7 +258,7 @@ Partial Module CLI
         Dim CLI As String() =
             (ls - l - r - {"*.fna", "*.fa", "*.fsa", "*.fasta", "*.ffn"} <= [in]).Select(task).ToArray
 
-        If Not args.GetBoolean("/skip-format") Then
+        If Not args("/skip-format") Then
             Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalblast)
 
             For Each subject As String In ls - l - r - {"*.fna", "*.fa", "*.fsa", "*.fasta", "*.ffn"} <= db
@@ -266,7 +266,7 @@ Partial Module CLI
             Next
         End If
 
-        Dim parallel As Boolean = args.GetBoolean("/parallel")
+        Dim parallel As Boolean = args("/parallel")
         Dim n As Integer = If(parallel, LQuerySchedule.CPU_NUMBER, 0)
 
         Return BatchTasks.SelfFolks(CLI, parallel:=n)
@@ -280,7 +280,7 @@ Partial Module CLI
     <Group(CLIGrouping.BlastnTools)>
     Public Function ExportBlastnMaps(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim best As Boolean = args.GetBoolean("/best")
+        Dim best As Boolean = args("/best")
         Dim out As String = args _
             .GetValue("/out", [in].TrimSuffix & $"{If(best, ".best", "")}.Csv")
 
@@ -307,7 +307,7 @@ Partial Module CLI
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-blastnMaps/")
         Dim numThreads As Integer = args.GetValue("/num_threads", -1)
-        Dim best = If(args.GetBoolean("/best"), "/best", "")
+        Dim best = If(args("/best"), "/best", "")
         Dim task As Func(Of String, String) =
             Function(path)
                 Return $"{GetType(CLI).API(NameOf(ExportBlastnMaps))} /in {path.CLIPath} {best} /out {(out & "/" & path.BaseName & ".Csv").CLIPath}"
@@ -333,7 +333,7 @@ Partial Module CLI
               Description:="The directory path that contains the blastn output data.")>
     Public Function ExportBlastnMapsBatchWrite(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim best As Boolean = args.GetBoolean("/best")
+        Dim best As Boolean = args("/best")
         Dim out As String = args.GetValue("/out", [in].TrimDIR & $"-blastnMaps{If(best, "-top_best", "")}.csv")
         Dim LQuery = From path As String
                      In (ls - l - r - wildcards("*.txt") <= [in]).AsParallel
@@ -440,12 +440,12 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim x2taxid As String = args("/2taxid")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".taxid.csv")
-        Dim is_gi2taxid As Boolean = args.GetBoolean("/gi2taxid")
+        Dim is_gi2taxid As Boolean = args("/gi2taxid")
         Dim maps As BlastnMapping() = [in].LoadCsv(Of BlastnMapping)
         Dim notFound As New List(Of String)
         Dim taxDIR$ = args("/tax")
         Dim tax As NcbiTaxonomyTree = Nothing
-        Dim trimLong As Boolean = args.GetBoolean("/trim")
+        Dim trimLong As Boolean = args("/trim")
         Dim taxid As New Value(Of Integer)
         Dim mapping As TaxidMaps.Mapping = If(
             is_gi2taxid,
@@ -562,7 +562,7 @@ Partial Module CLI
         Dim acc2taxid As String = args("/acc2taxid")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".taxid_matched.tsv")
 
-        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+        Using writer As System.IO.StreamWriter = out.OpenWriter(Encodings.ASCII)
             Dim data = [in].LoadCsv(Of BlastnMapping)
             Dim acc As IEnumerable(Of String) = data _
                 .Select(Function(x) x.Reference _
