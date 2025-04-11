@@ -1,59 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::a255b7edb99604014df641a34e6a956b, visualize\PDB_canvas\ChainModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class ChainModel
-    ' 
-    '     Properties: Chian
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: __draw, GraphToScreen, ToString
-    ' 
-    '     Sub: Rotate, RotateX, RotateY, UpdateGraph
-    ' 
-    ' Class AA
-    ' 
-    '     Properties: Color, Point
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: ToString
-    ' 
-    ' /********************************************************************************/
+' Class ChainModel
+' 
+'     Properties: Chian
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: __draw, GraphToScreen, ToString
+' 
+'     Sub: Rotate, RotateX, RotateY, UpdateGraph
+' 
+' Class AA
+' 
+'     Properties: Color, Point
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
 Imports Microsoft.VisualBasic.Language
@@ -86,12 +87,13 @@ Public Class ChainModel
                                        In PDB.AminoAcidSequenceData
                                        Select AA.AA_ID
                                        Distinct
-        Dim AAColors = (From cl
-                        In RenderingColor.InitCOGColors(aas)
-                        Select ID = cl.Key,
-                            br = New Pen(New SolidBrush(cl.Value), penWidth)) _
-                           .ToDictionary(Function(item) item.ID,
-                                         Function(item) item.br)
+        Dim AAColors = New CategoryColorProfile(aas, "paper") _
+            .GetTermColors _
+            .ToDictionary(Function(a) a.Name,
+                          Function(a)
+                              Return New Pen(a.Value, penWidth)
+                          End Function)
+
         Chian = LinqAPI.Exec(Of AA) <= From x As AminoAcid
                                        In PDB.AminoAcidSequenceData
                                        Select New AA(x, AAColors)
