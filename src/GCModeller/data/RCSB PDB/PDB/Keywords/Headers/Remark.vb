@@ -46,14 +46,14 @@ Namespace Keywords
             If remark Is Nothing Then
                 remark = New Remark
             End If
-            remark.cache.Add(str.GetTagValue(" ", trim:=True))
+            remark.cache.Add(str.GetTagValue(" ", trim:=True, failureNoName:=False))
             Return remark
         End Function
 
         Friend Overrides Sub Flush()
             RemarkText = cache _
-                .GroupBy(Function(line) line.Name) _
-                .ToDictionary(Function(a) GetRemarkCategory(Integer.Parse(a.Key)),
+                .GroupBy(Function(line) GetRemarkCategory(Integer.Parse(line.Name))) _
+                .ToDictionary(Function(a) a.Key,
                               Function(a)
                                   Return a.Select(Function(t) t.Value).JoinBy(vbCrLf)
                               End Function)
