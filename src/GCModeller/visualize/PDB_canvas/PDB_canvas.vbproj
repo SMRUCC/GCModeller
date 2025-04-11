@@ -235,37 +235,33 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
-      <Project>{85e71b4b-9276-4ec8-aadc-c849205f1ea8}</Project>
-      <Name>Microsoft.VisualBasic.Imaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\mime-htmls.vbproj">
-      <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>mime-htmls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\data\RCSB PDB\RCSB PDB.vbproj">
-      <Project>{2012b86d-493a-40a6-986b-4aa164c1d74c}</Project>
-      <Name>RCSB PDB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
-      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
-      <Name>DataVisualizationExtensions</Name>
-    </ProjectReference>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj">
+      <Project>{132ee744-eff7-3644-6a33-d81504e7f9ef}</Project>
+      <Name>Math.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj">
+      <Project>{ef7641e1-9ba7-eee7-fb3f-a056539320af}</Project>
+      <Name>imaging.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{d6a933d3-a04d-0d7b-c14a-d8f9a9f8fa51}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\html_netcore5.vbproj">
+      <Project>{b43ec60f-c887-3bd6-9f97-d5d36d5fda87}</Project>
+      <Name>html_netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{337d6884-20a4-1a04-31e6-cf595656d545}</Project>
+      <Name>biocore-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\data\RCSB PDB\RCSB PDB.vbproj">
+      <Project>{03ce59ce-4c92-c810-c438-f5c1a8b3d923}</Project>
+      <Name>RCSB PDB</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
