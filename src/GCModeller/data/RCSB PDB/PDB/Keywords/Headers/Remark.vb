@@ -8,6 +8,9 @@ Namespace Keywords
         ExperimentalMethod = 2   ' REMARK 2: 实验方法（如X射线、NMR）
         Crystallography = 3      ' REMARK 3: 结晶学数据（分辨率、R因子）
         Refinement = 4           ' REMARK 4: 结构修正参数
+
+        DataProcessing = 5
+
         DataCollection = 200     ' REMARK 200-299: 数据收集参数（探测器、波长等）
         Validation = 300         ' REMARK 300: 模型验证（Ramachandran图）
         Superimposition = 400    ' REMARK 400: 结构叠加或比对
@@ -20,6 +23,10 @@ Namespace Keywords
         GeometryCheck = 500           ' REMARK 500: 几何/立体化学检查
         RelatedEntries = 900          ' REMARK 900: 相关PDB条目
 
+        NoncovalentInteractions = 600
+        HydrophobicInteractions = 700
+        OtherImportantFeatures = 800
+
         Other = 999              ' 其他未分类的REMARK
     End Enum
 
@@ -31,7 +38,7 @@ Namespace Keywords
             End Get
         End Property
 
-        Public Property IndexedText As Dictionary(Of String, String)
+        Public Property RemarkText As Dictionary(Of RemarkCategory, String)
 
         Dim cache As New List(Of NamedValue(Of String))
 
@@ -44,9 +51,9 @@ Namespace Keywords
         End Function
 
         Friend Overrides Sub Flush()
-            IndexedText = cache _
+            RemarkText = cache _
                 .GroupBy(Function(line) line.Name) _
-                .ToDictionary(Function(a) a.Key,
+                .ToDictionary(Function(a) GetRemarkCategory(Integer.Parse(a.Key)),
                               Function(a)
                                   Return a.Select(Function(t) t.Value).JoinBy(vbCrLf)
                               End Function)
@@ -58,6 +65,7 @@ Namespace Keywords
                 Case 2 : Return RemarkCategory.ExperimentalMethod
                 Case 3 : Return RemarkCategory.Crystallography
                 Case 4 : Return RemarkCategory.Refinement
+                Case 5 : Return RemarkCategory.DataProcessing
                 Case 200 To 299
                     Return RemarkCategory.DataCollection
                 Case 300
@@ -71,6 +79,11 @@ Namespace Keywords
                 Case 465, 470
                     Return RemarkCategory.MissingResiduesAtoms
                 Case 500 : Return RemarkCategory.GeometryCheck
+
+                Case 600 : Return RemarkCategory.NoncovalentInteractions
+                Case 700 : Return RemarkCategory.HydrophobicInteractions
+                Case 800 : Return RemarkCategory.OtherImportantFeatures
+
                 Case 900 : Return RemarkCategory.RelatedEntries
 
                 Case Else
