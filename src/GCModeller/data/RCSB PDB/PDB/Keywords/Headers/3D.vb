@@ -1,5 +1,8 @@
 ﻿Namespace Keywords
 
+    ''' <summary>
+    ''' Axis information
+    ''' </summary>
     Public MustInherit Class Spatial3D : Inherits Keyword
 
         Public Property x As Double
