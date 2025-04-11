@@ -74,6 +74,9 @@ Namespace Keywords
         End Function
     End Structure
 
+    ''' <summary>
+    ''' the amino acid residue/atom model
+    ''' </summary>
     Public Class AtomUnit
 
         ''' <summary>

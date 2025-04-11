@@ -1,63 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::541ab9d1b1debde6a144c80d45583099, data\RCSB PDB\PDB\PdbExport.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 98
-    '    Code Lines: 64 (65.31%)
-    ' Comment Lines: 14 (14.29%)
-    '    - Xml Docs: 71.43%
-    ' 
-    '   Blank Lines: 20 (20.41%)
-    '     File Size: 5.03 KB
+' Summaries:
 
 
-    ' Module PdbExport
-    ' 
-    '     Function: AssemblyProteinComplexes, ExportSequence, GetByKeyword
-    ' 
-    ' Class AssemblyComplex
-    ' 
-    '     Properties: AssemblyComponents, UnitCounts
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 98
+'    Code Lines: 64 (65.31%)
+' Comment Lines: 14 (14.29%)
+'    - Xml Docs: 71.43%
+' 
+'   Blank Lines: 20 (20.41%)
+'     File Size: 5.03 KB
+
+
+' Module PdbExport
+' 
+'     Function: AssemblyProteinComplexes, ExportSequence, GetByKeyword
+' 
+' Class AssemblyComplex
+' 
+'     Properties: AssemblyComponents, UnitCounts
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 ''' <summary>
@@ -75,36 +76,44 @@ Imports SMRUCC.genomics.SequenceModel.Polypeptides
 ''' <remarks></remarks>
 Public Module PdbExport
 
-    Public Function ExportSequence(pdbFile As String) As SMRUCC.genomics.SequenceModel.FASTA.FastaFile
-        Dim chunkBuffer As String() = IO.File.ReadAllLines(pdbFile)
+    ''' <summary>
+    ''' Parse the sequence data from the pdb file
+    ''' </summary>
+    ''' <param name="pdbFile"></param>
+    ''' <returns></returns>
+    Public Function ExportSequence(pdbFile As String) As FastaFile
+        Dim lines As String() = pdbFile.ReadAllLines
+        Dim seqres = GetByKeyword(lines, "SEQRES")
+        Dim chains As String() = (From block As String()
+                                  In seqres.AsParallel
+                                  Let id As String = block(1)
+                                  Select id
+                                  Distinct
+                                  Order By id Ascending).ToArray
+        Dim fa As FastaSeq() = New FastaSeq(chains.Length - 1) {}
+        Dim definitions = GetByKeyword(lines, "DBREF")
 
-        Dim Sequence = GetByKeyword(chunkBuffer, "SEQRES")
-        Dim Chains As String() = (From item In Sequence.AsParallel Let id = item(1) Select id Distinct Order By id Ascending).ToArray
-        Dim FASTA As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq() =
-            New SMRUCC.genomics.SequenceModel.FASTA.FastaSeq(Chains.Count - 1) {}
-        Dim Definitions = GetByKeyword(chunkBuffer, "DBREF")
+        For i As Integer = 0 To chains.Length - 1
+            Dim chainId As String = chains(i)
+            Dim segments = (From item In seqres.AsParallel Where String.Equals(chainId, item(1)) Select item Order By Val(item(0)) Ascending).ToArray
+            Dim seq As New StringBuilder(1024)
 
-        For i As Integer = 0 To Chains.Count - 1
-            Dim ChainId As String = Chains(i)
-            Dim Segments = (From item In Sequence.AsParallel Where String.Equals(ChainId, item(1)) Select item Order By Val(item(0)) Ascending).ToArray
-            Dim seqBuilder As StringBuilder = New StringBuilder(1024)
-
-            For Each segment In Segments
-                For Each item As String In segment.Skip(3)
-                    Call seqBuilder.Append(Polypeptide.Abbreviate(item))
+            For Each segment As String() In segments
+                For Each res As String In segment.Skip(3)
+                    Call seq.Append(Polypeptide.Abbreviate(res))
                 Next
             Next
 
-            Dim Def = (From item In Definitions Where String.Equals(item(1), ChainId) Select item).First
-            Dim FsaObject As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq =
-                New SequenceModel.FASTA.FastaSeq
+            Dim def = (From item In definitions Where String.Equals(item(1), chainId) Select item).First
+            Dim faseq As New FastaSeq With {
+                .SequenceData = seq.ToString,
+                .Headers = New String() {def(0), def(1), def(4), def(5), def(6)}
+            }
 
-            FsaObject.SequenceData = seqBuilder.ToString
-            FsaObject.Headers = New String() {Def(0), Def(1), Def(4), Def(5), Def(6)}
-            FASTA(i) = FsaObject
+            fa(i) = faseq
         Next
 
-        Return FASTA
+        Return New FastaFile(fa)
     End Function
 
     Private Function GetByKeyword(chunkBuffer As String(), keyword As String) As String()()
