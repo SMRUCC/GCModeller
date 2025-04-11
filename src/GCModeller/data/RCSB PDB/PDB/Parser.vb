@@ -66,6 +66,8 @@ Module Parser
 
             Case "SEQADV" : pdb.seqadv = SEQADV.Append(last, data.Value)
 
+            Case Keyword.KEYWORD_HET : pdb.Het = Het.Append(last, data.Value)
+
             Case Keyword.KEYWORD_ATOM : pdb.AtomStructures = Atom.Append(last, data.Value)
             Case "TER"
                 pdb.AtomStructures = Atom.Append(pdb.AtomStructures, data.Value)

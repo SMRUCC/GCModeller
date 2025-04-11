@@ -85,6 +85,8 @@ Public Class PDB
     Public Property Scale2 As SCALE123
     Public Property Scale3 As SCALE123
 
+    Public Property Het As Het
+
     Public Property seqadv As SEQADV
 
     Public Property Master As Master
