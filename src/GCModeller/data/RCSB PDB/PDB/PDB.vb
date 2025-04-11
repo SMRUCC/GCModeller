@@ -156,6 +156,17 @@ Public Class PDB
         Return pdb
     End Function
 
+    ''' <summary>
+    ''' Load multiple pdb molecules from a given text stream data
+    ''' </summary>
+    ''' <param name="s"></param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function Load(s As Stream) As IEnumerable(Of PDB)
+        Return Parser.Load(s)
+    End Function
+
     Public Overloads Shared Widening Operator CType(path As String) As PDB
         Return PDB.Load(path)
     End Operator
