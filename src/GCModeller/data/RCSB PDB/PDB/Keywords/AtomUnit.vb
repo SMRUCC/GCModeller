@@ -111,34 +111,32 @@ Namespace Keywords
         ''' <returns></returns>
         ''' <remarks></remarks>
         Friend Shared Function InternalParser(s As String, InternalIndex As Integer) As AtomUnit
-            Dim Tokens As String() =
+            Dim xyz As Point3D
+            Dim t As String() =
                 LinqAPI.Exec(Of String) <= From strToken As String
                                            In s.Split
                                            Where Not String.IsNullOrEmpty(strToken)
                                            Select strToken
-
-            Dim xyz As Point3D
-
-            If Tokens.Length = 2 Then
+            If t.Length = 2 Then
                 ' TER
                 Return Nothing
             End If
-            If Tokens.Length = 3 Then
-                Tokens = {""}.Join(Tokens).ToArray
+            If t.Length = 3 Then
+                t = {""}.Join(t).ToArray
             Else
                 xyz = New Point3D With {
-                    .X = Val(Tokens(3)),
-                    .Y = Val(Tokens(4)),
-                    .Z = Val(Tokens(5))
+                    .X = Val(t(3)),
+                    .Y = Val(t(4)),
+                    .Z = Val(t(5))
                 }
             End If
 
             Return New AtomUnit With {
                 .Index = InternalIndex,
                 .Location = xyz,
-                .Atom = Tokens(0),
-                .AA_ID = Tokens(1),
-                .AA_IDX = Val(Tokens(2))
+                .Atom = t(0),
+                .AA_ID = t(1),
+                .AA_IDX = Val(t(2))
             }
         End Function
     End Class
