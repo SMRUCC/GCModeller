@@ -149,7 +149,7 @@ Public Class PDB
         Dim last As Keyword = Nothing
 
         For Each line As String In s.ReadAllLines
-            Dim data = line.GetTagValue(trim:=True)
+            Dim data = line.GetTagValue(trim:=True, failureNoName:=False)
 
             If Not last Is Nothing Then
                 If data.Name <> last.Keyword Then

@@ -116,6 +116,10 @@ Namespace Keywords
 
             Dim xyz As Point3D
 
+            If Tokens.Length = 2 Then
+                ' TER
+                Return Nothing
+            End If
             If Tokens.Length = 3 Then
                 Tokens = {""}.Join(Tokens).ToArray
             Else

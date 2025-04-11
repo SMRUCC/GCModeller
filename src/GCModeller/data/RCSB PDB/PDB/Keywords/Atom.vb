@@ -80,7 +80,7 @@ Namespace Keywords
         End Function
 
         Friend Overrides Sub Flush()
-            Atoms = (From item In cache.AsParallel Select AtomUnit.InternalParser(item.value, InternalIndex:=item.key)).ToArray
+            Atoms = (From item In cache.AsParallel Let aa = AtomUnit.InternalParser(item.value, InternalIndex:=item.key) Where Not aa Is Nothing Select aa).ToArray
         End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of AtomUnit) Implements IEnumerable(Of AtomUnit).GetEnumerator
