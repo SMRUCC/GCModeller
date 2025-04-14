@@ -1,40 +1,40 @@
-﻿Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
-Imports System.IO
-Imports System.Runtime.CompilerServices
+﻿Imports System.IO
+Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
-Module Parser
+Friend Class Parser
+
+    Dim last As Keyword
+    Dim model As Atom = Nothing
+    Dim modelId As String = Nothing
 
     ''' <summary>
     ''' Load multiple molecule pdb file
     ''' </summary>
     ''' <param name="s"></param>
     ''' <returns></returns>
-    Public Iterator Function Load(s As Stream) As IEnumerable(Of PDB)
+    Public Shared Iterator Function Load(s As Stream) As IEnumerable(Of PDB)
         Dim pdb As New PDB
-        Dim last As Keyword = Nothing
+        Dim reader As New Parser
 
         For Each line As String In s.ReadAllLines
-            If pdb.ReadLine(line, last) Then
-                If Not last Is Nothing Then
-                    Call last.Flush()
+            If reader.ReadLine(pdb, line) Then
+                If Not reader.last Is Nothing Then
+                    Call reader.last.Flush()
                 End If
                 Yield pdb
                 pdb = New PDB
             End If
         Next
 
-        If Not last Is Nothing Then
-            Call last.Flush()
+        If Not reader.last Is Nothing Then
+            Call reader.last.Flush()
         End If
 
         Yield pdb
     End Function
 
-    <Extension>
-    Private Function ReadLine(ByRef pdb As PDB, line As String, ByRef last As Keyword) As Boolean
+    Private Function ReadLine(ByRef pdb As PDB, line As String) As Boolean
         Dim data = line.GetTagValue(trim:=True, failureNoName:=False)
-        Dim model As Atom = Nothing
-        Dim modelId As String = Nothing
 
         If Not last Is Nothing Then
             If data.Name <> last.Keyword Then
@@ -67,7 +67,11 @@ Module Parser
             Case "SCALE3" : pdb.Scale3 = Spatial3D.Parse(Of SCALE123)(data.Value)
 
             Case "SEQADV" : pdb.seqadv = SEQADV.Append(last, data.Value)
-            Case "NUMMDL" : pdb.NUMMDL = NUMMDL.Parse(last, data.Value)
+            Case "NUMMDL"
+
+                pdb.NUMMDL = NUMMDL.Parse(last, data.Value)
+
+                Call VBDebugger.EchoLine($"Found {pdb.NUMMDL} structure models inside {pdb.Header.ToString}.")
 
             Case Keyword.KEYWORD_HET : pdb.Het = Het.Append(last, data.Value)
 
@@ -79,7 +83,8 @@ Module Parser
                 model = Nothing
                 modelId = Nothing
 
-            Case Keyword.KEYWORD_ATOM : model = Atom.Append(last, data.Value)
+            Case Keyword.KEYWORD_ATOM
+                model = Atom.Append(model, data.Value)
             Case "TER"
                 model = Atom.Append(model, data.Value)
                 model.Flush()
@@ -104,4 +109,4 @@ Module Parser
 
         Return False
     End Function
-End Module
+End Class

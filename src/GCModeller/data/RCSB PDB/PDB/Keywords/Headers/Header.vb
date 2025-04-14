@@ -161,6 +161,10 @@ Namespace Keywords
             Return header
         End Function
 
+        Public Overrides Function ToString() As String
+            Return $"({pdbID}) {Title}"
+        End Function
+
     End Class
 
     Public Class Title : Inherits Keyword
