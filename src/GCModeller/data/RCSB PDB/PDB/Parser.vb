@@ -81,6 +81,7 @@ Friend Class Parser
 
             Case "ENDMDL"
 
+                model.ModelId = modelId
                 model.Flush()
                 pdb._atomStructuresData.Add(modelId, model)
                 model = Nothing
@@ -100,7 +101,9 @@ Friend Class Parser
             Case "END"
                 ' end of current protein/molecule structure data
                 If pdb._atomStructuresData.IsNullOrEmpty Then
-                    ' contains only one structure model data inside current pdb object
+                    ' contains only one structure model data
+                    ' inside current pdb object
+                    model.ModelId = "1"
                     pdb._atomStructuresData.Add("1", model)
                 End If
 

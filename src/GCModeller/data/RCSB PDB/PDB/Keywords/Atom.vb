@@ -73,6 +73,12 @@ Namespace Keywords
             End Get
         End Property
 
+        Public ReadOnly Property AminoAcidSequenceData As AminoAcid()
+            Get
+                Return AminoAcid.SequenceGenerator(Me)
+            End Get
+        End Property
+
         Dim cache As New List(Of (key As Integer, value As String))
 
         Friend Shared Function Append(ByRef atoms As Atom, str As String) As Atom

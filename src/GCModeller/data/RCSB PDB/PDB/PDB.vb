@@ -117,6 +117,12 @@ Public Class PDB
         End Get
     End Property
 
+    Default Public ReadOnly Property Model(i As Integer) As Atom
+        Get
+            Return _atomStructuresData.Values(i)
+        End Get
+    End Property
+
     ''' <summary>
     ''' There are multiple model inside a pdb file, start with ``MODEL`` and end with ``ENDMDL``.
     ''' </summary>
@@ -149,18 +155,6 @@ Public Class PDB
                 .Y = ymin,
                 .Z = zmin
             }
-        End Get
-    End Property
-
-    ''' <summary>
-    ''' 已经经过了排序操作了的
-    ''' </summary>
-    ''' <value></value>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public ReadOnly Property AminoAcidSequenceData As AminoAcid()
-        Get
-            Throw New NotImplementedException
         End Get
     End Property
 
