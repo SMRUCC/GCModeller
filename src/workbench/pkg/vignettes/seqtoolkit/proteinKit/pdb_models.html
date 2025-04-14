@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.</title>
+    <title>get structure models inside the given pdb object</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>read.pdb {proteinKit}</td>
+                <td>pdb_models {proteinKit}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.</h2>
+        <h2>get structure models inside the given pdb object</h2>
 
         <h3>Description</h3>
 
@@ -27,19 +27,15 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>read.pdb</strong>(<i>file</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>pdb_models</strong>(<i>pdb</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>file</dt>
-<dd><p>A file path string or Stream object representing the PDB file to read.</p></dd>
-
-
-<dt>env</dt>
-<dd><p>The R runtime environment for error handling and resource management. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+<dt>pdb</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/PDB.html">PDB</a>]</p></dd>
 
         </table>
 
@@ -54,12 +50,11 @@
 
         <h3>Value</h3>
 
-        <p>Returns a parsed <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/PDB.html">PDB</a> object if successful. Returns a <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Components/Message.html">Message</a> 
- error object if file loading fails due to invalid path or format issues.</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Atom.html">Atom</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Atom.html">Atom</a></li></ul>
 
-        <h3 style="display: block;">Examples</h3>
+        <h3 style="display: none;">Examples</h3>
 
-        <pre><code id="example_r"> let pdb = read.pdb("1abc.pdb");</code></pre>
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>proteinKit</em> version 1.0.0.0 <a
