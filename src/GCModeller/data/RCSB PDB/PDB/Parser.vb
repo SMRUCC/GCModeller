@@ -184,6 +184,7 @@ Friend Class Parser
 
             Case "MODRES" : pdb.MODRES = MODRES.Append(last, data.Value)
             Case "SIGATM" : pdb.SIGATM = SIGATM.Append(last, data.Value)
+            Case "SIGUIJ" : pdb.SIGUIJ = SIGUIJ.Append(last, data.Value)
 
             Case "END"
                 ' end of current protein/molecule structure data

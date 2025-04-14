@@ -357,4 +357,24 @@ Namespace Keywords
         End Function
 
     End Class
+
+    Public Class SIGUIJ : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "SIGUIJ"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef sig As SIGUIJ, str As String) As SIGUIJ
+            If sig Is Nothing Then
+                sig = New SIGUIJ
+            End If
+            sig.str.Add(str)
+            Return sig
+        End Function
+
+    End Class
 End Namespace
