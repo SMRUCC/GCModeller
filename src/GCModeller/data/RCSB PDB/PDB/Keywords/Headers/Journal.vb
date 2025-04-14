@@ -77,6 +77,7 @@ Namespace Keywords
         Public Property refn As String
         Public Property pmid As String
         Public Property doi As String
+        Public Property PUBL As String
 
         Friend Shared Function Append(ByRef jrnl As Journal, str As String) As Journal
             If jrnl Is Nothing Then
@@ -110,8 +111,10 @@ Namespace Keywords
                     Case "REFN" : refn = tuple.value
                     Case "PMID" : pmid = tuple.value
                     Case "DOI" : doi = tuple.value
+                    Case "PUBL" : PUBL = tuple.value
+
                     Case Else
-                        Throw New NotImplementedException(tuple.name)
+                        Throw New NotImplementedException("journal data: " & tuple.name)
                 End Select
             Next
         End Sub
