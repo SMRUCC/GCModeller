@@ -92,6 +92,8 @@ Friend Class Parser
 
         If data.Name.IsPattern("HETATM\d+") Then
             data = New NamedValue(Of String)("HETATM", line.Substring(6))
+        ElseIf data.Name.IsPattern("CONECT\d+") Then
+            data = New NamedValue(Of String)("CONECT", line.Substring(6))
         End If
 
         If Not last Is Nothing Then
@@ -161,6 +163,7 @@ Friend Class Parser
             Case Keyword.KEYWORD_HELIX : pdb.Helix = Helix.Append(last, data.Value)
             Case Keyword.KEYWORD_SHEET : pdb.Sheet = Sheet.Append(last, data.Value)
 
+            Case Keyword.KEYWORD_CONECT : pdb.Conect = CONECT.Append(last, data.Value)
             Case Keyword.KEYWORD_HETATM : pdb.HetAtom = HETATM.Append(last, data.Value)
 
             Case "END"

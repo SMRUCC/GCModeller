@@ -106,6 +106,7 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public Property seqadv As SEQADV
     Public Property CISPEP As CISPEP
     Public Property Master As Master
+    Public Property Conect As CONECT
 
     ''' <summary>
     ''' Populate out the multiple structure models inside current pdb data file

@@ -177,4 +177,24 @@ Namespace Keywords
         End Function
 
     End Class
+
+    Public Class CONECT : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return KEYWORD_CONECT
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef conect As CONECT, str As String) As CONECT
+            If conect Is Nothing Then
+                conect = New CONECT
+            End If
+            conect.str.Add(str)
+            Return conect
+        End Function
+
+    End Class
 End Namespace
