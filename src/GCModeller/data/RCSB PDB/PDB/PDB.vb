@@ -96,6 +96,8 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public Property NUMMDL As NUMMDL
 
     Public Property Het As Het
+    Public Property HetName As HetName
+    Public Property Formula As Formula
 
     Public Property Helix As Helix
     Public Property Sheet As Sheet

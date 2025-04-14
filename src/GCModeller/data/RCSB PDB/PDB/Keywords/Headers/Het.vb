@@ -78,4 +78,44 @@ Namespace Keywords
         End Function
 
     End Class
+
+    Public Class HetName : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return KEYWORD_HETNAM
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef hetname As HetName, line As String) As HetName
+            If hetname Is Nothing Then
+                hetname = New HetName
+            End If
+            hetname.str.Add(line)
+            Return hetname
+        End Function
+
+    End Class
+
+    Public Class Formula : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return KEYWORD_FORMUL
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Public Shared Function Append(ByRef formula As Formula, line As String) As Formula
+            If formula Is Nothing Then
+                formula = New Formula
+            End If
+            formula.str.Append(line)
+            Return formula
+        End Function
+
+    End Class
 End Namespace
