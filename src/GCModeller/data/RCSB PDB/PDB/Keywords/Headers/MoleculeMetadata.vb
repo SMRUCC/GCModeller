@@ -102,6 +102,7 @@ Namespace Keywords
                     ' end of multiple line
                     If last Is Nothing Then
                         Call $"Invalid multiple line document({line}) for the metadata parser!".Warning
+                        Continue For
                     Else
                         last = last & " " & line.GetTagValue(" ", trim:=True).Value
                         tag = last.GetTagValue(":", trim:=True)
