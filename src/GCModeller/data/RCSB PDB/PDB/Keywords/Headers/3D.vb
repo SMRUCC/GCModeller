@@ -81,7 +81,7 @@ Namespace Keywords
                 .x = Val(cols(0 + offset)),
                 .y = Val(cols(1 + offset)),
                 .z = Val(cols(2 + offset)),
-                .factor = Val(cols(3 + offset))
+                .factor = Val(cols.ElementAtOrDefault(3 + offset, [default]:="1"))
             }
 
             Return s
