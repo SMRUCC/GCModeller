@@ -118,6 +118,7 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public Property CAVEAT As CAVEAT
     Public Property MDLTYP As MDLTYP
     Public Property ANISOU As ANISOU
+    Public Property SIGATM As SIGATM
 
     ''' <summary>
     ''' Populate out the multiple structure models inside current pdb data file

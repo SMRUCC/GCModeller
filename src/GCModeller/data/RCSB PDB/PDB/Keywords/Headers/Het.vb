@@ -337,4 +337,24 @@ Namespace Keywords
         End Function
 
     End Class
+
+    Public Class SIGATM : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "SIGATM"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef sig As SIGATM, str As String) As SIGATM
+            If sig Is Nothing Then
+                sig = New SIGATM
+            End If
+            sig.str.Add(str)
+            Return sig
+        End Function
+
+    End Class
 End Namespace

@@ -183,6 +183,7 @@ Friend Class Parser
             Case Keyword.KEYWORD_HETATM : pdb.HetAtom = HETATM.Append(last, data.Value)
 
             Case "MODRES" : pdb.MODRES = MODRES.Append(last, data.Value)
+            Case "SIGATM" : pdb.SIGATM = SIGATM.Append(last, data.Value)
 
             Case "END"
                 ' end of current protein/molecule structure data
