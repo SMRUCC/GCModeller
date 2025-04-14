@@ -277,4 +277,24 @@ Namespace Keywords
         End Function
 
     End Class
+
+    Public Class CAVEAT : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "CAVEAT"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef cav As CAVEAT, str As String) As CAVEAT
+            If cav Is Nothing Then
+                cav = New CAVEAT
+            End If
+            cav.str.Add(str)
+            Return cav
+        End Function
+
+    End Class
 End Namespace
