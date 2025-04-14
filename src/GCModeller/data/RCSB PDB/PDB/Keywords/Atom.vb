@@ -61,6 +61,11 @@ Namespace Keywords
         Implements IEnumerable(Of AtomUnit)
 
         Public Property Atoms As AtomUnit()
+        ''' <summary>
+        ''' the model id
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ModelId As String
 
         Public Overrides ReadOnly Property Keyword As String
             Get

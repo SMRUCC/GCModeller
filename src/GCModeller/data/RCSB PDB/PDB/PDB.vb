@@ -59,6 +59,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
 Public Class PDB
@@ -85,6 +86,10 @@ Public Class PDB
     Public Property Scale2 As SCALE123
     Public Property Scale3 As SCALE123
 
+    ''' <summary>
+    ''' number of models inside current pdb file
+    ''' </summary>
+    ''' <returns></returns>
     Public Property NUMMDL As NUMMDL
 
     Public Property Het As Het
@@ -96,34 +101,48 @@ Public Class PDB
 
     Public Property Master As Master
 
-    Public Property AtomStructures As Atom
+    ''' <summary>
+    ''' Populate out the multiple structure models inside current pdb data file
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property AtomStructures As IEnumerable(Of Atom)
         Get
-            Return _atomStructuresData
+            Return _atomStructuresData.Values
         End Get
-        Set(value As Atom)
-            _atomStructuresData = value
-            _AASeqLoader = New Microsoft.VisualBasic.ComponentModel.LazyLoader(Of AminoAcid(), Atom)(value, AddressOf AminoAcid.SequenceGenerator)
-        End Set
     End Property
 
-    Dim _atomStructuresData As Atom
-    Dim _AASeqLoader As Microsoft.VisualBasic.ComponentModel.LazyLoader(Of AminoAcid(), Atom)
+    ''' <summary>
+    ''' There are multiple model inside a pdb file, start with ``MODEL`` and end with ``ENDMDL``.
+    ''' </summary>
+    Dim _atomStructuresData As Dictionary(Of String, Atom)
 
     Public ReadOnly Property MaxSpace As Keywords.Point3D
         Get
-            Dim XLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.X).ToArray.Max
-            Dim YLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.Y).ToArray.Max
-            Dim ZLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.Z).ToArray.Max
-            Return New Point3D With {.X = XLQuery, .Y = YLQuery, .Z = ZLQuery}
+            Dim all = AtomStructures.Select(Function(m) m.Atoms).IteratesALL.ToArray
+            Dim xmax = (From atom As AtomUnit In all Select atom.Location.X).Max
+            Dim ymax = (From atom As AtomUnit In all Select atom.Location.Y).Max
+            Dim zmax = (From atom As AtomUnit In all Select atom.Location.Z).Max
+
+            Return New Point3D With {
+                .X = xmax,
+                .Y = ymax,
+                .Z = zmax
+            }
         End Get
     End Property
 
     Public ReadOnly Property MinSpace As Keywords.Point3D
         Get
-            Dim XLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.X).ToArray.Min
-            Dim YLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.Y).ToArray.Min
-            Dim ZLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.Z).ToArray.Min
-            Return New Point3D With {.X = XLQuery, .Y = YLQuery, .Z = ZLQuery}
+            Dim all = AtomStructures.Select(Function(m) m.Atoms).IteratesALL.ToArray
+            Dim xmin = (From atom As AtomUnit In all Select atom.Location.X).Min
+            Dim ymin = (From atom As AtomUnit In all Select atom.Location.Y).Min
+            Dim zmin = (From atom As AtomUnit In all Select atom.Location.Z).Min
+
+            Return New Point3D With {
+                .X = xmin,
+                .Y = ymin,
+                .Z = zmin
+            }
         End Get
     End Property
 
