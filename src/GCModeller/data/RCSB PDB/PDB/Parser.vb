@@ -33,6 +33,8 @@ Module Parser
     <Extension>
     Private Function ReadLine(ByRef pdb As PDB, line As String, ByRef last As Keyword) As Boolean
         Dim data = line.GetTagValue(trim:=True, failureNoName:=False)
+        Dim model As Atom = Nothing
+        Dim modelId As String = Nothing
 
         If Not last Is Nothing Then
             If data.Name <> last.Keyword Then
@@ -69,10 +71,18 @@ Module Parser
 
             Case Keyword.KEYWORD_HET : pdb.Het = Het.Append(last, data.Value)
 
-            Case Keyword.KEYWORD_ATOM : pdb.AtomStructures = Atom.Append(last, data.Value)
+            Case "MODEL" : modelId = data.Value
+            Case "ENDMDL"
+
+                model.Flush()
+                pdb._atomStructuresData.Add(modelId, model)
+                model = Nothing
+                modelId = Nothing
+
+            Case Keyword.KEYWORD_ATOM : model = Atom.Append(last, data.Value)
             Case "TER"
-                pdb.AtomStructures = Atom.Append(pdb.AtomStructures, data.Value)
-                pdb.AtomStructures.Flush()
+                model = Atom.Append(model, data.Value)
+                model.Flush()
 
             Case Keyword.KEYWORD_MASTER : pdb.Master = Master.Parse(data.Value)
 
@@ -81,6 +91,11 @@ Module Parser
 
             Case "END"
                 ' end of current protein/molecule structure data
+                If pdb._atomStructuresData.IsNullOrEmpty Then
+                    ' contains only one structure model data inside current pdb object
+                    pdb._atomStructuresData.Add("1", model)
+                End If
+
                 Return True
 
             Case Else

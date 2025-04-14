@@ -111,10 +111,16 @@ Public Class PDB
         End Get
     End Property
 
+    Default Public ReadOnly Property Model(id As String) As Atom
+        Get
+            Return _atomStructuresData.TryGetValue(id)
+        End Get
+    End Property
+
     ''' <summary>
     ''' There are multiple model inside a pdb file, start with ``MODEL`` and end with ``ENDMDL``.
     ''' </summary>
-    Dim _atomStructuresData As Dictionary(Of String, Atom)
+    Friend _atomStructuresData As New Dictionary(Of String, Atom)
 
     Public ReadOnly Property MaxSpace As Keywords.Point3D
         Get
@@ -154,7 +160,7 @@ Public Class PDB
     ''' <remarks></remarks>
     Public ReadOnly Property AminoAcidSequenceData As AminoAcid()
         Get
-            Return _AASeqLoader.Value
+            Throw New NotImplementedException
         End Get
     End Property
 
