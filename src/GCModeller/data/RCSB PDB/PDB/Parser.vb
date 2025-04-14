@@ -119,7 +119,7 @@ Friend Class Parser
             Case Keyword.KEYWORD_REVDAT : pdb.Revisions = Revision.Append(last, data.Value)
             Case Keyword.KEYWORD_JRNL : pdb.Journal = Journal.Append(last, data.Value)
             Case Keyword.KEYWORD_REMARK : pdb.Remark = Remark.Append(last, data.Value)
-            Case Keyword.KEYWORD_DBREF : pdb.DbRef = DbReference.Append(last, data.Value)
+            Case Keyword.KEYWORD_DBREF, "DBREF1", "DBREF2" : pdb.DbRef = DbReference.Append(last, data.Value)
             Case Keyword.KEYWORD_SEQRES : pdb.Sequence = Sequence.Append(last, data.Value)
             Case Keyword.KEYWORD_CRYST1 : pdb.crystal1 = CRYST1.Append(last, data.Value)
 
@@ -187,10 +187,14 @@ Friend Class Parser
             Case "END"
                 ' end of current protein/molecule structure data
                 If pdb._atomStructuresData.IsNullOrEmpty Then
-                    ' contains only one structure model data
-                    ' inside current pdb object
-                    model.ModelId = "1"
-                    pdb._atomStructuresData.Add("1", model)
+                    If model IsNot Nothing Then
+                        ' contains only one structure model data
+                        ' inside current pdb object
+                        model.ModelId = "1"
+                        pdb._atomStructuresData.Add("1", model)
+                    Else
+                        Call $"RCSB pdb object '{pdb.Header}' has no structure model data!".Warning
+                    End If
                 End If
 
                 Return True
