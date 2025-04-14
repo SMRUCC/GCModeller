@@ -178,6 +178,10 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Protected Friend Sub New()
     End Sub
 
+    Public Overrides Function ToString() As String
+        Return Header.ToString & $" [{Title}]"
+    End Function
+
     ''' <summary>
     ''' 加载一个蛋白质的三维空间结构的数据文件
     ''' </summary>
