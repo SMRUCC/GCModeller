@@ -114,6 +114,7 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public Property Master As Master
     Public Property Conect As CONECT
     Public Property MODRES As MODRES
+    Public Property SPRSDE As SPRSDE
 
     ''' <summary>
     ''' Populate out the multiple structure models inside current pdb data file

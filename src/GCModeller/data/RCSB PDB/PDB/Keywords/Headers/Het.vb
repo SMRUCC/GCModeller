@@ -257,4 +257,24 @@ Namespace Keywords
         End Function
 
     End Class
+
+    Public Class SPRSDE : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "SPRSDE"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef sp As SPRSDE, str As String) As SPRSDE
+            If sp Is Nothing Then
+                sp = New SPRSDE
+            End If
+            sp.str.Add(str)
+            Return sp
+        End Function
+
+    End Class
 End Namespace

@@ -136,6 +136,7 @@ Friend Class Parser
             Case "MTRIX3" : pdb.Matrix3 = Spatial3D.Parse(Of MTRIX123)(data.Value)
 
             Case "SSBOND" : pdb.SSBOND = SSBOND.Append(last, data.Value)
+            Case "SPRSDE" : pdb.SPRSDE = SPRSDE.Append(last, data.Value)
 
             Case "SEQADV" : pdb.seqadv = SEQADV.Append(last, data.Value)
             Case "NUMMDL"
