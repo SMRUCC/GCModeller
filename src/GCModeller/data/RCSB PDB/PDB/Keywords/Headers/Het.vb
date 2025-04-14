@@ -317,4 +317,44 @@ Namespace Keywords
         End Function
 
     End Class
+
+    Public Class ANISOU : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "ANISOU"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef ani As ANISOU, str As String) As ANISOU
+            If ani Is Nothing Then
+                ani = New ANISOU
+            End If
+            ani.str.Add(str)
+            Return ani
+        End Function
+
+    End Class
+
+    Public Class PUBL : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "PUBL"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef pub As PUBL, str As String) As PUBL
+            If pub Is Nothing Then
+                pub = New PUBL
+            End If
+            pub.str.Add(str)
+            Return pub
+        End Function
+
+    End Class
 End Namespace
