@@ -54,8 +54,10 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.RCSB.PDB
+Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer
 Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
@@ -219,6 +221,17 @@ Module proteinKit
         End If
 
         Return pdb
+    End Function
+
+    ''' <summary>
+    ''' get structure models inside the given pdb object
+    ''' </summary>
+    ''' <param name="pdb"></param>
+    ''' <returns></returns>
+    <ExportAPI("pdb_models")>
+    <RApiReturn(GetType(Atom))>
+    Public Function pdbModels(pdb As PDB) As Object
+        Return pdb.AsEnumerable.ToArray
     End Function
 
     ''' <summary>
