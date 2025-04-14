@@ -65,6 +65,7 @@ Module Parser
             Case "SCALE3" : pdb.Scale3 = Spatial3D.Parse(Of SCALE123)(data.Value)
 
             Case "SEQADV" : pdb.seqadv = SEQADV.Append(last, data.Value)
+            Case "NUMMDL" : pdb.NUMMDL = NUMMDL.Parse(last, data.Value)
 
             Case Keyword.KEYWORD_HET : pdb.Het = Het.Append(last, data.Value)
 
@@ -74,6 +75,9 @@ Module Parser
                 pdb.AtomStructures.Flush()
 
             Case Keyword.KEYWORD_MASTER : pdb.Master = Master.Parse(data.Value)
+
+            Case Keyword.KEYWORD_HELIX : pdb.Helix = Helix.Append(last, data.Value)
+            Case Keyword.KEYWORD_SHEET : pdb.Sheet = Sheet.Append(last, data.Value)
 
             Case "END"
                 ' end of current protein/molecule structure data

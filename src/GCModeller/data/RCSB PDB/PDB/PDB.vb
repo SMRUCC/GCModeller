@@ -85,7 +85,12 @@ Public Class PDB
     Public Property Scale2 As SCALE123
     Public Property Scale3 As SCALE123
 
+    Public Property NUMMDL As NUMMDL
+
     Public Property Het As Het
+
+    Public Property Helix As Helix
+    Public Property Sheet As Sheet
 
     Public Property seqadv As SEQADV
 

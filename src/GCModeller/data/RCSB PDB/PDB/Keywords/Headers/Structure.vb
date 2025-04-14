@@ -27,6 +27,16 @@
                 Return Keywords.KEYWORD_HELIX
             End Get
         End Property
+
+        Dim strs As New List(Of String)
+
+        Friend Shared Function Append(ByRef helix As Helix, str As String) As Helix
+            If helix Is Nothing Then
+                helix = New Helix
+            End If
+            helix.strs.Add(str)
+            Return helix
+        End Function
     End Class
 
     Public Class Sheet : Inherits Keyword
@@ -36,6 +46,16 @@
                 Return Keywords.KEYWORD_SHEET
             End Get
         End Property
+
+        Dim strs As New List(Of String)
+
+        Friend Shared Function Append(ByRef sheet As Sheet, str As String) As Sheet
+            If sheet Is Nothing Then
+                sheet = New Sheet
+            End If
+            sheet.strs.Add(str)
+            Return sheet
+        End Function
     End Class
 
 End Namespace
