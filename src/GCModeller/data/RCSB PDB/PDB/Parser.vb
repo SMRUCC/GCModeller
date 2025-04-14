@@ -71,20 +71,25 @@ Friend Class Parser
         Dim reader As New Parser
 
         For Each line As String In s.ReadAllLines
+            If pdb Is Nothing Then
+                pdb = New PDB
+            End If
             If reader.ReadLine(pdb, line) Then
                 If Not reader.last Is Nothing Then
                     Call reader.last.Flush()
                 End If
                 Yield pdb
-                pdb = New PDB
+                pdb = Nothing
             End If
         Next
 
-        If Not reader.last Is Nothing Then
-            Call reader.last.Flush()
-        End If
+        If Not pdb Is Nothing Then
+            If Not reader.last Is Nothing Then
+                Call reader.last.Flush()
+            End If
 
-        Yield pdb
+            Yield pdb
+        End If
     End Function
 
     Private Function ReadLine(ByRef pdb As PDB, line As String) As Boolean
