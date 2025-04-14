@@ -138,6 +138,11 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public ReadOnly Property MaxSpace As Keywords.Point3D
         Get
             Dim all = AtomStructures.Select(Function(m) m.Atoms).IteratesALL.ToArray
+
+            If all.Length = 0 Then
+                Return Nothing
+            End If
+
             Dim xmax = (From atom As AtomUnit In all Select atom.Location.X).Max
             Dim ymax = (From atom As AtomUnit In all Select atom.Location.Y).Max
             Dim zmax = (From atom As AtomUnit In all Select atom.Location.Z).Max
@@ -153,6 +158,11 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public ReadOnly Property MinSpace As Keywords.Point3D
         Get
             Dim all = AtomStructures.Select(Function(m) m.Atoms).IteratesALL.ToArray
+
+            If all.Length = 0 Then
+                Return Nothing
+            End If
+
             Dim xmin = (From atom As AtomUnit In all Select atom.Location.X).Min
             Dim ymin = (From atom As AtomUnit In all Select atom.Location.Y).Min
             Dim zmin = (From atom As AtomUnit In all Select atom.Location.Z).Min
