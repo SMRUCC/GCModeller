@@ -118,4 +118,24 @@ Namespace Keywords
         End Function
 
     End Class
+
+    Public Class Link : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "LINK"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Public Shared Function Append(ByRef links As Link, line As String) As Link
+            If links Is Nothing Then
+                links = New Link
+            End If
+            links.str.Append(line)
+            Return links
+        End Function
+
+    End Class
 End Namespace

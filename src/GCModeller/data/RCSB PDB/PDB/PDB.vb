@@ -101,7 +101,7 @@ Public Class PDB : Implements Enumeration(Of Atom)
 
     Public Property Helix As Helix
     Public Property Sheet As Sheet
-
+    Public Property Links As Link
     Public Property seqadv As SEQADV
 
     Public Property Master As Master

@@ -129,6 +129,7 @@ Friend Class Parser
             Case Keyword.KEYWORD_HETNAM : pdb.HetName = HetName.Append(last, data.Value)
 
             Case Keyword.KEYWORD_FORMUL : pdb.Formula = Formula.Append(last, data.Value)
+            Case "LINK" : pdb.Links = Link.Append(last, data.Value)
 
             Case "MODEL"
 
