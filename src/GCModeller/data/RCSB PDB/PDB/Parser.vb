@@ -70,12 +70,15 @@ Friend Class Parser
             Case "NUMMDL"
 
                 pdb.NUMMDL = NUMMDL.Parse(last, data.Value)
-
                 Call VBDebugger.EchoLine($"Found {pdb.NUMMDL} structure models inside {pdb.Header.ToString}.")
 
             Case Keyword.KEYWORD_HET : pdb.Het = Het.Append(last, data.Value)
 
-            Case "MODEL" : modelId = data.Value
+            Case "MODEL"
+
+                modelId = data.Value
+                Call VBDebugger.EchoLine($"Parse structure model: {modelId}...")
+
             Case "ENDMDL"
 
                 model.Flush()
