@@ -297,4 +297,24 @@ Namespace Keywords
         End Function
 
     End Class
+
+    Public Class MDLTYP : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "MDLTYP"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef type As MDLTYP, str As String) As MDLTYP
+            If type Is Nothing Then
+                type = New MDLTYP
+            End If
+            type.str.Add(str)
+            Return type
+        End Function
+
+    End Class
 End Namespace

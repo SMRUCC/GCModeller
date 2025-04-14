@@ -116,6 +116,7 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public Property MODRES As MODRES
     Public Property SPRSDE As SPRSDE
     Public Property CAVEAT As CAVEAT
+    Public Property MDLTYP As MDLTYP
 
     ''' <summary>
     ''' Populate out the multiple structure models inside current pdb data file

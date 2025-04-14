@@ -138,6 +138,7 @@ Friend Class Parser
             Case "SSBOND" : pdb.SSBOND = SSBOND.Append(last, data.Value)
             Case "SPRSDE" : pdb.SPRSDE = SPRSDE.Append(last, data.Value)
             Case "CAVEAT" : pdb.CAVEAT = CAVEAT.Append(last, data.Value)
+            Case "MDLTYP" : pdb.MDLTYP = MDLTYP.Append(last, data.Value)
 
             Case "SEQADV" : pdb.seqadv = SEQADV.Append(last, data.Value)
             Case "NUMMDL"
