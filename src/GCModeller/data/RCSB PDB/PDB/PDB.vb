@@ -97,13 +97,14 @@ Public Class PDB : Implements Enumeration(Of Atom)
 
     Public Property Het As Het
     Public Property HetName As HetName
+    Public Property HetAtom As HETATM
     Public Property Formula As Formula
-
+    Public Property Site As Site
     Public Property Helix As Helix
     Public Property Sheet As Sheet
     Public Property Links As Link
     Public Property seqadv As SEQADV
-
+    Public Property CISPEP As CISPEP
     Public Property Master As Master
 
     ''' <summary>

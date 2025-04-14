@@ -138,4 +138,43 @@ Namespace Keywords
         End Function
 
     End Class
+
+    Public Class CISPEP : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "CISPEP"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Public Shared Function Append(ByRef CISPEP As CISPEP, line As String) As CISPEP
+            If CISPEP Is Nothing Then
+                CISPEP = New CISPEP
+            End If
+            CISPEP.str.Append(line)
+            Return CISPEP
+        End Function
+    End Class
+
+    Public Class HETATM : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return KEYWORD_HETATM
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef hetatom As HETATM, str As String) As HETATM
+            If hetatom Is Nothing Then
+                hetatom = New HETATM
+            End If
+            hetatom.str.Add(str)
+            Return hetatom
+        End Function
+
+    End Class
 End Namespace

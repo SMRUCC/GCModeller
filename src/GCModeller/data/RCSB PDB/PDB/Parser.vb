@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
 Friend Class Parser
@@ -88,6 +89,10 @@ Friend Class Parser
 
     Private Function ReadLine(ByRef pdb As PDB, line As String) As Boolean
         Dim data = line.GetTagValue(trim:=True, failureNoName:=False)
+
+        If data.Name.IsPattern("HETATM\d+") Then
+            data = New NamedValue(Of String)("HETATM", line.Substring(6))
+        End If
 
         If Not last Is Nothing Then
             If data.Name <> last.Keyword Then
@@ -151,9 +156,12 @@ Friend Class Parser
                 model.Flush()
 
             Case Keyword.KEYWORD_MASTER : pdb.Master = Master.Parse(data.Value)
-
+            Case Keyword.KEYWORD_SITE : pdb.Site = Site.Append(last, data.Value)
+            Case "CISPEP" : pdb.CISPEP = CISPEP.Append(last, data.Value)
             Case Keyword.KEYWORD_HELIX : pdb.Helix = Helix.Append(last, data.Value)
             Case Keyword.KEYWORD_SHEET : pdb.Sheet = Sheet.Append(last, data.Value)
+
+            Case Keyword.KEYWORD_HETATM : pdb.HetAtom = HETATM.Append(last, data.Value)
 
             Case "END"
                 ' end of current protein/molecule structure data
