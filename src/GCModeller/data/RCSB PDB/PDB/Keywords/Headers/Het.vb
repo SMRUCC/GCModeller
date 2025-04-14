@@ -168,11 +168,14 @@ Namespace Keywords
 
         Dim str As New List(Of String)
 
-        Friend Shared Function Append(ByRef hetatom As HETATM, str As String) As HETATM
+        Friend Shared Function Append(ByRef hetatom As Atom, str As String) As Atom
             If hetatom Is Nothing Then
-                hetatom = New HETATM
+                hetatom = New Atom
             End If
-            hetatom.str.Add(str)
+            If hetatom.HetAtoms Is Nothing Then
+                hetatom.HetAtoms = New HETATM
+            End If
+            hetatom.HetAtoms.str.Add(str)
             Return hetatom
         End Function
 
