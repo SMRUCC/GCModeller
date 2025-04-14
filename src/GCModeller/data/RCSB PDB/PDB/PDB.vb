@@ -62,7 +62,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
-Public Class PDB
+Public Class PDB : Implements Enumeration(Of Atom)
 
     Public Const REGEX_HEAD As String = "[A-Z]+\s+(\d+)?\s"
 
@@ -198,4 +198,10 @@ Public Class PDB
     Public Overloads Shared Widening Operator CType(path As String) As PDB
         Return PDB.Load(path)
     End Operator
+
+    Public Iterator Function GenericEnumerator() As IEnumerator(Of Atom) Implements Enumeration(Of Atom).GenericEnumerator
+        For Each model As Atom In _atomStructuresData.Values
+            Yield model
+        Next
+    End Function
 End Class

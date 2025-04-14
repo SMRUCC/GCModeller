@@ -57,6 +57,9 @@
 
 Namespace Keywords
 
+    ''' <summary>
+    ''' structure data model
+    ''' </summary>
     Public Class Atom : Inherits Keyword
         Implements IEnumerable(Of AtomUnit)
 
