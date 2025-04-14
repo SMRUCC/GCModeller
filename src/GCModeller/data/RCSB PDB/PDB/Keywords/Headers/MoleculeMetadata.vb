@@ -101,7 +101,7 @@ Namespace Keywords
                 ElseIf InStr(line, ": ") = 0 Then
                     ' end of multiple line
                     If last Is Nothing Then
-                        Throw New InvalidProgramException("invalid multiple line document for the metadata parser!")
+                        Call $"Invalid multiple line document({line}) for the metadata parser!".Warning
                     Else
                         last = last & " " & line.GetTagValue(" ", trim:=True).Value
                         tag = last.GetTagValue(":", trim:=True)
