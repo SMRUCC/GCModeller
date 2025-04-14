@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac704f723c422a00ca89c0422c6b0dfb, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb"
+﻿#Region "Microsoft.VisualBasic::12468ac7ab3197013838a02d93020039, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 147
-    '    Code Lines: 102 (69.39%)
-    ' Comment Lines: 20 (13.61%)
+    '   Total Lines: 170
+    '    Code Lines: 107 (62.94%)
+    ' Comment Lines: 36 (21.18%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 25 (17.01%)
-    '     File Size: 5.47 KB
+    '   Blank Lines: 27 (15.88%)
+    '     File Size: 6.33 KB
 
 
     '     Class Location
@@ -48,7 +48,7 @@
     '         Properties: Complement, ContiguousRegion, HasJoinLocation, JoinLocation, Location
     '                     Locations, UniqueId
     ' 
-    '         Function: ToString
+    '         Function: JoinLocations, ToString
     ' 
     '     Class RegionSegment
     ' 

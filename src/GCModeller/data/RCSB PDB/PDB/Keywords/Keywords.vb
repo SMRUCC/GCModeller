@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de0f38ea7535ba487b83c778a04bc292, data\RCSB PDB\PDB\Keywords\Keywords.vb"
+﻿#Region "Microsoft.VisualBasic::089657c012e659c2213906a9702e70fe, data\RCSB PDB\PDB\Keywords\Keywords.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 39
-    '    Code Lines: 33 (84.62%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 42
+    '    Code Lines: 33 (78.57%)
+    ' Comment Lines: 3 (7.14%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (15.38%)
-    '     File Size: 1.63 KB
+    '   Blank Lines: 6 (14.29%)
+    '     File Size: 1.75 KB
 
 
     '     Class Keyword

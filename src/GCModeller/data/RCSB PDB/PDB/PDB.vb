@@ -1,58 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::46de3c9ccf949a9f0fad949aebfc3a9e, data\RCSB PDB\PDB\PDB.vb"
+﻿#Region "Microsoft.VisualBasic::3434d7d1fbcc2afc3535111f0657027b, data\RCSB PDB\PDB\PDB.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 115
-'    Code Lines: 85 (73.91%)
-' Comment Lines: 13 (11.30%)
-'    - Xml Docs: 92.31%
-' 
-'   Blank Lines: 17 (14.78%)
-'     File Size: 4.38 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class PDB
-' 
-'     Properties: AminoAcidSequenceData, AtomStructures, Author, Compound, Experiment
-'                 Header, Journal, Keywords, MaxSpace, MinSpace
-'                 Remark, Sequence, Source, Title
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: (+2 Overloads) Load
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 98 (65.77%)
+    ' Comment Lines: 29 (19.46%)
+    '    - Xml Docs: 93.10%
+    ' 
+    '   Blank Lines: 22 (14.77%)
+    '     File Size: 5.04 KB
+
+
+    ' Class PDB
+    ' 
+    '     Properties: AtomStructures, Author, Compound, crystal1, DbRef
+    '                 Experiment, Header, Helix, Het, Journal
+    '                 Keywords, Master, MaxSpace, MinSpace, NUMMDL
+    '                 Origin1, Origin2, Origin3, Remark, Revisions
+    '                 Scale1, Scale2, Scale3, seqadv, Sequence
+    '                 Sheet, Source, Title
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: GenericEnumerator, (+2 Overloads) Load, Parse
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

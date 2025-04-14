@@ -1,76 +1,76 @@
-﻿#Region "Microsoft.VisualBasic::b5deeb2730401eac8e17521a6d77daa4, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
+﻿#Region "Microsoft.VisualBasic::bf4a35f99e766bf5a5e44c5aff8d4d02, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 149
-'    Code Lines: 113 (75.84%)
-' Comment Lines: 8 (5.37%)
-'    - Xml Docs: 87.50%
-' 
-'   Blank Lines: 28 (18.79%)
-'     File Size: 4.96 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class ACCESSION
-' 
-'         Properties: AccessionId, Alternative
-' 
-'         Function: CreateObject, ToString
-' 
-'     Class LOCUS
-' 
-'         Properties: AccessionID, Length, Molecular, Type, UpdateTime
-' 
-'         Function: InternalParser, ToString
-' 
-'     Class DEFINITION
-' 
-'         Properties: Value
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: ToString
-' 
-'     Class VERSION
-' 
-'         Properties: AccessionID, GI, IsEmpty, Ver, VersionString
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 112 (75.68%)
+    ' Comment Lines: 8 (5.41%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 28 (18.92%)
+    '     File Size: 4.93 KB
+
+
+    '     Class ACCESSION
+    ' 
+    '         Properties: AccessionId, Alternative
+    ' 
+    '         Function: CreateObject, ToString
+    ' 
+    '     Class LOCUS
+    ' 
+    '         Properties: AccessionID, Length, Molecular, Type, UpdateTime
+    ' 
+    '         Function: InternalParser, ToString
+    ' 
+    '     Class DEFINITION
+    ' 
+    '         Properties: Value
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    '     Class VERSION
+    ' 
+    '         Properties: AccessionID, GI, IsEmpty, Ver, VersionString
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

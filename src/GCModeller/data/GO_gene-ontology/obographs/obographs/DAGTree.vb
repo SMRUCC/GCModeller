@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe910193939316af617fd4fc0c1f4391, data\GO_gene-ontology\obographs\obographs\DAGTree.vb"
+﻿#Region "Microsoft.VisualBasic::7b370870cb10e6537310491ea5443de3, data\GO_gene-ontology\obographs\obographs\DAGTree.vb"
 
     ' Author:
     ' 
@@ -120,4 +120,3 @@ Public Class DAGTree
         dag = ontology
     End Sub
 End Class
-

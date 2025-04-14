@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d3ac916b1d593f6606d8c30711436ee, data\RCSB PDB\test\My Project\AssemblyInfo.vb"
+﻿#Region "Microsoft.VisualBasic::4a528cfb6d676611c50b2eedc4188391, data\RCSB PDB\test\My Project\AssemblyInfo.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 7 (21.88%)
-    '     File Size: 853 B
+    '     File Size: 851 B
 
 
     ' 
@@ -80,4 +80,3 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
-

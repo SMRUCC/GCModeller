@@ -1,136 +1,104 @@
-﻿#Region "Microsoft.VisualBasic::e6ad5bd331452203eea231a7e8393d94, data\RCSB PDB\PDB\Keywords\Header.vb"
+﻿#Region "Microsoft.VisualBasic::9915b748ccc72ffb562661db09c1c803, data\RCSB PDB\PDB\Keywords\Headers\Header.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 291
-'    Code Lines: 220 (75.60%)
-' Comment Lines: 1 (0.34%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 70 (24.05%)
-'     File Size: 8.58 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Header
-' 
-'         Properties: [Date], Keyword, pdbID, Title
-' 
-'         Function: Parse
-' 
-'     Class Title
-' 
-'         Properties: Keyword, Title
-' 
-'         Function: Append
-' 
-'     Class MoleculeMetadata
-' 
-'         Properties: Mols
-' 
-'         Sub: Flush
-' 
-'     Class Compound
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class Properties
-' 
-'         Properties: id, metadata
-' 
-'         Sub: add
-' 
-'     Class Source
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class Keywords
-' 
-'         Properties: Keyword, keywords
-' 
-'         Function: Parse
-' 
-'     Class ExperimentData
-' 
-'         Properties: Experiment, Keyword
-' 
-'         Function: Parse
-' 
-'     Class Author
-' 
-'         Properties: Keyword, Name
-' 
-'         Function: Parse
-' 
-'     Class Journal
-' 
-'         Properties: Keyword
-' 
-'     Class Remark
-' 
-'         Properties: Keyword
-' 
-'     Class DbReference
-' 
-'         Properties: Keyword
-' 
-'     Class Sequence
-' 
-'         Properties: Keyword
-' 
-'     Class Helix
-' 
-'         Properties: Keyword
-' 
-'     Class Sheet
-' 
-'         Properties: Keyword
-' 
-'     Class Site
-' 
-'         Properties: Keyword
-' 
-'     Class Master
-' 
-'         Properties: Keyword
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 127 (72.16%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 49 (27.84%)
+    '     File Size: 4.82 KB
+
+
+    '     Class Header
+    ' 
+    '         Properties: [Date], Keyword, pdbID, Title
+    ' 
+    '         Function: Parse, ToString
+    ' 
+    '     Class Title
+    ' 
+    '         Properties: Keyword, Title
+    ' 
+    '         Function: Append
+    ' 
+    '     Class Keywords
+    ' 
+    '         Properties: Keyword, keywords
+    ' 
+    '         Function: Parse
+    ' 
+    '     Class ExperimentData
+    ' 
+    '         Properties: Experiment, Keyword
+    ' 
+    '         Function: Parse
+    ' 
+    '     Class Author
+    ' 
+    '         Properties: Keyword, Name
+    ' 
+    '         Function: Parse
+    ' 
+    '     Class DbReference
+    ' 
+    '         Properties: db_xrefs, Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '         Sub: Flush
+    ' 
+    '     Class Site
+    ' 
+    '         Properties: Keyword
+    ' 
+    '     Class Master
+    ' 
+    '         Properties: Keyword, line
+    ' 
+    '         Function: Parse
+    ' 
+    '     Class CRYST1
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

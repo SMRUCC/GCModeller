@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::120d08a82975d85fbc32d7e6a72ea301, analysis\ProteinTools\ProteinMatrix\KMerGraph.vb"
+﻿#Region "Microsoft.VisualBasic::0baca50f48c25a13a60c6517a283f1fe, analysis\ProteinTools\ProteinMatrix\Kmer\KMerGraph.vb"
 
     ' Author:
     ' 
@@ -34,29 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 106
-    '    Code Lines: 74 (69.81%)
-    ' Comment Lines: 9 (8.49%)
+    '   Total Lines: 91
+    '    Code Lines: 65 (71.43%)
+    ' Comment Lines: 9 (9.89%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 23 (21.70%)
-    '     File Size: 3.74 KB
+    '   Blank Lines: 17 (18.68%)
+    '     File Size: 3.48 KB
 
 
-    ' Class KMerGraph
+    '     Class KMerGraph
     ' 
-    '     Properties: Graph, KMers
+    '         Properties: Graph, KMers
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: FromSequence, GetFingerprint, (+2 Overloads) HashKMer
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: FromSequence, GetFingerprint, (+2 Overloads) HashKMer
     ' 
-    ' Class KmerNode
-    ' 
-    '     Properties: Code, Index, Type
-    ' 
-    ' Class KmerEdge
-    ' 
-    '     Properties: NSzie, U, V
     ' 
     ' /********************************************************************************/
 
