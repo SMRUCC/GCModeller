@@ -1,70 +1,63 @@
-﻿#Region "Microsoft.VisualBasic::2b9cb0e2a9e6229fab6a99ea8a9d36d6, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
+﻿#Region "Microsoft.VisualBasic::50723ec84f7be86d04b1eb82c4fd9fda, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 192
-'    Code Lines: 148 (77.08%)
-' Comment Lines: 18 (9.38%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 26 (13.54%)
-'     File Size: 11.11 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class gbEntryBrief
-' 
-'         Properties: AccessionID, AverageCDSLength, CDSsWithFunctionalAssignment, Comments, ConservedHypotheticalCDSs
-'                     Definition, GC_Content, GCSkew, GI, HypotheticalCDSs
-'                     II_VirusesEffector, III_VirusesEffector, IV_VirusesEffector, Length, Locus
-'                     Mob, Number_conjugal, Number_of_CDSs, Number_of_IS, Number_of_mobile_element
-'                     Number_of_Transposases, NumberOfGenes, Organism, PSEUDOProteins, Published
-'                     Reference1, Reference2, Reference3, Reference4, Reference5
-'                     Reference6, RepliconCoding, Species, Strain, Submit
-'                     Taxon, Tra, tRNA, VI_VirusesEffector, VirusesProteinCounts
-' 
-'         Function: ConvertObject, GetSubmitDate, ToString
-' 
-'     Class Plasmid
-' 
-'         Properties: Country, Host, isolation_source, IsShortGun, PlasmidID
-'                     PlasmidType
-' 
-'         Function: Build
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 126 (75.00%)
+    ' Comment Lines: 18 (10.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 24 (14.29%)
+    '     File Size: 10.03 KB
+
+
+    '     Class gbEntryBrief
+    ' 
+    '         Properties: AccessionID, AverageCDSLength, CDSsWithFunctionalAssignment, Comments, ConservedHypotheticalCDSs
+    '                     Definition, GC_Content, GCSkew, GI, HypotheticalCDSs
+    '                     II_VirusesEffector, III_VirusesEffector, IV_VirusesEffector, Length, Locus
+    '                     Mob, Number_conjugal, Number_of_CDSs, Number_of_IS, Number_of_mobile_element
+    '                     Number_of_Transposases, NumberOfGenes, Organism, PSEUDOProteins, Published
+    '                     Reference1, Reference2, Reference3, Reference4, Reference5
+    '                     Reference6, RepliconCoding, Species, Strain, Submit
+    '                     Taxon, Tra, tRNA, VI_VirusesEffector, VirusesProteinCounts
+    ' 
+    '         Function: ConvertObject, GetSubmitDate, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

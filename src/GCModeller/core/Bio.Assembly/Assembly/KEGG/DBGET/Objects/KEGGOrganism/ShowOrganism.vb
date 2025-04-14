@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f1014fb1c73cb27ba89db0b5bd2693d, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\ShowOrganism.vb"
+﻿#Region "Microsoft.VisualBasic::8f170ad1948d698b8cc73974fe8d61d9, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\ShowOrganism.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 156
-    '    Code Lines: 130 (83.33%)
-    ' Comment Lines: 4 (2.56%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 159
+    '    Code Lines: 130 (81.76%)
+    ' Comment Lines: 7 (4.40%)
+    '    - Xml Docs: 42.86%
     ' 
-    '   Blank Lines: 22 (14.10%)
-    '     File Size: 6.22 KB
+    '   Blank Lines: 22 (13.84%)
+    '     File Size: 6.33 KB
 
 
     '     Class ShowOrganism

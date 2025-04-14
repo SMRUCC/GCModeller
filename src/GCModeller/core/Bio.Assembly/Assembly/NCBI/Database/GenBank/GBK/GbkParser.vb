@@ -1,56 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::ab3b16f54277940e3e9393c2c2eacbf1, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
+﻿#Region "Microsoft.VisualBasic::c4fe19ec4214b9d37e431143f6cfdef7, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 167
-'    Code Lines: 124 (74.25%)
-' Comment Lines: 14 (8.38%)
-'    - Xml Docs: 85.71%
-' 
-'   Blank Lines: 29 (17.37%)
-'     File Size: 6.66 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module GbkParser
-' 
-'         Function: __originReadThread, bufferTrims, doLoadData, Internal_readBlock, Read
-' 
-'         Sub: __readOrigin
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 162
+    '    Code Lines: 119 (73.46%)
+    ' Comment Lines: 14 (8.64%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 29 (17.90%)
+    '     File Size: 6.45 KB
+
+
+    '     Module GbkParser
+    ' 
+    '         Function: __originReadThread, bufferTrims, doLoadData, Internal_readBlock, Read
+    ' 
+    '         Sub: __readOrigin
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

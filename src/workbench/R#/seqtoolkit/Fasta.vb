@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0671ff2ed8c4a56332c9af3600cb9cc5, R#\seqtoolkit\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::0eff173dcd36237b2419cb3adfacd310, R#\seqtoolkit\Fasta.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 94.49%
     ' 
     '   Blank Lines: 71 (10.66%)
-    '     File Size: 27.38 KB
+    '     File Size: 27.43 KB
 
 
     ' Module Fasta

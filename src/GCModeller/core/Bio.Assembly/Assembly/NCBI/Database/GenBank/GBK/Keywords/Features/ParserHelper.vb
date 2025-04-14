@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9be7577ce77c348ebcad7c7048d0f5fd, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\ParserHelper.vb"
+﻿#Region "Microsoft.VisualBasic::7cd6f8f16bbb4f6ca11f8d1ff2d229a8, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\ParserHelper.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 124
-    '    Code Lines: 92 (74.19%)
-    ' Comment Lines: 14 (11.29%)
+    '   Total Lines: 121
+    '    Code Lines: 89 (73.55%)
+    ' Comment Lines: 14 (11.57%)
     '    - Xml Docs: 92.86%
     ' 
-    '   Blank Lines: 18 (14.52%)
-    '     File Size: 4.38 KB
+    '   Blank Lines: 18 (14.88%)
+    '     File Size: 4.26 KB
 
 
     '     Module ParserHelper

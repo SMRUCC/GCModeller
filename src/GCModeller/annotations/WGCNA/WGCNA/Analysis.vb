@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2853de71aa8524b8b027ba04577fa47, annotations\WGCNA\WGCNA\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::14576eed1c8e0c1e9e95a7107e7e2be1, annotations\WGCNA\WGCNA\Analysis.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 140
-    '    Code Lines: 112 (80.00%)
-    ' Comment Lines: 8 (5.71%)
+    '   Total Lines: 146
+    '    Code Lines: 116 (79.45%)
+    ' Comment Lines: 8 (5.48%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 20 (14.29%)
-    '     File Size: 5.78 KB
+    '   Blank Lines: 22 (15.07%)
+    '     File Size: 6.07 KB
 
 
     ' Module Analysis

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8bfb39725e8327977aa618d63ab65ad, data\RCSB PDB\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::53b85cbd470a222bec62b89cdc817594, data\RCSB PDB\test\Module1.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 4 (36.36%)
-    '     File Size: 176 B
+    '     File Size: 219 B
 
 
     ' Module Module1
@@ -62,4 +62,3 @@ Module Module1
     End Sub
 
 End Module
-

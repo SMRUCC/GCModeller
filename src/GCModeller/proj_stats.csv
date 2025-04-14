@@ -106,10 +106,12 @@ G:\GCModeller\src\GCModeller\analysis\Motifs\PrimerDesigner\PrimerDesigner.vbpro
 G:\GCModeller\src\GCModeller\analysis\Motifs\PrimerDesigner\PrimerDesigner.vbproj,<project>,879,260,114,505,14,55,5,17,0,42229,42.23 KB
 G:\GCModeller\src\GCModeller\analysis\Motifs\PrimerDesigner\test\test.vbproj,test\Program.vb,40,1,9,30,1,0,3,0,0,1314,1.31 KB
 G:\GCModeller\src\GCModeller\analysis\Motifs\PrimerDesigner\test\test.vbproj,<project>,40,1,9,30,1,0,3,0,0,1314,1.31 KB
-G:\GCModeller\src\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj,ProteinMatrix\CreateMatrix.vb,46,4,9,33,1,1,1,2,0,1434,1.43 KB
-G:\GCModeller\src\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj,ProteinMatrix\KMerGraph.vb,106,9,23,74,3,8,1,4,0,3737,3.74 KB
-G:\GCModeller\src\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj,ProteinMatrix\MorganFingerprint.vb,25,0,6,19,1,0,1,2,0,846,846 B
-G:\GCModeller\src\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj,<project>,177,13,38,126,5,9,3,8,0,6017,6.02 KB
+G:\GCModeller\src\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj,ProteinMatrix\CreateMatrix.vb,49,7,9,33,1,1,1,2,0,1498,1.50 KB
+G:\GCModeller\src\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj,ProteinMatrix\MorganFingerprint.vb,26,0,6,20,1,0,1,2,0,908,908 B
+G:\GCModeller\src\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj,ProteinMatrix\Kmer\KmerEdge.vb,16,0,5,11,1,3,0,1,0,454,454 B
+G:\GCModeller\src\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj,ProteinMatrix\Kmer\KMerGraph.vb,91,9,17,65,1,2,1,4,0,3478,3.48 KB
+G:\GCModeller\src\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj,ProteinMatrix\Kmer\KmerNode.vb,17,0,6,11,1,3,0,1,0,516,516 B
+G:\GCModeller\src\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj,<project>,199,16,43,140,5,9,3,10,0,6854,6.85 KB
 G:\GCModeller\src\GCModeller\analysis\RNA-Seq\WGCNA\WGCNA.vbproj,WGCNA\Rscript.vb,99,0,6,93,1,0,0,1,0,8890,8.89 KB
 G:\GCModeller\src\GCModeller\analysis\RNA-Seq\WGCNA\WGCNA.vbproj,WGCNA\WGCNAModules.vb,33,0,4,29,1,0,0,2,0,1491,1.49 KB
 G:\GCModeller\src\GCModeller\analysis\RNA-Seq\WGCNA\WGCNA.vbproj,WGCNA\Network\CExprMods.vb,33,6,7,20,1,3,0,2,0,971,971 B
@@ -434,13 +436,13 @@ G:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Prote
 G:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\LabelFree\LabelFreeTtest.vb,114,18,9,87,1,0,0,3,0,4680,4.68 KB
 G:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,Proteomics\LabelFree\SignificanceAB.vb,125,60,15,50,1,0,0,3,0,4934,4.93 KB
 G:\GCModeller\src\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj,<project>,2372,420,290,1662,21,51,1,61,0,95519,95.52 KB
-G:\GCModeller\src\GCModeller\annotations\WGCNA\WGCNA\WGCNA.vbproj,WGCNA\Analysis.vb,140,8,20,112,1,0,0,3,0,5775,5.78 KB
+G:\GCModeller\src\GCModeller\annotations\WGCNA\WGCNA\WGCNA.vbproj,WGCNA\Analysis.vb,146,8,22,116,1,0,0,3,0,6065,6.07 KB
 G:\GCModeller\src\GCModeller\annotations\WGCNA\WGCNA\WGCNA.vbproj,WGCNA\BetaTest.vb,90,20,10,60,1,8,0,5,0,3943,3.94 KB
 G:\GCModeller\src\GCModeller\annotations\WGCNA\WGCNA\WGCNA.vbproj,WGCNA\Result.vb,20,4,3,13,1,7,0,0,0,709,709 B
 G:\GCModeller\src\GCModeller\annotations\WGCNA\WGCNA\WGCNA.vbproj,WGCNA\SoftLinear.vb,23,3,3,17,1,0,0,1,0,932,932 B
 G:\GCModeller\src\GCModeller\annotations\WGCNA\WGCNA\WGCNA.vbproj,WGCNA\TOM.vb,93,18,11,64,1,0,0,4,0,3297,3.30 KB
 G:\GCModeller\src\GCModeller\annotations\WGCNA\WGCNA\WGCNA.vbproj,WGCNA\WeightedNetwork.vb,95,44,11,40,1,0,0,4,0,3465,3.46 KB
-G:\GCModeller\src\GCModeller\annotations\WGCNA\WGCNA\WGCNA.vbproj,<project>,461,97,58,306,6,15,0,17,0,18121,18.12 KB
+G:\GCModeller\src\GCModeller\annotations\WGCNA\WGCNA\WGCNA.vbproj,<project>,467,97,60,310,6,15,0,17,0,18411,18.41 KB
 G:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\AnnotationTable.vb,53,0,5,48,1,11,0,2,0,1890,1.89 KB
 G:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\IDMapping.vb,73,11,11,51,1,0,0,4,0,2708,2.71 KB
 G:\GCModeller\src\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj,Bio.Annotation\GFF\Extensions.vb,146,7,17,122,1,0,0,7,0,6558,6.56 KB
@@ -557,7 +559,7 @@ G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assem
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\EntryAPI.vb,226,35,30,161,1,1,1,10,0,8977,8.98 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\KEGGOrganism.vb,62,8,9,45,1,2,0,1,0,2040,2.04 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\Organism.vb,50,11,7,32,1,13,0,2,0,1808,1.81 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\ShowOrganism.vb,156,4,22,130,1,0,1,5,0,6225,6.22 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\ShowOrganism.vb,159,7,22,130,1,0,1,5,0,6328,6.33 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb,119,29,18,72,1,14,2,5,0,4155,4.16 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb,76,4,11,61,1,4,2,2,0,2553,2.55 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb,181,90,15,76,1,5,0,4,0,9504,9.50 KB
@@ -703,32 +705,33 @@ G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assem
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGs.vb,113,67,9,37,1,0,0,2,0,4706,4.71 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGTable.vb,134,63,12,59,1,9,2,3,0,5292,5.29 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\COG\COGs\ProtFasta.vb,55,11,9,35,1,2,0,4,0,2119,2.12 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb,273,32,26,215,1,0,0,12,0,11796,11.80 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb,192,18,26,148,2,46,0,4,0,11106,11.11 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb,278,37,26,215,1,0,0,12,0,11998,12.00 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb,168,18,24,126,1,40,0,3,0,10030,10.03 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb,680,99,82,499,1,0,0,21,0,33316,33.32 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb,153,10,16,127,1,0,0,7,0,7024,7.02 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb,177,15,20,142,1,0,0,8,0,7813,7.81 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GenbankExportInfo.vb,96,9,17,70,5,8,1,1,0,3340,3.34 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\Plasmid.vb,30,3,5,22,1,6,0,1,0,1141,1.14 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Abstract.vb,15,8,2,5,1,0,0,0,0,443,443 B
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb,351,143,35,173,1,16,0,9,0,15853,15.85 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb,167,14,29,124,1,0,1,5,0,6661,6.66 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb,361,153,35,173,1,16,0,9,0,16245,16.25 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb,162,14,29,119,1,0,1,5,0,6449,6.45 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb,211,33,40,138,1,0,0,15,0,8466,8.47 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Gene.vb,68,0,11,57,2,3,0,3,0,2604,2.60 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb,149,8,28,113,4,13,4,6,0,4955,4.96 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb,148,8,28,112,4,13,4,6,0,4934,4.93 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\COMMENT.vb,38,4,10,24,1,1,0,1,0,1242,1.24 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\DBLINK.vb,52,11,10,31,1,1,0,2,0,1764,1.76 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\KeyWord.vb,110,0,21,89,2,3,5,6,0,4013,4.01 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ORIGIN.vb,141,41,21,79,1,5,0,5,0,5307,5.31 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\REFERENCE.vb,109,8,19,82,2,8,0,4,0,4637,4.64 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\KeyWord.vb,108,0,20,88,2,3,5,6,0,3980,3.98 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ORIGIN.vb,141,42,21,78,1,5,0,5,0,5266,5.27 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\REFERENCE.vb,108,8,19,81,2,8,0,4,0,4606,4.61 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\CDS.vb,89,16,13,60,2,9,1,2,0,3436,3.44 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb,339,46,56,237,1,8,5,15,0,13865,13.87 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\FEATURES.vb,145,34,19,92,1,1,5,5,0,5588,5.59 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb,147,20,25,102,2,10,0,2,0,5472,5.47 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\ParserHelper.vb,124,14,18,92,1,0,1,4,0,4380,4.38 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb,170,36,27,107,2,10,0,3,0,6332,6.33 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\ParserHelper.vb,121,14,18,89,1,0,1,4,0,4264,4.26 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Qualifier.vb,172,131,1,40,1,0,0,0,0,6077,6.08 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\SearchInvoker.vb,51,11,9,31,3,1,1,3,0,1754,1.75 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\ORGANISM.vb,43,0,9,34,1,2,0,3,0,1475,1.48 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb,38,7,8,23,1,2,0,2,0,1162,1.16 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Extensions.vb,16,0,3,13,1,0,0,1,0,538,538 B
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb,45,7,9,29,1,3,0,2,0,1396,1.40 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Extensions.vb,15,0,3,12,1,0,0,1,0,502,502 B
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Fasta.vb,90,12,15,63,4,11,4,2,0,3213,3.21 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\GeneBrief.vb,188,56,20,112,1,12,1,8,0,7394,7.39 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\DbAPI.vb,99,14,12,73,2,2,0,5,0,3729,3.73 KB
@@ -738,7 +741,7 @@ G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assem
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTTFileWriter.vb,63,0,9,54,1,0,4,1,0,2674,2.67 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\RNT.vb,10,0,2,8,2,0,0,0,0,209,209 B
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb,114,12,15,87,1,15,0,7,0,4945,4.95 KB
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\ProteinTable\ProteinDescription.vb,68,24,6,38,1,12,0,3,0,2295,2.29 KB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\ProteinTable\ProteinDescription.vb,71,27,6,38,1,12,0,3,0,2391,2.39 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\ProteinTable\ProteinTable.vb,62,0,9,53,1,1,0,3,0,2497,2.50 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\SeqDump\nt.vb,102,8,14,80,1,4,1,3,0,4031,4.03 KB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Assembly\NCBI\SeqDump\NTheader.vb,84,3,16,65,1,0,0,5,0,2831,2.83 KB
@@ -895,7 +898,7 @@ G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assem
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Test\Module2.vb,12,0,3,9,1,0,1,0,0,338,338 B
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Test\sequenceToolsTest.vb,16,0,2,14,1,0,1,0,0,744,744 B
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,Bio.Assembly\Test\TaxonomyTreeTest.vb,12,0,3,9,1,0,1,0,0,391,391 B
-G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,<project>,49985,12661,6643,30681,602,1840,361,1741,19,2045878,2.05 MB
+G:\GCModeller\src\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj,<project>,50053,12707,6652,30694,602,1841,361,1743,19,2048129,2.05 MB
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\Test\Test.vbproj,Test\chebiTest.vb,27,0,9,18,1,0,1,0,0,897,897 B
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\Test\Test.vbproj,Test\gbTest.vb,20,0,4,16,1,0,2,0,0,760,760 B
 G:\GCModeller\src\GCModeller\core\Bio.Assembly\Test\Test.vbproj,Test\htextTest.vb,63,47,16,0,0,0,0,0,0,1887,1.89 KB
@@ -950,11 +953,11 @@ G:\GCModeller\src\GCModeller\data\GO_gene-ontology\GO_Annotation\GO_Annotation.v
 G:\GCModeller\src\GCModeller\data\GO_gene-ontology\GO_Annotation\GO_Annotation.vbproj,GO_Annotation\xref2go\NCBI\gene2go.vb,57,9,7,41,1,8,0,3,0,2012,2.01 KB
 G:\GCModeller\src\GCModeller\data\GO_gene-ontology\GO_Annotation\GO_Annotation.vbproj,<project>,571,48,125,398,36,18,27,14,0,17037,17.04 KB
 G:\GCModeller\src\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj,obographs\DAGModel.vb,166,37,20,109,1,0,1,3,0,6318,6.32 KB
-G:\GCModeller\src\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj,obographs\DAGTree.vb,67,4,12,51,1,2,1,0,0,2341,2.34 KB
+G:\GCModeller\src\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj,obographs\DAGTree.vb,67,4,12,51,1,2,1,0,0,2339,2.34 KB
 G:\GCModeller\src\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj,obographs\EnrichmentVisualize.vb,29,0,4,25,1,0,0,1,0,1094,1.09 KB
 G:\GCModeller\src\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj,obographs\Extensions.vb,18,6,2,10,1,0,0,1,0,701,701 B
 G:\GCModeller\src\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj,obographs\NamespaceDoc.vb,6,3,1,2,1,0,0,0,0,92,92 B
-G:\GCModeller\src\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj,<project>,286,50,39,197,5,2,2,5,0,10546,10.55 KB
+G:\GCModeller\src\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj,<project>,286,50,39,197,5,2,2,5,0,10544,10.54 KB
 G:\GCModeller\src\GCModeller\data\MicrobesOnline\MicrobesOnline.NET5.vbproj,MicrobesOnline\My Project\Application.Designer.vb,12,9,1,2,0,0,0,0,0,434,434 B
 G:\GCModeller\src\GCModeller\data\MicrobesOnline\MicrobesOnline.NET5.vbproj,MicrobesOnline\My Project\AssemblyInfo.vb,36,15,6,15,0,0,0,0,0,1205,1.21 KB
 G:\GCModeller\src\GCModeller\data\MicrobesOnline\MicrobesOnline.NET5.vbproj,MicrobesOnline\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2800,2.80 KB
@@ -1146,24 +1149,34 @@ G:\GCModeller\src\GCModeller\data\MicrobesOnline\MicrobesOnline.NET5.vbproj,Micr
 G:\GCModeller\src\GCModeller\data\MicrobesOnline\MicrobesOnline.NET5.vbproj,MicrobesOnline\WebParser\fetchLocus.vb,41,11,4,26,1,0,0,2,0,1918,1.92 KB
 G:\GCModeller\src\GCModeller\data\MicrobesOnline\MicrobesOnline.NET5.vbproj,<project>,12538,4335,1319,6884,187,904,1,734,0,606614,606.61 KB
 G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\CifDictionary.vb,33,0,8,25,3,2,0,2,0,1294,1.29 KB
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\AminoAcid.vb,39,10,3,26,1,4,0,1,0,1332,1.33 KB
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\PDB.vb,115,13,17,85,1,14,1,2,0,4383,4.38 KB
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\PdbExport.vb,98,14,20,64,2,2,0,3,0,5027,5.03 KB
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\PdbExportObjs.vb,26,0,5,21,2,5,0,3,0,938,938 B
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PdbExportObjs.vb,26,0,5,21,2,5,0,3,0,938,938 B
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\AminoAcid.vb,44,10,4,30,1,4,0,1,0,1444,1.44 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Parser.vb,118,8,25,85,1,0,0,2,0,4749,4.75 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\PDB.vb,149,29,22,98,1,28,1,4,0,5037,5.04 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\PdbExport.vb,107,19,19,69,2,2,0,3,0,5176,5.18 KB
 G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\PdbML.vb,205,16,44,145,23,80,0,3,0,8637,8.64 KB
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Atom.vb,28,0,6,22,1,2,1,2,0,983,983 B
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\AtomUnit.vb,68,21,8,39,2,5,0,3,0,2347,2.35 KB
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Header.vb,291,1,70,220,17,25,2,7,0,8582,8.58 KB
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Keywords.vb,39,0,6,33,1,0,1,1,0,1634,1.63 KB
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\test\Module1.vb,11,0,4,7,1,0,1,0,0,176,176 B
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\test\My Project\Application.Designer.vb,13,9,2,2,0,0,0,0,0,438,438 B
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\test\My Project\AssemblyInfo.vb,32,12,7,13,0,0,0,0,0,853,853 B
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\test\My Project\Resources.Designer.vb,62,23,8,31,1,2,0,0,0,2768,2.77 KB
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\test\My Project\Settings.Designer.vb,73,9,13,51,2,2,1,0,0,2968,2.97 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Atom.vb,53,7,9,37,1,4,1,3,0,1815,1.81 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\AtomUnit.vb,83,25,9,49,2,8,0,3,0,2827,2.83 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Keywords.vb,42,3,6,33,1,0,1,1,0,1747,1.75 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Headers\3D.vb,45,3,10,32,3,6,0,1,0,1174,1.17 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Headers\Header.vb,176,0,49,127,9,18,1,9,0,4816,4.82 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Headers\Het.vb,25,3,5,17,1,2,0,1,0,645,645 B
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Headers\Journal.vb,60,0,10,50,1,7,1,1,0,2218,2.22 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Headers\MoleculeMetadata.vb,125,1,28,96,4,5,2,2,0,4009,4.01 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Headers\NUMMDL.vb,26,0,6,20,1,2,0,2,0,696,696 B
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Headers\Remark.vb,94,2,17,75,2,2,1,2,0,4188,4.19 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Headers\Revision.vb,48,0,12,36,2,4,0,3,0,1356,1.36 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Headers\SEQADV.vb,25,3,5,17,1,2,0,1,0,630,630 B
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\PDB\Keywords\Headers\Structure.vb,61,0,14,47,3,3,0,3,0,1647,1.65 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\test\Module1.vb,11,0,4,7,1,0,1,0,0,219,219 B
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\test\My Project\Application.Designer.vb,12,9,1,2,0,0,0,0,0,434,434 B
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\test\My Project\AssemblyInfo.vb,32,12,7,13,0,0,0,0,0,851,851 B
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\test\My Project\Resources.Designer.vb,62,23,8,31,1,2,0,0,0,2766,2.77 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\test\My Project\Settings.Designer.vb,73,9,13,51,2,2,1,0,0,2966,2.97 KB
 G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\WebServices\PDBEntry.vb,26,0,6,20,1,0,0,2,0,1117,1.12 KB
 G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\WebServices\ProtInDb\ProteinChain.vb,64,6,7,51,1,5,0,3,0,3552,3.55 KB
 G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,RCSB PDB\WebServices\ProtInDb\ProtInDb.vb,78,0,12,66,1,1,1,3,0,4620,4.62 KB
-G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,<project>,1301,134,246,921,60,149,8,35,0,51649,51.65 KB
+G:\GCModeller\src\GCModeller\data\RCSB PDB\RCSB PDB.vbproj,<project>,1903,188,365,1350,71,194,11,58,0,71568,71.57 KB
 G:\GCModeller\src\GCModeller\data\Reactome\Reactome.vbproj,Reactome\Hierarchy\Hierarchy.vb,188,5,30,153,2,5,1,7,0,6441,6.44 KB
 G:\GCModeller\src\GCModeller\data\Reactome\Reactome.vbproj,Reactome\Hierarchy\PathwayName.vb,26,0,6,20,1,3,0,2,0,723,723 B
 G:\GCModeller\src\GCModeller\data\Reactome\Reactome.vbproj,Reactome\LocalMySQL\Exports.vb,180,165,15,0,0,0,0,0,0,11920,11.92 KB
@@ -2220,4 +2233,4 @@ G:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-ne
 G:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2790,2.79 KB
 G:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,DataVisualizationExtensions\My Project\Settings.Designer.vb,74,9,12,53,2,2,1,0,0,3026,3.03 KB
 G:\GCModeller\src\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj,<project>,6533,725,896,4912,56,71,56,82,0,273248,273.25 KB
-../src/GCModeller/,<root>,450698,118400,61194,271104,5666,15872,2232,16372,98,19056348,19.06 MB
+../src/GCModeller/,<root>,452094,118606,61464,272024,5688,15964,2238,16426,98,19102938,19.10 MB

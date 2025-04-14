@@ -110,6 +110,10 @@ Namespace Drawing3D
             Me.Z = z
         End Sub
 
+        ''' <summary>
+        ''' Copy 3d point data from the 3d point interface model
+        ''' </summary>
+        ''' <param name="p">the 3d point interface value</param>
         Sub New(p As PointF3D)
             Call Me.New(p.X, p.Y, p.Z)
         End Sub
@@ -130,7 +134,7 @@ Namespace Drawing3D
         End Sub
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"[x:{X.ToString("F2")},y:{Y.ToString("F3")},z:{Z.ToString("F3")}]"
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

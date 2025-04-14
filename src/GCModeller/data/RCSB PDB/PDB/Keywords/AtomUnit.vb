@@ -1,60 +1,62 @@
-﻿#Region "Microsoft.VisualBasic::b28a425f7f194e6795f4e63f828c5423, data\RCSB PDB\PDB\Keywords\AtomUnit.vb"
+﻿#Region "Microsoft.VisualBasic::59a390f31916300edc4c6b55ea343f65, data\RCSB PDB\PDB\Keywords\AtomUnit.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 68
-'    Code Lines: 39 (57.35%)
-' Comment Lines: 21 (30.88%)
-'    - Xml Docs: 95.24%
-' 
-'   Blank Lines: 8 (11.76%)
-'     File Size: 2.35 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Structure Point3D
-' 
-'         Function: ToString
-' 
-'     Class AtomUnit
-' 
-'         Properties: AA_ID, AA_IDX, Atom, Index, Location
-' 
-'         Function: InternalParser, ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 49 (59.04%)
+    ' Comment Lines: 25 (30.12%)
+    '    - Xml Docs: 92.00%
+    ' 
+    '   Blank Lines: 9 (10.84%)
+    '     File Size: 2.83 KB
+
+
+    '     Structure Point3D
+    ' 
+    '         Properties: X, Y, Z
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class AtomUnit
+    ' 
+    '         Properties: AA_ID, AA_IDX, Atom, Index, Location
+    ' 
+    '         Function: InternalParser, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -74,6 +76,9 @@ Namespace Keywords
         End Function
     End Structure
 
+    ''' <summary>
+    ''' the amino acid residue/atom model
+    ''' </summary>
     Public Class AtomUnit
 
         ''' <summary>
@@ -108,30 +113,32 @@ Namespace Keywords
         ''' <returns></returns>
         ''' <remarks></remarks>
         Friend Shared Function InternalParser(s As String, InternalIndex As Integer) As AtomUnit
-            Dim Tokens As String() =
+            Dim xyz As Point3D
+            Dim t As String() =
                 LinqAPI.Exec(Of String) <= From strToken As String
                                            In s.Split
                                            Where Not String.IsNullOrEmpty(strToken)
                                            Select strToken
-
-            Dim xyz As Point3D
-
-            If Tokens.Length = 3 Then
-                Tokens = {""}.Join(Tokens).ToArray
+            If t.Length = 2 Then
+                ' TER
+                Return Nothing
+            End If
+            If t.Length = 3 Then
+                t = {""}.Join(t).ToArray
             Else
                 xyz = New Point3D With {
-                    .X = Val(Tokens(3)),
-                    .Y = Val(Tokens(4)),
-                    .Z = Val(Tokens(5))
+                    .X = Val(t(3)),
+                    .Y = Val(t(4)),
+                    .Z = Val(t(5))
                 }
             End If
 
             Return New AtomUnit With {
                 .Index = InternalIndex,
                 .Location = xyz,
-                .Atom = Tokens(0),
-                .AA_ID = Tokens(1),
-                .AA_IDX = Val(Tokens(2))
+                .Atom = t(0),
+                .AA_ID = t(1),
+                .AA_IDX = Val(t(2))
             }
         End Function
     End Class

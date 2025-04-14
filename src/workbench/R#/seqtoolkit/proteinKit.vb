@@ -1,61 +1,63 @@
-﻿#Region "Microsoft.VisualBasic::0eb0ebf1077c7a7170520b48903abe11, R#\seqtoolkit\proteinKit.vb"
+﻿#Region "Microsoft.VisualBasic::40dd2110f198c6a87dfd6eee955466d0, R#\seqtoolkit\proteinKit.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 152
-'    Code Lines: 85 (55.92%)
-' Comment Lines: 43 (28.29%)
-'    - Xml Docs: 90.70%
-' 
-'   Blank Lines: 24 (15.79%)
-'     File Size: 6.83 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module proteinKit
-' 
-'     Function: (+2 Overloads) ChouFasman, kmer_fingerprint, kmer_graph, readPdb
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 249
+    '    Code Lines: 92 (36.95%)
+    ' Comment Lines: 132 (53.01%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 25 (10.04%)
+    '     File Size: 11.77 KB
+
+
+    ' Module proteinKit
+    ' 
+    '     Function: (+2 Overloads) ChouFasman, kmer_fingerprint, kmer_graph, pdbModels, readPdb
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.RCSB.PDB
+Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer
 Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
@@ -222,6 +224,17 @@ Module proteinKit
     End Function
 
     ''' <summary>
+    ''' get structure models inside the given pdb object
+    ''' </summary>
+    ''' <param name="pdb"></param>
+    ''' <returns></returns>
+    <ExportAPI("pdb_models")>
+    <RApiReturn(GetType(Atom))>
+    Public Function pdbModels(pdb As PDB) As Object
+        Return pdb.AsEnumerable.ToArray
+    End Function
+
+    ''' <summary>
     ''' Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length 
     ''' subsequences, edges connect k-mers appearing consecutively in the sequence.
     ''' </summary>
@@ -287,4 +300,3 @@ Module proteinKit
     End Function
 
 End Module
-

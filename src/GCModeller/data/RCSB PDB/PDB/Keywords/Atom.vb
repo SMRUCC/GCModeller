@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb59b3885dc2337dbe4f83a7c4ba5f28, data\RCSB PDB\PDB\Keywords\Atom.vb"
+﻿#Region "Microsoft.VisualBasic::608439e402ed438fa4c7670e1f818497, data\RCSB PDB\PDB\Keywords\Atom.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 28
-    '    Code Lines: 22 (78.57%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 53
+    '    Code Lines: 37 (69.81%)
+    ' Comment Lines: 7 (13.21%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (21.43%)
-    '     File Size: 983 B
+    '   Blank Lines: 9 (16.98%)
+    '     File Size: 1.81 KB
 
 
     '     Class Atom
     ' 
-    '         Properties: Atoms, Keyword
+    '         Properties: AminoAcidSequenceData, Atoms, Keyword, ModelId
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetEnumerator, GetEnumerator1
+    '         Function: Append, GetEnumerator, GetEnumerator1
+    ' 
+    '         Sub: Flush
     ' 
     ' 
     ' /********************************************************************************/
@@ -57,14 +58,28 @@
 
 Namespace Keywords
 
+    ''' <summary>
+    ''' structure data model
+    ''' </summary>
     Public Class Atom : Inherits Keyword
         Implements IEnumerable(Of AtomUnit)
 
         Public Property Atoms As AtomUnit()
+        ''' <summary>
+        ''' the model id
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property ModelId As String
 
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return Keywords.KEYWORD_ATOM
+            End Get
+        End Property
+
+        Public ReadOnly Property AminoAcidSequenceData As AminoAcid()
+            Get
+                Return AminoAcid.SequenceGenerator(Me)
             End Get
         End Property
 
@@ -80,7 +95,7 @@ Namespace Keywords
         End Function
 
         Friend Overrides Sub Flush()
-            Atoms = (From item In cache.AsParallel Select AtomUnit.InternalParser(item.value, InternalIndex:=item.key)).ToArray
+            Atoms = (From item In cache.AsParallel Let aa = AtomUnit.InternalParser(item.value, InternalIndex:=item.key) Where Not aa Is Nothing Select aa).ToArray
         End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of AtomUnit) Implements IEnumerable(Of AtomUnit).GetEnumerator

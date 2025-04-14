@@ -1,66 +1,71 @@
-﻿#Region "Microsoft.VisualBasic::46de3c9ccf949a9f0fad949aebfc3a9e, data\RCSB PDB\PDB\PDB.vb"
+﻿#Region "Microsoft.VisualBasic::3434d7d1fbcc2afc3535111f0657027b, data\RCSB PDB\PDB\PDB.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 115
-'    Code Lines: 85 (73.91%)
-' Comment Lines: 13 (11.30%)
-'    - Xml Docs: 92.31%
-' 
-'   Blank Lines: 17 (14.78%)
-'     File Size: 4.38 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class PDB
-' 
-'     Properties: AminoAcidSequenceData, AtomStructures, Author, Compound, Experiment
-'                 Header, Journal, Keywords, MaxSpace, MinSpace
-'                 Remark, Sequence, Source, Title
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: (+2 Overloads) Load
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 98 (65.77%)
+    ' Comment Lines: 29 (19.46%)
+    '    - Xml Docs: 93.10%
+    ' 
+    '   Blank Lines: 22 (14.77%)
+    '     File Size: 5.04 KB
+
+
+    ' Class PDB
+    ' 
+    '     Properties: AtomStructures, Author, Compound, crystal1, DbRef
+    '                 Experiment, Header, Helix, Het, Journal
+    '                 Keywords, Master, MaxSpace, MinSpace, NUMMDL
+    '                 Origin1, Origin2, Origin3, Remark, Revisions
+    '                 Scale1, Scale2, Scale3, seqadv, Sequence
+    '                 Sheet, Source, Title
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: GenericEnumerator, (+2 Overloads) Load, Parse
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
-Public Class PDB
+Public Class PDB : Implements Enumeration(Of Atom)
 
     Public Const REGEX_HEAD As String = "[A-Z]+\s+(\d+)?\s"
 
@@ -84,48 +89,75 @@ Public Class PDB
     Public Property Scale2 As SCALE123
     Public Property Scale3 As SCALE123
 
+    ''' <summary>
+    ''' number of models inside current pdb file
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property NUMMDL As NUMMDL
+
+    Public Property Het As Het
+
+    Public Property Helix As Helix
+    Public Property Sheet As Sheet
+
+    Public Property seqadv As SEQADV
+
     Public Property Master As Master
 
-    Public Property AtomStructures As Atom
+    ''' <summary>
+    ''' Populate out the multiple structure models inside current pdb data file
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property AtomStructures As IEnumerable(Of Atom)
         Get
-            Return _atomStructuresData
+            Return _atomStructuresData.Values
         End Get
-        Set(value As Atom)
-            _atomStructuresData = value
-            _AASeqLoader = New Microsoft.VisualBasic.ComponentModel.LazyLoader(Of AminoAcid(), Atom)(value, AddressOf AminoAcid.SequenceGenerator)
-        End Set
     End Property
 
-    Dim _atomStructuresData As Atom
-    Dim _AASeqLoader As Microsoft.VisualBasic.ComponentModel.LazyLoader(Of AminoAcid(), Atom)
+    Default Public ReadOnly Property Model(id As String) As Atom
+        Get
+            Return _atomStructuresData.TryGetValue(id)
+        End Get
+    End Property
+
+    Default Public ReadOnly Property Model(i As Integer) As Atom
+        Get
+            Return _atomStructuresData.Values(i)
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' There are multiple model inside a pdb file, start with ``MODEL`` and end with ``ENDMDL``.
+    ''' </summary>
+    Friend _atomStructuresData As New Dictionary(Of String, Atom)
 
     Public ReadOnly Property MaxSpace As Keywords.Point3D
         Get
-            Dim XLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.X).ToArray.Max
-            Dim YLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.Y).ToArray.Max
-            Dim ZLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.Z).ToArray.Max
-            Return New Point3D With {.X = XLQuery, .Y = YLQuery, .Z = ZLQuery}
+            Dim all = AtomStructures.Select(Function(m) m.Atoms).IteratesALL.ToArray
+            Dim xmax = (From atom As AtomUnit In all Select atom.Location.X).Max
+            Dim ymax = (From atom As AtomUnit In all Select atom.Location.Y).Max
+            Dim zmax = (From atom As AtomUnit In all Select atom.Location.Z).Max
+
+            Return New Point3D With {
+                .X = xmax,
+                .Y = ymax,
+                .Z = zmax
+            }
         End Get
     End Property
 
     Public ReadOnly Property MinSpace As Keywords.Point3D
         Get
-            Dim XLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.X).ToArray.Min
-            Dim YLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.Y).ToArray.Min
-            Dim ZLQuery = (From Atom In AtomStructures.Atoms Select Atom.Location.Z).ToArray.Min
-            Return New Point3D With {.X = XLQuery, .Y = YLQuery, .Z = ZLQuery}
-        End Get
-    End Property
+            Dim all = AtomStructures.Select(Function(m) m.Atoms).IteratesALL.ToArray
+            Dim xmin = (From atom As AtomUnit In all Select atom.Location.X).Min
+            Dim ymin = (From atom As AtomUnit In all Select atom.Location.Y).Min
+            Dim zmin = (From atom As AtomUnit In all Select atom.Location.Z).Min
 
-    ''' <summary>
-    ''' 已经经过了排序操作了的
-    ''' </summary>
-    ''' <value></value>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    Public ReadOnly Property AminoAcidSequenceData As AminoAcid()
-        Get
-            Return _AASeqLoader.Value
+            Return New Point3D With {
+                .X = xmin,
+                .Y = ymin,
+                .Z = zmin
+            }
         End Get
     End Property
 
@@ -141,70 +173,38 @@ Public Class PDB
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function Load(path As String) As PDB
-        Return Load(path.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+        Return Parser.Load(path.Open(FileMode.Open, doClear:=False, [readOnly]:=True)).FirstOrDefault
     End Function
 
-    Public Shared Function Load(s As Stream) As PDB
-        Dim pdb As New PDB
-        Dim last As Keyword = Nothing
-
-        For Each line As String In s.ReadAllLines
-            Dim data = line.GetTagValue(trim:=True)
-
-            If Not last Is Nothing Then
-                If data.Name <> last.Keyword Then
-                    last.Flush()
-                    last = Nothing
-                End If
-            End If
-
-            Select Case data.Name
-                Case Keyword.KEYWORD_HEADER : pdb.Header = Header.Parse(data.Value)
-                Case Keyword.KEYWORD_TITLE : pdb.Title = Title.Append(last, data.Value)
-                Case Keyword.KEYWORD_COMPND : pdb.Compound = Compound.Append(last, data.Value)
-                Case Keyword.KEYWORD_SOURCE : pdb.Source = Source.Append(last, data.Value)
-                Case Keyword.KEYWORD_KEYWDS : pdb.Keywords = RCSB.PDB.Keywords.Keywords.Parse(data.Value)
-                Case Keyword.KEYWORD_EXPDTA : pdb.Experiment = ExperimentData.Parse(data.Value)
-                Case Keyword.KEYWORD_AUTHOR : pdb.Author = Author.Parse(data.Value)
-                Case Keyword.KEYWORD_REVDAT : pdb.Revisions = Revision.Append(last, data.Value)
-                Case Keyword.KEYWORD_JRNL : pdb.Journal = Journal.Append(last, data.Value)
-                Case Keyword.KEYWORD_REMARK : pdb.Remark = Remark.Append(last, data.Value)
-                Case Keyword.KEYWORD_DBREF : pdb.DbRef = DbReference.Append(last, data.Value)
-                Case Keyword.KEYWORD_SEQRES : pdb.Sequence = Sequence.Append(last, data.Value)
-                Case Keyword.KEYWORD_CRYST1 : pdb.crystal1 = CRYST1.Append(last, data.Value)
-
-                Case "ORIGX1" : pdb.Origin1 = Spatial3D.Parse(Of ORIGX123)(data.Value)
-                Case "ORIGX2" : pdb.Origin2 = Spatial3D.Parse(Of ORIGX123)(data.Value)
-                Case "ORIGX3" : pdb.Origin3 = Spatial3D.Parse(Of ORIGX123)(data.Value)
-
-                Case "SCALE1" : pdb.Scale1 = Spatial3D.Parse(Of SCALE123)(data.Value)
-                Case "SCALE2" : pdb.Scale2 = Spatial3D.Parse(Of SCALE123)(data.Value)
-                Case "SCALE3" : pdb.Scale3 = Spatial3D.Parse(Of SCALE123)(data.Value)
-
-                Case Keyword.KEYWORD_ATOM : pdb.AtomStructures = Atom.Append(last, data.Value)
-                Case "TER"
-                    pdb.AtomStructures = Atom.Append(pdb.AtomStructures, data.Value)
-                    pdb.AtomStructures.Flush()
-
-                Case Keyword.KEYWORD_MASTER : pdb.Master = Master.Parse(data.Value)
-
-                Case "END"
-                    ' end of current protein/molecule structure data
-                    Exit For
-
-                Case Else
-                    Throw New NotImplementedException(data.Name)
-            End Select
-        Next
-
-        If Not last Is Nothing Then
-            Call last.Flush()
-        End If
-
+    ''' <summary>
+    ''' Parse the given text content as pdb data
+    ''' </summary>
+    ''' <param name="text"></param>
+    ''' <returns></returns>
+    Public Shared Function Parse(text As String) As PDB
+        Dim str As New MemoryStream(Encoding.UTF8.GetBytes(text))
+        Dim pdb As PDB = Parser.Load(str).FirstOrDefault
         Return pdb
+    End Function
+
+    ''' <summary>
+    ''' Load multiple pdb molecules from a given text stream data
+    ''' </summary>
+    ''' <param name="s"></param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function Load(s As Stream) As IEnumerable(Of PDB)
+        Return Parser.Load(s)
     End Function
 
     Public Overloads Shared Widening Operator CType(path As String) As PDB
         Return PDB.Load(path)
     End Operator
+
+    Public Iterator Function GenericEnumerator() As IEnumerator(Of Atom) Implements Enumeration(Of Atom).GenericEnumerator
+        For Each model As Atom In _atomStructuresData.Values
+            Yield model
+        Next
+    End Function
 End Class

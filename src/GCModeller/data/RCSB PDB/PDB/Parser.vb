@@ -1,0 +1,172 @@
+﻿#Region "Microsoft.VisualBasic::2a83b88d7b2dc2439c8ab4ba5cf28ee6, data\RCSB PDB\PDB\Parser.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 118
+    '    Code Lines: 85 (72.03%)
+    ' Comment Lines: 8 (6.78%)
+    '    - Xml Docs: 62.50%
+    ' 
+    '   Blank Lines: 25 (21.19%)
+    '     File Size: 4.75 KB
+
+
+    ' Class Parser
+    ' 
+    '     Function: Load, ReadLine
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
+Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
+
+Friend Class Parser
+
+    Dim last As Keyword
+    Dim model As Atom = Nothing
+    Dim modelId As String = Nothing
+
+    ''' <summary>
+    ''' Load multiple molecule pdb file
+    ''' </summary>
+    ''' <param name="s"></param>
+    ''' <returns></returns>
+    Public Shared Iterator Function Load(s As Stream) As IEnumerable(Of PDB)
+        Dim pdb As New PDB
+        Dim reader As New Parser
+
+        For Each line As String In s.ReadAllLines
+            If reader.ReadLine(pdb, line) Then
+                If Not reader.last Is Nothing Then
+                    Call reader.last.Flush()
+                End If
+                Yield pdb
+                pdb = New PDB
+            End If
+        Next
+
+        If Not reader.last Is Nothing Then
+            Call reader.last.Flush()
+        End If
+
+        Yield pdb
+    End Function
+
+    Private Function ReadLine(ByRef pdb As PDB, line As String) As Boolean
+        Dim data = line.GetTagValue(trim:=True, failureNoName:=False)
+
+        If Not last Is Nothing Then
+            If data.Name <> last.Keyword Then
+                last.Flush()
+                last = Nothing
+            End If
+        End If
+
+        Select Case data.Name
+            Case Keyword.KEYWORD_HEADER : pdb.Header = Header.Parse(data.Value)
+            Case Keyword.KEYWORD_TITLE : pdb.Title = Title.Append(last, data.Value)
+            Case Keyword.KEYWORD_COMPND : pdb.Compound = Compound.Append(last, data.Value)
+            Case Keyword.KEYWORD_SOURCE : pdb.Source = Source.Append(last, data.Value)
+            Case Keyword.KEYWORD_KEYWDS : pdb.Keywords = RCSB.PDB.Keywords.Keywords.Parse(data.Value)
+            Case Keyword.KEYWORD_EXPDTA : pdb.Experiment = ExperimentData.Parse(data.Value)
+            Case Keyword.KEYWORD_AUTHOR : pdb.Author = Author.Parse(data.Value)
+            Case Keyword.KEYWORD_REVDAT : pdb.Revisions = Revision.Append(last, data.Value)
+            Case Keyword.KEYWORD_JRNL : pdb.Journal = Journal.Append(last, data.Value)
+            Case Keyword.KEYWORD_REMARK : pdb.Remark = Remark.Append(last, data.Value)
+            Case Keyword.KEYWORD_DBREF : pdb.DbRef = DbReference.Append(last, data.Value)
+            Case Keyword.KEYWORD_SEQRES : pdb.Sequence = Sequence.Append(last, data.Value)
+            Case Keyword.KEYWORD_CRYST1 : pdb.crystal1 = CRYST1.Append(last, data.Value)
+
+            Case "ORIGX1" : pdb.Origin1 = Spatial3D.Parse(Of ORIGX123)(data.Value)
+            Case "ORIGX2" : pdb.Origin2 = Spatial3D.Parse(Of ORIGX123)(data.Value)
+            Case "ORIGX3" : pdb.Origin3 = Spatial3D.Parse(Of ORIGX123)(data.Value)
+
+            Case "SCALE1" : pdb.Scale1 = Spatial3D.Parse(Of SCALE123)(data.Value)
+            Case "SCALE2" : pdb.Scale2 = Spatial3D.Parse(Of SCALE123)(data.Value)
+            Case "SCALE3" : pdb.Scale3 = Spatial3D.Parse(Of SCALE123)(data.Value)
+
+            Case "SEQADV" : pdb.seqadv = SEQADV.Append(last, data.Value)
+            Case "NUMMDL"
+
+                pdb.NUMMDL = NUMMDL.Parse(last, data.Value)
+                Call VBDebugger.EchoLine($"Found {pdb.NUMMDL} structure models inside {pdb.Header.ToString}.")
+
+            Case Keyword.KEYWORD_HET : pdb.Het = Het.Append(last, data.Value)
+
+            Case "MODEL"
+
+                modelId = data.Value
+                Call VBDebugger.EchoLine($"Parse structure model: {modelId}...")
+
+            Case "ENDMDL"
+
+                model.ModelId = modelId
+                model.Flush()
+                pdb._atomStructuresData.Add(modelId, model)
+                model = Nothing
+                modelId = Nothing
+
+            Case Keyword.KEYWORD_ATOM
+                model = Atom.Append(model, data.Value)
+            Case "TER"
+                model = Atom.Append(model, data.Value)
+                model.Flush()
+
+            Case Keyword.KEYWORD_MASTER : pdb.Master = Master.Parse(data.Value)
+
+            Case Keyword.KEYWORD_HELIX : pdb.Helix = Helix.Append(last, data.Value)
+            Case Keyword.KEYWORD_SHEET : pdb.Sheet = Sheet.Append(last, data.Value)
+
+            Case "END"
+                ' end of current protein/molecule structure data
+                If pdb._atomStructuresData.IsNullOrEmpty Then
+                    ' contains only one structure model data
+                    ' inside current pdb object
+                    model.ModelId = "1"
+                    pdb._atomStructuresData.Add("1", model)
+                End If
+
+                Return True
+
+            Case Else
+                Throw New NotImplementedException(data.Name)
+        End Select
+
+        Return False
+    End Function
+End Class
+
