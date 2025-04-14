@@ -76,11 +76,12 @@ Namespace Keywords
 
         Friend Shared Function Parse(Of T As {New, Spatial3D})(str As String) As Spatial3D
             Dim cols As String() = str.StringSplit("\s+")
+            Dim offset As Integer = If(GetType(T) Is GetType(MTRIX123), 1, 0)
             Dim s As New T With {
-                .x = Val(cols(0)),
-                .y = Val(cols(1)),
-                .z = Val(cols(2)),
-                .factor = Val(cols(3))
+                .x = Val(cols(0 + offset)),
+                .y = Val(cols(1 + offset)),
+                .z = Val(cols(2 + offset)),
+                .factor = Val(cols(3 + offset))
             }
 
             Return s
@@ -102,6 +103,16 @@ Namespace Keywords
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return "SCALE1"
+            End Get
+        End Property
+
+    End Class
+
+    Public Class MTRIX123 : Inherits Spatial3D
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "MTRIX1"
             End Get
         End Property
 

@@ -178,6 +178,26 @@ Namespace Keywords
 
     End Class
 
+    Public Class HETSYN : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "HETSYN"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef hetatom As HETSYN, str As String) As HETSYN
+            If hetatom Is Nothing Then
+                hetatom = New HETSYN
+            End If
+            hetatom.str.Add(str)
+            Return hetatom
+        End Function
+
+    End Class
+
     Public Class CONECT : Inherits Keyword
 
         Public Overrides ReadOnly Property Keyword As String
@@ -194,6 +214,46 @@ Namespace Keywords
             End If
             conect.str.Add(str)
             Return conect
+        End Function
+
+    End Class
+
+    Public Class MODRES : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "MODRES"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef word As MODRES, str As String) As MODRES
+            If word Is Nothing Then
+                word = New MODRES
+            End If
+            word.str.Add(str)
+            Return word
+        End Function
+
+    End Class
+
+    Public Class SSBOND : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "SSBOND"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Public Shared Function Append(ByRef bond As SSBOND, str As String) As SSBOND
+            If bond Is Nothing Then
+                bond = New SSBOND
+            End If
+            bond.str.Add(str)
+            Return bond
         End Function
 
     End Class

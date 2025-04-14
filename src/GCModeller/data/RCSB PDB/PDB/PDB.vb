@@ -88,6 +88,11 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public Property Scale1 As SCALE123
     Public Property Scale2 As SCALE123
     Public Property Scale3 As SCALE123
+    Public Property Matrix1 As MTRIX123
+    Public Property Matrix2 As MTRIX123
+    Public Property Matrix3 As MTRIX123
+
+    Public Property SSBOND As SSBOND
 
     ''' <summary>
     ''' number of models inside current pdb file
@@ -98,6 +103,7 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public Property Het As Het
     Public Property HetName As HetName
     Public Property HetAtom As HETATM
+    Public Property HETSYN As HETSYN
     Public Property Formula As Formula
     Public Property Site As Site
     Public Property Helix As Helix
@@ -107,6 +113,7 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public Property CISPEP As CISPEP
     Public Property Master As Master
     Public Property Conect As CONECT
+    Public Property MODRES As MODRES
 
     ''' <summary>
     ''' Populate out the multiple structure models inside current pdb data file
