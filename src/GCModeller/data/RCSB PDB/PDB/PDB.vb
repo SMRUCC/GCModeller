@@ -120,6 +120,7 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public Property ANISOU As ANISOU
     Public Property SIGATM As SIGATM
     Public Property SIGUIJ As SIGUIJ
+    Public Property SPLIT As SPLIT
 
     ''' <summary>
     ''' Populate out the multiple structure models inside current pdb data file

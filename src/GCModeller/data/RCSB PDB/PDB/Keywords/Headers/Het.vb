@@ -377,4 +377,24 @@ Namespace Keywords
         End Function
 
     End Class
+
+    Public Class SPLIT : Inherits Keyword
+
+        Public Overrides ReadOnly Property Keyword As String
+            Get
+                Return "SPLIT"
+            End Get
+        End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef split As SPLIT, str As String) As SPLIT
+            If split Is Nothing Then
+                split = New SPLIT
+            End If
+            split.str.Add(str)
+            Return split
+        End Function
+
+    End Class
 End Namespace

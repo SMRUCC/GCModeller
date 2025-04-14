@@ -141,6 +141,8 @@ Friend Class Parser
             Case "MDLTYP" : pdb.MDLTYP = MDLTYP.Append(last, data.Value)
             Case "ANISOU" : pdb.ANISOU = ANISOU.Append(last, data.Value)
 
+            Case "SPLIT" : pdb.SPLIT = SPLIT.Append(last, data.Value)
+
             Case "SEQADV" : pdb.seqadv = SEQADV.Append(last, data.Value)
             Case "NUMMDL"
 
