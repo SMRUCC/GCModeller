@@ -121,9 +121,9 @@ Namespace Keywords
                             author = author _
                                 .JoinIterates(tuple.value.Split(","c)) _
                                 .ToArray
+                        Else
+                            Throw New NotImplementedException("journal data: " & tuple.name)
                         End If
-
-                        Throw New NotImplementedException("journal data: " & tuple.name)
                 End Select
             Next
         End Sub
