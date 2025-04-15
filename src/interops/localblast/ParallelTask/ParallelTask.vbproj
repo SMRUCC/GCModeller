@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Interops.NCBI.ParallelTask</RootNamespace>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>SMRUCC.genomics.Interops.NCBI.ParallelTask</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -13,8 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
-   
-    <ProjectReference Include="..\..\..\runtime\Darwinism\src\Parallel\parallel-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\Darwinism\src\computing\Parallel\parallel-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\LocalBLAST\localblast.NET5.vbproj" />
   </ItemGroup>

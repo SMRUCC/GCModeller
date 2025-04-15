@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::629974d5a195865be84ad4b2014824a4, Bio.Repository\NCBI\GEODataSet.vb"
+﻿#Region "Microsoft.VisualBasic::5073774c14621e94487fa66a7e0781e1, Bio.Repository\NCBI\GEODataSet.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.71%
     ' 
     '   Blank Lines: 5 (27.78%)
-    '     File Size: 399 B
+    '     File Size: 397 B
 
 
     ' Class GEODataSet
@@ -69,4 +69,3 @@ Public Class GEODataSet
     End Sub
 
 End Class
-

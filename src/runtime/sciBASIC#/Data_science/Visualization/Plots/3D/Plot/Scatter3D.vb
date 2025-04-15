@@ -118,7 +118,12 @@ Namespace Plot3D.Impl
         ''' <param name="hullAlpha">``[0, 255]``</param>
         ''' <param name="hullBspline"></param>
         ''' <param name="theme"></param>
-        Public Sub New(serials As IEnumerable(Of Serial3D), camera As Camera, arrowFactor$, showHull As Boolean, hullAlpha As Double, hullBspline As Single, theme As Theme)
+        Public Sub New(serials As IEnumerable(Of Serial3D), camera As Camera, arrowFactor$,
+                       showHull As Boolean,
+                       hullAlpha As Double,
+                       hullBspline As Single,
+                       theme As Theme)
+
             MyBase.New(theme)
 
             Me.serials = serials.ToArray
@@ -145,7 +150,7 @@ Namespace Plot3D.Impl
             End With
 
             ' 然后生成底部的网格
-            For Each line As Line In Grids.Grid1(css, X, Y, (X(1) - X(0), Y(1) - Y(0)), Z.Min)
+            For Each line As Element3D In Grids.Grid1(css, X, Y, (X(1) - X(0), Y(1) - Y(0)), Z.Min)
                 Yield line
             Next
 

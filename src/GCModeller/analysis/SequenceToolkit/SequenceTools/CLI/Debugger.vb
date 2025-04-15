@@ -86,7 +86,7 @@ Partial Module CLI
                               Next
                           End Function().ToArray
 
-        Using output As StreamWriter = out.OpenWriter
+        Using output As System.IO.StreamWriter = out.OpenWriter
             Dim padding = createLines _
                 .Select(Function(f) f.left.ToString) _
                 .MaxLengthString _

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e32d2acb4bfa563f079802ef06770c2, data\RCSB PDB\test\My Project\Settings.Designer.vb"
+﻿#Region "Microsoft.VisualBasic::6655ba666928ff86ccd13cf6913d8af6, data\RCSB PDB\test\My Project\Settings.Designer.vb"
 
     ' Author:
     ' 
@@ -131,4 +131,3 @@ Namespace My
         End Property
     End Module
 End Namespace
-

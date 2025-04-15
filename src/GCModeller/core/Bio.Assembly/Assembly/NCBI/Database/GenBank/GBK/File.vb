@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71530ae6f9ac74361b6ee808e7122830, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
+﻿#Region "Microsoft.VisualBasic::77be491a3aadd6141a0d36bafbf03474, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 351
-    '    Code Lines: 173 (49.29%)
-    ' Comment Lines: 143 (40.74%)
-    '    - Xml Docs: 95.10%
+    '   Total Lines: 361
+    '    Code Lines: 173 (47.92%)
+    ' Comment Lines: 153 (42.38%)
+    '    - Xml Docs: 95.42%
     ' 
-    '   Blank Lines: 35 (9.97%)
-    '     File Size: 15.85 KB
+    '   Blank Lines: 35 (9.70%)
+    '     File Size: 16.25 KB
 
 
     '     Class File
@@ -181,9 +181,12 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Property
 
         ''' <summary>
-        ''' 物种数据
+        ''' get ncbi taxonomy id
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 物种数据
+        ''' </remarks>
         Public ReadOnly Property Taxon As String
             Get
                 Dim db_xref As String() = Features.source.QueryDuplicated("db_xref")
@@ -342,6 +345,13 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Return LoadDatabase(filePath.Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=True), filePath.BaseName, suppressError)
         End Function
 
+        ''' <summary>
+        ''' Load multiple genbank assembly data that parsed from a specific data file
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <param name="defaultAccession"></param>
+        ''' <param name="suppressError"></param>
+        ''' <returns></returns>
         Public Shared Iterator Function LoadDatabase(file As Stream, Optional defaultAccession$ = Nothing, Optional suppressError As Boolean = False) As IEnumerable(Of File)
             If defaultAccession.StringEmpty Then
                 If TypeOf file Is FileStream Then

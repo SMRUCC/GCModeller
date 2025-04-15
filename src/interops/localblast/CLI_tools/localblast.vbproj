@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <RootNamespace>NCBI.localblast</RootNamespace>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Description>NCBI localblast wrapper tools</Description>
     <Title>NCBI localblast+</Title>
     <ApplicationIcon>ncbi.ico</ApplicationIcon>
@@ -23,8 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj" />
-  
-    <ProjectReference Include="..\..\..\runtime\Darwinism\src\Parallel\parallel-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\Darwinism\src\computing\Parallel\parallel-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\LocalBLAST\localblast.NET5.vbproj" />

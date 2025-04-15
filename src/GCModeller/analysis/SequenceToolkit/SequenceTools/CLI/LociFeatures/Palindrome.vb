@@ -1,66 +1,67 @@
 ﻿#Region "Microsoft.VisualBasic::1d9f154d595f501b416d529de2e273cd, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Palindrome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 581
-    '    Code Lines: 480 (82.62%)
-    ' Comment Lines: 44 (7.57%)
-    '    - Xml Docs: 97.73%
-    ' 
-    '   Blank Lines: 57 (9.81%)
-    '     File Size: 28.82 KB
+' Summaries:
 
 
-    ' Module Utilities
-    ' 
-    '     Function: __hairpinksCLI, __imperfectsPalindromeTask, __palindromeTask, BatchSearchImperfectsPalindrome, BatchSearchPalindrome
-    '               FilteringMatches, FilteringMatchesBatch, FilterPerfectPalindrome, FuzzyMirrors, FuzzyMirrorsBatch
-    '               Hairpinks, HairpinksBatch, ImperfectPalindrome, MirrorBatch, MirrorsVector
-    '               PromoterPalindrome2Fasta, PromoterRegionPalindrome, SearchMirrotFasta, SearchMirrotNT, SearchPalindromeFasta
-    '               SearchPalindromeNT, ToVector, TrimNtMirrors
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 581
+'    Code Lines: 480 (82.62%)
+' Comment Lines: 44 (7.57%)
+'    - Xml Docs: 97.73%
+' 
+'   Blank Lines: 57 (9.81%)
+'     File Size: 28.82 KB
+
+
+' Module Utilities
+' 
+'     Function: __hairpinksCLI, __imperfectsPalindromeTask, __palindromeTask, BatchSearchImperfectsPalindrome, BatchSearchPalindrome
+'               FilteringMatches, FilteringMatchesBatch, FilterPerfectPalindrome, FuzzyMirrors, FuzzyMirrorsBatch
+'               Hairpinks, HairpinksBatch, ImperfectPalindrome, MirrorBatch, MirrorsVector
+'               PromoterPalindrome2Fasta, PromoterRegionPalindrome, SearchMirrotFasta, SearchMirrotNT, SearchPalindromeFasta
+'               SearchPalindromeNT, ToVector, TrimNtMirrors
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
+Imports Darwinism.HPC.Parallel.ThreadTask
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -68,7 +69,6 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
@@ -234,7 +234,7 @@ Partial Module Utilities
 
         n = LQuerySchedule.AutoConfig(n)
 
-        If args.GetBoolean("/mp") Then
+        If args("/mp") Then
             Dim api As String = GetType(Utilities).API(NameOf(SearchMirrotFasta))
             Dim task As Func(Of String, String) =
                 Function(path) $"{api} /nt {path.CLIPath} /out {(out & "/" & path.BaseName & ".csv").CLIPath} /min {Min} /max {Max}"
@@ -458,7 +458,7 @@ Partial Module Utilities
     <Group(CLIGrouping.PalindromeTools)>
     Public Function FilteringMatchesBatch(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim min As Integer = args.GetInt32("/min")
+        Dim min As Integer = args("/min")
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-min." & min & "/")
         Dim CLI As New List(Of String)
         Dim n As Integer = args.GetValue("/num_threads", -1)
@@ -475,7 +475,7 @@ Partial Module Utilities
     <Group(CLIGrouping.PalindromeTools)>
     Public Function FilteringMatches(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim min As Integer = args.GetInt32("/min")
+        Dim min As Integer = args("/min")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-min." & min & ".csv")
 
         If FileIO.FileSystem.GetFileInfo([in]).Length > 1024 * 1024 * 16 Then
@@ -555,10 +555,10 @@ Partial Module Utilities
     <Group(CLIGrouping.PalindromeTools)>
     Public Function ToVector(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
-        Dim min = args.GetInt32("/min")
-        Dim max = args.GetInt32("/max")
+        Dim min = args("/min")
+        Dim max = args("/max")
         Dim out As String = args("/out")
-        Dim size As Integer = args.GetInt32("/size")
+        Dim size As Integer = args("/size")
         Dim vector = Topologically.Palindrome.ImperfectPalindromeVector(inDIR, size, min, max)
         Return vector.Select(Function(n) CStr(n)).FlushAllLines(out).CLICode
     End Function
@@ -570,7 +570,7 @@ Partial Module Utilities
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".Mirror.Vector.txt")
         Dim files As IEnumerable(Of String) = ls - l - r - wildcards("*.csv") <= inDIR
-        Dim size As Integer = args.GetInt32("/size")
+        Dim size As Integer = args("/size")
         Dim Loads = (From path As String
                      In files
                      Select path.BaseName,

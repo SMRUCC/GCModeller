@@ -105,6 +105,13 @@ declare namespace proteinKit {
      *  of KMerGraph objects for multiple sequences. Returns error message for invalid inputs.
    */
    function kmer_graph(prot: any, k?: object, env?: object): object;
+   /**
+    * get structure models inside the given pdb object
+    * 
+    * 
+     * @param pdb -
+   */
+   function pdb_models(pdb: object): object;
    module read {
       /**
        * Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.

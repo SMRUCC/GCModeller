@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b9cb0e2a9e6229fab6a99ea8a9d36d6, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
+﻿#Region "Microsoft.VisualBasic::50723ec84f7be86d04b1eb82c4fd9fda, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbEntry.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 192
-    '    Code Lines: 148 (77.08%)
-    ' Comment Lines: 18 (9.38%)
+    '   Total Lines: 168
+    '    Code Lines: 126 (75.00%)
+    ' Comment Lines: 18 (10.71%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 26 (13.54%)
-    '     File Size: 11.11 KB
+    '   Blank Lines: 24 (14.29%)
+    '     File Size: 10.03 KB
 
 
     '     Class gbEntryBrief
@@ -56,24 +56,15 @@
     ' 
     '         Function: ConvertObject, GetSubmitDate, ToString
     ' 
-    '     Class Plasmid
-    ' 
-    '         Properties: Country, Host, isolation_source, IsShortGun, PlasmidID
-    '                     PlasmidType
-    ' 
-    '         Function: Build
-    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Assembly.NCBI.GenBank.CsvExports
 
@@ -236,27 +227,5 @@ Namespace Assembly.NCBI.GenBank.CsvExports
         End Function
     End Class
 
-    Public Class Plasmid : Inherits gbEntryBrief
 
-        Public Property PlasmidID As String
-        Public Property PlasmidType As String
-        Public Property isolation_source As String
-        Public Property Country As String
-        Public Property Host As String
-        Public ReadOnly Property IsShortGun As Boolean
-            Get
-                Return InStr(Definition, "shotgun", CompareMethod.Text) > 0
-            End Get
-        End Property
-
-        Public Overloads Shared Function Build(gbk As NCBI.GenBank.GBFF.File) As Plasmid
-            Dim Plasmid As Plasmid = ConvertObject(Of Plasmid)(gbk)
-            Plasmid.PlasmidID = gbk.Features.source.Query("plasmid")
-            Plasmid.Host = gbk.Features.source.Query("host")
-            Plasmid.Country = gbk.Features.source.Query("country")
-            Plasmid.isolation_source = gbk.Features.source.Query("isolation_source")
-
-            Return Plasmid
-        End Function
-    End Class
 End Namespace

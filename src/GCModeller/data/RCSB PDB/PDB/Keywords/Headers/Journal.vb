@@ -1,4 +1,64 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿#Region "Microsoft.VisualBasic::d53d445f7ab5403cbb6f46ad7659bbca, data\RCSB PDB\PDB\Keywords\Headers\Journal.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 50 (83.33%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (16.67%)
+    '     File Size: 2.22 KB
+
+
+    '     Class Journal
+    ' 
+    '         Properties: author, doi, Keyword, pmid, ref
+    '                     refn, title
+    ' 
+    '         Function: Append
+    ' 
+    '         Sub: Flush
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Keywords
 
@@ -18,12 +78,14 @@ Namespace Keywords
         Public Property refn As String
         Public Property pmid As String
         Public Property doi As String
+        Public Property PUBL As String
+        Public Property EDIT As String
 
         Friend Shared Function Append(ByRef jrnl As Journal, str As String) As Journal
             If jrnl Is Nothing Then
                 jrnl = New Journal
             End If
-            jrnl.cache.Add(str.GetTagValue(" ", trim:=True))
+            jrnl.cache.Add(str.GetTagValue(" ", trim:=True, failureNoName:=False))
             Return jrnl
         End Function
 
@@ -51,8 +113,17 @@ Namespace Keywords
                     Case "REFN" : refn = tuple.value
                     Case "PMID" : pmid = tuple.value
                     Case "DOI" : doi = tuple.value
+                    Case "PUBL" : PUBL = tuple.value
+                    Case "EDIT" : EDIT = tuple.value
+
                     Case Else
-                        Throw New NotImplementedException(tuple.name)
+                        If tuple.name.IsPattern("AUTH\d+") Then
+                            author = author _
+                                .JoinIterates(tuple.value.Split(","c)) _
+                                .ToArray
+                        Else
+                            Throw New NotImplementedException("journal data: " & tuple.name)
+                        End If
                 End Select
             Next
         End Sub

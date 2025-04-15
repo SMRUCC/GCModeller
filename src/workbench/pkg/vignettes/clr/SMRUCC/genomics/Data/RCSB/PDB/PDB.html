@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.RCSB.PDB.PDB</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PDB {SMRUCC.genomics.Data.RCSB.PDB}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PDB</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data.RCSB.PDB
+export class PDB {
+   ANISOU: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ANISOU.html">ANISOU</a>;
+   # Populate out the multiple structure models inside current pdb data file
+   AtomStructures: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Atom.html">iterates(Atom)</a>;
+   Author: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Author.html">Author</a>;
+   CAVEAT: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CAVEAT.html">CAVEAT</a>;
+   CISPEP: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CISPEP.html">CISPEP</a>;
+   Compound: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Compound.html">Compound</a>;
+   Conect: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CONECT.html">CONECT</a>;
+   crystal1: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CRYST1.html">CRYST1</a>;
+   DbRef: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/DbReference.html">DbReference</a>;
+   Experiment: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ExperimentData.html">ExperimentData</a>;
+   Formula: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Formula.html">Formula</a>;
+   Header: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Header.html">Header</a>;
+   Helix: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Helix.html">Helix</a>;
+   Het: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Het.html">Het</a>;
+   HetName: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/HetName.html">HetName</a>;
+   HETSYN: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/HETSYN.html">HETSYN</a>;
+   Journal: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Journal.html">Journal</a>;
+   Keywords: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Keywords.html">Keywords</a>;
+   Links: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Link.html">Link</a>;
+   Master: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Master.html">Master</a>;
+   Matrix1: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a>;
+   Matrix2: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a>;
+   Matrix3: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a>;
+   MaxSpace: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a>;
+   MDLTYP: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MDLTYP.html">MDLTYP</a>;
+   MinSpace: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a>;
+   MODRES: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MODRES.html">MODRES</a>;
+   # number of models inside current pdb file
+   NUMMDL: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/NUMMDL.html">NUMMDL</a>;
+   Origin1: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a>;
+   Origin2: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a>;
+   Origin3: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a>;
+   Remark: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Remark.html">Remark</a>;
+   Revisions: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Revision.html">Revision</a>;
+   Scale1: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a>;
+   Scale2: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a>;
+   Scale3: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a>;
+   seqadv: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SEQADV.html">SEQADV</a>;
+   Sequence: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Sequence.html">Sequence</a>;
+   Sheet: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Sheet.html">Sheet</a>;
+   SIGATM: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SIGATM.html">SIGATM</a>;
+   SIGUIJ: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SIGUIJ.html">SIGUIJ</a>;
+   Site: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Site.html">Site</a>;
+   Source: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Source.html">Source</a>;
+   SPLIT: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SPLIT.html">SPLIT</a>;
+   SPRSDE: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SPRSDE.html">SPRSDE</a>;
+   SSBOND: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SSBOND.html">SSBOND</a>;
+   Title: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Title.html">Title</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>ANISOU</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ANISOU.html">ANISOU</a></li>
+<li>use by <i>property</i> member <code>AtomStructures</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Atom.html">iterates(Atom)</a></li>
+<li>use by <i>property</i> member <code>Author</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Author.html">Author</a></li>
+<li>use by <i>property</i> member <code>CAVEAT</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CAVEAT.html">CAVEAT</a></li>
+<li>use by <i>property</i> member <code>CISPEP</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CISPEP.html">CISPEP</a></li>
+<li>use by <i>property</i> member <code>Compound</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Compound.html">Compound</a></li>
+<li>use by <i>property</i> member <code>Conect</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CONECT.html">CONECT</a></li>
+<li>use by <i>property</i> member <code>crystal1</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CRYST1.html">CRYST1</a></li>
+<li>use by <i>property</i> member <code>DbRef</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/DbReference.html">DbReference</a></li>
+<li>use by <i>property</i> member <code>Experiment</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ExperimentData.html">ExperimentData</a></li>
+<li>use by <i>property</i> member <code>Formula</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Formula.html">Formula</a></li>
+<li>use by <i>property</i> member <code>Header</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Header.html">Header</a></li>
+<li>use by <i>property</i> member <code>Helix</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Helix.html">Helix</a></li>
+<li>use by <i>property</i> member <code>Het</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Het.html">Het</a></li>
+<li>use by <i>property</i> member <code>HetName</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/HetName.html">HetName</a></li>
+<li>use by <i>property</i> member <code>HETSYN</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/HETSYN.html">HETSYN</a></li>
+<li>use by <i>property</i> member <code>Journal</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Journal.html">Journal</a></li>
+<li>use by <i>property</i> member <code>Keywords</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Keywords.html">Keywords</a></li>
+<li>use by <i>property</i> member <code>Links</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Link.html">Link</a></li>
+<li>use by <i>property</i> member <code>Master</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Master.html">Master</a></li>
+<li>use by <i>property</i> member <code>Matrix1</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a></li>
+<li>use by <i>property</i> member <code>Matrix2</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a></li>
+<li>use by <i>property</i> member <code>Matrix3</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a></li>
+<li>use by <i>property</i> member <code>MaxSpace</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a></li>
+<li>use by <i>property</i> member <code>MDLTYP</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MDLTYP.html">MDLTYP</a></li>
+<li>use by <i>property</i> member <code>MinSpace</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a></li>
+<li>use by <i>property</i> member <code>MODRES</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MODRES.html">MODRES</a></li>
+<li>use by <i>property</i> member <code>NUMMDL</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/NUMMDL.html">NUMMDL</a></li>
+<li>use by <i>property</i> member <code>Origin1</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a></li>
+<li>use by <i>property</i> member <code>Origin2</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a></li>
+<li>use by <i>property</i> member <code>Origin3</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a></li>
+<li>use by <i>property</i> member <code>Remark</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Remark.html">Remark</a></li>
+<li>use by <i>property</i> member <code>Revisions</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Revision.html">Revision</a></li>
+<li>use by <i>property</i> member <code>Scale1</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a></li>
+<li>use by <i>property</i> member <code>Scale2</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a></li>
+<li>use by <i>property</i> member <code>Scale3</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a></li>
+<li>use by <i>property</i> member <code>seqadv</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SEQADV.html">SEQADV</a></li>
+<li>use by <i>property</i> member <code>Sequence</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Sequence.html">Sequence</a></li>
+<li>use by <i>property</i> member <code>Sheet</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Sheet.html">Sheet</a></li>
+<li>use by <i>property</i> member <code>SIGATM</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SIGATM.html">SIGATM</a></li>
+<li>use by <i>property</i> member <code>SIGUIJ</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SIGUIJ.html">SIGUIJ</a></li>
+<li>use by <i>property</i> member <code>Site</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Site.html">Site</a></li>
+<li>use by <i>property</i> member <code>Source</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Source.html">Source</a></li>
+<li>use by <i>property</i> member <code>SPLIT</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SPLIT.html">SPLIT</a></li>
+<li>use by <i>property</i> member <code>SPRSDE</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SPRSDE.html">SPRSDE</a></li>
+<li>use by <i>property</i> member <code>SSBOND</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SSBOND.html">SSBOND</a></li>
+<li>use by <i>property</i> member <code>Title</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Title.html">Title</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

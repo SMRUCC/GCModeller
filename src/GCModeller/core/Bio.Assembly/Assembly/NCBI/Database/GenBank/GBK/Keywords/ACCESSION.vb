@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b5deeb2730401eac8e17521a6d77daa4, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
+﻿#Region "Microsoft.VisualBasic::bf4a35f99e766bf5a5e44c5aff8d4d02, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 149
-    '    Code Lines: 113 (75.84%)
-    ' Comment Lines: 8 (5.37%)
+    '   Total Lines: 148
+    '    Code Lines: 112 (75.68%)
+    ' Comment Lines: 8 (5.41%)
     '    - Xml Docs: 87.50%
     ' 
-    '   Blank Lines: 28 (18.79%)
-    '     File Size: 4.96 KB
+    '   Blank Lines: 28 (18.92%)
+    '     File Size: 4.93 KB
 
 
     '     Class ACCESSION
@@ -74,7 +74,6 @@
 
 #End Region
 
-Imports System.Text
 Imports Microsoft.VisualBasic.Language.[Default]
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords

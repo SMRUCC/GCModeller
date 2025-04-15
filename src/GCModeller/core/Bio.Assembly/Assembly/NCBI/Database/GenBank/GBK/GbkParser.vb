@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab3b16f54277940e3e9393c2c2eacbf1, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
+﻿#Region "Microsoft.VisualBasic::c4fe19ec4214b9d37e431143f6cfdef7, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 167
-    '    Code Lines: 124 (74.25%)
-    ' Comment Lines: 14 (8.38%)
+    '   Total Lines: 162
+    '    Code Lines: 119 (73.46%)
+    ' Comment Lines: 14 (8.64%)
     '    - Xml Docs: 85.71%
     ' 
-    '   Blank Lines: 29 (17.37%)
-    '     File Size: 6.66 KB
+    '   Blank Lines: 29 (17.90%)
+    '     File Size: 6.45 KB
 
 
     '     Module GbkParser
@@ -54,17 +54,12 @@
 
 #End Region
 
-Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Assembly.NCBI.GenBank.GBFF
 

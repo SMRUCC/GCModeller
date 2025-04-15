@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75f7e4e05ec98d219e9e30935269adf5, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb"
+﻿#Region "Microsoft.VisualBasic::5f0f2f5f1b14f65eee806489138cf55c, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 38
-    '    Code Lines: 23 (60.53%)
-    ' Comment Lines: 7 (18.42%)
+    '   Total Lines: 45
+    '    Code Lines: 29 (64.44%)
+    ' Comment Lines: 7 (15.56%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (21.05%)
-    '     File Size: 1.16 KB
+    '   Blank Lines: 9 (20.00%)
+    '     File Size: 1.40 KB
 
 
     '     Class SOURCE
     ' 
-    '         Properties: OrganismHierarchy, SpeciesName
+    '         Properties: BiomString, OrganismHierarchy, SpeciesName
     ' 
     '         Function: GetTaxonomy, ToString
     ' 
@@ -55,6 +55,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
@@ -69,6 +70,12 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' </summary>
         ''' <returns></returns>
         Public Property OrganismHierarchy As ORGANISM
+
+        Public ReadOnly Property BiomString As String
+            Get
+                Return BIOMTaxonomy.TaxonomyString(OrganismHierarchy.Lineage)
+            End Get
+        End Property
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetTaxonomy() As Metagenomics.Taxonomy

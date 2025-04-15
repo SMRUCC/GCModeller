@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0eb0ebf1077c7a7170520b48903abe11, R#\seqtoolkit\proteinKit.vb"
+﻿#Region "Microsoft.VisualBasic::40dd2110f198c6a87dfd6eee955466d0, R#\seqtoolkit\proteinKit.vb"
 
 ' Author:
 ' 
@@ -34,18 +34,18 @@
 
 ' Code Statistics:
 
-'   Total Lines: 152
-'    Code Lines: 85 (55.92%)
-' Comment Lines: 43 (28.29%)
-'    - Xml Docs: 90.70%
+'   Total Lines: 249
+'    Code Lines: 92 (36.95%)
+' Comment Lines: 132 (53.01%)
+'    - Xml Docs: 90.91%
 ' 
-'   Blank Lines: 24 (15.79%)
-'     File Size: 6.83 KB
+'   Blank Lines: 25 (10.04%)
+'     File Size: 11.77 KB
 
 
 ' Module proteinKit
 ' 
-'     Function: (+2 Overloads) ChouFasman, kmer_fingerprint, kmer_graph, readPdb
+'     Function: (+2 Overloads) ChouFasman, kmer_fingerprint, kmer_graph, pdbModels, readPdb
 ' 
 ' /********************************************************************************/
 
@@ -54,8 +54,11 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.RCSB.PDB
+Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer
 Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
@@ -212,13 +215,24 @@ Module proteinKit
             Return s.TryCast(Of Message)
         End If
 
-        Dim pdb As PDB = PDB.Load(s.TryCast(Of Stream))
+        Dim pdb As PDB() = RCSB.PDB.PDB.Load(s.TryCast(Of Stream)).ToArray
 
         If is_path Then
             Call s.TryCast(Of Stream).Dispose()
         End If
 
         Return pdb
+    End Function
+
+    ''' <summary>
+    ''' get structure models inside the given pdb object
+    ''' </summary>
+    ''' <param name="pdb"></param>
+    ''' <returns></returns>
+    <ExportAPI("pdb_models")>
+    <RApiReturn(GetType(Atom))>
+    Public Function pdbModels(pdb As PDB) As Object
+        Return pdb.AsEnumerable.ToArray
     End Function
 
     ''' <summary>
@@ -287,4 +301,3 @@ Module proteinKit
     End Function
 
 End Module
-

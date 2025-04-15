@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f1a7fbea2bf19e84919ba6c75758903, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\ProteinTable\ProteinDescription.vb"
+﻿#Region "Microsoft.VisualBasic::4e99d5ff2b3f7d3c9cdd9cea55d92fec, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\ProteinTable\ProteinDescription.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 68
-    '    Code Lines: 38 (55.88%)
-    ' Comment Lines: 24 (35.29%)
+    '   Total Lines: 71
+    '    Code Lines: 38 (53.52%)
+    ' Comment Lines: 27 (38.03%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (8.82%)
-    '     File Size: 2.29 KB
+    '   Blank Lines: 6 (8.45%)
+    '     File Size: 2.39 KB
 
 
     '     Class ProteinDescription
@@ -62,6 +62,9 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.NCBI.GenBank.TabularFormat
 
+    ''' <summary>
+    ''' tabular data model for protein data information
+    ''' </summary>
     Public Class ProteinDescription : Implements INamedValue
 
         ''' <summary>

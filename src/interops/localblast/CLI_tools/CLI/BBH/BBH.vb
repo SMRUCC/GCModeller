@@ -58,15 +58,13 @@ Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Text
-Imports Parallel.ThreadTask
-Imports SMRUCC.genomics.Analysis.localblast.VennDiagram.BlastAPI
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
@@ -75,8 +73,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 Imports SMRUCC.genomics.Interops.NCBI.ParallelTask.Tasks
 Imports SMRUCC.genomics.Interops.NCBI.ParallelTask.Tasks.BBHLogs
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports csvReflection = Microsoft.VisualBasic.Data.csv.Extensions
+Imports csvReflection = Microsoft.VisualBasic.Data.Framework.Extensions
 
 Partial Module CLI
 
@@ -146,7 +143,7 @@ Partial Module CLI
         Dim svq As String = args("/svq")
         Dim identities As Double = args.GetValue("/identities", -1.0R)
         Dim coverage As Double = args.GetValue("/coverage", -1.0R)
-        Dim trim As Boolean = args.GetBoolean("/trim")  ' 使用空格分隔query/hit名称，取第一个token
+        Dim trim As Boolean = args("/trim")  ' 使用空格分隔query/hit名称，取第一个token
         Dim qsbh As IEnumerable(Of BestHit) = qvs.LoadCsv(Of BestHit)
         Dim ssbh As IEnumerable(Of BestHit) = svq.LoadCsv(Of BestHit)
         Dim all$ = If(args.GetBoolean("/all"), "all", "")
