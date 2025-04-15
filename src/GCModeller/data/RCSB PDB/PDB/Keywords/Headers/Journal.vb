@@ -58,6 +58,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Keywords
 
@@ -116,6 +117,12 @@ Namespace Keywords
                     Case "EDIT" : EDIT = tuple.value
 
                     Case Else
+                        If tuple.name.IsPattern("AUTH\d+") Then
+                            author = author _
+                                .JoinIterates(tuple.value.Split(","c)) _
+                                .ToArray
+                        End If
+
                         Throw New NotImplementedException("journal data: " & tuple.name)
                 End Select
             Next
