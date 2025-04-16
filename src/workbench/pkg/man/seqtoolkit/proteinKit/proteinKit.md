@@ -20,6 +20,7 @@ A computational biology toolkit for protein structural analysis and sequence-bas
 >  - Relies on SMRUCC.genomics libraries for core bioinformatics operations
 
 + [chou_fasman](proteinKit/chou_fasman.1) The Chou-Fasman method is a bioinformatics technique used for predicting the secondary structure of proteins. 
++ [parse_pdb](proteinKit/parse_pdb.1) parse the pdb struct data from a given document text data
 + [read.pdb](proteinKit/read.pdb.1) Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.
 + [pdb_models](proteinKit/pdb_models.1) get structure models inside the given pdb object
 + [kmer_graph](proteinKit/kmer_graph.1) Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length 

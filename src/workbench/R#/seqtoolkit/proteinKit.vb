@@ -197,6 +197,28 @@ Module proteinKit
     End Function
 
     ''' <summary>
+    ''' parse the pdb struct data from a given document text data
+    ''' </summary>
+    ''' <param name="pdb_txt"></param>
+    ''' <param name="safe"></param>
+    ''' <returns></returns>
+    <ExportAPI("parse_pdb")>
+    Public Function parsePdb(pdb_txt As String, Optional safe As Boolean = False) As Object
+        If safe Then
+            Try
+                Return PDB.Parse(pdb_txt)
+            Catch ex As Exception
+                Call App.LogException(ex)
+                Call ex.Message.Warning
+
+                Return Nothing
+            End Try
+        Else
+            Return PDB.Parse(pdb_txt)
+        End If
+    End Function
+
+    ''' <summary>
     ''' Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.
     ''' </summary>
     ''' <param name="file">A file path string or Stream object representing the PDB file to read.</param>
@@ -207,7 +229,12 @@ Module proteinKit
     ''' let pdb = read.pdb("1abc.pdb");
     ''' </example>
     <ExportAPI("read.pdb")>
-    Public Function readPdb(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+    <RApiReturn(GetType(PDB))>
+    Public Function readPdb(<RRawVectorArgument>
+                            file As Object,
+                            Optional safe As Boolean = False,
+                            Optional env As Environment = Nothing) As Object
+
         Dim is_path As Boolean = False
         Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env, is_filepath:=is_path)
 
@@ -215,8 +242,18 @@ Module proteinKit
             Return s.TryCast(Of Message)
         End If
 
-        Dim pdb As PDB() = RCSB.PDB.PDB.Load(s.TryCast(Of Stream)).ToArray
+        Dim pdb As PDB() = Nothing
 
+        If safe Then
+            Try
+                pdb = RCSB.PDB.PDB.Load(s.TryCast(Of Stream)).ToArray
+            Catch ex As Exception
+                Call ex.Message.Warning
+                Call App.LogException(ex)
+            End Try
+        Else
+            pdb = RCSB.PDB.PDB.Load(s.TryCast(Of Stream)).ToArray
+        End If
         If is_path Then
             Call s.TryCast(Of Stream).Dispose()
         End If
