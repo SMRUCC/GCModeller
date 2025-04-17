@@ -88,6 +88,11 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public Property Scale1 As SCALE123
     Public Property Scale2 As SCALE123
     Public Property Scale3 As SCALE123
+    Public Property Matrix1 As MTRIX123
+    Public Property Matrix2 As MTRIX123
+    Public Property Matrix3 As MTRIX123
+
+    Public Property SSBOND As SSBOND
 
     ''' <summary>
     ''' number of models inside current pdb file
@@ -96,13 +101,25 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public Property NUMMDL As NUMMDL
 
     Public Property Het As Het
-
+    Public Property HetName As HetName
+    Public Property HETSYN As HETSYN
+    Public Property Formula As Formula
+    Public Property Site As Site
     Public Property Helix As Helix
     Public Property Sheet As Sheet
-
+    Public Property Links As Link
     Public Property seqadv As SEQADV
-
+    Public Property CISPEP As CISPEP
     Public Property Master As Master
+    Public Property Conect As CONECT
+    Public Property MODRES As MODRES
+    Public Property SPRSDE As SPRSDE
+    Public Property CAVEAT As CAVEAT
+    Public Property MDLTYP As MDLTYP
+    Public Property ANISOU As ANISOU
+    Public Property SIGATM As SIGATM
+    Public Property SIGUIJ As SIGUIJ
+    Public Property SPLIT As SPLIT
 
     ''' <summary>
     ''' Populate out the multiple structure models inside current pdb data file
@@ -134,6 +151,11 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public ReadOnly Property MaxSpace As Keywords.Point3D
         Get
             Dim all = AtomStructures.Select(Function(m) m.Atoms).IteratesALL.ToArray
+
+            If all.Length = 0 Then
+                Return Nothing
+            End If
+
             Dim xmax = (From atom As AtomUnit In all Select atom.Location.X).Max
             Dim ymax = (From atom As AtomUnit In all Select atom.Location.Y).Max
             Dim zmax = (From atom As AtomUnit In all Select atom.Location.Z).Max
@@ -149,6 +171,11 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Public ReadOnly Property MinSpace As Keywords.Point3D
         Get
             Dim all = AtomStructures.Select(Function(m) m.Atoms).IteratesALL.ToArray
+
+            If all.Length = 0 Then
+                Return Nothing
+            End If
+
             Dim xmin = (From atom As AtomUnit In all Select atom.Location.X).Min
             Dim ymin = (From atom As AtomUnit In all Select atom.Location.Y).Min
             Dim zmin = (From atom As AtomUnit In all Select atom.Location.Z).Min
@@ -163,6 +190,10 @@ Public Class PDB : Implements Enumeration(Of Atom)
 
     Protected Friend Sub New()
     End Sub
+
+    Public Overrides Function ToString() As String
+        Return Header.ToString & $" [{Title}]"
+    End Function
 
     ''' <summary>
     ''' 加载一个蛋白质的三维空间结构的数据文件

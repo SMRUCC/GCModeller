@@ -65,6 +65,8 @@ Namespace Keywords
         Implements IEnumerable(Of AtomUnit)
 
         Public Property Atoms As AtomUnit()
+        Public Property HetAtoms As HETATM
+
         ''' <summary>
         ''' the model id
         ''' </summary>
@@ -85,6 +87,7 @@ Namespace Keywords
 
         Dim cache As New List(Of (key As Integer, value As String))
 
+
         Friend Shared Function Append(ByRef atoms As Atom, str As String) As Atom
             If atoms Is Nothing Then
                 atoms = New Atom
@@ -96,6 +99,10 @@ Namespace Keywords
 
         Friend Overrides Sub Flush()
             Atoms = (From item In cache.AsParallel Let aa = AtomUnit.InternalParser(item.value, InternalIndex:=item.key) Where Not aa Is Nothing Select aa).ToArray
+
+            If Not HetAtoms Is Nothing Then
+                HetAtoms.Flush()
+            End If
         End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of AtomUnit) Implements IEnumerable(Of AtomUnit).GetEnumerator

@@ -238,6 +238,16 @@ Namespace Keywords
                 Return Keywords.KEYWORD_SITE
             End Get
         End Property
+
+        Dim str As New List(Of String)
+
+        Friend Shared Function Append(ByRef site As Site, str As String) As Site
+            If site Is Nothing Then
+                site = New Site
+            End If
+            site.str.Append(str)
+            Return site
+        End Function
     End Class
 
     Public Class Master : Inherits Keyword

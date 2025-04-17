@@ -58,6 +58,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Keywords
 
@@ -77,6 +78,8 @@ Namespace Keywords
         Public Property refn As String
         Public Property pmid As String
         Public Property doi As String
+        Public Property PUBL As String
+        Public Property EDIT As String
 
         Friend Shared Function Append(ByRef jrnl As Journal, str As String) As Journal
             If jrnl Is Nothing Then
@@ -110,8 +113,17 @@ Namespace Keywords
                     Case "REFN" : refn = tuple.value
                     Case "PMID" : pmid = tuple.value
                     Case "DOI" : doi = tuple.value
+                    Case "PUBL" : PUBL = tuple.value
+                    Case "EDIT" : EDIT = tuple.value
+
                     Case Else
-                        Throw New NotImplementedException(tuple.name)
+                        If tuple.name.IsPattern("AUTH\d+") Then
+                            author = author _
+                                .JoinIterates(tuple.value.Split(","c)) _
+                                .ToArray
+                        Else
+                            Throw New NotImplementedException("journal data: " & tuple.name)
+                        End If
                 End Select
             Next
         End Sub

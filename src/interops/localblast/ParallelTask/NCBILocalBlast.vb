@@ -1,72 +1,71 @@
 ﻿#Region "Microsoft.VisualBasic::83d5f71b8f13a0aa7fab025f573d7f70, localblast\ParallelTask\NCBILocalBlast.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 398
-    '    Code Lines: 269 (67.59%)
-    ' Comment Lines: 82 (20.60%)
-    '    - Xml Docs: 97.56%
-    ' 
-    '   Blank Lines: 47 (11.81%)
-    '     File Size: 20.48 KB
+' Summaries:
 
 
-    ' Module NCBILocalBlast
-    ' 
-    '     Function: __blastn, __blastX, __integrity, (+2 Overloads) Blastn, Blastp
-    '               (+2 Overloads) BlastX, CreateSession, (+2 Overloads) Export_BidirBesthit, ExportBesthit, ExportBesthits
-    '               ExportOverviewCsv, FastCheckIntegrityProvider, Grephits, GrepQuery, LoadBesthitCsv
-    '               LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput, LoadOverview, LoadUltraLargeSizeBlastOutput
-    '               MyvaCogClassify, ParseScore, ReadMyvaCOG, SaveBBH, Version
-    '               WriteBesthit
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 398
+'    Code Lines: 269 (67.59%)
+' Comment Lines: 82 (20.60%)
+'    - Xml Docs: 97.56%
+' 
+'   Blank Lines: 47 (11.81%)
+'     File Size: 20.48 KB
+
+
+' Module NCBILocalBlast
+' 
+'     Function: __blastn, __blastX, __integrity, (+2 Overloads) Blastn, Blastp
+'               (+2 Overloads) BlastX, CreateSession, (+2 Overloads) Export_BidirBesthit, ExportBesthit, ExportBesthits
+'               ExportOverviewCsv, FastCheckIntegrityProvider, Grephits, GrepQuery, LoadBesthitCsv
+'               LoadBiDirBh, LoadBlastOutput, LoadBlastXOutput, LoadOverview, LoadUltraLargeSizeBlastOutput
+'               MyvaCogClassify, ParseScore, ReadMyvaCOG, SaveBBH, Version
+'               WriteBesthit
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Darwinism.HPC.Parallel.ThreadTask
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Data.Repository
-Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
