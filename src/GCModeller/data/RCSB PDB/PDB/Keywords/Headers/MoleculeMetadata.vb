@@ -212,6 +212,22 @@ Namespace Keywords
             End Get
         End Property
 
+        Public ReadOnly Property Ncbi_taxid(Optional mol As String = Nothing) As String
+            Get
+                If mol Is Nothing Then
+                    If Mols.Count = 1 Then
+                        Return Mols.First.Value!ORGANISM_TAXID
+                    Else
+                        Throw New InvalidProgramException
+                    End If
+                ElseIf Mols.ContainsKey(mol) Then
+                    Return Mols(mol)!ORGANISM_TAXID
+                Else
+                    Throw New KeyNotFoundException
+                End If
+            End Get
+        End Property
+
         Friend Shared Function Append(ByRef src As Source, str As String) As Source
             If src Is Nothing Then
                 src = New Source With {
