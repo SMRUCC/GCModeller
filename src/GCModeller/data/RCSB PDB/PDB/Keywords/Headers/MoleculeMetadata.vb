@@ -73,6 +73,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Keywords
 
@@ -101,6 +102,7 @@ Namespace Keywords
 
                     Continue For
                 ElseIf last Is Nothing Then
+                    last = line
                     Continue For
                 Else
                     tag = last.GetTagValue(":", trim:=True)
@@ -114,21 +116,22 @@ Namespace Keywords
                 If tag.Name = "MOL_ID" Then
                     If Not mol Is Nothing Then
                         Mols.Add(mol.id, mol)
-                        last = Nothing
                     End If
 
                     mol = New Properties With {
-                        .id = tag.Value,
+                        .id = tag.Value.Trim(";"c),
                         .metadata = New Dictionary(Of String, String)
                     }
                 Else
-                    mol.add(tag.Name, tag.Value)
+                    mol.add(tag.Name, tag.Value.Trim(";"c))
                 End If
             Next
 
             If Not mol Is Nothing Then
                 If Not last Is Nothing Then
-                    tag = last.GetTagValue(":", trim:=True)
+                    tag = last _
+                        .GetTagValue(" ").Value _
+                        .GetTagValue(":", trim:=True)
                     mol.add(tag.Name, tag.Value)
                 End If
 
@@ -167,6 +170,10 @@ Namespace Keywords
         Public Sub add(key As String, value As String)
             Call metadata.Add(key, value)
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{id} - {metadata.Keys.GetJson}"
+        End Function
 
     End Class
 
