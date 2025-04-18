@@ -106,6 +106,16 @@ declare namespace proteinKit {
    */
    function kmer_graph(prot: any, k?: object, env?: object): object;
    /**
+    * parse the pdb struct data from a given document text data
+    * 
+    * 
+     * @param pdb_txt -
+     * @param safe -
+     * 
+     * + default value Is ``false``.
+   */
+   function parse_pdb(pdb_txt: string, safe?: boolean): any;
+   /**
     * get structure models inside the given pdb object
     * 
     * 
@@ -118,12 +128,14 @@ declare namespace proteinKit {
        * 
        * 
         * @param file A file path string or Stream object representing the PDB file to read.
+        * @param safe 
+        * + default value Is ``false``.
         * @param env The R runtime environment for error handling and resource management.
         * 
         * + default value Is ``null``.
         * @return Returns a parsed @``T:SMRUCC.genomics.Data.RCSB.PDB.PDB`` object if successful. Returns a @``T:SMRUCC.Rsharp.Runtime.Components.Message`` 
         *  error object if file loading fails due to invalid path or format issues.
       */
-      function pdb(file: any, env?: object): any;
+      function pdb(file: any, safe?: boolean, env?: object): object;
    }
 }

@@ -64,6 +64,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.MIME.Html.Render
 
@@ -80,11 +81,26 @@ Namespace PostScript.Elements
         End Sub
 
         Friend Overrides Sub Paint(g As IGraphics)
-            Throw New NotImplementedException()
+            If Not fill.StringEmpty(, True) Then
+                Call g.FillPolygon(fill.GetBrush, points)
+            End If
+            If stroke IsNot Nothing Then
+                Call g.DrawPolygon(g.LoadEnvironment.GetPen(stroke), points)
+            End If
         End Sub
 
         Friend Overrides Function ScaleTo(scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale) As PSElement
-            Throw New NotImplementedException()
+            Return New Polygon With {
+                .comment = comment,
+                .fill = fill,
+                .stroke = stroke,
+                .points = points _
+                    .SafeQuery _
+                    .Select(Function(i)
+                                Return New PointF(scaleX(i.X), scaleY(i.Y))
+                            End Function) _
+                    .ToArray
+            }
         End Function
 
         Friend Overrides Function GetXy() As PointF
@@ -130,8 +146,9 @@ Namespace PostScript.Elements
             If Not fill.StringEmpty(, True) Then
                 Call g.FillClosedCurve(fill.GetBrush, points)
             End If
-
-            Call g.DrawClosedCurve(g.LoadEnvironment.GetPen(stroke), points)
+            If stroke IsNot Nothing Then
+                Call g.DrawClosedCurve(g.LoadEnvironment.GetPen(stroke), points)
+            End If
         End Sub
     End Class
 End Namespace
