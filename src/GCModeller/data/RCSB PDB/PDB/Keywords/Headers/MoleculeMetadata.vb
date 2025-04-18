@@ -167,6 +167,12 @@ Namespace Keywords
         Public Property metadata As Dictionary(Of String, String)
         Public Property id As String
 
+        Default Public ReadOnly Property GetString(key As String) As String
+            Get
+                Return metadata.TryGetValue(key, [default]:="")
+            End Get
+        End Property
+
         Public Sub add(key As String, value As String)
             Call metadata.Add(key, value)
         End Sub
@@ -182,6 +188,27 @@ Namespace Keywords
         Public Overrides ReadOnly Property Keyword As String
             Get
                 Return Keywords.KEYWORD_SOURCE
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' get gene id
+        ''' </summary>
+        ''' <param name="mol"></param>
+        ''' <returns></returns>
+        Public ReadOnly Property GeneId(Optional mol As String = Nothing) As String()
+            Get
+                If mol Is Nothing Then
+                    If Mols.Count = 1 Then
+                        Return Mols.First.Value!GENE.StringSplit(",\s+")
+                    Else
+                        Throw New InvalidProgramException
+                    End If
+                ElseIf Mols.ContainsKey(mol) Then
+                    Return Mols(mol)!GENE.StringSplit(",\s+")
+                Else
+                    Throw New KeyNotFoundException
+                End If
             End Get
         End Property
 
