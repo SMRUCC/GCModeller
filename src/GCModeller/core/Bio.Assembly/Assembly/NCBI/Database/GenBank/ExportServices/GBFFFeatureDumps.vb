@@ -210,8 +210,12 @@ Namespace Assembly.NCBI.GenBank
         ''' <summary>
         ''' get mRNA sequence
         ''' </summary>
-        ''' <returns></returns>
-        ''' 
+        ''' <returns>
+        ''' the DNA sequence of the target <paramref name="mRNA"/> gene.
+        ''' </returns>
+        ''' <remarks>
+        ''' Cut and join genomics DNA sequence for the given mRNA features.
+        ''' </remarks>
         <Extension>
         Public Function GetmRNASequence(gb As GBFF.File, mRNA As Feature) As String
             Dim locs = mRNA.Location

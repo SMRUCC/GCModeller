@@ -181,6 +181,11 @@ Namespace SequenceModel
             Return mw - water
         End Function
 
+        ''' <summary>
+        ''' Create formula for protein polypeptide sequence
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
         Public Function PolypeptideFormula(seq As String) As FormulaData
             Dim formula As FormulaData = FormulaData.Empty
             Dim water As FormulaData = FormulaData.H2O * (seq.Length - 1)
@@ -196,6 +201,11 @@ Namespace SequenceModel
             Return formula - water
         End Function
 
+        ''' <summary>
+        ''' Create formula for DNA nucleotide sequence
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
         Public Function DeoxyribonucleotideFormula(seq As String) As FormulaData
             Dim water As FormulaData = FormulaData.H2O * (seq.Length - 1)
             Dim formula As FormulaData = FormulaData.Empty
@@ -213,6 +223,11 @@ Namespace SequenceModel
             Return formula - water
         End Function
 
+        ''' <summary>
+        ''' Create formula for RNA nucleotide sequence
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
         Public Function RibonucleotideFormula(seq As String) As FormulaData
             Dim water As FormulaData = FormulaData.H2O * (seq.Length - 1)
             Dim formula As FormulaData = FormulaData.Empty
@@ -239,22 +254,33 @@ Namespace SequenceModel
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function CalcMW_Nucleotides(seq As ISequenceModel, Optional is_rna As Boolean = False) As Double
-            With seq.SequenceData
-                Dim total As Double
-                Dim water As Double = (.Length - 1) * PeriodicTable.H2O
+            Return CalcMW_Nucleotides(seq.SequenceData, is_rna)
+        End Function
 
-                If is_rna Then
-                    total = Aggregate ch As Char
-                            In .ToUpper
-                            Into Sum(Ribonucleotide(ch))
-                Else
-                    total = Aggregate ch As Char
-                            In .ToUpper
-                            Into Sum(Deoxyribonucleotide(ch))
-                End If
+        ''' <summary>
+        ''' 计算核酸序列的相对分子质量
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
+        Public Function CalcMW_Nucleotides(seq As String, Optional is_rna As Boolean = False) As Double
+            Dim total As Double
+            Dim water As Double = (seq.Length - 1) * PeriodicTable.H2O
 
-                Return total - water
-            End With
+            seq = seq.ToUpper
+
+            If is_rna Then
+                total = Aggregate ch As Char
+                        In seq
+                        Into Sum(Ribonucleotide(ch))
+            Else
+                total = Aggregate ch As Char
+                        In seq
+                        Into Sum(Deoxyribonucleotide(ch))
+            End If
+
+            Return total - water
         End Function
     End Module
 End Namespace

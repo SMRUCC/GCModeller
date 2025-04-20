@@ -70,6 +70,9 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel
 
+    ''' <summary>
+    ''' The formula composition data model
+    ''' </summary>
     Public Structure FormulaData
 
         Dim elements As Dictionary(Of String, Integer)
