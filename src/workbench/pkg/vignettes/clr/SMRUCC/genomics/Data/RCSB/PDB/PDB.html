@@ -22,7 +22,231 @@
 
         <h3>Description</h3>
 
-        
+        <p>The <strong>RCSB PDB file format</strong> is a standardized text-based format used to represent 3D structural
+ data of biological macromolecules, such as proteins, nucleic acids, and viruses. Managed by the
+ Research Collaboratory for Structural Bioinformatics (RCSB), it serves as the primary format for 
+ entries in the Protein Data Bank (PDB), a global repository for experimentally determined structures. 
+ Below is a detailed introduction:
+ 
+ 
+
+<hr /></p>
+
+<p>### <strong>Key Features</strong>
+ 
+ 1. <strong>Text-Based Structure</strong>:  
+    Plain text file (`.pdb` extension) with a <strong>fixed-column format</strong>, meaning data is organized 
+    into specific columns for consistency. Each line begins with a <strong>record type</strong> (e.g., `ATOM`, 
+    `HETATM`, `HEADER`) that defines the data it contains.
+ 
+ 2. <strong>Core Components</strong>:  
+    - <strong>Atomic Coordinates</strong>: Stored in `ATOM` (standard residues) and `HETATM` (heteroatoms, e.g., water, ligands) records.  
+    - <strong>Metadata</strong>: Includes details like the title (`TITLE`), experimental method (`EXPDTA`), authors (`AUTHOR`), and biological source (`SOURCE`).  
+    - <strong>Sequence Information</strong>: Provided in `SEQRES` lines.  
+    - <strong>Secondary Structure</strong>: Annotated in `HELIX`, `SHEET`, and `TURN` records.  
+    - <strong>Connectivity</strong>: Bonds between atoms are listed in `CONECT` lines.  
+    - <strong>Crystallographic Data</strong>: Unit cell parameters (`CRYST1`), symmetry operations, and resolution.
+ 
+ 3. <strong>Example ATOM/HETATM Line</strong>:  
+
+<pre><code class="">    ATOM   2301  CA  SER A 301      26.417  24.105  34.560  1.00 30.97           C  
+    HETATM 9101  O   HOH A 910      10.500  20.100  30.500  1.00 25.00           O  
+</code></pre>
+
+
+    - <strong>Columns 1-6</strong>: Record type (e.g., `ATOM`).  
+    - <strong>Columns 7-11</strong>: Atom serial number.  
+    - <strong>Columns 13-16</strong>: Atom name (e.g., `CA` for alpha carbon).  
+    - <strong>Columns 17-20</strong>: Residue name (e.g., `SER` for serine).  
+    - <strong>Column 22</strong>: Chain identifier (e.g., `A`).  
+    - <strong>Columns 23-26</strong>: Residue number.  
+    - <strong>Columns 31-54</strong>: X, Y, Z coordinates.  
+    - <strong>Columns 55-60</strong>: Occupancy and temperature factor (B-factor).  
+    - <strong>Columns 77-78</strong>: Element symbol (e.g., `C`, `O`).
+ 
+ 
+
+<hr /></p>
+
+<p>### <strong>Common Record Types</strong>
+ <table>
+
+<thead>
+<tr><th>Record</th><th>Description</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>
+
+<hr />
+
+</th><th>
+
+<hr />
+
+</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`HEADER`</th><th>Molecular type, deposition date, and PDB ID (e.g., `1ABC`).</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`TITLE`</th><th>Title of the structure.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`COMPND`</th><th>Molecular components in the entry (e.g., protein, ligand, ion).</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`SEQRES`</th><th>Amino acid/nucleotide sequence of the macromolecule.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`ATOM`</th><th>3D coordinates of standard residues (e.g., amino acids in a protein).</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`HETATM`</th><th>Coordinates of heteroatoms (non-standard residues: ligands, water, ions).</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`HELIX`</th><th>Details of α-helices.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`SHEET`</th><th>Details of β-sheets.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`CONECT`</th><th>Bonds between atoms not covered by standard residue templates.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`REMARK`</th><th>Annotations, experimental details, or warnings.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> 
+ 
+
+<hr /></p>
+
+<p>### <strong>Limitations</strong>
+ - <strong>Column Width Restrictions</strong>: Legacy format limits data fields (e.g., residue numbers up to 9999, atom serial numbers up to 99,999).  
+ - <strong>Sparse Connectivity Data</strong>: Bonds are often inferred rather than explicitly listed.  
+ - <strong>No Support for Large Structures<em></em>: Superseded by the <em></em>mmCIF/PDBx format</strong> (more flexible, supports larger datasets).
+ 
+ 
+
+<hr /></p>
+
+<p>### <strong>Modernization: mmCIF/PDBx Format</strong>
+ The PDB now prioritizes the <strong>mmCIF format</strong> (Macromolecular Crystallographic Information File), which 
+ uses a flexible, key-value-based structure without column limits. Legacy PDB files are automatically 
+ converted to mmCIF for archiving.
+ 
+ 
+
+<hr /></p>
+
+<p>### <strong>Tools for Viewing/Editing</strong>
+ - <strong>Visualization</strong>: PyMOL, Chimera, VMD, RCSB PDB Viewer.  
+ - <strong>Analysis</strong>: BioPython, MDAnalysis.  
+ - <strong>Database Access</strong>: <a href='https://www.rcsb.org/' title='RCSB PDB website'>RCSB PDB website</a> (search, download, and explore entries).
+ 
+ 
+
+<hr /></p>
+
+<p>### <strong>Example PDB File Snippet</strong>
+
+<pre><code class=""> HEADER    HYDROLASE                             15-JUL-98   1ABC              
+ TITLE     CRYSTAL STRUCTURE OF EXAMPLE ENZYME                                 
+ COMPND    MOL_ID: 1;                                                           
+ COMPND   2 MOLECULE: EXAMPLE ENZYME; CHAIN: A;                                 
+ SEQRES   1 A  321  SER GLY LEU ARG TYR ...                                      
+ ATOM      1  N   SER A   1      10.000  20.000  30.000  1.00 25.00           N  
+ ATOM      2  CA  SER A   1      11.000  21.000  31.000  1.00 26.00           C  
+ HETATM 1001  O   HOH A 1001     40.000  50.000  60.000  1.00 30.00           O  
+ HELIX    1  ALA A 10 THR A 20  1                                            
+ CONECT 1001 1002
+</code></pre>
+
+
+ 
+ 
+
+<hr /></p>
+
+<p>### <strong>Use Cases</strong>
+ - Studying protein-ligand interactions.  
+ - Analyzing enzyme active sites.  
+ - Visualizing mutations in diseases.  
+ - Teaching structural biology concepts.
+ 
+ For more details, visit the <a href='https://www.rcsb.org/' title='RCSB PDB'>RCSB PDB</a> and explore entries like <a href='https://www.rcsb.org/structure/1ATP' title='1ATP'>1ATP</a>.</p>
+
+<p>pdb file is the struct data about a protein complex, one pdb file may includes 
+ multiple protein and metabolite compound data.</p>
 
         <h3>Declare</h3>        
 

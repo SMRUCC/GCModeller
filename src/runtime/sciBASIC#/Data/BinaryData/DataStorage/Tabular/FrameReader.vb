@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c14ea832ca8439b5255260def14eb694, Data\BinaryData\DataStorage\Tabular\FrameReader.vb"
+﻿#Region "Microsoft.VisualBasic::9fe7ed9b778ef3749dee7e889f7c58b8, Data\BinaryData\DataStorage\Tabular\FrameReader.vb"
 
     ' Author:
     ' 
@@ -40,12 +40,12 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 7 (14.89%)
-    '     File Size: 1.57 KB
+    '     File Size: 1.58 KB
 
 
     ' Module FrameReader
     ' 
-    '     Function: ReadFeather
+    '     Function: ReadFeatures
     ' 
     ' /********************************************************************************/
 
@@ -63,7 +63,7 @@ Public Module FrameReader
     ''' </summary>
     ''' <param name="file"></param>
     ''' <returns></returns>
-    Public Function ReadFeather(file As String) As DataFrame
+    Public Function ReadFeatures(file As String) As DataFrame
         Dim df As New DataFrame With {
             .features = New Dictionary(Of String, FeatureVector)
         }

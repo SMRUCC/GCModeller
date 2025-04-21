@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::52ad585635ea949974e33dabd9dadfe1, Data\BinaryData\DataStorage\Tabular\FrameWriter.vb"
+﻿#Region "Microsoft.VisualBasic::c1eaccce035d47d732c6b880e75f8f14, Data\BinaryData\DataStorage\Tabular\FrameWriter.vb"
 
     ' Author:
     ' 
@@ -40,10 +40,12 @@
     '    - Xml Docs: 75.00%
     ' 
     '   Blank Lines: 17 (17.89%)
-    '     File Size: 3.42 KB
+    '     File Size: 3.44 KB
 
 
     ' Module FrameWriter
+    ' 
+    '     Properties: magic
     ' 
     '     Function: WriteFrame
     ' 
@@ -62,7 +64,7 @@ Imports Microsoft.VisualBasic.ValueTypes
 
 Public Module FrameWriter
 
-    Public ReadOnly magic As IReadOnlyCollection(Of Byte) = Encoding.ASCII.GetBytes("dataframe")
+    Public ReadOnly Property magic As IReadOnlyCollection(Of Byte) = Encoding.ASCII.GetBytes("scibasic.net/dataframe")
 
     ''' <summary>
     ''' write dataframe object as the binary file

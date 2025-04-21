@@ -139,12 +139,14 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <summary>
         ''' 列举出所有 该字段之下的域的数据
         ''' </summary>
-        ''' <param name="fieldName"></param>
+        ''' <param name="fieldName">
+        ''' the feature name, example as gene/CDS/tRNA/rRNA, etc
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function ListFeatures(fieldName As String) As IEnumerable(Of Feature)
             Return From feature As Feature
-                   In _innerList
+                   In _innerList.AsParallel
                    Let assert As Boolean = String.Equals(feature.KeyName, fieldName, StringComparison.OrdinalIgnoreCase)
                    Where True = assert
                    Select feature
