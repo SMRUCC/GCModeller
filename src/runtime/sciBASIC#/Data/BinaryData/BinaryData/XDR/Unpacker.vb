@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee3a58e9f99bcd84b6199a644d8969df, Data\BinaryData\BinaryData\XDR\Unpacker.vb"
+﻿#Region "Microsoft.VisualBasic::58c0a2e14313e7f0d5a7b8e0f92f8632, Data\BinaryData\BinaryData\XDR\Unpacker.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 51
-    '    Code Lines: 41 (80.39%)
+    '   Total Lines: 50
+    '    Code Lines: 40 (80.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 10 (19.61%)
-    '     File Size: 1.59 KB
+    '   Blank Lines: 10 (20.00%)
+    '     File Size: 1.56 KB
 
 
     '     Class Unpacker
@@ -55,7 +55,6 @@
 
 #End Region
 
-Imports System.Diagnostics
 Imports System.Runtime.CompilerServices
 
 Namespace Xdr

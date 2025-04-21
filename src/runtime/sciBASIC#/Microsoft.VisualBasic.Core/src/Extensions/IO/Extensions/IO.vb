@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4628f4e0605f5969efb8b672b1b81268, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\IO.vb"
+﻿#Region "Microsoft.VisualBasic::fd9cf44040c0c4dade133a9786e2153d, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\IO.vb"
 
     ' Author:
     ' 
@@ -35,12 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 351
-    '    Code Lines: 187 (53.28%)
+    '    Code Lines: 186 (52.99%)
     ' Comment Lines: 130 (37.04%)
     '    - Xml Docs: 79.23%
     ' 
-    '   Blank Lines: 34 (9.69%)
-    '     File Size: 13.92 KB
+    '   Blank Lines: 35 (9.97%)
+    '     File Size: 13.84 KB
 
 
     ' Module IOExtensions
@@ -60,6 +60,7 @@ Imports System.Text
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -211,7 +212,7 @@ Public Module IOExtensions
         End If
     End Function
 
-    Public Const size_2GB As Long = 1024& * 1024& * 1024& * 2&
+    Public Const size_2GB As Long = 2 * ByteSize.GB
 
     ''' <summary>
     ''' Safe open a local file handle. Warning: this function is set to write mode by default, 
