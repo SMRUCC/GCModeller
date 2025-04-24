@@ -1,5 +1,4 @@
 ﻿Imports System.Drawing
-Imports Microsoft.VisualBasic.Math.MachineVision
 
 Public Class OcrText : Inherits Detection
 
