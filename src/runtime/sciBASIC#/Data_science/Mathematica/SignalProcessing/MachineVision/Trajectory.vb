@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' Trajectory of a object
@@ -7,17 +8,26 @@ Imports System.Runtime.CompilerServices
 Public Class Trajectory
 
     Public ReadOnly Property TrajectoryID As Integer
-    Public ReadOnly Property positions As New List(Of PointF)
-
-    Public ReadOnly Property LastPosition As PointF
+    Public ReadOnly Property positions As PointF()
         Get
-            Return positions.Last()
+            Return objectSet _
+                .SafeQuery _
+                .Select(Function(o) CType(o, PointF)) _
+                .ToArray
         End Get
     End Property
 
+    Public ReadOnly Property LastPosition As PointF
+        Get
+            Return objectSet.Last()
+        End Get
+    End Property
+
+    Public Property objectSet As New List(Of Detection)
+
     Public Sub New(id As Integer, t0 As Detection)
         TrajectoryID = id
-        positions.Add(t0.Position)
+        objectSet.Add(t0)
     End Sub
 
     ''' <summary>
@@ -26,7 +36,7 @@ Public Class Trajectory
     ''' <param name="detection"></param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub Update(detection As Detection)
-        Call positions.Add(detection.Position)
+        Call objectSet.Add(detection)
     End Sub
 
 End Class

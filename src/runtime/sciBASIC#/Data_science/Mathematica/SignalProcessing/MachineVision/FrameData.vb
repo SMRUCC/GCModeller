@@ -18,6 +18,11 @@ Public Class FrameData : Implements Enumeration(Of Detection)
         _Detections = detections.SafeQuery.ToArray
     End Sub
 
+    Public Function SetIndex(id As Integer) As FrameData
+        FrameID = id
+        Return Me
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return $"#{FrameID} " & Detections _
@@ -39,8 +44,14 @@ Public Class Detection
     Public Property ObjectID As String
     Public Property Position As PointF
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return $"{ObjectID} [x:{Position.X}, y:{Position.Y}]"
     End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Narrowing Operator CType(obj As Detection) As PointF
+        Return obj.Position
+    End Operator
 End Class
 
