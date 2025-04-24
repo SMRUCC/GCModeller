@@ -16,7 +16,7 @@ Public Class FrameData(Of T As Detection) : Implements Enumeration(Of T)
     Public Property FrameID As Integer
 
     <XmlElement("Objects")>
-    Public Property Detections As Detection()
+    Public Property Detections As T()
 
     Sub New()
     End Sub
