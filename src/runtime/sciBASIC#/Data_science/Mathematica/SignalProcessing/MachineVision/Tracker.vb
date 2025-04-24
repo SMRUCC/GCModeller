@@ -1,4 +1,5 @@
 ﻿
+Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.SignalProcessing
 Imports std = System.Math
@@ -26,7 +27,7 @@ Public Class Tracker : Implements Enumeration(Of Trajectory)
     ''' </summary>
     Dim objects As New List(Of Trajectory)
 
-    Public Sub Update(frameData As FrameData)
+    Public Sub Update(Of T As Detection)(frameData As FrameData(Of T))
         Dim currentFrameID = frameData.FrameID
 
         ' 1. 移除过期轨迹
@@ -50,7 +51,8 @@ Public Class Tracker : Implements Enumeration(Of Trajectory)
             For j As Integer = 0 To frameData.Detections.Count - 1
                 Dim lastPos = currentTrajectories(i).LastPosition
                 Dim currPos = frameData.Detections(j).Position
-                costMatrix(i, j) = std.Sqrt((lastPos.X - currPos.X) ^ 2 + (lastPos.Y - currPos.Y) ^ 2)
+
+                costMatrix(i, j) = lastPos.Distance(currPos)
             Next
         Next
 

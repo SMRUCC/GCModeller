@@ -4,9 +4,17 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Public Class FrameData : Implements Enumeration(Of Detection)
+''' <summary>
+''' A frame data of the <see cref="Detection"/>.
+''' </summary>
+Public Class FrameData : Inherits FrameData(Of Detection)
+End Class
 
-    <XmlAttribute> Public Property FrameID As Integer
+Public Class FrameData(Of T As Detection) : Implements Enumeration(Of T)
+
+    <XmlAttribute>
+    Public Property FrameID As Integer
+
     <XmlElement("Objects")>
     Public Property Detections As Detection()
 
@@ -18,7 +26,7 @@ Public Class FrameData : Implements Enumeration(Of Detection)
         _Detections = detections.SafeQuery.ToArray
     End Sub
 
-    Public Function SetIndex(id As Integer) As FrameData
+    Public Function SetIndex(id As Integer) As FrameData(Of T)
         FrameID = id
         Return Me
     End Function
@@ -31,8 +39,8 @@ Public Class FrameData : Implements Enumeration(Of Detection)
             .GetJson
     End Function
 
-    Public Iterator Function GenericEnumerator() As IEnumerator(Of Detection) Implements Enumeration(Of Detection).GenericEnumerator
-        For Each obj As Detection In Detections.SafeQuery
+    Public Iterator Function GenericEnumerator() As IEnumerator(Of T) Implements Enumeration(Of T).GenericEnumerator
+        For Each obj As T In Detections.SafeQuery
             Yield obj
         Next
     End Function
