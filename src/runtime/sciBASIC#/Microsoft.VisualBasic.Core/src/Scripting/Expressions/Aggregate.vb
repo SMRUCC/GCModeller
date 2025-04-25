@@ -118,7 +118,9 @@ Namespace Scripting.Expressions
         ''' Get ``Aggregate`` function by term.
         ''' </summary>
         ''' <param name="aggregate"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' A lambda function for aggregate a numeric vector
+        ''' </returns>
         ''' 
         <Extension>
         Public Function GetAggregateFunction(aggregate As Aggregates) As Func(Of IEnumerable(Of Double), Double)
@@ -143,9 +145,15 @@ Namespace Scripting.Expressions
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Helper function for get lambda function by scripting text for two number parameter
         ''' </summary>
-        ''' <param name="aggregate"></param>
+        ''' <param name="aggregate">
+        ''' + max
+        ''' + min
+        ''' + average
+        ''' + sum
+        ''' + median
+        ''' </param>
         ''' <returns>
         ''' a lambda function implements of interface y = f(a,b)
         ''' </returns>
