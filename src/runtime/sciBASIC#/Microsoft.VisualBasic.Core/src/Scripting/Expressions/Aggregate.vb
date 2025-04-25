@@ -93,6 +93,7 @@ Namespace Scripting.Expressions
             aggregateFlags("avg") = Aggregates.Mean
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ParseFlag(name As String) As Aggregates
             Return aggregateFlags.TryGetValue(LCase(name), [default]:=Aggregates.Invalid)
         End Function
@@ -109,16 +110,7 @@ Namespace Scripting.Expressions
         ''' 
         <Extension>
         Public Function GetAggregateFunction(name As String) As Func(Of IEnumerable(Of Double), Double)
-            Select Case aggregateFlags(LCase(name))
-                Case Aggregates.Max : Return Function(x) x.Max
-                Case Aggregates.Min : Return Function(x) x.Min
-                Case Aggregates.Mean : Return Function(x) x.Average
-                Case Aggregates.Median : Return Function(x) x.Median
-                Case Aggregates.Sum : Return Function(x) x.Sum
-
-                Case Else
-                    Throw New NotImplementedException(name)
-            End Select
+            Return ParseFlag(name).GetAggregateFunction
         End Function
 
         ''' <summary>
@@ -126,6 +118,8 @@ Namespace Scripting.Expressions
         ''' </summary>
         ''' <param name="aggregate"></param>
         ''' <returns></returns>
+        ''' 
+        <Extension>
         Public Function GetAggregateFunction(aggregate As Aggregates) As Func(Of IEnumerable(Of Double), Double)
             Select Case aggregate
                 Case Aggregates.Max : Return Function(x) x.Max
@@ -135,6 +129,10 @@ Namespace Scripting.Expressions
                 Case Aggregates.Sum : Return Function(x) x.Sum
 
                 Case Else
+                    If aggregate = Aggregates.Invalid Then
+                        Throw New InvalidProgramException("You should choose a aggregate method!")
+                    End If
+
                     Throw New NotImplementedException(aggregate)
             End Select
         End Function
