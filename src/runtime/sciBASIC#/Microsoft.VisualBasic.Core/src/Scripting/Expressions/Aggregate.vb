@@ -64,6 +64,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
+Imports std = System.Math
 
 Namespace Scripting.Expressions
 
@@ -129,11 +130,36 @@ Namespace Scripting.Expressions
                 Case Aggregates.Sum : Return Function(x) x.Sum
 
                 Case Else
-                    If aggregate = Aggregates.Invalid Then
-                        Throw New InvalidProgramException("You should choose a aggregate method!")
-                    End If
+                    Return CommonThrowInvalid(aggregate)
+            End Select
+        End Function
 
-                    Throw New NotImplementedException(aggregate)
+        Private Function CommonThrowInvalid(aggregate As Aggregates) As Object
+            If aggregate = Aggregates.Invalid Then
+                Throw New InvalidProgramException("You should choose a aggregate method!")
+            End If
+
+            Throw New NotImplementedException(aggregate)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="aggregate"></param>
+        ''' <returns>
+        ''' a lambda function implements of interface y = f(a,b)
+        ''' </returns>
+        <Extension>
+        Public Function GetAggregateFunction2(aggregate As Aggregates) As Func(Of Double, Double, Double)
+            Select Case aggregate
+                Case Aggregates.Max : Return AddressOf std.Max
+                Case Aggregates.Mean : Return Function(a, b) (a + b) / 2
+                Case Aggregates.Median : Return Function(a, b) (a + b) / 2
+                Case Aggregates.Min : Return AddressOf std.Min
+                Case Aggregates.Sum : Return Function(a, b) a + b
+
+                Case Else
+                    Return CommonThrowInvalid(aggregate)
             End Select
         End Function
     End Module
