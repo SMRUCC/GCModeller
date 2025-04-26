@@ -126,9 +126,9 @@ Namespace Metagenomics
         <Extension>
         Public Function TaxonomyString(lineage As String()) As String
             Return lineage _
-                .SeqIterator _
-                .Select(Function(level)
-                            Dim node As NamedValue(Of String) = level.value.GetTagValue("__")
+                .Take(BIOMPrefix.Length) _
+                .Select(Function(level, i)
+                            Dim node As NamedValue(Of String) = level.GetTagValue("__")
                             Dim prefix As String = LCase(node.Name)
 
                             If Not prefix.StringEmpty Then

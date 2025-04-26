@@ -73,7 +73,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
         Public ReadOnly Property BiomString As String
             Get
-                Return BIOMTaxonomy.TaxonomyString(OrganismHierarchy.Lineage)
+                Return BIOMTaxonomy.TaxonomyString(OrganismHierarchy.Lineage.Join(SpeciesName).ToArray)
             End Get
         End Property
 
