@@ -128,13 +128,13 @@ Namespace Metagenomics
             Return lineage _
                 .Take(BIOMPrefix.Length) _
                 .Select(Function(level, i)
-                            Dim node As NamedValue(Of String) = level.GetTagValue("__")
+                            Dim node As NamedValue(Of String) = level.GetTagValue("__", failureNoName:=True)
                             Dim prefix As String = LCase(node.Name)
 
                             If Not prefix.StringEmpty Then
                                 prefix = biomPrefixTable(prefix)
                             Else
-                                prefix = BIOMPrefix(level).Trim("_"c)
+                                prefix = BIOMPrefix(i).Trim("_"c)
                             End If
 
                             Return $"{prefix}__{node.Value}"
