@@ -173,6 +173,7 @@ Namespace HungarianAlgorithm
 
             Return 1
         End Function
+
         Private Function RunStep4(costs As Double(,), rowsCovered As Boolean(), colsCovered As Boolean(), w As Integer, h As Integer) As Integer
             Dim minValue = FindMinimum(costs, rowsCovered, colsCovered, w, h)
 
@@ -196,6 +197,7 @@ Namespace HungarianAlgorithm
 
             Return minValue
         End Function
+
         Private Function FindStarInRow(masks As Byte(,), w As Integer, row As Integer) As Integer
             For j = 0 To w - 1
                 If masks(row, j) = 1 Then Return j
