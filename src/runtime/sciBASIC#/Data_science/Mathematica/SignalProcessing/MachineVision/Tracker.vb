@@ -2,7 +2,6 @@
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.SignalProcessing
-Imports std = System.Math
 
 Public Class Tracker : Implements Enumeration(Of Trajectory)
 
