@@ -53,6 +53,8 @@
 
 Imports System.Drawing
 Imports System.Drawing.Imaging
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging
 
 Public Module ImageExtensions
 
@@ -90,4 +92,9 @@ Public Module ImageExtensions
 
         originalImage = adjustedImage
     End Sub
+
+    <Extension>
+    Public Function ReadDrawingImage(file As String) As System.Drawing.Image
+        Return file.LoadImage(throwEx:=False)
+    End Function
 End Module
