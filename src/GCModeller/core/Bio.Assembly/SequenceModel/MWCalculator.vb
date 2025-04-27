@@ -132,11 +132,13 @@ Namespace SequenceModel
 #End Region
 
         ReadOnly Deoxyribonucleotide As New Dictionary(Of Char, Double) From {
-            {"A"c, dAMP}, {"T"c, dTMP}, {"C"c, dCMP}, {"G"c, dGMP}
+            {"A"c, dAMP}, {"T"c, dTMP}, {"C"c, dCMP}, {"G"c, dGMP},
+            {"-"c, (dAMP + dTMP + dCMP + dGMP) / 4} ' N/- means any kind of Deoxyribonucleotide char, use the average mass at here
         }
 
         ReadOnly Ribonucleotide As New Dictionary(Of Char, Double) From {
-            {"A"c, AMP}, {"U"c, UMP}, {"C"c, CMP}, {"G"c, GMP}
+            {"A"c, AMP}, {"U"c, UMP}, {"C"c, CMP}, {"G"c, GMP},
+            {"-"c, (AMP + UMP + CMP + GMP) / 4} ' N/- means any kind of Ribonucleotide char, use the average mass at here
         }
 
         Sub New()
@@ -212,7 +214,7 @@ Namespace SequenceModel
 
             Static any As FormulaData = Bases.Deoxyribonucleotide.Values.Sum / 4
 
-            For Each c As Char In seq.ToUpper
+            For Each c As Char In seq.ToUpper.Replace("N", "-")
                 If c = "-"c Then
                     formula = formula + any
                 Else
@@ -268,7 +270,7 @@ Namespace SequenceModel
             Dim total As Double
             Dim water As Double = (seq.Length - 1) * PeriodicTable.H2O
 
-            seq = seq.ToUpper
+            seq = seq.ToUpper.Replace("N", "-")
 
             If is_rna Then
                 total = Aggregate ch As Char
