@@ -37,6 +37,12 @@ Public Class FrameData(Of T As Detection) : Implements Enumeration(Of T)
         _Detections = detections.SafeQuery.ToArray
     End Sub
 
+    ''' <summary>
+    ''' Just set the given index value to the <see cref="FrameID"/>
+    ''' </summary>
+    ''' <param name="id"></param>
+    ''' <returns></returns>
+    <DebuggerStepThrough>
     Public Function SetIndex(id As Integer) As FrameData(Of T)
         FrameID = id
         Return Me

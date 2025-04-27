@@ -45,8 +45,12 @@ Public Class Tracker : Implements Enumeration(Of Trajectory)
         Next
 
         ' 构建代价矩阵（欧氏距离）
+        ' nrows = current trajectories
+        ' ncols = current frame detections
         Dim costMatrix(currentTrajectories.Count - 1, frameData.Detections.Length - 1) As Double
 
+        ' compares object position distance between the
+        ' last frame and current frame data
         For i As Integer = 0 To currentTrajectories.Count - 1
             For j As Integer = 0 To frameData.Detections.Length - 1
                 Dim lastPos = currentTrajectories(i).LastPosition
@@ -57,10 +61,13 @@ Public Class Tracker : Implements Enumeration(Of Trajectory)
         Next
 
         ' 应用匈牙利算法[7](@ref)
+        ' size of the assignments vector is equals to the current trajectories
         Dim assignments As Integer() = HungarianAlgorithm.FindAssignments(costMatrix)
 
         ' 3. 更新现有轨迹
+        ' loop through each current trajectories
         For i As Integer = 0 To assignments.Length - 1
+            ' get current trajectory assignment detection object in current frame
             Dim j As Integer = assignments(i)
 
             If j >= 0 AndAlso i < currentTrajectories.Count AndAlso j < frameData.Detections.Length Then
@@ -68,9 +75,10 @@ Public Class Tracker : Implements Enumeration(Of Trajectory)
                 lastUpdated(currentTrajectories(i).TrajectoryID) = currentFrameID
             Else
                 ' 未分配到检测，更新最后活跃时间
-                If i < currentTrajectories.Count Then
-                    lastUpdated(currentTrajectories(i).TrajectoryID) = currentFrameID
-                End If
+                ' just do nothing
+                'If i < currentTrajectories.Count Then
+                '    lastUpdated(currentTrajectories(i).TrajectoryID) = currentFrameID
+                'End If
             End If
         Next
 
