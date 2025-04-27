@@ -45,6 +45,11 @@ Public Class FrameData(Of T As Detection) : Implements Enumeration(Of T)
     <DebuggerStepThrough>
     Public Function SetIndex(id As Integer) As FrameData(Of T)
         FrameID = id
+
+        For Each obj As T In Detections.SafeQuery
+            obj.FrameID = id
+        Next
+
         Return Me
     End Function
 
@@ -68,6 +73,7 @@ Public Class Detection
     <XmlAttribute>
     Public Property ObjectID As String
     Public Property Position As PointF
+    Public Property FrameID As Integer
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
