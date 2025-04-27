@@ -151,6 +151,13 @@ Namespace SequenceModel
             Next
 
             AminoAcidX = AminoAcidX / n
+
+            ' DegenerateBasesExtensions
+            For Each var In New DegenerateBasesExtensions().DegenerateBases
+                Deoxyribonucleotide(var.Key) = var.Value _
+                    .Select(Function(c) Deoxyribonucleotide(c)) _
+                    .Average
+            Next
         End Sub
 
         ''' <summary>

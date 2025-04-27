@@ -59,7 +59,7 @@ Namespace SequenceModel.NucleotideModels
     Module Bases
 
         ''' <summary>
-        ''' Formula data of each DNA bases
+        ''' Formula data of each DNA bases + degenerate bases
         ''' </summary>
         Public ReadOnly Deoxyribonucleotide As New Dictionary(Of Char, FormulaData) From {
             {"A"c, PeriodicTable.SimpleParser("C10H12N5O6P") + FormulaData.H2O},
@@ -78,5 +78,14 @@ Namespace SequenceModel.NucleotideModels
             {"G"c, PeriodicTable.SimpleParser("C10H12N5O8P")}
         }
 
+        Sub New()
+            ' processing of degenerate bases for DNA sequence
+            For Each var In New DegenerateBasesExtensions().DegenerateBases
+                Dim sum As FormulaData = var.Value.Select(Function(c) Deoxyribonucleotide(c)).Sum
+                Dim nsize As Integer = var.Value.Length
+
+                Deoxyribonucleotide(var.Key) = sum / nsize
+            Next
+        End Sub
     End Module
 End Namespace
