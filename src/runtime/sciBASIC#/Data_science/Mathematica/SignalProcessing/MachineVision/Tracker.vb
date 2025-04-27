@@ -45,12 +45,12 @@ Public Class Tracker : Implements Enumeration(Of Trajectory)
         Next
 
         ' 构建代价矩阵（欧氏距离）
-        Dim costMatrix(currentTrajectories.Count - 1, frameData.Detections.Count - 1) As Double
+        Dim costMatrix(currentTrajectories.Count - 1, frameData.Detections.Length - 1) As Double
 
         For i As Integer = 0 To currentTrajectories.Count - 1
-            For j As Integer = 0 To frameData.Detections.Count - 1
+            For j As Integer = 0 To frameData.Detections.Length - 1
                 Dim lastPos = currentTrajectories(i).LastPosition
-                Dim currPos = frameData.Detections(j).Position
+                Dim currPos = frameData(j).Position
 
                 costMatrix(i, j) = lastPos.Distance(currPos)
             Next
@@ -63,7 +63,7 @@ Public Class Tracker : Implements Enumeration(Of Trajectory)
         For i As Integer = 0 To assignments.Length - 1
             Dim j As Integer = assignments(i)
 
-            If j >= 0 AndAlso i < currentTrajectories.Count AndAlso j < frameData.Detections.Count Then
+            If j >= 0 AndAlso i < currentTrajectories.Count AndAlso j < frameData.Detections.Length Then
                 currentTrajectories(i).Update(frameData.Detections(j))
                 lastUpdated(currentTrajectories(i).TrajectoryID) = currentFrameID
             Else
@@ -77,7 +77,7 @@ Public Class Tracker : Implements Enumeration(Of Trajectory)
         ' 4. 处理新检测
         Dim assignedCols As New HashSet(Of Integer)(assignments)
 
-        For j As Integer = 0 To frameData.Detections.Count - 1
+        For j As Integer = 0 To frameData.Detections.Length - 1
             If Not assignedCols.Contains(j) Then
                 currentTrajectories.Add(New Trajectory(nextID, frameData.Detections(j)))
                 lastUpdated.Add(nextID, currentFrameID)

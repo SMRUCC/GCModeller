@@ -18,6 +18,17 @@ Public Class FrameData(Of T As Detection) : Implements Enumeration(Of T)
     <XmlElement("Objects")>
     Public Property Detections As T()
 
+    ''' <summary>
+    ''' get detection object by its index in current frame
+    ''' </summary>
+    ''' <param name="index"></param>
+    ''' <returns></returns>
+    Default Public ReadOnly Property Item(index As Integer) As T
+        Get
+            Return Detections(index)
+        End Get
+    End Property
+
     Sub New()
     End Sub
 
