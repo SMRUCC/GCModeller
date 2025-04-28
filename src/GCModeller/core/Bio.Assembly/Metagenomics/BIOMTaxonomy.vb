@@ -126,15 +126,15 @@ Namespace Metagenomics
         <Extension>
         Public Function TaxonomyString(lineage As String()) As String
             Return lineage _
-                .SeqIterator _
-                .Select(Function(level)
-                            Dim node As NamedValue(Of String) = level.value.GetTagValue("__")
+                .Take(BIOMPrefix.Length) _
+                .Select(Function(level, i)
+                            Dim node As NamedValue(Of String) = level.GetTagValue("__", failureNoName:=True)
                             Dim prefix As String = LCase(node.Name)
 
                             If Not prefix.StringEmpty Then
                                 prefix = biomPrefixTable(prefix)
                             Else
-                                prefix = BIOMPrefix(level).Trim("_"c)
+                                prefix = BIOMPrefix(i).Trim("_"c)
                             End If
 
                             Return $"{prefix}__{node.Value}"
