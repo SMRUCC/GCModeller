@@ -219,7 +219,7 @@ Namespace Kernel
                     Return exitCode
                 End Using
             Else
-                Return runTicks(DoNothing)
+                Return runTicks(AddressOf App.DoNothing)
             End If
         End Function
 
