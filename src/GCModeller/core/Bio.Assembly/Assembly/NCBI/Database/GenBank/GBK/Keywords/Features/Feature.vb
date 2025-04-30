@@ -126,6 +126,13 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             End Get
         End Property
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="key">the feature qualifier name</param>
+        ''' <returns>
+        ''' this function returns nothing if the given key is not found in current feature.
+        ''' </returns>
         Public Function Query(key$) As String
             Dim LQuery = LinqAPI.DefaultFirst(Of String) <=
  _
@@ -143,8 +150,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <param name="Key"></param>
         ''' <returns></returns>
         Public Function Query(Key As FeatureQualifiers) As String
-            Dim sKey As String = Key.ToString
-            Return Query(sKey)
+            Return Query(Key.ToString)
         End Function
 
         Public Function attributes() As Dictionary(Of String, String)

@@ -276,8 +276,18 @@ Namespace Metagenomics
         End Function
 #End Region
 
+        ''' <summary>
+        ''' fill <paramref name="empty"/> to the missing taxonomy rank level
+        ''' </summary>
+        ''' <param name="lineage"></param>
+        ''' <param name="empty">empty string for the missing taxonomy rank level</param>
+        ''' <returns></returns>
         <Extension>
         Public Function FillLineageEmpty(lineage As Dictionary(Of String, String), Optional empty$ = "NA") As Dictionary(Of String, String)
+            If lineage.ContainsKey("kingdom") Then
+                lineage(NcbiTaxonomyTree.superkingdom) = lineage!kingdom
+            End If
+
             For Each level As String In NcbiTaxonomyTree.stdranks
                 If Not lineage.ContainsKey(level) Then
                     Call lineage.Add(level, empty)
