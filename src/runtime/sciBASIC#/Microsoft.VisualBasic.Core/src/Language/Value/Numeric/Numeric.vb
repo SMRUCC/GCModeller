@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9525e9664556a1340bf245a9d2a538f, Microsoft.VisualBasic.Core\src\Language\Value\Numeric\Numeric.vb"
+﻿#Region "Microsoft.VisualBasic::b97cdfe36be2b2c0027f36ed5314030c, Microsoft.VisualBasic.Core\src\Language\Value\Numeric\Numeric.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 88.75%
     ' 
     '   Blank Lines: 25 (13.16%)
-    '     File Size: 6.44 KB
+    '     File Size: 6.49 KB
 
 
     '     Module Numeric
@@ -106,7 +106,7 @@ Namespace Language
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
         ''' <returns>
-        ''' -1 means empty collection
+        ''' A zero-based index offset for the item with max value, -1 means empty collection
         ''' </returns>
         <Extension>
         Public Function MaxIndex(Of T As IComparable)(source As IEnumerable(Of T)) As Integer

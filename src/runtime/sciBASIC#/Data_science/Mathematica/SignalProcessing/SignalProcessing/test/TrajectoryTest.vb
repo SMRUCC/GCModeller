@@ -1,6 +1,65 @@
-﻿Imports System.Drawing
+﻿#Region "Microsoft.VisualBasic::6261280a471adde249defc48834fef0b, Data_science\Mathematica\SignalProcessing\SignalProcessing\test\TrajectoryTest.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 136
+    '    Code Lines: 96 (70.59%)
+    ' Comment Lines: 15 (11.03%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 25 (18.38%)
+    '     File Size: 5.04 KB
+
+
+    ' Class MotionSimulator
+    ' 
+    '     Function: GenerateTrackData
+    ' 
+    ' Module TrajectoryTest
+    ' 
+    '     Sub: Main, matchesTest, VisualizeTracks
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Drawing
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.MachineVision
+Imports Microsoft.VisualBasic.Math.SignalProcessing.HungarianAlgorithm
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Class MotionSimulator
     ' 生成ABC三个物体的模拟运动数据
@@ -62,7 +121,7 @@ Public Class MotionSimulator
                 })
             Next
 
-            frameData.Detections = New List(Of Detection)(frameData.Detections.Shuffles)
+            frameData.Detections = frameData.Detections.Shuffles
 
             Yield frameData
         Next
@@ -71,7 +130,23 @@ End Class
 
 Module TrajectoryTest
 
+    Sub matchesTest()
+        ' 测试方阵
+        Dim costSquare As Double(,) = {{1.0, 2.0}, {2.0, 1.0}}
+        Console.WriteLine(HungarianAlgorithm.FindAssignments(costSquare).GetJson)
+
+        ' 测试宽矩阵
+        Dim costWide As Double(,) = {{1.0, 3.0, 5.0}, {2.0, 4.0, 6.0}}
+        Console.WriteLine(HungarianAlgorithm.FindAssignments(costWide).GetJson)
+
+        ' 测试高矩阵
+        Dim costTall As Double(,) = {{1.0, 4.0}, {9.0, 15.0}, {3.0, 6.0}}
+        Console.WriteLine(HungarianAlgorithm.FindAssignments(costTall).GetJson)
+    End Sub
+
     Sub Main()
+        Call matchesTest()
+
         ' 生成模拟数据（50帧）
         Dim simulatedData = MotionSimulator.GenerateTrackData(50).ToArray
 
@@ -116,3 +191,4 @@ Module TrajectoryTest
 
 
 End Module
+

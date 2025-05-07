@@ -78,10 +78,10 @@ Namespace Assembly.NCBI.GenBank
         <Extension>
         Public Function loadRepliconTable(genome As String) As Dictionary(Of String, GBFF.File)
             Return GBFF.File _
-           .LoadDatabase(filePath:=genome) _
-           .ToDictionary(Function(gb)
-                             Return gb.Locus.AccessionID
-                         End Function)
+               .LoadDatabase(filePath:=genome) _
+               .ToDictionary(Function(gb)
+                                 Return gb.Locus.AccessionID
+                             End Function)
         End Function
 
         <Extension>
