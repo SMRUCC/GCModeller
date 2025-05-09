@@ -1,6 +1,5 @@
 ﻿Imports System.IO
 Imports System.Text
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Values
@@ -130,6 +129,8 @@ Namespace IO.ArffFile
 
                     Call fields.Add(kv(0), New List(Of String))
                     Call attrs.Add(kv(0), (attrs.Count, kv.Skip(1).JoinBy(" ")))
+                ElseIf line.StartsWith("%"c) Then
+                    Call desc.AppendLine(CStr(line).TrimStart("%").Trim(" "c))
                 End If
             Loop
 
