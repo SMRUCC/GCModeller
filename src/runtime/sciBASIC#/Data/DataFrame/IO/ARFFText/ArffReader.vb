@@ -119,11 +119,11 @@ Namespace IO.ArffFile
             Dim name As String = Nothing
             Dim desc As New StringBuilder
 
-            Do While (line = str.ReadLine) <> "@DATA"
-                If line.StartsWith("@RELATION") Then
+            Do While LCase(line = str.ReadLine) <> "@data"
+                If line.ToLower.StartsWith("@relation") Then
                     name = line.GetTagValue(" ", trim:=True).Value
                     name = name.Trim(""""c)
-                ElseIf line.StartsWith("@ATTRIBUTE") Then
+                ElseIf line.ToLower.StartsWith("@attribute") Then
                     Dim attr As String = line.GetTagValue(" ", trim:=True).Value
                     Dim kv = Tokenizer.CharsParser(attr, delimiter:=" "c,).ToArray
 
@@ -145,15 +145,21 @@ Namespace IO.ArffFile
             Loop
 
             Dim fieldData As New Dictionary(Of String, FeatureVector)
+            Dim rowNames As String() = Nothing
 
             For Each field In fields
-                Call fieldData.Add(field.Key, ParseFeature(field.Key, attrs(field.Key).Item2, field.Value))
+                If field.Key = ArffWriter.DataframeArffRowNames Then
+                    rowNames = field.Value.ToArray
+                Else
+                    Call fieldData.Add(field.Key, ParseFeature(field.Key, attrs(field.Key).Item2, field.Value))
+                End If
             Next
 
             Return New DataFrame With {
                 .description = desc.ToString,
                 .name = name,
-                .features = fieldData
+                .features = fieldData,
+                .rownames = rowNames
             }
         End Function
 
@@ -182,7 +188,7 @@ Namespace IO.ArffFile
             Do While (line = str.ReadLine) IsNot Nothing
                 If line.StartsWith("%"c) Then
                     Call comment.AppendLine(CStr(line).TrimStart("%").Trim(" "c))
-                ElseIf CStr(line) = "@DATA" Then
+                ElseIf line.ToLower = "@data" Then
                     Exit Do
                 End If
             Loop

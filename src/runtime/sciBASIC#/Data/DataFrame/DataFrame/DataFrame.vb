@@ -257,7 +257,9 @@ Public Class DataFrame : Implements INumericMatrix, ILabeledMatrix
     ''' get row by index
     ''' </summary>
     ''' <param name="i"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' A row data without row names
+    ''' </returns>
     Public Function row(i As Integer) As Object()
         Return features.Select(Function(c) c.Value(i)).ToArray
     End Function
@@ -408,6 +410,16 @@ Public Class DataFrame : Implements INumericMatrix, ILabeledMatrix
     Public Shared Function read_arff(file As Stream) As DataFrame
         Return ArffReader.LoadDataFrame(file)
     End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Sub write_arff(df As DataFrame, file As Stream)
+        Call ArffWriter.WriteText(df, file)
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Sub write_arff(df As DataFrame, text As TextWriter)
+        Call ArffWriter.WriteText(df, text)
+    End Sub
 
     Public Shared Function read_csv(file As Stream,
                                     Optional delimiter As Char = ","c,
