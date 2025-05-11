@@ -68,13 +68,13 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <summary>
         ''' 将一个GBK文件从硬盘文件之中读取出来，当发生错误的时候，会抛出错误
         ''' </summary>
-        ''' <param name="Path"></param>
+        ''' <param name="path"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
-        <ExportAPI("Read")> Public Function Read(Path As String) As NCBI.GenBank.GBFF.File
-            Dim file As String() = IO.File.ReadAllLines(Path)
-            Dim genbank = doLoadData(file, Path)
+        Public Function Read(path As String) As NCBI.GenBank.GBFF.File
+            Dim file As String() = IO.File.ReadAllLines(path)
+            Dim genbank = doLoadData(file, path)
 
             Return genbank
         End Function
@@ -124,7 +124,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Dim ReadThreadResult As IAsyncResult = ReadThread.BeginInvoke(gb, innerBufs, Nothing, Nothing)
 #End If
             gb.Comment = Internal_readBlock(KeyWord.GBK_FIELD_KEY_COMMENT, innerBufs)
-            gb.Features = Internal_readBlock(KeyWord.GBK_FIELD_KEY_FEATURES, innerBufs).Skip(1).ToArray.FeaturesListParser
+            gb.Features = Internal_readBlock(KeyWord.GBK_FIELD_KEY_FEATURES, innerBufs).Skip(1).ToArray.FeaturesListParser(defaultAccession)
             gb.Accession = ACCESSION.CreateObject(Internal_readBlock(KeyWord.GBK_FIELD_KEY_ACCESSION, innerBufs), defaultAccession)
             gb.Reference = REFERENCE.InternalParser(innerBufs)
             gb.Definition = Internal_readBlock(KeyWord.GBK_FIELD_KEY_DEFINITION, innerBufs)
