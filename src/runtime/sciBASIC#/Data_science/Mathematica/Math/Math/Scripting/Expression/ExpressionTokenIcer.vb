@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::ad10bb2f44e7f86075aa0c2769d23294, Data_science\Mathematica\Math\Math\Scripting\Expression\ExpressionTokenIcer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 117
-    '    Code Lines: 99 (84.62%)
-    ' Comment Lines: 1 (0.85%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 17 (14.53%)
-    '     File Size: 4.35 KB
+' Summaries:
 
 
-    '     Class ExpressionTokenIcer
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetTokens, populateToken, walkChar
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 117
+'    Code Lines: 99 (84.62%)
+' Comment Lines: 1 (0.85%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 17 (14.53%)
+'     File Size: 4.35 KB
+
+
+'     Class ExpressionTokenIcer
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: GetTokens, populateToken, walkChar
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -136,7 +136,28 @@ Namespace Scripting.MathExpression
                 Else
                     Return New MathToken(MathTokens.Comma, ","c)
                 End If
+            ElseIf c = "<"c Then
+                If buf > 0 Then
+                    Return populateToken(cacheNext:=c)
+                Else
+                    buf += c
+                End If
+            ElseIf c = ">" Then
+                If buf = 1 AndAlso buf(Scan0) = "<" Then
+                    buf.Clear()
+                    Return New MathToken(MathTokens.Operator, "<>")
+                Else
+                    Return populateToken(cacheNext:=c)
+                End If
             Else
+                If buf = "<" Then
+                    buf.Clear()
+                    Return New MathToken(MathTokens.Operator, "<")
+                ElseIf buf = ">" Then
+                     buf.Clear()
+                    Return New MathToken(MathTokens.Operator, ">")
+                End If
+
                 buf += c
             End If
 
@@ -151,9 +172,18 @@ Namespace Scripting.MathExpression
             If Not cacheNext Is Nothing Then
                 buf += cacheNext
             End If
+            If text.Length = 0 Then
+                Return Nothing
+            End If
 
             If Char.IsLetter(text.First) Then
-                Return New MathToken(MathTokens.Symbol, text)
+                If text.TextEquals("not") Then
+                    Return New MathToken(MathTokens.UnaryNot, "!")
+                ElseIf IsBooleanFactor(text, False) Then
+                    Return New MathToken(MathTokens.LogicalLiteral, text)
+                Else
+                    Return New MathToken(MathTokens.Symbol, text)
+                End If
             ElseIf text.IsNumeric Then
                 Return New MathToken(MathTokens.Literal, text)
             ElseIf text.Last = "!"c AndAlso Mid(text, 1, text.Length - 1).IsNumeric() Then
@@ -164,6 +194,8 @@ Namespace Scripting.MathExpression
                 Return New MathToken(MathTokens.Close, ")")
             ElseIf text = ";" Then
                 Return New MathToken(MathTokens.Terminator, ";")
+            ElseIf text = "<" OrElse text = ">" Then
+                Return New MathToken(MathTokens.Operator, text)
             Else
                 Throw New NotImplementedException(text)
             End If

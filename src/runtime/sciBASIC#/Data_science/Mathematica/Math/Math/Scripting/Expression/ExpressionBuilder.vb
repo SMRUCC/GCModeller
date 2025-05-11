@@ -63,7 +63,7 @@ Namespace Scripting.MathExpression
 
     Public Module ExpressionBuilder
 
-        ReadOnly operatorPriority As String() = {"^", "*/%", "+-"}
+        ReadOnly operatorPriority As String() = {"^", "*/%", "+-", "<>"}
 
         <Extension>
         Private Function AsExpression(token As MathToken) As Expression
@@ -74,6 +74,8 @@ Namespace Scripting.MathExpression
                     Else
                         Return New Literal(token.text)
                     End If
+                Case MathTokens.LogicalLiteral
+                    Return New LogicalLiteral(token.text)
                 Case MathTokens.Symbol
                     Return New SymbolExpression(token.text)
                 Case MathTokens.Open, MathTokens.Close, MathTokens.Invalid, MathTokens.Operator, MathTokens.Terminator
@@ -99,19 +101,37 @@ Namespace Scripting.MathExpression
         End Function
 
         Public Function BuildExpression(tokens As MathToken()) As Expression
-            Dim blocks = tokens.SplitByTopLevelDelimiter(MathTokens.Operator)
+            Dim blocks As List(Of MathToken())
+
+            If tokens.Length = 1 Then
+                Return tokens.First.AsExpression
+            Else
+                blocks = tokens.SplitByTopLevelDelimiter(MathTokens.Operator)
+            End If
 
             If blocks = 1 Then
+                ' multiple tokens
                 If blocks(Scan0).Length > 1 Then
-                    If blocks(Scan0).isFunctionInvoke Then
-                        Return blocks(Scan0).AsCallFunction
-                    Else
+                    Dim first = blocks.First
+
+                    If first.isFunctionInvoke Then
+                        Return first.AsCallFunction
+                    ElseIf first.First.name = MathTokens.Open AndAlso first.Last.name = MathTokens.Close Then
                         ' (....)
-                        tokens = blocks(Scan0)
+                        tokens = first
                         tokens = tokens.Skip(1).Take(tokens.Length - 2).ToArray
                         blocks = tokens.SplitByTopLevelDelimiter(MathTokens.Operator)
+                    Else
+                        If first.First.name = MathTokens.UnaryNot Then
+                            Dim secondary = BuildExpression(first.Skip(1).ToArray)
+                            Dim unary_not As New UnaryNot With {.value = secondary}
+                            Return unary_not
+                        Else
+                            Throw New SyntaxErrorException(tokens.Select(Function(t) t.text).JoinBy(" "))
+                        End If
                     End If
                 Else
+                    ' single token
                     With blocks(Scan0)(Scan0)
                         Return .AsExpression
                     End With
@@ -130,7 +150,7 @@ Namespace Scripting.MathExpression
             Call buf.processOperators(oplist, operatorPriority, test:=Function(op, o) op.IndexOf(o) > -1)
 
             If buf > 1 Then
-                Throw New SyntaxErrorException
+                Throw New SyntaxErrorException("the given expression token set result an invalid syntax: " & tokens.Select(Function(t) t.text).JoinBy(" "))
             Else
                 Return buf(Scan0)
             End If
