@@ -62,8 +62,8 @@ Public Class MorganFingerprint : Inherits GraphMorganFingerprint(Of KmerNode, Km
         MyBase.New(size)
     End Sub
 
-    Protected Overrides Function HashAtom(v As KmerNode) As Integer
-        Return KMerGraph.HashKMer(v.Type)
+    Protected Overrides Function HashAtom(v As KmerNode) As ULong
+        Return HashLabelKey(v.Type)
     End Function
 
     Protected Overrides Function HashEdge(atoms() As KmerNode, e As KmerEdge, flip As Boolean) As ULong

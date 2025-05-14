@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::0baca50f48c25a13a60c6517a283f1fe, analysis\ProteinTools\ProteinMatrix\Kmer\KMerGraph.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 91
-    '    Code Lines: 65 (71.43%)
-    ' Comment Lines: 9 (9.89%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 17 (18.68%)
-    '     File Size: 3.48 KB
+' Summaries:
 
 
-    '     Class KMerGraph
-    ' 
-    '         Properties: Graph, KMers
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: FromSequence, GetFingerprint, (+2 Overloads) HashKMer
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 91
+'    Code Lines: 65 (71.43%)
+' Comment Lines: 9 (9.89%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 17 (18.68%)
+'     File Size: 3.48 KB
+
+
+'     Class KMerGraph
+' 
+'         Properties: Graph, KMers
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: FromSequence, GetFingerprint, (+2 Overloads) HashKMer
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.MorganFingerprint
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.HashMaps
@@ -97,10 +98,10 @@ Namespace Kmer
                 If Not koffset.ContainsKey(key) Then
                     Call koffset.Add(key, kmers.Count)
                     Call kmers.Add(New KmerNode With {
-                    .Code = key,
-                    .Index = kmers.Count,
-                    .Type = New String(kmer.Seq)
-                })
+                        .Code = key,
+                        .Index = kmers.Count,
+                        .Type = New String(kmer.Seq)
+                    })
                 End If
 
                 If u Is Nothing Then
@@ -111,10 +112,10 @@ Namespace Kmer
                     End If
                     If Not graph(u.Value).ContainsKey(key) Then
                         Call graph(u.Value).Add(key, New KmerEdge With {
-                        .U = koffset(u.Value),
-                        .V = koffset(key),
-                        .NSize = 0
-                    })
+                            .U = koffset(u.Value),
+                            .V = koffset(key),
+                            .NSize = 0
+                        })
                     End If
 
                     graph(u.Value)(key).NSize += 1
@@ -133,16 +134,6 @@ Namespace Kmer
             Next
 
             Return hashcode
-        End Function
-
-        Public Shared Function HashKMer(kmer As String) As Integer
-            Dim hashcode As ULong = 0
-
-            For Each c As Char In kmer
-                hashcode = HashMap.HashCodePair(hashcode, CULng(Asc(c)))
-            Next
-
-            Return CInt(hashcode)
         End Function
     End Class
 End Namespace
