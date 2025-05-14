@@ -55,6 +55,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.MorganFingerprint
 Imports Microsoft.VisualBasic.Linq
@@ -86,7 +87,12 @@ Namespace Kmer
             Return New MorganFingerprint(len).CalculateFingerprintCheckSum(Me, radius)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function FromSequence(seq As ISequenceProvider, Optional k As Integer = 3) As KMerGraph
+            Return FromSequence(seq.GetSequenceData, k)
+        End Function
+
+        Public Shared Function FromSequence(seq As String, Optional k As Integer = 3) As KMerGraph
             Dim kmers As New List(Of KmerNode)
             Dim koffset As New Dictionary(Of ULong, Integer)
             Dim u As ULong? = Nothing
