@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a162eb0d9bd0e742cef3216f49831ba, Data\DataFrame\DataFrame\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::e9c3c22cb786e3c3c83ebe4ba8f75553, Data\DataFrame\DataFrame\DataFrame.vb"
 
     ' Author:
     ' 
@@ -34,23 +34,27 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 360
-    '    Code Lines: 217 (60.28%)
-    ' Comment Lines: 95 (26.39%)
-    '    - Xml Docs: 92.63%
+    '   Total Lines: 396
+    '    Code Lines: 238 (60.10%)
+    ' Comment Lines: 105 (26.52%)
+    '    - Xml Docs: 93.33%
     ' 
-    '   Blank Lines: 48 (13.33%)
-    '     File Size: 12.93 KB
+    '   Blank Lines: 53 (13.38%)
+    '     File Size: 14.18 KB
 
 
     ' Class DataFrame
     ' 
-    '     Properties: dims, featureNames, features, nfeatures, nsamples
-    '                 rownames
+    '     Properties: description, dims, featureNames, features, name
+    '                 nfeatures, nsamples, rownames
     ' 
     '     Constructor: (+4 Overloads) Sub New
+    ' 
     '     Function: (+4 Overloads) add, ArrayPack, delete, foreachRow, GetLabels
-    '               (+2 Overloads) read_csv, row, slice, ToString, Union
+    '               (+2 Overloads) read_arff, (+2 Overloads) read_csv, row, slice, ToString
+    '               Union
+    ' 
+    '     Sub: (+2 Overloads) write_arff
     ' 
     ' /********************************************************************************/
 
@@ -61,6 +65,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Framework.IO.ArffFile
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
@@ -78,6 +83,17 @@ Public Class DataFrame : Implements INumericMatrix, ILabeledMatrix
     ''' </summary>
     ''' <returns></returns>
     Public Property features As New Dictionary(Of String, FeatureVector)
+
+    ''' <summary>
+    ''' the name of current dataset
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property name As String
+    ''' <summary>
+    ''' the comment text about this dataset
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property description As String
 
     ''' <summary>
     ''' get the row names labels in current dataframe object, the size of 
@@ -245,7 +261,9 @@ Public Class DataFrame : Implements INumericMatrix, ILabeledMatrix
     ''' get row by index
     ''' </summary>
     ''' <param name="i"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' A row data without row names
+    ''' </returns>
     Public Function row(i As Integer) As Object()
         Return features.Select(Function(c) c.Value(i)).ToArray
     End Function
@@ -384,6 +402,28 @@ Public Class DataFrame : Implements INumericMatrix, ILabeledMatrix
             Return FastLoader.ReadCsv(s, delimiter, rowHeader, encoding)
         End Using
     End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function read_arff(file As String) As DataFrame
+        Using s As Stream = file.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+            Return read_arff(s)
+        End Using
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function read_arff(file As Stream) As DataFrame
+        Return ArffReader.LoadDataFrame(file)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Sub write_arff(df As DataFrame, file As Stream)
+        Call ArffWriter.WriteText(df, file)
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Sub write_arff(df As DataFrame, text As TextWriter)
+        Call ArffWriter.WriteText(df, text)
+    End Sub
 
     Public Shared Function read_csv(file As Stream,
                                     Optional delimiter As Char = ","c,

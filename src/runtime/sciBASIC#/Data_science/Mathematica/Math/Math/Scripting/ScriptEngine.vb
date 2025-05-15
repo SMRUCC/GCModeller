@@ -196,11 +196,18 @@ Namespace Scripting
             Call Expression.SetSymbol(name, value)
         End Sub
 
-        Public Function ParseExpression(expression As String) As Expression
-            Return New ExpressionTokenIcer(expression) _
-                .GetTokens _
-                .ToArray _
-                .DoCall(AddressOf ExpressionBuilder.BuildExpression)
+        Public Function ParseExpression(expression As String, Optional throwEx As Boolean = True) As Expression
+            Try
+                Dim tokenSet = New ExpressionTokenIcer(expression) _
+                    .GetTokens _
+                    .ToArray
+                Dim exp As Expression = ExpressionBuilder.BuildExpression(tokenSet)
+
+                Return exp
+            Catch ex As Exception
+                Call App.LogException(New Exception(expression, ex))
+                Return Nothing
+            End Try
         End Function
     End Module
 End Namespace

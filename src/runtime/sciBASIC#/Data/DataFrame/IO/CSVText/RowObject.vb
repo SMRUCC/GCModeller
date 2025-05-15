@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cce9684e8bde7e56115c68cce5838134, Data\DataFrame\IO\CSVText\RowObject.vb"
+﻿#Region "Microsoft.VisualBasic::fcc9f2e88182ce26fd5182706f953f5e, Data\DataFrame\IO\CSVText\RowObject.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 503
-    '    Code Lines: 301 (59.84%)
-    ' Comment Lines: 141 (28.03%)
-    '    - Xml Docs: 97.87%
+    '   Total Lines: 502
+    '    Code Lines: 301 (59.96%)
+    ' Comment Lines: 140 (27.89%)
+    '    - Xml Docs: 99.29%
     ' 
-    '   Blank Lines: 61 (12.13%)
-    '     File Size: 19.03 KB
+    '   Blank Lines: 61 (12.15%)
+    '     File Size: 19.09 KB
 
 
     '     Class RowObject
@@ -69,7 +69,7 @@ Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
-Imports any = Microsoft.VisualBasic.Scripting
+Imports anys = Microsoft.VisualBasic.Scripting
 
 Namespace IO
 
@@ -98,13 +98,12 @@ Namespace IO
         End Sub
 
         ''' <summary>
-        ''' 
+        ''' safe convert the given object collection to string and create this row object
         ''' </summary>
-        ''' <param name="objs">using <see cref="any.ToString"/> to converts the objects into a string array.</param>
-        ''' 
+        ''' <param name="objs">using <see cref="anys.ToString"/> to converts the objects into a string array.</param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(objs As IEnumerable(Of Object))
-            Call Me.New(objs.Select(Function(x) Scripting.ToString(x)))
+            Call Me.New(objs.Select(Function(x) anys.ToString(x)))
         End Sub
 
         ''' <summary>
