@@ -79,8 +79,8 @@ Public Class SessionManager : Inherits ServerComponent
         End If
     End Sub
 
-    Public Function GetSession(name As String) As Object
-
+    Public Overridable Function GetSession(name As String) As Object
+        Return Nothing
     End Function
 
     Public Sub SaveSession(name As String, value As String)
