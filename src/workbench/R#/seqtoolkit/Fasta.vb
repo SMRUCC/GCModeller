@@ -299,6 +299,17 @@ Module Fasta
     ''' <param name="seqs"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' imports "bioseq.fasta" from "seqtoolkit";
+    ''' 
+    ''' # get fasta sequence data
+    ''' let seqs = read.fasta("./proteins.fa");
+    ''' let sgt = seq_sgt(moltype = "prot");
+    ''' let vec = sgt |> seq_vector(seqs);
+    ''' 
+    ''' # run data analysis on the generated embedding vectors
+    ''' 
+    ''' </example>
     <ExportAPI("seq_vector")>
     Public Function seq_vector(sgt As CreateMatrix, <RRawVectorArgument> seqs As Object, Optional env As Environment = Nothing) As Object
         Dim seq_pool = GetFastaSeq(seqs, env).ToArray
