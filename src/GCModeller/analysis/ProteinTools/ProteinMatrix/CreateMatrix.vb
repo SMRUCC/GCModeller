@@ -71,7 +71,8 @@ Public Class CreateMatrix
     ReadOnly sgt As SequenceGraphTransform
 
     ''' <summary>
-    ''' get the dimension size of the generated biological sequence matrix via the function <see cref="ToMatrix(FastaSeq)"/>
+    ''' get the dimension size of the generated biological sequence 
+    ''' matrix via the function <see cref="ToMatrix(FastaSeq)"/>
     ''' </summary>
     ''' <returns>The CNN input size</returns>
     Public ReadOnly Property dimension As Size
@@ -104,16 +105,21 @@ Public Class CreateMatrix
         End Select
     End Function
 
-    Public Function ToMatrix(prot As FastaSeq) As Double()()
-        Dim v = sgt.fit(prot.SequenceData)
+    Public Function ToMatrix(seq As FastaSeq) As Double()()
+        Dim v = sgt.fit(seq.SequenceData)
         Dim m = sgt.TranslateMatrix(v)
 
         Return m
     End Function
 
+    ''' <summary>
+    ''' make the given fasta sequence embedding as vector
+    ''' </summary>
+    ''' <param name="seq"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function ToVector(prot As FastaSeq) As Double()
-        Return sgt.fitVector(prot.SequenceData)
+    Public Function ToVector(seq As FastaSeq) As Double()
+        Return sgt.fitVector(seq.SequenceData)
     End Function
 
 End Class
