@@ -84,6 +84,7 @@ Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports FastaWriter = SMRUCC.genomics.SequenceModel.FASTA.StreamWriter
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 
 ''' <summary>
 ''' Fasta sequence toolkit
@@ -279,6 +280,51 @@ Module Fasta
         End Select
 
         Return vals
+    End Function
+
+    ''' <summary>
+    ''' Create algorithm for make sequence embedding
+    ''' </summary>
+    ''' <param name="moltype"></param>
+    ''' <returns></returns>
+    <ExportAPI("seq_sgt")>
+    Public Function seq_sgt(Optional moltype As SeqTypes = SeqTypes.Protein) As CreateMatrix
+        Return New CreateMatrix(moltype)
+    End Function
+
+    ''' <summary>
+    ''' embedding the given fasta sequence as vector
+    ''' </summary>
+    ''' <param name="sgt"></param>
+    ''' <param name="seqs"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <example>
+    ''' imports "bioseq.fasta" from "seqtoolkit";
+    ''' 
+    ''' # get fasta sequence data
+    ''' let seqs = read.fasta("./proteins.fa");
+    ''' let sgt = seq_sgt(moltype = "prot");
+    ''' let vec = sgt |> seq_vector(seqs);
+    ''' 
+    ''' # run data analysis on the generated embedding vectors
+    ''' 
+    ''' </example>
+    <ExportAPI("seq_vector")>
+    Public Function seq_vector(sgt As CreateMatrix, <RRawVectorArgument> seqs As Object, Optional env As Environment = Nothing) As Object
+        Dim seq_pool = GetFastaSeq(seqs, env).ToArray
+
+        If seq_pool.Length = 1 Then
+            Return sgt.ToVector(seq_pool(0))
+        Else
+            Dim vec As list = list.empty
+
+            For Each seq As FastaSeq In seq_pool
+                Call vec.add(seq.Title, sgt.ToVector(seq))
+            Next
+
+            Return vec
+        End If
     End Function
 
     ''' <summary>

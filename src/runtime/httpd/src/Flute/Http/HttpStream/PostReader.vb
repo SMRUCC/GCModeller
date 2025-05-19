@@ -135,6 +135,7 @@ Namespace Core.HttpStream
             Me.InputStream = input
             Me.ContentType = If(contentType.StringEmpty, "application/octet-stream", contentType)
             Me.ContentEncoding = encoding
+            Me.Objects = New Dictionary(Of String, Object)
 
             If input.FileLength > 0 Then
                 Call LoadMultiPart(fileName, parseJSON)

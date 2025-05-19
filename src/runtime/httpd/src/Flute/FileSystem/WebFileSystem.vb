@@ -72,6 +72,24 @@ Namespace FileSystem
             Call HostStaticFile(fs, request, response)
         End Sub
 
+        Public Function CheckResourceFileExists(request As HttpRequest) As Boolean
+            Dim url As URL = request.URL
+            Dim path As String = url.path
+
+            If Not path.StringEmpty AndAlso path.Last = "/"c Then
+                ' target url path is a directory path
+                ' but request a file at here, so we needs
+                ' to redirect to index.html
+                path = path & "/index.html"
+            End If
+
+            ' 20250227
+            ' deal with the possible url encode string parts
+            path = path.UrlDecode
+
+            Return fs.FileExists(path)
+        End Function
+
         Public Shared Sub HostStaticFile(fs As FileSystem, request As HttpRequest, response As HttpResponse)
             Dim url As URL = request.URL
             Dim path As String = url.path

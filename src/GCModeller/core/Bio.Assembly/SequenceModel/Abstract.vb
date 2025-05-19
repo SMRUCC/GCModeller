@@ -1,69 +1,70 @@
 ﻿#Region "Microsoft.VisualBasic::72367cc627ca192f804e58c55c5e2191, core\Bio.Assembly\SequenceModel\Abstract.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 69
-    '    Code Lines: 24 (34.78%)
-    ' Comment Lines: 37 (53.62%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 8 (11.59%)
-    '     File Size: 2.14 KB
+' Summaries:
 
 
-    '     Enum SeqTypes
-    ' 
-    '         DNA, Protein, RNA
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Interface IPolymerSequenceModel
-    ' 
-    '         Properties: SequenceData
-    ' 
-    '     Class ISequenceBuilder
-    ' 
-    '         Properties: Length, Name
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 69
+'    Code Lines: 24 (34.78%)
+' Comment Lines: 37 (53.62%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 8 (11.59%)
+'     File Size: 2.14 KB
+
+
+'     Enum SeqTypes
+' 
+'         DNA, Protein, RNA
+' 
+'  
+' 
+' 
+' 
+'     Interface IPolymerSequenceModel
+' 
+'         Properties: SequenceData
+' 
+'     Class ISequenceBuilder
+' 
+'         Properties: Length, Name
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 
@@ -85,7 +86,7 @@ Namespace SequenceModel
         ''' <summary>
         ''' Polypeptide
         ''' </summary>
-        Protein
+        <Description("prot")> Protein
     End Enum
 
     ''' <summary>
