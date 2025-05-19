@@ -54,7 +54,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports Flute.Http.Core.Message
-Imports Microsoft.VisualBasic.Net.HTTP
+Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.FileIO
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 
 Namespace FileSystem
@@ -66,6 +68,22 @@ Namespace FileSystem
     Public Class WebFileSystemListener
 
         Public Property fs As FileSystem
+
+        Public ReadOnly Property webContext As IFileSystemEnvironment
+            Get
+                Return fs.wwwroot
+            End Get
+        End Property
+
+        Public ReadOnly Property wwwroot As String
+            Get
+                If TypeOf fs.wwwroot Is Directory Then
+                    Return DirectCast(fs.wwwroot, Directory).folder
+                Else
+                    Return Nothing
+                End If
+            End Get
+        End Property
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WebHandler(request As HttpRequest, response As HttpResponse)
