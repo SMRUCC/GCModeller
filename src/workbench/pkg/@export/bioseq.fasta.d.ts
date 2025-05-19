@@ -147,6 +147,26 @@ declare namespace bioseq.fasta {
    */
    function seq_formula(seqs: any, type?: object, env?: object): any;
    /**
+    * Create algorithm for make sequence embedding
+    * 
+    * 
+     * @param moltype -
+     * 
+     * + default value Is ``null``.
+   */
+   function seq_sgt(moltype?: object): object;
+   /**
+    * embedding the given fasta sequence as vector
+    * 
+    * 
+     * @param sgt -
+     * @param seqs -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function seq_vector(sgt: object, seqs: any, env?: object): any;
+   /**
     * get the sequence length
     * 
     * 
