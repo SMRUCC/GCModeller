@@ -62,6 +62,9 @@ Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace Core.Message
 
+    ''' <summary>
+    ''' request for the http post request
+    ''' </summary>
     Public Class HttpPOSTRequest : Inherits HttpRequest
 
         Public ReadOnly Property POSTData As PostReader
