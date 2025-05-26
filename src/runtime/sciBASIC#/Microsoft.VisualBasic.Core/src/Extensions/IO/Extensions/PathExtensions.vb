@@ -1,59 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::702776c8466483ab4d0058efa9b61b0d, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\PathExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::4918c7bf439bbd107371a1034e61fb7c, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\PathExtensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 1078
-'    Code Lines: 618 (57.33%)
-' Comment Lines: 346 (32.10%)
-'    - Xml Docs: 86.13%
-' 
-'   Blank Lines: 114 (10.58%)
-'     File Size: 41.95 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module PathExtensions
-' 
-'     Function: BaseName, ChangeSuffix, DeleteFile, DIR, DirectoryExists
-'               DirectoryName, EnumerateFiles, (+2 Overloads) ExtensionSuffix, FileCopy, FileExists
-'               FileLength, FileMove, FileName, FileOpened, GetDirectoryFullPath
-'               GetFullPath, ListDirectory, ListFiles, Long2Short, MakeDir
-'               (+2 Overloads) NormalizePathString, ParentDirName, ParentPath, PathCombine, PathIllegal
-'               ReadDirectory, (+2 Overloads) RelativePath, SafeCopyTo, SplitPath, TheFile
-'               ToDIR_URL, ToFileURL, TrimDIR, TrimSuffix, UnixPath
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 1087
+    '    Code Lines: 614 (56.49%)
+    ' Comment Lines: 358 (32.93%)
+    '    - Xml Docs: 83.24%
+    ' 
+    '   Blank Lines: 115 (10.58%)
+    '     File Size: 42.78 KB
+
+
+    ' Module PathExtensions
+    ' 
+    '     Function: BaseName, ChangeSuffix, DeleteFile, DIR, DirectoryExists
+    '               DirectoryName, EnumerateFiles, (+2 Overloads) ExtensionSuffix, FileCopy, FileExists
+    '               FileLength, FileMove, FileName, FileOpened, GetDirectoryFullPath
+    '               GetFullPath, ListDirectory, ListFiles, Long2Short, MakeDir
+    '               (+2 Overloads) NormalizePathString, ParentDirName, ParentPath, PathCombine, PathIllegal
+    '               ReadDirectory, (+2 Overloads) RelativePath, SafeCopyTo, SplitPath, TheFile
+    '               ToDIR_URL, ToFileURL, TrimDIR, TrimSuffix, UnixPath
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -846,8 +846,7 @@ Public Module PathExtensions
     <ExportAPI(NameOf(ParentPath))>
     <Extension>
     Public Function ParentPath(file$, Optional full As Boolean = True) As String
-        Dim UNCprefix As String = file.Match("\\\\\d+(\.\d+)+")
-        Dim isUNCpath As Boolean = (Not String.IsNullOrEmpty(UNCprefix)) AndAlso file.StartsWith(UNCprefix)
+        Dim isUNCpath As Boolean = file.CheckUNCNetworkPath
         Dim isHttpUrl As Boolean = file.IsURLPattern
 
         ' Console.WriteLine(UNCprefix)
@@ -1024,14 +1023,35 @@ Public Module PathExtensions
             Return ""
         End Try
 
-        Dim UNCprefix As String = fullName.Match("\\\\\d+(\.\d+)+")
-
-        If (Not UNCprefix.StringEmpty) AndAlso fullName.StartsWith(UNCprefix) Then
+        If fullName.CheckUNCNetworkPath Then
             ' is a network location on NAS server
             Return fullName
         Else
             Return fullName.Replace("\", "/")
         End If
+    End Function
+
+    ''' <summary>
+    ''' regexp pattern for matches the UNC path prefix string.
+    ''' </summary>
+    Const UNCprefixRegexp As String = "\\\\\d+(\.\d+)+"
+
+    ''' <summary>
+    ''' Check of this given windows file path is in UNC full path style?
+    ''' </summary>
+    ''' <param name="path">
+    ''' check of this given path is a UNC path or not? UNC full path is a kind of network path 
+    ''' for smb network drive, example as \\192.168.3.1\XXX, the UNC path is prefixed with a 
+    ''' server ip address.
+    ''' </param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CheckUNCNetworkPath(path As String) As Boolean
+        Dim UNCprefix As String = path.Match(UNCprefixRegexp)
+        Dim hasPrefix As Boolean = Not UNCprefix.StringEmpty
+        Dim startWithPrefix As Boolean = path.StartsWith(UNCprefix)
+
+        Return hasPrefix AndAlso startWithPrefix
     End Function
 
     ''' <summary>

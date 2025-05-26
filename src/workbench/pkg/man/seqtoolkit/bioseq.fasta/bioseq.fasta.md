@@ -6,6 +6,8 @@ Fasta sequence toolkit
 + [chars](bioseq.fasta/chars.1) get alphabets represents of the fasta sequence
 + [mass](bioseq.fasta/mass.1) evaluate the molecule mass of the given sequence
 + [seq_formula](bioseq.fasta/seq_formula.1) 
++ [seq_sgt](bioseq.fasta/seq_sgt.1) Create algorithm for make sequence embedding
++ [seq_vector](bioseq.fasta/seq_vector.1) embedding the given fasta sequence as vector
 + [read.seq](bioseq.fasta/read.seq.1) Read a single fasta sequence file
 + [read.fasta](bioseq.fasta/read.fasta.1) read a fasta sequence collection file
 + [open.fasta](bioseq.fasta/open.fasta.1) open the fasta sequence file

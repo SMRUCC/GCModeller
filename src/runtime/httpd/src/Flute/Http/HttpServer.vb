@@ -61,7 +61,6 @@ Imports System.Net.Sockets
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Flute.Http.Configurations
-Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -138,8 +137,7 @@ Namespace Core
             Is_active = False
 
             Try
-                _httpListener.Start(10240)
-
+                _httpListener.Start()
                 Is_active = True
             Catch ex As Exception When ex.IsSocketPortOccupied
                 Call $"Could not start http services at {NameOf(_localPort)}:={_localPort}".__DEBUG_ECHO
@@ -165,7 +163,7 @@ Namespace Core
 
             While Is_active
                 If _accept_workers <= _threadPool Then
-                    Call RunTask(AddressOf accept)
+                    Call accept()
                 Else
                     Call Thread.Sleep(1)
                 End If
@@ -184,15 +182,17 @@ Namespace Core
             ThreadPool.QueueUserWorkItem(task)
         End Sub
 
-        Private Sub accept(stat As Object)
+        Private Sub accept()
             _accept_workers -= 1
 
             Try
+                ' 20250517 do not put the tcp client accept into the thread pool,
+                ' or the worker will be stucked laterly
                 Dim s As TcpClient = _httpListener.AcceptTcpClient
                 Dim processor As HttpProcessor = getHttpProcessor(s, BufferSize)
 
                 Call $"Process client from {s.Client.RemoteEndPoint.ToString}".__DEBUG_ECHO(mute:=_silent)
-                Call Time(AddressOf processor.Process)
+                Call RunTask(Sub(o) Call processor.Process())
             Catch ex As Exception
                 Call App.LogException(ex)
             End Try

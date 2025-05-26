@@ -56,14 +56,21 @@ Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.MorganFingerprint
 Imports Microsoft.VisualBasic.Math.HashMaps
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer
 
+''' <summary>
+''' help for make embedding a sequence to vector
+''' </summary>
+''' <remarks>
+''' processing of the gene/protein sequence, not working well for 
+''' the genomics complete sequence
+''' </remarks>
 Public Class MorganFingerprint : Inherits GraphMorganFingerprint(Of KmerNode, KmerEdge)
 
     Public Sub New(size As Integer)
         MyBase.New(size)
     End Sub
 
-    Protected Overrides Function HashAtom(v As KmerNode) As Integer
-        Return KMerGraph.HashKMer(v.Type)
+    Protected Overrides Function HashAtom(v As KmerNode) As ULong
+        Return HashLabelKey(v.Type)
     End Function
 
     Protected Overrides Function HashEdge(atoms() As KmerNode, e As KmerEdge, flip As Boolean) As ULong

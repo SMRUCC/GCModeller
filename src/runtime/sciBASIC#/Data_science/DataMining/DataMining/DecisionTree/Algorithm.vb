@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22da49f39ae25ec04eaa6a22f7b4bc2b, Data_science\DataMining\DataMining\DecisionTree\Algorithm.vb"
+﻿#Region "Microsoft.VisualBasic::a73da611bbf58801f66f8c9a11652ca1, Data_science\DataMining\DataMining\DecisionTree\Algorithm.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 213
-    '    Code Lines: 148 (69.48%)
-    ' Comment Lines: 25 (11.74%)
-    '    - Xml Docs: 36.00%
+    '   Total Lines: 222
+    '    Code Lines: 148 (66.67%)
+    ' Comment Lines: 34 (15.32%)
+    '    - Xml Docs: 52.94%
     ' 
-    '   Blank Lines: 40 (18.78%)
-    '     File Size: 8.99 KB
+    '   Blank Lines: 40 (18.02%)
+    '     File Size: 9.31 KB
 
 
     '     Module Algorithm
@@ -56,7 +56,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.DecisionTree.Data
 Imports Microsoft.VisualBasic.Math.Information
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace DecisionTree
 
@@ -182,6 +182,15 @@ Namespace DecisionTree
             End If
         End Function
 
+        ''' <summary>
+        ''' information Gain
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="colIndex"></param>
+        ''' <param name="entropyOfDataset">
+        ''' the total information entropy for entire dataset
+        ''' </param>
+        ''' <returns></returns>
         Private Function GetGainForAllAttributes(data As DataTable, colIndex As Integer, entropyOfDataset As Double) As Double
             Dim totalRows = data.rows.Length
             Dim amountForDifferentValue = GetAmountOfEdgesAndTotalPositivResults(data, colIndex)
@@ -196,7 +205,7 @@ Namespace DecisionTree
                 If firstDivision = 0.0 OrElse secondDivision = 0.0 Then
                     stepsForCalculation.Add(0.0)
                 Else
-                    stepsForCalculation.Add(-firstDivision * stdNum.Log(firstDivision, 2) - secondDivision * stdNum.Log(secondDivision, 2))
+                    stepsForCalculation.Add(-firstDivision * std.Log(firstDivision, 2) - secondDivision * std.Log(secondDivision, 2))
                 End If
             Next
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::797e35f5d33be65d1a641714d25bc818, Microsoft.VisualBasic.Core\src\Language\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::4ef819db819e4dced64a93bc199b629a, Microsoft.VisualBasic.Core\src\Language\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 133
-    '    Code Lines: 58 (43.61%)
-    ' Comment Lines: 60 (45.11%)
+    '   Total Lines: 149
+    '    Code Lines: 66 (44.30%)
+    ' Comment Lines: 67 (44.97%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (11.28%)
-    '     File Size: 5.54 KB
+    '   Blank Lines: 16 (10.74%)
+    '     File Size: 6.21 KB
 
 
     '     Module FormatHelpers
     ' 
-    '         Function: (+2 Overloads) Split, StringFormat, Trim, xFormat
+    '         Function: (+2 Overloads) Split, StartsWith, StringFormat, Trim, xFormat
     ' 
     '     Structure FormatHelper
     ' 
@@ -67,6 +67,22 @@ Namespace Language
     ''' ``<see cref="sprintf"/>`` syntax helpers
     ''' </summary>
     Public Module FormatHelpers
+
+        ''' <summary>
+        ''' Determines whether the beginning of this string instance matches the specified
+        ''' string.
+        ''' </summary>
+        ''' <param name="str"></param>
+        ''' <param name="c">The string to compare.</param>
+        ''' <returns>true if value matches the beginning of this string; otherwise, false.</returns>
+        <Extension>
+        Public Function StartsWith(str As Value(Of String), c As Char) As Boolean
+            If str Is Nothing OrElse str.Value Is Nothing Then
+                Return False
+            Else
+                Return str.Value.StartsWith(c)
+            End If
+        End Function
 
         ''' <summary>
         ''' Removes all leading and trailing occurrences of a set of characters specified

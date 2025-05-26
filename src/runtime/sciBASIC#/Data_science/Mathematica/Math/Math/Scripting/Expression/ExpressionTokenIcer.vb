@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad10bb2f44e7f86075aa0c2769d23294, Data_science\Mathematica\Math\Math\Scripting\Expression\ExpressionTokenIcer.vb"
+﻿#Region "Microsoft.VisualBasic::fdf91d3b499f7749c57bd15578e1cb04, Data_science\Mathematica\Math\Math\Scripting\Expression\ExpressionTokenIcer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 117
-    '    Code Lines: 99 (84.62%)
-    ' Comment Lines: 1 (0.85%)
+    '   Total Lines: 149
+    '    Code Lines: 130 (87.25%)
+    ' Comment Lines: 1 (0.67%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 17 (14.53%)
-    '     File Size: 4.35 KB
+    '   Blank Lines: 18 (12.08%)
+    '     File Size: 5.66 KB
 
 
     '     Class ExpressionTokenIcer
@@ -136,7 +136,28 @@ Namespace Scripting.MathExpression
                 Else
                     Return New MathToken(MathTokens.Comma, ","c)
                 End If
+            ElseIf c = "<"c Then
+                If buf > 0 Then
+                    Return populateToken(cacheNext:=c)
+                Else
+                    buf += c
+                End If
+            ElseIf c = ">" Then
+                If buf = 1 AndAlso buf(Scan0) = "<" Then
+                    buf.Clear()
+                    Return New MathToken(MathTokens.Operator, "<>")
+                Else
+                    Return populateToken(cacheNext:=c)
+                End If
             Else
+                If buf = "<" Then
+                    buf.Clear()
+                    Return New MathToken(MathTokens.Operator, "<")
+                ElseIf buf = ">" Then
+                     buf.Clear()
+                    Return New MathToken(MathTokens.Operator, ">")
+                End If
+
                 buf += c
             End If
 
@@ -151,9 +172,18 @@ Namespace Scripting.MathExpression
             If Not cacheNext Is Nothing Then
                 buf += cacheNext
             End If
+            If text.Length = 0 Then
+                Return Nothing
+            End If
 
             If Char.IsLetter(text.First) Then
-                Return New MathToken(MathTokens.Symbol, text)
+                If text.TextEquals("not") Then
+                    Return New MathToken(MathTokens.UnaryNot, "!")
+                ElseIf IsBooleanFactor(text, False) Then
+                    Return New MathToken(MathTokens.LogicalLiteral, text)
+                Else
+                    Return New MathToken(MathTokens.Symbol, text)
+                End If
             ElseIf text.IsNumeric Then
                 Return New MathToken(MathTokens.Literal, text)
             ElseIf text.Last = "!"c AndAlso Mid(text, 1, text.Length - 1).IsNumeric() Then
@@ -164,6 +194,8 @@ Namespace Scripting.MathExpression
                 Return New MathToken(MathTokens.Close, ")")
             ElseIf text = ";" Then
                 Return New MathToken(MathTokens.Terminator, ";")
+            ElseIf text = "<" OrElse text = ">" Then
+                Return New MathToken(MathTokens.Operator, text)
             Else
                 Throw New NotImplementedException(text)
             End If

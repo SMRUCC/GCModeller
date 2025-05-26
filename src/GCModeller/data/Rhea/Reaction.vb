@@ -62,7 +62,16 @@ Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Public Class Reaction : Implements INamedValue
 
     <XmlAttribute> Public Property entry As String Implements INamedValue.Key
+
+    ''' <summary>
+    ''' the reaction equation in character string type
+    ''' </summary>
+    ''' <returns></returns>
     Public Property definition As String
+    ''' <summary>
+    ''' the parsed reaction equaltion object based on the definition property
+    ''' </summary>
+    ''' <returns></returns>
     Public Property equation As Equation
     <XmlElement> Public Property enzyme As String()
     Public Property compounds As SideCompound()

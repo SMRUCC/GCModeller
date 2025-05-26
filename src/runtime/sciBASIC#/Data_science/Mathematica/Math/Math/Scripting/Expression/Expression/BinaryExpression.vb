@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4db54b1b66562f9f59557f843c497302, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\BinaryExpression.vb"
+﻿#Region "Microsoft.VisualBasic::74120adecb82a3ffa9af9babbfdf31a0, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\BinaryExpression.vb"
 
     ' Author:
     ' 
@@ -64,7 +64,7 @@ Namespace Scripting.MathExpression.Impl
 
         Public ReadOnly Property left As Expression
         Public ReadOnly Property right As Expression
-        Public ReadOnly Property [operator] As Char
+        Public ReadOnly Property [operator] As String
 
         ''' <summary>
         ''' construct a new binary expression of:
@@ -78,7 +78,7 @@ Namespace Scripting.MathExpression.Impl
         ''' <param name="op">
         ''' the binary math operator
         ''' </param>
-        Sub New(left As Expression, right As Expression, op As Char)
+        Sub New(left As Expression, right As Expression, op As String)
             Me.left = left
             Me.right = right
             Me.operator = op

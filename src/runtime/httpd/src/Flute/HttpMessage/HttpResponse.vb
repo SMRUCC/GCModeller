@@ -281,7 +281,7 @@ Namespace Core.Message
 
         Public Overloads Sub Write(byts As Byte())
             __writeData = True
-            Call response.BaseStream.Write(byts, Scan0, byts.Length)
+            Call response.BaseStream.Write(byts, offset:=Scan0, count:=byts.Length)
         End Sub
 
         Public Overloads Sub Write(byts As Byte(), offset As Integer, count As Integer)

@@ -155,6 +155,11 @@ Namespace Core.Message
             Return m_cookies
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overridable Function GetArguments() As Dictionary(Of String, Object)
+            Return URL.query.ToDictionary(Function(a) a.Key, Function(a) CObj(a.Value))
+        End Function
+
         Public Overridable Function HasValue(name As String) As Boolean
             Return URL.query.ContainsKey(name)
         End Function

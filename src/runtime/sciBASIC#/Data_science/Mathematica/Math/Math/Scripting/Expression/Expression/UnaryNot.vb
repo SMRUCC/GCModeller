@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::98ae7eeaa7c39573d6d9503a971814fc, Data_science\Mathematica\Math\Math\Scripting\Aggregate\Aggregate.vb"
+﻿#Region "Microsoft.VisualBasic::291d91f8cd28a1872a42a1b6ae687f21, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\UnaryNot.vb"
 
     ' Author:
     ' 
@@ -34,43 +34,35 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 18
-    '    Code Lines: 15 (83.33%)
+    '   Total Lines: 12
+    '    Code Lines: 9 (75.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 3 (16.67%)
-    '     File Size: 668 B
+    '   Blank Lines: 3 (25.00%)
+    '     File Size: 363 B
 
 
-    '     Delegate Function
+    '     Class UnaryNot
     ' 
+    '         Properties: value
     ' 
-    '     Class Aggregate
-    ' 
-    '         Function: GetAggregater
-    ' 
+    '         Function: Evaluate
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace Scripting
+Namespace Scripting.MathExpression.Impl
 
-    Public Delegate Function IAggregate(data As IEnumerable(Of Double)) As Double
+    Public Class UnaryNot : Inherits Expression
 
-    Public Class Aggregate
+        Public Property value As Expression
 
-        Public Shared Function GetAggregater(name As String) As IAggregate
-            Select Case LCase(name).Trim
-                Case "min" : Return AddressOf Enumerable.Min
-                Case "max" : Return AddressOf Enumerable.Max
-                Case "mean" : Return AddressOf Enumerable.Average
-                Case "sum" : Return AddressOf Enumerable.Sum
-                Case Else
-                    Throw New InvalidCastException(name)
-            End Select
+        Public Overrides Function Evaluate(env As ExpressionEngine) As Double
+            Dim val As Double = value.Evaluate(env)
+            Return If(val = 0.0, 1, 0)
         End Function
     End Class
 End Namespace

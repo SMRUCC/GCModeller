@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73982f5137c3ef9f0713b395a1c53ac6, Microsoft.VisualBasic.Core\src\Language\Value\ByRefValueExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::c3f3bc718740e277635a2c1a6ec1b49a, Microsoft.VisualBasic.Core\src\Language\Value\ByRefValueExtensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 85
-    '    Code Lines: 52 (61.18%)
-    ' Comment Lines: 23 (27.06%)
+    '   Total Lines: 95
+    '    Code Lines: 55 (57.89%)
+    ' Comment Lines: 30 (31.58%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 10 (11.76%)
-    '     File Size: 3.44 KB
+    '   Blank Lines: 10 (10.53%)
+    '     File Size: 3.89 KB
 
 
     '     Module ByRefValueExtensions
@@ -119,10 +119,20 @@ Namespace Language.Values
             Return s.Value.GetTagValue(delimiter, trim, failureNoName)
         End Function
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        ''' <summary>
+        ''' Determines whether the beginning of this string instance matches the specified
+        ''' string.
+        ''' </summary>
+        ''' <param name="str"></param>
+        ''' <param name="substr">The string to compare.</param>
+        ''' <returns>true if value matches the beginning of this string; otherwise, false.</returns>
         <Extension>
-        Public Function StartsWith(str As ByRefString, start As String) As Boolean
-            Return str.Value.StartsWith(start)
+        Public Function StartsWith(str As Value(Of String), substr As String) As Boolean
+            If str Is Nothing OrElse str.Value Is Nothing Then
+                Return False
+            Else
+                Return str.Value.StartsWith(substr)
+            End If
         End Function
 
         ''' <summary>

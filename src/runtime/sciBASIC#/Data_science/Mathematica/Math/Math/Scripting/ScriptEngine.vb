@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d87b0e7ead61ecca80eda2d8d3ddb432, Data_science\Mathematica\Math\Math\Scripting\ScriptEngine.vb"
+﻿#Region "Microsoft.VisualBasic::3220f3a1d411b45172f65306e4dd417c, Data_science\Mathematica\Math\Math\Scripting\ScriptEngine.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 148
-    '    Code Lines: 72 (48.65%)
-    ' Comment Lines: 54 (36.49%)
+    '   Total Lines: 155
+    '    Code Lines: 78 (50.32%)
+    ' Comment Lines: 54 (34.84%)
     '    - Xml Docs: 83.33%
     ' 
-    '   Blank Lines: 22 (14.86%)
-    '     File Size: 5.45 KB
+    '   Blank Lines: 23 (14.84%)
+    '     File Size: 5.72 KB
 
 
     '     Module ScriptEngine
@@ -196,11 +196,18 @@ Namespace Scripting
             Call Expression.SetSymbol(name, value)
         End Sub
 
-        Public Function ParseExpression(expression As String) As Expression
-            Return New ExpressionTokenIcer(expression) _
-                .GetTokens _
-                .ToArray _
-                .DoCall(AddressOf ExpressionBuilder.BuildExpression)
+        Public Function ParseExpression(expression As String, Optional throwEx As Boolean = True) As Expression
+            Try
+                Dim tokenSet = New ExpressionTokenIcer(expression) _
+                    .GetTokens _
+                    .ToArray
+                Dim exp As Expression = ExpressionBuilder.BuildExpression(tokenSet)
+
+                Return exp
+            Catch ex As Exception
+                Call App.LogException(New Exception(expression, ex))
+                Return Nothing
+            End Try
         End Function
     End Module
 End Namespace

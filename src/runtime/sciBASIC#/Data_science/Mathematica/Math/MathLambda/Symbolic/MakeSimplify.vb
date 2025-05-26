@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc4eee75828a699aad79cd31aebf2652, Data_science\Mathematica\Math\MathLambda\Symbolic\MakeSimplify.vb"
+﻿#Region "Microsoft.VisualBasic::6e6f0699cbf5758746794529070eceae, Data_science\Mathematica\Math\MathLambda\Symbolic\MakeSimplify.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 63.64%
     ' 
     '   Blank Lines: 19 (12.26%)
-    '     File Size: 6.51 KB
+    '     File Size: 6.52 KB
 
 
     '     Module MakeSimplify
@@ -67,7 +67,7 @@ Namespace Symbolic
         ''' <param name="right"></param>
         ''' <param name="bin">the math binary operator</param>
         ''' <returns></returns>
-        Private Function makeSimple(left As Literal, right As Expression, bin As Char) As Expression
+        Private Function makeSimple(left As Literal, right As Expression, bin As String) As Expression
             If bin = "*"c Then
                 If left = 0 Then
                     Return Literal.Zero
@@ -89,7 +89,7 @@ Namespace Symbolic
             Return New BinaryExpression(left, right, bin)
         End Function
 
-        Private Function makeSimple(left As Expression, right As Literal, bin As Char) As Expression
+        Private Function makeSimple(left As Expression, right As Literal, bin As String) As Expression
             If bin = "+"c OrElse bin = "*"c Then
                 ' 加法与乘法可以交换位置
                 Return makeSimple(New BinaryExpression(right, left, bin))
