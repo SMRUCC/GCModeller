@@ -131,7 +131,10 @@ Namespace Core.HttpStream
         ''' <param name="contentType$"></param>
         ''' <param name="encoding"></param>
         ''' <param name="fileName$"></param>
-        Sub New(input$, contentType$, encoding As Encoding, Optional fileName$ = Nothing, Optional parseJSON As JSONParser = Nothing)
+        Sub New(input$, contentType$, encoding As Encoding,
+                Optional fileName$ = Nothing,
+                Optional parseJSON As JSONParser = Nothing)
+
             Me.InputStream = input
             Me.ContentType = If(contentType.StringEmpty, "application/octet-stream", contentType)
             Me.ContentEncoding = encoding
@@ -211,7 +214,10 @@ Namespace Core.HttpStream
                 Call loadjQueryPOST(fileName, parseJSON)
             Else
                 Using input As Stream = Me.GetSubStream()
-                    Call loadMultiPart(boundary, input, New ContentOutput With {.files = files, .form = Form}, ContentEncoding)
+                    Call loadMultiPart(boundary, input, New ContentOutput With {
+                         .files = files,
+                         .form = Form
+                    }, ContentEncoding)
                 End Using
             End If
         End Sub
@@ -234,7 +240,8 @@ Namespace Core.HttpStream
                     load.form.Add(data.Name, str)
                 Else
                     '
-                    ' We use a substream, as in 2.x we will support large uploads streamed to disk,
+                    ' We use a substream, as in 2.x we will support
+                    ' large uploads streamed to disk,
                     '
                     Dim [sub] As New HttpPostedFile(
                         data.Filename,

@@ -62,6 +62,9 @@ Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace Core.Message
 
+    ''' <summary>
+    ''' request for the http post request
+    ''' </summary>
     Public Class HttpPOSTRequest : Inherits HttpRequest
 
         Public ReadOnly Property POSTData As PostReader
@@ -125,6 +128,24 @@ Namespace Core.Message
             Else
                 Return True
             End If
+        End Function
+
+        Public Overrides Function GetArguments() As Dictionary(Of String, Object)
+            Dim args As Dictionary(Of String, Object) = MyBase.GetArguments
+
+            ' add post json data
+            If Not POSTData.Form Is Nothing Then
+                For Each name As String In POSTData.Form.Keys
+                    args(name) = POSTData.Form(name)
+                Next
+            End If
+            If Not POSTData.Objects.IsNullOrEmpty Then
+                For Each item As KeyValuePair(Of String, Object) In POSTData.Objects
+                    args(item.Key) = item.Value
+                Next
+            End If
+
+            Return args
         End Function
     End Class
 End Namespace
