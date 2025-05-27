@@ -206,5 +206,13 @@ Namespace Assembly.Uniprot.XML
 
             Return list
         End Function
+
+        Public Function GetCommentText(type As String) As String
+            If CommentList.ContainsKey(type) Then
+                Return CommentList(type).Select(Function(c) c.GetText).JoinBy(" ")
+            Else
+                Return Nothing
+            End If
+        End Function
     End Class
 End Namespace
