@@ -220,7 +220,53 @@ Namespace Assembly.Uniprot.XML
             End If
         End Function
 
-        <Extension> Public Function ORF(protein As entry) As String
+        <Extension>
+        Public Iterator Function GetProteinNames(protein As entry) As IEnumerable(Of String)
+            If protein Is Nothing Then
+                Return
+            End If
+
+            If Not protein.protein Is Nothing Then
+                Yield protein.protein.fullName
+
+                For Each name In protein.protein.alternativeNames.SafeQuery
+                    If name.fullName IsNot Nothing Then
+                        Yield name.fullName.value
+                    End If
+
+                    For Each name2 In name.shortNames.SafeQuery
+                        Yield name2.value
+                    Next
+                Next
+
+                If Not protein.protein.recommendedName Is Nothing Then
+                    Dim name = protein.protein.recommendedName
+
+                    If name.fullName IsNot Nothing Then
+                        Yield name.fullName.value
+                    End If
+
+                    For Each name2 In name.shortNames.SafeQuery
+                        Yield name2.value
+                    Next
+                End If
+
+                If Not protein.protein.submittedName Is Nothing Then
+                    Dim name = protein.protein.submittedName
+
+                    If name.fullName IsNot Nothing Then
+                        Yield name.fullName.value
+                    End If
+
+                    For Each name2 In name.shortNames.SafeQuery
+                        Yield name2.value
+                    Next
+                End If
+            End If
+        End Function
+
+        <Extension>
+        Public Function ORF(protein As entry) As String
             If protein?.gene Is Nothing OrElse Not protein.gene.HaveKey("ORF") Then
                 Return Nothing
             Else
