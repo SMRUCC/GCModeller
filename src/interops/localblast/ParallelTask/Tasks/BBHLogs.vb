@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c12b7be193f7eb22cdca254c24fb91c6, localblast\ParallelTask\Tasks\BBHLogs.vb"
+﻿#Region "Microsoft.VisualBasic::d72031f33913d16be40a6a4585941bf5, localblast\ParallelTask\Tasks\BBHLogs.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 88.61%
     ' 
     '   Blank Lines: 50 (12.59%)
-    '     File Size: 20.46 KB
+    '     File Size: 20.47 KB
 
 
     '     Module BBHLogs

@@ -1,61 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::d321a4c725a36f6f88c77c3197bf5877, localblast\ParallelTask\VennDataBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::6b90d495bc90e4093a3132d8adb4311d, localblast\ParallelTask\VennDataBuilder.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 287
-'    Code Lines: 173 (60.28%)
-' Comment Lines: 76 (26.48%)
-'    - Xml Docs: 86.84%
-' 
-'   Blank Lines: 38 (13.24%)
-'     File Size: 11.86 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module VennDataBuilder
-' 
-'     Properties: RecommendedThreads
-' 
-'     Function: __blastpHandle, BuildBLASTN_InvokeHandle, BuildBLASTP_InvokeHandle, BuildFileName, LogNameParser
-'               ParallelTask, TaskBuilder, TaskBuilder_p
-'     Structure __handle
-' 
-'         Function: invokeHandle
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 287
+    '    Code Lines: 173 (60.28%)
+    ' Comment Lines: 76 (26.48%)
+    '    - Xml Docs: 86.84%
+    ' 
+    '   Blank Lines: 38 (13.24%)
+    '     File Size: 11.95 KB
+
+
+    ' Module VennDataBuilder
+    ' 
+    '     Properties: RecommendedThreads
+    ' 
+    '     Function: __blastpHandle, BuildBLASTN_InvokeHandle, BuildBLASTP_InvokeHandle, BuildFileName, LogNameParser
+    '               ParallelTask, TaskBuilder, TaskBuilder_p
+    '     Structure __handle
+    ' 
+    '         Function: invokeHandle
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

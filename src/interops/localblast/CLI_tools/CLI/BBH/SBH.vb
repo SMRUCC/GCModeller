@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7605d92fabd6557e64355ff7730ff9f7, localblast\CLI_tools\CLI\BBH\SBH.vb"
+﻿#Region "Microsoft.VisualBasic::bb94a86496b796171ed5d6621598698a, localblast\CLI_tools\CLI\BBH\SBH.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 71.43%
     ' 
     '   Blank Lines: 65 (16.88%)
-    '     File Size: 16.78 KB
+    '     File Size: 16.80 KB
 
 
     ' Module CLI
