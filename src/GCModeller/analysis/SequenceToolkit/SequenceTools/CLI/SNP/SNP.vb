@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0147a84941eec89de8d6d8d191564663, analysis\SequenceToolkit\SequenceTools\CLI\SNP\SNP.vb"
+﻿#Region "Microsoft.VisualBasic::964c7d0e2e8a1e13c30c04e6ba6353ae, analysis\SequenceToolkit\SequenceTools\CLI\SNP\SNP.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 14 (13.73%)
-    '     File Size: 4.43 KB
+    '     File Size: 4.45 KB
 
 
     ' Module Utilities

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9915b748ccc72ffb562661db09c1c803, data\RCSB PDB\PDB\Keywords\Headers\Header.vb"
+﻿#Region "Microsoft.VisualBasic::dc1b0e7dd5f8a61cb67f2655a61f6b08, data\RCSB PDB\PDB\Keywords\Headers\Header.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 176
-    '    Code Lines: 127 (72.16%)
+    '   Total Lines: 186
+    '    Code Lines: 135 (72.58%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 49 (27.84%)
-    '     File Size: 4.82 KB
+    '   Blank Lines: 51 (27.42%)
+    '     File Size: 5.11 KB
 
 
     '     Class Header
@@ -84,6 +84,8 @@
     '     Class Site
     ' 
     '         Properties: Keyword
+    ' 
+    '         Function: Append
     ' 
     '     Class Master
     ' 

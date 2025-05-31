@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::2a83b88d7b2dc2439c8ab4ba5cf28ee6, data\RCSB PDB\PDB\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::db31aaee054d8db83a26b6b35e996241, data\RCSB PDB\PDB\Parser.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 118
-'    Code Lines: 85 (72.03%)
-' Comment Lines: 8 (6.78%)
-'    - Xml Docs: 62.50%
-' 
-'   Blank Lines: 25 (21.19%)
-'     File Size: 4.75 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class Parser
-' 
-'     Function: Load, ReadLine
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 163
+    '    Code Lines: 123 (75.46%)
+    ' Comment Lines: 8 (4.91%)
+    '    - Xml Docs: 62.50%
+    ' 
+    '   Blank Lines: 32 (19.63%)
+    '     File Size: 7.20 KB
+
+
+    ' Class Parser
+    ' 
+    '     Function: Load, ReadLine
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -214,4 +214,3 @@ Friend Class Parser
         Return False
     End Function
 End Class
-

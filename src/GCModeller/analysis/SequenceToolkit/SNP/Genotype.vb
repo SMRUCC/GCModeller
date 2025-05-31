@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d6d3f1dd47d5cd44aea4bc083855486, analysis\SequenceToolkit\SNP\Genotype.vb"
+﻿#Region "Microsoft.VisualBasic::e766c63260c6c926c78197d2c1515797, analysis\SequenceToolkit\SNP\Genotype.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 94.74%
     ' 
     '   Blank Lines: 56 (20.14%)
-    '     File Size: 8.90 KB
+    '     File Size: 8.92 KB
 
 
     ' Module Genotype

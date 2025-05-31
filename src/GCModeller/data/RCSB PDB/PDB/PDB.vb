@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3434d7d1fbcc2afc3535111f0657027b, data\RCSB PDB\PDB\PDB.vb"
+﻿#Region "Microsoft.VisualBasic::d3274e240e50c0b0de0f76bcd0824fc3, data\RCSB PDB\PDB\PDB.vb"
 
     ' Author:
     ' 
@@ -34,26 +34,30 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 149
-    '    Code Lines: 98 (65.77%)
-    ' Comment Lines: 29 (19.46%)
-    '    - Xml Docs: 93.10%
+    '   Total Lines: 286
+    '    Code Lines: 126 (44.06%)
+    ' Comment Lines: 135 (47.20%)
+    '    - Xml Docs: 85.19%
     ' 
-    '   Blank Lines: 22 (14.77%)
-    '     File Size: 5.04 KB
+    '   Blank Lines: 25 (8.74%)
+    '     File Size: 11.95 KB
 
 
     ' Class PDB
     ' 
-    '     Properties: AtomStructures, Author, Compound, crystal1, DbRef
-    '                 Experiment, Header, Helix, Het, Journal
-    '                 Keywords, Master, MaxSpace, MinSpace, NUMMDL
-    '                 Origin1, Origin2, Origin3, Remark, Revisions
-    '                 Scale1, Scale2, Scale3, seqadv, Sequence
-    '                 Sheet, Source, Title
+    '     Properties: ANISOU, AtomStructures, Author, CAVEAT, CISPEP
+    '                 Compound, Conect, crystal1, DbRef, Experiment
+    '                 Formula, Header, Helix, Het, HetName
+    '                 HETSYN, Journal, Keywords, Links, Master
+    '                 Matrix1, Matrix2, Matrix3, MaxSpace, MDLTYP
+    '                 MinSpace, MODRES, NUMMDL, Origin1, Origin2
+    '                 Origin3, Remark, Revisions, Scale1, Scale2
+    '                 Scale3, seqadv, Sequence, Sheet, SIGATM
+    '                 SIGUIJ, Site, Source, SPLIT, SPRSDE
+    '                 SSBOND, Title
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: GenericEnumerator, (+2 Overloads) Load, Parse
+    '     Function: GenericEnumerator, (+2 Overloads) Load, Parse, ToString
     ' 
     ' /********************************************************************************/
 

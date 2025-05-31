@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da96e3a5998d1d0275fbfb87c0eceecc, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\Plasmid.vb"
+﻿#Region "Microsoft.VisualBasic::789fe7d154103393b8af79c8333ac601, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\Plasmid.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 30
-    '    Code Lines: 22 (73.33%)
-    ' Comment Lines: 3 (10.00%)
+    '   Total Lines: 29
+    '    Code Lines: 22 (75.86%)
+    ' Comment Lines: 3 (10.34%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 5 (16.67%)
+    '   Blank Lines: 4 (13.79%)
     '     File Size: 1.14 KB
 
 
@@ -54,7 +54,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Namespace Assembly.NCBI.GenBank.CsvExports
 

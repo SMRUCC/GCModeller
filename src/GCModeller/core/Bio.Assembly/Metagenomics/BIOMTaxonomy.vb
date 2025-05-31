@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7f96869c34a711b013ecd9e0c1607e0, core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::abe27724aae4ec3c5f7e98286a636842, core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 230
-    '    Code Lines: 138 (60.00%)
-    ' Comment Lines: 61 (26.52%)
-    '    - Xml Docs: 91.80%
+    '   Total Lines: 240
+    '    Code Lines: 141 (58.75%)
+    ' Comment Lines: 67 (27.92%)
+    '    - Xml Docs: 92.54%
     ' 
-    '   Blank Lines: 31 (13.48%)
-    '     File Size: 10.30 KB
+    '   Blank Lines: 32 (13.33%)
+    '     File Size: 10.77 KB
 
 
     '     Module BIOMTaxonomy

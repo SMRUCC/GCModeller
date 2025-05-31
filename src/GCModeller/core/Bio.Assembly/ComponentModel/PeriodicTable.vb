@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b6211674170f080d4d5fcb909f8b30af, core\Bio.Assembly\ComponentModel\PeriodicTable.vb"
+﻿#Region "Microsoft.VisualBasic::07fd71f2363a3e8ca03bb43c19b3178a, core\Bio.Assembly\ComponentModel\PeriodicTable.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 216
-    '    Code Lines: 164 (75.93%)
-    ' Comment Lines: 11 (5.09%)
-    '    - Xml Docs: 90.91%
+    '   Total Lines: 219
+    '    Code Lines: 164 (74.89%)
+    ' Comment Lines: 14 (6.39%)
+    '    - Xml Docs: 92.86%
     ' 
-    '   Blank Lines: 41 (18.98%)
-    '     File Size: 9.12 KB
+    '   Blank Lines: 41 (18.72%)
+    '     File Size: 9.20 KB
 
 
     '     Structure FormulaData

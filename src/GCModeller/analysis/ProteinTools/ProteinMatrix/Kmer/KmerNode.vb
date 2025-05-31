@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fcdb1a85788aaf873a635902bf82432, analysis\ProteinTools\ProteinMatrix\Kmer\KmerNode.vb"
+﻿#Region "Microsoft.VisualBasic::5c360475d3d2f80b68c66a4c4bd3f165, analysis\ProteinTools\ProteinMatrix\Kmer\KmerNode.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 17
-    '    Code Lines: 11 (64.71%)
+    '   Total Lines: 16
+    '    Code Lines: 11 (68.75%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (35.29%)
-    '     File Size: 516 B
+    '   Blank Lines: 5 (31.25%)
+    '     File Size: 514 B
 
 
     '     Class KmerNode
@@ -53,7 +53,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.MorganFingerprint
 

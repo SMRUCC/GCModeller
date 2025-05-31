@@ -1,74 +1,76 @@
-﻿#Region "Microsoft.VisualBasic::c8b0f1fdcf87017aae45183028733eae, data\RCSB PDB\PDB\Keywords\Headers\MoleculeMetadata.vb"
+﻿#Region "Microsoft.VisualBasic::ffd5095d124380489b830ff3733c554d, data\RCSB PDB\PDB\Keywords\Headers\MoleculeMetadata.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 125
-'    Code Lines: 96 (76.80%)
-' Comment Lines: 1 (0.80%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 28 (22.40%)
-'     File Size: 4.01 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class MoleculeMetadata
-' 
-'         Properties: Mols
-' 
-'         Sub: Flush
-' 
-'     Class Compound
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class Properties
-' 
-'         Properties: id, metadata
-' 
-'         Sub: add
-' 
-'     Class Source
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 132 (77.19%)
+    ' Comment Lines: 7 (4.09%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 32 (18.71%)
+    '     File Size: 5.65 KB
+
+
+    '     Class MoleculeMetadata
+    ' 
+    '         Properties: Mols
+    ' 
+    '         Sub: Flush
+    ' 
+    '     Class Compound
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class Properties
+    ' 
+    '         Properties: id, metadata
+    ' 
+    '         Function: ToString
+    ' 
+    '         Sub: add
+    ' 
+    '     Class Source
+    ' 
+    '         Properties: GeneId, Keyword, Ncbi_taxid
+    ' 
+    '         Function: Append
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

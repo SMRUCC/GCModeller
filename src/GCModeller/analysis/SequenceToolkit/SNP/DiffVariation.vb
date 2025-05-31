@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c8204412d459c1fcd157c85b3d735a5, analysis\SequenceToolkit\SNP\DiffVariation.vb"
+﻿#Region "Microsoft.VisualBasic::a350d95664053d196683aa27165af257, analysis\SequenceToolkit\SNP\DiffVariation.vb"
 
     ' Author:
     ' 
