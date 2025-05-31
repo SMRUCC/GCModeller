@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0eff173dcd36237b2419cb3adfacd310, R#\seqtoolkit\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::40ced0e713ef1a5cdd79b1f22c39234d, R#\seqtoolkit\Fasta.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 666
-    '    Code Lines: 468 (70.27%)
-    ' Comment Lines: 127 (19.07%)
-    '    - Xml Docs: 94.49%
+    '   Total Lines: 712
+    '    Code Lines: 486 (68.26%)
+    ' Comment Lines: 150 (21.07%)
+    '    - Xml Docs: 93.33%
     ' 
-    '   Blank Lines: 71 (10.66%)
-    '     File Size: 27.43 KB
+    '   Blank Lines: 76 (10.67%)
+    '     File Size: 28.98 KB
 
 
     ' Module Fasta
@@ -48,9 +48,9 @@
     '     Constructor: (+1 Overloads) Sub New
     '     Function: chars, createSequenceCollectionTable, createSequenceTable, CutSequenceLinear, fasta
     '               fastaTitle, fastaTitles, formula, mass, MSA
-    '               openFasta, parseFasta, readFasta, readSeq, sizeof
-    '               Tofasta, Translates, translateSingleNtSeq, viewFasta, viewMSA
-    '               writeFasta
+    '               openFasta, parseFasta, readFasta, readSeq, seq_sgt
+    '               seq_vector, sizeof, Tofasta, Translates, translateSingleNtSeq
+    '               viewFasta, viewMSA, writeFasta
     ' 
     ' /********************************************************************************/
 
