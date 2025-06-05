@@ -73,9 +73,11 @@ Public Class Reaction : Implements INamedValue
     ''' </summary>
     ''' <returns></returns>
     Public Property equation As Equation
-    <XmlElement> Public Property enzyme As String()
+    <XmlElement>
+    Public Property enzyme As String()
     Public Property compounds As SideCompound()
-    <XmlAttribute> Public Property isTransport As Boolean
+    <XmlAttribute>
+    Public Property isTransport As Boolean
     Public Property db_xrefs As NamedValue()
     Public Property comment As String
 
