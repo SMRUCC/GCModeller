@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a38debb4b680d687ebd17e3da830865d, data\RCSB PDB\PDB\Keywords\Headers\Het.vb"
+﻿#Region "Microsoft.VisualBasic::6ed554e398bc2515372ef7713c015934, data\RCSB PDB\PDB\Keywords\Headers\Het.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,114 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 25
-    '    Code Lines: 17 (68.00%)
-    ' Comment Lines: 3 (12.00%)
+    '   Total Lines: 347
+    '    Code Lines: 260 (74.93%)
+    ' Comment Lines: 3 (0.86%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 5 (20.00%)
-    '     File Size: 645 B
+    '   Blank Lines: 84 (24.21%)
+    '     File Size: 9.18 KB
 
 
     '     Class Het
     ' 
     '         Properties: AnnotationText, Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class HetName
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class Formula
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class Link
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class CISPEP
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class HETATM
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class HETSYN
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class CONECT
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class MODRES
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class SSBOND
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class SPRSDE
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class CAVEAT
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class MDLTYP
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class ANISOU
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class SIGATM
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class SIGUIJ
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    '     Class SPLIT
+    ' 
+    '         Properties: Keyword
     ' 
     '         Function: Append
     ' 

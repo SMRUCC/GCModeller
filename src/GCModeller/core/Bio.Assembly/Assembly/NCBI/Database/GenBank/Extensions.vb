@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69cad13679afaef5d250460ca6d6bd3e, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e117727487179ec4ed6a25ab597ec9e7, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 91.89%
     ' 
     '   Blank Lines: 26 (9.35%)
-    '     File Size: 12.00 KB
+    '     File Size: 12.01 KB
 
 
     '     Module Extensions

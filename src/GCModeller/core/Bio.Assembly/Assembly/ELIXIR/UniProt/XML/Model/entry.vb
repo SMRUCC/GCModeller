@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::066f3c1c85c2aeeb52e280e7fdb46538, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\entry.vb"
+﻿#Region "Microsoft.VisualBasic::27e0634d585724a7df59f05c4e39e9dc, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\entry.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 151
-    '    Code Lines: 94 (62.25%)
-    ' Comment Lines: 40 (26.49%)
+    '   Total Lines: 159
+    '    Code Lines: 101 (63.52%)
+    ' Comment Lines: 40 (25.16%)
     '    - Xml Docs: 97.50%
     ' 
-    '   Blank Lines: 17 (11.26%)
-    '     File Size: 5.67 KB
+    '   Blank Lines: 18 (11.32%)
+    '     File Size: 5.96 KB
 
 
     '     Class entry
@@ -50,7 +50,7 @@
     '                     modified, name, organism, protein, proteinExistence
     '                     references, sequence, SequenceData, version, xrefs
     ' 
-    '         Function: ShadowCopy, ToString
+    '         Function: GetCommentText, ShadowCopy, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -205,6 +205,14 @@ Namespace Assembly.Uniprot.XML
             Next
 
             Return list
+        End Function
+
+        Public Function GetCommentText(type As String) As String
+            If CommentList.ContainsKey(type) Then
+                Return CommentList(type).Select(Function(c) c.GetText).JoinBy(" ")
+            Else
+                Return Nothing
+            End If
         End Function
     End Class
 End Namespace

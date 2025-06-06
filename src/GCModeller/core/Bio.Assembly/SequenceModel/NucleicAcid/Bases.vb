@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c24a17ed8170a16c0ad7603b643945f2, core\Bio.Assembly\SequenceModel\NucleicAcid\Bases.vb"
+﻿#Region "Microsoft.VisualBasic::bee7241748060dc113cf4bedae3fdc44, core\Bio.Assembly\SequenceModel\NucleicAcid\Bases.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 28
-    '    Code Lines: 17 (60.71%)
-    ' Comment Lines: 6 (21.43%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 37
+    '    Code Lines: 24 (64.86%)
+    ' Comment Lines: 7 (18.92%)
+    '    - Xml Docs: 85.71%
     ' 
-    '   Blank Lines: 5 (17.86%)
-    '     File Size: 1.10 KB
+    '   Blank Lines: 6 (16.22%)
+    '     File Size: 1.53 KB
 
 
     '     Module Bases
     ' 
-    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/

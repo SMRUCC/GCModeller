@@ -33,9 +33,11 @@ export class Reaction {
    comment: string;
    compounds: <a href="/vignettes/clr/SMRUCC/genomics/Data/Rhea/SideCompound.html">SideCompound[]</a>;
    db_xrefs: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
+   # the reaction equation in character string type
    definition: string;
    entry: string;
    enzyme: string;
+   # the parsed reaction equaltion object based on the definition property
    equation: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/DefaultTypes/Equation.html">Equation</a>;
    isTransport: boolean;
 }

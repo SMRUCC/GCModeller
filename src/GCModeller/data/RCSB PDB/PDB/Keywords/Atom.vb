@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::608439e402ed438fa4c7670e1f818497, data\RCSB PDB\PDB\Keywords\Atom.vb"
+﻿#Region "Microsoft.VisualBasic::94dde673cb4d5642c51ae4dbedf05050, data\RCSB PDB\PDB\Keywords\Atom.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 53
-    '    Code Lines: 37 (69.81%)
-    ' Comment Lines: 7 (13.21%)
+    '   Total Lines: 60
+    '    Code Lines: 41 (68.33%)
+    ' Comment Lines: 7 (11.67%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (16.98%)
-    '     File Size: 1.81 KB
+    '   Blank Lines: 12 (20.00%)
+    '     File Size: 1.96 KB
 
 
     '     Class Atom
     ' 
-    '         Properties: AminoAcidSequenceData, Atoms, Keyword, ModelId
+    '         Properties: AminoAcidSequenceData, Atoms, HetAtoms, Keyword, ModelId
     ' 
     '         Function: Append, GetEnumerator, GetEnumerator1
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9115da3eced15aaffa0d42c9e0a3f76, localblast\CLI_tools\CLI\BBH\BBH.vb"
+﻿#Region "Microsoft.VisualBasic::66aa5f04007478aeaf232d0ccf3556a3, localblast\CLI_tools\CLI\BBH\BBH.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 475
-    '    Code Lines: 347 (73.05%)
-    ' Comment Lines: 78 (16.42%)
+    '   Total Lines: 472
+    '    Code Lines: 344 (72.88%)
+    ' Comment Lines: 78 (16.53%)
     '    - Xml Docs: 33.33%
     ' 
-    '   Blank Lines: 50 (10.53%)
-    '     File Size: 24.00 KB
+    '   Blank Lines: 50 (10.59%)
+    '     File Size: 23.87 KB
 
 
     ' Module CLI

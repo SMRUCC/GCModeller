@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f98874af554829a6bfb9083682d6cf11, localblast\CLI_tools\CLI\gbTools.vb"
+﻿#Region "Microsoft.VisualBasic::49b83db7ca7c36de5916ad63aae9ec21, localblast\CLI_tools\CLI\gbTools.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 80.00%
     ' 
     '   Blank Lines: 58 (13.43%)
-    '     File Size: 20.11 KB
+    '     File Size: 20.12 KB
 
 
     ' Module CLI

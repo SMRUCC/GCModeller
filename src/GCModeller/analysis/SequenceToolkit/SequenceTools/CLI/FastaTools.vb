@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::227a588c7f77fa65d8d7034146817cc4, analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::2666d48c954abb103eacb8bf74f7042e, analysis\SequenceToolkit\SequenceTools\CLI\FastaTools.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 683
-    '    Code Lines: 560 (81.99%)
+    '   Total Lines: 682
+    '    Code Lines: 559 (81.96%)
     ' Comment Lines: 26 (3.81%)
     '    - Xml Docs: 80.77%
     ' 
-    '   Blank Lines: 97 (14.20%)
-    '     File Size: 30.48 KB
+    '   Blank Lines: 97 (14.22%)
+    '     File Size: 30.38 KB
 
 
     ' Module Utilities

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bccdee45c03d1532ef46a8aeb3c7e271, data\Rhea\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::babad404890173b35601f7d53f7fb9b4, data\Rhea\Reaction.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 36
-    '    Code Lines: 28 (77.78%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 45
+    '    Code Lines: 28 (62.22%)
+    ' Comment Lines: 8 (17.78%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (22.22%)
-    '     File Size: 1.22 KB
+    '   Blank Lines: 9 (20.00%)
+    '     File Size: 1.50 KB
 
 
     ' Class Reaction
@@ -73,9 +73,11 @@ Public Class Reaction : Implements INamedValue
     ''' </summary>
     ''' <returns></returns>
     Public Property equation As Equation
-    <XmlElement> Public Property enzyme As String()
+    <XmlElement>
+    Public Property enzyme As String()
     Public Property compounds As SideCompound()
-    <XmlAttribute> Public Property isTransport As Boolean
+    <XmlAttribute>
+    Public Property isTransport As Boolean
     Public Property db_xrefs As NamedValue()
     Public Property comment As String
 

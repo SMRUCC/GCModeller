@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f58a194aa02a0451eeb6393f6d001d37, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::5b8e2d4a233a5a649a34c3b255d55a3e, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 339
-    '    Code Lines: 237 (69.91%)
-    ' Comment Lines: 46 (13.57%)
-    '    - Xml Docs: 97.83%
+    '   Total Lines: 345
+    '    Code Lines: 236 (68.41%)
+    ' Comment Lines: 53 (15.36%)
+    '    - Xml Docs: 96.23%
     ' 
-    '   Blank Lines: 56 (16.52%)
-    '     File Size: 13.87 KB
+    '   Blank Lines: 56 (16.23%)
+    '     File Size: 14.09 KB
 
 
     '     Class Feature

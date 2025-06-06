@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fe733f501a6e2bdcaa77b93e548022e, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::3abdacbbb884c8d8dac5f7c9c44218f6, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 286
-    '    Code Lines: 216 (75.52%)
-    ' Comment Lines: 37 (12.94%)
+    '   Total Lines: 332
+    '    Code Lines: 252 (75.90%)
+    ' Comment Lines: 37 (11.14%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 33 (11.54%)
-    '     File Size: 10.73 KB
+    '   Blank Lines: 43 (12.95%)
+    '     File Size: 12.33 KB
 
 
     '     Module Extensions
     ' 
-    '         Function: DbReferenceId, ECNumberList, EnumerateAllIDs, GetDomainData, GO
-    '                   KO, NCBITaxonomyId, ORF, OrganismScientificName, proteinFullName
-    '                   ProteinSequence, SubCellularLocations, Summary, Term2Gene
+    '         Function: DbReferenceId, ECNumberList, EnumerateAllIDs, GetDomainData, GetProteinNames
+    '                   GO, KO, NCBITaxonomyId, ORF, OrganismScientificName
+    '                   proteinFullName, ProteinSequence, SubCellularLocations, Summary, Term2Gene
     ' 
     ' 
     ' /********************************************************************************/
@@ -220,7 +220,53 @@ Namespace Assembly.Uniprot.XML
             End If
         End Function
 
-        <Extension> Public Function ORF(protein As entry) As String
+        <Extension>
+        Public Iterator Function GetProteinNames(protein As entry) As IEnumerable(Of String)
+            If protein Is Nothing Then
+                Return
+            End If
+
+            If Not protein.protein Is Nothing Then
+                Yield protein.protein.fullName
+
+                For Each name In protein.protein.alternativeNames.SafeQuery
+                    If name.fullName IsNot Nothing Then
+                        Yield name.fullName.value
+                    End If
+
+                    For Each name2 In name.shortNames.SafeQuery
+                        Yield name2.value
+                    Next
+                Next
+
+                If Not protein.protein.recommendedName Is Nothing Then
+                    Dim name = protein.protein.recommendedName
+
+                    If name.fullName IsNot Nothing Then
+                        Yield name.fullName.value
+                    End If
+
+                    For Each name2 In name.shortNames.SafeQuery
+                        Yield name2.value
+                    Next
+                End If
+
+                If Not protein.protein.submittedName Is Nothing Then
+                    Dim name = protein.protein.submittedName
+
+                    If name.fullName IsNot Nothing Then
+                        Yield name.fullName.value
+                    End If
+
+                    For Each name2 In name.shortNames.SafeQuery
+                        Yield name2.value
+                    Next
+                End If
+            End If
+        End Function
+
+        <Extension>
+        Public Function ORF(protein As entry) As String
             If protein?.gene Is Nothing OrElse Not protein.gene.HaveKey("ORF") Then
                 Return Nothing
             Else

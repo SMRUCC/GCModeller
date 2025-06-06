@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::7bcabc931c0f852b63a847577bafd85a, analysis\SequenceToolkit\SNP\VCF\SNPVcf.vb"
+﻿#Region "Microsoft.VisualBasic::97114331fe89fd35f0dc7b9c1f5fcb91, analysis\SequenceToolkit\SNP\VCF\SNPVcf.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 68
-'    Code Lines: 50 (73.53%)
-' Comment Lines: 7 (10.29%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 11 (16.18%)
-'     File Size: 2.20 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class SNPVcf
-' 
-'         Properties: ALT, CHROM, FILTER, FORMAT, ID
-'                     INFO, POS, QUAL, REF, Sequences
-' 
-'         Function: Load, ToString, VcfHighMutateScreens
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 49 (73.13%)
+    ' Comment Lines: 7 (10.45%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (16.42%)
+    '     File Size: 2.16 KB
+
+
+    '     Class SNPVcf
+    ' 
+    '         Properties: ALT, CHROM, FILTER, FORMAT, ID
+    '                     INFO, POS, QUAL, REF, Sequences
+    ' 
+    '         Function: Load, ToString, VcfHighMutateScreens
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

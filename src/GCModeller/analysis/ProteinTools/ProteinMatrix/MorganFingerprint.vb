@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3574b806e0ed31b1a649679422142dc9, analysis\ProteinTools\ProteinMatrix\MorganFingerprint.vb"
+﻿#Region "Microsoft.VisualBasic::54397e503f1e31989ff26816a690781a, analysis\ProteinTools\ProteinMatrix\MorganFingerprint.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 26
-    '    Code Lines: 20 (76.92%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 33
+    '    Code Lines: 20 (60.61%)
+    ' Comment Lines: 7 (21.21%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (23.08%)
-    '     File Size: 908 B
+    '   Blank Lines: 6 (18.18%)
+    '     File Size: 1.12 KB
 
 
     ' Class MorganFingerprint

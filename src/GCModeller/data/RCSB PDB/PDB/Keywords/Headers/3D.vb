@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::190c01b1aef3a25bab79e7ca6b3db42a, data\RCSB PDB\PDB\Keywords\Headers\3D.vb"
+﻿#Region "Microsoft.VisualBasic::56696e605a266eee6926f7a19d2d3b5c, data\RCSB PDB\PDB\Keywords\Headers\3D.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 45
-    '    Code Lines: 32 (71.11%)
-    ' Comment Lines: 3 (6.67%)
+    '   Total Lines: 56
+    '    Code Lines: 40 (71.43%)
+    ' Comment Lines: 3 (5.36%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 10 (22.22%)
-    '     File Size: 1.17 KB
+    '   Blank Lines: 13 (23.21%)
+    '     File Size: 1.55 KB
 
 
     '     Class Spatial3D
@@ -54,6 +54,10 @@
     '         Properties: Keyword
     ' 
     '     Class SCALE123
+    ' 
+    '         Properties: Keyword
+    ' 
+    '     Class MTRIX123
     ' 
     '         Properties: Keyword
     ' 

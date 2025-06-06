@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19ab246f98f58957a31ff08a5055f96b, core\Bio.Assembly\SequenceModel\MWCalculator.vb"
+﻿#Region "Microsoft.VisualBasic::63d5bd4cf8c5b32c933856e0aee1cf9f, core\Bio.Assembly\SequenceModel\MWCalculator.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 205
-    '    Code Lines: 136 (66.34%)
-    ' Comment Lines: 41 (20.00%)
-    '    - Xml Docs: 92.68%
+    '   Total Lines: 240
+    '    Code Lines: 146 (60.83%)
+    ' Comment Lines: 63 (26.25%)
+    '    - Xml Docs: 92.06%
     ' 
-    '   Blank Lines: 28 (13.66%)
-    '     File Size: 7.63 KB
+    '   Blank Lines: 31 (12.92%)
+    '     File Size: 9.08 KB
 
 
     '     Module MolecularWeightCalculator
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: CalcMW_Nucleotides, (+2 Overloads) CalcMW_Polypeptide, DeoxyribonucleotideFormula, PolypeptideFormula, RibonucleotideFormula
+    '         Function: (+2 Overloads) CalcMW_Nucleotides, (+2 Overloads) CalcMW_Polypeptide, DeoxyribonucleotideFormula, PolypeptideFormula, RibonucleotideFormula
     ' 
     ' 
     ' /********************************************************************************/

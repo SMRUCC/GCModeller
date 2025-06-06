@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::98cbe1f279414f369c8ec5aad1652c23, Microsoft.VisualBasic.Core\src\Extensions\Collection\CollectionValueGetter.vb"
+﻿#Region "Microsoft.VisualBasic::099e5a17a356c5c3ac3619bb169086fc, Microsoft.VisualBasic.Core\src\Extensions\Collection\CollectionValueGetter.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 401
-    '    Code Lines: 222 (55.36%)
-    ' Comment Lines: 141 (35.16%)
-    '    - Xml Docs: 93.62%
+    '   Total Lines: 404
+    '    Code Lines: 222 (54.95%)
+    ' Comment Lines: 144 (35.64%)
+    '    - Xml Docs: 93.06%
     ' 
-    '   Blank Lines: 38 (9.48%)
-    '     File Size: 14.60 KB
+    '   Blank Lines: 38 (9.41%)
+    '     File Size: 14.76 KB
 
 
     ' Module CollectionValueGetter
@@ -327,9 +327,11 @@ Public Module CollectionValueGetter
     ''' <typeparam name="TKey"></typeparam>
     ''' <typeparam name="TValue"></typeparam>
     ''' <param name="table"></param>
-    ''' <param name="keys"></param>
+    ''' <param name="keys">
+    ''' the synonym keys
+    ''' </param>
     ''' <param name="default"></param>
-    ''' <returns></returns>
+    ''' <returns>returns the key-value which is matched with any input synonym <paramref name="keys"/>.</returns>
     <Extension>
     Public Function TryGetValue(Of TKey, TValue)(table As Dictionary(Of TKey, TValue),
                                                  keys As TKey(),
@@ -351,6 +353,7 @@ Public Module CollectionValueGetter
 #End If
             Return [default]
         Else
+            ' scan the synonym keys
             For Each key As TKey In keys
                 If table.ContainsKey(key) Then
                     Return table(key)
