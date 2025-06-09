@@ -107,8 +107,8 @@ Namespace HungarianAlgorithm
                 Dim row = w
                 Dim col = h
                 Dim transposeCosts = New Double(row - 1, col - 1) {}
-                For i = 0 To row - 1
-                    For j = 0 To col - 1
+                For i As Integer = 0 To row - 1
+                    For j As Integer = 0 To col - 1
                         transposeCosts(i, j) = costs(j, i)
                     Next
                 Next
@@ -117,14 +117,14 @@ Namespace HungarianAlgorithm
                 w = col
             End If
 
-            For i = 0 To h - 1
+            For i As Integer = 0 To h - 1
                 Dim min As Double = Double.MaxValue
 
-                For j = 0 To w - 1
+                For j As Integer = 0 To w - 1
                     min = std.Min(min, costs(i, j))
                 Next
 
-                For j = 0 To w - 1
+                For j As Integer = 0 To w - 1
                     costs(i, j) -= min
                 Next
             Next
@@ -133,8 +133,8 @@ Namespace HungarianAlgorithm
             Dim rowsCovered = New Boolean(h - 1) {}
             Dim colsCovered = New Boolean(w - 1) {}
 
-            For i = 0 To h - 1
-                For j = 0 To w - 1
+            For i As Integer = 0 To h - 1
+                For j As Integer = 0 To w - 1
                     If costs(i, j) = 0.0 AndAlso Not rowsCovered(i) AndAlso Not colsCovered(j) Then
                         masks(i, j) = 1
                         rowsCovered(i) = True
@@ -165,8 +165,8 @@ Namespace HungarianAlgorithm
 
             Dim agentsTasks = New Integer(h - 1) {}
 
-            For i = 0 To h - 1
-                For j = 0 To w - 1
+            For i As Integer = 0 To h - 1
+                For j As Integer = 0 To w - 1
                     If masks(i, j) = 1 Then
                         agentsTasks(i) = j
                         Exit For
@@ -178,11 +178,11 @@ Namespace HungarianAlgorithm
 
             If rowsGreaterThanCols Then
                 Dim agentsTasksTranspose = New Integer(w - 1) {}
-                For i = 0 To w - 1
+                For i As Integer = 0 To w - 1
                     agentsTasksTranspose(i) = -1
                 Next
 
-                For j = 0 To h - 1
+                For j As Integer = 0 To h - 1
                     agentsTasksTranspose(agentsTasks(j)) = j
                 Next
                 agentsTasks = agentsTasksTranspose
@@ -192,15 +192,15 @@ Namespace HungarianAlgorithm
         End Function
 
         Private Function RunStep1(masks As Byte(,), colsCovered As Boolean(), w As Integer, h As Integer) As Integer
-            For i = 0 To h - 1
-                For j = 0 To w - 1
+            For i As Integer = 0 To h - 1
+                For j As Integer = 0 To w - 1
                     If masks(i, j) = 1 Then colsCovered(j) = True
                 Next
             Next
 
             Dim colsCoveredCount = 0
 
-            For j = 0 To w - 1
+            For j As Integer = 0 To w - 1
                 If colsCovered(j) Then colsCoveredCount += 1
             Next
 
@@ -212,11 +212,15 @@ Namespace HungarianAlgorithm
         Private Function RunStep2(costs As Double(,), masks As Byte(,), rowsCovered As Boolean(), colsCovered As Boolean(), w As Integer, h As Integer, ByRef pathStart As Location) As Integer
             While True
                 Dim loc = FindZero(costs, rowsCovered, colsCovered, w, h)
-                If loc.row = -1 Then Return 4
 
-                masks(loc.row, loc.column) = 2
+                If loc.row = -1 Then
+                    Return 4
+                Else
+                    masks(loc.row, loc.column) = 2
+                End If
 
                 Dim starCol = FindStarInRow(masks, w, loc.row)
+
                 If starCol <> -1 Then
                     rowsCovered(loc.row) = True
                     colsCovered(starCol) = False
@@ -228,8 +232,9 @@ Namespace HungarianAlgorithm
 
             Throw New Exception("never!")
         End Function
+
         Private Function RunStep3(masks As Byte(,), rowsCovered As Boolean(), colsCovered As Boolean(), w As Integer, h As Integer, path As Location(), pathStart As Location) As Integer
-            Dim pathIndex = 0
+            Dim pathIndex As Integer = 0
             path(0) = pathStart
 
             While True
@@ -255,21 +260,24 @@ Namespace HungarianAlgorithm
         Private Function RunStep4(costs As Double(,), rowsCovered As Boolean(), colsCovered As Boolean(), w As Integer, h As Integer) As Integer
             Dim minValue = FindMinimum(costs, rowsCovered, colsCovered, w, h)
 
-            For i = 0 To h - 1
-                For j = 0 To w - 1
+            For i As Integer = 0 To h - 1
+                For j As Integer = 0 To w - 1
                     If rowsCovered(i) Then costs(i, j) += minValue
                     If Not colsCovered(j) Then costs(i, j) -= minValue
                 Next
             Next
+
             Return 2
         End Function
 
         Private Function FindMinimum(costs As Double(,), rowsCovered As Boolean(), colsCovered As Boolean(), w As Integer, h As Integer) As Double
             Dim minValue = Double.MaxValue
 
-            For i = 0 To h - 1
-                For j = 0 To w - 1
-                    If Not rowsCovered(i) AndAlso Not colsCovered(j) Then minValue = std.Min(minValue, costs(i, j))
+            For i As Integer = 0 To h - 1
+                For j As Integer = 0 To w - 1
+                    If Not rowsCovered(i) AndAlso Not colsCovered(j) Then
+                        minValue = std.Min(minValue, costs(i, j))
+                    End If
                 Next
             Next
 
@@ -277,7 +285,7 @@ Namespace HungarianAlgorithm
         End Function
 
         Private Function FindStarInRow(masks As Byte(,), w As Integer, row As Integer) As Integer
-            For j = 0 To w - 1
+            For j As Integer = 0 To w - 1
                 If masks(row, j) = 1 Then Return j
             Next
 
@@ -285,7 +293,7 @@ Namespace HungarianAlgorithm
         End Function
 
         Private Function FindStarInColumn(masks As Byte(,), h As Integer, col As Integer) As Integer
-            For i = 0 To h - 1
+            For i As Integer = 0 To h - 1
                 If masks(i, col) = 1 Then Return i
             Next
 
@@ -293,7 +301,7 @@ Namespace HungarianAlgorithm
         End Function
 
         Private Function FindPrimeInRow(masks As Byte(,), w As Integer, row As Integer) As Integer
-            For j = 0 To w - 1
+            For j As Integer = 0 To w - 1
                 If masks(row, j) = 2 Then Return j
             Next
 
@@ -301,9 +309,11 @@ Namespace HungarianAlgorithm
         End Function
 
         Private Function FindZero(costs As Double(,), rowsCovered As Boolean(), colsCovered As Boolean(), w As Integer, h As Integer) As Location
-            For i = 0 To h - 1
-                For j = 0 To w - 1
-                    If costs(i, j) = 0.0 AndAlso Not rowsCovered(i) AndAlso Not colsCovered(j) Then Return New Location(i, j)
+            For i As Integer = 0 To h - 1
+                For j As Integer = 0 To w - 1
+                    If costs(i, j) = 0.0 AndAlso Not rowsCovered(i) AndAlso Not colsCovered(j) Then
+                        Return New Location(i, j)
+                    End If
                 Next
             Next
 
@@ -311,7 +321,7 @@ Namespace HungarianAlgorithm
         End Function
 
         Private Sub ConvertPath(masks As Byte(,), path As Location(), pathLength As Integer)
-            For i = 0 To pathLength - 1
+            For i As Integer = 0 To pathLength - 1
                 Dim x = masks(path(i).row, path(i).column)
 
                 Select Case x
@@ -327,18 +337,18 @@ Namespace HungarianAlgorithm
             Next
         End Sub
         Private Sub ClearPrimes(masks As Byte(,), w As Integer, h As Integer)
-            For i = 0 To h - 1
-                For j = 0 To w - 1
+            For i As Integer = 0 To h - 1
+                For j As Integer = 0 To w - 1
                     If masks(i, j) = 2 Then masks(i, j) = 0
                 Next
             Next
         End Sub
         Private Sub ClearCovers(rowsCovered As Boolean(), colsCovered As Boolean(), w As Integer, h As Integer)
-            For i = 0 To h - 1
+            For i As Integer = 0 To h - 1
                 rowsCovered(i) = False
             Next
 
-            For j = 0 To w - 1
+            For j As Integer = 0 To w - 1
                 colsCovered(j) = False
             Next
         End Sub
