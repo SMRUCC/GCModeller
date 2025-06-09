@@ -61,6 +61,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports std = System.Math
 
 Namespace HungarianAlgorithm
@@ -69,6 +70,21 @@ Namespace HungarianAlgorithm
     ''' Hungarian Algorithm.
     ''' </summary>
     Public Module HungarianAlgorithm
+
+        ''' <summary>
+        ''' Finds the optimal assignments for a given matrix of agents and 
+        ''' costed tasks such that the total cost is minimized.
+        ''' </summary>
+        ''' <param name="costs">A cost matrix; the element at row <em>i</em> 
+        ''' and column <em>j</em> represents the cost of agent <em>i</em> 
+        ''' performing task <em>j</em>.</param>
+        ''' <returns>A matrix of assignments; the value of element <em>i</em> 
+        ''' is the column of the task assigned to agent <em>i</em>.</returns>
+        ''' <exception cref="ArgumentNullException"><paramref name="costs"/> is null.</exception>
+        <Extension()>
+        Public Function FindAssignments(costs As NumericMatrix) As Integer()
+            Return FindAssignments(NumericMatrix.GetRectangularArray(costs))
+        End Function
 
         ''' <summary>
         ''' Finds the optimal assignments for a given matrix of agents and 
