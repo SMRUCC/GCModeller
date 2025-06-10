@@ -94,7 +94,7 @@ Namespace Tree
                     .LeftChild = Nothing,
                     .RightChild = Nothing,
                     .IsLeaf = True,
-                    .Hyperplane = Nothing,
+                    .Hyperplane = New Double() {},
                     .Offset = 0
                 }
             End If
@@ -105,12 +105,12 @@ Namespace Tree
             Dim nLeaves = NumLeaves(tree)
 
             ' TODO[umap-js]: Verify that sparse code is not relevant...
-            Dim hyperplanes = Utils.Range(nNodes).[Select](Function(__) New Double(tree.Hyperplane.Length - 1) {}).ToArray()
+            Dim hyperplanes = Utils.Range(nNodes).Select(Function(__) New Double(tree.Hyperplane.Length - 1) {}).ToArray()
             Dim offsets = New Double(nNodes - 1) {}
-            Dim children = Utils.Range(nNodes).[Select](Function(__) {-1, -1}).ToArray()
-            Dim indices = Utils.Range(nLeaves).[Select](Function(__) Utils.Range(leafSize).[Select](Function(____) -1).ToArray()).ToArray()
+            Dim children = Utils.Range(nNodes).Select(Function(__) {-1, -1}).ToArray()
+            Dim indices = Utils.Range(nLeaves).Select(Function(__) Utils.Range(leafSize).[Select](Function(____) -1).ToArray()).ToArray()
 
-            RecursiveFlatten(tree, hyperplanes, offsets, children, indices, 0, 0)
+            Call RecursiveFlatten(tree, hyperplanes, offsets, children, indices, 0, 0)
 
             Return New FlatTree With {
                 .Hyperplanes = hyperplanes,
@@ -205,10 +205,10 @@ Namespace Tree
         End Function
 
         Private Function RecursiveFlatten(tree As RandomProjectionTreeNode,
-                                          hyperplanes As Double()(),
-                                          offsets As Double(),
-                                          children As Integer()(),
-                                          indices As Integer()(),
+                                          ByRef hyperplanes As Double()(),
+                                          ByRef offsets As Double(),
+                                          ByRef children As Integer()(),
+                                          ByRef indices As Integer()(),
                                           nodeNum As Integer,
                                           leafNum As Integer) As (nodeNum As Integer, leafNum As Integer)
             If tree.IsLeaf Then
