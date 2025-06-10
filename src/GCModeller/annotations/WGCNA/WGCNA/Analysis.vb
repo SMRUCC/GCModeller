@@ -1,66 +1,67 @@
 ﻿#Region "Microsoft.VisualBasic::14576eed1c8e0c1e9e95a7107e7e2be1, annotations\WGCNA\WGCNA\Analysis.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 146
-    '    Code Lines: 116 (79.45%)
-    ' Comment Lines: 8 (5.48%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 22 (15.07%)
-    '     File Size: 6.07 KB
+' Summaries:
 
 
-    ' Module Analysis
-    ' 
-    '     Function: createGraph, Run, setModules
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 146
+'    Code Lines: 116 (79.45%)
+' Comment Lines: 8 (5.48%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 22 (15.07%)
+'     File Size: 6.07 KB
+
+
+' Module Analysis
+' 
+'     Function: createGraph, Run, setModules
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
-Imports Microsoft.VisualBasic.DataMining.UMAP
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
@@ -69,6 +70,7 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Math.Matrix
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.ANOVA
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 #If NET48 Then
@@ -85,7 +87,7 @@ Public Module Analysis
     ''' </param>
     ''' <param name="adjacency"></param>
     ''' <returns></returns>
-    Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6, Optional umapLayout As Boolean = True) As Result
+    Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6, Optional pcaLayout As Boolean = True) As Result
         Call VBDebugger.EchoLine("do pearson correlation matrix evaluation...")
         Dim cor As CorrelationMatrix = samples.Correlation(Function(gene) gene.experiments)
         Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
@@ -98,7 +100,7 @@ Public Module Analysis
         Call VBDebugger.EchoLine("create TOM matrix...")
         Dim tomMat As NumericMatrix = TOM.Matrix(network, K)
         Dim dist As New DistanceMatrix(samples.expression.Keys, 1 - tomMat)
-        Dim g As NetworkGraph = network.createGraph(samples, umapLayout, cor, tomMat)
+        Dim g As NetworkGraph = network.createGraph(samples, pcaLayout, cor, tomMat)
         Call VBDebugger.EchoLine("make tree clustering!")
         Dim alg As ClusteringAlgorithm = New DefaultClusteringAlgorithm With {.debug = True}
         Dim matrix As Double()() = dist.PopulateRows _
@@ -153,19 +155,32 @@ Public Module Analysis
         Return g
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="mat">the network graph matrix</param>
+    ''' <param name="samples"></param>
+    ''' <param name="pcaLayout"></param>
+    ''' <param name="cor"></param>
+    ''' <param name="TOM"></param>
+    ''' <returns></returns>
     <Extension>
-    Private Function createGraph(mat As NumericMatrix, samples As Matrix, umapLayout As Boolean, cor As CorrelationMatrix, TOM As NumericMatrix) As NetworkGraph
+    Private Function createGraph(mat As NumericMatrix, samples As Matrix, pcaLayout As Boolean, cor As CorrelationMatrix, TOM As NumericMatrix) As NetworkGraph
         Dim geneId As String() = samples.expression.Keys.UniqueNames.ToArray
         Dim g As New NetworkGraph
-        Dim umap As Umap = Nothing
+        Dim proj As MultivariateAnalysisResult = Nothing
         Dim layout As Double()() = Nothing
         Dim offset As i32 = 0
 
-        If umapLayout Then
-            umap = New Umap(dimensions:=3, numberOfNeighbors:=32, localConnectivity:=2)
-            umap.InitializeFit(mat.ArrayPack(deepcopy:=True).FilterNaN(0.0))
-            umap = umap.Step(500)
-            layout = umap.GetEmbedding
+        If pcaLayout Then
+            proj = mat.ArrayPack _
+                .Select(Function(r, i) New NamedCollection(Of Double)(geneId(i), r)) _
+                .CommonDataSet(geneId) _
+                .PrincipalComponentAnalysis(maxPC:=3)
+            layout = proj.GetPCAScore _
+                .NumericMatrix _
+                .Select(Function(r) r.value) _
+                .ToArray
         End If
 
         Call VBDebugger.EchoLine("assign the gene id nodes.")
@@ -173,7 +188,7 @@ Public Module Analysis
         For Each id As String In geneId
             Dim node As Node = g.CreateNode(id)
 
-            If umapLayout Then
+            If pcaLayout Then
                 node.data.initialPostion = New FDGVector3(layout(++offset))
             End If
         Next
