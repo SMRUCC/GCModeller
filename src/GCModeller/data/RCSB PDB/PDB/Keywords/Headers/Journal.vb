@@ -81,6 +81,10 @@ Namespace Keywords
         Public Property PUBL As String
         Public Property EDIT As String
 
+        Public Overrides Function ToString() As String
+            Return title
+        End Function
+
         Friend Shared Function Append(ByRef jrnl As Journal, str As String) As Journal
             If jrnl Is Nothing Then
                 jrnl = New Journal
