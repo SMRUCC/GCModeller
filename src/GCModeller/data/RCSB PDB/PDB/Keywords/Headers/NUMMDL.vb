@@ -78,5 +78,13 @@ Namespace Keywords
             Return $"#{NUMMDL} NUMMDL"
         End Function
 
+        Public Shared Narrowing Operator CType(n As NUMMDL) As Integer
+            If n Is Nothing Then
+                Return 1
+            Else
+                Return n.NUMMDL
+            End If
+        End Operator
+
     End Class
 End Namespace

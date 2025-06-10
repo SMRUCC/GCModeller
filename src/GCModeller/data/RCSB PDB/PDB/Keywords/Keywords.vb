@@ -85,6 +85,10 @@ Namespace Keywords
         Public Const KEYWORD_MASTER As String = "MASTER"
         Public Const KEYWORD_DBREF As String = "DBREF"
 
+        ''' <summary>
+        ''' the keyword of current pdb section data
+        ''' </summary>
+        ''' <returns></returns>
         Public MustOverride ReadOnly Property Keyword As String
 
         Public Overrides Function ToString() As String

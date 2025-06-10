@@ -75,6 +75,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Keywords
@@ -204,7 +205,11 @@ Namespace Keywords
                     If Mols.Count = 1 Then
                         Return Mols.First.Value!GENE.StringSplit(",\s+")
                     Else
-                        Throw New InvalidProgramException
+                        Return Mols _
+                            .Select(Function(a) a.Value!GENE.StringSplit(",\s+")) _
+                            .IteratesALL _
+                            .Distinct _
+                            .ToArray
                     End If
                 ElseIf Mols.ContainsKey(mol) Then
                     Return Mols(mol)!GENE.StringSplit(",\s+")
@@ -220,10 +225,38 @@ Namespace Keywords
                     If Mols.Count = 1 Then
                         Return Mols.First.Value!ORGANISM_TAXID
                     Else
-                        Throw New InvalidProgramException
+                        For Each moldata As Properties In Mols.Values
+                            If moldata.metadata.ContainsKey("ORGANISM_TAXID") Then
+                                Return moldata!ORGANISM_TAXID
+                            End If
+                        Next
+
+                        Return Nothing
                     End If
                 ElseIf Mols.ContainsKey(mol) Then
                     Return Mols(mol)!ORGANISM_TAXID
+                Else
+                    Throw New KeyNotFoundException
+                End If
+            End Get
+        End Property
+
+        Public ReadOnly Property ScientificName(Optional mol As String = Nothing) As String
+            Get
+                If mol Is Nothing Then
+                    If Mols.Count = 1 Then
+                        Return Mols.First.Value!ORGANISM_SCIENTIFIC
+                    Else
+                        For Each moldata As Properties In Mols.Values
+                            If moldata.metadata.ContainsKey("ORGANISM_SCIENTIFIC") Then
+                                Return moldata!ORGANISM_SCIENTIFIC
+                            End If
+                        Next
+
+                        Return Nothing
+                    End If
+                ElseIf Mols.ContainsKey(mol) Then
+                    Return Mols(mol)!ORGANISM_SCIENTIFIC
                 Else
                     Throw New KeyNotFoundException
                 End If
