@@ -74,13 +74,13 @@ declare namespace WGCNA {
      * @param adjacency -
      * 
      * + default value Is ``0.6``.
-     * @param umap_layout 
+     * @param pca_layout 
      * + default value Is ``true``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function cor_network(x: object, adjacency?: number, umap_layout?: boolean, env?: object): object;
+   function cor_network(x: object, adjacency?: number, pca_layout?: boolean, env?: object): object;
    /**
     * append protein iteration network based on the WGCNA weights.
     * 
