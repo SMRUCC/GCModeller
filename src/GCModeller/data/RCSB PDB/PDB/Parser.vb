@@ -53,6 +53,7 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
 Friend Class Parser
@@ -60,6 +61,7 @@ Friend Class Parser
     Dim last As Keyword
     Dim model As Atom = Nothing
     Dim modelId As String = Nothing
+    Dim lines As New List(Of String)
 
     ''' <summary>
     ''' Load multiple molecule pdb file
@@ -74,11 +76,18 @@ Friend Class Parser
             If pdb Is Nothing Then
                 pdb = New PDB
             End If
+
             If reader.ReadLine(pdb, line) Then
                 If Not reader.last Is Nothing Then
                     Call reader.last.Flush()
                 End If
+
+                pdb.SourceText = reader.lines _
+                    .PopAll _
+                    .JoinBy(vbCrLf)
+
                 Yield pdb
+
                 pdb = Nothing
             End If
         Next
@@ -88,12 +97,18 @@ Friend Class Parser
                 Call reader.last.Flush()
             End If
 
+            pdb.SourceText = reader.lines _
+                .PopAll _
+                .JoinBy(vbCrLf)
+
             Yield pdb
         End If
     End Function
 
     Private Function ReadLine(ByRef pdb As PDB, line As String) As Boolean
         Dim data = line.GetTagValue(trim:=True, failureNoName:=False)
+
+        Call lines.Add(line)
 
         If data.Name.IsPattern("HETATM\d+") Then
             data = New NamedValue(Of String)("HETATM", line.Substring(6))

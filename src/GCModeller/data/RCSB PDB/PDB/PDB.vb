@@ -298,6 +298,12 @@ Public Class PDB : Implements Enumeration(Of Atom)
         End Get
     End Property
 
+    ''' <summary>
+    ''' the input data text of this pdb object
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property SourceText As String
+
     Protected Friend Sub New()
     End Sub
 
