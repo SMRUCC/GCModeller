@@ -1,110 +1,113 @@
 ﻿#Region "Microsoft.VisualBasic::dc1b0e7dd5f8a61cb67f2655a61f6b08, data\RCSB PDB\PDB\Keywords\Headers\Header.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 186
-    '    Code Lines: 135 (72.58%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 51 (27.42%)
-    '     File Size: 5.11 KB
+' Summaries:
 
 
-    '     Class Header
-    ' 
-    '         Properties: [Date], Keyword, pdbID, Title
-    ' 
-    '         Function: Parse, ToString
-    ' 
-    '     Class Title
-    ' 
-    '         Properties: Keyword, Title
-    ' 
-    '         Function: Append
-    ' 
-    '     Class Keywords
-    ' 
-    '         Properties: Keyword, keywords
-    ' 
-    '         Function: Parse
-    ' 
-    '     Class ExperimentData
-    ' 
-    '         Properties: Experiment, Keyword
-    ' 
-    '         Function: Parse
-    ' 
-    '     Class Author
-    ' 
-    '         Properties: Keyword, Name
-    ' 
-    '         Function: Parse
-    ' 
-    '     Class DbReference
-    ' 
-    '         Properties: db_xrefs, Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '         Sub: Flush
-    ' 
-    '     Class Site
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class Master
-    ' 
-    '         Properties: Keyword, line
-    ' 
-    '         Function: Parse
-    ' 
-    '     Class CRYST1
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 186
+'    Code Lines: 135 (72.58%)
+' Comment Lines: 0 (0.00%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 51 (27.42%)
+'     File Size: 5.11 KB
+
+
+'     Class Header
+' 
+'         Properties: [Date], Keyword, pdbID, Title
+' 
+'         Function: Parse, ToString
+' 
+'     Class Title
+' 
+'         Properties: Keyword, Title
+' 
+'         Function: Append
+' 
+'     Class Keywords
+' 
+'         Properties: Keyword, keywords
+' 
+'         Function: Parse
+' 
+'     Class ExperimentData
+' 
+'         Properties: Experiment, Keyword
+' 
+'         Function: Parse
+' 
+'     Class Author
+' 
+'         Properties: Keyword, Name
+' 
+'         Function: Parse
+' 
+'     Class DbReference
+' 
+'         Properties: db_xrefs, Keyword
+' 
+'         Function: Append
+' 
+'         Sub: Flush
+' 
+'     Class Site
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class Master
+' 
+'         Properties: Keyword, line
+' 
+'         Function: Parse
+' 
+'     Class CRYST1
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Keywords
 
@@ -147,6 +150,10 @@ Namespace Keywords
 
         Public Property Title As String
 
+        Public Overrides Function ToString() As String
+            Return Title
+        End Function
+
         Friend Shared Function Append(ByRef title As Title, str As String) As Title
             If title Is Nothing Then
                 title = New Title With {.Title = str}
@@ -169,6 +176,10 @@ Namespace Keywords
 
         Public Property keywords As String()
 
+        Public Overrides Function ToString() As String
+            Return keywords.JoinBy("; ")
+        End Function
+
         Friend Shared Function Parse(line As String) As Keywords
             Return New Keywords With {.keywords = line.StringSplit(",\s+")}
         End Function
@@ -184,6 +195,10 @@ Namespace Keywords
         End Property
 
         Public Property Experiment As String
+
+        Public Overrides Function ToString() As String
+            Return Experiment
+        End Function
 
         Friend Shared Function Parse(line As String) As ExperimentData
             Return New ExperimentData With {.Experiment = line}
@@ -201,6 +216,10 @@ Namespace Keywords
 
         Public Property Name As String
 
+        Public Overrides Function ToString() As String
+            Return Name
+        End Function
+
         Friend Shared Function Parse(line As String) As Author
             Return New Author With {.Name = line}
         End Function
@@ -215,9 +234,24 @@ Namespace Keywords
             End Get
         End Property
 
-        Public Property db_xrefs As NamedValue(Of String)()
-
         Dim cache As New List(Of String)
+
+        Public Property db_xrefs As NamedValue(Of String)()
+        Public ReadOnly Property XrefIndex As Dictionary(Of String, String())
+            Get
+                Return db_xrefs _
+                    .SafeQuery _
+                    .GroupBy(Function(a) a.Name) _
+                    .ToDictionary(Function(a) a.Key,
+                                  Function(a)
+                                      Return a.Values
+                                  End Function)
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            Return XrefIndex.GetJson
+        End Function
 
         Friend Shared Function Append(ByRef ref As DbReference, str As String) As DbReference
             If ref Is Nothing Then
@@ -243,6 +277,10 @@ Namespace Keywords
 
         Dim str As New List(Of String)
 
+        Public Overrides Function ToString() As String
+            Return str.JoinBy(" ")
+        End Function
+
         Friend Shared Function Append(ByRef site As Site, str As String) As Site
             If site Is Nothing Then
                 site = New Site
@@ -261,6 +299,10 @@ Namespace Keywords
         End Property
 
         Public Property line As String
+
+        Public Overrides Function ToString() As String
+            Return line
+        End Function
 
         Public Shared Function Parse(str As String) As Master
             Return New Master With {
