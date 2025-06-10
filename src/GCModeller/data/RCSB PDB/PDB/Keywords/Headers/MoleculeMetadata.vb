@@ -225,7 +225,13 @@ Namespace Keywords
                     If Mols.Count = 1 Then
                         Return Mols.First.Value!ORGANISM_TAXID
                     Else
-                        Throw New InvalidProgramException
+                        For Each moldata As Properties In Mols.Values
+                            If moldata.metadata.ContainsKey("ORGANISM_TAXID") Then
+                                Return moldata!ORGANISM_TAXID
+                            End If
+                        Next
+
+                        Return Nothing
                     End If
                 ElseIf Mols.ContainsKey(mol) Then
                     Return Mols(mol)!ORGANISM_TAXID
@@ -241,7 +247,13 @@ Namespace Keywords
                     If Mols.Count = 1 Then
                         Return Mols.First.Value!ORGANISM_SCIENTIFIC
                     Else
-                        Throw New InvalidProgramException
+                        For Each moldata As Properties In Mols.Values
+                            If moldata.metadata.ContainsKey("ORGANISM_SCIENTIFIC") Then
+                                Return moldata!ORGANISM_SCIENTIFIC
+                            End If
+                        Next
+
+                        Return Nothing
                     End If
                 ElseIf Mols.ContainsKey(mol) Then
                     Return Mols(mol)!ORGANISM_SCIENTIFIC
