@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.Net.Http
 
 Module Program
 
@@ -88,6 +89,26 @@ Module Program
                 .SaveTo(wwwroot & "/" & template.BaseName & ".html")
         Next
 
+        Return 0
+    End Function
+
+    <ExportAPI("/stress_test")>
+    <Usage("/stress_test /url <test_url> [/batch_size <default=10000> /post]")>
+    Public Function StressTest(url As String,
+                               Optional batch_size As Integer = 10000,
+                               Optional post As Boolean = False,
+                               Optional args As CommandLine = Nothing) As Integer
+
+        Dim buildAction As Action(Of Integer)
+        Dim urldata As New URL(url)
+
+        If post Then
+            buildAction = Sub(i) Call New URL(urldata).Refresh(i).ToString.POST
+        Else
+            buildAction = Sub(i) Call New URL(urldata).Refresh(i).ToString.GET
+        End If
+
+        Call Parallel.For(0, batch_size, buildAction)
         Return 0
     End Function
 End Module
