@@ -75,6 +75,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Keywords
@@ -204,7 +205,11 @@ Namespace Keywords
                     If Mols.Count = 1 Then
                         Return Mols.First.Value!GENE.StringSplit(",\s+")
                     Else
-                        Throw New InvalidProgramException
+                        Return Mols _
+                            .Select(Function(a) a.Value!GENE.StringSplit(",\s+")) _
+                            .IteratesALL _
+                            .Distinct _
+                            .ToArray
                     End If
                 ElseIf Mols.ContainsKey(mol) Then
                     Return Mols(mol)!GENE.StringSplit(",\s+")
