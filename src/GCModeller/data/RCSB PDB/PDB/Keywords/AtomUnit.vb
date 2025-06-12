@@ -71,6 +71,12 @@ Namespace Keywords
         Public Property X As Double Implements Layout2D.X
         Public Property Y As Double Implements Layout2D.Y
 
+        Sub New(x As Double, y As Double, z As Double)
+            _X = x
+            _Y = y
+            _Z = z
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"[x:{X}. y:{Y}, z:{Z}]"
         End Function
