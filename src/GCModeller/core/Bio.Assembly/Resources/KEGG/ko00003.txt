@@ -34,11 +34,13 @@ E        M00087  beta-Oxidation
 E        M00861  beta-Oxidation, peroxisome, VLCFA
 E        M00862  beta-Oxidation, peroxisome, tri/dihydroxycholestanoyl-CoA => choloyl/chenodeoxycholoyl-CoA
 D      RM020  Fatty acid synthesis using acetyl-CoA (reversal of RM018)
-E        M00085  Fatty acid biosynthesis, elongation, mitochondria
-E        M00415  Fatty acid biosynthesis, elongation, endoplasmic reticulum
+E        M00085  Fatty acid elongation in mitochondria
 D      RM021  Fatty acid synthesis using malonyl-CoA
-E        M00082  Fatty acid biosynthesis, initiation
 E        M00083  Fatty acid biosynthesis, elongation
+E        M00572  Pimeloyl-ACP biosynthesis, BioC-BioH pathway, malonyl-ACP => pimeloyl-ACP
+E        M00885  Meromycolic acid biosynthesis, initiation and elongation FAS II (KasA)
+E        M00886  Meromycolic acid biosynthesis, initiation and elongation FAS II (KasA and KasB)
+E        M00415  Fatty acid elongation in endoplasmic reticulum
 C    Acyl-CoA metabolism
 D      RM019  Acyl-CoA conversion via dicarboxylate semialdehyde
 E        M00013  Malonate semialdehyde pathway, propanoyl-CoA => Acetyl-CoA
@@ -124,6 +126,7 @@ D      RM025  Conversion of amino acid moiety to carboxyl group (biogenic amine 
 C    Nucleotide metabolism
 D      RM045  Conversion of base / nucleoside / nucleotide
 D      RM024  Pyrimidine degradation
+E        M00046  Pyrimidine degradation, uracil => beta-alanine, thymine => 3-aminoisobutanoate
 C    Sugar metabolism
 D      RM034  Sugar degradation to aldehyde and pyruvate
 E        M00008  Entner-Doudoroff pathway, glucose-6P => glyceraldehyde-3P + pyruvate
@@ -136,4 +139,5 @@ D      RM031  Oxime to acetate conversion
 !
 #<hr>
 #[ <a href="/kegg/reaction/rmodule.html">RMODULE</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/pathway.html">PATHWAY</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
-#Last updated: September 20, 2023
+#Last updated: November 5, 2024
+

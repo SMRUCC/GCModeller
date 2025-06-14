@@ -14,6 +14,8 @@ C    01232  Nucleotide metabolism
 C    01250  Biosynthesis of nucleotide sugars
 C    01240  Biosynthesis of cofactors
 C    01220  Degradation of aromatic compounds
+C    01310  Nitrogen cycle
+C    01320  Sulfur cycle
 B  Carbohydrate metabolism
 C    00010  Glycolysis / Gluconeogenesis
 C    00020  Citrate cycle (TCA cycle)
@@ -23,7 +25,6 @@ C    00051  Fructose and mannose metabolism
 C    00052  Galactose metabolism
 C    00053  Ascorbate and aldarate metabolism
 C    00500  Starch and sucrose metabolism
-C    00520  Amino sugar and nucleotide sugar metabolism
 C    00620  Pyruvate metabolism
 C    00630  Glyoxylate and dicarboxylate metabolism
 C    00640  Propanoate metabolism
@@ -34,8 +35,8 @@ B  Energy metabolism
 C    00190  Oxidative phosphorylation
 C    00195  Photosynthesis
 C    00196  Photosynthesis - antenna proteins
-C    00710  Carbon fixation in photosynthetic organisms
-C    00720  Carbon fixation pathways in prokaryotes
+C    00710  Carbon fixation by Calvin cycle
+C    00720  Other carbon fixation pathways
 C    00680  Methane metabolism
 C    00910  Nitrogen metabolism
 C    00920  Sulfur metabolism
@@ -44,6 +45,7 @@ C    00061  Fatty acid biosynthesis
 C    00062  Fatty acid elongation
 C    00071  Fatty acid degradation
 C    00073  Cutin, suberine and wax biosynthesis
+C    00074  Mycolic acid biosynthesis
 C    00100  Steroid biosynthesis
 C    00120  Primary bile acid biosynthesis
 C    00121  Secondary bile acid biosynthesis
@@ -83,6 +85,8 @@ C    00460  Cyanoamino acid metabolism
 C    00470  D-Amino acid metabolism
 C    00480  Glutathione metabolism
 B  Glycan biosynthesis and metabolism
+C    00520  Amino sugar and nucleotide sugar metabolism
+C    00541  Biosynthesis of various nucleotide sugars
 C    00510  N-Glycan biosynthesis
 C    00513  Various types of N-glycan biosynthesis
 C    00512  Mucin type O-glycan biosynthesis
@@ -99,7 +103,6 @@ C    00604  Glycosphingolipid biosynthesis - ganglio series
 C    00511  Other glycan degradation
 C    00540  Lipopolysaccharide biosynthesis
 C    00542  O-Antigen repeat unit biosynthesis
-C    00541  O-Antigen nucleotide sugar biosynthesis
 C    00550  Peptidoglycan biosynthesis
 C    00552  Teichoic acid biosynthesis
 C    00571  Lipoarabinomannan (LAM) biosynthesis
@@ -244,8 +247,10 @@ C    03271  Virion - Rotavirus
 C    03262  Virion - Coronavirus
 C    03261  Virion - Influenza virus
 C    03263  Virion - Enterovirus
-C    03264  Virion - Flavivirus
+C    03264  Virion - Flavivirus and Alphavirus
 C    03265  Virion - Ebolavirus, Lyssavirus and Morbillivirus
+C    03273  Virion - Lassa virus and SFTS virus
+C    03272  Virion - Hepatitis viruses
 C    03266  Virion - Herpesvirus
 C    03268  Virion - Orthopoxvirus
 C    03267  Virion - Adenovirus
@@ -293,6 +298,8 @@ C    04150  mTOR signaling pathway
 C    04075  Plant hormone signal transduction
 B  Signaling molecules and interaction
 C    04080  Neuroactive ligand-receptor interaction
+C    04082  Neuroactive ligand signaling
+C    04081  Hormone signaling
 C    04060  Cytokine-cytokine receptor interaction
 C    04061  Viral protein interaction with cytokine and cytokine receptor
 C    04512  ECM-receptor interaction
@@ -403,6 +410,7 @@ C    04974  Protein digestion and absorption
 C    04975  Fat digestion and absorption
 C    04979  Cholesterol metabolism
 C    04977  Vitamin digestion and absorption
+C    04981  Folate transport and metabolism
 C    04980  Cobalamin transport and metabolism
 C    04978  Mineral absorption
 B  Excretory system
@@ -433,6 +441,7 @@ C    04320  Dorso-ventral axis formation
 C    04360  Axon guidance
 C    04361  Axon regeneration
 C    04380  Osteoclast differentiation
+C    04382  Cornified envelope formation
 B  Aging
 C    04211  Longevity regulating pathway
 C    04212  Longevity regulating pathway - worm
@@ -647,5 +656,6 @@ C    07114  Naphthalene family
 C    07117  Benzodiazepine family
 !
 #<hr>
-#Last updated: May 28, 2024
+#Last updated: June 3, 2025
 #<br><br><a href="/brite/jp08901">&raquo; Japanese version</a>
+

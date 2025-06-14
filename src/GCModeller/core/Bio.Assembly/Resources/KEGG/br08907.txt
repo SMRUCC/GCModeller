@@ -34,6 +34,7 @@ C    06018  GPI-anchor biosynthesis
 C    06035  Blood group carbohydrate antigen biosynthesis
 B  Cofactor/vitamin metabolism
 C    06032  Lipoic acid metabolism
+C    06038  Folate metabolism
 C    06025  Molybdenum cofactor biosynthesis
 C    06011  Heme biosynthesis
 C    06538  Cobalamin transport and metabolism
@@ -56,6 +57,8 @@ C    06518  JAK-STAT signaling
 C    06516  TNF signaling
 C    06528  Calcium signaling
 C    06522  mTOR signaling
+C    06542  HIF signaling
+C    06543  NRG-ERBB signaling
 B  Cellular process
 C    06523  Epigenetic regulation by Polycomb complexes
 C    06512  Chromosome cohesion and segregation
@@ -69,6 +72,8 @@ C    06525  Ferroptosis
 C    06527  Necroptosis
 C    06529  Thermogenesis
 C    06539  Cytoskeleton in muscle cells
+C    06541  Cytoskeleton in neurons
+C    06544  Neuroactive ligand signaling
 B  Immune system
 C    06513  Complement cascade
 C    06514  Coagulation cascade
@@ -79,14 +84,14 @@ C    06520  CGAS-STING signaling
 C    06537  TCR/BCR signaling
 C    06533  Chemokine signaling
 B  Endocrine system
-C    06310   CRH-ACTH-cortisol signaling
-C    06322   TRH-TSH-TH signaling
-C    06323   KISS1-GnRH-LH/FSH-E2 signaling
-C    06324   GHRH-GH-IGF signaling
-C    06318   CaSR-PTH signaling
-C    06316   Renin-angiotensin-aldosterone signaling
-C    06325   Hormone/cytokine signaling
-C    06320   APOB-LDLR signaling
+C    06310  CRH-ACTH-cortisol signaling
+C    06322  TRH-TSH-TH signaling
+C    06323  KISS1-GnRH-LH/FSH-E2 signaling
+C    06324  GHRH-GH-IGF signaling
+C    06318  CaSR-PTH signaling
+C    06316  Renin-angiotensin-aldosterone signaling
+C    06325  Hormone/cytokine signaling
+C    06320  APOB-LDLR signaling
 #
 A<b>Disease view</b>
 B  Cancer
@@ -164,5 +169,6 @@ C    06182  Shigella
 C    06183  Yersinia
 !
 #<hr>
-#Last updated: May 7, 2024
+#Last updated: April 10, 2025
 #<br><br><a href="/brite/jp08907">&raquo; Japanese version</a>
+
