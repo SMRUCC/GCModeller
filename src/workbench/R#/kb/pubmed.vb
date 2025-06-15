@@ -134,9 +134,9 @@ Module pubmed_tools
     End Function
 
     <ExportAPI("read.article_json")>
-    <RApiReturn(GetType(PubChemTextJSON))>
+    <RApiReturn(GetType(PubMedTextTable))>
     Public Function read_articlejson(file As String) As Object
-        Return PubChemTextJSON.ParseJSON(file)
+        Return PubMedTextTable.ParseJSON(file)
     End Function
 
     ''' <summary>
