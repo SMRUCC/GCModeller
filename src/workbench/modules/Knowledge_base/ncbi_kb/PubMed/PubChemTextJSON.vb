@@ -1,5 +1,6 @@
 ﻿
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 
 Namespace PubMed
 
@@ -39,7 +40,15 @@ Namespace PubMed
         ''' </param>
         ''' <returns></returns>
         Public Shared Function ParseJSON(json As String) As PubChemTextJSON()
-            Return json.SolveStream.LoadJSON(Of PubChemTextJSON())
+            Dim list As JsonArray = JSONTextParser.ParseJson(json.SolveStream, False)
+            Dim articles As PubChemTextJSON() = list _
+                .AsObjects _
+                .Select(Function(j)
+                            Return j.CreateObject(Of PubChemTextJSON)(True)
+                        End Function) _
+                .ToArray
+
+            Return articles
         End Function
 
     End Class
