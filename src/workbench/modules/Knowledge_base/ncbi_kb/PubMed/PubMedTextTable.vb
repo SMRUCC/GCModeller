@@ -60,6 +60,8 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
@@ -137,6 +139,11 @@ Namespace PubMed
             If dd = "00" Then dd = "01"
 
             Return New Date(Integer.Parse(yyyy), Integer.Parse(mm), Integer.Parse(dd))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function LoadTable(file As String) As IEnumerable(Of PubMedTextTable)
+            Return DataStream.OpenHandle(file, trim:=True).AsLinq(Of PubMedTextTable)(silent:=True)
         End Function
 
         ''' <summary>
