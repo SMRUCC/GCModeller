@@ -133,6 +133,12 @@ Module pubmed_tools
         Return file.LoadXml(Of BookPartWrapper)(preprocess:=AddressOf BookPartWrapper.PreprocessingXml)
     End Function
 
+    <ExportAPI("read.article_json")>
+    <RApiReturn(GetType(PubChemTextJSON))>
+    Public Function read_articlejson(file As String) As Object
+        Return PubChemTextJSON.ParseJSON(file)
+    End Function
+
     ''' <summary>
     ''' get the citation list about current article object
     ''' </summary>
