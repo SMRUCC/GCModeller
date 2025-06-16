@@ -865,6 +865,9 @@ D      R07937	C16169  (4Z,7Z,10Z,13Z,16Z,19Z)-Docosahexaenoyl-CoA	C16376  (6Z,9Z
 D      R07953	C16173  (4Z,7Z,10Z,13Z,16Z)-Docosapentaenoyl-CoA	C16389  (6Z,9Z,12Z,15Z,18Z)-3-Oxotetracosapentaenoyl-CoA
 D      R08091	C16470  5-Methylhex-4-enoyl-CoA	C16466  7-Methyl-3-oxo-6-octenoyl-CoA
 D      R08095	C03069  3-Methylcrotonyl-CoA	C16471  5-Methyl-3-oxo-4-hexenoyl-CoA
+D      R13471	C23017  3-Oxopregnene-20-carboxyl-CoA	C23016  3,22-Dioxochol-4-en-24-oyl-CoA
+D      R13479	C23007  (3aS,4S,5R,7aS)-5-Hydroxy-7a-methyl-1-oxooctahydro-1H-indene-4-carboxyl-CoA	C23006  3-[(3aS,4S,5R,7aS)-5-Hydroxy-7a-methyl-1-oxooctahydro-1H-inden-4-yl]-3-oxopropanoyl-CoA
+D      R13483	C23022  7-Carboxy-4-methyl-5-oxoheptanoyl-CoA	C23021  9-Carboxy-6-methyl-3,7-dioxononanoyl-CoA
 B  2.3.1.20
 C    R02251	C00040  Acyl-CoA
 D      R02694	C00605  2,3-Dehydroacyl-CoA
@@ -1694,6 +1697,9 @@ D      R00224	C00022  Pyruvate	C00084  Acetaldehyde
 B  4.1.1.98
 C    R04985	C05848  4-Hydroxy-3-polyprenylbenzoate	C05807  2-Polyprenylphenol
 D      R04986	C05809  3-Octaprenyl-4-hydroxybenzoate	C05810  2-Octaprenylphenol
+B  4.1.1.130
+C    R08772	C17559  3-Methoxy-4-hydroxy-5-polyprenylbenzoate	C17552  2-Polyprenyl-6-methoxyphenol
+D      R06866	C05313  3-Hexaprenyl-4-hydroxy-5-methoxybenzoate	C05802  2-Hexaprenyl-6-methoxyphenol
 B  4.1.2.13
 C    R01068	C00354  D-Fructose 1,6-bisphosphate
 D      R01070	C05378  beta-D-Fructose 1,6-bisphosphate
@@ -1801,8 +1807,9 @@ C    R02770	C00686  N-Acyl-D-mannosamine 6-phosphate	C04136  N-Acyl-D-glucosamin
 D      R02087	C00357  N-Acetyl-D-glucosamine 6-phosphate	C04257  N-Acetyl-D-mannosamine 6-phosphate
 B  5.1.99.4
 C    R04729	C05232  (2S)-2-Methylacyl-CoA	C05329  (2R)-2-Methylacyl-CoA
-D      R08734	C15613  (25R)-3alpha,7alpha,12alpha-Trihydroxy-5beta-cholestan-26-oyl-CoA	C17343  (25S)-3alpha,7alpha,12alpha-Trihydroxy-5beta-cholestan-26-oyl-CoA
-D      R08739	C17345  (25R)-3alpha,7alpha-Dihydroxy-5beta-cholestanoyl-CoA	C17346  (25S)-3alpha,7alpha-Dihydroxy-5beta-cholestanoyl-CoA
+D      R08734	C17343  (25S)-3alpha,7alpha,12alpha-Trihydroxy-5beta-cholestan-26-oyl-CoA	C15613  (25R)-3alpha,7alpha,12alpha-Trihydroxy-5beta-cholestan-26-oyl-CoA
+D      R08739	C17346  (25S)-3alpha,7alpha-Dihydroxy-5beta-cholestanoyl-CoA	C17345  (25R)-3alpha,7alpha-Dihydroxy-5beta-cholestanoyl-CoA
+D      R13462	C20840  (25S)-3-Oxocholest-4-en-26-oyl-CoA	C23011  (25R)-3-Oxocholest-4-en-26-oyl-CoA
 B  5.3.1.8
 C    R00772	C00085  D-Fructose 6-phosphate
 D      R01819	C05345  beta-D-Fructose 6-phosphate
@@ -1873,5 +1880,6 @@ D      R02161	C00390  Ubiquinol	C00399  Ubiquinone
 !
 #<hr>
 #[ <a href="/kegg/reaction/">REACTION</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
-#Last updated: March 27, 2024
+#Last updated: May 22, 2025
 #<br>Parent-child relationship of IUBMB reaction and other reactions with the same EC number
+

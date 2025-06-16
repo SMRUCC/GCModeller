@@ -10,6 +10,8 @@ C    br08904  BRITE table files
 C    br08906  BRITE binary relation files
 B  Network
 C    br08907  KEGG network variation maps
+B  Taxonomy
+C    br08908  Taxonomy files
 #
 A<b>Genes and Proteins</b>
 B  Orthologs and modules
@@ -94,7 +96,6 @@ B  Reactions
 C    br08201  Enzymatic reactions
 C    br08202  IUBMB reaction hierarchy
 C    br08204  Reaction class
-C    br08203  Glycosyltransferase reactions
 #
 A<b>Drugs</b>
 B  Drug classifications
@@ -105,7 +106,6 @@ C    br08313  Classification of Japanese OTC drugs
 C    br08312  Risk category of Japanese OTC drugs
 C    br08304  Traditional Chinese Medicine in Japan
 C    br08305  Crude drugs
-C    br08331  Animal drugs in Japan
 B  Drug information
 C    br08330  Drug groups
 C    br08332  Drug classes
@@ -124,8 +124,9 @@ C    br08410  ICD-10 International Classification of Diseases
 C    br08420  ICD-O-3 International Classification of Diseases for Oncology
 #
 A<b>Organisms and Viruses</b>
-B  Taxonomy
+B  KEGG taxonomy
 C    br08601  KEGG organisms
+B  NCBI taxonomy
 C    br08610  KEGG organisms in the NCBI taxonomy
 C    br08611  KEGG organisms in taxonomic ranks
 C    br08612  KEGG organisms: animals
@@ -134,9 +135,10 @@ C    br08614  KEGG organisms: fungi
 C    br08615  KEGG organisms: protists
 C    br08620  KEGG viruses in the NCBI taxonomy
 C    br08621  KEGG viruses in taxonomic ranks
-B  Organism information
+B  Organism and virus information
 C    br08605  Plant pathogens
 !
 #<hr>
-#Last updated: May 31, 2024
+#Last updated: June 9, 2025
 #<br><br><a href="/brite/jp08902">&raquo; Japanese version</a>
+

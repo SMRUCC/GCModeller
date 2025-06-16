@@ -1065,3 +1065,4 @@ D      C19146  Sesamex
 #[ <a href="/kegg/drug/">DRUG</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
 #Last updated: January 30, 2019
 #<br><br><a href="/brite/jp08007">&raquo; Japanese version</a>
+

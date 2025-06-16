@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fd4d60b939bac46733d5b728a6bc04a, Data_science\DataMining\UMAP\Components\Utils.vb"
+﻿#Region "Microsoft.VisualBasic::f47405e935a4d28f0029783133e8715c, Data_science\DataMining\UMAP\Components\Utils.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 84
-    '    Code Lines: 58 (69.05%)
-    ' Comment Lines: 12 (14.29%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 94
+    '    Code Lines: 64 (68.09%)
+    ' Comment Lines: 15 (15.96%)
+    '    - Xml Docs: 80.00%
     ' 
-    '   Blank Lines: 14 (16.67%)
-    '     File Size: 2.62 KB
+    '   Blank Lines: 15 (15.96%)
+    '     File Size: 3.07 KB
 
 
     ' Module Utils
@@ -84,11 +84,16 @@ Module Utils
     ''' </summary>
     Public Function RejectionSample(nSamples As Integer, poolSize As Integer, random As IProvideRandomValues) As Integer()
         Dim result = New Integer(nSamples - 1) {}
+        Dim maxItrs As Integer = 10000
 
-        For i = 0 To nSamples - 1
+        For i As Integer = 0 To nSamples - 1
             Dim rejectSample = True
+            Dim counter As Integer = 0
 
-            While rejectSample
+            ' 20250610 possible dead loop at here
+            ' if always broken
+            ' use a counter for avoid such possible error
+            While rejectSample AndAlso counter < maxItrs
                 Dim j = random.Next(0, poolSize)
                 Dim broken = False
 
@@ -103,8 +108,13 @@ Module Utils
                     rejectSample = False
                 End If
 
+                counter += 1
                 result(i) = j
             End While
+
+            If counter >= maxItrs Then
+                Call $"dead loop was detected while make sample rejection for sample {i}!".Warning
+            End If
         Next
 
         Return result

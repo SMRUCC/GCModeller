@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a08872e6ce0b4df20608165e1499b8a, Data_science\Mathematica\Math\Math\HashMaps\HashMap.vb"
+﻿#Region "Microsoft.VisualBasic::fc0bee2fde4232aa414a217badca919a, Data_science\Mathematica\Math\Math\HashMaps\HashMap.vb"
 
     ' Author:
     ' 
@@ -34,26 +34,27 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 397
-    '    Code Lines: 261 (65.74%)
-    ' Comment Lines: 69 (17.38%)
+    '   Total Lines: 432
+    '    Code Lines: 281 (65.05%)
+    ' Comment Lines: 77 (17.82%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 67 (16.88%)
-    '     File Size: 14.32 KB
+    '   Blank Lines: 74 (17.13%)
+    '     File Size: 15.73 KB
 
 
     '     Module HashMap
     ' 
-    '         Function: (+2 Overloads) HashAP, (+2 Overloads) HashBKDR, (+2 Overloads) HashCMyMap, (+2 Overloads) HashCodePair, (+2 Overloads) HashDEK
-    '                   (+2 Overloads) HashDJB, (+2 Overloads) HashELF, (+2 Overloads) HashJS, (+2 Overloads) HashPJW, (+2 Overloads) HashRS
-    '                   (+2 Overloads) HashSDBM, (+2 Overloads) HashTimeMap
+    '         Function: (+2 Overloads) CalcHashCode, (+2 Overloads) HashAP, (+2 Overloads) HashBKDR, (+2 Overloads) HashCMyMap, (+2 Overloads) HashCodePair
+    '                   (+2 Overloads) HashDEK, (+2 Overloads) HashDJB, (+2 Overloads) HashELF, (+2 Overloads) HashJS, (+2 Overloads) HashPJW
+    '                   (+2 Overloads) HashRS, (+2 Overloads) HashSDBM, (+2 Overloads) HashTimeMap, HashTimeMapCheckSum
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports UncheckedUInt64 = System.Numerics.BigInteger
 
 Namespace HashMaps
@@ -400,7 +401,19 @@ Namespace HashMaps
         ''' <param name="KeyByte"></param>
         ''' <param name="seed">种子质数。 31，33，37 。。。</param>
         ''' <returns></returns>
-        Public Function HashTimeMap(KeyByte() As Byte, seed As UInt32) As ULong
+        Public Function HashTimeMap(ByRef KeyByte() As Byte, seed As UInt32) As ULong
+            Return BitConverter.ToUInt64(HashTimeMapCheckSum(KeyByte, seed), 0)
+        End Function
+
+        ''' <summary>
+        ''' 经典的Time算法。简单，高效。
+        ''' Ngix使用的是 time31，Tokyo Cabinet使用的是 time37
+        ''' 小写英文词汇适合33, 大小写混合使用65。time33比较适合的是英文词汇的hash.
+        ''' </summary>
+        ''' <param name="KeyByte"></param>
+        ''' <param name="seed">种子质数。 31，33，37 。。。</param>
+        ''' <returns></returns>
+        Public Function HashTimeMapCheckSum(ByRef KeyByte() As Byte, seed As UInt32) As Byte()
             Dim nHash As UncheckedUInt64 = 0
             Dim L As Int32 = KeyByte.Length - 1
             Dim I As Int32 = 0
@@ -410,7 +423,29 @@ Namespace HashMaps
                 I += 1
             End While
 
-            Return nHash
+            Return nHash.ToByteArray
+        End Function
+
+        <Extension>
+        Public Function CalcHashCode(ints As IEnumerable(Of ULong)) As Byte()
+            Dim bytes As New List(Of Byte)
+
+            For Each i As ULong In ints
+                Call bytes.AddRange(BitConverter.GetBytes(i))
+            Next
+
+            Return HashTimeMapCheckSum(bytes.ToArray, seed:=37)
+        End Function
+
+        <Extension>
+        Public Function CalcHashCode(ints As IEnumerable(Of Integer)) As ULong
+            Dim bytes As New List(Of Byte)
+
+            For Each i As Integer In ints
+                Call bytes.AddRange(BitConverter.GetBytes(i))
+            Next
+
+            Return HashTimeMap(bytes.ToArray, seed:=37)
         End Function
 
         ''' <summary>

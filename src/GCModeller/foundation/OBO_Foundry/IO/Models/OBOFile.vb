@@ -283,12 +283,16 @@ Namespace IO.Models
             If cache.IsNullOrEmpty Then
                 Dim term As RawTerm
 
+                ' read from file at first time call of this function
+                ' term will be parsed from the file stream
+                ' and then cached into the cache list
                 For Each block As NamedCollection(Of String) In populateLines()
                     term = createRawTerm(block)
                     cache.Add(term)
                     Yield term
                 Next
             Else
+                ' use the in-memory cache data
                 For Each term As RawTerm In cache
                     Yield term
                 Next

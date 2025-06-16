@@ -83,7 +83,8 @@ Namespace IO.Models
                             Dim tokens As String() = DelimiterParser.GetTokens(si)
                             Dim property_name As String = tokens(0)
                             Dim value As String = tokens(1)
-                            Dim type As String = tokens(2)
+                            ' 20250615 the property type could be missing
+                            Dim type As String = tokens.ElementAtOrNull(2)
 
                             Return (property_name, New NamedValue(type, value))
                         End Function) _

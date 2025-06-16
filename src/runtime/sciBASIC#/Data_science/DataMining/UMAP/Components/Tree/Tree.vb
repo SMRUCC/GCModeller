@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84fb518c368899760372dd0343fc8a07, Data_science\DataMining\UMAP\Components\Tree\Tree.vb"
+﻿#Region "Microsoft.VisualBasic::0d73c7a444d2064978011d81834439bf, Data_science\DataMining\UMAP\Components\Tree\Tree.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 256
-    '    Code Lines: 178 (69.53%)
-    ' Comment Lines: 40 (15.62%)
-    '    - Xml Docs: 67.50%
+    '   Total Lines: 264
+    '    Code Lines: 180 (68.18%)
+    ' Comment Lines: 45 (17.05%)
+    '    - Xml Docs: 66.67%
     ' 
-    '   Blank Lines: 38 (14.84%)
-    '     File Size: 11.23 KB
+    '   Blank Lines: 39 (14.77%)
+    '     File Size: 11.60 KB
 
 
     '     Module Tree
@@ -62,23 +62,31 @@ Namespace Tree
     Friend Module Tree
 
         ''' <summary>
+        ''' max depth for make tree 
+        ''' </summary>
+        Const maxDepth As Integer = 100000
+
+        ''' <summary>
         ''' Construct a random projection tree based on ``data`` with leaves of size at most ``leafSize``
         ''' </summary>
         Public Function MakeTree(data As Double()(), leafSize As Integer, n As Integer, random As IProvideRandomValues) As RandomProjectionTreeNode
             Dim indices = Enumerable.Range(0, data.Length).ToArray()
-            Return Tree.MakeEuclideanTree(data, indices, leafSize, n, random)
+            Return Tree.MakeEuclideanTree(data, indices, leafSize, n, 0, random)
         End Function
 
-        Private Function MakeEuclideanTree(data As Double()(),
-                                           indices As Integer(),
+        Private Function MakeEuclideanTree(ByRef data As Double()(),
+                                           ByRef indices As Integer(),
                                            leafSize As Integer,
                                            q As Integer,
+                                           depth As Integer,
                                            random As IProvideRandomValues) As RandomProjectionTreeNode
 
-            If indices.Length > leafSize Then
+            ' 20250611 
+            ' set max tree depth for avoid stack overflow
+            If indices.Length > leafSize AndAlso depth < maxDepth Then
                 Dim any = Tree.EuclideanRandomProjectionSplit(data, indices, random)
-                Dim leftChild = Tree.MakeEuclideanTree(data, any.indicesLeft, leafSize, q + 1, random)
-                Dim rightChild = Tree.MakeEuclideanTree(data, any.IndicesRight, leafSize, q + 1, random)
+                Dim leftChild = Tree.MakeEuclideanTree(data, any.indicesLeft, leafSize, q + 1, depth + 1, random)
+                Dim rightChild = Tree.MakeEuclideanTree(data, any.IndicesRight, leafSize, q + 1, depth + 1, random)
 
                 Return New RandomProjectionTreeNode With {
                     .Indices = indices,
@@ -94,7 +102,7 @@ Namespace Tree
                     .LeftChild = Nothing,
                     .RightChild = Nothing,
                     .IsLeaf = True,
-                    .Hyperplane = Nothing,
+                    .Hyperplane = New Double() {},
                     .Offset = 0
                 }
             End If
@@ -105,12 +113,12 @@ Namespace Tree
             Dim nLeaves = NumLeaves(tree)
 
             ' TODO[umap-js]: Verify that sparse code is not relevant...
-            Dim hyperplanes = Utils.Range(nNodes).[Select](Function(__) New Double(tree.Hyperplane.Length - 1) {}).ToArray()
+            Dim hyperplanes = Utils.Range(nNodes).Select(Function(__) New Double(tree.Hyperplane.Length - 1) {}).ToArray()
             Dim offsets = New Double(nNodes - 1) {}
-            Dim children = Utils.Range(nNodes).[Select](Function(__) {-1, -1}).ToArray()
-            Dim indices = Utils.Range(nLeaves).[Select](Function(__) Utils.Range(leafSize).[Select](Function(____) -1).ToArray()).ToArray()
+            Dim children = Utils.Range(nNodes).Select(Function(__) {-1, -1}).ToArray()
+            Dim indices = Utils.Range(nLeaves).Select(Function(__) Utils.Range(leafSize).[Select](Function(____) -1).ToArray()).ToArray()
 
-            RecursiveFlatten(tree, hyperplanes, offsets, children, indices, 0, 0)
+            Call RecursiveFlatten(tree, hyperplanes, offsets, children, indices, 0, 0)
 
             Return New FlatTree With {
                 .Hyperplanes = hyperplanes,
@@ -205,10 +213,10 @@ Namespace Tree
         End Function
 
         Private Function RecursiveFlatten(tree As RandomProjectionTreeNode,
-                                          hyperplanes As Double()(),
-                                          offsets As Double(),
-                                          children As Integer()(),
-                                          indices As Integer()(),
+                                          ByRef hyperplanes As Double()(),
+                                          ByRef offsets As Double(),
+                                          ByRef children As Integer()(),
+                                          ByRef indices As Integer()(),
                                           nodeNum As Integer,
                                           leafNum As Integer) As (nodeNum As Integer, leafNum As Integer)
             If tree.IsLeaf Then

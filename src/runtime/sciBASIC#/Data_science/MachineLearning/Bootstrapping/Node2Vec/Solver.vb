@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44cb9d3a68d37fe00b0d8b637c4b12c5, Data_science\MachineLearning\Bootstrapping\Node2Vec\Solver.vb"
+﻿#Region "Microsoft.VisualBasic::93fa3c39a997df85553415d9d2042201, Data_science\MachineLearning\Bootstrapping\Node2Vec\Solver.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 85
-    '    Code Lines: 47 (55.29%)
-    ' Comment Lines: 23 (27.06%)
-    '    - Xml Docs: 78.26%
+    '   Total Lines: 96
+    '    Code Lines: 47 (48.96%)
+    ' Comment Lines: 34 (35.42%)
+    '    - Xml Docs: 76.47%
     ' 
-    '   Blank Lines: 15 (17.65%)
-    '     File Size: 3.14 KB
+    '   Blank Lines: 15 (15.62%)
+    '     File Size: 3.84 KB
 
 
     '     Module Solver
@@ -100,14 +100,22 @@ Namespace node2vec
         End Function
 
         ''' <summary>
-        ''' 
+        ''' implements of node2vec embedding for the nodes in graph 
         ''' </summary>
-        ''' <param name="graph"></param>
+        ''' <param name="graph">could be generated from the <see cref="Solver.CreateGraph(String(), String(), Double())"/> function.</param>
         ''' <param name="numWalks"></param>
         ''' <param name="walkLength"></param>
         ''' <param name="dimensions"></param>
         ''' <param name="windowSize"></param>
         ''' <returns>node mapping to a vector</returns>
+        ''' <remarks>
+        ''' implements of the graph embedding to vector via node2vec:
+        ''' 
+        ''' 1. random walk for get a collection node chains
+        ''' 2. use the node chain as text, and node in chain as the words
+        ''' 3. word2vec for make the node chains as vector
+        ''' 4. get vector embedding result for each node
+        ''' </remarks>
         <Extension>
         Public Function CreateEmbedding(graph As Graph,
                                         Optional numWalks As Integer = 10,
@@ -123,14 +131,17 @@ Namespace node2vec
                 .setVectorSize(dimensions) _
                 .build()
 
+            ' random walks get node chains(path)
             For Each path As IList(Of Vertex) In graph.simulateWalks(numWalks, walkLength)
                 ' convert path list to string
                 engine.readTokens(path.Select(Function(v) v.label).ToArray)
             Next
 
-            VBDebugger.EchoLine("Learning Embedding...")
-            engine.training()
+            ' make embedding of the nodes
+            Call VBDebugger.EchoLine("Learning Embedding...")
+            Call engine.training()
 
+            ' get node vector embedding result
             Dim vectors = engine.outputVector
             Return vectors
         End Function
