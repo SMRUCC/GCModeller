@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{AB0078EC-8F8A-4AD1-AB63-6B942E130DF1}|..\\..\\..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\internalinvokes\\file.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{054A17F6-044B-26B6-9C43-E6221C946E23}|..\\..\\..\\..\\runtime\\sciBASIC#\\Data\\BinaryData\\HDSPack\\HDSPack.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data\\binarydata\\hdspack\\filesystem\\streampack.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -32,19 +35,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "file.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\file.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\file.vb",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\file.vb",
+              "RelativeToolTip": "..\\..\\..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\file.vb",
+              "ViewState": "AgIAAGkEAAAAAAAAAAAAwIsEAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-06-17T06:33:59.504Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "StreamPack.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\BinaryData\\HDSPack\\FileSystem\\StreamPack.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\runtime\\sciBASIC#\\Data\\BinaryData\\HDSPack\\FileSystem\\StreamPack.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\BinaryData\\HDSPack\\FileSystem\\StreamPack.vb",
               "RelativeToolTip": "..\\..\\..\\..\\runtime\\sciBASIC#\\Data\\BinaryData\\HDSPack\\FileSystem\\StreamPack.vb",
-              "ViewState": "AgIAALEBAAAAAAAAAAAEwOABAAASAAAAAAAAAA==",
+              "ViewState": "AgIAALEBAAAAAAAAAAAEwNYBAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-06-17T06:29:35.931Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Imports.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Interpreter\\ExecuteEngine\\ExpressionSymbols\\Package\\Imports.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\R-sharp\\R#\\Interpreter\\ExecuteEngine\\ExpressionSymbols\\Package\\Imports.vb",
@@ -57,7 +73,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "R-cmd.NET5",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
