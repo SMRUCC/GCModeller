@@ -3,7 +3,7 @@ require(GCModeller);
 require(HDS);
 
 imports "brite" from "kegg_kit";
-imports "kegg_api" from "kegg_kit";
+imports "kegg_api" from "kegg_api";
 imports "parser" from "kegg_api";
 
 const .onLoad = function() {
