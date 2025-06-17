@@ -116,7 +116,7 @@ Public Module KeggPathway
                 .[alias] = {
                     If(kegg_code.StringEmpty, gene.Name, $"{kegg_code}:{gene.Name}"),
                     gene.Name
-                },
+                }.Distinct.ToArray,
                 .locus_tag = New NamedValue With {
                     .name = gene.Name,
                     .text = gene.Description

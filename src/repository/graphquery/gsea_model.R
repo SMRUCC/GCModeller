@@ -16,7 +16,7 @@ setwd(@dir);
 
 "./hsa.hds"
 |> load.pathways(referenceMap = FALSE)
-|> as.background( is.multipleOmics = FALSE, kegg.code = "hsa")
+|> as.background( omics = "Metabolomics", kegg.code = "hsa")
 # |> append.id_terms("GeneExpression", idmaps )
 |> write.background(file = "./hsa.xml")
 ;
