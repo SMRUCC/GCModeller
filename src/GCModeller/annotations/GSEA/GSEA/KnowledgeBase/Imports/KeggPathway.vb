@@ -57,6 +57,12 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
+Public Enum OmicsData
+    Transcriptomics = 1
+    Metabolomics = 2
+    MultipleOmics = 3
+End Enum
+
 ''' <summary>
 ''' helper for create kegg pathway maps enrichment background model
 ''' </summary>
@@ -68,9 +74,9 @@ Public Module KeggPathway
     ''' <param name="models"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CreateModel(models As IEnumerable(Of Pathway), Optional omics_metabolomics As Boolean = False) As Background
+    Public Function CreateModel(models As IEnumerable(Of Pathway), Optional omics As OmicsData = OmicsData.Transcriptomics) As Background
         Dim clusters As Cluster() = models _
-            .Select(Function(p) p.getGeneCluster(omics_metabolomics)) _
+            .Select(Function(p) p.getGeneCluster(omics)) _
             .Where(Function(c) c.size > 0 AndAlso Not c.ID.StringEmpty) _
             .ToArray
         Dim model As New Background With {
@@ -78,7 +84,7 @@ Public Module KeggPathway
             .clusters = clusters,
             .id = "",
             .comments = "",
-            .name = If(omics_metabolomics,
+            .name = If(omics = OmicsData.Transcriptomics,
                 "Background Model for Metabolomics",
                 "Background Model for Gene Expression"
             ),
@@ -89,11 +95,11 @@ Public Module KeggPathway
     End Function
 
     <Extension>
-    Private Function getGeneCluster(model As Pathway, omics_metabolomics As Boolean) As Cluster
+    Private Function getGeneCluster(model As Pathway, omics As OmicsData) As Cluster
         Return New Cluster With {
             .description = model.description,
             .ID = model.EntryId,
-            .members = If(omics_metabolomics,
+            .members = If(omics = OmicsData.Metabolomics,
                 model.GetMetaboliteMembers,
                 model.GetGeneMembers
             ).ToArray,

@@ -839,7 +839,7 @@ Public Module GSEABackground
                                        Optional name$ = "n/a",
                                        Optional tax_id$ = "n/a",
                                        Optional desc$ = "n/a",
-                                       Optional is_multipleOmics As Boolean = False,
+                                       Optional omics As OmicsData = OmicsData.Transcriptomics,
                                        Optional filter_compoundId As Boolean = True,
                                        Optional kegg_code As String = Nothing,
                                        Optional env As Environment = Nothing) As Object
@@ -848,13 +848,13 @@ Public Module GSEABackground
         Dim clusterVec As Cluster()
 
         If clusterList.isError Then
-            clusterList = pipeline.TryCreatePipeline(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(clusters, env)
+            clusterList = pipeline.TryCreatePipeline(Of Pathway)(clusters, env)
 
             If clusterList.isError Then
                 Return clusterList.getError
             Else
-                If is_multipleOmics Then
-                    Dim kegg_pathways = clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env)
+                If omics = OmicsData.MultipleOmics Then
+                    Dim kegg_pathways = clusterList.populates(Of Pathway)(env)
 
                     Return MultipleOmics.CreateOmicsBackground(
                         model:=kegg_pathways,
@@ -862,7 +862,7 @@ Public Module GSEABackground
                         kegg_code:=kegg_code
                     )
                 Else
-                    Return clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env).CreateModel
+                    Return clusterList.populates(Of Pathway)(env).CreateModel(omics)
                 End If
             End If
         Else
