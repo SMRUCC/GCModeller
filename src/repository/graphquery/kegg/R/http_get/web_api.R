@@ -1,4 +1,4 @@
-imports "kegg_api" from "kegg_kit";
+imports "kegg_api" from "kegg_api";
 
 #' get kegg pathway id list via kegg rest api
 #'  
