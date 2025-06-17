@@ -65,6 +65,9 @@ declare namespace pubmed {
    module read {
       /**
       */
+      function article_json(file: string): object;
+      /**
+      */
       function bits_book(file: string): object;
    }
 }
