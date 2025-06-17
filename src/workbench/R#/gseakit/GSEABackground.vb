@@ -219,13 +219,21 @@ Public Module GSEABackground
         Return background
     End Function
 
+    ''' <summary>
+    ''' Append id terms to a given gsea background
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="term_name"></param>
+    ''' <param name="terms"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("append.id_terms")>
     Public Function appendIdTerms(background As Background,
                                   term_name As String,
                                   terms As list,
                                   Optional env As Environment = Nothing) As Object
 
-        Dim termList = terms.AsGeneric(Of String())(env)
+        Dim termList As Dictionary(Of String, String()) = terms.AsGeneric(Of String())(env)
 
         For Each cluster As Cluster In background.clusters
             For Each gene As BackgroundGene In cluster.members
