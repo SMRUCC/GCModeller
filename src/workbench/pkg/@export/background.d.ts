@@ -41,9 +41,12 @@ declare namespace background {
         * @param desc the model description
         * 
         * + default value Is ``'n/a'``.
-        * @param omics 
+        * @param omics Create a enrichment background model for run multiple omics data analysis?
+        *  this parameter is only works for the kegg pathway model where you are 
+        *  speicifc via the **`clusters`** parameter.
+        * 
         * + default value Is ``null``.
-        * @param filter_compoundId do compound id filtering when target model is **`is_multipleOmics`**?
+        * @param filter_compoundId do compound id filtering when target model is **`omics`**?
         *  (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)
         * 
         * + default value Is ``true``.
