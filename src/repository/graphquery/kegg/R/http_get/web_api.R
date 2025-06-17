@@ -1,5 +1,7 @@
 imports "kegg_api" from "kegg_kit";
 
+#' get kegg pathway id list via kegg rest api
+#'  
 const list_pathway = function(org = ["ko", "map", "hsa"], cache = NULL) {
     const tcode as string = org[1] || "map";
     const list_data = kegg_api::listing("pathway", tcode, cache = cache);
