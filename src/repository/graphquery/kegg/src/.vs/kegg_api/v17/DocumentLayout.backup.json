@@ -3,24 +3,24 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\kegg_api.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\kegg_api.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\dbget.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\dbget.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\html\\parsemap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\html\\parsemap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\html\\webquery.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\html\\webquery.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\html\\parsemap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\html\\parsemap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\dbget.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\dbget.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -34,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,20 +50,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "kegg_api.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\kegg_api.vb",
               "RelativeDocumentMoniker": "kegg_api\\kegg_api.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\kegg_api.vb",
               "RelativeToolTip": "kegg_api\\kegg_api.vb",
-              "ViewState": "AgIAAG8AAAAAAAAAAAAowE0AAABCAAAAAAAAAA==",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAYwI8AAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-06-17T01:53:49.567Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "dbget.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\dbget.vb",
               "RelativeDocumentMoniker": "kegg_api\\dbget.vb",
@@ -76,15 +76,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "ParseMap.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\ParseMap.vb",
               "RelativeDocumentMoniker": "kegg_api\\Html\\ParseMap.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\ParseMap.vb",
               "RelativeToolTip": "kegg_api\\Html\\ParseMap.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAuwD4AAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-06-17T01:49:07.996Z"
+              "WhenOpened": "2025-06-17T01:49:07.996Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -94,9 +95,10 @@
               "RelativeDocumentMoniker": "kegg_api\\Html\\WebQuery.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\WebQuery.vb",
               "RelativeToolTip": "kegg_api\\Html\\WebQuery.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-06-17T01:49:06.632Z"
+              "WhenOpened": "2025-06-17T01:49:06.632Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -112,13 +114,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "parser.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\parser.vb",
               "RelativeDocumentMoniker": "kegg_api\\parser.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\parser.vb",
               "RelativeToolTip": "kegg_api\\parser.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFIAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAiwFIAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-06-16T01:24:16.174Z",
               "EditorCaption": ""
