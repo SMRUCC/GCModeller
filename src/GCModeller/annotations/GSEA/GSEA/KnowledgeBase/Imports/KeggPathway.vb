@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -67,9 +68,9 @@ Public Module KeggPathway
     ''' <param name="models"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CreateModel(models As IEnumerable(Of Pathway)) As Background
+    Public Function CreateModel(models As IEnumerable(Of Pathway), Optional omics_metabolomics As Boolean = False) As Background
         Dim clusters As Cluster() = models _
-            .Select(Function(p) p.getGeneCluster) _
+            .Select(Function(p) p.getGeneCluster(omics_metabolomics)) _
             .Where(Function(c) c.size > 0 AndAlso Not c.ID.StringEmpty) _
             .ToArray
         Dim model As New Background With {
@@ -77,7 +78,10 @@ Public Module KeggPathway
             .clusters = clusters,
             .id = "",
             .comments = "",
-            .name = "",
+            .name = If(omics_metabolomics,
+                "Background Model for Metabolomics",
+                "Background Model for Gene Expression"
+            ),
             .size = .clusters.BackgroundSize
         }
 
@@ -85,13 +89,34 @@ Public Module KeggPathway
     End Function
 
     <Extension>
-    Private Function getGeneCluster(model As Pathway) As Cluster
+    Private Function getGeneCluster(model As Pathway, omics_metabolomics As Boolean) As Cluster
         Return New Cluster With {
             .description = model.description,
             .ID = model.EntryId,
-            .members = model.GetGeneMembers.ToArray,
+            .members = If(omics_metabolomics,
+                model.GetMetaboliteMembers,
+                model.GetGeneMembers
+            ).ToArray,
             .names = model.name
         }
+    End Function
+
+    <Extension>
+    Public Iterator Function GetMetaboliteMembers(model As Pathway, Optional kegg_code As String = Nothing) As IEnumerable(Of BackgroundGene)
+        For Each gene As NamedValue(Of String) In model.GetCompoundSet
+            Yield New BackgroundGene With {
+                .accessionID = gene.Name,
+                .name = gene.Value,
+                .[alias] = {
+                    If(kegg_code.StringEmpty, gene.Name, $"{kegg_code}:{gene.Name}"),
+                    gene.Name
+                },
+                .locus_tag = New NamedValue With {
+                    .name = gene.Name,
+                    .text = gene.Description
+                }
+            }
+        Next
     End Function
 
     <Extension>

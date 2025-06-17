@@ -11,7 +11,15 @@
 declare namespace background {
    module append {
       /**
-        * @param env default value Is ``null``.
+       * Append id terms to a given gsea background
+       * 
+       * 
+        * @param background -
+        * @param term_name -
+        * @param terms -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function id_terms(background: object, term_name: string, terms: object, env?: object): any;
    }
