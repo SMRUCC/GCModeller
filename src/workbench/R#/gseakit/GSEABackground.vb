@@ -817,13 +817,13 @@ Public Module GSEABackground
     ''' <param name="desc">
     ''' the model description
     ''' </param>
-    ''' <param name="is_multipleOmics">
+    ''' <param name="omics">
     ''' Create a enrichment background model for run multiple omics data analysis?
     ''' this parameter is only works for the kegg pathway model where you are 
     ''' speicifc via the <paramref name="clusters"/> parameter.
     ''' </param>
     ''' <param name="filter_compoundId">
-    ''' do compound id filtering when target model is <paramref name="is_multipleOmics"/>?
+    ''' do compound id filtering when target model is <paramref name="omics"/>?
     ''' (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)
     ''' </param>
     ''' <param name="kegg_code">
