@@ -6,14 +6,17 @@ imports "background" from "gseakit";
 
 setwd(@dir);
 
-idmaps = "./kegg_mapping.json"
-|> readText()
-|> json_decode()
-;
+# kegg_mapping.json for another gene id mapping
+# examples as mapping to uniprot id
 
-"./hsa.db"
+# idmaps = "./kegg_mapping.json"
+# |> readText()
+# |> json_decode()
+# ;
+
+"./eco.hds"
 |> load.pathways(referenceMap = FALSE)
-|> as.background( is.multipleOmics = TRUE, kegg.code = "hsa")
-|> append.id_terms("GeneExpression", idmaps )
-|> write.background(file = "./hsa.xml")
+|> as.background( omics = "Metabolomics", kegg.code = "eco")
+# |> append.id_terms("GeneExpression", idmaps )
+|> write.background(file = "./eco.xml")
 ;

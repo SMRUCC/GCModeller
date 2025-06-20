@@ -71,6 +71,9 @@ declare namespace sampleInfo {
       function sampleinfo(file: string, tsv?: boolean, exclude_groups?: string, id_makenames?: boolean): object;
    }
    /**
+   */
+   function sample_groups(x: object): object;
+   /**
     * Get sample id collection from a speicifc sample data groups
     * 
     * 
@@ -105,6 +108,9 @@ declare namespace sampleInfo {
      * + default value Is ``null``.
    */
    function sampleInfo(ID: string, sample_name: string, sample_info: string, color?: string, env?: object): object;
+   /**
+   */
+   function shuffle_groups(x: object): object;
    module write {
       /**
        * save sampleinfo data as csv file
