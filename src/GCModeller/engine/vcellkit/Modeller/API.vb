@@ -56,8 +56,13 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.GCModeller.CompilerServices
+Imports SMRUCC.Rsharp.Runtime.Interop
 
-<Package("GCModeller.Property", Publisher:="GCModeller Virtual Cell System", Description:="")>
+''' <summary>
+''' Edit the model metadata
+''' </summary>
+<Package("property_edit", Publisher:="GCModeller Virtual Cell System")>
+<RTypeExport("properties", GetType([Property]))>
 Module API
 
     <ExportAPI("Write.Name")>

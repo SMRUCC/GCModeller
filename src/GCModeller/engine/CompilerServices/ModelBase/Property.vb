@@ -70,21 +70,21 @@ Public Class [Property]
     <XmlElement> Public Property guid As String
     <XmlElement> Public Property specieId As String
     <XmlElement> Public Property title As String
-    <XmlElement> Public Property Emails As List(Of String)
-    <XmlElement> Public Property authors As List(Of String)
+    <XmlElement> Public Property Emails As String()
+    <XmlElement> Public Property authors As String()
     <XmlElement> Public Property comment As String
-    <XmlElement> Public Property publications As List(Of String)
-    <XmlElement> Public Property URLs As List(Of String)
+    <XmlElement> Public Property publications As String()
+    <XmlElement> Public Property URLs As String()
 
     Public Property DBLinks As String()
 
     Sub New()
-        authors = New List(Of String) From {Environment.MachineName}
+        authors = New String() {Environment.MachineName}
         compiled = Now.ToString
-        Emails = New List(Of String)
+        Emails = New String() {}
         guid = System.Guid.NewGuid.ToString
-        publications = New List(Of String)
-        URLs = New List(Of String) From {"https://gcmodeller.org/"}
+        publications = New String() {}
+        URLs = New String() {"https://gcmodeller.org/"}
         DBLinks = New String() {}
     End Sub
 
