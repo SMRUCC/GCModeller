@@ -2,23 +2,29 @@
 //
 //    imports "property_edit" from "vcellkit";
 //
-// ref=vcellkit.API@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=vcellkit.EditorAPI@vcellkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * Edit the model metadata
  * 
 */
 declare namespace property_edit {
-   module Author {
-      /**
-      */
-      function Add(model: object, value: string): object;
-   }
-   module EMail {
-      /**
-      */
-      function Add(model: object, value: string): object;
-   }
+   /**
+    * add author into model
+    * 
+    * 
+     * @param model -
+     * @param value -
+   */
+   function add_author(model: object, value: string): object;
+   /**
+    * add e-mail information about the author inside model
+    * 
+    * 
+     * @param model -
+     * @param value -
+   */
+   function add_email(model: object, value: string): object;
    module Publication {
       /**
       */
@@ -34,21 +40,43 @@ declare namespace property_edit {
       */
       function Add(model: object, value: string): object;
    }
+   module write {
+      /**
+       * write comment text into the model
+       * 
+       * 
+        * @param model -
+        * @param value -
+      */
+      function comment(model: object, value: string): object;
+      /**
+       * set model name
+       * 
+       * 
+        * @param model -
+        * @param value -
+      */
+      function name(model: object, value: string): object;
+      /**
+       * write organism species information into the model
+       * 
+       * 
+        * @param model -
+        * @param value -
+      */
+      function species(model: object, value: string): object;
+      /**
+       * write the data title into the model
+       * 
+       * 
+        * @param model -
+        * @param value -
+      */
+      function title(model: object, value: string): object;
+   }
    module Write {
       /**
       */
-      function Comment(model: object, value: string): object;
-      /**
-      */
       function DBLinks(model: object, value: object): object;
-      /**
-      */
-      function Name(model: object, value: string): object;
-      /**
-      */
-      function Species(model: object, value: string): object;
-      /**
-      */
-      function Title(model: object, value: string): object;
    }
 }
