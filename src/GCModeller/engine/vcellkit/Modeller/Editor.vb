@@ -63,39 +63,75 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 ''' </summary>
 <Package("property_edit", Publisher:="GCModeller Virtual Cell System")>
 <RTypeExport("properties", GetType([Property]))>
-Module API
+Module EditorAPI
 
-    <ExportAPI("Write.Name")>
+    ''' <summary>
+    ''' set model name
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="value"></param>
+    ''' <returns></returns>
+    <ExportAPI("write.name")>
     Public Function _set_Name(model As ModelBaseType, value As String) As ModelBaseType
         model.properties.name = value
         Return model
     End Function
 
-    <ExportAPI("Author.Add")>
+    ''' <summary>
+    ''' add author into model
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="value"></param>
+    ''' <returns></returns>
+    <ExportAPI("add_author")>
     Public Function __add_author(model As ModelBaseType, value As String) As ModelBaseType
         model.properties.authors.Add(value)
         Return model
     End Function
 
-    <ExportAPI("Write.Comment")>
+    ''' <summary>
+    ''' write comment text into the model
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="value"></param>
+    ''' <returns></returns>
+    <ExportAPI("write.comment")>
     Public Function setComments(model As ModelBaseType, value As String) As ModelBaseType
         model.properties.comment = value
         Return model
     End Function
 
-    <ExportAPI("Write.Species")>
+    ''' <summary>
+    ''' write organism species information into the model
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="value"></param>
+    ''' <returns></returns>
+    <ExportAPI("write.species")>
     Public Function set_SpeciesId(model As ModelBaseType, value As String) As ModelBaseType
         model.properties.specieId = value
         Return model
     End Function
 
-    <ExportAPI("Write.Title")>
+    ''' <summary>
+    ''' write the data title into the model
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="value"></param>
+    ''' <returns></returns>
+    <ExportAPI("write.title")>
     Public Function _set_Title(model As ModelBaseType, value As String) As ModelBaseType
         model.properties.title = value
         Return model
     End Function
 
-    <ExportAPI("EMail.Add")>
+    ''' <summary>
+    ''' add e-mail information about the author inside model
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="value"></param>
+    ''' <returns></returns>
+    <ExportAPI("add_email")>
     Public Function __add_email(model As ModelBaseType, value As String) As ModelBaseType
         model.properties.Emails.Add(value)
         Return model
