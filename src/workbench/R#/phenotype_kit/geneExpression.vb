@@ -1293,6 +1293,7 @@ Module geneExpression
 
         Call println("export cmeans pattern matrix!")
         Call output.add("pattern", kmeans)
+        Call output.add("cmeans", patterns)
 
         Return output
     End Function
