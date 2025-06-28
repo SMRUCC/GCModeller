@@ -427,28 +427,42 @@ Module geneExpression
     ''' set the zero value to the half of the min positive value
     ''' </summary>
     ''' <param name="x">an expression matrix object that may contains zero</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' An expression data matrix with missing data filled
+    ''' </returns>
     <ExportAPI("impute_missing")>
     <RApiReturn(GetType(Matrix))>
-    Public Function imputeMissing(x As Matrix) As Object
+    Public Function imputeMissing(x As Matrix, Optional by_features As Boolean = False) As Object
         Dim samples = x.sampleID
         Dim v As Double()
         Dim posMin As Double
         Dim pos As Double()
 
-        For i As Integer = 0 To samples.Length - 1
-            v = x.sample(i)
-            pos = v.Where(Function(vi) vi > 0).ToArray
-            posMin = If(pos.Length > 0, pos.Min, 0)
+        If by_features Then
+            ' fill by gene feature rows
+            For Each gene As DataFrameRow In x.expression
+                pos = gene.experiments.Where(Function(vi) (Not vi.IsNaNImaginary) AndAlso vi > 0).ToArray
+                posMin = If(pos.Length > 0, pos.Min, 0) / 2
 
-            If posMin > 0 Then
+                For i As Integer = 0 To samples.Length - 1
+                    If gene.experiments(i).IsNaNImaginary OrElse gene.experiments(i) <= 0 Then
+                        gene.experiments(i) = posMin
+                    End If
+                Next
+            Next
+        Else
+            For i As Integer = 0 To samples.Length - 1
+                v = x.sample(i)
+                pos = v.Where(Function(vi) (Not vi.IsNaNImaginary) AndAlso vi > 0).ToArray
+                posMin = If(pos.Length > 0, pos.Min, 0) / 2
+
                 For row As Integer = 0 To v.Length - 1
                     If x.gene(row)(i) <= 0 Then
                         x.gene(row).experiments(i) = posMin
                     End If
                 Next
-            End If
-        Next
+            Next
+        End If
 
         Return x
     End Function
