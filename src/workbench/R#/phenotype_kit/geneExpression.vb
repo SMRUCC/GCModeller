@@ -439,7 +439,8 @@ Module geneExpression
         Dim pos As Double()
 
         If by_features Then
-            ' fill by gene feature rows
+            Call VBDebugger.EchoLine("fill missing data by gene feature rows")
+
             For Each gene As DataFrameRow In x.expression
                 pos = gene.experiments.Where(Function(vi) (Not vi.IsNaNImaginary) AndAlso vi > 0).ToArray
                 posMin = If(pos.Length > 0, pos.Min, 0) / 2

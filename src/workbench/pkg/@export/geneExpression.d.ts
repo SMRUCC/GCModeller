@@ -253,8 +253,11 @@ declare namespace geneExpression {
     * 
     * 
      * @param x an expression matrix object that may contains zero
+     * @param by_features 
+     * + default value Is ``false``.
+     * @return An expression data matrix with missing data filled
    */
-   function impute_missing(x: object): object;
+   function impute_missing(x: object, by_features?: boolean): object;
    /**
     * do matrix join by samples
     * 
