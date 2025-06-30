@@ -8,6 +8,8 @@ require(kegg_api);
 require(HDS);
 require(GCModeller);
 
+# script for create gsea background
+
 const cache_dir = [?"--cache" || stop("No data cahce file!")] 
 |> HDS::openStream(allowCreate = TRUE)
 |> http::http.cache()

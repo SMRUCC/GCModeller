@@ -219,13 +219,21 @@ Public Module GSEABackground
         Return background
     End Function
 
+    ''' <summary>
+    ''' Append id terms to a given gsea background
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="term_name"></param>
+    ''' <param name="terms"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("append.id_terms")>
     Public Function appendIdTerms(background As Background,
                                   term_name As String,
                                   terms As list,
                                   Optional env As Environment = Nothing) As Object
 
-        Dim termList = terms.AsGeneric(Of String())(env)
+        Dim termList As Dictionary(Of String, String()) = terms.AsGeneric(Of String())(env)
 
         For Each cluster As Cluster In background.clusters
             For Each gene As BackgroundGene In cluster.members
@@ -809,13 +817,13 @@ Public Module GSEABackground
     ''' <param name="desc">
     ''' the model description
     ''' </param>
-    ''' <param name="is_multipleOmics">
+    ''' <param name="omics">
     ''' Create a enrichment background model for run multiple omics data analysis?
     ''' this parameter is only works for the kegg pathway model where you are 
     ''' speicifc via the <paramref name="clusters"/> parameter.
     ''' </param>
     ''' <param name="filter_compoundId">
-    ''' do compound id filtering when target model is <paramref name="is_multipleOmics"/>?
+    ''' do compound id filtering when target model is <paramref name="omics"/>?
     ''' (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)
     ''' </param>
     ''' <param name="kegg_code">
@@ -831,7 +839,7 @@ Public Module GSEABackground
                                        Optional name$ = "n/a",
                                        Optional tax_id$ = "n/a",
                                        Optional desc$ = "n/a",
-                                       Optional is_multipleOmics As Boolean = False,
+                                       Optional omics As OmicsData = OmicsData.Transcriptomics,
                                        Optional filter_compoundId As Boolean = True,
                                        Optional kegg_code As String = Nothing,
                                        Optional env As Environment = Nothing) As Object
@@ -840,13 +848,13 @@ Public Module GSEABackground
         Dim clusterVec As Cluster()
 
         If clusterList.isError Then
-            clusterList = pipeline.TryCreatePipeline(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(clusters, env)
+            clusterList = pipeline.TryCreatePipeline(Of Pathway)(clusters, env)
 
             If clusterList.isError Then
                 Return clusterList.getError
             Else
-                If is_multipleOmics Then
-                    Dim kegg_pathways = clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env)
+                If omics = OmicsData.MultipleOmics Then
+                    Dim kegg_pathways = clusterList.populates(Of Pathway)(env)
 
                     Return MultipleOmics.CreateOmicsBackground(
                         model:=kegg_pathways,
@@ -854,7 +862,7 @@ Public Module GSEABackground
                         kegg_code:=kegg_code
                     )
                 Else
-                    Return clusterList.populates(Of SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway)(env).CreateModel
+                    Return clusterList.populates(Of Pathway)(env).CreateModel(omics)
                 End If
             End If
         Else

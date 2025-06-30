@@ -131,7 +131,7 @@ Public Module Enrichment
             genes = genome.size
         End If
 
-        With list.ToArray
+        With list.Where(Function(id) Not id.StringEmpty(, True)).ToArray
             Dim input_size As Integer = If(resize > 0, resize, .Length)
             Dim background As IEnumerable(Of Cluster) = genome.clusters
             Dim bar As Tqdm.ProgressBar = Nothing

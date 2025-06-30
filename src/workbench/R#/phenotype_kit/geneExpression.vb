@@ -1,65 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::a6a2909121b0e0e3f2bf2a50f3889f46, R#\phenotype_kit\geneExpression.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 1454
-    '    Code Lines: 890 (61.21%)
-    ' Comment Lines: 430 (29.57%)
-    '    - Xml Docs: 94.65%
-    ' 
-    '   Blank Lines: 134 (9.22%)
-    '     File Size: 59.40 KB
+' Summaries:
 
 
-    ' Module geneExpression
-    ' 
-    '     Function: add_gauss, Aggregate, applyPCA, average, castGenericRows
-    '               cmeans, CMeans3D, CmeansPattern, createDEGModels, createVectorList
-    '               DEGclass, depDataTable, dimensionNotAgree, dims, exp
-    '               expDataTable, filter, filterNaN, filterZeroGenes, filterZeroSamples
-    '               geneId, GetCmeansPattern, GetCmeansPatternA, getFuzzyPatternMembers, getMatrixInformation
-    '               imputeMissing, joinSamples, loadExpression, loadFromDataFrame, loadFromGenericDataSet
-    '               loadMatrixView, log, matrixSummary, ranking, readBinaryMatrix
-    '               readPattern, relative, representatives, savePattern, setGeneIDs
-    '               setSampleIDs, setTag, setZero, splitCMeansClusters, toClusters
-    '               totalSumNorm, tr, Ttest, uniqueGeneId, writeMatrix
-    '               zscore
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 1454
+'    Code Lines: 890 (61.21%)
+' Comment Lines: 430 (29.57%)
+'    - Xml Docs: 94.65%
+' 
+'   Blank Lines: 134 (9.22%)
+'     File Size: 59.40 KB
+
+
+' Module geneExpression
+' 
+'     Function: add_gauss, Aggregate, applyPCA, average, castGenericRows
+'               cmeans, CMeans3D, CmeansPattern, createDEGModels, createVectorList
+'               DEGclass, depDataTable, dimensionNotAgree, dims, exp
+'               expDataTable, filter, filterNaN, filterZeroGenes, filterZeroSamples
+'               geneId, GetCmeansPattern, GetCmeansPatternA, getFuzzyPatternMembers, getMatrixInformation
+'               imputeMissing, joinSamples, loadExpression, loadFromDataFrame, loadFromGenericDataSet
+'               loadMatrixView, log, matrixSummary, ranking, readBinaryMatrix
+'               readPattern, relative, representatives, savePattern, setGeneIDs
+'               setSampleIDs, setTag, setZero, splitCMeansClusters, toClusters
+'               totalSumNorm, tr, Ttest, uniqueGeneId, writeMatrix
+'               zscore
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -427,28 +427,43 @@ Module geneExpression
     ''' set the zero value to the half of the min positive value
     ''' </summary>
     ''' <param name="x">an expression matrix object that may contains zero</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' An expression data matrix with missing data filled
+    ''' </returns>
     <ExportAPI("impute_missing")>
     <RApiReturn(GetType(Matrix))>
-    Public Function imputeMissing(x As Matrix) As Object
+    Public Function imputeMissing(x As Matrix, Optional by_features As Boolean = False) As Object
         Dim samples = x.sampleID
         Dim v As Double()
         Dim posMin As Double
         Dim pos As Double()
 
-        For i As Integer = 0 To samples.Length - 1
-            v = x.sample(i)
-            pos = v.Where(Function(vi) vi > 0).ToArray
-            posMin = If(pos.Length > 0, pos.Min, 0)
+        If by_features Then
+            Call VBDebugger.EchoLine("fill missing data by gene feature rows")
 
-            If posMin > 0 Then
+            For Each gene As DataFrameRow In x.expression
+                pos = gene.experiments.Where(Function(vi) (Not vi.IsNaNImaginary) AndAlso vi > 0).ToArray
+                posMin = If(pos.Length > 0, pos.Min, 0) / 2
+
+                For i As Integer = 0 To samples.Length - 1
+                    If gene.experiments(i).IsNaNImaginary OrElse gene.experiments(i) <= 0 Then
+                        gene.experiments(i) = posMin
+                    End If
+                Next
+            Next
+        Else
+            For i As Integer = 0 To samples.Length - 1
+                v = x.sample(i)
+                pos = v.Where(Function(vi) (Not vi.IsNaNImaginary) AndAlso vi > 0).ToArray
+                posMin = If(pos.Length > 0, pos.Min, 0) / 2
+
                 For row As Integer = 0 To v.Length - 1
                     If x.gene(row)(i) <= 0 Then
                         x.gene(row).experiments(i) = posMin
                     End If
                 Next
-            End If
-        Next
+            Next
+        End If
 
         Return x
     End Function
@@ -1243,6 +1258,7 @@ Module geneExpression
                            Optional legend_tick_css As String = CSSFont.Win7Small,
                            Optional axis_tick_css$ = CSSFont.Win10Normal,
                            Optional axis_label_css$ = CSSFont.Win7Small,
+                           Optional x_lab_rotate As Double = 45,
                            Optional env As Environment = Nothing) As Object
 
         Dim println As Action(Of Object) = env.WriteLineHandler
@@ -1270,7 +1286,7 @@ Module geneExpression
                            colorSet:=colorSet,
                            xlab:=xlab,
                            ylab:=ylab,
-                           xAxisLabelRotate:=45,
+                           xAxisLabelRotate:=x_lab_rotate,
                            padding:="padding:100px 100px 300px 100px;",
                            membershipCutoff:=memberCutoff,
                            topMembers:=top_members,
@@ -1292,6 +1308,7 @@ Module geneExpression
 
         Call println("export cmeans pattern matrix!")
         Call output.add("pattern", kmeans)
+        Call output.add("cmeans", patterns)
 
         Return output
     End Function

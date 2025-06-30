@@ -66,14 +66,19 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
 ''' <summary>
 ''' A collection of the functional related <see cref="BackgroundGene"/>.
-''' (主要是KEGG代谢途径，也可以是其他的具有生物学意义的聚类结果)
 ''' </summary>
+''' <remarks>
+''' (主要是KEGG代谢途径，也可以是其他的具有生物学意义的聚类结果)
+''' </remarks>
 Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     Implements INamedValue
 
     ''' <summary>
-    ''' The cluster id.(代谢途径的编号或者其他的标识符)
+    ''' The cluster id.
     ''' </summary>
+    ''' <remarks>
+    ''' (代谢途径的编号或者其他的标识符)
+    ''' </remarks>
     ''' <returns></returns>
     <XmlAttribute>
     Public Property ID As String Implements IKeyedEntity(Of String).Key

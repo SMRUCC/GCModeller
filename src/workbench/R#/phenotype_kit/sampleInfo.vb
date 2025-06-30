@@ -79,6 +79,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
 ''' GCModeller DEG experiment analysis designer toolkit
@@ -327,6 +328,31 @@ Module DEGSample
         End If
 
         Return samples
+    End Function
+
+    <ExportAPI("shuffle_groups")>
+    Public Function shuffle_groups(x As SampleInfo()) As list
+        Dim shuffles = x.GroupBy(Function(xi) xi.sample_info) _
+            .OrderBy(Function(a) randf.NextDouble) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return CObj(a.ToArray)
+                          End Function)
+
+        Return New list(shuffles)
+    End Function
+
+    <ExportAPI("sample_groups")>
+    Public Function sample_groups(x As SampleInfo()) As list
+        Dim groups = x _
+            .GroupBy(Function(xi) xi.sample_info) _
+            .OrderBy(Function(xi) xi.Key) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return CObj(a.ToArray)
+                          End Function)
+
+        Return New list(groups)
     End Function
 
     ''' <summary>

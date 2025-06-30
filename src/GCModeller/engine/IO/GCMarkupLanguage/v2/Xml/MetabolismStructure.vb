@@ -177,14 +177,14 @@ Namespace v2
         End Function
 
         Public Function GetKEGGMapping(id As String, map_define As String, links As Dictionary(Of String, Reaction())) As Compound
-            Dim kegg = FindByKEGG(id)
+            Dim kegg As Compound() = FindByKEGG(id)
 
             If kegg.IsNullOrEmpty Then
                 Throw New MissingPrimaryKeyException($"no mapping for kegg term '{map_define}'({id})!")
             End If
 
             Return kegg _
-                .OrderByDescending(Function(c) links(c.ID)) _
+                .OrderByDescending(Function(c) links(c.ID).Length) _
                 .First
         End Function
     End Class

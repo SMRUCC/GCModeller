@@ -11,7 +11,15 @@
 declare namespace background {
    module append {
       /**
-        * @param env default value Is ``null``.
+       * Append id terms to a given gsea background
+       * 
+       * 
+        * @param background -
+        * @param term_name -
+        * @param terms -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function id_terms(background: object, term_name: string, terms: object, env?: object): any;
    }
@@ -33,12 +41,12 @@ declare namespace background {
         * @param desc the model description
         * 
         * + default value Is ``'n/a'``.
-        * @param is_multipleOmics Create a enrichment background model for run multiple omics data analysis?
+        * @param omics Create a enrichment background model for run multiple omics data analysis?
         *  this parameter is only works for the kegg pathway model where you are 
         *  speicifc via the **`clusters`** parameter.
         * 
-        * + default value Is ``false``.
-        * @param filter_compoundId do compound id filtering when target model is **`is_multipleOmics`**?
+        * + default value Is ``null``.
+        * @param filter_compoundId do compound id filtering when target model is **`omics`**?
         *  (all of the KEGG drug id and KEGG glycan id will be removed from the cluster model)
         * 
         * + default value Is ``true``.
@@ -50,7 +58,7 @@ declare namespace background {
         * 
         * + default value Is ``null``.
       */
-      function background(clusters: any, background_size?: object, name?: string, tax_id?: string, desc?: string, is_multipleOmics?: boolean, filter_compoundId?: boolean, kegg_code?: string, env?: object): object;
+      function background(clusters: any, background_size?: object, name?: string, tax_id?: string, desc?: string, omics?: object, filter_compoundId?: boolean, kegg_code?: string, env?: object): object;
       /**
       */
       function geneSet(background: object): object;

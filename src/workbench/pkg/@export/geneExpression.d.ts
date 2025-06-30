@@ -253,8 +253,11 @@ declare namespace geneExpression {
     * 
     * 
      * @param x an expression matrix object that may contains zero
+     * @param by_features 
+     * + default value Is ``false``.
+     * @return An expression data matrix with missing data filled
    */
-   function impute_missing(x: object): object;
+   function impute_missing(x: object, by_features?: boolean): object;
    /**
     * do matrix join by samples
     * 
@@ -394,6 +397,8 @@ declare namespace geneExpression {
      * + default value Is ``'font-style: normal; font-size: 12; font-family: Segoe UI;'``.
      * @param axis_label_css 
      * + default value Is ``'font-style: normal; font-size: 10; font-family: Microsoft YaHei;'``.
+     * @param x_lab_rotate 
+     * + default value Is ``45``.
      * @param env -
      * 
      * + default value Is ``null``.
@@ -404,7 +409,7 @@ declare namespace geneExpression {
      *  2. 'image' is a bitmap image that plot based on the object cluster patterns data.
      *  3. 'pdf' is a pdf image that could be edit
    */
-   function peakCMeans(matrix: object, nsize?: any, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, cluster_label_css?: string, legend_title_css?: string, legend_tick_css?: string, axis_tick_css?: string, axis_label_css?: string, env?: object): any;
+   function peakCMeans(matrix: object, nsize?: any, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, cluster_label_css?: string, legend_title_css?: string, legend_tick_css?: string, axis_tick_css?: string, axis_label_css?: string, x_lab_rotate?: number, env?: object): any;
    /**
     * read the cmeans expression pattern result from file
     * 
