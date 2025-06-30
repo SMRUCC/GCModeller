@@ -3,7 +3,8 @@
 .SH NAME
 impute_missing \- set the zero value to the half of the min positive value
 .SH SYNOPSIS
-\fIimpute_missing(\fBx\fR as <generic> Matrix);\fR
+\fIimpute_missing(\fBx\fR as <generic> Matrix, 
+\fBby_features\fR as boolean = FALSE);\fR
 .SH DESCRIPTION
 .PP
 set the zero value to the half of the min positive value
@@ -11,6 +12,10 @@ set the zero value to the half of the min positive value
 .SH OPTIONS
 .PP
 \fBx\fB \fR\- an expression matrix object that may contains zero. 
+.PP
+.SH VALUE
+.PP
+An expression data matrix with missing data filled
 .PP
 .SH SEE ALSO
 geneExpression

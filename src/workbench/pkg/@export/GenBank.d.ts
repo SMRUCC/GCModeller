@@ -181,6 +181,13 @@ declare namespace GenBank {
       */
       function genbank(file: string, repliconTable?: boolean, env?: object): object;
    }
+   /**
+    * get ncbi taxonomy id from the given genbank assembly file.
+    * 
+    * 
+     * @param gb -
+   */
+   function taxon_id(gb: object): any;
    module write {
       /**
        * save the modified genbank file

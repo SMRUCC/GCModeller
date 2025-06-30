@@ -109,6 +109,16 @@ Module genbankKit
     End Function
 
     ''' <summary>
+    ''' get ncbi taxonomy id from the given genbank assembly file.
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <returns></returns>
+    <ExportAPI("taxon_id")>
+    Public Function Taxon_Id(gb As GBFF.File) As Object
+        Return gb.Taxon
+    End Function
+
+    ''' <summary>
     ''' extract all gene features from genbank and cast to tabular data
     ''' </summary>
     ''' <param name="gbff"></param>
