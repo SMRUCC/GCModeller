@@ -102,7 +102,7 @@ Public Class BinSampler
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function AggregateSignal(Of T As ITimeSignal)(n As Integer, [new] As Func(Of Double, Double, T), Optional aggregate As Func(Of IEnumerable(Of Double), Double) = Nothing) As IEnumerable(Of T)
-        Return AggregateSignal(Range.Length / n, [new], aggregate)
+        Return GetTicks(Range.Length / n, [new], aggregate)
     End Function
 
     Private Iterator Function GetTicks(Of T As ITimeSignal)(dt As Double, [new] As Func(Of Double, Double, T), aggregate As Func(Of IEnumerable(Of Double), Double)) As IEnumerable(Of T)
