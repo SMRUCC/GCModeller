@@ -10,6 +10,8 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Cytoscape interaction interface</Title>
     <Description>Cytoscape interaction interface</Description>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

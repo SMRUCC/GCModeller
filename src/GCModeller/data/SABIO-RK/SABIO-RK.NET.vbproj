@@ -14,6 +14,8 @@
     <Copyright>Copyright © SMRUCC/GCModeller 2023</Copyright>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
 
   </PropertyGroup>
 
