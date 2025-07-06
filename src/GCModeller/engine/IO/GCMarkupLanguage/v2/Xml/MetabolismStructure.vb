@@ -309,6 +309,8 @@ Namespace v2
         ''' <returns></returns>
         <XmlAttribute> Public Property bounds As Double()
 
+        <XmlElement> Public Property ec_number As String()
+
         <XmlElement> Public Property substrate As CompoundFactor()
         <XmlElement> Public Property product As CompoundFactor()
 
@@ -484,6 +486,10 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property target As String
+        ''' <summary>
+        ''' true means current parameter is enzyme concentration
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property isModifier As Boolean
 
         <XmlText>
