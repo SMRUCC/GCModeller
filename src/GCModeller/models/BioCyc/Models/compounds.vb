@@ -57,10 +57,11 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.Framework.IO
-Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
+''' <summary>
+''' the compound metabolite data model from the metacyc/biocyc database
+''' </summary>
 <Xref("compounds.dat")>
 Public Class compounds : Inherits Model
 

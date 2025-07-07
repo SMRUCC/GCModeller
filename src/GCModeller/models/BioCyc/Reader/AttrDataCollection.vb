@@ -61,6 +61,11 @@ Imports Microsoft.VisualBasic.Linq
 Public Class AttrDataCollection(Of T As Model)
 
     Public ReadOnly Property fileMeta As FileMeta
+
+    ''' <summary>
+    ''' enumerates all feature items inside current data file
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property features As IEnumerable(Of T)
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
