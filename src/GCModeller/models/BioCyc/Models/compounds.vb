@@ -98,6 +98,10 @@ Public Class compounds : Inherits Model
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FormulaString(meta As compounds) As String
+        If meta.chemicalFormula.IsNullOrEmpty Then
+            Return ""
+        End If
+
         Return meta.chemicalFormula _
             .Select(Function(d)
                         Return d.Trim(" "c, "("c, ")"c).Replace(" ", "")
