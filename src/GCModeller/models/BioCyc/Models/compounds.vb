@@ -104,7 +104,16 @@ Public Class compounds : Inherits Model
 
         Return meta.chemicalFormula _
             .Select(Function(d)
-                        Return d.Trim(" "c, "("c, ")"c).Replace(" ", "")
+                        Dim t = d.Trim(" "c, "("c, ")"c).Split(" "c)
+                        Dim el As String = t(0)
+
+                        ' NA -> Na
+                        ' CL -> Cl
+                        If el.Length > 1 Then
+                            el = el(0) & el.Substring(1).ToLower
+                        End If
+
+                        Return el & t(1)
                     End Function) _
             .JoinBy("")
     End Function
