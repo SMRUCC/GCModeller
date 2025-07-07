@@ -167,4 +167,8 @@ Public Class Workspace : Implements IWorkspace
         Return seq.ToDictionary(Function(a) a.Headers(2).Split(" "c).First)
     End Function
 
+    Public Shared Function Open(dir As String) As Workspace
+        Return New Workspace(dir)
+    End Function
+
 End Class
