@@ -354,17 +354,26 @@ Namespace v2
         Public Property factor As Double
         <XmlText>
         Public Property compound As String
+        <XmlAttribute>
+        Public Property compartment As String = "Intracellular"
 
         Sub New()
         End Sub
 
-        Sub New(factor As Double, compound As String)
+        Sub New(factor As Double, compound As String, Optional compartment As String = "Intracellular")
+            Me.compartment = compartment
             Me.factor = factor
             Me.compound = compound
         End Sub
 
+        Sub New(compound As String, factor As Double, Optional compartment As String = "Intracellular")
+            Me.factor = factor
+            Me.compound = compound
+            Me.compartment = compartment
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return compound
+            Return $"[{compartment}]" & compound
         End Function
 
         Friend Function factorString() As String
