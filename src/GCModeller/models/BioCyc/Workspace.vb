@@ -74,7 +74,14 @@ Public Class Workspace : Implements IWorkspace
     Dim m_compounds As Lazy(Of AttrDataCollection(Of compounds))
     Dim m_genes As Lazy(Of AttrDataCollection(Of genes))
     Dim m_proteins As Lazy(Of AttrDataCollection(Of proteins))
+    Dim m_transunits As Lazy(Of AttrDataCollection(Of transunits))
     Dim m_species As species
+
+    Public ReadOnly Property transunits As AttrDataCollection(Of transunits)
+        Get
+            Return m_transunits.Value
+        End Get
+    End Property
 
     Public ReadOnly Property compounds As AttrDataCollection(Of compounds)
         Get
@@ -144,6 +151,7 @@ Public Class Workspace : Implements IWorkspace
         m_compounds = New Lazy(Of AttrDataCollection(Of compounds))(Function() openFile(Of compounds)())
         m_genes = New Lazy(Of AttrDataCollection(Of genes))(Function() openFile(Of genes)())
         m_proteins = New Lazy(Of AttrDataCollection(Of proteins))(Function() openFile(Of proteins)())
+        m_transunits = New Lazy(Of AttrDataCollection(Of transunits))(Function() openFile(Of transunits)())
         ' scalar data object
         m_species = openFile(Of species).features.FirstOrDefault
 
