@@ -3,11 +3,12 @@ Imports SMRUCC.genomics.GCModeller
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.Metagenomics
+Imports vcellkit
 
 Module Program
 
     Sub Main(args As String())
-        Console.WriteLine("Hello World!")
+        Call test_model1()
     End Sub
 
     Private Sub test_model1()
@@ -38,5 +39,7 @@ Module Program
                 }
             }
         }
+
+        Call vcellModeller.writeJSON(cell, "./cell1.json", indent:=True)
     End Sub
 End Module
