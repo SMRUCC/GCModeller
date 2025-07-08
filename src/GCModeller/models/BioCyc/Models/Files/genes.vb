@@ -57,7 +57,6 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 <Xref("genes.dat")>
 Public Class genes : Inherits Model

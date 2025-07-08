@@ -111,6 +111,16 @@ Public Class Workspace : Implements IWorkspace
         End Get
     End Property
 
+    ''' <summary>
+    ''' the organism taxonomy species information
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property species As species
+        Get
+
+        End Get
+    End Property
+
     Private ReadOnly Property IWorkspace_Workspace As String Implements IWorkspace.Workspace
         Get
             Return dir
