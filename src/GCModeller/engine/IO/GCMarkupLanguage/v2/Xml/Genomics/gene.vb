@@ -103,12 +103,13 @@ Namespace v2
         ''' <summary>
         ''' 对于rRNA和tRNA不存在
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>composition vector of 20 kinds of AA residues, integer value in range from [1,n]</returns>
         Public Property amino_acid As NumericVector
+
         ''' <summary>
         ''' mRNA, tRNA, rRNA, etc
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>composition vector of 4 RNA base ACGU, integer value in range from [1,n]</returns>
         Public Property nucleotide_base As NumericVector
 
         Sub New()
