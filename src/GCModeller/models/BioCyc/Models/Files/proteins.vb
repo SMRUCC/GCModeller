@@ -57,6 +57,19 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
+''' <summary>
+''' The class of all proteins is divided into two subclasses: protein complexes and polypeptides.
+''' A polypeptide is a single amino acid chain produced from a single gene. A protein
+''' complex is a multimeric aggregation of more than one polypeptide subunit. A protein
+''' complex may in some cases have another protein complex as a component. Many of the
+''' slots that are applicable to Proteins are also applicable to members of the RNA class.
+''' (本类型的对象会枚举所有的Component对象的UniqueID)
+''' </summary>
+''' <remarks>
+''' Protein表对象和ProtLigandCplxe表对象相比较：
+''' Protein表中包含有所有类型的蛋白质对象，而ProtLigandCplxe则仅包含有蛋白质和小分子化合物配合的之后所形成的复合物，
+''' 所以基因的产物在ProtLigandCplxe表中是无法找到的
+''' </remarks>
 <Xref("proteins.dat")>
 Public Class proteins : Inherits Model
 
@@ -64,7 +77,8 @@ Public Class proteins : Inherits Model
     Public Property db_xrefs As String()
 
     ''' <summary>
-    ''' the source gene id that make translation to this protein
+    ''' the source gene id that make translation to this protein. 
+    ''' The gene's UniqueId that indicated that which gene codes this polypeptide.
     ''' </summary>
     ''' <returns></returns>
     <AttributeField("GENE")>

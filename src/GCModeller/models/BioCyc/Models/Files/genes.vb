@@ -61,6 +61,14 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 <Xref("genes.dat")>
 Public Class genes : Inherits Model
 
+    ''' <summary>
+    ''' The unique identifier of this gene object in the NCBI genbak database.
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' (本基因对象在NCBI Genbak数据库之中的唯一标识符)
+    ''' </remarks>
     <AttributeField("ACCESSION-1")>
     Public Property accession1 As String
     <AttributeField("ACCESSION-2")>

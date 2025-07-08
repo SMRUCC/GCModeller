@@ -61,7 +61,14 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 ''' <summary>
 ''' the compound metabolite data model from the metacyc/biocyc database
+'''
+''' The Class Compounds describe small-molecular-weight chemical compounds — typically,
+''' compounds that are substrates of metabolic reactions or compounds that activate or
+''' inhibit metabolic enzymes.
 ''' </summary>
+''' <remarks>
+''' One of the component in the Class ProtLigandCplxe (Protein-Small-Molecule-Complexes) with class protein
+''' </remarks>
 <Xref("compounds.dat")>
 Public Class compounds : Inherits Model
 
