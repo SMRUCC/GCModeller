@@ -137,6 +137,10 @@ Public Class AttrValDatFile
                 Call buffer.Add(line)
             End If
         Loop
+
+        If buffer > 0 Then
+            Yield FeatureElement.ParseBuffer(buffer.ToArray)
+        End If
     End Function
 
 End Class
