@@ -103,7 +103,7 @@ Namespace v2
         ''' <summary>
         ''' 对于rRNA和tRNA不存在
         ''' </summary>
-        ''' <returns>composition vector of 20 kinds of AA residues, integer value in range from [1,n]</returns>
+        ''' <returns>composition vector of 22 kinds of AA residues, integer value in range from [1,n]</returns>
         Public Property amino_acid As NumericVector
 
         ''' <summary>
