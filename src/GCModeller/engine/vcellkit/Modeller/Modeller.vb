@@ -130,6 +130,15 @@ Module vcellModeller
         Return True
     End Function
 
+    <ExportAPI("read.json_model")>
+    Public Function readJSON(file As String) As VirtualCell
+        Dim s As Stream = file.OpenReadonly
+        Dim reader As New JsonParser(New StreamReader(s))
+        Dim json As JsonObject = DirectCast(reader.OpenJSON, JsonObject)
+        Dim model As VirtualCell = json.CreateObject(Of VirtualCell)
+        Return model
+    End Function
+
     ''' <summary>
     ''' save the virtual cell model as zip archive file
     ''' </summary>
