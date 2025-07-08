@@ -439,3 +439,5 @@ src/repository/graphquery/eco.xml
 /src/workbench/R#/.vs/packages.NET5/CopilotIndices/17.14.786.1071/SemanticSymbols.db
 /src/workbench/R#/.vs/packages.NET5/CopilotIndices/17.14.794.21998/CodeChunks.db
 /src/workbench/R#/.vs/packages.NET5/CopilotIndices/17.14.794.21998/SemanticSymbols.db
+src/GCModeller/analysis/HTS_matrix/.vs/HTS_matrix-netcore5/CopilotIndices/17.14.794.21998/CodeChunks.db
+src/GCModeller/analysis/HTS_matrix/.vs/HTS_matrix-netcore5/CopilotIndices/17.14.794.21998/SemanticSymbols.db
