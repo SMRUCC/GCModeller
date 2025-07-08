@@ -114,7 +114,7 @@ Module unitTest
         Call flux.SaveTo("./kinetics/kinetics_test_flux.csv")
         Call machine.ToGraph.DoCall(AddressOf Visualizer.CreateTabularFormat).Save("./kinetics/test_network/")
 
-        ' Pause()
+        Pause()
     End Sub
 
     Sub singleDirection()
