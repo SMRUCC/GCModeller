@@ -76,7 +76,7 @@ Module unitTest
         Dim model As New Cellular.Process.Kinetics With {
             .formula = ScriptEngine.ParseExpression(exp),
             .parameters = {"Vmax", "S", "Km"},
-            .paramVals = {10, "a", 2},
+            .paramVals = {5, "a", 2},
             .target = "a->b"
         }
         Dim machine As Vessel = New Vessel()
@@ -94,7 +94,7 @@ Module unitTest
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = machine.ContainerIterator(100, 10000)
+        Dim dynamics = machine.ContainerIterator(10000, 1000)
         Dim cache As New FluxAggregater(machine)
 
         For i As Integer = 0 To 10000
