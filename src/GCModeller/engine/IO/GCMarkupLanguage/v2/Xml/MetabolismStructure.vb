@@ -279,6 +279,14 @@ Namespace v2
         ''' <returns></returns>
         <XmlAttribute> Public Property mass0 As Double = 1000
 
+        Sub New()
+        End Sub
+
+        Sub New(id As String, Optional name As String = Nothing)
+            Me.ID = id
+            Me.name = If(name, id)
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"[{ID}] {name}"
         End Function

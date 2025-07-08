@@ -78,7 +78,7 @@ Imports RExpr = SMRUCC.Rsharp.Interpreter.ExecuteEngine.Expression
 ''' virtual cell network kinetics modeller
 ''' </summary>
 <Package("modeller", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
-Module vcellModeller
+Public Module vcellModeller
 
     ' ((kcat * E) * S) / (Km + S)
     ' (Vmax * S) / (Km + S)
