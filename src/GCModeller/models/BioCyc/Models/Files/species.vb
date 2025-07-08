@@ -88,6 +88,11 @@ Public Class species : Inherits Model
     <AttributeField("PGDB-UNIQUE-ID")> <XmlAttribute> Public Property PGDBUniqueId As String
     <AttributeField("RANK")> <XmlAttribute> Public Property Rank As String
     <AttributeField("STRAIN-NAME")> <XmlAttribute> Public Property StrainName As String
+
+    ''' <summary>
+    ''' uint ncbi taxonomy id
+    ''' </summary>
+    ''' <returns></returns>
     <AttributeField("NCBI-TAXONOMY-ID")> <XmlAttribute> Public Property NCBITaxonomyId As String
     <AttributeField("PGDB-HOME-PAGE")> Public Property PGDBHomePage As String
 

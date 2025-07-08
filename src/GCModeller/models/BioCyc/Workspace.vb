@@ -74,6 +74,7 @@ Public Class Workspace : Implements IWorkspace
     Dim m_compounds As Lazy(Of AttrDataCollection(Of compounds))
     Dim m_genes As Lazy(Of AttrDataCollection(Of genes))
     Dim m_proteins As Lazy(Of AttrDataCollection(Of proteins))
+    Dim m_species As species
 
     Public ReadOnly Property compounds As AttrDataCollection(Of compounds)
         Get
@@ -117,7 +118,7 @@ Public Class Workspace : Implements IWorkspace
     ''' <returns></returns>
     Public ReadOnly Property species As species
         Get
-
+            Return m_species
         End Get
     End Property
 
@@ -143,6 +144,12 @@ Public Class Workspace : Implements IWorkspace
         m_compounds = New Lazy(Of AttrDataCollection(Of compounds))(Function() openFile(Of compounds)())
         m_genes = New Lazy(Of AttrDataCollection(Of genes))(Function() openFile(Of genes)())
         m_proteins = New Lazy(Of AttrDataCollection(Of proteins))(Function() openFile(Of proteins)())
+        ' scalar data object
+        m_species = openFile(Of species).features.FirstOrDefault
+
+        If m_species Is Nothing Then
+            Call "missing the organism taxonomy species information file in current model!".Warning
+        End If
     End Sub
 
     Private Function openFile(Of T As Model)() As AttrDataCollection(Of T)
