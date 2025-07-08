@@ -1,66 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::1bf271210841318b1adcc7438a0d2172, engine\Dynamics\test\unitTest.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 165
-    '    Code Lines: 132 (80.00%)
-    ' Comment Lines: 4 (2.42%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 29 (17.58%)
-    '     File Size: 6.48 KB
+' Summaries:
 
 
-    ' Module unitTest
-    ' 
-    '     Sub: kineticsTest, loopTest, Main, singleDirection
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 165
+'    Code Lines: 132 (80.00%)
+' Comment Lines: 4 (2.42%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 29 (17.58%)
+'     File Size: 6.48 KB
+
+
+' Module unitTest
+' 
+'     Sub: kineticsTest, loopTest, Main, singleDirection
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.GCModeller.ModellingEngine
+Imports Microsoft.VisualBasic.Math.Scripting
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
-Imports Microsoft.VisualBasic.Math.Scripting
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Module unitTest
     Sub Main()
@@ -73,7 +73,7 @@ Module unitTest
         ' a <=> b
 
         Dim exp = "(Vmax * S) / (Km + S)"
-        Dim model As New Kinetics With {
+        Dim model As New Cellular.Process.Kinetics With {
             .formula = ScriptEngine.ParseExpression(exp),
             .parameters = {"Vmax", "S", "Km"},
             .paramVals = {10, "a", 2},
@@ -86,7 +86,7 @@ Module unitTest
         Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 1)}) With {
             .bounds = {10, 10},
             .ID = "a->b",
-            .forward = New KineticsControls(machine, model) With {.baseline = 0, .inhibition = {}},
+            .forward = New KineticsControls(machine, model.CompileLambda, model.formula) With {.baseline = 0, .inhibition = {}},
             .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
         }
 
