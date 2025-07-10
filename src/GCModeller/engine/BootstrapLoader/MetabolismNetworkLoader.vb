@@ -57,7 +57,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace ModelLoader
@@ -148,7 +147,7 @@ Namespace ModelLoader
 
             If Not reaction.kinetics.IsNullOrEmpty Then
                 If reaction.kinetics.Length = 1 Then
-                    Dim scalar = reaction.kinetics(0)
+                    Dim scalar As Kinetics = reaction.kinetics(0)
 
                     forward = New KineticsControls(
                         env:=loader.getKernel,

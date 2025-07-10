@@ -53,6 +53,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -265,6 +266,8 @@ Namespace v2
             For Each k As NamedValue(Of Catalysis) In ko
                 If k.Value.reaction <> reaction.ID Then
                     Continue For
+                ElseIf k.Name.TextEquals("null") Then
+                    Throw New InvalidDataException($"the enzyme name could not be '{k.Name}', please check the definition of enzyme for {reaction.ID}!")
                 Else
                     If k.Value.formula Is Nothing Then
                         ' apply of the default kinetics

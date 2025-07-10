@@ -116,7 +116,7 @@ Namespace ModelLoader
                     .First(Function(c)
                                Return MassTable.getSource(c.mass.ID).source_id.EndsWith(".complex")
                            End Function)
-                proteinComplexId = proteinComplex.mass.ID
+                proteinComplexId = MassTable.getSource(proteinComplex.mass.ID).source_id
                 peptideId = proteinComplexId.Replace(".complex", "")
                 geneIDSet = geneIDindex(peptideId)
 
