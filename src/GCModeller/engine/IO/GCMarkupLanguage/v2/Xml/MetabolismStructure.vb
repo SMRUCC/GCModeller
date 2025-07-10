@@ -327,7 +327,11 @@ Namespace v2
         <XmlAttribute> Public Property bounds As Double()
 
         <XmlElement> Public Property ec_number As String()
-
+        ''' <summary>
+        ''' the compartment location of the reaction
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement> Public Property compartment As String
         <XmlElement> Public Property substrate As CompoundFactor()
         <XmlElement> Public Property product As CompoundFactor()
 

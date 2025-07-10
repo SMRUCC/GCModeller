@@ -115,11 +115,12 @@ Namespace Core
             End Get
         End Property
 
-        Sub New(env As Vessel, lambda As DynamicInvoke, raw As Expression, Optional pars As String() = Nothing)
+        Sub New(env As Vessel, lambda As DynamicInvoke, raw As Expression, cellular_id As String, Optional pars As String() = Nothing)
             Me.lambda = lambda
             Me.raw = raw
             Me.env = env
             Me.pars = pars
+            Me.cellular_id = cellular_id
         End Sub
 
         Private Function getMass(id As String) As Double

@@ -157,7 +157,8 @@ Namespace ModelLoader
                         pars:=scalar.paramVals _
                             .SafeQuery _
                             .Select(Function(a) a.ToString) _
-                            .ToArray
+                            .ToArray,
+                        cellular_id:=reaction.enzyme_compartment
                     )
                     pull.AddRange(DirectCast(forward, KineticsControls).parameters)
                 Else
@@ -170,7 +171,8 @@ Namespace ModelLoader
                             pars:=k.paramVals _
                                 .SafeQuery _
                                 .Select(Function(a) a.ToString) _
-                                .ToArray
+                                .ToArray,
+                            cellular_id:=reaction.enzyme_compartment
                         )
                     )
                     pull.AddRange(DirectCast(forward, KineticsOverlapsControls).parameters)
