@@ -81,6 +81,7 @@ Namespace Raw
         ReadOnly stream As StreamPack
         ReadOnly nameMaps As New Dictionary(Of String, String)
         ReadOnly ticks As New List(Of Double)
+        ReadOnly compartments As String()
 
         Sub New(model As CellularModule, output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
@@ -99,6 +100,21 @@ Namespace Raw
                 .Select(Function(r) r.ID) _
                 .ToArray
 
+            compartments = {model.CellularEnvironmentName} _
+                .JoinIterates(model.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)) _
+                .JoinIterates(model.Phenotype.fluxes _
+                    .Select(Function(r)
+                                Return r.equation.GetMetabolites
+                            End Function) _
+                    .IteratesALL _
+                    .Select(Function(c)
+                                Return c.Compartment
+                            End Function)) _
+                .Distinct _
+                .Where(Function(s) Not s.StringEmpty(, True)) _
+                .ToArray
+
+            Call stream.WriteText(compartments.JoinBy(vbCrLf), "/compartments.txt")
             Call stream.WriteText(
                 {
                     New Dictionary(Of String, Integer) From {
