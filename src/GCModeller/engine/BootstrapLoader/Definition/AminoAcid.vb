@@ -61,11 +61,12 @@
 
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Definitions
 
-    Public Class AminoAcid
+    Public Class AminoAcid : Implements Enumeration(Of String)
 
         ''' <summary>
         ''' L-Alanine
@@ -199,5 +200,10 @@ Namespace Definitions
             Return Me.GetJson
         End Function
 
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
+            For Each aa As PropertyInfo In AminoAcid.aa.Values
+                Yield CStr(aa.GetValue(Me))
+            Next
+        End Function
     End Class
 End Namespace

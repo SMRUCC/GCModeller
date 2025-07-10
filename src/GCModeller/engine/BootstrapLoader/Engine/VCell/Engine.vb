@@ -125,9 +125,10 @@ Namespace Engine
 
         Public Function LoadModel(virtualCell As CellularModule,
                                   Optional deletions As IEnumerable(Of String) = Nothing,
-                                  Optional ByRef getLoader As Loader = Nothing) As Engine
+                                  Optional ByRef getLoader As Loader = Nothing,
+                                  Optional unitTest As Boolean = False) As Engine
 
-            getLoader = New Loader(initials, dynamics)
+            getLoader = New Loader(initials, dynamics, unitTest)
             core = getLoader _
                 .CreateEnvironment(virtualCell, core) _
                 .Initialize()

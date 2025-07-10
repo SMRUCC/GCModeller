@@ -84,6 +84,8 @@ Namespace ModelLoader
         Dim proteinMatureFluxLoader As ProteinMatureFluxLoader
         Dim metabolismNetworkLoader As MetabolismNetworkLoader
 
+        ReadOnly unitTest As Boolean = False
+
         ''' <summary>
         ''' This mass table object is generated automatically 
         ''' </summary>
@@ -103,7 +105,8 @@ Namespace ModelLoader
 
         Public Property strict As Boolean = False
 
-        Sub New(define As Definition, dynamics As FluxBaseline)
+        Sub New(define As Definition, dynamics As FluxBaseline, unitTest As Boolean)
+            Me.unitTest = unitTest
             Me.define = define
             Me.dynamics = dynamics
 
@@ -167,6 +170,17 @@ Namespace ModelLoader
             ' create the flux simulation environment
             _massLoader = New MassLoader(Me)
             _massLoader.doMassLoadingOn(cell)
+
+            If unitTest Then
+                ' add required
+                Dim massTable As MassTable = _massLoader.massTable
+
+                For Each id As String In define.AsEnumerable
+                    If Not massTable.Exists(id) Then
+                        Call massTable.AddNew(id, MassRoles.compound)
+                    End If
+                Next
+            End If
 
             Return cell.DoCall(AddressOf create)
         End Function
