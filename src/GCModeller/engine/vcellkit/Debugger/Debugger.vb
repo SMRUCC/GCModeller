@@ -137,13 +137,13 @@ Module Debugger
                 .bounds = {10, 10},
                 .forward = New AdditiveControls With {
                     .baseline = 1,
-                    .activation = mass.variables(left, 1).ToArray,
-                    .inhibition = mass.variables(right, 0.5).ToArray
+                    .activation = mass.variables(model.Reactants, 1).ToArray,
+                    .inhibition = mass.variables(model.Products, 0.5).ToArray
                 },
                 .reverse = New AdditiveControls With {
                     .baseline = 1,
-                    .activation = mass.variables(right, 1).ToArray,
-                    .inhibition = mass.variables(left, 0.5).ToArray
+                    .activation = mass.variables(model.Products, 1).ToArray,
+                    .inhibition = mass.variables(model.Reactants, 0.5).ToArray
                 }
             }
         Next
