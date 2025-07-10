@@ -111,7 +111,7 @@ Namespace ModelLoader
         End Function
 
         Private Function fluxByReaction(reaction As Reaction, KOfunctions As Dictionary(Of String, String())) As Channel
-            Dim left As Variable() = MassTable.variables(reaction.substrates, infinitySource).ToArray
+            Dim left As Variable() = MassTable.variables(reaction.equation.Reactants, infinitySource).ToArray
             Dim right As Variable() = MassTable.variables(reaction.products, infinitySource).ToArray
             Dim bounds As New Boundary With {
                 .forward = reaction.bounds(1),
