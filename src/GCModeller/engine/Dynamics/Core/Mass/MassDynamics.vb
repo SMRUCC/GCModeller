@@ -110,7 +110,7 @@ Namespace Core
 
             For i As Integer = 0 To channels.Length - 1
                 flux = channels(i)
-                dir = flux.direct
+                dir = flux.GetCurrentDirection
 
                 Select Case dir
                     Case Directions.forward

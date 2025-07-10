@@ -140,7 +140,12 @@ Namespace ModelLoader
                 .ToArray
 
             Dim forward As Controls
+            Dim reverse As Controls = New AdditiveControls With {
+                .activation = right,
+                .baseline = 5
+            }
 
+            ' it's enzymatic
             If Not reaction.kinetics.IsNullOrEmpty Then
                 If reaction.kinetics.Length = 1 Then
                     Dim scalar As Kinetics = reaction.kinetics(0)
@@ -172,11 +177,18 @@ Namespace ModelLoader
                     )
                     pull.AddRange(DirectCast(forward, KineticsOverlapsControls).parameters)
                 End If
-            Else
+            ElseIf Not enzymeProteinComplexes.IsNullOrEmpty Then
+                ' it's enzymatic, but has no kinetics law data
                 forward = New AdditiveControls With {
                     .activation = MassTable _
                         .variables(enzymeProteinComplexes, 1, reaction.enzyme_compartment) _
                         .ToArray,
+                    .baseline = 5
+                }
+            Else
+                ' it's non-enzymatic
+                forward = New AdditiveControls With {
+                    .activation = left,
                     .baseline = 5
                 }
             End If
@@ -185,7 +197,7 @@ Namespace ModelLoader
                 .bounds = bounds,
                 .ID = reaction.ID,
                 .forward = forward,
-                .reverse = Controls.StaticControl(5)
+                .reverse = reverse
             }
 
             ' 假设所有的反应过程化都存在产物抑制效应

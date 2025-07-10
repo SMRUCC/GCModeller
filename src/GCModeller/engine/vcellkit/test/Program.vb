@@ -97,9 +97,9 @@ Module Program
                 },
                 .reactions = New ReactionGroup With {
                     .enzymatic = {
-                        New Reaction With {.bounds = {10, 10}, .ID = "A->B", .name = "A->B", .substrate = {New CompoundFactor("A", 1)}, .product = {New CompoundFactor("B", 1)}, .ec_number = {}, .is_enzymatic = False, .compartment = "Intracellular"},
+                        New Reaction With {.bounds = {5, 5}, .ID = "A->B", .name = "A->B", .substrate = {New CompoundFactor("A", 1)}, .product = {New CompoundFactor("B", 2)}, .ec_number = {}, .is_enzymatic = False, .compartment = "Intracellular"},
                         New Reaction With {.bounds = {10, 10}, .ID = "B->C", .name = "B->C", .substrate = {New CompoundFactor("B", 1)}, .product = {New CompoundFactor("C", 1)}, .ec_number = {"1.-"}, .is_enzymatic = True, .compartment = "Intracellular"},
-                        New Reaction With {.bounds = {10, 0.01}, .ID = "A->A", .name = "A->A", .substrate = {New CompoundFactor("A", 1, "Extracellular")}, .product = {New CompoundFactor("A", 1)}, .ec_number = {"3.1.-"}, .is_enzymatic = True, .compartment = "Intracellular"},
+                        New Reaction With {.bounds = {0.01, 3}, .ID = "A->A", .name = "A->A", .substrate = {New CompoundFactor("A", 1, "Extracellular")}, .product = {New CompoundFactor("A", 1)}, .ec_number = {"3.1.-"}, .is_enzymatic = True, .compartment = "Intracellular"},
                         New Reaction With {.bounds = {10, 10}, .ID = "C->C", .name = "C->C", .substrate = {New CompoundFactor("C", 1)}, .product = {New CompoundFactor("C", 1, "Extracellular")}, .ec_number = {"3.2.-"}, .is_enzymatic = True, .compartment = "Intracellular"}
                     }
                 },
