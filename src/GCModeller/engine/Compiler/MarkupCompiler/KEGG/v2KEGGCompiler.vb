@@ -161,8 +161,8 @@ Namespace MarkupCompiler
                     .Phenotype _
                     .fluxes _
                     .Select(Function(r)
-                                Dim left = r.substrates.Select(Function(c) New CompoundFactor(c.factor, c.result)).ToArray
-                                Dim right = r.products.Select(Function(c) New CompoundFactor(c.factor, c.result)).ToArray
+                                Dim left = r.equation.Reactants.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID, c.Compartment)).ToArray
+                                Dim right = r.equation.Products.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID, c.Compartment)).ToArray
 
                                 Return New XmlReaction With {
                                     .ID = r.ID,

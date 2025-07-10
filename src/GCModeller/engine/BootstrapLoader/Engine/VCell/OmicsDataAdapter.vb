@@ -60,6 +60,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
@@ -105,11 +106,16 @@ Namespace Engine
                 .Select(Function(gene) gene.polypeptide) _
                 .ToArray
             Dim metabolites = model.Phenotype.fluxes _
-                .Select(Function(flux)
-                            Return flux.products.AsList + flux.substrates
+                .Select(Iterator Function(flux) As IEnumerable(Of CompoundSpecieReference)
+                            For Each c As CompoundSpecieReference In flux.equation.Reactants
+                                Yield c
+                            Next
+                            For Each c As CompoundSpecieReference In flux.equation.Products
+                                Yield c
+                            Next
                         End Function) _
                 .IteratesALL _
-                .Select(Function(mass) mass.result) _
+                .Select(Function(mass) mass.ID) _
                 .Distinct _
                 .ToArray
 

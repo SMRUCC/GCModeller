@@ -85,6 +85,12 @@ Namespace Cellular.Process
         ''' 酶编号(KO编号或者EC编号)，如果这个属性是空的，说明不是酶促反应过程
         ''' </summary>
         Public Property enzyme As String()
+        ''' <summary>
+        ''' the compartment location of the <see cref="enzyme"/> that associated with this reaction.
+        ''' this property value should not be null if the <see cref="enzyme"/> association is not empty.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property enzyme_compartment As String
 
         ''' <summary>
         ''' multiple kinetics candidates

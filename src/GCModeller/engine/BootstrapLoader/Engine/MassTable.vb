@@ -239,6 +239,13 @@ Namespace Engine
             Return compounds.Select(Function(cpd) Me.variable(cpd, compart_id, factor))
         End Function
 
+        ''' <summary>
+        ''' refresh and make copy of the mass factor data to the simulator core links
+        ''' </summary>
+        ''' <param name="compounds"></param>
+        ''' <param name="factor"></param>
+        ''' <param name="compart_id"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function variables(compounds As IEnumerable(Of Variable), factor As Double, compart_id As String) As IEnumerable(Of Variable)
             Return compounds.Select(Function(cpd) Me.variable(cpd.mass.ID, compart_id, factor))

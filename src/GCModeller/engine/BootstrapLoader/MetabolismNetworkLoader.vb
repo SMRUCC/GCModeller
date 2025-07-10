@@ -112,11 +112,13 @@ Namespace ModelLoader
 
         Private Function fluxByReaction(reaction As Reaction, KOfunctions As Dictionary(Of String, String())) As Channel
             Dim left As Variable() = MassTable.variables(reaction.equation.Reactants, infinitySource).ToArray
-            Dim right As Variable() = MassTable.variables(reaction.products, infinitySource).ToArray
+            Dim right As Variable() = MassTable.variables(reaction.equation.Products, infinitySource).ToArray
             Dim bounds As New Boundary With {
                 .forward = reaction.bounds(1),
                 .reverse = reaction.bounds(0)
             }
+            Dim productCompart As String = reaction.equation.Products.Select(Function(c) c.Compartment).GroupBy(Function(c) c).OrderByDescending(Function(c) c.Count).First.Key
+            Dim reactantCompart As String = reaction.equation.Reactants.Select(Function(c) c.Compartment).GroupBy(Function(c) c).OrderByDescending(Function(c) c.Count).First.Key
 
             ' KO
             Dim enzymeProteinComplexes As String() = reaction.enzyme _
@@ -176,7 +178,7 @@ Namespace ModelLoader
             Else
                 forward = New AdditiveControls With {
                     .activation = MassTable _
-                        .variables(enzymeProteinComplexes, 1) _
+                        .variables(enzymeProteinComplexes, 1, reaction.enzyme_compartment) _
                         .ToArray,
                     .baseline = 5
                 }
@@ -190,8 +192,8 @@ Namespace ModelLoader
             }
 
             ' 假设所有的反应过程化都存在产物抑制效应
-            metabolismFlux.forward.inhibition = metabolismFlux.right.DoCall(AddressOf productInhibitionFactor)
-            metabolismFlux.reverse.inhibition = metabolismFlux.left.DoCall(AddressOf productInhibitionFactor)
+            metabolismFlux.forward.inhibition = productInhibitionFactor(metabolismFlux.right, productCompart)
+            metabolismFlux.reverse.inhibition = productInhibitionFactor(metabolismFlux.left, reactantCompart)
 
             Call loader.fluxIndex(NameOf(MetabolismNetworkLoader)).Add(metabolismFlux.ID)
 
@@ -202,11 +204,11 @@ Namespace ModelLoader
             Call $"Generic {template.ID} = {template.name}".__INFO_ECHO
         End Function
 
-        Private Function productInhibitionFactor(factors As IEnumerable(Of Variable)) As Variable()
+        Private Function productInhibitionFactor(factors As IEnumerable(Of Variable), compart_id As String) As Variable()
             Return factors _
                 .Where(Function(fac) Not fac.mass.ID Like infinitySource) _
                 .DoCall(Function(objects)
-                            Return MassTable.variables(objects, loader.dynamics.productInhibitionFactor)
+                            Return MassTable.variables(objects, loader.dynamics.productInhibitionFactor, compart_id)
                         End Function) _
                 .ToArray
         End Function
