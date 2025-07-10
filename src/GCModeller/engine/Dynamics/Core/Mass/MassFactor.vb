@@ -15,6 +15,12 @@ Namespace Engine
             End Get
         End Property
 
+        Public ReadOnly Property size As Integer
+            Get
+                Return compartments.Where(Function(c) c.Value > 0).Count
+            End Get
+        End Property
+
         Sub New(id As String, list As IEnumerable(Of Factor))
             Me.id = id
             Me.compartments = list.ToDictionary(Function(c) c.cellular_compartment)

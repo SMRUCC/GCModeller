@@ -369,6 +369,14 @@ Namespace Engine
             Return entity
         End Function
 
+        Public Sub copy(factor As Factor)
+            If Not massTable(factor.cellular_compartment).ContainsKey(factor.ID) Then
+                massTable(factor.cellular_compartment).Add(factor.ID, New Factor(factor))
+            End If
+
+            massTable(factor.cellular_compartment)(factor.ID).Value = factor.Value
+        End Sub
+
         Public Iterator Function GetEnumerator() As IEnumerator(Of Factor) Implements IEnumerable(Of Factor).GetEnumerator
             For Each mass As Factor In massTable.Values
                 Yield mass

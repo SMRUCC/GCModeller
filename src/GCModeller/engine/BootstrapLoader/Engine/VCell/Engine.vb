@@ -106,7 +106,15 @@ Namespace Engine
         End Sub
 
         Friend Function getMassPool() As MassTable
-            Return New MassTable(core.m_massIndex, "in")
+            Dim table As New MassTable
+
+            For Each factor As MassFactor In core.m_massIndex.Values
+                For Each compart_factor As Factor In factor.compartments.Values
+                    Call table.copy(compart_factor)
+                Next
+            Next
+
+            Return table
         End Function
 
         ''' <summary>
@@ -140,8 +148,7 @@ Namespace Engine
             ' 再将对应的基因模板的数量设置为0
             ' 达到无法执行转录过程反应的缺失突变的效果
             For Each geneTemplateId As String In deletions.SafeQuery
-                core.m_massIndex(geneTemplateId).Value = 0
-
+                Call core.m_massIndex(geneTemplateId).reset(0)
                 Call $"Deletes '{geneTemplateId}'...".__INFO_ECHO
             Next
 
@@ -181,11 +188,11 @@ Namespace Engine
                 Return
             End If
 
-            For Each mass As Factor In core.m_massIndex.Values
-                If initials.status.ContainsKey(mass.ID) Then
-                    mass.Value = initials.status(mass.ID)
+            For Each mass As MassFactor In core.m_massIndex.Values
+                If initials.status.ContainsKey(mass.id) Then
+                    mass.reset(initials.status(mass.id))
                 Else
-                    mass.Value = 1
+                    mass.reset(1)
                 End If
             Next
         End Sub

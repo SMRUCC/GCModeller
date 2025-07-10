@@ -98,6 +98,10 @@ Namespace Core
             role = MassRoles.compound
         End Sub
 
+        Sub New(copy As Factor)
+            Call Me.New(copy.ID, copy.role, copy.cellular_compartment)
+        End Sub
+
         ''' <summary>
         ''' create a new mass factor inside the runtime environment with value assigned ZERO.
         ''' </summary>
