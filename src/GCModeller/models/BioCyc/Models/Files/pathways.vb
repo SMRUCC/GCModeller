@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b29f96c37cbb5bee5b50ece1e30899f5, models\BioCyc\Models\pathways.vb"
+﻿#Region "Microsoft.VisualBasic::427678ee5dbf093ab0eae8f69f8a4f57, models\BioCyc\Models\Files\pathways.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 41
-    '    Code Lines: 27 (65.85%)
-    ' Comment Lines: 4 (9.76%)
-    '    - Xml Docs: 75.00%
+    '   Total Lines: 106
+    '    Code Lines: 27 (25.47%)
+    ' Comment Lines: 73 (68.87%)
+    '    - Xml Docs: 98.63%
     ' 
-    '   Blank Lines: 10 (24.39%)
-    '     File Size: 1.21 KB
+    '   Blank Lines: 6 (5.66%)
+    '     File Size: 4.94 KB
 
 
     ' Class pathways

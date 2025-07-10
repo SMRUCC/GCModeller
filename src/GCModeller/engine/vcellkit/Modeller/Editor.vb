@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f485bffc1355585d7b4216d3040ab9b, engine\vcellkit\Modeller\API.vb"
+﻿#Region "Microsoft.VisualBasic::e42f3fa1bc9b9894d775e2738ab6cf51, engine\vcellkit\Modeller\Editor.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 69
-    '    Code Lines: 57 (82.61%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 110
+    '    Code Lines: 59 (53.64%)
+    ' Comment Lines: 39 (35.45%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 12 (17.39%)
-    '     File Size: 2.42 KB
+    '   Blank Lines: 12 (10.91%)
+    '     File Size: 3.68 KB
 
 
-    ' Module API
+    ' Module EditorAPI
     ' 
     '     Function: __add_author, __add_email, __add_publication, __add_reversion, __add_URL
     '               _set_DBLinks, _set_Name, _set_Title, set_SpeciesId, setComments

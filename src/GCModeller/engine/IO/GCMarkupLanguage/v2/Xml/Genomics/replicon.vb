@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0564d06b5f28c1f7e0406df11f79b77f, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\replicon.vb"
+﻿#Region "Microsoft.VisualBasic::ba2f130355c27c8ca775ba77cbb2aa17, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\replicon.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 76
-    '    Code Lines: 50 (65.79%)
-    ' Comment Lines: 11 (14.47%)
+    '   Total Lines: 87
+    '    Code Lines: 53 (60.92%)
+    ' Comment Lines: 19 (21.84%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (19.74%)
-    '     File Size: 2.39 KB
+    '   Blank Lines: 15 (17.24%)
+    '     File Size: 2.92 KB
 
 
     '     Class replicon
     ' 
     '         Properties: genomeName, isPlasmid, operons, RNAs
     ' 
-    '         Function: GetGeneList, GetGeneNumbers, ToString
+    '         Function: GenericEnumerator, GetGeneList, GetGeneNumbers, ToString
     ' 
     '         Sub: RemoveByIdList
     ' 

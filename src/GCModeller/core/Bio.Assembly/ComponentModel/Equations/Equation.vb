@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be9e21133f1430e7e3244eb80e46a334, core\Bio.Assembly\ComponentModel\Equations\Equation.vb"
+﻿#Region "Microsoft.VisualBasic::8d1b809b275feed5b78c4531f64a40b1, core\Bio.Assembly\ComponentModel\Equations\Equation.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 94.00%
     ' 
     '   Blank Lines: 23 (13.69%)
-    '     File Size: 6.14 KB
+    '     File Size: 6.15 KB
 
 
     '     Class Equation

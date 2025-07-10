@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37cec583f5271ec4246c08dd5a8e75a7, foundation\OBO_Foundry\IO\Models\TextParser.vb"
+﻿#Region "Microsoft.VisualBasic::8498b6020da75fc45b664ec32abf6c85, foundation\OBO_Foundry\IO\Models\TextParser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 43
-    '    Code Lines: 38 (88.37%)
-    ' Comment Lines: 0 (0.00%)
+    '   Total Lines: 44
+    '    Code Lines: 38 (86.36%)
+    ' Comment Lines: 1 (2.27%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (11.63%)
-    '     File Size: 1.94 KB
+    '   Blank Lines: 5 (11.36%)
+    '     File Size: 2.03 KB
 
 
     '     Module TextParser

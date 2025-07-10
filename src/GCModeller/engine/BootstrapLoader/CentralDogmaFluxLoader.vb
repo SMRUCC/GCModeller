@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84db09775d538b8958d20f33f4656096, engine\BootstrapLoader\CentralDogmaFluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::c9a8998197392b31a396483992349625, engine\BootstrapLoader\CentralDogmaFluxLoader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 417
-    '    Code Lines: 308 (73.86%)
-    ' Comment Lines: 45 (10.79%)
+    '   Total Lines: 423
+    '    Code Lines: 314 (74.23%)
+    ' Comment Lines: 45 (10.64%)
     '    - Xml Docs: 55.56%
     ' 
-    '   Blank Lines: 64 (15.35%)
-    '     File Size: 18.48 KB
+    '   Blank Lines: 64 (15.13%)
+    '     File Size: 19.14 KB
 
 
     '     Class CentralDogmaFluxLoader

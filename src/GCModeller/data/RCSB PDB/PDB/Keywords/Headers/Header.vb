@@ -1,106 +1,106 @@
-﻿#Region "Microsoft.VisualBasic::dc1b0e7dd5f8a61cb67f2655a61f6b08, data\RCSB PDB\PDB\Keywords\Headers\Header.vb"
+﻿#Region "Microsoft.VisualBasic::693c03baa5cc25e9e841c959b15de969, data\RCSB PDB\PDB\Keywords\Headers\Header.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 186
-'    Code Lines: 135 (72.58%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 51 (27.42%)
-'     File Size: 5.11 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Header
-' 
-'         Properties: [Date], Keyword, pdbID, Title
-' 
-'         Function: Parse, ToString
-' 
-'     Class Title
-' 
-'         Properties: Keyword, Title
-' 
-'         Function: Append
-' 
-'     Class Keywords
-' 
-'         Properties: Keyword, keywords
-' 
-'         Function: Parse
-' 
-'     Class ExperimentData
-' 
-'         Properties: Experiment, Keyword
-' 
-'         Function: Parse
-' 
-'     Class Author
-' 
-'         Properties: Keyword, Name
-' 
-'         Function: Parse
-' 
-'     Class DbReference
-' 
-'         Properties: db_xrefs, Keyword
-' 
-'         Function: Append
-' 
-'         Sub: Flush
-' 
-'     Class Site
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class Master
-' 
-'         Properties: Keyword, line
-' 
-'         Function: Parse
-' 
-'     Class CRYST1
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 228
+    '    Code Lines: 170 (74.56%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 58 (25.44%)
+    '     File Size: 6.50 KB
+
+
+    '     Class Header
+    ' 
+    '         Properties: [Date], Keyword, pdbID, Title
+    ' 
+    '         Function: Parse, ToString
+    ' 
+    '     Class Title
+    ' 
+    '         Properties: Keyword, Title
+    ' 
+    '         Function: Append, ToString
+    ' 
+    '     Class Keywords
+    ' 
+    '         Properties: Keyword, keywords
+    ' 
+    '         Function: Parse, ToString
+    ' 
+    '     Class ExperimentData
+    ' 
+    '         Properties: Experiment, Keyword
+    ' 
+    '         Function: Parse, ToString
+    ' 
+    '     Class Author
+    ' 
+    '         Properties: Keyword, Name
+    ' 
+    '         Function: Parse, ToString
+    ' 
+    '     Class DbReference
+    ' 
+    '         Properties: db_xrefs, Keyword, XrefIndex
+    ' 
+    '         Function: Append, ToString
+    ' 
+    '         Sub: Flush
+    ' 
+    '     Class Site
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append, ToString
+    ' 
+    '     Class Master
+    ' 
+    '         Properties: Keyword, line
+    ' 
+    '         Function: Parse, ToString
+    ' 
+    '     Class CRYST1
+    ' 
+    '         Properties: Keyword
+    ' 
+    '         Function: Append
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

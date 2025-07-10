@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c22d1be31c3f5b28cb36f7fde37405d2, engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::b4a45c5fa70c8dcae2afabf2cd667e89, engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 388
-    '    Code Lines: 228 (58.76%)
-    ' Comment Lines: 94 (24.23%)
-    '    - Xml Docs: 96.81%
+    '   Total Lines: 419
+    '    Code Lines: 246 (58.71%)
+    ' Comment Lines: 101 (24.11%)
+    '    - Xml Docs: 97.03%
     ' 
-    '   Blank Lines: 66 (17.01%)
-    '     File Size: 13.36 KB
+    '   Blank Lines: 72 (17.18%)
+    '     File Size: 14.52 KB
 
 
     '     Class MetabolismStructure
@@ -59,20 +59,21 @@
     ' 
     '         Properties: ID, kegg_id, mass0, name
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     '     Class Reaction
     ' 
-    '         Properties: bounds, equation, ID, is_enzymatic, name
-    '                     note, product, substrate
+    '         Properties: bounds, ec_number, equation, ID, is_enzymatic
+    '                     name, note, product, substrate
     ' 
     '         Function: GenericEnumerator, ToString
     ' 
     '     Class CompoundFactor
     ' 
-    '         Properties: compound, factor
+    '         Properties: compartment, compound, factor
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: factorString, ToString
     ' 
     '     Class FunctionalCategory

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30e2f2faf1d1bbbfb560895c6731e9e1, models\BioCyc\Reader\AttrDataCollection.vb"
+﻿#Region "Microsoft.VisualBasic::ef632a15fb6461616344f83f75d94a10, models\BioCyc\Reader\AttrDataCollection.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 53
-    '    Code Lines: 43 (81.13%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 58
+    '    Code Lines: 43 (74.14%)
+    ' Comment Lines: 4 (6.90%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 10 (18.87%)
-    '     File Size: 1.93 KB
+    '   Blank Lines: 11 (18.97%)
+    '     File Size: 2.06 KB
 
 
     ' Class AttrDataCollection

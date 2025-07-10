@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c0860bf4d4c7b8920a4166871f423453, engine\Model\Cellular\CellularModule.vb"
+﻿#Region "Microsoft.VisualBasic::594b035938c66acb9605f5830d627ad2, engine\Model\Cellular\CellularModule.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 48
-    '    Code Lines: 14 (29.17%)
-    ' Comment Lines: 28 (58.33%)
-    '    - Xml Docs: 89.29%
+    '   Total Lines: 54
+    '    Code Lines: 15 (27.78%)
+    ' Comment Lines: 31 (57.41%)
+    '    - Xml Docs: 90.32%
     ' 
-    '   Blank Lines: 6 (12.50%)
-    '     File Size: 1.79 KB
+    '   Blank Lines: 8 (14.81%)
+    '     File Size: 1.95 KB
 
 
     '     Structure CellularModule

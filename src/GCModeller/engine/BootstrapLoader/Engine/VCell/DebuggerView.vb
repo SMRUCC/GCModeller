@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d6c58c251ba293d3338609d305c0181, engine\BootstrapLoader\Engine\VCell\DebuggerView.vb"
+﻿#Region "Microsoft.VisualBasic::11150e88e2c00b0e847a37384925774b, engine\BootstrapLoader\Engine\VCell\DebuggerView.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 65
-    '    Code Lines: 54 (83.08%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 74
+    '    Code Lines: 56 (75.68%)
+    ' Comment Lines: 7 (9.46%)
+    '    - Xml Docs: 85.71%
     ' 
-    '   Blank Lines: 11 (16.92%)
-    '     File Size: 2.20 KB
+    '   Blank Lines: 11 (14.86%)
+    '     File Size: 2.55 KB
 
 
     '     Class DebuggerView

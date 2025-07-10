@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::957fa9dec7590460df6632ca64ba0f72, engine\BootstrapLoader\MetabolismNetworkLoader.vb"
+﻿#Region "Microsoft.VisualBasic::bc43891e981fdf6261b19d30ec984d93, engine\BootstrapLoader\MetabolismNetworkLoader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 163
-    '    Code Lines: 128 (78.53%)
-    ' Comment Lines: 13 (7.98%)
+    '   Total Lines: 165
+    '    Code Lines: 130 (78.79%)
+    ' Comment Lines: 13 (7.88%)
     '    - Xml Docs: 53.85%
     ' 
-    '   Blank Lines: 22 (13.50%)
-    '     File Size: 7.07 KB
+    '   Blank Lines: 22 (13.33%)
+    '     File Size: 7.50 KB
 
 
     '     Class MetabolismNetworkLoader

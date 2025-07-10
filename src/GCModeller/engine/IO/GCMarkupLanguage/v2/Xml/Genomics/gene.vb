@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d52f96a9a3beb27624432b773bedab7, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\gene.vb"
+﻿#Region "Microsoft.VisualBasic::537040c36caff3886617902d32e6f948, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\gene.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 70
-    '    Code Lines: 28 (40.00%)
-    ' Comment Lines: 31 (44.29%)
+    '   Total Lines: 71
+    '    Code Lines: 28 (39.44%)
+    ' Comment Lines: 31 (43.66%)
     '    - Xml Docs: 96.77%
     ' 
-    '   Blank Lines: 11 (15.71%)
-    '     File Size: 2.15 KB
+    '   Blank Lines: 12 (16.90%)
+    '     File Size: 2.31 KB
 
 
     '     Class gene

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07b2b4644db9d8aa4faad655430a5c0d, engine\Dynamics.Debugger\Summary.vb"
+﻿#Region "Microsoft.VisualBasic::bf714fa6f1f3f79c18a30c500b88b01b, engine\Dynamics.Debugger\Summary.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 92
-    '    Code Lines: 74 (80.43%)
-    ' Comment Lines: 6 (6.52%)
+    '   Total Lines: 93
+    '    Code Lines: 75 (80.65%)
+    ' Comment Lines: 6 (6.45%)
     '    - Xml Docs: 50.00%
     ' 
-    '   Blank Lines: 12 (13.04%)
-    '     File Size: 3.25 KB
+    '   Blank Lines: 12 (12.90%)
+    '     File Size: 3.31 KB
 
 
     ' Module Summary

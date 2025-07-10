@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efd632c3bdabb8674a2a6d857bd258c1, engine\IO\GCMarkupLanguage\v2\Xml\VirtualCell.vb"
+﻿#Region "Microsoft.VisualBasic::5c5bc06754135d0faf4cbf4e8b0eb705, engine\IO\GCMarkupLanguage\v2\Xml\VirtualCell.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 101
-    '    Code Lines: 60 (59.41%)
-    ' Comment Lines: 23 (22.77%)
+    '   Total Lines: 107
+    '    Code Lines: 61 (57.01%)
+    ' Comment Lines: 27 (25.23%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 18 (17.82%)
-    '     File Size: 3.89 KB
+    '   Blank Lines: 19 (17.76%)
+    '     File Size: 4.09 KB
 
 
     '     Class VirtualCell
     ' 
-    '         Properties: genome, metabolismStructure, taxonomy
+    '         Properties: cellular_id, genome, metabolismStructure, taxonomy
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: Summary, ToString

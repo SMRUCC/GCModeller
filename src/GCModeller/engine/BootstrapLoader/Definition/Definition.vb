@@ -1,65 +1,65 @@
-﻿#Region "Microsoft.VisualBasic::d4dc0bcf1896dd06d51f09e49f6a3239, engine\BootstrapLoader\Definition\Definition.vb"
+﻿#Region "Microsoft.VisualBasic::79c4fc0e77b1ee2c9d47833398caba1e, engine\BootstrapLoader\Definition\Definition.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 116
-'    Code Lines: 78 (67.24%)
-' Comment Lines: 24 (20.69%)
-'    - Xml Docs: 87.50%
-' 
-'   Blank Lines: 14 (12.07%)
-'     File Size: 3.83 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Enum GeneralCompound
-' 
-'         DNA, Protein, RNA
-' 
-'  
-' 
-' 
-' 
-'     Class Definition
-' 
-'         Properties: ADP, AminoAcid, ATP, GenericCompounds, NucleicAcid
-'                     Oxygen, status, Water
-' 
-'         Function: GetInfinitySource, KEGG
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 150
+    '    Code Lines: 108 (72.00%)
+    ' Comment Lines: 24 (16.00%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 18 (12.00%)
+    '     File Size: 5.34 KB
+
+
+    '     Enum GeneralCompound
+    ' 
+    '         DNA, Protein, RNA
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class Definition
+    ' 
+    '         Properties: ADP, AminoAcid, ATP, GenericCompounds, NucleicAcid
+    '                     Oxygen, status, Water
+    ' 
+    '         Function: GenericEnumerator, GetInfinitySource, KEGG
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

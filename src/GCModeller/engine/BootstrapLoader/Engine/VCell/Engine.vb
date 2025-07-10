@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9c27c501e842f46862f7c767d185b2d, engine\BootstrapLoader\Engine\VCell\Engine.vb"
+﻿#Region "Microsoft.VisualBasic::0df09a92bd06ed7448ef05bdaa57a6e9, engine\BootstrapLoader\Engine\VCell\Engine.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 142
-    '    Code Lines: 93 (65.49%)
-    ' Comment Lines: 22 (15.49%)
+    '   Total Lines: 143
+    '    Code Lines: 94 (65.73%)
+    ' Comment Lines: 22 (15.38%)
     '    - Xml Docs: 86.36%
     ' 
-    '   Blank Lines: 27 (19.01%)
-    '     File Size: 5.40 KB
+    '   Blank Lines: 27 (18.88%)
+    '     File Size: 5.52 KB
 
 
     '     Class Engine

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c73b9f0075c0b6093f91f8dca8264101, engine\BootstrapLoader\MassLoader.vb"
+﻿#Region "Microsoft.VisualBasic::5c85450bc48094651f2d82520c4303a3, engine\BootstrapLoader\MassLoader.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 58.33%
     ' 
     '   Blank Lines: 11 (18.97%)
-    '     File Size: 2.38 KB
+    '     File Size: 2.42 KB
 
 
     '     Class MassLoader

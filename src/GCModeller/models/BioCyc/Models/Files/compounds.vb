@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae28a79e97cb80b49d34fe71a17b3473, models\BioCyc\Models\compounds.vb"
+﻿#Region "Microsoft.VisualBasic::fc8a8e54d82d42dc02007b621f25a753, models\BioCyc\Models\Files\compounds.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 69
-    '    Code Lines: 56 (81.16%)
-    ' Comment Lines: 4 (5.80%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 90
+    '    Code Lines: 62 (68.89%)
+    ' Comment Lines: 16 (17.78%)
+    '    - Xml Docs: 81.25%
     ' 
-    '   Blank Lines: 9 (13.04%)
-    '     File Size: 2.67 KB
+    '   Blank Lines: 12 (13.33%)
+    '     File Size: 3.44 KB
 
 
     ' Class compounds

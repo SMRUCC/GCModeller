@@ -1,63 +1,74 @@
-﻿#Region "Microsoft.VisualBasic::0db14e5a85fef8a3a746204327f5d7c2, engine\BootstrapLoader\Engine\MassTable.vb"
+﻿#Region "Microsoft.VisualBasic::c23a11d1074b4ad93d7efc691256b7a8, engine\BootstrapLoader\Engine\MassTable.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 198
-'    Code Lines: 143 (72.22%)
-' Comment Lines: 24 (12.12%)
-'    - Xml Docs: 83.33%
-' 
-'   Blank Lines: 31 (15.66%)
-'     File Size: 8.06 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class MassTable
-' 
-'         Properties: GetMassValues, metabolites, micsRNA, mRNA, polypeptide
-'                     rRNA, tRNA
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: (+2 Overloads) AddNew, Exists, GetAll, (+2 Overloads) GetByKey, GetEnumerator
-'                   GetRole, GetWhere, IEnumerable_GetEnumerator, template, variable
-'                   (+3 Overloads) variables
-' 
-'         Sub: AddOrUpdate, Delete
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 304
+    '    Code Lines: 199 (65.46%)
+    ' Comment Lines: 56 (18.42%)
+    '    - Xml Docs: 91.07%
+    ' 
+    '   Blank Lines: 49 (16.12%)
+    '     File Size: 12.38 KB
+
+
+    '     Class MassTable
+    ' 
+    '         Properties: compartment_ids, GetMassValues, metabolites, micsRNA, mRNA
+    '                     polypeptide, rRNA, tRNA
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: addCompartment, (+2 Overloads) AddNew, Exists, ExistsAllCompartment, (+2 Overloads) GetByKey
+    '                   GetEnumerator, GetRole, GetWhere, IEnumerable_GetEnumerator, template
+    '                   variable, (+4 Overloads) variables
+    ' 
+    '         Sub: AddOrUpdate, Delete
+    '         Class CompartTable
+    ' 
+    '             Properties: Keys, Values
+    ' 
+    '             Constructor: (+2 Overloads) Sub New
+    ' 
+    '             Function: getFactor, variable
+    ' 
+    '             Sub: delete
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

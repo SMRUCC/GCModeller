@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e960ec6fda136834d26a78bf1bfa26b, engine\Compiler\Workflow.vb"
+﻿#Region "Microsoft.VisualBasic::77d663879a62bb14e8ba1fc31fe70db0, engine\Compiler\Workflow.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 310
-    '    Code Lines: 235 (75.81%)
-    ' Comment Lines: 41 (13.23%)
+    '   Total Lines: 293
+    '    Code Lines: 219 (74.74%)
+    ' Comment Lines: 41 (13.99%)
     '    - Xml Docs: 65.85%
     ' 
-    '   Blank Lines: 34 (10.97%)
-    '     File Size: 13.49 KB
+    '   Blank Lines: 33 (11.26%)
+    '     File Size: 12.61 KB
 
 
     ' Module Workflow
     ' 
-    '     Function: AssemblingGenomeInformation, AssemblingMetabolicNetwork, AssemblingRegulationNetwork, BuildReactions, converts
-    '               createMetabolicProcess, GetCentralDogmas, getTaxonomy, glycan2Cpd
+    '     Function: AssemblingGenomeInformation, AssemblingMetabolicNetwork, AssemblingRegulationNetwork, BuildReactions, createMetabolicProcess
+    '               GetCentralDogmas, getTaxonomy
     ' 
     ' /********************************************************************************/
 

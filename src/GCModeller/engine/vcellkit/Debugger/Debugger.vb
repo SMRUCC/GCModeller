@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d32d950888a8d920d8a2e4ec2a2d508, engine\vcellkit\Debugger\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::c522162974398d9b329e5495cb3d035d, engine\vcellkit\Debugger\Debugger.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 31 (12.40%)
-    '     File Size: 10.45 KB
+    '     File Size: 10.49 KB
 
 
     ' Module Debugger

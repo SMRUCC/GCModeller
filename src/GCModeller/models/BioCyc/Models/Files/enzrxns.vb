@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::325e9a86f308122d8595d746f3c94b9d, models\BioCyc\Models\enzrxns.vb"
+﻿#Region "Microsoft.VisualBasic::9624143737e374ab0dc9206eedf323ef, models\BioCyc\Models\Files\enzrxns.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 43
-    '    Code Lines: 37 (86.05%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 104
+    '    Code Lines: 37 (35.58%)
+    ' Comment Lines: 56 (53.85%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (13.95%)
-    '     File Size: 1.47 KB
+    '   Blank Lines: 11 (10.58%)
+    '     File Size: 4.82 KB
 
 
     ' Class enzrxns

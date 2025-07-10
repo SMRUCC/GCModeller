@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3274e240e50c0b0de0f76bcd0824fc3, data\RCSB PDB\PDB\PDB.vb"
+﻿#Region "Microsoft.VisualBasic::9a64802ba54f6f31b815eba9978e2f12, data\RCSB PDB\PDB\PDB.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 286
-    '    Code Lines: 126 (44.06%)
-    ' Comment Lines: 135 (47.20%)
-    '    - Xml Docs: 85.19%
+    '   Total Lines: 292
+    '    Code Lines: 127 (43.49%)
+    ' Comment Lines: 139 (47.60%)
+    '    - Xml Docs: 85.61%
     ' 
-    '   Blank Lines: 25 (8.74%)
-    '     File Size: 11.95 KB
+    '   Blank Lines: 26 (8.90%)
+    '     File Size: 12.11 KB
 
 
     ' Class PDB
@@ -53,8 +53,8 @@
     '                 MinSpace, MODRES, NUMMDL, Origin1, Origin2
     '                 Origin3, Remark, Revisions, Scale1, Scale2
     '                 Scale3, seqadv, Sequence, Sheet, SIGATM
-    '                 SIGUIJ, Site, Source, SPLIT, SPRSDE
-    '                 SSBOND, Title
+    '                 SIGUIJ, Site, Source, SourceText, SPLIT
+    '                 SPRSDE, SSBOND, Title
     ' 
     '     Constructor: (+1 Overloads) Sub New
     '     Function: GenericEnumerator, (+2 Overloads) Load, Parse, ToString

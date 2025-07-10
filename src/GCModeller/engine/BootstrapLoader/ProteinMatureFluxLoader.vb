@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e05dbaf4c62fef723c726b003bda23b3, engine\BootstrapLoader\ProteinMatureFluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::8b5d78666c01de88ab3acca70ad42193, engine\BootstrapLoader\ProteinMatureFluxLoader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 73
-    '    Code Lines: 54 (73.97%)
-    ' Comment Lines: 4 (5.48%)
+    '   Total Lines: 74
+    '    Code Lines: 55 (74.32%)
+    ' Comment Lines: 4 (5.41%)
     '    - Xml Docs: 75.00%
     ' 
-    '   Blank Lines: 15 (20.55%)
-    '     File Size: 2.85 KB
+    '   Blank Lines: 15 (20.27%)
+    '     File Size: 3.02 KB
 
 
     '     Class ProteinMatureFluxLoader

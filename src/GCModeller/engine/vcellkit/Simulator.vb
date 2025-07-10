@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e5eb120fc734bd733b7cd1b20c41e9e, engine\vcellkit\Simulator.vb"
+﻿#Region "Microsoft.VisualBasic::9fd82ef481f1750fac6d4a75da30c1f7, engine\vcellkit\Simulator.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 267
-    '    Code Lines: 164 (61.42%)
-    ' Comment Lines: 80 (29.96%)
+    '   Total Lines: 269
+    '    Code Lines: 166 (61.71%)
+    ' Comment Lines: 80 (29.74%)
     '    - Xml Docs: 92.50%
     ' 
-    '   Blank Lines: 23 (8.61%)
-    '     File Size: 11.86 KB
+    '   Blank Lines: 23 (8.55%)
+    '     File Size: 12.44 KB
 
 
     ' Enum ModuleSystemLevels

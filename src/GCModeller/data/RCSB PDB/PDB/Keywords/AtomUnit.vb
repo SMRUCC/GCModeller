@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59a390f31916300edc4c6b55ea343f65, data\RCSB PDB\PDB\Keywords\AtomUnit.vb"
+﻿#Region "Microsoft.VisualBasic::9191db37a2b39ced24d474e20d2bef23, data\RCSB PDB\PDB\Keywords\AtomUnit.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 83
-    '    Code Lines: 49 (59.04%)
-    ' Comment Lines: 25 (30.12%)
+    '   Total Lines: 89
+    '    Code Lines: 54 (60.67%)
+    ' Comment Lines: 25 (28.09%)
     '    - Xml Docs: 92.00%
     ' 
-    '   Blank Lines: 9 (10.84%)
-    '     File Size: 2.83 KB
+    '   Blank Lines: 10 (11.24%)
+    '     File Size: 2.96 KB
 
 
     '     Structure Point3D
     ' 
     '         Properties: X, Y, Z
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
     ' 
     '     Class AtomUnit

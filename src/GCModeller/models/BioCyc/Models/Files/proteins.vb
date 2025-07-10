@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9de1d57d415d03e13cbe2cd64858c3b8, models\BioCyc\Models\proteins.vb"
+﻿#Region "Microsoft.VisualBasic::58b9d80d5df440263c24ea4f07d3bae7, models\BioCyc\Models\Files\proteins.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 44
-    '    Code Lines: 31 (70.45%)
-    ' Comment Lines: 4 (9.09%)
+    '   Total Lines: 58
+    '    Code Lines: 31 (53.45%)
+    ' Comment Lines: 18 (31.03%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (20.45%)
-    '     File Size: 1.50 KB
+    '   Blank Lines: 9 (15.52%)
+    '     File Size: 2.47 KB
 
 
     ' Class proteins

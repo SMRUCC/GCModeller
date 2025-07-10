@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fdd4e593f9ba4ad0f81c4cf0fe518ee, engine\Model\Cellular\Process\Metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::220350e9b83e830de542040579cee1de, engine\Model\Cellular\Process\Metabolism.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 122
-    '    Code Lines: 72 (59.02%)
-    ' Comment Lines: 33 (27.05%)
-    '    - Xml Docs: 96.97%
+    '   Total Lines: 104
+    '    Code Lines: 53 (50.96%)
+    ' Comment Lines: 36 (34.62%)
+    '    - Xml Docs: 97.22%
     ' 
-    '   Blank Lines: 17 (13.93%)
-    '     File Size: 4.53 KB
+    '   Blank Lines: 15 (14.42%)
+    '     File Size: 3.90 KB
 
 
     '     Class Reaction
     ' 
-    '         Properties: AllCompounds, ID, is_enzymatic
+    '         Properties: AllCompounds, bounds, enzyme, enzyme_compartment, equation
+    '                     ID, is_enzymatic, kinetics, name
     ' 
-    '         Function: converts, GetCoefficient, GetEquationString, ToString
+    '         Function: GetCoefficient, GetEquationString, ToString
     ' 
     ' 
     ' /********************************************************************************/
