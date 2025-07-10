@@ -84,12 +84,12 @@ Namespace Cellular.Process
         ''' <summary>
         ''' 酶编号(KO编号或者EC编号)，如果这个属性是空的，说明不是酶促反应过程
         ''' </summary>
-        Public enzyme As String()
+        Public Property enzyme As String()
 
         ''' <summary>
         ''' multiple kinetics candidates
         ''' </summary>
-        Public kinetics As Kinetics()
+        Public Property kinetics As Kinetics()
 
         ''' <summary>
         ''' 这个代谢反应过程的流量的正反方向的流量限制值
@@ -101,7 +101,7 @@ Namespace Cellular.Process
         ''' 所以会造成错误
         ''' 在这里取消使用<see cref="DoubleRange"/>来描述正反的上限值
         ''' </remarks>
-        Public bounds As Double()
+        Public Property bounds As Double()
 
         Public ReadOnly Property is_enzymatic As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>

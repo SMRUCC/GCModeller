@@ -137,10 +137,10 @@ Namespace ComponentModel.EquaionModel
         ''' </summary>
         ''' <returns></returns>
         Public Iterator Function GetMetabolites() As IEnumerable(Of T)
-            For Each compound In Reactants
+            For Each compound As T In Reactants
                 Yield compound
             Next
-            For Each compound In Products
+            For Each compound As T In Products
                 Yield compound
             Next
         End Function
