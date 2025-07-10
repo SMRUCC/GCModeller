@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e1d2ec674546d87029e319299ec628c, R#\phenotype_kit\sampleInfo.vb"
+﻿#Region "Microsoft.VisualBasic::0185baf0eb545a62786d123cb9070a57, R#\phenotype_kit\sampleInfo.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 401
-    '    Code Lines: 286 (71.32%)
-    ' Comment Lines: 63 (15.71%)
+    '   Total Lines: 427
+    '    Code Lines: 308 (72.13%)
+    ' Comment Lines: 63 (14.75%)
     '    - Xml Docs: 95.24%
     ' 
-    '   Blank Lines: 52 (12.97%)
-    '     File Size: 15.88 KB
+    '   Blank Lines: 56 (13.11%)
+    '     File Size: 16.86 KB
 
 
     ' Module DEGSample
     ' 
     '     Function: DesignAnalysis, getSampleId, groupColors, guessSampleGroups, PopulateSampleInfo
-    '               print, ReadSampleInfo, sampleinfoTable, sampleInfoTable, ScanForSampleInfo
-    '               WriteSampleInfo
+    '               print, ReadSampleInfo, sample_groups, sampleinfoTable, sampleInfoTable
+    '               ScanForSampleInfo, shuffle_groups, WriteSampleInfo
     ' 
     '     Sub: Main
     ' 

@@ -1,62 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::3bce7ac0f2a44427fe6d5493f7f91d7b, metadb\Massbank\Public\NCBI\PubMed.vb"
+﻿#Region "Microsoft.VisualBasic::d524f1c491919d2b4686fb60e6101b2c, modules\Knowledge_base\ncbi_kb\PubMed\PubMedTextTable.vb"
 
-' Author:
-' 
-'       xieguigang (gg.xie@bionovogene.com, BioNovoGene Co., LTD.)
-' 
-' Copyright (c) 2018 gg.xie@bionovogene.com, BioNovoGene Co., LTD.
-' 
-' 
-' MIT License
-' 
-' 
-' Permission is hereby granted, free of charge, to any person obtaining a copy
-' of this software and associated documentation files (the "Software"), to deal
-' in the Software without restriction, including without limitation the rights
-' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-' copies of the Software, and to permit persons to whom the Software is
-' furnished to do so, subject to the following conditions:
-' 
-' The above copyright notice and this permission notice shall be included in all
-' copies or substantial portions of the Software.
-' 
-' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-' SOFTWARE.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
-
-
-' Code Statistics:
-
-'   Total Lines: 77
-'    Code Lines: 47 (61.04%)
-' Comment Lines: 18 (23.38%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 12 (15.58%)
-'     File Size: 2.57 KB
+    ' Summaries:
 
 
-'     Class PubMed
-' 
-'         Properties: annotation, articleabstract, articleaffil, articleauth, articlejourname
-'                     articlepubdate, articletitle, articletype, cids, citation
-'                     doi, meshcodes, meshheadings, meshsubheadings, pmid
-'                     pmidsrcs, sids
-' 
-'         Function: GetPublishDate, ToString, TryParseInternal
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 66 (59.46%)
+    ' Comment Lines: 29 (26.13%)
+    '    - Xml Docs: 96.55%
+    ' 
+    '   Blank Lines: 16 (14.41%)
+    '     File Size: 3.99 KB
+
+
+    '     Class PubMedTextTable
+    ' 
+    '         Properties: annotation, articleabstract, articleaffil, articleauth, articlejourname
+    '                     articlepubdate, articletitle, articletype, cids, citation
+    '                     doi, meshcodes, meshheadings, meshsubheadings, pmid
+    '                     pmidsrcs, sids
+    ' 
+    '         Function: GetPublishDate, LoadTable, ParseJSON, ToString, TryParseInternal
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

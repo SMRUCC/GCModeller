@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b04b20d133838312d7035ef2895dc8d7, R#\kb\pubmed.vb"
+﻿#Region "Microsoft.VisualBasic::cf42a09661a9b4d09ad095dbfd004f41, R#\kb\pubmed.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 196
-    '    Code Lines: 125 (63.78%)
-    ' Comment Lines: 49 (25.00%)
+    '   Total Lines: 202
+    '    Code Lines: 130 (64.36%)
+    ' Comment Lines: 49 (24.26%)
     '    - Xml Docs: 89.80%
     ' 
-    '   Blank Lines: 22 (11.22%)
-    '     File Size: 8.02 KB
+    '   Blank Lines: 23 (11.39%)
+    '     File Size: 8.23 KB
 
 
     ' Module pubmed_tools
     ' 
     '     Function: citation_list, createArticleTable, get_article_info, Parse, ParseArticleSetXml
-    '               ParsePubmed, QueryKeyword, read_bits_book
+    '               ParsePubmed, QueryKeyword, read_articlejson, read_bits_book
     ' 
     '     Sub: Main
     ' 
