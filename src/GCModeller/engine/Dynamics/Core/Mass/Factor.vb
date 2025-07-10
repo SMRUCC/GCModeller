@@ -74,6 +74,9 @@ Namespace Core
         ''' the unique reference id of current molecule
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' unique id in format like: ``id@compart_id``
+        ''' </remarks>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         ''' <summary>

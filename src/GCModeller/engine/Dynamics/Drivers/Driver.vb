@@ -66,7 +66,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 Namespace Engine
 
@@ -77,7 +76,7 @@ Namespace Engine
     ''' <param name="data">
     ''' Read snapshot data from the simulator engine
     ''' </param>
-    Public Delegate Sub SnapshotDriver(iteration%, data As CompartmentSnapshot())
+    Public Delegate Sub SnapshotDriver(iteration%, data As Dictionary(Of String, Double))
 
     ''' <summary>
     ''' Data storage adapter driver
@@ -90,8 +89,8 @@ Namespace Engine
         ''' <returns></returns>
         ReadOnly Property mass As OmicsTuple(Of String())
 
-        Sub MassSnapshot(iteration As Integer, data As CompartmentSnapshot())
-        Sub FluxSnapshot(iteration As Integer, data As CompartmentSnapshot())
+        Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
+        Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
 
     End Interface
 
@@ -99,19 +98,19 @@ Namespace Engine
 
         Private ReadOnly Property massIndex As OmicsTuple(Of String()) Implements IOmicsDataAdapter.mass
 
-        Public ReadOnly Property mass As CompartmentSnapshot()
-        Public ReadOnly Property flux As CompartmentSnapshot()
+        Public ReadOnly Property mass As Dictionary(Of String, Double)
+        Public ReadOnly Property flux As Dictionary(Of String, Double)
 
         Sub New()
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub MassSnapshot(iteration As Integer, data As CompartmentSnapshot()) Implements IOmicsDataAdapter.MassSnapshot
+        Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot
             _mass = data
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub FluxSnapshot(iteration As Integer, data As CompartmentSnapshot()) Implements IOmicsDataAdapter.FluxSnapshot
+        Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.FluxSnapshot
             _flux = data
         End Sub
     End Class
