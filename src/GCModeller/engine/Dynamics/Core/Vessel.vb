@@ -66,6 +66,43 @@ Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Namespace Core
 
+    Public Class MassFactor : Implements IEnumerable(Of Factor)
+
+        Public Property compartments As Dictionary(Of String, Factor)
+
+        Public ReadOnly Property id As String
+
+        Default Public ReadOnly Property getFactor(compart_id As String) As Factor
+            Get
+                Return compartments.TryGetValue(compart_id)
+            End Get
+        End Property
+
+        Sub New(id As String, list As IEnumerable(Of Factor))
+            Me.id = id
+            Me.compartments = list.ToDictionary(Function(c) c.cellular_compartment)
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Dim locs As String() = compartments _
+                .Where(Function(c) c.Value > 0) _
+                .Select(Function(c) c.Key) _
+                .ToArray
+
+            Return $"{id}@{locs.JoinBy(", ")}"
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of Factor) Implements IEnumerable(Of Factor).GetEnumerator
+            For Each factor As Factor In compartments.Values
+                Yield factor
+            Next
+        End Function
+
+        Private Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Return GetEnumerator()
+        End Function
+    End Class
+
     ''' <summary>
     ''' 一个反应容器，也是一个微环境，这在这个反应容器之中包含有所有的反应过程
     ''' 
@@ -100,7 +137,7 @@ Namespace Core
         ''' 当前的这个微环境之中的所有的物质列表，会包括代谢物，氨基酸，RNA等物质信息
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property MassEnvironment As Factor()
+        Public ReadOnly Property MassEnvironment As MassFactor()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return m_massIndex.Values.ToArray
@@ -114,7 +151,7 @@ Namespace Core
         ''' </summary>
         Friend shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
 
-        Friend m_massIndex As Dictionary(Of String, Factor)
+        Friend m_massIndex As Dictionary(Of String, MassFactor)
         Friend m_channels As Channel()
 
         ''' <summary>
@@ -133,7 +170,12 @@ Namespace Core
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getMassValues() As Dictionary(Of String, Double)
-            Return m_massIndex.Values.ToDictionary(Function(m) m.ID, Function(m) m.Value)
+            Return m_massIndex.Values _
+                .IteratesALL _
+                .ToDictionary(Function(m) m.ID & "@" & m.cellular_compartment,
+                              Function(m)
+                                  Return m.Value
+                              End Function)
         End Function
 
         ''' <summary>
@@ -142,7 +184,12 @@ Namespace Core
         ''' <param name="massEnvir"></param>
         ''' <returns></returns>
         Public Function load(massEnvir As IEnumerable(Of Factor)) As Vessel
-            m_massIndex = massEnvir.ToDictionary(Function(m) m.ID)
+            m_massIndex = massEnvir _
+                .GroupBy(Function(m) m.ID) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(c)
+                                  Return New MassFactor(c.Key, c)
+                              End Function)
             Return Me
         End Function
 

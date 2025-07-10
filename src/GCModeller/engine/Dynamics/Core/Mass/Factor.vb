@@ -112,5 +112,13 @@ Namespace Core
         Public Overrides Function ToString() As String
             Return $"{If(name, ID)} ({Value} unit@{cellular_compartment}, {role.Description})"
         End Function
+
+        Public Shared Operator >(factor As Factor, d As Double) As Boolean
+            Return factor.Value > d
+        End Operator
+
+        Public Shared Operator <(factor As Factor, d As Double) As Boolean
+            Return factor.Value < d
+        End Operator
     End Class
 End Namespace

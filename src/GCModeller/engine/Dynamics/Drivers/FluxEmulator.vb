@@ -59,6 +59,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
@@ -149,7 +150,7 @@ Namespace Engine
                 Call engine.Tick()
 
                 ' clip mass values, keeps positive
-                For Each factor As Factor In core.m_massIndex.Values
+                For Each factor As Factor In core.m_massIndex.Values.IteratesALL
                     If factor.Value < 0 Then
                         factor.Value = 0
                     End If
