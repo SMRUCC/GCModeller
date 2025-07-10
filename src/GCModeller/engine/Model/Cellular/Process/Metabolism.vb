@@ -74,17 +74,9 @@ Namespace Cellular.Process
         ''' 反应过程编号
         ''' </summary>
         Public Property ID As String Implements INamedValue.Key
+        Public Property name As String
+        Public Property equation As Equation
 
-        Public name As String
-
-        ''' <summary>
-        ''' 代谢底物编号
-        ''' </summary>
-        Public substrates As FactorString(Of Double)()
-        ''' <summary>
-        ''' 代谢产物编号
-        ''' </summary>
-        Public products As FactorString(Of Double)()
         ''' <summary>
         ''' 酶编号(KO编号或者EC编号)，如果这个属性是空的，说明不是酶促反应过程
         ''' </summary>

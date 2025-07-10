@@ -75,10 +75,12 @@ Namespace v2
 
         ''' <summary>
         ''' Load model file as the unify data model for run the downstream simulation analysis.
-        ''' (将所加载的XML模型文件转换为统一的数据模型)
         ''' </summary>
         ''' <param name="model"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (将所加载的XML模型文件转换为统一的数据模型)
+        ''' </remarks>
         <Extension>
         Public Function CreateModel(model As VirtualCell, Optional unitTest As Boolean = False) As CellularModule
             Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso Not model.genome.replicons.IsNullOrEmpty
@@ -207,7 +209,7 @@ Namespace v2
         Private Function createPhenotype(model As VirtualCell) As Phenotype
             Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso
                 Not model.genome.replicons.IsNullOrEmpty
-            Dim fluxChannels = model.createFluxes _
+            Dim fluxChannels As FluxModel() = model.createFluxes _
                 .OrderByDescending(Function(r) r.enzyme.TryCount) _
                 .ToArray
             Dim enzymes = model.metabolismStructure.enzymes _
@@ -245,10 +247,10 @@ Namespace v2
                 .Id = reaction.ID,
                 .reversible = True,
                 .Reactants = reaction.substrate _
-                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound)) _
+                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound, c.compartment)) _
                     .ToArray,
                 .Products = reaction.product _
-                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound)) _
+                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound, c.compartment)) _
                     .ToArray
             }
         End Function
@@ -305,8 +307,7 @@ Namespace v2
         Private Iterator Function createFluxes(model As VirtualCell) As IEnumerable(Of FluxModel)
             Dim equation As Equation
             ' {reactionID => KO()}
-            Dim enzymes = model.metabolismStructure _
-                .enzymes _
+            Dim enzymes = model.metabolismStructure.enzymes _
                 .Select(Function(enz)
                             Return enz.catalysis _
                                 .SafeQuery _
@@ -356,12 +357,7 @@ Namespace v2
                 Yield New FluxModel With {
                     .ID = reaction.ID,
                     .name = reaction.name,
-                    .substrates = equation.Reactants _
-                        .Select(Function(c) c.AsFactor) _
-                        .ToArray,
-                    .products = equation.Products _
-                        .Select(Function(c) c.AsFactor) _
-                        .ToArray,
+                    .equation = equation,
                     .enzyme = KO.Keys.Distinct.ToArray,
                     .bounds = bounds,
                     .kinetics = kinetics

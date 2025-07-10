@@ -99,6 +99,12 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
             ID = compound
         End Sub
 
+        Sub New(factor As Double, compound As String, compart As String)
+            Me.Stoichiometry = factor
+            Me.ID = compart
+            Me.Compartment = compart
+        End Sub
+
         Public Overloads Function Equals(b As ICompoundSpecies, strict As Boolean) As Boolean
             Return Equivalence.Equals(Me, b, strict)
         End Function

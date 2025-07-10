@@ -128,10 +128,14 @@ Namespace v2
     Public Class MetabolismStructure
 
         <XmlArray("compounds")> Public Property compounds As Compound()
+
         ''' <summary>
-        ''' 在这个属性之中包含有所有的代谢反应过程的定义
+        ''' the metabolic network inside this cellular model, includes all enzymatic reaction and non-enzymatic reaction.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 在这个属性之中包含有所有的代谢反应过程的定义
+        ''' </remarks>
         <XmlElement("reactions")> Public Property reactions As ReactionGroup
 
         ''' <summary>
