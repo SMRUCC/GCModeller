@@ -89,10 +89,16 @@ Namespace Cellular
         ''' Metabolome, usually be the cellular chemical reaction data
         ''' </summary>
         Public Phenotype As Phenotype
+
         ''' <summary>
         ''' 转录表达调控以及代谢调控
         ''' </summary>
         Public Regulations As Regulation()
+
+        ''' <summary>
+        ''' the compartment id of the intracellular environment
+        ''' </summary>
+        Public CellularEnvironmentName As String
 
         Public Overrides Function ToString() As String
             Return Taxonomy.scientificName

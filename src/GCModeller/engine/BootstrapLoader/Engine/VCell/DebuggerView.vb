@@ -62,6 +62,7 @@ Namespace Engine
     Public Class DebuggerView
 
         ReadOnly engine As Engine
+        ReadOnly cellular_id As String
 
         Public ReadOnly Property mass As MassTable
             Get
@@ -81,7 +82,7 @@ Namespace Engine
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return mass _
-                    .GetByKey(dataStorageDriver.mass.transcriptome) _
+                    .GetByKey(dataStorageDriver.mass.transcriptome, cellular_id) _
                     .ToDictionary(Function(mass) mass.ID,
                                   Function(mass)
                                       Return mass.Value
@@ -93,7 +94,7 @@ Namespace Engine
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return mass _
-                    .GetByKey(dataStorageDriver.mass.proteome) _
+                    .GetByKey(dataStorageDriver.mass.proteome, cellular_id) _
                     .ToDictionary(Function(mass) mass.ID,
                                   Function(mass)
                                       Return mass.Value
@@ -104,7 +105,7 @@ Namespace Engine
         Public ReadOnly Property viewMetabolome As Dictionary(Of String, Double)
             Get
                 Return mass _
-                    .GetByKey(dataStorageDriver.mass.metabolome) _
+                    .GetByKey(dataStorageDriver.mass.metabolome, cellular_id) _
                     .ToDictionary(Function(mass) mass.ID,
                                   Function(mass)
                                       Return mass.Value
@@ -114,8 +115,16 @@ Namespace Engine
 
 #End Region
 
-        Sub New(engine As Engine)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="engine"></param>
+        ''' <param name="cellular_id">
+        ''' the intracellular compartment id
+        ''' </param>
+        Sub New(engine As Engine, cellular_id As String)
             Me.engine = engine
+            Me.cellular_id = cellular_id
         End Sub
     End Class
 End Namespace

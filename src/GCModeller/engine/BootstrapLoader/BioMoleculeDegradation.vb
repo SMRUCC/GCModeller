@@ -124,7 +124,7 @@ Namespace ModelLoader
                                 End Function) _
                         .ToArray
 
-                    flux = New Channel(MassTable.variables({proteinComplex}, 1), MassTable.variables({peptideId}, 1)) With {
+                    flux = New Channel(MassTable.variables({proteinComplex}, 1, cell.CellularEnvironmentName), MassTable.variables({peptideId}, 1, cell.CellularEnvironmentName)) With {
                         .ID = $"proteinComplexDegradationOf{proteinComplex}",
                         .forward = Controls.StaticControl(10),
                         .reverse = Controls.StaticControl(0),
@@ -138,7 +138,7 @@ Namespace ModelLoader
 
                     Yield flux
 
-                    flux = New Channel(MassTable.variables({peptideId}, 1), aaResidue) With {
+                    flux = New Channel(MassTable.variables({peptideId}, 1, cell.CellularEnvironmentName), aaResidue) With {
                         .ID = $"polypeptideDegradationOf{peptideId}",
                         .forward = Controls.StaticControl(10),
                         .reverse = Controls.StaticControl(0),
@@ -179,7 +179,7 @@ Namespace ModelLoader
                     .ToArray
 
                 ' 降解过程是不可逆的
-                flux = New Channel(MassTable.variables({rna}, 1), ntBase) With {
+                flux = New Channel(MassTable.variables({rna}, 1, cell.CellularEnvironmentName), ntBase) With {
                     .ID = $"RNADegradationOf{rna}",
                     .forward = Controls.StaticControl(10),
                     .reverse = Controls.StaticControl(0),

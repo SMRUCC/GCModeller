@@ -90,7 +90,7 @@ Namespace Engine
         Public ReadOnly Property initials As Definition
         Public ReadOnly Property debugView As DebuggerView
 
-        Sub New(def As Definition, dynamics As FluxBaseline,
+        Sub New(def As Definition, dynamics As FluxBaseline, cellular_id As String,
                 Optional iterations% = 500,
                 Optional timeResolution# = 10000,
                 Optional showProgress As Boolean = True,
@@ -102,11 +102,11 @@ Namespace Engine
 
             Me.initials = def
             Me.dynamics = dynamics
-            Me.debugView = New DebuggerView(Me)
+            Me.debugView = New DebuggerView(Me, cellular_id)
         End Sub
 
         Friend Function getMassPool() As MassTable
-            Return New MassTable(core.m_massIndex)
+            Return New MassTable(core.m_massIndex, "in")
         End Function
 
         ''' <summary>
