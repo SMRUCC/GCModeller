@@ -163,7 +163,7 @@ Namespace Raw
                 Next
 
                 Call nameMaps.Add([module].Value.Name, name)
-                Call stream.WriteText(list.JoinBy(vbCrLf), $"/dynamics/{[module].Value.Name}/index.txt")
+                Call stream.WriteText(list.JoinBy(vbCrLf), $"/index/{name}.txt")
                 Call Me.modules.Add(name, index)
                 Call Me.moduleIndex.Add(name)
             Next
@@ -180,12 +180,13 @@ Namespace Raw
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
-            Dim index As Index(Of String) = modules(nameMaps([module]))
+            Dim resolve_name As String = nameMaps([module])
+            Dim index As Index(Of String) = modules(resolve_name)
 
             For Each compart_id As String In compartments
-                Dim instance_id As String() = Me.instance_id(compart_id)([module])
+                Dim instance_id As String() = Me.instance_id(compart_id)(resolve_name)
                 Dim v As Double() = snapshot.Takes(instance_id).ToArray
-                Dim path As String = $"/dynamics/{compart_id}/{[module]}/frames/{time}.dat"
+                Dim path As String = $"/dynamics/{compart_id}/{resolve_name}/frames/{time}.dat"
 
                 Call stream.Delete(path)
                 Call ticks.Add(time)
