@@ -361,7 +361,8 @@ Namespace v2
                     .equation = equation,
                     .enzyme = KO.Keys.Distinct.ToArray,
                     .bounds = bounds,
-                    .kinetics = kinetics
+                    .kinetics = kinetics,
+                    .enzyme_compartment = reaction.compartment
                 }
             Next
         End Function
