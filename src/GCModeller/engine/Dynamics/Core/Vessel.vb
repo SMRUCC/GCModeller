@@ -67,6 +67,13 @@ Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Namespace Core
 
+    Public Class CompartmentSnapshot
+
+        Public Property compart_id As String
+        Public Property snapshot As Dictionary(Of String, Double)
+
+    End Class
+
     ''' <summary>
     ''' 一个反应容器，也是一个微环境，这在这个反应容器之中包含有所有的反应过程
     ''' 
@@ -133,13 +140,27 @@ Namespace Core
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function getMassValues() As Dictionary(Of String, Double)
-            Return m_massIndex.Values _
+        Public Function getMassValues() As CompartmentSnapshot()
+            Dim comparts = m_massIndex.Values _
                 .IteratesALL _
-                .ToDictionary(Function(m) m.ID & "@" & m.cellular_compartment,
-                              Function(m)
-                                  Return m.Value
-                              End Function)
+                .GroupBy(Function(c) c.cellular_compartment) _
+                .ToArray
+            Dim snapshots As CompartmentSnapshot() = New CompartmentSnapshot(comparts.Length - 1) {}
+
+            For i As Integer = 0 To comparts.Length - 1
+                Dim compartment = comparts(i)
+
+                snapshots(i) = New CompartmentSnapshot With {
+                    .compart_id = compartment.Key,
+                    .snapshot = compartment _
+                        .ToDictionary(Function(c) c.ID,
+                                      Function(c)
+                                          Return c.Value
+                                      End Function)
+                }
+            Next
+
+            Return snapshots
         End Function
 
         ''' <summary>

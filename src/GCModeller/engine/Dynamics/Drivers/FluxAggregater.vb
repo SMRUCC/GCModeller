@@ -74,7 +74,7 @@ Namespace Engine
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function getFlux() As Dictionary(Of String, Double)
+        Public Function getFlux() As CompartmentSnapshot()
             Return fluxDynamicsCache _
                 .ToDictionary(Function(a) a.Key,
                                 Function(a)
