@@ -66,7 +66,7 @@ Namespace v2
     ''' <summary>
     ''' 复制子
     ''' </summary>
-    Public Class replicon
+    Public Class replicon : Implements Enumeration(Of gene)
 
         ''' <summary>
         ''' 当前的这个复制子对象是否是质粒基因组？
@@ -75,6 +75,10 @@ Namespace v2
         <XmlAttribute> Public Property isPlasmid As Boolean
         <XmlAttribute> Public Property genomeName As String
 
+        ''' <summary>
+        ''' the operon is the transcript unit inside the cellular system
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement>
         Public Property operons As TranscriptUnit()
 
@@ -90,7 +94,15 @@ Namespace v2
                    Into Sum(TU.numOfGenes)
         End Function
 
-        Public Iterator Function GetGeneList() As IEnumerable(Of gene)
+        ''' <summary>
+        ''' loop each operons and populates the members gene inside the operons
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetGeneList() As IEnumerable(Of gene)
+            Return Me.AsEnumerable
+        End Function
+
+        Private Iterator Function GenericEnumerator() As IEnumerator(Of gene) Implements Enumeration(Of gene).GenericEnumerator
             For Each operon As TranscriptUnit In operons
                 For Each gene As gene In operon.genes.AsEnumerable
                     Yield gene
@@ -129,6 +141,5 @@ Namespace v2
 
             Return strVal
         End Function
-
     End Class
 End Namespace

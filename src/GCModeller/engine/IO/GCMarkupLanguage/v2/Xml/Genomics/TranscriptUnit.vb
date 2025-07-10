@@ -83,6 +83,18 @@ Namespace v2
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' create a transcript unit with single gene inside
+        ''' </summary>
+        ''' <param name="gene"></param>
+        Sub New(gene As gene)
+            genes = {gene}
+            id = "TU-" & gene.locus_tag
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"[{id}] {genes.Select(Function(g) g.locus_tag).JoinBy(", ")}"
         End Function

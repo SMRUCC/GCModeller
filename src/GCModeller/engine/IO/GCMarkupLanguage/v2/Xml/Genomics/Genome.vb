@@ -114,6 +114,15 @@ Namespace v2
         <XmlAttribute> Public Property type As RNATypes
         <XmlAttribute> Public Property val As String
 
+        Sub New()
+        End Sub
+
+        Sub New(gene_id As String, type As RNATypes, val As String)
+            Me.gene = gene_id
+            Me.type = type
+            Me.val = val
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"{gene} ({type}); ""{val}"""
         End Function

@@ -195,8 +195,8 @@ Public Module Simulator
     ''' <param name="vcell">the file model data of the GCModeller vcell</param>
     ''' <returns></returns>
     <ExportAPI("vcell.model")>
-    Public Function CreateObjectModel(vcell As VirtualCell) As CellularModule
-        Return vcell.CreateModel
+    Public Function CreateObjectModel(vcell As VirtualCell, Optional unit_test As Boolean = False) As CellularModule
+        Return vcell.CreateModel(unitTest:=unit_test)
     End Function
 
     ''' <summary>

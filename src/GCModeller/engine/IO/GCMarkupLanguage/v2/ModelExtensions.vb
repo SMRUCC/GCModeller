@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
@@ -78,7 +79,7 @@ Namespace v2
         ''' <param name="model"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function CreateModel(model As VirtualCell) As CellularModule
+        Public Function CreateModel(model As VirtualCell, Optional unitTest As Boolean = False) As CellularModule
             Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso Not model.genome.replicons.IsNullOrEmpty
             Dim genotype As New Genotype With {
                 .centralDogmas = model _
@@ -116,7 +117,7 @@ Namespace v2
         End Function
 
         <Extension>
-        Private Iterator Function createGenotype(model As VirtualCell) As IEnumerable(Of CentralDogma)
+        Private Iterator Function createGenotype(model As VirtualCell, unitTest As Boolean) As IEnumerable(Of CentralDogma)
             Dim genomeName$
             Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure.enzymes.ToDictionary(Function(enzyme) enzyme.geneID)
             Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
@@ -131,6 +132,47 @@ Namespace v2
 
             For Each replicon As replicon In model.genome.replicons
                 genomeName = replicon.genomeName
+
+                If replicon.RNAs.IsNullOrEmpty AndAlso unitTest Then
+                    replicon.RNAs = {
+                        New v2.RNA("tRNA-Ala", RNATypes.tRNA, "tRNA-Ala"),
+                        New v2.RNA("tRNA-Arg", RNATypes.tRNA, "tRNA-Arg"),
+                        New v2.RNA("tRNA-Asn", RNATypes.tRNA, "tRNA-Asn"),
+                        New v2.RNA("tRNA-Asp", RNATypes.tRNA, "tRNA-Asp"),
+                        New v2.RNA("tRNA-Cys", RNATypes.tRNA, "tRNA-Cys"),
+                        New v2.RNA("tRNA-Gln", RNATypes.tRNA, "tRNA-Gln"),
+                        New v2.RNA("tRNA-Glu", RNATypes.tRNA, "tRNA-Glu"),
+                        New v2.RNA("tRNA-Gly", RNATypes.tRNA, "tRNA-Gly"),
+                        New v2.RNA("tRNA-His", RNATypes.tRNA, "tRNA-His"),
+                        New v2.RNA("tRNA-Ile", RNATypes.tRNA, "tRNA-Ile"),
+                        New v2.RNA("tRNA-Leu", RNATypes.tRNA, "tRNA-Leu"),
+                        New v2.RNA("tRNA-Lys", RNATypes.tRNA, "tRNA-Lys"),
+                        New v2.RNA("tRNA-Met", RNATypes.tRNA, "tRNA-Met"),
+                        New v2.RNA("tRNA-Phe", RNATypes.tRNA, "tRNA-Phe"),
+                        New v2.RNA("tRNA-Pro", RNATypes.tRNA, "tRNA-Pro"),
+                        New v2.RNA("tRNA-Sec", RNATypes.tRNA, "tRNA-Sec"),
+                        New v2.RNA("tRNA-Ser", RNATypes.tRNA, "tRNA-Ser"),
+                        New v2.RNA("tRNA-Thr", RNATypes.tRNA, "tRNA-Thr"),
+                        New v2.RNA("tRNA-Trp", RNATypes.tRNA, "tRNA-Trp"),
+                        New v2.RNA("tRNA-Tyr", RNATypes.tRNA, "tRNA-Tyr"),
+                        New v2.RNA("tRNA-Val", RNATypes.tRNA, "tRNA-Val")
+                    }
+                    ' insert genes into the gene system
+                    replicon.operons = replicon.operons.JoinIterates(
+                        replicon.RNAs _
+                            .Select(Function(r)
+                                        Dim gene As New gene With {
+                                            .locus_tag = r.gene,
+                                            .type = r.type,
+                                            .strand = "+",
+                                            .nucleotide_base = New NumericVector(.locus_tag, 1, 1, 1, 1)
+                                        }
+
+                                        Return New TranscriptUnit(gene)
+                                    End Function)) _
+                            .ToArray
+                End If
+
                 replicon.RNAs = replicon.RNAs.SafeQuery.OrderBy(Function(r) r.gene).ToArray
                 rnaTable = replicon.RNAs _
                     .SafeQuery _
