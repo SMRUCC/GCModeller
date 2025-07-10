@@ -92,6 +92,12 @@ Namespace v2
         <XmlElement("metabolome", [Namespace]:=GCMarkupLanguage)>
         Public Property metabolismStructure As MetabolismStructure
 
+        ''' <summary>
+        ''' the intra-cellular environment id
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property cellular_id As String = "Intracellular"
+
         Public Const GCMarkupLanguage$ = "https://bioCAD.gcmodeller.org/XML/schema_revision/GCMarkup_2.0"
 
         Sub New()

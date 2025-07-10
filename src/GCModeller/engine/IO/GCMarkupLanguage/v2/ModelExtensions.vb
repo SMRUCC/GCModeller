@@ -115,7 +115,8 @@ Namespace v2
                 .Taxonomy = model.taxonomy,
                 .Genotype = genotype,
                 .Phenotype = model.createPhenotype,
-                .Regulations = model.exportRegulations.ToArray
+                .Regulations = model.exportRegulations.ToArray,
+                .CellularEnvironmentName = model.cellular_id
             }
         End Function
 
