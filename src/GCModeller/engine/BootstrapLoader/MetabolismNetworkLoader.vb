@@ -139,10 +139,6 @@ Namespace ModelLoader
                 .Select(Function(id) id & ".complex") _
                 .ToArray
 
-            If reaction.is_enzymatic AndAlso enzymeProteinComplexes.Length = 0 Then
-                bounds = {10, 10}
-            End If
-
             Dim forward As Controls
 
             If Not reaction.kinetics.IsNullOrEmpty Then

@@ -81,9 +81,21 @@ declare namespace simulator {
      * + default value Is ``null``.
      * @param unit_test 
      * + default value Is ``false``.
+     * @param env 
+     * + default value Is ``null``.
      * @return A mass environment for run vcell model in GCModeller
    */
-   function mass0(vcell: object, random?: any, unit_test?: boolean): object;
+   function mass0(vcell: object, random?: any, unit_test?: boolean, env?: object): object;
+   /**
+    * set the omics data from this function
+    * 
+    * 
+     * @param def -
+     * @param env_set -
+     * 
+     * + default value Is ``null``.
+   */
+   function set_status(def: object, env_set?: object): object;
    module vcell {
       module flux {
          /**

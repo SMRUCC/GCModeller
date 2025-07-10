@@ -3,6 +3,7 @@
 the GCModeller bio-system simulator
 
 + [kegg_mass](simulator/kegg_mass.1) Create a new status profile data object with unify mass contents.
++ [set_status](simulator/set_status.1) set the omics data from this function
 + [mass0](simulator/mass0.1) get the initial mass value
 + [vcell.model](simulator/vcell.model.1) create a generic vcell object model from a loaded vcell xml file model
 + [vcell.mass.index](simulator/vcell.mass.index.1) get mass key reference index collection
