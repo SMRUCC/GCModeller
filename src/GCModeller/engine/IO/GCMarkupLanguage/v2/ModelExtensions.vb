@@ -83,7 +83,7 @@ Namespace v2
             Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso Not model.genome.replicons.IsNullOrEmpty
             Dim genotype As New Genotype With {
                 .centralDogmas = model _
-                    .createGenotype _
+                    .createGenotype(unitTest) _
                     .OrderByDescending(Function(gene) gene.RNA.Value) _
                     .ToArray,
                 .ProteinMatrix = {},
