@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4cca4c3872c06042e9a6df6445b8a0c5, graphquery\kegg\src\kegg_api\parser.vb"
+﻿#Region "Microsoft.VisualBasic::b30caf45c59fb815cbef7784e8a745b4, graphquery\kegg\src\kegg_api\parser.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 45.00%
     ' 
     '   Blank Lines: 16 (11.59%)
-    '     File Size: 7.15 KB
+    '     File Size: 7.16 KB
 
 
     ' Module parser
