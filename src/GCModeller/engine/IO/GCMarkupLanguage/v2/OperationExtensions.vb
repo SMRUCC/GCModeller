@@ -84,7 +84,7 @@ Namespace v2
             ' 将对应的酶促过程也删除掉
             model.metabolismStructure.enzymes = model.metabolismStructure _
                 .enzymes _
-                .Where(Function(enz) Not enz.geneID Like deleted) _
+                .Where(Function(enz) Not enz.proteinID Like deleted) _
                 .ToArray
             ' 讲代谢途径之中的酶分子的定义也删除掉
             For Each [module] As FunctionalCategory In model.metabolismStructure.maps

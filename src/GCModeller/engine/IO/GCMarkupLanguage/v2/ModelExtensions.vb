@@ -124,7 +124,10 @@ Namespace v2
         <Extension>
         Private Iterator Function createGenotype(model As VirtualCell, unitTest As Boolean) As IEnumerable(Of CentralDogma)
             Dim genomeName$
-            Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure.enzymes.ToDictionary(Function(enzyme) enzyme.geneID)
+            Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure.enzymes _
+                .ToDictionary(Function(enzyme)
+                                  Return enzyme.proteinID
+                              End Function)
             Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
             Dim RNA As NamedValue(Of RNATypes)
             Dim proteinId$
@@ -214,8 +217,8 @@ Namespace v2
             Dim fluxChannels As FluxModel() = model.createFluxes _
                 .OrderByDescending(Function(r) r.enzyme.TryCount) _
                 .ToArray
-            Dim enzymes = model.metabolismStructure.enzymes _
-                .Select(Function(enz) enz.geneID) _
+            Dim enzymes As String() = model.metabolismStructure.enzymes _
+                .Select(Function(enz) enz.proteinID) _
                 .ToArray
             Dim proteins As Protein() = {}
 
@@ -317,7 +320,7 @@ Namespace v2
                             Dim enz_ref As NamedValue(Of Catalysis)
 
                             For Each ec In enz.catalysis.SafeQuery
-                                catalysis_name = If(enz.KO.StringEmpty(, True), enz.geneID, enz.KO)
+                                catalysis_name = If(enz.KO.StringEmpty(, True), enz.proteinID, enz.KO)
                                 enz_ref = New NamedValue(Of Catalysis)(catalysis_name, ec)
 
                                 Yield (rID:=ec.reaction, enz:=enz_ref)

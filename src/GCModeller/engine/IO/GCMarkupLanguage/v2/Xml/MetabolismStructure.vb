@@ -442,7 +442,11 @@ Namespace v2
     <XmlType("enzyme", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Enzyme : Implements INamedValue
 
-        <XmlAttribute> Public Property geneID As String Implements IKeyedEntity(Of String).Key
+        ''' <summary>
+        ''' the protein id of this enzyme
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property proteinID As String Implements IKeyedEntity(Of String).Key
         <XmlAttribute> Public Property KO As String
         <XmlAttribute> Public Property ECNumber As String
 
@@ -454,7 +458,7 @@ Namespace v2
         Public Property catalysis As Catalysis()
 
         Public Overrides Function ToString() As String
-            Return geneID
+            Return proteinID
         End Function
 
     End Class
