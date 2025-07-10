@@ -86,12 +86,12 @@ Namespace Engine
     ''' </summary>
     Public Class MassTable : Implements IEnumerable(Of Factor)
 
-        Dim massTable As New CompartTable
+        Dim m_massSet As New CompartTable
 
         Private Class CompartTable
 
-            ReadOnly compartments As New Dictionary(Of String, Dictionary(Of String, Factor))
-            ReadOnly mapping As New Dictionary(Of String, (source_id As String, compart_id As String))
+            Friend ReadOnly compartments As New Dictionary(Of String, Dictionary(Of String, Factor))
+            Friend ReadOnly mapping As New Dictionary(Of String, (source_id As String, compart_id As String))
 
             Public ReadOnly Property Values As IEnumerable(Of Factor)
                 Get
@@ -223,7 +223,7 @@ Namespace Engine
 
         Public ReadOnly Property compartment_ids As IEnumerable(Of String)
             Get
-                Return massTable.Keys
+                Return m_massSet.Keys
             End Get
         End Property
 
@@ -231,11 +231,15 @@ Namespace Engine
         End Sub
 
         Sub New(cache As Dictionary(Of String, Factor), compart As String)
-            massTable = New CompartTable(cache, compart)
+            m_massSet = New CompartTable(cache, compart)
         End Sub
 
+        Public Function getSource(instance_id As String) As (source_id$, compart_id$)
+            Return m_massSet.mapping.TryGetValue(instance_id)
+        End Function
+
         Public Function addCompartment(id As String) As Boolean
-            Return massTable(id).IsNullOrEmpty
+            Return m_massSet(id).IsNullOrEmpty
         End Function
 
         ''' <summary>
@@ -243,7 +247,7 @@ Namespace Engine
         ''' </summary>
         ''' <param name="key"></param>
         Public Sub Delete(key As String)
-            Call massTable.delete(key)
+            Call m_massSet.delete(key)
         End Sub
 
         ''' <summary>
@@ -252,7 +256,7 @@ Namespace Engine
         ''' <param name="role"></param>
         ''' <returns></returns>
         Public Iterator Function GetRole(role As MassRoles) As IEnumerable(Of Factor)
-            For Each mass As Factor In massTable.Values
+            For Each mass As Factor In m_massSet.Values
                 If mass.role = role Then
                     Yield mass
                 End If
@@ -261,7 +265,7 @@ Namespace Engine
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AddOrUpdate(entity As Factor, key As String, compart As String)
-            Dim massTable = Me.massTable(compart)
+            Dim massTable = Me.m_massSet(compart)
             massTable(key) = entity
         End Sub
 
@@ -307,26 +311,26 @@ Namespace Engine
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function variable(mass As String, compart As String, Optional coefficient As Double = 1) As Variable
-            Return New Variable(massTable.getFactor(compart, mass), coefficient, False)
+            Return New Variable(m_massSet.getFactor(compart, mass), coefficient, False)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function template(mass As String, compart_id As String) As Variable
-            Return New Variable(massTable.getFactor(compart_id, mass), 1, True)
+            Return New Variable(m_massSet.getFactor(compart_id, mass), 1, True)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Exists(mass_id As String, compart_id As String) As Boolean
-            Return massTable(compart_id).ContainsKey(mass_id & "@" & compart_id)
+            Return m_massSet(compart_id).ContainsKey(mass_id & "@" & compart_id)
         End Function
 
         Public Function ExistsAllCompartment(mass_id As String) As Boolean
-            Return massTable.Keys.All(Function(ref) massTable(ref).ContainsKey(mass_id))
+            Return m_massSet.Keys.All(Function(ref) m_massSet(ref).ContainsKey(mass_id))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetByKey(mass_id As String, compart_id As String) As Factor
-            Return massTable(compart_id).TryGetValue(mass_id)
+            Return m_massSet(compart_id).TryGetValue(mass_id)
         End Function
 
         ''' <summary>
@@ -337,12 +341,12 @@ Namespace Engine
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetByKey(keys As IEnumerable(Of String), compart_id As String) As Factor()
-            Return massTable(compart_id).Takes(keys).ToArray
+            Return m_massSet(compart_id).Takes(keys).ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetWhere(clause As Func(Of Factor, Boolean)) As IReadOnlyDictionary(Of String, Factor)
-            Return massTable.Values _
+            Return m_massSet.Values _
                 .Where(clause) _
                 .ToDictionary
         End Function
@@ -351,8 +355,8 @@ Namespace Engine
             ' 20200313 在这里不可以使用可能产生对象替换的代码调用方式
             ' 否则可能会让之前的反应对象失去正确的对象引用关系
             ' 所以下面的字典索引引用被替换为字典直接添加方法了
-            massTable.add(entity.ID, compart_id, id)
-            massTable(compart_id).Add(entity.ID, entity)
+            m_massSet.add(entity.ID, compart_id, id)
+            m_massSet(compart_id).Add(entity.ID, entity)
             Return entity.ID
         End Function
 
@@ -366,7 +370,7 @@ Namespace Engine
         Public Function addNew(entity As String, role As MassRoles, compart_id As String) As String
             Dim instance_id As String = entity & "@" & compart_id
 
-            If Not massTable(compart_id).ContainsKey(instance_id) Then
+            If Not m_massSet(compart_id).ContainsKey(instance_id) Then
                 Call addNew(New Factor(instance_id, role, compart_id), entity, compart_id)
             Else
                 ' 20250710 due to the reason of many reaction shares the common metabolites
@@ -380,15 +384,15 @@ Namespace Engine
         End Function
 
         Public Sub copy(factor As Factor)
-            If Not massTable(factor.cellular_compartment).ContainsKey(factor.ID) Then
-                massTable(factor.cellular_compartment).Add(factor.ID, New Factor(factor))
+            If Not m_massSet(factor.cellular_compartment).ContainsKey(factor.ID) Then
+                m_massSet(factor.cellular_compartment).Add(factor.ID, New Factor(factor))
             End If
 
-            massTable(factor.cellular_compartment)(factor.ID).Value = factor.Value
+            m_massSet(factor.cellular_compartment)(factor.ID).Value = factor.Value
         End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Factor) Implements IEnumerable(Of Factor).GetEnumerator
-            For Each mass As Factor In massTable.Values
+            For Each mass As Factor In m_massSet.Values
                 Yield mass
             Next
         End Function

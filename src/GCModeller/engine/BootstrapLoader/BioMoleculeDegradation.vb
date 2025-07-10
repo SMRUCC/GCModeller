@@ -86,7 +86,7 @@ Namespace ModelLoader
             Dim cellular_id As String = cell.CellularEnvironmentName
             ' protein complex -> polypeptide + compounds
             ' polypeptide -> aminoacid
-            Dim proteinComplex$
+            Dim proteinComplexId$
             Dim peptideId$
             Dim geneIDindex = cell.Genotype.centralDogmas _
                 .Where(Function(cd)
@@ -109,10 +109,15 @@ Namespace ModelLoader
             Dim aaResidue As Variable()
             Dim geneIDSet As String()
             Dim flux As Channel
+            Dim proteinComplex As Variable
 
             For Each complex As Channel In proteinMatures
-                proteinComplex = complex.right.First(Function(c) c.mass.ID.EndsWith(".complex")).mass.ID
-                peptideId = proteinComplex.Replace(".complex", "")
+                proteinComplex = complex.right _
+                    .First(Function(c)
+                               Return MassTable.getSource(c.mass.ID).source_id.EndsWith(".complex")
+                           End Function)
+                proteinComplexId = proteinComplex.mass.ID
+                peptideId = proteinComplexId.Replace(".complex", "")
                 geneIDSet = geneIDindex(peptideId)
 
                 For Each geneId As String In geneIDSet
@@ -125,8 +130,8 @@ Namespace ModelLoader
                                 End Function) _
                         .ToArray
 
-                    flux = New Channel(MassTable.variables({proteinComplex}, 1, cell.CellularEnvironmentName), MassTable.variables({peptideId}, 1, cell.CellularEnvironmentName)) With {
-                        .ID = $"proteinComplexDegradationOf{proteinComplex}",
+                    flux = New Channel(MassTable.variables({proteinComplexId}, 1, cell.CellularEnvironmentName), MassTable.variables({peptideId}, 1, cell.CellularEnvironmentName)) With {
+                        .ID = $"proteinComplexDegradationOf{proteinComplexId}",
                         .forward = Controls.StaticControl(10),
                         .reverse = Controls.StaticControl(0),
                         .bounds = New Boundary With {
