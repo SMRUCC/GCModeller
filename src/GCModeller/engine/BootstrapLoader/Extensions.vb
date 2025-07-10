@@ -66,12 +66,12 @@ Public Module Extensions
     ''' <param name="complex"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function variables(massTable As MassTable, complex As Protein) As IEnumerable(Of Variable)
+    Public Iterator Function variables(massTable As MassTable, complex As Protein, cellular_id As String) As IEnumerable(Of Variable)
         For Each compound In complex.compounds
-            Yield massTable.variable(compound)
+            Yield massTable.variable(compound, cellular_id)
         Next
         For Each peptide In complex.polypeptides
-            Yield massTable.variable(peptide)
+            Yield massTable.variable(peptide, cellular_id)
         Next
     End Function
 End Module

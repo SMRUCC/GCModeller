@@ -82,24 +82,25 @@ Namespace ModelLoader
             Dim polypeptides As New List(Of String)
             Dim proteinComplex As New List(Of String)
             Dim flux As Channel
+            Dim cellular_id As String = cell.CellularEnvironmentName
 
             For Each complex As Protein In cell.Phenotype.proteins
                 For Each compound In complex.compounds
-                    If Not MassTable.Exists(compound) Then
+                    If Not MassTable.Exists(compound, cellular_id) Then
                         Call MassTable.AddNew(compound, MassRoles.compound)
                     End If
                 Next
                 For Each peptide In complex.polypeptides
-                    If Not MassTable.Exists(peptide) Then
-                        Throw New MissingMemberException(peptide)
+                    If Not MassTable.Exists(peptide, cellular_id) Then
+                        Throw New MissingMemberException("Missing protein complex component polypeptide: " & peptide)
                     Else
                         polypeptides += peptide
                     End If
                 Next
 
-                Dim unformed = MassTable.variables(complex).ToArray
+                Dim unformed = MassTable.variables(complex, cellular_id).ToArray
                 Dim complexID As String = loader.massLoader.proteinComplex(complex.ProteinID)
-                Dim mature As Variable = MassTable.variable(complexID)
+                Dim mature As Variable = MassTable.variable(complexID, cellular_id)
 
                 proteinComplex += complexID
 

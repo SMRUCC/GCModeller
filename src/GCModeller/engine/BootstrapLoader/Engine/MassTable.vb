@@ -87,6 +87,10 @@ Namespace Engine
                 End Get
             End Property
 
+            ''' <summary>
+            ''' get a collection of the cellular compartment id
+            ''' </summary>
+            ''' <returns></returns>
             Public ReadOnly Property Keys As IEnumerable(Of String)
                 Get
                     Return compartments.Keys
@@ -200,12 +204,22 @@ Namespace Engine
             End Get
         End Property
 
+        Public ReadOnly Property compartment_ids As IEnumerable(Of String)
+            Get
+                Return massTable.Keys
+            End Get
+        End Property
+
         Sub New()
         End Sub
 
         Sub New(cache As Dictionary(Of String, Factor), compart As String)
             massTable = New CompartTable(cache, compart)
         End Sub
+
+        Public Function addCompartment(id As String) As Boolean
+            Return massTable(id).IsNullOrEmpty
+        End Function
 
         ''' <summary>
         ''' delete metabolites from all compartment
@@ -252,6 +266,11 @@ Namespace Engine
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function variables(compounds As IEnumerable(Of CompoundSpecieReference), factor As Double) As IEnumerable(Of Variable)
+            Return compounds.Select(Function(cpd) variable(cpd.ID, cpd.Compartment, cpd.Stoichiometry))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function variables(compounds As IEnumerable(Of CompoundSpecieReference), templates As Index(Of String)) As IEnumerable(Of Variable)
             Return compounds _
                 .Select(Function(cpd)
@@ -282,6 +301,10 @@ Namespace Engine
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Exists(mass_id As String, compart_id As String) As Boolean
             Return massTable(compart_id).ContainsKey(mass_id)
+        End Function
+
+        Public Function ExistsAllCompartment(mass_id As String) As Boolean
+            Return massTable.Keys.All(Function(ref) massTable(ref).ContainsKey(mass_id))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

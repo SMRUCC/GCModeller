@@ -176,9 +176,11 @@ Namespace ModelLoader
                 Dim massTable As MassTable = _massLoader.massTable
 
                 For Each id As String In define.AsEnumerable
-                    If Not massTable.Exists(id) Then
-                        Call massTable.AddNew(id, MassRoles.compound)
-                    End If
+                    For Each compart_id As String In massTable.compartment_ids
+                        If Not massTable.Exists(id, compart_id) Then
+                            Call massTable.AddNew(id, MassRoles.compound)
+                        End If
+                    Next
                 Next
             End If
 
@@ -205,7 +207,7 @@ Namespace ModelLoader
              .Distinct
 
                 ' check of the broken mass reference
-                If Not massTable.Exists(link_ref) Then
+                If Not massTable.ExistsAllCompartment(link_ref) Then
                     Dim warn As String = $"found broken mass reference: {link_ref}"
 
                     If strict Then

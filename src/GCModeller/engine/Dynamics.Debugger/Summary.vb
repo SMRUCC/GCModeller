@@ -77,7 +77,8 @@ Public Module Summary
                 def:=inits,
                 dynamics:=New FluxBaseline,
                 iterations:=0,
-                showProgress:=False
+                showProgress:=False,
+                cellular_id:=model.CellularEnvironmentName
             ) _
             .LoadModel(model, getLoader:=loader) _
             .getCore
