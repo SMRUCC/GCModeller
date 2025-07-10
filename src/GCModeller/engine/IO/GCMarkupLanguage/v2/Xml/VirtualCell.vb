@@ -93,7 +93,8 @@ Namespace v2
         Public Property metabolismStructure As MetabolismStructure
 
         ''' <summary>
-        ''' the intra-cellular environment id
+        ''' the intra-cellular environment id, will be used for identify the compound source between different cell source.
+        ''' usually be the organism taxonomy scientific name, or taxid, something.
         ''' </summary>
         ''' <returns></returns>
         Public Property cellular_id As String = "Intracellular"

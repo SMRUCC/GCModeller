@@ -96,7 +96,8 @@ Namespace Cellular
         Public Regulations As Regulation()
 
         ''' <summary>
-        ''' the compartment id of the intracellular environment
+        ''' the compartment id of the intracellular environment, used for identify the different cell source of the compound data.
+        ''' usually be the organism taxonomy scientific name, or taxid, something.
         ''' </summary>
         Public CellularEnvironmentName As String
 

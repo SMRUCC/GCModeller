@@ -140,27 +140,13 @@ Namespace Core
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function getMassValues() As CompartmentSnapshot()
-            Dim comparts = m_massIndex.Values _
+        Public Function getMassValues() As Dictionary(Of String, Double)
+            Return m_massIndex.Values _
                 .IteratesALL _
-                .GroupBy(Function(c) c.cellular_compartment) _
-                .ToArray
-            Dim snapshots As CompartmentSnapshot() = New CompartmentSnapshot(comparts.Length - 1) {}
-
-            For i As Integer = 0 To comparts.Length - 1
-                Dim compartment = comparts(i)
-
-                snapshots(i) = New CompartmentSnapshot With {
-                    .compart_id = compartment.Key,
-                    .snapshot = compartment _
-                        .ToDictionary(Function(c) c.ID,
-                                      Function(c)
-                                          Return c.Value
-                                      End Function)
-                }
-            Next
-
-            Return snapshots
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return c.Value
+                              End Function)
         End Function
 
         ''' <summary>
