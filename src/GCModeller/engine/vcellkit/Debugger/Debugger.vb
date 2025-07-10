@@ -129,7 +129,7 @@ Module Debugger
             right = model.Products.Select(Function(a) a.ID).AsList
 
             For Each id As String In left + right
-                Call mass.AddNew(id, MassRoles.compound)
+                Call mass.addNew(id, MassRoles.compound, "Intracellular")
             Next
 
             fluxes += New Channel(mass(model.Reactants), mass(model.Products)) With {

@@ -91,6 +91,7 @@ Namespace Engine
         Private Class CompartTable
 
             ReadOnly compartments As New Dictionary(Of String, Dictionary(Of String, Factor))
+            ReadOnly mapping As New Dictionary(Of String, (source_id As String, compart_id As String))
 
             Public ReadOnly Property Values As IEnumerable(Of Factor)
                 Get
@@ -125,6 +126,10 @@ Namespace Engine
             Sub New()
             End Sub
 
+            Public Sub add(instance_id As String, compart_id As String, source_id As String)
+                mapping(instance_id) = (source_id, compart_id)
+            End Sub
+
             Public Sub delete(mass_id As String)
                 For Each compart As Dictionary(Of String, Factor) In compartments.Values
                     Call compart.Remove(mass_id)
@@ -133,11 +138,12 @@ Namespace Engine
 
             Public Function getFactor(compart_id As String, mass_id As String) As Factor
                 Dim massTable = Me(compart_id)
+                Dim instance_id As String = If(mapping.ContainsKey(mass_id), mass_id, mass_id & "@" & compart_id)
 
-                If Not massTable.ContainsKey(mass_id) Then
+                If Not massTable.ContainsKey(instance_id) Then
                     Throw New InvalidDataException($"missing molecule '{mass_id}' factor data inside compartment '{compart_id}'!")
                 Else
-                    Return massTable(mass_id)
+                    Return massTable(instance_id)
                 End If
             End Function
 
@@ -311,7 +317,7 @@ Namespace Engine
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Exists(mass_id As String, compart_id As String) As Boolean
-            Return massTable(compart_id).ContainsKey(mass_id)
+            Return massTable(compart_id).ContainsKey(mass_id & "@" & compart_id)
         End Function
 
         Public Function ExistsAllCompartment(mass_id As String) As Boolean
@@ -341,11 +347,11 @@ Namespace Engine
                 .ToDictionary
         End Function
 
-        Private Function addNew(entity As Factor, compart_id As String) As String
+        Private Function addNew(entity As Factor, id As String, compart_id As String) As String
             ' 20200313 在这里不可以使用可能产生对象替换的代码调用方式
             ' 否则可能会让之前的反应对象失去正确的对象引用关系
             ' 所以下面的字典索引引用被替换为字典直接添加方法了
-            ' massTable(entity.ID) = entity
+            massTable.add(entity.ID, compart_id, id)
             massTable(compart_id).Add(entity.ID, entity)
             Return entity.ID
         End Function
@@ -358,13 +364,19 @@ Namespace Engine
         ''' this function returns the entity id back
         ''' </returns>
         Public Function addNew(entity As String, role As MassRoles, compart_id As String) As String
-            If Not massTable(compart_id).ContainsKey(entity) Then
-                Call addNew(New Factor(entity, role, compart_id), compart_id)
+            Dim instance_id As String = entity & "@" & compart_id
+
+            If Not massTable(compart_id).ContainsKey(instance_id) Then
+                Call addNew(New Factor(instance_id, role, compart_id), entity, compart_id)
             Else
-                Call $"try to add duplicated {entity}({role}) into mass environment, the {role} entity is already existsed.".Warning
+                ' 20250710 due to the reason of many reaction shares the common metabolites
+                ' do the duplicated calls of this addnew method is can not be avoid
+                ' removes this verbose warning message.
+
+                ' Call $"try to add duplicated {entity}({role}) into mass environment, the {role} entity is already existsed.".Warning
             End If
 
-            Return entity
+            Return instance_id
         End Function
 
         Public Sub copy(factor As Factor)
