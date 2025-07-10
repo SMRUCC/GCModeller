@@ -108,10 +108,8 @@ Namespace Engine
         Friend Function getMassPool() As MassTable
             Dim table As New MassTable
 
-            For Each factor As MassFactor In core.m_massIndex.Values
-                For Each compart_factor As Factor In factor.compartments.Values
-                    Call table.copy(compart_factor)
-                Next
+            For Each factor As Factor In core.m_massIndex.Values
+                Call table.copy(factor)
             Next
 
             Return table
@@ -188,9 +186,9 @@ Namespace Engine
                 Return
             End If
 
-            For Each mass As MassFactor In core.m_massIndex.Values
-                If initials.status.ContainsKey(mass.id) Then
-                    mass.reset(initials.status(mass.id))
+            For Each mass As Factor In core.m_massIndex.Values
+                If initials.status.ContainsKey(mass.template_id) Then
+                    mass.reset(initials.status(mass.template_id))
                 Else
                     mass.reset(1)
                 End If

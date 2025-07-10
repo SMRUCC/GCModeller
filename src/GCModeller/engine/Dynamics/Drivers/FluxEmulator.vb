@@ -150,7 +150,7 @@ Namespace Engine
                 Call engine.Tick()
 
                 ' clip mass values, keeps positive
-                For Each factor As Factor In core.m_massIndex.Values.IteratesALL
+                For Each factor As Factor In core.m_massIndex.Values
                     If factor.Value < 0 Then
                         factor.Value = 0
                     End If

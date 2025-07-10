@@ -1,67 +1,68 @@
 ﻿#Region "Microsoft.VisualBasic::7d57433fa9a2b993e3ade8ec1b979496, engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 106
-    '    Code Lines: 66 (62.26%)
-    ' Comment Lines: 23 (21.70%)
-    '    - Xml Docs: 91.30%
-    ' 
-    '   Blank Lines: 17 (16.04%)
-    '     File Size: 3.68 KB
+' Summaries:
 
 
-    '     Class KineticsControls
-    ' 
-    '         Properties: coefficient, parameters
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: getMass, ToString
-    ' 
-    '     Class KineticsOverlapsControls
-    ' 
-    '         Properties: coefficient
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 106
+'    Code Lines: 66 (62.26%)
+' Comment Lines: 23 (21.70%)
+'    - Xml Docs: 91.30%
+' 
+'   Blank Lines: 17 (16.04%)
+'     File Size: 3.68 KB
+
+
+'     Class KineticsControls
+' 
+'         Properties: coefficient, parameters
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: getMass, ToString
+' 
+'     Class KineticsOverlapsControls
+' 
+'         Properties: coefficient
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -102,8 +103,7 @@ Namespace Core
         ''' <summary>
         ''' debug view of the kinetics function parameters
         ''' </summary>
-        ReadOnly pars As String()
-        ReadOnly cellular_id As String
+        ReadOnly pars As Dictionary(Of String, String)
 
         ''' <summary>
         ''' get kinetics parameter mass reference names
@@ -111,7 +111,7 @@ Namespace Core
         ''' <returns></returns>
         Public ReadOnly Property parameters As IEnumerable(Of String)
             Get
-                Return pars.AsEnumerable
+                Return pars.Keys
             End Get
         End Property
 
@@ -119,12 +119,20 @@ Namespace Core
             Me.lambda = lambda
             Me.raw = raw
             Me.env = env
-            Me.pars = pars
-            Me.cellular_id = cellular_id
+            Me.pars = pars.SafeQuery _
+                .Distinct _
+                .ToDictionary(Function(s) s,
+                              Function(s)
+                                  If s.IsNumeric(, includesInteger:=True) Then
+                                      Return s
+                                  Else
+                                      Return s & "@" & cellular_id
+                                  End If
+                              End Function)
         End Sub
 
         Private Function getMass(id As String) As Double
-            Return env.m_massIndex(id)(cellular_id).Value
+            Return env.m_massIndex(pars(id)).Value
         End Function
 
         Public Overrides Function ToString() As String

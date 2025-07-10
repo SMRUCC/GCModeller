@@ -238,6 +238,10 @@ Namespace Engine
             Return m_massSet.mapping.TryGetValue(instance_id)
         End Function
 
+        Public Sub setMapping(instance_id As String, template_id As String, compart_id As String)
+            m_massSet.mapping(instance_id) = (template_id, compart_id)
+        End Sub
+
         Public Function addCompartment(id As String) As Boolean
             Return m_massSet(id).IsNullOrEmpty
         End Function
@@ -325,7 +329,7 @@ Namespace Engine
         End Function
 
         Public Function ExistsAllCompartment(mass_id As String) As Boolean
-            Return m_massSet.Keys.All(Function(ref) m_massSet(ref).ContainsKey(mass_id))
+            Return m_massSet.Keys.All(Function(ref) m_massSet(ref).ContainsKey(mass_id & "@" & ref))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -371,7 +375,10 @@ Namespace Engine
             Dim instance_id As String = entity & "@" & compart_id
 
             If Not m_massSet(compart_id).ContainsKey(instance_id) Then
-                Call addNew(New Factor(instance_id, role, compart_id), entity, compart_id)
+                Call addNew(New Factor(instance_id, role, compart_id) With {
+                    .template_id = entity,
+                    .name = entity
+                }, entity, compart_id)
             Else
                 ' 20250710 due to the reason of many reaction shares the common metabolites
                 ' do the duplicated calls of this addnew method is can not be avoid
@@ -388,6 +395,7 @@ Namespace Engine
                 m_massSet(factor.cellular_compartment).Add(factor.ID, New Factor(factor))
             End If
 
+            m_massSet.mapping(factor.ID) = (factor.template_id, factor.cellular_compartment)
             m_massSet(factor.cellular_compartment)(factor.ID).Value = factor.Value
         End Sub
 

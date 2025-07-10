@@ -190,7 +190,7 @@ Namespace Core
             Dim massIndex = createMassIndex(env.Channels, templates)
             Dim channels As Channel()
 
-            For Each mass As Factor In env.m_massIndex.Values.IteratesALL
+            For Each mass As Factor In env.m_massIndex.Values
                 Call factors.Clear()
 
                 If Not massIndex.ContainsKey(mass.ID) Then

@@ -75,7 +75,7 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks>
-        ''' unique id in format like: ``id@compart_id``
+        ''' this unique instance id usually be in format like: ``id@compart_id``
         ''' </remarks>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
@@ -90,6 +90,7 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Public Property name As String
+        Public Property template_id As String
 
         ''' <summary>
         ''' the cellular compartment id reference of this molecule entity
@@ -103,6 +104,9 @@ Namespace Core
 
         Sub New(copy As Factor)
             Call Me.New(copy.ID, copy.role, copy.cellular_compartment)
+
+            name = copy.name
+            template_id = copy.template_id
         End Sub
 
         ''' <summary>
@@ -114,6 +118,10 @@ Namespace Core
             Me.cellular_compartment = compart_id
             Me.ID = id
             Me.role = role
+        End Sub
+
+        Public Sub reset(value As Double)
+            Me.Value = value
         End Sub
 
         Public Overrides Function ToString() As String

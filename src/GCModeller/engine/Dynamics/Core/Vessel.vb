@@ -108,7 +108,7 @@ Namespace Core
         ''' 当前的这个微环境之中的所有的物质列表，会包括代谢物，氨基酸，RNA等物质信息
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property MassEnvironment As MassFactor()
+        Public ReadOnly Property MassEnvironment As Factor()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return m_massIndex.Values.ToArray
@@ -122,7 +122,7 @@ Namespace Core
         ''' </summary>
         Friend shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
 
-        Friend m_massIndex As Dictionary(Of String, MassFactor)
+        Friend m_massIndex As Dictionary(Of String, Factor)
         Friend m_channels As Channel()
 
         ''' <summary>
@@ -142,7 +142,6 @@ Namespace Core
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getMassValues() As Dictionary(Of String, Double)
             Return m_massIndex.Values _
-                .IteratesALL _
                 .ToDictionary(Function(c) c.ID,
                               Function(c)
                                   Return c.Value
@@ -159,7 +158,7 @@ Namespace Core
                 .GroupBy(Function(m) m.ID) _
                 .ToDictionary(Function(c) c.Key,
                               Function(c)
-                                  Return New MassFactor(c.Key, c)
+                                  Return c.First
                               End Function)
             Return Me
         End Function
@@ -277,8 +276,8 @@ Namespace Core
         ''' <param name="massInit"></param>
         ''' <returns></returns>
         Public Function Reset(massInit As Dictionary(Of String, Double)) As Vessel
-            For Each mass As MassFactor In Me.MassEnvironment
-                Call mass.reset(massInit(mass.id))
+            For Each mass As Factor In Me.MassEnvironment
+                Call mass.reset(massInit(mass.ID))
             Next
 
             Return Me

@@ -116,12 +116,12 @@ Public Module Visualizer
         For Each mass As gNode In cell.MassEnvironment _
             .Select(Function(m)
                         Return New gNode With {
-                            .label = m.id,
+                            .label = m.ID,
                             .data = New NodeData With {
-                                .mass = m.compartments.Sum(Function(f) f.Value),
-                                .origID = m.id,
-                                .label = m.id,
-                                .size = {m.size},
+                                .mass = m.Value,
+                                .origID = m.ID,
+                                .label = m.ID,
+                                .size = {m.Value},
                                 .Properties = New Dictionary(Of String, String) From {
                                     {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "metabolite"}
                                 }
