@@ -103,6 +103,7 @@ Namespace Core
         ''' debug view of the kinetics function parameters
         ''' </summary>
         ReadOnly pars As String()
+        ReadOnly cellular_id As String
 
         ''' <summary>
         ''' get kinetics parameter mass reference names
@@ -122,7 +123,7 @@ Namespace Core
         End Sub
 
         Private Function getMass(id As String) As Double
-            Return env.m_massIndex(id).Value
+            Return env.m_massIndex(id)(cellular_id).Value
         End Function
 
         Public Overrides Function ToString() As String

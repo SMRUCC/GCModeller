@@ -66,43 +66,6 @@ Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Namespace Core
 
-    Public Class MassFactor : Implements IEnumerable(Of Factor)
-
-        Public Property compartments As Dictionary(Of String, Factor)
-
-        Public ReadOnly Property id As String
-
-        Default Public ReadOnly Property getFactor(compart_id As String) As Factor
-            Get
-                Return compartments.TryGetValue(compart_id)
-            End Get
-        End Property
-
-        Sub New(id As String, list As IEnumerable(Of Factor))
-            Me.id = id
-            Me.compartments = list.ToDictionary(Function(c) c.cellular_compartment)
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Dim locs As String() = compartments _
-                .Where(Function(c) c.Value > 0) _
-                .Select(Function(c) c.Key) _
-                .ToArray
-
-            Return $"{id}@{locs.JoinBy(", ")}"
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator(Of Factor) Implements IEnumerable(Of Factor).GetEnumerator
-            For Each factor As Factor In compartments.Values
-                Yield factor
-            Next
-        End Function
-
-        Private Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
-            Return GetEnumerator()
-        End Function
-    End Class
-
     ''' <summary>
     ''' 一个反应容器，也是一个微环境，这在这个反应容器之中包含有所有的反应过程
     ''' 
@@ -306,8 +269,8 @@ Namespace Core
         ''' <param name="massInit"></param>
         ''' <returns></returns>
         Public Function Reset(massInit As Dictionary(Of String, Double)) As Vessel
-            For Each mass As Factor In Me.MassEnvironment
-                mass.Value = massInit(mass.ID)
+            For Each mass As MassFactor In Me.MassEnvironment
+                Call mass.reset(massInit(mass.id))
             Next
 
             Return Me
