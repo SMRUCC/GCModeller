@@ -82,6 +82,7 @@ Namespace Raw
         ReadOnly nameMaps As New Dictionary(Of String, String)
         ReadOnly ticks As New List(Of Double)
         ReadOnly compartments As String()
+        ReadOnly instance_id As New Dictionary(Of String, Dictionary(Of String, String()))
 
         Sub New(model As CellularModule, output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
@@ -144,11 +145,22 @@ Namespace Raw
             Call Me.moduleIndex.Clear()
             Call Me.nameMaps.Clear()
             Call Me.ticks.Clear()
+            Call Me.instance_id.Clear()
 
             For Each [module] As NamedValue(Of PropertyInfo) In modules.NamedValues
                 Dim name$ = [module].Name
                 Dim index As Index(Of String) = [module].Value.GetValue(Me)
                 Dim list$() = index.Objects
+
+                For Each compart_id As String In compartments
+                    Dim instance_id = list.Select(Function(id) id & "@" & compart_id).ToArray
+
+                    If Not Me.instance_id.ContainsKey(compart_id) Then
+                        Call Me.instance_id.Add(compart_id, New Dictionary(Of String, String()))
+                    End If
+
+                    Call Me.instance_id(compart_id).Add(name, instance_id)
+                Next
 
                 Call nameMaps.Add([module].Value.Name, name)
                 Call stream.WriteText(list.JoinBy(vbCrLf), $"/dynamics/{[module].Value.Name}/index.txt")
@@ -169,15 +181,19 @@ Namespace Raw
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
             Dim index As Index(Of String) = modules(nameMaps([module]))
-            Dim v As Double() = snapshot.Takes(index.Objects).ToArray
-            Dim path As String = $"/dynamics/{[module]}/frames/{time}.dat"
 
-            Call stream.Delete(path)
-            Call ticks.Add(time)
+            For Each compart_id As String In compartments
+                Dim instance_id As String() = Me.instance_id(compart_id)([module])
+                Dim v As Double() = snapshot.Takes(instance_id).ToArray
+                Dim path As String = $"/dynamics/{compart_id}/{[module]}/frames/{time}.dat"
 
-            Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
-                Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
-            End Using
+                Call stream.Delete(path)
+                Call ticks.Add(time)
+
+                Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
+                    Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
+                End Using
+            Next
 
             Return Me
         End Function
