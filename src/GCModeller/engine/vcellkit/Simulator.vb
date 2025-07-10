@@ -81,6 +81,8 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
 ''' data type enumeration of the omics data
@@ -133,24 +135,48 @@ Public Module Simulator
     ''' <param name="vcell">
     ''' the initialize mass value has been defined inside this virtual cell model
     ''' </param>
+    ''' <param name="random">
+    ''' set random to the molecules, should be a numeric vector that consist with two number as [min, max]. 
+    ''' both min and max should be positive value.
+    ''' </param>
     ''' <returns>
     ''' A mass environment for run vcell model in GCModeller
     ''' </returns>
     <ExportAPI("mass0")>
-    Public Function mass0(vcell As VirtualCell, Optional unit_test As Boolean = False) As Definition
+    Public Function mass0(vcell As VirtualCell,
+                          <RRawVectorArgument>
+                          Optional random As Object = Nothing,
+                          Optional unit_test As Boolean = False) As Definition
+
         Dim kegg_ref = Definition.KEGG({})
         Dim pool = vcell.metabolismStructure
         Dim dnaseq = kegg_ref.NucleicAcid
         Dim prot = kegg_ref.AminoAcid
         Dim generic = kegg_ref.GenericCompounds
         Dim links = vcell.metabolismStructure.reactions.CompoundLinks
+        Dim randMinMax As Double() = CLRVector.asNumeric(random)
+        Dim s0 As Dictionary(Of String, Double)
 
-        Return New Definition With {
-            .status = pool.compounds _
+        If randMinMax.IsNullOrEmpty Then
+            ' use value from the given model
+            s0 = pool.compounds _
                 .ToDictionary(Function(c) c.ID,
                               Function(c)
                                   Return c.mass0
-                              End Function),
+                              End Function)
+        Else
+            Dim min = randMinMax.Min
+            Dim max = randMinMax.Max
+
+            s0 = pool.compounds _
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return randf.NextDouble(min, max)
+                              End Function)
+        End If
+
+        Return New Definition With {
+            .status = s0,
             .ADP = pool.GetKEGGMapping(kegg_ref.ADP, NameOf(kegg_ref.ADP), links, unit_test).ID,
             .ATP = pool.GetKEGGMapping(kegg_ref.ATP, NameOf(kegg_ref.ATP), links, unit_test).ID,
             .Oxygen = pool.GetKEGGMapping(kegg_ref.Oxygen, NameOf(kegg_ref.Oxygen), links, unit_test).ID,
