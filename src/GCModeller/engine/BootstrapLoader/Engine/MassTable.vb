@@ -357,9 +357,13 @@ Namespace Engine
         ''' <returns>
         ''' this function returns the entity id back
         ''' </returns>
-        Public Function AddNew(entity As String， role As MassRoles) As String
+        Public Function AddNew(entity As String, role As MassRoles) As String
             For Each compart_id As String In massTable.Keys
-                Call AddNew(New Factor(entity, role, compart_id), compart_id)
+                If Not massTable(compart_id).ContainsKey(entity) Then
+                    Call AddNew(New Factor(entity, role, compart_id), compart_id)
+                Else
+                    Call $"try to add duplicated {entity}({role}) into mass environment, the {role} entity is already existsed.".Warning
+                End If
             Next
 
             Return entity
