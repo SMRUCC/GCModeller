@@ -58,7 +58,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
@@ -75,6 +74,11 @@ Namespace Cellular.Process
         ''' </summary>
         Public Property ID As String Implements INamedValue.Key
         Public Property name As String
+
+        ''' <summary>
+        ''' the equation model of this reaction
+        ''' </summary>
+        ''' <returns></returns>
         Public Property equation As Equation
 
         ''' <summary>
@@ -117,54 +121,34 @@ Namespace Cellular.Process
         Public ReadOnly Property AllCompounds As String()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return substrates _
-                    .Join(products) _
-                    .Select(Function(c) c.result) _
+                Return equation _
+                    .GetMetabolites _
+                    .Keys _
                     .ToArray
             End Get
         End Property
 
-        Private ReadOnly left As New Lazy(Of Index(Of String))(Function() substrates.Select(Function(factor) factor.result).Indexing)
-        Private ReadOnly right As New Lazy(Of Index(Of String))(Function() products.Select(Function(factor) factor.result).Indexing)
+        Private ReadOnly left As New Lazy(Of Index(Of String))(Function() equation.Reactants.Select(Function(factor) factor.ID).Indexing)
+        Private ReadOnly right As New Lazy(Of Index(Of String))(Function() equation.Products.Select(Function(factor) factor.ID).Indexing)
 
         Public Function GetCoefficient(compound As String) As Double
             Dim i = left.Value.IndexOf(compound)
 
             If i > -1 Then
-                Return -substrates(i).factor
+                Return -equation.Reactants(i).Stoichiometry
             Else
                 i = right.Value.IndexOf(compound)
             End If
 
             If i > -1 Then
-                Return products(i).factor
+                Return equation.Products(i).Stoichiometry
             Else
                 Return 0
             End If
         End Function
 
         Public Function GetEquationString() As String
-            Dim substrates As CompoundSpecieReference() = converts(Me.substrates)
-            Dim products As CompoundSpecieReference() = converts(Me.products)
-            Dim model As New Equation With {
-                .Reactants = substrates,
-                .Products = products,
-                .reversible = True
-            }
-
-            Return model.ToString
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Function converts(compounds As FactorString(Of Double)()) As CompoundSpecieReference()
-            Return compounds _
-                .Select(Function(c)
-                            Return New CompoundSpecieReference With {
-                                .ID = c.result,
-                                .Stoichiometry = c.factor
-                            }
-                        End Function) _
-                .ToArray
+            Return equation.ToString
         End Function
     End Class
 End Namespace
