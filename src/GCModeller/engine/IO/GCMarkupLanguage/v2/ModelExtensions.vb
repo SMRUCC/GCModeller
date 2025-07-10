@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::bcb310f6929884f5b8fc80825068a20f, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 315
-    '    Code Lines: 268 (85.08%)
-    ' Comment Lines: 18 (5.71%)
-    '    - Xml Docs: 33.33%
-    ' 
-    '   Blank Lines: 29 (9.21%)
-    '     File Size: 14.19 KB
+' Summaries:
 
 
-    '     Module ModelExtensions
-    ' 
-    '         Function: BuildEquation, createFluxes, createGenotype, CreateModel, createPhenotype
-    '                   exportRegulations, loadKinetics
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 315
+'    Code Lines: 268 (85.08%)
+' Comment Lines: 18 (5.71%)
+'    - Xml Docs: 33.33%
+' 
+'   Blank Lines: 29 (9.21%)
+'     File Size: 14.19 KB
+
+
+'     Module ModelExtensions
+' 
+'         Function: BuildEquation, createFluxes, createGenotype, CreateModel, createPhenotype
+'                   exportRegulations, loadKinetics
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -65,6 +65,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
+Imports SMRUCC.genomics.SequenceModel.Polypeptides
 Imports FluxModel = SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process.Reaction
 
 Namespace v2
@@ -134,29 +135,11 @@ Namespace v2
                 genomeName = replicon.genomeName
 
                 If replicon.RNAs.IsNullOrEmpty AndAlso unitTest Then
-                    replicon.RNAs = {
-                        New v2.RNA("tRNA-Ala", RNATypes.tRNA, "tRNA-Ala"),
-                        New v2.RNA("tRNA-Arg", RNATypes.tRNA, "tRNA-Arg"),
-                        New v2.RNA("tRNA-Asn", RNATypes.tRNA, "tRNA-Asn"),
-                        New v2.RNA("tRNA-Asp", RNATypes.tRNA, "tRNA-Asp"),
-                        New v2.RNA("tRNA-Cys", RNATypes.tRNA, "tRNA-Cys"),
-                        New v2.RNA("tRNA-Gln", RNATypes.tRNA, "tRNA-Gln"),
-                        New v2.RNA("tRNA-Glu", RNATypes.tRNA, "tRNA-Glu"),
-                        New v2.RNA("tRNA-Gly", RNATypes.tRNA, "tRNA-Gly"),
-                        New v2.RNA("tRNA-His", RNATypes.tRNA, "tRNA-His"),
-                        New v2.RNA("tRNA-Ile", RNATypes.tRNA, "tRNA-Ile"),
-                        New v2.RNA("tRNA-Leu", RNATypes.tRNA, "tRNA-Leu"),
-                        New v2.RNA("tRNA-Lys", RNATypes.tRNA, "tRNA-Lys"),
-                        New v2.RNA("tRNA-Met", RNATypes.tRNA, "tRNA-Met"),
-                        New v2.RNA("tRNA-Phe", RNATypes.tRNA, "tRNA-Phe"),
-                        New v2.RNA("tRNA-Pro", RNATypes.tRNA, "tRNA-Pro"),
-                        New v2.RNA("tRNA-Sec", RNATypes.tRNA, "tRNA-Sec"),
-                        New v2.RNA("tRNA-Ser", RNATypes.tRNA, "tRNA-Ser"),
-                        New v2.RNA("tRNA-Thr", RNATypes.tRNA, "tRNA-Thr"),
-                        New v2.RNA("tRNA-Trp", RNATypes.tRNA, "tRNA-Trp"),
-                        New v2.RNA("tRNA-Tyr", RNATypes.tRNA, "tRNA-Tyr"),
-                        New v2.RNA("tRNA-Val", RNATypes.tRNA, "tRNA-Val")
-                    }
+                    replicon.RNAs = Polypeptide.Abbreviate.Keys _
+                        .Select(Function(name)
+                                    Return New v2.RNA($"tRNA-{name}", RNATypes.tRNA, $"tRNA-{name}")
+                                End Function) _
+                        .ToArray
                     ' insert genes into the gene system
                     replicon.operons = replicon.operons.JoinIterates(
                         replicon.RNAs _
