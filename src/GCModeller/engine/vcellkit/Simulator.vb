@@ -1,66 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::9fd82ef481f1750fac6d4a75da30c1f7, engine\vcellkit\Simulator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 269
-    '    Code Lines: 166 (61.71%)
-    ' Comment Lines: 80 (29.74%)
-    '    - Xml Docs: 92.50%
-    ' 
-    '   Blank Lines: 23 (8.55%)
-    '     File Size: 12.44 KB
+' Summaries:
 
 
-    ' Enum ModuleSystemLevels
-    ' 
-    '     Metabolome, Proteome, Transcriptome
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' Module Simulator
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: ApplyModuleProfile, CreateObjectModel, CreateUnifyDefinition, CreateVCellEngine, FluxIndex
-    '               GetDefaultDynamics, mass0, MassIndex
-    ' 
-    '     Sub: TakeStatusSnapshot
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 269
+'    Code Lines: 166 (61.71%)
+' Comment Lines: 80 (29.74%)
+'    - Xml Docs: 92.50%
+' 
+'   Blank Lines: 23 (8.55%)
+'     File Size: 12.44 KB
+
+
+' Enum ModuleSystemLevels
+' 
+'     Metabolome, Proteome, Transcriptome
+' 
+'  
+' 
+' 
+' 
+' Module Simulator
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: ApplyModuleProfile, CreateObjectModel, CreateUnifyDefinition, CreateVCellEngine, FluxIndex
+'               GetDefaultDynamics, mass0, MassIndex
+' 
+'     Sub: TakeStatusSnapshot
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -80,6 +80,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
@@ -130,6 +131,29 @@ Public Module Simulator
     End Function
 
     ''' <summary>
+    ''' set the omics data from this function
+    ''' </summary>
+    ''' <param name="def"></param>
+    ''' <param name="env_set"></param>
+    ''' <returns></returns>
+    <ExportAPI("set_status")>
+    Public Function setStatus(def As Definition, <RListObjectArgument> Optional env_set As list = Nothing) As Definition
+        If def.status Is Nothing Then
+            def.status = New Dictionary(Of String, Double)
+        End If
+
+        For Each compart_id As String In env_set.getNames
+            Dim s0 As list = env_set.getByName(compart_id)
+
+            For Each cid As String In s0.getNames
+                def.status(cid & "@" & compart_id) = CLRVector.asNumeric(s0.getByName(cid)).DefaultFirst
+            Next
+        Next
+
+        Return def
+    End Function
+
+    ''' <summary>
     ''' get the initial mass value
     ''' </summary>
     ''' <param name="vcell">
@@ -146,7 +170,8 @@ Public Module Simulator
     Public Function mass0(vcell As VirtualCell,
                           <RRawVectorArgument>
                           Optional random As Object = Nothing,
-                          Optional unit_test As Boolean = False) As Definition
+                          Optional unit_test As Boolean = False,
+                          Optional env As Environment = Nothing) As Definition
 
         Dim kegg_ref = Definition.KEGG({})
         Dim pool = vcell.metabolismStructure

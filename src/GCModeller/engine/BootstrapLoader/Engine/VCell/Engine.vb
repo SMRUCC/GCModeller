@@ -187,10 +187,15 @@ Namespace Engine
             End If
 
             For Each mass As Factor In core.m_massIndex.Values
-                If initials.status.ContainsKey(mass.template_id) Then
-                    mass.reset(initials.status(mass.template_id))
+                If initials.status.ContainsKey(mass.ID) Then
+                    ' instance id has the highest order
+                    mass.reset(initials.status(mass.ID))
                 Else
-                    mass.reset(1)
+                    If initials.status.ContainsKey(mass.template_id) Then
+                        mass.reset(initials.status(mass.template_id))
+                    Else
+                        mass.reset(1)
+                    End If
                 End If
             Next
         End Sub
