@@ -101,7 +101,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
 
         Sub New(factor As Double, compound As String, compart As String)
             Me.Stoichiometry = factor
-            Me.ID = compart
+            Me.ID = compound
             Me.Compartment = compart
         End Sub
 
