@@ -312,12 +312,16 @@ Namespace v2
             Dim equation As Equation
             ' {reactionID => KO()}
             Dim enzymes = model.metabolismStructure.enzymes _
-                .Select(Function(enz)
-                            Return enz.catalysis _
-                                .SafeQuery _
-                                .Select(Function(ec)
-                                            Return (rID:=ec.reaction, enz:=New NamedValue(Of Catalysis)(If(enz.KO, enz.geneID), ec))
-                                        End Function)
+                .Select(Iterator Function(enz) As IEnumerable(Of (rID$, enz As NamedValue(Of Catalysis)))
+                            Dim catalysis_name As String
+                            Dim enz_ref As NamedValue(Of Catalysis)
+
+                            For Each ec In enz.catalysis.SafeQuery
+                                catalysis_name = If(enz.KO.StringEmpty(, True), enz.geneID, enz.KO)
+                                enz_ref = New NamedValue(Of Catalysis)(catalysis_name, ec)
+
+                                Yield (rID:=ec.reaction, enz:=enz_ref)
+                            Next
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(r) r.rID) _
