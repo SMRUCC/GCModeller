@@ -348,7 +348,7 @@ Namespace Engine
         ''' </returns>
         Public Function AddNew(entity As String， role As MassRoles) As String
             For Each compart_id As String In massTable.Keys
-                Call AddNew(New Factor(entity, role), compart_id)
+                Call AddNew(New Factor(entity, role, compart_id), compart_id)
             Next
 
             Return entity

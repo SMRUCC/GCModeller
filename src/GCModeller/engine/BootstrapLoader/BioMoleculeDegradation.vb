@@ -83,6 +83,7 @@ Namespace ModelLoader
         End Function
 
         Private Iterator Function proteinDegradation(cell As CellularModule) As IEnumerable(Of Channel)
+            Dim cellular_id As String = cell.CellularEnvironmentName
             ' protein complex -> polypeptide + compounds
             ' polypeptide -> aminoacid
             Dim proteinComplex$
@@ -120,7 +121,7 @@ Namespace ModelLoader
                         .Where(Function(i) i.Value > 0) _
                         .Select(Function(aa)
                                     Dim aaName = loader.define.AminoAcid(aa.Name)
-                                    Return MassTable.variable(aaName, aa.Value)
+                                    Return MassTable.variable(aaName, cellular_id, aa.Value)
                                 End Function) _
                         .ToArray
 
@@ -166,6 +167,7 @@ Namespace ModelLoader
                               End Function)
             Dim ntBase As Variable()
             Dim flux As Channel
+            Dim cellular_id As String = cell.CellularEnvironmentName
 
             ' rna -> nt base
             For Each rna As String In centralDogmas.componentRNA.AsList + centralDogmas.mRNA
@@ -174,7 +176,7 @@ Namespace ModelLoader
                     .Where(Function(i) i.Value > 0) _
                     .Select(Function(base)
                                 Dim baseName = loader.define.NucleicAcid(base.Name)
-                                Return MassTable.variable(baseName, base.Value)
+                                Return MassTable.variable(baseName, cellular_id, base.Value)
                             End Function) _
                     .ToArray
 
