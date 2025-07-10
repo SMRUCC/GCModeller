@@ -210,7 +210,7 @@ Namespace Engine
         Default Public ReadOnly Iterator Property GetVariables(list As IEnumerable(Of CompoundSpecieReference)) As IEnumerable(Of Variable)
             Get
                 For Each ref As CompoundSpecieReference In list
-                    Yield variable(ref.ID, ref.StoiChiometry)
+                    Yield variable(ref.ID, ref.Stoichiometry)
                 Next
             End Get
         End Property
@@ -341,7 +341,7 @@ Namespace Engine
                 .ToDictionary
         End Function
 
-        Private Function AddNew(entity As Factor, compart_id As String) As String
+        Private Function addNew(entity As Factor, compart_id As String) As String
             ' 20200313 在这里不可以使用可能产生对象替换的代码调用方式
             ' 否则可能会让之前的反应对象失去正确的对象引用关系
             ' 所以下面的字典索引引用被替换为字典直接添加方法了
@@ -357,14 +357,12 @@ Namespace Engine
         ''' <returns>
         ''' this function returns the entity id back
         ''' </returns>
-        Public Function AddNew(entity As String, role As MassRoles) As String
-            For Each compart_id As String In massTable.Keys
-                If Not massTable(compart_id).ContainsKey(entity) Then
-                    Call AddNew(New Factor(entity, role, compart_id), compart_id)
-                Else
-                    Call $"try to add duplicated {entity}({role}) into mass environment, the {role} entity is already existsed.".Warning
-                End If
-            Next
+        Public Function addNew(entity As String, role As MassRoles, compart_id As String) As String
+            If Not massTable(compart_id).ContainsKey(entity) Then
+                Call addNew(New Factor(entity, role, compart_id), compart_id)
+            Else
+                Call $"try to add duplicated {entity}({role}) into mass environment, the {role} entity is already existsed.".Warning
+            End If
 
             Return entity
         End Function

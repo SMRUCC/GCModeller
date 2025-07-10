@@ -178,7 +178,7 @@ Namespace ModelLoader
                 For Each id As String In define.AsEnumerable
                     For Each compart_id As String In massTable.compartment_ids
                         If Not massTable.Exists(id, compart_id) Then
-                            Call massTable.AddNew(id, MassRoles.compound)
+                            Call massTable.addNew(id, MassRoles.compound, compart_id)
                         End If
                     Next
                 Next
@@ -213,7 +213,7 @@ Namespace ModelLoader
                     If strict Then
                         Throw New InvalidProgramException(warn)
                     Else
-                        Call massTable.AddNew(link_ref, MassRoles.compound)
+                        Call massTable.addNew(link_ref, MassRoles.compound, cell.CellularEnvironmentName)
                         Call warn.Warning
                         Call VBDebugger.EchoLine("[warn] " & warn)
                     End If
