@@ -77,7 +77,8 @@ Namespace Raw
         ''' total time tick count
         ''' </summary>
         ReadOnly tick_counts As Integer
-        ReadOnly comparts As String()
+
+        Public ReadOnly Property comparts As String()
 
         Default Public ReadOnly Property ModuleIdSet(name As String) As Index(Of String)
             Get
