@@ -390,7 +390,7 @@ Namespace ModelLoader
                 .Where(Function(i) i.Value > 0) _
                 .Select(Function(base)
                             Dim baseName = loader.define.NucleicAcid(base.Name)
-                            Return MassTable.variable(baseName, base.Value)
+                            Return MassTable.variable(baseName, cellular_id, base.Value)
                         End Function) _
                 .AsList + MassTable.template(geneID, cellular_id) + MassTable.variable(loader.define.ATP, cellular_id)
         End Function
@@ -415,7 +415,7 @@ Namespace ModelLoader
             Dim AAVector = composit.Where(Function(i) i.Value > 0).ToArray
             Dim AAtRNA = AAVector _
                 .Select(Function(aa)
-                            Return MassTable.variable(charged_tRNA(aa.Name), aa.Value)
+                            Return MassTable.variable(charged_tRNA(aa.Name), cellular_id, aa.Value)
                         End Function) _
                 .AsList
             Dim mRNA As String = gene.RNAName
@@ -467,7 +467,7 @@ Namespace ModelLoader
             Dim AAVector = composit.Where(Function(i) i.Value > 0).ToArray
             Dim AAtRNA = AAVector _
                 .Select(Function(aa)
-                            Return MassTable.variable(uncharged_tRNA(aa.Name), aa.Value)
+                            Return MassTable.variable(uncharged_tRNA(aa.Name), cellular_id, aa.Value)
                         End Function) _
                 .AsList
 
