@@ -156,27 +156,7 @@ Public Module Simulator
         Dim links = vcell.metabolismStructure.reactions.CompoundLinks
         Dim randMinMax As Double() = CLRVector.asNumeric(random)
         Dim s0 As Dictionary(Of String, Double)
-
-        If randMinMax.IsNullOrEmpty Then
-            ' use value from the given model
-            s0 = pool.compounds _
-                .ToDictionary(Function(c) c.ID,
-                              Function(c)
-                                  Return c.mass0
-                              End Function)
-        Else
-            Dim min = randMinMax.Min
-            Dim max = randMinMax.Max
-
-            s0 = pool.compounds _
-                .ToDictionary(Function(c) c.ID,
-                              Function(c)
-                                  Return randf.NextDouble(min, max)
-                              End Function)
-        End If
-
-        Return New Definition With {
-            .status = s0,
+        Dim kegg_maps As New Definition With {
             .ADP = pool.GetKEGGMapping(kegg_ref.ADP, NameOf(kegg_ref.ADP), links, unit_test).ID,
             .ATP = pool.GetKEGGMapping(kegg_ref.ATP, NameOf(kegg_ref.ATP), links, unit_test).ID,
             .Oxygen = pool.GetKEGGMapping(kegg_ref.Oxygen, NameOf(kegg_ref.Oxygen), links, unit_test).ID,
@@ -213,6 +193,32 @@ Public Module Simulator
             },
             .GenericCompounds = New Dictionary(Of String, GeneralCompound)
         }
+
+        If randMinMax.IsNullOrEmpty Then
+            ' use value from the given model
+            s0 = pool.compounds _
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return c.mass0
+                              End Function)
+        Else
+            Dim min = randMinMax.Min
+            Dim max = randMinMax.Max
+
+            s0 = pool.compounds _
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return randf.NextDouble(min, max)
+                              End Function)
+
+            For Each id As String In kegg_maps.AsEnumerable
+                s0(id) = randf.NextDouble(min, max)
+            Next
+        End If
+
+        kegg_maps.status = s0
+
+        Return kegg_maps
     End Function
 
     ''' <summary>

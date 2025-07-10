@@ -75,11 +75,15 @@ declare namespace simulator {
     * 
     * 
      * @param vcell the initialize mass value has been defined inside this virtual cell model
+     * @param random set random to the molecules, should be a numeric vector that consist with two number as [min, max]. 
+     *  both min and max should be positive value.
+     * 
+     * + default value Is ``null``.
      * @param unit_test 
      * + default value Is ``false``.
      * @return A mass environment for run vcell model in GCModeller
    */
-   function mass0(vcell: object, unit_test?: boolean): object;
+   function mass0(vcell: object, random?: any, unit_test?: boolean): object;
    module vcell {
       module flux {
          /**
