@@ -94,8 +94,8 @@ Namespace ModelLoader
             Call loader.fluxIndex.Add("transcription", New List(Of String))
         End Sub
 
-        Dim charged_tRNA As New Dictionary(Of String, String)
-        Dim uncharged_tRNA As New Dictionary(Of String, String)
+        Friend ReadOnly charged_tRNA As New Dictionary(Of String, String)
+        Friend ReadOnly uncharged_tRNA As New Dictionary(Of String, String)
 
         ''' <summary>
         ''' tRNA charge process
