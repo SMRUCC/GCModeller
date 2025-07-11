@@ -110,6 +110,7 @@ Namespace Cellular.Process
         ''' matrix vector reference of the protein composition
         ''' </summary>
         Dim translation As String
+        Dim transcript_unit As String
 
         ''' <summary>
         ''' 如果这个属性返回false就说明不是编码蛋白序列的基因

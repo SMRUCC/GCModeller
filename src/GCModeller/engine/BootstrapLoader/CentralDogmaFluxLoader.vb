@@ -225,7 +225,6 @@ Namespace ModelLoader
             Dim polypeptides As New List(Of String)
             Dim transcription As Channel
             Dim translation As Channel
-            Dim trKey, tlKey As String
             Dim regulations As Regulation()
             Dim proteinList As New Dictionary(Of String, String)
             Dim proteinComplex = loader.massLoader.proteinComplex
@@ -328,19 +327,18 @@ Namespace ModelLoader
                     Yield translation
                 End If
 
-                trKey = cd.ToString
-                regulations = TFregulations.TryGetValue(trKey).SafeQuery.ToArray
+                regulations = TFregulations.TryGetValue(cd.transcript_unit).SafeQuery.ToArray
 
                 Dim activeReg As Variable() = regulations _
                     .Where(Function(r) r.effects > 0) _
                     .Select(Function(r)
-                                Return MassTable.variable(proteinList(r.regulator), r.effects)
+                                Return MassTable.variable(r.regulator, cellular_id, r.effects)
                             End Function) _
                     .ToArray
                 Dim suppressReg As Variable() = regulations _
                     .Where(Function(r) r.effects < 0) _
                     .Select(Function(r)
-                                Return MassTable.variable(proteinList(r.regulator), r.effects)
+                                Return MassTable.variable(r.regulator, cellular_id, r.effects)
                             End Function) _
                     .ToArray
 
