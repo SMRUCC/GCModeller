@@ -188,7 +188,7 @@ Namespace Core
 
         Public Overrides Function ToString() As String
             If direct = Directions.stop Then
-                Return "stopped..."
+                Return $"[{ID}] stopped..."
             Else
                 Return Core.ToString(Me)
             End If

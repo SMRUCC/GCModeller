@@ -64,7 +64,7 @@ Namespace Core
             Dim right = reaction.right.Select(AddressOf MassToString).JoinBy(" + ")
             Dim direct$ = If(reaction.direct = Directions.forward, "=>", "<=")
 
-            Return $"{left} {direct} {right}"
+            Return $"[{reaction.ID}] {left} {direct} {right}"
         End Function
 
         <Extension>
