@@ -58,6 +58,7 @@
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 
 Namespace ModelLoader
@@ -174,11 +175,6 @@ Namespace ModelLoader
             Dim ntBase As Variable()
             Dim flux As Channel
             Dim cellular_id As String = cell.CellularEnvironmentName
-            Dim rnaTemplateList As String() = MassTable.micsRNA.Select(Function(r) r.template_id) _
-                .JoinIterates(MassTable.mRNA.Select(Function(r) r.template_id)) _
-                .JoinIterates(MassTable.rRNA.Select(Function(r) r.template_id)) _
-                .JoinIterates(centralDogmas.uncharged_tRNA.Values) _
-                .ToArray
 
             ' 20250711
             ' the code is the gene id list
@@ -188,8 +184,8 @@ Namespace ModelLoader
             ' centralDogmas.componentRNA.AsList + centralDogmas.mRNA
 
             ' rna -> nt base
-            For Each rna As String In rnaTemplateList
-                composition = rnaMatrix(rna)
+            For Each gene As CentralDogma In cell.Genotype.centralDogmas
+                composition = rnaMatrix(gene.geneID)
                 ntBase = composition _
                     .Where(Function(i) i.Value > 0) _
                     .Select(Function(base)
@@ -199,8 +195,8 @@ Namespace ModelLoader
                     .ToArray
 
                 ' 降解过程是不可逆的
-                flux = New Channel(MassTable.variables({rna}, 1, cell.CellularEnvironmentName), ntBase) With {
-                    .ID = $"RNADegradationOf{rna}",
+                flux = New Channel(MassTable.variables({gene.RNAName}, 1, cell.CellularEnvironmentName), ntBase) With {
+                    .ID = $"RNADegradationOf{gene.RNAName}",
                     .forward = Controls.StaticControl(10),
                     .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {
