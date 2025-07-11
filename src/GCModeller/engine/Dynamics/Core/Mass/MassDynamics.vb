@@ -108,6 +108,10 @@ Namespace Core
             Dim flux As Channel
             Dim fluxVariant As Double
 
+            If mass.role = MassRoles.gene Then
+                Return 0
+            End If
+
             For i As Integer = 0 To channels.Length - 1
                 flux = channels(i)
                 dir = flux.GetCurrentDirection
@@ -125,7 +129,7 @@ Namespace Core
                         variants = 0
                         fluxVariant = 0
                     Case Else
-                        Throw New InvalidProgramException
+                        Throw New InvalidProgramException($"Unknown reaction direction status of reaction flux: {flux.ID}!")
                 End Select
 
                 additions(i) = variants
