@@ -177,34 +177,37 @@ Namespace v2
                                       }
                                   End Function)
 
-                For Each gene As gene In replicon.GetGeneList
-                    If rnaTable.ContainsKey(gene.locus_tag) Then
-                        RNA = rnaTable(gene.locus_tag)
-                        proteinId = Nothing
-                    Else
-                        ' 枚举的默认值为mRNA
-                        RNA = New NamedValue(Of RNATypes) With {
-                            .Name = gene.locus_tag
-                        }
-                        proteinId = gene.protein_id ' Or $"{gene.locus_tag}::peptide".AsDefault
+                For Each operon As TranscriptUnit In replicon.operons
+                    For Each gene As gene In operon.genes
+                        If rnaTable.ContainsKey(gene.locus_tag) Then
+                            RNA = rnaTable(gene.locus_tag)
+                            proteinId = Nothing
+                        Else
+                            ' 枚举的默认值为mRNA
+                            RNA = New NamedValue(Of RNATypes) With {
+                                .Name = gene.locus_tag
+                            }
+                            proteinId = gene.protein_id ' Or $"{gene.locus_tag}::peptide".AsDefault
 
-                        If proteinId.StringEmpty Then
-                            Dim warn = $"broken central dogma of '{gene.locus_tag}' was found. this gene should be a mRNA but missing polypeptide data."
+                            If proteinId.StringEmpty Then
+                                Dim warn = $"broken central dogma of '{gene.locus_tag}' was found. this gene should be a mRNA but missing polypeptide data."
 
-                            Call warn.Warning
-                            Call VBDebugger.EchoLine("[warn] " & warn)
+                                Call warn.Warning
+                                Call VBDebugger.EchoLine("[warn] " & warn)
+                            End If
                         End If
-                    End If
 
-                    Yield New CentralDogma With {
-                        .replicon = genomeName,
-                        .geneID = gene.locus_tag,
-                        .polypeptide = proteinId,
-                        .orthology = enzymes.TryGetValue(.geneID)?.KO,
-                        .RNA = RNA,
-                        .transcript = gene.nucleotide_base?.name,
-                        .translation = gene.amino_acid?.name
-                    }
+                        Yield New CentralDogma With {
+                            .replicon = genomeName,
+                            .geneID = gene.locus_tag,
+                            .polypeptide = proteinId,
+                            .orthology = enzymes.TryGetValue(.geneID)?.KO,
+                            .RNA = RNA,
+                            .transcript = gene.nucleotide_base?.name,
+                            .translation = gene.amino_acid?.name,
+                            .transcript_unit = operon.id
+                        }
+                    Next
                 Next
             Next
         End Function
