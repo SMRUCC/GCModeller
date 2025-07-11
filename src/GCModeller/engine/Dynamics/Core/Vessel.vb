@@ -1,70 +1,78 @@
 ﻿#Region "Microsoft.VisualBasic::c67f38bde7bcac06d65ec738a32ee4de, engine\Dynamics\Core\Vessel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 208
-    '    Code Lines: 104 (50.00%)
-    ' Comment Lines: 74 (35.58%)
-    '    - Xml Docs: 79.73%
-    ' 
-    '   Blank Lines: 30 (14.42%)
-    '     File Size: 7.80 KB
+' Summaries:
 
 
-    '     Class Vessel
-    ' 
-    '         Properties: Channels, MassEnvironment
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: ContainerIterator, factorsByCount, getMassValues, Initialize, (+2 Overloads) load
-    '                   Reset
-    ' 
-    '         Sub: fp_dfdx_parallel, fp_dfdx_sequence
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 208
+'    Code Lines: 104 (50.00%)
+' Comment Lines: 74 (35.58%)
+'    - Xml Docs: 79.73%
+' 
+'   Blank Lines: 30 (14.42%)
+'     File Size: 7.80 KB
+
+
+'     Class Vessel
+' 
+'         Properties: Channels, MassEnvironment
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: ContainerIterator, factorsByCount, getMassValues, Initialize, (+2 Overloads) load
+'                   Reset
+' 
+'         Sub: fp_dfdx_parallel, fp_dfdx_sequence
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Namespace Core
+
+    Public Class CompartmentSnapshot
+
+        Public Property compart_id As String
+        Public Property snapshot As Dictionary(Of String, Double)
+
+    End Class
 
     ''' <summary>
     ''' 一个反应容器，也是一个微环境，这在这个反应容器之中包含有所有的反应过程
@@ -124,7 +132,7 @@ Namespace Core
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub New(Optional is_debug As Boolean = False)
-            Me.is_debug = is_debug
+            Me.is_debug = is_debug OrElse True
 
             If is_debug Then
                 Call VBDebugger.EchoLine("virtual cell engine will be running in debug mode.")
@@ -133,7 +141,11 @@ Namespace Core
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getMassValues() As Dictionary(Of String, Double)
-            Return m_massIndex.Values.ToDictionary(Function(m) m.ID, Function(m) m.Value)
+            Return m_massIndex.Values _
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return c.Value
+                              End Function)
         End Function
 
         ''' <summary>
@@ -142,7 +154,12 @@ Namespace Core
         ''' <param name="massEnvir"></param>
         ''' <returns></returns>
         Public Function load(massEnvir As IEnumerable(Of Factor)) As Vessel
-            m_massIndex = massEnvir.ToDictionary(Function(m) m.ID)
+            m_massIndex = massEnvir _
+                .GroupBy(Function(m) m.ID) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(c)
+                                  Return c.First
+                              End Function)
             Return Me
         End Function
 
@@ -260,7 +277,7 @@ Namespace Core
         ''' <returns></returns>
         Public Function Reset(massInit As Dictionary(Of String, Double)) As Vessel
             For Each mass As Factor In Me.MassEnvironment
-                mass.Value = massInit(mass.ID)
+                Call mass.reset(massInit(mass.ID))
             Next
 
             Return Me

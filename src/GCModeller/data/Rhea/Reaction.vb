@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::babad404890173b35601f7d53f7fb9b4, data\Rhea\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::e9bc85b8550aa2f1a5e9138045d90826, data\Rhea\Reaction.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 45
-    '    Code Lines: 28 (62.22%)
-    ' Comment Lines: 8 (17.78%)
+    '   Total Lines: 47
+    '    Code Lines: 30 (63.83%)
+    ' Comment Lines: 8 (17.02%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (20.00%)
-    '     File Size: 1.50 KB
+    '   Blank Lines: 9 (19.15%)
+    '     File Size: 1.51 KB
 
 
     ' Class Reaction

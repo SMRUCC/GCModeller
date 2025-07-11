@@ -1,69 +1,69 @@
-﻿#Region "Microsoft.VisualBasic::5133bf033bbb53f83d2f1ea768dbde6a, R#\kegg_kit\repository\repository.vb"
+﻿#Region "Microsoft.VisualBasic::74bb28df70462b87d6eefae558c36d94, R#\kegg_kit\repository.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 918
-'    Code Lines: 668 (72.77%)
-' Comment Lines: 160 (17.43%)
-'    - Xml Docs: 96.25%
-' 
-'   Blank Lines: 90 (9.80%)
-'     File Size: 39.25 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module repository
-' 
-'     Function: createCompound, FetchKEGGOrganism, getCompoundsId, getEnzymeClassDescription, getReactionsId
-'               index, keggMap, LoadCompoundRepo, loadMapRepository, LoadPathways
-'               loadReactionClassRaw, loadReactionClassTable, LoadReactionRepo, parseMapsFromFile, pathway
-'               reaction, reaction_class, readKeggCompounds, readKeggMaps, ReadKEGGOrganism
-'               readKEGGpathway, readKeggReactions, SaveKEGGOrganism, SaveKEGGPathway, shapeAreas
-'               showMapTable, showTable, TableOfReactions, writeKeggCompounds, writeKeggCompoundSet
-'               writeKeggMaps, writeKeggMapSet, writeKeggReactions, writeKeggReactionSet, writeMessagePack
-' 
-'     Sub: Main
-' 
-' Enum OrganismTypes
-' 
-'     all, eukaryotes, prokaryote
-' 
-'  
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 918
+    '    Code Lines: 667 (72.66%)
+    ' Comment Lines: 160 (17.43%)
+    '    - Xml Docs: 96.25%
+    ' 
+    '   Blank Lines: 91 (9.91%)
+    '     File Size: 39.31 KB
+
+
+    ' Module repository
+    ' 
+    '     Function: createCompound, FetchKEGGOrganism, getCompoundsId, getEnzymeClassDescription, getReactionsId
+    '               index, keggMap, LoadCompoundRepo, loadMapRepository, LoadPathways
+    '               loadReactionClassRaw, loadReactionClassTable, LoadReactionRepo, parseMapsFromFile, pathway
+    '               reaction, reaction_class, readKeggCompounds, readKeggMaps, ReadKEGGOrganism
+    '               readKEGGpathway, readKeggReactions, SaveKEGGOrganism, SaveKEGGPathway, shapeAreas
+    '               showMapTable, showTable, TableOfReactions, writeKeggCompounds, writeKeggCompoundSet
+    '               writeKeggMaps, writeKeggMapSet, writeKeggReactions, writeKeggReactionSet, writeMessagePack
+    ' 
+    '     Sub: Main
+    ' 
+    ' Enum OrganismTypes
+    ' 
+    '     all, eukaryotes, prokaryote
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

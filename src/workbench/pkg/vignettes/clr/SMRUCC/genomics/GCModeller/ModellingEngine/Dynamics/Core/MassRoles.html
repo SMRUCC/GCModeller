@@ -5,7 +5,7 @@
     <title>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.MassRoles</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
 </head>
 
 <body>
@@ -30,23 +30,28 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 export class MassRoles extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # gene template of the RNA molecules, usually be a constant 1, binding to unchanged.
    gene: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 0;
 
+   # realtime gene instance molecule, could be translate to protein
    mRNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 1;
 
+   # realtime gene instance molecule
    tRNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 2;
 
+   # realtime gene instance molecule,
    rRNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 3;
 
-   # other RNA molecules
+   # realtime gene instance molecule, other RNA molecules
    RNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 4;
 
+   # realtime gene instance molecule,
    polypeptide: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 5;
 
-   # 蛋白包括单体蛋白或者复合物蛋白
+   # realtime gene instance molecule, 蛋白包括单体蛋白或者复合物蛋白
    protein: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 6;
 
-   # 小分子化合物
+   # metabolite instance molecule object. 小分子化合物
    compound: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 7;
 
 }
@@ -75,8 +80,8 @@ export class MassRoles extends <a href="/vignettes/clr/System/Enum.html">Enum</a
     </div>
 </body>
 
-<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
-<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
 </html>

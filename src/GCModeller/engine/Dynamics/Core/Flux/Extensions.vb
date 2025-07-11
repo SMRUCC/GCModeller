@@ -64,15 +64,15 @@ Namespace Core
             Dim right = reaction.right.Select(AddressOf MassToString).JoinBy(" + ")
             Dim direct$ = If(reaction.direct = Directions.forward, "=>", "<=")
 
-            Return $"{left} {direct} {right}"
+            Return $"[{reaction.ID}] {left} {direct} {right}"
         End Function
 
         <Extension>
         Private Function MassToString(var As Variable) As String
             If var.isTemplate Then
-                Return $"[{var.coefficient} {var.mass.ID}]"
+                Return $"*[{var.coefficient} {var.mass.ID}({var.mass.Value.ToString("G3")} unit)]"
             Else
-                Return $"{var.coefficient} {var.mass.ID}"
+                Return $"{var.coefficient} {var.mass.ID}({var.mass.Value.ToString("G3")} unit)"
             End If
         End Function
 

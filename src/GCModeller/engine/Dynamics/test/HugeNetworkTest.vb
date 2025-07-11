@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b09cef191b927d3c5e12c4194e2e2735, engine\Dynamics\test\HugeNetworkTest.vb"
+﻿#Region "Microsoft.VisualBasic::93d833b81877553b1c6f198d29989c78, engine\Dynamics\test\HugeNetworkTest.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 13 (18.06%)
-    '     File Size: 3.03 KB
+    '     File Size: 3.04 KB
 
 
     ' Module HugeNetworkTest
@@ -51,8 +51,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash

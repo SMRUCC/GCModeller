@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::957fa9dec7590460df6632ca64ba0f72, engine\BootstrapLoader\MetabolismNetworkLoader.vb"
+﻿#Region "Microsoft.VisualBasic::bc43891e981fdf6261b19d30ec984d93, engine\BootstrapLoader\MetabolismNetworkLoader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 163
-    '    Code Lines: 128 (78.53%)
-    ' Comment Lines: 13 (7.98%)
+    '   Total Lines: 165
+    '    Code Lines: 130 (78.79%)
+    ' Comment Lines: 13 (7.88%)
     '    - Xml Docs: 53.85%
     ' 
-    '   Blank Lines: 22 (13.50%)
-    '     File Size: 7.07 KB
+    '   Blank Lines: 22 (13.33%)
+    '     File Size: 7.50 KB
 
 
     '     Class MetabolismNetworkLoader
@@ -57,7 +57,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace ModelLoader
@@ -111,12 +110,14 @@ Namespace ModelLoader
         End Function
 
         Private Function fluxByReaction(reaction As Reaction, KOfunctions As Dictionary(Of String, String())) As Channel
-            Dim left As Variable() = MassTable.variables(reaction.substrates, infinitySource).ToArray
-            Dim right As Variable() = MassTable.variables(reaction.products, infinitySource).ToArray
+            Dim left As Variable() = MassTable.variables(reaction.equation.Reactants, infinitySource).ToArray
+            Dim right As Variable() = MassTable.variables(reaction.equation.Products, infinitySource).ToArray
             Dim bounds As New Boundary With {
                 .forward = reaction.bounds(1),
                 .reverse = reaction.bounds(0)
             }
+            Dim productCompart As String = reaction.equation.Products.Select(Function(c) c.Compartment).GroupBy(Function(c) c).OrderByDescending(Function(c) c.Count).First.Key
+            Dim reactantCompart As String = reaction.equation.Reactants.Select(Function(c) c.Compartment).GroupBy(Function(c) c).OrderByDescending(Function(c) c.Count).First.Key
 
             ' KO
             Dim enzymeProteinComplexes As String() = reaction.enzyme _
@@ -138,15 +139,16 @@ Namespace ModelLoader
                 .Select(Function(id) id & ".complex") _
                 .ToArray
 
-            If reaction.is_enzymatic AndAlso enzymeProteinComplexes.Length = 0 Then
-                bounds = {10, 10}
-            End If
-
             Dim forward As Controls
+            Dim reverse As Controls = New AdditiveControls With {
+                .activation = right,
+                .baseline = 5
+            }
 
+            ' it's enzymatic
             If Not reaction.kinetics.IsNullOrEmpty Then
                 If reaction.kinetics.Length = 1 Then
-                    Dim scalar = reaction.kinetics(0)
+                    Dim scalar As Kinetics = reaction.kinetics(0)
 
                     forward = New KineticsControls(
                         env:=loader.getKernel,
@@ -155,7 +157,8 @@ Namespace ModelLoader
                         pars:=scalar.paramVals _
                             .SafeQuery _
                             .Select(Function(a) a.ToString) _
-                            .ToArray
+                            .ToArray,
+                        cellular_id:=reaction.enzyme_compartment
                     )
                     pull.AddRange(DirectCast(forward, KineticsControls).parameters)
                 Else
@@ -168,16 +171,24 @@ Namespace ModelLoader
                             pars:=k.paramVals _
                                 .SafeQuery _
                                 .Select(Function(a) a.ToString) _
-                                .ToArray
+                                .ToArray,
+                            cellular_id:=reaction.enzyme_compartment
                         )
                     )
                     pull.AddRange(DirectCast(forward, KineticsOverlapsControls).parameters)
                 End If
-            Else
+            ElseIf Not enzymeProteinComplexes.IsNullOrEmpty Then
+                ' it's enzymatic, but has no kinetics law data
                 forward = New AdditiveControls With {
                     .activation = MassTable _
-                        .variables(enzymeProteinComplexes, 1) _
+                        .variables(enzymeProteinComplexes, 1, reaction.enzyme_compartment) _
                         .ToArray,
+                    .baseline = 5
+                }
+            Else
+                ' it's non-enzymatic
+                forward = New AdditiveControls With {
+                    .activation = left,
                     .baseline = 5
                 }
             End If
@@ -186,12 +197,12 @@ Namespace ModelLoader
                 .bounds = bounds,
                 .ID = reaction.ID,
                 .forward = forward,
-                .reverse = Controls.StaticControl(5)
+                .reverse = reverse
             }
 
             ' 假设所有的反应过程化都存在产物抑制效应
-            metabolismFlux.forward.inhibition = metabolismFlux.right.DoCall(AddressOf productInhibitionFactor)
-            metabolismFlux.reverse.inhibition = metabolismFlux.left.DoCall(AddressOf productInhibitionFactor)
+            metabolismFlux.forward.inhibition = productInhibitionFactor(metabolismFlux.right, productCompart)
+            metabolismFlux.reverse.inhibition = productInhibitionFactor(metabolismFlux.left, reactantCompart)
 
             Call loader.fluxIndex(NameOf(MetabolismNetworkLoader)).Add(metabolismFlux.ID)
 
@@ -202,11 +213,11 @@ Namespace ModelLoader
             Call $"Generic {template.ID} = {template.name}".__INFO_ECHO
         End Function
 
-        Private Function productInhibitionFactor(factors As IEnumerable(Of Variable)) As Variable()
+        Private Function productInhibitionFactor(factors As IEnumerable(Of Variable), compart_id As String) As Variable()
             Return factors _
                 .Where(Function(fac) Not fac.mass.ID Like infinitySource) _
                 .DoCall(Function(objects)
-                            Return MassTable.variables(objects, loader.dynamics.productInhibitionFactor)
+                            Return MassTable.variables(objects, loader.dynamics.productInhibitionFactor, compart_id)
                         End Function) _
                 .ToArray
         End Function

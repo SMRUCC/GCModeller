@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::139aefd09fc3becd4b835e7d75db8e97, annotations\GSEA\GSEA\KnowledgeBase\Imports\KeggPathway.vb"
+﻿#Region "Microsoft.VisualBasic::866f3d60778dee3ba475082cdfc9c553, annotations\GSEA\GSEA\KnowledgeBase\Imports\KeggPathway.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,25 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 75
-    '    Code Lines: 60 (80.00%)
-    ' Comment Lines: 8 (10.67%)
+    '   Total Lines: 106
+    '    Code Lines: 89 (83.96%)
+    ' Comment Lines: 8 (7.55%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (9.33%)
-    '     File Size: 2.89 KB
+    '   Blank Lines: 9 (8.49%)
+    '     File Size: 4.16 KB
 
 
+    ' Enum OmicsData
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
     ' Module KeggPathway
     ' 
-    '     Function: CreateModel, getGeneCluster, GetGeneMembers
+    '     Function: CreateModel, getGeneCluster, GetGeneMembers, GetMetaboliteMembers
     ' 
     ' /********************************************************************************/
 

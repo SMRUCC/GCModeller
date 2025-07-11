@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e960ec6fda136834d26a78bf1bfa26b, engine\Compiler\Workflow.vb"
+﻿#Region "Microsoft.VisualBasic::77d663879a62bb14e8ba1fc31fe70db0, engine\Compiler\Workflow.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 310
-    '    Code Lines: 235 (75.81%)
-    ' Comment Lines: 41 (13.23%)
+    '   Total Lines: 293
+    '    Code Lines: 219 (74.74%)
+    ' Comment Lines: 41 (13.99%)
     '    - Xml Docs: 65.85%
     ' 
-    '   Blank Lines: 34 (10.97%)
-    '     File Size: 13.49 KB
+    '   Blank Lines: 33 (11.26%)
+    '     File Size: 12.61 KB
 
 
     ' Module Workflow
     ' 
-    '     Function: AssemblingGenomeInformation, AssemblingMetabolicNetwork, AssemblingRegulationNetwork, BuildReactions, converts
-    '               createMetabolicProcess, GetCentralDogmas, getTaxonomy, glycan2Cpd
+    '     Function: AssemblingGenomeInformation, AssemblingMetabolicNetwork, AssemblingRegulationNetwork, BuildReactions, createMetabolicProcess
+    '               GetCentralDogmas, getTaxonomy
     ' 
     ' /********************************************************************************/
 
@@ -206,39 +206,22 @@ Public Module Workflow
                     .ToArray
             End If
 
+            For Each c As CompoundSpecieReference In model.Reactants.JoinIterates(model.Products)
+                If glycan2Cpd.ContainsKey(c.ID) Then
+                    c.ID = glycan2Cpd(c.ID)
+                End If
+            Next
+
             ' 如果enzyme属性是空的，说明不是酶促反应过程
             Yield New Reaction With {
                 .enzyme = enzymes,
                 .ID = reaction.ID,
-                .substrates = model.Reactants.converts.glycan2Cpd(glycan2Cpd),
-                .products = model.Products.converts.glycan2Cpd(glycan2Cpd),
+                .equation = model,
                 .name = reaction _
                     .CommonNames _
                     .ElementAtOrDefault(0, reaction.Definition)
             }
         Next
-    End Function
-
-    <Extension>
-    Private Function glycan2Cpd(factors As IEnumerable(Of FactorString(Of Double)), glycan2CpdMaps As Dictionary(Of String, String)) As FactorString(Of Double)()
-        Return factors _
-            .Select(Function(factor)
-                        If glycan2CpdMaps.ContainsKey(factor.result) Then
-                            Return New FactorString(Of Double) With {
-                                .factor = factor.factor,
-                                .result = glycan2CpdMaps(factor.result)
-                            }
-                        Else
-                            Return factor
-                        End If
-                    End Function) _
-            .ToArray
-    End Function
-
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension>
-    Private Function converts(compounds As CompoundSpecieReference()) As IEnumerable(Of FactorString(Of Double))
-        Return compounds.Select(Function(r) r.AsFactor)
     End Function
 
     ReadOnly centralDogmaComponents As Index(Of String) = {"gene", "CDS", "tRNA", "rRNA", "RNA"}

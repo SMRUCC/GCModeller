@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d6c58c251ba293d3338609d305c0181, engine\BootstrapLoader\Engine\VCell\DebuggerView.vb"
+﻿#Region "Microsoft.VisualBasic::11150e88e2c00b0e847a37384925774b, engine\BootstrapLoader\Engine\VCell\DebuggerView.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 65
-    '    Code Lines: 54 (83.08%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 74
+    '    Code Lines: 56 (75.68%)
+    ' Comment Lines: 7 (9.46%)
+    '    - Xml Docs: 85.71%
     ' 
-    '   Blank Lines: 11 (16.92%)
-    '     File Size: 2.20 KB
+    '   Blank Lines: 11 (14.86%)
+    '     File Size: 2.55 KB
 
 
     '     Class DebuggerView
@@ -62,6 +62,7 @@ Namespace Engine
     Public Class DebuggerView
 
         ReadOnly engine As Engine
+        ReadOnly cellular_id As String
 
         Public ReadOnly Property mass As MassTable
             Get
@@ -81,7 +82,7 @@ Namespace Engine
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return mass _
-                    .GetByKey(dataStorageDriver.mass.transcriptome) _
+                    .GetByKey(dataStorageDriver.mass.transcriptome, cellular_id) _
                     .ToDictionary(Function(mass) mass.ID,
                                   Function(mass)
                                       Return mass.Value
@@ -93,7 +94,7 @@ Namespace Engine
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return mass _
-                    .GetByKey(dataStorageDriver.mass.proteome) _
+                    .GetByKey(dataStorageDriver.mass.proteome, cellular_id) _
                     .ToDictionary(Function(mass) mass.ID,
                                   Function(mass)
                                       Return mass.Value
@@ -104,7 +105,7 @@ Namespace Engine
         Public ReadOnly Property viewMetabolome As Dictionary(Of String, Double)
             Get
                 Return mass _
-                    .GetByKey(dataStorageDriver.mass.metabolome) _
+                    .GetByKey(dataStorageDriver.mass.metabolome, cellular_id) _
                     .ToDictionary(Function(mass) mass.ID,
                                   Function(mass)
                                       Return mass.Value
@@ -114,8 +115,16 @@ Namespace Engine
 
 #End Region
 
-        Sub New(engine As Engine)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="engine"></param>
+        ''' <param name="cellular_id">
+        ''' the intracellular compartment id
+        ''' </param>
+        Sub New(engine As Engine, cellular_id As String)
             Me.engine = engine
+            Me.cellular_id = cellular_id
         End Sub
     End Class
 End Namespace

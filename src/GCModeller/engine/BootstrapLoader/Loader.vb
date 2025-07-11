@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11b1e4b9e7c486b8beee4ae3e82c6380, engine\BootstrapLoader\Loader.vb"
+﻿#Region "Microsoft.VisualBasic::e6dcbd15f0072d8ed1b7a03eb56eaf5b, engine\BootstrapLoader\Loader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 155
-    '    Code Lines: 113 (72.90%)
-    ' Comment Lines: 13 (8.39%)
-    '    - Xml Docs: 76.92%
+    '   Total Lines: 171
+    '    Code Lines: 125 (73.10%)
+    ' Comment Lines: 14 (8.19%)
+    '    - Xml Docs: 71.43%
     ' 
-    '   Blank Lines: 29 (18.71%)
-    '     File Size: 6.18 KB
+    '   Blank Lines: 32 (18.71%)
+    '     File Size: 6.82 KB
 
 
     '     Class Loader
@@ -84,6 +84,8 @@ Namespace ModelLoader
         Dim proteinMatureFluxLoader As ProteinMatureFluxLoader
         Dim metabolismNetworkLoader As MetabolismNetworkLoader
 
+        ReadOnly unitTest As Boolean = False
+
         ''' <summary>
         ''' This mass table object is generated automatically 
         ''' </summary>
@@ -103,7 +105,8 @@ Namespace ModelLoader
 
         Public Property strict As Boolean = False
 
-        Sub New(define As Definition, dynamics As FluxBaseline)
+        Sub New(define As Definition, dynamics As FluxBaseline, unitTest As Boolean)
+            Me.unitTest = unitTest
             Me.define = define
             Me.dynamics = dynamics
 
@@ -168,6 +171,19 @@ Namespace ModelLoader
             _massLoader = New MassLoader(Me)
             _massLoader.doMassLoadingOn(cell)
 
+            If unitTest Then
+                ' add required
+                Dim massTable As MassTable = _massLoader.massTable
+
+                For Each id As String In define.AsEnumerable
+                    For Each compart_id As String In massTable.compartment_ids
+                        If Not massTable.Exists(id, compart_id) Then
+                            Call massTable.addNew(id, MassRoles.compound, compart_id)
+                        End If
+                    Next
+                Next
+            End If
+
             Return cell.DoCall(AddressOf create)
         End Function
 
@@ -191,13 +207,13 @@ Namespace ModelLoader
              .Distinct
 
                 ' check of the broken mass reference
-                If Not massTable.Exists(link_ref) Then
+                If Not massTable.ExistsAllCompartment(link_ref) Then
                     Dim warn As String = $"found broken mass reference: {link_ref}"
 
                     If strict Then
                         Throw New InvalidProgramException(warn)
                     Else
-                        Call massTable.AddNew(link_ref, MassRoles.compound)
+                        Call massTable.addNew(link_ref, MassRoles.compound, cell.CellularEnvironmentName)
                         Call warn.Warning
                         Call VBDebugger.EchoLine("[warn] " & warn)
                     End If

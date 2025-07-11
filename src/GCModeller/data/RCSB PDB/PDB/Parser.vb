@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db31aaee054d8db83a26b6b35e996241, data\RCSB PDB\PDB\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::0a1b10941c61423b7728d82eabb8df34, data\RCSB PDB\PDB\Parser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 163
-    '    Code Lines: 123 (75.46%)
-    ' Comment Lines: 8 (4.91%)
+    '   Total Lines: 178
+    '    Code Lines: 132 (74.16%)
+    ' Comment Lines: 8 (4.49%)
     '    - Xml Docs: 62.50%
     ' 
-    '   Blank Lines: 32 (19.63%)
-    '     File Size: 7.20 KB
+    '   Blank Lines: 38 (21.35%)
+    '     File Size: 7.54 KB
 
 
     ' Class Parser

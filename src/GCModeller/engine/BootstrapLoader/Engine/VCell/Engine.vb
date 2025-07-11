@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9c27c501e842f46862f7c767d185b2d, engine\BootstrapLoader\Engine\VCell\Engine.vb"
+﻿#Region "Microsoft.VisualBasic::0df09a92bd06ed7448ef05bdaa57a6e9, engine\BootstrapLoader\Engine\VCell\Engine.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 142
-    '    Code Lines: 93 (65.49%)
-    ' Comment Lines: 22 (15.49%)
+    '   Total Lines: 143
+    '    Code Lines: 94 (65.73%)
+    ' Comment Lines: 22 (15.38%)
     '    - Xml Docs: 86.36%
     ' 
-    '   Blank Lines: 27 (19.01%)
-    '     File Size: 5.40 KB
+    '   Blank Lines: 27 (18.88%)
+    '     File Size: 5.52 KB
 
 
     '     Class Engine
@@ -90,7 +90,7 @@ Namespace Engine
         Public ReadOnly Property initials As Definition
         Public ReadOnly Property debugView As DebuggerView
 
-        Sub New(def As Definition, dynamics As FluxBaseline,
+        Sub New(def As Definition, dynamics As FluxBaseline, cellular_id As String,
                 Optional iterations% = 500,
                 Optional timeResolution# = 10000,
                 Optional showProgress As Boolean = True,
@@ -102,11 +102,17 @@ Namespace Engine
 
             Me.initials = def
             Me.dynamics = dynamics
-            Me.debugView = New DebuggerView(Me)
+            Me.debugView = New DebuggerView(Me, cellular_id)
         End Sub
 
         Friend Function getMassPool() As MassTable
-            Return New MassTable(core.m_massIndex)
+            Dim table As New MassTable
+
+            For Each factor As Factor In core.m_massIndex.Values
+                Call table.copy(factor)
+            Next
+
+            Return table
         End Function
 
         ''' <summary>
@@ -125,9 +131,10 @@ Namespace Engine
 
         Public Function LoadModel(virtualCell As CellularModule,
                                   Optional deletions As IEnumerable(Of String) = Nothing,
-                                  Optional ByRef getLoader As Loader = Nothing) As Engine
+                                  Optional ByRef getLoader As Loader = Nothing,
+                                  Optional unitTest As Boolean = False) As Engine
 
-            getLoader = New Loader(initials, dynamics)
+            getLoader = New Loader(initials, dynamics, unitTest)
             core = getLoader _
                 .CreateEnvironment(virtualCell, core) _
                 .Initialize()
@@ -139,8 +146,7 @@ Namespace Engine
             ' 再将对应的基因模板的数量设置为0
             ' 达到无法执行转录过程反应的缺失突变的效果
             For Each geneTemplateId As String In deletions.SafeQuery
-                core.m_massIndex(geneTemplateId).Value = 0
-
+                Call core.m_massIndex(geneTemplateId).reset(0)
                 Call $"Deletes '{geneTemplateId}'...".__INFO_ECHO
             Next
 
@@ -182,9 +188,14 @@ Namespace Engine
 
             For Each mass As Factor In core.m_massIndex.Values
                 If initials.status.ContainsKey(mass.ID) Then
-                    mass.Value = initials.status(mass.ID)
+                    ' instance id has the highest order
+                    mass.reset(initials.status(mass.ID))
                 Else
-                    mass.Value = 1
+                    If initials.status.ContainsKey(mass.template_id) Then
+                        mass.reset(initials.status(mass.template_id))
+                    Else
+                        mass.reset(1)
+                    End If
                 End If
             Next
         End Sub

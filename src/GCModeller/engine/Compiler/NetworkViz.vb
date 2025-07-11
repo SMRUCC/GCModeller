@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::24386a2132c063b0e7b95c8fdbd37f86, engine\Compiler\NetworkViz.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 222
-    '    Code Lines: 163 (73.42%)
-    ' Comment Lines: 48 (21.62%)
-    '    - Xml Docs: 54.17%
-    ' 
-    '   Blank Lines: 11 (4.95%)
-    '     File Size: 10.24 KB
+' Summaries:
 
 
-    ' Module NetworkViz
-    ' 
-    '     Function: CreateGraph, GetPathwayEnzymes, populateReactionLinks
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 222
+'    Code Lines: 163 (73.42%)
+' Comment Lines: 48 (21.62%)
+'    - Xml Docs: 54.17%
+' 
+'   Blank Lines: 11 (4.95%)
+'     File Size: 10.24 KB
+
+
+' Module NetworkViz
+' 
+'     Function: CreateGraph, GetPathwayEnzymes, populateReactionLinks
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -79,7 +79,7 @@ Public Module NetworkViz
             ' 之中导出来吧
             Return cell.metabolismStructure _
                 .enzymes _
-                .Select(Function(enzyme) enzyme.geneID)
+                .Select(Function(enzyme) enzyme.proteinID)
         Else
             With pathways.Indexing
                 Return cell.metabolismStructure _
@@ -134,7 +134,7 @@ Public Module NetworkViz
             .enzymes _
             .Where(Function(enzyme)
                        ' 在这里做代谢途径的酶列表的筛选
-                       Return enzyme.geneID Like pathwayEnzymes
+                       Return enzyme.proteinID Like pathwayEnzymes
                    End Function) _
             .Select(Function(enzyme)
                         Return enzyme _
@@ -156,7 +156,7 @@ Public Module NetworkViz
             .ForEach(Sub(enzyme, i)
                          ' enzyme的基因肯定存在于所有的基因节点之中
                          ' 在这里只需要做属性的替换就行了
-                         geneNodes(enzyme.geneID).NodeType &= "|enzyme"
+                         geneNodes(enzyme.proteinID).NodeType &= "|enzyme"
                      End Sub)
         ' 产生调控因子的网络节点
         Call cell.genome _
@@ -172,13 +172,13 @@ Public Module NetworkViz
             .enzymes _
             .Where(Function(enzyme)
                        ' 在这里做代谢途径的酶列表的筛选
-                       Return enzyme.geneID Like pathwayEnzymes
+                       Return enzyme.proteinID Like pathwayEnzymes
                    End Function) _
             .Select(Function(enzyme)
                         Return enzyme.catalysis _
                             .Select(Function(catalysis)
                                         Return New NetworkEdge With {
-                                            .fromNode = enzyme.geneID,
+                                            .fromNode = enzyme.proteinID,
                                             .toNode = catalysis.reaction,
                                             .interaction = "metabolic_catalysis"
                                         }
@@ -215,7 +215,7 @@ Public Module NetworkViz
             .AsEnumerable _
             .ToDictionary(Function(r) r.ID,
                           Function(r)
-                              Return Equation.TryParse(r.Equation)
+                              Return Equation.TryParse(r.equation)
                           End Function) _
             .populateReactionLinks(reactionNodes) _
             .ToArray

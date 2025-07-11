@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a35dc4a32849e90205c20e6252fa8dc, data\RCSB PDB\PDB\Keywords\Headers\Journal.vb"
+﻿#Region "Microsoft.VisualBasic::41fa03c7e9381ed49b559db860d230ff, data\RCSB PDB\PDB\Keywords\Headers\Journal.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 72
-    '    Code Lines: 61 (84.72%)
+    '   Total Lines: 76
+    '    Code Lines: 64 (84.21%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 11 (15.28%)
-    '     File Size: 2.76 KB
+    '   Blank Lines: 12 (15.79%)
+    '     File Size: 2.86 KB
 
 
     '     Class Journal
@@ -48,7 +48,7 @@
     '         Properties: author, doi, EDIT, Keyword, pmid
     '                     PUBL, ref, refn, title
     ' 
-    '         Function: Append
+    '         Function: Append, ToString
     ' 
     '         Sub: Flush
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84db09775d538b8958d20f33f4656096, engine\BootstrapLoader\CentralDogmaFluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::c9a8998197392b31a396483992349625, engine\BootstrapLoader\CentralDogmaFluxLoader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 417
-    '    Code Lines: 308 (73.86%)
-    ' Comment Lines: 45 (10.79%)
+    '   Total Lines: 423
+    '    Code Lines: 314 (74.23%)
+    ' Comment Lines: 45 (10.64%)
     '    - Xml Docs: 55.56%
     ' 
-    '   Blank Lines: 64 (15.35%)
-    '     File Size: 18.48 KB
+    '   Blank Lines: 64 (15.13%)
+    '     File Size: 19.14 KB
 
 
     '     Class CentralDogmaFluxLoader
@@ -94,8 +94,8 @@ Namespace ModelLoader
             Call loader.fluxIndex.Add("transcription", New List(Of String))
         End Sub
 
-        Dim charged_tRNA As New Dictionary(Of String, String)
-        Dim uncharged_tRNA As New Dictionary(Of String, String)
+        Friend ReadOnly charged_tRNA As New Dictionary(Of String, String)
+        Friend ReadOnly uncharged_tRNA As New Dictionary(Of String, String)
 
         ''' <summary>
         ''' tRNA charge process
@@ -105,6 +105,7 @@ Namespace ModelLoader
             Dim chargeName As String = "*" & cd.RNAName
             Dim AAKey = cd.RNA.Description.Replace("tRNA", "").Trim("-"c)
             Dim AA As String = SequenceModel.Polypeptides.Abbreviate(AAKey)
+            Dim cellular_id As String = cell.CellularEnvironmentName
 
             ' tRNA基因会存在多个拷贝
             ' 但是实际的反应只需要一个就好了，在这里跳过已经重复出现的tRNA拷贝
@@ -113,17 +114,17 @@ Namespace ModelLoader
             Else
                 charged_tRNA.Add(AA, chargeName)
                 uncharged_tRNA.Add(AA, cd.RNAName)
-                MassTable.AddNew(chargeName, MassRoles.tRNA)
+                MassTable.addNew(chargeName, MassRoles.tRNA, cellular_id)
             End If
 
             Dim left As Variable() = {
-                MassTable.variable(cd.RNAName),
-                MassTable.variable(loader.define.ATP),
-                MassTable.variable(loader.define.AminoAcid(AA))
+                MassTable.variable(cd.RNAName, cellular_id),
+                MassTable.variable(loader.define.ATP, cellular_id),
+                MassTable.variable(loader.define.AminoAcid(AA), cellular_id)
             }
             Dim right As Variable() = {
-                MassTable.variable(chargeName),
-                MassTable.variable(loader.define.ADP)
+                MassTable.variable(chargeName, cellular_id),
+                MassTable.variable(loader.define.ADP, cellular_id)
             }
             Dim flux As New Channel(left, right) With {
                .ID = $"chargeOf_{cd.RNAName}",
@@ -140,11 +141,12 @@ Namespace ModelLoader
         End Function
 
         Private Function ribosomeAssembly(rRNA As String()) As Channel
-            Dim left As Variable() = rRNA.Select(Function(ref) MassTable.variable(ref)).ToArray
+            Dim cellular_id As String = cell.CellularEnvironmentName
+            Dim left As Variable() = rRNA.Select(Function(ref) MassTable.variable(ref, cellular_id)).ToArray
             Dim flux As Channel
 
-            MassTable.AddNew(NameOf(ribosomeAssembly), MassRoles.protein)
-            flux = New Channel(left, {MassTable.variable(NameOf(ribosomeAssembly))}) With {
+            MassTable.addNew(NameOf(ribosomeAssembly), MassRoles.protein, cellular_id)
+            flux = New Channel(left, {MassTable.variable(NameOf(ribosomeAssembly), cellular_id)}) With {
                 .ID = NameOf(ribosomeAssembly),
                 .bounds = New Boundary With {
                     .forward = loader.dynamics.ribosomeAssemblyCapacity,
@@ -196,6 +198,7 @@ Namespace ModelLoader
         End Function
 
         Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
+            Dim cellular_id As String = cell.CellularEnvironmentName
             Dim templateDNA As Variable()
             Dim productsRNA As Variable()
             Dim templateRNA As Variable()
@@ -222,7 +225,6 @@ Namespace ModelLoader
             Dim polypeptides As New List(Of String)
             Dim transcription As Channel
             Dim translation As Channel
-            Dim trKey, tlKey As String
             Dim regulations As Regulation()
             Dim proteinList As New Dictionary(Of String, String)
             Dim proteinComplex = loader.massLoader.proteinComplex
@@ -236,10 +238,10 @@ Namespace ModelLoader
                 ' if the gene template mass value is set to ZERO
                 ' that means no transcription activity that it will be
                 ' A deletion mutation was created
-                Call MassTable.AddNew(cd.geneID, MassRoles.gene)
+                Call MassTable.addNew(cd.geneID, MassRoles.gene, cellular_id)
 
                 If Not cd.polypeptide Is Nothing Then
-                    Call MassTable.AddNew(cd.polypeptide, MassRoles.polypeptide)
+                    Call MassTable.addNew(cd.polypeptide, MassRoles.polypeptide, cellular_id)
                     Call mRNA.Add(cd.geneID)
 
                     If proteinList.ContainsKey(cd.geneID) Then
@@ -251,7 +253,7 @@ Namespace ModelLoader
                         Call proteinList.Add(cd.geneID, proteinComplex(cd.polypeptide))
                     End If
 
-                    Call MassTable.AddNew(cd.RNAName, MassRoles.mRNA)
+                    Call MassTable.addNew(cd.RNAName, MassRoles.mRNA, cellular_id)
                 Else
                     Call componentRNA.Add(cd.geneID)
 
@@ -263,25 +265,25 @@ Namespace ModelLoader
                                 End If
 
                                 rRNA(cd.RNA.Description).Add(cd.RNAName)
-                                MassTable.AddNew(cd.RNAName, MassRoles.rRNA)
+                                MassTable.addNew(cd.RNAName, MassRoles.rRNA, cellular_id)
                             Case RNATypes.tRNA
                                 If Not tRNA.ContainsKey(cd.RNA.Description) Then
                                     tRNA.Add(cd.RNA.Description, New List(Of String))
                                 End If
 
                                 tRNA(cd.RNA.Description).Add(cd.RNAName)
-                                MassTable.AddNew(cd.RNAName, MassRoles.tRNA)
+                                MassTable.addNew(cd.RNAName, MassRoles.tRNA, cellular_id)
 
                                 For Each proc As Channel In tRNAProcess(cd)
                                     Yield proc
                                 Next
                             Case Else
                                 ' add RNA molecule to mass table
-                                Call MassTable.AddNew(cd.RNAName, MassRoles.RNA)
+                                Call MassTable.addNew(cd.RNAName, MassRoles.RNA, cellular_id)
                         End Select
                     Else
                         ' add RNA molecule to mass table
-                        Call MassTable.AddNew(cd.RNAName, MassRoles.RNA)
+                        Call MassTable.addNew(cd.RNAName, MassRoles.RNA, cellular_id)
                     End If
                 End If
             Next
@@ -294,8 +296,8 @@ Namespace ModelLoader
                 ' cd.RNA.Name属性值是基因的id，会产生对象引用错误 
                 templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
                 productsRNA = {
-                    MassTable.variable(cd.RNAName),
-                    MassTable.variable(loader.define.ADP)
+                    MassTable.variable(cd.RNAName, cellular_id),
+                    MassTable.variable(loader.define.ADP, cellular_id)
                 }
 
                 ' 转录和翻译的反应过程都是不可逆的
@@ -311,7 +313,7 @@ Namespace ModelLoader
                         .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
                         .forward = New AdditiveControls With {
                             .baseline = 0,
-                            .activation = {MassTable.variable(NameOf(ribosomeAssembly))}
+                            .activation = {MassTable.variable(NameOf(ribosomeAssembly), cellular_id)}
                         },
                         .reverse = Controls.StaticControl(0),
                         .bounds = New Boundary With {
@@ -325,19 +327,18 @@ Namespace ModelLoader
                     Yield translation
                 End If
 
-                trKey = cd.ToString
-                regulations = TFregulations.TryGetValue(trKey).SafeQuery.ToArray
+                regulations = TFregulations.TryGetValue(cd.transcript_unit).SafeQuery.ToArray
 
                 Dim activeReg As Variable() = regulations _
                     .Where(Function(r) r.effects > 0) _
                     .Select(Function(r)
-                                Return MassTable.variable(proteinList(r.regulator), r.effects)
+                                Return MassTable.variable(r.regulator, cellular_id, r.effects)
                             End Function) _
                     .ToArray
                 Dim suppressReg As Variable() = regulations _
                     .Where(Function(r) r.effects < 0) _
                     .Select(Function(r)
-                                Return MassTable.variable(proteinList(r.regulator), r.effects)
+                                Return MassTable.variable(r.regulator, cellular_id, r.effects)
                             End Function) _
                     .ToArray
 
@@ -374,6 +375,7 @@ Namespace ModelLoader
         ''' <param name="matrix"></param>
         ''' <returns></returns>
         Private Function transcriptionTemplate(geneID$, matrix As Dictionary(Of String, RNAComposition)) As Variable()
+            Dim cellular_id As String = cell.CellularEnvironmentName
             Dim rna As RNAComposition = If(matrix.ContainsKey(geneID), matrix(geneID), New RNAComposition With {
                 .A = 1,
                 .C = 1,
@@ -386,9 +388,9 @@ Namespace ModelLoader
                 .Where(Function(i) i.Value > 0) _
                 .Select(Function(base)
                             Dim baseName = loader.define.NucleicAcid(base.Name)
-                            Return MassTable.variable(baseName, base.Value)
+                            Return MassTable.variable(baseName, cellular_id, base.Value)
                         End Function) _
-                .AsList + MassTable.template(geneID) + MassTable.variable(loader.define.ATP)
+                .AsList + MassTable.template(geneID, cellular_id) + MassTable.variable(loader.define.ATP, cellular_id)
         End Function
 
         '       ATP + AA   + ADP
@@ -401,6 +403,7 @@ Namespace ModelLoader
         ''' <param name="matrix"></param>
         ''' <returns></returns>
         Private Function translationTemplate(gene As CentralDogma, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
+            Dim cellular_id As String = cell.CellularEnvironmentName
             Dim composit = If(matrix.ContainsKey(gene.geneID), matrix(gene.geneID), matrix.TryGetValue(gene.translation))
 
             If composit Is Nothing Then
@@ -410,12 +413,12 @@ Namespace ModelLoader
             Dim AAVector = composit.Where(Function(i) i.Value > 0).ToArray
             Dim AAtRNA = AAVector _
                 .Select(Function(aa)
-                            Return MassTable.variable(charged_tRNA(aa.Name), aa.Value)
+                            Return MassTable.variable(charged_tRNA(aa.Name), cellular_id, aa.Value)
                         End Function) _
                 .AsList
             Dim mRNA As String = gene.RNAName
 
-            Return AAtRNA + MassTable.template(mRNA) + MassTable.variable(loader.define.ATP)
+            Return AAtRNA + MassTable.template(mRNA, cellular_id) + MassTable.variable(loader.define.ATP, cellular_id)
         End Function
 
         Private Function MissingAAComposition(gene As CentralDogma) As ProteinComposition
@@ -452,6 +455,7 @@ Namespace ModelLoader
         End Function
 
         Private Function translationUncharged(gene As CentralDogma, peptide$, matrix As Dictionary(Of String, ProteinComposition)) As Variable()
+            Dim cellular_id As String = cell.CellularEnvironmentName
             Dim composit = If(matrix.ContainsKey(gene.geneID), matrix(gene.geneID), matrix.TryGetValue(gene.translation))
 
             If composit Is Nothing Then
@@ -461,11 +465,11 @@ Namespace ModelLoader
             Dim AAVector = composit.Where(Function(i) i.Value > 0).ToArray
             Dim AAtRNA = AAVector _
                 .Select(Function(aa)
-                            Return MassTable.variable(uncharged_tRNA(aa.Name), aa.Value)
+                            Return MassTable.variable(uncharged_tRNA(aa.Name), cellular_id, aa.Value)
                         End Function) _
                 .AsList
 
-            Return AAtRNA + MassTable.template(peptide) + MassTable.variable(loader.define.ADP)
+            Return AAtRNA + MassTable.template(peptide, cellular_id) + MassTable.variable(loader.define.ADP, cellular_id)
         End Function
 
         Protected Overrides Function GetMassSet() As IEnumerable(Of String)

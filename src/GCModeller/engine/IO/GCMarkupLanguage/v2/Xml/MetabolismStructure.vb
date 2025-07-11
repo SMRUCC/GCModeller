@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c22d1be31c3f5b28cb36f7fde37405d2, engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::b4a45c5fa70c8dcae2afabf2cd667e89, engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 388
-    '    Code Lines: 228 (58.76%)
-    ' Comment Lines: 94 (24.23%)
-    '    - Xml Docs: 96.81%
+    '   Total Lines: 419
+    '    Code Lines: 246 (58.71%)
+    ' Comment Lines: 101 (24.11%)
+    '    - Xml Docs: 97.03%
     ' 
-    '   Blank Lines: 66 (17.01%)
-    '     File Size: 13.36 KB
+    '   Blank Lines: 72 (17.18%)
+    '     File Size: 14.52 KB
 
 
     '     Class MetabolismStructure
@@ -59,20 +59,21 @@
     ' 
     '         Properties: ID, kegg_id, mass0, name
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     '     Class Reaction
     ' 
-    '         Properties: bounds, equation, ID, is_enzymatic, name
-    '                     note, product, substrate
+    '         Properties: bounds, ec_number, equation, ID, is_enzymatic
+    '                     name, note, product, substrate
     ' 
     '         Function: GenericEnumerator, ToString
     ' 
     '     Class CompoundFactor
     ' 
-    '         Properties: compound, factor
+    '         Properties: compartment, compound, factor
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: factorString, ToString
     ' 
     '     Class FunctionalCategory
@@ -128,10 +129,14 @@ Namespace v2
     Public Class MetabolismStructure
 
         <XmlArray("compounds")> Public Property compounds As Compound()
+
         ''' <summary>
-        ''' 在这个属性之中包含有所有的代谢反应过程的定义
+        ''' the metabolic network inside this cellular model, includes all enzymatic reaction and non-enzymatic reaction.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 在这个属性之中包含有所有的代谢反应过程的定义
+        ''' </remarks>
         <XmlElement("reactions")> Public Property reactions As ReactionGroup
 
         ''' <summary>
@@ -176,11 +181,15 @@ Namespace v2
             Return m_kegg.TryGetValue(id)
         End Function
 
-        Public Function GetKEGGMapping(id As String, map_define As String, links As Dictionary(Of String, Reaction())) As Compound
+        Public Function GetKEGGMapping(id As String, map_define As String, links As Dictionary(Of String, Reaction()), unitTest As Boolean) As Compound
             Dim kegg As Compound() = FindByKEGG(id)
 
             If kegg.IsNullOrEmpty Then
-                Throw New MissingPrimaryKeyException($"no mapping for kegg term '{map_define}'({id})!")
+                If Not unitTest Then
+                    Throw New MissingPrimaryKeyException($"no mapping for kegg term '{map_define}'({id})!")
+                End If
+
+                Return New Compound(id, map_define)
             End If
 
             Return kegg _
@@ -279,6 +288,14 @@ Namespace v2
         ''' <returns></returns>
         <XmlAttribute> Public Property mass0 As Double = 1000
 
+        Sub New()
+        End Sub
+
+        Sub New(id As String, Optional name As String = Nothing)
+            Me.ID = id
+            Me.name = If(name, id)
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"[{ID}] {name}"
         End Function
@@ -309,6 +326,12 @@ Namespace v2
         ''' <returns></returns>
         <XmlAttribute> Public Property bounds As Double()
 
+        <XmlElement> Public Property ec_number As String()
+        ''' <summary>
+        ''' the compartment location of the reaction
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement> Public Property compartment As String
         <XmlElement> Public Property substrate As CompoundFactor()
         <XmlElement> Public Property product As CompoundFactor()
 
@@ -344,17 +367,26 @@ Namespace v2
         Public Property factor As Double
         <XmlText>
         Public Property compound As String
+        <XmlAttribute>
+        Public Property compartment As String = "Intracellular"
 
         Sub New()
         End Sub
 
-        Sub New(factor As Double, compound As String)
+        Sub New(factor As Double, compound As String, Optional compartment As String = "Intracellular")
+            Me.compartment = compartment
             Me.factor = factor
             Me.compound = compound
         End Sub
 
+        Sub New(compound As String, factor As Double, Optional compartment As String = "Intracellular")
+            Me.factor = factor
+            Me.compound = compound
+            Me.compartment = compartment
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return compound
+            Return $"[{compartment}]" & compound
         End Function
 
         Friend Function factorString() As String
@@ -410,7 +442,11 @@ Namespace v2
     <XmlType("enzyme", [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class Enzyme : Implements INamedValue
 
-        <XmlAttribute> Public Property geneID As String Implements IKeyedEntity(Of String).Key
+        ''' <summary>
+        ''' the protein id of this enzyme
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property proteinID As String Implements IKeyedEntity(Of String).Key
         <XmlAttribute> Public Property KO As String
         <XmlAttribute> Public Property ECNumber As String
 
@@ -422,7 +458,7 @@ Namespace v2
         Public Property catalysis As Catalysis()
 
         Public Overrides Function ToString() As String
-            Return geneID
+            Return proteinID
         End Function
 
     End Class
@@ -484,6 +520,10 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property target As String
+        ''' <summary>
+        ''' true means current parameter is enzyme concentration
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property isModifier As Boolean
 
         <XmlText>

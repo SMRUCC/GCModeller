@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffd5095d124380489b830ff3733c554d, data\RCSB PDB\PDB\Keywords\Headers\MoleculeMetadata.vb"
+﻿#Region "Microsoft.VisualBasic::a08d02348bfc906b8313c6abe48974b8, data\RCSB PDB\PDB\Keywords\Headers\MoleculeMetadata.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 171
-    '    Code Lines: 132 (77.19%)
-    ' Comment Lines: 7 (4.09%)
+    '   Total Lines: 204
+    '    Code Lines: 162 (79.41%)
+    ' Comment Lines: 7 (3.43%)
     '    - Xml Docs: 71.43%
     ' 
-    '   Blank Lines: 32 (18.71%)
-    '     File Size: 5.65 KB
+    '   Blank Lines: 35 (17.16%)
+    '     File Size: 7.04 KB
 
 
     '     Class MoleculeMetadata
@@ -65,7 +65,7 @@
     ' 
     '     Class Source
     ' 
-    '         Properties: GeneId, Keyword, Ncbi_taxid
+    '         Properties: GeneId, Keyword, Ncbi_taxid, ScientificName
     ' 
     '         Function: Append
     ' 

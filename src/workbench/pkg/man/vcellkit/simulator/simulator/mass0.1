@@ -3,7 +3,10 @@
 .SH NAME
 mass0 \- get the initial mass value
 .SH SYNOPSIS
-\fImass0(\fBvcell\fR as <generic> VirtualCell);\fR
+\fImass0(\fBvcell\fR as <generic> VirtualCell, 
+\fBrandom\fR as any = \fB<NULL>\fR, 
+\fBunit_test\fR as boolean = FALSE, 
+\fBenv\fR as <generic> Environment = \fB<NULL>\fR);\fR
 .SH DESCRIPTION
 .PP
 get the initial mass value
@@ -12,6 +15,12 @@ get the initial mass value
 .PP
 \fBvcell\fB \fR\- 
  the initialize mass value has been defined inside this virtual cell model
+. 
+.PP
+.PP
+\fBrandom\fB \fR\- 
+ set random to the molecules, should be a numeric vector that consist with two number as [min, max]. 
+ both min and max should be positive value.
 . 
 .PP
 .SH VALUE

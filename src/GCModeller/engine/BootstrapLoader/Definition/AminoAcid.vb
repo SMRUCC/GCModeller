@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e620a6ab8533d5b8cd537866b8dc419, engine\BootstrapLoader\Definition\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::1d5b1bd2af58e88e84ee885d0ec40a5e, engine\BootstrapLoader\Definition\AminoAcid.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 142
-    '    Code Lines: 46 (32.39%)
-    ' Comment Lines: 88 (61.97%)
+    '   Total Lines: 148
+    '    Code Lines: 52 (35.14%)
+    ' Comment Lines: 88 (59.46%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (5.63%)
-    '     File Size: 4.08 KB
+    '   Blank Lines: 8 (5.41%)
+    '     File Size: 4.43 KB
 
 
     '     Class AminoAcid
@@ -52,7 +52,7 @@
     '                     W, Y
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
+    '         Function: GenericEnumerator, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -61,11 +61,12 @@
 
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Definitions
 
-    Public Class AminoAcid
+    Public Class AminoAcid : Implements Enumeration(Of String)
 
         ''' <summary>
         ''' L-Alanine
@@ -199,5 +200,10 @@ Namespace Definitions
             Return Me.GetJson
         End Function
 
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
+            For Each aa As PropertyInfo In AminoAcid.aa.Values
+                Yield CStr(aa.GetValue(Me))
+            Next
+        End Function
     End Class
 End Namespace

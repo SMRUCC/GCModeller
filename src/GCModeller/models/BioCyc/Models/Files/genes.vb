@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c268c41727383e6c052dcb08455fcb8, models\BioCyc\Models\genes.vb"
+﻿#Region "Microsoft.VisualBasic::30a7b4cd4d1dfc28058176a1759dd512, models\BioCyc\Models\Files\genes.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 41
-    '    Code Lines: 34 (82.93%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 48
+    '    Code Lines: 33 (68.75%)
+    ' Comment Lines: 8 (16.67%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (17.07%)
-    '     File Size: 1.47 KB
+    '   Blank Lines: 7 (14.58%)
+    '     File Size: 1.71 KB
 
 
     ' Class genes
@@ -57,11 +57,18 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 <Xref("genes.dat")>
 Public Class genes : Inherits Model
 
+    ''' <summary>
+    ''' The unique identifier of this gene object in the NCBI genbak database.
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' (本基因对象在NCBI Genbak数据库之中的唯一标识符)
+    ''' </remarks>
     <AttributeField("ACCESSION-1")>
     Public Property accession1 As String
     <AttributeField("ACCESSION-2")>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4b0df37e38e256a997f7df65d3b3a04, engine\CompilerServices\ModelBase\Property.vb"
+﻿#Region "Microsoft.VisualBasic::d2d1eabaef4fb69c34c1dc67476fb332, engine\CompilerServices\ModelBase\Property.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 6 (16.67%)
-    '     File Size: 1.27 KB
+    '     File Size: 1.21 KB
 
 
     ' Class [Property]

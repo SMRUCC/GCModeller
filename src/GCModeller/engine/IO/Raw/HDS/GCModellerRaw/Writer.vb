@@ -81,6 +81,8 @@ Namespace Raw
         ReadOnly stream As StreamPack
         ReadOnly nameMaps As New Dictionary(Of String, String)
         ReadOnly ticks As New List(Of Double)
+        ReadOnly compartments As String()
+        ReadOnly instance_id As New Dictionary(Of String, Dictionary(Of String, String()))
 
         Sub New(model As CellularModule, output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
@@ -99,6 +101,21 @@ Namespace Raw
                 .Select(Function(r) r.ID) _
                 .ToArray
 
+            compartments = {model.CellularEnvironmentName} _
+                .JoinIterates(model.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)) _
+                .JoinIterates(model.Phenotype.fluxes _
+                    .Select(Function(r)
+                                Return r.equation.GetMetabolites
+                            End Function) _
+                    .IteratesALL _
+                    .Select(Function(c)
+                                Return c.Compartment
+                            End Function)) _
+                .Distinct _
+                .Where(Function(s) Not s.StringEmpty(, True)) _
+                .ToArray
+
+            Call stream.WriteText(compartments.JoinBy(vbCrLf), "/compartments.txt")
             Call stream.WriteText(
                 {
                     New Dictionary(Of String, Integer) From {
@@ -128,14 +145,25 @@ Namespace Raw
             Call Me.moduleIndex.Clear()
             Call Me.nameMaps.Clear()
             Call Me.ticks.Clear()
+            Call Me.instance_id.Clear()
 
             For Each [module] As NamedValue(Of PropertyInfo) In modules.NamedValues
                 Dim name$ = [module].Name
                 Dim index As Index(Of String) = [module].Value.GetValue(Me)
                 Dim list$() = index.Objects
 
+                For Each compart_id As String In compartments
+                    Dim instance_id = list.Select(Function(id) id & "@" & compart_id).ToArray
+
+                    If Not Me.instance_id.ContainsKey(compart_id) Then
+                        Call Me.instance_id.Add(compart_id, New Dictionary(Of String, String()))
+                    End If
+
+                    Call Me.instance_id(compart_id).Add(name, instance_id)
+                Next
+
                 Call nameMaps.Add([module].Value.Name, name)
-                Call stream.WriteText(list.JoinBy(vbCrLf), $"/dynamics/{[module].Value.Name}/index.txt")
+                Call stream.WriteText(list.JoinBy(vbCrLf), $"/index/{name}.txt")
                 Call Me.modules.Add(name, index)
                 Call Me.moduleIndex.Add(name)
             Next
@@ -152,16 +180,21 @@ Namespace Raw
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
-            Dim index As Index(Of String) = modules(nameMaps([module]))
-            Dim v As Double() = snapshot.Takes(index.Objects).ToArray
-            Dim path As String = $"/dynamics/{[module]}/frames/{time}.dat"
+            Dim resolve_name As String = nameMaps([module])
+            Dim index As Index(Of String) = modules(resolve_name)
 
-            Call stream.Delete(path)
-            Call ticks.Add(time)
+            For Each compart_id As String In compartments
+                Dim instance_id As String() = Me.instance_id(compart_id)(resolve_name)
+                Dim v As Double() = snapshot.Takes(instance_id).ToArray
+                Dim path As String = $"/dynamics/{compart_id}/{resolve_name}/frames/{time}.dat"
 
-            Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
-                Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
-            End Using
+                Call stream.Delete(path)
+                Call ticks.Add(time)
+
+                Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
+                    Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
+                End Using
+            Next
 
             Return Me
         End Function

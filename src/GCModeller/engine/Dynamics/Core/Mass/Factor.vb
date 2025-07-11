@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc32b5a79e4c18ae509ed53a9f52eec5, engine\Dynamics\Core\Mass\Factor.vb"
+﻿#Region "Microsoft.VisualBasic::d72387750bfbda38cc28057a1cb0aa35, engine\Dynamics\Core\Mass\Factor.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 50
-    '    Code Lines: 22 (44.00%)
-    ' Comment Lines: 20 (40.00%)
+    '   Total Lines: 59
+    '    Code Lines: 23 (38.98%)
+    ' Comment Lines: 27 (45.76%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (16.00%)
-    '     File Size: 1.58 KB
+    '   Blank Lines: 9 (15.25%)
+    '     File Size: 1.97 KB
 
 
     '     Class Factor
     ' 
-    '         Properties: ID, name, role
+    '         Properties: cellular_compartment, ID, name, role
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
@@ -55,7 +55,6 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
@@ -63,8 +62,11 @@ Imports Microsoft.VisualBasic.Language
 Namespace Core
 
     ''' <summary>
-    ''' 一个变量因子，这个对象主要是用于存储值
+    ''' A mass factor(molecule entity) insdie the simulator runtime environment
     ''' </summary>
+    ''' <remarks>
+    ''' 一个变量因子，这个对象主要是用于存储值
+    ''' </remarks>
     Public Class Factor : Inherits Value(Of Double)
         Implements INamedValue
 
@@ -72,6 +74,9 @@ Namespace Core
         ''' the unique reference id of current molecule
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' this unique instance id usually be in format like: ``id@compart_id``
+        ''' </remarks>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         ''' <summary>
@@ -85,9 +90,23 @@ Namespace Core
         ''' </summary>
         ''' <returns></returns>
         Public Property name As String
+        Public Property template_id As String
+
+        ''' <summary>
+        ''' the cellular compartment id reference of this molecule entity
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property cellular_compartment As String
 
         Sub New()
             role = MassRoles.compound
+        End Sub
+
+        Sub New(copy As Factor)
+            Call Me.New(copy.ID, copy.role, copy.cellular_compartment)
+
+            name = copy.name
+            template_id = copy.template_id
         End Sub
 
         ''' <summary>
@@ -95,13 +114,26 @@ Namespace Core
         ''' </summary>
         ''' <param name="id$"></param>
         ''' <param name="role"></param>
-        Sub New(id$, role As MassRoles)
+        Sub New(id$, role As MassRoles, compart_id As String)
+            Me.cellular_compartment = compart_id
             Me.ID = id
             Me.role = role
         End Sub
 
+        Public Sub reset(value As Double)
+            Me.Value = value
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return $"{If(name, ID)} ({Value} unit, {role.Description})"
+            Return $"{If(name, ID)} ({Value} unit@{cellular_compartment}, {role.Description})"
         End Function
+
+        Public Shared Operator >(factor As Factor, d As Double) As Boolean
+            Return factor.Value > d
+        End Operator
+
+        Public Shared Operator <(factor As Factor, d As Double) As Boolean
+            Return factor.Value < d
+        End Operator
     End Class
 End Namespace

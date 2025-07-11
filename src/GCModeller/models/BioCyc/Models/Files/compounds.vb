@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae28a79e97cb80b49d34fe71a17b3473, models\BioCyc\Models\compounds.vb"
+﻿#Region "Microsoft.VisualBasic::fc8a8e54d82d42dc02007b621f25a753, models\BioCyc\Models\Files\compounds.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 69
-    '    Code Lines: 56 (81.16%)
-    ' Comment Lines: 4 (5.80%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 90
+    '    Code Lines: 62 (68.89%)
+    ' Comment Lines: 16 (17.78%)
+    '    - Xml Docs: 81.25%
     ' 
-    '   Blank Lines: 9 (13.04%)
-    '     File Size: 2.67 KB
+    '   Blank Lines: 12 (13.33%)
+    '     File Size: 3.44 KB
 
 
     ' Class compounds
@@ -57,10 +57,18 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.Framework.IO
-Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
+''' <summary>
+''' the compound metabolite data model from the metacyc/biocyc database
+'''
+''' The Class Compounds describe small-molecular-weight chemical compounds — typically,
+''' compounds that are substrates of metabolic reactions or compounds that activate or
+''' inhibit metabolic enzymes.
+''' </summary>
+''' <remarks>
+''' One of the component in the Class ProtLigandCplxe (Protein-Small-Molecule-Complexes) with class protein
+''' </remarks>
 <Xref("compounds.dat")>
 Public Class compounds : Inherits Model
 
@@ -97,9 +105,22 @@ Public Class compounds : Inherits Model
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FormulaString(meta As compounds) As String
+        If meta.chemicalFormula.IsNullOrEmpty Then
+            Return ""
+        End If
+
         Return meta.chemicalFormula _
             .Select(Function(d)
-                        Return d.Trim(" "c, "("c, ")"c).Replace(" ", "")
+                        Dim t = d.Trim(" "c, "("c, ")"c).Split(" "c)
+                        Dim el As String = t(0)
+
+                        ' NA -> Na
+                        ' CL -> Cl
+                        If el.Length > 1 Then
+                            el = el(0) & el.Substring(1).ToLower
+                        End If
+
+                        Return el & t(1)
                     End Function) _
             .JoinBy("")
     End Function

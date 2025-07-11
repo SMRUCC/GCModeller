@@ -117,7 +117,7 @@ Module RawXmlKit
         Dim arguments As list = RInternal.Invokes.base.Rlist(args, env)
 
         If LCase(mode) = "read" Then
-            Return New Raw.Reader(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
+            Return New Raw.Reader(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True)).LoadIndex
         ElseIf LCase(mode) = "write" Then
             Dim vcell As Engine = arguments.getValue(Of Engine)("vcell", env)
             Dim graph_debug As Boolean = arguments.getValue("graph_debug", env, [default]:=True)
@@ -344,7 +344,7 @@ Module RawXmlKit
 
             Return DirectCast(raw, vcXML.Reader).GetTimeFrames(modu, content_type)
         ElseIf TypeOf raw Is Raw.Reader Then
-            Dim read As Raw.Reader = DirectCast(raw, Raw.Reader).LoadIndex
+            Dim read As Raw.Reader = DirectCast(raw, Raw.Reader)
 
             If args.hasName("module") Then
                 Dim modu As String = args.getValue(Of String)("module", env)

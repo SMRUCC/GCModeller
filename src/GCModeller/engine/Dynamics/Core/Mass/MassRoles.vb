@@ -63,21 +63,37 @@ Namespace Core
     ''' 物质的角色分类类型
     ''' </summary>
     Public Enum MassRoles
+        ''' <summary>
+        ''' gene template of the RNA molecules, usually be a constant 1, binding to unchanged.
+        ''' </summary>
         gene
+
+        ''' <summary>
+        ''' realtime gene instance molecule, could be translate to protein
+        ''' </summary>
         mRNA
+        ''' <summary>
+        ''' realtime gene instance molecule
+        ''' </summary>
         tRNA
+        ''' <summary>
+        ''' realtime gene instance molecule,
+        ''' </summary>
         rRNA
         ''' <summary>
-        ''' other RNA molecules
+        ''' realtime gene instance molecule, other RNA molecules
         ''' </summary>
         RNA
+        ''' <summary>
+        ''' realtime gene instance molecule,
+        ''' </summary>
         polypeptide
         ''' <summary>
-        ''' 蛋白包括单体蛋白或者复合物蛋白
+        ''' realtime gene instance molecule, 蛋白包括单体蛋白或者复合物蛋白
         ''' </summary>
         protein
         ''' <summary>
-        ''' 小分子化合物
+        ''' metabolite instance molecule object. 小分子化合物
         ''' </summary>
         compound
     End Enum

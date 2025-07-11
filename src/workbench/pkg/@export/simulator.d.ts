@@ -52,10 +52,12 @@ declare namespace simulator {
         * + default value Is ``null``.
         * @param showProgress 
         * + default value Is ``true``.
+        * @param unit_test 
+        * + default value Is ``false``.
         * @param debug 
         * + default value Is ``false``.
       */
-      function load(vcell: object, inits?: object, iterations?: object, time_resolutions?: object, deletions?: string, dynamics?: object, showProgress?: boolean, debug?: boolean): object;
+      function load(vcell: object, inits?: object, iterations?: object, time_resolutions?: object, deletions?: string, dynamics?: object, showProgress?: boolean, unit_test?: boolean, debug?: boolean): object;
    }
    /**
     * Create a new status profile data object with unify mass contents.
@@ -73,9 +75,27 @@ declare namespace simulator {
     * 
     * 
      * @param vcell the initialize mass value has been defined inside this virtual cell model
+     * @param random set random to the molecules, should be a numeric vector that consist with two number as [min, max]. 
+     *  both min and max should be positive value.
+     * 
+     * + default value Is ``null``.
+     * @param unit_test 
+     * + default value Is ``false``.
+     * @param env 
+     * + default value Is ``null``.
      * @return A mass environment for run vcell model in GCModeller
    */
-   function mass0(vcell: object): object;
+   function mass0(vcell: object, random?: any, unit_test?: boolean, env?: object): object;
+   /**
+    * set the omics data from this function
+    * 
+    * 
+     * @param def -
+     * @param env_set -
+     * 
+     * + default value Is ``null``.
+   */
+   function set_status(def: object, env_set?: object): object;
    module vcell {
       module flux {
          /**
@@ -100,8 +120,10 @@ declare namespace simulator {
        * 
        * 
         * @param vcell the file model data of the GCModeller vcell
+        * @param unit_test 
+        * + default value Is ``false``.
       */
-      function model(vcell: object): object;
+      function model(vcell: object, unit_test?: boolean): object;
       /**
        * make a snapshot of the mass and flux data
        * 

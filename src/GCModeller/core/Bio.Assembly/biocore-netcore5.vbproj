@@ -10,7 +10,7 @@
     <Title>Assembly file I/O stream for the common biological database and common biological data models</Title>
     <Description>Bio.Assembly: assembly file i/o stream for the common biological database and the common biological data models. This is the core library for the genome annotation in GCModeller.</Description>
     <Product>GCModeller</Product>
-    <Company>Southern Microbial Resources Utilization Centre Of China</Company>
+    <Company>SMRUCC genomics institute</Company>
     <Authors>SMRUCC genomics</Authors>
     <Version>6.3.256.3655</Version>
     <Copyright>Copyright © SMRUCC genomics 2023</Copyright>

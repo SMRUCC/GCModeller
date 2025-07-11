@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc36bc79f81fd766a4567399d433d9d0, engine\BootstrapLoader\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::91a705d7be82f71abf83ce206781d4a2, engine\BootstrapLoader\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 2 (8.33%)
-    '     File Size: 907 B
+    '     File Size: 956 B
 
 
     ' Module Extensions
@@ -66,12 +66,12 @@ Public Module Extensions
     ''' <param name="complex"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function variables(massTable As MassTable, complex As Protein) As IEnumerable(Of Variable)
+    Public Iterator Function variables(massTable As MassTable, complex As Protein, cellular_id As String) As IEnumerable(Of Variable)
         For Each compound In complex.compounds
-            Yield massTable.variable(compound)
+            Yield massTable.variable(compound, cellular_id)
         Next
         For Each peptide In complex.polypeptides
-            Yield massTable.variable(peptide)
+            Yield massTable.variable(peptide, cellular_id)
         Next
     End Function
 End Module

@@ -11,6 +11,9 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <Title>Systems Biology Markup Language File Stream</Title>
+    <UseApplicationFramework>True</UseApplicationFramework>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

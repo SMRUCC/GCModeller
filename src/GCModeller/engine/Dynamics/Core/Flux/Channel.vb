@@ -92,13 +92,7 @@ Namespace Core
         ''' <returns></returns>
         Public Overloads ReadOnly Property direct As Directions
             Get
-                If forward > reverse Then
-                    Return Directions.forward
-                ElseIf reverse > forward Then
-                    Return Directions.reverse
-                Else
-                    Return Directions.stop
-                End If
+                Return GetCurrentDirection()
             End Get
         End Property
 
@@ -112,6 +106,16 @@ Namespace Core
 
             isBroken = Me.left.IsNullOrEmpty OrElse Me.right.IsNullOrEmpty
         End Sub
+
+        Public Function GetCurrentDirection() As Directions
+            If forward > reverse Then
+                Return Directions.forward
+            ElseIf reverse > forward Then
+                Return Directions.reverse
+            Else
+                Return Directions.stop
+            End If
+        End Function
 
         ''' <summary>
         ''' 
@@ -184,7 +188,7 @@ Namespace Core
 
         Public Overrides Function ToString() As String
             If direct = Directions.stop Then
-                Return "stopped..."
+                Return $"[{ID}] stopped..."
             Else
                 Return Core.ToString(Me)
             End If

@@ -5,7 +5,7 @@
     <title>SMRUCC.genomics.Data.BioCyc.proteins</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
 </head>
 
 <body>
@@ -22,7 +22,16 @@
 
         <h3>Description</h3>
 
-        
+        <p>The class of all proteins is divided into two subclasses: protein complexes and polypeptides.
+ A polypeptide is a single amino acid chain produced from a single gene. A protein
+ complex is a multimeric aggregation of more than one polypeptide subunit. A protein
+ complex may in some cases have another protein complex as a component. Many of the
+ slots that are applicable to Proteins are also applicable to members of the RNA class.
+ (本类型的对象会枚举所有的Component对象的UniqueID)</p>
+
+<p>Protein表对象和ProtLigandCplxe表对象相比较：
+ Protein表中包含有所有类型的蛋白质对象，而ProtLigandCplxe则仅包含有蛋白质和小分子化合物配合的之后所形成的复合物，
+ 所以基因的产物在ProtLigandCplxe表中是无法找到的</p>
 
         <h3>Declare</h3>        
 
@@ -36,7 +45,8 @@ export class proteins extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCy
    credits: string;
    db_links: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/DBLink.html">DBLink[]</a>;
    db_xrefs: string;
-   # the source gene id that make translation to this protein
+   # the source gene id that make translation to this protein. 
+   #  The gene's UniqueId that indicated that which gene codes this polypeptide.
    gene: string;
    instanceNameTemplate: string;
    locations: string;
@@ -63,8 +73,8 @@ export class proteins extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCy
     </div>
 </body>
 
-<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
-<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
 </html>

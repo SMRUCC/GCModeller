@@ -1,66 +1,66 @@
-﻿#Region "Microsoft.VisualBasic::3e5eb120fc734bd733b7cd1b20c41e9e, engine\vcellkit\Simulator.vb"
+﻿#Region "Microsoft.VisualBasic::9fd82ef481f1750fac6d4a75da30c1f7, engine\vcellkit\Simulator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 267
-    '    Code Lines: 164 (61.42%)
-    ' Comment Lines: 80 (29.96%)
-    '    - Xml Docs: 92.50%
-    ' 
-    '   Blank Lines: 23 (8.61%)
-    '     File Size: 11.86 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    ' Enum ModuleSystemLevels
-    ' 
-    '     Metabolome, Proteome, Transcriptome
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' Module Simulator
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: ApplyModuleProfile, CreateObjectModel, CreateUnifyDefinition, CreateVCellEngine, FluxIndex
-    '               GetDefaultDynamics, mass0, MassIndex
-    ' 
-    '     Sub: TakeStatusSnapshot
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 269
+'    Code Lines: 166 (61.71%)
+' Comment Lines: 80 (29.74%)
+'    - Xml Docs: 92.50%
+' 
+'   Blank Lines: 23 (8.55%)
+'     File Size: 12.44 KB
+
+
+' Enum ModuleSystemLevels
+' 
+'     Metabolome, Proteome, Transcriptome
+' 
+'  
+' 
+' 
+' 
+' Module Simulator
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: ApplyModuleProfile, CreateObjectModel, CreateUnifyDefinition, CreateVCellEngine, FluxIndex
+'               GetDefaultDynamics, mass0, MassIndex
+' 
+'     Sub: TakeStatusSnapshot
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -80,7 +80,10 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
 ''' data type enumeration of the omics data
@@ -128,65 +131,119 @@ Public Module Simulator
     End Function
 
     ''' <summary>
+    ''' set the omics data from this function
+    ''' </summary>
+    ''' <param name="def"></param>
+    ''' <param name="env_set"></param>
+    ''' <returns></returns>
+    <ExportAPI("set_status")>
+    Public Function setStatus(def As Definition, <RListObjectArgument> Optional env_set As list = Nothing) As Definition
+        If def.status Is Nothing Then
+            def.status = New Dictionary(Of String, Double)
+        End If
+
+        For Each compart_id As String In env_set.getNames
+            Dim s0 As list = env_set.getByName(compart_id)
+
+            For Each cid As String In s0.getNames
+                def.status(cid & "@" & compart_id) = CLRVector.asNumeric(s0.getByName(cid)).DefaultFirst
+            Next
+        Next
+
+        Return def
+    End Function
+
+    ''' <summary>
     ''' get the initial mass value
     ''' </summary>
     ''' <param name="vcell">
     ''' the initialize mass value has been defined inside this virtual cell model
     ''' </param>
+    ''' <param name="random">
+    ''' set random to the molecules, should be a numeric vector that consist with two number as [min, max]. 
+    ''' both min and max should be positive value.
+    ''' </param>
     ''' <returns>
     ''' A mass environment for run vcell model in GCModeller
     ''' </returns>
     <ExportAPI("mass0")>
-    Public Function mass0(vcell As VirtualCell) As Definition
+    Public Function mass0(vcell As VirtualCell,
+                          <RRawVectorArgument>
+                          Optional random As Object = Nothing,
+                          Optional unit_test As Boolean = False,
+                          Optional env As Environment = Nothing) As Definition
+
         Dim kegg_ref = Definition.KEGG({})
         Dim pool = vcell.metabolismStructure
         Dim dnaseq = kegg_ref.NucleicAcid
         Dim prot = kegg_ref.AminoAcid
         Dim generic = kegg_ref.GenericCompounds
         Dim links = vcell.metabolismStructure.reactions.CompoundLinks
-
-        Return New Definition With {
-            .status = pool.compounds _
-                .ToDictionary(Function(c) c.ID,
-                              Function(c)
-                                  Return c.mass0
-                              End Function),
-            .ADP = pool.GetKEGGMapping(kegg_ref.ADP, NameOf(kegg_ref.ADP), links).ID,
-            .ATP = pool.GetKEGGMapping(kegg_ref.ATP, NameOf(kegg_ref.ATP), links).ID,
-            .Oxygen = pool.GetKEGGMapping(kegg_ref.Oxygen, NameOf(kegg_ref.Oxygen), links).ID,
-            .Water = pool.GetKEGGMapping(kegg_ref.Water, NameOf(kegg_ref.Water), links).ID,
+        Dim randMinMax As Double() = CLRVector.asNumeric(random)
+        Dim s0 As Dictionary(Of String, Double)
+        Dim kegg_maps As New Definition With {
+            .ADP = pool.GetKEGGMapping(kegg_ref.ADP, NameOf(kegg_ref.ADP), links, unit_test).ID,
+            .ATP = pool.GetKEGGMapping(kegg_ref.ATP, NameOf(kegg_ref.ATP), links, unit_test).ID,
+            .Oxygen = pool.GetKEGGMapping(kegg_ref.Oxygen, NameOf(kegg_ref.Oxygen), links, unit_test).ID,
+            .Water = pool.GetKEGGMapping(kegg_ref.Water, NameOf(kegg_ref.Water), links, unit_test).ID,
             .NucleicAcid = New NucleicAcid With {
-                .A = pool.GetKEGGMapping(dnaseq.A, "dnaseq->A", links).ID,
-                .C = pool.GetKEGGMapping(dnaseq.C, "dnaseq->C", links).ID,
-                .G = pool.GetKEGGMapping(dnaseq.G, "dnaseq->G", links).ID,
-                .U = pool.GetKEGGMapping(dnaseq.U, "dnaseq->U", links).ID
+                .A = pool.GetKEGGMapping(dnaseq.A, "dnaseq->A", links, unit_test).ID,
+                .C = pool.GetKEGGMapping(dnaseq.C, "dnaseq->C", links, unit_test).ID,
+                .G = pool.GetKEGGMapping(dnaseq.G, "dnaseq->G", links, unit_test).ID,
+                .U = pool.GetKEGGMapping(dnaseq.U, "dnaseq->U", links, unit_test).ID
             },
             .AminoAcid = New AminoAcid With {
-                .A = pool.GetKEGGMapping(prot.A, "prot->A", links).ID,
-                .U = pool.GetKEGGMapping(prot.U, "prot->U", links).ID,
-                .G = pool.GetKEGGMapping(prot.G, "prot->G", links).ID,
-                .C = pool.GetKEGGMapping(prot.C, "prot->C", links).ID,
-                .D = pool.GetKEGGMapping(prot.D, "prot->D", links).ID,
-                .E = pool.GetKEGGMapping(prot.E, "prot->E", links).ID,
-                .F = pool.GetKEGGMapping(prot.F, "prot->F", links).ID,
-                .H = pool.GetKEGGMapping(prot.H, "prot->H", links).ID,
-                .I = pool.GetKEGGMapping(prot.I, "prot->I", links).ID,
-                .K = pool.GetKEGGMapping(prot.K, "prot->K", links).ID,
-                .L = pool.GetKEGGMapping(prot.L, "prot->L", links).ID,
-                .M = pool.GetKEGGMapping(prot.M, "prot->M", links).ID,
-                .N = pool.GetKEGGMapping(prot.N, "prot->N", links).ID,
-                .O = pool.GetKEGGMapping(prot.O, "prot->O", links).ID,
-                .P = pool.GetKEGGMapping(prot.P, "prot->P", links).ID,
-                .Q = pool.GetKEGGMapping(prot.Q, "prot->Q", links).ID,
-                .R = pool.GetKEGGMapping(prot.R, "prot->R", links).ID,
-                .S = pool.GetKEGGMapping(prot.S, "prot->S", links).ID,
-                .T = pool.GetKEGGMapping(prot.T, "prot->T", links).ID,
-                .V = pool.GetKEGGMapping(prot.V, "prot->V", links).ID,
-                .W = pool.GetKEGGMapping(prot.W, "prot->W", links).ID,
-                .Y = pool.GetKEGGMapping(prot.Y, "prot->Y", links).ID
+                .A = pool.GetKEGGMapping(prot.A, "prot->A", links, unit_test).ID,
+                .U = pool.GetKEGGMapping(prot.U, "prot->U", links, unit_test).ID,
+                .G = pool.GetKEGGMapping(prot.G, "prot->G", links, unit_test).ID,
+                .C = pool.GetKEGGMapping(prot.C, "prot->C", links, unit_test).ID,
+                .D = pool.GetKEGGMapping(prot.D, "prot->D", links, unit_test).ID,
+                .E = pool.GetKEGGMapping(prot.E, "prot->E", links, unit_test).ID,
+                .F = pool.GetKEGGMapping(prot.F, "prot->F", links, unit_test).ID,
+                .H = pool.GetKEGGMapping(prot.H, "prot->H", links, unit_test).ID,
+                .I = pool.GetKEGGMapping(prot.I, "prot->I", links, unit_test).ID,
+                .K = pool.GetKEGGMapping(prot.K, "prot->K", links, unit_test).ID,
+                .L = pool.GetKEGGMapping(prot.L, "prot->L", links, unit_test).ID,
+                .M = pool.GetKEGGMapping(prot.M, "prot->M", links, unit_test).ID,
+                .N = pool.GetKEGGMapping(prot.N, "prot->N", links, unit_test).ID,
+                .O = pool.GetKEGGMapping(prot.O, "prot->O", links, unit_test).ID,
+                .P = pool.GetKEGGMapping(prot.P, "prot->P", links, unit_test).ID,
+                .Q = pool.GetKEGGMapping(prot.Q, "prot->Q", links, unit_test).ID,
+                .R = pool.GetKEGGMapping(prot.R, "prot->R", links, unit_test).ID,
+                .S = pool.GetKEGGMapping(prot.S, "prot->S", links, unit_test).ID,
+                .T = pool.GetKEGGMapping(prot.T, "prot->T", links, unit_test).ID,
+                .V = pool.GetKEGGMapping(prot.V, "prot->V", links, unit_test).ID,
+                .W = pool.GetKEGGMapping(prot.W, "prot->W", links, unit_test).ID,
+                .Y = pool.GetKEGGMapping(prot.Y, "prot->Y", links, unit_test).ID
             },
             .GenericCompounds = New Dictionary(Of String, GeneralCompound)
         }
+
+        If randMinMax.IsNullOrEmpty Then
+            ' use value from the given model
+            s0 = pool.compounds _
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return c.mass0
+                              End Function)
+        Else
+            Dim min = randMinMax.Min
+            Dim max = randMinMax.Max
+
+            s0 = pool.compounds _
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return randf.NextDouble(min, max)
+                              End Function)
+
+            For Each id As String In kegg_maps.AsEnumerable
+                s0(id) = randf.NextDouble(min, max)
+            Next
+        End If
+
+        kegg_maps.status = s0
+
+        Return kegg_maps
     End Function
 
     ''' <summary>
@@ -195,8 +252,8 @@ Public Module Simulator
     ''' <param name="vcell">the file model data of the GCModeller vcell</param>
     ''' <returns></returns>
     <ExportAPI("vcell.model")>
-    Public Function CreateObjectModel(vcell As VirtualCell) As CellularModule
-        Return vcell.CreateModel
+    Public Function CreateObjectModel(vcell As VirtualCell, Optional unit_test As Boolean = False) As CellularModule
+        Return vcell.CreateModel(unitTest:=unit_test)
     End Function
 
     ''' <summary>
@@ -244,6 +301,7 @@ Public Module Simulator
                                       Optional deletions$() = Nothing,
                                       Optional dynamics As FluxBaseline = Nothing,
                                       Optional showProgress As Boolean = True,
+                                      Optional unit_test As Boolean = False,
                                       Optional debug As Boolean = False) As Object
 
         Static defaultDynamics As [Default](Of FluxBaseline) = New FluxBaseline
@@ -256,9 +314,10 @@ Public Module Simulator
             iterations:=iterations,
             showProgress:=showProgress,
             timeResolution:=time_resolutions,
-            debug:=debug
+            debug:=debug,
+            cellular_id:=vcell.CellularEnvironmentName
         ) _
-        .LoadModel(vcell, deletions)
+        .LoadModel(vcell, deletions, unitTest:=unit_test)
     End Function
 
     ''' <summary>

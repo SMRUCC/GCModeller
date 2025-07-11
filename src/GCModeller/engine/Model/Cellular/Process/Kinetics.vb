@@ -98,7 +98,7 @@ Namespace Cellular.Process
             Dim vm = Me
 
             Return Function(getVal As Func(Of String, Double)) As Double
-                       Dim vals = vm.paramVals.ToArray
+                       Dim vals As Object() = vm.paramVals.ToArray
 
                        If vm.parameters.Length = 0 Then
                            vals = {}

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27c2754f7e02a7103d01656987de21a3, mime\application%json\Javascript\JsonArray.vb"
+﻿#Region "Microsoft.VisualBasic::f2e1e5034f596a4622965721814163d5, mime\application%json\Javascript\JsonArray.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 160
-    '    Code Lines: 118 (73.75%)
-    ' Comment Lines: 17 (10.62%)
+    '   Total Lines: 164
+    '    Code Lines: 118 (71.95%)
+    ' Comment Lines: 21 (12.80%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 25 (15.62%)
-    '     File Size: 5.55 KB
+    '   Blank Lines: 25 (15.24%)
+    '     File Size: 5.70 KB
 
 
     '     Class JsonArray
@@ -94,25 +94,12 @@ Namespace Javascript
         End Property
 
         ''' <summary>
-        ''' the array base element type
+        ''' try to measure of the array base element type
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property UnderlyingType As Type
             Get
-                If list.IsNullOrEmpty Then
-                    Return GetType(Object)
-                ElseIf list.All(Function(o) TypeOf o Is JsonValue) Then
-                    Return list _
-                        .Select(Function(o) DirectCast(o, JsonValue)) _
-                        .Where(Function(o) Not o.IsLiteralNull) _
-                        .Select(Function(o) o.UnderlyingType) _
-                        .GroupBy(Function(a) a) _
-                        .OrderByDescending(Function(a) a.Count) _
-                        .First _
-                        .Key
-                Else
-                    Return GetType(Object)
-                End If
+                Return MeasureUnderlyingType(list)
             End Get
         End Property
 
@@ -198,6 +185,37 @@ Namespace Javascript
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
             Yield GetEnumerator()
+        End Function
+
+        Public Shared Function MeasureUnderlyingType(vals As IEnumerable(Of JsonElement)) As Type
+            Dim checkLiteral As Boolean = False
+            Dim literals As New Dictionary(Of Type, Integer)
+
+            For Each val As JsonElement In vals.SafeQuery
+                If Not TypeOf val Is JsonValue Then
+                    Return GetType(Object)
+                Else
+                    Dim literal As Type = DirectCast(val, JsonValue).UnderlyingType
+
+                    checkLiteral = True
+
+                    If literals.ContainsKey(literal) Then
+                        literals(literal) += 1
+                    Else
+                        literals(literal) = 1
+                    End If
+                End If
+            Next
+
+            If Not checkLiteral Then
+                Return GetType(Object)
+            ElseIf literals.Count = 1 Then
+                Return literals.Keys.First
+            ElseIf literals.Keys.Any(Function(t) t Is GetType(String)) Then
+                Return GetType(String)
+            Else
+                Return GetType(Integer)
+            End If
         End Function
 
         Public Overloads Shared Narrowing Operator CType(array As JsonArray) As String()

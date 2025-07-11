@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9804712ff7e5ba44ec299a215a89a53d, engine\vcellkit\Modeller\Modeller.vb"
+﻿#Region "Microsoft.VisualBasic::ad25bcf3717390d3cced5dcdee8ad927, engine\vcellkit\Modeller\Modeller.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 125
-    '    Code Lines: 83 (66.40%)
-    ' Comment Lines: 26 (20.80%)
-    '    - Xml Docs: 92.31%
+    '   Total Lines: 159
+    '    Code Lines: 103 (64.78%)
+    ' Comment Lines: 38 (23.90%)
+    '    - Xml Docs: 94.74%
     ' 
-    '   Blank Lines: 16 (12.80%)
-    '     File Size: 4.74 KB
+    '   Blank Lines: 18 (11.32%)
+    '     File Size: 6.16 KB
 
 
     ' Module vcellModeller
     ' 
     '     Function: applyKinetics, CompileLambda, eval, evalArgumentValues, Kinetics
-    '               LoadVirtualCell, WriteZipAssembly
+    '               LoadVirtualCell, readJSON, writeJSON, WriteZipAssembly
     ' 
     '     Sub: createKineticsDbCache
     ' 
@@ -54,10 +54,13 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK.docuRESTfulWeb
@@ -75,7 +78,7 @@ Imports RExpr = SMRUCC.Rsharp.Interpreter.ExecuteEngine.Expression
 ''' virtual cell network kinetics modeller
 ''' </summary>
 <Package("modeller", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
-Module vcellModeller
+Public Module vcellModeller
 
     ' ((kcat * E) * S) / (Km + S)
     ' (Vmax * S) / (Km + S)
@@ -111,7 +114,38 @@ Module vcellModeller
         Return path.LoadXml(Of VirtualCell)
     End Function
 
-    <ExportAPI("zip")>
+    ''' <summary>
+    ''' save the virtual cell model as a large json file
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("write.json_model")>
+    Public Function writeJSON(vcell As VirtualCell, file As String, Optional indent As Boolean = True) As Boolean
+        Dim s As Stream = file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+        Dim json As JsonElement = vcell.CreateJSONElement
+        Call json.WriteJSON(s, New JSONSerializerOptions With {.indent = indent})
+        Call s.Flush()
+        Call s.Dispose()
+        Return True
+    End Function
+
+    <ExportAPI("read.json_model")>
+    Public Function readJSON(file As String) As VirtualCell
+        Dim s As Stream = file.OpenReadonly
+        Dim reader As New JsonParser(New StreamReader(s))
+        Dim json As JsonObject = DirectCast(reader.OpenJSON, JsonObject)
+        Dim model As VirtualCell = json.CreateObject(Of VirtualCell)
+        Return model
+    End Function
+
+    ''' <summary>
+    ''' save the virtual cell model as zip archive file
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("write.zip")>
     Public Function WriteZipAssembly(vcell As VirtualCell, file As String) As Boolean
         Return ZipAssembly.WriteZip(vcell, file)
     End Function

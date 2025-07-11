@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::538828b10f78d430da78ff62b55d6de9, models\BioCyc\Workspace.vb"
+﻿#Region "Microsoft.VisualBasic::cd01e50ed55045636e51d12966debadb, models\BioCyc\Workspace.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 113
-    '    Code Lines: 86 (76.11%)
-    ' Comment Lines: 6 (5.31%)
-    '    - Xml Docs: 50.00%
+    '   Total Lines: 142
+    '    Code Lines: 106 (74.65%)
+    ' Comment Lines: 11 (7.75%)
+    '    - Xml Docs: 63.64%
     ' 
-    '   Blank Lines: 21 (18.58%)
-    '     File Size: 4.26 KB
+    '   Blank Lines: 25 (17.61%)
+    '     File Size: 5.25 KB
 
 
     ' Class Workspace
     ' 
     '     Properties: compounds, enzrxns, genes, IWorkspace_Workspace, pathways
-    '                 proteins, reactions
+    '                 proteins, reactions, species, transunits
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: CreateSequenceIndex, getFileName, openFile, ToString
+    '     Function: CreateSequenceIndex, getFileName, Open, openFile, ToString
     ' 
     ' /********************************************************************************/
 
@@ -74,6 +74,14 @@ Public Class Workspace : Implements IWorkspace
     Dim m_compounds As Lazy(Of AttrDataCollection(Of compounds))
     Dim m_genes As Lazy(Of AttrDataCollection(Of genes))
     Dim m_proteins As Lazy(Of AttrDataCollection(Of proteins))
+    Dim m_transunits As Lazy(Of AttrDataCollection(Of transunits))
+    Dim m_species As species
+
+    Public ReadOnly Property transunits As AttrDataCollection(Of transunits)
+        Get
+            Return m_transunits.Value
+        End Get
+    End Property
 
     Public ReadOnly Property compounds As AttrDataCollection(Of compounds)
         Get
@@ -111,6 +119,16 @@ Public Class Workspace : Implements IWorkspace
         End Get
     End Property
 
+    ''' <summary>
+    ''' the organism taxonomy species information
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property species As species
+        Get
+            Return m_species
+        End Get
+    End Property
+
     Private ReadOnly Property IWorkspace_Workspace As String Implements IWorkspace.Workspace
         Get
             Return dir
@@ -133,6 +151,13 @@ Public Class Workspace : Implements IWorkspace
         m_compounds = New Lazy(Of AttrDataCollection(Of compounds))(Function() openFile(Of compounds)())
         m_genes = New Lazy(Of AttrDataCollection(Of genes))(Function() openFile(Of genes)())
         m_proteins = New Lazy(Of AttrDataCollection(Of proteins))(Function() openFile(Of proteins)())
+        m_transunits = New Lazy(Of AttrDataCollection(Of transunits))(Function() openFile(Of transunits)())
+        ' scalar data object
+        m_species = openFile(Of species).features.FirstOrDefault
+
+        If m_species Is Nothing Then
+            Call "missing the organism taxonomy species information file in current model!".Warning
+        End If
     End Sub
 
     Private Function openFile(Of T As Model)() As AttrDataCollection(Of T)
@@ -165,6 +190,10 @@ Public Class Workspace : Implements IWorkspace
 
     Public Shared Function CreateSequenceIndex(seq As FastaFile) As Dictionary(Of String, FastaSeq)
         Return seq.ToDictionary(Function(a) a.Headers(2).Split(" "c).First)
+    End Function
+
+    Public Shared Function Open(dir As String) As Workspace
+        Return New Workspace(dir)
     End Function
 
 End Class

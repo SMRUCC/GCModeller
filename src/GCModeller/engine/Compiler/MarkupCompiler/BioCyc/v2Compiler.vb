@@ -153,7 +153,7 @@ Namespace MarkupCompiler.BioCyc
 
                 Yield New Enzyme With {
                     .ECNumber = If(ecNumber Is Nothing, Nothing, ecNumber.Key),
-                    .geneID = enz.Key,
+                    .proteinID = enz.Key,
                     .KO = Nothing,
                     .catalysis = enz _
                         .Select(Function(a)

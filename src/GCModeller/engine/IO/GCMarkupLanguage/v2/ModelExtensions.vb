@@ -1,69 +1,72 @@
-﻿#Region "Microsoft.VisualBasic::bcb310f6929884f5b8fc80825068a20f, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::03a48ecd9aaa3e9941a11b788f31dd40, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 315
-    '    Code Lines: 268 (85.08%)
-    ' Comment Lines: 18 (5.71%)
-    '    - Xml Docs: 33.33%
-    ' 
-    '   Blank Lines: 29 (9.21%)
-    '     File Size: 14.19 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    '     Module ModelExtensions
-    ' 
-    '         Function: BuildEquation, createFluxes, createGenotype, CreateModel, createPhenotype
-    '                   exportRegulations, loadKinetics
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 337
+'    Code Lines: 284 (84.27%)
+' Comment Lines: 21 (6.23%)
+'    - Xml Docs: 38.10%
+' 
+'   Blank Lines: 32 (9.50%)
+'     File Size: 15.43 KB
+
+
+'     Module ModelExtensions
+' 
+'         Function: BuildEquation, createFluxes, createGenotype, CreateModel, createPhenotype
+'                   exportRegulations, loadKinetics
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
+Imports SMRUCC.genomics.SequenceModel.Polypeptides
 Imports FluxModel = SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process.Reaction
 
 Namespace v2
@@ -73,16 +76,18 @@ Namespace v2
 
         ''' <summary>
         ''' Load model file as the unify data model for run the downstream simulation analysis.
-        ''' (将所加载的XML模型文件转换为统一的数据模型)
         ''' </summary>
         ''' <param name="model"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (将所加载的XML模型文件转换为统一的数据模型)
+        ''' </remarks>
         <Extension>
-        Public Function CreateModel(model As VirtualCell) As CellularModule
+        Public Function CreateModel(model As VirtualCell, Optional unitTest As Boolean = False) As CellularModule
             Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso Not model.genome.replicons.IsNullOrEmpty
             Dim genotype As New Genotype With {
                 .centralDogmas = model _
-                    .createGenotype _
+                    .createGenotype(unitTest) _
                     .OrderByDescending(Function(gene) gene.RNA.Value) _
                     .ToArray,
                 .ProteinMatrix = {},
@@ -111,14 +116,18 @@ Namespace v2
                 .Taxonomy = model.taxonomy,
                 .Genotype = genotype,
                 .Phenotype = model.createPhenotype,
-                .Regulations = model.exportRegulations.ToArray
+                .Regulations = model.exportRegulations.ToArray,
+                .CellularEnvironmentName = model.cellular_id
             }
         End Function
 
         <Extension>
-        Private Iterator Function createGenotype(model As VirtualCell) As IEnumerable(Of CentralDogma)
+        Private Iterator Function createGenotype(model As VirtualCell, unitTest As Boolean) As IEnumerable(Of CentralDogma)
             Dim genomeName$
-            Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure.enzymes.ToDictionary(Function(enzyme) enzyme.geneID)
+            Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure.enzymes _
+                .ToDictionary(Function(enzyme)
+                                  Return enzyme.proteinID
+                              End Function)
             Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
             Dim RNA As NamedValue(Of RNATypes)
             Dim proteinId$
@@ -131,9 +140,32 @@ Namespace v2
 
             For Each replicon As replicon In model.genome.replicons
                 genomeName = replicon.genomeName
-                replicon.RNAs = replicon.RNAs.OrderBy(Function(r) r.gene).ToArray
+
+                If replicon.RNAs.IsNullOrEmpty AndAlso unitTest Then
+                    replicon.RNAs = Polypeptide.Abbreviate.Keys _
+                        .Select(Function(name)
+                                    Return New v2.RNA($"tRNA-{name}", RNATypes.tRNA, $"tRNA-{name}")
+                                End Function) _
+                        .ToArray
+                    ' insert genes into the gene system
+                    replicon.operons = replicon.operons.JoinIterates(
+                        replicon.RNAs _
+                            .Select(Function(r)
+                                        Dim gene As New gene With {
+                                            .locus_tag = r.gene,
+                                            .type = r.type,
+                                            .strand = "+",
+                                            .nucleotide_base = New NumericVector(.locus_tag, 1, 1, 1, 1)
+                                        }
+
+                                        Return New TranscriptUnit(gene)
+                                    End Function)) _
+                            .ToArray
+                End If
+
+                replicon.RNAs = replicon.RNAs.SafeQuery.OrderBy(Function(r) r.gene).ToArray
                 rnaTable = replicon.RNAs _
-                    .AsEnumerable _
+                    .SafeQuery _
                     .GroupBy(Function(r) r.gene) _
                     .Select(Function(r) r.First) _
                     .ToDictionary(Function(r) r.gene,
@@ -145,34 +177,37 @@ Namespace v2
                                       }
                                   End Function)
 
-                For Each gene As gene In replicon.GetGeneList
-                    If rnaTable.ContainsKey(gene.locus_tag) Then
-                        RNA = rnaTable(gene.locus_tag)
-                        proteinId = Nothing
-                    Else
-                        ' 枚举的默认值为mRNA
-                        RNA = New NamedValue(Of RNATypes) With {
-                            .Name = gene.locus_tag
-                        }
-                        proteinId = gene.protein_id ' Or $"{gene.locus_tag}::peptide".AsDefault
+                For Each operon As TranscriptUnit In replicon.operons
+                    For Each gene As gene In operon.genes
+                        If rnaTable.ContainsKey(gene.locus_tag) Then
+                            RNA = rnaTable(gene.locus_tag)
+                            proteinId = Nothing
+                        Else
+                            ' 枚举的默认值为mRNA
+                            RNA = New NamedValue(Of RNATypes) With {
+                                .Name = gene.locus_tag
+                            }
+                            proteinId = gene.protein_id ' Or $"{gene.locus_tag}::peptide".AsDefault
 
-                        If proteinId.StringEmpty Then
-                            Dim warn = $"broken central dogma of '{gene.locus_tag}' was found. this gene should be a mRNA but missing polypeptide data."
+                            If proteinId.StringEmpty Then
+                                Dim warn = $"broken central dogma of '{gene.locus_tag}' was found. this gene should be a mRNA but missing polypeptide data."
 
-                            Call warn.Warning
-                            Call VBDebugger.EchoLine("[warn] " & warn)
+                                Call warn.Warning
+                                Call VBDebugger.EchoLine("[warn] " & warn)
+                            End If
                         End If
-                    End If
 
-                    Yield New CentralDogma With {
-                        .replicon = genomeName,
-                        .geneID = gene.locus_tag,
-                        .polypeptide = proteinId,
-                        .orthology = enzymes.TryGetValue(.geneID)?.KO,
-                        .RNA = RNA,
-                        .transcript = gene.nucleotide_base?.name,
-                        .translation = gene.amino_acid?.name
-                    }
+                        Yield New CentralDogma With {
+                            .replicon = genomeName,
+                            .geneID = gene.locus_tag,
+                            .polypeptide = proteinId,
+                            .orthology = enzymes.TryGetValue(.geneID)?.KO,
+                            .RNA = RNA,
+                            .transcript = gene.nucleotide_base?.name,
+                            .translation = gene.amino_acid?.name,
+                            .transcript_unit = operon.id
+                        }
+                    Next
                 Next
             Next
         End Function
@@ -182,11 +217,11 @@ Namespace v2
         Private Function createPhenotype(model As VirtualCell) As Phenotype
             Dim hasGenotype As Boolean = (Not model.genome Is Nothing) AndAlso
                 Not model.genome.replicons.IsNullOrEmpty
-            Dim fluxChannels = model.createFluxes _
+            Dim fluxChannels As FluxModel() = model.createFluxes _
                 .OrderByDescending(Function(r) r.enzyme.TryCount) _
                 .ToArray
-            Dim enzymes = model.metabolismStructure.enzymes _
-                .Select(Function(enz) enz.geneID) _
+            Dim enzymes As String() = model.metabolismStructure.enzymes _
+                .Select(Function(enz) enz.proteinID) _
                 .ToArray
             Dim proteins As Protein() = {}
 
@@ -220,10 +255,10 @@ Namespace v2
                 .Id = reaction.ID,
                 .reversible = True,
                 .Reactants = reaction.substrate _
-                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound)) _
+                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound, c.compartment)) _
                     .ToArray,
                 .Products = reaction.product _
-                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound)) _
+                    .Select(Function(c) New CompoundSpecieReference(c.factor, c.compound, c.compartment)) _
                     .ToArray
             }
         End Function
@@ -237,6 +272,8 @@ Namespace v2
             For Each k As NamedValue(Of Catalysis) In ko
                 If k.Value.reaction <> reaction.ID Then
                     Continue For
+                ElseIf k.Name.TextEquals("null") Then
+                    Throw New InvalidDataException($"the enzyme name could not be '{k.Name}', please check the definition of enzyme for {reaction.ID}!")
                 Else
                     If k.Value.formula Is Nothing Then
                         ' apply of the default kinetics
@@ -280,14 +317,17 @@ Namespace v2
         Private Iterator Function createFluxes(model As VirtualCell) As IEnumerable(Of FluxModel)
             Dim equation As Equation
             ' {reactionID => KO()}
-            Dim enzymes = model.metabolismStructure _
-                .enzymes _
-                .Select(Function(enz)
-                            Return enz.catalysis _
-                                .SafeQuery _
-                                .Select(Function(ec)
-                                            Return (rID:=ec.reaction, enz:=New NamedValue(Of Catalysis)(If(enz.KO, enz.geneID), ec))
-                                        End Function)
+            Dim enzymes = model.metabolismStructure.enzymes _
+                .Select(Iterator Function(enz) As IEnumerable(Of (rID$, enz As NamedValue(Of Catalysis)))
+                            Dim catalysis_name As String
+                            Dim enz_ref As NamedValue(Of Catalysis)
+
+                            For Each ec In enz.catalysis.SafeQuery
+                                catalysis_name = If(enz.KO.StringEmpty(, True), enz.proteinID, enz.KO)
+                                enz_ref = New NamedValue(Of Catalysis)(catalysis_name, ec)
+
+                                Yield (rID:=ec.reaction, enz:=enz_ref)
+                            Next
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(r) r.rID) _
@@ -331,15 +371,11 @@ Namespace v2
                 Yield New FluxModel With {
                     .ID = reaction.ID,
                     .name = reaction.name,
-                    .substrates = equation.Reactants _
-                        .Select(Function(c) c.AsFactor) _
-                        .ToArray,
-                    .products = equation.Products _
-                        .Select(Function(c) c.AsFactor) _
-                        .ToArray,
+                    .equation = equation,
                     .enzyme = KO.Keys.Distinct.ToArray,
                     .bounds = bounds,
-                    .kinetics = kinetics
+                    .kinetics = kinetics,
+                    .enzyme_compartment = reaction.compartment
                 }
             Next
         End Function

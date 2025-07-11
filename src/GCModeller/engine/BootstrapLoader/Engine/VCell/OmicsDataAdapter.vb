@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a26beab18fe806e4621a0bc45afbc5bb, engine\BootstrapLoader\Engine\VCell\OmicsDataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::8034016e9cdb444199537082be793512, engine\BootstrapLoader\Engine\VCell\OmicsDataAdapter.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 81
-    '    Code Lines: 68 (83.95%)
-    ' Comment Lines: 2 (2.47%)
+    '   Total Lines: 87
+    '    Code Lines: 74 (85.06%)
+    ' Comment Lines: 2 (2.30%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 11 (13.58%)
-    '     File Size: 3.81 KB
+    '   Blank Lines: 11 (12.64%)
+    '     File Size: 4.18 KB
 
 
     '     Class OmicsDataAdapter
@@ -60,6 +60,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
@@ -105,11 +106,16 @@ Namespace Engine
                 .Select(Function(gene) gene.polypeptide) _
                 .ToArray
             Dim metabolites = model.Phenotype.fluxes _
-                .Select(Function(flux)
-                            Return flux.products.AsList + flux.substrates
+                .Select(Iterator Function(flux) As IEnumerable(Of CompoundSpecieReference)
+                            For Each c As CompoundSpecieReference In flux.equation.Reactants
+                                Yield c
+                            Next
+                            For Each c As CompoundSpecieReference In flux.equation.Products
+                                Yield c
+                            Next
                         End Function) _
                 .IteratesALL _
-                .Select(Function(mass) mass.result) _
+                .Select(Function(mass) mass.ID) _
                 .Distinct _
                 .ToArray
 

@@ -1,62 +1,64 @@
-﻿#Region "Microsoft.VisualBasic::dd7414dd9199863196c588a5b8965f9a, engine\BootstrapLoader\BioMoleculeDegradation.vb"
+﻿#Region "Microsoft.VisualBasic::49d17873ae785e79cfd7316673b18746, engine\BootstrapLoader\BioMoleculeDegradation.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 145
-    '    Code Lines: 114 (78.62%)
-    ' Comment Lines: 9 (6.21%)
-    '    - Xml Docs: 33.33%
-    ' 
-    '   Blank Lines: 22 (15.17%)
-    '     File Size: 6.41 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    '     Class BioMoleculeDegradation
-    ' 
-    '         Properties: proteinMatures
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux, GetMassSet, proteinDegradation, RNADegradation
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 147
+'    Code Lines: 116 (78.91%)
+' Comment Lines: 9 (6.12%)
+'    - Xml Docs: 33.33%
+' 
+'   Blank Lines: 22 (14.97%)
+'     File Size: 6.70 KB
+
+
+'     Class BioMoleculeDegradation
+' 
+'         Properties: proteinMatures
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CreateFlux, GetMassSet, proteinDegradation, RNADegradation
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 
 Namespace ModelLoader
@@ -83,9 +85,10 @@ Namespace ModelLoader
         End Function
 
         Private Iterator Function proteinDegradation(cell As CellularModule) As IEnumerable(Of Channel)
+            Dim cellular_id As String = cell.CellularEnvironmentName
             ' protein complex -> polypeptide + compounds
             ' polypeptide -> aminoacid
-            Dim proteinComplex$
+            Dim proteinComplexId$
             Dim peptideId$
             Dim geneIDindex = cell.Genotype.centralDogmas _
                 .Where(Function(cd)
@@ -108,10 +111,15 @@ Namespace ModelLoader
             Dim aaResidue As Variable()
             Dim geneIDSet As String()
             Dim flux As Channel
+            Dim proteinComplex As Variable
 
             For Each complex As Channel In proteinMatures
-                proteinComplex = complex.right.First(Function(c) c.mass.ID.EndsWith(".complex")).mass.ID
-                peptideId = proteinComplex.Replace(".complex", "")
+                proteinComplex = complex.right _
+                    .First(Function(c)
+                               Return MassTable.getSource(c.mass.ID).source_id.EndsWith(".complex")
+                           End Function)
+                proteinComplexId = MassTable.getSource(proteinComplex.mass.ID).source_id
+                peptideId = proteinComplexId.Replace(".complex", "")
                 geneIDSet = geneIDindex(peptideId)
 
                 For Each geneId As String In geneIDSet
@@ -120,12 +128,12 @@ Namespace ModelLoader
                         .Where(Function(i) i.Value > 0) _
                         .Select(Function(aa)
                                     Dim aaName = loader.define.AminoAcid(aa.Name)
-                                    Return MassTable.variable(aaName, aa.Value)
+                                    Return MassTable.variable(aaName, cellular_id, aa.Value)
                                 End Function) _
                         .ToArray
 
-                    flux = New Channel(MassTable.variables({proteinComplex}, 1), MassTable.variables({peptideId}, 1)) With {
-                        .ID = $"proteinComplexDegradationOf{proteinComplex}",
+                    flux = New Channel(MassTable.variables({proteinComplexId}, 1, cell.CellularEnvironmentName), MassTable.variables({peptideId}, 1, cell.CellularEnvironmentName)) With {
+                        .ID = $"proteinComplexDegradationOf{proteinComplexId}",
                         .forward = Controls.StaticControl(10),
                         .reverse = Controls.StaticControl(0),
                         .bounds = New Boundary With {
@@ -138,7 +146,7 @@ Namespace ModelLoader
 
                     Yield flux
 
-                    flux = New Channel(MassTable.variables({peptideId}, 1), aaResidue) With {
+                    flux = New Channel(MassTable.variables({peptideId}, 1, cell.CellularEnvironmentName), aaResidue) With {
                         .ID = $"polypeptideDegradationOf{peptideId}",
                         .forward = Controls.StaticControl(10),
                         .reverse = Controls.StaticControl(0),
@@ -156,7 +164,7 @@ Namespace ModelLoader
         End Function
 
         Private Iterator Function RNADegradation(cell As CellularModule) As IEnumerable(Of Channel)
-            Dim centralDogmas = loader.GetCentralDogmaFluxLoader
+            Dim centralDogmas As CentralDogmaFluxLoader = loader.GetCentralDogmaFluxLoader
             Dim composition As RNAComposition
             Dim rnaMatrix = cell.Genotype.RNAMatrix _
                 .GroupBy(Function(a) a.geneID) _
@@ -166,21 +174,29 @@ Namespace ModelLoader
                               End Function)
             Dim ntBase As Variable()
             Dim flux As Channel
+            Dim cellular_id As String = cell.CellularEnvironmentName
+
+            ' 20250711
+            ' the code is the gene id list
+            ' not rna id list
+            ' will associate to the wrong object to degradation
+
+            ' centralDogmas.componentRNA.AsList + centralDogmas.mRNA
 
             ' rna -> nt base
-            For Each rna As String In centralDogmas.componentRNA.AsList + centralDogmas.mRNA
-                composition = rnaMatrix(rna)
+            For Each gene As CentralDogma In cell.Genotype.centralDogmas
+                composition = rnaMatrix(gene.geneID)
                 ntBase = composition _
                     .Where(Function(i) i.Value > 0) _
                     .Select(Function(base)
                                 Dim baseName = loader.define.NucleicAcid(base.Name)
-                                Return MassTable.variable(baseName, base.Value)
+                                Return MassTable.variable(baseName, cellular_id, base.Value)
                             End Function) _
                     .ToArray
 
                 ' 降解过程是不可逆的
-                flux = New Channel(MassTable.variables({rna}, 1), ntBase) With {
-                    .ID = $"RNADegradationOf{rna}",
+                flux = New Channel(MassTable.variables({gene.RNAName}, 1, cell.CellularEnvironmentName), ntBase) With {
+                    .ID = $"RNADegradationOf{gene.RNAName}",
                     .forward = Controls.StaticControl(10),
                     .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {

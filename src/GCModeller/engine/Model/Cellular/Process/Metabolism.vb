@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fdd4e593f9ba4ad0f81c4cf0fe518ee, engine\Model\Cellular\Process\Metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::220350e9b83e830de542040579cee1de, engine\Model\Cellular\Process\Metabolism.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 122
-    '    Code Lines: 72 (59.02%)
-    ' Comment Lines: 33 (27.05%)
-    '    - Xml Docs: 96.97%
+    '   Total Lines: 104
+    '    Code Lines: 53 (50.96%)
+    ' Comment Lines: 36 (34.62%)
+    '    - Xml Docs: 97.22%
     ' 
-    '   Blank Lines: 17 (13.93%)
-    '     File Size: 4.53 KB
+    '   Blank Lines: 15 (14.42%)
+    '     File Size: 3.90 KB
 
 
     '     Class Reaction
     ' 
-    '         Properties: AllCompounds, ID, is_enzymatic
+    '         Properties: AllCompounds, bounds, enzyme, enzyme_compartment, equation
+    '                     ID, is_enzymatic, kinetics, name
     ' 
-    '         Function: converts, GetCoefficient, GetEquationString, ToString
+    '         Function: GetCoefficient, GetEquationString, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -58,7 +59,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
@@ -74,26 +74,29 @@ Namespace Cellular.Process
         ''' 反应过程编号
         ''' </summary>
         Public Property ID As String Implements INamedValue.Key
-
-        Public name As String
+        Public Property name As String
 
         ''' <summary>
-        ''' 代谢底物编号
+        ''' the equation model of this reaction
         ''' </summary>
-        Public substrates As FactorString(Of Double)()
-        ''' <summary>
-        ''' 代谢产物编号
-        ''' </summary>
-        Public products As FactorString(Of Double)()
+        ''' <returns></returns>
+        Public Property equation As Equation
+
         ''' <summary>
         ''' 酶编号(KO编号或者EC编号)，如果这个属性是空的，说明不是酶促反应过程
         ''' </summary>
-        Public enzyme As String()
+        Public Property enzyme As String()
+        ''' <summary>
+        ''' the compartment location of the <see cref="enzyme"/> that associated with this reaction.
+        ''' this property value should not be null if the <see cref="enzyme"/> association is not empty.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property enzyme_compartment As String
 
         ''' <summary>
         ''' multiple kinetics candidates
         ''' </summary>
-        Public kinetics As Kinetics()
+        Public Property kinetics As Kinetics()
 
         ''' <summary>
         ''' 这个代谢反应过程的流量的正反方向的流量限制值
@@ -105,7 +108,7 @@ Namespace Cellular.Process
         ''' 所以会造成错误
         ''' 在这里取消使用<see cref="DoubleRange"/>来描述正反的上限值
         ''' </remarks>
-        Public bounds As Double()
+        Public Property bounds As Double()
 
         Public ReadOnly Property is_enzymatic As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -125,54 +128,34 @@ Namespace Cellular.Process
         Public ReadOnly Property AllCompounds As String()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return substrates _
-                    .Join(products) _
-                    .Select(Function(c) c.result) _
+                Return equation _
+                    .GetMetabolites _
+                    .Keys _
                     .ToArray
             End Get
         End Property
 
-        Private ReadOnly left As New Lazy(Of Index(Of String))(Function() substrates.Select(Function(factor) factor.result).Indexing)
-        Private ReadOnly right As New Lazy(Of Index(Of String))(Function() products.Select(Function(factor) factor.result).Indexing)
+        Private ReadOnly left As New Lazy(Of Index(Of String))(Function() equation.Reactants.Select(Function(factor) factor.ID).Indexing)
+        Private ReadOnly right As New Lazy(Of Index(Of String))(Function() equation.Products.Select(Function(factor) factor.ID).Indexing)
 
         Public Function GetCoefficient(compound As String) As Double
             Dim i = left.Value.IndexOf(compound)
 
             If i > -1 Then
-                Return -substrates(i).factor
+                Return -equation.Reactants(i).Stoichiometry
             Else
                 i = right.Value.IndexOf(compound)
             End If
 
             If i > -1 Then
-                Return products(i).factor
+                Return equation.Products(i).Stoichiometry
             Else
                 Return 0
             End If
         End Function
 
         Public Function GetEquationString() As String
-            Dim substrates As CompoundSpecieReference() = converts(Me.substrates)
-            Dim products As CompoundSpecieReference() = converts(Me.products)
-            Dim model As New Equation With {
-                .Reactants = substrates,
-                .Products = products,
-                .reversible = True
-            }
-
-            Return model.ToString
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Shared Function converts(compounds As FactorString(Of Double)()) As CompoundSpecieReference()
-            Return compounds _
-                .Select(Function(c)
-                            Return New CompoundSpecieReference With {
-                                .ID = c.result,
-                                .Stoichiometry = c.factor
-                            }
-                        End Function) _
-                .ToArray
+            Return equation.ToString
         End Function
     End Class
 End Namespace
