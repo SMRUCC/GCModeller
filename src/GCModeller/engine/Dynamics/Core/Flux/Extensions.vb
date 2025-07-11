@@ -70,9 +70,9 @@ Namespace Core
         <Extension>
         Private Function MassToString(var As Variable) As String
             If var.isTemplate Then
-                Return $"[{var.coefficient} {var.mass.ID}]"
+                Return $"*[{var.coefficient} {var.mass.ID}({var.mass.Value.ToString("G3")} unit)]"
             Else
-                Return $"{var.coefficient} {var.mass.ID}"
+                Return $"{var.coefficient} {var.mass.ID}({var.mass.Value.ToString("G3")} unit)"
             End If
         End Function
 
