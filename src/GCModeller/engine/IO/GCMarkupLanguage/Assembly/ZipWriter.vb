@@ -90,12 +90,14 @@ Namespace v2
                 Call replicon.RNAs.Save(zip, $"{dir}/RNAs.jsonl")
             Next
 
-            Call vcell.metabolismStructure.compounds.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.compounds)}.jsonl")
-            Call vcell.metabolismStructure.enzymes.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.enzymes)}.jsonl")
-            Call vcell.metabolismStructure.maps.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.maps)}.jsonl")
+            Dim root_dir As String = $"/{NameOf(VirtualCell.metabolismStructure)}"
 
-            Call vcell.metabolismStructure.reactions.enzymatic.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.enzymatic)}.jsonl")
-            Call vcell.metabolismStructure.reactions.none_enzymatic.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.none_enzymatic)}.jsonl")
+            Call vcell.metabolismStructure.compounds.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.compounds)}.jsonl")
+            Call vcell.metabolismStructure.enzymes.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.enzymes)}.jsonl")
+            Call vcell.metabolismStructure.maps.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.maps)}.jsonl")
+
+            Call vcell.metabolismStructure.reactions.enzymatic.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.enzymatic)}.jsonl")
+            Call vcell.metabolismStructure.reactions.none_enzymatic.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.none_enzymatic)}.jsonl")
         End Sub
 
         Private Iterator Function jsonl(Of T)(list As IEnumerable(Of T)) As IEnumerable(Of String)
