@@ -79,31 +79,29 @@ Namespace v2
             Return str
         End Function
 
-        Public Function GetComponent(Of T)(path As String) As T()
-            Dim xml As String = GetText(path)
+        Public Function getComponentSet(Of T)(path As String) As T()
+            Return reader(Of T)(path).ToArray
+        End Function
 
-            If xml.StringEmpty Then
-                Return Nothing
-            Else
-                Return xml.LoadFromXml(Of ZipComponent(Of T)) _
-                    .AsEnumerable _
-                    .ToArray
-            End If
+        Private Iterator Function reader(Of T)(path As String) As IEnumerable(Of T)
+            For Each line As String In zip.ReadLines(path)
+                Yield line.LoadJSON(Of T)
+            Next
         End Function
 
         Public Function CreateVirtualCellXml() As VirtualCell
             Return New VirtualCell With {
                 .genome = New Genome With {
-                    .regulations = GetComponent(Of transcription)($"{NameOf(VirtualCell.genome)}\{NameOf(Genome.regulations)}.Xml"),
-                    .replicons = GetComponent(Of replicon)($"{NameOf(VirtualCell.genome)}\{NameOf(Genome.replicons)}.Xml")
+                    .regulations = getComponentSet(Of transcription)($"{NameOf(VirtualCell.genome)}\{NameOf(Genome.regulations)}.jsonl"),
+                    .replicons = getComponentSet(Of replicon)($"{NameOf(VirtualCell.genome)}\{NameOf(Genome.replicons)}.jsonl")
                 },
                 .metabolismStructure = New MetabolismStructure With {
-                    .compounds = GetComponent(Of Compound)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.compounds)}.Xml"),
-                    .enzymes = GetComponent(Of Enzyme)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.enzymes)}.Xml"),
-                    .maps = GetComponent(Of FunctionalCategory)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.maps)}.Xml"),
+                    .compounds = getComponentSet(Of Compound)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.compounds)}.jsonl"),
+                    .enzymes = getComponentSet(Of Enzyme)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.enzymes)}.jsonl"),
+                    .maps = getComponentSet(Of FunctionalCategory)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.maps)}.jsonl"),
                     .reactions = New ReactionGroup With {
-                        .enzymatic = GetComponent(Of Reaction)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.reactions)}\{NameOf(ReactionGroup.enzymatic)}.Xml"),
-                        .etc = GetComponent(Of Reaction)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.reactions)}\{NameOf(ReactionGroup.etc)}.Xml")
+                        .enzymatic = getComponentSet(Of Reaction)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.reactions)}\{NameOf(ReactionGroup.enzymatic)}.jsonl"),
+                        .etc = getComponentSet(Of Reaction)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.reactions)}\{NameOf(ReactionGroup.etc)}.jsonl")
                     }
                 },
                 .taxonomy = GetText($"{NameOf(VirtualCell.taxonomy)}.json").LoadJSON(Of Taxonomy),
