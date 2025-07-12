@@ -15,7 +15,7 @@ Namespace v2
         <XmlAttribute>
         Public Property size As Integer Implements IList(Of Reaction).size
             Get
-                Return enzymatic.TryCount + etc.TryCount
+                Return enzymatic.TryCount + none_enzymatic.TryCount
             End Get
             Set(value As Integer)
                 ' do nothing
@@ -31,12 +31,12 @@ Namespace v2
         ''' non-enzymatic reactions
         ''' </summary>
         ''' <returns></returns>
-        Public Property etc As Reaction()
+        Public Property none_enzymatic As Reaction()
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CompoundLinks() As Dictionary(Of String, Reaction())
             Return enzymatic _
-                .JoinIterates(etc) _
+                .JoinIterates(none_enzymatic) _
                 .Select(Function(r)
                             Return r.AsEnumerable.Select(Function(c) (c, r))
                         End Function) _
@@ -54,8 +54,8 @@ Namespace v2
                     Yield reaction
                 Next
             End If
-            If Not etc.IsNullOrEmpty Then
-                For Each reaction As Reaction In etc
+            If Not none_enzymatic.IsNullOrEmpty Then
+                For Each reaction As Reaction In none_enzymatic
                     Yield reaction
                 Next
             End If
@@ -71,7 +71,7 @@ Namespace v2
 
             Return New ReactionGroup With {
                 .enzymatic = twoGroup.TryGetValue(True.ToString, [default]:={}),
-                .etc = twoGroup.TryGetValue(False.ToString, [default]:={})
+                .none_enzymatic = twoGroup.TryGetValue(False.ToString, [default]:={})
             }
         End Operator
     End Class

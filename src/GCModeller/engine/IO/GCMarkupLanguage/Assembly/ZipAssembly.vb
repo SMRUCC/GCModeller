@@ -101,7 +101,7 @@ Namespace v2
                     .maps = getComponentSet(Of FunctionalCategory)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.maps)}.jsonl"),
                     .reactions = New ReactionGroup With {
                         .enzymatic = getComponentSet(Of Reaction)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.reactions)}\{NameOf(ReactionGroup.enzymatic)}.jsonl"),
-                        .etc = getComponentSet(Of Reaction)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.reactions)}\{NameOf(ReactionGroup.etc)}.jsonl")
+                        .none_enzymatic = getComponentSet(Of Reaction)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.reactions)}\{NameOf(ReactionGroup.none_enzymatic)}.jsonl")
                     }
                 },
                 .taxonomy = GetText($"{NameOf(VirtualCell.taxonomy)}.json").LoadJSON(Of Taxonomy),

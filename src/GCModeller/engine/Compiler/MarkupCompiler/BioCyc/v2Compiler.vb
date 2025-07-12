@@ -227,7 +227,7 @@ Namespace MarkupCompiler.BioCyc
                 .ToArray
 
             Return New ReactionGroup With {
-                .etc = non_enzymatic _
+                .none_enzymatic = non_enzymatic _
                     .Select(Function(r) nonEnzymaticReaction(r)) _
                     .ToArray,
                 .enzymatic = enzymatic _

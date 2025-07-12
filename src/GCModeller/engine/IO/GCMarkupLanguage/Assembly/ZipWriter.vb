@@ -76,24 +76,37 @@ Namespace v2
             Call zip.WriteText(vcell.taxonomy.GetJson, $"/{NameOf(VirtualCell.taxonomy)}.json")
             Call zip.WriteText(vcell.properties.GetJson, $"/{NameOf(VirtualCell.properties)}.json")
 
-            Call vcell.genome.regulations.Save(zip, $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.regulations)}.xml")
-            Call vcell.genome.replicons.Save(zip, $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.replicons)}.xml")
+            Call vcell.genome.regulations.Save(zip, $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.regulations)}.jsonl")
 
-            Call vcell.metabolismStructure.compounds.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.compounds)}.xml")
-            Call vcell.metabolismStructure.enzymes.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.enzymes)}.xml")
-            Call vcell.metabolismStructure.maps.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.maps)}.xml")
+            For Each replicon As replicon In vcell.genome.replicons
+                Dim dir As String = $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.replicons)}/{replicon.genomeName}/"
+                Dim meta As New Dictionary(Of String, String) From {
+                    {NameOf(replicon.genomeName), replicon.genomeName},
+                    {NameOf(replicon.isPlasmid), replicon.isPlasmid}
+                }
 
-            Call vcell.metabolismStructure.reactions.enzymatic.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.enzymatic)}.xml")
-            Call vcell.metabolismStructure.reactions.etc.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.etc)}.xml")
+                Call zip.WriteText(meta.GetJson, $"{dir}/index.json")
+                Call replicon.operons.Save(zip, $"{dir}/operons.jsonl")
+                Call replicon.RNAs.Save(zip, $"{dir}/RNAs.jsonl")
+            Next
+
+            Call vcell.metabolismStructure.compounds.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.compounds)}.jsonl")
+            Call vcell.metabolismStructure.enzymes.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.enzymes)}.jsonl")
+            Call vcell.metabolismStructure.maps.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.maps)}.jsonl")
+
+            Call vcell.metabolismStructure.reactions.enzymatic.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.enzymatic)}.jsonl")
+            Call vcell.metabolismStructure.reactions.none_enzymatic.Save(zip, $"/{NameOf(VirtualCell.metabolismStructure)}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.none_enzymatic)}.jsonl")
         End Sub
+
+        Private Iterator Function jsonl(Of T)(list As IEnumerable(Of T)) As IEnumerable(Of String)
+            For Each item As T In list.SafeQuery
+                Yield item.GetJson
+            Next
+        End Function
 
         <Extension>
         Private Sub Save(Of T)(components As IEnumerable(Of T), zip As ZipStream, path As String)
-            Dim str As String = New ZipComponent(Of T) With {
-                 .components = components.ToArray
-            }.GetXml
-
-            Call zip.WriteText(str, path)
+            Call zip.WriteLines(jsonl(components), path)
         End Sub
     End Module
 End Namespace
