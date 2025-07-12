@@ -149,6 +149,13 @@ Namespace ComponentModel.DataSourceModel.Repository
             Return list.Select(Function(a) a.Key).UniqueNames(duplicated)
         End Function
 
+        ''' <summary>
+        ''' update and set the unique names to the index collection
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="list"></param>
+        ''' <param name="duplicated"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function UniqueNames(Of T As INamedValue)(list As IEnumerable(Of T), <Out> Optional ByRef duplicated As String() = Nothing) As IEnumerable(Of T)
             Dim alldata As T() = list.SafeQuery.ToArray

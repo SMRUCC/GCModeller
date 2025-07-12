@@ -112,6 +112,6 @@ Module Program
         }
 
         Call vcellModeller.writeJSON(cell, "./cell1.json", indent:=True)
-        Call WriteZipAssembly(cell, "./cell.zip")
+        Call vcellModeller.WriteZipAssembly(cell, "./cell.zip")
     End Sub
 End Module

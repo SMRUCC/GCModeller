@@ -56,6 +56,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
@@ -80,7 +81,7 @@ Module ZipWriter
 
         Call vcell.genome.regulations.Save(zip, $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.regulations)}.jsonl")
 
-        For Each replicon As replicon In vcell.genome.replicons
+        For Each replicon As replicon In vcell.genome.replicons.UniqueNames
             Dim dir As String = $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.replicons)}/{replicon.genomeName}/"
             Dim meta As New Dictionary(Of String, String) From {
                 {NameOf(replicon.genomeName), replicon.genomeName},
