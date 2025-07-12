@@ -67,6 +67,8 @@ Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Module ZipWriter
 
     Public Function WriteZip(vcell As VirtualCell, zip As String) As Boolean
+        Call New Byte() {}.FlushStream(zip)
+
         Using archive = New ZipStream(zip)
             Call vcell.writeZIP(zip:=archive)
         End Using
