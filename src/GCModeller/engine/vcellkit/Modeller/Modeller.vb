@@ -107,11 +107,24 @@ Public Module vcellModeller
     ''' <summary>
     ''' read the virtual cell model file
     ''' </summary>
-    ''' <param name="path"></param>
+    ''' <param name="path">
+    ''' the model file extension could be:
+    ''' 
+    ''' xml - small virtual cell model in a xml file
+    ''' zip - large virtual cell model file save as multiple components in a zip file
+    ''' json - large virtual cell model file save as json stream file
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("read.vcell")>
     Public Function LoadVirtualCell(path As String) As VirtualCell
-        Return path.LoadXml(Of VirtualCell)
+        Select Case path.ExtensionSuffix
+            Case "zip" : Return ZipAssembly.CreateVirtualCellXml(path)
+            Case "xml" : Return path.LoadXml(Of VirtualCell)
+            Case "json" : Return vcellModeller.readJSON(path)
+
+            Case Else
+                Throw New InvalidProgramException($"Unknown file format with extension suffix name: {path.ExtensionSuffix}!")
+        End Select
     End Function
 
     ''' <summary>
