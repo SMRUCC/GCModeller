@@ -56,19 +56,20 @@
 #End Region
 
 Imports System.Runtime.Serialization
-
 Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
-
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.GCModeller.CompilerServices
 
 Namespace v2
 
+    ''' <summary>
+    ''' A model of the component collection
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public Class ZipComponent(Of T) : Inherits ListOf(Of T)
         Implements XmlDataModel.IXmlType
 
