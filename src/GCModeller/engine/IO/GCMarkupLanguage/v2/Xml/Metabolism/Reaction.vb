@@ -144,18 +144,18 @@ Namespace v2
         <XmlText>
         Public Property compound As String
         <XmlAttribute>
-        Public Property compartment As String = "Intracellular"
+        Public Property compartment As String
 
         Sub New()
         End Sub
 
-        Sub New(factor As Double, compound As String, Optional compartment As String = "Intracellular")
+        Sub New(factor As Double, compound As String, Optional compartment As String = Nothing)
             Me.compartment = compartment
             Me.factor = factor
             Me.compound = compound
         End Sub
 
-        Sub New(compound As String, factor As Double, Optional compartment As String = "Intracellular")
+        Sub New(compound As String, factor As Double, Optional compartment As String = Nothing)
             Me.factor = factor
             Me.compound = compound
             Me.compartment = compartment
