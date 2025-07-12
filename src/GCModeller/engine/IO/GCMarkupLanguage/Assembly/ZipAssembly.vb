@@ -88,11 +88,28 @@ Public Class ZipAssembly : Implements IDisposable
         Next
     End Function
 
+    Private Iterator Function readGenomes() As IEnumerable(Of replicon)
+        Dim root_dir As String = $"{NameOf(VirtualCell.genome)}/{NameOf(Genome.replicons)}/"
+
+        For Each genome As String In zip.GetFiles(root_dir, "index.json")
+            Dim metadata = zip.ReadAllText(genome).LoadJSON(Of Dictionary(Of String, String))
+            Dim operons = getComponentSet(Of TranscriptUnit)($"{genome.ParentPath}/operons.jsonl")
+            Dim rnas = getComponentSet(Of RNA)($"{genome.ParentPath}/RNAs.jsonl")
+
+            Yield New replicon With {
+                .genomeName = metadata!genomeName,
+                .isPlasmid = metadata!isPlasmid.ParseBoolean,
+                .operons = operons,
+                .RNAs = rnas
+            }
+        Next
+    End Function
+
     Public Function CreateVirtualCellXml() As VirtualCell
         Return New VirtualCell With {
             .genome = New Genome With {
                 .regulations = getComponentSet(Of transcription)($"{NameOf(VirtualCell.genome)}\{NameOf(Genome.regulations)}.jsonl"),
-                .replicons = getComponentSet(Of replicon)($"{NameOf(VirtualCell.genome)}\{NameOf(Genome.replicons)}.jsonl")
+                .replicons = readGenomes.ToArray
             },
             .metabolismStructure = New MetabolismStructure With {
                 .compounds = getComponentSet(Of Compound)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.compounds)}.jsonl"),
