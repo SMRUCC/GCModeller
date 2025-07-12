@@ -55,94 +55,92 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.Metagenomics
 
-Namespace v2
+''' <summary>
+''' 将所有的模型数据都放置在同一个XML文件之中
+''' 会因为文件过大而难于调试
+''' 在这里进行元素的分块存储
+''' </summary>
+Public Class ZipAssembly : Implements IDisposable
 
-    ''' <summary>
-    ''' 将所有的模型数据都放置在同一个XML文件之中
-    ''' 会因为文件过大而难于调试
-    ''' 在这里进行元素的分块存储
-    ''' </summary>
-    Public Class ZipAssembly : Implements IDisposable
+    Dim zip As ZipStream
+    Private disposedValue As Boolean
 
-        Dim zip As ZipStream
-        Private disposedValue As Boolean
+    Sub New(path As String)
+        zip = New ZipStream(path, is_readonly:=True)
+    End Sub
 
-        Sub New(path As String)
-            zip = New ZipStream(path, is_readonly:=True)
-        End Sub
+    Public Function GetText(path As String) As String
+        Dim fileKey As String = path.Trim("/"c, "\"c)
+        Dim str As String = zip.ReadAllText(fileKey)
+        Return str
+    End Function
 
-        Public Function GetText(path As String) As String
-            Dim fileKey As String = path.Trim("/"c, "\"c)
-            Dim str As String = zip.ReadAllText(fileKey)
-            Return str
-        End Function
+    Public Function getComponentSet(Of T)(path As String) As T()
+        Return reader(Of T)(path).ToArray
+    End Function
 
-        Public Function getComponentSet(Of T)(path As String) As T()
-            Return reader(Of T)(path).ToArray
-        End Function
+    Private Iterator Function reader(Of T)(path As String) As IEnumerable(Of T)
+        For Each line As String In zip.ReadLines(path)
+            Yield line.LoadJSON(Of T)
+        Next
+    End Function
 
-        Private Iterator Function reader(Of T)(path As String) As IEnumerable(Of T)
-            For Each line As String In zip.ReadLines(path)
-                Yield line.LoadJSON(Of T)
-            Next
-        End Function
+    Public Function CreateVirtualCellXml() As VirtualCell
+        Return New VirtualCell With {
+            .genome = New Genome With {
+                .regulations = getComponentSet(Of transcription)($"{NameOf(VirtualCell.genome)}\{NameOf(Genome.regulations)}.jsonl"),
+                .replicons = getComponentSet(Of replicon)($"{NameOf(VirtualCell.genome)}\{NameOf(Genome.replicons)}.jsonl")
+            },
+            .metabolismStructure = New MetabolismStructure With {
+                .compounds = getComponentSet(Of Compound)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.compounds)}.jsonl"),
+                .enzymes = getComponentSet(Of Enzyme)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.enzymes)}.jsonl"),
+                .maps = getComponentSet(Of FunctionalCategory)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.maps)}.jsonl"),
+                .reactions = New ReactionGroup With {
+                    .enzymatic = getComponentSet(Of Reaction)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.reactions)}\{NameOf(ReactionGroup.enzymatic)}.jsonl"),
+                    .none_enzymatic = getComponentSet(Of Reaction)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.reactions)}\{NameOf(ReactionGroup.none_enzymatic)}.jsonl")
+                }
+            },
+            .taxonomy = GetText($"{NameOf(VirtualCell.taxonomy)}.json").LoadJSON(Of Taxonomy),
+            .properties = GetText($"{NameOf(VirtualCell.properties)}.json").LoadJSON(Of CompilerServices.[Property])
+        }
+    End Function
 
-        Public Function CreateVirtualCellXml() As VirtualCell
-            Return New VirtualCell With {
-                .genome = New Genome With {
-                    .regulations = getComponentSet(Of transcription)($"{NameOf(VirtualCell.genome)}\{NameOf(Genome.regulations)}.jsonl"),
-                    .replicons = getComponentSet(Of replicon)($"{NameOf(VirtualCell.genome)}\{NameOf(Genome.replicons)}.jsonl")
-                },
-                .metabolismStructure = New MetabolismStructure With {
-                    .compounds = getComponentSet(Of Compound)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.compounds)}.jsonl"),
-                    .enzymes = getComponentSet(Of Enzyme)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.enzymes)}.jsonl"),
-                    .maps = getComponentSet(Of FunctionalCategory)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.maps)}.jsonl"),
-                    .reactions = New ReactionGroup With {
-                        .enzymatic = getComponentSet(Of Reaction)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.reactions)}\{NameOf(ReactionGroup.enzymatic)}.jsonl"),
-                        .none_enzymatic = getComponentSet(Of Reaction)($"{NameOf(VirtualCell.metabolismStructure)}\{NameOf(MetabolismStructure.reactions)}\{NameOf(ReactionGroup.none_enzymatic)}.jsonl")
-                    }
-                },
-                .taxonomy = GetText($"{NameOf(VirtualCell.taxonomy)}.json").LoadJSON(Of Taxonomy),
-                .properties = GetText($"{NameOf(VirtualCell.properties)}.json").LoadJSON(Of CompilerServices.[Property])
-            }
-        End Function
+    Public Shared Function CreateVirtualCellXml(path As String) As VirtualCell
+        Using zip As New ZipAssembly(path)
+            Return zip.CreateVirtualCellXml
+        End Using
+    End Function
 
-        Public Shared Function CreateVirtualCellXml(path As String) As VirtualCell
-            Using zip As New ZipAssembly(path)
-                Return zip.CreateVirtualCellXml
-            End Using
-        End Function
+    Public Shared Function WriteZip(vcell As VirtualCell, zip As String) As Boolean
+        Return ZipWriter.WriteZip(vcell, zip)
+    End Function
 
-        Public Shared Function WriteZip(vcell As VirtualCell, zip As String) As Boolean
-            Return ZipWriter.WriteZip(vcell, zip)
-        End Function
-
-        Protected Overridable Sub Dispose(disposing As Boolean)
-            If Not disposedValue Then
-                If disposing Then
-                    ' TODO: dispose managed state (managed objects)
-                    Call zip.Dispose()
-                End If
-
-                ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                ' TODO: set large fields to null
-                disposedValue = True
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not disposedValue Then
+            If disposing Then
+                ' TODO: dispose managed state (managed objects)
+                Call zip.Dispose()
             End If
-        End Sub
 
-        ' ' TODO: override finalizer only if 'Dispose(disposing As Boolean)' has code to free unmanaged resources
-        ' Protected Overrides Sub Finalize()
-        '     ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
-        '     Dispose(disposing:=False)
-        '     MyBase.Finalize()
-        ' End Sub
+            ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
+            ' TODO: set large fields to null
+            disposedValue = True
+        End If
+    End Sub
 
-        Public Sub Dispose() Implements IDisposable.Dispose
-            ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
-            Dispose(disposing:=True)
-            GC.SuppressFinalize(Me)
-        End Sub
-    End Class
-End Namespace
+    ' ' TODO: override finalizer only if 'Dispose(disposing As Boolean)' has code to free unmanaged resources
+    ' Protected Overrides Sub Finalize()
+    '     ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+    '     Dispose(disposing:=False)
+    '     MyBase.Finalize()
+    ' End Sub
+
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+        Dispose(disposing:=True)
+        GC.SuppressFinalize(Me)
+    End Sub
+End Class

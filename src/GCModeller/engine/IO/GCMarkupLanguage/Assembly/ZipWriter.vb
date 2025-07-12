@@ -58,57 +58,58 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 
-Namespace v2
+''' <summary>
+''' An internal module for save the virtual cell model in zip archive format
+''' </summary>
+Module ZipWriter
 
-    Module ZipWriter
+    Public Function WriteZip(vcell As VirtualCell, zip As String) As Boolean
+        Using archive = New ZipStream(zip)
+            Call vcell.writeZIP(zip:=archive)
+        End Using
 
-        Public Function WriteZip(vcell As VirtualCell, zip As String) As Boolean
-            Using archive = New ZipStream(zip)
-                Call vcell.writeZIP(zip:=archive)
-            End Using
+        Return True
+    End Function
 
-            Return True
-        End Function
+    <Extension>
+    Private Sub writeZIP(vcell As VirtualCell, zip As ZipStream)
+        Call zip.WriteText(vcell.taxonomy.GetJson, $"/{NameOf(VirtualCell.taxonomy)}.json")
+        Call zip.WriteText(vcell.properties.GetJson, $"/{NameOf(VirtualCell.properties)}.json")
 
-        <Extension>
-        Private Sub writeZIP(vcell As VirtualCell, zip As ZipStream)
-            Call zip.WriteText(vcell.taxonomy.GetJson, $"/{NameOf(VirtualCell.taxonomy)}.json")
-            Call zip.WriteText(vcell.properties.GetJson, $"/{NameOf(VirtualCell.properties)}.json")
+        Call vcell.genome.regulations.Save(zip, $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.regulations)}.jsonl")
 
-            Call vcell.genome.regulations.Save(zip, $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.regulations)}.jsonl")
+        For Each replicon As replicon In vcell.genome.replicons
+            Dim dir As String = $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.replicons)}/{replicon.genomeName}/"
+            Dim meta As New Dictionary(Of String, String) From {
+                {NameOf(replicon.genomeName), replicon.genomeName},
+                {NameOf(replicon.isPlasmid), replicon.isPlasmid}
+            }
 
-            For Each replicon As replicon In vcell.genome.replicons
-                Dim dir As String = $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.replicons)}/{replicon.genomeName}/"
-                Dim meta As New Dictionary(Of String, String) From {
-                    {NameOf(replicon.genomeName), replicon.genomeName},
-                    {NameOf(replicon.isPlasmid), replicon.isPlasmid}
-                }
+            Call zip.WriteText(meta.GetJson, $"{dir}/index.json")
+            Call replicon.operons.Save(zip, $"{dir}/operons.jsonl")
+            Call replicon.RNAs.Save(zip, $"{dir}/RNAs.jsonl")
+        Next
 
-                Call zip.WriteText(meta.GetJson, $"{dir}/index.json")
-                Call replicon.operons.Save(zip, $"{dir}/operons.jsonl")
-                Call replicon.RNAs.Save(zip, $"{dir}/RNAs.jsonl")
-            Next
+        Dim root_dir As String = $"/{NameOf(VirtualCell.metabolismStructure)}"
 
-            Dim root_dir As String = $"/{NameOf(VirtualCell.metabolismStructure)}"
+        Call vcell.metabolismStructure.compounds.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.compounds)}.jsonl")
+        Call vcell.metabolismStructure.enzymes.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.enzymes)}.jsonl")
+        Call vcell.metabolismStructure.maps.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.maps)}.jsonl")
 
-            Call vcell.metabolismStructure.compounds.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.compounds)}.jsonl")
-            Call vcell.metabolismStructure.enzymes.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.enzymes)}.jsonl")
-            Call vcell.metabolismStructure.maps.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.maps)}.jsonl")
+        Call vcell.metabolismStructure.reactions.enzymatic.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.enzymatic)}.jsonl")
+        Call vcell.metabolismStructure.reactions.none_enzymatic.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.none_enzymatic)}.jsonl")
+    End Sub
 
-            Call vcell.metabolismStructure.reactions.enzymatic.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.enzymatic)}.jsonl")
-            Call vcell.metabolismStructure.reactions.none_enzymatic.Save(zip, $"{root_dir}/{NameOf(MetabolismStructure.reactions)}/{NameOf(ReactionGroup.none_enzymatic)}.jsonl")
-        End Sub
+    Private Iterator Function jsonl(Of T)(list As IEnumerable(Of T)) As IEnumerable(Of String)
+        For Each item As T In list.SafeQuery
+            Yield item.GetJson
+        Next
+    End Function
 
-        Private Iterator Function jsonl(Of T)(list As IEnumerable(Of T)) As IEnumerable(Of String)
-            For Each item As T In list.SafeQuery
-                Yield item.GetJson
-            Next
-        End Function
-
-        <Extension>
-        Private Sub Save(Of T)(components As IEnumerable(Of T), zip As ZipStream, path As String)
-            Call zip.WriteLines(jsonl(components), path)
-        End Sub
-    End Module
-End Namespace
+    <Extension>
+    Private Sub Save(Of T)(components As IEnumerable(Of T), zip As ZipStream, path As String)
+        Call zip.WriteLines(jsonl(components), path)
+    End Sub
+End Module
