@@ -53,6 +53,7 @@
 
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.GCModeller
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.Metagenomics
@@ -113,5 +114,9 @@ Module Program
 
         Call vcellModeller.writeJSON(cell, "./cell1.json", indent:=True)
         Call vcellModeller.WriteZipAssembly(cell, "./cell.zip")
+
+        Dim vcell As VirtualCell = ZipAssembly.CreateVirtualCellXml("./cell.zip")
+
+        Pause()
     End Sub
 End Module
