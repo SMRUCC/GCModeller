@@ -20,10 +20,10 @@ Namespace v2
         <XmlText> Public Property name As String
 
         ''' <summary>
-        ''' the initialize mass content of current compound.
+        ''' the chemical composition formula of this metabolite
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property mass0 As Double = 1000
+        <XmlAttribute> Public Property formula As String
 
         Sub New()
         End Sub
