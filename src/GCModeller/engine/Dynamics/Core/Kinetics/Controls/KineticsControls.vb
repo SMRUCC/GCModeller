@@ -121,9 +121,13 @@ Namespace Core
             Me.env = env
             Me.pars = pars.SafeQuery _
                 .Distinct _
-                .ToDictionary(Function(s) s.Replace("@" & cellular_id, ""),
+                .ToDictionary(Function(s) s,
                               Function(s)
-                                  Return s
+                                  If s.IsNumeric(, True) Then
+                                      Return s
+                                  Else
+                                      Return s & "@" & cellular_id
+                                  End If
                               End Function)
         End Sub
 
