@@ -54,6 +54,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
@@ -98,13 +99,15 @@ Namespace ModelLoader
                                       .Select(Function(map) map.Item2) _
                                       .ToArray
                               End Function)
-            Dim generals = loader.define.GenericCompounds
+            Dim generals As Dictionary(Of String, GeneralCompound) = loader.define.GenericCompounds
 
             If generals Is Nothing Then
                 generals = New Dictionary(Of String, GeneralCompound)
             End If
 
-            For Each reaction As Reaction In cell.Phenotype.fluxes
+            Call VBDebugger.EchoLine("Initialize of the metabolism network...")
+
+            For Each reaction As Reaction In TqdmWrapper.Wrap(cell.Phenotype.fluxes)
                 If reaction.AllCompounds.Any(AddressOf generals.ContainsKey) Then
                     For Each instance In generalFluxExpansion(reaction, KOfunctions)
                         Yield instance
