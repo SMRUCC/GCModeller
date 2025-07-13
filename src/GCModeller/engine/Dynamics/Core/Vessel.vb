@@ -279,9 +279,13 @@ Namespace Core
             End Sub
 
             Protected Overrides Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
+                Dim block As Double() = New Double(ends - start - 1) {}
+
                 For i As Integer = start To ends
-                    dy(i) = m_dynamics(i).Evaluate
+                    block(i - start) = m_dynamics(i).Evaluate
                 Next
+
+                Call dy.CopyFrom(block, start, block.Length)
             End Sub
         End Class
 
