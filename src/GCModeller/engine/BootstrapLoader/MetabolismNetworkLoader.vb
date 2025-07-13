@@ -127,22 +127,23 @@ Namespace ModelLoader
             Return top_compart.Key Or default_compartment
         End Function
 
-        Private Sub SetParameterLinks(kc As KineticsControls, enzymeProteinComplexes As String())
-            Call SetParameterLinks(kc.parameters, enzymeProteinComplexes)
+        Private Sub SetParameterLinks(kc As KineticsControls)
+            Call pull.AddRange(kc.parameters)
         End Sub
 
-        Private Sub SetParameterLinks(params As IEnumerable(Of String), enzymeProteinComplexes As String())
+        Private Iterator Function SetParameterLinks(params As IEnumerable(Of String), enzymeProteinComplexes As String()) As IEnumerable(Of String)
             For Each par As String In params
-                If par.IsNumeric(, True) Then
-                    Continue For
+                If Not par.IsNumeric(, True) Then
+                    ' processing of the protein id mapping?
+
                 End If
 
-
+                Yield par
             Next
-        End Sub
+        End Function
 
-        Private Sub SetParameterLinks(kc As KineticsOverlapsControls, enzymeProteinComplexes As String())
-            Call SetParameterLinks(kc.parameters, enzymeProteinComplexes)
+        Private Sub SetParameterLinks(kc As KineticsOverlapsControls)
+            Call pull.AddRange(kc.parameters)
         End Sub
 
         Private Function fluxByReaction(reaction As Reaction, KOfunctions As Dictionary(Of String, String())) As Channel
@@ -190,13 +191,13 @@ Namespace ModelLoader
                         env:=loader.getKernel,
                         lambda:=scalar.CompileLambda,
                         raw:=scalar.formula,
-                        pars:=scalar.paramVals _
+                        pars:=SetParameterLinks(scalar.paramVals _
                             .SafeQuery _
-                            .Select(Function(a) a.ToString) _
+                            .Select(Function(a) a.ToString), enzymeProteinComplexes) _
                             .ToArray,
                         cellular_id:=reaction.enzyme_compartment
                     )
-                    SetParameterLinks(DirectCast(forward, KineticsControls), enzymeProteinComplexes)
+                    SetParameterLinks(DirectCast(forward, KineticsControls))
                 Else
                     ' multiple kineticis overlaps
                     forward = New KineticsOverlapsControls(
@@ -204,14 +205,14 @@ Namespace ModelLoader
                             env:=loader.getKernel,
                             lambda:=k.CompileLambda,
                             raw:=k.formula,
-                            pars:=k.paramVals _
+                            pars:=SetParameterLinks(k.paramVals _
                                 .SafeQuery _
-                                .Select(Function(a) a.ToString) _
+                                .Select(Function(a) a.ToString), enzymeProteinComplexes) _
                                 .ToArray,
                             cellular_id:=reaction.enzyme_compartment
                         )
                     )
-                    SetParameterLinks(DirectCast(forward, KineticsOverlapsControls), enzymeProteinComplexes)
+                    SetParameterLinks(DirectCast(forward, KineticsOverlapsControls))
                 End If
             ElseIf Not enzymeProteinComplexes.IsNullOrEmpty Then
                 ' it's enzymatic, but has no kinetics law data
