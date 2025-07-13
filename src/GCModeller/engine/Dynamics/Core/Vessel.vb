@@ -131,6 +131,9 @@ Namespace Core
         ''' </summary>
         Friend m_dynamics As MassDynamics()
 
+        ''' <summary>
+        ''' parallel odes solver
+        ''' </summary>
         Dim parallel_odes As ParallelODEs
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
