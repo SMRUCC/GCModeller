@@ -110,6 +110,10 @@ Namespace v2
             Dim sb As New StringBuilder
             Dim lv As i32 = Scan0
 
+            If taxonomy Is Nothing Then
+                taxonomy = New Taxonomy With {.scientificName = "no name"}
+            End If
+
             Call (taxonomy.scientificName Or taxonomy.species.AsDefault) _
                 .DoCall(AddressOf sb.AppendLine)
 
