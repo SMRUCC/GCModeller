@@ -279,7 +279,7 @@ Namespace Core
             End Sub
 
             Protected Overrides Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
-                Dim block As Double() = New Double(ends - start - 1) {}
+                Dim block As Double() = New Double(ends - start) {}
 
                 For i As Integer = start To ends
                     block(i - start) = m_dynamics(i).Evaluate
