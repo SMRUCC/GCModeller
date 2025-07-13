@@ -127,6 +127,24 @@ Namespace ModelLoader
             Return top_compart.Key Or default_compartment
         End Function
 
+        Private Sub SetParameterLinks(kc As KineticsControls, enzymeProteinComplexes As String())
+            Call SetParameterLinks(kc.parameters, enzymeProteinComplexes)
+        End Sub
+
+        Private Sub SetParameterLinks(params As IEnumerable(Of String), enzymeProteinComplexes As String())
+            For Each par As String In params
+                If par.IsNumeric(, True) Then
+                    Continue For
+                End If
+
+
+            Next
+        End Sub
+
+        Private Sub SetParameterLinks(kc As KineticsOverlapsControls, enzymeProteinComplexes As String())
+            Call SetParameterLinks(kc.parameters, enzymeProteinComplexes)
+        End Sub
+
         Private Function fluxByReaction(reaction As Reaction, KOfunctions As Dictionary(Of String, String())) As Channel
             Dim left As Variable() = MassTable.variables(reaction.equation.Reactants, infinitySource).ToArray
             Dim right As Variable() = MassTable.variables(reaction.equation.Products, infinitySource).ToArray
@@ -178,7 +196,7 @@ Namespace ModelLoader
                             .ToArray,
                         cellular_id:=reaction.enzyme_compartment
                     )
-                    pull.AddRange(DirectCast(forward, KineticsControls).parameters)
+                    SetParameterLinks(DirectCast(forward, KineticsControls), enzymeProteinComplexes)
                 Else
                     ' multiple kineticis overlaps
                     forward = New KineticsOverlapsControls(
@@ -193,7 +211,7 @@ Namespace ModelLoader
                             cellular_id:=reaction.enzyme_compartment
                         )
                     )
-                    pull.AddRange(DirectCast(forward, KineticsOverlapsControls).parameters)
+                    SetParameterLinks(DirectCast(forward, KineticsOverlapsControls), enzymeProteinComplexes)
                 End If
             ElseIf Not enzymeProteinComplexes.IsNullOrEmpty Then
                 ' it's enzymatic, but has no kinetics law data
