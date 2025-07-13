@@ -209,7 +209,7 @@ Public Module vcellModeller
 
     <ExportAPI("kinetics_lambda")>
     Public Function CompileLambda(kinetics As Kinetics) As DynamicInvoke
-        Return kinetics.CompileLambda
+        Return kinetics.CompileLambda(New Dictionary(Of String, CentralDogma))
     End Function
 
     <ExportAPI("eval_lambda")>

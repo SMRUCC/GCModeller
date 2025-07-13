@@ -200,7 +200,7 @@ Namespace ModelLoader
 
                     forward = New KineticsControls(
                         env:=loader.getKernel,
-                        lambda:=scalar.CompileLambda,
+                        lambda:=scalar.CompileLambda(geneIndex),
                         raw:=scalar.formula,
                         pars:=SetParameterLinks(scalar.paramVals _
                             .SafeQuery _
@@ -214,7 +214,7 @@ Namespace ModelLoader
                     forward = New KineticsOverlapsControls(
                         From k In reaction.kinetics Select New KineticsControls(
                             env:=loader.getKernel,
-                            lambda:=k.CompileLambda,
+                            lambda:=k.CompileLambda(geneIndex),
                             raw:=k.formula,
                             pars:=SetParameterLinks(k.paramVals _
                                 .SafeQuery _
