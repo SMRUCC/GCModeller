@@ -74,6 +74,7 @@ Namespace ModelLoader
 
         ReadOnly pull As New List(Of String)
         ReadOnly default_compartment As [Default](Of String)
+        ReadOnly geneIndex As New Dictionary(Of String, CentralDogma)
 
         Public Sub New(loader As Loader)
             MyBase.New(loader)
@@ -105,6 +106,10 @@ Namespace ModelLoader
                 generals = New Dictionary(Of String, GeneralCompound)
             End If
 
+            For Each gene As CentralDogma In cell.Genotype.centralDogmas.SafeQuery
+                geneIndex(gene.geneID) = gene
+            Next
+
             Call VBDebugger.EchoLine("Initialize of the metabolism network...")
 
             For Each reaction As Reaction In TqdmWrapper.Wrap(cell.Phenotype.fluxes)
@@ -135,7 +140,13 @@ Namespace ModelLoader
             For Each par As String In params
                 If Not par.IsNumeric(, True) Then
                     ' processing of the protein id mapping?
+                    Dim gene As CentralDogma = geneIndex.TryGetValue(par)
 
+                    If Not gene.polypeptide.StringEmpty(, True) Then
+                        par = enzymeProteinComplexes _
+                            .Where(Function(id) id.StartsWith(gene.polypeptide)) _
+                            .FirstOrDefault
+                    End If
                 End If
 
                 Yield par
