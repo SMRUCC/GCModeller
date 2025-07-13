@@ -281,7 +281,7 @@ Namespace v2
                         ' V= (Vmax⋅[S]) / (km [S])
                         ' Vmax = kcat [E]
                         expr = ScriptEngine.ParseExpression("(2 * E *S)/(2+S)")
-                        refVals = New Object() {k.Name & ".complex", reaction.substrate.First.compound}
+                        refVals = New Object() {k.Name, reaction.substrate.First.compound}
                         pars = {"E", "S"}
                     Else
                         expr = ScriptEngine.ParseExpression(k.Value.formula.lambda)
