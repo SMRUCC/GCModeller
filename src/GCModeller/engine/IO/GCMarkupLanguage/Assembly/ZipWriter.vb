@@ -80,6 +80,7 @@ Module ZipWriter
     Private Sub writeZIP(vcell As VirtualCell, zip As ZipStream)
         Call zip.WriteText(vcell.taxonomy.GetJson, $"/{NameOf(VirtualCell.taxonomy)}.json")
         Call zip.WriteText(vcell.properties.GetJson, $"/{NameOf(VirtualCell.properties)}.json")
+        Call zip.WriteText(vcell.cellular_id, $"/{NameOf(VirtualCell.cellular_id)}.txt")
 
         Call vcell.genome.regulations.Save(zip, $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.regulations)}.jsonl")
 

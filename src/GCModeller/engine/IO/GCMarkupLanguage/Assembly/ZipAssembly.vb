@@ -121,7 +121,8 @@ Public Class ZipAssembly : Implements IDisposable
                 }
             },
             .taxonomy = GetText($"{NameOf(VirtualCell.taxonomy)}.json").LoadJSON(Of Taxonomy),
-            .properties = GetText($"{NameOf(VirtualCell.properties)}.json").LoadJSON(Of CompilerServices.[Property])
+            .properties = GetText($"{NameOf(VirtualCell.properties)}.json").LoadJSON(Of CompilerServices.[Property]),
+            .cellular_id = GetText($"{NameOf(VirtualCell.cellular_id)}.txt")
         }
     End Function
 
