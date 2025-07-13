@@ -272,6 +272,8 @@ Namespace Core
                            Optional workers As Integer? = Nothing)
 
                 MyBase.New(dynamics.Length, verbose, workers)
+
+                m_dynamics = dynamics
             End Sub
 
             Protected Overrides Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
