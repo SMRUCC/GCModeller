@@ -160,9 +160,10 @@ Namespace Engine
                     Throw New InvalidDataException($"missing compartment '{compart}' for molecule: '{mass}'!")
                 End If
 
-                Dim massTable = compartments(compart)
+                Dim massTable As Dictionary(Of String, Factor) = compartments(compart)
+                Dim fi As Factor = massTable(mass)
 
-                Return New Variable(massTable(mass), coefficient, False)
+                Return New Variable(fi, coefficient, False)
             End Function
 
         End Class
@@ -175,6 +176,18 @@ Namespace Engine
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Me.ToDictionary(Function(m) m.ID, Function(m) m.Value)
+            End Get
+        End Property
+
+        Public ReadOnly Property Represents As Dictionary(Of String, Double)
+            Get
+                Return Me.Where(Function(f) f.Value > 0).ToDictionary(Function(m) m.ID, Function(m) m.Value)
+            End Get
+        End Property
+
+        Public ReadOnly Property Missing As Dictionary(Of String, Double)
+            Get
+                Return Me.Where(Function(f) f.Value <= 0.0).ToDictionary(Function(m) m.ID, Function(m) m.Value)
             End Get
         End Property
 
