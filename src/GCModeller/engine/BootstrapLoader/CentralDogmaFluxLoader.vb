@@ -1,61 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::c9a8998197392b31a396483992349625, engine\BootstrapLoader\CentralDogmaFluxLoader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 423
-    '    Code Lines: 314 (74.23%)
-    ' Comment Lines: 45 (10.64%)
-    '    - Xml Docs: 55.56%
-    ' 
-    '   Blank Lines: 64 (15.13%)
-    '     File Size: 19.14 KB
+' Summaries:
 
 
-    '     Class CentralDogmaFluxLoader
-    ' 
-    '         Properties: componentRNA, mRNA, polypeptides
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux, GetMassSet, MissingAAComposition, ProteinMatrixIndex, ribosomeAssembly
-    '                   RnaMatrixIndexing, transcriptionTemplate, translationTemplate, translationUncharged, tRNAProcess
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 423
+'    Code Lines: 314 (74.23%)
+' Comment Lines: 45 (10.64%)
+'    - Xml Docs: 55.56%
+' 
+'   Blank Lines: 64 (15.13%)
+'     File Size: 19.14 KB
+
+
+'     Class CentralDogmaFluxLoader
+' 
+'         Properties: componentRNA, mRNA, polypeptides
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CreateFlux, GetMassSet, MissingAAComposition, ProteinMatrixIndex, ribosomeAssembly
+'                   RnaMatrixIndexing, transcriptionTemplate, translationTemplate, translationUncharged, tRNAProcess
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -231,10 +232,12 @@ Namespace ModelLoader
             Dim tRNA As New Dictionary(Of String, List(Of String))
             Dim rRNA As New Dictionary(Of String, List(Of String))
 
+            Call VBDebugger.EchoLine("initialize of the mass environment for central dogma")
+
             ' 在这里分开两个循环来完成构建
             ' 第一步需要一次性的将所有的元素对象都加入到mass table之中
             ' 否则在构建的过程中会出现很多的key not found 的错误
-            For Each cd As CentralDogma In cell.Genotype.centralDogmas
+            For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas)
                 ' if the gene template mass value is set to ZERO
                 ' that means no transcription activity that it will be
                 ' A deletion mutation was created
@@ -290,9 +293,11 @@ Namespace ModelLoader
 
             Yield ribosomeAssembly(rRNA.Values.IteratesALL.Distinct.ToArray)
 
+            Call VBDebugger.EchoLine("build biological process for central dogmas...")
+
             ' 在这里创建针对每一个基因的从转录到翻译的整个过程
             ' 之中的不同阶段的生物学过程的模型对象
-            For Each cd As CentralDogma In cell.Genotype.centralDogmas
+            For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas)
                 ' cd.RNA.Name属性值是基因的id，会产生对象引用错误 
                 templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
                 productsRNA = {
