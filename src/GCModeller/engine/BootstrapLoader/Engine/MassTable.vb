@@ -75,6 +75,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -230,6 +231,12 @@ Namespace Engine
         Sub New()
         End Sub
 
+        Friend ReadOnly defaultCompartment As [Default](Of String)
+
+        Sub New(defaultCompartment As String)
+            Me.defaultCompartment = defaultCompartment
+        End Sub
+
         Sub New(cache As Dictionary(Of String, Factor), compart As String)
             m_massSet = New CompartTable(cache, compart)
         End Sub
@@ -292,7 +299,7 @@ Namespace Engine
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function variables(compounds As IEnumerable(Of CompoundSpecieReference), factor As Double) As IEnumerable(Of Variable)
-            Return compounds.Select(Function(cpd) variable(cpd.ID, cpd.Compartment, cpd.Stoichiometry))
+            Return compounds.Select(Function(cpd) variable(cpd.ID, cpd.Compartment Or defaultCompartment, cpd.Stoichiometry))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -300,9 +307,9 @@ Namespace Engine
             Return compounds _
                 .Select(Function(cpd)
                             If cpd.ID Like templates Then
-                                Return Me.template(cpd.ID, cpd.Compartment)
+                                Return Me.template(cpd.ID, cpd.Compartment Or defaultCompartment)
                             Else
-                                Return Me.variable(cpd.ID, cpd.Compartment, cpd.Stoichiometry)
+                                Return Me.variable(cpd.ID, cpd.Compartment Or defaultCompartment, cpd.Stoichiometry)
                             End If
                         End Function)
         End Function

@@ -54,7 +54,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
@@ -69,12 +71,15 @@ Namespace ModelLoader
         Dim infinitySource As Index(Of String)
 
         ReadOnly pull As New List(Of String)
+        ReadOnly default_compartment As [Default](Of String)
 
         Public Sub New(loader As Loader)
             MyBase.New(loader)
 
             ' content of these metabolite will be changed
+            default_compartment = loader.massTable.defaultCompartment
             infinitySource = loader.define.GetInfinitySource
+
             loader.fluxIndex.Add(NameOf(MetabolismNetworkLoader), New List(Of String))
         End Sub
 
@@ -109,6 +114,15 @@ Namespace ModelLoader
             Next
         End Function
 
+        Private Function compart_id([set] As IEnumerable(Of CompoundSpecieReference)) As String
+            Dim top_compart = [set].Select(Function(c) c.Compartment) _
+                .GroupBy(Function(c) c) _
+                .OrderByDescending(Function(c) c.Count) _
+                .First
+
+            Return top_compart.Key Or default_compartment
+        End Function
+
         Private Function fluxByReaction(reaction As Reaction, KOfunctions As Dictionary(Of String, String())) As Channel
             Dim left As Variable() = MassTable.variables(reaction.equation.Reactants, infinitySource).ToArray
             Dim right As Variable() = MassTable.variables(reaction.equation.Products, infinitySource).ToArray
@@ -116,8 +130,8 @@ Namespace ModelLoader
                 .forward = reaction.bounds(1),
                 .reverse = reaction.bounds(0)
             }
-            Dim productCompart As String = reaction.equation.Products.Select(Function(c) c.Compartment).GroupBy(Function(c) c).OrderByDescending(Function(c) c.Count).First.Key
-            Dim reactantCompart As String = reaction.equation.Reactants.Select(Function(c) c.Compartment).GroupBy(Function(c) c).OrderByDescending(Function(c) c.Count).First.Key
+            Dim productCompart As String = compart_id(reaction.equation.Products)
+            Dim reactantCompart As String = compart_id(reaction.equation.Reactants)
 
             ' KO
             Dim enzymeProteinComplexes As String() = reaction.enzyme _
