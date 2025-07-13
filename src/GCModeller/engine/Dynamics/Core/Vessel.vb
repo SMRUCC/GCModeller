@@ -63,7 +63,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports Microsoft.VisualBasic.Parallel
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Namespace Core
@@ -241,6 +240,9 @@ Namespace Core
             If is_debug Then
                 df = AddressOf fp_dfdx_sequence
             Else
+                Call VBDebugger.EchoLine($"parallel config {parallel_odes.num_threads} threads for solve ODEs!")
+                Call VBDebugger.EchoLine($"task span size for each worker thread is {parallel_odes.span_size} dynamics system.")
+
                 df = AddressOf fp_dfdx_parallel
             End If
 
