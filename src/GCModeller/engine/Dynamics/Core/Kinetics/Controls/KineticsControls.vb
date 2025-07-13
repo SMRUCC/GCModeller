@@ -111,7 +111,7 @@ Namespace Core
         ''' <returns></returns>
         Public ReadOnly Property parameters As IEnumerable(Of String)
             Get
-                Return pars.Keys
+                Return pars.Values
             End Get
         End Property
 

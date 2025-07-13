@@ -1,58 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::bc43891e981fdf6261b19d30ec984d93, engine\BootstrapLoader\MetabolismNetworkLoader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 165
-    '    Code Lines: 130 (78.79%)
-    ' Comment Lines: 13 (7.88%)
-    '    - Xml Docs: 53.85%
-    ' 
-    '   Blank Lines: 22 (13.33%)
-    '     File Size: 7.50 KB
+' Summaries:
 
 
-    '     Class MetabolismNetworkLoader
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux, fluxByReaction, generalFluxExpansion, GetMassSet, productInhibitionFactor
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 165
+'    Code Lines: 130 (78.79%)
+' Comment Lines: 13 (7.88%)
+'    - Xml Docs: 53.85%
+' 
+'   Blank Lines: 22 (13.33%)
+'     File Size: 7.50 KB
+
+
+'     Class MetabolismNetworkLoader
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CreateFlux, fluxByReaction, generalFluxExpansion, GetMassSet, productInhibitionFactor
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
@@ -236,8 +237,11 @@ Namespace ModelLoader
                 .ToArray
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetMassSet() As IEnumerable(Of String)
-            Return pull
+            Return pull _
+                .Distinct _
+                .Where(Function(id) Not id.IsNumeric(, True))
         End Function
     End Class
 End Namespace
