@@ -336,7 +336,14 @@ Namespace Engine
         End Function
 
         Public Function ExistsAllCompartment(mass_id As String) As Boolean
-            Return m_massSet.Keys.All(Function(ref) m_massSet(ref).ContainsKey(mass_id & "@" & ref))
+            If m_massSet.mapping.ContainsKey(mass_id) Then
+                Return True
+            End If
+
+            Return m_massSet.Keys _
+                .All(Function(ref)
+                         Return m_massSet(ref).ContainsKey(mass_id & "@" & ref)
+                     End Function)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
