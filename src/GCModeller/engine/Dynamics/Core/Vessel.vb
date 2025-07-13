@@ -62,6 +62,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
+Imports Microsoft.VisualBasic.Parallel
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
@@ -130,9 +131,11 @@ Namespace Core
         ''' </summary>
         Friend m_dynamics As MassDynamics()
 
+        Dim parallel_odes As ParallelODEs
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub New(Optional is_debug As Boolean = False)
-            Me.is_debug = is_debug OrElse True
+            Me.is_debug = is_debug ' OrElse True
 
             If is_debug Then
                 Call VBDebugger.EchoLine("virtual cell engine will be running in debug mode.")
@@ -230,6 +233,8 @@ Namespace Core
                 Call "invalid config of the time resolution parameter: resolution should greater than maxTime!".Warning
             End If
 
+            parallel_odes = New ParallelODEs(m_dynamics, workers:=8)
+
             If is_debug Then
                 df = AddressOf fp_dfdx_sequence
             Else
@@ -253,21 +258,34 @@ Namespace Core
             Next
         End Sub
 
+        Private Class ParallelODEs : Inherits VectorTask
+
+            ReadOnly m_dynamics As MassDynamics()
+
+            Public dy As std_vec
+
+            Public Sub New(dynamics As MassDynamics(),
+                           Optional verbose As Boolean = False,
+                           Optional workers As Integer? = Nothing)
+
+                MyBase.New(dynamics.Length, verbose, workers)
+            End Sub
+
+            Protected Overrides Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
+                For i As Integer = start To ends
+                    dy(i) = m_dynamics(i).Evaluate
+                Next
+            End Sub
+        End Class
+
         ''' <summary>
         ''' product mode, run ODEs in parallel
         ''' </summary>
         ''' <param name="dx"></param>
         ''' <param name="dy"></param>
         Private Sub fp_dfdx_parallel(dx As Double, ByRef dy As std_vec)
-            For Each y In m_dynamics _
-                .AsParallel _
-                .WithDegreeOfParallelism(8) _
-                .Select(Function(di)
-                            Return (i:=di, dy:=di.Evaluate)
-                        End Function)
-
-                dy(y.i) = y.dy
-            Next
+            parallel_odes.dy = dy
+            parallel_odes.Run()
         End Sub
 
         ''' <summary>
