@@ -68,6 +68,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -116,6 +117,16 @@ Module genbankKit
     <ExportAPI("taxon_id")>
     Public Function Taxon_Id(gb As GBFF.File) As Object
         Return gb.Taxon
+    End Function
+
+    ''' <summary>
+    ''' extract the taxonomy lineage information from the genbank file
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <returns></returns>
+    <ExportAPI("taxonomy_lineage")>
+    Public Function taxonomy(gb As GBFF.File) As Taxonomy
+        Return gb.Source.GetTaxonomy
     End Function
 
     ''' <summary>
