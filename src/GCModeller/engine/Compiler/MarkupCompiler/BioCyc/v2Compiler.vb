@@ -120,7 +120,7 @@ Namespace MarkupCompiler.BioCyc
                 .Select(Function(id)
                             Return New Compound With {
                                 .ID = id,
-                                .mass0 = 5,
+                                .formula = "",
                                 .name = id
                             }
                         End Function) _

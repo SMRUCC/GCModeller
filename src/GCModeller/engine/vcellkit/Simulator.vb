@@ -224,7 +224,7 @@ Public Module Simulator
             s0 = pool.compounds _
                 .ToDictionary(Function(c) c.ID,
                               Function(c)
-                                  Return c.mass0
+                                  Return 1000.0
                               End Function)
         Else
             Dim min = randMinMax.Min
