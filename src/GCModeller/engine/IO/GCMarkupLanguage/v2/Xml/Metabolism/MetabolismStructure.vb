@@ -162,7 +162,7 @@ Namespace v2
 
         Public Function FindByKEGG(id As String) As Compound()
             If m_kegg Is Nothing Then
-                m_kegg = compounds _
+                m_kegg = compounds.SafeQuery _
                     .Where(Function(c) Not c.kegg_id.IsNullOrEmpty) _
                     .Select(Function(c)
                                 Return c.kegg_id.Select(Function(kegg_id) (kegg_id, c))
@@ -178,13 +178,11 @@ Namespace v2
             Return m_kegg.TryGetValue(id)
         End Function
 
-        Public Function GetKEGGMapping(id As String, map_define As String, links As Dictionary(Of String, Reaction()), unitTest As Boolean) As Compound
+        Public Function GetKEGGMapping(id As String, map_define As String, links As Dictionary(Of String, Reaction())) As Compound
             Dim kegg As Compound() = FindByKEGG(id)
 
             If kegg.IsNullOrEmpty Then
-                If Not unitTest Then
-                    Throw New MissingPrimaryKeyException($"no mapping for kegg term '{map_define}'({id})!")
-                End If
+                Call ($"no mapping for kegg term '{map_define}'({id})!").Warning
 
                 Return New Compound(id, map_define)
             End If

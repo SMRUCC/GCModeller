@@ -170,7 +170,6 @@ Public Module Simulator
     Public Function mass0(vcell As VirtualCell,
                           <RRawVectorArgument>
                           Optional random As Object = Nothing,
-                          Optional unit_test As Boolean = False,
                           Optional env As Environment = Nothing) As Definition
 
         Dim kegg_ref = Definition.KEGG({})
@@ -182,39 +181,39 @@ Public Module Simulator
         Dim randMinMax As Double() = CLRVector.asNumeric(random)
         Dim s0 As Dictionary(Of String, Double)
         Dim kegg_maps As New Definition With {
-            .ADP = pool.GetKEGGMapping(kegg_ref.ADP, NameOf(kegg_ref.ADP), links, unit_test).ID,
-            .ATP = pool.GetKEGGMapping(kegg_ref.ATP, NameOf(kegg_ref.ATP), links, unit_test).ID,
-            .Oxygen = pool.GetKEGGMapping(kegg_ref.Oxygen, NameOf(kegg_ref.Oxygen), links, unit_test).ID,
-            .Water = pool.GetKEGGMapping(kegg_ref.Water, NameOf(kegg_ref.Water), links, unit_test).ID,
+            .ADP = pool.GetKEGGMapping(kegg_ref.ADP, NameOf(kegg_ref.ADP), links).ID,
+            .ATP = pool.GetKEGGMapping(kegg_ref.ATP, NameOf(kegg_ref.ATP), links).ID,
+            .Oxygen = pool.GetKEGGMapping(kegg_ref.Oxygen, NameOf(kegg_ref.Oxygen), links).ID,
+            .Water = pool.GetKEGGMapping(kegg_ref.Water, NameOf(kegg_ref.Water), links).ID,
             .NucleicAcid = New NucleicAcid With {
-                .A = pool.GetKEGGMapping(dnaseq.A, "dnaseq->A", links, unit_test).ID,
-                .C = pool.GetKEGGMapping(dnaseq.C, "dnaseq->C", links, unit_test).ID,
-                .G = pool.GetKEGGMapping(dnaseq.G, "dnaseq->G", links, unit_test).ID,
-                .U = pool.GetKEGGMapping(dnaseq.U, "dnaseq->U", links, unit_test).ID
+                .A = pool.GetKEGGMapping(dnaseq.A, "dnaseq->A", links).ID,
+                .C = pool.GetKEGGMapping(dnaseq.C, "dnaseq->C", links).ID,
+                .G = pool.GetKEGGMapping(dnaseq.G, "dnaseq->G", links).ID,
+                .U = pool.GetKEGGMapping(dnaseq.U, "dnaseq->U", links).ID
             },
             .AminoAcid = New AminoAcid With {
-                .A = pool.GetKEGGMapping(prot.A, "prot->A", links, unit_test).ID,
-                .U = pool.GetKEGGMapping(prot.U, "prot->U", links, unit_test).ID,
-                .G = pool.GetKEGGMapping(prot.G, "prot->G", links, unit_test).ID,
-                .C = pool.GetKEGGMapping(prot.C, "prot->C", links, unit_test).ID,
-                .D = pool.GetKEGGMapping(prot.D, "prot->D", links, unit_test).ID,
-                .E = pool.GetKEGGMapping(prot.E, "prot->E", links, unit_test).ID,
-                .F = pool.GetKEGGMapping(prot.F, "prot->F", links, unit_test).ID,
-                .H = pool.GetKEGGMapping(prot.H, "prot->H", links, unit_test).ID,
-                .I = pool.GetKEGGMapping(prot.I, "prot->I", links, unit_test).ID,
-                .K = pool.GetKEGGMapping(prot.K, "prot->K", links, unit_test).ID,
-                .L = pool.GetKEGGMapping(prot.L, "prot->L", links, unit_test).ID,
-                .M = pool.GetKEGGMapping(prot.M, "prot->M", links, unit_test).ID,
-                .N = pool.GetKEGGMapping(prot.N, "prot->N", links, unit_test).ID,
-                .O = pool.GetKEGGMapping(prot.O, "prot->O", links, unit_test).ID,
-                .P = pool.GetKEGGMapping(prot.P, "prot->P", links, unit_test).ID,
-                .Q = pool.GetKEGGMapping(prot.Q, "prot->Q", links, unit_test).ID,
-                .R = pool.GetKEGGMapping(prot.R, "prot->R", links, unit_test).ID,
-                .S = pool.GetKEGGMapping(prot.S, "prot->S", links, unit_test).ID,
-                .T = pool.GetKEGGMapping(prot.T, "prot->T", links, unit_test).ID,
-                .V = pool.GetKEGGMapping(prot.V, "prot->V", links, unit_test).ID,
-                .W = pool.GetKEGGMapping(prot.W, "prot->W", links, unit_test).ID,
-                .Y = pool.GetKEGGMapping(prot.Y, "prot->Y", links, unit_test).ID
+                .A = pool.GetKEGGMapping(prot.A, "prot->A", links).ID,
+                .U = pool.GetKEGGMapping(prot.U, "prot->U", links).ID,
+                .G = pool.GetKEGGMapping(prot.G, "prot->G", links).ID,
+                .C = pool.GetKEGGMapping(prot.C, "prot->C", links).ID,
+                .D = pool.GetKEGGMapping(prot.D, "prot->D", links).ID,
+                .E = pool.GetKEGGMapping(prot.E, "prot->E", links).ID,
+                .F = pool.GetKEGGMapping(prot.F, "prot->F", links).ID,
+                .H = pool.GetKEGGMapping(prot.H, "prot->H", links).ID,
+                .I = pool.GetKEGGMapping(prot.I, "prot->I", links).ID,
+                .K = pool.GetKEGGMapping(prot.K, "prot->K", links).ID,
+                .L = pool.GetKEGGMapping(prot.L, "prot->L", links).ID,
+                .M = pool.GetKEGGMapping(prot.M, "prot->M", links).ID,
+                .N = pool.GetKEGGMapping(prot.N, "prot->N", links).ID,
+                .O = pool.GetKEGGMapping(prot.O, "prot->O", links).ID,
+                .P = pool.GetKEGGMapping(prot.P, "prot->P", links).ID,
+                .Q = pool.GetKEGGMapping(prot.Q, "prot->Q", links).ID,
+                .R = pool.GetKEGGMapping(prot.R, "prot->R", links).ID,
+                .S = pool.GetKEGGMapping(prot.S, "prot->S", links).ID,
+                .T = pool.GetKEGGMapping(prot.T, "prot->T", links).ID,
+                .V = pool.GetKEGGMapping(prot.V, "prot->V", links).ID,
+                .W = pool.GetKEGGMapping(prot.W, "prot->W", links).ID,
+                .Y = pool.GetKEGGMapping(prot.Y, "prot->Y", links).ID
             },
             .GenericCompounds = New Dictionary(Of String, GeneralCompound)
         }
@@ -244,6 +243,11 @@ Public Module Simulator
         kegg_maps.status = s0
 
         Return kegg_maps
+    End Function
+
+    <ExportAPI("run")>
+    Public Function run(engine As Engine) As Object
+        Call engine.Run()
     End Function
 
     ''' <summary>
