@@ -72,18 +72,22 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' data type enumeration of the omics data
@@ -109,7 +113,28 @@ Public Module Simulator
                     End Sub)
         Call Console.WriteLine()
         Call printer.AttachConsoleFormatter(Of VirtualCell)(AddressOf VirtualCell.Summary)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(MemoryDataSet), AddressOf castMemoryTable)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function castMemoryTable(ds As MemoryDataSet, args As list, env As Environment) As dataframe
+        Dim mass_data As Boolean = args.getValue({"mass", "mass_data"}, env, [default]:=True)
+        Dim data As ICollection(Of Dictionary(Of String, Double)) = If(mass_data, ds.getMassDataSet, ds.getFluxDataSet)
+        Dim cols = data.Select(Function(r) r.Keys).IteratesALL.Distinct.ToArray
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = Enumerable _
+                .Range(1, data.Count) _
+                .AsCharacter _
+                .ToArray
+        }
+
+        For Each colname As String In cols
+            Call df.add(colname, data.Select(Function(r) r.TryGetValue(colname)))
+        Next
+
+        Return df
+    End Function
 
     ''' <summary>
     ''' Create a new status profile data object with unify mass contents.
@@ -245,9 +270,16 @@ Public Module Simulator
         Return kegg_maps
     End Function
 
+    <ExportAPI("attach_memorydataset")>
+    Public Function attach_memoryDataSet(engine As Engine) As Object
+        engine.AttachBiologicalStorage(New MemoryDataSet)
+        Return engine
+    End Function
+
     <ExportAPI("run")>
     Public Function run(engine As Engine) As Object
         Call engine.Run()
+        Return engine
     End Function
 
     ''' <summary>
