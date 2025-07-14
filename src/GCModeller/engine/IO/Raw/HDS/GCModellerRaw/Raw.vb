@@ -92,6 +92,12 @@ Namespace Raw
         ''' <remarks>RNA gene id</remarks>
         <[Module]("Component-RNA")>
         Public Property RNAId As Index(Of String)
+
+        <[Module]("Transfer-RNA")>
+        Public Property tRNA As Index(Of String)
+        <[Module]("Ribosomal-RNA")>
+        Public Property rRNA As Index(Of String)
+
         ''' <summary>
         ''' 由mRNA翻译出来的多肽链的Id列表
         ''' </summary>

@@ -67,6 +67,7 @@ Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace Raw
 
@@ -88,8 +89,10 @@ Namespace Raw
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
             stream.Clear(32 * 1024 * 1024)
 
-            MyBase.mRNAId = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.RNAName).Indexing
-            MyBase.RNAId = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value <> RNATypes.mRNA).Select(Function(c) c.RNAName).Indexing
+            MyBase.mRNAId = getRNAIndex(model, RNATypes.mRNA)
+            MyBase.RNAId = getComponentRNAs(model).Indexing
+            MyBase.tRNA = getRNAIndex(model, RNATypes.tRNA)
+            MyBase.rRNA = getRNAIndex(model, RNATypes.ribosomalRNA)
             MyBase.Polypeptide = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.polypeptide).Indexing
             MyBase.Proteins = model.Phenotype.proteins.Select(Function(p) p.ProteinID).Indexing
             MyBase.Metabolites = model.Phenotype.fluxes _
@@ -124,10 +127,32 @@ Namespace Raw
                         {NameOf(Polypeptide), Polypeptide.Count},
                         {NameOf(Proteins), Proteins.Count},
                         {NameOf(Metabolites), Metabolites.Count},
-                        {NameOf(Reactions), Reactions.Count}
+                        {NameOf(Reactions), Reactions.Count},
+                        {NameOf(tRNA), tRNA.Count},
+                        {NameOf(rRNA), rRNA.Count}
                     }.GetJson
                 }, "/.etc/count.json")
         End Sub
+
+        Private Iterator Function getComponentRNAs(model As CellularModule) As IEnumerable(Of String)
+            For Each dogma As CentralDogma In model.Genotype.centralDogmas
+                Dim RNA_type As RNATypes = dogma.RNA.Value
+
+                Select Case RNA_type
+                    Case RNATypes.mRNA, RNATypes.ribosomalRNA, RNATypes.tRNA
+                        Continue For
+                    Case Else
+                        Yield dogma.RNAName
+                End Select
+            Next
+        End Function
+
+        Private Function getRNAIndex(model As CellularModule, type_id As RNATypes) As Index(Of String)
+            Return model.Genotype.centralDogmas _
+                .Where(Function(g) g.RNA.Value = type_id) _
+                .Select(Function(c) c.RNAName) _
+                .Indexing
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetStream() As StreamPack
