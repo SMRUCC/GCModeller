@@ -183,6 +183,8 @@ Namespace Raw
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.FluxSnapshot
             Call output.Write(NameOf(Writer.Reactions), iteration, snapshot:=data)
+            Call output.Write(NameOf(Writer.Transcription), iteration, snapshot:=data)
+            Call output.Write(NameOf(Writer.Translation), iteration, snapshot:=data)
         End Sub
 
 #Region "IDisposable Support"

@@ -66,6 +66,7 @@ Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
@@ -89,6 +90,7 @@ Namespace Raw
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
             stream.Clear(32 * 1024 * 1024)
 
+            ' create molecule index
             MyBase.mRNAId = getRNAIndex(model, RNATypes.mRNA).Indexing
             MyBase.RNAId = getComponentRNAs(model).Indexing
             MyBase.tRNA = getRNAIndex(model, RNATypes.tRNA).Indexing
@@ -100,9 +102,13 @@ Namespace Raw
                 .IteratesALL _
                 .Distinct _
                 .ToArray
+
+            ' create flux index
             MyBase.Reactions = model.Phenotype.fluxes _
                 .Select(Function(r) r.ID) _
                 .ToArray
+            MyBase.Transcription = model.Genotype.centralDogmas.SafeQuery.Select(Function(c) Loader.GetTranscriptionId(c)).Indexing
+            MyBase.Translation = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) Loader.GetTranslationId(c)).Indexing
 
             compartments = {model.CellularEnvironmentName} _
                 .JoinIterates(model.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)) _
