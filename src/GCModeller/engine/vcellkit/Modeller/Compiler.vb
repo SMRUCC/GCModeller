@@ -275,11 +275,11 @@ Module Compiler
         Dim right = getFactors(eq.right).ToArray
 
         Return New Reaction With {
-            .ID = eq.ToString.MD5,
             .bounds = {10, 10},
-            .name = eq.ToString,
             .substrate = left,
-            .product = right
+            .product = right,
+            .ID = .equation,
+            .name = .ID
         }
     End Function
 

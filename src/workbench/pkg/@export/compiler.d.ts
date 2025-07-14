@@ -41,10 +41,21 @@ declare namespace compiler {
    }
    module compile {
       /**
-        * @param logfile default value Is ``'./gcc.log'``.
+       * Build a specific organism metacyc database as virtual cell model
+       * 
+       * 
+        * @param biocyc -
+        * @param genomes -
+        * @param logfile -
+        * 
+        * + default value Is ``'./gcc.log'``.
       */
       function biocyc(biocyc: object, genomes: object, logfile?: string): object;
    }
+   /**
+     * @param env default value Is ``null``.
+   */
+   function compile_network(x: object, env?: object): any;
    module geneKO {
       /**
        * create a list that map gene id to KO id.
