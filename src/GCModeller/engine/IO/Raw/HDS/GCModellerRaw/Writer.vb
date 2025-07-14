@@ -92,7 +92,7 @@ Namespace Raw
             MyBase.mRNAId = getRNAIndex(model, RNATypes.mRNA).Indexing
             MyBase.RNAId = getComponentRNAs(model).Indexing
             MyBase.tRNA = getRNAIndex(model, RNATypes.tRNA).Indexing
-            MyBase.rRNA = getRNAIndex(model, RNATypes.ribosomalRNA).Indexing
+            MyBase.rRNA = getRNAIndex(model, RNATypes.ribosomalRNA).JoinIterates({"ribosomeAssembly"}).Indexing
             MyBase.Polypeptide = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.polypeptide).Indexing
             MyBase.Proteins = model.Phenotype.proteins.Select(Function(p) p.ProteinID & ".complex").Indexing
             MyBase.Metabolites = model.Phenotype.fluxes _

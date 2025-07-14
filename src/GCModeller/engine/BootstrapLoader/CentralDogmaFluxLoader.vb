@@ -141,6 +141,11 @@ Namespace ModelLoader
             Yield flux
         End Function
 
+        ''' <summary>
+        ''' is a reversiable process
+        ''' </summary>
+        ''' <param name="rRNA"></param>
+        ''' <returns></returns>
         Private Function ribosomeAssembly(rRNA As String()) As Channel
             Dim cellular_id As String = cell.CellularEnvironmentName
             Dim left As Variable() = rRNA.Select(Function(ref) MassTable.variable(ref, cellular_id)).ToArray

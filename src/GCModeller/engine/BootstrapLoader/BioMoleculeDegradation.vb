@@ -197,10 +197,10 @@ Namespace ModelLoader
                 ' 降解过程是不可逆的
                 flux = New Channel(MassTable.variables({gene.RNAName}, 1, cell.CellularEnvironmentName), ntBase) With {
                     .ID = $"RNADegradationOf{gene.RNAName}",
-                    .forward = Controls.StaticControl(10),
+                    .forward = Controls.StaticControl(loader.dynamics.RNADegradationBaseline),
                     .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {
-                        .forward = 1000,
+                        .forward = loader.dynamics.RNADegradationCapacity,
                         .reverse = 0
                     }
                 }
