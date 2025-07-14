@@ -220,12 +220,12 @@ Namespace Raw
         ''' <param name="snapshot">The snapshot value after the loop cycle in <paramref name="time"/> point</param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
+        Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double), fluxData As Boolean) As Writer
             Dim resolve_name As String = nameMaps([module])
             Dim index As Index(Of String) = modules(resolve_name)
 
             For Each compart_id As String In compartments
-                Dim instance_id As String() = Me.instance_id(compart_id)(resolve_name)
+                Dim instance_id As String() = If(fluxData, index.Objects, Me.instance_id(compart_id)(resolve_name))
                 Dim v As Double() = snapshot.Takes(instance_id).ToArray
                 Dim path As String = $"/dynamics/{compart_id}/{resolve_name}/frames/{time}.dat"
 

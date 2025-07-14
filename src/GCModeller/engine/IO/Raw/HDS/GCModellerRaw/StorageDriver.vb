@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::f194300ea30f873a838ff12b3352c81f, engine\IO\Raw\HDS\GCModellerRaw\StorageDriver.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 162
-    '    Code Lines: 113 (69.75%)
-    ' Comment Lines: 19 (11.73%)
-    '    - Xml Docs: 15.79%
-    ' 
-    '   Blank Lines: 30 (18.52%)
-    '     File Size: 6.86 KB
+' Summaries:
 
 
-    '     Class StorageDriver
-    ' 
-    '         Properties: mass
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: metabolome, proteome, transcriptome
-    ' 
-    '         Sub: (+2 Overloads) Dispose, FluxSnapshot, MassSnapshot, SetSymbolNames, WriteCellularGraph
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 162
+'    Code Lines: 113 (69.75%)
+' Comment Lines: 19 (11.73%)
+'    - Xml Docs: 15.79%
+' 
+'   Blank Lines: 30 (18.52%)
+'     File Size: 6.86 KB
+
+
+'     Class StorageDriver
+' 
+'         Properties: mass
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: metabolome, proteome, transcriptome
+' 
+'         Sub: (+2 Overloads) Dispose, FluxSnapshot, MassSnapshot, SetSymbolNames, WriteCellularGraph
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -171,20 +171,20 @@ Namespace Raw
         End Function
 
         Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot
-            Call output.Write(NameOf(Writer.Metabolites), iteration, snapshot:=data)
-            Call output.Write(NameOf(Writer.mRNAId), iteration, snapshot:=data)
-            Call output.Write(NameOf(Writer.Polypeptide), iteration, snapshot:=data)
-            Call output.Write(NameOf(Writer.Proteins), iteration, snapshot:=data)
-            Call output.Write(NameOf(Writer.RNAId), iteration, snapshot:=data)
-            Call output.Write(NameOf(Writer.tRNA), iteration, snapshot:=data)
-            Call output.Write(NameOf(Writer.rRNA), iteration, snapshot:=data)
+            Call output.Write(NameOf(Writer.Metabolites), iteration, snapshot:=data, fluxData:=False)
+            Call output.Write(NameOf(Writer.mRNAId), iteration, snapshot:=data, fluxData:=False)
+            Call output.Write(NameOf(Writer.Polypeptide), iteration, snapshot:=data, fluxData:=False)
+            Call output.Write(NameOf(Writer.Proteins), iteration, snapshot:=data, fluxData:=False)
+            Call output.Write(NameOf(Writer.RNAId), iteration, snapshot:=data, fluxData:=False)
+            Call output.Write(NameOf(Writer.tRNA), iteration, snapshot:=data, fluxData:=False)
+            Call output.Write(NameOf(Writer.rRNA), iteration, snapshot:=data, fluxData:=False)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.FluxSnapshot
-            Call output.Write(NameOf(Writer.Reactions), iteration, snapshot:=data)
-            Call output.Write(NameOf(Writer.Transcription), iteration, snapshot:=data)
-            Call output.Write(NameOf(Writer.Translation), iteration, snapshot:=data)
+            Call output.Write(NameOf(Writer.Reactions), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.Transcription), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.Translation), iteration, snapshot:=data, fluxData:=True)
         End Sub
 
 #Region "IDisposable Support"
