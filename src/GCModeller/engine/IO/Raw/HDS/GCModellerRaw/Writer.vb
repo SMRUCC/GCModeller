@@ -89,10 +89,10 @@ Namespace Raw
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
             stream.Clear(32 * 1024 * 1024)
 
-            MyBase.mRNAId = getRNAIndex(model, RNATypes.mRNA)
+            MyBase.mRNAId = getRNAIndex(model, RNATypes.mRNA).Indexing
             MyBase.RNAId = getComponentRNAs(model).Indexing
-            MyBase.tRNA = getRNAIndex(model, RNATypes.tRNA)
-            MyBase.rRNA = getRNAIndex(model, RNATypes.ribosomalRNA)
+            MyBase.tRNA = getRNAIndex(model, RNATypes.tRNA).Indexing
+            MyBase.rRNA = getRNAIndex(model, RNATypes.ribosomalRNA).Indexing
             MyBase.Polypeptide = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.polypeptide).Indexing
             MyBase.Proteins = model.Phenotype.proteins.Select(Function(p) p.ProteinID & ".complex").Indexing
             MyBase.Metabolites = model.Phenotype.fluxes _
@@ -135,23 +135,28 @@ Namespace Raw
         End Sub
 
         Private Iterator Function getComponentRNAs(model As CellularModule) As IEnumerable(Of String)
-            For Each dogma As CentralDogma In model.Genotype.centralDogmas
-                Dim RNA_type As RNATypes = dogma.RNA.Value
+            For Each gene As CentralDogma In model.Genotype.centralDogmas
+                Dim RNA_type As RNATypes = gene.RNA.Value
 
                 Select Case RNA_type
                     Case RNATypes.mRNA, RNATypes.ribosomalRNA, RNATypes.tRNA
                         Continue For
                     Case Else
-                        Yield dogma.RNAName
+                        Yield gene.RNAName
                 End Select
             Next
         End Function
 
-        Private Function getRNAIndex(model As CellularModule, type_id As RNATypes) As Index(Of String)
-            Return model.Genotype.centralDogmas _
-                .Where(Function(g) g.RNA.Value = type_id) _
-                .Select(Function(c) c.RNAName) _
-                .Indexing
+        Private Iterator Function getRNAIndex(model As CellularModule, type_id As RNATypes) As IEnumerable(Of String)
+            For Each gene As CentralDogma In model.Genotype.centralDogmas
+                If gene.RNA.Value = type_id Then
+                    Yield gene.RNAName
+
+                    If type_id = RNATypes.tRNA Then
+                        Yield "*" & gene.RNAName
+                    End If
+                End If
+            Next
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

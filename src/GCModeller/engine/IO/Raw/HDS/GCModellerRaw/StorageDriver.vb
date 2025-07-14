@@ -176,6 +176,8 @@ Namespace Raw
             Call output.Write(NameOf(Writer.Polypeptide), iteration, snapshot:=data)
             Call output.Write(NameOf(Writer.Proteins), iteration, snapshot:=data)
             Call output.Write(NameOf(Writer.RNAId), iteration, snapshot:=data)
+            Call output.Write(NameOf(Writer.tRNA), iteration, snapshot:=data)
+            Call output.Write(NameOf(Writer.rRNA), iteration, snapshot:=data)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
