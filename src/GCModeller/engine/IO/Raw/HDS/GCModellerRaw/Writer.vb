@@ -186,6 +186,11 @@ Namespace Raw
             For Each [module] As NamedValue(Of PropertyInfo) In modules.NamedValues
                 Dim name$ = [module].Name
                 Dim index As Index(Of String) = [module].Value.GetValue(Me)
+
+                If index Is Nothing Then
+                    Continue For
+                End If
+
                 Dim list$() = index.Objects
 
                 For Each compart_id As String In compartments
