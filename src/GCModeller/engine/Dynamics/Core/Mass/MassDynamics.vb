@@ -141,7 +141,7 @@ Namespace Core
             Next
 
             Dim dy As Double = additions.Average
-            dy = (channels.Length * dy) / (channels.Length + Math.Abs(dy))
+            ' dy = (channels.Length * dy) / (channels.Length + Math.Abs(dy))
             Return dy
         End Function
 
