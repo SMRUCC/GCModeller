@@ -125,6 +125,7 @@ Namespace v2
         Private Iterator Function createGenotype(model As VirtualCell, unitTest As Boolean) As IEnumerable(Of CentralDogma)
             Dim genomeName$
             Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure.enzymes _
+                .SafeQuery _
                 .ToDictionary(Function(enzyme)
                                   Return enzyme.proteinID
                               End Function)
@@ -221,6 +222,7 @@ Namespace v2
                 .OrderByDescending(Function(r) r.enzyme.TryCount) _
                 .ToArray
             Dim enzymes As String() = model.metabolismStructure.enzymes _
+                .SafeQuery _
                 .Select(Function(enz) enz.proteinID) _
                 .ToArray
             Dim proteins As Protein() = {}
@@ -318,6 +320,7 @@ Namespace v2
             Dim equation As Equation
             ' {reactionID => KO()}
             Dim enzymes = model.metabolismStructure.enzymes _
+                .SafeQuery _
                 .Select(Iterator Function(enz) As IEnumerable(Of (rID$, enz As NamedValue(Of Catalysis)))
                             Dim catalysis_name As String
                             Dim enz_ref As NamedValue(Of Catalysis)
