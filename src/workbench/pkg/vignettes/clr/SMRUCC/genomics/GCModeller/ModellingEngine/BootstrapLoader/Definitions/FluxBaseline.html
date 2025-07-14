@@ -32,6 +32,7 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 export class FluxBaseline {
+   numCells: integer;
    productInhibitionFactor: double;
    proteinMatureBaseline: double;
    proteinMatureCapacity: double;
@@ -39,6 +40,9 @@ export class FluxBaseline {
    ribosomeAssemblyCapacity: double;
    ribosomeDisassemblyBaseline: double;
    ribosomeDisassemblyCapacity: double;
+   RNADegradationBaseline: double;
+   RNADegradationCapacity: double;
+   # min rate of the transcription of gene template to RNA
    transcriptionBaseline: double;
    transcriptionCapacity: double;
    # 对于翻译过程，因为需要有核糖体来介导，所以就不设置最低下限了

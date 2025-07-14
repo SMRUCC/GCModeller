@@ -194,6 +194,8 @@ Namespace Engine
                 Else
                     If initials.status.ContainsKey(mass.template_id) Then
                         Call mass.reset(initials.status(mass.template_id))
+                    ElseIf mass.role = MassRoles.gene Then
+                        Call mass.reset(dynamics.numCells)
                     Else
                         Call mass.reset(randf.NextDouble(10, 250))
                     End If

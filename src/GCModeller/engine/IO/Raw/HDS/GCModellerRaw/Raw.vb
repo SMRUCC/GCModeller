@@ -130,7 +130,14 @@ Namespace Raw
         ''' </remarks>
         <[Module]("Reaction-Flux")>
         Public Property Reactions As Index(Of String)
-
+        <[Module]("Transcription-Flux")>
+        Public Property Transcription As Index(Of String)
+        <[Module]("Translation-Flux")>
+        Public Property Translation As Index(Of String)
+        <[Module]("Protein-Degradation-Flux")>
+        Public Property ProteinDegradation As Index(Of String)
+        <[Module]("RNA-Degradation-Flux")>
+        Public Property RNADegradation As Index(Of String)
 #End Region
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
