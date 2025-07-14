@@ -67,6 +67,7 @@ Namespace Core
     ''' </summary>
     Public Class MassDynamics : Inherits var
         Implements IReadOnlyId, INonlinearVar
+        Implements Enumeration(Of var)
 
         ''' <summary>
         ''' <see cref="Factor.ID"/>
@@ -148,7 +149,7 @@ Namespace Core
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getLastFluxVariants() As IEnumerable(Of var)
             For i As Integer = 0 To fluxValues.Length - 1
-                fluxVariants(i).Value = fluxValues(i)
+                fluxVariants(i).Value += fluxValues(i)
             Next
 
             Return fluxVariants
@@ -257,6 +258,12 @@ Namespace Core
                         .ToArray,
                     .fluxValues = New Double(.fluxVariants.Length - 1) {}
                 }
+            Next
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of var) Implements Enumeration(Of var).GenericEnumerator
+            For Each flux As var In fluxVariants
+                Yield flux
             Next
         End Function
     End Class
