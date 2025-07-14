@@ -94,7 +94,7 @@ Namespace Raw
             MyBase.tRNA = getRNAIndex(model, RNATypes.tRNA)
             MyBase.rRNA = getRNAIndex(model, RNATypes.ribosomalRNA)
             MyBase.Polypeptide = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.polypeptide).Indexing
-            MyBase.Proteins = model.Phenotype.proteins.Select(Function(p) p.ProteinID).Indexing
+            MyBase.Proteins = model.Phenotype.proteins.Select(Function(p) p.ProteinID & ".complex").Indexing
             MyBase.Metabolites = model.Phenotype.fluxes _
                 .Select(Function(r) r.AllCompounds) _
                 .IteratesALL _
