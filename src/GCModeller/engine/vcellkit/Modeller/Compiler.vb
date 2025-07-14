@@ -259,7 +259,13 @@ Module Compiler
             .metabolismStructure = New MetabolismStructure With {
                 .reactions = New ReactionGroup With {
                     .none_enzymatic = network.ToArray
-                }
+                },
+                .compounds = network _
+                    .Select(Function(r) r.AsEnumerable) _
+                    .IteratesALL _
+                    .GroupBy(Function(c) c.compound) _
+                    .Select(Function(id) New Compound(id.Key)) _
+                    .ToArray
             }
         }
     End Function

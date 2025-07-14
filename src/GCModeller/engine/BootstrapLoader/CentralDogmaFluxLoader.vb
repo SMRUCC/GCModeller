@@ -296,7 +296,13 @@ Namespace ModelLoader
                 End If
             Next
 
-            Yield ribosomeAssembly(rRNA.Values.IteratesALL.Distinct.ToArray)
+            If rRNA.IsNullOrEmpty Then
+                ' do nothing 
+            ElseIf rRNA.Count = 3 Then
+                Yield ribosomeAssembly(rRNA.Values.IteratesALL.Distinct.ToArray)
+            Else
+                Throw New InvalidCastException("missing some of the rRNA components!")
+            End If
 
             Call VBDebugger.EchoLine("build biological process for central dogmas...")
 
