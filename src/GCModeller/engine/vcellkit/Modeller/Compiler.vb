@@ -234,7 +234,7 @@ Module Compiler
     ''' <param name="genomes"></param>
     ''' <param name="logfile"></param>
     ''' <returns></returns>
-    <ExportAPI("compile.biocyc")>
+    <ExportAPI("compile_biocyc")>
     Public Function compileBiocyc(biocyc As Workspace, genomes As Dictionary(Of String, GBFF.File),
                                   Optional logfile As String = "./gcc.log") As VirtualCell
 
