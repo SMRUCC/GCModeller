@@ -235,7 +235,7 @@ Namespace v2
                     .IteratesALL _
                     .Where(Function(gene) Not gene.amino_acid Is Nothing) _
                     .Select(Function(orf)
-                                Return New Protein With {
+                                Return New Molecule.Protein With {
                                     .compounds = {},
                                     .polypeptides = {orf.protein_id},
                                     .ProteinID = orf.protein_id
