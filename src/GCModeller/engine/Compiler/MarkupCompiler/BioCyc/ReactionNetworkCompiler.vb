@@ -21,8 +21,29 @@ Namespace MarkupCompiler.BioCyc
             Return New MetabolismStructure With {
                 .reactions = createReactions(),
                 .enzymes = createEnzyme.ToArray,
-                .compounds = createCompounds.ToArray
+                .compounds = createCompounds.ToArray,
+                .maps = CreateMaps.ToArray
             }
+        End Function
+
+        Private Iterator Function CreateMaps() As IEnumerable(Of FunctionalCategory)
+            Dim pathways_list = biocyc.pathways.features.GroupBy(Function(p) p.types(0)).ToArray
+
+            For Each category As IGrouping(Of String, pathways) In pathways_list
+                Yield New FunctionalCategory With {
+                    .category = category.Key,
+                    .pathways = category _
+                        .Select(Function(pwy)
+                                    Return New Pathway With {
+                                        .ID = pwy.uniqueId,
+                                        .name = pwy.commonName,
+                                        .note = pwy.comment,
+                                        .reactions = pwy.reactionList
+                                    }
+                                End Function) _
+                        .ToArray
+                }
+            Next
         End Function
 
         Private Iterator Function createCompounds() As IEnumerable(Of Compound)
