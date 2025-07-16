@@ -109,6 +109,8 @@ Namespace v2
     ''' </summary>
     Public Class RNA
 
+        <XmlAttribute> Public Property id As String
+
         ''' <summary>
         ''' the trranscription source template gene <see cref="v2.gene.locus_tag"/>
         ''' </summary>
@@ -127,6 +129,8 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property val As String
+
+        Public Property note As String
 
         Sub New()
         End Sub
