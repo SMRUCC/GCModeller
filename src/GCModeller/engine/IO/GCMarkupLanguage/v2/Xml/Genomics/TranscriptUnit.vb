@@ -79,6 +79,9 @@ Namespace v2
         <XmlElement>
         Public Property genes As gene()
 
+        <XmlText>
+        Public Property note As String
+
         Public ReadOnly Property numOfGenes As Integer
             Get
                 If genes Is Nothing Then

@@ -57,6 +57,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+Imports SMRUCC.genomics.ComponentModel.Loci
 
 <Xref("genes.dat")>
 Public Class genes : Inherits Model
@@ -85,6 +86,13 @@ Public Class genes : Inherits Model
     End Property
 
     Public Property dnaseq As String
+
+    <AttributeField("LEFT-END-POSITION")>
+    Public Property left As Long
+    <AttributeField("RIGHT-END-POSITION")>
+    Public Property right As Long
+    <AttributeField("TRANSCRIPTION-DIRECTION")>
+    Public Property direction As Strands
 
     Public Shared Function OpenFile(fullName As String) As AttrDataCollection(Of genes)
         Using file As Stream = fullName.Open(FileMode.Open, doClear:=False, [readOnly]:=True)

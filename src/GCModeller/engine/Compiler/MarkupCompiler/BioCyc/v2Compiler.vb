@@ -106,7 +106,12 @@ Namespace MarkupCompiler.BioCyc
         End Function
 
         Protected Overrides Function CompileImpl(args As CommandLine) As Integer
+            Dim replicon As replicon = New GenomeCompiler(Me).CreateReplicon
+
             m_compiledModel.metabolismStructure = New ReactionNetworkCompiler(Me).BuildModel
+            m_compiledModel.genome = New Genome With {
+                .replicons = {replicon}
+            }
 
             Dim usedIndex As Index(Of String) = m_compiledModel _
                 .metabolismStructure _

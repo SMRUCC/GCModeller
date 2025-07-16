@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.Schema.Metabolism
 
 ''' <summary>
@@ -74,6 +75,7 @@ Public Class ObjectWriter
         Call ElementFactory.Register(Of CompoundSpecieReference)(AddressOf Factory.ParseCompoundReference)
         Call ElementFactory.Register(Of ReactionDirections)(AddressOf Factory.ParseReactionDirection)
         Call ElementFactory.Register(Of KineticsFactor)(AddressOf Factory.ParseKineticsFactor)
+        Call ElementFactory.Register(Of Strands)(Function(str) LocusExtensions.GetStrand(str.value))
     End Sub
 
     Private Sub New(type As Type)
