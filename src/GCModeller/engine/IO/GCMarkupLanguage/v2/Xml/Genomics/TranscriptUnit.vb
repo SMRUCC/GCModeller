@@ -79,7 +79,7 @@ Namespace v2
         <XmlElement>
         Public Property genes As gene()
 
-        <XmlText>
+        <XmlElement>
         Public Property note As String
 
         Public ReadOnly Property numOfGenes As Integer
