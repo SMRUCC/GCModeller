@@ -110,7 +110,10 @@ Namespace MarkupCompiler.BioCyc
 
             m_compiledModel.metabolismStructure = New ReactionNetworkCompiler(Me).BuildModel
             m_compiledModel.genome = New Genome With {
-                .replicons = {replicon}
+                .replicons = {replicon},
+                .proteins = New ProteinCompiler(biocyc) _
+                    .CreateProteins _
+                    .ToArray
             }
 
             Dim usedIndex As Index(Of String) = m_compiledModel _
