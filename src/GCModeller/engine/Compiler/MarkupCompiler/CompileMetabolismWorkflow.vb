@@ -105,8 +105,7 @@ Namespace MarkupCompiler
                     If Not enzymeUnits.IsNullOrEmpty Then
                         maps += New Pathway With {
                             .ID = map.KOpathway,
-                            .name = map.name,
-                            .enzymes = enzymeUnits
+                            .name = map.name
                         }
                     End If
                 Next

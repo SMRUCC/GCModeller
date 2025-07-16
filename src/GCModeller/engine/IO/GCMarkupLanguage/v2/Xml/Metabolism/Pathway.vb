@@ -25,20 +25,13 @@ Namespace v2
         <XmlAttribute> Public Property ID As String Implements IKeyedEntity(Of String).Key
         <XmlAttribute> Public Property name As String
 
-        ''' <summary>
-        ''' 属性的值含义如下：
-        ''' 
-        ''' + <see cref="[Property].name"/>: protein_id
-        ''' + <see cref="[Property].value"/>: KO number
-        ''' + <see cref="[Property].Comment"/>: gene locus_tag
-        ''' </summary>
-        ''' <returns></returns>
-        <XmlElement("enzyme")>
-        Public Property enzymes As [Property]()
+        Public Property reactions As String()
+
+        Public Property note As String
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return $"[{ID}] {name} with {enzymes.Length} enzymes"
+            Return $"[{ID}] {name} with {reactions.Length} reactions"
         End Function
 
     End Class

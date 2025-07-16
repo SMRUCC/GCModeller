@@ -82,17 +82,7 @@ Public Module NetworkViz
                 .Select(Function(enzyme) enzyme.proteinID)
         Else
             With pathways.Indexing
-                Return cell.metabolismStructure _
-                    .maps _
-                    .Select(Function(map) map.pathways) _
-                    .IteratesALL _
-                    .Where(predicate:=Function(pathway)
-                                          Return pathway.ID Like .ByRef
-                                      End Function) _
-                    .Select(Function(pathway) pathway.enzymes) _
-                    .IteratesALL _
-                    .Select(Function(enzyme) enzyme.comment) _
-                    .Distinct
+
             End With
         End If
     End Function
