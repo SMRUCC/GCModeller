@@ -26,6 +26,8 @@ Namespace MarkupCompiler.BioCyc
                               End Function)
 
             For Each reg As regulation In biocyc.regulation.features
+                Dim transcripts = site_index.TryGetValue(reg.regulatedEntity)
+
                 If reg.types(0) <> "Transcription-Factor-Binding" Then
                     Continue For
                 End If
@@ -33,12 +35,19 @@ Namespace MarkupCompiler.BioCyc
                 Yield New transcription With {
                     .regulator = reg.regulator,
                     .mode = reg.mode,
-                    .centralDogma = site_index _
-                        .TryGetValue(reg.regulatedEntity) _
+                    .centralDogma = transcripts _
                         .SafeQuery _
                         .Select(Function(t) t.id) _
                         .ToArray,
-                    .note = reg.comment
+                    .note = reg.comment,
+                    .targets = transcripts _
+                        .SafeQuery _
+                        .Select(Function(t)
+                                    Return t.genes.Select(Function(g) g.locus_tag)
+                                End Function) _
+                        .IteratesALL _
+                        .Distinct _
+                        .ToArray
                 }
             Next
         End Function
