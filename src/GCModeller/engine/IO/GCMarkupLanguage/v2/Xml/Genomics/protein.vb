@@ -8,8 +8,8 @@ Namespace v2
 
         <XmlAttribute> Public Property name As String
 
-        Public Property ligand As String()
-        Public Property peptide_chains As String()
+        <XmlElement> Public Property ligand As String()
+        <XmlElement> Public Property peptide_chains As String()
 
         Public Property note As String
 
