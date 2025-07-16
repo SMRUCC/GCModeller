@@ -67,10 +67,6 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Implements IReadOnlyId
 
         Public ReadOnly Property UniqueId As String Implements IReadOnlyId.Identity
-            Get
-                Return Headers.Last.Split.First
-            End Get
-        End Property
 
         Public ReadOnly Property AccessionId As String
             Get
@@ -132,6 +128,7 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Sub New(fa As FastaSeq)
             Headers = fa.Headers
             SequenceData = fa.SequenceData
+            UniqueId = Headers(0)
         End Sub
 
         Public Overloads Shared Sub Save(data As GeneObject(), filePath As String)

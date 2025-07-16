@@ -61,7 +61,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
 
     Public Class Proteins : Inherits FastaSeq
-        Dim Description As String
+
+        Public ReadOnly Property Description As String
 
         Public ReadOnly Property UniqueId As String
             Get

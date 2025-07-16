@@ -59,6 +59,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.File.FileSystem.FastaObjects
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -66,7 +67,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' </summary>
 Public Class Workspace : Implements IWorkspace
 
-    ReadOnly dir As String
+    Friend ReadOnly dir As String
 
     Dim m_reactions As Lazy(Of AttrDataCollection(Of reactions))
     Dim m_pathways As Lazy(Of AttrDataCollection(Of pathways))
@@ -76,6 +77,8 @@ Public Class Workspace : Implements IWorkspace
     Dim m_proteins As Lazy(Of AttrDataCollection(Of proteins))
     Dim m_transunits As Lazy(Of AttrDataCollection(Of transunits))
     Dim m_species As species
+
+    Dim m_fasta As Lazy(Of FastaCollection)
 
     Public ReadOnly Property transunits As AttrDataCollection(Of transunits)
         Get
@@ -129,6 +132,12 @@ Public Class Workspace : Implements IWorkspace
         End Get
     End Property
 
+    Public ReadOnly Property fastaSeq As FastaCollection
+        Get
+            Return m_fasta.Value
+        End Get
+    End Property
+
     Private ReadOnly Property IWorkspace_Workspace As String Implements IWorkspace.Workspace
         Get
             Return dir
@@ -154,6 +163,8 @@ Public Class Workspace : Implements IWorkspace
         m_transunits = New Lazy(Of AttrDataCollection(Of transunits))(Function() openFile(Of transunits)())
         ' scalar data object
         m_species = openFile(Of species).features.FirstOrDefault
+
+        m_fasta = New Lazy(Of FastaCollection)(Function() New FastaCollection(Me))
 
         If m_species Is Nothing Then
             Call "missing the organism taxonomy species information file in current model!".Warning

@@ -55,6 +55,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
@@ -65,34 +66,49 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         ''' 
         ''' </summary>
         ''' <returns></returns>
-        Public Property DNAseq As GeneObject()
-        Public Property protseq As Proteins()
+        ''' 
+        <Description("data/dnaseq.fsa")>
+        Public ReadOnly Property DNAseq As GeneObject()
 
-        Public Property ProteinSourceFile As String
-        Public Property DNASourceFilePath As String
+        <Description("data/protseq.fsa")>
+        Public ReadOnly Property protseq As Proteins()
 
         ''' <summary>
-        ''' The complete genome sequence of the target species.(目标对象的全基因组序列)
+        ''' The complete genome sequence of the target species.
         ''' </summary>
-        ''' <remarks></remarks>
-        Public Property Origin As FastaSeq
-        Public Property OriginSourceFile As String
+        ''' <remarks>
+        ''' (目标对象的全基因组序列)
+        ''' </remarks>
+        Public ReadOnly Property Origin As FastaSeq
 
-        Public Overloads Shared Function Load(Of T As FastaSeq)(FilePath As String, Optional Explicit As Boolean = True) As T()
-            Dim FASTA As FastaFile = FastaFile.Read(FilePath, Explicit)
+        ReadOnly ProteinSourceFile As String
+        ReadOnly DNASourceFilePath As String
+        ReadOnly OriginSourceFile As String
+
+        Sub New(workspace As Workspace)
+            ProteinSourceFile = $"{workspace.dir}/protseq.fsa"
+            DNASourceFilePath = $"{workspace.dir}/dnaseq.fsa"
+
+            DNAseq = LoadGeneObjects(DNASourceFilePath)
+            protseq = LoadProteins(ProteinSourceFile)
+        End Sub
+
+        Public Overloads Shared Function Load(Of T As FastaSeq)(filePath As String, Optional explicit As Boolean = True) As IEnumerable(Of T)
+            Dim fasta As FastaFile = FastaFile.Read(filePath, explicit)
             Dim type As Type = GetType(T)
-            Dim LQuery As T() = (From Fa As FastaSeq
-                                 In FASTA.AsParallel
-                                 Select DirectCast(Activator.CreateInstance(type, {Fa}), T)).ToArray
-            Return LQuery
+
+            Return From fa As FastaSeq
+                   In fasta
+                   Let castObj = Activator.CreateInstance(type, {fa})
+                   Select DirectCast(castObj, T)
         End Function
 
         Public Shared Function LoadGeneObjects(file As String, Optional explicit As Boolean = True) As GeneObject()
-            Return Load(Of GeneObject)(file, explicit)
+            Return Load(Of GeneObject)(file, explicit).ToArray
         End Function
 
         Public Shared Function LoadProteins(file As String, Optional explicit As Boolean = True) As Proteins()
-            Return Load(Of Proteins)(file, explicit)
+            Return Load(Of Proteins)(file, explicit).ToArray
         End Function
     End Class
 End Namespace
