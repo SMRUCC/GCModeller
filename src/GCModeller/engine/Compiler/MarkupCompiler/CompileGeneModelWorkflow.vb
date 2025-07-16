@@ -152,7 +152,7 @@ Namespace MarkupCompiler
                     .locus_tag = locus_tag,
                     .product = gene.Product,
                     .protein_id = If(aa Is Nothing, "", proteinId(locus_tag).polypeptide),
-                    .strand = gene.Location.Strand.GetBriefCode,
+                    .strand = gene.Location.Strand.Description,
                     .amino_acid = aa,
                     .nucleotide_base = rna
                 }

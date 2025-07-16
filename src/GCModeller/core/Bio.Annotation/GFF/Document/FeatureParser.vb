@@ -77,7 +77,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                 x.source,
                 x.feature,
                 CStr(x.start), CStr(x.ends),
-                x.score, x.strand.GetBriefCode, x.frame,
+                x.score, x.strand.Description, x.frame,
                 attrs.JoinBy(";")
             }
             Dim line As String = String.Join(vbTab, tokens)

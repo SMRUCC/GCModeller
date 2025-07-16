@@ -24,10 +24,16 @@ Namespace MarkupCompiler.BioCyc
 
         Private Iterator Function CreateOperons() As IEnumerable(Of TranscriptUnit)
             For Each operon As transunits In biocyc.transunits.features
+                Dim genes As gene() = GeneObjects(operon.components).ToArray
+
+                If genes.IsNullOrEmpty Then
+                    Continue For
+                End If
+
                 Yield New TranscriptUnit With {
                     .id = operon.uniqueId,
                     .name = operon.commonName,
-                    .genes = GeneObjects(operon.components).ToArray,
+                    .genes = genes,
                     .note = operon.comment
                 }
             Next
@@ -35,7 +41,11 @@ Namespace MarkupCompiler.BioCyc
 
         Private Iterator Function GeneObjects(list As IEnumerable(Of String)) As IEnumerable(Of gene)
             For Each id As String In list
-                Dim data As genes = geneIndex(id)
+                Dim data As genes = geneIndex.TryGetValue(id)
+
+                If data Is Nothing Then
+                    Continue For
+                End If
 
                 Yield New gene With {
                     .locus_tag = data.uniqueId,
