@@ -225,7 +225,7 @@ Namespace v2
                 .SafeQuery _
                 .Select(Function(enz) enz.proteinID) _
                 .ToArray
-            Dim proteins As Protein() = {}
+            Dim proteins As Molecule.Protein() = {}
 
             If hasGenotype Then
                 proteins = model.genome.replicons _

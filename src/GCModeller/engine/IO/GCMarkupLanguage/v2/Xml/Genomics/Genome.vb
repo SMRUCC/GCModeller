@@ -85,6 +85,8 @@ Namespace v2
         ''' </remarks>
         Public Property regulations As transcription()
 
+        Public Property proteins As protein()
+
         Public Iterator Function GetAllGeneLocusTags(Optional skipPlasmids As Boolean = False) As IEnumerable(Of String)
             Dim source As IEnumerable(Of replicon)
 
