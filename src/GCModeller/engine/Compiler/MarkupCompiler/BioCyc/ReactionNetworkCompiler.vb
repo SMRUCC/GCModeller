@@ -106,40 +106,49 @@ Namespace MarkupCompiler.BioCyc
             }
         End Function
 
+        Private Shared Function CheckEnzymatic(rxn As reactions) As Boolean
+            Return rxn.ec_number IsNot Nothing OrElse
+                Not rxn.enzymaticReaction.IsNullOrEmpty
+        End Function
+
         Private Function createReactions() As ReactionGroup
             Dim reactions = biocyc.reactions
             Dim enzymatic = reactions.features _
-                .Where(Function(rxn) rxn.ec_number IsNot Nothing OrElse Not rxn.enzymaticReaction.IsNullOrEmpty) _
+                .Where(Function(rxn) CheckEnzymatic(rxn)) _
+                .Select(Function(r) enzymaticReaction(r)) _
+                .Where(Function(r) Not r Is Nothing) _
                 .ToArray
             Dim non_enzymatic = reactions.features _
-                .Where(Function(rxn)
-                           Return rxn.ec_number Is Nothing AndAlso rxn.enzymaticReaction.IsNullOrEmpty
-                       End Function) _
+                .Where(Function(rxn) Not CheckEnzymatic(rxn)) _
+                .Select(Function(r) nonEnzymaticReaction(r)) _
+                .Where(Function(r) Not r Is Nothing) _
                 .ToArray
 
             Return New ReactionGroup With {
-                .none_enzymatic = non_enzymatic _
-                    .Select(Function(r) nonEnzymaticReaction(r)) _
-                    .ToArray,
-                .enzymatic = enzymatic _
-                    .Select(Function(r) enzymaticReaction(r)) _
-                    .ToArray
+                .none_enzymatic = non_enzymatic,
+                .enzymatic = enzymatic
             }
         End Function
 
         Private Function enzymaticReaction(rxn As reactions) As Reaction
             Dim model As Reaction = nonEnzymaticReaction(rxn)
 
-            model.is_enzymatic = True
-            model.ec_number = rxn.ec_number _
-                .SafeQuery _
-                .Select(Function(ec) ec.ECNumberString) _
-                .ToArray
+            If Not model Is Nothing Then
+                model.is_enzymatic = True
+                model.ec_number = rxn.ec_number _
+                    .SafeQuery _
+                    .Select(Function(ec) ec.ECNumberString) _
+                    .ToArray
+            End If
 
             Return model
         End Function
 
         Private Shared Iterator Function CreateCompounds(list As IEnumerable(Of CompoundSpecieReference)) As IEnumerable(Of CompoundFactor)
+            If list Is Nothing Then
+                Return
+            End If
+
             For Each cpd As CompoundSpecieReference In list
                 Yield New CompoundFactor(cpd.Stoichiometry, cpd.ID, cpd.Compartment)
             Next
@@ -148,6 +157,11 @@ Namespace MarkupCompiler.BioCyc
         Private Function nonEnzymaticReaction(rxn As reactions) As Reaction
             Dim left = CreateCompounds(rxn.left).ToArray
             Dim right = CreateCompounds(rxn.right).ToArray
+
+            If left.IsNullOrEmpty OrElse right.IsNullOrEmpty Then
+                Call $"Missing reactants or products from the reaction {rxn.uniqueId} ({rxn.commonName})!".Warning
+                Return Nothing
+            End If
 
             Return New Reaction With {
                 .ID = rxn.uniqueId,
