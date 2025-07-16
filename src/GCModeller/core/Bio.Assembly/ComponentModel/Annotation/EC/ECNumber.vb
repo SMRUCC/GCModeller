@@ -164,7 +164,7 @@ Namespace ComponentModel.Annotation
         ''' 1.2.-.-
         ''' ```
         ''' </summary>
-        Public Const PatternECNumber$ = "\d(\.((\d+)|[-])){3}"
+        Public Const PatternECNumber$ = "\d(\.((\d+)|[-])){2,}"
 
         Public Shared ReadOnly r As New Regex(PatternECNumber, RegexOptions.Compiled)
 
@@ -177,7 +177,9 @@ Namespace ComponentModel.Annotation
             Dim m As Match = r.Match(expr)
 
             ' 格式错误，没有找到相应的编号格式字符串
-            If Not m.Success Then Return Nothing
+            If Not m.Success Then
+                Return Nothing
+            End If
 
             Dim tokens As String() = m.Value.Split("."c)
             Dim ecNum As New ECNumber With {

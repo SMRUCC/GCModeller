@@ -235,7 +235,6 @@ Module Compiler
     ''' <returns></returns>
     <ExportAPI("compile_biocyc")>
     Public Function compileBiocyc(biocyc As Workspace, Optional logfile As String = "./gcc.log") As VirtualCell
-
         Using compiler As New BioCyc.v2Compiler(biocyc)
             Return compiler.Compile($"compile --log {logfile.CLIPath}")
         End Using
