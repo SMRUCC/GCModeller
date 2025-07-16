@@ -60,7 +60,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
 
-    Public Class Proteins : Inherits FastaSeq
+    Public Class ProteinSeq : Inherits FastaSeq
 
         Public ReadOnly Property Description As String
 
@@ -70,7 +70,7 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
             End Get
         End Property
 
-        Public Shared Shadows Sub Save(data As Proteins(), filePath As String)
+        Public Shared Shadows Sub Save(data As ProteinSeq(), filePath As String)
             Dim FASTA As FastaFile = New FastaFile
             Call FASTA.AddRange(data)
             Call FASTA.Save(filePath, Encoding.UTF8)

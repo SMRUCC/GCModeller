@@ -71,7 +71,7 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Public ReadOnly Property DNAseq As GeneObject()
 
         <Description("data/protseq.fsa")>
-        Public ReadOnly Property protseq As Proteins()
+        Public ReadOnly Property protseq As ProteinSeq()
 
         ''' <summary>
         ''' The complete genome sequence of the target species.
@@ -107,8 +107,8 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
             Return Load(Of GeneObject)(file, explicit).ToArray
         End Function
 
-        Public Shared Function LoadProteins(file As String, Optional explicit As Boolean = True) As Proteins()
-            Return Load(Of Proteins)(file, explicit).ToArray
+        Public Shared Function LoadProteins(file As String, Optional explicit As Boolean = True) As ProteinSeq()
+            Return Load(Of ProteinSeq)(file, explicit).ToArray
         End Function
     End Class
 End Namespace

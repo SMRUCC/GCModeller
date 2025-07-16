@@ -81,14 +81,14 @@ Namespace Assembly.MetaCyc.Schema.Metabolism
         End Sub
 
         Public Sub Initlaize()
-            If Me.MetaCyc.Database.FASTAFiles.protseq.IsNullOrEmpty Then
-                Dim LQuery = (From Protein As Slots.Protein
-                              In Me.MetaCyc.GetProteins.Values
-                              Let Id As String = DBLinkManager.DBLink.GetUniprotId(Protein.DBLinksMgr)
-                              Where Not String.IsNullOrEmpty(Id)
-                              Select Uniprot.Web.DownloadProtein(Id)).ToArray
-                Call CType(LQuery, SequenceModel.FASTA.FastaFile).Save(Me.MetaCyc.Database.FASTAFiles.ProteinSourceFile, Encoding.UTF8)
-            End If
+            'If Me.MetaCyc.Database.FASTAFiles.protseq.IsNullOrEmpty Then
+            '    Dim LQuery = (From Protein As Slots.Protein
+            '                  In Me.MetaCyc.GetProteins.Values
+            '                  Let Id As String = DBLinkManager.DBLink.GetUniprotId(Protein.DBLinksMgr)
+            '                  Where Not String.IsNullOrEmpty(Id)
+            '                  Select Uniprot.Web.DownloadProtein(Id)).ToArray
+            '    Call CType(LQuery, SequenceModel.FASTA.FastaFile).Save(Me.MetaCyc.Database.FASTAFiles.ProteinSourceFile, Encoding.UTF8)
+            'End If
         End Sub
 
         ''' <summary>

@@ -1,5 +1,7 @@
 ﻿
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.BioCyc
+Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.File.FileSystem.FastaObjects
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
@@ -10,11 +12,15 @@ Namespace MarkupCompiler.BioCyc
         ReadOnly biocyc As Workspace
         ReadOnly geneIndex As Dictionary(Of String, genes)
         ReadOnly proteinIndex As Dictionary(Of String, proteins)
+        ReadOnly protSeq As Dictionary(Of String, ProteinSeq)
+        ReadOnly geneSeq As Dictionary(Of String, GeneObject)
 
         Sub New(compiler As v2Compiler)
             biocyc = compiler.biocyc
             geneIndex = biocyc.genes.features.ToDictionary(Function(g) g.uniqueId)
             proteinIndex = biocyc.proteins.features.ToDictionary(Function(a) a.uniqueId)
+            protSeq = biocyc.fastaSeq.protseq.ToDictionary(Function(a) a.UniqueId)
+            geneSeq = biocyc.fastaSeq.DNAseq.ToDictionary(Function(a) a.UniqueId)
         End Sub
 
         Public Function CreateReplicon() As replicon
@@ -43,6 +49,9 @@ Namespace MarkupCompiler.BioCyc
         End Function
 
         Private Iterator Function GeneObjects(list As IEnumerable(Of String)) As IEnumerable(Of gene)
+            Dim prot_vec As NumericVector
+            Dim nucl_vec As NumericVector
+
             For Each id As String In list
                 Dim data As genes = geneIndex.TryGetValue(id)
 
@@ -52,9 +61,26 @@ Namespace MarkupCompiler.BioCyc
 
                 Dim prot = If(data.product Is Nothing, Nothing, proteinIndex.TryGetValue(data.product))
                 Dim rna_type As RNATypes = RNATypes.micsRNA
+                Dim gene_seq As GeneObject = geneSeq.TryGetValue(id)
+
+                If Not gene_seq Is Nothing Then
+
+                Else
+                    nucl_vec = New NumericVector
+                End If
 
                 If prot IsNot Nothing Then
+                    Dim seq = protSeq.TryGetValue(prot.uniqueId)
+
+                    If Not seq Is Nothing Then
+                        prot_vec = New NumericVector
+                    Else
+                        prot_vec = New NumericVector()
+                    End If
+
                     rna_type = RNATypes.mRNA
+                Else
+                    prot_vec = Nothing
                 End If
 
                 Yield New gene With {
@@ -63,7 +89,10 @@ Namespace MarkupCompiler.BioCyc
                     .left = data.left,
                     .right = data.right,
                     .strand = data.direction.ToString,
-                    .type = rna_type
+                    .type = rna_type,
+                    .protein_id = prot?.uniqueId,
+                    .amino_acid = prot_vec,
+                    .nucleotide_base = nucl_vec
                 }
             Next
         End Function
