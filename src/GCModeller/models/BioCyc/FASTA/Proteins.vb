@@ -69,10 +69,10 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
             End Get
         End Property
 
-        Public Shared Shadows Sub Save(Data As Proteins(), FilePath As String)
+        Public Shared Shadows Sub Save(data As Proteins(), filePath As String)
             Dim FASTA As FastaFile = New FastaFile
-            Call FASTA.AddRange(Data)
-            Call FASTA.Save(FilePath, Encoding.UTF8)
+            Call FASTA.AddRange(data)
+            Call FASTA.Save(filePath, Encoding.UTF8)
         End Sub
 
         Sub New()

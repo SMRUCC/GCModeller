@@ -134,13 +134,12 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
             SequenceData = fa.SequenceData
         End Sub
 
-        Public Overloads Shared Sub Save(Data As GeneObject(), FilePath As String)
-            Dim FsaFile As FastaFile = New FastaFile With {
-                .FilePath = FilePath,
-                ._innerList = New List(Of FastaSeq)
+        Public Overloads Shared Sub Save(data As GeneObject(), filePath As String)
+            Dim fsa As New FastaFile With {
+                .FilePath = filePath
             }
-            Call FsaFile._innerList.AddRange(Data)
-            Call FsaFile.Save(FilePath, Encoding.UTF8)
+            Call fsa.AddRange(data)
+            Call fsa.Save(filePath, Encoding.UTF8)
         End Sub
     End Class
 End Namespace
