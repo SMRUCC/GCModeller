@@ -67,18 +67,8 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Implements IReadOnlyId
 
         Public ReadOnly Property UniqueId As String Implements IReadOnlyId.Identity
-
         Public ReadOnly Property AccessionId As String
-            Get
-                Return Headers.Last.Split()(1)
-            End Get
-        End Property
-
         Public ReadOnly Property ProductUniqueId As String
-            Get
-                Return Headers.Last.Split()(2).Replace("""", "")
-            End Get
-        End Property
 
         '>gnl|ECOLI|EG10570 map "EG10570-MONOMER" (complement(189506..188712)) Escherichia coli K-12 substr. MG1655
         '>gnl|ECOLI|EG11769 ybbC "EG11769-MONOMER" 526805..527173 Escherichia coli K-12 substr. MG1655
@@ -128,7 +118,16 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Sub New(fa As FastaSeq)
             Headers = fa.Headers
             SequenceData = fa.SequenceData
-            UniqueId = Headers(0)
+
+            Call TryParse(Headers(2), UniqueId, AccessionId, ProductUniqueId)
+        End Sub
+
+        Private Overloads Shared Sub TryParse(title As String, ByRef uniqueId As String, ByRef name As String, ByRef protId As String)
+            Dim tokens As String() = title.Split
+
+            uniqueId = tokens(0)
+            name = tokens(1)
+            protId = tokens(2)
         End Sub
 
         Public Overloads Shared Sub Save(data As GeneObject(), filePath As String)
