@@ -137,6 +137,7 @@ Namespace MarkupCompiler.BioCyc
                 model.is_enzymatic = True
                 model.ec_number = rxn.ec_number _
                     .SafeQuery _
+                    .Where(Function(e) Not e Is Nothing) _
                     .Select(Function(ec) ec.ECNumberString) _
                     .ToArray
             End If

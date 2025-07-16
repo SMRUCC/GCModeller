@@ -97,7 +97,8 @@ Namespace MarkupCompiler.BioCyc
                     .name = spec.commonName,
                     .specieId = spec.NCBITaxonomyId,
                     .title = If(spec.synonyms.FirstOrDefault, spec.commonName)
-                }
+                },
+                .genome = New Genome
             }
             m_logging.WriteLine(info.ToString)
 
