@@ -78,7 +78,7 @@ Namespace v2
             model.genome.regulations = model.genome _
                 .regulations _
                 .Where(Function(reg)
-                           Return Not reg.regulator Like deleted AndAlso Not reg.target Like deleted
+                           Return Not reg.regulator Like deleted
                        End Function) _
                 .ToArray
             ' 将对应的酶促过程也删除掉

@@ -72,23 +72,18 @@ Namespace v2
         <XmlAttribute> Public Property mode As String
 
         ''' <summary>
-        ''' 这个是效应物物质编号列表
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property effector As String()
-        ''' <summary>
         ''' 这个调控关系所影响到的中心法则的事件名称
         ''' </summary>
         ''' <returns></returns>
-        Public Property centralDogma As String
+        Public Property centralDogma As String()
         Public Property biological_process As String
         Public Property motif As Motif
-
-        Public ReadOnly Property target As String
-            Get
-                Return centralDogma.Split.First
-            End Get
-        End Property
+        ''' <summary>
+        ''' a collection of the genes id inside the regulated operons
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property targets As String()
+        Public Property note As String
 
     End Class
 

@@ -107,12 +107,16 @@ Namespace MarkupCompiler.BioCyc
 
         Protected Overrides Function CompileImpl(args As CommandLine) As Integer
             Dim replicon As replicon = New GenomeCompiler(Me).CreateReplicon
+            Dim reg As New RegulationCompiler(biocyc)
 
             m_compiledModel.metabolismStructure = New ReactionNetworkCompiler(Me).BuildModel
             m_compiledModel.genome = New Genome With {
                 .replicons = {replicon},
                 .proteins = New ProteinCompiler(biocyc) _
                     .CreateProteins _
+                    .ToArray,
+                .regulations = reg _
+                    .CreateRegulations(.replicons.Select(Function(r) r.operons).IteratesALL) _
                     .ToArray
             }
 

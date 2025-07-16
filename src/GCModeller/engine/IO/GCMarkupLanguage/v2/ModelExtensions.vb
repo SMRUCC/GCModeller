@@ -396,13 +396,15 @@ Namespace v2
             End If
 
             For Each reg As transcription In model.genome.regulations
-                Yield New Regulation With {
-                    .effects = reg.mode.EvalEffects,
-                    .name = reg.biological_process,
-                    .process = reg.centralDogma,
-                    .regulator = reg.regulator,
-                    .type = Processes.Transcription
-                }
+                For Each ref As String In reg.centralDogma
+                    Yield New Regulation With {
+                        .effects = reg.mode.EvalEffects,
+                        .name = reg.biological_process,
+                        .process = ref,
+                        .regulator = reg.regulator,
+                        .type = Processes.Transcription
+                    }
+                Next
             Next
         End Function
     End Module

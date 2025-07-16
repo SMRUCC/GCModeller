@@ -100,7 +100,7 @@ Module Program
                     }
                 },
                 .regulations = {
-                    New transcription With {.effector = {"B"}, .centralDogma = "Gene-123", .biological_process = "Gene-123", .mode = "-", .regulator = "B"}
+                    New transcription With {.centralDogma = {"Gene-123"}, .biological_process = "Gene-123", .mode = "-", .regulator = "B"}
                 }
             },
             .properties = New CompilerServices.[Property] With {.name = "demo1", .authors = {"xieguigang"}, .comment = "simple network demo", .title = .comment},
