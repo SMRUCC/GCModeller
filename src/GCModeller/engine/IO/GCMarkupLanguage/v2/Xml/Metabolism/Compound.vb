@@ -11,11 +11,11 @@ Namespace v2
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         ''' <summary>
-        ''' the kegg reference id of current metabolite
+        ''' the reference id of current metabolite
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute>
-        Public Property kegg_id As String()
+        Public Property referenceIds As String()
 
         <XmlText> Public Property name As String
 

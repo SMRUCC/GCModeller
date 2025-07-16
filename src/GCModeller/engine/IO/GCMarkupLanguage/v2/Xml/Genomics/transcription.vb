@@ -82,7 +82,7 @@ Namespace v2
         ''' a collection of the genes id inside the regulated operons
         ''' </summary>
         ''' <returns></returns>
-        Public Property targets As String()
+        <XmlAttribute> Public Property targets As String()
         Public Property note As String
 
     End Class

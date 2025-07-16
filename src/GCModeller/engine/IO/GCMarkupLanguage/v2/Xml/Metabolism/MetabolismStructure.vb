@@ -163,9 +163,9 @@ Namespace v2
         Public Function FindByKEGG(id As String) As Compound()
             If m_kegg Is Nothing Then
                 m_kegg = compounds.SafeQuery _
-                    .Where(Function(c) Not c.kegg_id.IsNullOrEmpty) _
+                    .Where(Function(c) Not c.referenceIds.IsNullOrEmpty) _
                     .Select(Function(c)
-                                Return c.kegg_id.Select(Function(kegg_id) (kegg_id, c))
+                                Return c.referenceIds.Select(Function(kegg_id) (kegg_id, c))
                             End Function) _
                     .IteratesALL _
                     .GroupBy(Function(c) c.kegg_id) _
