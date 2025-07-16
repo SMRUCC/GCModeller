@@ -50,6 +50,12 @@ Namespace MarkupCompiler.BioCyc
             Next
         End Function
 
+        Public Iterator Function RNAObjects() As IEnumerable(Of RNA)
+            For Each rna_mol As rnas In biocyc.rnas.features
+
+            Next
+        End Function
+
         Private Iterator Function GeneObjects(list As IEnumerable(Of String)) As IEnumerable(Of gene)
             Dim prot_vec As NumericVector
             Dim nucl_vec As NumericVector

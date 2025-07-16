@@ -110,11 +110,22 @@ Namespace v2
     Public Class RNA
 
         ''' <summary>
-        ''' <see cref="v2.gene.locus_tag"/>
+        ''' the trranscription source template gene <see cref="v2.gene.locus_tag"/>
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property gene As String
+        ''' <summary>
+        ''' the rna type
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property type As RNATypes
+        ''' <summary>
+        ''' usually be the:
+        ''' 
+        ''' 1. amino acid code for tRNA
+        ''' 2. 16s,5s,23s for rRNA
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property val As String
 
         Sub New()
