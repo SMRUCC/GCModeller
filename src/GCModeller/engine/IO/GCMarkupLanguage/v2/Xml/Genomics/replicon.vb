@@ -80,7 +80,6 @@ Namespace v2
         ''' the operon is the transcript unit inside the cellular system
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement>
         Public Property operons As TranscriptUnit()
 
         ''' <summary>

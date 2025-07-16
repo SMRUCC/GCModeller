@@ -72,6 +72,8 @@ Namespace v2
         ''' <returns></returns>
         <XmlAttribute> Public Property name As String
 
+        <XmlAttribute> Public Property sites As String()
+
         ''' <summary>
         ''' the operon gene list
         ''' </summary>

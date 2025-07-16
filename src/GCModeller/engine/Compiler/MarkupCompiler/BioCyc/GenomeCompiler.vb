@@ -1,4 +1,5 @@
 ﻿
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.File.FileSystem.FastaObjects
@@ -35,14 +36,21 @@ Namespace MarkupCompiler.BioCyc
         End Function
 
         Private Iterator Function CreateOperons(rnas As RNA()) As IEnumerable(Of TranscriptUnit)
-            Dim rna_genes As Dictionary(Of String, RNA) = rnas _
+            Dim rna_genes As Dictionary(Of String, RNA()) = rnas _
                 .Where(Function(r) Not r.gene.StringEmpty(, True)) _
+                .GroupBy(Function(r) r.gene) _
                 .ToDictionary(Function(a)
-                                  Return a.gene
+                                  Return a.Key
+                              End Function,
+                              Function(a)
+                                  Return a.ToArray
                               End Function)
 
             For Each operon As transunits In biocyc.transunits.features
                 Dim genes As gene() = GeneObjects(operon.components, rna_genes).ToArray
+                Dim sites = operon.components _
+                    .Where(Function(id) Not geneIndex.ContainsKey(id)) _
+                    .ToArray
 
                 If genes.IsNullOrEmpty Then
                     Continue For
@@ -52,7 +60,8 @@ Namespace MarkupCompiler.BioCyc
                     .id = operon.uniqueId,
                     .name = operon.commonName,
                     .genes = genes,
-                    .note = operon.comment
+                    .note = operon.comment,
+                    .sites = sites
                 }
             Next
         End Function
@@ -71,8 +80,7 @@ Namespace MarkupCompiler.BioCyc
                         If rna_mol.types(0).EndsWith("-tRNAs") Then
                             type = RNATypes.tRNA
                             value = rna_mol.types(0) _
-                                .Split("-"c) _
-                                .First _
+                                .Replace("-tRNAs", "") _
                                 .ToLower
                         Else
                             type = RNATypes.micsRNA
@@ -89,7 +97,7 @@ Namespace MarkupCompiler.BioCyc
             Next
         End Function
 
-        Private Iterator Function GeneObjects(list As IEnumerable(Of String), rna_genes As Dictionary(Of String, RNA)) As IEnumerable(Of gene)
+        Private Iterator Function GeneObjects(list As IEnumerable(Of String), rna_genes As Dictionary(Of String, RNA())) As IEnumerable(Of gene)
             Dim prot_vec As NumericVector
             Dim nucl_vec As NumericVector
 
@@ -121,7 +129,7 @@ Namespace MarkupCompiler.BioCyc
 
                     rna_type = RNATypes.mRNA
                 Else
-                    Dim rna As RNA = rna_genes.TryGetValue(id)
+                    Dim rna As RNA = rna_genes.TryGetValue(id).DefaultFirst
 
                     rna_type = If(rna Is Nothing, RNATypes.micsRNA, rna.type)
                     prot_vec = Nothing
