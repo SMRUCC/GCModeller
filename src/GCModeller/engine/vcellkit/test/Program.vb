@@ -52,9 +52,11 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.Compiler.MarkupCompiler.BioCyc
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.Metagenomics
 Imports vcellkit
@@ -62,7 +64,20 @@ Imports vcellkit
 Module Program
 
     Sub Main(args As String())
+        Call test_metacyc()
         Call test_model1()
+    End Sub
+
+    Sub test_metacyc()
+        Dim ecol As Workspace = Workspace.Open("F:\ecoli\29.0")
+        Dim builder As New v2Compiler(ecol)
+        Dim model As VirtualCell = builder.Compile($"compile --log Z:/run.log")
+
+        Call builder.Dispose()
+        Call model.GetXml.SaveTo("Z:/ecoli.xml")
+        Call ZipAssembly.WriteZip(model, "Z:/ecoli.zip")
+
+        Pause()
     End Sub
 
     Private Sub test_model1()
