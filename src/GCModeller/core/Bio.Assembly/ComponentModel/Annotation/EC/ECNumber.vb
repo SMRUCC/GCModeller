@@ -77,23 +77,32 @@ Namespace ComponentModel.Annotation
         ''' <summary>
         ''' 该大类之下的亚分类
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property subType As Integer
         ''' <summary>
         ''' 该亚类之下的小分类
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property subCategory As Integer
 
         ''' <summary>
         ''' 该小分类之下的序号
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property serialNumber As Integer
 
+        ''' <summary>
+        ''' generates the EC number in format like: x.x.x.x
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property ECNumberString As String
             Get
-                Return {CInt(type), subType, subCategory, serialNumber}.JoinBy(".")
+                Return New String() {
+                    CInt(type).ToString,
+                    If(subType <= 0, "-", subType.ToString),
+                    If(subCategory <= 0, "-", subCategory.ToString),
+                    If(serialNumber <= 0, "-", serialNumber.ToString)
+                }.JoinBy(".")
             End Get
         End Property
 

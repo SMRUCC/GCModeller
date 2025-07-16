@@ -60,32 +60,44 @@ Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.CompilerServices
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace MarkupCompiler.BioCyc
 
     Public Class v2Compiler : Inherits Compiler(Of VirtualCell)
 
         Friend ReadOnly biocyc As Workspace
-        Friend ReadOnly genbank As GBFF.File
 
-        Sub New(genbank As GBFF.File, biocyc As Workspace)
+        Sub New(biocyc As Workspace)
             Me.biocyc = biocyc
-            Me.genbank = genbank
         End Sub
 
         Protected Overrides Function PreCompile(args As CommandLine) As Integer
             Dim info As New StringBuilder
+            Dim spec = biocyc.species
 
             Using writer As New StringWriter(info)
                 Call CLITools.AppSummary(GetType(v2Compiler).Assembly.FromAssembly, "", "", writer)
             End Using
 
             m_compiledModel = New VirtualCell With {
-                .taxonomy = genbank.Source.GetTaxonomy
+                .taxonomy = New Taxonomy With {
+                    .scientificName = If(spec.synonyms.FirstOrDefault, spec.commonName),
+                    .ncbi_taxid = spec.NCBITaxonomyId,
+                    .species = spec.commonName
+                },
+                .cellular_id = spec.uniqueId,
+                .properties = New [Property] With {
+                    .authors = spec.PGDBAuthors,
+                    .comment = spec.comment,
+                    .compiled = Now,
+                    .name = spec.commonName,
+                    .specieId = spec.NCBITaxonomyId,
+                    .title = If(spec.synonyms.FirstOrDefault, spec.commonName)
+                }
             }
             m_logging.WriteLine(info.ToString)
 

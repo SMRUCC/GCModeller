@@ -103,7 +103,8 @@ Public Class reactions : Inherits Model
     ''' <returns></returns>
     ''' <remarks></remarks>
     <AttributeField("EC-NUMBER")>
-    Public Property ec_number As ECNumber
+    Public Property ec_number As ECNumber()
+
     <AttributeField("ENZYMATIC-REACTION")>
     Public Property enzymaticReaction As String()
     <AttributeField("GIBBS-0")>

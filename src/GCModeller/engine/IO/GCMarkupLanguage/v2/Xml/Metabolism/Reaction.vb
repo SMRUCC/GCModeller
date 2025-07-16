@@ -107,7 +107,7 @@ Namespace v2
         ''' the compartment location of the reaction
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement> Public Property compartment As String
+        <XmlElement> Public Property compartment As String()
         <XmlElement> Public Property substrate As CompoundFactor()
         <XmlElement> Public Property product As CompoundFactor()
 

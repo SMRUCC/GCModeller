@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 
@@ -25,7 +26,7 @@ Namespace MarkupCompiler.BioCyc
         End Function
 
         Private Iterator Function createCompounds() As IEnumerable(Of Compound)
-            For Each cpd As compounds In BioCyc.compounds.features
+            For Each cpd As compounds In biocyc.compounds.features
                 Yield New Compound With {
                     .ID = cpd.uniqueId,
                     .name = cpd.commonName,
@@ -35,14 +36,14 @@ Namespace MarkupCompiler.BioCyc
         End Function
 
         Private Iterator Function createEnzyme() As IEnumerable(Of Enzyme)
-            Dim enzList = BioCyc.enzrxns.features.GroupBy(Function(a) a.enzyme).ToArray
+            Dim enzList = biocyc.enzrxns.features.GroupBy(Function(a) a.enzyme).ToArray
 
             For Each enz As IGrouping(Of String, enzrxns) In enzList
                 Dim ecList = enz.Where(Function(d) Not d.EC_number Is Nothing).ToArray
                 Dim ecNumber = ecList.GroupBy(Function(id) id.ToString).OrderByDescending(Function(l) l.Count).FirstOrDefault
 
                 Yield New Enzyme With {
-                    .ecNumber = If(ecNumber Is Nothing, Nothing, ecNumber.Key),
+                    .ECNumber = If(ecNumber Is Nothing, Nothing, ecNumber.Key),
                     .proteinID = enz.Key,
                     .KO = Nothing,
                     .catalysis = enz _
@@ -106,7 +107,7 @@ Namespace MarkupCompiler.BioCyc
         End Function
 
         Private Function createReactions() As ReactionGroup
-            Dim reactions = BioCyc.reactions
+            Dim reactions = biocyc.reactions
             Dim enzymatic = reactions.features _
                 .Where(Function(rxn) rxn.ec_number IsNot Nothing OrElse Not rxn.enzymaticReaction.IsNullOrEmpty) _
                 .ToArray
@@ -127,22 +128,26 @@ Namespace MarkupCompiler.BioCyc
         End Function
 
         Private Function enzymaticReaction(rxn As reactions) As Reaction
-            Dim left = rxn.equation.Reactants.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID)).ToArray
-            Dim right = rxn.equation.Products.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID)).ToArray
+            Dim model As Reaction = nonEnzymaticReaction(rxn)
 
-            Return New Reaction With {
-                .ID = rxn.uniqueId,
-                .is_enzymatic = True,
-                .bounds = {5, 5},
-                .name = rxn.commonName,
-                .substrate = left,
-                .product = right
-            }
+            model.is_enzymatic = True
+            model.ec_number = rxn.ec_number _
+                .SafeQuery _
+                .Select(Function(ec) ec.ECNumberString) _
+                .ToArray
+
+            Return model
+        End Function
+
+        Private Shared Iterator Function CreateCompounds(list As IEnumerable(Of CompoundSpecieReference)) As IEnumerable(Of CompoundFactor)
+            For Each cpd As CompoundSpecieReference In list
+                Yield New CompoundFactor(cpd.Stoichiometry, cpd.ID, cpd.Compartment)
+            Next
         End Function
 
         Private Function nonEnzymaticReaction(rxn As reactions) As Reaction
-            Dim left = rxn.equation.Reactants.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID)).ToArray
-            Dim right = rxn.equation.Products.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID)).ToArray
+            Dim left = CreateCompounds(rxn.left).ToArray
+            Dim right = CreateCompounds(rxn.right).ToArray
 
             Return New Reaction With {
                 .ID = rxn.uniqueId,
@@ -150,7 +155,9 @@ Namespace MarkupCompiler.BioCyc
                 .is_enzymatic = False,
                 .name = rxn.commonName,
                 .substrate = left,
-                .product = right
+                .product = right,
+                .compartment = rxn.reactionLocations,
+                .note = rxn.comment
             }
         End Function
     End Class
