@@ -30,7 +30,8 @@ Namespace MarkupCompiler.BioCyc
                 Yield New Compound With {
                     .ID = cpd.uniqueId,
                     .name = cpd.commonName,
-                    .formula = compounds.FormulaString(cpd)
+                    .formula = compounds.FormulaString(cpd),
+                    .referenceIds = { .ID}
                 }
             Next
         End Function
