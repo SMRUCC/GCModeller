@@ -164,7 +164,7 @@ Namespace ComponentModel.Annotation
         ''' 1.2.-.-
         ''' ```
         ''' </summary>
-        Public Const PatternECNumber$ = "\d(\.((\d+)|[-])){2,}"
+        Public Const PatternECNumber$ = "\d(\.((\d+)|[-])){0,3}"
 
         Public Shared ReadOnly r As New Regex(PatternECNumber, RegexOptions.Compiled)
 
@@ -178,10 +178,16 @@ Namespace ComponentModel.Annotation
 
             ' 格式错误，没有找到相应的编号格式字符串
             If Not m.Success Then
+                Call $"invalid EC_number to parse: {expr}".Warning
                 Return Nothing
             End If
 
             Dim tokens As String() = m.Value.Split("."c)
+
+            If tokens.Length < 3 AndAlso Not expr.IsPattern("EC[-]" & PatternECNumber) Then
+                Call $"probably none EC_number was parsed from expression: {expr}".Warning
+            End If
+
             Dim ecNum As New ECNumber With {
                 .Type = CInt(Val(tokens(0))),
                 .SubType = CInt(Val(tokens.ElementAtOrDefault(1))),
