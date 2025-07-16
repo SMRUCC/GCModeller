@@ -3,7 +3,9 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.File.FileSystem.FastaObjects
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 
 Namespace MarkupCompiler.BioCyc
 
@@ -64,18 +66,18 @@ Namespace MarkupCompiler.BioCyc
                 Dim gene_seq As GeneObject = geneSeq.TryGetValue(id)
 
                 If Not gene_seq Is Nothing Then
-
+                    nucl_vec = RNAComposition.FromNtSequence(gene_seq.SequenceData, id).CreateVector
                 Else
-                    nucl_vec = New NumericVector
+                    nucl_vec = RNAComposition.Blank(id).CreateVector
                 End If
 
                 If prot IsNot Nothing Then
                     Dim seq = protSeq.TryGetValue(prot.uniqueId)
 
                     If Not seq Is Nothing Then
-                        prot_vec = New NumericVector
+                        prot_vec = ProteinComposition.FromRefSeq(seq.SequenceData, prot.uniqueId).CreateVector
                     Else
-                        prot_vec = New NumericVector()
+                        prot_vec = ProteinComposition.Blank(prot.uniqueId).CreateVector
                     End If
 
                     rna_type = RNATypes.mRNA
