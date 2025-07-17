@@ -70,7 +70,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     <Extension>
     Public Function ToLoci(x As PalindromeLoci) As SimpleSegment
         Return New SimpleSegment With {
-            .Strand = x.MappingLocation.Strand.GetBriefCode,
+            .Strand = x.MappingLocation.Strand.Description,
             .Start = x.MappingLocation.left,
             .Ends = x.MappingLocation.right,
             .SequenceData = x.Palindrome
@@ -87,7 +87,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
         Dim loc = loci.MappingLocation
 
         Return New SimpleSegment With {
-            .Strand = loc.Strand.GetBriefCode,
+            .Strand = loc.Strand.Description,
             .Start = loc.left,
             .Ends = loc.right,
             .SequenceData = loci.Loci & loci.Palindrome
@@ -137,7 +137,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
         Return New SimpleSegment With {
             .Start = x.MappingLocation.left,
             .Ends = x.MappingLocation.right,
-            .Strand = x.MappingLocation.Strand.GetBriefCode,
+            .Strand = x.MappingLocation.Strand.Description,
             .SequenceData = x.Palindrome,
             .ID = id
         }
