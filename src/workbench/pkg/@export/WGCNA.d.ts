@@ -1,8 +1,10 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
 //    imports "WGCNA" from "phenotype_kit";
+//    imports "WGCNA" from "TRNtoolkit";
 //
 // ref=phenotype_kit.WGCNA@phenotype_kit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=TRNtoolkit.WGCNA@TRNtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * WGCNA, which stands for Weighted Gene Co-expression Network Analysis, is a systems biology method used to describe the 
@@ -58,6 +60,7 @@
  *  WGCNA is a powerful tool for exploring gene co-expression patterns and has been widely used in genomics research to uncover 
  *  the underlying biology of complex traits and diseases.
  * 
+ * 
 */
 declare namespace WGCNA {
    /**
@@ -78,6 +81,18 @@ declare namespace WGCNA {
      * + default value Is ``null``.
    */
    function cor_network(x: object, adjacency?: number, pca_layout?: boolean, env?: object): object;
+   /**
+    * append protein iteration network based on the WGCNA weights.
+    * 
+    * 
+     * @param g -
+     * @param WGCNA -
+     * @param modules -
+     * @param threshold -
+     * 
+     * + default value Is ``0.3``.
+   */
+   function interations(g: object, WGCNA: object, modules: object, threshold?: number): any;
    module read {
       /**
         * @param prefix default value Is ``null``.
@@ -89,4 +104,15 @@ declare namespace WGCNA {
       */
       function weightMatrix(file: string, threshold?: number, prefix?: string): object;
    }
+   /**
+    * filter regulation network by WGCNA result weights
+    * 
+    * 
+     * @param g -
+     * @param WGCNA -
+     * @param threshold -
+     * 
+     * + default value Is ``0.3``.
+   */
+   function shapeTRN(g: object, WGCNA: object, threshold?: number): any;
 }
