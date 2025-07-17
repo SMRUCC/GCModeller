@@ -39,19 +39,16 @@ declare namespace compiler {
       */
       function TRN(model: object, regulations: object): object;
    }
-   module compile {
-      /**
-       * Build a specific organism metacyc database as virtual cell model
-       * 
-       * 
-        * @param biocyc -
-        * @param genomes -
-        * @param logfile -
-        * 
-        * + default value Is ``'./gcc.log'``.
-      */
-      function biocyc(biocyc: object, genomes: object, logfile?: string): object;
-   }
+   /**
+    * Build a specific organism metacyc database as virtual cell model
+    * 
+    * 
+     * @param biocyc -
+     * @param logfile -
+     * 
+     * + default value Is ``'./gcc.log'``.
+   */
+   function compile_biocyc(biocyc: object, logfile?: string): object;
    /**
      * @param env default value Is ``null``.
    */
