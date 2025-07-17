@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16e1214bd51ddb6b5d5dc1ce4eae9bc1, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\JoinExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::72e9cf5d3f879cc5c9358db0649f902e, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\JoinExtensions.vb"
 
     ' Author:
     ' 
@@ -61,7 +61,7 @@ Namespace Linq
 
         ''' <summary>
         ''' Iterates all of the elements in a two dimension collection as the data source 
-        ''' for the linq expression or ForEach statement.
+        ''' for the linq expression or ForEach statement.<br />
         ''' (适用于二维的集合做为linq的数据源，不像<see cref="Unlist"/>是进行转换，
         ''' 这个是返回迭代器的，推荐使用这个函数)
         ''' </summary>

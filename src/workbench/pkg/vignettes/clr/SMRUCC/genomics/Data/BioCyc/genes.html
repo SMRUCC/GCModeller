@@ -30,6 +30,7 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Data.BioCyc
 export class genes extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Model.html">Model</a> {
+   # The unique identifier of this gene object in the NCBI genbak database.
    accession1: string;
    accession2: string;
    citations: string;
@@ -38,9 +39,12 @@ export class genes extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/M
    credits: string;
    db_links: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/DBLink.html">DBLink[]</a>;
    db_xrefs: string;
+   direction: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a>;
    dnaseq: string;
    instanceNameTemplate: string;
+   left: integer;
    product: string;
+   right: integer;
    synonyms: string;
    types: string;
    uniqueId: string;
@@ -53,6 +57,7 @@ export class genes extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/M
         <ol>
 <li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Model.html">Model</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/Model.html">Model</a></li>
 <li>use by <i>property</i> member <code>db_links</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/DBLinkBuilder/DBLink.html">DBLink</a></li>
+<li>use by <i>property</i> member <code>direction</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a></li>
 </ol>
 
 

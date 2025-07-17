@@ -92,13 +92,25 @@ Namespace Cellular.Process
             Return ScriptEngine.ParseExpression(formula)
         End Function
 
-        Public Function CompileLambda() As DynamicInvoke
+        Public Function CompileLambda(geneMaps As Dictionary(Of String, CentralDogma)) As DynamicInvoke
             Dim lambda As LambdaExpression = ExpressionCompiler.CreateLambda(parameters, formula)
             Dim handler As [Delegate] = lambda.Compile
             Dim vm = Me
+            Dim paramVals As Object() = Me.paramVals
+
+            For i As Integer = 0 To paramVals.Length - 1
+                If TypeOf paramVals(i) Is String Then
+                    Dim id As String = CStr(paramVals(i))
+                    Dim gene As CentralDogma = geneMaps.TryGetValue(id)
+
+                    If Not gene.polypeptide.StringEmpty(, True) Then
+                        paramVals(i) = gene.polypeptide & ".complex"
+                    End If
+                End If
+            Next
 
             Return Function(getVal As Func(Of String, Double)) As Double
-                       Dim vals = vm.paramVals.ToArray
+                       Dim vals As Object() = paramVals.ToArray
 
                        If vm.parameters.Length = 0 Then
                            vals = {}

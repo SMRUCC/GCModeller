@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6526e4d6faa9e9dcb06d7f0a11abfeb, annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
+﻿#Region "Microsoft.VisualBasic::075b1b6698f781035645ab230da3cd2c, annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 119
-    '    Code Lines: 79 (66.39%)
-    ' Comment Lines: 26 (21.85%)
-    '    - Xml Docs: 92.31%
+    '   Total Lines: 124
+    '    Code Lines: 79 (63.71%)
+    ' Comment Lines: 31 (25.00%)
+    '    - Xml Docs: 93.55%
     ' 
-    '   Blank Lines: 14 (11.76%)
-    '     File Size: 4.42 KB
+    '   Blank Lines: 14 (11.29%)
+    '     File Size: 4.50 KB
 
 
     ' Class Cluster

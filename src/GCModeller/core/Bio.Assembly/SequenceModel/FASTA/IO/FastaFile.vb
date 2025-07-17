@@ -173,6 +173,11 @@ Namespace SequenceModel.FASTA
             Return __innerList.LongCount
         End Function
 
+        Public Function AddRange(Of T As FastaSeq)(list As IEnumerable(Of T)) As Integer
+            Call _innerList.AddRange(list)
+            Return _innerList.Count
+        End Function
+
         ''' <summary>
         ''' Get a new fasta2 object which is been clear the duplicated records in the collection.
         ''' (获取去除集合中的重复的记录新列表，原有列表中数据未被改变)

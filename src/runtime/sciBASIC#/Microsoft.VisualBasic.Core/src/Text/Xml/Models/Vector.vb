@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86136ca9f92d22eebacf2c2a4ac55d23, Microsoft.VisualBasic.Core\src\Text\Xml\Models\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::d0c2dba6f7d7e1af3e6568c6d471738a, Microsoft.VisualBasic.Core\src\Text\Xml\Models\Vector.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 106
-    '    Code Lines: 70 (66.04%)
-    ' Comment Lines: 20 (18.87%)
+    '   Total Lines: 123
+    '    Code Lines: 84 (68.29%)
+    ' Comment Lines: 20 (16.26%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 16 (15.09%)
-    '     File Size: 3.85 KB
+    '   Blank Lines: 19 (15.45%)
+    '     File Size: 4.36 KB
 
 
     '     Class NumericVector
     ' 
     '         Properties: Length, name, vector
     ' 
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: GenericEnumerator, SequenceEqual, ToString
     ' 
     '     Class TermsVector
@@ -62,6 +63,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -72,13 +74,13 @@ Namespace Text.Xml.Models
     ''' A <see cref="Double"/> type numeric sequence container
     ''' </summary>
     <XmlType("numerics")>
-    Public Class NumericVector : Implements Enumeration(Of Double)
+    Public Class NumericVector : Implements Enumeration(Of Double), INamedValue, IReadOnlyId
 
         ''' <summary>
         ''' 可以用这个属性来简单的标记这个向量所属的对象名称
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property name As String
+        <XmlAttribute> Public Property name As String Implements INamedValue.Key, IReadOnlyId.Identity
         ''' <summary>
         ''' 存储于XML文档之中的数据向量
         ''' </summary>
@@ -107,9 +109,25 @@ Namespace Text.Xml.Models
         Public ReadOnly Property Length As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return CInt(vector?.Length)
+                If vector Is Nothing Then
+                    Return 0
+                Else
+                    Return vector.Length
+                End If
             End Get
         End Property
+
+        Sub New()
+        End Sub
+
+        Sub New(ParamArray v As Double())
+            vector = v
+        End Sub
+
+        Sub New(id As String, ParamArray v As Double())
+            name = id
+            vector = v
+        End Sub
 
         Public Overrides Function ToString() As String
             If name.StringEmpty Then

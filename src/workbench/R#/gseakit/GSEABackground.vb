@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2dc561b263c6429f887fb80652e4fca1, R#\gseakit\GSEABackground.vb"
+﻿#Region "Microsoft.VisualBasic::c19d5458783c9bff25937cc971cd262b, R#\gseakit\GSEABackground.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 998
-    '    Code Lines: 675 (67.64%)
-    ' Comment Lines: 223 (22.34%)
-    '    - Xml Docs: 94.62%
+    '   Total Lines: 1006
+    '    Code Lines: 675 (67.10%)
+    ' Comment Lines: 231 (22.96%)
+    '    - Xml Docs: 94.81%
     ' 
-    '   Blank Lines: 100 (10.02%)
-    '     File Size: 40.87 KB
+    '   Blank Lines: 100 (9.94%)
+    '     File Size: 41.05 KB
 
 
     ' Module GSEABackground

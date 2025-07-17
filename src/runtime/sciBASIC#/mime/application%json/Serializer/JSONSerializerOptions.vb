@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ec74406f97ddd0daaaff7a118de2c07, mime\application%json\Serializer\JSONSerializerOptions.vb"
+﻿#Region "Microsoft.VisualBasic::b005e7366df828f8c3aacf4bdac6fc47, mime\application%json\Serializer\JSONSerializerOptions.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 10
-    '    Code Lines: 8 (80.00%)
+    '   Total Lines: 15
+    '    Code Lines: 12 (80.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 2 (20.00%)
-    '     File Size: 383 B
+    '   Blank Lines: 3 (20.00%)
+    '     File Size: 566 B
 
 
     ' Class JSONSerializerOptions
     ' 
-    '     Properties: digest, enumToString, indent, maskReadonly, unicodeEscape
-    '                 unixTimestamp
+    '     Properties: digest, enumToString, indent, indent_width, maskReadonly
+    '                 unicodeEscape, unixTimestamp
+    ' 
+    '     Function: offsets
     ' 
     ' /********************************************************************************/
 
@@ -56,9 +58,14 @@ Public Class JSONSerializerOptions
 
     Public Property maskReadonly As Boolean = False
     Public Property indent As Boolean = False
+    Public Property indent_width As Integer = 4
     Public Property enumToString As Boolean = True
     Public Property unixTimestamp As Boolean = True
     Public Property digest As Dictionary(Of Type, Func(Of Object, Object))
     Public Property unicodeEscape As Boolean = True
+
+    Friend Function offsets(indent As Integer) As String
+        Return New String(" "c, indent * indent_width)
+    End Function
 
 End Class

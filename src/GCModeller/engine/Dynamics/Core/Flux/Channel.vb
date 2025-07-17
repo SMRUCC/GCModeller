@@ -92,13 +92,7 @@ Namespace Core
         ''' <returns></returns>
         Public Overloads ReadOnly Property direct As Directions
             Get
-                If forward > reverse Then
-                    Return Directions.forward
-                ElseIf reverse > forward Then
-                    Return Directions.reverse
-                Else
-                    Return Directions.stop
-                End If
+                Return GetCurrentDirection()
             End Get
         End Property
 
@@ -113,6 +107,16 @@ Namespace Core
             isBroken = Me.left.IsNullOrEmpty OrElse Me.right.IsNullOrEmpty
         End Sub
 
+        Public Function GetCurrentDirection() As Directions
+            If forward > reverse Then
+                Return Directions.forward
+            ElseIf reverse > forward Then
+                Return Directions.reverse
+            Else
+                Return Directions.stop
+            End If
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -121,6 +125,8 @@ Namespace Core
         ''' <returns></returns>
         Public Function CoverLeft(shares As Dictionary(Of String, Double), regulation#) As Double
             If isBroken Then
+                Return 0
+            ElseIf left.Any(Function(v) v.mass.Value = 0.0) Then
                 Return 0
             Else
                 Return minimalUnit(shares, left, regulation, bounds.forward)
@@ -135,6 +141,8 @@ Namespace Core
         ''' <returns></returns>
         Public Function CoverRight(shares As Dictionary(Of String, Double), regulation#) As Double
             If isBroken Then
+                Return 0
+            ElseIf right.Any(Function(v) v.mass.Value <= 0.0) Then
                 Return 0
             Else
                 Return minimalUnit(shares, right, regulation, bounds.reverse)
@@ -184,7 +192,7 @@ Namespace Core
 
         Public Overrides Function ToString() As String
             If direct = Directions.stop Then
-                Return "stopped..."
+                Return $"[{ID}] stopped..."
             Else
                 Return Core.ToString(Me)
             End If

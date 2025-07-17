@@ -1,66 +1,70 @@
-﻿#Region "Microsoft.VisualBasic::9804712ff7e5ba44ec299a215a89a53d, engine\vcellkit\Modeller\Modeller.vb"
+﻿#Region "Microsoft.VisualBasic::ad25bcf3717390d3cced5dcdee8ad927, engine\vcellkit\Modeller\Modeller.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 125
-    '    Code Lines: 83 (66.40%)
-    ' Comment Lines: 26 (20.80%)
-    '    - Xml Docs: 92.31%
-    ' 
-    '   Blank Lines: 16 (12.80%)
-    '     File Size: 4.74 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    ' Module vcellModeller
-    ' 
-    '     Function: applyKinetics, CompileLambda, eval, evalArgumentValues, Kinetics
-    '               LoadVirtualCell, WriteZipAssembly
-    ' 
-    '     Sub: createKineticsDbCache
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 159
+'    Code Lines: 103 (64.78%)
+' Comment Lines: 38 (23.90%)
+'    - Xml Docs: 94.74%
+' 
+'   Blank Lines: 18 (11.32%)
+'     File Size: 6.16 KB
+
+
+' Module vcellModeller
+' 
+'     Function: applyKinetics, CompileLambda, eval, evalArgumentValues, Kinetics
+'               LoadVirtualCell, readJSON, writeJSON, WriteZipAssembly
+' 
+'     Sub: createKineticsDbCache
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
+Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK.docuRESTfulWeb
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
@@ -75,7 +79,7 @@ Imports RExpr = SMRUCC.Rsharp.Interpreter.ExecuteEngine.Expression
 ''' virtual cell network kinetics modeller
 ''' </summary>
 <Package("modeller", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
-Module vcellModeller
+Public Module vcellModeller
 
     ' ((kcat * E) * S) / (Km + S)
     ' (Vmax * S) / (Km + S)
@@ -104,14 +108,58 @@ Module vcellModeller
     ''' <summary>
     ''' read the virtual cell model file
     ''' </summary>
-    ''' <param name="path"></param>
+    ''' <param name="path">
+    ''' the model file extension could be:
+    ''' 
+    ''' xml - small virtual cell model in a xml file
+    ''' zip - large virtual cell model file save as multiple components in a zip file
+    ''' json - large virtual cell model file save as json stream file
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("read.vcell")>
     Public Function LoadVirtualCell(path As String) As VirtualCell
-        Return path.LoadXml(Of VirtualCell)
+        Select Case path.ExtensionSuffix
+            Case "zip" : Return ZipAssembly.CreateVirtualCellXml(path)
+            Case "xml" : Return path.LoadXml(Of VirtualCell)
+            Case "json" : Return vcellModeller.readJSON(path)
+
+            Case Else
+                Throw New InvalidProgramException($"Unknown file format with extension suffix name: {path.ExtensionSuffix}!")
+        End Select
     End Function
 
-    <ExportAPI("zip")>
+    ''' <summary>
+    ''' save the virtual cell model as a large json file
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("write.json_model")>
+    Public Function writeJSON(vcell As VirtualCell, file As String, Optional indent As Boolean = True) As Boolean
+        Dim s As Stream = file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+        Dim json As JsonElement = vcell.CreateJSONElement
+        Call json.WriteJSON(s, New JSONSerializerOptions With {.indent = indent})
+        Call s.Flush()
+        Call s.Dispose()
+        Return True
+    End Function
+
+    <ExportAPI("read.json_model")>
+    Public Function readJSON(file As String) As VirtualCell
+        Dim s As Stream = file.OpenReadonly
+        Dim reader As New JsonParser(New StreamReader(s), tqdm:=True)
+        Dim json As JsonObject = DirectCast(reader.OpenJSON, JsonObject)
+        Dim model As VirtualCell = json.CreateObject(Of VirtualCell)
+        Return model
+    End Function
+
+    ''' <summary>
+    ''' save the virtual cell model as zip archive file
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("write.zip")>
     Public Function WriteZipAssembly(vcell As VirtualCell, file As String) As Boolean
         Return ZipAssembly.WriteZip(vcell, file)
     End Function
@@ -161,7 +209,7 @@ Module vcellModeller
 
     <ExportAPI("kinetics_lambda")>
     Public Function CompileLambda(kinetics As Kinetics) As DynamicInvoke
-        Return kinetics.CompileLambda
+        Return kinetics.CompileLambda(New Dictionary(Of String, CentralDogma))
     End Function
 
     <ExportAPI("eval_lambda")>

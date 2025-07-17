@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6bc32e1d8f13c0e468a32643a37d7ae5, R#\seqtoolkit\Annotations\genbankKit.vb"
+﻿#Region "Microsoft.VisualBasic::ebd0f6501151744fbdff69bd0a551b9f, R#\seqtoolkit\Annotations\genbankKit.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 547
-    '    Code Lines: 378 (69.10%)
-    ' Comment Lines: 104 (19.01%)
-    '    - Xml Docs: 97.12%
+    '   Total Lines: 557
+    '    Code Lines: 382 (68.58%)
+    ' Comment Lines: 109 (19.57%)
+    '    - Xml Docs: 97.25%
     ' 
-    '   Blank Lines: 65 (11.88%)
-    '     File Size: 21.34 KB
+    '   Blank Lines: 66 (11.85%)
+    '     File Size: 21.64 KB
 
 
     ' Module genbankKit
@@ -48,7 +48,7 @@
     '     Function: accession_id, addFeature, addMeta, addproteinSeq, addRNAGene
     '               asGenbank, create_tabular, createFeature, enumerateFeatures, featureMeta
     '               getOrAddNtOrigin, getRNASeq, isPlasmidSource, keyNames, populateGenbanks
-    '               Populates, readGenbank, writeGenbank
+    '               Populates, readGenbank, Taxon_Id, writeGenbank
     ' 
     ' /********************************************************************************/
 
@@ -68,6 +68,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -116,6 +117,16 @@ Module genbankKit
     <ExportAPI("taxon_id")>
     Public Function Taxon_Id(gb As GBFF.File) As Object
         Return gb.Taxon
+    End Function
+
+    ''' <summary>
+    ''' extract the taxonomy lineage information from the genbank file
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <returns></returns>
+    <ExportAPI("taxonomy_lineage")>
+    Public Function taxonomy(gb As GBFF.File) As Taxonomy
+        Return gb.Source.GetTaxonomy
     End Function
 
     ''' <summary>

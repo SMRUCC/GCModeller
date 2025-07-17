@@ -1,66 +1,66 @@
-﻿#Region "Microsoft.VisualBasic::1ebe09aec05f6bea11b9716e43812e6a, core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
+﻿#Region "Microsoft.VisualBasic::3dc74fc2f2309b87a08d7feb0d8adadd, core\Bio.Assembly\ComponentModel\Equations\DefaultTypes.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 184
-    '    Code Lines: 138 (75.00%)
-    ' Comment Lines: 16 (8.70%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 30 (16.30%)
-    '     File Size: 7.09 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    '     Class CompoundSpecieReference
-    ' 
-    '         Properties: Compartment, ID, Stoichiometry
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: AsFactor, Equals, ToString
-    ' 
-    '     Class Equation
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    ' 
-    '         Function: __equals, GetBuffer, GetCoEfficient, ParseBuffer, ReadMetabolite
-    '                   TryParse
-    ' 
-    '         Sub: SaveMetabolite
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 190
+'    Code Lines: 143 (75.26%)
+' Comment Lines: 16 (8.42%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 31 (16.32%)
+'     File Size: 7.29 KB
+
+
+'     Class CompoundSpecieReference
+' 
+'         Properties: Compartment, ID, Stoichiometry
+' 
+'         Constructor: (+4 Overloads) Sub New
+'         Function: AsFactor, Equals, ToString
+' 
+'     Class Equation
+' 
+'         Constructor: (+4 Overloads) Sub New
+' 
+'         Function: __equals, GetBuffer, GetCoEfficient, ParseBuffer, ReadMetabolite
+'                   TryParse
+' 
+'         Sub: SaveMetabolite
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -97,6 +97,12 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         Sub New(factor As Double, compound As String)
             Stoichiometry = factor
             ID = compound
+        End Sub
+
+        Sub New(factor As Double, compound As String, compart As String)
+            Me.Stoichiometry = factor
+            Me.ID = compound
+            Me.Compartment = compart
         End Sub
 
         Public Overloads Function Equals(b As ICompoundSpecies, strict As Boolean) As Boolean

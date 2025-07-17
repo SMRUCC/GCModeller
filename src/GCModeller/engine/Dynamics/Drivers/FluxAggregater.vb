@@ -62,23 +62,40 @@ Namespace Engine
 
     Public Class FluxAggregater
 
-        ReadOnly fluxDynamicsCache As IGrouping(Of String, var)()
+        ReadOnly core As Vessel
+        ReadOnly fluxes As Dictionary(Of String, var())
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(core As Vessel)
-            fluxDynamicsCache = core.m_dynamics _
-                .Select(Function(m) m.getLastFluxVariants) _
+            Me.core = core
+            Me.fluxes = core.m_dynamics _
+                .Select(Function(m) m.AsEnumerable) _
                 .IteratesALL _
                 .GroupBy(Function(a) a.Name) _
-                .ToArray
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.ToArray
+                              End Function)
         End Sub
+
+        Private Function fluxDynamicsCache() As Dictionary(Of String, var())
+            For Each flux As String In fluxes.Keys
+                fluxes(flux).First.Value = 0
+            Next
+
+            For Each mass As MassDynamics In core.m_dynamics
+                Call mass.getLastFluxVariants()
+            Next
+
+            Return fluxes
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getFlux() As Dictionary(Of String, Double)
             Return fluxDynamicsCache _
                 .ToDictionary(Function(a) a.Key,
                                 Function(a)
-                                    Return Aggregate x In a Into Sum(x.Value)
+                                    Return a.Value.First.Value
                                 End Function)
         End Function
     End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::818d261d12070b2a595fce90f630947a, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\TranscriptUnit.vb"
+﻿#Region "Microsoft.VisualBasic::71fb7111ab33ae881bd583ce81edeaf3, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\TranscriptUnit.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 35
-    '    Code Lines: 21 (60.00%)
-    ' Comment Lines: 7 (20.00%)
+    '   Total Lines: 47
+    '    Code Lines: 27 (57.45%)
+    ' Comment Lines: 11 (23.40%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (20.00%)
-    '     File Size: 892 B
+    '   Blank Lines: 9 (19.15%)
+    '     File Size: 1.20 KB
 
 
     '     Class TranscriptUnit
     ' 
     '         Properties: genes, id, numOfGenes
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     ' 
@@ -63,8 +64,15 @@ Namespace v2
     ''' </summary>
     Public Class TranscriptUnit
 
-        <XmlAttribute>
-        Public Property id As String
+        <XmlAttribute> Public Property id As String
+
+        ''' <summary>
+        ''' the display name of this operon object
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property name As String
+
+        <XmlAttribute> Public Property sites As String()
 
         ''' <summary>
         ''' the operon gene list
@@ -72,6 +80,9 @@ Namespace v2
         ''' <returns></returns>
         <XmlElement>
         Public Property genes As gene()
+
+        <XmlElement>
+        Public Property note As String
 
         Public ReadOnly Property numOfGenes As Integer
             Get
@@ -82,6 +93,18 @@ Namespace v2
                 End If
             End Get
         End Property
+
+        Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' create a transcript unit with single gene inside
+        ''' </summary>
+        ''' <param name="gene"></param>
+        Sub New(gene As gene)
+            genes = {gene}
+            id = "TU-" & gene.locus_tag
+        End Sub
 
         Public Overrides Function ToString() As String
             Return $"[{id}] {genes.Select(Function(g) g.locus_tag).JoinBy(", ")}"

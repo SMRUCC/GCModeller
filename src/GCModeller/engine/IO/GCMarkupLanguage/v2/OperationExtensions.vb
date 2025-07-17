@@ -78,21 +78,18 @@ Namespace v2
             model.genome.regulations = model.genome _
                 .regulations _
                 .Where(Function(reg)
-                           Return Not reg.regulator Like deleted AndAlso Not reg.target Like deleted
+                           Return Not reg.regulator Like deleted
                        End Function) _
                 .ToArray
             ' 将对应的酶促过程也删除掉
             model.metabolismStructure.enzymes = model.metabolismStructure _
                 .enzymes _
-                .Where(Function(enz) Not enz.geneID Like deleted) _
+                .Where(Function(enz) Not enz.proteinID Like deleted) _
                 .ToArray
             ' 讲代谢途径之中的酶分子的定义也删除掉
             For Each [module] As FunctionalCategory In model.metabolismStructure.maps
                 For Each pathway As Pathway In [module].pathways
-                    pathway.enzymes = pathway _
-                        .enzymes _
-                        .Where(Function(enz) Not enz.comment Like deleted) _
-                        .ToArray
+
                 Next
             Next
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::538828b10f78d430da78ff62b55d6de9, models\BioCyc\Workspace.vb"
+﻿#Region "Microsoft.VisualBasic::cd01e50ed55045636e51d12966debadb, models\BioCyc\Workspace.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 113
-    '    Code Lines: 86 (76.11%)
-    ' Comment Lines: 6 (5.31%)
-    '    - Xml Docs: 50.00%
+    '   Total Lines: 142
+    '    Code Lines: 106 (74.65%)
+    ' Comment Lines: 11 (7.75%)
+    '    - Xml Docs: 63.64%
     ' 
-    '   Blank Lines: 21 (18.58%)
-    '     File Size: 4.26 KB
+    '   Blank Lines: 25 (17.61%)
+    '     File Size: 5.25 KB
 
 
     ' Class Workspace
     ' 
     '     Properties: compounds, enzrxns, genes, IWorkspace_Workspace, pathways
-    '                 proteins, reactions
+    '                 proteins, reactions, species, transunits
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: CreateSequenceIndex, getFileName, openFile, ToString
+    '     Function: CreateSequenceIndex, getFileName, Open, openFile, ToString
     ' 
     ' /********************************************************************************/
 
@@ -59,6 +59,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.File.FileSystem.FastaObjects
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -66,7 +67,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' </summary>
 Public Class Workspace : Implements IWorkspace
 
-    ReadOnly dir As String
+    Friend ReadOnly dir As String
 
     Dim m_reactions As Lazy(Of AttrDataCollection(Of reactions))
     Dim m_pathways As Lazy(Of AttrDataCollection(Of pathways))
@@ -74,6 +75,38 @@ Public Class Workspace : Implements IWorkspace
     Dim m_compounds As Lazy(Of AttrDataCollection(Of compounds))
     Dim m_genes As Lazy(Of AttrDataCollection(Of genes))
     Dim m_proteins As Lazy(Of AttrDataCollection(Of proteins))
+    Dim m_transunits As Lazy(Of AttrDataCollection(Of transunits))
+    Dim m_protligandcplxes As Lazy(Of AttrDataCollection(Of protligandcplxes))
+    Dim m_rnas As Lazy(Of AttrDataCollection(Of rnas))
+    Dim m_regulation As Lazy(Of AttrDataCollection(Of regulation))
+
+    Dim m_species As species
+
+    Dim m_fasta As Lazy(Of FastaCollection)
+
+    Public ReadOnly Property regulation As AttrDataCollection(Of regulation)
+        Get
+            Return m_regulation.Value
+        End Get
+    End Property
+
+    Public ReadOnly Property rnas As AttrDataCollection(Of rnas)
+        Get
+            Return m_rnas.Value
+        End Get
+    End Property
+
+    Public ReadOnly Property protligandcplxes As AttrDataCollection(Of protligandcplxes)
+        Get
+            Return m_protligandcplxes.Value
+        End Get
+    End Property
+
+    Public ReadOnly Property transunits As AttrDataCollection(Of transunits)
+        Get
+            Return m_transunits.Value
+        End Get
+    End Property
 
     Public ReadOnly Property compounds As AttrDataCollection(Of compounds)
         Get
@@ -111,6 +144,22 @@ Public Class Workspace : Implements IWorkspace
         End Get
     End Property
 
+    ''' <summary>
+    ''' the organism taxonomy species information
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property species As species
+        Get
+            Return m_species
+        End Get
+    End Property
+
+    Public ReadOnly Property fastaSeq As FastaCollection
+        Get
+            Return m_fasta.Value
+        End Get
+    End Property
+
     Private ReadOnly Property IWorkspace_Workspace As String Implements IWorkspace.Workspace
         Get
             Return dir
@@ -133,6 +182,19 @@ Public Class Workspace : Implements IWorkspace
         m_compounds = New Lazy(Of AttrDataCollection(Of compounds))(Function() openFile(Of compounds)())
         m_genes = New Lazy(Of AttrDataCollection(Of genes))(Function() openFile(Of genes)())
         m_proteins = New Lazy(Of AttrDataCollection(Of proteins))(Function() openFile(Of proteins)())
+        m_transunits = New Lazy(Of AttrDataCollection(Of transunits))(Function() openFile(Of transunits)())
+        m_protligandcplxes = New Lazy(Of AttrDataCollection(Of protligandcplxes))(Function() openFile(Of protligandcplxes)())
+        m_rnas = New Lazy(Of AttrDataCollection(Of rnas))(Function() openFile(Of rnas)())
+        m_regulation = New Lazy(Of AttrDataCollection(Of regulation))(Function() openFile(Of regulation)())
+
+        ' scalar data object
+        m_species = openFile(Of species).features.FirstOrDefault
+
+        m_fasta = New Lazy(Of FastaCollection)(Function() New FastaCollection(Me))
+
+        If m_species Is Nothing Then
+            Call "missing the organism taxonomy species information file in current model!".Warning
+        End If
     End Sub
 
     Private Function openFile(Of T As Model)() As AttrDataCollection(Of T)
@@ -165,6 +227,10 @@ Public Class Workspace : Implements IWorkspace
 
     Public Shared Function CreateSequenceIndex(seq As FastaFile) As Dictionary(Of String, FastaSeq)
         Return seq.ToDictionary(Function(a) a.Headers(2).Split(" "c).First)
+    End Function
+
+    Public Shared Function Open(dir As String) As Workspace
+        Return New Workspace(dir)
     End Function
 
 End Class

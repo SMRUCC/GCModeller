@@ -162,7 +162,7 @@ Namespace Assembly.MetaCyc.File.FileSystem
 
         Protected Friend _DIR As String
 
-        Public Property FASTAFiles As FastaCollection
+        ' Public Property FASTAFiles As FastaCollection
 
         Public ReadOnly Property DataDIR As String
             Get
@@ -238,8 +238,8 @@ Namespace Assembly.MetaCyc.File.FileSystem
                     Dim Specie = Species.First
 
                     Call Me.WholeGenome.SaveTo(String.Format("{0}/{1}-{2}.fsa", EXPORT, Specie.Identifier, Specie.Genome))
-                    Call MetaCyc.File.FileSystem.FastaObjects.GeneObject.Save(Me.FASTAFiles.DNAseq, EXPORT & "/dnaseq.fsa")
-                    Call MetaCyc.File.FileSystem.FastaObjects.Proteins.Save(Me.FASTAFiles.protseq, EXPORT & "/protseq.fsa")
+                    ' Call MetaCyc.File.FileSystem.FastaObjects.GeneObject.Save(Me.FASTAFiles.DNAseq, EXPORT & "/dnaseq.fsa")
+                    ' Call MetaCyc.File.FileSystem.FastaObjects.Proteins.Save(Me.FASTAFiles.protseq, EXPORT & "/protseq.fsa")
                 End If
             End Using
         End Sub
@@ -265,24 +265,21 @@ Namespace Assembly.MetaCyc.File.FileSystem
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function PreLoad(DIR As String, Optional Explicit As Boolean = True) As PGDB
-            Dim MetaCyc As PGDB = New PGDB With {
-                ._DIR = DIR,
-                .FASTAFiles = New FastaCollection
-            }
+            Dim MetaCyc As PGDB = New PGDB With {._DIR = DIR}
             MetaCyc.Species = DataFiles.Reflection.FileStream.Read(Of Slots.Specie, Species)(DIR & "/species.dat", New Species)
 
             If MetaCyc.Species.NumOfTokens = 1 Then
                 Dim Specie = MetaCyc.Species.First
 
-                MetaCyc.FASTAFiles.ProteinSourceFile = DIR & "/protseq.fsa"
-                MetaCyc.FASTAFiles.DNASourceFilePath = DIR & "/dnaseq.fsa"
-                MetaCyc.FASTAFiles.DNAseq = FastaCollection.LoadGeneObjects(MetaCyc.FASTAFiles.DNASourceFilePath, Explicit)
-                MetaCyc.FASTAFiles.protseq = FastaCollection.LoadProteins(MetaCyc.FASTAFiles.ProteinSourceFile, Explicit)
+                ' MetaCyc.FASTAFiles.ProteinSourceFile = DIR & "/protseq.fsa"
+                ' MetaCyc.FASTAFiles.DNASourceFilePath = DIR & "/dnaseq.fsa"
+                ' MetaCyc.FASTAFiles.DNAseq = FastaCollection.LoadGeneObjects(MetaCyc.FASTAFiles.DNASourceFilePath, Explicit)
+                ' MetaCyc.FASTAFiles.protseq = FastaCollection.LoadProteins(MetaCyc.FASTAFiles.ProteinSourceFile, Explicit)
 
                 Dim OSPath As String = String.Format("{0}/{1}-{2}.fsa", DIR, Specie.Identifier, Specie.Genome)
                 If FileIO.FileSystem.FileExists(OSPath) Then
-                    MetaCyc.FASTAFiles.Origin = FASTA.FastaSeq.Load(OSPath)
-                    MetaCyc.FASTAFiles.OriginSourceFile = OSPath
+                    '     MetaCyc.FASTAFiles.Origin = FASTA.FastaSeq.Load(OSPath)
+                    '     MetaCyc.FASTAFiles.OriginSourceFile = OSPath
                 End If
             End If
 

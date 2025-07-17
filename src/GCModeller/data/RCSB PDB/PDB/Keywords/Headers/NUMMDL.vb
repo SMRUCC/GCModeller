@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76084fa58bee006dc6f4dce52dccd885, data\RCSB PDB\PDB\Keywords\Headers\NUMMDL.vb"
+﻿#Region "Microsoft.VisualBasic::ab9a47b45a70875ee21a563fa07b4ca4, data\RCSB PDB\PDB\Keywords\Headers\NUMMDL.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 26
-    '    Code Lines: 20 (76.92%)
+    '   Total Lines: 34
+    '    Code Lines: 27 (79.41%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (23.08%)
-    '     File Size: 696 B
+    '   Blank Lines: 7 (20.59%)
+    '     File Size: 923 B
 
 
     '     Class NUMMDL

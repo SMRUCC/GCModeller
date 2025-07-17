@@ -239,15 +239,15 @@ Namespace Assembly.DOOR
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function ConvertToCsvData() As Assembly.DOOR.CsvModel.Operon
-            Dim Direction As String = Value.First.Location.Strand.GetBriefCode
-            Dim structs As String() = (From GeneObject As OperonGene
+            Dim direction As String = Value.First.Location.Strand.Description
+            Dim structs As String() = (From gene As OperonGene
                                        In Me.Value
-                                       Select GeneObject.Synonym).ToArray
+                                       Select gene.Synonym).ToArray
             Return New Assembly.DOOR.CsvModel.Operon With {
                 .DoorId = Me.Key,
                 .NumOfGenes = Me.Value.Length,
                 .Genes = structs,
-                .Direction = Direction
+                .Direction = direction
             }
         End Function
 

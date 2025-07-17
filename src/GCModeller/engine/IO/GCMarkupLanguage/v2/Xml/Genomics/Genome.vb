@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f29e28b0827e8ee720da9d0fcd6aaba0, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\Genome.vb"
+﻿#Region "Microsoft.VisualBasic::644d464eb06a32bff3e96d3ab7a969b0, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\Genome.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 61
-    '    Code Lines: 30 (49.18%)
-    ' Comment Lines: 19 (31.15%)
+    '   Total Lines: 70
+    '    Code Lines: 37 (52.86%)
+    ' Comment Lines: 19 (27.14%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 12 (19.67%)
-    '     File Size: 2.07 KB
+    '   Blank Lines: 14 (20.00%)
+    '     File Size: 2.28 KB
 
 
     '     Class Genome
@@ -53,6 +53,7 @@
     ' 
     '         Properties: gene, type, val
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     ' 
@@ -84,6 +85,8 @@ Namespace v2
         ''' </remarks>
         Public Property regulations As transcription()
 
+        Public Property proteins As protein()
+
         Public Iterator Function GetAllGeneLocusTags(Optional skipPlasmids As Boolean = False) As IEnumerable(Of String)
             Dim source As IEnumerable(Of replicon)
 
@@ -106,13 +109,37 @@ Namespace v2
     ''' </summary>
     Public Class RNA
 
+        <XmlAttribute> Public Property id As String
+
         ''' <summary>
-        ''' <see cref="v2.gene.locus_tag"/>
+        ''' the trranscription source template gene <see cref="v2.gene.locus_tag"/>
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property gene As String
+        ''' <summary>
+        ''' the rna type
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property type As RNATypes
+        ''' <summary>
+        ''' usually be the:
+        ''' 
+        ''' 1. amino acid code for tRNA
+        ''' 2. 16s,5s,23s for rRNA
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property val As String
+
+        Public Property note As String
+
+        Sub New()
+        End Sub
+
+        Sub New(gene_id As String, type As RNATypes, val As String)
+            Me.gene = gene_id
+            Me.type = type
+            Me.val = val
+        End Sub
 
         Public Overrides Function ToString() As String
             Return $"{gene} ({type}); ""{val}"""

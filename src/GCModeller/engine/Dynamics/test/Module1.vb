@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2bf5efb225709ad6ac5c0ddf7a91e71, engine\Dynamics\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::e4fb308a91a7bd7a845e90a34dcaeedb, engine\Dynamics\test\Module1.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 19 (13.97%)
-    '     File Size: 5.65 KB
+    '     File Size: 5.66 KB
 
 
     ' Module Module1
@@ -53,8 +53,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq

@@ -87,6 +87,10 @@ Namespace Cellular.Vector
             Return geneID
         End Function
 
+        Public Shared Function Blank(geneId As String) As RNAComposition
+            Return New RNAComposition With {.geneID = geneId}
+        End Function
+
         ''' <summary>
         ''' 因为这个是RNA序列，所以其构成应该是其基因模板的互补
         ''' </summary>

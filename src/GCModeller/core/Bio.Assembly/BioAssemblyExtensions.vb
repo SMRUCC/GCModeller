@@ -167,22 +167,6 @@ Public Module BioAssemblyExtensions
     End Function
 
     ''' <summary>
-    ''' Convert the nucleotide sequence strand direction enumeration as character brief code. [<see cref="ComponentModel.Loci.Strands"/> => +, -, ?]
-    ''' </summary>
-    ''' <param name="strand"></param>
-    ''' <returns></returns>
-    ''' 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function GetBriefCode(strand As Strands) As String
-        Select Case strand
-            Case Strands.Forward : Return "+"
-            Case Strands.Reverse : Return "-"
-            Case Else
-                Return "?"
-        End Select
-    End Function
-
-    ''' <summary>
     ''' Convert the nucleotide seuqnece strand description word as character brief code.
     ''' (获取核酸链链方向的描述简要代码)
     ''' </summary>
@@ -191,8 +175,7 @@ Public Module BioAssemblyExtensions
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function GetBriefStrandCode(strand As String) As String
-        Dim value As Strands = GetStrand(strand)
-        Return value.GetBriefCode
+        Return GetStrand(strand).Description
     End Function
 
     ''' <summary>
@@ -215,7 +198,8 @@ Public Module BioAssemblyExtensions
     ''' (请注意，这个只允许核酸序列)
     ''' </param>
     ''' <returns></returns>
-    <Extension> Public Function IsReversed(nt As IPolymerSequenceModel) As Boolean
+    <Extension>
+    Public Function IsReversed(nt As IPolymerSequenceModel) As Boolean
         If Not InStrAny(nt.SequenceData, "ATG", "GTG") = 1 Then
             Dim last As String = Mid(nt.SequenceData, Len(nt.SequenceData) - 3, 3)
             Return Not String.IsNullOrEmpty(last.EqualsAny("GTG", "GTA"))
@@ -224,7 +208,8 @@ Public Module BioAssemblyExtensions
         End If
     End Function
 
-    <Extension> Public Function CreatePTTObject(contigs As IEnumerable(Of SimpleSegment)) As TabularFormat.PTT
+    <Extension>
+    Public Function CreatePTTObject(contigs As IEnumerable(Of SimpleSegment)) As TabularFormat.PTT
         Dim genes As GeneBrief() = contigs.Select(Function(gene) gene.ToPTTGene).ToArray
         Dim PTT As New TabularFormat.PTT(genes)
         Return PTT
@@ -236,11 +221,9 @@ Public Module BioAssemblyExtensions
     ''' <param name="contigs"></param>
     ''' <param name="offsets"></param>
     ''' <returns></returns>
-    <Extension> Public Function Group(Of Contig As NucleotideModels.Contig)(
-                                         contigs As IEnumerable(Of Contig),
-                                         Optional offsets As Integer = 5) As Dictionary(Of Integer, Contig())
-
-        Dim Groups As New Dictionary(Of Integer, List(Of Contig))
+    <Extension>
+    Public Function Group(Of Contig As NucleotideModels.Contig)(contigs As IEnumerable(Of Contig), Optional offsets As Integer = 5) As Dictionary(Of Integer, Contig())
+        Dim groups As New Dictionary(Of Integer, List(Of Contig))
         Dim idx As i32 = 1
 
         For Each loci As Contig In contigs
@@ -253,18 +236,22 @@ Public Module BioAssemblyExtensions
                                                                    Select site
             Dim hash As Integer =
                 LinqAPI.DefaultFirst(Of Integer) <= From x
-                                                    In Groups.AsParallel
+                                                    In groups.AsParallel
                                                     Let equal As Contig = equalContig(x.Value)
                                                     Where Not equal Is Nothing
                                                     Select x.Key
             If hash < 1 Then
-                Call Groups.Add(++idx, New List(Of Contig) From {loci})      ' 新的分组
+                Call groups.Add(++idx, New List(Of Contig) From {loci})      ' 新的分组
             Else
-                Dim list As List(Of Contig) = Groups(hash)
+                Dim list As List(Of Contig) = groups(hash)
                 Call list.Add(item:=loci)
             End If
         Next
 
-        Return Groups.ToDictionary(Function(x) x.Key, Function(x) x.Value.ToArray)
+        Return groups _
+            .ToDictionary(Function(x) x.Key,
+                          Function(x)
+                              Return x.Value.ToArray
+                          End Function)
     End Function
 End Module

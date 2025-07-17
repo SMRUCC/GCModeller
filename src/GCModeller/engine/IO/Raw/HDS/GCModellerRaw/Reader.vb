@@ -78,6 +78,8 @@ Namespace Raw
         ''' </summary>
         ReadOnly tick_counts As Integer
 
+        Public ReadOnly Property comparts As String()
+
         Default Public ReadOnly Property ModuleIdSet(name As String) As Index(Of String)
             Get
                 Return modules.TryGetValue(name)
@@ -95,6 +97,10 @@ Namespace Raw
         Sub New(input As Stream)
             stream = New StreamPack(input)
             tick_counts = Strings.Trim(stream.ReadText("/.etc/ticks.txt")).DoCall(AddressOf Integer.Parse)
+            comparts = stream.ReadText("/compartments.txt") _
+                .LineTokens _
+                .Where(Function(s) Not s.StringEmpty(, True)) _
+                .ToArray
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -143,14 +149,17 @@ Namespace Raw
         ''' <returns></returns>
         Public Function LoadIndex() As Reader
             Dim modules As Dictionary(Of String, PropertyInfo) = Me.GetModuleReader
-            Dim root As StreamGroup = stream.GetObject(fileName:="/dynamics/")
+            Dim root As StreamGroup = stream.GetObject(fileName:="/index/")
 
             For Each modu In modules.Values.ToArray
                 modules(modu.Name) = modu
             Next
 
-            For Each file As StreamBlock In root.ListFiles().Where(Function(f) f.referencePath.FileName = "index.txt")
-                Dim moduName As String = file.referencePath.DirectoryPath.BaseName
+            For Each file As StreamBlock In From f As StreamObject
+                                            In root.ListFiles()
+                                            Where modules.ContainsKey(f.referencePath.FileName.BaseName)
+
+                Dim moduName As String = file.referencePath.FileName.BaseName
                 Dim list As String() = Strings.Trim(stream.ReadText(file)).LineTokens
 
                 Call Me.modules.Add(moduName, list)
@@ -160,8 +169,8 @@ Namespace Raw
             Return Me
         End Function
 
-        Public Function GetFrameFile(modu As String, time As Double) As BinaryDataReader
-            Dim index = $"/dynamics/{[modu]}/frames/{time}.dat"
+        Public Function GetFrameFile(modu As String, compart_id As String, time As Double) As BinaryDataReader
+            Dim index = $"/dynamics/{compart_id}/{[modu]}/frames/{time}.dat"
             Dim offset As Stream = stream.OpenBlock(index)
             Dim buf As New BinaryDataReader(offset, byteOrder:=ByteOrder.BigEndian)
 
@@ -170,19 +179,24 @@ Namespace Raw
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Read(time#, module$) As Dictionary(Of String, Double)
-            Return ReadModule(module$, stream:=GetFrameFile([module], time))
+            Dim data As New Dictionary(Of String, Double)
+
+            For Each compart_id As String In comparts
+                For Each xi In ReadModule(module$, stream:=GetFrameFile([module], compart_id, time))
+                    Call data.Add(xi.Item1 & "@" & compart_id, xi.Item2)
+                Next
+            Next
+
+            Return data
         End Function
 
-        Public Function ReadModule(module$, stream As BinaryDataReader) As Dictionary(Of String, Double)
-            Dim list As Index(Of String) = modules([module])
+        Public Iterator Function ReadModule(module$, stream As BinaryDataReader) As IEnumerable(Of (String, Double))
+            Dim list As String() = modules([module]).Objects
             Dim data#() = stream.ReadDoubles(list.Count)
-            Dim values As Dictionary(Of String, Double) = list _
-                .ToDictionary(Function(id) id.value,
-                              Function(i)
-                                  Return data(i)
-                              End Function)
 
-            Return values
+            For i As Integer = 0 To data.Length - 1
+                Yield (list(i), data(i))
+            Next
         End Function
 
         Public Iterator Function PopulateFrames() As IEnumerable(Of (time#, frame As Dictionary(Of DataSet)))

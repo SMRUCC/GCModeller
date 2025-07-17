@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.Language
@@ -97,18 +98,25 @@ Public Module Extensions
         Dim ticks As New List(Of DataFrameRow)
         Dim ds As Dictionary(Of String, Double)
 
-        For Each ti As Double In t
+        list = raw.comparts _
+            .Select(Function(cc)
+                        Return list.Select(Function(id) id & "@" & cc)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
+
+        Dim vec As Double()
+
+        For Each ti As Double In TqdmWrapper.Wrap(t)
             ds = raw.Read(time:=ti, modu)
-            ticks.Add(New DataFrameRow With {
-                .geneID = ti,
-                .experiments = list.Select(Function(i) ds(i)).ToArray
-            })
+            vec = list.Select(Function(i) ds(i)).ToArray
+            ticks.Add(New DataFrameRow With {.geneID = ti, .experiments = vec})
         Next
 
         Return New HTS_Matrix With {
             .expression = ticks.ToArray,
             .sampleID = list,
-            .tag = NameOf(GetTimeFrames)
+            .tag = NameOf(GetTimeFrames) & " - " & modu
         }
     End Function
 

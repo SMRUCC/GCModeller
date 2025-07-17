@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6ca7d863fcf5cfd17107f46eaa3aa70, engine\Compiler\MarkupCompiler\KEGG\v2KEGGCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::4572818685e3933efc71a44f0eb73911, engine\Compiler\MarkupCompiler\KEGG\v2KEGGCompiler.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 69.23%
     ' 
     '   Blank Lines: 16 (11.76%)
-    '     File Size: 5.91 KB
+    '     File Size: 5.96 KB
 
 
     '     Class v2KEGGCompiler
@@ -161,8 +161,8 @@ Namespace MarkupCompiler
                     .Phenotype _
                     .fluxes _
                     .Select(Function(r)
-                                Dim left = r.substrates.Select(Function(c) New CompoundFactor(c.factor, c.result)).ToArray
-                                Dim right = r.products.Select(Function(c) New CompoundFactor(c.factor, c.result)).ToArray
+                                Dim left = r.equation.Reactants.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID, c.Compartment)).ToArray
+                                Dim right = r.equation.Products.Select(Function(c) New CompoundFactor(c.Stoichiometry, c.ID, c.Compartment)).ToArray
 
                                 Return New XmlReaction With {
                                     .ID = r.ID,

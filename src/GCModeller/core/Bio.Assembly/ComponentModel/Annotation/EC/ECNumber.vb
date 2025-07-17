@@ -77,23 +77,32 @@ Namespace ComponentModel.Annotation
         ''' <summary>
         ''' 该大类之下的亚分类
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property subType As Integer
         ''' <summary>
         ''' 该亚类之下的小分类
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property subCategory As Integer
 
         ''' <summary>
         ''' 该小分类之下的序号
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property serialNumber As Integer
 
+        ''' <summary>
+        ''' generates the EC number in format like: x.x.x.x
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property ECNumberString As String
             Get
-                Return {CInt(type), subType, subCategory, serialNumber}.JoinBy(".")
+                Return New String() {
+                    CInt(type).ToString,
+                    If(subType <= 0, "-", subType.ToString),
+                    If(subCategory <= 0, "-", subCategory.ToString),
+                    If(serialNumber <= 0, "-", serialNumber.ToString)
+                }.JoinBy(".")
             End Get
         End Property
 
@@ -155,7 +164,7 @@ Namespace ComponentModel.Annotation
         ''' 1.2.-.-
         ''' ```
         ''' </summary>
-        Public Const PatternECNumber$ = "\d(\.((\d+)|[-])){3}"
+        Public Const PatternECNumber$ = "\d(\.((\d+)|[-])){0,3}"
 
         Public Shared ReadOnly r As New Regex(PatternECNumber, RegexOptions.Compiled)
 
@@ -168,9 +177,17 @@ Namespace ComponentModel.Annotation
             Dim m As Match = r.Match(expr)
 
             ' 格式错误，没有找到相应的编号格式字符串
-            If Not m.Success Then Return Nothing
+            If Not m.Success Then
+                Call $"invalid EC_number to parse: {expr}".Warning
+                Return Nothing
+            End If
 
             Dim tokens As String() = m.Value.Split("."c)
+
+            If tokens.Length < 3 AndAlso Not expr.IsPattern("EC[-]" & PatternECNumber) Then
+                Call $"probably none EC_number was parsed from expression: {expr}".Warning
+            End If
+
             Dim ecNum As New ECNumber With {
                 .Type = CInt(Val(tokens(0))),
                 .SubType = CInt(Val(tokens.ElementAtOrDefault(1))),

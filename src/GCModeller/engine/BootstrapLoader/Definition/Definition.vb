@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4dc0bcf1896dd06d51f09e49f6a3239, engine\BootstrapLoader\Definition\Definition.vb"
+﻿#Region "Microsoft.VisualBasic::79c4fc0e77b1ee2c9d47833398caba1e, engine\BootstrapLoader\Definition\Definition.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 116
-    '    Code Lines: 78 (67.24%)
-    ' Comment Lines: 24 (20.69%)
+    '   Total Lines: 150
+    '    Code Lines: 108 (72.00%)
+    ' Comment Lines: 24 (16.00%)
     '    - Xml Docs: 87.50%
     ' 
-    '   Blank Lines: 14 (12.07%)
-    '     File Size: 3.83 KB
+    '   Blank Lines: 18 (12.00%)
+    '     File Size: 5.34 KB
 
 
     '     Enum GeneralCompound
@@ -56,7 +56,7 @@
     '         Properties: ADP, AminoAcid, ATP, GenericCompounds, NucleicAcid
     '                     Oxygen, status, Water
     ' 
-    '         Function: GetInfinitySource, KEGG
+    '         Function: GenericEnumerator, GetInfinitySource, KEGG
     ' 
     ' 
     ' /********************************************************************************/
@@ -64,6 +64,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Definitions
 
@@ -79,7 +80,7 @@ Namespace Definitions
     ''' <remarks>
     ''' 因为物质编号可能会来自于不同的数据库，所以会需要使用这个对象将一些关键的物质映射为计算引擎所能够被识别的对象
     ''' </remarks>
-    Public Class Definition
+    Public Class Definition : Implements Enumeration(Of String)
 
 #Region "Object maps"
 
@@ -118,6 +119,40 @@ Namespace Definitions
 
         Public Function GetInfinitySource() As Index(Of String)
             Return {Water, Oxygen}.Where(Function(ref) Not ref Is Nothing).Indexing
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
+            If Not ADP.StringEmpty(, True) Then Yield ADP
+            If Not ATP.StringEmpty(, True) Then Yield ATP
+            If Not Water.StringEmpty(, True) Then Yield Water
+            If Not Oxygen.StringEmpty(, True) Then Yield Oxygen
+
+            If Not GenericCompounds Is Nothing Then
+                For Each key As String In GenericCompounds.Keys
+                    Yield key
+                Next
+            End If
+
+            If Not status Is Nothing Then
+                For Each key As String In status.Keys
+                    Yield key
+                Next
+            End If
+
+            If Not NucleicAcid Is Nothing Then
+                If Not NucleicAcid.A.StringEmpty(, True) Then Yield NucleicAcid.A
+                If Not NucleicAcid.C.StringEmpty(, True) Then Yield NucleicAcid.C
+                If Not NucleicAcid.G.StringEmpty(, True) Then Yield NucleicAcid.G
+                If Not NucleicAcid.U.StringEmpty(, True) Then Yield NucleicAcid.U
+            End If
+
+            If Not AminoAcid Is Nothing Then
+                For Each aa As String In AminoAcid.AsEnumerable
+                    If Not aa.StringEmpty(, True) Then
+                        Yield aa
+                    End If
+                Next
+            End If
         End Function
 
         ''' <summary>
@@ -176,6 +211,5 @@ Namespace Definitions
                 }
             }
         End Function
-
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4193bfb13712025c1cad948324b782b8, Microsoft.VisualBasic.Core\src\Text\Patterns\CommonTagParser.vb"
+﻿#Region "Microsoft.VisualBasic::4c92145c9a1c9d1cd0d3bbf719f7d610, Microsoft.VisualBasic.Core\src\Text\Patterns\CommonTagParser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 152
-    '    Code Lines: 107 (70.39%)
-    ' Comment Lines: 21 (13.82%)
-    '    - Xml Docs: 71.43%
+    '   Total Lines: 167
+    '    Code Lines: 112 (67.07%)
+    ' Comment Lines: 30 (17.96%)
+    '    - Xml Docs: 76.67%
     ' 
-    '   Blank Lines: 24 (15.79%)
-    '     File Size: 5.17 KB
+    '   Blank Lines: 25 (14.97%)
+    '     File Size: 5.79 KB
 
 
     '     Class CommonTagParser
@@ -50,7 +50,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: GetColumn, GetTagNames, StringMotif, ToString
+    '         Function: GetColumn, GetTagNames, RemoveLeadingNumbersAndSymbols, StringMotif, ToString
     ' 
     '         Sub: walkLabels
     ' 
@@ -59,6 +59,7 @@
 
 #End Region
 
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Text.Patterns
@@ -208,6 +209,20 @@ Namespace Text.Patterns
             Next
 
             Return motif.CharString
+        End Function
+
+        ''' <summary>
+        ''' removes leading number and symbols
+        ''' </summary>
+        ''' <param name="input"></param>
+        ''' <returns>
+        ''' 1-B11 to B11
+        ''' B2 remains B2
+        ''' </returns>
+        Public Shared Function RemoveLeadingNumbersAndSymbols(input As String) As String
+            ' 正则表达式：匹配字符串开头（^）的一个或多个（+）数字（\d）或非字母数字字符（\W）
+            Dim result As String = Regex.Replace(input, "^[\W\d]+", "")
+            Return result
         End Function
     End Class
 End Namespace

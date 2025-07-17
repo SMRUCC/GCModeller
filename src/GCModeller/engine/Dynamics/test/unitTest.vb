@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bf271210841318b1adcc7438a0d2172, engine\Dynamics\test\unitTest.vb"
+﻿#Region "Microsoft.VisualBasic::5996946f28b0f60b070efb15a96bd7f3, engine\Dynamics\test\unitTest.vb"
 
     ' Author:
     ' 
@@ -35,12 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 165
-    '    Code Lines: 132 (80.00%)
-    ' Comment Lines: 4 (2.42%)
+    '    Code Lines: 133 (80.61%)
+    ' Comment Lines: 3 (1.82%)
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 29 (17.58%)
-    '     File Size: 6.48 KB
+    '     File Size: 6.54 KB
 
 
     ' Module unitTest
@@ -51,16 +51,16 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.GCModeller.ModellingEngine
+Imports Microsoft.VisualBasic.Math.Scripting
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
-Imports Microsoft.VisualBasic.Math.Scripting
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 
 Module unitTest
     Sub Main()
@@ -73,10 +73,10 @@ Module unitTest
         ' a <=> b
 
         Dim exp = "(Vmax * S) / (Km + S)"
-        Dim model As New Kinetics With {
+        Dim model As New Cellular.Process.Kinetics With {
             .formula = ScriptEngine.ParseExpression(exp),
             .parameters = {"Vmax", "S", "Km"},
-            .paramVals = {10, "a", 2},
+            .paramVals = {5, "a", 2},
             .target = "a->b"
         }
         Dim machine As Vessel = New Vessel()
@@ -86,7 +86,7 @@ Module unitTest
         Dim reaction As New Channel({New Variable(a, 1)}, {New Variable(b, 1)}) With {
             .bounds = {10, 10},
             .ID = "a->b",
-            .forward = New KineticsControls(machine, model) With {.baseline = 0, .inhibition = {}},
+            .forward = New KineticsControls(machine, model.CompileLambda, model.formula) With {.baseline = 0, .inhibition = {}},
             .reverse = New AdditiveControls With {.baseline = 0, .activation = {New Variable(b, 1)}, .inhibition = {New Variable(a, 2)}}
         }
 
@@ -94,7 +94,7 @@ Module unitTest
 
         Dim snapshots As New List(Of DataSet)
         Dim flux As New List(Of DataSet)
-        Dim dynamics = machine.ContainerIterator(100, 10000)
+        Dim dynamics = machine.ContainerIterator(10000, 1000)
         Dim cache As New FluxAggregater(machine)
 
         For i As Integer = 0 To 10000
@@ -114,7 +114,7 @@ Module unitTest
         Call flux.SaveTo("./kinetics/kinetics_test_flux.csv")
         Call machine.ToGraph.DoCall(AddressOf Visualizer.CreateTabularFormat).Save("./kinetics/test_network/")
 
-        ' Pause()
+        Pause()
     End Sub
 
     Sub singleDirection()

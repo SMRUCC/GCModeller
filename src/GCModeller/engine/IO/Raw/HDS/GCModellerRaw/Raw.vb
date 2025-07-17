@@ -92,6 +92,12 @@ Namespace Raw
         ''' <remarks>RNA gene id</remarks>
         <[Module]("Component-RNA")>
         Public Property RNAId As Index(Of String)
+
+        <[Module]("Transfer-RNA")>
+        Public Property tRNA As Index(Of String)
+        <[Module]("Ribosomal-RNA")>
+        Public Property rRNA As Index(Of String)
+
         ''' <summary>
         ''' 由mRNA翻译出来的多肽链的Id列表
         ''' </summary>
@@ -124,7 +130,14 @@ Namespace Raw
         ''' </remarks>
         <[Module]("Reaction-Flux")>
         Public Property Reactions As Index(Of String)
-
+        <[Module]("Transcription-Flux")>
+        Public Property Transcription As Index(Of String)
+        <[Module]("Translation-Flux")>
+        Public Property Translation As Index(Of String)
+        <[Module]("Protein-Degradation-Flux")>
+        Public Property ProteinDegradation As Index(Of String)
+        <[Module]("RNA-Degradation-Flux")>
+        Public Property RNADegradation As Index(Of String)
 #End Region
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

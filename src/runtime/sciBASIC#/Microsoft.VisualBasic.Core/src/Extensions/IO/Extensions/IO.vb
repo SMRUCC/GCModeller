@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5afe694c2518d0d9c609c8e04ee55e41, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\IO.vb"
+﻿#Region "Microsoft.VisualBasic::ee92ebd031e9d4bcb23741338f3cd0a0, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\IO.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 352
-    '    Code Lines: 187 (53.12%)
-    ' Comment Lines: 130 (36.93%)
-    '    - Xml Docs: 79.23%
+    '   Total Lines: 360
+    '    Code Lines: 192 (53.33%)
+    ' Comment Lines: 132 (36.67%)
+    '    - Xml Docs: 78.79%
     ' 
-    '   Blank Lines: 35 (9.94%)
-    '     File Size: 13.88 KB
+    '   Blank Lines: 36 (10.00%)
+    '     File Size: 14.25 KB
 
 
     ' Module IOExtensions
@@ -382,15 +382,23 @@ Public Module IOExtensions
     ''' <param name="buf">The binary bytes data of the target package's data.(目标二进制数据)</param>
     ''' <param name="path">The saved file path of the target binary data chunk.(目标二进制数据包所要进行保存的文件名路径)</param>
     ''' <returns></returns>
-    ''' <remarks>(保存二进制数据包值文件系统)</remarks>
+    ''' <remarks>this function will truncates the target file and then save binary data into the file.
+    ''' (保存二进制数据包值文件系统)</remarks>
     '''
     <ExportAPI("FlushStream")>
     <Extension>
     Public Function FlushStream(buf As IEnumerable(Of Byte), path$) As Boolean
+        ' make target file truncated
         Using write As New BinaryWriter(path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
-            For Each b As Byte In buf
-                Call write.Write(b)
-            Next
+            If TypeOf buf Is Byte() Then
+                Call write.Write(DirectCast(buf, Byte()))
+            Else
+                For Each block As Byte() In buf.SplitIterator(partitionSize:=4096)
+                    Call write.Write(block)
+                Next
+            End If
+
+            Call write.Flush()
         End Using
 
         Return True

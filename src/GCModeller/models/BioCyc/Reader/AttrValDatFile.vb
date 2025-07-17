@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5aee9705fd095882995af3c9a0bbca2e, models\BioCyc\Reader\AttrValDatFile.vb"
+﻿#Region "Microsoft.VisualBasic::c4cf995a8585daf1ce172cb8f2f71d29, models\BioCyc\Reader\AttrValDatFile.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 87
-    '    Code Lines: 33 (37.93%)
-    ' Comment Lines: 46 (52.87%)
+    '   Total Lines: 91
+    '    Code Lines: 36 (39.56%)
+    ' Comment Lines: 46 (50.55%)
     '    - Xml Docs: 86.96%
     ' 
-    '   Blank Lines: 8 (9.20%)
-    '     File Size: 3.46 KB
+    '   Blank Lines: 9 (9.89%)
+    '     File Size: 3.57 KB
 
 
     ' Class AttrValDatFile
@@ -137,6 +137,10 @@ Public Class AttrValDatFile
                 Call buffer.Add(line)
             End If
         Loop
+
+        If buffer > 0 Then
+            Yield FeatureElement.ParseBuffer(buffer.ToArray)
+        End If
     End Function
 
 End Class

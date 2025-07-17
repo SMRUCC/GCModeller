@@ -1,66 +1,66 @@
-﻿#Region "Microsoft.VisualBasic::3e5eb120fc734bd733b7cd1b20c41e9e, engine\vcellkit\Simulator.vb"
+﻿#Region "Microsoft.VisualBasic::9fd82ef481f1750fac6d4a75da30c1f7, engine\vcellkit\Simulator.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-    ' /********************************************************************************/
-
-    ' Summaries:
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-    ' Code Statistics:
 
-    '   Total Lines: 267
-    '    Code Lines: 164 (61.42%)
-    ' Comment Lines: 80 (29.96%)
-    '    - Xml Docs: 92.50%
-    ' 
-    '   Blank Lines: 23 (8.61%)
-    '     File Size: 11.86 KB
+' /********************************************************************************/
+
+' Summaries:
 
 
-    ' Enum ModuleSystemLevels
-    ' 
-    '     Metabolome, Proteome, Transcriptome
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' Module Simulator
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: ApplyModuleProfile, CreateObjectModel, CreateUnifyDefinition, CreateVCellEngine, FluxIndex
-    '               GetDefaultDynamics, mass0, MassIndex
-    ' 
-    '     Sub: TakeStatusSnapshot
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 269
+'    Code Lines: 166 (61.71%)
+' Comment Lines: 80 (29.74%)
+'    - Xml Docs: 92.50%
+' 
+'   Blank Lines: 23 (8.55%)
+'     File Size: 12.44 KB
+
+
+' Enum ModuleSystemLevels
+' 
+'     Metabolome, Proteome, Transcriptome
+' 
+'  
+' 
+' 
+' 
+' Module Simulator
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: ApplyModuleProfile, CreateObjectModel, CreateUnifyDefinition, CreateVCellEngine, FluxIndex
+'               GetDefaultDynamics, mass0, MassIndex
+' 
+'     Sub: TakeStatusSnapshot
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -72,15 +72,22 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' data type enumeration of the omics data
@@ -106,7 +113,28 @@ Public Module Simulator
                     End Sub)
         Call Console.WriteLine()
         Call printer.AttachConsoleFormatter(Of VirtualCell)(AddressOf VirtualCell.Summary)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(MemoryDataSet), AddressOf castMemoryTable)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function castMemoryTable(ds As MemoryDataSet, args As list, env As Environment) As dataframe
+        Dim mass_data As Boolean = args.getValue({"mass", "mass_data"}, env, [default]:=True)
+        Dim data As ICollection(Of Dictionary(Of String, Double)) = If(mass_data, ds.getMassDataSet, ds.getFluxDataSet)
+        Dim cols = data.Select(Function(r) r.Keys).IteratesALL.Distinct.ToArray
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = Enumerable _
+                .Range(1, data.Count) _
+                .AsCharacter _
+                .ToArray
+        }
+
+        For Each colname As String In cols
+            Call df.add(colname, data.Select(Function(r) r.TryGetValue(colname)))
+        Next
+
+        Return df
+    End Function
 
     ''' <summary>
     ''' Create a new status profile data object with unify mass contents.
@@ -128,29 +156,56 @@ Public Module Simulator
     End Function
 
     ''' <summary>
+    ''' set the omics data from this function
+    ''' </summary>
+    ''' <param name="def"></param>
+    ''' <param name="env_set"></param>
+    ''' <returns></returns>
+    <ExportAPI("set_status")>
+    Public Function setStatus(def As Definition, <RListObjectArgument> Optional env_set As list = Nothing) As Definition
+        If def.status Is Nothing Then
+            def.status = New Dictionary(Of String, Double)
+        End If
+
+        For Each compart_id As String In env_set.getNames
+            Dim s0 As list = env_set.getByName(compart_id)
+
+            For Each cid As String In s0.getNames
+                def.status(cid & "@" & compart_id) = CLRVector.asNumeric(s0.getByName(cid)).DefaultFirst
+            Next
+        Next
+
+        Return def
+    End Function
+
+    ''' <summary>
     ''' get the initial mass value
     ''' </summary>
     ''' <param name="vcell">
     ''' the initialize mass value has been defined inside this virtual cell model
     ''' </param>
+    ''' <param name="random">
+    ''' set random to the molecules, should be a numeric vector that consist with two number as [min, max]. 
+    ''' both min and max should be positive value.
+    ''' </param>
     ''' <returns>
     ''' A mass environment for run vcell model in GCModeller
     ''' </returns>
     <ExportAPI("mass0")>
-    Public Function mass0(vcell As VirtualCell) As Definition
+    Public Function mass0(vcell As VirtualCell,
+                          <RRawVectorArgument>
+                          Optional random As Object = Nothing,
+                          Optional env As Environment = Nothing) As Definition
+
         Dim kegg_ref = Definition.KEGG({})
         Dim pool = vcell.metabolismStructure
         Dim dnaseq = kegg_ref.NucleicAcid
         Dim prot = kegg_ref.AminoAcid
         Dim generic = kegg_ref.GenericCompounds
         Dim links = vcell.metabolismStructure.reactions.CompoundLinks
-
-        Return New Definition With {
-            .status = pool.compounds _
-                .ToDictionary(Function(c) c.ID,
-                              Function(c)
-                                  Return c.mass0
-                              End Function),
+        Dim randMinMax As Double() = CLRVector.asNumeric(random)
+        Dim s0 As Dictionary(Of String, Double)
+        Dim kegg_maps As New Definition With {
             .ADP = pool.GetKEGGMapping(kegg_ref.ADP, NameOf(kegg_ref.ADP), links).ID,
             .ATP = pool.GetKEGGMapping(kegg_ref.ATP, NameOf(kegg_ref.ATP), links).ID,
             .Oxygen = pool.GetKEGGMapping(kegg_ref.Oxygen, NameOf(kegg_ref.Oxygen), links).ID,
@@ -187,6 +242,44 @@ Public Module Simulator
             },
             .GenericCompounds = New Dictionary(Of String, GeneralCompound)
         }
+
+        If randMinMax.IsNullOrEmpty Then
+            ' use value from the given model
+            s0 = pool.compounds _
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return 1000.0
+                              End Function)
+        Else
+            Dim min = randMinMax.Min
+            Dim max = randMinMax.Max
+
+            s0 = pool.compounds _
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return randf.NextDouble(min, max)
+                              End Function)
+
+            For Each id As String In kegg_maps.AsEnumerable
+                s0(id) = randf.NextDouble(min, max)
+            Next
+        End If
+
+        kegg_maps.status = s0
+
+        Return kegg_maps
+    End Function
+
+    <ExportAPI("attach_memorydataset")>
+    Public Function attach_memoryDataSet(engine As Engine) As Object
+        engine.AttachBiologicalStorage(New MemoryDataSet)
+        Return engine
+    End Function
+
+    <ExportAPI("run")>
+    Public Function run(engine As Engine) As Object
+        Call engine.Run()
+        Return engine
     End Function
 
     ''' <summary>
@@ -195,8 +288,8 @@ Public Module Simulator
     ''' <param name="vcell">the file model data of the GCModeller vcell</param>
     ''' <returns></returns>
     <ExportAPI("vcell.model")>
-    Public Function CreateObjectModel(vcell As VirtualCell) As CellularModule
-        Return vcell.CreateModel
+    Public Function CreateObjectModel(vcell As VirtualCell, Optional unit_test As Boolean = False) As CellularModule
+        Return vcell.CreateModel(unitTest:=unit_test)
     End Function
 
     ''' <summary>
@@ -244,6 +337,7 @@ Public Module Simulator
                                       Optional deletions$() = Nothing,
                                       Optional dynamics As FluxBaseline = Nothing,
                                       Optional showProgress As Boolean = True,
+                                      Optional unit_test As Boolean = False,
                                       Optional debug As Boolean = False) As Object
 
         Static defaultDynamics As [Default](Of FluxBaseline) = New FluxBaseline
@@ -256,9 +350,10 @@ Public Module Simulator
             iterations:=iterations,
             showProgress:=showProgress,
             timeResolution:=time_resolutions,
-            debug:=debug
+            debug:=debug,
+            cellular_id:=vcell.CellularEnvironmentName
         ) _
-        .LoadModel(vcell, deletions)
+        .LoadModel(vcell, deletions, unitTest:=unit_test)
     End Function
 
     ''' <summary>

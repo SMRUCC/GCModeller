@@ -68,6 +68,10 @@ Namespace Definitions
     ''' </remarks>
     Public Class FluxBaseline
 
+        ''' <summary>
+        ''' min rate of the transcription of gene template to RNA
+        ''' </summary>
+        ''' <returns></returns>
         Public Property transcriptionBaseline As Double = 100
         Public Property transcriptionCapacity As Double = 1000
 
@@ -83,11 +87,16 @@ Namespace Definitions
         Public Property tRNAChargeBaseline As Double = 1
         Public Property tRNAChargeCapacity As Double = 10
 
-        Public Property ribosomeAssemblyBaseline As Double = 5
+        Public Property RNADegradationBaseline As Double = 1
+        Public Property RNADegradationCapacity As Double = 10
+
+        Public Property ribosomeAssemblyBaseline As Double = 3
         Public Property ribosomeDisassemblyBaseline As Double = 3
 
         Public Property ribosomeAssemblyCapacity As Double = 10
         Public Property ribosomeDisassemblyCapacity As Double = 5
+
+        Public Property numCells As Integer = 1000
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

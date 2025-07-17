@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::932414beb9a9dd3d7eff24b9e76c62c1, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::b5fd79c839d14c50504d7e923b59bebb, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Reflection.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 570
-    '    Code Lines: 337 (59.12%)
-    ' Comment Lines: 163 (28.60%)
+    '   Total Lines: 572
+    '    Code Lines: 339 (59.27%)
+    ' Comment Lines: 163 (28.50%)
     '    - Xml Docs: 83.44%
     ' 
-    '   Blank Lines: 70 (12.28%)
-    '     File Size: 21.94 KB
+    '   Blank Lines: 70 (12.24%)
+    '     File Size: 21.97 KB
 
 
     ' Module EmitReflection
@@ -332,7 +332,8 @@ Public Module EmitReflection
     ''' <param name="type"></param>
     ''' <returns></returns>
     <ExportAPI("Is.Module")>
-    <Extension> Public Function IsModule(type As Type) As Boolean
+    <Extension>
+    Public Function IsModule(type As Type) As Boolean
         If type.Name.IndexOf("$") > -1 OrElse type.Name.IndexOf("`") > -1 Then
             ' 匿名类型
             Return False
@@ -431,13 +432,14 @@ Public Module EmitReflection
     ''' <param name="type"></param>
     ''' <returns></returns>
 #If FRAMEWORD_CORE Then
-    <ExportAPI("Get.Properties")>
-    <Extension> Public Function GetReadWriteProperties(type As Type) As PropertyInfo()
+    <Extension> 
+    Public Function GetReadWriteProperties(type As Type) As PropertyInfo()
 #Else
-    <Extension> Public Function GetReadWriteProperties(type As System.Type) As System.Reflection.PropertyInfo()
+    <Extension>
+    Public Function GetReadWriteProperties(type As System.Type) As System.Reflection.PropertyInfo()
 #End If
         Dim LQuery = LinqAPI.Exec(Of PropertyInfo) <=
- _
+                                                     _
             From p As PropertyInfo
             In type.GetProperties
             Where p.CanRead AndAlso p.CanWrite

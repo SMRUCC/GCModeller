@@ -53,14 +53,38 @@ declare namespace modeller {
    function kinetics_lambda(kinetics: object): object;
    module read {
       /**
+      */
+      function json_model(file: string): object;
+      /**
        * read the virtual cell model file
        * 
        * 
-        * @param path -
+        * @param path the model file extension could be:
+        *  
+        *  xml - small virtual cell model in a xml file
+        *  zip - large virtual cell model file save as multiple components in a zip file
+        *  json - large virtual cell model file save as json stream file
       */
       function vcell(path: string): object;
    }
-   /**
-   */
-   function zip(vcell: object, file: string): boolean;
+   module write {
+      /**
+       * save the virtual cell model as a large json file
+       * 
+       * 
+        * @param vcell -
+        * @param file -
+        * @param indent 
+        * + default value Is ``true``.
+      */
+      function json_model(vcell: object, file: string, indent?: boolean): boolean;
+      /**
+       * save the virtual cell model as zip archive file
+       * 
+       * 
+        * @param vcell -
+        * @param file -
+      */
+      function zip(vcell: object, file: string): boolean;
+   }
 }

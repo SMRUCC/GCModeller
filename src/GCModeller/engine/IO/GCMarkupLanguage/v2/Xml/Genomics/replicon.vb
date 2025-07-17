@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0564d06b5f28c1f7e0406df11f79b77f, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\replicon.vb"
+﻿#Region "Microsoft.VisualBasic::ba2f130355c27c8ca775ba77cbb2aa17, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\replicon.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 76
-    '    Code Lines: 50 (65.79%)
-    ' Comment Lines: 11 (14.47%)
+    '   Total Lines: 87
+    '    Code Lines: 53 (60.92%)
+    ' Comment Lines: 19 (21.84%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (19.74%)
-    '     File Size: 2.39 KB
+    '   Blank Lines: 15 (17.24%)
+    '     File Size: 2.92 KB
 
 
     '     Class replicon
     ' 
     '         Properties: genomeName, isPlasmid, operons, RNAs
     ' 
-    '         Function: GetGeneList, GetGeneNumbers, ToString
+    '         Function: GenericEnumerator, GetGeneList, GetGeneNumbers, ToString
     ' 
     '         Sub: RemoveByIdList
     ' 
@@ -58,6 +58,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -66,16 +67,19 @@ Namespace v2
     ''' <summary>
     ''' 复制子
     ''' </summary>
-    Public Class replicon
+    Public Class replicon : Implements Enumeration(Of gene), INamedValue
 
         ''' <summary>
         ''' 当前的这个复制子对象是否是质粒基因组？
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property isPlasmid As Boolean
-        <XmlAttribute> Public Property genomeName As String
+        <XmlAttribute> Public Property genomeName As String Implements INamedValue.Key
 
-        <XmlElement>
+        ''' <summary>
+        ''' the operon is the transcript unit inside the cellular system
+        ''' </summary>
+        ''' <returns></returns>
         Public Property operons As TranscriptUnit()
 
         ''' <summary>
@@ -90,7 +94,15 @@ Namespace v2
                    Into Sum(TU.numOfGenes)
         End Function
 
-        Public Iterator Function GetGeneList() As IEnumerable(Of gene)
+        ''' <summary>
+        ''' loop each operons and populates the members gene inside the operons
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetGeneList() As IEnumerable(Of gene)
+            Return Me.AsEnumerable
+        End Function
+
+        Private Iterator Function GenericEnumerator() As IEnumerator(Of gene) Implements Enumeration(Of gene).GenericEnumerator
             For Each operon As TranscriptUnit In operons
                 For Each gene As gene In operon.genes.AsEnumerable
                     Yield gene
@@ -129,6 +141,5 @@ Namespace v2
 
             Return strVal
         End Function
-
     End Class
 End Namespace

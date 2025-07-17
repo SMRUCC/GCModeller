@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::252e6b7071f53bedea5e5bc0aa67c91b, Microsoft.VisualBasic.Core\src\Text\Parser\CharStream.vb"
+﻿#Region "Microsoft.VisualBasic::cf5109d4e8b23dd0b855d79e680987f8, Microsoft.VisualBasic.Core\src\Text\Parser\CharStream.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 78
-    '    Code Lines: 59 (75.64%)
+    '   Total Lines: 86
+    '    Code Lines: 66 (76.74%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 19 (24.36%)
-    '     File Size: 2.28 KB
+    '   Blank Lines: 20 (23.26%)
+    '     File Size: 2.65 KB
 
 
     '     Class CharStream
@@ -59,6 +59,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Text.Parser
@@ -66,6 +67,7 @@ Namespace Text.Parser
     Public Class CharStream
 
         ReadOnly str As StreamReader
+        ReadOnly readLine As Func(Of String)
 
         Public ReadOnly Property EndRead As Boolean
             Get
@@ -78,21 +80,27 @@ Namespace Text.Parser
         Sub New()
         End Sub
 
-        Sub New(s As StreamReader)
+        Sub New(s As StreamReader, Optional tqdm As Boolean = True)
             str = s
+
+            If tqdm Then
+                readLine = TqdmWrapper.StreamReader(s)
+            Else
+                readLine = AddressOf s.ReadLine
+            End If
         End Sub
 
         Public Function ReadNext() As Char
-            If buffer.EndRead Then
-                buffer = str.ReadLine
+            If buffer Is Nothing OrElse buffer.EndRead Then
+                buffer = readLine()
             End If
 
             Return ++buffer
         End Function
 
         Private Function ReadNextC() As SeqValue(Of Char)
-            If buffer.EndRead Then
-                buffer = str.ReadLine
+            If buffer Is Nothing OrElse buffer.EndRead Then
+                buffer = readLine()
             End If
 
             Return +buffer

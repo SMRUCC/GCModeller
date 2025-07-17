@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d32d950888a8d920d8a2e4ec2a2d508, engine\vcellkit\Debugger\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::c522162974398d9b329e5495cb3d035d, engine\vcellkit\Debugger\Debugger.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 31 (12.40%)
-    '     File Size: 10.45 KB
+    '     File Size: 10.49 KB
 
 
     ' Module Debugger
@@ -129,7 +129,7 @@ Module Debugger
             right = model.Products.Select(Function(a) a.ID).AsList
 
             For Each id As String In left + right
-                Call mass.AddNew(id, MassRoles.compound)
+                Call mass.addNew(id, MassRoles.compound, "Intracellular")
             Next
 
             fluxes += New Channel(mass(model.Reactants), mass(model.Products)) With {
@@ -137,13 +137,13 @@ Module Debugger
                 .bounds = {10, 10},
                 .forward = New AdditiveControls With {
                     .baseline = 1,
-                    .activation = mass.variables(left, 1).ToArray,
-                    .inhibition = mass.variables(right, 0.5).ToArray
+                    .activation = mass.variables(model.Reactants, 1).ToArray,
+                    .inhibition = mass.variables(model.Products, 0.5).ToArray
                 },
                 .reverse = New AdditiveControls With {
                     .baseline = 1,
-                    .activation = mass.variables(right, 1).ToArray,
-                    .inhibition = mass.variables(left, 0.5).ToArray
+                    .activation = mass.variables(model.Products, 1).ToArray,
+                    .inhibition = mass.variables(model.Reactants, 0.5).ToArray
                 }
             }
         Next
