@@ -180,33 +180,33 @@ Namespace SequenceModel.Polypeptides
         ''' <summary>
         ''' Get the composition vector of this polypeptide sequence.
         ''' </summary>
-        ''' <param name="Seq">全部必须为大写字母</param>
+        ''' <param name="seq">全部必须为大写字母</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GetCompositionVector(Seq As Char()) As Integer()
+        Public Function GetCompositionVector(seq As Char()) As Integer()
             Dim B, D, E, F, H, I, J, K, L, M, N, O, P, Q, R, S, V, W, X, Y, Z As Integer
 
-            B = Seq.GetCount(aa:="B"c)
-            D = Seq.GetCount(aa:="D"c)
-            E = Seq.GetCount(aa:="E"c)
-            F = Seq.GetCount(aa:="F"c)
-            H = Seq.GetCount(aa:="H"c)
-            I = Seq.GetCount(aa:="I"c)
-            J = Seq.GetCount(aa:="J"c)
-            K = Seq.GetCount(aa:="K"c)
-            L = Seq.GetCount(aa:="L"c)
-            M = Seq.GetCount(aa:="M"c)
-            N = Seq.GetCount(aa:="N"c)
-            O = Seq.GetCount(aa:="O"c)
-            P = Seq.GetCount(aa:="P"c)
-            Q = Seq.GetCount(aa:="Q"c)
-            R = Seq.GetCount(aa:="R"c)
-            S = Seq.GetCount(aa:="S"c)
-            V = Seq.GetCount(aa:="V"c)
-            W = Seq.GetCount(aa:="W"c)
-            X = Seq.GetCount(aa:="X"c)
-            Y = Seq.GetCount(aa:="Y"c)
-            Z = Seq.GetCount(aa:="Z"c)
+            B = seq.GetCount(aa:="B"c)
+            D = seq.GetCount(aa:="D"c)
+            E = seq.GetCount(aa:="E"c)
+            F = seq.GetCount(aa:="F"c)
+            H = seq.GetCount(aa:="H"c)
+            I = seq.GetCount(aa:="I"c)
+            J = seq.GetCount(aa:="J"c)
+            K = seq.GetCount(aa:="K"c)
+            L = seq.GetCount(aa:="L"c)
+            M = seq.GetCount(aa:="M"c)
+            N = seq.GetCount(aa:="N"c)
+            O = seq.GetCount(aa:="O"c)
+            P = seq.GetCount(aa:="P"c)
+            Q = seq.GetCount(aa:="Q"c)
+            R = seq.GetCount(aa:="R"c)
+            S = seq.GetCount(aa:="S"c)
+            V = seq.GetCount(aa:="V"c)
+            W = seq.GetCount(aa:="W"c)
+            X = seq.GetCount(aa:="X"c)
+            Y = seq.GetCount(aa:="Y"c)
+            Z = seq.GetCount(aa:="Z"c)
 
             Return New Integer() {B, D, E, F, H, I, J, K, L, M, N, O, P, Q, R, S, V, W, X, Y, Z}
         End Function
@@ -214,8 +214,10 @@ Namespace SequenceModel.Polypeptides
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function GetCount(sequence As Char(), aa As Char) As Integer
-            Dim LQuery = (From ch In sequence Where ch = aa Select 1).Count
-            Return LQuery
+            Return Aggregate ch As Char
+                   In sequence
+                   Where ch = aa
+                   Into Count
         End Function
 
         ''' <summary>
