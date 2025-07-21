@@ -87,7 +87,8 @@ Namespace MarkupCompiler.BioCyc
                             value = rna_mol.types(0) _
                                 .Replace("-tRNAs", "") _
                                 .Replace("Charged", "") _
-                                .ToLower
+                                .ToLower _
+                                .Trim("-"c)
                         Else
                             type = RNATypes.micsRNA
                         End If
