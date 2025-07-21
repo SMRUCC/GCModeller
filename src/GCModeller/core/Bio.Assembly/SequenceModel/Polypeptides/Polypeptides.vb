@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::099cfa9941a77e2823de342b0c3915c8, core\Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 197
-    '    Code Lines: 149 (75.63%)
-    ' Comment Lines: 36 (18.27%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 12 (6.09%)
-    '     File Size: 7.62 KB
+' Summaries:
 
 
-    '     Module Polypeptide
-    ' 
-    '         Properties: Abbreviate, MEGASchema, ToChar, ToEnums
-    ' 
-    '         Function: ConstructVector, GetCompositionVector, GetCount, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 197
+'    Code Lines: 149 (75.63%)
+' Comment Lines: 36 (18.27%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 12 (6.09%)
+'     File Size: 7.62 KB
+
+
+'     Module Polypeptide
+' 
+'         Properties: Abbreviate, MEGASchema, ToChar, ToEnums
+' 
+'         Function: ConstructVector, GetCompositionVector, GetCount, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -95,7 +95,7 @@ Namespace SequenceModel.Polypeptides
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property ToChar As New Dictionary(Of AminoAcid, Char) From {
- _
+                                                                                    _
             {AminoAcid.Alanine, "A"c},
             {AminoAcid.Arginine, "R"c},
             {AminoAcid.Asparagine, "N"c},
@@ -123,7 +123,7 @@ Namespace SequenceModel.Polypeptides
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property ToEnums As New Dictionary(Of Char, AminoAcid) From {
- _
+                                                                                     _
              {"A"c, AminoAcid.Alanine},
              {"R"c, AminoAcid.Arginine},
              {"N"c, AminoAcid.Asparagine},
@@ -153,7 +153,7 @@ Namespace SequenceModel.Polypeptides
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property MEGASchema As New Dictionary(Of Char, Color) From {
- _
+                                                                                    _
             {"B"c, Color.FromArgb(192, 192, 192)},
             {"D"c, Color.FromArgb(255, 0, 0)},
             {"E"c, Color.FromArgb(255, 0, 0)},
@@ -228,7 +228,7 @@ Namespace SequenceModel.Polypeptides
                                                                                        _
             {"Ala", "A"}, {"Arg", "R"}, {"Asp", "D"}, {"Asn", "N"},
             {"Cys", "C"},
-            {"Gln", "Q"}, {"Glu", "E"}, {"Gly", "G"},
+            {"Gln", "Q"}, {"Glu", "E"}, {"Glt", "E"}, {"Gly", "G"},
             {"His", "H"},
             {"Ile", "I"},
             {"Leu", "L"}, {"Lys", "K"},
@@ -241,7 +241,7 @@ Namespace SequenceModel.Polypeptides
                                        _
             {"ala", "A"}, {"arg", "R"}, {"asp", "D"}, {"asn", "N"},
             {"cys", "C"},
-            {"gln", "Q"}, {"glu", "E"}, {"gly", "G"},
+            {"gln", "Q"}, {"glu", "E"}, {"glt", "E"}, {"gly", "G"},
             {"his", "H"},
             {"ile", "I"},
             {"leu", "L"}, {"lys", "K"},
@@ -254,7 +254,7 @@ Namespace SequenceModel.Polypeptides
                                        _
             {"ALA", "A"}, {"ARG", "R"}, {"ASP", "D"}, {"ASN", "N"},
             {"CYS", "C"},
-            {"GLN", "Q"}, {"GLU", "E"}, {"GLY", "G"},
+            {"GLN", "Q"}, {"GLU", "E"}, {"GLT", "E"}, {"GLY", "G"},
             {"HIS", "H"},
             {"ILE", "I"},
             {"LEU", "L"}, {"LYS", "K"},
