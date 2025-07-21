@@ -83,6 +83,7 @@ Module ZipWriter
         Call zip.WriteText(vcell.cellular_id, $"/{NameOf(VirtualCell.cellular_id)}.txt")
 
         Call vcell.genome.regulations.Save(zip, $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.regulations)}.jsonl")
+        Call vcell.genome.proteins.Save(zip, $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.proteins)}.jsonl")
 
         For Each replicon As replicon In vcell.genome.replicons.MakeUniqueNames
             Dim dir As String = $"/{NameOf(VirtualCell.genome)}/{NameOf(Genome.replicons)}/{replicon.genomeName}/"
