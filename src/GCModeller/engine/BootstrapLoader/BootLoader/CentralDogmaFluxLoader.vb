@@ -98,15 +98,23 @@ Namespace ModelLoader
         Friend ReadOnly charged_tRNA As New Dictionary(Of String, String)
         Friend ReadOnly uncharged_tRNA As New Dictionary(Of String, String)
 
+        Shared ReadOnly aaIndex As Dictionary(Of String, String) = SequenceModel.Polypeptides.Abbreviate
+
         ''' <summary>
         ''' tRNA charge process
         ''' </summary>
         ''' <returns></returns>
         Private Iterator Function tRNAProcess(cd As CentralDogma) As IEnumerable(Of Channel)
             Dim chargeName As String = "*" & cd.RNAName
-            Dim AAKey = cd.RNA.Description.Replace("tRNA", "").Trim("-"c)
-            Dim AA As String = SequenceModel.Polypeptides.Abbreviate(AAKey)
+            Dim AAKey As String = cd.RNA.Description.Replace("tRNA", "").Trim("-"c)
+            Dim AA As String
             Dim cellular_id As String = cell.CellularEnvironmentName
+
+            If aaIndex.ContainsKey(AAKey) Then
+                AA = aaIndex(AAKey)
+            Else
+                Throw New MissingPrimaryKeyException($"missing the amino acid mapping of '{AAKey}'!")
+            End If
 
             ' tRNA基因会存在多个拷贝
             ' 但是实际的反应只需要一个就好了，在这里跳过已经重复出现的tRNA拷贝
