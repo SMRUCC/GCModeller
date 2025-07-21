@@ -146,6 +146,10 @@ Namespace Cellular.Process
             End Get
         End Property
 
+        Public Function isChargedtRNA() As Boolean
+            Return RNA.Value = RNATypes.tRNA AndAlso (RNA.Description.StartsWith("charged") OrElse RNA.Description.StartsWith("*"))
+        End Function
+
         ''' <summary>
         ''' 获取得到这个表达过程的名称
         ''' </summary>
