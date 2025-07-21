@@ -89,6 +89,11 @@ Namespace MarkupCompiler.BioCyc
                                 .Replace("Charged", "") _
                                 .ToLower _
                                 .Trim("-"c)
+
+                            If value = "" Then
+                                Call VBDebugger.EchoLine($"found an invalid t-RNA object: {rna_mol.uniqueId}")
+                                type = RNATypes.micsRNA
+                            End If
                         Else
                             type = RNATypes.micsRNA
                         End If
