@@ -120,7 +120,7 @@ Public Module vcellModeller
     Public Function LoadVirtualCell(path As String) As VirtualCell
         Select Case path.ExtensionSuffix
             Case "zip" : Return ZipAssembly.CreateVirtualCellXml(path)
-            Case "xml" : Return path.LoadXml(Of VirtualCell)
+            Case "xml" : Return path.LoadXml(Of VirtualCell)(stripInvalidsCharacter:=True)
             Case "json" : Return vcellModeller.readJSON(path)
 
             Case Else
