@@ -82,6 +82,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -147,11 +148,21 @@ Public Module Simulator
     ''' </remarks>
     <ExportAPI("kegg_mass")>
     <Extension>
-    Public Function CreateUnifyDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
+    Public Function KEGGDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
         Return vcell.metabolismStructure.compounds _
             .Select(Function(c) c.ID) _
             .DoCall(Function(compounds)
                         Return Definition.KEGG(compounds, initMass:=mass)
+                    End Function)
+    End Function
+
+    <ExportAPI("metacyc_mass")>
+    <Extension>
+    Public Function MetaCycDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
+        Return vcell.metabolismStructure.compounds _
+            .Select(Function(c) c.ID) _
+            .DoCall(Function(compounds)
+                        Return Definition.MetaCyc(compounds, initMass:=mass)
                     End Function)
     End Function
 
@@ -195,21 +206,24 @@ Public Module Simulator
     Public Function mass0(vcell As VirtualCell,
                           <RRawVectorArgument>
                           Optional random As Object = Nothing,
+                          <RRawVectorArgument(TypeCodes.string)>
+                          Optional map As Object = "kegg|metacyc",
                           Optional env As Environment = Nothing) As Definition
 
-        Dim kegg_ref = Definition.KEGG({})
+        Dim map_source As String = CLRVector.asScalarCharacter(map)
+        Dim referenceMaps As Definition = If(LCase(map_source) = "kegg", vcell.KEGGDefinition, vcell.MetaCycDefinition)
         Dim pool = vcell.metabolismStructure
-        Dim dnaseq = kegg_ref.NucleicAcid
-        Dim prot = kegg_ref.AminoAcid
-        Dim generic = kegg_ref.GenericCompounds
+        Dim dnaseq = referenceMaps.NucleicAcid
+        Dim prot = referenceMaps.AminoAcid
+        Dim generic = referenceMaps.GenericCompounds
         Dim links = vcell.metabolismStructure.reactions.CompoundLinks
         Dim randMinMax As Double() = CLRVector.asNumeric(random)
         Dim s0 As Dictionary(Of String, Double)
         Dim kegg_maps As New Definition With {
-            .ADP = pool.GetReferMapping(kegg_ref.ADP, NameOf(kegg_ref.ADP), links).ID,
-            .ATP = pool.GetReferMapping(kegg_ref.ATP, NameOf(kegg_ref.ATP), links).ID,
-            .Oxygen = pool.GetReferMapping(kegg_ref.Oxygen, NameOf(kegg_ref.Oxygen), links).ID,
-            .Water = pool.GetReferMapping(kegg_ref.Water, NameOf(kegg_ref.Water), links).ID,
+            .ADP = pool.GetReferMapping(referenceMaps.ADP, NameOf(referenceMaps.ADP), links).ID,
+            .ATP = pool.GetReferMapping(referenceMaps.ATP, NameOf(referenceMaps.ATP), links).ID,
+            .Oxygen = pool.GetReferMapping(referenceMaps.Oxygen, NameOf(referenceMaps.Oxygen), links).ID,
+            .Water = pool.GetReferMapping(referenceMaps.Water, NameOf(referenceMaps.Water), links).ID,
             .NucleicAcid = New NucleicAcid With {
                 .A = pool.GetReferMapping(dnaseq.A, "dnaseq->A", links).ID,
                 .C = pool.GetReferMapping(dnaseq.C, "dnaseq->C", links).ID,
