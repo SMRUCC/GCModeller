@@ -223,7 +223,7 @@ Namespace SequenceModel.Polypeptides
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Abbreviate As New Dictionary(Of String, String) From {
- _
+                                                                                       _
             {"Ala", "A"}, {"Arg", "R"}, {"Asp", "D"}, {"Asn", "N"},
             {"Cys", "C"},
             {"Gln", "Q"}, {"Glu", "E"}, {"Gly", "G"},
@@ -236,7 +236,20 @@ Namespace SequenceModel.Polypeptides
             {"Thr", "T"}, {"Trp", "W"}, {"Tyr", "Y"},
             {"Val", "V"},
             {"Sec", "U"}, {"Pyl", "O"},
- _
+                                       _
+            {"ala", "A"}, {"arg", "R"}, {"asp", "D"}, {"asn", "N"},
+            {"cys", "C"},
+            {"gln", "Q"}, {"glu", "E"}, {"gly", "G"},
+            {"his", "H"},
+            {"ile", "I"},
+            {"leu", "L"}, {"lys", "K"},
+            {"met", "M"},
+            {"phe", "F"}, {"pro", "P"},
+            {"ser", "S"},
+            {"thr", "T"}, {"trp", "W"}, {"tyr", "Y"},
+            {"val", "V"},
+            {"sec", "U"}, {"pyl", "O"},
+                                       _
             {"ALA", "A"}, {"ARG", "R"}, {"ASP", "D"}, {"ASN", "N"},
             {"CYS", "C"},
             {"GLN", "Q"}, {"GLU", "E"}, {"GLY", "G"},
