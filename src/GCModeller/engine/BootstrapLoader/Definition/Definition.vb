@@ -163,27 +163,28 @@ Namespace Definitions
                                   Return initMass
                               End Function)
             Dim ntBase As New NucleicAcid With {
-                .A = "C00212",
-                .C = "C00475",
-                .G = "C00387",
-                .U = "C00299"
+                .A = "ADENOSINE",
+                .C = "CYTIDINE",
+                .G = "GUANOSINE",
+                .U = "URIDINE",
+                .T = "THYMIDINE"
             }
             Dim aaResidue As New AminoAcid With {
-                .A = "Protein-L-alanine",
-                .C = "Protein-L-cysteine",
-                .D = "Protein-L-aspartic",
-                .E = "Protein-L-glutamic",
+                .A = "Prot-Alanines",
+                .C = "PROT-CYS",
+                .D = "Protein-L-Aspartates",
+                .E = "Protein-Glutamates",
                 .F = "Protein-L-phenylalanine",
                 .G = "Protein-L-glycine",
-                .H = "Protein-L-histidine",
+                .H = "Protein-Histidines",
                 .I = "Protein-L-isoleucine",
                 .K = "Protein-L-lysine",
-                .L = "Protein-L-leucine",
+                .L = "Protein-L-Leucine",
                 .M = "Protein-L-methionine",
-                .N = "Protein-L-asparagine",
-                .P = "Protein-L-proline",
+                .N = "Protein-L-Asparagine",
+                .P = "Protein-Prolines",
                 .Q = "Protein-L-glutamine",
-                .R = "Protein-L-arginine",
+                .R = "Protein-L-Arginines",
                 .S = "Protein-L-serine",
                 .T = "Protein-L-threonine",
                 .V = "Protein-L-valine",

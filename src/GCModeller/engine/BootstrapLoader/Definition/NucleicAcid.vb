@@ -81,6 +81,8 @@ Namespace Definitions
         ''' <returns></returns>
         Public Property C As String
 
+        Public Property T As String
+
         Default Public ReadOnly Property Base(compound As String) As String
             Get
                 Select Case compound
