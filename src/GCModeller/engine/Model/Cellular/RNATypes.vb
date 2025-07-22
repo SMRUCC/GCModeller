@@ -83,6 +83,7 @@ Namespace Cellular
         ''' Helper rna molecule for the protein transaltion
         ''' </summary>
         tRNA
+        chargedtRNA
 
         ''' <summary>
         ''' Ribosomal RNA (rRNA): Forms the structural and functional components of ribosomes, which are the molecular machines that catalyze protein synthesis. 

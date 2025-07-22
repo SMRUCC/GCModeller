@@ -164,9 +164,11 @@ Namespace v2
                             .ToArray
                 End If
 
-                replicon.RNAs = replicon.RNAs.SafeQuery.OrderBy(Function(r) r.gene).ToArray
+                replicon.RNAs = replicon.RNAs.SafeQuery _
+                    .Where(Function(r) Not r.gene.StringEmpty(, True)) _
+                    .OrderBy(Function(r) r.gene) _
+                    .ToArray
                 rnaTable = replicon.RNAs _
-                    .SafeQuery _
                     .GroupBy(Function(r) r.gene) _
                     .Select(Function(r) r.First) _
                     .ToDictionary(Function(r) r.gene,
@@ -378,7 +380,7 @@ Namespace v2
                     .enzyme = KO.Keys.Distinct.ToArray,
                     .bounds = bounds,
                     .kinetics = kinetics,
-                    .enzyme_compartment = reaction.compartment.First
+                    .enzyme_compartment = reaction.compartment.DefaultFirst
                 }
             Next
         End Function

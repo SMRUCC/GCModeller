@@ -69,6 +69,7 @@ Imports Microsoft.VisualBasic.Linq
 Namespace Definitions
 
     Public Enum GeneralCompound
+        Compound
         DNA
         RNA
         Protein
@@ -153,6 +154,63 @@ Namespace Definitions
                     End If
                 Next
             End If
+        End Function
+
+        Public Shared Function MetaCyc(allCompounds As IEnumerable(Of String), Optional initMass# = 100) As Definition
+            Dim initStatus As Dictionary(Of String, Double) = allCompounds _
+                .ToDictionary(Function(cid) cid,
+                              Function(cid)
+                                  Return initMass
+                              End Function)
+            Dim ntBase As New NucleicAcid With {
+                .A = "ADENOSINE",
+                .C = "CYTIDINE",
+                .G = "GUANOSINE",
+                .U = "URIDINE",
+                .T = "THYMIDINE"
+            }
+            Dim aaResidue As New AminoAcid With {
+                .A = "L-ALPHA-ALANINE",
+                .C = "CYS",
+                .D = "L-ASPARTATE",
+                .E = "GLT",
+                .F = "PHE",
+                .G = "GLY",
+                .H = "HIS",
+                .I = "ILE",
+                .K = "LYS",
+                .L = "LEU",
+                .M = "MET",
+                .N = "ASN",
+                .P = "PRO",
+                .Q = "GLN",
+                .R = "ARG",
+                .S = "SER",
+                .T = "THR",
+                .V = "VAL",
+                .W = "TRP",
+                .Y = "TYR",
+                .U = "L-SELENOCYSTEINE", ' 特殊氨基酸映射
+                .O = "Protein-L-pyrrolysine",
+                .B = "Protein-L-asx",   ' Asp或Asn
+                .Z = "Protein-L-glx"    ' Glu或Gln
+            }
+
+            Return New Definition With {
+                .ADP = "ADP",
+                .ATP = "ATP",
+                .Water = "WATER",
+                .Oxygen = "OXYGEN-MOLECULE",
+                .NucleicAcid = ntBase,
+                .AminoAcid = aaResidue,
+                .status = initStatus,
+                .GenericCompounds = New Dictionary(Of String, GeneralCompound) From {
+                    {"Peptides", GeneralCompound.Protein},
+                    {"DNA-Holder", GeneralCompound.DNA},
+                    {"RNA-Holder", GeneralCompound.RNA},
+                    {"Compounds-Holder-Class", GeneralCompound.Compound}
+                }
+            }
         End Function
 
         ''' <summary>

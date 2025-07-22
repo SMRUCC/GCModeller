@@ -73,6 +73,8 @@ Namespace Definitions
         ''' </summary>
         ''' <returns></returns>
         Public Property A As String
+        Public Property B As String
+
         ''' <summary>
         ''' L-Arginine
         ''' </summary>
@@ -178,6 +180,8 @@ Namespace Definitions
         ''' </summary>
         ''' <returns></returns>
         Public Property O As String
+
+        Public Property Z As String
 
         Shared ReadOnly aa As Dictionary(Of String, PropertyInfo)
 

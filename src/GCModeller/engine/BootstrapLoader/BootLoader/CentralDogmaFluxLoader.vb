@@ -59,6 +59,7 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
@@ -97,6 +98,9 @@ Namespace ModelLoader
 
         Friend ReadOnly charged_tRNA As New Dictionary(Of String, String)
         Friend ReadOnly uncharged_tRNA As New Dictionary(Of String, String)
+        Friend ReadOnly charged_names As New Dictionary(Of String, String)
+
+        Shared ReadOnly aaIndex As Dictionary(Of String, String) = SequenceModel.Polypeptides.Abbreviate
 
         ''' <summary>
         ''' tRNA charge process
@@ -104,9 +108,15 @@ Namespace ModelLoader
         ''' <returns></returns>
         Private Iterator Function tRNAProcess(cd As CentralDogma) As IEnumerable(Of Channel)
             Dim chargeName As String = "*" & cd.RNAName
-            Dim AAKey = cd.RNA.Description.Replace("tRNA", "").Trim("-"c)
-            Dim AA As String = SequenceModel.Polypeptides.Abbreviate(AAKey)
+            Dim AAKey As String = cd.RNA.Description.Replace("tRNA", "").Trim("-"c)
+            Dim AA As String
             Dim cellular_id As String = cell.CellularEnvironmentName
+
+            If aaIndex.ContainsKey(AAKey) Then
+                AA = aaIndex(AAKey)
+            Else
+                Throw New MissingPrimaryKeyException($"missing the amino acid mapping of '{AAKey}'!")
+            End If
 
             ' tRNA基因会存在多个拷贝
             ' 但是实际的反应只需要一个就好了，在这里跳过已经重复出现的tRNA拷贝
@@ -237,7 +247,14 @@ Namespace ModelLoader
             Dim tRNA As New Dictionary(Of String, List(Of String))
             Dim rRNA As New Dictionary(Of String, List(Of String))
 
+            Call VBDebugger.WaitOutput()
             Call VBDebugger.EchoLine("initialize of the mass environment for central dogma")
+
+            For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas)
+                If cd.isChargedtRNA Then
+                    charged_names($"*tRNA{cd.RNA.Description.Replace("charged", "")}") = cd.RNAName
+                End If
+            Next
 
             ' 在这里分开两个循环来完成构建
             ' 第一步需要一次性的将所有的元素对象都加入到mass table之中
@@ -275,16 +292,18 @@ Namespace ModelLoader
                                 rRNA(cd.RNA.Description).Add(cd.RNAName)
                                 MassTable.addNew(cd.RNAName, MassRoles.rRNA, cellular_id)
                             Case RNATypes.tRNA
-                                If Not tRNA.ContainsKey(cd.RNA.Description) Then
-                                    tRNA.Add(cd.RNA.Description, New List(Of String))
+                                If Not cd.isChargedtRNA Then
+                                    If Not tRNA.ContainsKey(cd.RNA.Description) Then
+                                        tRNA.Add(cd.RNA.Description, New List(Of String))
+                                    End If
+
+                                    tRNA(cd.RNA.Description).Add(cd.RNAName)
+                                    MassTable.addNew(cd.RNAName, MassRoles.tRNA, cellular_id)
+
+                                    For Each proc As Channel In tRNAProcess(cd)
+                                        Yield proc
+                                    Next
                                 End If
-
-                                tRNA(cd.RNA.Description).Add(cd.RNAName)
-                                MassTable.addNew(cd.RNAName, MassRoles.tRNA, cellular_id)
-
-                                For Each proc As Channel In tRNAProcess(cd)
-                                    Yield proc
-                                Next
                             Case Else
                                 ' add RNA molecule to mass table
                                 Call MassTable.addNew(cd.RNAName, MassRoles.RNA, cellular_id)
@@ -301,7 +320,7 @@ Namespace ModelLoader
             ElseIf rRNA.Count = 3 Then
                 Yield ribosomeAssembly(rRNA.Values.IteratesALL.Distinct.ToArray)
             Else
-                Throw New InvalidCastException("missing some of the rRNA components!")
+                Throw New InvalidCastException($"missing some of the rRNA components! current assembly components: {rRNA.Keys.ToArray.GetJson}")
             End If
 
             Call VBDebugger.EchoLine("build biological process for central dogmas...")

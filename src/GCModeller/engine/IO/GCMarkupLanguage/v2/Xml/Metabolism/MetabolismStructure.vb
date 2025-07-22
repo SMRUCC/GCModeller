@@ -158,38 +158,37 @@ Namespace v2
                 .ToArray
         End Function
 
-        Dim m_kegg As Dictionary(Of String, Compound())
+        Dim m_refs As Dictionary(Of String, Compound())
 
-        Public Function FindByKEGG(id As String) As Compound()
-            If m_kegg Is Nothing Then
-                m_kegg = compounds.SafeQuery _
+        Public Function FindByReference(id As String) As Compound()
+            If m_refs Is Nothing Then
+                m_refs = compounds.SafeQuery _
                     .Where(Function(c) Not c.referenceIds.IsNullOrEmpty) _
                     .Select(Function(c)
-                                Return c.referenceIds.Select(Function(kegg_id) (kegg_id, c))
+                                Return c.referenceIds.Select(Function(r_id) (r_id, c))
                             End Function) _
                     .IteratesALL _
-                    .GroupBy(Function(c) c.kegg_id) _
+                    .GroupBy(Function(c) c.r_id) _
                     .ToDictionary(Function(c) c.Key,
                                   Function(c)
                                       Return c.Select(Function(ci) ci.c).ToArray
                                   End Function)
             End If
 
-            Return m_kegg.TryGetValue(id)
+            Return m_refs.TryGetValue(id)
         End Function
 
-        Public Function GetKEGGMapping(id As String, map_define As String, links As Dictionary(Of String, Reaction())) As Compound
-            Dim kegg As Compound() = FindByKEGG(id)
+        Public Function GetReferMapping(id As String, map_define As String, links As Dictionary(Of String, Reaction())) As Compound
+            Dim refs As Compound() = FindByReference(id)
 
-            If kegg.IsNullOrEmpty Then
-                Call ($"no mapping for kegg term '{map_define}'({id})!").Warning
-
+            If refs.IsNullOrEmpty Then
+                Call ($"no mapping for reference term '{map_define}'({id})!").Warning
                 Return New Compound(id, map_define)
+            Else
+                Return refs _
+                    .OrderByDescending(Function(c) links(c.ID).Length) _
+                    .First
             End If
-
-            Return kegg _
-                .OrderByDescending(Function(c) links(c.ID).Length) _
-                .First
         End Function
     End Class
 

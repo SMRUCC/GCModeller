@@ -73,15 +73,27 @@ Namespace MarkupCompiler.BioCyc
 
                 Select Case rna_mol.types(0)
                     Case "Small-RNAs", "Regulatory-RNAs" : type = RNATypes.sRNAs
-                    Case "16S-rRNAs", "23S-rRNAs"
+                    Case "16S-rRNAs", "23S-rRNAs", "5S-rRNAs"
                         type = RNATypes.ribosomalRNA
                         value = rna_mol.types(0).Split("-"c).First.ToLower
                     Case Else
-                        If rna_mol.types(0).EndsWith("-tRNAs") Then
-                            type = RNATypes.tRNA
+                        If rna_mol.types.Any(Function(t) t.EndsWith("-tRNAs")) Then
+                            If rna_mol.types.Any(Function(t) t.StartsWith("Charged")) Then
+                                type = RNATypes.chargedtRNA
+                            Else
+                                type = RNATypes.tRNA
+                            End If
+
                             value = rna_mol.types(0) _
                                 .Replace("-tRNAs", "") _
-                                .ToLower
+                                .Replace("Charged", "") _
+                                .ToLower _
+                                .Trim("-"c)
+
+                            If value = "" Then
+                                Call VBDebugger.EchoLine($"found an invalid t-RNA object: {rna_mol.uniqueId}")
+                                type = RNATypes.micsRNA
+                            End If
                         Else
                             type = RNATypes.micsRNA
                         End If
