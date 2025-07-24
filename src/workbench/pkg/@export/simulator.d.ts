@@ -82,11 +82,17 @@ declare namespace simulator {
      *  both min and max should be positive value.
      * 
      * + default value Is ``null``.
+     * @param map 
+     * + default value Is ``["kegg","metacyc"]``.
      * @param env 
      * + default value Is ``null``.
      * @return A mass environment for run vcell model in GCModeller
    */
-   function mass0(vcell: object, random?: any, env?: object): object;
+   function mass0(vcell: object, random?: any, map?: any, env?: object): object;
+   /**
+     * @param mass default value Is ``5000``.
+   */
+   function metacyc_mass(vcell: object, mass?: number): object;
    /**
    */
    function run(engine: object): any;
