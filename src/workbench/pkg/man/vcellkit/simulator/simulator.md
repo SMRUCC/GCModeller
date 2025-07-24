@@ -3,6 +3,7 @@
 the GCModeller bio-system simulator
 
 + [kegg_mass](simulator/kegg_mass.1) Create a new status profile data object with unify mass contents.
++ [metacyc_mass](simulator/metacyc_mass.1) 
 + [set_status](simulator/set_status.1) set the omics data from this function
 + [mass0](simulator/mass0.1) get the initial mass value
 + [attach_memorydataset](simulator/attach_memorydataset.1) 
