@@ -125,6 +125,7 @@ Namespace v2
         Private Iterator Function createGenotype(model As VirtualCell, unitTest As Boolean) As IEnumerable(Of CentralDogma)
             Dim genomeName$
             Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure.enzymes _
+                .SafeQuery _
                 .ToDictionary(Function(enzyme)
                                   Return enzyme.proteinID
                               End Function)
@@ -163,9 +164,11 @@ Namespace v2
                             .ToArray
                 End If
 
-                replicon.RNAs = replicon.RNAs.SafeQuery.OrderBy(Function(r) r.gene).ToArray
+                replicon.RNAs = replicon.RNAs.SafeQuery _
+                    .Where(Function(r) Not r.gene.StringEmpty(, True)) _
+                    .OrderBy(Function(r) r.gene) _
+                    .ToArray
                 rnaTable = replicon.RNAs _
-                    .SafeQuery _
                     .GroupBy(Function(r) r.gene) _
                     .Select(Function(r) r.First) _
                     .ToDictionary(Function(r) r.gene,
@@ -221,9 +224,10 @@ Namespace v2
                 .OrderByDescending(Function(r) r.enzyme.TryCount) _
                 .ToArray
             Dim enzymes As String() = model.metabolismStructure.enzymes _
+                .SafeQuery _
                 .Select(Function(enz) enz.proteinID) _
                 .ToArray
-            Dim proteins As Protein() = {}
+            Dim proteins As Molecule.Protein() = {}
 
             If hasGenotype Then
                 proteins = model.genome.replicons _
@@ -233,7 +237,7 @@ Namespace v2
                     .IteratesALL _
                     .Where(Function(gene) Not gene.amino_acid Is Nothing) _
                     .Select(Function(orf)
-                                Return New Protein With {
+                                Return New Molecule.Protein With {
                                     .compounds = {},
                                     .polypeptides = {orf.protein_id},
                                     .ProteinID = orf.protein_id
@@ -281,7 +285,7 @@ Namespace v2
                         ' V= (Vmax⋅[S]) / (km [S])
                         ' Vmax = kcat [E]
                         expr = ScriptEngine.ParseExpression("(2 * E *S)/(2+S)")
-                        refVals = New Object() {k.Name & ".complex", reaction.substrate.First.compound}
+                        refVals = New Object() {k.Name, reaction.substrate.First.compound}
                         pars = {"E", "S"}
                     Else
                         expr = ScriptEngine.ParseExpression(k.Value.formula.lambda)
@@ -318,6 +322,7 @@ Namespace v2
             Dim equation As Equation
             ' {reactionID => KO()}
             Dim enzymes = model.metabolismStructure.enzymes _
+                .SafeQuery _
                 .Select(Iterator Function(enz) As IEnumerable(Of (rID$, enz As NamedValue(Of Catalysis)))
                             Dim catalysis_name As String
                             Dim enz_ref As NamedValue(Of Catalysis)
@@ -375,7 +380,7 @@ Namespace v2
                     .enzyme = KO.Keys.Distinct.ToArray,
                     .bounds = bounds,
                     .kinetics = kinetics,
-                    .enzyme_compartment = reaction.compartment
+                    .enzyme_compartment = reaction.compartment.DefaultFirst
                 }
             Next
         End Function
@@ -393,13 +398,15 @@ Namespace v2
             End If
 
             For Each reg As transcription In model.genome.regulations
-                Yield New Regulation With {
-                    .effects = reg.mode.EvalEffects,
-                    .name = reg.biological_process,
-                    .process = reg.centralDogma,
-                    .regulator = reg.regulator,
-                    .type = Processes.Transcription
-                }
+                For Each ref As String In reg.centralDogma
+                    Yield New Regulation With {
+                        .effects = reg.mode.EvalEffects,
+                        .name = reg.biological_process,
+                        .process = ref,
+                        .regulator = reg.regulator,
+                        .type = Processes.Transcription
+                    }
+                Next
             Next
         End Function
     End Module

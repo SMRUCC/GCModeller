@@ -60,19 +60,15 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
 
-    Public Class Proteins : Inherits FastaSeq
-        Dim Description As String
+    Public Class ProteinSeq : Inherits FastaSeq
 
+        Public ReadOnly Property Description As String
         Public ReadOnly Property UniqueId As String
-            Get
-                Return Me.Headers.Last.Split.First
-            End Get
-        End Property
 
-        Public Shared Shadows Sub Save(Data As Proteins(), FilePath As String)
+        Public Shared Shadows Sub Save(data As ProteinSeq(), filePath As String)
             Dim FASTA As FastaFile = New FastaFile
-            Call FASTA.AddRange(Data)
-            Call FASTA.Save(FilePath, Encoding.UTF8)
+            Call FASTA.AddRange(data)
+            Call FASTA.Save(filePath, Encoding.UTF8)
         End Sub
 
         Sub New()
@@ -81,7 +77,14 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Sub New(fa As FastaSeq)
             Headers = fa.Headers
             SequenceData = fa.SequenceData
-            Description = fa.Headers.Last
+
+            Call TryParse(Headers(2), UniqueId)
+        End Sub
+
+        Private Overloads Shared Sub TryParse(title As String, ByRef uniqueId As String)
+            Dim tokens As String() = title.Split
+
+            uniqueId = tokens(0)
         End Sub
     End Class
 End Namespace

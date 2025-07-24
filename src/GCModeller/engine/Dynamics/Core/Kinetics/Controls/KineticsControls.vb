@@ -111,7 +111,7 @@ Namespace Core
         ''' <returns></returns>
         Public ReadOnly Property parameters As IEnumerable(Of String)
             Get
-                Return pars.Keys
+                Return pars.Values
             End Get
         End Property
 
@@ -123,7 +123,7 @@ Namespace Core
                 .Distinct _
                 .ToDictionary(Function(s) s,
                               Function(s)
-                                  If s.IsNumeric(, includesInteger:=True) Then
+                                  If s.IsNumeric(, True) Then
                                       Return s
                                   Else
                                       Return s & "@" & cellular_id

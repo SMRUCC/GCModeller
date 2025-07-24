@@ -90,7 +90,7 @@ Namespace ModelLoader
         ''' This mass table object is generated automatically 
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property massTable As New MassTable
+        Public ReadOnly Property massTable As MassTable
         Public ReadOnly Property massLoader As MassLoader
 
         Protected Friend ReadOnly fluxIndex As New Dictionary(Of String, List(Of String))
@@ -168,6 +168,7 @@ Namespace ModelLoader
             vcellEngine = core
 
             ' create the flux simulation environment
+            _massTable = New MassTable(cell.CellularEnvironmentName)
             _massLoader = New MassLoader(Me)
             _massLoader.doMassLoadingOn(cell)
 

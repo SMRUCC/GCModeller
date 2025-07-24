@@ -64,8 +64,15 @@ Namespace v2
     ''' </summary>
     Public Class TranscriptUnit
 
-        <XmlAttribute>
-        Public Property id As String
+        <XmlAttribute> Public Property id As String
+
+        ''' <summary>
+        ''' the display name of this operon object
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property name As String
+
+        <XmlAttribute> Public Property sites As String()
 
         ''' <summary>
         ''' the operon gene list
@@ -73,6 +80,9 @@ Namespace v2
         ''' <returns></returns>
         <XmlElement>
         Public Property genes As gene()
+
+        <XmlElement>
+        Public Property note As String
 
         Public ReadOnly Property numOfGenes As Integer
             Get

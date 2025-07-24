@@ -59,7 +59,11 @@ declare namespace modeller {
        * read the virtual cell model file
        * 
        * 
-        * @param path -
+        * @param path the model file extension could be:
+        *  
+        *  xml - small virtual cell model in a xml file
+        *  zip - large virtual cell model file save as multiple components in a zip file
+        *  json - large virtual cell model file save as json stream file
       */
       function vcell(path: string): object;
    }

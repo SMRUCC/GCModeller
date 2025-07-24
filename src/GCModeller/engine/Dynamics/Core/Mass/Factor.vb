@@ -57,7 +57,6 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.Language
 
 Namespace Core
 
@@ -67,8 +66,7 @@ Namespace Core
     ''' <remarks>
     ''' 一个变量因子，这个对象主要是用于存储值
     ''' </remarks>
-    Public Class Factor : Inherits Value(Of Double)
-        Implements INamedValue
+    Public Class Factor : Implements INamedValue
 
         ''' <summary>
         ''' the unique reference id of current molecule
@@ -78,7 +76,7 @@ Namespace Core
         ''' this unique instance id usually be in format like: ``id@compart_id``
         ''' </remarks>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
-
+        Public Property Value As Double
         ''' <summary>
         ''' 分子角色
         ''' </summary>

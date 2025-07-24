@@ -21,6 +21,9 @@ declare namespace simulator {
       */
       function module_profile(engine: object, profile: object, system?: object): object;
    }
+   /**
+   */
+   function attach_memorydataset(engine: object): any;
    module dynamics {
       /**
        * Create the default cell dynamics parameters
@@ -79,13 +82,14 @@ declare namespace simulator {
      *  both min and max should be positive value.
      * 
      * + default value Is ``null``.
-     * @param unit_test 
-     * + default value Is ``false``.
      * @param env 
      * + default value Is ``null``.
      * @return A mass environment for run vcell model in GCModeller
    */
-   function mass0(vcell: object, random?: any, unit_test?: boolean, env?: object): object;
+   function mass0(vcell: object, random?: any, env?: object): object;
+   /**
+   */
+   function run(engine: object): any;
    /**
     * set the omics data from this function
     * 

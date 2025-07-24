@@ -62,7 +62,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports Microsoft.VisualBasic.Parallel
 Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 Namespace Core
@@ -129,6 +129,11 @@ Namespace Core
         ''' Dynamics wrapper to the RK4 odes solver
         ''' </summary>
         Friend m_dynamics As MassDynamics()
+
+        ''' <summary>
+        ''' parallel odes solver
+        ''' </summary>
+        Dim parallel_odes As ParallelODEs
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub New(Optional is_debug As Boolean = False)
@@ -230,9 +235,14 @@ Namespace Core
                 Call "invalid config of the time resolution parameter: resolution should greater than maxTime!".Warning
             End If
 
+            parallel_odes = New ParallelODEs(m_dynamics, workers:=8)
+
             If is_debug Then
                 df = AddressOf fp_dfdx_sequence
             Else
+                Call VBDebugger.EchoLine($"parallel config {parallel_odes.num_threads} threads for solve ODEs!")
+                Call VBDebugger.EchoLine($"task span size for each worker thread is {parallel_odes.span_size} dynamics system.")
+
                 df = AddressOf fp_dfdx_parallel
             End If
 
@@ -253,21 +263,40 @@ Namespace Core
             Next
         End Sub
 
+        Private Class ParallelODEs : Inherits VectorTask
+
+            ReadOnly m_dynamics As MassDynamics()
+
+            Public dy As std_vec
+
+            Public Sub New(dynamics As MassDynamics(),
+                           Optional verbose As Boolean = False,
+                           Optional workers As Integer? = Nothing)
+
+                MyBase.New(dynamics.Length, verbose, workers)
+
+                m_dynamics = dynamics
+            End Sub
+
+            Protected Overrides Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
+                Dim block As Double() = New Double(ends - start) {}
+
+                For i As Integer = start To ends
+                    block(i - start) = m_dynamics(i).Evaluate
+                Next
+
+                Call dy.CopyFrom(block, start, block.Length)
+            End Sub
+        End Class
+
         ''' <summary>
         ''' product mode, run ODEs in parallel
         ''' </summary>
         ''' <param name="dx"></param>
         ''' <param name="dy"></param>
         Private Sub fp_dfdx_parallel(dx As Double, ByRef dy As std_vec)
-            For Each y In m_dynamics _
-                .AsParallel _
-                .WithDegreeOfParallelism(8) _
-                .Select(Function(di)
-                            Return (i:=di, dy:=di.Evaluate)
-                        End Function)
-
-                dy(y.i) = y.dy
-            Next
+            parallel_odes.dy = dy
+            parallel_odes.Run()
         End Sub
 
         ''' <summary>

@@ -132,8 +132,8 @@ Namespace SequenceModel.NucleotideModels
             Call Me.New(site)
 
             Start = loci.Left
-            Ends = loci.Right
-            Strand = loci.Strand.GetBriefCode
+            Ends = loci.right
+            Strand = loci.Strand.Description
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::091b316445de6e75116ed4f356535597, Microsoft.VisualBasic.Core\src\ApplicationServices\Tools\Zip\ZipStream.vb"
+﻿#Region "Microsoft.VisualBasic::28afd7cd739855385762d45bb8d0dd98, Microsoft.VisualBasic.Core\src\ApplicationServices\Tools\Zip\ZipStream.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 268
-    '    Code Lines: 167 (62.31%)
-    ' Comment Lines: 57 (21.27%)
+    '   Total Lines: 303
+    '    Code Lines: 194 (64.03%)
+    ' Comment Lines: 57 (18.81%)
     '    - Xml Docs: 63.16%
     ' 
-    '   Blank Lines: 44 (16.42%)
-    '     File Size: 10.62 KB
+    '   Blank Lines: 52 (17.16%)
+    '     File Size: 11.79 KB
 
 
     '     Class ZipStream
@@ -51,9 +51,9 @@
     ' 
     '         Function: DeleteFile, EnumerateFiles, FileExists, FileModifyTime, FileSize
     '                   GetFileEntry, (+2 Overloads) GetFiles, GetFullPath, OpenFile, ReadAllText
-    '                   ToString, WriteText
+    '                   ReadLines, ToString, WriteText
     ' 
-    '         Sub: Close, (+2 Overloads) Dispose, Flush
+    '         Sub: Close, (+2 Overloads) Dispose, Flush, WriteLines
     ' 
     ' 
     ' /********************************************************************************/
@@ -62,6 +62,8 @@
 
 Imports System.IO
 Imports System.IO.Compression
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 
 Namespace ApplicationServices.Zip
@@ -162,7 +164,7 @@ Namespace ApplicationServices.Zip
                 Return Nothing
             Else
                 ' create new?
-                Throw New NotImplementedException
+                Return zip.CreateEntry(path)
             End If
         End Function
 
@@ -228,6 +230,7 @@ Namespace ApplicationServices.Zip
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetFullPath(filename As String) As String Implements IFileSystemEnvironment.GetFullPath
             Return ("/" & filename.Replace("\"c, "/"c)).StringReplace("/{2,}", "/")
         End Function
@@ -245,6 +248,38 @@ Namespace ApplicationServices.Zip
             End Using
 
             Return True
+        End Function
+
+        Public Sub WriteLines(str As IEnumerable(Of String), path As String)
+            Dim file As ZipArchiveEntry = GetFileEntry(path, allow_new:=True)
+
+            If file Is Nothing Then
+                Throw New NotImplementedException
+            End If
+
+            Using s As New StreamWriter(file.Open)
+                For Each line As String In str
+                    Call s.WriteLine(line)
+                Next
+
+                Call s.Flush()
+            End Using
+        End Sub
+
+        Public Iterator Function ReadLines(path As String) As IEnumerable(Of String)
+            Dim file As ZipArchiveEntry = GetFileEntry(path, allow_new:=True)
+
+            If file Is Nothing Then
+                Return
+            End If
+
+            Using s As New StreamReader(file.Open)
+                Dim line As Value(Of String) = ""
+
+                Do While Not (line = s.ReadLine) Is Nothing
+                    Yield CStr(line)
+                Loop
+            End Using
         End Function
 
         Public Function ReadAllText(path As String) As String Implements IFileSystemEnvironment.ReadAllText

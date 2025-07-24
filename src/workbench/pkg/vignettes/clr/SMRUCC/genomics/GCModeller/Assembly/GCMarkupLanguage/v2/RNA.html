@@ -5,7 +5,7 @@
     <title>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.RNA</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
 </head>
 
 <body>
@@ -30,9 +30,16 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 export class RNA {
-   # <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Assembly/GCMarkupLanguage/v2/gene.html">gene</a>.<a href="#">locus_tag</a>
+   # the trranscription source template gene <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Assembly/GCMarkupLanguage/v2/gene.html">gene</a>.<a href="#">locus_tag</a>
    gene: string;
+   id: string;
+   note: string;
+   # the rna type
    type: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Model/Cellular/RNATypes.html">RNATypes</a>;
+   # usually be the:
+   #  
+   #  1. amino acid code for tRNA
+   #  2. 16s,5s,23s for rRNA
    val: string;
 }
 </code>
@@ -52,8 +59,8 @@ export class RNA {
     </div>
 </body>
 
-<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
-<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
 </html>

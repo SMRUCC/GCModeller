@@ -126,6 +126,8 @@ Namespace Core
         Public Function CoverLeft(shares As Dictionary(Of String, Double), regulation#) As Double
             If isBroken Then
                 Return 0
+            ElseIf left.Any(Function(v) v.mass.Value = 0.0) Then
+                Return 0
             Else
                 Return minimalUnit(shares, left, regulation, bounds.forward)
             End If
@@ -139,6 +141,8 @@ Namespace Core
         ''' <returns></returns>
         Public Function CoverRight(shares As Dictionary(Of String, Double), regulation#) As Double
             If isBroken Then
+                Return 0
+            ElseIf right.Any(Function(v) v.mass.Value <= 0.0) Then
                 Return 0
             Else
                 Return minimalUnit(shares, right, regulation, bounds.reverse)

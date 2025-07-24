@@ -5,7 +5,7 @@
     <title>SMRUCC.genomics.Data.BioCyc.reactions</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
 </head>
 
 <body>
@@ -63,7 +63,7 @@ export class reactions extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioC
    credits: string;
    # This slot holds the EC (Enzyme Commission) number associated with the current reaction,
    #  if such a number has been assigned by the IUBMB. This slot is single valued.
-   ec_number: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/ECNumber.html">ECNumber</a>;
+   ec_number: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/ECNumber.html">ECNumber[]</a>;
    enzymaticReaction: string;
    equation: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/DefaultTypes/Equation.html">Equation</a>;
    gibbs0: double;
@@ -186,8 +186,8 @@ export class reactions extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioC
     </div>
 </body>
 
-<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
-<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
 </html>

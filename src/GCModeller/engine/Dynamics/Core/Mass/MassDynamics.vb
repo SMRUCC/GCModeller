@@ -67,6 +67,7 @@ Namespace Core
     ''' </summary>
     Public Class MassDynamics : Inherits var
         Implements IReadOnlyId, INonlinearVar
+        Implements Enumeration(Of var)
 
         ''' <summary>
         ''' <see cref="Factor.ID"/>
@@ -100,6 +101,10 @@ Namespace Core
         Dim mass As Factor
         Dim shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
         Dim fluxVariants As var()
+        Dim fluxValues As Double()
+
+        Private Sub New()
+        End Sub
 
         Public Function Evaluate() As Double Implements INonlinearVar.Evaluate
             Dim additions As Double() = New Double(channels.Length - 1) {}
@@ -133,16 +138,20 @@ Namespace Core
                 End Select
 
                 additions(i) = variants
-                fluxVariants(i).Value = fluxVariant
+                fluxValues(i) = fluxVariant
             Next
 
             Dim dy As Double = additions.Average
-            dy = (channels.Length * dy) / (channels.Length + Math.Abs(dy))
+            ' dy = (channels.Length * dy) / (channels.Length + Math.Abs(dy))
             Return dy
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getLastFluxVariants() As IEnumerable(Of var)
+            For i As Integer = 0 To fluxValues.Length - 1
+                fluxVariants(i).Value += fluxValues(i)
+            Next
+
             Return fluxVariants
         End Function
 
@@ -246,8 +255,15 @@ Namespace Core
                                         .Value = 0
                                     }
                                 End Function) _
-                        .ToArray
+                        .ToArray,
+                    .fluxValues = New Double(.fluxVariants.Length - 1) {}
                 }
+            Next
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of var) Implements Enumeration(Of var).GenericEnumerator
+            For Each flux As var In fluxVariants
+                Yield flux
             Next
         End Function
     End Class

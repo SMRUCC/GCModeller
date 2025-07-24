@@ -66,7 +66,9 @@ Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace Raw
 
@@ -88,18 +90,25 @@ Namespace Raw
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
             stream.Clear(32 * 1024 * 1024)
 
-            MyBase.mRNAId = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.RNAName).Indexing
-            MyBase.RNAId = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value <> RNATypes.mRNA).Select(Function(c) c.RNAName).Indexing
+            ' create molecule index
+            MyBase.mRNAId = getRNAIndex(model, RNATypes.mRNA).Indexing
+            MyBase.RNAId = getComponentRNAs(model).Indexing
+            MyBase.tRNA = getRNAIndex(model, RNATypes.tRNA).Indexing
+            MyBase.rRNA = getRNAIndex(model, RNATypes.ribosomalRNA).JoinIterates({"ribosomeAssembly"}).Indexing
             MyBase.Polypeptide = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.polypeptide).Indexing
-            MyBase.Proteins = model.Phenotype.proteins.Select(Function(p) p.ProteinID).Indexing
+            MyBase.Proteins = model.Phenotype.proteins.Select(Function(p) p.ProteinID & ".complex").Indexing
             MyBase.Metabolites = model.Phenotype.fluxes _
                 .Select(Function(r) r.AllCompounds) _
                 .IteratesALL _
                 .Distinct _
                 .ToArray
+
+            ' create flux index
             MyBase.Reactions = model.Phenotype.fluxes _
                 .Select(Function(r) r.ID) _
                 .ToArray
+            MyBase.Transcription = model.Genotype.centralDogmas.SafeQuery.Select(Function(c) Loader.GetTranscriptionId(c)).Indexing
+            MyBase.Translation = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) Loader.GetTranslationId(c)).Indexing
 
             compartments = {model.CellularEnvironmentName} _
                 .JoinIterates(model.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)) _
@@ -124,10 +133,37 @@ Namespace Raw
                         {NameOf(Polypeptide), Polypeptide.Count},
                         {NameOf(Proteins), Proteins.Count},
                         {NameOf(Metabolites), Metabolites.Count},
-                        {NameOf(Reactions), Reactions.Count}
+                        {NameOf(Reactions), Reactions.Count},
+                        {NameOf(tRNA), tRNA.Count},
+                        {NameOf(rRNA), rRNA.Count}
                     }.GetJson
                 }, "/.etc/count.json")
         End Sub
+
+        Private Iterator Function getComponentRNAs(model As CellularModule) As IEnumerable(Of String)
+            For Each gene As CentralDogma In model.Genotype.centralDogmas
+                Dim RNA_type As RNATypes = gene.RNA.Value
+
+                Select Case RNA_type
+                    Case RNATypes.mRNA, RNATypes.ribosomalRNA, RNATypes.tRNA
+                        Continue For
+                    Case Else
+                        Yield gene.RNAName
+                End Select
+            Next
+        End Function
+
+        Private Iterator Function getRNAIndex(model As CellularModule, type_id As RNATypes) As IEnumerable(Of String)
+            For Each gene As CentralDogma In model.Genotype.centralDogmas
+                If gene.RNA.Value = type_id Then
+                    Yield gene.RNAName
+
+                    If type_id = RNATypes.tRNA Then
+                        Yield "*" & gene.RNAName
+                    End If
+                End If
+            Next
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetStream() As StreamPack
@@ -150,6 +186,11 @@ Namespace Raw
             For Each [module] As NamedValue(Of PropertyInfo) In modules.NamedValues
                 Dim name$ = [module].Name
                 Dim index As Index(Of String) = [module].Value.GetValue(Me)
+
+                If index Is Nothing Then
+                    Continue For
+                End If
+
                 Dim list$() = index.Objects
 
                 For Each compart_id As String In compartments
@@ -179,12 +220,12 @@ Namespace Raw
         ''' <param name="snapshot">The snapshot value after the loop cycle in <paramref name="time"/> point</param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
+        Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double), fluxData As Boolean) As Writer
             Dim resolve_name As String = nameMaps([module])
             Dim index As Index(Of String) = modules(resolve_name)
 
             For Each compart_id As String In compartments
-                Dim instance_id As String() = Me.instance_id(compart_id)(resolve_name)
+                Dim instance_id As String() = If(fluxData, index.Objects, Me.instance_id(compart_id)(resolve_name))
                 Dim v As Double() = snapshot.Takes(instance_id).ToArray
                 Dim path As String = $"/dynamics/{compart_id}/{resolve_name}/frames/{time}.dat"
 

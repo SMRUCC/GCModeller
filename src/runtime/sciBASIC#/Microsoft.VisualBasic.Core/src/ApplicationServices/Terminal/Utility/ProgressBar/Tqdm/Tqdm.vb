@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4a46639c3d7423d580cc2994e9b2995, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\ProgressBar\Tqdm\Tqdm.vb"
+﻿#Region "Microsoft.VisualBasic::c38bbe73e27cc528fe3ef64a455c19cc, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\ProgressBar\Tqdm\Tqdm.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 197
-    '    Code Lines: 108 (54.82%)
-    ' Comment Lines: 64 (32.49%)
-    '    - Xml Docs: 82.81%
+    '   Total Lines: 240
+    '    Code Lines: 141 (58.75%)
+    ' Comment Lines: 66 (27.50%)
+    '    - Xml Docs: 80.30%
     ' 
-    '   Blank Lines: 25 (12.69%)
-    '     File Size: 10.43 KB
+    '   Blank Lines: 33 (13.75%)
+    '     File Size: 12.24 KB
 
 
     '     Module TqdmWrapper
@@ -48,7 +48,7 @@
     '         Function: InternalWrap, (+5 Overloads) Wrap
     '         Delegate Function
     ' 
-    '             Function: Range, WrapStreamReader
+    '             Function: Range, (+2 Overloads) StreamReader, WrapStreamReader
     ' 
     ' 
     ' 
@@ -56,6 +56,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
@@ -224,6 +225,48 @@ Namespace ApplicationServices.Terminal.ProgressBar.Tqdm
             Loop
 
             Call bar.Finish()
+        End Function
+
+        Public Function StreamReader(str As StreamReader) As Func(Of String)
+            Dim page_unit As ByteSize = ByteSize.B
+            Dim bytesOfStream As Long = str.BaseStream.Length
+
+            If bytesOfStream > 2 * 1024 * ByteSize.GB Then
+                ' file size is more than 2TB
+                bytesOfStream /= ByteSize.MB
+                page_unit = ByteSize.MB
+            ElseIf bytesOfStream > 2 * ByteSize.GB Then
+                ' file size is more than 2GB
+                bytesOfStream /= ByteSize.KB
+                page_unit = ByteSize.KB
+            End If
+
+            Dim bar As New ProgressBar(total:=bytesOfStream, printsPerSecond:=1) With {
+                .UpdateDynamicConfigs = False,
+                .FormatTaskCounter = Function(byte_pages)
+                                         Return StringFormats.Lanudry(bytes:=byte_pages * page_unit)
+                                     End Function
+            }
+
+            Return Function() As String
+                       If str.EndOfStream Then
+                           Call bar.Finish()
+                           Return Nothing
+                       End If
+
+                       Dim line As String = str.ReadLine
+                       Dim offset As Long = str.BaseStream.Position
+
+                       Call bar.Progress(offset / page_unit, bytesOfStream)
+                       Call bar.SetLabel(StringFormats.Lanudry(offset / (bar.ElapsedSeconds + 1)) & "/s")
+
+                       Return line
+                   End Function
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function StreamReader(s As Stream) As Func(Of String)
+            Return StreamReader(New StreamReader(s))
         End Function
 
         ''' <summary>

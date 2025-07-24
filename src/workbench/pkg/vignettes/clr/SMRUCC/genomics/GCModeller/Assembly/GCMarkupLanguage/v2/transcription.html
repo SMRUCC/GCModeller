@@ -5,7 +5,7 @@
     <title>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2.transcription</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
 </head>
 
 <body>
@@ -33,12 +33,12 @@ export class transcription {
    biological_process: string;
    # 这个调控关系所影响到的中心法则的事件名称
    centralDogma: string;
-   # 这个是效应物物质编号列表
-   effector: string;
    mode: string;
    motif: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Assembly/GCMarkupLanguage/v2/Motif.html">Motif</a>;
+   note: string;
    regulator: string;
-   target: string;
+   # a collection of the genes id inside the regulated operons
+   targets: string;
 }
 </code>
         </pre>
@@ -57,8 +57,8 @@ export class transcription {
     </div>
 </body>
 
-<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
-<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
 </html>

@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::ad25bcf3717390d3cced5dcdee8ad927, engine\vcellkit\Modeller\Modeller.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 159
-    '    Code Lines: 103 (64.78%)
-    ' Comment Lines: 38 (23.90%)
-    '    - Xml Docs: 94.74%
-    ' 
-    '   Blank Lines: 18 (11.32%)
-    '     File Size: 6.16 KB
+' Summaries:
 
 
-    ' Module vcellModeller
-    ' 
-    '     Function: applyKinetics, CompileLambda, eval, evalArgumentValues, Kinetics
-    '               LoadVirtualCell, readJSON, writeJSON, WriteZipAssembly
-    ' 
-    '     Sub: createKineticsDbCache
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 159
+'    Code Lines: 103 (64.78%)
+' Comment Lines: 38 (23.90%)
+'    - Xml Docs: 94.74%
+' 
+'   Blank Lines: 18 (11.32%)
+'     File Size: 6.16 KB
+
+
+' Module vcellModeller
+' 
+'     Function: applyKinetics, CompileLambda, eval, evalArgumentValues, Kinetics
+'               LoadVirtualCell, readJSON, writeJSON, WriteZipAssembly
+' 
+'     Sub: createKineticsDbCache
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK.docuRESTfulWeb
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
@@ -107,11 +108,24 @@ Public Module vcellModeller
     ''' <summary>
     ''' read the virtual cell model file
     ''' </summary>
-    ''' <param name="path"></param>
+    ''' <param name="path">
+    ''' the model file extension could be:
+    ''' 
+    ''' xml - small virtual cell model in a xml file
+    ''' zip - large virtual cell model file save as multiple components in a zip file
+    ''' json - large virtual cell model file save as json stream file
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("read.vcell")>
     Public Function LoadVirtualCell(path As String) As VirtualCell
-        Return path.LoadXml(Of VirtualCell)
+        Select Case path.ExtensionSuffix
+            Case "zip" : Return ZipAssembly.CreateVirtualCellXml(path)
+            Case "xml" : Return path.LoadXml(Of VirtualCell)(stripInvalidsCharacter:=True)
+            Case "json" : Return vcellModeller.readJSON(path)
+
+            Case Else
+                Throw New InvalidProgramException($"Unknown file format with extension suffix name: {path.ExtensionSuffix}!")
+        End Select
     End Function
 
     ''' <summary>
@@ -133,7 +147,7 @@ Public Module vcellModeller
     <ExportAPI("read.json_model")>
     Public Function readJSON(file As String) As VirtualCell
         Dim s As Stream = file.OpenReadonly
-        Dim reader As New JsonParser(New StreamReader(s))
+        Dim reader As New JsonParser(New StreamReader(s), tqdm:=True)
         Dim json As JsonObject = DirectCast(reader.OpenJSON, JsonObject)
         Dim model As VirtualCell = json.CreateObject(Of VirtualCell)
         Return model
@@ -195,7 +209,7 @@ Public Module vcellModeller
 
     <ExportAPI("kinetics_lambda")>
     Public Function CompileLambda(kinetics As Kinetics) As DynamicInvoke
-        Return kinetics.CompileLambda
+        Return kinetics.CompileLambda(New Dictionary(Of String, CentralDogma))
     End Function
 
     <ExportAPI("eval_lambda")>

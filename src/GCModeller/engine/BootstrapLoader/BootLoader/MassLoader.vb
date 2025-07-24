@@ -55,6 +55,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
@@ -81,12 +82,14 @@ Namespace ModelLoader
         ''' </summary>
         ''' <param name="cell"></param>
         Public Sub doMassLoadingOn(cell As CellularModule)
+            Dim defaultCompartment As [Default](Of String) = cell.CellularEnvironmentName
+
             ' 在这里需要首选构建物质列表
             ' 否则下面的转录和翻译过程的构建会出现找不到物质因子对象的问题
             For Each reaction As Reaction In cell.Phenotype.fluxes
                 For Each compound In reaction.equation.GetMetabolites
-                    If Not massTable.Exists(compound.ID, compound.Compartment) Then
-                        Call massTable.addNew(compound.ID, MassRoles.compound, compound.Compartment)
+                    If Not massTable.Exists(compound.ID, compound.Compartment Or defaultCompartment) Then
+                        Call massTable.addNew(compound.ID, MassRoles.compound, compound.Compartment Or defaultCompartment)
                     End If
                 Next
             Next

@@ -192,6 +192,10 @@ Namespace Cellular.Vector
                 .ToArray
         End Sub
 
+        Public Shared Function Blank(protId As String) As ProteinComposition
+            Return New ProteinComposition With {.proteinID = protId}
+        End Function
+
         Public Shared Function FromRefSeq(sequence As String, proteinID As String) As ProteinComposition
             Dim protein As New ProteinComposition With {.proteinID = proteinID}
             Dim composition = sequence _

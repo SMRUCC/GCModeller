@@ -66,6 +66,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Engine
 
@@ -189,12 +190,14 @@ Namespace Engine
             For Each mass As Factor In core.m_massIndex.Values
                 If initials.status.ContainsKey(mass.ID) Then
                     ' instance id has the highest order
-                    mass.reset(initials.status(mass.ID))
+                    Call mass.reset(initials.status(mass.ID))
                 Else
                     If initials.status.ContainsKey(mass.template_id) Then
-                        mass.reset(initials.status(mass.template_id))
+                        Call mass.reset(initials.status(mass.template_id))
+                    ElseIf mass.role = MassRoles.gene Then
+                        Call mass.reset(dynamics.numCells)
                     Else
-                        mass.reset(1)
+                        Call mass.reset(randf.NextDouble(10, 250))
                     End If
                 End If
             Next

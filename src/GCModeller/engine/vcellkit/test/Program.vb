@@ -52,8 +52,11 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.Compiler.MarkupCompiler.BioCyc
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.Metagenomics
 Imports vcellkit
@@ -61,7 +64,20 @@ Imports vcellkit
 Module Program
 
     Sub Main(args As String())
+        Call test_metacyc()
         Call test_model1()
+    End Sub
+
+    Sub test_metacyc()
+        Dim ecol As Workspace = Workspace.Open("F:\ecoli\29.0")
+        Dim builder As New v2Compiler(ecol)
+        Dim model As VirtualCell = builder.Compile($"compile --log Z:/run.log")
+
+        Call builder.Dispose()
+        Call model.GetXml.SaveTo("Z:/ecoli.xml")
+        Call ZipAssembly.WriteZip(model, "Z:/ecoli.zip")
+
+        Pause()
     End Sub
 
     Private Sub test_model1()
@@ -84,7 +100,7 @@ Module Program
                     }
                 },
                 .regulations = {
-                    New transcription With {.effector = {"B"}, .centralDogma = "Gene-123", .biological_process = "Gene-123", .mode = "-", .regulator = "B"}
+                    New transcription With {.centralDogma = {"Gene-123"}, .biological_process = "Gene-123", .mode = "-", .regulator = "B"}
                 }
             },
             .properties = New CompilerServices.[Property] With {.name = "demo1", .authors = {"xieguigang"}, .comment = "simple network demo", .title = .comment},
@@ -97,10 +113,10 @@ Module Program
                 },
                 .reactions = New ReactionGroup With {
                     .enzymatic = {
-                        New Reaction With {.bounds = {5, 5}, .ID = "A->B", .name = "A->B", .substrate = {New CompoundFactor("A", 1)}, .product = {New CompoundFactor("B", 2)}, .ec_number = {}, .is_enzymatic = False, .compartment = "Intracellular"},
-                        New Reaction With {.bounds = {10, 10}, .ID = "B->C", .name = "B->C", .substrate = {New CompoundFactor("B", 1)}, .product = {New CompoundFactor("C", 1)}, .ec_number = {"1.-"}, .is_enzymatic = True, .compartment = "Intracellular"},
-                        New Reaction With {.bounds = {0.01, 3}, .ID = "A->A", .name = "A->A", .substrate = {New CompoundFactor("A", 1, "Extracellular")}, .product = {New CompoundFactor("A", 1)}, .ec_number = {"3.1.-"}, .is_enzymatic = True, .compartment = "Intracellular"},
-                        New Reaction With {.bounds = {10, 10}, .ID = "C->C", .name = "C->C", .substrate = {New CompoundFactor("C", 1)}, .product = {New CompoundFactor("C", 1, "Extracellular")}, .ec_number = {"3.2.-"}, .is_enzymatic = True, .compartment = "Intracellular"}
+                        New Reaction With {.bounds = {5, 5}, .ID = "A->B", .name = "A->B", .substrate = {New CompoundFactor("A", 1)}, .product = {New CompoundFactor("B", 2)}, .ec_number = {}, .is_enzymatic = False, .compartment = {"Intracellular"}},
+                        New Reaction With {.bounds = {10, 10}, .ID = "B->C", .name = "B->C", .substrate = {New CompoundFactor("B", 1)}, .product = {New CompoundFactor("C", 1)}, .ec_number = {"1.-"}, .is_enzymatic = True, .compartment = {"Intracellular"}},
+                        New Reaction With {.bounds = {0.01, 3}, .ID = "A->A", .name = "A->A", .substrate = {New CompoundFactor("A", 1, "Extracellular")}, .product = {New CompoundFactor("A", 1)}, .ec_number = {"3.1.-"}, .is_enzymatic = True, .compartment = {"Intracellular"}},
+                        New Reaction With {.bounds = {10, 10}, .ID = "C->C", .name = "C->C", .substrate = {New CompoundFactor("C", 1)}, .product = {New CompoundFactor("C", 1, "Extracellular")}, .ec_number = {"3.2.-"}, .is_enzymatic = True, .compartment = {"Intracellular"}}
                     }
                 },
                 .enzymes = {
@@ -112,5 +128,10 @@ Module Program
         }
 
         Call vcellModeller.writeJSON(cell, "./cell1.json", indent:=True)
+        Call vcellModeller.WriteZipAssembly(cell, "./cell.zip")
+
+        Dim vcell As VirtualCell = ZipAssembly.CreateVirtualCellXml("./cell.zip")
+
+        Pause()
     End Sub
 End Module

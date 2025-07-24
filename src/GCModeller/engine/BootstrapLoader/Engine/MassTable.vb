@@ -75,6 +75,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -159,9 +160,10 @@ Namespace Engine
                     Throw New InvalidDataException($"missing compartment '{compart}' for molecule: '{mass}'!")
                 End If
 
-                Dim massTable = compartments(compart)
+                Dim massTable As Dictionary(Of String, Factor) = compartments(compart)
+                Dim fi As Factor = massTable(mass)
 
-                Return New Variable(massTable(mass), coefficient, False)
+                Return New Variable(fi, coefficient, False)
             End Function
 
         End Class
@@ -174,6 +176,18 @@ Namespace Engine
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Me.ToDictionary(Function(m) m.ID, Function(m) m.Value)
+            End Get
+        End Property
+
+        Public ReadOnly Property Represents As Dictionary(Of String, Double)
+            Get
+                Return Me.Where(Function(f) f.Value > 0).ToDictionary(Function(m) m.ID, Function(m) m.Value)
+            End Get
+        End Property
+
+        Public ReadOnly Property Missing As Dictionary(Of String, Double)
+            Get
+                Return Me.Where(Function(f) f.Value <= 0.0).ToDictionary(Function(m) m.ID, Function(m) m.Value)
             End Get
         End Property
 
@@ -228,6 +242,12 @@ Namespace Engine
         End Property
 
         Sub New()
+        End Sub
+
+        Friend ReadOnly defaultCompartment As [Default](Of String)
+
+        Sub New(defaultCompartment As String)
+            Me.defaultCompartment = defaultCompartment
         End Sub
 
         Sub New(cache As Dictionary(Of String, Factor), compart As String)
@@ -292,7 +312,7 @@ Namespace Engine
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function variables(compounds As IEnumerable(Of CompoundSpecieReference), factor As Double) As IEnumerable(Of Variable)
-            Return compounds.Select(Function(cpd) variable(cpd.ID, cpd.Compartment, cpd.Stoichiometry))
+            Return compounds.Select(Function(cpd) variable(cpd.ID, cpd.Compartment Or defaultCompartment, cpd.Stoichiometry))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -300,9 +320,9 @@ Namespace Engine
             Return compounds _
                 .Select(Function(cpd)
                             If cpd.ID Like templates Then
-                                Return Me.template(cpd.ID, cpd.Compartment)
+                                Return Me.template(cpd.ID, cpd.Compartment Or defaultCompartment)
                             Else
-                                Return Me.variable(cpd.ID, cpd.Compartment, cpd.Stoichiometry)
+                                Return Me.variable(cpd.ID, cpd.Compartment Or defaultCompartment, cpd.Stoichiometry)
                             End If
                         End Function)
         End Function
@@ -329,7 +349,14 @@ Namespace Engine
         End Function
 
         Public Function ExistsAllCompartment(mass_id As String) As Boolean
-            Return m_massSet.Keys.All(Function(ref) m_massSet(ref).ContainsKey(mass_id & "@" & ref))
+            If m_massSet.mapping.ContainsKey(mass_id) Then
+                Return True
+            End If
+
+            Return m_massSet.Keys _
+                .All(Function(ref)
+                         Return m_massSet(ref).ContainsKey(mass_id & "@" & ref)
+                     End Function)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

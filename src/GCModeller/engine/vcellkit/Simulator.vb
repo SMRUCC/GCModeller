@@ -72,18 +72,23 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' data type enumeration of the omics data
@@ -109,7 +114,28 @@ Public Module Simulator
                     End Sub)
         Call Console.WriteLine()
         Call printer.AttachConsoleFormatter(Of VirtualCell)(AddressOf VirtualCell.Summary)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(MemoryDataSet), AddressOf castMemoryTable)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function castMemoryTable(ds As MemoryDataSet, args As list, env As Environment) As dataframe
+        Dim mass_data As Boolean = args.getValue({"mass", "mass_data"}, env, [default]:=True)
+        Dim data As ICollection(Of Dictionary(Of String, Double)) = If(mass_data, ds.getMassDataSet, ds.getFluxDataSet)
+        Dim cols = data.Select(Function(r) r.Keys).IteratesALL.Distinct.ToArray
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = Enumerable _
+                .Range(1, data.Count) _
+                .AsCharacter _
+                .ToArray
+        }
+
+        For Each colname As String In cols
+            Call df.add(colname, data.Select(Function(r) r.TryGetValue(colname)))
+        Next
+
+        Return df
+    End Function
 
     ''' <summary>
     ''' Create a new status profile data object with unify mass contents.
@@ -122,11 +148,21 @@ Public Module Simulator
     ''' </remarks>
     <ExportAPI("kegg_mass")>
     <Extension>
-    Public Function CreateUnifyDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
+    Public Function KEGGDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
         Return vcell.metabolismStructure.compounds _
             .Select(Function(c) c.ID) _
             .DoCall(Function(compounds)
                         Return Definition.KEGG(compounds, initMass:=mass)
+                    End Function)
+    End Function
+
+    <ExportAPI("metacyc_mass")>
+    <Extension>
+    Public Function MetaCycDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
+        Return vcell.metabolismStructure.compounds _
+            .Select(Function(c) c.ID) _
+            .DoCall(Function(compounds)
+                        Return Definition.MetaCyc(compounds, initMass:=mass)
                     End Function)
     End Function
 
@@ -170,51 +206,53 @@ Public Module Simulator
     Public Function mass0(vcell As VirtualCell,
                           <RRawVectorArgument>
                           Optional random As Object = Nothing,
-                          Optional unit_test As Boolean = False,
+                          <RRawVectorArgument(TypeCodes.string)>
+                          Optional map As Object = "kegg|metacyc",
                           Optional env As Environment = Nothing) As Definition
 
-        Dim kegg_ref = Definition.KEGG({})
+        Dim map_source As String = CLRVector.asScalarCharacter(map)
+        Dim referenceMaps As Definition = If(LCase(map_source) = "kegg", vcell.KEGGDefinition, vcell.MetaCycDefinition)
         Dim pool = vcell.metabolismStructure
-        Dim dnaseq = kegg_ref.NucleicAcid
-        Dim prot = kegg_ref.AminoAcid
-        Dim generic = kegg_ref.GenericCompounds
+        Dim dnaseq = referenceMaps.NucleicAcid
+        Dim prot = referenceMaps.AminoAcid
+        Dim generic = referenceMaps.GenericCompounds
         Dim links = vcell.metabolismStructure.reactions.CompoundLinks
         Dim randMinMax As Double() = CLRVector.asNumeric(random)
         Dim s0 As Dictionary(Of String, Double)
         Dim kegg_maps As New Definition With {
-            .ADP = pool.GetKEGGMapping(kegg_ref.ADP, NameOf(kegg_ref.ADP), links, unit_test).ID,
-            .ATP = pool.GetKEGGMapping(kegg_ref.ATP, NameOf(kegg_ref.ATP), links, unit_test).ID,
-            .Oxygen = pool.GetKEGGMapping(kegg_ref.Oxygen, NameOf(kegg_ref.Oxygen), links, unit_test).ID,
-            .Water = pool.GetKEGGMapping(kegg_ref.Water, NameOf(kegg_ref.Water), links, unit_test).ID,
+            .ADP = pool.GetReferMapping(referenceMaps.ADP, NameOf(referenceMaps.ADP), links).ID,
+            .ATP = pool.GetReferMapping(referenceMaps.ATP, NameOf(referenceMaps.ATP), links).ID,
+            .Oxygen = pool.GetReferMapping(referenceMaps.Oxygen, NameOf(referenceMaps.Oxygen), links).ID,
+            .Water = pool.GetReferMapping(referenceMaps.Water, NameOf(referenceMaps.Water), links).ID,
             .NucleicAcid = New NucleicAcid With {
-                .A = pool.GetKEGGMapping(dnaseq.A, "dnaseq->A", links, unit_test).ID,
-                .C = pool.GetKEGGMapping(dnaseq.C, "dnaseq->C", links, unit_test).ID,
-                .G = pool.GetKEGGMapping(dnaseq.G, "dnaseq->G", links, unit_test).ID,
-                .U = pool.GetKEGGMapping(dnaseq.U, "dnaseq->U", links, unit_test).ID
+                .A = pool.GetReferMapping(dnaseq.A, "dnaseq->A", links).ID,
+                .C = pool.GetReferMapping(dnaseq.C, "dnaseq->C", links).ID,
+                .G = pool.GetReferMapping(dnaseq.G, "dnaseq->G", links).ID,
+                .U = pool.GetReferMapping(dnaseq.U, "dnaseq->U", links).ID
             },
             .AminoAcid = New AminoAcid With {
-                .A = pool.GetKEGGMapping(prot.A, "prot->A", links, unit_test).ID,
-                .U = pool.GetKEGGMapping(prot.U, "prot->U", links, unit_test).ID,
-                .G = pool.GetKEGGMapping(prot.G, "prot->G", links, unit_test).ID,
-                .C = pool.GetKEGGMapping(prot.C, "prot->C", links, unit_test).ID,
-                .D = pool.GetKEGGMapping(prot.D, "prot->D", links, unit_test).ID,
-                .E = pool.GetKEGGMapping(prot.E, "prot->E", links, unit_test).ID,
-                .F = pool.GetKEGGMapping(prot.F, "prot->F", links, unit_test).ID,
-                .H = pool.GetKEGGMapping(prot.H, "prot->H", links, unit_test).ID,
-                .I = pool.GetKEGGMapping(prot.I, "prot->I", links, unit_test).ID,
-                .K = pool.GetKEGGMapping(prot.K, "prot->K", links, unit_test).ID,
-                .L = pool.GetKEGGMapping(prot.L, "prot->L", links, unit_test).ID,
-                .M = pool.GetKEGGMapping(prot.M, "prot->M", links, unit_test).ID,
-                .N = pool.GetKEGGMapping(prot.N, "prot->N", links, unit_test).ID,
-                .O = pool.GetKEGGMapping(prot.O, "prot->O", links, unit_test).ID,
-                .P = pool.GetKEGGMapping(prot.P, "prot->P", links, unit_test).ID,
-                .Q = pool.GetKEGGMapping(prot.Q, "prot->Q", links, unit_test).ID,
-                .R = pool.GetKEGGMapping(prot.R, "prot->R", links, unit_test).ID,
-                .S = pool.GetKEGGMapping(prot.S, "prot->S", links, unit_test).ID,
-                .T = pool.GetKEGGMapping(prot.T, "prot->T", links, unit_test).ID,
-                .V = pool.GetKEGGMapping(prot.V, "prot->V", links, unit_test).ID,
-                .W = pool.GetKEGGMapping(prot.W, "prot->W", links, unit_test).ID,
-                .Y = pool.GetKEGGMapping(prot.Y, "prot->Y", links, unit_test).ID
+                .A = pool.GetReferMapping(prot.A, "prot->A", links).ID,
+                .U = pool.GetReferMapping(prot.U, "prot->U", links).ID,
+                .G = pool.GetReferMapping(prot.G, "prot->G", links).ID,
+                .C = pool.GetReferMapping(prot.C, "prot->C", links).ID,
+                .D = pool.GetReferMapping(prot.D, "prot->D", links).ID,
+                .E = pool.GetReferMapping(prot.E, "prot->E", links).ID,
+                .F = pool.GetReferMapping(prot.F, "prot->F", links).ID,
+                .H = pool.GetReferMapping(prot.H, "prot->H", links).ID,
+                .I = pool.GetReferMapping(prot.I, "prot->I", links).ID,
+                .K = pool.GetReferMapping(prot.K, "prot->K", links).ID,
+                .L = pool.GetReferMapping(prot.L, "prot->L", links).ID,
+                .M = pool.GetReferMapping(prot.M, "prot->M", links).ID,
+                .N = pool.GetReferMapping(prot.N, "prot->N", links).ID,
+                .O = pool.GetReferMapping(prot.O, "prot->O", links).ID,
+                .P = pool.GetReferMapping(prot.P, "prot->P", links).ID,
+                .Q = pool.GetReferMapping(prot.Q, "prot->Q", links).ID,
+                .R = pool.GetReferMapping(prot.R, "prot->R", links).ID,
+                .S = pool.GetReferMapping(prot.S, "prot->S", links).ID,
+                .T = pool.GetReferMapping(prot.T, "prot->T", links).ID,
+                .V = pool.GetReferMapping(prot.V, "prot->V", links).ID,
+                .W = pool.GetReferMapping(prot.W, "prot->W", links).ID,
+                .Y = pool.GetReferMapping(prot.Y, "prot->Y", links).ID
             },
             .GenericCompounds = New Dictionary(Of String, GeneralCompound)
         }
@@ -224,7 +262,7 @@ Public Module Simulator
             s0 = pool.compounds _
                 .ToDictionary(Function(c) c.ID,
                               Function(c)
-                                  Return c.mass0
+                                  Return 1000.0
                               End Function)
         Else
             Dim min = randMinMax.Min
@@ -244,6 +282,18 @@ Public Module Simulator
         kegg_maps.status = s0
 
         Return kegg_maps
+    End Function
+
+    <ExportAPI("attach_memorydataset")>
+    Public Function attach_memoryDataSet(engine As Engine) As Object
+        engine.AttachBiologicalStorage(New MemoryDataSet)
+        Return engine
+    End Function
+
+    <ExportAPI("run")>
+    Public Function run(engine As Engine) As Object
+        Call engine.Run()
+        Return engine
     End Function
 
     ''' <summary>

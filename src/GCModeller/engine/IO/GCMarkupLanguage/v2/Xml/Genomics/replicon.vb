@@ -58,6 +58,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -66,20 +67,19 @@ Namespace v2
     ''' <summary>
     ''' 复制子
     ''' </summary>
-    Public Class replicon : Implements Enumeration(Of gene)
+    Public Class replicon : Implements Enumeration(Of gene), INamedValue
 
         ''' <summary>
         ''' 当前的这个复制子对象是否是质粒基因组？
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property isPlasmid As Boolean
-        <XmlAttribute> Public Property genomeName As String
+        <XmlAttribute> Public Property genomeName As String Implements INamedValue.Key
 
         ''' <summary>
         ''' the operon is the transcript unit inside the cellular system
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement>
         Public Property operons As TranscriptUnit()
 
         ''' <summary>

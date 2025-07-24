@@ -1,60 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::bc43891e981fdf6261b19d30ec984d93, engine\BootstrapLoader\MetabolismNetworkLoader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 165
-    '    Code Lines: 130 (78.79%)
-    ' Comment Lines: 13 (7.88%)
-    '    - Xml Docs: 53.85%
-    ' 
-    '   Blank Lines: 22 (13.33%)
-    '     File Size: 7.50 KB
+' Summaries:
 
 
-    '     Class MetabolismNetworkLoader
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CreateFlux, fluxByReaction, generalFluxExpansion, GetMassSet, productInhibitionFactor
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 165
+'    Code Lines: 130 (78.79%)
+' Comment Lines: 13 (7.88%)
+'    - Xml Docs: 53.85%
+' 
+'   Blank Lines: 22 (13.33%)
+'     File Size: 7.50 KB
+
+
+'     Class MetabolismNetworkLoader
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CreateFlux, fluxByReaction, generalFluxExpansion, GetMassSet, productInhibitionFactor
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
@@ -69,12 +73,16 @@ Namespace ModelLoader
         Dim infinitySource As Index(Of String)
 
         ReadOnly pull As New List(Of String)
+        ReadOnly default_compartment As [Default](Of String)
+        ReadOnly geneIndex As New Dictionary(Of String, CentralDogma)
 
         Public Sub New(loader As Loader)
             MyBase.New(loader)
 
             ' content of these metabolite will be changed
+            default_compartment = loader.massTable.defaultCompartment
             infinitySource = loader.define.GetInfinitySource
+
             loader.fluxIndex.Add(NameOf(MetabolismNetworkLoader), New List(Of String))
         End Sub
 
@@ -92,13 +100,19 @@ Namespace ModelLoader
                                       .Select(Function(map) map.Item2) _
                                       .ToArray
                               End Function)
-            Dim generals = loader.define.GenericCompounds
+            Dim generals As Dictionary(Of String, GeneralCompound) = loader.define.GenericCompounds
 
             If generals Is Nothing Then
                 generals = New Dictionary(Of String, GeneralCompound)
             End If
 
-            For Each reaction As Reaction In cell.Phenotype.fluxes
+            For Each gene As CentralDogma In cell.Genotype.centralDogmas.SafeQuery
+                geneIndex(gene.geneID) = gene
+            Next
+
+            Call VBDebugger.EchoLine("Initialize of the metabolism network...")
+
+            For Each reaction As Reaction In TqdmWrapper.Wrap(cell.Phenotype.fluxes)
                 If reaction.AllCompounds.Any(AddressOf generals.ContainsKey) Then
                     For Each instance In generalFluxExpansion(reaction, KOfunctions)
                         Yield instance
@@ -109,6 +123,40 @@ Namespace ModelLoader
             Next
         End Function
 
+        Private Function compart_id([set] As IEnumerable(Of CompoundSpecieReference)) As String
+            Dim top_compart = [set].Select(Function(c) c.Compartment) _
+                .GroupBy(Function(c) c) _
+                .OrderByDescending(Function(c) c.Count) _
+                .First
+
+            Return top_compart.Key Or default_compartment
+        End Function
+
+        Private Sub SetParameterLinks(kc As KineticsControls)
+            Call pull.AddRange(kc.parameters)
+        End Sub
+
+        Private Iterator Function SetParameterLinks(params As IEnumerable(Of String), enzymeProteinComplexes As String()) As IEnumerable(Of String)
+            For Each par As String In params
+                If Not par.IsNumeric(, True) Then
+                    ' processing of the protein id mapping?
+                    Dim gene As CentralDogma = geneIndex.TryGetValue(par)
+
+                    If Not gene.polypeptide.StringEmpty(, True) Then
+                        par = enzymeProteinComplexes _
+                            .Where(Function(id) id.StartsWith(gene.polypeptide)) _
+                            .FirstOrDefault
+                    End If
+                End If
+
+                Yield par
+            Next
+        End Function
+
+        Private Sub SetParameterLinks(kc As KineticsOverlapsControls)
+            Call pull.AddRange(kc.parameters)
+        End Sub
+
         Private Function fluxByReaction(reaction As Reaction, KOfunctions As Dictionary(Of String, String())) As Channel
             Dim left As Variable() = MassTable.variables(reaction.equation.Reactants, infinitySource).ToArray
             Dim right As Variable() = MassTable.variables(reaction.equation.Products, infinitySource).ToArray
@@ -116,8 +164,8 @@ Namespace ModelLoader
                 .forward = reaction.bounds(1),
                 .reverse = reaction.bounds(0)
             }
-            Dim productCompart As String = reaction.equation.Products.Select(Function(c) c.Compartment).GroupBy(Function(c) c).OrderByDescending(Function(c) c.Count).First.Key
-            Dim reactantCompart As String = reaction.equation.Reactants.Select(Function(c) c.Compartment).GroupBy(Function(c) c).OrderByDescending(Function(c) c.Count).First.Key
+            Dim productCompart As String = compart_id(reaction.equation.Products)
+            Dim reactantCompart As String = compart_id(reaction.equation.Reactants)
 
             ' KO
             Dim enzymeProteinComplexes As String() = reaction.enzyme _
@@ -152,30 +200,30 @@ Namespace ModelLoader
 
                     forward = New KineticsControls(
                         env:=loader.getKernel,
-                        lambda:=scalar.CompileLambda,
+                        lambda:=scalar.CompileLambda(geneIndex),
                         raw:=scalar.formula,
-                        pars:=scalar.paramVals _
+                        pars:=SetParameterLinks(scalar.paramVals _
                             .SafeQuery _
-                            .Select(Function(a) a.ToString) _
+                            .Select(Function(a) a.ToString), enzymeProteinComplexes) _
                             .ToArray,
                         cellular_id:=reaction.enzyme_compartment
                     )
-                    pull.AddRange(DirectCast(forward, KineticsControls).parameters)
+                    SetParameterLinks(DirectCast(forward, KineticsControls))
                 Else
                     ' multiple kineticis overlaps
                     forward = New KineticsOverlapsControls(
                         From k In reaction.kinetics Select New KineticsControls(
                             env:=loader.getKernel,
-                            lambda:=k.CompileLambda,
+                            lambda:=k.CompileLambda(geneIndex),
                             raw:=k.formula,
-                            pars:=k.paramVals _
+                            pars:=SetParameterLinks(k.paramVals _
                                 .SafeQuery _
-                                .Select(Function(a) a.ToString) _
+                                .Select(Function(a) a.ToString), enzymeProteinComplexes) _
                                 .ToArray,
                             cellular_id:=reaction.enzyme_compartment
                         )
                     )
-                    pull.AddRange(DirectCast(forward, KineticsOverlapsControls).parameters)
+                    SetParameterLinks(DirectCast(forward, KineticsOverlapsControls))
                 End If
             ElseIf Not enzymeProteinComplexes.IsNullOrEmpty Then
                 ' it's enzymatic, but has no kinetics law data
@@ -222,8 +270,11 @@ Namespace ModelLoader
                 .ToArray
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Function GetMassSet() As IEnumerable(Of String)
-            Return pull
+            Return pull _
+                .Distinct _
+                .Where(Function(id) Not id.IsNumeric(, True))
         End Function
     End Class
 End Namespace

@@ -82,17 +82,7 @@ Public Module NetworkViz
                 .Select(Function(enzyme) enzyme.proteinID)
         Else
             With pathways.Indexing
-                Return cell.metabolismStructure _
-                    .maps _
-                    .Select(Function(map) map.pathways) _
-                    .IteratesALL _
-                    .Where(predicate:=Function(pathway)
-                                          Return pathway.ID Like .ByRef
-                                      End Function) _
-                    .Select(Function(pathway) pathway.enzymes) _
-                    .IteratesALL _
-                    .Select(Function(enzyme) enzyme.comment) _
-                    .Distinct
+
             End With
         End If
     End Function
@@ -198,15 +188,18 @@ Public Module NetworkViz
             .regulations _
             .Where(Function(reg)
                        ' 再上面做了所有基因的代谢途径筛选，在这里将剩余的基因的调控关系挑选出来
-                       Return geneNodes.ContainsKey(reg.target)
+                       Return reg.targets.Any(Function(id) geneNodes.ContainsKey(id))
                    End Function) _
-            .Select(Function(reg)
-                        Return New NetworkEdge With {
-                            .fromNode = reg.regulator,
-                            .toNode = reg.target,
-                            .interaction = "transcript_regulation"
-                        }
+            .Select(Iterator Function(reg) As IEnumerable(Of NetworkEdge)
+                        For Each id As String In reg.targets
+                            Yield New NetworkEdge With {
+                                .fromNode = reg.regulator,
+                                .toNode = id,
+                                .interaction = "transcript_regulation"
+                            }
+                        Next
                     End Function) _
+            .IteratesALL _
             .ToArray
 
         ' 生成代谢网络的上下游链接关系

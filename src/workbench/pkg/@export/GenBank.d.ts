@@ -188,6 +188,13 @@ declare namespace GenBank {
      * @param gb -
    */
    function taxon_id(gb: object): any;
+   /**
+    * extract the taxonomy lineage information from the genbank file
+    * 
+    * 
+     * @param gb -
+   */
+   function taxonomy_lineage(gb: object): object;
    module write {
       /**
        * save the modified genbank file

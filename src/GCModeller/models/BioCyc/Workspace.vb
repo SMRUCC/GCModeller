@@ -59,6 +59,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.File.FileSystem.FastaObjects
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -66,7 +67,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 ''' </summary>
 Public Class Workspace : Implements IWorkspace
 
-    ReadOnly dir As String
+    Friend ReadOnly dir As String
 
     Dim m_reactions As Lazy(Of AttrDataCollection(Of reactions))
     Dim m_pathways As Lazy(Of AttrDataCollection(Of pathways))
@@ -75,7 +76,31 @@ Public Class Workspace : Implements IWorkspace
     Dim m_genes As Lazy(Of AttrDataCollection(Of genes))
     Dim m_proteins As Lazy(Of AttrDataCollection(Of proteins))
     Dim m_transunits As Lazy(Of AttrDataCollection(Of transunits))
+    Dim m_protligandcplxes As Lazy(Of AttrDataCollection(Of protligandcplxes))
+    Dim m_rnas As Lazy(Of AttrDataCollection(Of rnas))
+    Dim m_regulation As Lazy(Of AttrDataCollection(Of regulation))
+
     Dim m_species As species
+
+    Dim m_fasta As Lazy(Of FastaCollection)
+
+    Public ReadOnly Property regulation As AttrDataCollection(Of regulation)
+        Get
+            Return m_regulation.Value
+        End Get
+    End Property
+
+    Public ReadOnly Property rnas As AttrDataCollection(Of rnas)
+        Get
+            Return m_rnas.Value
+        End Get
+    End Property
+
+    Public ReadOnly Property protligandcplxes As AttrDataCollection(Of protligandcplxes)
+        Get
+            Return m_protligandcplxes.Value
+        End Get
+    End Property
 
     Public ReadOnly Property transunits As AttrDataCollection(Of transunits)
         Get
@@ -129,6 +154,12 @@ Public Class Workspace : Implements IWorkspace
         End Get
     End Property
 
+    Public ReadOnly Property fastaSeq As FastaCollection
+        Get
+            Return m_fasta.Value
+        End Get
+    End Property
+
     Private ReadOnly Property IWorkspace_Workspace As String Implements IWorkspace.Workspace
         Get
             Return dir
@@ -152,8 +183,14 @@ Public Class Workspace : Implements IWorkspace
         m_genes = New Lazy(Of AttrDataCollection(Of genes))(Function() openFile(Of genes)())
         m_proteins = New Lazy(Of AttrDataCollection(Of proteins))(Function() openFile(Of proteins)())
         m_transunits = New Lazy(Of AttrDataCollection(Of transunits))(Function() openFile(Of transunits)())
+        m_protligandcplxes = New Lazy(Of AttrDataCollection(Of protligandcplxes))(Function() openFile(Of protligandcplxes)())
+        m_rnas = New Lazy(Of AttrDataCollection(Of rnas))(Function() openFile(Of rnas)())
+        m_regulation = New Lazy(Of AttrDataCollection(Of regulation))(Function() openFile(Of regulation)())
+
         ' scalar data object
         m_species = openFile(Of species).features.FirstOrDefault
+
+        m_fasta = New Lazy(Of FastaCollection)(Function() New FastaCollection(Me))
 
         If m_species Is Nothing Then
             Call "missing the organism taxonomy species information file in current model!".Warning

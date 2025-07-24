@@ -129,16 +129,7 @@ Public Module PathwayCompiler
 
                             Return New Pathway With {
                                 .ID = map.EntryId,
-                                .name = map.name,
-                                .enzymes = map.genes _
-                                    .Select(Function(gene)
-                                                Return New [Property] With {
-                                                    .name = gene.geneName,
-                                                    .comment = gene.description,
-                                                    .value = gene.description
-                                                }
-                                            End Function) _
-                                    .ToArray
+                                .name = map.name
                             }
                         End Function) _
                 .ToArray

@@ -67,22 +67,8 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Implements IReadOnlyId
 
         Public ReadOnly Property UniqueId As String Implements IReadOnlyId.Identity
-            Get
-                Return Headers.Last.Split.First
-            End Get
-        End Property
-
         Public ReadOnly Property AccessionId As String
-            Get
-                Return Headers.Last.Split()(1)
-            End Get
-        End Property
-
         Public ReadOnly Property ProductUniqueId As String
-            Get
-                Return Headers.Last.Split()(2).Replace("""", "")
-            End Get
-        End Property
 
         '>gnl|ECOLI|EG10570 map "EG10570-MONOMER" (complement(189506..188712)) Escherichia coli K-12 substr. MG1655
         '>gnl|ECOLI|EG11769 ybbC "EG11769-MONOMER" 526805..527173 Escherichia coli K-12 substr. MG1655
@@ -132,15 +118,24 @@ Namespace Assembly.MetaCyc.File.FileSystem.FastaObjects
         Sub New(fa As FastaSeq)
             Headers = fa.Headers
             SequenceData = fa.SequenceData
+
+            Call TryParse(Headers(2), UniqueId, AccessionId, ProductUniqueId)
         End Sub
 
-        Public Overloads Shared Sub Save(Data As GeneObject(), FilePath As String)
-            Dim FsaFile As FastaFile = New FastaFile With {
-                .FilePath = FilePath,
-                ._innerList = New List(Of FastaSeq)
+        Private Overloads Shared Sub TryParse(title As String, ByRef uniqueId As String, ByRef name As String, ByRef protId As String)
+            Dim tokens As String() = title.Split
+
+            uniqueId = tokens(0)
+            name = tokens(1)
+            protId = tokens(2)
+        End Sub
+
+        Public Overloads Shared Sub Save(data As GeneObject(), filePath As String)
+            Dim fsa As New FastaFile With {
+                .FilePath = filePath
             }
-            Call FsaFile._innerList.AddRange(Data)
-            Call FsaFile.Save(FilePath, Encoding.UTF8)
+            Call fsa.AddRange(data)
+            Call fsa.Save(filePath, Encoding.UTF8)
         End Sub
     End Class
 End Namespace

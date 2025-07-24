@@ -85,6 +85,8 @@ Namespace v2
         ''' </remarks>
         Public Property regulations As transcription()
 
+        Public Property proteins As protein()
+
         Public Iterator Function GetAllGeneLocusTags(Optional skipPlasmids As Boolean = False) As IEnumerable(Of String)
             Dim source As IEnumerable(Of replicon)
 
@@ -107,13 +109,28 @@ Namespace v2
     ''' </summary>
     Public Class RNA
 
+        <XmlAttribute> Public Property id As String
+
         ''' <summary>
-        ''' <see cref="v2.gene.locus_tag"/>
+        ''' the trranscription source template gene <see cref="v2.gene.locus_tag"/>
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property gene As String
+        ''' <summary>
+        ''' the rna type
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property type As RNATypes
+        ''' <summary>
+        ''' usually be the:
+        ''' 
+        ''' 1. amino acid code for tRNA
+        ''' 2. 16s,5s,23s for rRNA
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property val As String
+
+        Public Property note As String
 
         Sub New()
         End Sub
