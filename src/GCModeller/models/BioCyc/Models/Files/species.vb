@@ -91,7 +91,9 @@ Public Class species : Inherits Model
     ''' <summary>
     ''' uint ncbi taxonomy id
     ''' </summary>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' the ncbi taxonomy id of the species in integer format, example as 9606
+    ''' </returns>
     <AttributeField("NCBI-TAXONOMY-ID")> <XmlAttribute> Public Property NCBITaxonomyId As String
     <AttributeField("PGDB-HOME-PAGE")> Public Property PGDBHomePage As String
 
