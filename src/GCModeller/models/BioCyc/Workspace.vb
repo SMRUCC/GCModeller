@@ -197,6 +197,10 @@ Public Class Workspace : Implements IWorkspace
         End If
     End Sub
 
+    Public Function checkValid() As Boolean
+
+    End Function
+
     Private Function openFile(Of T As Model)() As AttrDataCollection(Of T)
         Dim fileName As String = getFileName(Of T)()
         Dim fullName As String = $"{dir}/{fileName}".GetFullPath
