@@ -198,7 +198,7 @@ Public Class Workspace : Implements IWorkspace
     End Sub
 
     Public Function checkValid() As Boolean
-
+        Return {"species.dat", "compounds.dat", "reactions.dat", "proteins.dat"}.All(Function(name) $"{dir}/{name}".FileExists(True))
     End Function
 
     Private Function openFile(Of T As Model)() As AttrDataCollection(Of T)
