@@ -74,8 +74,8 @@ Module Program
         Dim model As VirtualCell = builder.Compile($"compile --log Z:/run.log")
 
         Call builder.Dispose()
-        Call model.GetXml.SaveTo("Z:/ecoli.xml")
-        Call ZipAssembly.WriteZip(model, "Z:/ecoli.zip")
+        Call model.GetXml.SaveTo("F:\ecoli\ecoli.xml")
+        Call ZipAssembly.WriteZip(model, "F:\ecoli\ecoli.zip")
 
         Pause()
     End Sub
