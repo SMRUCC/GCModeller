@@ -73,6 +73,14 @@ Namespace Cellular.Molecule
         ''' <returns></returns>
         Public Property ProteinID As String
 
+        Public ReadOnly Property isAutoConstructed As Boolean
+            Get
+                Return polypeptides.TryCount = 1 AndAlso
+                    compounds.IsNullOrEmpty AndAlso
+                    polypeptides.First = ProteinID
+            End Get
+        End Property
+
         ''' <summary>
         ''' 这个蛋白质是由一条多肽链所构成的
         ''' </summary>
@@ -82,7 +90,7 @@ Namespace Cellular.Molecule
         End Sub
 
         Public Overrides Function ToString() As String
-            Return ProteinID
+            Return If(isAutoConstructed, "[auto-construct] ", "") & ProteinID
         End Function
 
     End Structure
