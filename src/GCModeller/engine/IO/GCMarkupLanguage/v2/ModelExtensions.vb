@@ -247,6 +247,11 @@ Namespace v2
                         .ToArray
                 End If
             Else
+                Dim peptideChains As Index(Of String) = model.genome.proteins _
+                    .SelectMany(Function(p) p.peptide_chains) _
+                    .Distinct _
+                    .Indexing
+
                 proteins = model.genome.proteins _
                     .Select(Function(p)
                                 Return New Molecule.Protein With {
@@ -256,6 +261,25 @@ Namespace v2
                                 }
                             End Function) _
                     .ToArray
+
+                If hasGenotype Then
+                    proteins = model.genome.replicons _
+                        .Select(Function(genome)
+                                    Return genome.GetGeneList
+                                End Function) _
+                        .IteratesALL _
+                        .Where(Function(gene) Not gene.amino_acid Is Nothing) _
+                        .Where(Function(gene) Not gene.protein_id Like peptideChains) _
+                        .Select(Function(orf)
+                                    Return New Molecule.Protein With {
+                                        .compounds = {},
+                                        .polypeptides = {orf.protein_id},
+                                        .ProteinID = orf.protein_id
+                                    }
+                                End Function) _
+                        .JoinIterates(proteins) _
+                        .ToArray
+                End If
             End If
 
             Return New Phenotype With {
