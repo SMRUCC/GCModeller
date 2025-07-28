@@ -100,7 +100,11 @@ Namespace ModelLoader
             ' some gene translate the protein with identicial protein sequence data
             ' so reference to the identical protein model
             For Each complex As Protein In cell.Phenotype.proteins
-                complexID = massTable.addNew(complex.ProteinID & ".complex", MassRoles.protein, cell.CellularEnvironmentName)
+                If complex.isAutoConstructed Then
+                    complexID = massTable.addNew(complex.ProteinID & ".complex", MassRoles.protein, cell.CellularEnvironmentName)
+                Else
+                    complexID = massTable.addNew(complex.ProteinID, MassRoles.protein, cell.CellularEnvironmentName)
+                End If
 
                 If proteinComplex.ContainsKey(complex.ProteinID) Then
                     Dim warn As String = $"duplicated protein id: '{complex.ProteinID}' was found."
