@@ -229,18 +229,30 @@ Namespace v2
                 .ToArray
             Dim proteins As Molecule.Protein() = {}
 
-            If hasGenotype Then
-                proteins = model.genome.replicons _
-                    .Select(Function(genome)
-                                Return genome.GetGeneList
-                            End Function) _
-                    .IteratesALL _
-                    .Where(Function(gene) Not gene.amino_acid Is Nothing) _
-                    .Select(Function(orf)
+            If model.genome.proteins.IsNullOrEmpty Then
+                If hasGenotype Then
+                    proteins = model.genome.replicons _
+                        .Select(Function(genome)
+                                    Return genome.GetGeneList
+                                End Function) _
+                        .IteratesALL _
+                        .Where(Function(gene) Not gene.amino_acid Is Nothing) _
+                        .Select(Function(orf)
+                                    Return New Molecule.Protein With {
+                                        .compounds = {},
+                                        .polypeptides = {orf.protein_id},
+                                        .ProteinID = orf.protein_id
+                                    }
+                                End Function) _
+                        .ToArray
+                End If
+            Else
+                proteins = model.genome.proteins _
+                    .Select(Function(p)
                                 Return New Molecule.Protein With {
-                                    .compounds = {},
-                                    .polypeptides = {orf.protein_id},
-                                    .ProteinID = orf.protein_id
+                                    .compounds = p.ligand,
+                                    .polypeptides = p.peptide_chains,
+                                    .ProteinID = p.protein_id
                                 }
                             End Function) _
                     .ToArray
