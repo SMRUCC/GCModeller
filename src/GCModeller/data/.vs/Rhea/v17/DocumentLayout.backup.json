@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0E92D570-A66F-4AA2-BAF3-169B9BCC8B73}|Rhea\\test\\test.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\test\\test.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{0E92D570-A66F-4AA2-BAF3-169B9BCC8B73}|Rhea\\test\\test.vbproj|solutionrelative:rhea\\test\\test.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0E92D570-A66F-4AA2-BAF3-169B9BCC8B73}|Rhea\\test\\test.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\rhea\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{0E92D570-A66F-4AA2-BAF3-169B9BCC8B73}|Rhea\\test\\test.vbproj|solutionrelative:rhea\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -59,32 +63,44 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "test",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\test\\test.vbproj",
+              "RelativeDocumentMoniker": "Rhea\\test\\test.vbproj",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\test\\test.vbproj",
+              "RelativeToolTip": "Rhea\\test\\test.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-07-29T02:47:04.754Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Program.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\test\\Program.vb",
               "RelativeDocumentMoniker": "Rhea\\test\\Program.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\test\\Program.vb",
               "RelativeToolTip": "Rhea\\test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-07-29T02:42:41.91Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "RheaRDF.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
               "RelativeDocumentMoniker": "Rhea\\RDF\\RheaRDF.vb",
               "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaRDF.vb",
               "RelativeToolTip": "Rhea\\RDF\\RheaRDF.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFIAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-07-29T02:31:36.541Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "RheaDescription.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\RDF\\RheaDescription.vb",
               "RelativeDocumentMoniker": "Rhea\\RDF\\RheaDescription.vb",
@@ -97,7 +113,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "TextParser.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\TextParser.vb",
               "RelativeDocumentMoniker": "Rhea\\TextParser.vb",
@@ -110,7 +126,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "SideCompound.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\SideCompound.vb",
               "RelativeDocumentMoniker": "Rhea\\SideCompound.vb",
@@ -123,7 +139,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "ReactionList.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\ReactionList.vb",
               "RelativeDocumentMoniker": "Rhea\\ReactionList.vb",
@@ -136,7 +152,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Reaction.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Reaction.vb",
               "RelativeDocumentMoniker": "Rhea\\Reaction.vb",
@@ -149,7 +165,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Compound.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\Rhea\\Compound.vb",
               "RelativeDocumentMoniker": "Rhea\\Compound.vb",
