@@ -85,7 +85,7 @@ Namespace ModelLoader
             Dim cellular_id As String = cell.CellularEnvironmentName
 
             For Each complex As Protein In cell.Phenotype.proteins
-                For Each compound In complex.compounds
+                For Each compound In complex.compounds.SafeQuery
                     If Not MassTable.Exists(compound, cellular_id) Then
                         Call MassTable.addNew(compound, MassRoles.compound, cellular_id)
                     End If
