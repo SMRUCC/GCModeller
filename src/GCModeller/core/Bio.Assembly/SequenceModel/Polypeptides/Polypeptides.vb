@@ -60,9 +60,9 @@ Imports System.Runtime.CompilerServices
 Namespace SequenceModel.Polypeptides
 
     ''' <summary>
-    ''' Protein polypeptide sequence.(蛋白质多肽链的一些相关操作)
+    ''' Protein polypeptide sequence.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(蛋白质多肽链的一些相关操作)</remarks>
     Public Module Polypeptide
 
         ''' <summary>
@@ -239,22 +239,25 @@ Namespace SequenceModel.Polypeptides
             {"Val", "V"},
             {"Sec", "U"}, {"Pyl", "O"},
                                        _
-            {"alaT", "A"}, {"alaX", "A"}, {"alaW", "A"},
-            {"arg", "R"},
+            {"alaT", "A"}, {"alaX", "A"}, {"alaW", "A"}, {"alaU", "A"},
+            {"argU", "R"},
             {"aspV", "D"}, {"aspT", "D"},
             {"asnU", "N"}, {"asnV", "N"},
             {"cys", "C"},
             {"glnX", "Q"}, {"glnV", "Q"}, {"glnW", "Q"}, {"glnU", "Q"},
-            {"glu", "E"}, {"gltT", "E"}, {"gltW", "E"}, {"gltU", "E"}, {"gltV", "E"},
-            {"glyU", "G"}, {"glyV", "G"}, {"glyX", "G"}, {"glyY", "G"},
+            {"glu", "E"},
+            {"gltT", "E"}, {"gltW", "E"}, {"gltU", "E"}, {"gltV", "E"},
+            {"glyU", "G"}, {"glyV", "G"}, {"glyX", "G"}, {"glyY", "G"}, {"glyT", "G"},
             {"his", "H"},
-            {"ileT", "I"},
+            {"ileT", "I"}, {"ileU", "I"},
             {"leuV", "L"}, {"leuP", "L"}, {"leuQ", "L"}, {"leuW", "L"}, {"leuX", "L"}, {"leuU", "L"},
             {"lysV", "K"}, {"lysT", "K"}, {"lysW", "K"},
-            {"metY", "M"}, {"metU", "M"}, {"metT", "M"},
+            {"metY", "M"}, {"metU", "M"}, {"metT", "M"}, {"metZ", "M"}, {"metW", "M"},
             {"pheV", "F"}, {"proK", "P"},
             {"serW", "S"}, {"serU", "S"},
-            {"thr", "T"}, {"trp", "W"}, {"tyrV", "Y"},
+            {"thrV", "T"}, {"thrU", "T"},
+            {"trp", "W"},
+            {"tyrV", "Y"}, {"tyrU", "Y"},
             {"valU", "V"}, {"valX", "V"}, {"valY", "V"}, {"valT", "V"}, {"valV", "V"}, {"valW", "V"},
             {"sec", "U"}, {"selC", "U"},
             {"pyl", "O"},
