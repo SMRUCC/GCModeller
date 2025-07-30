@@ -155,12 +155,12 @@ Namespace MarkupCompiler.BioCyc
 
                 Yield New gene With {
                     .locus_tag = data.uniqueId,
-                    .product = data.product,
+                    .product = If(prot?.uniqueId, data.product.JoinBy(" / ")),
                     .left = data.left,
                     .right = data.right,
                     .strand = data.direction.ToString,
                     .type = rna_type,
-                    .protein_id = prot?.uniqueId,
+                    .protein_id = data.product,
                     .amino_acid = prot_vec,
                     .nucleotide_base = nucl_vec
                 }

@@ -77,7 +77,8 @@ Namespace v2
         ''' the corresponding ORF protein id, this will link to the metabolisom model
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property protein_id As String
+        <XmlAttribute> Public Property protein_id As String()
+
         ''' <summary>
         ''' the protein function description
         ''' </summary>

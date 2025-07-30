@@ -100,7 +100,7 @@ Namespace MarkupCompiler
         End Function
 
         Public Iterator Function getGenes(genome As GBFF.File) As IEnumerable(Of gene)
-            Dim model As CellularModule ' = compiler.model
+            Dim model As CellularModule = Nothing ' compiler.model
             Dim proteinSequnce As Dictionary(Of String, ProteinComposition) = getProtVector(genome)
             Dim genes = genome.Features _
                 .Where(Function(feature)
@@ -151,7 +151,7 @@ Namespace MarkupCompiler
                     .right = gene.Location.right,
                     .locus_tag = locus_tag,
                     .product = gene.Product,
-                    .protein_id = If(aa Is Nothing, "", proteinId(locus_tag).polypeptide),
+                    .protein_id = If(aa Is Nothing, {}, {proteinId(locus_tag).polypeptide}),
                     .strand = gene.Location.Strand.Description,
                     .amino_acid = aa,
                     .nucleotide_base = rna
