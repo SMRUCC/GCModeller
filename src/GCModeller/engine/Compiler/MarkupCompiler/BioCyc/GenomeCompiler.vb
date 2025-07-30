@@ -77,7 +77,10 @@ Namespace MarkupCompiler.BioCyc
                         type = RNATypes.ribosomalRNA
                         value = rna_mol.types(0).Split("-"c).First.ToLower
                     Case Else
-                        If rna_mol.types.Any(Function(t) t.EndsWith("-tRNAs")) OrElse rna_mol.types.Any(Function(t) t = "Initiation-tRNAmet") Then
+                        If rna_mol.types.Any(Function(t) t.EndsWith("-tRNAs")) OrElse
+                            rna_mol.types.Any(Function(t) t = "Initiation-tRNAmet") OrElse
+                            rna_mol.types.Any(Function(t) t.StartsWith("tRNA-")) Then
+
                             If rna_mol.types.Any(Function(t) t.StartsWith("Charged")) Then
                                 type = RNATypes.chargedtRNA
                             Else
