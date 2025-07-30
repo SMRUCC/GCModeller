@@ -200,18 +200,20 @@ Namespace v2
                             End If
                         End If
 
-                        For Each pid As String In proteinId
-                            Yield New CentralDogma With {
-                                .replicon = genomeName,
-                                .geneID = gene.locus_tag,
-                                .polypeptide = pid,
-                                .orthology = enzymes.TryGetValue(.geneID)?.KO,
-                                .RNA = RNA,
-                                .transcript = gene.nucleotide_base?.name,
-                                .translation = gene.amino_acid?.name,
-                                .transcript_unit = operon.id
-                            }
-                        Next
+                        If Not proteinId Is Nothing Then
+                            For Each pid As String In proteinId
+                                Yield New CentralDogma With {
+                                    .replicon = genomeName,
+                                    .geneID = gene.locus_tag,
+                                    .polypeptide = pid,
+                                    .orthology = enzymes.TryGetValue(.geneID)?.KO,
+                                    .RNA = RNA,
+                                    .transcript = gene.nucleotide_base?.name,
+                                    .translation = gene.amino_acid?.name,
+                                    .transcript_unit = operon.id
+                                }
+                            Next
+                        End If
                     Next
                 Next
             Next
