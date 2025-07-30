@@ -90,6 +90,8 @@ Namespace MarkupCompiler.BioCyc
                             value = rna_mol.types(0) _
                                 .Replace("-tRNAs", "") _
                                 .Replace("Charged", "") _
+                                .Replace("tRNA-", "") _
+                                .Replace("Initiation-tRNA", "") _
                                 .ToLower _
                                 .Trim("-"c)
 
