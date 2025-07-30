@@ -76,8 +76,17 @@ Public Class genes : Inherits Model
     Public Property accession2 As String
     <AttributeField("DBLINKS")>
     Public Property db_xrefs As String()
+
+    ''' <summary>
+    ''' one gene could be translates to multiple products by modification or translation regulation,
+    ''' so this property is a string array.
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' 一个基因可以翻译成多个产物，所以这个属性是一个字符串数组。
+    ''' </remarks>
     <AttributeField("PRODUCT")>
-    Public Property product As String
+    Public Property product As String()
 
     Public ReadOnly Property db_links As DBLink()
         Get
