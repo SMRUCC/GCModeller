@@ -248,7 +248,9 @@ Namespace v2
                 End If
             Else
                 Dim peptideChains As Index(Of String) = model.genome.proteins _
-                    .SelectMany(Function(p) p.peptide_chains) _
+                    .Select(Function(p) p.peptide_chains) _
+                    .IteratesALL _
+                    .Where(Function(id) Not id.StringEmpty(, True)) _
                     .Distinct _
                     .Indexing
 
