@@ -65,7 +65,16 @@ Namespace MarkupCompiler.BioCyc
                         .peptide_chains = {prot.uniqueId}
                     }
                 Else
-                    Throw New InvalidDataContractException($"Unsure how to processing the protein data: {prot.ToString}")
+                    ' this protein object is broken
+                    ' unsure its source 
+                    Call VBDebugger.Warning($"Unsure how to processing the protein data: {prot.ToString}")
+
+                    Yield New protein With {
+                        .protein_id = prot.uniqueId,
+                        .name = prot.commonName,
+                        .note = prot.comment,
+                        .peptide_chains = {prot.uniqueId}
+                    }
                 End If
             Next
         End Function
