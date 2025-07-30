@@ -1,5 +1,4 @@
-﻿Imports System.Runtime.Serialization
-Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
@@ -18,12 +17,25 @@ Namespace MarkupCompiler.BioCyc
                 .Indexing
         End Sub
 
+        Private Iterator Function proteinFeatures() As IEnumerable(Of String)
+            For Each gene As genes In biocyc.genes.features
+                For Each gene_id As String In gene.product.SafeQuery
+                    Yield gene_id
+                Next
+            Next
+
+            For Each prot As proteins In biocyc.proteins.features
+                Yield prot.uniqueId
+            Next
+
+            For Each cplx As protligandcplxes In biocyc.protligandcplxes.features
+                Yield cplx.uniqueId
+            Next
+        End Function
+
         Public Iterator Function CreateProteins() As IEnumerable(Of protein)
             Dim pid As New Index(Of String)
-            Dim translates As Index(Of String) = biocyc.genes.features _
-                .Select(Function(gene) gene.product) _
-                .IteratesALL _
-                .Indexing
+            Dim translates As Index(Of String) = proteinFeatures.Distinct.Indexing
 
             For Each cplx As protligandcplxes In biocyc.protligandcplxes.features
                 Yield New protein With {
