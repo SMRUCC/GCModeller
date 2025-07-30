@@ -77,7 +77,7 @@ Namespace MarkupCompiler.BioCyc
                         type = RNATypes.ribosomalRNA
                         value = rna_mol.types(0).Split("-"c).First.ToLower
                     Case Else
-                        If rna_mol.types.Any(Function(t) t.EndsWith("-tRNAs")) Then
+                        If rna_mol.types.Any(Function(t) t.EndsWith("-tRNAs")) OrElse rna_mol.types.Any(Function(t) t = "Initiation-tRNAmet") Then
                             If rna_mol.types.Any(Function(t) t.StartsWith("Charged")) Then
                                 type = RNATypes.chargedtRNA
                             Else
@@ -155,12 +155,12 @@ Namespace MarkupCompiler.BioCyc
 
                 Yield New gene With {
                     .locus_tag = data.uniqueId,
-                    .product = If(prot?.uniqueId, data.product.JoinBy(" / ")),
+                    .product = If(prot Is Nothing, data.product, {prot.uniqueId}),
                     .left = data.left,
                     .right = data.right,
                     .strand = data.direction.ToString,
                     .type = rna_type,
-                    .protein_id = data.product,
+                    .protein_id = If(rna_type = RNATypes.mRNA, data.product, Nothing),
                     .amino_acid = prot_vec,
                     .nucleotide_base = nucl_vec
                 }

@@ -143,6 +143,7 @@ Namespace v2
                 genomeName = replicon.genomeName
 
                 If replicon.RNAs.IsNullOrEmpty AndAlso unitTest Then
+                    ' add tRNA model for unit test
                     replicon.RNAs = Polypeptide.Abbreviate.Keys _
                         .Select(Function(name)
                                     Return New v2.RNA($"tRNA-{name}", RNATypes.tRNA, $"tRNA-{name}")

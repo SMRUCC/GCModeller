@@ -84,7 +84,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlElement>
-        Public Property product As String
+        Public Property product As String()
 
         <XmlAttribute> Public Property left As Integer
         <XmlAttribute> Public Property right As Integer
@@ -123,7 +123,7 @@ Namespace v2
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"({locus_tag}) " & product
+            Return $"({locus_tag}) " & product.JoinBy(" / ")
         End Function
 
     End Class
