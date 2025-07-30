@@ -191,9 +191,9 @@ Namespace ModelLoader
 
                     Call warn.Warning
                     Call VBDebugger.EchoLine("[warn] " & warn)
-                Else
-                    Call index.Add(group.Key, group.First)
                 End If
+
+                Call index.Add(group.Key, group.First)
             Next
 
             Return index
@@ -209,9 +209,9 @@ Namespace ModelLoader
 
                     Call warn.Warning
                     Call VBDebugger.EchoLine("[warn] " & warn)
-                Else
-                    Call index.Add(group.Key, group.First)
                 End If
+
+                Call index.Add(group.Key, group.First)
             Next
 
             Return index
