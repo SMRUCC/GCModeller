@@ -114,6 +114,10 @@ Namespace ModelLoader
 
             If aaIndex.ContainsKey(AAKey) Then
                 AA = aaIndex(AAKey)
+                ' 20250731 patched for the biocyc met-tRNA object
+            ElseIf AAKey = "initiation-trnamet" Then
+                AAKey = "Met"
+                AA = aaIndex(AAKey)
             Else
                 Throw New MissingPrimaryKeyException($"missing the amino acid mapping of '{AAKey}'!")
             End If
