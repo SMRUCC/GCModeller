@@ -201,6 +201,7 @@ Namespace v2
                         End If
 
                         If Not proteinId Is Nothing Then
+                            ' mRNA
                             For Each pid As String In proteinId
                                 Yield New CentralDogma With {
                                     .replicon = genomeName,
@@ -213,6 +214,18 @@ Namespace v2
                                     .transcript_unit = operon.id
                                 }
                             Next
+                        Else
+                            ' component RNA
+                            Yield New CentralDogma With {
+                                .replicon = genomeName,
+                                .geneID = gene.locus_tag,
+                                .polypeptide = Nothing,
+                                .orthology = enzymes.TryGetValue(.geneID)?.KO,
+                                .RNA = RNA,
+                                .transcript = gene.nucleotide_base?.name,
+                                .translation = gene.amino_acid?.name,
+                                .transcript_unit = operon.id
+                            }
                         End If
                     Next
                 Next
