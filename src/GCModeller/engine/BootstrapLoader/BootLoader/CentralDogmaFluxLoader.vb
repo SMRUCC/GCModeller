@@ -274,10 +274,19 @@ Namespace ModelLoader
 
                         Call warn.Warning
                         Call VBDebugger.EchoLine("[warn] " & warn)
+
+                        ' the translated polypeptide is a protein
                     ElseIf proteinComplex.ContainsKey(cd.polypeptide) Then
                         Call proteinList.Add(cd.geneID, proteinComplex(cd.polypeptide))
                     Else
-                        Throw New MissingPrimaryKeyException($"missing protein link for polypeptide: {cd.polypeptide}, source gene id: {cd.geneID}")
+                        ' the translated polypeptide is one of the components of a protein complex
+                        If loader.massLoader.peptideToProteinComplex.ContainsKey(cd.polypeptide) Then
+                            ' has already been used as one of the components of a protein complex
+                            ' skip this peptide
+                            ' do nothing
+                        Else
+                            Throw New MissingPrimaryKeyException($"missing protein link for polypeptide: {cd.polypeptide}, source gene id: {cd.geneID}")
+                        End If
                     End If
 
                     Call MassTable.addNew(cd.RNAName, MassRoles.mRNA, cellular_id)

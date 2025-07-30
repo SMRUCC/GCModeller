@@ -72,6 +72,7 @@ Namespace ModelLoader
         ''' link mapping from protein to protein complex
         ''' </summary>
         Public ReadOnly proteinComplex As New Dictionary(Of String, String)
+        Public ReadOnly peptideToProteinComplex As New Dictionary(Of String, String())
 
         Sub New(loader As Loader)
             massTable = loader.massTable
@@ -95,6 +96,7 @@ Namespace ModelLoader
             Next
 
             Dim complexID As String
+            Dim peptideMaps As New Dictionary(Of String, List(Of String))
 
             ' 20241113 protein id maybe duplicated, due to the reason of
             ' some gene translate the protein with identicial protein sequence data
@@ -105,6 +107,14 @@ Namespace ModelLoader
                 Else
                     complexID = massTable.addNew(complex.ProteinID, MassRoles.protein, cell.CellularEnvironmentName)
                 End If
+
+                For Each id As String In complex.polypeptides
+                    If Not peptideMaps.ContainsKey(id) Then
+                        peptideMaps.Add(id, New List(Of String))
+                    End If
+
+                    Call peptideMaps(id).Add(complexID)
+                Next
 
                 If proteinComplex.ContainsKey(complex.ProteinID) Then
                     Dim warn As String = $"duplicated protein id: '{complex.ProteinID}' was found."
@@ -123,6 +133,10 @@ Namespace ModelLoader
                     Call proteinComplex.Add(map.Key, map.Value)
                 Next
             End With
+
+            For Each link In peptideMaps
+                peptideToProteinComplex(link.Key) = link.Value.ToArray
+            Next
         End Sub
 
     End Class
