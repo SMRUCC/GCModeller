@@ -220,10 +220,10 @@ Namespace v2
                                 .replicon = genomeName,
                                 .geneID = gene.locus_tag,
                                 .polypeptide = Nothing,
-                                .orthology = enzymes.TryGetValue(.geneID)?.KO,
+                                .orthology = Nothing,
                                 .RNA = RNA,
                                 .transcript = gene.nucleotide_base?.name,
-                                .translation = gene.amino_acid?.name,
+                                .translation = Nothing,
                                 .transcript_unit = operon.id
                             }
                         End If
