@@ -274,8 +274,10 @@ Namespace ModelLoader
 
                         Call warn.Warning
                         Call VBDebugger.EchoLine("[warn] " & warn)
-                    Else
+                    ElseIf proteinComplex.ContainsKey(cd.polypeptide) Then
                         Call proteinList.Add(cd.geneID, proteinComplex(cd.polypeptide))
+                    Else
+                        Throw New MissingPrimaryKeyException($"missing protein link for polypeptide: {cd.polypeptide}, source gene id: {cd.geneID}")
                     End If
 
                     Call MassTable.addNew(cd.RNAName, MassRoles.mRNA, cellular_id)

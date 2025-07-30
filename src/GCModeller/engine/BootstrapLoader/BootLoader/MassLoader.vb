@@ -115,6 +115,14 @@ Namespace ModelLoader
                     Call proteinComplex.Add(complex.ProteinID, complexID)
                 End If
             Next
+
+            With proteinComplex.OrderBy(Function(a) a.Key).ToArray
+                Call proteinComplex.Clear()
+
+                For Each map In .AsEnumerable
+                    Call proteinComplex.Add(map.Key, map.Value)
+                Next
+            End With
         End Sub
 
     End Class
