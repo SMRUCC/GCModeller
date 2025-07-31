@@ -209,7 +209,7 @@ Namespace ModelLoader
                             .SafeQuery _
                             .Select(Function(a) a.ToString), enzymeProteinComplexes) _
                             .ToArray,
-                        cellular_id:=reaction.enzyme_compartment
+                        cellular_id:=reaction.enzyme_compartment Or default_compartment
                     )
                     SetParameterLinks(DirectCast(forward, KineticsControls))
                 Else
@@ -223,7 +223,7 @@ Namespace ModelLoader
                                 .SafeQuery _
                                 .Select(Function(a) a.ToString), enzymeProteinComplexes) _
                                 .ToArray,
-                            cellular_id:=reaction.enzyme_compartment
+                            cellular_id:=reaction.enzyme_compartment Or default_compartment
                         )
                     )
                     SetParameterLinks(DirectCast(forward, KineticsOverlapsControls))

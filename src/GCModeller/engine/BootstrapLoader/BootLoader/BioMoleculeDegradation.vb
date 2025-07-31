@@ -260,6 +260,10 @@ Namespace ModelLoader
 
             ' rna -> nt base
             For Each gene As CentralDogma In cell.Genotype.centralDogmas
+                If Not rnaMatrix.ContainsKey(gene.geneID) Then
+                    Continue For
+                End If
+
                 composition = rnaMatrix(gene.geneID)
                 ntBase = composition _
                     .Where(Function(i) i.Value > 0) _
