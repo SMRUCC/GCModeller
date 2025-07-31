@@ -116,10 +116,10 @@ Namespace ModelLoader
             For Each complex As Channel In proteinMatures
                 proteinComplex = complex.right _
                     .First(Function(c)
-                               Return MassTable.getSource(c.mass.ID).source_id.EndsWith(".complex")
+                               Return MassTable.getSource(c.mass.ID).source_id ' .EndsWith(".complex")
                            End Function)
                 proteinComplexId = MassTable.getSource(proteinComplex.mass.ID).source_id
-                peptideId = proteinComplexId.Replace(".complex", "")
+                peptideId = proteinComplexId ' .Replace(".complex", "")
                 geneIDSet = geneIDindex(peptideId)
 
                 For Each geneId As String In geneIDSet

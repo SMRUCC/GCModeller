@@ -184,7 +184,10 @@ Namespace ModelLoader
                 .ToArray
             ' mature protein complex
             enzymeProteinComplexes = enzymeProteinComplexes _
-                .Select(Function(id) id & ".complex") _
+                .Select(Function(id)
+                            Return id
+                            ' Return id & ".complex"
+                        End Function) _
                 .ToArray
 
             Dim forward As Controls
