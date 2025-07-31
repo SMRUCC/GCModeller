@@ -180,6 +180,12 @@ Namespace ModelLoader
                     .GroupBy(Function(c) c) _
                     .Select(Function(c) MassTable.variable(c.Key, cellular_id, c.Count)) _
                     .ToArray
+
+                If aaResidue.IsNullOrEmpty Then
+                    Call VBDebugger.Warning($"missing protein composition for complex: {complex.ID}")
+                    Continue For
+                End If
+
                 flux = New Channel(MassTable.variables({proteinComplexId}, 1, cell.CellularEnvironmentName), aaResidue + compoundLigends) With {
                     .ID = $"proteinComplexDegradationOf{proteinComplexId}",
                     .forward = Controls.StaticControl(10),
@@ -208,7 +214,7 @@ Namespace ModelLoader
                     Continue For
                 End If
 
-                composition = proteinMatrix(gene.geneID)
+                composition = proteinMatrix(gene.polypeptide)
                 aaResidue = composition _
                         .Where(Function(i) i.Value > 0) _
                         .Select(Function(aa)
