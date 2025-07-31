@@ -165,9 +165,11 @@ Namespace ModelLoader
             Dim flux As Channel
 
             For Each type As KeyValuePair(Of String, List(Of String)) In rRNA
-                Call MassTable.addNew(type.Key, MassRoles.rRNA, cellular_id)
+                Dim rRNA_key As String = $"{type.Key}_rRNA"
 
-                Dim generic = MassTable.variable(type.Key, cellular_id)
+                Call MassTable.addNew(rRNA_key, MassRoles.rRNA, cellular_id)
+
+                Dim generic = MassTable.variable(rRNA_key, cellular_id)
 
                 left.Add(generic)
 
@@ -177,7 +179,7 @@ Namespace ModelLoader
                     Dim transcript = MassTable.variable(id, cellular_id)
 
                     Yield New Channel(transcript, generic) With {
-                        .ID = $"{type.Key}<->{id}",
+                        .ID = $"{rRNA_key}<->{id}",
                         .bounds = New Boundary(100, 100),
                         .forward = Controls.StaticControl(100),
                         .reverse = Controls.StaticControl(100)
