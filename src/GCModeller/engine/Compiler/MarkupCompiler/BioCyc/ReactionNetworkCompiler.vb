@@ -167,13 +167,13 @@ Namespace MarkupCompiler.BioCyc
             Return model
         End Function
 
-        Private Shared Iterator Function CreateCompounds(list As IEnumerable(Of CompoundSpecieReference)) As IEnumerable(Of CompoundFactor)
+        Private Iterator Function CreateCompounds(list As IEnumerable(Of CompoundSpecieReference)) As IEnumerable(Of CompoundFactor)
             If list Is Nothing Then
                 Return
             End If
 
             For Each cpd As CompoundSpecieReference In list
-                Yield New CompoundFactor(cpd.Stoichiometry, cpd.ID, cpd.Compartment)
+                Yield New CompoundFactor(cpd.Stoichiometry, cpd.ID, compiler.MapCompartId(cpd.Compartment))
             Next
         End Function
 
@@ -193,7 +193,7 @@ Namespace MarkupCompiler.BioCyc
                 .name = rxn.commonName,
                 .substrate = left,
                 .product = right,
-                .compartment = rxn.reactionLocations,
+                .compartment = compiler.MapCompartId(rxn.reactionLocations),
                 .note = rxn.comment
             }
         End Function

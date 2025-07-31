@@ -55,6 +55,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine
@@ -74,6 +75,16 @@ Namespace MarkupCompiler.BioCyc
         Sub New(biocyc As Workspace)
             Me.biocyc = biocyc
         End Sub
+
+        Public Function MapCompartId(id As String) As String
+
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function MapCompartId(id As String()) As String()
+            Return id.SafeQuery.Select(AddressOf MapCompartId).ToArray
+        End Function
+
 
         Protected Overrides Function PreCompile(args As CommandLine) As Integer
             Dim info As New StringBuilder

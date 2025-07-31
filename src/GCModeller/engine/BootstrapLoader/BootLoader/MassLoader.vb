@@ -88,9 +88,11 @@ Namespace ModelLoader
             ' 在这里需要首选构建物质列表
             ' 否则下面的转录和翻译过程的构建会出现找不到物质因子对象的问题
             For Each reaction As Reaction In cell.Phenotype.fluxes
+                Dim rxn_compart As [Default](Of String) = reaction.enzyme_compartment Or defaultCompartment
+
                 For Each compound In reaction.equation.GetMetabolites
-                    If Not massTable.Exists(compound.ID, compound.Compartment Or defaultCompartment) Then
-                        Call massTable.addNew(compound.ID, MassRoles.compound, compound.Compartment Or defaultCompartment)
+                    If Not massTable.Exists(compound.ID, compound.Compartment Or rxn_compart) Then
+                        Call massTable.addNew(compound.ID, MassRoles.compound, compound.Compartment Or rxn_compart)
                     End If
                 Next
             Next
