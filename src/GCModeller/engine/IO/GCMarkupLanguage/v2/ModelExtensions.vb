@@ -185,7 +185,7 @@ Namespace v2
                     For Each gene As gene In operon.genes
                         If rnaTable.ContainsKey(gene.locus_tag) Then
                             RNA = rnaTable(gene.locus_tag)
-                            RNA = New NamedValue(Of RNATypes)(gene.nucleotide_base.name, RNA.Value)
+                            RNA = New NamedValue(Of RNATypes)(gene.nucleotide_base.name, RNA.Value, RNA.Description)
                             proteinId = Nothing
                         Else
                             ' 枚举的默认值为mRNA
