@@ -94,6 +94,22 @@ Namespace ModelLoader
                         End If
                     Next
                 Next
+
+                If Not reaction.kinetics.IsNullOrEmpty Then
+                    For Each law As Kinetics In reaction.kinetics
+                        For Each val As Object In law.paramVals
+                            If TypeOf val Is String Then
+                                Dim cid As String = CStr(val)
+
+                                For Each compart_id As String In defaultCompartment
+                                    If Not massTable.Exists(cid, compart_id) Then
+                                        Call massTable.addNew(cid, MassRoles.compound, compart_id)
+                                    End If
+                                Next
+                            End If
+                        Next
+                    Next
+                End If
             Next
 
             Dim complexID As String
