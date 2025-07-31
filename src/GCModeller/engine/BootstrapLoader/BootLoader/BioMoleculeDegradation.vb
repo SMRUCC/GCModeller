@@ -139,7 +139,17 @@ Namespace ModelLoader
                 proteinComplexId = MassTable.getSource(proteinComplex.mass.ID).source_id
                 peptideId = proteinCplx(complex.ID).Select(Function(c) c.polypeptides).IteratesALL.ToArray
                 compoundIds = proteinCplx(complex.ID).Select(Function(c) c.compounds).IteratesALL.ToArray
-                geneIDSet = peptideId.Select(Function(id) geneIDindex(id)).IteratesALL.ToArray
+                compoundIds = peptideId.Where(Function(id) Not geneIDindex.ContainsKey(id)).JoinIterates(compoundIds).ToArray
+                geneIDSet = peptideId _
+                    .Where(Function(id)
+                               ' one complex could be the component of another complex
+                               ' so the component complex has no reference gene id
+                               ' skip this component
+                               Return geneIDindex.ContainsKey(id)
+                           End Function) _
+                    .Select(Function(id) geneIDindex(id)) _
+                    .IteratesALL _
+                    .ToArray
 
                 Dim AAlist As New Dictionary(Of String, Integer)
 
