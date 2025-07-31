@@ -82,7 +82,9 @@ Namespace MarkupCompiler.BioCyc
                             rna_mol.types.Any(Function(t) t.StartsWith("tRNA-")) Then
 
                             If rna_mol.types.Any(Function(t) t.StartsWith("Charged")) Then
-                                type = RNATypes.chargedtRNA
+                                ' type = RNATypes.chargedtRNA
+                                ' skip of the charged t-RNA
+                                Continue For
                             Else
                                 type = RNATypes.tRNA
                             End If
@@ -146,10 +148,7 @@ Namespace MarkupCompiler.BioCyc
 
                     rna_type = RNATypes.mRNA
                 Else
-                    Dim rna As RNA = rna_genes.TryGetValue(id) _
-                        .SafeQuery _
-                        .Where(Function(r) r.type <> RNATypes.chargedtRNA) _
-                        .DefaultFirst
+                    Dim rna As RNA = rna_genes.TryGetValue(id).DefaultFirst
 
                     rna_type = If(rna Is Nothing, RNATypes.micsRNA, rna.type)
                     prot_vec = Nothing

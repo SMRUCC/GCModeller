@@ -151,7 +151,7 @@ Namespace Cellular.Process
         End Property
 
         Public Function isChargedtRNA() As Boolean
-            Return RNA.Value = RNATypes.chargedtRNA OrElse (RNA.Value = RNATypes.tRNA AndAlso (RNA.Description.StartsWith("charged") OrElse RNA.Description.StartsWith("*")))
+            Return RNA.Value = RNATypes.tRNA AndAlso (RNA.Description.StartsWith("charged") OrElse RNA.Description.StartsWith("*"))
         End Function
 
         ''' <summary>
