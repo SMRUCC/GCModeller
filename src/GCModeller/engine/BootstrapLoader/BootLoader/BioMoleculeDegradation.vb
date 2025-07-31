@@ -55,6 +55,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
@@ -82,6 +83,13 @@ Namespace ModelLoader
 
         Protected Overrides Function CreateFlux() As IEnumerable(Of Channel)
             Return proteinDegradation(cell).AsList + RNADegradation(cell)
+        End Function
+
+        Private Function CheckProteinComplexId(c As Variable, proteins As Index(Of String)) As Boolean
+            Dim source = MassTable.getSource(c.mass.ID)
+            Dim check = source.source_id Like proteins
+
+            Return check
         End Function
 
         Private Iterator Function proteinDegradation(cell As CellularModule) As IEnumerable(Of Channel)
@@ -112,14 +120,12 @@ Namespace ModelLoader
             Dim geneIDSet As String()
             Dim flux As Channel
             Dim proteinComplex As Variable
+            Dim proteins = cell.Phenotype.proteins.Select(Function(p) p.ProteinID).Indexing
 
             For Each complex As Channel In proteinMatures
-                proteinComplex = complex.right _
-                    .First(Function(c)
-                               Return MassTable.getSource(c.mass.ID).source_id ' .EndsWith(".complex")
-                           End Function)
+                proteinComplex = complex.right.First(Function(c) CheckProteinComplexId(c, proteins))
                 proteinComplexId = MassTable.getSource(proteinComplex.mass.ID).source_id
-                peptideId = proteinComplexId ' .Replace(".complex", "")
+                peptideId = proteinComplexId
                 geneIDSet = geneIDindex(peptideId)
 
                 For Each geneId As String In geneIDSet
