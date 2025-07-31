@@ -59,6 +59,9 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Cellular.Vector
 
+    ''' <summary>
+    ''' nucleotide base composition data of a RNA transcript object
+    ''' </summary>
     Public Class RNAComposition : Implements IEnumerable(Of NamedValue(Of Double))
 
         Public Property geneID As String
