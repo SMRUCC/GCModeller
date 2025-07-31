@@ -43,6 +43,8 @@ export class genes extends <a href="/vignettes/clr/SMRUCC/genomics/Data/BioCyc/M
    dnaseq: string;
    instanceNameTemplate: string;
    left: integer;
+   # one gene could be translates to multiple products by modification or translation regulation,
+   #  so this property is a string array.
    product: string;
    right: integer;
    synonyms: string;
