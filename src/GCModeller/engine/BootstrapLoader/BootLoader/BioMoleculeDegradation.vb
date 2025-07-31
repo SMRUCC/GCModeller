@@ -200,6 +200,13 @@ Namespace ModelLoader
                 If gene.RNA.Value <> RNATypes.mRNA Then
                     Continue For
                 End If
+                If gene.polypeptide.StringEmpty(, True) Then
+                    Continue For
+                End If
+                If Not proteinMatrix.ContainsKey(gene.polypeptide) Then
+                    ' is component rna
+                    Continue For
+                End If
 
                 composition = proteinMatrix(gene.geneID)
                 aaResidue = composition _
