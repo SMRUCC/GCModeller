@@ -1,61 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::da6d1d6e4776870a9401ee5d7f9657ab, engine\Dynamics\Core\Flux\Channel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 136
-    '    Code Lines: 74 (54.41%)
-    ' Comment Lines: 42 (30.88%)
-    '    - Xml Docs: 80.95%
-    ' 
-    '   Blank Lines: 20 (14.71%)
-    '     File Size: 5.29 KB
+' Summaries:
 
 
-    '     Class Channel
-    ' 
-    '         Properties: bounds, direct, forward, ID, isBroken
-    '                     reverse
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CoverLeft, CoverRight, (+2 Overloads) minimalUnit, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 136
+'    Code Lines: 74 (54.41%)
+' Comment Lines: 42 (30.88%)
+'    - Xml Docs: 80.95%
+' 
+'   Blank Lines: 20 (14.71%)
+'     File Size: 5.29 KB
+
+
+'     Class Channel
+' 
+'         Properties: bounds, direct, forward, ID, isBroken
+'                     reverse
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: CoverLeft, CoverRight, (+2 Overloads) minimalUnit, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
@@ -105,6 +106,11 @@ Namespace Core
             Me.right = right.ToArray
 
             isBroken = Me.left.IsNullOrEmpty OrElse Me.right.IsNullOrEmpty
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(left As Variable, right As Variable)
+            Call Me.New({left}, {right})
         End Sub
 
         Public Function GetCurrentDirection() As Directions
