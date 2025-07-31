@@ -254,6 +254,8 @@ Namespace ModelLoader
             Call VBDebugger.WaitOutput()
             Call VBDebugger.EchoLine("initialize of the mass environment for central dogma")
 
+            Dim RNAList = cell.Genotype.centralDogmas.Select(Function(c) c.RNA).ToArray
+
             For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas)
                 If cd.isChargedtRNA Then
                     charged_names($"*tRNA{cd.RNA.Description.Replace("charged", "")}") = cd.RNAName

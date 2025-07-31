@@ -146,7 +146,10 @@ Namespace MarkupCompiler.BioCyc
 
                     rna_type = RNATypes.mRNA
                 Else
-                    Dim rna As RNA = rna_genes.TryGetValue(id).DefaultFirst
+                    Dim rna As RNA = rna_genes.TryGetValue(id) _
+                        .SafeQuery _
+                        .Where(Function(r) r.type <> RNATypes.chargedtRNA) _
+                        .DefaultFirst
 
                     rna_type = If(rna Is Nothing, RNATypes.micsRNA, rna.type)
                     prot_vec = Nothing
