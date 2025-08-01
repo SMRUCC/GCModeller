@@ -14,9 +14,13 @@ setwd(@dir);
 # |> json_decode()
 # ;
 
-"./taes.hds"
+# hsa.hds
+let pkg = ?"--pkg" || stop("no pathway package file!");
+let save = file.path(dirname(pkg), `${basename(pkg)}.xml`);
+
+pkg
 |> load.pathways(referenceMap = FALSE)
 |> as.background( omics = "Metabolomics", kegg.code = "eco")
 # |> append.id_terms("GeneExpression", idmaps )
-|> write.background(file = "./taes.xml")
+|> write.background(file = save)
 ;
