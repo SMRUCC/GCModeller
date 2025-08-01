@@ -114,6 +114,7 @@ Namespace ModelLoader
 
             Dim complexID As String
             Dim peptideMaps As New Dictionary(Of String, List(Of String))
+            Dim duplicated As New List(Of String)
 
             ' 20241113 protein id maybe duplicated, due to the reason of
             ' some gene translate the protein with identicial protein sequence data
@@ -134,14 +135,19 @@ Namespace ModelLoader
                 Next
 
                 If proteinComplex.ContainsKey(complex.ProteinID) Then
-                    Dim warn As String = $"duplicated protein id: '{complex.ProteinID}' was found."
-
-                    Call warn.Warning
-                    Call VBDebugger.EchoLine("[warn] " & warn)
+                    Call duplicated.Add(complex.ProteinID)
                 Else
                     Call proteinComplex.Add(complex.ProteinID, complexID)
                 End If
             Next
+
+            If duplicated.Any Then
+                Dim uniq As String() = duplicated.Distinct.ToArray
+                Dim warn = $"found {uniq.Length} duplicated protein complex models: {uniq.JoinBy(", ")}!"
+
+                Call warn.Warning
+                Call VBDebugger.EchoLine($"[warning] {warn}")
+            End If
 
             With proteinComplex.OrderBy(Function(a) a.Key).ToArray
                 Call proteinComplex.Clear()
