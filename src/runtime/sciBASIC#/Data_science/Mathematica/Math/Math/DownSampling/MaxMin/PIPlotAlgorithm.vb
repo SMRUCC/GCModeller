@@ -2,16 +2,14 @@
 
 Namespace DownSampling.MaxMin
 
-
     ''' <summary>
     ''' OSISoft PI PlotValues algorithm. (without interpolation on boundary)
     ''' </summary>
-    Public Class PIPlotAlgorithm
-        Inherits BucketBasedAlgorithm(Of PIPlotBucket, ITimeSignal)
+    Public Class PIPlotAlgorithm : Inherits BucketBasedAlgorithm(Of PIPlotBucket, ITimeSignal)
 
         Public Sub New()
-            BucketFactory = New PIPlotBucketFactory()
-            Spliter(New FixedTimeBucketSplitter(Of PIPlotBucket, ITimeSignal))
+            BucketFactory(New PIPlotBucketFactory)
+            SetSpliter(New FixedTimeBucketSplitter(Of PIPlotBucket, ITimeSignal))
         End Sub
 
         Protected Friend Overrides Function prepare(data As IList(Of ITimeSignal)) As IList(Of ITimeSignal)
@@ -24,7 +22,5 @@ Namespace DownSampling.MaxMin
         Public Overrides Function ToString() As String
             Return "PIPlot"
         End Function
-
     End Class
-
 End Namespace
