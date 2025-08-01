@@ -207,36 +207,47 @@ Namespace ModelLoader
         Private Shared Function RnaMatrixIndexing(m As IEnumerable(Of RNAComposition)) As Dictionary(Of String, RNAComposition)
             Dim geneGroups = m.GroupBy(Function(g) g.geneID)
             Dim index As New Dictionary(Of String, RNAComposition)
+            Dim duplicateds As New List(Of String)
 
             For Each group As IGrouping(Of String, RNAComposition) In geneGroups
                 If group.Count > 1 Then
-                    Dim warn As String = $"duplicated rna object: '{group.Key}' was found!"
-
-                    Call warn.Warning
-                    Call VBDebugger.EchoLine("[warn] " & warn)
+                    Call duplicateds.Add(group.Key)
                 End If
 
                 Call index.Add(group.Key, group.First)
             Next
+
+            If duplicateds.Any Then
+                Dim uniq = duplicateds.Distinct.ToArray
+                Dim warn As String = $"found {uniq.Length} duplicated RNA object: {uniq.JoinBy(", ")}!"
+
+                Call warn.Warning
+                Call VBDebugger.EchoLine("[warning]" & warn)
+            End If
 
             Return index
         End Function
 
         Private Shared Function ProteinMatrixIndex(p As IEnumerable(Of ProteinComposition)) As Dictionary(Of String, ProteinComposition)
-            Dim proteinGroups = p.GroupBy(Function(r) r.proteinID).ToArray
+            Dim proteinGroups = p.GroupBy(Function(r) r.proteinID)
             Dim index As New Dictionary(Of String, ProteinComposition)
-            Dim bar As Tqdm.ProgressBar = Nothing
+            Dim duplicateds As New List(Of String)
 
-            For Each group As IGrouping(Of String, ProteinComposition) In Tqdm.Wrap(proteinGroups, bar:=bar)
+            For Each group As IGrouping(Of String, ProteinComposition) In proteinGroups
                 If group.Count > 1 Then
-                    Dim warn As String = $"duplicated protein object: '{group.Key}' was found!"
-
-                    Call warn.Warning
-                    Call bar.SetLabel("[warn] " & warn)
+                    Call duplicateds.Add(group.Key)
                 End If
 
                 Call index.Add(group.Key, group.First)
             Next
+
+            If duplicateds.Any Then
+                Dim uniq = duplicateds.Distinct.ToArray
+                Dim warn As String = $"found {uniq.Length} duplicated protein peptide chains object: {uniq.JoinBy(", ")}!"
+
+                Call warn.Warning
+                Call VBDebugger.EchoLine("[warning]" & warn)
+            End If
 
             Return index
         End Function
