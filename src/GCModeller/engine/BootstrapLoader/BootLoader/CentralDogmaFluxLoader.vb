@@ -223,15 +223,16 @@ Namespace ModelLoader
         End Function
 
         Private Shared Function ProteinMatrixIndex(p As IEnumerable(Of ProteinComposition)) As Dictionary(Of String, ProteinComposition)
-            Dim proteinGroups = p.GroupBy(Function(r) r.proteinID)
+            Dim proteinGroups = p.GroupBy(Function(r) r.proteinID).ToArray
             Dim index As New Dictionary(Of String, ProteinComposition)
+            Dim bar As Tqdm.ProgressBar = Nothing
 
-            For Each group As IGrouping(Of String, ProteinComposition) In proteinGroups
+            For Each group As IGrouping(Of String, ProteinComposition) In Tqdm.Wrap(proteinGroups, bar:=bar)
                 If group.Count > 1 Then
                     Dim warn As String = $"duplicated protein object: '{group.Key}' was found!"
 
                     Call warn.Warning
-                    Call VBDebugger.EchoLine("[warn] " & warn)
+                    Call bar.SetLabel("[warn] " & warn)
                 End If
 
                 Call index.Add(group.Key, group.First)
