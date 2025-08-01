@@ -449,3 +449,5 @@ src/GCModeller/analysis/HTS_matrix/.vs/HTS_matrix-netcore5/CopilotIndices/17.14.
 /src/workbench/R#/.vs/packages.NET5/CopilotIndices/17.14.878.3237/SemanticSymbols.db
 /src/workbench/R#/.vs/packages.NET5/CopilotIndices/17.14.939.21063/CodeChunks.db
 /src/workbench/R#/.vs/packages.NET5/CopilotIndices/17.14.939.21063/SemanticSymbols.db
+src/repository/graphquery/ath.hds
+src/repository/graphquery/taes.hds

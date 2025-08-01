@@ -14,9 +14,9 @@ setwd(@dir);
 # |> json_decode()
 # ;
 
-"./eco.hds"
+"./taes.hds"
 |> load.pathways(referenceMap = FALSE)
 |> as.background( omics = "Metabolomics", kegg.code = "eco")
 # |> append.id_terms("GeneExpression", idmaps )
-|> write.background(file = "./eco.xml")
+|> write.background(file = "./taes.xml")
 ;
