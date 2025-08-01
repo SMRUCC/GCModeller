@@ -298,6 +298,7 @@ Namespace ModelLoader
             Next
 
             Dim bar As Tqdm.ProgressBar = Nothing
+            Dim duplicatedGenes As New List(Of String)
 
             ' 在这里分开两个循环来完成构建
             ' 第一步需要一次性的将所有的元素对象都加入到mass table之中
@@ -313,11 +314,7 @@ Namespace ModelLoader
                     Call mRNA.Add(cd.geneID)
 
                     If proteinList.ContainsKey(cd.geneID) Then
-                        Dim warn = $"found duplicated gene: {cd.geneID}"
-
-                        Call warn.Warning
-                        Call bar.SetLabel("[warn] " & warn)
-
+                        Call duplicatedGenes.Add(cd.geneID)
                         ' the translated polypeptide is a protein
                     ElseIf proteinComplex.ContainsKey(cd.polypeptide) Then
                         Call proteinList.Add(cd.geneID, proteinComplex(cd.polypeptide))
@@ -369,6 +366,14 @@ Namespace ModelLoader
                     End If
                 End If
             Next
+
+            If duplicatedGenes.Any Then
+                Dim uniq = duplicatedGenes.Distinct.ToArray
+                Dim warn = $"found {uniq.Length} duplicated gene models: {uniq.JoinBy(", ")}!"
+
+                Call warn.Warning
+                Call VBDebugger.EchoLine("[warning] " & warn)
+            End If
 
             If rRNA.IsNullOrEmpty Then
                 ' do nothing 
