@@ -56,6 +56,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -284,10 +285,12 @@ Namespace ModelLoader
                 End If
             Next
 
+            Dim bar As Tqdm.ProgressBar = Nothing
+
             ' 在这里分开两个循环来完成构建
             ' 第一步需要一次性的将所有的元素对象都加入到mass table之中
             ' 否则在构建的过程中会出现很多的key not found 的错误
-            For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas)
+            For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas, bar:=bar)
                 ' if the gene template mass value is set to ZERO
                 ' that means no transcription activity that it will be
                 ' A deletion mutation was created
@@ -301,7 +304,7 @@ Namespace ModelLoader
                         Dim warn = $"found duplicated gene: {cd.geneID}"
 
                         Call warn.Warning
-                        Call VBDebugger.EchoLine("[warn] " & warn)
+                        Call bar.SetLabel("[warn] " & warn)
 
                         ' the translated polypeptide is a protein
                     ElseIf proteinComplex.ContainsKey(cd.polypeptide) Then
