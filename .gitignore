@@ -452,3 +452,4 @@ src/GCModeller/analysis/HTS_matrix/.vs/HTS_matrix-netcore5/CopilotIndices/17.14.
 src/repository/graphquery/ath.hds
 src/repository/graphquery/taes.hds
 src/repository/graphquery/kegg/pipeline/xcc.hds
+src/repository/graphquery/kegg/pipeline/xcb.hds
