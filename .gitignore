@@ -453,3 +453,5 @@ src/repository/graphquery/ath.hds
 src/repository/graphquery/taes.hds
 src/repository/graphquery/kegg/pipeline/xcc.hds
 src/repository/graphquery/kegg/pipeline/xcb.hds
+src/repository/graphquery/kegg/pipeline/mmu.hds
+src/repository/graphquery/kegg/pipeline/zma.hds
