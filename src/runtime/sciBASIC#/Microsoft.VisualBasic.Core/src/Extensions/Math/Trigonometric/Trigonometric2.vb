@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5a1cbb35698e8e1a743edec282f77569, Microsoft.VisualBasic.Core\src\Extensions\Math\Trigonometric\Trigonometric2.vb"
+﻿#Region "Microsoft.VisualBasic::b1161bedc6917b32eb910f9960f408e7, Microsoft.VisualBasic.Core\src\Extensions\Math\Trigonometric\Trigonometric2.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 22 (11.76%)
-    '     File Size: 7.18 KB
+    '     File Size: 7.07 KB
 
 
     '     Module Trigonometric
@@ -55,7 +55,7 @@
 
 #End Region
 
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Math
 
@@ -67,7 +67,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function Sec(x As Double) As Double
-            Return 1 / stdNum.Cos(x)
+            Return 1 / std.Cos(x)
         End Function
 
         ''' <summary>
@@ -76,7 +76,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function Cosec(x As Double) As Double
-            Return 1 / stdNum.Sin(x)
+            Return 1 / std.Sin(x)
         End Function
 
         ''' <summary>
@@ -85,7 +85,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function Cotan(x As Double) As Double
-            Return 1 / stdNum.Tan(x)
+            Return 1 / std.Tan(x)
         End Function
 
         ''' <summary>
@@ -94,7 +94,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function Arcsin(x As Double) As Double
-            Return Atn(x / stdNum.Sqrt(-x * x + 1))
+            Return Atn(x / std.Sqrt(-x * x + 1))
         End Function
 
         ''' <summary>
@@ -103,7 +103,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function Arccos(x As Double) As Double
-            Return Atn(-x / stdNum.Sqrt(-x * x + 1)) + 2 * Atn(1)
+            Return Atn(-x / std.Sqrt(-x * x + 1)) + 2 * Atn(1)
         End Function
 
         ''' <summary>
@@ -112,7 +112,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function Arcsec(x As Double) As Double
-            Return Atn(x / stdNum.Sqrt(x * x - 1)) + stdNum.Sign((x) - 1) * (2 * Atn(1))
+            Return Atn(x / std.Sqrt(x * x - 1)) + std.Sign((x) - 1) * (2 * Atn(1))
         End Function
 
         ''' <summary>
@@ -121,7 +121,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function Arccosec(x As Double) As Double
-            Return Atn(x / stdNum.Sqrt(x * x - 1)) + (stdNum.Sign(x) - 1) * (2 * Atn(1))
+            Return Atn(x / std.Sqrt(x * x - 1)) + (std.Sign(x) - 1) * (2 * Atn(1))
         End Function
 
         ''' <summary>
@@ -139,7 +139,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function HSin(x As Double) As Double
-            Return (stdNum.Exp(x) - stdNum.Exp(-x)) / 2
+            Return (std.Exp(x) - std.Exp(-x)) / 2
         End Function
 
         ''' <summary>
@@ -148,7 +148,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function HCos(x As Double) As Double
-            Return (stdNum.Exp(x) + stdNum.Exp(-x)) / 2
+            Return (std.Exp(x) + std.Exp(-x)) / 2
         End Function
 
         ''' <summary>
@@ -157,7 +157,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function HTan(x As Double) As Double
-            Return (stdNum.Exp(x) - stdNum.Exp(-x)) / (stdNum.Exp(x) + stdNum.Exp(-x))
+            Return (std.Exp(x) - std.Exp(-x)) / (std.Exp(x) + std.Exp(-x))
         End Function
 
         ''' <summary>
@@ -166,7 +166,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function HSec(x As Double) As Double
-            Return 2 / (stdNum.Exp(x) + stdNum.Exp(-x))
+            Return 2 / (std.Exp(x) + std.Exp(-x))
         End Function
 
         ''' <summary>
@@ -175,7 +175,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function HCosec(x As Double) As Double
-            Return 2 / (stdNum.Exp(x) - stdNum.Exp(-x))
+            Return 2 / (std.Exp(x) - std.Exp(-x))
         End Function
 
         ''' <summary>
@@ -184,7 +184,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function HCotan(x As Double) As Double
-            Return (stdNum.Exp(x) + stdNum.Exp(-x)) / (stdNum.Exp(x) - stdNum.Exp(-x))
+            Return (std.Exp(x) + std.Exp(-x)) / (std.Exp(x) - std.Exp(-x))
         End Function
 
         ''' <summary>
@@ -193,7 +193,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function HArcsin(x As Double) As Double
-            Return stdNum.Log(x + stdNum.Sqrt(x * x + 1))
+            Return std.Log(x + std.Sqrt(x * x + 1))
         End Function
 
         ''' <summary>
@@ -202,7 +202,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function HArccos(x As Double) As Double
-            Return stdNum.Log(x + stdNum.Sqrt(x * x - 1))
+            Return std.Log(x + std.Sqrt(x * x - 1))
         End Function
 
         ''' <summary>
@@ -211,7 +211,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function Harctan(x As Double) As Double
-            Return stdNum.Log((1 + x) / (1 - x)) / 2
+            Return std.Log((1 + x) / (1 - x)) / 2
         End Function
 
         ''' <summary>
@@ -220,7 +220,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function HArcsec(x As Double) As Double
-            Return stdNum.Log((stdNum.Sqrt(-x * x + 1) + 1) / x)
+            Return std.Log((std.Sqrt(-x * x + 1) + 1) / x)
         End Function
 
         ''' <summary>
@@ -229,7 +229,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function HArccosec(x As Double) As Double
-            Return stdNum.Log((stdNum.Sign(x) * stdNum.Sqrt(x * x + 1) + 1) / x)
+            Return std.Log((std.Sign(x) * std.Sqrt(x * x + 1) + 1) / x)
         End Function
 
         ''' <summary>
@@ -238,7 +238,7 @@ Namespace Math
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function HArccotan(x As Double) As Double
-            Return stdNum.Log((x + 1) / (x - 1)) / 2
+            Return std.Log((x + 1) / (x - 1)) / 2
         End Function
     End Module
 End Namespace

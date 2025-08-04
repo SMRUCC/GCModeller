@@ -55,6 +55,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Development
 Imports Microsoft.VisualBasic.CommandLine
@@ -70,10 +71,37 @@ Namespace MarkupCompiler.BioCyc
     Public Class v2Compiler : Inherits Compiler(Of VirtualCell)
 
         Friend ReadOnly biocyc As Workspace
+        Friend ReadOnly cellular_id As String
+
+        ReadOnly ccmap As New Dictionary(Of String, String)
 
         Sub New(biocyc As Workspace)
             Me.biocyc = biocyc
+            Me.cellular_id = biocyc.species.uniqueId
         End Sub
+
+        Public Function MapCompartId(id As String) As String
+            If id Is Nothing OrElse id.StringEmpty(, True) Then
+                Return cellular_id
+            End If
+
+            Return ccmap.ComputeIfAbsent(id, lazyValue:=Function() MapInternal(id))
+        End Function
+
+        Public Function MapInternal(id As String) As String
+            Select Case id
+                Case "CCO-OUT", "CCO-OUTER-MEM", "CCO-MEMBRANE", "CCO-EXTRACELLULAR-CCO-CYTOSOL", "CCO-EXTRACELLULAR"
+                    Return "Extracellular"
+                Case Else
+                    Return cellular_id
+            End Select
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function MapCompartId(id As String()) As String()
+            Return id.SafeQuery.Select(AddressOf MapCompartId).ToArray
+        End Function
+
 
         Protected Overrides Function PreCompile(args As CommandLine) As Integer
             Dim info As New StringBuilder

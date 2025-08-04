@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc58dced97fb91b1899b7ac627c5805a, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\BitMap\BitSet.vb"
+﻿#Region "Microsoft.VisualBasic::4b1d14eacb260d2f3dbad2f17ea71223, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\BitMap\BitSet.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 90.74%
     ' 
     '   Blank Lines: 105 (15.62%)
-    '     File Size: 24.64 KB
+    '     File Size: 24.63 KB
 
 
     '     Class BitSet
@@ -74,7 +74,7 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel
 
@@ -105,7 +105,7 @@ Namespace ComponentModel
                 If Value > Me._length Then
                     Extend(Value - Me._length)
                 Else
-                    Me._length = stdNum.Max(0, Value)
+                    Me._length = std.Max(0, Value)
                 End If
             End Set
         End Property
@@ -703,7 +703,7 @@ Namespace ComponentModel
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator >>(a As BitSet, shift As Integer) As BitSet
-            Return New BitSet(a.ToArray().Take(stdNum.Max(0, a.Count - shift)).ToArray())
+            Return New BitSet(a.ToArray().Take(std.Max(0, a.Count - shift)).ToArray())
         End Operator
 
         Public Shared Operator =(a As BitSet, b As BitSet) As Boolean

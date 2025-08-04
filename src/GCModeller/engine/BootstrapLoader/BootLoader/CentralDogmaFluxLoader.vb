@@ -56,6 +56,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -114,6 +115,10 @@ Namespace ModelLoader
 
             If aaIndex.ContainsKey(AAKey) Then
                 AA = aaIndex(AAKey)
+                ' 20250731 patched for the biocyc met-tRNA object
+            ElseIf AAKey = "initiation-trnamet" Then
+                AAKey = "Met"
+                AA = aaIndex(AAKey)
             Else
                 Throw New MissingPrimaryKeyException($"missing the amino acid mapping of '{AAKey}'!")
             End If
@@ -154,12 +159,34 @@ Namespace ModelLoader
         ''' <summary>
         ''' is a reversiable process
         ''' </summary>
-        ''' <param name="rRNA"></param>
         ''' <returns></returns>
-        Private Function ribosomeAssembly(rRNA As String()) As Channel
+        Private Iterator Function ribosomeAssembly(rRNA As Dictionary(Of String, List(Of String))) As IEnumerable(Of Channel)
             Dim cellular_id As String = cell.CellularEnvironmentName
-            Dim left As Variable() = rRNA.Select(Function(ref) MassTable.variable(ref, cellular_id)).ToArray
+            Dim left As New List(Of Variable)
             Dim flux As Channel
+
+            For Each type As KeyValuePair(Of String, List(Of String)) In rRNA
+                Dim rRNA_key As String = $"{type.Key}_rRNA"
+
+                Call MassTable.addNew(rRNA_key, MassRoles.rRNA, cellular_id)
+
+                Dim generic = MassTable.variable(rRNA_key, cellular_id)
+
+                left.Add(generic)
+
+                For Each id As String In type.Value
+                    Call MassTable.addNew(id, MassRoles.RNA, cellular_id)
+
+                    Dim transcript = MassTable.variable(id, cellular_id)
+
+                    Yield New Channel(transcript, generic) With {
+                        .ID = $"{rRNA_key}<->{id}",
+                        .bounds = New Boundary(100, 100),
+                        .forward = Controls.StaticControl(100),
+                        .reverse = Controls.StaticControl(100)
+                    }
+                Next
+            Next
 
             MassTable.addNew(NameOf(ribosomeAssembly), MassRoles.protein, cellular_id)
             flux = New Channel(left, {MassTable.variable(NameOf(ribosomeAssembly), cellular_id)}) With {
@@ -174,23 +201,29 @@ Namespace ModelLoader
 
             loader.fluxIndex(NameOf(Me.ribosomeAssembly)).Add(flux.ID)
 
-            Return flux
+            Yield flux
         End Function
 
         Private Shared Function RnaMatrixIndexing(m As IEnumerable(Of RNAComposition)) As Dictionary(Of String, RNAComposition)
             Dim geneGroups = m.GroupBy(Function(g) g.geneID)
             Dim index As New Dictionary(Of String, RNAComposition)
+            Dim duplicateds As New List(Of String)
 
             For Each group As IGrouping(Of String, RNAComposition) In geneGroups
                 If group.Count > 1 Then
-                    Dim warn As String = $"duplicated rna object: '{group.Key}' was found!"
-
-                    Call warn.Warning
-                    Call VBDebugger.EchoLine("[warn] " & warn)
-                Else
-                    Call index.Add(group.Key, group.First)
+                    Call duplicateds.Add(group.Key)
                 End If
+
+                Call index.Add(group.Key, group.First)
             Next
+
+            If duplicateds.Any Then
+                Dim uniq = duplicateds.Distinct.ToArray
+                Dim warn As String = $"found {uniq.Length} duplicated RNA object: {uniq.JoinBy(", ")}!"
+
+                Call warn.Warning
+                Call VBDebugger.EchoLine("[warning]" & warn)
+            End If
 
             Return index
         End Function
@@ -198,17 +231,23 @@ Namespace ModelLoader
         Private Shared Function ProteinMatrixIndex(p As IEnumerable(Of ProteinComposition)) As Dictionary(Of String, ProteinComposition)
             Dim proteinGroups = p.GroupBy(Function(r) r.proteinID)
             Dim index As New Dictionary(Of String, ProteinComposition)
+            Dim duplicateds As New List(Of String)
 
             For Each group As IGrouping(Of String, ProteinComposition) In proteinGroups
                 If group.Count > 1 Then
-                    Dim warn As String = $"duplicated protein object: '{group.Key}' was found!"
-
-                    Call warn.Warning
-                    Call VBDebugger.EchoLine("[warn] " & warn)
-                Else
-                    Call index.Add(group.Key, group.First)
+                    Call duplicateds.Add(group.Key)
                 End If
+
+                Call index.Add(group.Key, group.First)
             Next
+
+            If duplicateds.Any Then
+                Dim uniq = duplicateds.Distinct.ToArray
+                Dim warn As String = $"found {uniq.Length} duplicated protein peptide chains object: {uniq.JoinBy(", ")}!"
+
+                Call warn.Warning
+                Call VBDebugger.EchoLine("[warning]" & warn)
+            End If
 
             Return index
         End Function
@@ -250,16 +289,21 @@ Namespace ModelLoader
             Call VBDebugger.WaitOutput()
             Call VBDebugger.EchoLine("initialize of the mass environment for central dogma")
 
+            Dim RNAList = cell.Genotype.centralDogmas.Select(Function(c) c.RNA).ToArray
+
             For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas)
                 If cd.isChargedtRNA Then
                     charged_names($"*tRNA{cd.RNA.Description.Replace("charged", "")}") = cd.RNAName
                 End If
             Next
 
+            Dim bar As Tqdm.ProgressBar = Nothing
+            Dim duplicatedGenes As New List(Of String)
+
             ' 在这里分开两个循环来完成构建
             ' 第一步需要一次性的将所有的元素对象都加入到mass table之中
             ' 否则在构建的过程中会出现很多的key not found 的错误
-            For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas)
+            For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas, bar:=bar)
                 ' if the gene template mass value is set to ZERO
                 ' that means no transcription activity that it will be
                 ' A deletion mutation was created
@@ -270,12 +314,19 @@ Namespace ModelLoader
                     Call mRNA.Add(cd.geneID)
 
                     If proteinList.ContainsKey(cd.geneID) Then
-                        Dim warn = $"found duplicated gene: {cd.geneID}"
-
-                        Call warn.Warning
-                        Call VBDebugger.EchoLine("[warn] " & warn)
-                    Else
+                        Call duplicatedGenes.Add(cd.geneID)
+                        ' the translated polypeptide is a protein
+                    ElseIf proteinComplex.ContainsKey(cd.polypeptide) Then
                         Call proteinList.Add(cd.geneID, proteinComplex(cd.polypeptide))
+                    Else
+                        ' the translated polypeptide is one of the components of a protein complex
+                        If loader.massLoader.peptideToProteinComplex.ContainsKey(cd.polypeptide) Then
+                            ' has already been used as one of the components of a protein complex
+                            ' skip this peptide
+                            ' do nothing
+                        Else
+                            Throw New MissingPrimaryKeyException($"missing protein link for polypeptide: {cd.polypeptide}, source gene id: {cd.geneID}")
+                        End If
                     End If
 
                     Call MassTable.addNew(cd.RNAName, MassRoles.mRNA, cellular_id)
@@ -289,7 +340,8 @@ Namespace ModelLoader
                                     rRNA.Add(cd.RNA.Description, New List(Of String))
                                 End If
 
-                                rRNA(cd.RNA.Description).Add(cd.RNAName)
+                                rRNA(cd.RNA.Description).Add(cd.RNA.Name)
+                                MassTable.addNew(cd.RNA.Name, MassRoles.rRNA, cellular_id)
                                 MassTable.addNew(cd.RNAName, MassRoles.rRNA, cellular_id)
                             Case RNATypes.tRNA
                                 If Not cd.isChargedtRNA Then
@@ -315,10 +367,20 @@ Namespace ModelLoader
                 End If
             Next
 
+            If duplicatedGenes.Any Then
+                Dim uniq = duplicatedGenes.Distinct.ToArray
+                Dim warn = $"found {uniq.Length} duplicated gene models: {uniq.JoinBy(", ")}!"
+
+                Call warn.Warning
+                Call VBDebugger.EchoLine("[warning] " & warn)
+            End If
+
             If rRNA.IsNullOrEmpty Then
                 ' do nothing 
             ElseIf rRNA.Count = 3 Then
-                Yield ribosomeAssembly(rRNA.Values.IteratesALL.Distinct.ToArray)
+                For Each flux As Channel In ribosomeAssembly(rRNA)
+                    Yield flux
+                Next
             Else
                 Throw New InvalidCastException($"missing some of the rRNA components! current assembly components: {rRNA.Keys.ToArray.GetJson}")
             End If

@@ -1,57 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::594b035938c66acb9605f5830d627ad2, engine\Model\Cellular\CellularModule.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 54
-    '    Code Lines: 15 (27.78%)
-    ' Comment Lines: 31 (57.41%)
-    '    - Xml Docs: 90.32%
-    ' 
-    '   Blank Lines: 8 (14.81%)
-    '     File Size: 1.95 KB
+' Summaries:
 
 
-    '     Structure CellularModule
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 54
+'    Code Lines: 15 (27.78%)
+' Comment Lines: 31 (57.41%)
+'    - Xml Docs: 90.32%
+' 
+'   Blank Lines: 8 (14.81%)
+'     File Size: 1.95 KB
+
+
+'     Structure CellularModule
+' 
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.Metagenomics
@@ -103,6 +104,36 @@ Namespace Cellular
 
         Public Overrides Function ToString() As String
             Return Taxonomy.scientificName
+        End Function
+
+        Public Function GetCompartments() As IEnumerable(Of String)
+            Return GetCompartmentsInternal.Distinct.Where(Function(s) Not s.StringEmpty(, True))
+        End Function
+
+        Private Iterator Function GetCompartmentsInternal() As IEnumerable(Of String)
+            Yield CellularEnvironmentName
+
+            If Phenotype.fluxes Is Nothing Then
+                Return
+            End If
+
+            For Each rxn As Reaction In Phenotype.fluxes
+                If Not rxn.enzyme_compartment Is Nothing Then
+                    Yield rxn.enzyme_compartment
+                End If
+
+                For Each left As CompoundSpecieReference In rxn.equation.Reactants
+                    If Not left.Compartment Is Nothing Then
+                        Yield left.Compartment
+                    End If
+                Next
+
+                For Each right As CompoundSpecieReference In rxn.equation.Products
+                    If Not right.Compartment Is Nothing Then
+                        Yield right.Compartment
+                    End If
+                Next
+            Next
         End Function
 
     End Structure

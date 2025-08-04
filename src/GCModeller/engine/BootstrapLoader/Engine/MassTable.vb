@@ -138,8 +138,17 @@ Namespace Engine
             End Sub
 
             Public Function getFactor(compart_id As String, mass_id As String) As Factor
-                Dim massTable = Me(compart_id)
-                Dim instance_id As String = If(mapping.ContainsKey(mass_id), mass_id, mass_id & "@" & compart_id)
+                Dim massTable As Dictionary(Of String, Factor)
+                Dim instance_id As String
+
+                If mapping.ContainsKey(mass_id) Then
+                    instance_id = mass_id
+                    compart_id = instance_id.GetTagValue("@").Value
+                Else
+                    instance_id = mass_id & "@" & compart_id
+                End If
+
+                massTable = Me(compart_id)
 
                 If Not massTable.ContainsKey(instance_id) Then
                     Throw New InvalidDataException($"missing molecule '{mass_id}' factor data inside compartment '{compart_id}'!")

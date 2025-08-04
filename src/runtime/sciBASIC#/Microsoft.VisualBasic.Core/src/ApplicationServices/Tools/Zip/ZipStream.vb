@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28afd7cd739855385762d45bb8d0dd98, Microsoft.VisualBasic.Core\src\ApplicationServices\Tools\Zip\ZipStream.vb"
+﻿#Region "Microsoft.VisualBasic::279a14980155344ef83b9c876b868972, Microsoft.VisualBasic.Core\src\ApplicationServices\Tools\Zip\ZipStream.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 303
-    '    Code Lines: 194 (64.03%)
-    ' Comment Lines: 57 (18.81%)
+    '   Total Lines: 307
+    '    Code Lines: 198 (64.50%)
+    ' Comment Lines: 57 (18.57%)
     '    - Xml Docs: 63.16%
     ' 
-    '   Blank Lines: 52 (17.16%)
-    '     File Size: 11.79 KB
+    '   Blank Lines: 52 (16.94%)
+    '     File Size: 12.06 KB
 
 
     '     Class ZipStream
@@ -185,7 +185,7 @@ Namespace ApplicationServices.Zip
 
             If file Is Nothing Then
                 Return Nothing
-            Else
+            ElseIf access = FileAccess.Read Then
                 Dim ms As New MemoryStream
                 Dim zip_buf = file.Open
 
@@ -195,6 +195,10 @@ Namespace ApplicationServices.Zip
                 Call ms.Seek(Scan0, SeekOrigin.Begin)
 
                 Return ms
+            ElseIf access = FileAccess.Write Then
+                Return file.Open
+            Else
+                Throw New NotSupportedException($"The file access mode '{access}' is not supported in the zip archive stream.")
             End If
         End Function
 

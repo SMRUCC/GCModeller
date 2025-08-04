@@ -204,6 +204,7 @@ Module proteinKit
     ''' <param name="safe"></param>
     ''' <returns></returns>
     <ExportAPI("parse_pdb")>
+    <RApiReturn(GetType(PDB))>
     Public Function parsePdb(pdb_txt As String, Optional safe As Boolean = False) As Object
         If safe Then
             Try

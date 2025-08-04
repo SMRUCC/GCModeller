@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::733e3c619fe288c8d74feec1ee98c95b, Data_science\Visualization\Plots\Scatter\Plot\Scatter2D.vb"
+﻿#Region "Microsoft.VisualBasic::4ad97ff18f310bd6853bd5a7b4947f2c, Data_science\Visualization\Plots\Scatter\Plot\Scatter2D.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 376
-    '    Code Lines: 286 (76.06%)
-    ' Comment Lines: 41 (10.90%)
+    '   Total Lines: 379
+    '    Code Lines: 288 (75.99%)
+    ' Comment Lines: 41 (10.82%)
     '    - Xml Docs: 65.85%
     ' 
-    '   Blank Lines: 49 (13.03%)
-    '     File Size: 16.89 KB
+    '   Blank Lines: 50 (13.19%)
+    '     File Size: 17.05 KB
 
 
     '     Class Scatter2D
@@ -289,7 +289,6 @@ Namespace Plots
                                                     Optional commentText As Boolean = False) As IEnumerable(Of PointF)
             Dim r As Single = pointSize / 2
             Dim d As Single = pointSize
-            Dim shapeSize As New Size(d, d)
             Dim writer As IElementCommentWriter = g.CheckElementWriter
 
             commentText = commentText AndAlso Not writer Is Nothing
@@ -307,11 +306,15 @@ Namespace Plots
                 End If
 
                 If fillPie Then
+                    Dim rd As Single = If(pt.size Is Nothing, r, pt.size / 2)
+                    Dim dz As Single = If(pt.size Is Nothing, d, pt.size)
+                    Dim shapeSize As New Size(dz, dz)
+
                     Select Case shape
                         Case LegendStyles.Circle
-                            pt1 = New PointF(pt1.X - r, pt1.Y - r)
+                            pt1 = New PointF(pt1.X - rd, pt1.Y - rd)
                         Case LegendStyles.Square
-                            pt1 = New PointF(pt1.X, pt1.Y - d)
+                            pt1 = New PointF(pt1.X, pt1.Y - dz)
                         Case Else
                             ' do nothing
                     End Select
@@ -319,7 +322,7 @@ Namespace Plots
                     g.DrawLegendShape(pt1, shapeSize, shape, getPointBrush(pt), border:=strokeCss)
 
                     If commentText Then
-                        Call writer.SetLastComment($"scatter point of [{pt.pt.X.ToString("F2")},{pt.pt.Y.ToString("F2")}] size:{pointSize} - serial:{serialName}")
+                        Call writer.SetLastComment($"scatter point of [{pt.pt.X.ToString("F2")},{pt.pt.Y.ToString("F2")}] size:{d} - serial:{serialName}")
                     End If
                 End If
             Next

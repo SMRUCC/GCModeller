@@ -95,8 +95,18 @@ Namespace Raw
             MyBase.RNAId = getComponentRNAs(model).Indexing
             MyBase.tRNA = getRNAIndex(model, RNATypes.tRNA).Indexing
             MyBase.rRNA = getRNAIndex(model, RNATypes.ribosomalRNA).JoinIterates({"ribosomeAssembly"}).Indexing
-            MyBase.Polypeptide = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) c.polypeptide).Indexing
-            MyBase.Proteins = model.Phenotype.proteins.Select(Function(p) p.ProteinID & ".complex").Indexing
+            MyBase.Polypeptide = model.Genotype.centralDogmas _
+                .Where(Function(g)
+                           Return g.RNA.Value = RNATypes.mRNA AndAlso Not g.polypeptide Is Nothing
+                       End Function) _
+                .Select(Function(c) c.polypeptide) _
+                .Indexing
+            MyBase.Proteins = model.Phenotype.proteins _
+                .Select(Function(p)
+                            Return p.ProteinID
+                            ' Return p.ProteinID & ".complex"
+                        End Function) _
+                .Indexing
             MyBase.Metabolites = model.Phenotype.fluxes _
                 .Select(Function(r) r.AllCompounds) _
                 .IteratesALL _

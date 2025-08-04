@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63dd99e780c4aaabda70492e8f2f9170, Data_science\Mathematica\Math\Math\Spline\DouglasPeucker\DouglasPeucker.vb"
+﻿#Region "Microsoft.VisualBasic::044ba96ff72de84bb72a1f3c8a3db2d3, Data_science\Mathematica\Math\Math\Spline\DouglasPeucker\DouglasPeucker.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 50.56%
     ' 
     '   Blank Lines: 30 (13.51%)
-    '     File Size: 8.75 KB
+    '     File Size: 8.73 KB
 
 
     '     Module DouglasPeucker
@@ -56,7 +56,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.Python
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Interpolation
 
@@ -204,11 +204,11 @@ Namespace Interpolation
             Dim intercept As Double
 
             If p1.X = p2.X Then
-                result = stdNum.Abs(p.X - p1.X)
+                result = std.Abs(p.X - p1.X)
             Else
                 slope = (p2.Y - p1.Y) / (p2.X - p1.X)
                 intercept = p1.Y - (slope * p1.X)
-                result = stdNum.Abs(slope * p.X - p.Y + intercept) / stdNum.Sqrt(stdNum.Pow(slope, 2) + 1)
+                result = std.Abs(slope * p.X - p.Y + intercept) / std.Sqrt(std.Pow(slope, 2) + 1)
             End If
 
             Return result
@@ -224,7 +224,7 @@ Namespace Interpolation
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function distanceFromPointToLine(p As PointF, a As PointF, b As PointF) As Double
-            Return stdNum.Sqrt(distanceFromPointToLineSquared(p, a, b))
+            Return std.Sqrt(distanceFromPointToLineSquared(p, a, b))
         End Function
 
         ''' <summary>

@@ -74,8 +74,8 @@ Module Program
         Dim model As VirtualCell = builder.Compile($"compile --log Z:/run.log")
 
         Call builder.Dispose()
-        Call model.GetXml.SaveTo("Z:/ecoli.xml")
-        Call ZipAssembly.WriteZip(model, "Z:/ecoli.zip")
+        Call model.GetXml.SaveTo("F:\ecoli\ecoli.xml")
+        Call ZipAssembly.WriteZip(model, "F:\ecoli\ecoli.zip")
 
         Pause()
     End Sub
@@ -89,9 +89,9 @@ Module Program
                             New TranscriptUnit With {
                                 .id = "Gene-123",
                                 .genes = {
-                                    New gene With {.type = RNATypes.mRNA, .locus_tag = "gene1", .protein_id = "protein1", .product = "peptide1", .nucleotide_base = New NumericVector("gene1", 1, 1, 1, 1), .amino_acid = New NumericVector("peptide1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)},
-                                    New gene With {.type = RNATypes.mRNA, .locus_tag = "gene2", .protein_id = "protein2", .product = "peptide2", .nucleotide_base = New NumericVector("gene2", 1, 1, 1, 1), .amino_acid = New NumericVector("peptide2", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)},
-                                    New gene With {.type = RNATypes.mRNA, .locus_tag = "gene3", .protein_id = "protein3", .product = "peptide3", .nucleotide_base = New NumericVector("gene3", 1, 1, 1, 1), .amino_acid = New NumericVector("peptide3", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)}
+                                    New gene With {.type = RNATypes.mRNA, .locus_tag = "gene1", .protein_id = {"protein1"}, .product = {"peptide1"}, .nucleotide_base = New NumericVector("gene1", 1, 1, 1, 1), .amino_acid = New NumericVector("peptide1", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)},
+                                    New gene With {.type = RNATypes.mRNA, .locus_tag = "gene2", .protein_id = {"protein2"}, .product = {"peptide2"}, .nucleotide_base = New NumericVector("gene2", 1, 1, 1, 1), .amino_acid = New NumericVector("peptide2", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)},
+                                    New gene With {.type = RNATypes.mRNA, .locus_tag = "gene3", .protein_id = {"protein3"}, .product = {"peptide3"}, .nucleotide_base = New NumericVector("gene3", 1, 1, 1, 1), .amino_acid = New NumericVector("peptide3", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)}
                                 }
                             }
                         },

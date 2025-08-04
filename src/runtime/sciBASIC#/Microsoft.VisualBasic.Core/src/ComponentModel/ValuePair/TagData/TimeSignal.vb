@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51226cc199be686a619232eef1c0baa4, Microsoft.VisualBasic.Core\src\ComponentModel\ValuePair\TagData\TimeSignal.vb"
+﻿#Region "Microsoft.VisualBasic::f8efdee273c9cb8ee65702677a919c1a, Microsoft.VisualBasic.Core\src\ComponentModel\ValuePair\TagData\TimeSignal.vb"
 
     ' Author:
     ' 
@@ -34,30 +34,96 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 9
-    '    Code Lines: 6 (66.67%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 71
+    '    Code Lines: 26 (36.62%)
+    ' Comment Lines: 35 (49.30%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 3 (33.33%)
-    '     File Size: 195 B
+    '   Blank Lines: 10 (14.08%)
+    '     File Size: 2.32 KB
 
 
     '     Interface ITimeSignal
     ' 
     '         Properties: intensity, time
     ' 
+    '     Module TimeSignalDataExtensions
+    ' 
+    '         Function: Intensity, Time, X, Y
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+
 Namespace ComponentModel.TagData
 
+    ''' <summary>
+    ''' Interface representing the time series data
+    ''' </summary>
     Public Interface ITimeSignal
 
+        ''' <summary>
+        ''' the time point data
+        ''' </summary>
+        ''' <returns></returns>
         ReadOnly Property time As Double
+        ''' <summary>
+        ''' the signal intensity value of current time point
+        ''' </summary>
+        ''' <returns></returns>
         ReadOnly Property intensity As Double
 
     End Interface
+
+    <HideModuleName>
+    Public Module TimeSignalDataExtensions
+
+        ''' <summary>
+        ''' get time signal time point as vector
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Time(Of T As ITimeSignal)(x As IEnumerable(Of T)) As Double()
+            Return x.Select(Function(ti) ti.time).ToArray
+        End Function
+
+        ''' <summary>
+        ''' get signal intensity value as vector
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Intensity(Of T As ITimeSignal)(x As IEnumerable(Of T)) As Double()
+            Return x.Select(Function(ti) ti.intensity).ToArray
+        End Function
+
+        ''' <summary>
+        ''' get time signal time point as vector
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="data"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function X(Of T As ITimeSignal)(data As IEnumerable(Of T)) As Double()
+            Return data.Select(Function(ti) ti.time).ToArray
+        End Function
+
+        ''' <summary>
+        ''' get signal intensity value as vector
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="data"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Y(Of T As ITimeSignal)(data As IEnumerable(Of T)) As Double()
+            Return data.Select(Function(ti) ti.intensity).ToArray
+        End Function
+
+    End Module
 End Namespace

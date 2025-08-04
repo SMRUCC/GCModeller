@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f096ded3302ef4c4695a0e3accc70ad3, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\XLSX\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::ab3c9a9979a07dbf2f7b18972f31a871, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\XLSX\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 105
-    '    Code Lines: 72 (68.57%)
-    ' Comment Lines: 20 (19.05%)
+    '   Total Lines: 135
+    '    Code Lines: 97 (71.85%)
+    ' Comment Lines: 20 (14.81%)
     '    - Xml Docs: 95.00%
     ' 
-    '   Blank Lines: 13 (12.38%)
-    '     File Size: 3.92 KB
+    '   Blank Lines: 18 (13.33%)
+    '     File Size: 5.16 KB
 
 
     '     Module Extensions
@@ -49,13 +49,14 @@
     ' 
     '         Function: EnumerateTables, (+2 Overloads) FirstSheet, GetSheetNames, ReadTableAuto
     ' 
-    '         Sub: WriteSheetTable
+    '         Sub: (+2 Overloads) SaveToExcel, WriteSheetTable
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework
@@ -163,7 +164,7 @@ Namespace XLSX
         End Sub
 
         <Extension>
-        Public Sub SaveToExcel(Of T)(data As IEnumerable(Of T), file As String, sheetName As String, Optional metadata As String()() = Nothing)
+        Public Sub SaveToExcel(Of T)(data As IEnumerable(Of T), file As Stream, sheetName As String, Optional metadata As String()() = Nothing)
             Dim str As csv = data.ToCsvDoc()
             Dim workbook As New Workbook(sheetName)
             Dim sheet As Worksheet = workbook.CurrentWorksheet
@@ -179,7 +180,14 @@ Namespace XLSX
             End If
 
             Call workbook.WriteSheetTable(str)
-            Call workbook.SaveAs(file)
+            Call workbook.SaveAsStream(file)
+        End Sub
+
+        <Extension>
+        Public Sub SaveToExcel(Of T)(data As IEnumerable(Of T), file As String, sheetName As String, Optional metadata As String()() = Nothing)
+            Using s As Stream = file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Call data.SaveToExcel(s, sheetName, metadata)
+            End Using
         End Sub
     End Module
 End Namespace
