@@ -57,7 +57,6 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
 
 Namespace SequenceModel.Polypeptides
 
