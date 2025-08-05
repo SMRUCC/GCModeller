@@ -56,6 +56,8 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
 
 Namespace SequenceModel.Polypeptides
 
@@ -88,6 +90,43 @@ Namespace SequenceModel.Polypeptides
         <Extension>
         Public Function ToString(aa As IEnumerable(Of AminoAcid)) As String
             Return New String(aa.Select(Function(a) ToChar(a)).ToArray)
+        End Function
+
+        ''' <summary>
+        ''' Generate all polypeptide sequence with given length
+        ''' </summary>
+        ''' <param name="len"></param>
+        ''' <returns></returns>
+        Public Iterator Function Generate(len As Integer) As IEnumerable(Of String)
+            If len <= 0 Then
+                Return
+            End If
+
+            Dim peptides As New List(Of List(Of Char))
+
+            ' 初始状态：所有单个氨基酸
+            For Each aa As Char In AminoAcidObjUtility.OneLetterFormula.Keys
+                Call peptides.Add(New List(Of Char) From {aa})
+            Next
+
+            ' 迭代构建更长的肽链
+            For currentLength As Integer = 2 To len
+                Dim newPeptides As New List(Of List(Of Char))
+
+                ' 为每个现有肽链添加所有可能的氨基酸
+                For Each peptide As List(Of Char) In peptides
+                    For Each aa As Char In AminoAcidObjUtility.OneLetterFormula.Keys
+                        Call newPeptides.Add(New List(Of Char)(peptide.JoinIterates(aa)))
+                    Next
+                Next
+
+                ' 更新肽链列表为当前长度的组合
+                peptides = newPeptides
+            Next
+
+            For Each combine As List(Of Char) In peptides
+                Yield New String(combine.ToArray)
+            Next
         End Function
 
         ''' <summary>
