@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::19fa0c055ab84fffbb32da43d8534268, Microsoft.VisualBasic.Core\src\Extensions\Math\Information\EntropyScore.vb"
+﻿#Region "Microsoft.VisualBasic::ece7d28362c3939077ddbc9e5a9105bf, Microsoft.VisualBasic.Core\src\Extensions\Math\Information\EntropyScore.vb"
 
     ' Author:
     ' 
@@ -54,7 +54,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Math.Information
 
@@ -84,7 +84,7 @@ Namespace Math.Information
             Dim SA = v1.Entropy
             Dim SB = v2.Entropy
             ' Unweighted entropy similarity
-            Dim s As Double = 1 - (2 * SAB - SA - SB) / stdNum.Log(4)
+            Dim s As Double = 1 - (2 * SAB - SA - SB) / std.Log(4)
 
             Return If(s < 0, 0, s)
         End Function

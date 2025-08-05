@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73b97bd3da14c1a328975ca711b33bae, Microsoft.VisualBasic.Core\src\Extensions\Math\Trigonometric\Arctan.vb"
+﻿#Region "Microsoft.VisualBasic::ef50f838c26bd636e6d8ba739734a642, Microsoft.VisualBasic.Core\src\Extensions\Math\Trigonometric\Arctan.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 7 (14.00%)
-    '     File Size: 1.51 KB
+    '     File Size: 1.49 KB
 
 
     '     Module Trigonometric
@@ -52,13 +52,13 @@
 
 #End Region
 
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Math
 
     Partial Module Trigonometric
 
-        Const HalfPI# = stdNum.PI / 2
+        Const HalfPI# = std.PI / 2
         Const n1# = 1.0R
         Const n05# = 0.5R
 
@@ -75,9 +75,9 @@ Namespace Math
         ''' <remarks>Atan测试没有问题</remarks>>
         Public Function Atn(x#) As Double
             If x# = 1.0 Then
-                Return stdNum.PI / 4
+                Return std.PI / 4
             End If
-            If stdNum.Sign(x) = stdNum.Sign(-1) Then
+            If std.Sign(x) = std.Sign(-1) Then
                 Return -Atn(-x)
             End If
             If x > Trigonometric.n1 Then

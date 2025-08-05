@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
@@ -67,7 +68,7 @@ Public Module Extensions
     ''' <returns></returns>
     <Extension>
     Public Iterator Function variables(massTable As MassTable, complex As Protein, cellular_id As String) As IEnumerable(Of Variable)
-        For Each compound In complex.compounds
+        For Each compound In complex.compounds.SafeQuery
             Yield massTable.variable(compound, cellular_id)
         Next
         For Each peptide In complex.polypeptides

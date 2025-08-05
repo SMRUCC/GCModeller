@@ -60,9 +60,9 @@ Imports System.Runtime.CompilerServices
 Namespace SequenceModel.Polypeptides
 
     ''' <summary>
-    ''' Protein polypeptide sequence.(蛋白质多肽链的一些相关操作)
+    ''' Protein polypeptide sequence.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(蛋白质多肽链的一些相关操作)</remarks>
     Public Module Polypeptide
 
         ''' <summary>
@@ -239,6 +239,28 @@ Namespace SequenceModel.Polypeptides
             {"Val", "V"},
             {"Sec", "U"}, {"Pyl", "O"},
                                        _
+            {"alaT", "A"}, {"alaX", "A"}, {"alaW", "A"}, {"alaU", "A"}, {"alaV", "A"},
+            {"argU", "R"}, {"argQ", "R"}, {"argX", "R"}, {"argV", "R"}, {"argZ", "R"}, {"argY", "R"}, {"argW", "R"},
+            {"aspV", "D"}, {"aspT", "D"}, {"aspU", "D"},
+            {"asnU", "N"}, {"asnV", "N"}, {"asnT", "N"},
+            {"cysT", "C"},
+            {"glnX", "Q"}, {"glnV", "Q"}, {"glnW", "Q"}, {"glnU", "Q"}, ' {"glu", "E"},
+            {"gltT", "E"}, {"gltW", "E"}, {"gltU", "E"}, {"gltV", "E"},
+            {"glyU", "G"}, {"glyV", "G"}, {"glyX", "G"}, {"glyY", "G"}, {"glyT", "G"}, {"glyW", "G"},
+            {"hisR", "H"},
+            {"ileT", "I"}, {"ileU", "I"}, {"ileV", "I"}, {"ileX", "I"},
+            {"leuV", "L"}, {"leuP", "L"}, {"leuQ", "L"}, {"leuW", "L"}, {"leuX", "L"}, {"leuU", "L"}, {"leuZ", "L"}, {"leuT", "L"},
+            {"lysV", "K"}, {"lysT", "K"}, {"lysW", "K"},
+            {"metY", "M"}, {"metU", "M"}, {"metT", "M"}, {"metZ", "M"}, {"metW", "M"},
+            {"pheV", "F"}, {"pheU", "F"},
+            {"proK", "P"}, {"proM", "P"}, {"proL", "P"},
+            {"serW", "S"}, {"serU", "S"}, {"serT", "S"}, {"serX", "S"}, {"serV", "S"},
+            {"thrV", "T"}, {"thrU", "T"}, {"thrW", "T"}, {"thrT", "T"},
+            {"trpT", "W"},
+            {"tyrV", "Y"}, {"tyrU", "Y"}, {"tyrT", "Y"},
+            {"valU", "V"}, {"valX", "V"}, {"valY", "V"}, {"valT", "V"}, {"valV", "V"}, {"valW", "V"},
+            {"selC", "U"}, ' {"pyl", "O"},
+                           _
             {"ala", "A"}, {"arg", "R"}, {"asp", "D"}, {"asn", "N"},
             {"cys", "C"},
             {"gln", "Q"}, {"glu", "E"}, {"glt", "E"}, {"gly", "G"},

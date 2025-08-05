@@ -10,11 +10,11 @@ require(GCModeller);
 
 # script for create gsea background
 
-const cache_dir = [?"--cache" || stop("No data cahce file!")] 
+const Tcode     =  ?"--tcode" || "map";
+const cache_dir = [?"--cache" || relative_work(`${Tcode}.hds`)] 
 |> HDS::openStream(allowCreate = TRUE)
 |> http::http.cache()
 ;
-const Tcode     =  ?"--tcode" || "map";
 const pathways  = list_pathway(Tcode, cache = cache_dir);
 
 for(name in names(pathways)) {  

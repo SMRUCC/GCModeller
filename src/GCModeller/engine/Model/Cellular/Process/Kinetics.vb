@@ -104,7 +104,7 @@ Namespace Cellular.Process
                     Dim gene As CentralDogma = geneMaps.TryGetValue(id)
 
                     If Not gene.polypeptide.StringEmpty(, True) Then
-                        paramVals(i) = gene.polypeptide & ".complex"
+                        ' paramVals(i) = gene.polypeptide & ".complex"
                     End If
                 End If
             Next

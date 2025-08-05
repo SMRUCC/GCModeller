@@ -55,9 +55,13 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 
@@ -84,12 +88,20 @@ Namespace ModelLoader
             Return proteinDegradation(cell).AsList + RNADegradation(cell)
         End Function
 
+        Private Function CheckProteinComplexId(c As Variable, proteins As Index(Of String)) As Boolean
+            Dim source = MassTable.getSource(c.mass.ID)
+            Dim check = source.source_id Like proteins
+
+            Return check
+        End Function
+
         Private Iterator Function proteinDegradation(cell As CellularModule) As IEnumerable(Of Channel)
             Dim cellular_id As String = cell.CellularEnvironmentName
             ' protein complex -> polypeptide + compounds
             ' polypeptide -> aminoacid
             Dim proteinComplexId$
-            Dim peptideId$
+            Dim peptideId$()
+            Dim compoundIds As String()
             Dim geneIDindex = cell.Genotype.centralDogmas _
                 .Where(Function(cd)
                            Return Not cd.polypeptide.StringEmpty
@@ -108,58 +120,121 @@ Namespace ModelLoader
                                   Return r.First
                               End Function)
             Dim composition As ProteinComposition
-            Dim aaResidue As Variable()
+            Dim aaResidue As List(Of Variable)
+            Dim compoundLigends As Variable()
             Dim geneIDSet As String()
             Dim flux As Channel
             Dim proteinComplex As Variable
+            Dim proteinCplx = cell.Phenotype.proteins _
+                .GroupBy(Function(p) Loader.GetProteinMatureId(p)) _
+                .ToDictionary(Function(p) p.Key,
+                              Function(p)
+                                  Return p.ToArray
+                              End Function)
+            Dim proteinIDs = cell.Phenotype.proteins.Select(Function(p) p.ProteinID).Indexing
 
+            ' protein degradation to amino acids and lignds
             For Each complex As Channel In proteinMatures
-                proteinComplex = complex.right _
-                    .First(Function(c)
-                               Return MassTable.getSource(c.mass.ID).source_id.EndsWith(".complex")
-                           End Function)
+                proteinComplex = complex.right.First(Function(c) CheckProteinComplexId(c, proteinIDs))
                 proteinComplexId = MassTable.getSource(proteinComplex.mass.ID).source_id
-                peptideId = proteinComplexId.Replace(".complex", "")
-                geneIDSet = geneIDindex(peptideId)
+                peptideId = proteinCplx(complex.ID).Select(Function(c) c.polypeptides).IteratesALL.ToArray
+                compoundIds = proteinCplx(complex.ID).Select(Function(c) c.compounds).IteratesALL.ToArray
+                compoundIds = peptideId.Where(Function(id) Not geneIDindex.ContainsKey(id)).JoinIterates(compoundIds).ToArray
+                geneIDSet = peptideId _
+                    .Where(Function(id)
+                               ' one complex could be the component of another complex
+                               ' so the component complex has no reference gene id
+                               ' skip this component
+                               Return geneIDindex.ContainsKey(id)
+                           End Function) _
+                    .Select(Function(id) geneIDindex(id)) _
+                    .IteratesALL _
+                    .ToArray
+
+                Dim AAlist As New Dictionary(Of String, Integer)
 
                 For Each geneId As String In geneIDSet
                     composition = proteinMatrix(geneId)
-                    aaResidue = composition _
+
+                    For Each aa As NamedValue(Of Double) In composition
+                        If aa.Value <= 0 Then
+                            Continue For
+                        End If
+
+                        Dim aaName = loader.define.AminoAcid(aa.Name)
+
+                        If Not AAlist.ContainsKey(aaName) Then
+                            AAlist.Add(aaName, 0)
+                        End If
+
+                        AAlist(aaName) += aa.Value
+                    Next
+                Next
+
+                aaResidue = AAlist _
+                    .Select(Function(aa)
+                                Return MassTable.variable(aa.Key, cellular_id, aa.Value)
+                            End Function) _
+                    .AsList
+                compoundLigends = compoundIds _
+                    .GroupBy(Function(c) c) _
+                    .Select(Function(c) MassTable.variable(c.Key, cellular_id, c.Count)) _
+                    .ToArray
+
+                If aaResidue.IsNullOrEmpty Then
+                    Call VBDebugger.Warning($"missing protein composition for complex: {complex.ID}")
+                    Continue For
+                End If
+
+                flux = New Channel(MassTable.variables({proteinComplexId}, 1, cell.CellularEnvironmentName), aaResidue + compoundLigends) With {
+                    .ID = $"proteinComplexDegradationOf{proteinComplexId}",
+                    .forward = Controls.StaticControl(10),
+                    .reverse = Controls.StaticControl(0),
+                    .bounds = New Boundary With {
+                        .forward = 1000,
+                        .reverse = 0
+                    }
+                }
+
+                Call loader.fluxIndex(NameOf(Me.proteinDegradation)).Add(flux.ID)
+
+                Yield flux
+            Next
+
+            ' polypeptide degradation to amino acids
+            For Each gene As CentralDogma In cell.Genotype.centralDogmas
+                If gene.RNA.Value <> RNATypes.mRNA Then
+                    Continue For
+                End If
+                If gene.polypeptide.StringEmpty(, True) Then
+                    Continue For
+                End If
+                If Not proteinMatrix.ContainsKey(gene.polypeptide) Then
+                    ' is component rna
+                    Continue For
+                End If
+
+                composition = proteinMatrix(gene.polypeptide)
+                aaResidue = composition _
                         .Where(Function(i) i.Value > 0) _
                         .Select(Function(aa)
                                     Dim aaName = loader.define.AminoAcid(aa.Name)
                                     Return MassTable.variable(aaName, cellular_id, aa.Value)
                                 End Function) _
-                        .ToArray
+                        .AsList
+                flux = New Channel(MassTable.variables({gene.polypeptide}, 1, cell.CellularEnvironmentName), aaResidue) With {
+                     .ID = $"polypeptideDegradationOf{gene.polypeptide}",
+                     .forward = Controls.StaticControl(10),
+                     .reverse = Controls.StaticControl(0),
+                     .bounds = New Boundary With {
+                         .forward = 1000,
+                         .reverse = 0
+                     }
+                 }
 
-                    flux = New Channel(MassTable.variables({proteinComplexId}, 1, cell.CellularEnvironmentName), MassTable.variables({peptideId}, 1, cell.CellularEnvironmentName)) With {
-                        .ID = $"proteinComplexDegradationOf{proteinComplexId}",
-                        .forward = Controls.StaticControl(10),
-                        .reverse = Controls.StaticControl(0),
-                        .bounds = New Boundary With {
-                            .forward = 1000,
-                            .reverse = 0
-                        }
-                    }
+                Call loader.fluxIndex("polypeptideDegradation").Add(flux.ID)
 
-                    Call loader.fluxIndex(NameOf(Me.proteinDegradation)).Add(flux.ID)
-
-                    Yield flux
-
-                    flux = New Channel(MassTable.variables({peptideId}, 1, cell.CellularEnvironmentName), aaResidue) With {
-                        .ID = $"polypeptideDegradationOf{peptideId}",
-                        .forward = Controls.StaticControl(10),
-                        .reverse = Controls.StaticControl(0),
-                        .bounds = New Boundary With {
-                            .forward = 1000,
-                            .reverse = 0
-                        }
-                    }
-
-                    Call loader.fluxIndex("polypeptideDegradation").Add(flux.ID)
-
-                    Yield flux
-                Next
+                Yield flux
             Next
         End Function
 
@@ -185,6 +260,10 @@ Namespace ModelLoader
 
             ' rna -> nt base
             For Each gene As CentralDogma In cell.Genotype.centralDogmas
+                If Not rnaMatrix.ContainsKey(gene.geneID) Then
+                    Continue For
+                End If
+
                 composition = rnaMatrix(gene.geneID)
                 ntBase = composition _
                     .Where(Function(i) i.Value > 0) _

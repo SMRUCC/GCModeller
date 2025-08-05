@@ -77,9 +77,14 @@ Namespace MarkupCompiler.BioCyc
                         type = RNATypes.ribosomalRNA
                         value = rna_mol.types(0).Split("-"c).First.ToLower
                     Case Else
-                        If rna_mol.types.Any(Function(t) t.EndsWith("-tRNAs")) Then
+                        If rna_mol.types.Any(Function(t) t.EndsWith("-tRNAs")) OrElse
+                            rna_mol.types.Any(Function(t) t = "Initiation-tRNAmet") OrElse
+                            rna_mol.types.Any(Function(t) t.StartsWith("tRNA-")) Then
+
                             If rna_mol.types.Any(Function(t) t.StartsWith("Charged")) Then
-                                type = RNATypes.chargedtRNA
+                                ' type = RNATypes.chargedtRNA
+                                ' skip of the charged t-RNA
+                                Continue For
                             Else
                                 type = RNATypes.tRNA
                             End If
@@ -87,6 +92,8 @@ Namespace MarkupCompiler.BioCyc
                             value = rna_mol.types(0) _
                                 .Replace("-tRNAs", "") _
                                 .Replace("Charged", "") _
+                                .Replace("tRNA-", "") _
+                                .Replace("Initiation-tRNA", "") _
                                 .ToLower _
                                 .Trim("-"c)
 
@@ -155,12 +162,12 @@ Namespace MarkupCompiler.BioCyc
 
                 Yield New gene With {
                     .locus_tag = data.uniqueId,
-                    .product = data.product,
+                    .product = If(prot Is Nothing, data.product, {prot.uniqueId}),
                     .left = data.left,
                     .right = data.right,
                     .strand = data.direction.ToString,
                     .type = rna_type,
-                    .protein_id = prot?.uniqueId,
+                    .protein_id = If(rna_type = RNATypes.mRNA, data.product, Nothing),
                     .amino_acid = prot_vec,
                     .nucleotide_base = nucl_vec
                 }

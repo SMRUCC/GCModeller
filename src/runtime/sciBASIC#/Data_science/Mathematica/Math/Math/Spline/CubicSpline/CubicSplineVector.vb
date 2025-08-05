@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92697823b563ec315a8dc3ef312bceae, Data_science\Mathematica\Math\Math\Spline\CubicSpline\CubicSplineVector.vb"
+﻿#Region "Microsoft.VisualBasic::813c8643ccefb79173cef4dad166348e, Data_science\Mathematica\Math\Math\Spline\CubicSpline\CubicSplineVector.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 18.75%
     ' 
     '   Blank Lines: 28 (22.76%)
-    '     File Size: 4.21 KB
+    '     File Size: 4.20 KB
 
 
     '     Class CubicSplineVector
@@ -60,7 +60,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Interpolation
 
@@ -164,7 +164,7 @@ Namespace Interpolation
             Dim cubicNum%, cubicPos!
 
             position = position * _cubics.Count
-            cubicNum = CInt(Fix(stdNum.Min(_cubics.Count - 1, position)))
+            cubicNum = CInt(Fix(std.Min(_cubics.Count - 1, position)))
             cubicPos = (position - cubicNum)
 
             Return _cubics(cubicNum).Eval(cubicPos)

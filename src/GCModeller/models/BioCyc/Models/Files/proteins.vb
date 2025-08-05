@@ -93,7 +93,12 @@ Public Class proteins : Inherits Model
         End Get
     End Property
 
+    <AttributeField("COMPONENTS")>
+    Public Property components As String()
     Public Property protseq As String
+
+    <AttributeField("UNMODIFIED-FORM")>
+    Public Property unmodified_form As String
 
     Public Shared Function OpenFile(fullName As String) As AttrDataCollection(Of proteins)
         Using file As Stream = fullName.Open(FileMode.Open, doClear:=False, [readOnly]:=True)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d74a5a24d8a1d7da6fe7b5324892b56f, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\Levenshtein\ResultVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::9640ce47a52db63f7f1dae3fed621d5a, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\Levenshtein\ResultVisualize.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 19 (11.18%)
-    '     File Size: 6.60 KB
+    '     File Size: 6.59 KB
 
 
     '     Module ResultVisualize
@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text.Xml
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 
@@ -192,7 +192,7 @@ Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
                 Dim r As New XmlBuilder
 
                 For j As Integer = 0 To Len(Hypotheses) - 1
-                    Dim c = stdNum.Round(matrix.DistTable(i)(j), 2)
+                    Dim c = std.Round(matrix.DistTable(i)(j), 2)
 
                     If dict.ContainsKey(i) AndAlso Array.IndexOf(dict(i), j) > -1 Then
                         r += <td style="background-color:green;color:white">

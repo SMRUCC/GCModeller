@@ -184,7 +184,10 @@ Namespace ModelLoader
                 .ToArray
             ' mature protein complex
             enzymeProteinComplexes = enzymeProteinComplexes _
-                .Select(Function(id) id & ".complex") _
+                .Select(Function(id)
+                            Return id
+                            ' Return id & ".complex"
+                        End Function) _
                 .ToArray
 
             Dim forward As Controls
@@ -206,7 +209,7 @@ Namespace ModelLoader
                             .SafeQuery _
                             .Select(Function(a) a.ToString), enzymeProteinComplexes) _
                             .ToArray,
-                        cellular_id:=reaction.enzyme_compartment
+                        cellular_id:=reaction.enzyme_compartment Or default_compartment
                     )
                     SetParameterLinks(DirectCast(forward, KineticsControls))
                 Else
@@ -220,7 +223,7 @@ Namespace ModelLoader
                                 .SafeQuery _
                                 .Select(Function(a) a.ToString), enzymeProteinComplexes) _
                                 .ToArray,
-                            cellular_id:=reaction.enzyme_compartment
+                            cellular_id:=reaction.enzyme_compartment Or default_compartment
                         )
                     )
                     SetParameterLinks(DirectCast(forward, KineticsOverlapsControls))

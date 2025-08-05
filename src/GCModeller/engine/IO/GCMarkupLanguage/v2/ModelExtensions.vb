@@ -131,7 +131,7 @@ Namespace v2
                               End Function)
             Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
             Dim RNA As NamedValue(Of RNATypes)
-            Dim proteinId$
+            Dim proteinId As String()
 
             ' just contains the metabolism network
             ' for run simulator
@@ -143,6 +143,7 @@ Namespace v2
                 genomeName = replicon.genomeName
 
                 If replicon.RNAs.IsNullOrEmpty AndAlso unitTest Then
+                    ' add tRNA model for unit test
                     replicon.RNAs = Polypeptide.Abbreviate.Keys _
                         .Select(Function(name)
                                     Return New v2.RNA($"tRNA-{name}", RNATypes.tRNA, $"tRNA-{name}")
@@ -184,6 +185,7 @@ Namespace v2
                     For Each gene As gene In operon.genes
                         If rnaTable.ContainsKey(gene.locus_tag) Then
                             RNA = rnaTable(gene.locus_tag)
+                            RNA = New NamedValue(Of RNATypes)(gene.nucleotide_base.name, RNA.Value, RNA.Description)
                             proteinId = Nothing
                         Else
                             ' 枚举的默认值为mRNA
@@ -192,7 +194,7 @@ Namespace v2
                             }
                             proteinId = gene.protein_id ' Or $"{gene.locus_tag}::peptide".AsDefault
 
-                            If proteinId.StringEmpty Then
+                            If proteinId.IsNullOrEmpty Then
                                 Dim warn = $"broken central dogma of '{gene.locus_tag}' was found. this gene should be a mRNA but missing polypeptide data."
 
                                 Call warn.Warning
@@ -200,16 +202,33 @@ Namespace v2
                             End If
                         End If
 
-                        Yield New CentralDogma With {
-                            .replicon = genomeName,
-                            .geneID = gene.locus_tag,
-                            .polypeptide = proteinId,
-                            .orthology = enzymes.TryGetValue(.geneID)?.KO,
-                            .RNA = RNA,
-                            .transcript = gene.nucleotide_base?.name,
-                            .translation = gene.amino_acid?.name,
-                            .transcript_unit = operon.id
-                        }
+                        If Not proteinId Is Nothing Then
+                            ' mRNA
+                            For Each pid As String In proteinId
+                                Yield New CentralDogma With {
+                                    .replicon = genomeName,
+                                    .geneID = gene.locus_tag,
+                                    .polypeptide = pid,
+                                    .orthology = enzymes.TryGetValue(.geneID)?.KO,
+                                    .RNA = RNA,
+                                    .transcript = gene.nucleotide_base?.name,
+                                    .translation = gene.amino_acid?.name,
+                                    .transcript_unit = operon.id
+                                }
+                            Next
+                        Else
+                            ' component RNA
+                            Yield New CentralDogma With {
+                                .replicon = genomeName,
+                                .geneID = gene.locus_tag,
+                                .polypeptide = Nothing,
+                                .orthology = Nothing,
+                                .RNA = RNA,
+                                .transcript = gene.nucleotide_base?.name,
+                                .translation = Nothing,
+                                .transcript_unit = operon.id
+                            }
+                        End If
                     Next
                 Next
             Next
@@ -237,18 +256,16 @@ Namespace v2
                                 End Function) _
                         .IteratesALL _
                         .Where(Function(gene) Not gene.amino_acid Is Nothing) _
-                        .Select(Function(orf)
-                                    Return New Molecule.Protein With {
-                                        .compounds = {},
-                                        .polypeptides = {orf.protein_id},
-                                        .ProteinID = orf.protein_id
-                                    }
-                                End Function) _
+                        .Select(Function(orf) orf.protein_id) _
+                        .IteratesALL _
+                        .gene_peptides _
                         .ToArray
                 End If
             Else
                 Dim peptideChains As Index(Of String) = model.genome.proteins _
-                    .SelectMany(Function(p) p.peptide_chains) _
+                    .Select(Function(p) p.peptide_chains) _
+                    .IteratesALL _
+                    .Where(Function(id) Not id.StringEmpty(, True)) _
                     .Distinct _
                     .Indexing
 
@@ -269,14 +286,12 @@ Namespace v2
                                 End Function) _
                         .IteratesALL _
                         .Where(Function(gene) Not gene.amino_acid Is Nothing) _
-                        .Where(Function(gene) Not gene.protein_id Like peptideChains) _
-                        .Select(Function(orf)
-                                    Return New Molecule.Protein With {
-                                        .compounds = {},
-                                        .polypeptides = {orf.protein_id},
-                                        .ProteinID = orf.protein_id
-                                    }
-                                End Function) _
+                        .Select(Function(gene) gene.protein_id) _
+                        .IteratesALL _
+                        .Where(Function(protein_id)
+                                   Return Not protein_id Like peptideChains
+                               End Function) _
+                        .gene_peptides _
                         .JoinIterates(proteins) _
                         .ToArray
                 End If
@@ -287,6 +302,17 @@ Namespace v2
                 .enzymes = enzymes,
                 .proteins = proteins
             }
+        End Function
+
+        <Extension>
+        Private Iterator Function gene_peptides(orf As IEnumerable(Of String)) As IEnumerable(Of Molecule.Protein)
+            For Each prot_id As String In orf
+                Yield New Molecule.Protein With {
+                    .compounds = {},
+                    .polypeptides = {prot_id},
+                    .ProteinID = prot_id
+                }
+            Next
         End Function
 
         <Extension>
