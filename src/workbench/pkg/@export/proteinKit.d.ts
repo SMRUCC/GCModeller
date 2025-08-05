@@ -114,7 +114,7 @@ declare namespace proteinKit {
      * 
      * + default value Is ``false``.
    */
-   function parse_pdb(pdb_txt: string, safe?: boolean): any;
+   function parse_pdb(pdb_txt: string, safe?: boolean): object;
    /**
     * get structure models inside the given pdb object
     * 
