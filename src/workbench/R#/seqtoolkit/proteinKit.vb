@@ -205,10 +205,10 @@ Module proteinKit
     ''' <returns></returns>
     <ExportAPI("parse_pdb")>
     <RApiReturn(GetType(PDB))>
-    Public Function parsePdb(pdb_txt As String, Optional safe As Boolean = False) As Object
+    Public Function parsePdb(pdb_txt As String, Optional safe As Boolean = False, Optional verbose As Boolean = False) As Object
         If safe Then
             Try
-                Return PDB.Parse(pdb_txt)
+                Return PDB.Parse(pdb_txt, verbose)
             Catch ex As Exception
                 Call App.LogException(ex)
                 Call ex.Message.Warning
@@ -216,7 +216,7 @@ Module proteinKit
                 Return Nothing
             End Try
         Else
-            Return PDB.Parse(pdb_txt)
+            Return PDB.Parse(pdb_txt, verbose)
         End If
     End Function
 

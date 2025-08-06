@@ -68,7 +68,7 @@ Friend Class Parser
     ''' </summary>
     ''' <param name="s"></param>
     ''' <returns></returns>
-    Public Shared Iterator Function Load(s As Stream) As IEnumerable(Of PDB)
+    Public Shared Iterator Function Load(s As Stream, Optional verbose As Boolean = False) As IEnumerable(Of PDB)
         Dim pdb As New PDB
         Dim reader As New Parser
 
@@ -77,7 +77,7 @@ Friend Class Parser
                 pdb = New PDB
             End If
 
-            If reader.ReadLine(pdb, line) Then
+            If reader.ReadLine(pdb, line, verbose) Then
                 If Not reader.last Is Nothing Then
                     Call reader.last.Flush()
                 End If
@@ -105,7 +105,7 @@ Friend Class Parser
         End If
     End Function
 
-    Private Function ReadLine(ByRef pdb As PDB, line As String) As Boolean
+    Private Function ReadLine(ByRef pdb As PDB, line As String, verbose As Boolean) As Boolean
         Dim data = line.GetTagValue(trim:=True, failureNoName:=False)
 
         Call lines.Add(line)
@@ -164,7 +164,10 @@ Friend Class Parser
             Case "NUMMDL"
 
                 pdb.NUMMDL = NUMMDL.Parse(last, data.Value)
-                Call VBDebugger.EchoLine($"Found {pdb.NUMMDL} structure models inside {pdb.Header.ToString}.")
+
+                If verbose Then
+                    Call VBDebugger.EchoLine($"Found {pdb.NUMMDL} structure models inside {pdb.Header.ToString}.")
+                End If
 
             Case Keyword.KEYWORD_HET : pdb.Het = Het.Append(last, data.Value)
             Case Keyword.KEYWORD_HETNAM : pdb.HetName = HetName.Append(last, data.Value)
@@ -176,7 +179,10 @@ Friend Class Parser
             Case "MODEL"
 
                 modelId = data.Value
-                Call VBDebugger.EchoLine($"Parse structure model: {modelId}...")
+
+                If verbose Then
+                    Call VBDebugger.EchoLine($"Parse structure model: {modelId}...")
+                End If
 
             Case "ENDMDL"
 
