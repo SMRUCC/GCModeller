@@ -122,6 +122,7 @@ Namespace Drawing2D.HeatMap
         ''' </summary>
         ''' <returns></returns>
         Public Property valueRange As DoubleRange
+        Public Property alpha As Integer = 255
 
         Sub New(Optional colorSet As String = "YlGnBu:c8",
                 Optional mapLevels% = 25,
@@ -156,11 +157,11 @@ Namespace Drawing2D.HeatMap
         End Function
 
         Public Function GetColors() As Color()
-            Return Designer.GetColors(colorSet, mapLevels)
+            Return Designer.GetColors(colorSet, mapLevels, alpha:=alpha)
         End Function
 
         Public Function GetBrushes() As SolidBrush()
-            Return Designer.GetBrushes(colorSet, mapLevels)
+            Return Designer.GetBrushes(colorSet, mapLevels, alpha:=alpha)
         End Function
 
         Public Function CreateBrushParameters() As HeatMapBrushes
