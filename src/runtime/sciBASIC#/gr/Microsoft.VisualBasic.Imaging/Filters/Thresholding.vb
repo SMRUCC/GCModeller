@@ -134,7 +134,7 @@ Namespace Filters
         ''' <returns> 返回转换好的位图 </returns>
         ''' 
         <Extension>
-        Public Function ostuFilter(bitmap As BitmapBuffer) As BitmapBuffer
+        Public Function ostuFilter(bitmap As BitmapBuffer, Optional flip As Boolean = False) As BitmapBuffer
             '获取源位图的宽、高,并创建一个等宽高的bitmap
             Dim width As Integer = bitmap.Width
             Dim height As Integer = bitmap.Height
@@ -147,10 +147,8 @@ Namespace Filters
             '创建一个3*3的模板用来辅助计算均值
             Dim [module](8) As Integer
             Dim alpha As Integer = &HFF << 24
-            Dim black As Integer = 0
-            Dim white As Integer = 255
-            'JAVA TO VB CONVERTER WARNING: The original Java variable was marked 'final':
-            'ORIGINAL LINE: final int threshold = otsuThreshold(bitmap);
+            Dim black As Integer = If(flip, 255, 0)
+            Dim white As Integer = If(flip, 0, 255)
             Dim threshold As Integer = otsuThreshold(bitmap)
             black = alpha Or (black << 16) Or (black << 8) Or black
             white = alpha Or (white << 16) Or (white << 8) Or white
@@ -184,10 +182,6 @@ Namespace Filters
             ' 在整幅图像中的个数和在图中所占比例,先暂时初始为0
             Dim pixelCount(255) As Integer
             Dim pixelPro(255) As Single
-            For i As Integer = 0 To 255
-                pixelCount(i) = 0
-                pixelPro(i) = 0
-            Next i
 
             '统计每个像素在整幅图像中的个数
             For i As Integer = 0 To height - 1
