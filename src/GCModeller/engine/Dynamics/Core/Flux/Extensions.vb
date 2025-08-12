@@ -59,6 +59,11 @@ Namespace Core
     <HideModuleName>
     Public Module Extensions
 
+        ''' <summary>
+        ''' string debug view
+        ''' </summary>
+        ''' <param name="reaction"></param>
+        ''' <returns></returns>
         Public Function ToString(reaction As Channel) As String
             Dim left = reaction.left.Select(AddressOf MassToString).JoinBy(" + ")
             Dim right = reaction.right.Select(AddressOf MassToString).JoinBy(" + ")
@@ -87,5 +92,11 @@ Namespace Core
         Public Function GetProducts(r As Channel) As IEnumerable(Of Variable)
             Return r.right.AsEnumerable
         End Function
+
+        <Extension>
+        Public Function jsonView(flux As Channel) As String
+
+        End Function
+
     End Module
 End Namespace
