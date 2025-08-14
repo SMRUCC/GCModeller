@@ -89,7 +89,10 @@ Namespace Imaging
     ''' <summary>
     ''' the abstract image data model, example as gdi+ raster image bitmap, svg image, pdf image, etc
     ''' </summary>
-    Public MustInherit Class Image : Implements IDisposable
+    ''' <remarks>
+    ''' the image model implements the interface <see cref="IRasterMemory"/>
+    ''' </remarks>
+    Public MustInherit Class Image : Implements IDisposable, IRasterMemory
 
         Private disposedValue As Boolean
 
@@ -129,7 +132,7 @@ Namespace Imaging
         ''' function for make bitmap object constructor
         ''' </remarks>
         Protected Friend MustOverride Function ConvertToBitmapStream() As MemoryStream
-        Protected Friend MustOverride Function GetMemoryBitmap() As BitmapBuffer
+        Protected Friend MustOverride Function GetMemoryBitmap() As BitmapBuffer Implements IRasterMemory.GetMemoryBuffer
 
         ''' <summary>
         ''' Load bitmap image from file stream
@@ -176,10 +179,15 @@ Namespace Imaging
         End Sub
     End Class
 
+    Public Interface IRasterMemory
+        Function GetMemoryBuffer() As BitmapBuffer
+    End Interface
+
     ''' <summary>
     ''' the gdi+ raster image data in memory
     ''' </summary>
     Public Class Bitmap : Inherits Image
+        Implements IRasterMemory
 
         Public Overrides ReadOnly Property Size As Size
             Get
@@ -283,6 +291,10 @@ Namespace Imaging
         End Function
 
         Protected Friend Overrides Function GetMemoryBitmap() As BitmapBuffer
+            Return MemoryBuffer
+        End Function
+
+        Public Function GetMemoryBuffer() As BitmapBuffer Implements IRasterMemory.GetMemoryBuffer
             Return MemoryBuffer
         End Function
     End Class
