@@ -153,7 +153,7 @@ Namespace Core
             End Get
         End Property
 
-        ReadOnly kinetics As KineticsControls()
+        Friend ReadOnly kinetics As KineticsControls()
 
         ''' <summary>
         ''' get kinetics parameter mass reference names

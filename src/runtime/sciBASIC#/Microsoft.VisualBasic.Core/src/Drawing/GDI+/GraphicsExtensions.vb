@@ -395,14 +395,34 @@ Namespace Imaging
             Return New Rectangle(New Point, size)
         End Function
 
+        ''' <summary>
+        ''' get x axis of the input geometry data
+        ''' </summary>
+        ''' <param name="pts"></param>
+        ''' <returns></returns>
         <Extension>
-        Public Function X(pts As Point()) As Integer()
-            Return pts.Select(Function(p) p.X).ToArray
+        Public Function X(pts As IEnumerable(Of Point)) As Integer()
+            Return (From pt As Point In pts Select xi = pt.X).ToArray
+        End Function
+
+        ''' <summary>
+        ''' get y axis of the input geometry data
+        ''' </summary>
+        ''' <param name="pts"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Y(pts As IEnumerable(Of Point)) As Integer()
+            Return (From pt As Point In pts Select yi = pt.Y).ToArray
         End Function
 
         <Extension>
-        Public Function Y(pts As Point()) As Integer()
-            Return pts.Select(Function(p) p.Y).ToArray
+        Public Function X(Of Point As Layout2D)(pts As IEnumerable(Of Point)) As Double()
+            Return (From pt As Point In pts Select yi = pt.Y).ToArray
+        End Function
+
+        <Extension>
+        Public Function Y(Of Point As Layout2D)(pts As IEnumerable(Of Point)) As Double()
+            Return (From pt As Point In pts Select yi = pt.Y).ToArray
         End Function
 
         ''' <summary>

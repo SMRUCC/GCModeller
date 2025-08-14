@@ -335,29 +335,49 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
-      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
-      <Name>math-core</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj">
+      <Project>{683df930-4e77-8a7a-26a4-87e56d18740d}</Project>
+      <Name>dataframework-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\ODEsSolver.vbproj">
-      <Project>{14e0b048-3a0d-4fd6-aa79-9b815d6f1b30}</Project>
-      <Name>ODEsSolver</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj">
+      <Project>{858324ee-999e-e068-4c90-86b664a177cb}</Project>
+      <Name>Math.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODESolver.Extensions\ODESolver.Extensions.NET5.vbproj">
+      <Project>{342c41a3-5d75-1fc8-b9b0-00e77ffeec75}</Project>
+      <Name>ODESolver.Extensions.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\odes-netcore5.vbproj">
+      <Project>{5e06fd0c-6e1a-e601-2568-4f4ff33de335}</Project>
+      <Name>odes-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\models\SBML\SBML\SBML.vbproj">
-      <Project>{169ae739-df7c-4dda-ad0b-d7ba447825eb}</Project>
-      <Name>SBML</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{8e0dac93-81d0-4261-2cf9-087f28f0b285}</Project>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SSystem\SSystem.vbproj">
-      <Project>{07b67f96-a341-454b-986e-2dc2276c88bb}</Project>
-      <Name>SSystem</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25rdf+xml\rdf_xml-netcore5.vbproj">
+      <Project>{dca2923f-134b-119c-b5ef-86651982f496}</Project>
+      <Name>rdf_xml-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25xml\xml-netcore5.vbproj">
+      <Project>{a3879795-90cd-25cb-0d2a-88c0f4a30e6c}</Project>
+      <Name>xml-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{2de312c2-6dc9-a812-b2f5-12db3e706fcd}</Project>
+      <Name>biocore-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\engine\CompilerServices\CompilerServices.NET5.vbproj">
+      <Project>{f16347ad-9478-6883-1f27-ebcc3dc22e76}</Project>
+      <Name>CompilerServices.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\models\SBML\SBML\sbml-netcore5.vbproj">
+      <Project>{4f2ef89c-dbe6-7029-aebb-f75e50505160}</Project>
+      <Name>sbml-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SSystem\SSystem.NET5.vbproj">
+      <Project>{f7d581b4-6566-8c11-dee2-31ba982b098c}</Project>
+      <Name>SSystem.NET5</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

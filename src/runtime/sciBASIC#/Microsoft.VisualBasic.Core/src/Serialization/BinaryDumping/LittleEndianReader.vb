@@ -56,9 +56,9 @@
 
 Imports System.IO
 
-Namespace Imaging.BitmapImage.FileStream
+Namespace Serialization.BinaryDumping
 
-    Public Class SafeBinaryReader : Inherits BinaryReader
+    Public Class LittleEndianReader : Inherits BinaryReader
 
         Public Sub New(stream As Stream)
             MyBase.New(stream)

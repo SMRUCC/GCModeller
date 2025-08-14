@@ -59,6 +59,8 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
@@ -126,6 +128,16 @@ Namespace Engine
 
             Call AttatchMassDriver(AddressOf driver.MassSnapshot)
             Call AttatchFluxDriver(AddressOf driver.FluxSnapshot)
+
+            Return Me
+        End Function
+
+        Public Function MakeNetworkSnapshot(storage As IFileSystemEnvironment) As Engine
+            Dim root_dir As String = "/cellular_graph"
+
+            For Each flux As Channel In TqdmWrapper.Wrap(core.Channels)
+                Call storage.WriteText(flux.jsonView, $"{root_dir}/{flux.ID}.json")
+            Next
 
             Return Me
         End Function

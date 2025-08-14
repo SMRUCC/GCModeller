@@ -223,6 +223,11 @@ Public Class DataFrame : Implements INumericMatrix, ILabeledMatrix
         Return Me
     End Function
 
+    Public Function add(featureName As String, v As IEnumerable(Of String)) As DataFrame
+        Call features.Add(featureName, New FeatureVector(featureName, v))
+        Return Me
+    End Function
+
     ''' <summary>
     ''' add a new feature column into current dataframe object
     ''' </summary>
@@ -232,6 +237,19 @@ Public Class DataFrame : Implements INumericMatrix, ILabeledMatrix
     ''' </param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function add(featureName As String, v As IEnumerable(Of Double)) As DataFrame
+        Call features.Add(featureName, New FeatureVector(featureName, v))
+        Return Me
+    End Function
+
+    ''' <summary>
+    ''' add a new feature column into current dataframe object
+    ''' </summary>
+    ''' <param name="featureName"></param>
+    ''' <param name="v">
+    ''' a data field column data in double numeric type
+    ''' </param>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function add(featureName As String, v As IEnumerable(Of Single)) As DataFrame
         Call features.Add(featureName, New FeatureVector(featureName, v))
         Return Me
     End Function
