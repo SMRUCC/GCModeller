@@ -56,7 +56,7 @@
 Imports System.Numerics
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.SIMD
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Friend Module SIMD
 
@@ -67,7 +67,7 @@ Friend Module SIMD
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Magnitude(ByRef vec As Double()) As Double
-        Return stdNum.Sqrt(SIMD.DotProduct(vec, vec))
+        Return std.Sqrt(SIMD.DotProduct(vec, vec))
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

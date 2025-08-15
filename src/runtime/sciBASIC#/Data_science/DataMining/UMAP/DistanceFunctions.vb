@@ -55,7 +55,27 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math
 Imports std = System.Math
 
+Public Enum DistanceFunction
+    Cosine
+    NormalizedCosine
+    SpectralCosine
+    TanimotoFingerprint
+    Euclidean
+End Enum
+
 Public NotInheritable Class DistanceFunctions
+
+    Public Shared Function GetFunction(method As DistanceFunction) As DistanceCalculation
+        Select Case method
+            Case DistanceFunction.Cosine : Return AddressOf Cosine
+            Case DistanceFunction.NormalizedCosine : Return AddressOf CosineForNormalizedVectors
+            Case DistanceFunction.SpectralCosine : Return AddressOf SpectralSimilarity
+            Case DistanceFunction.TanimotoFingerprint : Return AddressOf JaccardSimilarity
+            Case DistanceFunction.Euclidean : Return AddressOf Euclidean
+            Case Else
+                Return AddressOf Cosine
+        End Select
+    End Function
 
     ''' <summary>
     ''' this function will do data normalization and then evaluated the cosine similarity
