@@ -398,6 +398,43 @@ Public Module GSEABackground
         Return background.GetXml.SaveTo(file)
     End Function
 
+    <ExportAPI("cut_background")>
+    Public Function cut_background(background As Background, annotated As Object) As Background
+        Dim takes As Index(Of String) = CLRVector.asCharacter(annotated).Indexing
+
+        If takes.Count = 0 Then
+            Call "no annotated id for make the background dynamic cut!".Warning
+            Return Nothing
+        End If
+
+        background = New Background With {
+            .build = Now,
+            .comments = background.comments,
+            .id = background.id,
+            .name = background.name,
+            .clusters = background.clusters _
+                .Select(Function(c)
+                            Return New Cluster With {
+                                .category = c.category,
+                                .[class] = c.class,
+                                .description = c.description,
+                                .ID = c.ID,
+                                .names = c.names,
+                                .members = c.members _
+                                    .Where(Function(a)
+                                               Return a.accessionID Like takes OrElse (a.locus_tag IsNot Nothing AndAlso a.locus_tag.name Like takes)
+                                           End Function) _
+                                    .ToArray
+                            }
+                        End Function) _
+                .Where(Function(c) c.size > 0) _
+                .ToArray
+        }
+        background.size = background.clusters.BackgroundSize
+
+        Return background
+    End Function
+
     ''' <summary>
     ''' summary of the background model as dataframe
     ''' </summary>
