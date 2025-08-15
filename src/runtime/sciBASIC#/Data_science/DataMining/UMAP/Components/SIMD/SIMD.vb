@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db25f382e9449c3effa1709eb97797c1, Data_science\DataMining\UMAP\Components\SIMD\SIMD.vb"
+﻿#Region "Microsoft.VisualBasic::f35735eed3d7263cdad4da9ccc60769f, Data_science\DataMining\UMAP\Components\SIMD\SIMD.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 49 (20.59%)
-    '     File Size: 8.16 KB
+    '     File Size: 8.15 KB
 
 
     ' Module SIMD
