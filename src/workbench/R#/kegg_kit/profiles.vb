@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
@@ -310,6 +311,58 @@ Module profiles
                                        Optional env As Environment = Nothing) As Background
 
         Dim koId As Dictionary(Of String, String()) = ko.AsGeneric(Of String())(env)
+        Dim clusters As Cluster() = kegg.SafeQuery _
+            .Select(Function(map)
+                        Dim shapes As MapData = map.shapes
 
+                        If shapes Is Nothing OrElse shapes.mapdata.IsNullOrEmpty Then
+                            Return Nothing
+                        End If
+
+                        Dim idset = shapes.mapdata _
+                            .Select(Function(a) a.IDVector) _
+                            .IteratesALL _
+                            .Distinct _
+                            .Where(Function(kid) koId.ContainsKey(kid)) _
+                            .Select(Function(kid)
+                                        Dim geneId = koId(kid)
+                                        Dim genes = geneId _
+                                            .Select(Function(id)
+                                                        Return New BackgroundGene With {
+                                                            .accessionID = id,
+                                                            .locus_tag = New NamedValue With {.name = id, .text = kid},
+                                                            .name = kid,
+                                                            .term_id = {New NamedValue With {.name = kid, .text = id}}
+                                                        }
+                                                    End Function) _
+                                            .ToArray
+
+                                        Return genes
+                                    End Function) _
+                            .IteratesALL _
+                            .ToArray
+
+                        If idset.IsNullOrEmpty Then
+                            Return Nothing
+                        End If
+
+                        Return New Cluster With {
+                            .description = map.description,
+                            .ID = map.EntryId,
+                            .members = idset,
+                            .names = map.name
+                        }
+                    End Function) _
+            .Where(Function(c) Not c Is Nothing) _
+            .ToArray
+
+        Return New Background With {
+            .build = Now,
+            .clusters = clusters,
+            .comments = tcode,
+            .name = tcode,
+            .id = tcode,
+            .size = clusters.BackgroundSize
+        }
     End Function
 End Module
