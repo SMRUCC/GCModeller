@@ -375,7 +375,7 @@ Module profiles
                             .description = map.description,
                             .ID = mapId,
                             .members = idset,
-                            .names = map.name
+                            .names = Strings.Replace(map.name, "Reference pathway", "").Replace(" "c, "-"c)
                         }
                     End Function) _
             .Where(Function(c) Not c Is Nothing) _
