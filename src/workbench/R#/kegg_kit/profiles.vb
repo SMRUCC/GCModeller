@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -75,6 +76,9 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
+''' <summary>
+''' annotation profiles tools
+''' </summary>
 <Package("profiles")>
 Module profiles
 
@@ -285,5 +289,27 @@ Module profiles
         Next
 
         Return classList
+    End Function
+
+    ''' <summary>
+    ''' create gsea background based on the reference kegg map data
+    ''' </summary>
+    ''' <param name="kegg">a collection of the reference kegg maps</param>
+    ''' <param name="ko">
+    ''' a id mapping from kegg ko to gene id
+    ''' </param>
+    ''' <param name="tcode">the kegg organism code</param>
+    ''' <param name="multiple_omics">
+    ''' the compound id will be keeps if multiple omics flag is TRUE.
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("assemble_background")>
+    Public Function AssembleBackground(kegg As Map(), ko As list,
+                                       Optional multiple_omics As Boolean = False,
+                                       Optional tcode As String = Nothing,
+                                       Optional env As Environment = Nothing) As Background
+
+        Dim koId As Dictionary(Of String, String()) = ko.AsGeneric(Of String())(env)
+
     End Function
 End Module
