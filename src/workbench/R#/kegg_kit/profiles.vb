@@ -344,11 +344,27 @@ Module profiles
 
                         If idset.IsNullOrEmpty Then
                             Return Nothing
+                        ElseIf multiple_omics Then
+                            Dim compounds = shapes.mapdata _
+                                .Select(Function(a) a.IDVector) _
+                                .IteratesALL _
+                                .Distinct _
+                                .Where(Function(cid) cid.IsPattern("C\d+")) _
+                                .Select(Function(cid)
+                                            Return New BackgroundGene With {
+                                                .accessionID = cid,
+                                                .locus_tag = New NamedValue With {.name = cid, .text = cid},
+                                                .name = cid
+                                            }
+                                        End Function) _
+                                .ToArray
+
+                            idset = idset.JoinIterates(compounds).ToArray
                         End If
 
                         Return New Cluster With {
                             .description = map.description,
-                            .ID = map.EntryId,
+                            .ID = If(tcode.StringEmpty(), map.EntryId, map.EntryId.Replace("map", tcode)),
                             .members = idset,
                             .names = map.name
                         }
