@@ -121,7 +121,7 @@ Public Module repository
 
         Call RInternal.generic.add("readBin.kegg_compound", GetType(Stream), AddressOf readKeggCompounds)
         Call RInternal.generic.add("readBin.kegg_reaction", GetType(Stream), AddressOf readKeggReactions)
-        Call RInternal.generic.add("readBin.kegg_pathway", GetType(Stream), AddressOf readKeggMaps)
+        Call RInternal.generic.add("readBin.kegg_map", GetType(Stream), AddressOf readKeggMaps)
     End Sub
 
     ''' <summary>
