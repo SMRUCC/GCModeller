@@ -399,7 +399,7 @@ Public Module GSEABackground
     End Function
 
     <ExportAPI("cut_background")>
-    Public Function cut_background(background As Background, annotated As Object) As Background
+    Public Function cut_background(background As Background, <RRawVectorArgument> annotated As Object) As Background
         Dim takes As Index(Of String) = CLRVector.asCharacter(annotated).Indexing
 
         If takes.Count = 0 Then
