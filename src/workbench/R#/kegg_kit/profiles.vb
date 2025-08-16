@@ -308,13 +308,22 @@ Module profiles
     Public Function AssembleBackground(kegg As Map(), ko As list,
                                        Optional multiple_omics As Boolean = False,
                                        Optional tcode As String = Nothing,
+                                       <RRawVectorArgument>
+                                       Optional map_set As Object = Nothing,
                                        Optional env As Environment = Nothing) As Background
 
         Dim koId As Dictionary(Of String, String()) = ko.AsGeneric(Of String())(env)
+        Dim map_index = CLRVector.asCharacter(map_set).Indexing
         Dim clusters As Cluster() = kegg.SafeQuery _
             .Select(Function(map)
                         Dim shapes As MapData = map.shapes
+                        Dim mapId = If(tcode.StringEmpty(), map.EntryId, map.EntryId.Replace("map", tcode))
 
+                        If map_index.Count > 0 Then
+                            If Not (mapId Like map_index) Then
+                                Return Nothing
+                            End If
+                        End If
                         If shapes Is Nothing OrElse shapes.mapdata.IsNullOrEmpty Then
                             Return Nothing
                         End If
@@ -364,7 +373,7 @@ Module profiles
 
                         Return New Cluster With {
                             .description = map.description,
-                            .ID = If(tcode.StringEmpty(), map.EntryId, map.EntryId.Replace("map", tcode)),
+                            .ID = mapId,
                             .members = idset,
                             .names = map.name
                         }
