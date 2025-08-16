@@ -17,7 +17,7 @@ const __load_kegg_map = function(kegg_maps = NULL, raw_maps = FALSE) {
             if (file.exists(kegg_maps) || dir.exists(kegg_maps)) {
                 kegg_maps;
             } else {
-                warning(["the given kegg maps resource is not valid, use the internal resource data by default", kegg_maps]);
+                warning(["the given kegg maps resource is not valid, use the internal resource data by default", kegg_maps], immediate. = TRUE);
                 internal_resource;
             }            
         } else {
