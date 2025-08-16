@@ -22,3 +22,5 @@ str(index);
 # }
 
 fetch_kegg_maps(cache_dir);
+
+close(cache_dir);
