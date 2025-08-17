@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 
 Public Module HTSDataFrame
 
@@ -64,7 +65,7 @@ Public Module HTSDataFrame
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function MergeMultipleHTSMatrix(batches As Matrix()) As Matrix
+    Public Function MergeMultipleHTSMatrix(batches As Matrix(), Optional strict As Boolean = True) As Matrix
         Dim matrix As Matrix = batches(Scan0)
         Dim geneIndex = matrix.expression.ToDictionary(Function(g) g.geneID)
         Dim sampleList As New List(Of String)(matrix.sampleID)
@@ -77,7 +78,10 @@ Public Module HTSDataFrame
 
                 If geneIndex.ContainsKey(gene.geneID) Then
                     a = geneIndex(gene.geneID).experiments
+                ElseIf strict Then
+                    Throw New MissingFieldException($"missing a gene feature {gene.geneID} while merge multiple batches data!")
                 Else
+                    ' zero
                     a = New Double(sampleList.Count - 1) {}
                 End If
 
@@ -100,5 +104,15 @@ Public Module HTSDataFrame
                 .Select(Function(m) m.tag) _
                 .JoinBy("+")
         }
+    End Function
+
+    <Extension>
+    Public Function MergeFeatures(omics As Matrix(), Optional strict As Boolean = True) As Matrix
+        Dim sampleIds As String() = omics.Select(Function(x) x.sampleID) _
+            .IteratesALL _
+            .Distinct _
+            .OrderBy(Function(name) name) _
+            .ToArray
+
     End Function
 End Module

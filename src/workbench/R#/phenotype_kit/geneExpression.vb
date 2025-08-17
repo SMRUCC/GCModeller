@@ -1488,13 +1488,24 @@ Module geneExpression
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("joinSample")>
-    Public Function joinSamples(samples As Matrix()) As Matrix
+    Public Function joinSamples(samples As Matrix(), Optional strict As Boolean = True) As Matrix
         If samples.IsNullOrEmpty Then
             Return Nothing
         ElseIf samples.Length = 1 Then
             Return samples(Scan0)
         Else
-            Return MergeMultipleHTSMatrix(samples)
+            Return samples.MergeMultipleHTSMatrix(strict)
+        End If
+    End Function
+
+    <ExportAPI("joinFeatures")>
+    Public Function joinFeatures(x As Matrix(), Optional strict As Boolean = True) As Matrix
+        If x.IsNullOrEmpty Then
+            Return Nothing
+        ElseIf x.Length = 1 Then
+            Return x(Scan0)
+        Else
+            Return x.MergeFeatures(strict)
         End If
     End Function
 
