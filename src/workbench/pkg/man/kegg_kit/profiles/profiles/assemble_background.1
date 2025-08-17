@@ -1,0 +1,38 @@
+.\" man page create by R# package system.
+.TH PROFILES 1 2000-Jan "assemble_background" "assemble_background"
+.SH NAME
+assemble_background \- create gsea background based on the reference kegg map data
+.SH SYNOPSIS
+\fIassemble_background(\fBkegg\fR as <generic> Map[], 
+\fBko\fR as list, 
+\fBmultiple_omics\fR as boolean = FALSE, 
+\fBtcode\fR as string = \fB<NULL>\fR, 
+\fBmap_set\fR as any = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+create gsea background based on the reference kegg map data
+.PP
+.SH OPTIONS
+.PP
+\fBkegg\fB \fR\- a collection of the reference kegg maps. 
+.PP
+.PP
+\fBko\fB \fR\- 
+ a id mapping from kegg ko to gene id
+. 
+.PP
+.PP
+\fBtcode\fB \fR\- the kegg organism code. 
+.PP
+.PP
+\fBmultiple_omics\fB \fR\- 
+ the compound id will be keeps if multiple omics flag is TRUE.
+. 
+.PP
+.SH SEE ALSO
+profiles
+.SH FILES
+.PP
+kegg_kit.dll
+.PP
