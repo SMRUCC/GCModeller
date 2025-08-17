@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::56d17129abfa0a47b5b3e1e3377807d1, analysis\HTS_matrix\Matrix\Matrix.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 396
-    '    Code Lines: 266 (67.17%)
-    ' Comment Lines: 83 (20.96%)
-    '    - Xml Docs: 98.80%
-    ' 
-    '   Blank Lines: 47 (11.87%)
-    '     File Size: 13.98 KB
+' Summaries:
 
 
-    ' Class Matrix
-    ' 
-    '     Properties: expression, rownames, (+2 Overloads) sample, sampleID, size
-    '                 tag
-    ' 
-    '     Function: ArrayPack, Exp, GenericEnumerator, GetIndex, GetLabels
-    '               GetSampleArray, (+3 Overloads) IndexOf, LoadData, MatrixAverage, Project
-    '               T, TakeSamples, ToString, TrimZeros
-    ' 
-    '     Sub: checkMatrix, eachGene
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 396
+'    Code Lines: 266 (67.17%)
+' Comment Lines: 83 (20.96%)
+'    - Xml Docs: 98.80%
+' 
+'   Blank Lines: 47 (11.87%)
+'     File Size: 13.98 KB
+
+
+' Class Matrix
+' 
+'     Properties: expression, rownames, (+2 Overloads) sample, sampleID, size
+'                 tag
+' 
+'     Function: ArrayPack, Exp, GenericEnumerator, GetIndex, GetLabels
+'               GetSampleArray, (+3 Overloads) IndexOf, LoadData, MatrixAverage, Project
+'               T, TakeSamples, ToString, TrimZeros
+' 
+'     Sub: checkMatrix, eachGene
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -323,12 +323,28 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     ''' </summary>
     ''' <returns></returns>
     Public Function TrimZeros() As Matrix
+        Dim zeros As Index(Of String) = expression _
+            .Where(Function(gene) gene.experiments.All(Function(x) x = 0.0 OrElse x.IsNaNImaginary)) _
+            .Keys
+
+        If zeros.Any Then
+            Call $"removes {zeros.Count} zero gene features: {zeros.Objects.JoinBy(", ")}".Warning
+        End If
+
+        Dim expr As DataFrameRow()
+
+        If zeros.Any Then
+            expr = expression _
+                .Where(Function(gene) Not gene.geneID Like zeros) _
+                .ToArray
+        Else
+            expr = expression.ToArray
+        End If
+
         Return New Matrix With {
             .sampleID = sampleID,
             .tag = tag,
-            .expression = expression _
-                .Where(Function(gene) Not gene.experiments.All(Function(x) x = 0.0)) _
-                .ToArray
+            .expression = expr
         }
     End Function
 
