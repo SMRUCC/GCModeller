@@ -259,13 +259,19 @@ declare namespace geneExpression {
    */
    function impute_missing(x: object, by_features?: boolean): object;
    /**
+     * @param strict default value Is ``true``.
+   */
+   function joinFeatures(x: object, strict?: boolean): object;
+   /**
     * do matrix join by samples
     * 
     * 
      * @param samples matrix in multiple batches data should be normalized at
      *  first before calling this data batch merge function.
+     * @param strict 
+     * + default value Is ``true``.
    */
-   function joinSample(samples: object): object;
+   function joinSample(samples: object, strict?: boolean): object;
    module load {
       /**
        * load an expressin matrix data
