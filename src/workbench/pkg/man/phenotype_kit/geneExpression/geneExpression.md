@@ -19,6 +19,7 @@ the gene expression matrix data toolkit
 + [load.matrixView](geneExpression/load.matrixView.1) Load the HTS matrix into a lazy matrix viewer
 + [matrix_info](geneExpression/matrix_info.1) get matrix summary information
 + [write.expr_matrix](geneExpression/write.expr_matrix.1) write the gene expression data matrix file
++ [project](geneExpression/project.1) make matrix samples column projection
 + [filter](geneExpression/filter.1) Filter the geneID rows
 + [as.generic](geneExpression/as.generic.1) cast the HTS matrix object to the general dataset
 + [average](geneExpression/average.1) calculate average value of the gene expression for

@@ -411,6 +411,14 @@ declare namespace geneExpression {
    */
    function peakCMeans(matrix: object, nsize?: any, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, cluster_label_css?: string, legend_title_css?: string, legend_tick_css?: string, axis_tick_css?: string, axis_label_css?: string, x_lab_rotate?: number, env?: object): any;
    /**
+    * make matrix samples column projection
+    * 
+    * 
+     * @param x -
+     * @param sampleIds -
+   */
+   function project(x: object, sampleIds: any): object;
+   /**
     * read the cmeans expression pattern result from file
     * 
     * > this function can also read the csv matrix file and 
