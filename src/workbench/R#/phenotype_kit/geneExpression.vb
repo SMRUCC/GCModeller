@@ -647,6 +647,23 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' make matrix samples column projection
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="sampleIds"></param>
+    ''' <returns></returns>
+    <ExportAPI("project")>
+    Public Function project(x As Matrix, <RRawVectorArgument> sampleIds As Object) As Matrix
+        Dim samples As String() = CLRVector.asCharacter(sampleIds)
+
+        If samples.IsNullOrEmpty Then
+            Return Nothing
+        Else
+            Return x.Project(samples)
+        End If
+    End Function
+
+    ''' <summary>
     ''' Filter the geneID rows
     ''' </summary>
     ''' <param name="HTS">A gene expression matrix object</param>
