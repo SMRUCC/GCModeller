@@ -128,6 +128,12 @@ Public Class DataFrameRow : Implements INamedValue, IVector
         End Get
     End Property
 
+    Public ReadOnly Property MAD As Double
+        Get
+
+        End Get
+    End Property
+
     Sub New()
     End Sub
 
