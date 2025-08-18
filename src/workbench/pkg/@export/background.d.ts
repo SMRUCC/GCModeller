@@ -114,6 +114,9 @@ declare namespace background {
     * 
    */
    function compoundBrite(): object;
+   /**
+   */
+   function cut_background(background: object, annotated: any): object;
    module dag {
       /**
        * create gsea background from a given obo ontology file data.

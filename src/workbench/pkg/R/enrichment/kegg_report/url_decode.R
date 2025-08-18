@@ -18,7 +18,7 @@ const .safe_kegg_url_parser = function(url, compoundcolors, gene_highights) {
 
     if (is.null(URL_kegg)) {
         # error while parse the url string
-        warning(`error while parse the kegg map highlight url: "${toString(url)}"!`);
+        warning(`error while parse the kegg map highlight url: "${toString(url)}"!`, immediate. = TRUE);
         # generates a fake empty url object
         URL_kegg = {
             objects: list()

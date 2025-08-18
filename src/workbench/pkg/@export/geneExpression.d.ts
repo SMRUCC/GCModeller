@@ -259,13 +259,19 @@ declare namespace geneExpression {
    */
    function impute_missing(x: object, by_features?: boolean): object;
    /**
+     * @param strict default value Is ``true``.
+   */
+   function joinFeatures(x: object, strict?: boolean): object;
+   /**
     * do matrix join by samples
     * 
     * 
      * @param samples matrix in multiple batches data should be normalized at
      *  first before calling this data batch merge function.
+     * @param strict 
+     * + default value Is ``true``.
    */
-   function joinSample(samples: object): object;
+   function joinSample(samples: object, strict?: boolean): object;
    module load {
       /**
        * load an expressin matrix data
@@ -410,6 +416,14 @@ declare namespace geneExpression {
      *  3. 'pdf' is a pdf image that could be edit
    */
    function peakCMeans(matrix: object, nsize?: any, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, cluster_label_css?: string, legend_title_css?: string, legend_tick_css?: string, axis_tick_css?: string, axis_label_css?: string, x_lab_rotate?: number, env?: object): any;
+   /**
+    * make matrix samples column projection
+    * 
+    * 
+     * @param x -
+     * @param sampleIds -
+   */
+   function project(x: object, sampleIds: any): object;
    /**
     * read the cmeans expression pattern result from file
     * 

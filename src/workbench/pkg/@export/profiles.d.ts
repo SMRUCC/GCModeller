@@ -9,9 +9,28 @@
 /**
  * enrichment term statics helper
  * 
+ * annotation profiles tools
  * 
 */
 declare namespace profiles {
+   /**
+    * create gsea background based on the reference kegg map data
+    * 
+    * 
+     * @param kegg a collection of the reference kegg maps
+     * @param ko a id mapping from kegg ko to gene id
+     * @param multiple_omics the compound id will be keeps if multiple omics flag is TRUE.
+     * 
+     * + default value Is ``false``.
+     * @param tcode the kegg organism code
+     * 
+     * + default value Is ``null``.
+     * @param map_set 
+     * + default value Is ``null``.
+     * @param env 
+     * + default value Is ``null``.
+   */
+   function assemble_background(kegg: object, ko: object, multiple_omics?: boolean, tcode?: string, map_set?: any, env?: object): object;
    /**
     * get category labels for a given id set
     * 

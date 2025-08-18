@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>do matrix join by samples</title>
+    <title>make matrix samples column projection</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>joinSample {geneExpression}</td>
+                <td>project {geneExpression}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>do matrix join by samples</h2>
+        <h2>make matrix samples column projection</h2>
 
         <h3>Description</h3>
 
@@ -27,17 +27,19 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>joinSample</strong>(<i>samples</i>,
-    <i>strict</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>project</strong>(<i>x</i>, <i>sampleIds</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>samples</dt>
-<dd><p>matrix in multiple batches data should be normalized at
- first before calling this data batch merge function. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+<dt>x</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>sampleIds</dt>
+<dd><p>-</p></dd>
 
         </table>
 

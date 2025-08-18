@@ -59,6 +59,8 @@ Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -75,6 +77,9 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
+''' <summary>
+''' annotation profiles tools
+''' </summary>
 <Package("profiles")>
 Module profiles
 
@@ -285,5 +290,104 @@ Module profiles
         Next
 
         Return classList
+    End Function
+
+    ''' <summary>
+    ''' create gsea background based on the reference kegg map data
+    ''' </summary>
+    ''' <param name="kegg">a collection of the reference kegg maps</param>
+    ''' <param name="ko">
+    ''' a id mapping from kegg ko to gene id
+    ''' </param>
+    ''' <param name="tcode">the kegg organism code</param>
+    ''' <param name="multiple_omics">
+    ''' the compound id will be keeps if multiple omics flag is TRUE.
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("assemble_background")>
+    Public Function AssembleBackground(kegg As Map(), ko As list,
+                                       Optional multiple_omics As Boolean = False,
+                                       Optional tcode As String = Nothing,
+                                       <RRawVectorArgument>
+                                       Optional map_set As Object = Nothing,
+                                       Optional env As Environment = Nothing) As Background
+
+        Dim koId As Dictionary(Of String, String()) = ko.AsGeneric(Of String())(env)
+        Dim map_index = CLRVector.asCharacter(map_set).Indexing
+        Dim clusters As Cluster() = kegg.SafeQuery _
+            .Select(Function(map)
+                        Dim shapes As MapData = map.shapes
+                        Dim mapId = If(tcode.StringEmpty(), map.EntryId, map.EntryId.Replace("map", tcode))
+
+                        If map_index.Count > 0 Then
+                            If Not (mapId Like map_index) Then
+                                Return Nothing
+                            End If
+                        End If
+                        If shapes Is Nothing OrElse shapes.mapdata.IsNullOrEmpty Then
+                            Return Nothing
+                        End If
+
+                        Dim idset = shapes.mapdata _
+                            .Select(Function(a) a.IDVector) _
+                            .IteratesALL _
+                            .Distinct _
+                            .Where(Function(kid) koId.ContainsKey(kid)) _
+                            .Select(Function(kid)
+                                        Dim geneId = koId(kid)
+                                        Dim genes = geneId _
+                                            .Select(Function(id)
+                                                        Return New BackgroundGene With {
+                                                            .accessionID = id,
+                                                            .locus_tag = New NamedValue With {.name = id, .text = kid},
+                                                            .name = kid,
+                                                            .term_id = {New NamedValue With {.name = kid, .text = id}}
+                                                        }
+                                                    End Function) _
+                                            .ToArray
+
+                                        Return genes
+                                    End Function) _
+                            .IteratesALL _
+                            .ToArray
+
+                        If idset.IsNullOrEmpty Then
+                            Return Nothing
+                        ElseIf multiple_omics Then
+                            Dim compounds = shapes.mapdata _
+                                .Select(Function(a) a.IDVector) _
+                                .IteratesALL _
+                                .Distinct _
+                                .Where(Function(cid) cid.IsPattern("C\d+")) _
+                                .Select(Function(cid)
+                                            Return New BackgroundGene With {
+                                                .accessionID = cid,
+                                                .locus_tag = New NamedValue With {.name = cid, .text = cid},
+                                                .name = cid
+                                            }
+                                        End Function) _
+                                .ToArray
+
+                            idset = idset.JoinIterates(compounds).ToArray
+                        End If
+
+                        Return New Cluster With {
+                            .description = map.description,
+                            .ID = mapId,
+                            .members = idset,
+                            .names = Strings.Replace(map.name, "Reference pathway", "").Trim(" "c, "-"c)
+                        }
+                    End Function) _
+            .Where(Function(c) Not c Is Nothing) _
+            .ToArray
+
+        Return New Background With {
+            .build = Now,
+            .clusters = clusters,
+            .comments = tcode,
+            .name = tcode,
+            .id = tcode,
+            .size = clusters.BackgroundSize
+        }
     End Function
 End Module
