@@ -18,6 +18,7 @@ tools for handling GSEA background model.
 + [KO.table](background/KO.table.1) convert the background model to a data table
 + [gsea_cluster](background/gsea_cluster.1) Create a cluster for gsea background
 + [metpa](background/metpa.1) Create the gsea background model for metabolism analysis
++ [fromList](background/fromList.1) cast the cluster data as the enrichment background
 + [as.background](background/as.background.1) cast the cluster data as the enrichment background
 + [KO_reference](background/KO_reference.1) gene/protein KO id background
 + [as.geneSet](background/as.geneSet.1) 
