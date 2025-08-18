@@ -803,6 +803,22 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' evaluate the MAD value for each gene features
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    <ExportAPI("mad")>
+    Public Function mad(x As Matrix) As list
+        Dim val As list = list.empty
+
+        For Each gene As DataFrameRow In x.expression
+            val.slots(gene.geneID) = gene.MAD
+        Next
+
+        Return val
+    End Function
+
+    ''' <summary>
     ''' calculate average value of the gene expression for
     ''' each sample group.
     ''' 
