@@ -1,66 +1,67 @@
 ﻿#Region "Microsoft.VisualBasic::c19d5458783c9bff25937cc971cd262b, R#\gseakit\GSEABackground.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 1006
-    '    Code Lines: 675 (67.10%)
-    ' Comment Lines: 231 (22.96%)
-    '    - Xml Docs: 94.81%
-    ' 
-    '   Blank Lines: 100 (9.94%)
-    '     File Size: 41.05 KB
+' Summaries:
 
 
-    ' Module GSEABackground
-    ' 
-    '     Function: appendIdTerms, asGenesetList, assembleBackground, BackgroundIDmapping, backgroundSummary
-    '               backgroundTabular, clusterIDs, ClusterIntersections, create_metpa, CreateCluster
-    '               createGene, CreateKOBackground, CreateKOReference, DAGbackground, flatDAGBackground
-    '               (+2 Overloads) geneSetAnnotation, GetCluster, getMemberItem, (+2 Overloads) id_translation, KEGGCompoundBriteClassBackground
-    '               KOTable, metabolismBackground, MetaEnrichBackground, moleculeIDs, ParsePathwayObject
-    '               PrintBackground, ReadBackground, WriteBackground
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 1006
+'    Code Lines: 675 (67.10%)
+' Comment Lines: 231 (22.96%)
+'    - Xml Docs: 94.81%
+' 
+'   Blank Lines: 100 (9.94%)
+'     File Size: 41.05 KB
+
+
+' Module GSEABackground
+' 
+'     Function: appendIdTerms, asGenesetList, assembleBackground, BackgroundIDmapping, backgroundSummary
+'               backgroundTabular, clusterIDs, ClusterIntersections, create_metpa, CreateCluster
+'               createGene, CreateKOBackground, CreateKOReference, DAGbackground, flatDAGBackground
+'               (+2 Overloads) geneSetAnnotation, GetCluster, getMemberItem, (+2 Overloads) id_translation, KEGGCompoundBriteClassBackground
+'               KOTable, metabolismBackground, MetaEnrichBackground, moleculeIDs, ParsePathwayObject
+'               PrintBackground, ReadBackground, WriteBackground
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -839,6 +840,39 @@ Public Module GSEABackground
     ''' <summary>
     ''' cast the cluster data as the enrichment background
     ''' </summary>
+    ''' <param name="geneSet">
+    ''' a collection of the gene feature clusters, usualy be a tuple list in format of:
+    ''' cluster id as the list name and the corresponding tuple list value should be
+    ''' the gene id character vector.
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("fromList")>
+    Public Function backgroundFromList(geneSet As list, Optional env As Environment = Nothing) As Object
+        If geneSet Is Nothing OrElse geneSet.is_empty Then
+            Call env.AddMessage("the input gene feature set should not be nothing!", MSG_TYPES.WRN)
+            Return Nothing
+        End If
+
+        Return New Background With {
+            .clusters = DirectCast(geneSet, list).slots _
+                .Select(Function(c)
+                            Return New Cluster With {
+                                .ID = c.Key,
+                                .description = c.Key,
+                                .names = c.Key,
+                                .members = CLRVector.asCharacter(c.Value) _
+                                    .Select(AddressOf createGene) _
+                                    .ToArray
+                            }
+                        End Function) _
+                .ToArray
+        }
+    End Function
+
+    ''' <summary>
+    ''' cast the cluster data as the enrichment background
+    ''' </summary>
     ''' <param name="clusters">
     ''' a data cluster or a collection of kegg pathway model
     ''' </param>
@@ -1098,6 +1132,19 @@ Public Module GSEABackground
             },
             .name = gene.Name,
             .term_id = BackgroundGene.UnknownTerms(terms).ToArray
+        }
+    End Function
+
+    Private Function createGene(name As String) As BackgroundGene
+        Return New BackgroundGene With {
+            .accessionID = name,
+            .name = name,
+            .[alias] = {name},
+            .locus_tag = New NamedValue With {
+                .name = name,
+                .text = name
+            },
+            .term_id = BackgroundGene.UnknownTerms(name).ToArray
         }
     End Function
 End Module
