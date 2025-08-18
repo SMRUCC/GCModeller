@@ -187,6 +187,11 @@ Module geneExpression
         Return Matrix.Exp(x, p)
     End Function
 
+    <ROperator("+")>
+    Public Function add(x As Matrix, y As Double) As Matrix
+        Return Matrix.Add(x, y)
+    End Function
+
     ''' <summary>
     ''' do matrix transpose
     ''' </summary>

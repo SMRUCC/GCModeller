@@ -318,6 +318,21 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
         }
     End Function
 
+    Public Shared Function Add(x As Matrix, y As Double) As Matrix
+        Return New Matrix With {
+            .sampleID = x.sampleID,
+            .tag = $"{x.tag} + {y}",
+            .expression = x.expression _
+                .Select(Function(gene)
+                            Return New DataFrameRow With {
+                                .geneID = gene.geneID,
+                                .experiments = New Vector(gene.experiments) + y
+                            }
+                        End Function) _
+                .ToArray
+        }
+    End Function
+
     ''' <summary>
     ''' removes the rows which all gene expression result is ZERO
     ''' </summary>
