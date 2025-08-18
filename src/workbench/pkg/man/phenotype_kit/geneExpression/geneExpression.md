@@ -22,6 +22,8 @@ the gene expression matrix data toolkit
 + [project](geneExpression/project.1) make matrix samples column projection
 + [filter](geneExpression/filter.1) Filter the geneID rows
 + [as.generic](geneExpression/as.generic.1) cast the HTS matrix object to the general dataset
++ [mad](geneExpression/mad.1) evaluate the MAD value for each gene features
++ [sort_mad](geneExpression/sort_mad.1) take top n expression feature by rank expression MAD value desc
 + [average](geneExpression/average.1) calculate average value of the gene expression for
 + [z_score](geneExpression/z_score.1) Z-score normalized of the expression data matrix
 + [pca](geneExpression/pca.1) do PCA on a gene expressin matrix
