@@ -373,7 +373,7 @@ Namespace CatalogProfiling
                     Dim color As New SolidBrush(colors.GetColor(term))
                     Dim penColor As Color = color.Color Or grayColor
                     Dim linePen As New Pen(penColor, 2) With {
-                        .DashStyle = DashStyle.Dot
+                        .DashStyle = DashStyle.Dash
                     }
                     Dim pos As PointF
                     Dim label$
