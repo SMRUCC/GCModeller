@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18a777b85ebee40dfaa05c87efd7d469, Microsoft.VisualBasic.Core\src\Drawing\Colors\GDIColors.vb"
+﻿#Region "Microsoft.VisualBasic::a1a4bbbc5f30abe4068b073a2cef7a95, Microsoft.VisualBasic.Core\src\Drawing\Colors\GDIColors.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 509
-    '    Code Lines: 268 (52.65%)
-    ' Comment Lines: 184 (36.15%)
-    '    - Xml Docs: 63.04%
+    '   Total Lines: 515
+    '    Code Lines: 268 (52.04%)
+    ' Comment Lines: 190 (36.89%)
+    '    - Xml Docs: 61.05%
     ' 
-    '   Blank Lines: 57 (11.20%)
-    '     File Size: 25.33 KB
+    '   Blank Lines: 57 (11.07%)
+    '     File Size: 25.70 KB
 
 
     '     Module GDIColors
@@ -542,13 +542,19 @@ Namespace Imaging
                 Return False '  alpha值不相等，则颜色值肯定不相等
             End If
 
-            If std.Abs(a.B - b.B) > tolerance Then
+            ' 20250811 there is a bug about the byte math
+            ' due to the reason of byte is unsigned
+            ' so if a = 0 and b = 255
+            ' then will trigger overflow
+            ' the comparision with tolerance will not success
+            ' so we needs convert to short and then do math
+            If std.Abs(CShort(a.B) - CShort(b.B)) > tolerance Then
                 Return False
             End If
-            If std.Abs(a.G - b.G) > tolerance Then
+            If std.Abs(CShort(a.G) - CShort(b.G)) > tolerance Then
                 Return False
             End If
-            If std.Abs(a.R - b.R) > tolerance Then
+            If std.Abs(CShort(a.R) - CShort(b.R)) > tolerance Then
                 Return False
             End If
 

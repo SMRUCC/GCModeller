@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4232f8e1d3cbfafc89b5e7edb8dceda6, Data_science\Mathematica\SignalProcessing\MachineVision\OCR\OcrTextMatches.vb"
+﻿#Region "Microsoft.VisualBasic::efb1e4ae705bb3b49e1f221ace6bb446, Data_science\Mathematica\SignalProcessing\MachineVision\OCR\OcrTextMatches.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 4 (11.76%)
-    '     File Size: 1.54 KB
+    '     File Size: 1.49 KB
 
 
     ' Module OcrTextMatches
@@ -73,7 +73,7 @@ Public Module OcrTextMatches
     ''' The score is calculated by Levenshtein distance, which is a measure of the similarity between two strings.
     ''' The distance is the number of single-character edits (insertions, deletions, or substitutions) required to change one string into the other.
     ''' </remarks>
-    ''' <seealso cref="Similarity.LevenshteinEvaluate(String, String, Func(Of Char, Char, Boolean))"/>
+    ''' <seealso cref="Similarity.LevenshteinEvaluate"/>
     ''' <seealso cref="ConfusionChars.Check(Char, Char)"/>
     <Extension>
     Public Iterator Function MatchGroup(group As Trajectory, target As String, Optional confusion As ConfusionChars = Nothing) As IEnumerable(Of Double)

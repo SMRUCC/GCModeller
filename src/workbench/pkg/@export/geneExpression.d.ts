@@ -259,13 +259,19 @@ declare namespace geneExpression {
    */
    function impute_missing(x: object, by_features?: boolean): object;
    /**
+     * @param strict default value Is ``true``.
+   */
+   function joinFeatures(x: object, strict?: boolean): object;
+   /**
     * do matrix join by samples
     * 
     * 
      * @param samples matrix in multiple batches data should be normalized at
      *  first before calling this data batch merge function.
+     * @param strict 
+     * + default value Is ``true``.
    */
-   function joinSample(samples: object): object;
+   function joinSample(samples: object, strict?: boolean): object;
    module load {
       /**
        * load an expressin matrix data
@@ -319,6 +325,13 @@ declare namespace geneExpression {
      * + default value Is ``2.718281828459045``.
    */
    function log(expr: any, base?: number): object;
+   /**
+    * evaluate the MAD value for each gene features
+    * 
+    * 
+     * @param x -
+   */
+   function mad(x: object): object;
    /**
     * get matrix summary information
     * 
@@ -411,6 +424,14 @@ declare namespace geneExpression {
    */
    function peakCMeans(matrix: object, nsize?: any, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, cluster_label_css?: string, legend_title_css?: string, legend_tick_css?: string, axis_tick_css?: string, axis_label_css?: string, x_lab_rotate?: number, env?: object): any;
    /**
+    * make matrix samples column projection
+    * 
+    * 
+     * @param x -
+     * @param sampleIds -
+   */
+   function project(x: object, sampleIds: any): object;
+   /**
     * read the cmeans expression pattern result from file
     * 
     * > this function can also read the csv matrix file and 
@@ -485,6 +506,16 @@ declare namespace geneExpression {
      * + default value Is ``0.1``.
    */
    function setZero(expr0: object, q?: number): object;
+   /**
+    * take top n expression feature by rank expression MAD value desc
+    * 
+    * 
+     * @param x -
+     * @param top -
+     * 
+     * + default value Is ``10000``.
+   */
+   function sort_mad(x: object, top?: object): object;
    module split {
       /**
        * ### split the cmeans cluster output

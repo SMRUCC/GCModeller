@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41a2d40d034a7b96e632a2820ab82685, Microsoft.VisualBasic.Core\src\Drawing\Math\Geometry\Moran.vb"
+﻿#Region "Microsoft.VisualBasic::1324eef0c24065ae6d33e6cb5329d0e4, Microsoft.VisualBasic.Core\src\Drawing\Math\Geometry\Moran.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 133
-    '    Code Lines: 96 (72.18%)
-    ' Comment Lines: 9 (6.77%)
-    '    - Xml Docs: 77.78%
+    '   Total Lines: 143
+    '    Code Lines: 96 (67.13%)
+    ' Comment Lines: 19 (13.29%)
+    '    - Xml Docs: 84.21%
     ' 
-    '   Blank Lines: 28 (21.05%)
-    '     File Size: 4.71 KB
+    '   Blank Lines: 28 (19.58%)
+    '     File Size: 5.07 KB
 
 
     '     Module Moran
@@ -157,6 +157,16 @@ Namespace Imaging.Math2D
             End Sub
         End Class
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="x">intensity value</param>
+        ''' <param name="c1">spatial x</param>
+        ''' <param name="c2">spatial y</param>
+        ''' <param name="parallel"></param>
+        ''' <returns>
+        ''' observed is the calculated moran-I value
+        ''' </returns>
         Public Function calc_moran(x As Double(), c1 As Double(), c2 As Double(), Optional parallel As Boolean = True) As (observed As Double, expected As Double, sd As Double)
             ' Easy variables to calculate
             Dim x_norm = normalize(x)

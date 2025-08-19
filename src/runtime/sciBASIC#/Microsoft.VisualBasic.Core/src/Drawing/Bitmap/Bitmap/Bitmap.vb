@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f375b8a625b14061d2c0f1cd58ee5aa, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\Bitmap\Bitmap.vb"
+﻿#Region "Microsoft.VisualBasic::f26dc91cc1e52eba139bceac6d197cea, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\Bitmap\Bitmap.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 179
-    '    Code Lines: 91 (50.84%)
-    ' Comment Lines: 63 (35.20%)
-    '    - Xml Docs: 88.89%
+    '   Total Lines: 185
+    '    Code Lines: 98 (52.97%)
+    ' Comment Lines: 62 (33.51%)
+    '    - Xml Docs: 90.32%
     ' 
-    '   Blank Lines: 25 (13.97%)
-    '     File Size: 7.64 KB
+    '   Blank Lines: 25 (13.51%)
+    '     File Size: 7.79 KB
 
 
     '     Class Bitmap
@@ -136,7 +136,8 @@ Namespace Imaging.BitmapImage.FileStream
         ''' <param name="height"></param>
         ''' <param name="pixelData"></param>
         ''' <param name="bitsPerPixel"></param>
-        Public Sub New(width As Integer, height As Integer, pixelData As Byte(), Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24)
+        Public Sub New(width As Integer, height As Integer, pixelData As Byte(),
+                       Optional bitsPerPixel As BitsPerPixelEnum = BitsPerPixelEnum.RGB24)
             Me.Width = width
             Me.Height = height
             Me.PixelData = pixelData
@@ -149,7 +150,9 @@ Namespace Imaging.BitmapImage.FileStream
                 Throw New ArgumentOutOfRangeException($"{NameOf(pixelData)} has invalid size.")
             End If
 
-            If bitsPerPixel = BitsPerPixelEnum.RGB24 Then InfoHeaderBytes = New BitmapInfoHeader(width, height, bitsPerPixel, rawImageSize).HeaderInfoBytes
+            If bitsPerPixel = BitsPerPixelEnum.RGB24 Then
+                InfoHeaderBytes = New BitmapInfoHeader(width, height, bitsPerPixel, rawImageSize).HeaderInfoBytes
+            End If
             If bitsPerPixel = BitsPerPixelEnum.RGBA32 Then
                 InfoHeaderBytes = New BitmapInfoHeaderRGBA(width, height, bitsPerPixel, rawImageSize).HeaderInfoBytes
             End If
@@ -169,7 +172,6 @@ Namespace Imaging.BitmapImage.FileStream
         End Function
 
         Public Sub Save(stream As Stream, Optional flipped As Boolean = False)
-            'using (var writer = new BinaryWriter( stream )) {
             Dim writer As New BinaryWriter(stream)
 
             writer.Write(FileHeader.HeaderBytes)
@@ -184,7 +186,11 @@ Namespace Imaging.BitmapImage.FileStream
             If paddingRequired Then
                 For counter = 0 To Height - 1
                     Dim rowBuffer = New Byte(BytesPerRow - 1) {}
-                    Buffer.BlockCopy(src:=pixData, srcOffset:=counter * bytesToCopy, dst:=rowBuffer, dstOffset:=0, count:=bytesToCopy)
+                    Buffer.BlockCopy(src:=pixData,
+                                     srcOffset:=counter * bytesToCopy,
+                                     dst:=rowBuffer,
+                                     dstOffset:=0,
+                                     count:=bytesToCopy)
                     writer.Write(rowBuffer)
                 Next
             Else

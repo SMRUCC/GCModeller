@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6f340f5d1434bb5e4164445484152d4, gr\physics\Vector2.vb"
+﻿#Region "Microsoft.VisualBasic::08fa53aab65a964d445278419e855f1b, gr\physics\Vector2.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 22 (16.42%)
-    '     File Size: 4.05 KB
+    '     File Size: 4.06 KB
 
 
     ' Class Vector2
@@ -89,7 +89,7 @@ Public Class Vector2 : Inherits Vector2D
         End Get
     End Property
 
-    Public Shared ReadOnly Property zero As Vector2
+    Public Overloads Shared ReadOnly Property zero As Vector2
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return New Vector2(0, 0)

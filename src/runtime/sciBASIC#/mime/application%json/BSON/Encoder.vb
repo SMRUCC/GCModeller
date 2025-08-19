@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cac18f330d4cbf5e4002003106d52af2, mime\application%json\BSON\Encoder.vb"
+﻿#Region "Microsoft.VisualBasic::4f72e727f698c34aedec0d1014935e5f, mime\application%json\BSON\Encoder.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 146
-    '    Code Lines: 126 (86.30%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 156
+    '    Code Lines: 126 (80.77%)
+    ' Comment Lines: 10 (6.41%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 20 (13.70%)
-    '     File Size: 5.75 KB
+    '   Blank Lines: 20 (12.82%)
+    '     File Size: 6.08 KB
 
 
     '     Class Encoder
@@ -121,6 +121,11 @@ Namespace BSON
             End Select
         End Sub
 
+        ''' <summary>
+        ''' save json object
+        ''' </summary>
+        ''' <param name="ms"></param>
+        ''' <param name="obj"></param>
         Public Sub encodeDocument(ms As Stream, obj As JsonObject)
             Dim dms As New MemoryStream()
 
@@ -134,6 +139,11 @@ Namespace BSON
             bw.Write(CByte(0))
         End Sub
 
+        ''' <summary>
+        ''' save json array as json object
+        ''' </summary>
+        ''' <param name="ms"></param>
+        ''' <param name="lst"></param>
         Public Sub encodeArray(ms As Stream, lst As JsonArray)
             Dim obj As New JsonObject()
 

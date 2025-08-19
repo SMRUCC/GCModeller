@@ -328,9 +328,9 @@ Public Class PDB : Implements Enumeration(Of Atom)
     ''' </summary>
     ''' <param name="text"></param>
     ''' <returns></returns>
-    Public Shared Function Parse(text As String) As PDB
+    Public Shared Function Parse(text As String, Optional verbose As Boolean = False) As PDB
         Dim str As New MemoryStream(Encoding.UTF8.GetBytes(text))
-        Dim pdb As PDB = Parser.Load(str).FirstOrDefault
+        Dim pdb As PDB = Parser.Load(str, verbose).FirstOrDefault
         Return pdb
     End Function
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17abeb043230ec6c68d117768de6e6b7, Data\DataFrame\DataFrame\FileWriter.vb"
+﻿#Region "Microsoft.VisualBasic::03ad41f6e7ad82c581fc5a6013687125, Data\DataFrame\DataFrame\FileWriter.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 37
-    '    Code Lines: 29 (78.38%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 51
+    '    Code Lines: 31 (60.78%)
+    ' Comment Lines: 12 (23.53%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (21.62%)
-    '     File Size: 1.17 KB
+    '   Blank Lines: 8 (15.69%)
+    '     File Size: 1.87 KB
 
 
     ' Module FileWriter
@@ -54,23 +54,36 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports any = Microsoft.VisualBasic.Scripting
 
 Public Module FileWriter
 
+    ''' <summary>
+    ''' save dataframe object as csv file
+    ''' </summary>
+    ''' <param name="df">dataframe should contains the row names values</param>
+    ''' <param name="file"></param>
+    ''' <param name="blank"></param>
     <Extension>
-    Public Sub WriteCsv(df As DataFrame, file As String)
+    Public Sub WriteCsv(df As DataFrame, file As String, Optional blank As String = "")
         Using s As Stream = file.Open(FileMode.OpenOrCreate, doClear:=True)
-            Call df.WriteCsv(s)
+            Call df.WriteCsv(s, blank)
         End Using
     End Sub
 
+    ''' <summary>
+    ''' save dataframe object as csv file
+    ''' </summary>
+    ''' <param name="df">dataframe should contains the row names values</param>
+    ''' <param name="file"></param>
+    ''' <param name="blank"></param>
     <Extension>
-    Public Sub WriteCsv(df As DataFrame, file As Stream)
+    Public Sub WriteCsv(df As DataFrame, file As Stream, Optional blank As String = "")
         Dim s As New StreamWriter(file, Encoding.UTF8)
-        Dim names = df.featureNames
+        Dim names As String() = df.featureNames
         Dim cols = names.Select(Function(c) df(c).Getter).ToArray
-        Dim rownames = df.rownames
+        Dim rownames As String() = df.rownames
         Dim row As String() = New String(cols.Length) {}
 
         Call s.WriteLine("," & names.Select(Function(si) $"""{si}""").JoinBy(","))
@@ -79,10 +92,11 @@ Public Module FileWriter
             row(0) = rownames(i)
 
             For offset As Integer = 0 To cols.Length - 1
-                row(offset + 1) = any.ToString(cols(offset)(i), "")
+                row(offset + 1) = any.ToString(cols(offset)(i), null:=blank)
+                row(offset + 1) = If(row(offset + 1).StringEmpty, blank, row(offset + 1))
             Next
 
-            Call s.WriteLine(row.Select(Function(si) $"""{si}""").JoinBy(","))
+            Call s.WriteLine(New RowObject(row).AsLine)
         Next
 
         Call s.Flush()

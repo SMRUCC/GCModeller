@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8611498ebb5fdf1882e96b5f8e123bf6, Data_science\Visualization\Plots\3D\PieChart3D.vb"
+﻿#Region "Microsoft.VisualBasic::236ed78e1254f0408986d64b487eaee3, Data_science\Visualization\Plots\3D\PieChart3D.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 67
-    '    Code Lines: 58 (86.57%)
-    ' Comment Lines: 1 (1.49%)
+    '   Total Lines: 72
+    '    Code Lines: 62 (86.11%)
+    ' Comment Lines: 1 (1.39%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 8 (11.94%)
-    '     File Size: 2.86 KB
+    '   Blank Lines: 9 (12.50%)
+    '     File Size: 3.02 KB
 
 
     '     Module PieChart3D
@@ -78,7 +78,10 @@ Namespace Plot3D
         End Function
 
         <Extension>
-        Public Function Plot3D(data As IEnumerable(Of FractionData), camera As Camera, Optional valueLabel As ValueLabels = ValueLabels.Percentage) As GraphicsData
+        Public Function Plot3D(data As IEnumerable(Of FractionData), camera As Camera,
+                               Optional valueLabel As ValueLabels = ValueLabels.Percentage,
+                               Optional driver As Drivers = Drivers.Default) As GraphicsData
+
             Dim start As New f64
             Dim sweep As New f64
             Dim alpha!
@@ -115,7 +118,9 @@ Namespace Plot3D
             Return g.GraphicsPlots(
                 camera.screen, g.DefaultPadding,
                 "white",
-                plot3DInternal)
+                plot3DInternal,
+                driver:=driver
+            )
         End Function
     End Module
 End Namespace

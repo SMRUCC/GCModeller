@@ -172,6 +172,11 @@ Namespace SequenceModel
             Return seq.SequenceData.CalcMW_Polypeptide
         End Function
 
+        ''' <summary>
+        ''' evaluate the exact mass of the given polypeptide <paramref name="seq"/>
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
         <ExportAPI("MW.Polypeptide")>
         <Extension>
         Public Function CalcMW_Polypeptide(seq As String) As Double

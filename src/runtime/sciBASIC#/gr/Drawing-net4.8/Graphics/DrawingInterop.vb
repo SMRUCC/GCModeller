@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e82ee110af266b34973305aba85e40f5, gr\Drawing-net4.8\Graphics\DrawingInterop.vb"
+﻿#Region "Microsoft.VisualBasic::a08b74163238eacf188812ddb23b9168, gr\Drawing-net4.8\Graphics\DrawingInterop.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 12 (10.71%)
-    '     File Size: 4.12 KB
+    '     File Size: 4.14 KB
 
 
     ' Module DrawingInterop
@@ -91,7 +91,7 @@ Public Module DrawingInterop
     ''' <returns></returns>
     <Extension>
     Public Function CTypePenObject(stroke As Pen) As System.Drawing.Pen
-        Throw New NotImplementedException
+        Return New System.Drawing.Pen(stroke.Color, stroke.Width)
     End Function
 
     ''' <summary>

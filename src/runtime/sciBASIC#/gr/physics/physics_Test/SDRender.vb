@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9df5a54f9f48bbee93ecc3205b8a5a8d, gr\physics\physics_Test\SDRender.vb"
+﻿#Region "Microsoft.VisualBasic::cb8372ef43a03049659c32f8eaea49cb, gr\physics\physics_Test\SDRender.vb"
 
     ' Author:
     ' 
@@ -65,7 +65,7 @@ Namespace Boids.Viewer
         Dim n As Integer = 30
 
         Sub New()
-            colors = Designer.GetColors(ScalerPalette.Jet.Description, n)
+            colors = Designer.GetColors(ScalerPalette.viridis.Description, n)
         End Sub
 
         Public Function RenderField(field As Field) As Bitmap

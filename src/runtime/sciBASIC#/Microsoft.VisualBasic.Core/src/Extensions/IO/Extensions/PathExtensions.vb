@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::704af2d0fe7b5156b9d9e0b769821a09, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\PathExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::e196a6056d3bbac13f5679e753491617, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\PathExtensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1107
-    '    Code Lines: 620 (56.01%)
-    ' Comment Lines: 370 (33.42%)
+    '   Total Lines: 1114
+    '    Code Lines: 627 (56.28%)
+    ' Comment Lines: 370 (33.21%)
     '    - Xml Docs: 83.78%
     ' 
-    '   Blank Lines: 117 (10.57%)
-    '     File Size: 43.48 KB
+    '   Blank Lines: 117 (10.50%)
+    '     File Size: 43.85 KB
 
 
     ' Module PathExtensions
@@ -615,7 +615,10 @@ Public Module PathExtensions
     Public Function FileLength(path As String) As Long
         If path.StringEmpty Then
             Return -1
-        ElseIf Not path.FileExists OrElse path.DirectoryExists Then
+        ElseIf Not path.FileExists Then
+            Call $"missing data file({path}, fullpath={path.GetFullPath(False)}) to measure file length, -1 will returns!".Warning
+            Return -1&
+        ElseIf path.DirectoryExists Then
             Return -1&
         Else
             Return FileIO.FileSystem.GetFileInfo(path).Length
@@ -666,6 +669,10 @@ Public Module PathExtensions
 
     <Extension>
     Public Function FileMove(source$, target$) As Boolean
+        If Not source.FileExists Then
+            Call $"missing file({source}, fullpath={source.GetFullPath(False)}) to move to new file location.".Warning
+            Return False
+        End If
         Try
             Call File.Move(source, target)
             Return True

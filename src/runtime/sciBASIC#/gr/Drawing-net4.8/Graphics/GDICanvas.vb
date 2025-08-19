@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c5c05a83817cadebff38b028a38f19d8, gr\Drawing-net4.8\Graphics\GDICanvas.vb"
+﻿#Region "Microsoft.VisualBasic::f47ac8eb2827b6f3a509f1db2dd1940b, gr\Drawing-net4.8\Graphics\GDICanvas.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 2536
-    '    Code Lines: 716 (28.23%)
-    ' Comment Lines: 1624 (64.04%)
+    '   Total Lines: 2541
+    '    Code Lines: 720 (28.34%)
+    ' Comment Lines: 1624 (63.91%)
     '    - Xml Docs: 12.99%
     ' 
-    '   Blank Lines: 196 (7.73%)
-    '     File Size: 86.96 KB
+    '   Blank Lines: 197 (7.75%)
+    '     File Size: 87.11 KB
 
 
     ' Class GDICanvas
@@ -1472,12 +1472,17 @@ Public MustInherit Class GDICanvas : Inherits IGraphics
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Sub DrawPolygon(pen As Pen, points() As PointF)
+        If points.IsNullOrEmpty Then
+            Call "one of the polygon shape data for draw is empty!".Warning
+            Return
+        End If
+
         Dim spen As System.Drawing.Pen = Nothing
 
 #If NET8_0_OR_GREATER Then
         spen = pen.CTypePenObject
 #Else
-        spen = pen 
+        spen = pen
 #End If
 
         Call Graphics.DrawPolygon(spen, points)

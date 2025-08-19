@@ -223,7 +223,7 @@ Public Module Enrichment
             .OrderBy(Function(t) t.pvalue) _
             .Shadows
 
-            !FDR = !Pvalue.FDR
+            !FDR = !pvalue.FDR
             Return .ToArray
         End With
     End Function

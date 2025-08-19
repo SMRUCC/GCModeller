@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebd5c5650c8f2432a2a1e177306b7153, Microsoft.VisualBasic.Core\src\Drawing\GDI+\GraphicsExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::350d12f70552c33ad55699f6dc55f744, Microsoft.VisualBasic.Core\src\Drawing\GDI+\GraphicsExtensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 524
-    '    Code Lines: 338 (64.50%)
-    ' Comment Lines: 123 (23.47%)
-    '    - Xml Docs: 95.93%
+    '   Total Lines: 544
+    '    Code Lines: 346 (63.60%)
+    ' Comment Lines: 133 (24.45%)
+    '    - Xml Docs: 96.24%
     ' 
-    '   Blank Lines: 63 (12.02%)
-    '     File Size: 19.74 KB
+    '   Blank Lines: 65 (11.95%)
+    '     File Size: 20.55 KB
 
 
     '     Module GraphicsExtensions
@@ -51,7 +51,7 @@
     '                   GetBrushes, GetStreamBuffer, (+2 Overloads) GraphicsPath, ImageAddFrame, IsValidGDIParameter
     '                   (+3 Overloads) LoadImage, (+2 Overloads) Opacity, ParseImageFormat, (+2 Overloads) PointF, SaveAs
     '                   SizeF, ToFloat, ToPoint, ToPoints, ToStream
-    '                   X, Y
+    '                   (+2 Overloads) X, (+2 Overloads) Y
     ' 
     '         Sub: (+4 Overloads) DrawCircle, FillPolygon
     ' 
@@ -395,14 +395,34 @@ Namespace Imaging
             Return New Rectangle(New Point, size)
         End Function
 
+        ''' <summary>
+        ''' get x axis of the input geometry data
+        ''' </summary>
+        ''' <param name="pts"></param>
+        ''' <returns></returns>
         <Extension>
-        Public Function X(pts As Point()) As Integer()
-            Return pts.Select(Function(p) p.X).ToArray
+        Public Function X(pts As IEnumerable(Of Point)) As Integer()
+            Return (From pt As Point In pts Select xi = pt.X).ToArray
+        End Function
+
+        ''' <summary>
+        ''' get y axis of the input geometry data
+        ''' </summary>
+        ''' <param name="pts"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Y(pts As IEnumerable(Of Point)) As Integer()
+            Return (From pt As Point In pts Select yi = pt.Y).ToArray
         End Function
 
         <Extension>
-        Public Function Y(pts As Point()) As Integer()
-            Return pts.Select(Function(p) p.Y).ToArray
+        Public Function X(Of Point As Layout2D)(pts As IEnumerable(Of Point)) As Double()
+            Return (From pt As Point In pts Select yi = pt.Y).ToArray
+        End Function
+
+        <Extension>
+        Public Function Y(Of Point As Layout2D)(pts As IEnumerable(Of Point)) As Double()
+            Return (From pt As Point In pts Select yi = pt.Y).ToArray
         End Function
 
         ''' <summary>

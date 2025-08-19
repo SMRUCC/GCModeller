@@ -41,28 +41,32 @@ const localRenderMap = function(KEGG_maps, pathwayList,
         #'
         const highlights = .safe_kegg_url_parser(url, compoundcolors, gene_highights);
 
-        print(`'${mapId}' contains ${length(highlights$objects)} objects.`);
-        print(url);
+        if (mapId != "map00000") {
+            print(`'${mapId}' contains ${length(highlights$objects)} objects.`);
+            print(url);
 
-        if (length(highlights$objects) >= min_objects) {
-            try(ex -> {
-                KEGG_maps[[mapId]]
-                |> keggMap.reportHtml(highlights$objects)
-                # print html text to std_out device
-                |> writeLines(con = `${outputdir}/${mapId}.html`)
-                ;
+            if (length(highlights$objects) >= min_objects) {
+                try(ex -> {
+                    KEGG_maps[[mapId]]
+                    |> keggMap.reportHtml(highlights$objects)
+                    # print html text to std_out device
+                    |> writeLines(con = `${outputdir}/${mapId}.html`)
+                    ;
 
-                # just render image file
-                bitmap(file = `${outputdir}/${mapId}.png`) {
-                    keggMap.highlights(KEGG_maps[[mapId]], highlights$objects);
-                }
-            }) {
-                print(`found error while rendering ${mapId}:`);
-                print([ex]::error);
-                str(highlights);
-            };
+                    # just render image file
+                    bitmap(file = `${outputdir}/${mapId}.png`) {
+                        keggMap.highlights(KEGG_maps[[mapId]], highlights$objects);
+                    }
+                }) {
+                    print(`found error while rendering ${mapId}:`);
+                    print([ex]::error);
+                    str(highlights);
+                };
+            } else {
+                print("skip rendering plot due to the reason of too less object.");
+            }
         } else {
-            print("skip rendering plot due to the reason of too less object.");
+            warning("skip of the invalid kegg map id: map00000!", immediate. = TRUE);
         }
     }
 }

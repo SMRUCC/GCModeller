@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ffb2e3bb5531c22f68ecd48e5bef1417, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\netcore8.0\Image.vb"
+﻿#Region "Microsoft.VisualBasic::cbed2893d9dd9ce224ceb9ae4bd6f488, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\netcore8.0\Image.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 293
-    '    Code Lines: 140 (47.78%)
-    ' Comment Lines: 97 (33.11%)
-    '    - Xml Docs: 47.42%
+    '   Total Lines: 321
+    '    Code Lines: 160 (49.84%)
+    ' Comment Lines: 100 (31.15%)
+    '    - Xml Docs: 49.00%
     ' 
-    '   Blank Lines: 56 (19.11%)
-    '     File Size: 11.32 KB
+    '   Blank Lines: 61 (19.00%)
+    '     File Size: 12.38 KB
 
 
     '     Class Image
@@ -51,16 +51,20 @@
     ' 
     '         Sub: (+2 Overloads) Dispose
     ' 
+    '     Interface IRasterMemory
+    ' 
+    '         Function: GetMemoryBuffer
+    ' 
     '     Class Bitmap
     ' 
     '         Properties: MemoryBuffer, Size
     ' 
-    '         Constructor: (+4 Overloads) Sub New
+    '         Constructor: (+5 Overloads) Sub New
     ' 
-    '         Function: Clone, ConvertToBitmapStream, GetMemoryBitmap, GetPixel, Resize
-    '                   ToString
+    '         Function: Clone, ConvertToBitmapStream, GetMemoryBitmap, GetMemoryBuffer, GetPixel
+    '                   LoadMemory, Resize, ToString
     ' 
-    '         Sub: Save, SetPixel
+    '         Sub: (+2 Overloads) Save, SetPixel
     ' 
     '     Enum PixelFormat
     ' 
@@ -89,7 +93,10 @@ Namespace Imaging
     ''' <summary>
     ''' the abstract image data model, example as gdi+ raster image bitmap, svg image, pdf image, etc
     ''' </summary>
-    Public MustInherit Class Image : Implements IDisposable
+    ''' <remarks>
+    ''' the image model implements the interface <see cref="IRasterMemory"/>
+    ''' </remarks>
+    Public MustInherit Class Image : Implements IDisposable, IRasterMemory
 
         Private disposedValue As Boolean
 
@@ -129,7 +136,7 @@ Namespace Imaging
         ''' function for make bitmap object constructor
         ''' </remarks>
         Protected Friend MustOverride Function ConvertToBitmapStream() As MemoryStream
-        Protected Friend MustOverride Function GetMemoryBitmap() As BitmapBuffer
+        Protected Friend MustOverride Function GetMemoryBitmap() As BitmapBuffer Implements IRasterMemory.GetMemoryBuffer
 
         ''' <summary>
         ''' Load bitmap image from file stream
@@ -176,10 +183,15 @@ Namespace Imaging
         End Sub
     End Class
 
+    Public Interface IRasterMemory
+        Function GetMemoryBuffer() As BitmapBuffer
+    End Interface
+
     ''' <summary>
     ''' the gdi+ raster image data in memory
     ''' </summary>
     Public Class Bitmap : Inherits Image
+        Implements IRasterMemory
 
         Public Overrides ReadOnly Property Size As Size
             Get
@@ -188,6 +200,10 @@ Namespace Imaging
         End Property
 
         Public ReadOnly Property MemoryBuffer As BitmapBuffer
+
+        Sub New(file As String)
+            Call Me.New(LoadMemory(file))
+        End Sub
 
         Sub New(data As BitmapBuffer)
             MemoryBuffer = data
@@ -242,6 +258,12 @@ Namespace Imaging
             End If
         End Function
 
+        Private Shared Function LoadMemory(file As String) As BitmapBuffer
+            Using s As Stream = file.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Return New BitmapReader(s).LoadMemory
+            End Using
+        End Function
+
         ''' <summary>
         ''' Save current bitmap object into a specific file
         ''' </summary>
@@ -253,6 +275,12 @@ Namespace Imaging
 
             Call writer.Save(s, flipped:=True)
             Call s.Flush()
+        End Sub
+
+        Public Overloads Sub Save(filename As String)
+            Using s As Stream = filename.Open(FileMode.OpenOrCreate, doClear:=True)
+                Call Save(s, Nothing)
+            End Using
         End Sub
 
         Public Function Clone() As Object
@@ -267,6 +295,10 @@ Namespace Imaging
         End Function
 
         Protected Friend Overrides Function GetMemoryBitmap() As BitmapBuffer
+            Return MemoryBuffer
+        End Function
+
+        Public Function GetMemoryBuffer() As BitmapBuffer Implements IRasterMemory.GetMemoryBuffer
             Return MemoryBuffer
         End Function
     End Class

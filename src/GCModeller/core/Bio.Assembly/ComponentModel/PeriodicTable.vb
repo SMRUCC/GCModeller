@@ -106,10 +106,14 @@ Namespace ComponentModel
             Return Me
         End Function
 
+        ''' <summary>
+        ''' return formula string
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             Dim sb As New StringBuilder
 
-            For Each atom In elements
+            For Each atom As KeyValuePair(Of String, Integer) In elements
                 If atom.Value = 1 Then
                     sb.Append(atom.Key)
                 ElseIf atom.Value <= 0 Then

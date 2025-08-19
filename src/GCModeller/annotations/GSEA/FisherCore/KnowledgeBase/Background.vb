@@ -100,6 +100,13 @@ Public Class Background : Inherits XmlDataModel
         End Get
     End Property
 
+    ''' <summary>
+    ''' take subset of the clusters
+    ''' </summary>
+    ''' <param name="predicate">
+    ''' condition test for take clusters subset
+    ''' </param>
+    ''' <returns></returns>
     Public Function SubsetOf(predicate As Func(Of Cluster, Boolean)) As Background
         Return New Background With {
             .build = build,

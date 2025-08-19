@@ -86,7 +86,6 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
-Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.Blocks
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -121,7 +120,7 @@ Public Module repository
 
         Call RInternal.generic.add("readBin.kegg_compound", GetType(Stream), AddressOf readKeggCompounds)
         Call RInternal.generic.add("readBin.kegg_reaction", GetType(Stream), AddressOf readKeggReactions)
-        Call RInternal.generic.add("readBin.kegg_pathway", GetType(Stream), AddressOf readKeggMaps)
+        Call RInternal.generic.add("readBin.kegg_map", GetType(Stream), AddressOf readKeggMaps)
     End Sub
 
     ''' <summary>

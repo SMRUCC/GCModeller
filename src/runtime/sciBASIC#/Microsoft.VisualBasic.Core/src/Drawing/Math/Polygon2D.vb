@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::642a19b811fe1dcd76b7d8cb4b2284f4, Microsoft.VisualBasic.Core\src\Drawing\Math\Polygon2D.vb"
+﻿#Region "Microsoft.VisualBasic::f69148cdaf90d330fd3222af16235968, Microsoft.VisualBasic.Core\src\Drawing\Math\Polygon2D.vb"
 
     ' Author:
     ' 
@@ -34,24 +34,24 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 425
-    '    Code Lines: 256 (60.24%)
-    ' Comment Lines: 109 (25.65%)
-    '    - Xml Docs: 87.16%
+    '   Total Lines: 437
+    '    Code Lines: 262 (59.95%)
+    ' Comment Lines: 113 (25.86%)
+    '    - Xml Docs: 87.61%
     ' 
-    '   Blank Lines: 60 (14.12%)
-    '     File Size: 15.41 KB
+    '   Blank Lines: 62 (14.19%)
+    '     File Size: 15.89 KB
 
 
     '     Class Polygon2D
     ' 
     '         Properties: height, length, width, xpoints, ypoints
     ' 
-    '         Constructor: (+10 Overloads) Sub New
+    '         Constructor: (+11 Overloads) Sub New
     ' 
     '         Function: boundingInside, checkInside, GenericEnumerator, GetArea, GetDimension
-    '                   GetRandomPoint, GetRectangle, GetShoelaceArea, GetSize, GetSizeF
-    '                   (+4 Overloads) inside
+    '                   GetFillPoints, GetRandomPoint, GetRectangle, GetShoelaceArea, GetSize
+    '                   GetSizeF, (+4 Overloads) inside
     ' 
     '         Sub: calculateBounds
     ' 
@@ -210,6 +210,10 @@ Namespace Imaging.Math2D
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub New(points As IEnumerable(Of Point))
             Call Me.New(points.Select(Function(p) New PointF(p.X, p.Y)).ToArray)
+        End Sub
+
+        Sub New(points As IEnumerable(Of Vector2D))
+            Call Me.New((From p As Vector2D In points.SafeQuery Select New PointF(p.x, p.y)).ToArray)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -453,6 +457,14 @@ Namespace Imaging.Math2D
             Return area
         End Function
 
+        Public Function GetFillPoints() As IEnumerable(Of PointF)
+            Return PolygonFiller.FillPolygon(Me.AsEnumerable.ToPoints.ToList).PointF
+        End Function
+
+        ''' <summary>
+        ''' just populate all input points data
+        ''' </summary>
+        ''' <returns></returns>
         Public Iterator Function GenericEnumerator() As IEnumerator(Of PointF) Implements Enumeration(Of PointF).GenericEnumerator
             For i As Integer = 0 To length - 1
                 Yield New PointF(xpoints(i), ypoints(i))

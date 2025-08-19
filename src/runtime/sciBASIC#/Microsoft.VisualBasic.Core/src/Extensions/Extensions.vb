@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9897bcdf389c730e3f2b2df2df36a74, Microsoft.VisualBasic.Core\src\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::290a68801375534a689a09afab1e2300, Microsoft.VisualBasic.Core\src\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1550
-    '    Code Lines: 855 (55.16%)
-    ' Comment Lines: 553 (35.68%)
-    '    - Xml Docs: 91.86%
+    '   Total Lines: 1551
+    '    Code Lines: 855 (55.13%)
+    ' Comment Lines: 554 (35.72%)
+    '    - Xml Docs: 91.88%
     ' 
     '   Blank Lines: 142 (9.16%)
-    '     File Size: 57.48 KB
+    '     File Size: 57.59 KB
 
 
     ' Module Extensions
@@ -236,7 +236,8 @@ Public Module Extensions
     ''' any text data
     ''' </param>
     ''' <returns>
-    ''' a 32 bit md5 string in lower case
+    ''' a 32 bit md5 string in lower case, this function may returns empty hashcode string 
+    ''' if the given input string <paramref name="s"/> is empty.
     ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function MD5(s$) As String

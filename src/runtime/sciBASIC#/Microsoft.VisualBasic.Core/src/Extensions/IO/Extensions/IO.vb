@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee92ebd031e9d4bcb23741338f3cd0a0, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\IO.vb"
+﻿#Region "Microsoft.VisualBasic::649e8bfa18464a2c3c5d5943458d27b0, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\IO.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 360
-    '    Code Lines: 192 (53.33%)
-    ' Comment Lines: 132 (36.67%)
+    '   Total Lines: 366
+    '    Code Lines: 196 (53.55%)
+    ' Comment Lines: 132 (36.07%)
     '    - Xml Docs: 78.79%
     ' 
-    '   Blank Lines: 36 (10.00%)
-    '     File Size: 14.25 KB
+    '   Blank Lines: 38 (10.38%)
+    '     File Size: 14.48 KB
 
 
     ' Module IOExtensions
@@ -275,8 +275,14 @@ Public Module IOExtensions
             [readOnly] = True AndAlso
             App.MemoryLoad > My.FrameworkInternal.MemoryLoads.Light Then
 
+            Dim file_size As Long = path.FileLength
+
+            If file_size < 0 Then
+                Throw New InvalidDataException($"missing raw data file({path}, fullpath={path.GetFullPath(False)}) to read!")
+            End If
+
             ' should reads all data into memory!
-            If path.FileLength < size_2GB Then
+            If file_size < size_2GB Then
                 If verbose Then
                     Call VBDebugger.EchoLine($"read all binary data into memory for max performance! (size={StringFormats.Lanudry(path.FileLength)}) {path}")
                 End If

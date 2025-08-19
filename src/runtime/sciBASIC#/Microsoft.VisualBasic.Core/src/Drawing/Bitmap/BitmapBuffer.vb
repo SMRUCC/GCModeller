@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef093088d1783200ed4e6e47db01b43a, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\BitmapBuffer.vb"
+﻿#Region "Microsoft.VisualBasic::43ed9200d171c2d04c2acb1f82851a99, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\BitmapBuffer.vb"
 
     ' Author:
     ' 
@@ -34,28 +34,28 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 654
-    '    Code Lines: 380 (58.10%)
-    ' Comment Lines: 171 (26.15%)
-    '    - Xml Docs: 80.70%
+    '   Total Lines: 702
+    '    Code Lines: 414 (58.97%)
+    ' Comment Lines: 179 (25.50%)
+    '    - Xml Docs: 81.56%
     ' 
-    '   Blank Lines: 103 (15.75%)
-    '     File Size: 21.89 KB
+    '   Blank Lines: 109 (15.53%)
+    '     File Size: 23.93 KB
 
 
     '     Class BitmapBuffer
     ' 
-    '         Properties: Height, Size, Stride, Width
+    '         Properties: Height, Size, SortBins, Stride, Width
     ' 
-    '         Constructor: (+4 Overloads) Sub New
+    '         Constructor: (+5 Overloads) Sub New
     ' 
     '         Function: (+2 Overloads) FromBitmap, FromImage, GetAlpha, GetARGB, GetARGBStream
     '                   GetBlue, GetColor, GetEnumerator, GetGreen, GetImage
     '                   (+2 Overloads) GetIndex, (+3 Overloads) GetPixel, GetPixelChannels, GetPixelsAll, GetRed
-    '                   OutOfRange, ToPixel2D, ToString, Unpack
+    '                   OutOfRange, ToPixel2D, ToString, Unpack, White
     ' 
-    '         Sub: Dispose, SetAlpha, SetBlue, SetGreen, (+4 Overloads) SetPixel
-    '              SetRed, WriteARGBStream
+    '         Sub: Dispose, (+2 Overloads) Save, SetAlpha, SetBlue, SetGreen
+    '              (+4 Overloads) SetPixel, SetRed, WriteARGBStream
     ' 
     '         Operators: +
     ' 
@@ -66,15 +66,19 @@
 
 Imports System.Drawing
 Imports System.Drawing.Imaging
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.Linq
+Imports BitsPerPixelEnum = Microsoft.VisualBasic.Imaging.BitmapImage.FileStream.BitsPerPixelEnum
+Imports MemoryBmp = Microsoft.VisualBasic.Imaging.BitmapImage.FileStream.Bitmap
 Imports std = System.Math
 
 Namespace Imaging.BitmapImage
 
     ''' <summary>
-    ''' Unsafe memory pointer of the <see cref="Bitmap"/> data buffer.
+    ''' Unsafe memory pointer of the <see cref="Bitmap"/> data buffer. buffer image object in java
     ''' </summary>
     ''' <remarks>
     ''' (线程不安全的图片数据对象)
@@ -98,6 +102,17 @@ Namespace Imaging.BitmapImage
         ''' 也可能是 BGR 3通道的
         ''' </summary>
         ReadOnly channels As Integer
+
+        Public ReadOnly Property SortBins As Dictionary(Of Byte, Integer)
+            Get
+                Return buffer _
+                    .GroupBy(Function(b) b) _
+                    .ToDictionary(Function(b) b.Key,
+                                  Function(b)
+                                      Return b.Count
+                                  End Function)
+            End Get
+        End Property
 
 #If NET48 Then
         Protected Sub New(ptr As IntPtr,
@@ -147,6 +162,10 @@ Namespace Imaging.BitmapImage
             _Height = size.Height
         End Sub
 
+        Sub New(width As Integer, height As Integer, Optional channels As Integer = 4)
+            Call Me.New(New Byte(width * height * channels - 1) {}, New Size(width, height), channels)
+        End Sub
+
         Sub New(pixels As Color(,), size As Size)
             Call MyBase.New(Unpack(pixels, size))
 
@@ -158,6 +177,9 @@ Namespace Imaging.BitmapImage
             _Width = size.Width
             _Height = size.Height
         End Sub
+
+        Public Const TYPE_INT_RGB As Integer = 3
+        Public Const TYPE_INT_ARGB As Integer = 4
 
         ''' <summary>
         ''' The dimension width of the current bitmap buffer object
@@ -185,6 +207,12 @@ Namespace Imaging.BitmapImage
         ''' may be not matched with width * pixel_size on .net 4.8 runtime
         ''' </returns>
         Public ReadOnly Property Stride As Integer
+
+        Public Shared Function White(width As Integer, height As Integer) As BitmapBuffer
+            Dim bytes As Byte() = New Byte(width * height * 4 - 1) {}
+            Call bytes.fill(255)
+            Return New BitmapBuffer(bytes, New Size(width, height), 4)
+        End Function
 
         ''' <summary>
         ''' get the pixel channels in memory buffer
@@ -400,12 +428,13 @@ Namespace Imaging.BitmapImage
         End Function
 
         Public Shared Function Unpack(pixels As Color(,), size As Size) As Byte()
-            Dim bytes As Byte() = New Byte(4 * pixels.Length - 1) {}
+            Dim channels As Integer = 4
+            Dim bytes As Byte() = New Byte(channels * pixels.Length - 1) {}
 
             For y As Integer = 0 To size.Height - 1
                 For x As Integer = 0 To size.Width - 1
                     Dim pixel As Color = pixels(y, x)
-                    Dim i As Integer = GetIndex(x, y, size.Width, size.Height)
+                    Dim i As Integer = GetIndex(x, y, size.Width, channels)
 
                     bytes(i) = pixel.A
                     bytes(i + 1) = pixel.R
@@ -608,6 +637,28 @@ Namespace Imaging.BitmapImage
             Else
                 buffer(i + (2 - channel)) = val
             End If
+        End Sub
+
+        ''' <summary>
+        ''' save in-memory data as local bitmap file
+        ''' </summary>
+        ''' <param name="file"></param>
+        Public Sub Save(file As String)
+            Using s As Stream = file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Call Save(s)
+            End Using
+        End Sub
+
+        ''' <summary>
+        ''' save in-memory data as bitmap file
+        ''' </summary>
+        ''' <param name="s"></param>
+        Public Sub Save(s As Stream)
+            Dim pixelFormat As BitsPerPixelEnum = If(GetPixelChannels() = 3, BitsPerPixelEnum.RGB24, BitsPerPixelEnum.RGBA32)
+            Dim writer As New MemoryBmp(Width, Height, RawBuffer, pixelFormat)
+
+            Call writer.Save(s, flipped:=True)
+            Call s.Flush()
         End Sub
 
         Public Overrides Function ToString() As String

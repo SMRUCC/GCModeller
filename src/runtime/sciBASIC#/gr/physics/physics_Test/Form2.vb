@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a56838ddcde78aa5340b464c50a4e649, gr\physics\physics_Test\Form2.vb"
+﻿#Region "Microsoft.VisualBasic::3534aed12b57d6a04a055eb72dbc4fef, gr\physics\physics_Test\Form2.vb"
 
     ' Author:
     ' 
@@ -84,7 +84,7 @@ Namespace Boids.Viewer
         End Sub
         Private Sub Reset()
             VectorTask.n_threads = 12
-            field = New Field(pictureBox1.Width, pictureBox1.Height, 10000)
+            field = New Field(pictureBox1.Width, pictureBox1.Height, 15000)
         End Sub
 
         Dim counter As New PerformanceCounter

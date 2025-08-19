@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8b58d78574159fd85b552ec513c7ad8, Data_science\Graph\Analysis\MorganFingerprint\MorganFingerprint.vb"
+﻿#Region "Microsoft.VisualBasic::bc3d6acdc41a8df6a95cd9eef5157870, Data_science\Graph\Analysis\MorganFingerprint\MorganFingerprint.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 158
-    '    Code Lines: 53 (33.54%)
-    ' Comment Lines: 87 (55.06%)
-    '    - Xml Docs: 74.71%
+    '   Total Lines: 226
+    '    Code Lines: 109 (48.23%)
+    ' Comment Lines: 89 (39.38%)
+    '    - Xml Docs: 73.03%
     ' 
-    '   Blank Lines: 18 (11.39%)
-    '     File Size: 8.49 KB
+    '   Blank Lines: 28 (12.39%)
+    '     File Size: 11.35 KB
 
 
     '     Class GraphMorganFingerprint
@@ -48,7 +48,12 @@
     '         Properties: FingerprintLength
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: CalculateFingerprint, CalculateFingerprintCheckSum, HashLabelKey
+    '         Function: CalculateFingerprint, CalculateFingerprintCheckSum, GenerateSubstructureHash, GetNeighbors, HashLabelKey
+    '         Class UndirectEdgeIndex
+    ' 
+    '             Function: Create
+    ' 
+    ' 
     ' 
     ' 
     ' /********************************************************************************/
@@ -57,7 +62,9 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.HashMaps
+Imports Microsoft.VisualBasic.Serialization
 
 Namespace Analysis.MorganFingerprint
 
@@ -117,10 +124,107 @@ Namespace Analysis.MorganFingerprint
         End Sub
 
         Public Function CalculateFingerprintCheckSum(Of G As MorganGraph(Of V, E))(struct As G, Optional radius As Integer = 3) As Byte()
+            ' 20250815 do not aggregate the bit array to bytes
+            ' just make the boolean conversion at here
             Dim bits As BitArray = CalculateFingerprint(struct, radius)
-            Dim bytes = New Byte(FingerprintLength / 8 - 1) {}
-            bits.CopyTo(bytes, 0)
+            ' has bug about bits aggregate to bytes
+            ' Dim bytes = New Byte(FingerprintLength / 8 - 1) {}
+            ' bits.CopyTo(bytes, 0)
+            ' just make value copy of the fingerprint bits
+            Dim bytes As Byte() = New Byte(FingerprintLength - 1) {}
+
+            For i As Integer = 0 To bits.Length - 1
+                If bits.Get(i) Then
+                    bytes(i) = 1
+                End If
+            Next
+
             Return bytes
+        End Function
+
+        Private Class UndirectEdgeIndex
+
+            Public graph As Dictionary(Of UInteger, E())
+            Public atoms As V()
+
+            Default Public ReadOnly Property Neighbors(v As V) As E()
+                Get
+                    Dim uint As UInteger = CUInt(v.Index)
+
+                    If graph.ContainsKey(uint) Then
+                        Return graph(key:=uint)
+                    Else
+                        Return {}
+                    End If
+                End Get
+            End Property
+
+            Public Shared Function Create(Of G As MorganGraph(Of V, E))(struct As G) As UndirectEdgeIndex
+                Dim atoms = struct.Atoms
+                Dim edges = struct.Graph _
+                    .Select(Iterator Function(l) As IEnumerable(Of (Integer, E))
+                                Yield (l.U, l)
+                                Yield (l.V, l)
+                            End Function) _
+                    .IteratesALL _
+                    .GroupBy(Function(l) l.Item1) _
+                    .ToDictionary(Function(i) CUInt(i.Key),
+                                  Function(i)
+                                      Return i.Select(Function(a) a.Item2) _
+                                          .Distinct _
+                                          .ToArray
+                                  End Function)
+
+                Return New UndirectEdgeIndex With {
+                    .graph = edges,
+                    .atoms = atoms
+                }
+            End Function
+        End Class
+
+        Private Iterator Function GetNeighbors(atom As V, struct As UndirectEdgeIndex, radius As Integer) As IEnumerable(Of E())
+            Dim layer As New List(Of V) From {atom}
+            Dim nextLayer As New List(Of E)
+
+            For i As Integer = 1 To radius
+                For Each v As V In layer
+                    Dim neighbors = struct(v)
+                    nextLayer.AddRange(neighbors)
+                    Yield neighbors
+                Next
+
+                layer = nextLayer _
+                    .Distinct _
+                    .Select(Function(v)
+                                Return {struct.atoms(v.U), struct.atoms(v.V)}
+                            End Function) _
+                    .IteratesALL _
+                    .Distinct _
+                    .ToList
+            Next
+        End Function
+
+        Private Function GenerateSubstructureHash(atom As V, struct As UndirectEdgeIndex, radius As Integer) As ULong
+            Dim neighbors = GetNeighbors(atom, struct, radius).IteratesALL.Distinct.ToArray
+            Dim checksum As ULong() = neighbors.Select(Function(i) HashEdge(struct.atoms, i, False)).ToArray
+
+            If checksum.Length = 0 Then
+                Return 0
+            Else
+                Dim hashcode = checksum.CalcHashCode
+                Dim int As ULong
+
+                ' 20250805 possible has less than 8 element hashcode result
+                ' should fill with some zero byte for convert to
+                ' ulong
+                If hashcode.Length < RawStream.INT64 Then
+                    hashcode = hashcode.Fill(0, RawStream.INT64 - hashcode.Length)
+                End If
+
+                int = BitConverter.ToUInt64(hashcode, Scan0)
+
+                Return int
+            End If
         End Function
 
         Public Function CalculateFingerprint(Of G As MorganGraph(Of V, E))(struct As G, Optional radius As Integer = 3) As BitArray
@@ -129,28 +233,15 @@ Namespace Analysis.MorganFingerprint
             ' Initialize atom codes based on atom type
             For i As Integer = 0 To struct.Atoms.Length - 1
                 atoms(i).Code = CULng(HashAtom(struct.Atoms(i)))
-                atoms(i).Index = i
             Next
 
-            ' Perform iterations to expand the atom codes
-            For r As Integer = 0 To radius - 1
-                Dim newCodes As ULong() = New ULong(struct.Atoms.Length - 1) {}
-
-                For Each bound As E In struct.Graph
-                    newCodes(bound.U) = HashEdge(atoms, bound, flip:=False)
-                    newCodes(bound.V) = HashEdge(atoms, bound, flip:=True)
-                Next
-
-                For i As Integer = 0 To struct.Atoms.Length - 1
-                    atoms(i).Code = newCodes(i)
-                Next
-            Next
-
+            Dim graph As UndirectEdgeIndex = UndirectEdgeIndex.Create(struct)
+            Dim hashcode As ULong() = atoms.Select(Function(v) GenerateSubstructureHash(v, graph, radius)).ToArray
             ' Generate the final fingerprint
             Dim fingerprint As New BitArray(FingerprintLength)
 
-            For Each atom As IMorganAtom In atoms
-                Call fingerprint.Xor(position:=atom.Code Mod FingerprintLength)
+            For Each checksum As ULong In hashcode
+                Call fingerprint.Set(checksum Mod FingerprintLength, True)
             Next
 
             Return fingerprint

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d354d77c45168bacbe89869a17fd4f9, gr\Drawing-net4.8\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a9f5c18001b720bcb73b0a2e64d00d02, gr\Drawing-net4.8\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 243
-    '    Code Lines: 162 (66.67%)
-    ' Comment Lines: 49 (20.16%)
+    '   Total Lines: 237
+    '    Code Lines: 157 (66.24%)
+    ' Comment Lines: 49 (20.68%)
     '    - Xml Docs: 89.80%
     ' 
-    '   Blank Lines: 32 (13.17%)
-    '     File Size: 9.17 KB
+    '   Blank Lines: 31 (13.08%)
+    '     File Size: 9.08 KB
 
 
     ' Module Extensions
@@ -182,13 +182,7 @@ Public Module Extensions
     ''' <param name="res">绘图的基础图像对象</param>
     ''' <returns></returns>
     Friend Function CreateObject(g As Graphics, res As System.Drawing.Image) As Graphics2D
-        Dim img As Image
-
-#If NET48 Then
-        img = res 
-#Else
-        Throw New NotImplementedException
-#End If
+        Dim img As Image = res
 
         g.InterpolationMode = InterpolationMode.HighQualityBicubic
         g.PixelOffsetMode = PixelOffsetMode.HighQuality

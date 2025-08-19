@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67431db459db2fdea34833ad4ad8b43c, Data_science\Mathematica\Math\Math\Quantile\DataQuartile.vb"
+﻿#Region "Microsoft.VisualBasic::2fca7f99fb68a19f1d18f2e05844e184, Data_science\Mathematica\Math\Math\Quantile\DataQuartile.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 61
-    '    Code Lines: 27 (44.26%)
-    ' Comment Lines: 27 (44.26%)
+    '   Total Lines: 71
+    '    Code Lines: 35 (49.30%)
+    ' Comment Lines: 27 (38.03%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (11.48%)
-    '     File Size: 2.38 KB
+    '   Blank Lines: 9 (12.68%)
+    '     File Size: 3.00 KB
 
 
     '     Structure DataQuartile
@@ -49,7 +49,7 @@
     '                     range
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: Outlier, ToString
+    '         Function: GetEnumerator, IEnumerable_GetEnumerator, Outlier, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -64,7 +64,7 @@ Namespace Quantile
     ''' <summary>
     ''' A data quartile model based on a given sample data input
     ''' </summary>
-    Public Structure DataQuartile
+    Public Structure DataQuartile : Implements IEnumerable(Of QuantileThreshold)
 
         ''' <summary>
         ''' 第一四分位数 (Q1)，又称“较小四分位数”，等于该样本中所有数值由小到大排列后第25%的数字。
@@ -114,6 +114,16 @@ Namespace Quantile
 
         Public Overrides Function ToString() As String
             Return $"{range.ToString} -> |{Q1}, {Q2}, {Q3}|"
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of QuantileThreshold) Implements IEnumerable(Of QuantileThreshold).GetEnumerator
+            Yield New QuantileThreshold With {.quantile = 0.25, .sample = Q1}
+            Yield New QuantileThreshold With {.quantile = 0.5, .sample = Q2}
+            Yield New QuantileThreshold With {.quantile = 0.75, .sample = Q3}
+        End Function
+
+        Private Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Return GetEnumerator()
         End Function
     End Structure
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e43bc62de7d561a4f5773bd0a52123f, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\Bitmap\BitmapFileHelper.vb"
+﻿#Region "Microsoft.VisualBasic::166c310bb48ea02608988b72c736266a, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\Bitmap\BitmapFileHelper.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 89
-    '    Code Lines: 60 (67.42%)
-    ' Comment Lines: 13 (14.61%)
+    '   Total Lines: 93
+    '    Code Lines: 63 (67.74%)
+    ' Comment Lines: 13 (13.98%)
     '    - Xml Docs: 69.23%
     ' 
-    '   Blank Lines: 16 (17.98%)
-    '     File Size: 4.12 KB
+    '   Blank Lines: 17 (18.28%)
+    '     File Size: 4.07 KB
 
 
     '     Module BitmapFileHelper
@@ -55,9 +55,11 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports MemoryBmp = Microsoft.VisualBasic.Imaging.BitmapImage.FileStream.Bitmap
 
 Namespace Imaging.BitmapImage.FileStream
+
     Public Module BitmapFileHelper
 
         ''' <summary>
@@ -89,7 +91,7 @@ Namespace Imaging.BitmapImage.FileStream
         End Function
 
         Public Function ParseMemoryBitmap(fileStream As Stream) As Bitmap
-            Using bReader = New SafeBinaryReader(fileStream)
+            Using bReader As New LittleEndianReader(fileStream)
                 Dim headerBytes = bReader.ReadBytes(BitmapFileHeader.BitmapFileHeaderSizeInBytes)
                 Dim fileHeader = BitmapFileHeader.GetHeaderFromBytes(headerBytes)
 
@@ -117,7 +119,14 @@ Namespace Imaging.BitmapImage.FileStream
                     Dim bytesToCopy = width * bytesPerPixel
                     For counter = 0 To height - 1
                         Dim rowBuffer = bReader.ReadBytes(bytesPerRow)
-                        Buffer.BlockCopy(src:=rowBuffer, srcOffset:=0, dst:=pixelData, dstOffset:=counter * bytesToCopy, count:=bytesToCopy)
+
+                        Call System.Buffer.BlockCopy(
+                            src:=rowBuffer,
+                            srcOffset:=0,
+                            dst:=pixelData,
+                            dstOffset:=counter * bytesToCopy,
+                            count:=bytesToCopy
+                        )
                     Next
                 Else
                     Dim rowBuffer = bReader.ReadBytes(pixelData.Length)
@@ -130,12 +139,7 @@ Namespace Imaging.BitmapImage.FileStream
         End Function
 
         Public Sub SaveBitmapToFile(fileName As String, bitmap As Bitmap)
-            If bitmap Is Nothing Then Throw New ArgumentNullException(NameOf(bitmap))
-            If String.IsNullOrWhiteSpace(fileName) Then Throw New ArgumentNullException(NameOf(fileName))
-            Dim filePath = Path.GetDirectoryName(fileName)
-            If Not Directory.Exists(filePath) Then Throw New Exception($"Destination directory not found.")
-
-            Using fileStream = File.Create(fileName)
+            Using fileStream As Stream = fileName.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
                 Using bmpStream = bitmap.GetBmpStream()
                     bmpStream.CopyTo(fileStream, bufferSize:=16 * 1024)
                 End Using

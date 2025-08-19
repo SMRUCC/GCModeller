@@ -114,6 +114,9 @@ declare namespace background {
     * 
    */
    function compoundBrite(): object;
+   /**
+   */
+   function cut_background(background: object, annotated: any): object;
    module dag {
       /**
        * create gsea background from a given obo ontology file data.
@@ -134,6 +137,18 @@ declare namespace background {
       */
       function background(dag: object, flat?: boolean, verbose_progress?: boolean, env?: object): object;
    }
+   /**
+    * cast the cluster data as the enrichment background
+    * 
+    * 
+     * @param geneSet a collection of the gene feature clusters, usualy be a tuple list in format of:
+     *  cluster id as the list name and the corresponding tuple list value should be
+     *  the gene id character vector.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function fromList(geneSet: object, env?: object): any;
    module geneSet {
       /**
        * make gene set annotation via a given gsea background model

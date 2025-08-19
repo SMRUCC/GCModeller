@@ -64,7 +64,7 @@ Public Module CLI
                      " F - (False) not display a chart window after the calculation.")>
     <ArgumentAttribute("-o", False, Description:="The file path of the output data file for the calculation.")>
     Public Function Run(args As CommandLine) As Integer
-        Return RunMethods(args <= "-f")(args)
+        Return RunModel.RunMethods(args <= "-f")(args)
     End Function
 
     <ExportAPI("Compile")>
@@ -72,6 +72,6 @@ Public Module CLI
     <Usage("compile -i <file> -f <script/sbml> -o <output_file> [/auto-fix]")>
     <Example("compile -i ""/home/xieguigang/proj/metacyc/xcc8004/17.0/data/metabolic-reactions.sbml"" -f sbml -o ""/home/xieguigang/Desktop/xcc8004.xml""")>
     Public Function Compile(args As CommandLine) As Integer
-        Return Compilers(args <= "-f")(args <= "-i", args <= "-o", args("/auto-fix")).CLICode
+        Return Compilers(args <= "-f")(args <= "-i", args <= "-o", CBool(args("/auto-fix"))).CLICode
     End Function
 End Module
