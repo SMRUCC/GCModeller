@@ -272,6 +272,7 @@ Namespace CatalogProfiling
                                      disableLabelColor As Boolean,
                                      valueFormat$,
                                      labelTrimLength%)
+
             Dim css As CSSEnvirnment = g.LoadEnvironment
             ' 这里是大标签的字符串向量
             Dim classes$() = profile.Keys.ToArray
