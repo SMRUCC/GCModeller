@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
@@ -154,9 +155,16 @@ Module WGCNA
     ''' a prefix to the fromNode and toNode id
     ''' </param>
     ''' <returns></returns>
-    <ExportAPI("read.weightMatrix")>
-    Public Function readWeightMatrix(file As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
-        Return FastImports(path:=file, threshold:=threshold, prefix:=prefix)
+    <ExportAPI("read.weight_matrix")>
+    <RApiReturn(GetType(WGCNAWeight), GetType(DataMatrix))>
+    Public Function readWeightMatrix(file As String, Optional threshold As Double = 0, Optional prefix$ = Nothing, Optional as_matrix As Boolean = False) As Object
+        Dim wgcna As WGCNAWeight = FastImports(path:=file, threshold:=threshold, prefix:=prefix)
+
+        If as_matrix Then
+            Return wgcna.AsDataMatrix
+        Else
+            Return wgcna
+        End If
     End Function
 
     <ExportAPI("applyModuleColors")>
