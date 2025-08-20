@@ -86,6 +86,17 @@ Public Module WGCNAModules
         Return resultSet.ToArray
     End Function
 
+    ''' <summary>
+    ''' group feature nodes by their modules
+    ''' 
+    ''' This function will group the feature nodes by their modules, and return a dictionary that contains the module names
+    ''' as keys and an array of node names that belong to each module as values.
+    ''' 
+    ''' The input is expected to be an enumerable collection of `CExprMods` objects, which represent the feature nodes
+    ''' with their associated module information.
+    ''' </summary>
+    ''' <param name="mods"></param>
+    ''' <returns></returns>
     <ExportAPI("Mods.View")>
     <Extension>
     Public Function ModsView(mods As IEnumerable(Of CExprMods)) As Dictionary(Of String, String())

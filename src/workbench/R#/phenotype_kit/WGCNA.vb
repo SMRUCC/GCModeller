@@ -121,6 +121,13 @@ Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 <Package("WGCNA")>
 Module WGCNA
 
+    ''' <summary>
+    ''' load TOM module network nodes
+    ''' </summary>
+    ''' <param name="file">
+    ''' the TOM network nodes text file, should be a tsv file of the cytoscape network export result
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("read.modules")>
     Public Function readModules(file As String, Optional prefix$ = Nothing) As Object
         Return WGCNAModules _
