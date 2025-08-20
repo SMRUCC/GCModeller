@@ -62,13 +62,17 @@ Namespace Network
     ''' CytoscapeNodes
     ''' </summary>
     ''' <remarks>
-    ''' nodeName	altName	nodeAttr[nodesPresent, ]
+    ''' nodeName \t altName \t nodeAttr[nodesPresent, ]
     ''' </remarks>
     Public Class CExprMods
 
         Public Property nodeName As String
         Public Property altName As String
 
+        ''' <summary>
+        ''' cluster module of current feature node
+        ''' </summary>
+        ''' <returns></returns>
         <Column("nodeAttr[nodesPresent, ]")>
         Public Property nodesPresent As String
 
