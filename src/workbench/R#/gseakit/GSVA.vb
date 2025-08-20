@@ -1,69 +1,71 @@
 ﻿#Region "Microsoft.VisualBasic::3dd5b4f8c4fe24ecda79ff47b948143d, R#\gseakit\GSVA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 164
-    '    Code Lines: 106 (64.63%)
-    ' Comment Lines: 45 (27.44%)
-    '    - Xml Docs: 95.56%
-    ' 
-    '   Blank Lines: 13 (7.93%)
-    '     File Size: 6.62 KB
+' Summaries:
 
 
-    ' Module GSVA
-    ' 
-    '     Function: createGene, diff, gsva, matrixToDiff
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 164
+'    Code Lines: 106 (64.63%)
+' Comment Lines: 45 (27.44%)
+'    - Xml Docs: 95.56%
+' 
+'   Blank Lines: 13 (7.93%)
+'     File Size: 6.62 KB
+
+
+' Module GSVA
+' 
+'     Function: createGene, diff, gsva, matrixToDiff
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.HTS.GSVA
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Gene Set Variation Analysis for microarray and RNA-seq data
@@ -103,6 +105,10 @@ Module GSVA
         Dim mat As HTSMatrix
         Dim background As Background
 
+        If geneSet Is Nothing Then
+            Return RInternal.debug.stop("the required enrichment background model should not be nothing!", env)
+        End If
+
         If TypeOf expr Is dataframe Then
             mat = New HTSMatrix With {
                 .sampleID = DirectCast(expr, dataframe).colnames,
@@ -121,22 +127,11 @@ Module GSVA
         End If
 
         If TypeOf geneSet Is list Then
-            background = New Background With {
-                .clusters = DirectCast(geneSet, list).slots _
-                    .Select(Function(c)
-                                Return New Cluster With {
-                                    .ID = c.Key,
-                                    .description = c.Key,
-                                    .names = c.Key,
-                                    .members = CLRVector.asCharacter(c.Value) _
-                                        .Select(AddressOf createGene) _
-                                        .ToArray
-                                }
-                            End Function) _
-                    .ToArray
-            }
-        Else
+            background = backgroundFromList(DirectCast(geneSet, list), env)
+        ElseIf TypeOf geneSet Is Background Then
             background = geneSet
+        Else
+            Return Message.InCompatibleType(GetType(Background), geneSet.GetType, env)
         End If
 
         Return mat.gsva(background)
@@ -200,18 +195,5 @@ Module GSVA
                         }
                     End Function) _
             .ToArray
-    End Function
-
-    Private Function createGene(name As String) As BackgroundGene
-        Return New BackgroundGene With {
-            .accessionID = name,
-            .name = name,
-            .[alias] = {name},
-            .locus_tag = New NamedValue With {
-                .name = name,
-                .text = name
-            },
-            .term_id = BackgroundGene.UnknownTerms(name).ToArray
-        }
     End Function
 End Module

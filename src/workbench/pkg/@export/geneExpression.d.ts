@@ -326,6 +326,13 @@ declare namespace geneExpression {
    */
    function log(expr: any, base?: number): object;
    /**
+    * evaluate the MAD value for each gene features
+    * 
+    * 
+     * @param x -
+   */
+   function mad(x: object): object;
+   /**
     * get matrix summary information
     * 
     * 
@@ -499,6 +506,16 @@ declare namespace geneExpression {
      * + default value Is ``0.1``.
    */
    function setZero(expr0: object, q?: number): object;
+   /**
+    * take top n expression feature by rank expression MAD value desc
+    * 
+    * 
+     * @param x -
+     * @param top -
+     * 
+     * + default value Is ``10000``.
+   */
+   function sort_mad(x: object, top?: object): object;
    module split {
       /**
        * ### split the cmeans cluster output
