@@ -111,5 +111,13 @@ Namespace Network
                           Select item).ToArray
             Return LQuery
         End Function
+
+        Public Shared Narrowing Operator CType(node As Weight) As Double
+            If node Is Nothing Then
+                Return 0
+            Else
+                Return node.weight
+            End If
+        End Operator
     End Class
 End Namespace

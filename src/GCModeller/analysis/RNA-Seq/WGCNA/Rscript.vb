@@ -51,10 +51,12 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
@@ -164,5 +166,22 @@ Public Module Rscript
             }
 
         Return WGCNAWeight.CreateMatrix(dataSet:=weights)
+    End Function
+
+    <Extension>
+    Public Function AsDataMatrix(wgcna As WGCNAWeight) As DataMatrix
+        Dim names As String() = wgcna.geneSet.ToArray
+        Dim w As Double()() = RectangularArray.Matrix(Of Double)(names.Length, names.Length)
+
+        For i As Integer = 0 To names.Length - 1
+            Dim u As String = names(i)
+            Dim wij As Double() = w(i)
+
+            For j As Integer = 0 To names.Length - 1
+                wij(j) = wgcna(u, names(j))
+            Next
+        Next
+
+        Return New DataMatrix(names, w)
     End Function
 End Module

@@ -66,6 +66,7 @@ Namespace Network
     Public Class WGCNAWeight : Implements Enumeration(Of Weight)
 
         Dim matrix As Dictionary(Of String, Dictionary(Of String, Weight))
+        Dim geneList As IReadOnlyCollection(Of String)
 
         Default Public ReadOnly Property Iteration(geneId1 As String, geneId2 As String) As Weight
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -74,13 +75,31 @@ Namespace Network
             End Get
         End Property
 
+        Public ReadOnly Property geneSet As IEnumerable(Of String)
+            Get
+                Return geneList.AsEnumerable
+            End Get
+        End Property
+
         Private Sub New()
         End Sub
 
-        Private Shared Function createMatrixInternal(dataSet As IEnumerable(Of Weight)) As Dictionary(Of String, Dictionary(Of String, Weight))
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="dataSet"></param>
+        ''' <param name="allIds">
+        ''' WGCNA共表达网络的导出结果为一个三角形矩阵，所有的基因ID都在这个三角形矩阵的上半部分，
+        ''' 这里的allIds参数用于获取所有的基因ID列表，以便于后续的计算使用。
+        ''' 
+        ''' 如果不需要获取所有的基因ID列表，可以传入Nothing
+        ''' </param>
+        ''' <returns></returns>
+        Private Shared Function buildMatrixInternal(dataSet As IEnumerable(Of Weight), ByRef allIds As IReadOnlyCollection(Of String)) As Dictionary(Of String, Dictionary(Of String, Weight))
             Dim matrix As New Dictionary(Of String, Dictionary(Of String, Weight))
+            Dim pullAll As Weight() = dataSet.SafeQuery.ToArray
             Dim groupByFromNode = From itr As Weight
-                                  In dataSet.SafeQuery
+                                  In pullAll
                                   Select itr
                                   Group itr By itr.fromNode Into Group
 
@@ -91,13 +110,22 @@ Namespace Network
                                   End Function)
             Next
 
+            allIds = pullAll _
+                .Select(Iterator Function(w) As IEnumerable(Of String)
+                            Yield w.fromNode
+                            Yield w.toNode
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+
             Return matrix
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function CreateMatrix(dataSet As IEnumerable(Of Weight)) As WGCNAWeight
             Return New WGCNAWeight With {
-                .matrix = createMatrixInternal(dataSet)
+                .matrix = buildMatrixInternal(dataSet, .geneList)
             }
         End Function
 
@@ -168,8 +196,8 @@ Namespace Network
         End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Weight) Implements Enumeration(Of Weight).GenericEnumerator
-            For Each row In matrix
-                For Each col In row.Value
+            For Each row As KeyValuePair(Of String, Dictionary(Of String, Weight)) In matrix
+                For Each col As KeyValuePair(Of String, Weight) In row.Value
                     Yield col.Value
                 Next
             Next
