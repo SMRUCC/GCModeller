@@ -145,6 +145,15 @@ Module WGCNA
                     End Function)
     End Function
 
+    ''' <summary>
+    ''' read the TOM correlation network matrix file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="threshold"></param>
+    ''' <param name="prefix">
+    ''' a prefix to the fromNode and toNode id
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("read.weightMatrix")>
     Public Function readWeightMatrix(file As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
         Return FastImports(path:=file, threshold:=threshold, prefix:=prefix)
