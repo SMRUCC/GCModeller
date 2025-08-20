@@ -1231,7 +1231,7 @@ Module geneExpression
                 .Select(Function(a) a.uid) _
                 .ToArray
 
-            Call tops.add("#" & patternKey, topId)
+            Call tops.add("#" & (patternKey + 1), topId)
         Next
 
         Return tops
