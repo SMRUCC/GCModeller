@@ -197,6 +197,7 @@ Namespace CatalogProfiling
 
             ' the empty profile category should be removes too
             ' when do data visualization plot
+            profile = profile.ImputeMissing
             profile = New CatalogProfiles With {
                 .catalogs = profile.catalogs _
                     .Where(Function(c) Not c.Value.is_empty) _
