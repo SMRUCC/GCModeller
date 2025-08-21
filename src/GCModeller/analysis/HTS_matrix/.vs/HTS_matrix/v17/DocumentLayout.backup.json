@@ -7,6 +7,9 @@
       "RelativeMoniker": "D:0:0:{6BFB402C-2ADA-FCF5-E537-4C99075C3753}|HTS_matrix-netcore5.vbproj|solutionrelative:limma\\limma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{294B8C1B-898A-7580-9FC8-A60094B2EE14}|..\\..\\..\\workbench\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\dataanalysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{294B8C1B-898A-7580-9FC8-A60094B2EE14}|..\\..\\..\\workbench\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -35,11 +38,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "DataAnalysis.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "RelativeToolTip": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAIwIsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-08-21T05:49:29.997Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "DEGModel.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\DEGModel.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\DEGModel.vb",
@@ -52,7 +68,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Extensions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Extensions.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\Extensions.vb",
@@ -65,7 +81,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Ideg.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Ideg.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\Ideg.vb",
@@ -78,7 +94,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "SampleNames.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\SampleNames.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\SampleNames.vb",
@@ -91,7 +107,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Ttest.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\T-test\\Ttest.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\T-test\\Ttest.vb",
@@ -104,7 +120,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "FitResult.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\FitResult.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\FitResult.vb",
@@ -125,7 +141,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "LeastSquares.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\LeastSquares.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\LeastSquares.vb",
@@ -144,7 +160,7 @@
               "RelativeDocumentMoniker": "Limma\\Limma.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
               "RelativeToolTip": "Limma\\Limma.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAAAHYAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-08-21T05:23:10.189Z",
               "EditorCaption": ""

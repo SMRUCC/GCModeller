@@ -8,83 +8,92 @@ Imports Microsoft.VisualBasic.Math.Statistics
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
-' The **limma algorithm** (Linear Models for Microarray Data) is a widely used statistical framework in R/Bioconductor for differential expression (DE) analysis of RNA-seq data. Originally designed for microarray studies, its flexibility and robustness have extended its utility to RNA-seq through the `voom` transformation. Below is a comprehensive overview of its workflow, features, and applications:  
-
-' ---
-
-' ### **1. Core Philosophy**  
-' - **Linear Modeling**: Uses linear models to relate gene expression to experimental conditions, covariates, or interactions .  
-' - **Empirical Bayes Moderation**: Borrows information across genes to stabilize variance estimates, especially effective for small sample sizes .  
-' - **Adaptability**: Processes data from microarrays, RNA-seq, PCR, and other platforms with a unified pipeline after preprocessing .  
-
-' ---
-
-' ### **2. Key Steps in RNA-seq Analysis with limma**  
-' #### **A. Preprocessing**  
-' - **Normalization**:  
-' - Applies methods like **TMM** (edgeR), **quantile normalization**, or **voom transformation** to correct for library size, sequencing depth, and technical biases .  
-' - `voom` converts count data into log2 counts per million (CPM) and calculates precision weights for each observation based on the mean-variance trend .  
-' - **Batch Effect Correction**: Uses `removeBatchEffect()` or incorporates batch covariates into the design matrix .  
-
-' #### **B. Linear Modeling**  
-' - **Design Matrix**: Constructed using `model.matrix()` to encode experimental factors (e.g., treatment vs. control, time points) .  
-' - **Model Fitting**:  
-' - `lmFit()` fits a linear model to normalized expression data.  
-' - `eBayes()` applies empirical Bayes moderation to t-statistics, enhancing DE detection reliability .  
-
-' #### **C. Differential Expression Testing**  
-' - **Contrasts**: Define comparisons (e.g., `treatment - control`) with `makeContrasts()` .  
-' - **DE Gene Extraction**:  
-' - `topTable()` outputs DE genes ranked by statistical significance (adjusted *p*-values) and log-fold change (logFC) .  
-' - Thresholds: Commonly use **|logFC| > 1** and **adj. *p*-value < 0.05** .  
-
-' #### **D. Visualization**  
-' - **Volcano Plots**: Highlight DE genes (up/downregulated) using `ggplot2` or `ggVolcano` .  
-' - **Heatmaps**: Display expression patterns of DE genes across samples .  
-
-' ---
-
-' ### **3. Advanced Features**  
-' - **Complex Designs**: Handles multi-factor experiments (e.g., interactions, time series) and repeated measurements .  
-' - **Differential Splicing**: Detects alternative splicing events in RNA-seq data .  
-' - **Gene Set Analysis**: Integrates with tools like *camera* or *romer* to test co-regulated gene sets or pathways .  
-
-' ---
-
-' ### **4. Strengths & Limitations**  
-' - **Strengths**:  
-' - Flexibility for diverse experimental designs.  
-' - Superior performance in small-sample studies via information borrowing .  
-' - Seamless integration with Bioconductor ecosystem (e.g., edgeR, Glimma) .  
-' - **Limitations**:  
-' - Sensitive to normalization methods.  
-' - Requires biological replicates for stable variance estimation .  
-
-' ---
-
-' ### **5. Practical Applications**  
-' - Identifies disease biomarkers (e.g., schizophrenia, Parkinson’s) from blood or tissue transcriptomes .  
-' - Validated in studies integrating RNA-seq with clinical data or multi-omics approaches .  
-
-' ---
-
-' ### **Example R Code Snippet**  
-' ```r
-' library(limma)
-' library(edgeR)
-
-' # Step 1: Preprocessing with voom
-' dge <- DGEList(counts = count_matrix)
-' dge <- calcNormFactors(dge, method = "TMM")
-' v <- voom(dge, design = design_matrix, plot = TRUE)  # Converts counts + weights
-
-' # Step 2: Fit linear model
-' fit <- lmFit(v, design_matrix)
-' fit <- eBayes(fit)
-
-' # Step 3: Extract DE genes (e.g., treatment vs. control)
-' de_genes <- topTable(fit, coef = 2, adjust = "BH", number = Inf, sort.by = "P")
-' ```
+''' <summary>
+''' The **limma algorithm** (Linear Models for Microarray Data) is a widely used statistical framework in 
+''' R/Bioconductor for differential expression (DE) analysis of RNA-seq data. Originally designed for 
+''' microarray studies, its flexibility and robustness have extended its utility to RNA-seq through the 
+''' `voom` transformation. Below is a comprehensive overview of its workflow, features, and applications:  
+'''
+''' ---
+'''
+''' ### **1. Core Philosophy**  
+''' 
+''' - **Linear Modeling**: Uses linear models to relate gene expression to experimental conditions, covariates, or interactions .  
+''' - **Empirical Bayes Moderation**: Borrows information across genes to stabilize variance estimates, especially effective for small sample sizes .  
+''' - **Adaptability**: Processes data from microarrays, RNA-seq, PCR, and other platforms with a unified pipeline after preprocessing .  
+'''
+''' ### **2. Key Steps in RNA-seq Analysis with limma**  
+''' 
+''' #### **A. Preprocessing**  
+''' 
+''' - **Normalization**:  
+''' - Applies methods like **TMM** (edgeR), **quantile normalization**, or **voom transformation** to correct for library size, sequencing depth, and technical biases .  
+''' - `voom` converts count data into log2 counts per million (CPM) and calculates precision weights for each observation based on the mean-variance trend .  
+''' - **Batch Effect Correction**: Uses `removeBatchEffect()` or incorporates batch covariates into the design matrix .  
+'''
+''' #### **B. Linear Modeling**  
+''' 
+''' - **Design Matrix**: Constructed using `model.matrix()` to encode experimental factors (e.g., treatment vs. control, time points) .  
+''' - **Model Fitting**:  
+''' - `lmFit()` fits a linear model to normalized expression data.  
+''' - `eBayes()` applies empirical Bayes moderation to t-statistics, enhancing DE detection reliability .  
+'''
+''' #### **C. Differential Expression Testing**  
+''' 
+''' - **Contrasts**: Define comparisons (e.g., `treatment - control`) with `makeContrasts()` .  
+''' - **DE Gene Extraction**:  
+''' - `topTable()` outputs DE genes ranked by statistical significance (adjusted *p*-values) and log-fold change (logFC) .  
+''' - Thresholds: Commonly use **|logFC| > 1** and **adj. *p*-value &lt; 0.05** .  
+'''
+''' #### **D. Visualization**  
+''' 
+''' - **Volcano Plots**: Highlight DE genes (up/downregulated) using `ggplot2` or `ggVolcano` .  
+''' - **Heatmaps**: Display expression patterns of DE genes across samples .  
+'''
+''' ### **3. Advanced Features**  
+''' 
+''' - **Complex Designs**: Handles multi-factor experiments (e.g., interactions, time series) and repeated measurements .  
+''' - **Differential Splicing**: Detects alternative splicing events in RNA-seq data .  
+''' - **Gene Set Analysis**: Integrates with tools like *camera* or *romer* to test co-regulated gene sets or pathways .  
+'''
+'''
+''' ### **4. Strengths & Limitations**  
+''' 
+''' - **Strengths**:  
+''' - Flexibility for diverse experimental designs.  
+''' - Superior performance in small-sample studies via information borrowing .  
+''' - Seamless integration with Bioconductor ecosystem (e.g., edgeR, Glimma) .  
+''' - **Limitations**:  
+''' - Sensitive to normalization methods.  
+''' - Requires biological replicates for stable variance estimation .  
+'''
+'''
+''' ### **5. Practical Applications**  
+''' 
+''' - Identifies disease biomarkers (e.g., schizophrenia, Parkinson’s) from blood or tissue transcriptomes .  
+''' - Validated in studies integrating RNA-seq with clinical data or multi-omics approaches .  
+'''
+''' ---
+'''
+''' ### **Example R Code Snippet**  
+''' 
+''' ```r
+''' library(limma)
+''' library(edgeR)
+'''
+''' # Step 1: Preprocessing with voom
+''' dge &lt;- DGEList(counts = count_matrix)
+''' dge &lt;- calcNormFactors(dge, method = "TMM")
+''' v &lt;- voom(dge, design = design_matrix, plot = TRUE)  # Converts counts + weights
+'''
+''' # Step 2: Fit linear model
+''' fit &lt;- lmFit(v, design_matrix)
+''' fit &lt;- eBayes(fit)
+'''
+''' # Step 3: Extract DE genes (e.g., treatment vs. control)
+''' de_genes &lt;- topTable(fit, coef = 2, adjust = "BH", number = Inf, sort.by = "P")
+''' ```
+''' </summary>
 Public Module Limma
 
     <Extension>
