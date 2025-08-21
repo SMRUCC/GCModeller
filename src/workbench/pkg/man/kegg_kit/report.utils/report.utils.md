@@ -9,5 +9,5 @@ the kegg pathway map report helper tool
 + [keggMap.reportHtml](report.utils/keggMap.reportHtml.1) generate the kegg pathway map highlight html report
 + [map.intersects](report.utils/map.intersects.1) check object id that intersect with the current given map object.
 + [keggMap.url](report.utils/keggMap.url.1) generate the url that used for view the highlight result on kegg website.
-+ [parse.highlight_tuples](report.utils/parse.highlight_tuples.1) 
++ [parse.highlight_tuples](report.utils/parse.highlight_tuples.1) Parse the kegg pathway node highlight information
 + [parseKeggUrl](report.utils/parseKeggUrl.1) 

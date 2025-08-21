@@ -1,4 +1,4 @@
-﻿.TH UNION_RENDER 1 2025-Aug "" "union_render"
+﻿.TH UNION_RENDER 1 2025-Aug "" "visual plot of the multiple omics union data"
 .SH NAME
 union_render \- union_render(union.data,
     <i>outputdir</i> = <span style='color: brown;'><strong>'./'</strong></span>,
@@ -25,26 +25,30 @@ union_render \- union_render(union.data,
 \fBoutputdir\fB \fR\- './'. 
 .PP
 .PP
-\fBid\fB \fR\- 'KEGG'. 
+\fBid\fB \fR\- 'KEGG'. specific the column name of the kegg id in the input dataframe
 .PP
 .PP
-\fBcompound\fB \fR\- 'compound'. 
+\fBcompound\fB \fR\- 'compound'. specific the column name of the metabolite highlights information in the input dataframe
 .PP
 .PP
-\fBgene\fB \fR\- 'gene'. 
+\fBgene\fB \fR\- 'gene'. specific the column name of the gene highlights information in the input dataframe
 .PP
 .PP
-\fBprotein\fB \fR\- 'protein'. 
+\fBprotein\fB \fR\- 'protein'. specific the column name of the protein highliths information
 .PP
 .PP
-\fBtext.color\fB \fR\- 'white'. 
+\fBtext.color\fB \fR\- 'white'. set the label text color on the kegg pathway map
 .PP
 .PP
 \fBkegg.maps\fB \fR\- NULL. 
 .PP
+.SH DETAILS
+.PP
+about the highlight information, seed the parser function [parse.highlight_tuples](https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html).
+.PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.union_render at union_render.R:line 3
+SMRUCC/R#.declare_function.union_render at union_render.R:line 15
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, GPL3 Licensed 2025

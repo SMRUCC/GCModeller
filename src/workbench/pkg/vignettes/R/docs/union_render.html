@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>union_render</title>
+    <title>visual plot of the multiple omics union data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>union_render</h2>
+        <h2>visual plot of the multiple omics union data</h2>
 
         <h3>Description</h3>
 
@@ -41,12 +41,35 @@
 
         <table>
             
+<dt>id</dt>
+<dd><p><p>specific the column name of the kegg id in the input dataframe</p></p></dd>
+
+
+<dt>compound</dt>
+<dd><p><p>specific the column name of the metabolite highlights information in the input dataframe</p></p></dd>
+
+
+<dt>gene</dt>
+<dd><p><p>specific the column name of the gene highlights information in the input dataframe</p></p></dd>
+
+
+<dt>protein</dt>
+<dd><p><p>specific the column name of the protein highliths information</p></p></dd>
+
+
+<dt>text.color</dt>
+<dd><p><p>set the label text color on the kegg pathway map</p></p></dd>
+
+
+<dt>kegg.maps</dt>
+<dd><p><p>should be a directory path that contains the kegg pathway map xml data files. default null means use the package internal resource file.</p></p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>about the highlight information, seed the parser function <a href='https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html' title='parse.highlight_tuples'>parse.highlight_tuples</a>.</p>
 
         <h3 style="display: block">Authors</h3>
 
