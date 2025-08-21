@@ -285,7 +285,7 @@ Module geneExpression
     End Function
 
     ''' <summary>
-    ''' set new sample id list to the matrix columns
+    ''' get/set new sample id list to the matrix columns
     ''' </summary>
     ''' <param name="x">target gene expression matrix object</param>
     ''' <param name="sample_ids">
@@ -294,13 +294,35 @@ Module geneExpression
     ''' matrix.
     ''' </param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function will get sample_id character vector from the input matrix if the 
+    ''' <paramref name="sample_ids"/> parameter is missing, otherwise it will set the new 
+    ''' sample id list to the input matrix object and return the modified matrix object.
+    ''' 
+    ''' if the input <paramref name="x"/> object is not a valid gene expression matrix object,
+    ''' then a error message object will be returned.
+    ''' </returns>
     ''' <remarks>
     ''' it is kind of ``colnames`` liked function for dataframe object.
     ''' </remarks>
-    <ExportAPI("setSamples")>
-    <RApiReturn(GetType(Matrix), GetType(MatrixViewer))>
-    Public Function setSampleIDs(x As Object, sample_ids As String(), Optional env As Environment = Nothing) As Object
+    <ExportAPI("sample_id")>
+    <RApiReturn(GetType(Matrix), GetType(MatrixViewer), GetType(String))>
+    Public Function setSampleIDs(x As Object,
+                                 <RByRefValueAssign>
+                                 Optional sample_ids As String() = Nothing,
+                                 Optional env As Environment = Nothing) As Object
+
+        If sample_ids.IsNullOrEmpty Then
+            ' getter
+            If TypeOf x Is Matrix Then
+                Return DirectCast(x, Matrix).sampleID
+            ElseIf TypeOf x Is MatrixViewer Then
+                Return DirectCast(x, MatrixViewer).SampleIDs.ToArray
+            Else
+                Return Message.InCompatibleType(GetType(Matrix), x.GetType, env)
+            End If
+        End If
+
         If TypeOf x Is Matrix Then
             Dim expr0 As Matrix = DirectCast(x, Matrix)
 

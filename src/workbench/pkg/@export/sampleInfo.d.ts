@@ -104,15 +104,18 @@ declare namespace sampleInfo {
     * create ``sample_info`` data table
     * 
     * 
-     * @param ID -
-     * @param sample_name -
-     * @param sample_info -
+     * @param ID the sample id in the raw data files
+     * @param sample_info the sample group information.
+     * @param sample_name the sample name label for display, this character vector could be nothing, 
+     *  then the generated sample display name will be replaced with the input sample id
+     * 
+     * + default value Is ``null``.
      * @param color 
      * + default value Is ``null``.
      * @param env 
      * + default value Is ``null``.
    */
-   function sampleInfo(ID: string, sample_name: string, sample_info: string, color?: string, env?: object): object;
+   function sampleInfo(ID: string, sample_info: string, sample_name?: string, color?: string, env?: object): object;
    /**
    */
    function shuffle_groups(x: object): object;
