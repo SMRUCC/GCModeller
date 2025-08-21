@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>visual plot of the multiple omics union data</title>
+    <title>Render KEGG Pathway Maps with Multi-Omics Highlighting</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>visual plot of the multiple omics union data</h2>
+        <h2>Render KEGG Pathway Maps with Multi-Omics Highlighting</h2>
 
         <h3>Description</h3>
 
@@ -41,35 +41,43 @@
 
         <table>
             
+<dt>union.data</dt>
+<dd><p><p>A data frame or file path (CSV) containing KEGG pathway IDs and highlight information. Must include columns specified in `id`, `compound`, `gene`, and `protein` parameters. If a character string is provided, it is interpreted as a file path to a CSV file. <a href='@ref' title='1'>1</a></p></p></dd>
+
+
+<dt>outputdir</dt>
+<dd><p><p>Output directory path for rendered files (default: "./").</p></p></dd>
+
+
 <dt>id</dt>
-<dd><p><p>specific the column name of the kegg id in the input dataframe</p></p></dd>
+<dd><p><p>Column name in `union_data` containing KEGG pathway IDs (default: "KEGG").</p></p></dd>
 
 
 <dt>compound</dt>
-<dd><p><p>specific the column name of the metabolite highlights information in the input dataframe</p></p></dd>
+<dd><p><p>Column name in `union_data` containing compound highlight data (default: "compound"). See Details for formatting.</p></p></dd>
 
 
 <dt>gene</dt>
-<dd><p><p>specific the column name of the gene highlights information in the input dataframe</p></p></dd>
+<dd><p><p>Column name in `union_data` containing gene highlight data (default: "gene").</p></p></dd>
 
 
 <dt>protein</dt>
-<dd><p><p>specific the column name of the protein highliths information</p></p></dd>
+<dd><p><p>Column name in `union_data` containing protein highlight data (default: "protein").</p></p></dd>
 
 
 <dt>text.color</dt>
-<dd><p><p>set the label text color on the kegg pathway map</p></p></dd>
+<dd><p><p>Color for node labels on pathway maps (default: "white").</p></p></dd>
 
 
 <dt>kegg.maps</dt>
-<dd><p><p>should be a directory path that contains the kegg pathway map xml data files. default null means use the package internal resource file.</p></p></dd>
+<dd><p><p>Directory path containing KEGG map XML files. If `NULL` (default), uses the package's internal XML resources. <a href='@ref' title='1,5'>1,5</a></p></p></dd>
 
         </table>
 
 
         <h3 style="display: block;">Details</h3>
 
-        <p>about the highlight information, seed the parser function <a href='https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html' title='parse.highlight_tuples'>parse.highlight_tuples</a>.</p>
+        <p><strong>Highlight Data Format<em></em>: The `compound`, `gene`, and `protein` columns should contain strings in one of two formats: 1. Semicolon-separated key-value pairs: `"K00001:blue;K00002:red;C00001:green"` 2. Semicolon-separated IDs (default color: red): `"K00001;K00002;C00001"` These are parsed by <a href='' title='`parse.highlight_tuples()`'>`parse.highlight_tuples()`</a> into named lists (e.g., `list(K00001 = "blue", K00002 = "red")`). <a href='@ref' title='5,7'>5,7</a> <em></em>Output Files<em></em>: For each KEGG ID, two files are generated: - `[KEGG<em>ID].html`: Interactive pathway visualization - `[KEGG</em>ID].png`: Static PNG image <em></em>Error Handling</strong>: Errors during rendering are caught and printed to the console without stopping execution.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -77,11 +85,11 @@
 
         <h3>Value</h3>
 
-        This function has no value returns.
+        <p>Invisibly returns `NULL`. Primary output is generated as files in `outputdir`.</p>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r">\dontrun{ # Minimal example with default column names data <- data.frame( KEGG = "map00010", compound = "C00031:green;C00022:blue", gene = "hsa:1234;hsa:5678:yellow", protein = "P12345" ) union_render(data, outputdir = "~/kegg_output") # Custom column names and text color data <- data.frame( PathwayID = "map00020", Metabolites = "C00024; C00036:orange", Genes = "hsa:9012:purple", Proteins = "P67890:red" ) union_render(data, id = "PathwayID", compound = "Metabolites", gene = "Genes", protein = "Proteins", text.color = "black" )}</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>GCModeller</em> version 1.1.0-beta <a
