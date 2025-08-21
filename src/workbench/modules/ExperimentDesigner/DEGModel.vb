@@ -57,6 +57,9 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports std = System.Math
 
+''' <summary>
+''' A generic model for different expression molecule
+''' </summary>
 Public Class DEGModel : Implements IDeg, INamedValue, IReadOnlyId
 
     ''' <summary>

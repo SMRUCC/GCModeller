@@ -111,6 +111,7 @@ Module geneExpression
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
+        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEGModel()), AddressOf degTable)
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
 
         Call REnv.Internal.generic.add(
@@ -119,6 +120,26 @@ Module geneExpression
             [overloads]:=AddressOf getFuzzyPatternMembers
         )
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function degTable(degs As DEGModel(), args As list, env As Environment) As Rdataframe
+        Dim df As New Rdataframe With {
+            .rownames = degs.Keys.ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+        Dim metabolomics As Boolean = CLRVector.asScalarLogical(args.getBySynonyms("metabolite", "vip"))
+
+        Call df.add("log2fc", From gi As DEGModel In degs Select gi.logFC)
+        Call df.add("p-value", From gi As DEGModel In degs Select gi.pvalue)
+
+        If metabolomics Then
+            Call df.add("vip", From gi As DEGModel In degs Select gi.VIP)
+        End If
+
+        Call df.add("class", From gi As DEGModel In degs Select gi.class)
+
+        Return df
+    End Function
 
     Private Function getFuzzyPatternMembers(x As Object, args As list, env As Environment) As Object
         Dim cutoff As Double = args.getValue("cutoff", env, [default]:=0.6)

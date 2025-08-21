@@ -462,6 +462,28 @@ declare namespace geneExpression {
    */
    function relative(matrix: object, median?: boolean): object;
    /**
+    * get/set new sample id list to the matrix columns
+    * 
+    * > it is kind of ``colnames`` liked function for dataframe object.
+    * 
+     * @param x target gene expression matrix object
+     * @param sample_ids a character vector of the new sample id list for
+     *  set to the sample columns of the gene expression 
+     *  matrix.
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return this function will get sample_id character vector from the input matrix if the 
+     *  **`sample_ids`** parameter is missing, otherwise it will set the new 
+     *  sample id list to the input matrix object and return the modified matrix object.
+     *  
+     *  if the input **`x`** object is not a valid gene expression matrix object,
+     *  then a error message object will be returned.
+   */
+   function sample_id(x: any, sample_ids?: string, env?: object): object|object|string;
+   /**
     * save the cmeans expression pattern result to local file
     * 
     * 
@@ -482,20 +504,6 @@ declare namespace geneExpression {
      * + default value Is ``null``.
    */
    function setFeatures(x: any, gene_ids: string, env?: object): object|object;
-   /**
-    * set new sample id list to the matrix columns
-    * 
-    * > it is kind of ``colnames`` liked function for dataframe object.
-    * 
-     * @param x target gene expression matrix object
-     * @param sample_ids a character vector of the new sample id list for
-     *  set to the sample columns of the gene expression 
-     *  matrix.
-     * @param env -
-     * 
-     * + default value Is ``null``.
-   */
-   function setSamples(x: any, sample_ids: string, env?: object): object|object;
    /**
     * set a new tag string to the matrix
     * 
