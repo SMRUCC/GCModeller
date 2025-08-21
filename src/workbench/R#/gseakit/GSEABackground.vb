@@ -1004,6 +1004,23 @@ Public Module GSEABackground
     ''' parsed in R by ``jsonlite::fromJSON`` function, and used
     ''' for the gsva analysis.
     ''' </remarks>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' let geneSet = as.geneSet(kb);
+    ''' 
+    ''' # save as json file
+    ''' geneSet 
+    ''' |> JSON::json_encode()
+    ''' |> writeLines(con = "hsa.json")
+    ''' ;
+    ''' 
+    ''' # load in R
+    ''' library(jsonlite);
+    ''' geneSet = jsonlite::fromJSON("hsa.json");
+    ''' 
+    ''' # use for gsva analysis
+    ''' gsva(data, geneSet, method="gsva", ...);
+    ''' </example>
     <ExportAPI("as.geneSet")>
     Public Function asGenesetList(background As Background) As list
         Return New list With {
