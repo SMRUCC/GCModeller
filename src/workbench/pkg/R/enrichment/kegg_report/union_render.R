@@ -1,17 +1,67 @@
-#' visual plot of the multiple omics union data
+#' Render KEGG Pathway Maps with Multi-Omics Highlighting
+#'
+#' Generates interactive HTML and static PNG visualizations of KEGG pathway maps 
+#' with customizable highlighting for compounds, genes, and proteins. Output files 
+#' are saved to the specified directory.
+#'
+#' @param union_data A data frame or file path (CSV) containing KEGG pathway IDs 
+#'        and highlight information. Must include columns specified in `id`, `compound`, 
+#'        `gene`, and `protein` parameters. If a character string is provided, 
+#'        it is interpreted as a file path to a CSV file. [1](@ref)
+#' @param outputdir Output directory path for rendered files (default: "./").
+#' @param id Column name in `union_data` containing KEGG pathway IDs (default: "KEGG").
+#' @param compound Column name in `union_data` containing compound highlight data 
+#'        (default: "compound"). See Details for formatting.
+#' @param gene Column name in `union_data` containing gene highlight data 
+#'        (default: "gene").
+#' @param protein Column name in `union_data` containing protein highlight data 
+#'        (default: "protein").
+#' @param text.color Color for node labels on pathway maps (default: "white").
+#' @param kegg_maps Directory path containing KEGG map XML files. If `NULL` (default), 
+#'        uses the package's internal XML resources. [1,5](@ref)
+#'
+#' @details 
+#' **Highlight Data Format**:  
+#' The `compound`, `gene`, and `protein` columns should contain strings in one of two formats:  
+#' 1. Semicolon-separated key-value pairs: `"K00001:blue;K00002:red;C00001:green"`  
+#' 2. Semicolon-separated IDs (default color: red): `"K00001;K00002;C00001"`  
+#' These are parsed by [`parse.highlight_tuples()`](https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html) into named lists (e.g., `list(K00001 = "blue", K00002 = "red")`). [5,7](@ref)
 #' 
-#' @param union_data should be a dataframe value that contains the map id for make pathway map rendering and also the corrsponding highlight information for make render.
-#'     the highlight information for the compound/genes/proteins is specific by the column name which is input from the parameter: compound, gene, protein.
-#' @param id specific the column name of the kegg id in the input dataframe
-#' @param compound specific the column name of the metabolite highlights information in the input dataframe
-#' @param gene specific the column name of the gene highlights information in the input dataframe
-#' @param protein specific the column name of the protein highliths information
-#' @param text.color set the label text color on the kegg pathway map
-#' @param kegg_maps should be a directory path that contains the kegg pathway map xml data files.
-#'    default null means use the package internal resource file.
+#' **Output Files**:  
+#' For each KEGG ID, two files are generated:  
+#' - `[KEGG_ID].html`: Interactive pathway visualization  
+#' - `[KEGG_ID].png`: Static PNG image  
 #' 
-#' @details about the highlight information, seed the parser function [parse.highlight_tuples](https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html). 
+#' **Error Handling**:  
+#' Errors during rendering are caught and printed to the console without stopping execution.
 #' 
+#' @return Invisibly returns `NULL`. Primary output is generated as files in `outputdir`.
+#' @export
+#' @examples
+#' \dontrun{
+#' # Minimal example with default column names
+#' data <- data.frame(
+#'   KEGG = "map00010",
+#'   compound = "C00031:green;C00022:blue",
+#'   gene = "hsa:1234;hsa:5678:yellow",
+#'   protein = "P12345"
+#' )
+#' union_render(data, outputdir = "~/kegg_output")
+#'
+#' # Custom column names and text color
+#' data <- data.frame(
+#'   PathwayID = "map00020",
+#'   Metabolites = "C00024; C00036:orange",
+#'   Genes = "hsa:9012:purple",
+#'   Proteins = "P67890:red"
+#' )
+#' union_render(data,
+#'   id = "PathwayID",
+#'   compound = "Metabolites",
+#'   gene = "Genes",
+#'   protein = "Proteins",
+#'   text.color = "black"
+#' )}
 const union_render = function(union_data, outputdir = "./",
                               id         = "KEGG", 
                               compound   = "compound", 
