@@ -31,12 +31,16 @@
 # namespace SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 export class DEGModel {
    class: string;
+   fdr: double;
    # usually be the gene id
    label: string;
    logFC: double;
    # -log10(p-value)
    nLog10p: double;
+   # The p-value of the differential expression test
    pvalue: double;
+   # t stats value
+   t: double;
    # Variance importance(used in metabolomics data)
    VIP: double;
 }
