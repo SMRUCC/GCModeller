@@ -1047,7 +1047,7 @@ Public Module GSEABackground
             .slots = background _
                 .clusters _
                 .ToDictionary(Function(c)
-                                  Return $"{c.ID} {c.names}"
+                                  Return $"{c.ID} - {c.names}"
                               End Function,
                               Function(c)
                                   Return CObj(c.members.Select(Function(d) d.accessionID).ToArray)
