@@ -100,6 +100,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
 Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
+Imports r_vec = SMRUCC.Rsharp.Runtime.Internal.Object.vector
 
 ''' <summary>
 ''' the gene expression matrix data toolkit
@@ -268,6 +269,25 @@ Module geneExpression
                                   Return CObj(a.experiments)
                               End Function)
         }
+    End Function
+
+    ''' <summary>
+    ''' get gene expression vector data
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="geneId"></param>
+    ''' <returns>a numeric vector of the target gene expression across multiple samples</returns>
+    <ExportAPI("expression_vector")>
+    <RApiReturn(TypeCodes.double)>
+    Public Function expressionVector(x As Matrix, geneId As String) As Object
+        Dim row As DataFrameRow = x(geneId)
+
+        If row Is Nothing Then
+            Call $"gene feature is missing from the expression matrix {x.tag}".Warning
+            Return Nothing
+        Else
+            Return New r_vec(x.sampleID, row.experiments)
+        End If
     End Function
 
     ''' <summary>
@@ -1493,17 +1513,22 @@ Module geneExpression
     ''' <summary>
     ''' get gene Id list
     ''' </summary>
-    ''' <param name="dep">
+    ''' <param name="x">
     ''' A collection of the deg/dep object or a raw HTS matrix object
     ''' </param>
     ''' <returns>A collection of the gene id set</returns>
+    ''' <example>
+    ''' let rnaseqs = load.expr("rnaseq.csv");
+    ''' 
+    ''' print(rnaseqs |> geneId());
+    ''' </example>
     <ExportAPI("geneId")>
     <RApiReturn(GetType(String))>
-    Public Function geneId(<RRawVectorArgument> dep As Object, Optional env As Environment = Nothing) As Object
-        If TypeOf dep Is Matrix Then
-            Return DirectCast(dep, Matrix).rownames
+    Public Function geneId(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf x Is Matrix Then
+            Return DirectCast(x, Matrix).rownames
         Else
-            Dim deps As pipeline = pipeline.TryCreatePipeline(Of DEP_iTraq)(dep, env)
+            Dim deps As pipeline = pipeline.TryCreatePipeline(Of DEP_iTraq)(x, env)
 
             If deps.isError Then
                 Return deps.getError
@@ -1519,7 +1544,7 @@ Module geneExpression
     ''' <summary>
     ''' create gene expression DEG model
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="x">usually be a dataframe object of the different expression analysis result</param>
     ''' <param name="logFC"></param>
     ''' <param name="pvalue"></param>
     ''' <param name="label"></param>
