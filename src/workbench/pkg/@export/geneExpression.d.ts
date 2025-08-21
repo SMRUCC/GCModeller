@@ -34,7 +34,7 @@ declare namespace geneExpression {
        * create gene expression DEG model
        * 
        * 
-        * @param x -
+        * @param x usually be a dataframe object of the different expression analysis result
         * @param logFC -
         * 
         * + default value Is ``'logFC'``.
@@ -189,6 +189,15 @@ declare namespace geneExpression {
       function cmeans3D(matrix: object, fuzzification?: number, threshold?: number): object;
    }
    /**
+    * get gene expression vector data
+    * 
+    * 
+     * @param x -
+     * @param geneId -
+     * @return a numeric vector of the target gene expression across multiple samples
+   */
+   function expression_vector(x: object, geneId: string): number;
+   /**
     * Filter the geneID rows
     * 
     * 
@@ -242,12 +251,12 @@ declare namespace geneExpression {
     * get gene Id list
     * 
     * 
-     * @param dep A collection of the deg/dep object or a raw HTS matrix object
+     * @param x A collection of the deg/dep object or a raw HTS matrix object
      * @param env 
      * + default value Is ``null``.
      * @return A collection of the gene id set
    */
-   function geneId(dep: any, env?: object): string;
+   function geneId(x: any, env?: object): string;
    /**
     * set the zero value to the half of the min positive value
     * 

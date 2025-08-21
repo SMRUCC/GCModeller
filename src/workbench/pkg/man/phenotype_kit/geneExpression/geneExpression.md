@@ -6,6 +6,7 @@ the gene expression matrix data toolkit
 + [tr](geneExpression/tr.1) do matrix transpose
 + [dims](geneExpression/dims.1) get summary information about the HTS matrix dimensions
 + [as.expr_list](geneExpression/as.expr_list.1) convert the matrix into row gene list
++ [expression_vector](geneExpression/expression_vector.1) get gene expression vector data
 + [setTag](geneExpression/setTag.1) set a new tag string to the matrix
 + [setZero](geneExpression/setZero.1) set the expression value to zero 
 + [sample_id](geneExpression/sample_id.1) get/set new sample id list to the matrix columns

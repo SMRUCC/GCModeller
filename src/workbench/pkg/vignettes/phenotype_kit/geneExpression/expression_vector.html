@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>get gene Id list</title>
+    <title>get gene expression vector data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>geneId {geneExpression}</td>
+                <td>expression_vector {geneExpression}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>get gene Id list</h2>
+        <h2>get gene expression vector data</h2>
 
         <h3>Description</h3>
 
@@ -27,7 +27,7 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>geneId</strong>(<i>x</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>expression_vector</strong>(<i>x</i>, <i>geneId</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -35,7 +35,11 @@
         <table>
             
 <dt>x</dt>
-<dd><p>A collection of the deg/dep object or a raw HTS matrix object</p></dd>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>geneId</dt>
+<dd><p>[as string]</p></dd>
 
         </table>
 
@@ -50,13 +54,11 @@
 
         <h3>Value</h3>
 
-        <p>A collection of the gene id set</p><h4>clr value class</h4><ul><li>string</li></ul>
+        <p>a numeric vector of the target gene expression across multiple samples</p><h4>clr value class</h4><ul><li>double</li></ul>
 
-        <h3 style="display: block;">Examples</h3>
+        <h3 style="display: none;">Examples</h3>
 
-        <pre><code id="example_r"> let rnaseqs = load.expr("rnaseq.csv");
- 
- print(rnaseqs |> geneId());</code></pre>
+        
 
         <hr />
         <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
