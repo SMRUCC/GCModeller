@@ -180,6 +180,27 @@ declare namespace background {
       */
       function annotations(background: object, geneSet: any, env?: object): any;
       /**
+       * make filter of the background model
+       * 
+       * 
+        * @param background -
+        * @param geneSet usually be a character of the gene id set.
+        * @param min_size the min feature size is required for each cluster. 
+        *  all of the cluster that have the feature number less than this cutoff 
+        *  will be removed from the background.
+        * 
+        * + default value Is ``3``.
+        * @param max_intersects the max intersect number that each cluster 
+        *  intersect with the input geneSet. all of the clusters that greater than 
+        *  this value will be removed from the background.
+        * 
+        * + default value Is ``500``.
+        * @param env 
+        * + default value Is ``null``.
+        * @return a new background model that has cluster filtered by the given rule.
+      */
+      function filter(background: object, geneSet: any, min_size?: object, max_intersects?: object, env?: object): object;
+      /**
        * get an intersection id list between the background
        *  model and the given gene id list.
        * 
@@ -199,6 +220,7 @@ declare namespace background {
         * + default value Is ``false``.
         * @param env 
         * + default value Is ``null``.
+        * @return a character vector of the intersected gene id set or the cluster id set based on the option of parameter **`get_clusterID`**.
       */
       function intersects(cluster: any, geneSet: string, isLocusTag?: boolean, get_clusterID?: boolean, env?: object): string;
    }

@@ -35,6 +35,21 @@ get an intersection id list between the background
  gsea background model object.
 . 
 .PP
+.SH VALUE
+.PP
+a character vector of the intersected gene id set or the cluster id set based on the option of parameter **`get_clusterID`**.
+.PP
+.SH EXAMPLES
+.PP
+let kb = read.background("kegg_background.xml");
+ let idset = c("id1","id2","id3");
+ 
+ print("intersect gene ids:");
+ print(kb |> geneSet.intersects(idset));
+ 
+ print("intersect cluster ids:");
+ print(kb |> geneSet.intersects(idset, get_clusterID=TRUE));
+.PP
 .SH SEE ALSO
 background
 .SH FILES
