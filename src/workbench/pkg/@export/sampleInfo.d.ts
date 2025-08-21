@@ -52,6 +52,11 @@ declare namespace sampleInfo {
       */
       function sample_groups(sample_names: object, maxDepth?: boolean, raw_list?: boolean): object|object;
    }
+   module make {
+      /**
+      */
+      function analysis(sampleinfo: object, control: string, treatment: string): object;
+   }
    module read {
       /**
        * Read the sampleinfo data table from a given csv file

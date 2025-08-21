@@ -39,6 +39,7 @@ the gene expression matrix data toolkit
 + [peakCMeans](geneExpression/peakCMeans.1) ### clustering analysis of time course data
 + [expr_ranking](geneExpression/expr_ranking.1) 
 + [deg.t.test](geneExpression/deg.t.test.1) do t-test across specific analysis comparision
++ [limma](geneExpression/limma.1) The limma algorithm (Linear Models for Microarray Data) is a widely used statistical framework in R/Bioconductor 
 + [log](geneExpression/log.1) log scale of the HTS raw matrix
 + [geneId](geneExpression/geneId.1) get gene Id list
 + [as.deg](geneExpression/as.deg.1) create gene expression DEG model

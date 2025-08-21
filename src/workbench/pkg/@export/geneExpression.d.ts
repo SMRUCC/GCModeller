@@ -272,6 +272,16 @@ declare namespace geneExpression {
      * + default value Is ``true``.
    */
    function joinSample(samples: object, strict?: boolean): object;
+   /**
+    * The limma algorithm (Linear Models for Microarray Data) is a widely used statistical framework in R/Bioconductor 
+    *  for differential expression (DE) analysis of RNA-seq data. Originally designed for microarray studies, its 
+    *  flexibility and robustness have extended its utility to RNA-seq through the voomtransformation.
+    * 
+    * 
+     * @param x -
+     * @param design -
+   */
+   function limma(x: object, design: object): object;
    module load {
       /**
        * load an expressin matrix data

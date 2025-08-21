@@ -31,8 +31,11 @@
 # namespace SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 export class DEGModel {
    class: string;
+   # usually be the gene id
    label: string;
    logFC: double;
+   # -log10(p-value)
+   nLog10p: double;
    pvalue: double;
    # Variance importance
    VIP: double;
