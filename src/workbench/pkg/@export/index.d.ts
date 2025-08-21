@@ -168,6 +168,9 @@ declare namespace GCModeller {
    /**
    */
    function reference_genome(ncbi_taxid: any): object;
+   /**
+   */
+   function split_omics_idset(IDs: any): object;
    taxonomy_query: any;
    /**
    */
