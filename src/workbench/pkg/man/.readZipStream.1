@@ -5,16 +5,24 @@
 .SH SYNOPSIS
 \fI.readZipStream(zipfile,
     <i>entryName</i> = <span style='color: blue !important;'>NULL</span>)\fR
+.SH DESCRIPTION
+.PP
+@description this function open the given zip archive
+file and then load the first file as data stream
+object if the zip entry name is missing.
+.PP
 .SH OPTIONS
 .PP
-\fBzipfile\fB \fR\- . the file path of the target zip file to read data stream
+\fBzipfile\fB \fR\- . the file path of the target zip file to
+read data stream
 .PP
 .PP
 \fBentryName\fB \fR\- NULL. the zip entry name.
 .PP
 .SH VALUE
 .PP
-A data steam object that read from the given zip archive file.
+A data steam object that read from the
+given zip archive file.
 .PP
 .SH FILES
 .PP

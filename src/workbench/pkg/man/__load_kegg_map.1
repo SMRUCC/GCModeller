@@ -7,6 +7,13 @@ __load_kegg_map \- __load_kegg_map(
 \fI__load_kegg_map(
     <i>kegg.maps</i> = <span style='color: blue !important;'>NULL</span>,
     <i>raw.maps</i> = <span style='color: blue !important;'>FALSE</span>)\fR
+.SH DESCRIPTION
+.PP
+@param kegg_maps the kegg map data source, could be a zip archive file that
+contains the kegg maps data message, a directory path that contains the
+kegg maps xml files. default parameter value is null, means use the internal
+resource data for run the downstream analysis.
+.PP
 .SH OPTIONS
 .PP
 \fBkegg.maps\fB \fR\- NULL. 
