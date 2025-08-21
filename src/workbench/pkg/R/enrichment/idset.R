@@ -7,7 +7,7 @@
 #'    list(metabolite = ..., genes = ...)
 #' 
 const split_omics_idset = function(IDs) {
-    let idset = strsplit(IDs,"; ");
+    let idset = strsplit(IDs,"\s*;\s*");
     let metabolite = lapply(idset, list -> list == $"C\d+");
     let genes = lapply(idset, function(list, i) {
         i =  metabolite[[i]];
