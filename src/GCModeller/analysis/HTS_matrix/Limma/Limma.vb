@@ -181,7 +181,8 @@ Public Module Limma
                 .logFC = logFC(offset),
                 .label = x(offset).geneID,
                 .pvalue = p_values(offset),
-                .[class] = If(.pvalue < 0.05, If(.logFC > 0, "up", "down"), "not sig")
+                .[class] = If(.pvalue < 0.05, If(.logFC > 0, "up", "down"), "not sig"),
+                .t = t(offset)
             }
         Next
     End Function

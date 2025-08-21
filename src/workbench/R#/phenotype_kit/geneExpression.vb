@@ -129,6 +129,7 @@ Module geneExpression
         }
         Dim metabolomics As Boolean = CLRVector.asScalarLogical(args.getBySynonyms("metabolite", "vip"))
 
+        Call df.add("t", From gi As DEGModel In degs Select gi.t)
         Call df.add("log2fc", From gi As DEGModel In degs Select gi.logFC)
         Call df.add("p-value", From gi As DEGModel In degs Select gi.pvalue)
 

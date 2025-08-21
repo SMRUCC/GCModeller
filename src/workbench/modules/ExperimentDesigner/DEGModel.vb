@@ -69,7 +69,20 @@ Public Class DEGModel : Implements IDeg, INamedValue, IReadOnlyId, IStatPvalue
     ''' <returns></returns>
     Public Property label$ Implements IDeg.label, INamedValue.Key, IReadOnlyId.Identity
     Public Property logFC# Implements IDeg.log2FC
+    ''' <summary>
+    ''' t stats value
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property t As Double
+    ''' <summary>
+    ''' The p-value of the differential expression test
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' This is the p-value before multiple testing correction.
+    ''' </remarks>
     Public Property pvalue# Implements IDeg.pvalue, IStatPvalue.pValue
+    Public Property fdr As Double
     ''' <summary>
     ''' Variance importance(used in metabolomics data)
     ''' </summary>
