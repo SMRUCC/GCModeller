@@ -594,7 +594,19 @@ Public Module GSEABackground
     ''' this parameter only works when the cluster object is a 
     ''' gsea background model object.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a character vector of the intersected gene id set or the cluster id set based on the option of parameter <paramref name="get_clusterID"/>.
+    ''' </returns>
+    ''' <example>
+    ''' let kb = read.background("kegg_background.xml");
+    ''' let idset = c("id1","id2","id3");
+    ''' 
+    ''' print("intersect gene ids:");
+    ''' print(kb |> geneSet.intersects(idset));
+    ''' 
+    ''' print("intersect cluster ids:");
+    ''' print(kb |> geneSet.intersects(idset, get_clusterID=TRUE));
+    ''' </example>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("geneSet.intersects")>
     <RApiReturn(GetType(String))>
@@ -628,6 +640,60 @@ Public Module GSEABackground
             End If
         Else
             Return Message.InCompatibleType(GetType(Background), cluster.GetType, env)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' make filter of the background model 
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="geneSet">usually be a character of the gene id set.</param>
+    ''' <param name="min_size">the min feature size is required for each cluster. 
+    ''' all of the cluster that have the feature number less than this cutoff 
+    ''' will be removed from the background.</param>
+    ''' <param name="max_intersects">the max intersect number that each cluster 
+    ''' intersect with the input geneSet. all of the clusters that greater than 
+    ''' this value will be removed from the background.</param>
+    ''' <returns>
+    ''' a new background model that has cluster filtered by the given rule.
+    ''' </returns>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' let idset = c("id1","id2","id3");
+    ''' let filter_kb = kb |> geneSet.filter(idset, min.size=5, max.intersects=500);
+    ''' 
+    ''' print(background_summary(filter_kb));
+    ''' </example>
+    <ExportAPI("geneSet.filter")>
+    <RApiReturn(GetType(Background))>
+    Public Function ClusterFilter(background As Background, <RRawVectorArgument> geneSet As Object,
+                                  Optional min_size As Integer = 3,
+                                  Optional max_intersects As Integer = 500,
+                                  Optional env As Environment = Nothing) As Object
+
+        Dim idset As String() = CLRVector.asCharacter(geneSet).SafeQuery.Distinct.ToArray
+
+        If idset.IsNullOrEmpty Then
+            Return RInternal.debug.stop("the required gene idset for test intersect should not be empty!", env)
+        End If
+
+        Dim filtered As Cluster() = background.clusters _
+            .Where(Function(c)
+                       Return c.size >= min_size AndAlso c.Intersect(idset).Count <= max_intersects
+                   End Function) _
+            .ToArray
+
+        If filtered.IsNullOrEmpty Then
+            Return RInternal.debug.stop($"no cluster left after filter by the given feature size range(min.size={min_size}, max.intersects={max_intersects})!", env)
+        Else
+            Return New Background With {
+                .build = Now,
+                .comments = background.comments,
+                .id = background.id,
+                .name = background.name,
+                .clusters = filtered,
+                .size = filtered.BackgroundSize
+            }
         End If
     End Function
 

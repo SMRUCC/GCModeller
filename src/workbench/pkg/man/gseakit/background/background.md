@@ -21,7 +21,7 @@ tools for handling GSEA background model.
 + [fromList](background/fromList.1) cast the cluster data as the enrichment background
 + [as.background](background/as.background.1) cast the cluster data as the enrichment background
 + [KO_reference](background/KO_reference.1) gene/protein KO id background
-+ [as.geneSet](background/as.geneSet.1) 
++ [as.geneSet](background/as.geneSet.1) Extract the gene set list from the background model
 + [metabolism.background](background/metabolism.background.1) create kegg maps background for the metabolism data analysis
 + [compoundBrite](background/compoundBrite.1) get kegg compound class brite background model
 + [KO.background](background/KO.background.1) create kegg background model
