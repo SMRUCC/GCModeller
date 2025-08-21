@@ -48,7 +48,7 @@ Invisibly returns `NULL`. Primary output is generated as files in `outputdir`.
 .PP
 .SH DETAILS
 .PP
-**Highlight Data Format**: The `compound`, `gene`, and `protein` columns should contain strings in one of two formats: 1. Semicolon-separated key-value pairs: `"K00001:blue;K00002:red;C00001:green"` 2. Semicolon-separated IDs (default color: red): `"K00001;K00002;C00001"` These are parsed by [`parse.highlight_tuples()`](https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html) into named lists (e.g., `list(K00001 = "blue", K00002 = "red")`). [5,7](@ref) **Output Files**: For each KEGG ID, two files are generated: - `[KEGG_ID].html`: Interactive pathway visualization - `[KEGG_ID].png`: Static PNG image **Error Handling**: Errors during rendering are caught and printed to the console without stopping execution.
+**Highlight Data Format**: The `compound`, `gene`, and `protein` columns should contain strings in one of two formats: 1. Semicolon-separated key-value pairs: `"K00001:blue;K00002:red;C00001:green"` 2. Semicolon-separated IDs (default color: red): `"K00001;K00002;C00001"` These are parsed by [`parse.highlight_tuples()`](https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html) into named lists (e.g., `list(K00001 = "blue", K00002 = "red")`). **Output Files**: For each KEGG ID, two files are generated: - `[KEGG_ID].html`: Interactive pathway visualization - `[KEGG_ID].png`: Static PNG image **Error Handling**: Errors during rendering are caught and printed to the console without stopping execution.
 .PP
 .SH EXAMPLES
 .PP

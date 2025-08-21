@@ -7,7 +7,7 @@
 #' @param union_data A data frame or file path (CSV) containing KEGG pathway IDs 
 #'        and highlight information. Must include columns specified in `id`, `compound`, 
 #'        `gene`, and `protein` parameters. If a character string is provided, 
-#'        it is interpreted as a file path to a CSV file. [1](@ref)
+#'        it is interpreted as a file path to a CSV file. 
 #' @param outputdir Output directory path for rendered files (default: "./").
 #' @param id Column name in `union_data` containing KEGG pathway IDs (default: "KEGG").
 #' @param compound Column name in `union_data` containing compound highlight data 
@@ -18,14 +18,14 @@
 #'        (default: "protein").
 #' @param text.color Color for node labels on pathway maps (default: "white").
 #' @param kegg_maps Directory path containing KEGG map XML files. If `NULL` (default), 
-#'        uses the package's internal XML resources. [1,5](@ref)
+#'        uses the package's internal XML resources. 
 #'
 #' @details 
 #' **Highlight Data Format**:  
 #' The `compound`, `gene`, and `protein` columns should contain strings in one of two formats:  
 #' 1. Semicolon-separated key-value pairs: `"K00001:blue;K00002:red;C00001:green"`  
 #' 2. Semicolon-separated IDs (default color: red): `"K00001;K00002;C00001"`  
-#' These are parsed by [`parse.highlight_tuples()`](https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html) into named lists (e.g., `list(K00001 = "blue", K00002 = "red")`). [5,7](@ref)
+#' These are parsed by [`parse.highlight_tuples()`](https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html) into named lists (e.g., `list(K00001 = "blue", K00002 = "red")`). 
 #' 
 #' **Output Files**:  
 #' For each KEGG ID, two files are generated:  
