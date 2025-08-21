@@ -155,6 +155,7 @@ Public Module GSEABackground
     End Function
 
     <ExportAPI("meta_background")>
+    <RApiReturn(GetType(Background))>
     Public Function MetaEnrichBackground(enrich As EnrichmentResult(), graphQuery As GraphQuery) As Object
         Return enrich.CastBackground(graphQuery)
     End Function
@@ -285,6 +286,7 @@ Public Module GSEABackground
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("background.id_mapping")>
+    <RApiReturn(GetType(Background))>
     Public Function BackgroundIDmapping(background As Background, mapping As list,
                                         Optional subset As String() = Nothing,
                                         Optional env As Environment = Nothing) As Object
@@ -981,6 +983,27 @@ Public Module GSEABackground
         }
     End Function
 
+    ''' <summary>
+    ''' Extract the gene set list from the background model
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <returns>
+    ''' a tuple list object that contains the gene set information,
+    ''' data result in format like:
+    ''' 
+    ''' ```r
+    ''' list(
+    '''     "cluster id 1" = c("gene id", "gene id", ...),
+    '''     "cluster id 2" = c("gene id", "gene id", ...),
+    '''     ...
+    ''' )
+    ''' ```
+    ''' </returns>
+    ''' <remarks>
+    ''' the result list could be used for save as json file for 
+    ''' parsed in R by ``jsonlite::fromJSON`` function, and used
+    ''' for the gsva analysis.
+    ''' </remarks>
     <ExportAPI("as.geneSet")>
     Public Function asGenesetList(background As Background) As list
         Return New list With {
