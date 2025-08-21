@@ -55,12 +55,13 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Math.Statistics
 Imports std = System.Math
 
 ''' <summary>
 ''' A generic model for different expression molecule
 ''' </summary>
-Public Class DEGModel : Implements IDeg, INamedValue, IReadOnlyId
+Public Class DEGModel : Implements IDeg, INamedValue, IReadOnlyId, IStatPvalue
 
     ''' <summary>
     ''' usually be the gene id
@@ -68,9 +69,9 @@ Public Class DEGModel : Implements IDeg, INamedValue, IReadOnlyId
     ''' <returns></returns>
     Public Property label$ Implements IDeg.label, INamedValue.Key, IReadOnlyId.Identity
     Public Property logFC# Implements IDeg.log2FC
-    Public Property pvalue# Implements IDeg.pvalue
+    Public Property pvalue# Implements IDeg.pvalue, IStatPvalue.pValue
     ''' <summary>
-    ''' Variance importance
+    ''' Variance importance(used in metabolomics data)
     ''' </summary>
     ''' <returns></returns>
     Public Property VIP As Double
