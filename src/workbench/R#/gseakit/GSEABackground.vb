@@ -132,7 +132,13 @@ Public Module GSEABackground
     ''' get all of the cluster id set from the given background model object 
     ''' </summary>
     ''' <param name="background"></param>
-    ''' <returns></returns>
+    ''' <returns>A character vector of the cluster id(or pathway id) that defined inside the given background model</returns>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' let ids = clusterIDs(kb);
+    ''' 
+    ''' print(ids);
+    ''' </example>
     <ExportAPI("clusterIDs")>
     Public Function clusterIDs(background As Background) As String()
         Return background.clusters.Select(Function(a) a.ID).ToArray
@@ -142,7 +148,13 @@ Public Module GSEABackground
     ''' get all of the molecule id set from the given background model object
     ''' </summary>
     ''' <param name="background"></param>
-    ''' <returns></returns>
+    ''' <returns>A character vector of the gene id that defined inside the given background model</returns>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' let ids = moleculeIDs(kb);
+    ''' 
+    ''' print(ids);
+    ''' </example>
     <ExportAPI("moleculeIDs")>
     Public Function moleculeIDs(background As Background) As String()
         Return background.clusters _
@@ -384,6 +396,9 @@ Public Module GSEABackground
     ''' </summary>
     ''' <param name="file"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' </example>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("read.background")>
     Public Function ReadBackground(file As String) As Background
@@ -394,8 +409,11 @@ Public Module GSEABackground
     ''' Save GSEA background model as xml file
     ''' </summary>
     ''' <param name="background"></param>
-    ''' <param name="file$"></param>
+    ''' <param name="file"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' write.background(kb, "hsa.xml");
+    ''' </example>
     <ExportAPI("write.background")>
     Public Function WriteBackground(background As Background, file$) As Boolean
         Return background.GetXml.SaveTo(file)
@@ -963,7 +981,9 @@ Public Module GSEABackground
     ''' <summary>
     ''' gene/protein KO id background
     ''' </summary>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' A reference background of the kegg pathway by parse the internal resource file.
+    ''' </returns>
     <ExportAPI("KO_reference")>
     Public Function CreateKOReference() As Background
         Dim ko00001 = htext.ko00001.Hierarchical.categoryItems
