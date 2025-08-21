@@ -57,7 +57,7 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 ''' - **Gene Set Analysis**: Integrates with tools like *camera* or *romer* to test co-regulated gene sets or pathways .  
 '''
 '''
-''' ### **4. Strengths & Limitations**  
+''' ### **4. Strengths &amp; Limitations**  
 ''' 
 ''' - **Strengths**:  
 ''' - Flexibility for diverse experimental designs.  
