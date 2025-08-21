@@ -173,8 +173,8 @@ Public Module Limma
         ' t检验与p值
         Dim t_stats = logFC / shrunk_se
         Dim df_total = prior_df + df_residual
-        Dim t As Vector = -t_stats.Abs
-        Dim p_values = SIMD.Multiply.f64_scalar_op_multiply_f64(2, Hypothesis.t.Pvalue(t, df:=df_total, Hypothesis.Hypothesis.Less))
+        Dim t As Vector = t_stats.Abs
+        Dim p_values = Hypothesis.t.Pvalue(t, df:=df_total, Hypothesis.Hypothesis.TwoSided)
 
         For offset As Integer = 0 To logFC.Length - 1
             Yield New DEGModel With {

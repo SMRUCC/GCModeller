@@ -113,6 +113,9 @@ Public Class DataAnalysis
         designs = DataGroup.CreateDataGroups(samples).ToArray
     End Sub
 
+    Sub New()
+    End Sub
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return designs.Keys.JoinBy(" vs ")

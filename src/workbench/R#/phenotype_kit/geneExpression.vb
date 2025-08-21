@@ -1411,6 +1411,19 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' The limma algorithm (Linear Models for Microarray Data) is a widely used statistical framework in R/Bioconductor 
+    ''' for differential expression (DE) analysis of RNA-seq data. Originally designed for microarray studies, its 
+    ''' flexibility and robustness have extended its utility to RNA-seq through the voomtransformation. 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="design"></param>
+    ''' <returns></returns>
+    <ExportAPI("limma")>
+    Public Function limma(x As Matrix, design As DataAnalysis) As DEGModel()
+        Return x.LmFit(design).ToArray
+    End Function
+
+    ''' <summary>
     ''' log scale of the HTS raw matrix
     ''' </summary>
     ''' <param name="expr">should be a HTS expression matrix object</param>

@@ -481,4 +481,21 @@ Module DEGSample
 
         Return sampleInfo
     End Function
+
+    <ExportAPI("make.analysis")>
+    <RApiReturn(GetType(DataAnalysis))>
+    Public Function makeDataAnalysis(sampleinfo As SampleInfo(), control As String, treatment As String) As Object
+        sampleinfo = sampleinfo _
+            .Where(Function(si) si.sample_info = control OrElse si.sample_info = treatment) _
+            .OrderBy(Function(si)
+                         If si.sample_info = control Then
+                             Return 0
+                         Else
+                             Return 1
+                         End If
+                     End Function) _
+            .ToArray
+
+        Return New DataAnalysis(sampleinfo)
+    End Function
 End Module
