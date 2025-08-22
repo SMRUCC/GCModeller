@@ -411,13 +411,7 @@ Module DEGSample
                 $"size of sample_info: {sample_info.Length}"}, env)
         End If
 
-        Dim get_group = Function(i As Integer)
-                            If sample_info.Length = 1 Then
-                                Return sample_info(Scan0)
-                            Else
-                                Return sample_info(i)
-                            End If
-                        End Function
+        Dim get_group = GetVectorElement.Create(Of String)(sample_info)
         Dim list As New List(Of SampleInfo)
 
         For i As Integer = 0 To ID.Length - 1
