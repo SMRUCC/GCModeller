@@ -114,6 +114,20 @@ Public Module Math
     ''' <param name="expr"></param>
     ''' <param name="base">the base for log function.</param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' # 分布转换（处理非正态分布）
+    ''' 
+    ''' 对数转换是处理非正态分布数据的常用方法，尤其是右偏数据。通过对数转换，可以将数据的分布变得更接近正态分布，从而满足统计分析的假设。
+    ''' 
+    ''' 例如，对于基因表达数据，通常会使用对数转换来减少数据的偏态性，使得后续的统计分析（如t检验、方差分析等）更加可靠。
+    ''' 
+    ''' 对于右偏数据，可以使用以下代码进行对数转换：
+    ''' 
+    ''' # 对数转换（右偏数据）
+    ''' log_transform &lt;- function(mat) {
+    '''    log(mat + 1 - min(mat))  # 避免log(0)
+    ''' }
+    ''' </remarks>
     <Extension>
     Public Function log(expr As Matrix, base As Double) As Matrix
         Dim logMat As New Matrix With {
@@ -121,6 +135,10 @@ Public Module Math
             .tag = $"log({expr.tag}, base={base})",
             .expression = expr.expression _
                 .Select(Function(exp)
+                            Dim min As Double = exp.experiments _
+                                .Where(Function(v) v > 0 AndAlso Not v.IsNaNImaginary) _
+                                .DefaultIfEmpty(0) _
+                                .Min
                             Return New DataFrameRow With {
                                 .geneID = exp.geneID,
                                 .experiments = exp.experiments _
@@ -128,7 +146,7 @@ Public Module Math
                                                 If v <= 0 Then
                                                     Return 0
                                                 Else
-                                                    Return std.Log(v, newBase:=base)
+                                                    Return std.Log(v + 1 - min, newBase:=base)
                                                 End If
                                             End Function) _
                                     .ToArray
