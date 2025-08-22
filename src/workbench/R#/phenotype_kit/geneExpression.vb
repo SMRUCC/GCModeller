@@ -101,6 +101,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
 Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 Imports r_vec = SMRUCC.Rsharp.Runtime.Internal.Object.vector
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
 ''' the gene expression matrix data toolkit
@@ -1522,6 +1523,23 @@ Module geneExpression
     <ExportAPI("minmax01Norm")>
     Public Function minmax01(x As Matrix) As Object
         Return x.MinMaxNorm
+    End Function
+
+    <ExportAPI("take_shuffle")>
+    Public Function take_shuffle(x As Matrix, n As Integer) As dataframe
+        Dim sample = x.expression.OrderBy(Function() randf.NextDouble()).Take(n).ToArray
+        Dim data As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = sample _
+                .Select(Function(r) r.geneID) _
+                .ToArray
+        }
+
+        For Each gene As DataFrameRow In sample
+            Call data.add(gene.geneID, gene.experiments)
+        Next
+
+        Return data
     End Function
 
     ''' <summary>
