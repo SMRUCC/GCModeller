@@ -365,6 +365,17 @@ declare namespace geneExpression {
    */
    function matrix_info(file: any): object;
    /**
+    * min max normalization
+    *  
+    *  (row - min(row)) / (max(row) - min(row))
+    *  
+    *  this normalization method is usually used for the metabolomics data
+    * 
+    * 
+     * @param x -
+   */
+   function minmax01Norm(x: object): any;
+   /**
     * get the top n representatives genes in each expression pattern
     * 
     * 
