@@ -1511,6 +1511,20 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' min max normalization
+    ''' 
+    ''' (row - min(row)) / (max(row) - min(row))
+    ''' 
+    ''' this normalization method is usually used for the metabolomics data
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    <ExportAPI("minmax01Norm")>
+    Public Function minmax01(x As Matrix) As Object
+        Return x.MinMaxNorm
+    End Function
+
+    ''' <summary>
     ''' get gene Id list
     ''' </summary>
     ''' <param name="x">
