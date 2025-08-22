@@ -568,6 +568,9 @@ declare namespace geneExpression {
       function cmeans_clusters(cmeans: object): any;
    }
    /**
+   */
+   function take_shuffle(x: object, n: object): object;
+   /**
     * normalize data by sample column
     * 
     * > apply for the metabolomics data usually
