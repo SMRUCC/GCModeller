@@ -167,6 +167,11 @@ Module WGCNA
         End If
     End Function
 
+    <ExportAPI("load_TOM_graph")>
+    Public Function loadTOMModuleNetwork(edges As String, nodes As String) As Object
+
+    End Function
+
     <ExportAPI("applyModuleColors")>
     Public Function applyModuleColors(g As NetworkGraph, modules As list) As Object
         For Each geneId As String In modules.getNames

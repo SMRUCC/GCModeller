@@ -54,6 +54,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math.Matrix
@@ -143,6 +144,27 @@ Public Module Rscript
     ''' <param name="prefix$"></param>
     ''' <returns></returns>
     Public Function FastImports(path As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
+        Return WGCNAWeight.CreateMatrix(dataSet:=LoadTOMWeights(path, threshold, prefix))
+    End Function
+
+    <Extension>
+    Public Function AsDataMatrix(wgcna As WGCNAWeight) As DataMatrix
+        Dim names As String() = wgcna.geneSet.ToArray
+        Dim w As Double()() = RectangularArray.Matrix(Of Double)(names.Length, names.Length)
+
+        For i As Integer = 0 To names.Length - 1
+            Dim u As String = names(i)
+            Dim wij As Double() = w(i)
+
+            For j As Integer = 0 To names.Length - 1
+                wij(j) = wgcna(u, names(j))
+            Next
+        Next
+
+        Return New DataMatrix(names, w)
+    End Function
+
+    Private Function LoadTOMWeights(path As String, threshold As Double, prefix$) As IEnumerable(Of Weight)
         Dim headers As Index(Of String) = Tokenizer.CharsParser(path.ReadFirstLine, delimiter:=ASCII.TAB).Indexing
         Dim fromNode As Integer = headers(NameOf(fromNode))
         Dim toNode As Integer = headers(NameOf(toNode))
@@ -165,23 +187,38 @@ Public Module Rscript
                 .toNode = If(prefix Is Nothing, data(toNode), prefix & data(toNode))
             }
 
-        Return WGCNAWeight.CreateMatrix(dataSet:=weights)
+        Return weights
     End Function
 
     <Extension>
-    Public Function AsDataMatrix(wgcna As WGCNAWeight) As DataMatrix
-        Dim names As String() = wgcna.geneSet.ToArray
-        Dim w As Double()() = RectangularArray.Matrix(Of Double)(names.Length, names.Length)
+    Public Function LoadTOMModuleGraph(edges As IEnumerable(Of Weight), nodes As IEnumerable(Of CExprMods)) As NetworkGraph
+        Dim g As New NetworkGraph
 
-        For i As Integer = 0 To names.Length - 1
-            Dim u As String = names(i)
-            Dim wij As Double() = w(i)
-
-            For j As Integer = 0 To names.Length - 1
-                wij(j) = wgcna(u, names(j))
-            Next
+        For Each node As CExprMods In nodes
+            Call g.CreateNode(node.nodeName, New NodeData With {
+                .label = node.nodeName,
+                .origID = node.nodeName,
+                .Properties = New Dictionary(Of String, String) From {
+                    {"module", node.nodesPresent}
+                }
+            })
         Next
 
-        Return New DataMatrix(names, w)
+        For Each edge As Weight In edges
+            Call g.CreateEdge(
+                g.GetElementByID(edge.fromNode),
+                g.GetElementByID(edge.toNode),
+                weight:=edge.weight,
+                data:=New EdgeData With {
+                    .label = $"{edge.fromNode}--{edge.toNode}",
+                    .Properties = New Dictionary(Of String, String) From {
+                        {"fromAltName", edge.fromAltName},
+                        {"toAltName", edge.toAltName},
+                        {"direction", edge.direction}
+                    }
+                })
+        Next
+
+        Return g
     End Function
 End Module
