@@ -190,6 +190,18 @@ Public Module Rscript
         Return weights
     End Function
 
+    ''' <summary>
+    ''' load network graph from the WGCNA exportNetworkToCytoscape function exports
+    ''' </summary>
+    ''' <param name="edges"></param>
+    ''' <param name="nodes"></param>
+    ''' <param name="threshold"></param>
+    ''' <param name="prefix$"></param>
+    ''' <returns></returns>
+    Public Function LoadTOMModuleGraph(edges As String, nodes As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As NetworkGraph
+        Return LoadTOMModuleGraph(LoadTOMWeights(edges, threshold, prefix), WGCNAModules.LoadModules(nodes))
+    End Function
+
     <Extension>
     Public Function LoadTOMModuleGraph(edges As IEnumerable(Of Weight), nodes As IEnumerable(Of CExprMods)) As NetworkGraph
         Dim g As New NetworkGraph

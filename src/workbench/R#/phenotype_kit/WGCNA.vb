@@ -167,9 +167,19 @@ Module WGCNA
         End If
     End Function
 
+    ''' <summary>
+    ''' load network graph from the WGCNA exportNetworkToCytoscape function exports
+    ''' </summary>
+    ''' <param name="edges"></param>
+    ''' <param name="nodes"></param>
+    ''' <param name="threshold"></param>
+    ''' <param name="prefix$"></param>
+    ''' <returns></returns>
+    ''' 
     <ExportAPI("load_TOM_graph")>
-    Public Function loadTOMModuleNetwork(edges As String, nodes As String) As Object
-
+    <RApiReturn(GetType(NetworkGraph))>
+    Public Function LoadTOMModuleGraph_call(edges As String, nodes As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As NetworkGraph
+        Return LoadTOMModuleGraph(edges, nodes, threshold, prefix)
     End Function
 
     <ExportAPI("applyModuleColors")>
