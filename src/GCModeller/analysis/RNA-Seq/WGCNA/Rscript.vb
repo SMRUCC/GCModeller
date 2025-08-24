@@ -174,7 +174,7 @@ Public Module Rscript
         Dim toAltName As Integer = headers(NameOf(toAltName))
         Dim weights As IEnumerable(Of Weight) =
             From line As String
-            In path.IterateAllLines.Skip(1).AsParallel
+            In path.IterateAllLines(tqdm_wrap:=True).Skip(1).AsParallel
             Let data As String() = Tokenizer.CharsParser(line, ASCII.TAB).ToArray
             Let w As Double = Double.Parse(data(weight))
             Where w > threshold
