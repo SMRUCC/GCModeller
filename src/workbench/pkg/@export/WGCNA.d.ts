@@ -67,6 +67,13 @@ declare namespace WGCNA {
    */
    function applyModuleColors(g: object, modules: object): any;
    /**
+    * export a dataframe of the node information with connectivity value
+    * 
+    * 
+     * @param x -
+   */
+   function connectivity(x: object): any;
+   /**
     * Create correlation network based on WGCNA method
     * 
     * 
@@ -93,6 +100,19 @@ declare namespace WGCNA {
      * + default value Is ``0.3``.
    */
    function interations(g: object, WGCNA: object, modules: object, threshold?: number): any;
+   /**
+    * load network graph from the WGCNA exportNetworkToCytoscape function exports
+    * 
+    * 
+     * @param edges -
+     * @param nodes -
+     * @param threshold -
+     * 
+     * + default value Is ``0``.
+     * @param prefix 
+     * + default value Is ``null``.
+   */
+   function load_TOM_graph(edges: string, nodes: string, threshold?: number, prefix?: string): object;
    module read {
       /**
        * load TOM module network nodes
