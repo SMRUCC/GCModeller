@@ -3,21 +3,21 @@ Imports Microsoft.VisualBasic.Data.IO.Xpt.Types
 
 Namespace Xpt
 
-    Public Class SASXportFileIterator
-        Inherits SASXportConverter
+    ''' <summary>
+    ''' SAS XPT file reader
+    ''' </summary>
+    Public Class SASXportFileIterator : Inherits SASXportConverter
 
-        Private crecord As IList(Of String) = Nothing
-        Private cPrimitiveRecord As IList(Of ReadstatValue) = Nothing
+        Private crecord As IEnumerable(Of Object)
+        Private cPrimitiveRecord As IList(Of ReadstatValue)
         Private crow As Byte() = Nothing
 
         Public Sub New(fileName As String)
             MyBase.New(fileName)
-            MyBase.init()
         End Sub
 
         Public Sub New([is] As Stream)
             MyBase.New([is])
-            MyBase.init()
         End Sub
 
         Public Sub New(fileName As String, offset As Integer)
@@ -29,7 +29,11 @@ Namespace Xpt
             Return Not MyBase.Done
         End Function
 
-        Public Overridable Function [next]() As IList(Of String)
+        ''' <summary>
+        ''' read the data frame line by line
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overridable Function [next]() As IEnumerable(Of Object)
             crecord = MyBase.Record
             cPrimitiveRecord = MyBase.PrimitiveRecord
             crow = MyBase.Row
@@ -48,20 +52,6 @@ Namespace Xpt
             [next]()
             Return crow
         End Function
-
-        Public Shared Sub Main(args As String())
-            Dim iterator As SASXportFileIterator = New SASXportFileIterator("/grid/data/xpt/test3.sasxpt")
-            While iterator.hasNext()
-                Dim row As IList(Of String) = iterator.next()
-            End While
-            Console.WriteLine("Total Rows: " & iterator.RowCount.ToString())
-            iterator.Dispose()
-
-            Dim cal As Date = New DateTime()
-            cal = New DateTime(1960, 1, 1)
-            cal.AddDays(19778)
-            Console.WriteLine(cal.ToString())
-        End Sub
     End Class
 
 End Namespace

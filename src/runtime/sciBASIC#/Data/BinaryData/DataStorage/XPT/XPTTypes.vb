@@ -24,6 +24,10 @@
         Public num4 As Integer
         Public num5 As Integer
         Public num6 As Integer
+
+        Public Overrides Function ToString() As String
+            Return name
+        End Function
     End Class
 
     Public Class XPTNameString
@@ -59,6 +63,10 @@
 
         ' size 18 bytes
         Public rest As String
+
+        Public Overrides Function ToString() As String
+            Return $"{nname} ({nlabel})"
+        End Function
     End Class
 
     Public Class XPTContext
@@ -80,9 +88,14 @@
         Public version As Integer
 
         Public variables As ReadStatVariable()
+
+        Public Overrides Function ToString() As String
+            Return $"version {version}"
+        End Function
     End Class
 
     Public Class TimeStamp
+
         Public tm_isdst As Integer = -1
         Public tm_mday As Short
         Public tm_mon As Short
@@ -90,6 +103,7 @@
         Public tm_hour As Short
         Public tm_min As Short
         Public tm_sec As Short
+
     End Class
 
     Public Class ReadStatVariable
@@ -117,6 +131,10 @@
         Public decimals As Integer
         Public skip As Integer
         Public index_after_skipping As Integer
+
+        Public Overrides Function ToString() As String
+            Return $"{name}({label}, {type.ToString})"
+        End Function
     End Class
 
     Public Class ReadstatMissingness
@@ -132,6 +150,10 @@
         Friend tag As Byte
         Friend is_system_missing As Integer
         Friend is_tagged_missing As Integer
+
+        Public Overrides Function ToString() As String
+            Return type.ToString
+        End Function
     End Class
 
     Public Class ReadstatLabelSet

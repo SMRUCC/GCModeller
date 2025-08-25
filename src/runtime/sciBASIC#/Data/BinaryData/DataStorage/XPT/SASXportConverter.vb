@@ -1,11 +1,14 @@
 ﻿Imports System.IO
+Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Data.IO.Xpt.Types
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 Imports std = System.Math
 
 Namespace Xpt
 
-    Public Class SASXportConverter
-        Implements IDisposable
+    Public Class SASXportConverter : Implements IDisposable
 
         Public Shared LINE_LEN As Integer = 80
 
@@ -13,9 +16,7 @@ Namespace Xpt
 
         Public Shared SAS_COLUMN_TYPE_CHR As Short = &H2
 
-        Protected Friend debugField As Boolean = False
         Protected Friend processBlankRecords As Boolean = False
-        Protected Friend doneField As Boolean = False
         Protected Friend convertDate9ToString As Boolean = True
         Protected Friend rawin As Stream
 
@@ -24,15 +25,8 @@ Namespace Xpt
 
         Protected Friend DUMMY_BUFFER As Byte() = New Byte(LINE_LEN - 1) {}
 
-        Protected Friend offsetField As Long = 0
         Protected Friend num_blank_rows As Integer = 0
-        Protected Friend rowCountField As Integer = 0
-
-        Protected Friend rowField As Byte() = Nothing
         Protected Friend blank_row As Byte() = Nothing
-
-        Protected Friend recordField As IList(Of String) = Nothing
-        Protected Friend primitiveRecordField As IList(Of ReadstatValue) = Nothing
 
         Public Sub New(fileName As String)
             Me.New(New FileStream(fileName, FileMode.Open, FileAccess.Read))
@@ -40,26 +34,27 @@ Namespace Xpt
 
         Public Sub New([in] As Stream)
             rawin = [in]
+            init()
         End Sub
 
-        Protected Friend Overridable Sub init()
+        Private Sub init()
             [in] = New StreamReader(rawin)
             ctx = New XPTContext()
             PrimitiveUtils.memset(blank_row, AscW(" "c), ctx.row_length)
             readMeta()
+            ' load the first record into memory
             readNextRecord()
         End Sub
 
-        Private Sub xport_read_record(record As Byte())
-            read_bytes(record, LINE_LEN)
+        Private Sub xport_read_record(<Out> ByRef record As Byte())
+            Call read_bytes(record, LINE_LEN)
         End Sub
 
         Private Function xport_read_header_record() As XPTHeader
-
-            Dim header As XPTHeader = New XPTHeader()
+            Dim header As New XPTHeader()
             Dim line As Byte() = createDefaultBuffer()
 
-            xport_read_record(line)
+            Call xport_read_record(line)
 
             Dim offset = 20
             header.name = IO.readString(line, offset, 8)
@@ -80,16 +75,15 @@ Namespace Xpt
         End Function
 
         Private Function xport_read_library_record() As XPTHeader
-
             Dim xrecord As XPTHeader = xport_read_header_record()
 
-            If "LIBRARY".Equals(xrecord.name, StringComparison.OrdinalIgnoreCase) Then
-                ctx.version = 5
-            ElseIf "LIBV8".Equals(xrecord.name, StringComparison.OrdinalIgnoreCase) Then
-                ctx.version = 8
-            Else
-                Throw New InvalidDataException("Unknows XPT File Version - " & ctx.version.ToString())
-            End If
+            Select Case UCase(xrecord.name)
+                Case "LIBRARY" : ctx.version = 5
+                Case "LIBV8" : ctx.version = 8
+                Case Else
+                    Throw New NotSupportedException($"Unknows XPT File XRecord Name - {xrecord.name}")
+            End Select
+
             Return xrecord
         End Function
 
@@ -107,10 +101,8 @@ Namespace Xpt
         End Sub
 
         Private Function xport_read_timestamp_record() As TimeStamp
-
             Dim line As Byte() = createDefaultBuffer()
-
-            Dim ts As TimeStamp = New TimeStamp()
+            Dim ts As New TimeStamp()
             Dim month As String
 
             xport_read_record(line)
@@ -128,12 +120,16 @@ Namespace Xpt
             offset += 3
             ts.tm_sec = Short.Parse(IO.readString(line, offset, 2))
             offset += 3
-            For i As Short = 0 To XPTTypes.XPORT_MONTHS.Length - 1
-                If XPTTypes.XPORT_MONTHS(i).Equals(month, StringComparison.OrdinalIgnoreCase) Then
-                    ts.tm_mon = i
-                    Exit For
-                End If
-            Next
+            ts.tm_mon = XPTTypes.XPORT_MONTHS.IndexOf(UCase(month))
+
+            If ts.tm_mon < 0 Then
+                Throw New InvalidDataException($"Invalid month name: {month}!")
+            Else
+                ' indexof [0-11]
+                ' add 1 convert to month [1-12]
+                ts.tm_mon += 1
+            End If
+
             If ts.tm_year < 60 Then
                 ts.tm_year += 2000
             ElseIf ts.tm_year < 100 Then
@@ -160,7 +156,6 @@ Namespace Xpt
         End Function
 
         Private Function xport_expect_header_record(v5_name As String, v8_name As String) As XPTHeader
-
             Dim xrecord As XPTHeader = xport_read_header_record()
 
             If ctx.version = 5 AndAlso Not v5_name.Equals(xrecord.name, StringComparison.OrdinalIgnoreCase) Then
@@ -173,27 +168,27 @@ Namespace Xpt
         End Function
 
         Private Sub xport_read_table_name_record()
-
             Dim line As Byte() = createDefaultBuffer()
-            xport_read_record(line)
+
+            Call xport_read_record(line)
 
             Dim dst = createBuffer(129)
             Dim src_len = If(ctx.version = 5, 8, 32)
-            ctx.table_name = IO.readString(dst, 8, src_len)
+            ctx.table_name = Strings.Trim(IO.readString(dst, 8, src_len)).Trim(ASCII.NUL, " "c)
         End Sub
 
         Private Sub xport_read_file_label_record()
-
             Dim line As Byte() = createDefaultBuffer()
-            xport_read_record(line)
+
+            Call xport_read_record(line)
 
             Dim dst = createBuffer(161)
             Dim src_len = 40
-            ctx.file_label = IO.readString(dst, 32, src_len)
+
+            ctx.file_label = Strings.Trim(IO.readString(dst, 32, src_len)).Trim(" "c, ASCII.NUL)
         End Sub
 
         Private Sub xport_read_namestr_header_record()
-
             Dim xrecord As XPTHeader = xport_read_header_record()
 
             If ctx.version = 5 AndAlso Not "NAMESTR".Equals(xrecord.name, StringComparison.OrdinalIgnoreCase) Then
@@ -207,11 +202,10 @@ Namespace Xpt
         End Sub
 
         Private Function xport_read_variables() As IList(Of XPTNameString)
-
-            Dim nstr As IList(Of XPTNameString) = New List(Of XPTNameString)()
+            Dim nstr As New List(Of XPTNameString)()
             Dim read = 0
-            For i = 0 To ctx.var_count - 1
 
+            For i = 0 To ctx.var_count - 1
                 Dim buffer = New Byte(NAMESTR_LEN - 1) {}
                 Dim bytes = read_bytes(buffer, NAMESTR_LEN)
                 read += bytes
@@ -235,10 +229,10 @@ Namespace Xpt
                 nstr.Add(namestr)
             Next
 
-            xport_skip_rest_of_record(read)
+            Call xport_skip_rest_of_record(read)
 
             If ctx.version = 5 Then
-                xport_read_obs_header_record()
+                Call xport_read_obs_header_record()
             Else
                 Dim xrecord As XPTHeader = xport_read_header_record()
                 ' void 
@@ -440,33 +434,30 @@ Namespace Xpt
             Return False
         End Function
 
-        Private Function read_bytes(buffer As Byte(), len As Integer) As Integer
+        Private Function read_bytes(<Out> ByRef buffer As Byte(), len As Integer) As Integer
             Dim off = len
+
             Try
-                [in].BaseStream.Read(buffer, 0, len)
-            Catch __unusedException1__ As Exception
-                Console.WriteLine("!!WARN!! Reached EOF before read_fully, Offset: " & offsetField.ToString())
+                Dim reads = [in].BaseStream.Read(buffer, 0, len)
+
+                ' EOF
+                If reads < len Then
+                    Return -1
+                End If
+            Catch ex As Exception
+                Call ("!!WARN!! Reached EOF before read_fully, Offset: " & Offset.ToString()).Warning
+                Call App.LogException(ex)
+
                 Return -1
             End Try
-            offsetField += off
+
+            _Offset += off
+
             Return off
         End Function
 
         Public Overridable Property Debug As Boolean
-            Get
-                Return debugField
-            End Get
-            Set(value As Boolean)
-                debugField = value
-            End Set
-        End Property
-
-
         Public Overridable ReadOnly Property Done As Boolean
-            Get
-                Return doneField
-            End Get
-        End Property
 
         Public Overridable ReadOnly Property MetaData As XPTContext
             Get
@@ -475,37 +466,15 @@ Namespace Xpt
         End Property
 
         Public Overridable ReadOnly Property Offset As Long
-            Get
-                Return offsetField
-            End Get
-        End Property
-
         Public Overridable ReadOnly Property Row As Byte()
-            Get
-                Return rowField
-            End Get
-        End Property
 
         Public Overridable ReadOnly Property RowCount As Integer
-            Get
-                Return rowCountField
-            End Get
-        End Property
 
-        Public Overridable ReadOnly Property Record As IList(Of String)
-            Get
-                Return recordField
-            End Get
-        End Property
-
+        Public Overridable ReadOnly Property Record As IList(Of Object)
         Public Overridable ReadOnly Property PrimitiveRecord As IList(Of ReadstatValue)
-            Get
-                Return primitiveRecordField
-            End Get
-        End Property
 
         Public Overridable Sub Dispose() Implements IDisposable.Dispose
-            doneField = True
+            _Done = True
             If [in] Is Nothing Then
                 Return
             End If
@@ -520,7 +489,7 @@ Namespace Xpt
                 len = std.Min(ctx.row_length, offset)
                 Dim read = read_bytes(DUMMY_BUFFER, len)
                 If read <= 0 Then
-                    doneField = True
+                    _Done = True
                     Dispose()
                     Exit Do
                 End If
@@ -529,26 +498,25 @@ Namespace Xpt
         End Sub
 
         Protected Friend Overridable Sub readNextRecord()
-
-            If doneField Then
+            If Done Then
                 Return
             End If
 
             While True
-                rowCountField += 1
-                Dim bytes_read = read_bytes(rowField, ctx.row_length)
+                _RowCount += 1
+                Dim bytes_read = read_bytes(Row, ctx.row_length)
                 If bytes_read < ctx.row_length Then
-                    doneField = True
+                    _Done = True
                     Exit While
                 End If
-                If isBlankRow(rowField) Then
+                If isBlankRow(Row) Then
                     num_blank_rows += 1
                     Continue While
                 Else
                     Exit While
                 End If
             End While
-            If doneField Then
+            If Done Then
                 Dispose()
                 Return
             End If
@@ -556,26 +524,27 @@ Namespace Xpt
                 While num_blank_rows > 0
                     processRecord(blank_row, ctx.row_length)
                     If Threading.Interlocked.Increment((ctx.parsed_row_count)) = ctx.row_limit Then
-                        doneField = True
+                        _Done = True
                         Throw New Exception("Invalid read situation.")
                     End If
                     num_blank_rows -= 1
                 End While
             End If
 
-            processRecord(rowField, ctx.row_length)
+            processRecord(Row, ctx.row_length)
+            ctx.parsed_row_count += 1
 
-            If Threading.Interlocked.Increment((ctx.parsed_row_count)) = ctx.row_limit Then
-                doneField = True
+            If ctx.parsed_row_count = ctx.row_limit Then
+                _Done = True
             End If
         End Sub
 
         Protected Friend Overridable Sub processRecord(row As Byte(), row_length As Integer)
-
             Dim pos = 0
             Dim [string] As String = Nothing
-            recordField = New List(Of String)()
-            primitiveRecordField = New List(Of ReadstatValue)()
+
+            _Record = New List(Of Object)()
+            _PrimitiveRecord = New List(Of ReadstatValue)()
 
             For i = 0 To ctx.var_count - 1
                 Dim variable = ctx.variables(i)
@@ -584,11 +553,11 @@ Namespace Xpt
 
                 If variable.type = ReadstatType.READSTAT_TYPE_STRING Then
                     [string] = IO.readString(row, pos, variable.storage_width)
-                    If debugField Then
+                    If Debug Then
                         Console.Write(" < " & [string] & " >, ")
                     End If
                     value.tvalue = [string]
-                    recordField.Add([string])
+                    Record.Add([string])
                 Else
                     Dim dval = 0.0R
                     If variable.storage_width <= XPTTypes.XPORT_MAX_DOUBLE_SIZE AndAlso variable.storage_width >= XPTTypes.XPORT_MIN_DOUBLE_SIZE Then
@@ -606,69 +575,64 @@ Namespace Xpt
                         End If
                     End If
                     value.value = dval
-                    Dim val As String = "" & dval.ToString()
+
                     If convertDate9ToString AndAlso dval <> 0 AndAlso variable.format.ToLower().Contains("date") Then
-                        val = XPTReaderUtils.convertSASDate9ToString(variable.format.ToLower(), dval)
+                        Call Record.Add(XPTReaderUtils.convertSASDate9ToString(variable.format.ToLower(), dval))
+                    Else
+                        Call Record.Add(dval)
                     End If
-                    recordField.Add(val)
-                    If debugField Then
+
+                    If Debug Then
                         Console.Write(value.value.ToString() & ", ")
                     End If
                 End If
-                primitiveRecordField.Add(value)
+                PrimitiveRecord.Add(value)
                 pos += variable.storage_width
             Next
-            If debugField Then
+            If Debug Then
                 Console.WriteLine()
             End If
         End Sub
 
         Public Overridable Sub readMeta()
-
             Dim header As XPTHeader = xport_read_library_record()
-            '  Console.WriteLine((new Gson()).toJson(header));
 
-            xport_skip_record()
+            Call VBDebugger.EchoLine(header.ToString)
+            Call xport_skip_record()
 
             Dim ts As TimeStamp = xport_read_timestamp_record()
-            '  Console.WriteLine((new Gson()).toJson(ts));
+
+            Call VBDebugger.EchoLine(ts.GetJson)
 
             Dim memberHeader = xport_expect_header_record("MEMBER", "MEMBV8")
-            ' Console.WriteLine((new Gson()).toJson(memberHeader));
+
+            Call VBDebugger.EchoLine(memberHeader.ToString)
 
             Dim descHeader = xport_expect_header_record("DSCRPTR", "DSCPTV8")
-            ' Console.WriteLine((new Gson()).toJson(descHeader));
+            Call VBDebugger.EchoLine(descHeader.ToString)
 
-            xport_read_table_name_record()
-
-            xport_read_file_label_record()
-
-            xport_read_namestr_header_record()
+            Call xport_read_table_name_record()
+            Call xport_read_file_label_record()
+            Call xport_read_namestr_header_record()
 
             Dim nstrs As IList(Of XPTNameString) = xport_read_variables()
-            '  Console.WriteLine((new Gson()).toJson(nstrs));
+            Dim i As i32 = 1
 
-            ' Console.WriteLine((new Gson()).toJson(ctx));
+            For Each var As XPTNameString In nstrs
+                Call VBDebugger.EchoLine($"#{++i}{vbTab}{var.ToString}")
+            Next
+
+            Call VBDebugger.EchoLine(ctx.ToString)
 
             If ctx.row_length = 0 Then
-                doneField = True
+                _Done = True
                 Dispose()
             Else
-                rowField = New Byte(ctx.row_length - 1) {}
+                _Row = New Byte(ctx.row_length - 1) {}
                 blank_row = New Byte(ctx.row_length - 1) {}
             End If
-        End Sub
 
-        Public Shared Sub Main(args As String())
-            Try
-                Dim converter As SASXportConverter = New SASXportConverter("/Users/ravi1/Downloads/test.sasxpt")
-                converter.init()
-                converter.Dispose()
-            Catch e As Exception
-                Console.WriteLine(e.ToString())
-                Console.Write(e.StackTrace)
-            End Try
+            Call VBDebugger.WaitOutput()
         End Sub
-
     End Class
 End Namespace
