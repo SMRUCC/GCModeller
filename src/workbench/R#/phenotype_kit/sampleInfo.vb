@@ -373,23 +373,31 @@ Module DEGSample
     ''' <summary>
     ''' create ``sample_info`` data table
     ''' </summary>
-    ''' <param name="ID"></param>
-    ''' <param name="sample_name"></param>
-    ''' <param name="sample_info"></param>
+    ''' <param name="ID">the sample id in the raw data files</param>
+    ''' <param name="sample_name">the sample name label for display, this character vector could be nothing, 
+    ''' then the generated sample display name will be replaced with the input sample id</param>
+    ''' <param name="sample_info">the sample group information.</param>
     ''' <returns></returns>
+    ''' <example>
+    ''' let group_vec = c("control","control","treat","control","treat","treat");
+    ''' let samples = sampleInfo(group_vec, group_vec);
+    ''' let analysis = make.analysis(samples, "control","treat");
+    ''' let deg = limma(x, analysis);
+    ''' 
+    ''' # view deg analysis result of control vs treat
+    ''' print(as.data.frame(deg));
+    ''' </example>
     <ExportAPI("sampleInfo")>
     <RApiReturn(GetType(SampleInfo))>
-    Public Function sampleInfoTable(ID As String(),
-                                    sample_name As String(),
-                                    sample_info As String(),
+    Public Function sampleInfoTable(ID As String(), sample_info As String(),
+                                    Optional sample_name As String() = Nothing,
                                     Optional color As String() = Nothing,
                                     Optional env As Environment = Nothing) As Object
 
-        If ID.IsNullOrEmpty OrElse
-            sample_info.IsNullOrEmpty OrElse
-            sample_name.IsNullOrEmpty Then
-
+        If ID.IsNullOrEmpty OrElse sample_info.IsNullOrEmpty Then
             Return Nothing
+        ElseIf sample_name.IsNullOrEmpty Then
+            sample_name = ID
         End If
 
         If ID.Length <> sample_name.Length Then
@@ -403,13 +411,7 @@ Module DEGSample
                 $"size of sample_info: {sample_info.Length}"}, env)
         End If
 
-        Dim get_group = Function(i As Integer)
-                            If sample_info.Length = 1 Then
-                                Return sample_info(Scan0)
-                            Else
-                                Return sample_info(i)
-                            End If
-                        End Function
+        Dim get_group = GetVectorElement.Create(Of String)(sample_info)
         Dim list As New List(Of SampleInfo)
 
         For i As Integer = 0 To ID.Length - 1
@@ -480,5 +482,22 @@ Module DEGSample
         Next
 
         Return sampleInfo
+    End Function
+
+    <ExportAPI("make.analysis")>
+    <RApiReturn(GetType(DataAnalysis))>
+    Public Function makeDataAnalysis(sampleinfo As SampleInfo(), control As String, treatment As String) As Object
+        sampleinfo = sampleinfo _
+            .Where(Function(si) si.sample_info = control OrElse si.sample_info = treatment) _
+            .OrderBy(Function(si)
+                         If si.sample_info = control Then
+                             Return 0
+                         Else
+                             Return 1
+                         End If
+                     End Function) _
+            .ToArray
+
+        Return New DataAnalysis(sampleinfo)
     End Function
 End Module

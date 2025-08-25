@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::e4e38aabd98e19e760767e65622e4480, R#\phenotype_kit\WGCNA.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 122
-    '    Code Lines: 52 (42.62%)
-    ' Comment Lines: 63 (51.64%)
-    '    - Xml Docs: 82.54%
-    ' 
-    '   Blank Lines: 7 (5.74%)
-    '     File Size: 7.23 KB
+' Summaries:
 
 
-    ' Module WGCNA
-    ' 
-    '     Function: applyModuleColors, readModules, readWeightMatrix, runAnalysis
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 122
+'    Code Lines: 52 (42.62%)
+' Comment Lines: 63 (51.64%)
+'    - Xml Docs: 82.54%
+' 
+'   Blank Lines: 7 (5.74%)
+'     File Size: 7.23 KB
+
+
+' Module WGCNA
+' 
+'     Function: applyModuleColors, readModules, readWeightMatrix, runAnalysis
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -55,6 +55,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
@@ -121,6 +122,13 @@ Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 <Package("WGCNA")>
 Module WGCNA
 
+    ''' <summary>
+    ''' load TOM module network nodes
+    ''' </summary>
+    ''' <param name="file">
+    ''' the TOM network nodes text file, should be a tsv file of the cytoscape network export result
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("read.modules")>
     Public Function readModules(file As String, Optional prefix$ = Nothing) As Object
         Return WGCNAModules _
@@ -138,9 +146,60 @@ Module WGCNA
                     End Function)
     End Function
 
-    <ExportAPI("read.weightMatrix")>
-    Public Function readWeightMatrix(file As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
-        Return FastImports(path:=file, threshold:=threshold, prefix:=prefix)
+    ''' <summary>
+    ''' read the TOM correlation network matrix file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="threshold"></param>
+    ''' <param name="prefix">
+    ''' a prefix to the fromNode and toNode id
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("read.weight_matrix")>
+    <RApiReturn(GetType(WGCNAWeight), GetType(DataMatrix))>
+    Public Function readWeightMatrix(file As String, Optional threshold As Double = 0, Optional prefix$ = Nothing, Optional as_matrix As Boolean = False) As Object
+        Dim wgcna As WGCNAWeight = FastImports(path:=file, threshold:=threshold, prefix:=prefix)
+
+        If as_matrix Then
+            Return wgcna.AsDataMatrix
+        Else
+            Return wgcna
+        End If
+    End Function
+
+    ''' <summary>
+    ''' load network graph from the WGCNA exportNetworkToCytoscape function exports
+    ''' </summary>
+    ''' <param name="edges"></param>
+    ''' <param name="nodes"></param>
+    ''' <param name="threshold"></param>
+    ''' <param name="prefix$"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("load_TOM_graph")>
+    <RApiReturn(GetType(NetworkGraph))>
+    Public Function LoadTOMModuleGraph_call(edges As String, nodes As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As NetworkGraph
+        Return LoadTOMModuleGraph(edges, nodes, threshold, prefix)
+    End Function
+
+    ''' <summary>
+    ''' export a dataframe of the node information with connectivity value 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    <ExportAPI("connectivity")>
+    Public Function connectivitySummary(x As NetworkGraph) As Object
+        Dim nodes As Node() = x.vertex.ToArray
+        Dim df As New dataframe With {
+            .rownames = nodes.Select(Function(v) v.label).ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call df.add("connectivity", From v As Node In nodes Select v.directedVertex.connectivity)
+        Call df.add("degree", From v As Node In nodes Select v.directedVertex.inDegree + v.directedVertex.outDegree)
+        Call df.add("module", From v As Node In nodes Select v!module)
+
+        Return df
     End Function
 
     <ExportAPI("applyModuleColors")>

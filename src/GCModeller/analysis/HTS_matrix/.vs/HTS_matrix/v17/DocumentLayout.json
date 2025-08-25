@@ -1,7 +1,36 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6BFB402C-2ADA-FCF5-E537-4C99075C3753}|HTS_matrix-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\limma\\limma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6BFB402C-2ADA-FCF5-E537-4C99075C3753}|HTS_matrix-netcore5.vbproj|solutionrelative:limma\\limma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{294B8C1B-898A-7580-9FC8-A60094B2EE14}|..\\..\\..\\workbench\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\dataanalysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{294B8C1B-898A-7580-9FC8-A60094B2EE14}|..\\..\\..\\workbench\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{294B8C1B-898A-7580-9FC8-A60094B2EE14}|..\\..\\..\\workbench\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\degmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{294B8C1B-898A-7580-9FC8-A60094B2EE14}|..\\..\\..\\workbench\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\ideg.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{294B8C1B-898A-7580-9FC8-A60094B2EE14}|..\\..\\..\\workbench\\modules\\ExperimentDesigner\\designer-netcore5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\experimentdesigner\\samplenames.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{81195B2C-F41C-92ED-3149-9B6BD2A7386C}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\stats-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\math.statistics\\hypothesistesting\\t-test\\ttest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\linear-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\datafittings\\linear\\leastsquares.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}|..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\linear-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\datafittings\\linear\\fitresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +38,99 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 10,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DataAnalysis.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "RelativeToolTip": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\DataAnalysis.vb",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAIwIsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-08-21T05:49:29.997Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DEGModel.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\DEGModel.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\DEGModel.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\DEGModel.vb",
+              "RelativeToolTip": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\DEGModel.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-08-21T05:57:35.18Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\Extensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-08-21T05:57:33.98Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Ideg.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Ideg.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\Ideg.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\Ideg.vb",
+              "RelativeToolTip": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\Ideg.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwDgAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-08-21T05:57:24.181Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SampleNames.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\SampleNames.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\SampleNames.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\ExperimentDesigner\\SampleNames.vb",
+              "RelativeToolTip": "..\\..\\..\\workbench\\modules\\ExperimentDesigner\\SampleNames.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-08-21T05:57:23.051Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Ttest.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\T-test\\Ttest.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\T-test\\Ttest.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\T-test\\Ttest.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\T-test\\Ttest.vb",
+              "ViewState": "AgIAAAkBAAAAAAAAAAAAACkBAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-08-21T05:53:42.429Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "FitResult.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\FitResult.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\FitResult.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\FitResult.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\FitResult.vb",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAqwFsAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-08-21T05:38:13.763Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -18,6 +138,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LeastSquares.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\LeastSquares.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\LeastSquares.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\LeastSquares.vb",
+              "RelativeToolTip": "..\\..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\DataFittings\\Linear\\LeastSquares.vb",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAAAFsAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-08-21T05:36:12.454Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Limma.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
+              "RelativeDocumentMoniker": "Limma\\Limma.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
+              "RelativeToolTip": "Limma\\Limma.vb",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAiwGAAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-08-21T05:23:10.189Z",
+              "EditorCaption": ""
             }
           ]
         },

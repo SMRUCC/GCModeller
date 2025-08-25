@@ -76,7 +76,31 @@ declare namespace report.utils {
    }
    module parse {
       /**
-        * @param default default value Is ``'red'``.
+       * Parse the kegg pathway node highlight information
+       * 
+       * 
+        * @param x should be a character string that contains the pathway nodes id and 
+        *  optional highligh color for make the kegg pathway map rendering.
+        *  
+        *  value should be in formats of:
+        *  
+        *      "K00001:blue;K00002:red;C00001:green"
+        *  
+        *  where the first part is the kegg id, the second part is the highlight color.
+        *  
+        *  or just a list of the kegg id without highlight color, such as:
+        *  
+        *      "K00001;K00002;C00001"
+        *  
+        *  The default color is "red" if the highlight color is not specified.
+        * @param default the default color for the hightlights
+        * 
+        * + default value Is ``'red'``.
+        * @return a tuple list that contains the highlight information, such as:
+        *  
+        *  ```r
+        *  list(K00001 = "blue", K00002 = "red", C00001 = "green");
+        *  ```
       */
       function highlight_tuples(x: string, default?: string): any;
    }

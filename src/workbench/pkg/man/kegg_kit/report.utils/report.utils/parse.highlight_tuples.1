@@ -1,10 +1,46 @@
 .\" man page create by R# package system.
 .TH REPORT.UTILS 1 2000-Jan "parse.highlight_tuples" "parse.highlight_tuples"
 .SH NAME
-parse.highlight_tuples \- 
+parse.highlight_tuples \- Parse the kegg pathway node highlight information
 .SH SYNOPSIS
 \fIparse.highlight_tuples(\fBx\fR as string, 
 \fBdefault\fR as string = "red");\fR
+.SH DESCRIPTION
+.PP
+Parse the kegg pathway node highlight information
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- 
+ should be a character string that contains the pathway nodes id and 
+ optional highligh color for make the kegg pathway map rendering.
+ 
+ value should be in formats of:
+ 
+     "K00001:blue;K00002:red;C00001:green"
+ 
+ where the first part is the kegg id, the second part is the highlight color.
+ 
+ or just a list of the kegg id without highlight color, such as:
+ 
+     "K00001;K00002;C00001"
+ 
+ The default color is "red" if the highlight color is not specified.
+. 
+.PP
+.PP
+\fBdefault\fB \fR\- 
+ the default color for the hightlights
+. 
+.PP
+.SH VALUE
+.PP
+a tuple list that contains the highlight information, such as:
+ 
+ \fBr
+ list(K00001 = "blue", K00002 = "red", C00001 = "green");
+ \fR`
+.PP
 .SH SEE ALSO
 report.utils
 .SH FILES

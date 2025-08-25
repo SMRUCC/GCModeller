@@ -1,62 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::0bee8d19a6ad716bce7c943ba2b05aae, analysis\Microarray\Enrichment\KOBAS\EnrichmentTerm.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 76
-    '    Code Lines: 26 (34.21%)
-    ' Comment Lines: 39 (51.32%)
-    '    - Xml Docs: 94.87%
-    ' 
-    '   Blank Lines: 11 (14.47%)
-    '     File Size: 2.52 KB
+' Summaries:
 
 
-    '     Class EnrichmentTerm
-    ' 
-    '         Properties: Backgrounds, CorrectedPvalue, Database, ID, Input
-    '                     link, number, ORF, Pvalue, Term
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 76
+'    Code Lines: 26 (34.21%)
+' Comment Lines: 39 (51.32%)
+'    - Xml Docs: 94.87%
+' 
+'   Blank Lines: 11 (14.47%)
+'     File Size: 2.52 KB
+
+
+'     Class EnrichmentTerm
+' 
+'         Properties: Backgrounds, CorrectedPvalue, Database, ID, Input
+'                     link, number, ORF, Pvalue, Term
+' 
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Math.Statistics
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace KOBAS
@@ -69,6 +70,7 @@ Namespace KOBAS
         Implements IGoTermEnrichment
         Implements IKEGGTerm
         Implements INamedValue
+        Implements IStatPvalue
 
         ''' <summary>
         ''' #Term 
@@ -104,7 +106,7 @@ Namespace KOBAS
         ''' P-Value
         ''' </summary>
         ''' <returns></returns>
-        <Column("P-Value")> Public Property Pvalue As Double Implements IGoTermEnrichment.Pvalue, IKEGGTerm.Pvalue
+        <Column("P-Value")> Public Property Pvalue As Double Implements IGoTermEnrichment.Pvalue, IKEGGTerm.Pvalue, IStatPvalue.pValue
 
         ''' <summary>
         ''' Corrected P-Value

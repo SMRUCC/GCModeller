@@ -197,6 +197,7 @@ Namespace CatalogProfiling
 
             ' the empty profile category should be removes too
             ' when do data visualization plot
+            profile = profile.ImputeMissing
             profile = New CatalogProfiles With {
                 .catalogs = profile.catalogs _
                     .Where(Function(c) Not c.Value.is_empty) _
@@ -272,6 +273,7 @@ Namespace CatalogProfiling
                                      disableLabelColor As Boolean,
                                      valueFormat$,
                                      labelTrimLength%)
+
             Dim css As CSSEnvirnment = g.LoadEnvironment
             ' 这里是大标签的字符串向量
             Dim classes$() = profile.Keys.ToArray
@@ -372,7 +374,7 @@ Namespace CatalogProfiling
                     Dim color As New SolidBrush(colors.GetColor(term))
                     Dim penColor As Color = color.Color Or grayColor
                     Dim linePen As New Pen(penColor, 2) With {
-                        .DashStyle = DashStyle.Dot
+                        .DashStyle = DashStyle.Dash
                     }
                     Dim pos As PointF
                     Dim label$

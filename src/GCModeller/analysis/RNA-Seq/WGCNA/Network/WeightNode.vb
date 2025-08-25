@@ -66,11 +66,11 @@ Namespace Network
     Public Class Weight : Implements IInteraction
 
         <Column("fromNode")>
-        Public Property FromNode As String Implements IInteraction.source
+        Public Property fromNode As String Implements IInteraction.source
         <Column("toNode")>
-        Public Property ToNode As String Implements IInteraction.target
+        Public Property toNode As String Implements IInteraction.target
         <Column("weight")>
-        Public Property Weight As Double
+        Public Property weight As Double
         Public Property direction As String
         Public Property fromAltName As String
         Public Property toAltName As String
@@ -111,5 +111,13 @@ Namespace Network
                           Select item).ToArray
             Return LQuery
         End Function
+
+        Public Shared Narrowing Operator CType(node As Weight) As Double
+            If node Is Nothing Then
+                Return 0
+            Else
+                Return node.weight
+            End If
+        End Operator
     End Class
 End Namespace

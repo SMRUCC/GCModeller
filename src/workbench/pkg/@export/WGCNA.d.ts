@@ -67,6 +67,13 @@ declare namespace WGCNA {
    */
    function applyModuleColors(g: object, modules: object): any;
    /**
+    * export a dataframe of the node information with connectivity value
+    * 
+    * 
+     * @param x -
+   */
+   function connectivity(x: object): any;
+   /**
     * Create correlation network based on WGCNA method
     * 
     * 
@@ -93,16 +100,44 @@ declare namespace WGCNA {
      * + default value Is ``0.3``.
    */
    function interations(g: object, WGCNA: object, modules: object, threshold?: number): any;
+   /**
+    * load network graph from the WGCNA exportNetworkToCytoscape function exports
+    * 
+    * 
+     * @param edges -
+     * @param nodes -
+     * @param threshold -
+     * 
+     * + default value Is ``0``.
+     * @param prefix 
+     * + default value Is ``null``.
+   */
+   function load_TOM_graph(edges: string, nodes: string, threshold?: number, prefix?: string): object;
    module read {
       /**
-        * @param prefix default value Is ``null``.
+       * load TOM module network nodes
+       * 
+       * 
+        * @param file the TOM network nodes text file, should be a tsv file of the cytoscape network export result
+        * @param prefix 
+        * + default value Is ``null``.
       */
       function modules(file: string, prefix?: string): any;
       /**
-        * @param threshold default value Is ``0``.
-        * @param prefix default value Is ``null``.
+       * read the TOM correlation network matrix file
+       * 
+       * 
+        * @param file -
+        * @param threshold -
+        * 
+        * + default value Is ``0``.
+        * @param prefix a prefix to the fromNode and toNode id
+        * 
+        * + default value Is ``null``.
+        * @param as_matrix 
+        * + default value Is ``false``.
       */
-      function weightMatrix(file: string, threshold?: number, prefix?: string): object;
+      function weight_matrix(file: string, threshold?: number, prefix?: string, as_matrix?: boolean): object|object;
    }
    /**
     * filter regulation network by WGCNA result weights
