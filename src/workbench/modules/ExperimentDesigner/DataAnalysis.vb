@@ -167,4 +167,14 @@ Public Class DataGroup : Implements INamedValue
         Next
     End Function
 
+    Public Shared Function NameGroups(samples As IEnumerable(Of SampleInfo)) As Dictionary(Of String, String())
+        Return samples _
+            .GroupBy(Function(s) s.sample_info) _
+            .ToDictionary(Function(g) g.Key,
+                          Function(g)
+                              Return g.Select(Function(s) s.ID).ToArray
+                          End Function)
+    End Function
+
+
 End Class

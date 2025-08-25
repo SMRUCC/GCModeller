@@ -425,27 +425,14 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     ''' <param name="matrix"></param>
     ''' <param name="sampleInfo"></param>
     ''' <returns></returns>
-    Public Shared Function MatrixAverage(matrix As Matrix, sampleInfo As SampleInfo()) As Matrix
-        Dim sampleIndex As Index(Of String) = matrix.sampleID
-        Dim groups As NamedCollection(Of Integer)() = sampleInfo _
-            .GroupBy(Function(a) a.sample_info) _
-            .Select(Function(g)
-                        Return New NamedCollection(Of Integer) With {
-                            .name = g.Key,
-                            .value = g _
-                                .Select(Function(sample)
-                                            Return sampleIndex.IndexOf(sample.ID)
-                                        End Function) _
-                                .ToArray
-                        }
-                    End Function) _
-            .ToArray
+    Public Shared Function MatrixAverage(matrix As Matrix, sampleInfo As SampleInfo(), Optional strict As Boolean = True) As Matrix
+        Dim groups As Dictionary(Of String, Integer()) = matrix.sampleID.GroupIndexing(sampleInfo, strict)
         Dim genes As DataFrameRow() = matrix.expression _
             .Select(Function(g)
                         Dim mean As Double() = groups _
                             .Select(Function(group)
                                         Return Aggregate index As Integer
-                                               In group
+                                               In group.Value
                                                Let x As Double = g.experiments(index)
                                                Into Average(x)
                                     End Function) _
@@ -459,7 +446,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
             .ToArray
 
         Return New Matrix With {
-            .sampleID = groups.Keys,
+            .sampleID = groups.Keys.ToArray,
             .expression = genes,
             .tag = $"average({matrix.tag})"
         }

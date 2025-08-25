@@ -53,4 +53,6 @@
 
 Public Class Time_series : Inherits SampleInfo
 
+    Public Property TimePoint As String
+
 End Class

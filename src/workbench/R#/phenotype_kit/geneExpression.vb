@@ -918,6 +918,9 @@ Module geneExpression
     ''' </summary>
     ''' <param name="matrix">a gene expression matrix</param>
     ''' <param name="sampleinfo">The sample group data</param>
+    ''' <param name="strict">
+    ''' will try to ignores of the missing sample if strict option is off.
+    ''' </param>
     ''' <returns>
     ''' this function return value is determined based on the sampleinfo parameter:
     ''' 
@@ -926,14 +929,17 @@ Module geneExpression
     ''' </returns>
     <ExportAPI("average")>
     <RApiReturn(GetType(Matrix), GetType(Double))>
-    Public Function average(matrix As Matrix, Optional sampleinfo As SampleInfo() = Nothing) As Object
+    Public Function average(matrix As Matrix,
+                            Optional sampleinfo As SampleInfo() = Nothing,
+                            Optional strict As Boolean = True) As Object
+
         If sampleinfo.IsNullOrEmpty Then
             If Not sampleinfo Is Nothing Then
                 Call "the provided sample information is not nothing, but collection is empty. numeric vector of average for each gene expression will be returns.".Warning
             End If
             Return matrix.expression.Select(Function(v) v.Average).ToArray
         Else
-            Return Matrix.MatrixAverage(matrix, sampleinfo)
+            Return Matrix.MatrixAverage(matrix, sampleinfo, strict:=strict)
         End If
     End Function
 

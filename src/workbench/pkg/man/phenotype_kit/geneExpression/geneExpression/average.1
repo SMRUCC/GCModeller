@@ -4,7 +4,8 @@
 average \- calculate average value of the gene expression for
 .SH SYNOPSIS
 \fIaverage(\fBmatrix\fR as <generic> Matrix, 
-\fBsampleinfo\fR as <generic> SampleInfo[] = \fB<NULL>\fR);\fR
+\fBsampleinfo\fR as <generic> SampleInfo[] = \fB<NULL>\fR, 
+\fBstrict\fR as boolean = TRUE);\fR
 .SH DESCRIPTION
 .PP
 calculate average value of the gene expression for
@@ -20,6 +21,11 @@ calculate average value of the gene expression for
 .PP
 .PP
 \fBsampleinfo\fB \fR\- The sample group data. 
+.PP
+.PP
+\fBstrict\fB \fR\- 
+ will try to ignores of the missing sample if strict option is off.
+. 
 .PP
 .SH VALUE
 .PP
