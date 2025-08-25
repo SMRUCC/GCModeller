@@ -861,14 +861,17 @@ Module geneExpression
     ''' </returns>
     <ExportAPI("average")>
     <RApiReturn(GetType(Matrix), GetType(Double))>
-    Public Function average(matrix As Matrix, Optional sampleinfo As SampleInfo() = Nothing) As Object
+    Public Function average(matrix As Matrix,
+                            Optional sampleinfo As SampleInfo() = Nothing,
+                            Optional strict As Boolean = True) As Object
+
         If sampleinfo.IsNullOrEmpty Then
             If Not sampleinfo Is Nothing Then
                 Call "the provided sample information is not nothing, but collection is empty. numeric vector of average for each gene expression will be returns.".Warning
             End If
             Return matrix.expression.Select(Function(v) v.Average).ToArray
         Else
-            Return Matrix.MatrixAverage(matrix, sampleinfo)
+            Return Matrix.MatrixAverage(matrix, sampleinfo, strict:=strict)
         End If
     End Function
 
