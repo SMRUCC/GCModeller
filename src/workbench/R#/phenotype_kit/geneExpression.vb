@@ -853,6 +853,9 @@ Module geneExpression
     ''' </summary>
     ''' <param name="matrix">a gene expression matrix</param>
     ''' <param name="sampleinfo">The sample group data</param>
+    ''' <param name="strict">
+    ''' will try to ignores of the missing sample if strict option is off.
+    ''' </param>
     ''' <returns>
     ''' this function return value is determined based on the sampleinfo parameter:
     ''' 
