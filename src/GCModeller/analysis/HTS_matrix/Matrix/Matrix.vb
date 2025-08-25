@@ -426,53 +426,13 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     ''' <param name="sampleInfo"></param>
     ''' <returns></returns>
     Public Shared Function MatrixAverage(matrix As Matrix, sampleInfo As SampleInfo(), Optional strict As Boolean = True) As Matrix
-        Dim sampleIndex As Index(Of String) = matrix.sampleID
-        Dim nameGroups = DataGroup.NameGroups(sampleInfo)
-        Dim groups As NamedCollection(Of Integer)() = nameGroups _
-            .Select(Function(g)
-                        Return New NamedCollection(Of Integer) With {
-                            .name = g.Key,
-                            .value = g.Value _
-                                .Select(Function(sample)
-                                            Return sampleIndex.IndexOf(sample)
-                                        End Function) _
-                                .ToArray
-                        }
-                    End Function) _
-            .ToArray
-        ' check of missing
-        Dim missing = groups _
-            .Select(Function(g)
-                        Dim idset As String() = nameGroups(g.name)
-                        Dim miss As New List(Of String)
-
-                        For i As Integer = 0 To idset.Length - 1
-                            If g(i) < 0 Then
-                                Call miss.Add(idset(i))
-                            End If
-                        Next
-
-                        If miss.Any Then
-                            Return New NamedCollection(Of String)(g.name, miss)
-                        Else
-                            Return Nothing
-                        End If
-                    End Function) _
-            .Where(Function(g) Not g.IsEmpty) _
-            .ToArray
-
-        If missing.Any Then
-            If strict Then
-
-            End If
-        End If
-
+        Dim groups As Dictionary(Of String, Integer()) = matrix.sampleID.GroupIndexing(sampleInfo, strict)
         Dim genes As DataFrameRow() = matrix.expression _
             .Select(Function(g)
                         Dim mean As Double() = groups _
                             .Select(Function(group)
                                         Return Aggregate index As Integer
-                                               In group
+                                               In group.Value
                                                Let x As Double = g.experiments(index)
                                                Into Average(x)
                                     End Function) _
@@ -486,7 +446,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
             .ToArray
 
         Return New Matrix With {
-            .sampleID = groups.Keys,
+            .sampleID = groups.Keys.ToArray,
             .expression = genes,
             .tag = $"average({matrix.tag})"
         }
