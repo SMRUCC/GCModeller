@@ -178,9 +178,11 @@ Public Class VolcanoMultiple : Inherits Plot
             left += delta_with
         Next
 
-        Dim legendUp As New LegendObject With {.color = "red", .fontstyle = theme.legendLabelCSS, .style = LegendStyles.Circle, .title = "Sig.up"}
-        Dim legendDown As New LegendObject With {.color = "blue", .fontstyle = theme.legendLabelCSS, .style = LegendStyles.Circle, .title = "Sig.down"}
+        If theme.drawLegend Then
+            Dim legendUp As New LegendObject With {.color = "red", .fontstyle = theme.legendLabelCSS, .style = LegendStyles.Circle, .title = "Sig.up"}
+            Dim legendDown As New LegendObject With {.color = "blue", .fontstyle = theme.legendLabelCSS, .style = LegendStyles.Circle, .title = "Sig.down"}
 
-        Call DrawLegends(g, {legendUp, legendDown}, False, canvas)
+            Call DrawLegends(g, {legendUp, legendDown}, False, canvas)
+        End If
     End Sub
 End Class
