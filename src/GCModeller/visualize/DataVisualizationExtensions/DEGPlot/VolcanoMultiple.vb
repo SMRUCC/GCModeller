@@ -136,8 +136,13 @@ Public Class VolcanoMultiple : Inherits Plot
                 .Take(topN) _
                 .Keys _
                 .Indexing
+            Dim maxLogfcUp As Double = group.Max(Function(a) a.logFC)
+            Dim maxlogfcDown As Double = std.Abs(group.Min(Function(a) a.logFC))
 
             Call g.DrawLine(lineEdge, New PointF(left, plotRect.Top), New PointF(left, plotRect.Bottom))
+
+            Call g.FillRectangle(Brushes.LightGray, New RectangleF(left - halfWidth, upAxis(maxLogFC), width, zero - upAxis(maxLogFC)))
+            Call g.FillRectangle(Brushes.LightGray, New RectangleF(left - halfWidth, downAxis(maxlogfcDown), width, downAxis(maxlogfcDown) - zero))
 
             ' draw non-deg first
             For Each gene As DEGModel In group.OrderBy(Function(gi) If(gi.class = deg_class, 1, 0))
@@ -145,17 +150,18 @@ Public Class VolcanoMultiple : Inherits Plot
                 Dim x As Double = If(randf.NextDouble > 0.5, 1, -1) * maxoffset + left
                 Dim y As Double = If(gene.logFC > 0, upAxis, downAxis)(std.Abs(gene.logFC))
                 Dim sign As Double = If(gene.logFC > 0, 1, -1)
+                Dim yi As Double = zero + sign * y
 
                 If gene.class <> deg_class Then
-                    Call g.DrawCircle(New PointF(x, zero + sign * y), radius, non_deg)
+                    Call g.DrawCircle(New PointF(x, yi), radius, non_deg)
                 ElseIf gene.logFC > 0 Then
-                    Call g.DrawCircle(New PointF(x, zero + sign * y), radius, up_deg)
+                    Call g.DrawCircle(New PointF(x, yi), radius, up_deg)
                 Else
-                    Call g.DrawCircle(New PointF(x, zero + sign * y), radius, down_deg)
+                    Call g.DrawCircle(New PointF(x, yi), radius, down_deg)
                 End If
 
                 If theme.drawLabels AndAlso gene.label Like top_degs Then
-                    Call g.DrawString(gene.label, labelFont, Brushes.Black, New PointF(x, zero + sign * y))
+                    Call g.DrawString(gene.label, labelFont, Brushes.Black, New PointF(x, yi + If(gene.logFC > 0, fheight, -fheight)))
                 End If
             Next
 

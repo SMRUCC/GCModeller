@@ -303,6 +303,7 @@ Module visualPlot
                                             Optional point_size As Integer = 5,
                                             Optional deg_class As String = "sig",
                                             Optional draw_label As Boolean = True,
+                                            Optional label_css As String = "font-style: normal; font-size: 18; font-family: " & FontFace.BookmanOldStyle & ";",
                                             Optional dpi As Integer = 100,
                                             Optional env As Environment = Nothing) As Object
 
@@ -328,7 +329,8 @@ Module visualPlot
             .padding = padding_str,
             .background = bg_str,
             .pointSize = point_size,
-            .drawLabels = draw_label
+            .drawLabels = draw_label,
+            .tagCSS = label_css
         }
         Dim app As New VolcanoMultiple(multiple, deg_class, theme)
         Return app.Plot(size_str, dpi, driver:=env.getDriver)
