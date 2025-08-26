@@ -127,7 +127,8 @@ Public Class VolcanoMultiple : Inherits Plot
         Call g.DrawLine(xAxisLine, New PointF(plotRect.Left, zero), New PointF(plotRect.Right, zero))
 
         For Each group As NamedCollection(Of DEGModel) In TqdmWrapper.Wrap(compares)
-            Dim width As Double = If(countWidth, plotRect.Width * std.Log(group.Count(Function(e) e.class = deg_class) + 1) / sumAll, meanWidth)
+            Dim delta_with = If(countWidth, plotRect.Width * std.Log(group.Count(Function(e) e.class = deg_class) + 1) / sumAll, meanWidth)
+            Dim width As Double = delta_with * 0.8
             Dim maxlogp As Double = std.Log(group.Max(Function(e) e.nLog10p) + 1)
             Dim halfWidth As Double = width / 2
             Dim top_degs = group _
@@ -141,8 +142,8 @@ Public Class VolcanoMultiple : Inherits Plot
 
             Call g.DrawLine(lineEdge, New PointF(left, plotRect.Top), New PointF(left, plotRect.Bottom))
 
-            Call g.FillRectangle(Brushes.LightGray, New RectangleF(left - halfWidth, upAxis(maxLogFC), width, zero - upAxis(maxLogFC)))
-            Call g.FillRectangle(Brushes.LightGray, New RectangleF(left - halfWidth, downAxis(maxlogfcDown), width, downAxis(maxlogfcDown) - zero))
+            Call g.FillRectangle(Brushes.LightGray, New RectangleF(left - halfWidth, zero - upAxis(maxLogfcUp), width, upAxis(maxLogfcUp)))
+            Call g.FillRectangle(Brushes.LightGray, New RectangleF(left - halfWidth, zero, width, downAxis(maxlogfcDown)))
 
             ' draw non-deg first
             For Each gene As DEGModel In group.OrderBy(Function(gi) If(gi.class = deg_class, 1, 0))
@@ -169,7 +170,7 @@ Public Class VolcanoMultiple : Inherits Plot
                 Call g.DrawString(group.name, axisFont, Brushes.Black, New PointF(left, plotRect.Bottom + fheight))
             End If
 
-            left += width
+            left += delta_with
         Next
     End Sub
 End Class
