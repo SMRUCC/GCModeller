@@ -131,7 +131,7 @@ Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
 Module visualPlot
 
     Sub Main()
-        Call RInternal.generic.add("plot", GetType(ExpressionPattern), AddressOf Plot)
+        Call RInternal.generic.add("plot", GetType(ExpressionPattern), AddressOf PlotCMeansPatterns)
         Call RInternal.generic.add("plot", GetType(CatalogProfiles), AddressOf CategoryProfilePlots)
         Call RInternal.generic.add("plot", GetType(GSVADiff()), AddressOf plotGSVA)
     End Sub
@@ -891,7 +891,7 @@ Module visualPlot
         }
     End Function
 
-    Private Function Plot(matrix As ExpressionPattern, args As list, env As Environment) As Object
+    Private Function PlotCMeansPatterns(matrix As ExpressionPattern, args As list, env As Environment) As Object
         Dim type As String = args.getValue(Of String)("type", env, "patterns")
         Dim size As String = InteropArgumentHelper.getSize(args!size, env, "2400,2700")
         Dim padding As String = InteropArgumentHelper.getPadding(args!padding, g.DefaultLargerPadding)
