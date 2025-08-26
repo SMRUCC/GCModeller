@@ -107,13 +107,13 @@ Public Module MetabolicComplementation
         ' 在微生物组的营养互补竞争网络之中
         ' 节点为微生物的基因组编号
         ' 链接的边为营养物关系
-        Call "Fetch UniProt reference genome model data...".__DEBUG_ECHO
+        Call "Fetch UniProt reference genome model data...".debug
         Call graph.FetchModels(metagenome, reactions)
         Call graph.RenderColors
 
         ' 在构建完了所有的基因组的代谢网络的输入和输出端点之后
         ' 开始装配营养互补和竞争网络
-        Call "Link microbiome metabolic network...".__DEBUG_ECHO
+        Call "Link microbiome metabolic network...".debug
         Call graph.linkNodes
 
         Return graph
@@ -175,7 +175,7 @@ Public Module MetabolicComplementation
                     .GetJson
             End With
 
-            Call genome.ToString.__INFO_ECHO
+            Call genome.ToString.info
         Next
     End Sub
 

@@ -160,7 +160,7 @@ Namespace Engine
             ' 达到无法执行转录过程反应的缺失突变的效果
             For Each geneTemplateId As String In deletions.SafeQuery
                 Call core.m_massIndex(geneTemplateId).reset(0)
-                Call $"Deletes '{geneTemplateId}'...".__INFO_ECHO
+                Call $"Deletes '{geneTemplateId}'...".info
             Next
 
             Return Me

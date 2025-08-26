@@ -167,7 +167,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function TryParse(path As String, Optional encoding As Encoding = Nothing) As v228
-            Call "Regular Expression parsing blast output...".__DEBUG_ECHO
+            Call "Regular Expression parsing blast output...".debug
 
             If encoding Is Nothing Then
                 encoding = Encoding.Default
@@ -187,7 +187,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         Private Function __parsingInner(source As String, Path As String) As v228
             Dim lstQuery As String() = __queryParser(source)
 
-            Call "[Parsing Job Done!]".__DEBUG_ECHO
+            Call "[Parsing Job Done!]".debug
 
             Dim Sw As Stopwatch = Stopwatch.StartNew
             Dim parallel As Boolean
@@ -205,7 +205,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 .Database = ParseDbName(source)
             }
 
-            Call $"BLASTOutput file loaded: {Sw.ElapsedMilliseconds}ms".__DEBUG_ECHO
+            Call $"BLASTOutput file loaded: {Sw.ElapsedMilliseconds}ms".debug
 
             Return BLASTOutput
         End Function
@@ -274,7 +274,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         Private Function __tryParseBlastnOutput(sourceText As String, LogFile As String) As v228
             Dim Sections As String() = __queryParser(sourceText)
 
-            Call "Parsing job done!".__DEBUG_ECHO
+            Call "Parsing job done!".debug
 
             Dim Sw As Stopwatch = Stopwatch.StartNew
             Dim parallel As Boolean = True
@@ -300,7 +300,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         Const BLAST_QUERY_HIT_SECTION As String = "Query=.+?Effective search space used: \d+"
 
         Private Function __queryParser(source As String) As String()
-            Call $"Regular Expression working on the query parser => {source.Length} chars.... this may takes a while.....".__DEBUG_ECHO
+            Call $"Regular Expression working on the query parser => {source.Length} chars.... this may takes a while.....".debug
             Dim LQuery = Regex.Matches(source, BLAST_QUERY_HIT_SECTION, RegexICSng).ToArray
             Return LQuery
         End Function
@@ -325,7 +325,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim parser As QueryParser = measureParser(path = path.Value.FixPath)
             Dim readsBuffer As IEnumerable(Of String) = doLoadDataInternal(path, CHUNK_SIZE, encoding Or DefaultEncoding)
 
-            Call $"Open file handle {path.Value.ToFileURL} for data loading...".__DEBUG_ECHO
+            Call $"Open file handle {path.Value.ToFileURL} for data loading...".debug
 
             Dim q, s As TextGrepMethod
 
@@ -362,13 +362,13 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim parser As QueryParser = measureParser(path)
             Dim readsBuffer As IEnumerable(Of String) = doLoadDataInternal(path, CHUNK_SIZE, encoding Or DefaultEncoding)
 
-            Call $"Open file handle {path.ToFileURL} for data loading...".__DEBUG_ECHO
+            Call $"Open file handle {path.ToFileURL} for data loading...".debug
             Call (From line As String In readsBuffer Select __blockWorker(line, transform, parser, grep)).ToArray
         End Sub
 
         Private Function __blockWorker(queryBlocks As String, transform As Action(Of Query()), parser As QueryParser, grep As (q$, s$)) As Boolean
             Dim queries As String() = __queryParser(queryBlocks.Replace(ASCII.NUL, " "c))
-            Call ($"[Parsing Job Done!]  ==> {queries.Length} Queries..." & vbCrLf & vbTab & vbTab & "Start to loading blast query hits data...").__DEBUG_ECHO
+            Call ($"[Parsing Job Done!]  ==> {queries.Length} Queries..." & vbCrLf & vbTab & vbTab & "Start to loading blast query hits data...").debug
             Dim LQuery = (From x As String In queries.AsParallel Select parser(x)).ToArray
             Dim grepq As TextGrepScriptEngine = TextGrepScriptEngine.Compile(grep.q)
             Dim greps As TextGrepScriptEngine = TextGrepScriptEngine.Compile(grep.s)
@@ -389,7 +389,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         <Extension>
         Private Function __blockWorker(queryBlocks$, transform As Action(Of Query), parser As QueryParser, grep As (q As TextGrepMethod, s As TextGrepMethod)) As Boolean
             Dim queries As String() = __queryParser(queryBlocks.Replace(ASCII.NUL, " "c))
-            Call ($"[Parsing Job Done!]  ==> {queries.Length} Queries..." & vbCrLf & vbTab & vbTab & "Start to loading blast query hits data...").__DEBUG_ECHO
+            Call ($"[Parsing Job Done!]  ==> {queries.Length} Queries..." & vbCrLf & vbTab & vbTab & "Start to loading blast query hits data...").debug
             Dim LQuery As Query() = queries _
                 .AsParallel _
                 .Select(Function(s) parser(s)) _
@@ -438,7 +438,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <remarks></remarks>
         Private Function __tryParseUltraLarge(path As String, CHUNK_SIZE As Long, Encoding As Encoding) As v228
             Dim readsBuffer As IEnumerable(Of String) = doLoadDataInternal(path, CHUNK_SIZE, Encoding)
-            Call "[Loading Job Done!] Start to regex parsing!".__DEBUG_ECHO
+            Call "[Loading Job Done!] Start to regex parsing!".debug
 
             ' The regular expression parsing function just single thread, here using parallel to parsing 
             ' the cache data can speed up the regular expression parsing job when dealing with the ultra 
@@ -449,7 +449,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                                                      Select __queryParser(strData)).MatrixToUltraLargeVector
 
             Call ($"[Parsing Job Done!]  ==> {sections.Count} Queries..." & vbCrLf & vbTab & vbTab &
-                "Start to loading blast query hits data...").__DEBUG_ECHO
+                "Start to loading blast query hits data...").debug
 
             Dim Sw As Stopwatch = Stopwatch.StartNew
             Dim queryParser As QueryParser = measureParser(path)
@@ -463,7 +463,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 .Queries = LQuery
             }
 
-            Call $"BLASTOutput file loaded: {Sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
+            Call $"BLASTOutput file loaded: {Sw.ElapsedMilliseconds}ms...".debug
 
             Return BLASTOutput
         End Function
@@ -473,7 +473,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim LastIndex As New StringBuilder '(capacity:=Integer.MaxValue)'StringBuilder不能够太大，会出现内存溢出的错误
             Dim bufLength& = FileIO.FileSystem.GetFileInfo(path).Length
 
-            Call $"[{NameOf(bufLength)}:={bufLength} bits]".__DEBUG_ECHO
+            Call $"[{NameOf(bufLength)}:={bufLength} bits]".debug
 
             Using textReader As IO.FileStream = New IO.FileStream(path, IO.FileMode.Open)
                 Do While textReader.Position < bufLength
@@ -503,14 +503,14 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                             Call LastIndex.Append(Mid(SourceText, i_LastIndex)) ' There are some text in the last of this chunk is the part of the section in the next chunk.
                         End If
 
-                        Call $"Yield data source [buffer={SourceText.LongCount}]".__DEBUG_ECHO
+                        Call $"Yield data source [buffer={SourceText.LongCount}]".debug
 
                         Yield SourceText
                     End If
                 Loop
 
                 If LastIndex.Length > 0 Then
-                    Call $"Yield data source [buffer={LastIndex.Length}]".__DEBUG_ECHO
+                    Call $"Yield data source [buffer={LastIndex.Length}]".debug
                     Yield LastIndex.ToString
                 End If
             End Using

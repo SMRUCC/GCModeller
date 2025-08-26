@@ -71,7 +71,7 @@ Public Module Assembler
     Public Function SequenceCoverage(sam$, workspace$, Optional refProvider As Func(Of String(), IEnumerable(Of FastaSeq)) = Nothing) As Dictionary(Of String, Integer)
         Dim reader As New SAMStream(sam)
 
-        Call "Write SAM headers...".__INFO_ECHO
+        Call "Write SAM headers...".info
 
         Using headWriter = $"{workspace}/head.part".OpenWriter
             For Each header As SAMHeader In reader.IteratesAllHeaders
@@ -83,7 +83,7 @@ Public Module Assembler
 
         Dim refs As New Dictionary(Of String, IO.StreamWriter)
 
-        Call "Split SAM target file...".__INFO_ECHO
+        Call "Split SAM target file...".info
 
         For Each read As AlignmentReads In reader _
             .IteratesAllReads _
@@ -98,7 +98,7 @@ Public Module Assembler
                 refs(key) = $"{workspace}/{key.First}/{key.NormalizePathString}.sam".OpenWriter
 
                 Call Console.WriteLine()
-                Call $"Open {key}".__INFO_ECHO
+                Call $"Open {key}".info
             Else
                 Console.Write("."c)
             End If
@@ -106,7 +106,7 @@ Public Module Assembler
             refs(key).WriteLine(read.GenerateDocumentLine)
         Next
 
-        Call "Write SAM file parts...".__INFO_ECHO
+        Call "Write SAM file parts...".info
 
         For Each ref As IO.StreamWriter In refs.Values
             Call ref.Flush()
@@ -114,7 +114,7 @@ Public Module Assembler
             Call ref.Dispose()
         Next
 
-        Call "Calculate Coverage....".__INFO_ECHO
+        Call "Calculate Coverage....".info
 
         ' 下面开始进行装配为contig
         Call (ls - l - r - "*.sam" <= workspace) _

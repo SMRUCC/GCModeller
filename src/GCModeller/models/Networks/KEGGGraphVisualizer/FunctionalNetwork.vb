@@ -208,7 +208,7 @@ Public Module FunctionalNetwork
 
         Dim image As Image
 
-        Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".__DEBUG_ECHO
+        Call $"{colors.Length} colors --> {nodeGroups.Count} KEGG pathways".debug
 
         Dim KEGGColors As New Dictionary(Of String, (counts#, color As Color))
         Dim dash As Dictionary(Of String, DashStyle)

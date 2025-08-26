@@ -205,14 +205,14 @@ Public Class KEGGOrthology
                 If maps($"{gene.sp_code}:{gene.gene}".ToLower) > -1 Then
                     Yield gene
 #If DEBUG Then
-                    Call gene.GetJson.__DEBUG_ECHO
+                    Call gene.GetJson.debug
 #End If
                 End If
 
                 i += 1
             Next
 
-            Call $"Index file iterates {i} gene lines...".__DEBUG_ECHO
+            Call $"Index file iterates {i} gene lines...".debug
         End Using
     End Function
 End Class

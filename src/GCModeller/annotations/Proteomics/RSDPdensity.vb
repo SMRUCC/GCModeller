@@ -140,7 +140,7 @@ Public Module RSDPdensity
                                 Optional RSD# = 1,
                                 Optional lineStroke$ = "stroke: lightgray; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
 
-        Call $"{NameOf(P_threshold)}={P_threshold}".__DEBUG_ECHO
+        Call $"{NameOf(P_threshold)}={P_threshold}".debug
 
         With points _
             .Where(Function(pt)

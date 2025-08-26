@@ -234,7 +234,7 @@ Namespace CatalogProfiling
                     End If
                 End Sub
 
-            Call $"Run catalog profile bar plot with size={size}, dpi={dpi}".__DEBUG_ECHO
+            Call $"Run catalog profile bar plot with size={size}, dpi={dpi}".debug
 
             Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal, driver, dpi)
         End Function
@@ -507,10 +507,10 @@ Namespace CatalogProfiling
         Public Function GetTicks(max#, tick!) As Double()
             If tick <= 0 Then
                 ' 自动生成
-                Call "Ticks created from auto axis ticking...".__INFO_ECHO
+                Call "Ticks created from auto axis ticking...".info
                 Return AxisScalling.CreateAxisTicks({0, max}.AsEnumerable, ticks:=5)
             Else
-                Call "Ticks created from tick sequence...".__INFO_ECHO
+                Call "Ticks created from tick sequence...".info
                 Return AxisScalling.GetAxisByTick(max, tick)
             End If
         End Function

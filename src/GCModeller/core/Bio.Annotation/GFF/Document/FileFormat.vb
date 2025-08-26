@@ -91,7 +91,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
                                       .JoinBy("; ")
                               End Function)
 
-            Call $"There are {attrs.Count} meta data was parsed from the gff file.".__DEBUG_ECHO
+            Call $"There are {attrs.Count} meta data was parsed from the gff file.".debug
 
             Gff.GffVersion = CInt(Val(TryGetValue(attrs, "##gff-version")))
             Gff.date = TryGetValue(attrs, "##date")
@@ -104,7 +104,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
                 Gff.GffVersion = defaultVer
             End If
 
-            Call $"The parser version of the gff file is version {Gff.GffVersion}...".__DEBUG_ECHO
+            Call $"The parser version of the gff file is version {Gff.GffVersion}...".debug
 
             If {1, 2, 3}.IndexOf(Gff.GffVersion) = -1 Then
                 Call $"{NameOf(Version)}={Gff.GffVersion} is currently not supported yet, ignored!".Warning

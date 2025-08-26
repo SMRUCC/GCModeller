@@ -333,7 +333,7 @@ Public Module ProteinGroups
                     }
                     found = True
 #If DEBUG Then
-                    Call $"[{protein.organism.scientificName}] {protein.name}".__DEBUG_ECHO
+                    Call $"[{protein.organism.scientificName}] {protein.name}".debug
 #End If
                     Exit For
                 End If

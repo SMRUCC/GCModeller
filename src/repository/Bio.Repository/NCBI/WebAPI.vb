@@ -103,7 +103,7 @@ Public Module DownloaderWebAPI
                 Dim gb As String = $"{EXPORT}/{id}.gb".GetFullPath
                 Dim St As Stopwatch = Stopwatch.StartNew
 
-                Call $"Threading start for ""{gb.ToFileURL}""".__DEBUG_ECHO
+                Call $"Threading start for ""{gb.ToFileURL}""".debug
 
                 If gb.FileExists Then
                     Return
@@ -112,7 +112,7 @@ Public Module DownloaderWebAPI
                 End If
 
                 If gb.FileExists Then
-                    Call $"{id} was download at ""{St.ElapsedMilliseconds}ms"".".__DEBUG_ECHO
+                    Call $"{id} was download at ""{St.ElapsedMilliseconds}ms"".".debug
                 Else
                     Call $"{id} was download not successfully!".Warning
                 End If

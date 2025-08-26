@@ -100,7 +100,7 @@ Namespace Regprecise
                     predicate = AddressOf __predicate_taxonomyId
                     queryKey = Scripting.InputHandler.CTypeDynamic(Of Integer)(query)
                 Case Else
-                    Call $"Query type '{key}' is not a valid field, using genomeId as default!".__DEBUG_ECHO
+                    Call $"Query type '{key}' is not a valid field, using genomeId as default!".debug
                     predicate = AddressOf __predicate_genomeId
                     queryKey = Scripting.InputHandler.CTypeDynamic(Of Integer)(query)
             End Select

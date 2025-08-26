@@ -126,7 +126,7 @@ Namespace Regprecise
             Dim genomes As New List(Of BacteriaRegulome)
             Dim index$ = $"{EXPORT}/index.html"
 
-            Call "Start to fetch regprecise genome information....".__DEBUG_ECHO
+            Call "Start to fetch regprecise genome information....".debug
 
             If index.FileLength > 1024 Then
                 html = index.ReadAllText
@@ -142,7 +142,7 @@ Namespace Regprecise
                 .Matches(html, "<tr .+?</tr>", RegexICSng) _
                 .ToArray
 
-            Call $"{list.Length} bacteria genome are ready to download!".__DEBUG_ECHO
+            Call $"{list.Length} bacteria genome are ready to download!".debug
 
             Using progress As New ProgressBar("Download regprecise database...")
                 Dim tick As New ProgressProvider(progress, total:=list.Length)

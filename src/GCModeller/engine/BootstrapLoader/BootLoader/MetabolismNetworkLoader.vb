@@ -261,7 +261,7 @@ Namespace ModelLoader
         End Function
 
         Private Iterator Function generalFluxExpansion(template As Reaction, KOfunctions As Dictionary(Of String, String())) As IEnumerable(Of Channel)
-            Call $"Generic {template.ID} = {template.name}".__INFO_ECHO
+            Call $"Generic {template.ID} = {template.name}".info
         End Function
 
         Private Function productInhibitionFactor(factors As IEnumerable(Of Variable), compart_id As String) As Variable()

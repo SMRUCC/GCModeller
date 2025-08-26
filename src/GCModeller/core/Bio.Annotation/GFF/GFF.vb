@@ -325,7 +325,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
             Call Document.TrySetMetaData(text, gff, defaultVer:=defaultVersion)
             Call Linq.SetValue(Of GFFTable).InvokeSet(gff, NameOf(gff.features), Document.TryGetFreaturesData(text, gff.GffVersion))
-            Call $"There are {gff.Features.Length} genome features exists in the gff file: {path.ToFileURL}".__DEBUG_ECHO
+            Call $"There are {gff.Features.Length} genome features exists in the gff file: {path.ToFileURL}".debug
 
             Return gff
         End Function

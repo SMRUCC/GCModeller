@@ -304,7 +304,7 @@ Namespace GCModeller.FileSystem
                    $"     CDD    =>  '{FileSystem.CDD}' " & vbCrLf &
                    $"  Pfam-A    =>  '{PfamA}'" & vbCrLf &
                    $" Repository =>  '{FileSystem.RepositoryRoot}'"
-                Call exMsg.__DEBUG_ECHO
+                Call exMsg.debug
                 Call App.LogException(New Exception(exMsg))
 
                 Return ""
@@ -345,7 +345,7 @@ NO_DIR:
                 Dim exMsg As String =
                     "Unable retrive the blast program directory path!" & vbCrLf &
                    $"    list of environment path:" & vbCrLf & lstPath.JoinBy(vbCrLf & "         ")
-                Call exMsg.__DEBUG_ECHO
+                Call exMsg.debug
                 Call App.LogException(New Exception(exMsg))
 
                 Return ""
