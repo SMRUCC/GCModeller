@@ -906,6 +906,7 @@ Module visualPlot
         Dim ppi As Integer = args.getValue("ppi", env, 300)
         Dim topMembers As Double = args.getValue("top_members", env, 500)
         Dim gridFill As String = RColorPalette.getColor(args.getBySynonyms("grid_fill", "grid.fill"), "lightGray", env)
+        Dim driver As Drivers = env.getDriver
 
         Return matrix.DrawMatrix(
             size:=size,
@@ -920,7 +921,7 @@ Module visualPlot
             axisTickCSS:=axisTickCSS,
             ppi:=ppi,
             topMembers:=topMembers,
-            driver:=env.getDriver,
+            driver:=driver,
             gridFill:=gridFill
         )
     End Function
