@@ -125,14 +125,14 @@ Public Class VolcanoMultiple : Inherits Plot
 
         For Each group As NamedCollection(Of DEGModel) In TqdmWrapper.Wrap(compares)
             Dim width As Double = If(countWidth, plotRect.Width * std.Log(group.Count(Function(e) e.class = deg_class) + 1) / sumAll, meanWidth)
-            Dim maxlogp As Double = group.Max(Function(e) e.nLog10p)
+            Dim maxlogp As Double = std.Log(group.Max(Function(e) e.nLog10p) + 1)
             Dim halfWidth As Double = width / 2
 
             Call g.DrawLine(lineEdge, New PointF(left, plotRect.Top), New PointF(left, plotRect.Bottom))
 
             ' draw non-deg first
             For Each gene As DEGModel In group.OrderBy(Function(gi) If(gi.class = deg_class, 1, 0))
-                Dim maxoffset As Double = randf.NextDouble(0, gene.nLog10p / maxlogp) * halfWidth
+                Dim maxoffset As Double = randf.NextDouble(0, std.Log((gene.nLog10p + 1) / maxlogp)) * halfWidth
                 Dim x As Double = If(randf.NextDouble > 0.5, 1, -1) * maxoffset + left
                 Dim y As Double = If(gene.logFC > 0, upAxis, downAxis)(std.Abs(gene.logFC))
                 Dim sign As Double = If(gene.logFC > 0, 1, -1)
@@ -150,7 +150,5 @@ Public Class VolcanoMultiple : Inherits Plot
 
             left += width
         Next
-
-        Call g.DrawLine(lineEdge, New PointF(left, plotRect.Top), New PointF(left, plotRect.Bottom))
     End Sub
 End Class
