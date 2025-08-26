@@ -3,14 +3,23 @@
 .SH NAME
 readPattern \- read the cmeans expression pattern result from file
 .SH SYNOPSIS
-\fIreadPattern(\fBfile\fR as string);\fR
+\fIreadPattern(\fBfile\fR as string, 
+\fBsamples\fR as string = \fB<NULL>\fR);\fR
 .SH DESCRIPTION
 .PP
 read the cmeans expression pattern result from file
 .PP
 .SH OPTIONS
 .PP
-\fBfile\fB \fR\- a binary data pack file that contains the expression pattern raw data. 
+\fBfile\fB \fR\- a binary data pack file that contains the expression pattern raw data.
+ if this file is given by a csv file, then this csv file should be the cmeans cluster 
+ membership matrix outtput.. 
+.PP
+.PP
+\fBsamples\fB \fR\- 
+ should be a csv file path to the sample matrix data if the input **`file`**
+ is a csv membership matrix file.
+. 
 .PP
 .SH DETAILS
 .PP

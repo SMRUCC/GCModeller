@@ -481,9 +481,15 @@ declare namespace geneExpression {
     * > this function can also read the csv matrix file and 
     * >  then cast as the expression pattern data object.
     * 
-     * @param file a binary data pack file that contains the expression pattern raw data
+     * @param file a binary data pack file that contains the expression pattern raw data.
+     *  if this file is given by a csv file, then this csv file should be the cmeans cluster 
+     *  membership matrix outtput.
+     * @param samples should be a csv file path to the sample matrix data if the input **`file`**
+     *  is a csv membership matrix file.
+     * 
+     * + default value Is ``null``.
    */
-   function readPattern(file: string): object;
+   function readPattern(file: string, samples?: string): object;
    /**
     * normalize data by feature rows
     * 
