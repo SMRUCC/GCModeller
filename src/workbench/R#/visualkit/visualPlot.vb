@@ -294,6 +294,43 @@ Module visualPlot
             )
     End Function
 
+    <ExportAPI("multiple_volcano")>
+    Public Function MultipleComparesVolcano(groups As list,
+                                            <RRawVectorArgument> Optional size As Object = "3600,2100",
+                                            <RRawVectorArgument> Optional padding As Object = "padding: 5% 10% 10% 10%",
+                                            Optional bg As Object = "white",
+                                            Optional title As String = "Multiple Comparision Volcano",
+                                            Optional point_size As Integer = 5,
+                                            Optional dpi As Integer = 100,
+                                            Optional env As Environment = Nothing) As Object
+
+        Dim multiple As New List(Of NamedCollection(Of DEGModel))
+        Dim size_str As String = InteropArgumentHelper.getSize(size, env, [default]:="3600,2100")
+        Dim padding_str As String = InteropArgumentHelper.getPadding(padding, "padding: 5% 10% 10% 10%", env)
+        Dim bg_str As String = RColorPalette.GetRawColor(bg, "white").ToHtmlColor
+
+        For Each name As String In groups.getNames
+            Dim degs As pipeline = pipeline.TryCreatePipeline(Of DEGModel)(groups.getByName(name), env)
+
+            If degs.isError Then
+                Return degs.getError
+            End If
+
+            Call multiple.Add(New NamedCollection(Of DEGModel)(
+                name:=name,
+                data:=degs.populates(Of DEGModel)(env))
+            )
+        Next
+
+        Dim theme As New Theme With {
+            .padding = padding_str,
+            .background = bg_str,
+            .pointSize = point_size
+        }
+        Dim app As New VolcanoMultiple(multiple, "sig", theme)
+        Return app.Plot(size_str, dpi, driver:=env.getDriver)
+    End Function
+
     ''' <summary>
     ''' volcano plot of the different expression result
     ''' </summary>
@@ -304,7 +341,7 @@ Module visualPlot
     ''' <param name="colors"></param>
     ''' <param name="pvalue"></param>
     ''' <param name="level"></param>
-    ''' <param name="title$"></param>
+    ''' <param name="title"></param>
     ''' <returns></returns>
     <ExportAPI("volcano")>
     Public Function VolcanoPlot(<RRawVectorArgument> genes As Object,
