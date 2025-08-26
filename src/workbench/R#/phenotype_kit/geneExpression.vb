@@ -1399,6 +1399,8 @@ Module geneExpression
                            Optional legend_tick_css As String = CSSFont.Win7Small,
                            Optional axis_tick_css$ = CSSFont.Win10Normal,
                            Optional axis_label_css$ = CSSFont.Win7Small,
+                           Optional grid_fill As String = NameOf(Color.LightGray),
+                           Optional grid_draw As Boolean = True,
                            Optional x_lab_rotate As Double = 45,
                            Optional env As Environment = Nothing) As Object
 
@@ -1437,7 +1439,9 @@ Module geneExpression
                            legendTitleStyle:=legend_title_css,
                            legendTickStyle:=legend_tick_css,
                            axisTickCSS:=axis_tick_css,
-                           axisLabelCSS:=axis_label_css
+                           axisLabelCSS:=axis_label_css,
+                           gridFill:=grid_fill,
+                           gridDraw:=grid_draw
                        )
                    End Function
 
