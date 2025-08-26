@@ -117,6 +117,8 @@ Public Class VolcanoMultiple : Inherits Plot
         Dim lineEdge As Pen = css.GetPen(Stroke.TryParse(theme.gridStrokeX))
         Dim xAxisLine As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
         Dim meanWidth As Double = plotRect.Width / compares.Length
+        Dim axisFont As Font = css.GetFont(theme.axisLabelCSS)
+        Dim fheight As Single = g.MeasureString("A", axisFont).Height
 
         ' draw zero
         Call g.DrawLine(xAxisLine, New PointF(plotRect.Left, zero), New PointF(plotRect.Right, zero))
@@ -127,8 +129,6 @@ Public Class VolcanoMultiple : Inherits Plot
             Dim halfWidth As Double = width / 2
 
             Call g.DrawLine(lineEdge, New PointF(left, plotRect.Top), New PointF(left, plotRect.Bottom))
-
-            left += halfWidth
 
             ' draw non-deg first
             For Each gene As DEGModel In group.OrderBy(Function(gi) If(gi.class = deg_class, 1, 0))
@@ -145,6 +145,8 @@ Public Class VolcanoMultiple : Inherits Plot
                     Call g.DrawCircle(New PointF(x, zero + sign * y), radius, down_deg)
                 End If
             Next
+
+            Call g.DrawString(group.name, axisFont, Brushes.Black, New PointF(left, plotRect.Bottom + fheight))
 
             left += width
         Next
