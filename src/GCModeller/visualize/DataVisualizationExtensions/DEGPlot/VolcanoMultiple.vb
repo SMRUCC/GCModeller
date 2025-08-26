@@ -122,7 +122,7 @@ Public Class VolcanoMultiple : Inherits Plot
 
             For Each gene As DEGModel In group
                 Dim maxoffset As Double = randf.NextDouble(0, gene.nLog10p / maxlogp) * halfWidth
-                Dim x As Double = If(randf.NextDouble > 0.5, 1, -1) * halfWidth + left
+                Dim x As Double = If(randf.NextDouble > 0.5, 1, -1) * maxoffset + left
                 Dim y As Double = If(gene.logFC > 0, upAxis, downAxis)(std.Abs(gene.logFC))
                 Dim sign As Double = If(gene.logFC > 0, 1, -1)
 
