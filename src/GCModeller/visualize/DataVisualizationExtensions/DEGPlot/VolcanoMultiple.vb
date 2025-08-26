@@ -66,6 +66,8 @@ Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
+
 
 #If NET48 Then
 Imports SolidBrush = System.Drawing.SolidBrush
@@ -175,5 +177,10 @@ Public Class VolcanoMultiple : Inherits Plot
 
             left += delta_with
         Next
+
+        Dim legendUp As New LegendObject With {.color = "red", .fontstyle = theme.legendLabelCSS, .style = LegendStyles.Circle, .title = "Sig.up"}
+        Dim legendDown As New LegendObject With {.color = "blue", .fontstyle = theme.legendLabelCSS, .style = LegendStyles.Circle, .title = "Sig.down"}
+
+        Call DrawLegends(g, {legendUp, legendDown}, False, canvas)
     End Sub
 End Class
