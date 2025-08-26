@@ -62,6 +62,9 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace ExpressionPattern
 
+    ''' <summary>
+    ''' data reader of the cmeans pattern dumps files
+    ''' </summary>
     Public Module Reader
 
         ''' <summary>
