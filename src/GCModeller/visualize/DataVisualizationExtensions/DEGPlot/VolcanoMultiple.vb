@@ -65,6 +65,8 @@ Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+
 
 #If NET48 Then
 Imports SolidBrush = System.Drawing.SolidBrush
@@ -86,6 +88,7 @@ Public Class VolcanoMultiple : Inherits Plot
     ReadOnly up_deg As New SolidBrush(Color.Red)
     ReadOnly down_deg As New SolidBrush(Color.Blue)
     ReadOnly countWidth As Boolean = False
+    ReadOnly topN As Integer = 6
 
     Public Sub New(compares As IEnumerable(Of NamedCollection(Of DEGModel)), deg_class As String, theme As Theme)
         MyBase.New(theme)
@@ -119,6 +122,7 @@ Public Class VolcanoMultiple : Inherits Plot
         Dim meanWidth As Double = plotRect.Width / compares.Length
         Dim axisFont As Font = css.GetFont(theme.axisLabelCSS)
         Dim fheight As Single = g.MeasureString("A", axisFont).Height
+        Dim labelFont As Font = css.GetFont(theme.tagCSS)
 
         ' draw zero
         Call g.DrawLine(xAxisLine, New PointF(plotRect.Left, zero), New PointF(plotRect.Right, zero))
@@ -127,6 +131,12 @@ Public Class VolcanoMultiple : Inherits Plot
             Dim width As Double = If(countWidth, plotRect.Width * std.Log(group.Count(Function(e) e.class = deg_class) + 1) / sumAll, meanWidth)
             Dim maxlogp As Double = std.Log(group.Max(Function(e) e.nLog10p) + 1)
             Dim halfWidth As Double = width / 2
+            Dim top_degs = group _
+                .Where(Function(gi) gi.class = deg_class) _
+                .OrderByDescending(Function(a) std.Abs(a.logFC)) _
+                .Take(topN) _
+                .Keys _
+                .Indexing
 
             Call g.DrawLine(lineEdge, New PointF(left, plotRect.Top), New PointF(left, plotRect.Bottom))
 
@@ -144,9 +154,15 @@ Public Class VolcanoMultiple : Inherits Plot
                 Else
                     Call g.DrawCircle(New PointF(x, zero + sign * y), radius, down_deg)
                 End If
+
+                If theme.drawLabels AndAlso gene.label Like top_degs Then
+                    Call g.DrawString(gene.label, labelFont, Brushes.Black, New PointF(x, zero + sign * y))
+                End If
             Next
 
-            Call g.DrawString(group.name, axisFont, Brushes.Black, New PointF(left, plotRect.Bottom + fheight))
+            If theme.drawLabels Then
+                Call g.DrawString(group.name, axisFont, Brushes.Black, New PointF(left, plotRect.Bottom + fheight))
+            End If
 
             left += width
         Next
