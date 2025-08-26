@@ -918,7 +918,8 @@ Module visualPlot
             axisLabelCSS:=axisLabelCSS,
             axisTickCSS:=axisTickCSS,
             ppi:=ppi,
-            topMembers:=topMembers
+            topMembers:=topMembers,
+            driver:=env.getDriver
         )
     End Function
 
