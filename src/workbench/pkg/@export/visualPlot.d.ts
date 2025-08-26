@@ -284,6 +284,16 @@ declare namespace visualPlot {
          function bubbles(profiles: any, size?: any, padding?: any, unenrichColor?: string, themeColors?: string, alpha?: number, displays?: object, serialTopn?: boolean, bubbleRadius?: any, heatmap?: boolean, bubbleStyle?: boolean, top_samples?: object, ppi?: object, env?: object): any;
       }
    }
+   /**
+     * @param size default value Is ``'3600,2100'``.
+     * @param padding default value Is ``'padding: 5% 10% 10% 10%'``.
+     * @param bg default value Is ``'white'``.
+     * @param title default value Is ``'Multiple Comparision Volcano'``.
+     * @param point_size default value Is ``5``.
+     * @param dpi default value Is ``100``.
+     * @param env default value Is ``null``.
+   */
+   function multiple_volcano(groups: object, size?: any, padding?: any, bg?: any, title?: string, point_size?: object, dpi?: object, env?: object): any;
    module plot {
       /**
        * 
@@ -393,7 +403,8 @@ declare namespace visualPlot {
      * @param level -
      * 
      * + default value Is ``1.5``.
-     * @param title 
+     * @param title -
+     * 
      * + default value Is ``'volcano plot'``.
      * @param env 
      * + default value Is ``null``.

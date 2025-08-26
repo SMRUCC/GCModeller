@@ -107,8 +107,19 @@ declare namespace geneExpression {
    function cmeans_matrix(pattern: any, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, env?: object): object;
    module deg {
       /**
+       * set deg class label
+       * 
+       * 
+        * @param deg -
+        * @param class_labels set deg class label manually
+        * 
+        * + default value Is ``null``.
+        * @param logFC 
+        * + default value Is ``1``.
+        * @param pval_cutoff 
+        * + default value Is ``0.05``.
       */
-      function class(deg: object, classLabel: any): object;
+      function class(deg: object, class_labels?: any, logFC?: number, pval_cutoff?: number): object;
       module t {
          /**
           * do t-test across specific analysis comparision
