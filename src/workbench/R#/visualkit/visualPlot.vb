@@ -905,6 +905,7 @@ Module visualPlot
         Dim axisLabelCSS As String = InteropArgumentHelper.getFontCSS("axis_label.cex", CSSFont.Win7Normal)
         Dim ppi As Integer = args.getValue("ppi", env, 300)
         Dim topMembers As Double = args.getValue("top_members", env, 500)
+        Dim gridFill As String = RColorPalette.getColor(args.getBySynonyms("grid_fill", "grid.fill"), "lightGray", env)
 
         Return matrix.DrawMatrix(
             size:=size,

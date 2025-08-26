@@ -113,7 +113,7 @@ Namespace ExpressionPattern
             Return New ExpressionPattern With {
                 .Patterns = patterns.ToArray,
                 .sampleNames = sampleIds,
-                .[dim] = {patternIds.Length, 1},
+                .[dim] = {1, patternIds.Length},
                 .centers = {}
             }
         End Function
