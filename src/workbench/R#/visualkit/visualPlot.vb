@@ -301,6 +301,7 @@ Module visualPlot
                                             Optional bg As Object = "white",
                                             Optional title As String = "Multiple Comparision Volcano",
                                             Optional point_size As Integer = 5,
+                                            Optional deg_class As String = "sig",
                                             Optional dpi As Integer = 100,
                                             Optional env As Environment = Nothing) As Object
 
@@ -327,7 +328,7 @@ Module visualPlot
             .background = bg_str,
             .pointSize = point_size
         }
-        Dim app As New VolcanoMultiple(multiple, "sig", theme)
+        Dim app As New VolcanoMultiple(multiple, deg_class, theme)
         Return app.Plot(size_str, dpi, driver:=env.getDriver)
     End Function
 

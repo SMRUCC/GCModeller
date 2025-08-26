@@ -64,6 +64,8 @@ Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+
 
 #If NET48 Then
 Imports SolidBrush = System.Drawing.SolidBrush
@@ -113,8 +115,8 @@ Public Class VolcanoMultiple : Inherits Plot
         Dim downAxis = d3js.scale.linear.domain(downTicks).range(0, height)
         Dim radius As Single = theme.pointSize
 
-        For Each group As NamedCollection(Of DEGModel) In compares
-            Dim width As Double = plotRect.Width * group.Count(Function(e) e.class = deg_class)/sumAll
+        For Each group As NamedCollection(Of DEGModel) In TqdmWrapper.Wrap(compares)
+            Dim width As Double = plotRect.Width * group.Count(Function(e) e.class = deg_class) / sumAll
             Dim maxlogp As Double = group.Max(Function(e) e.nLog10p)
             Dim halfWidth As Double
 

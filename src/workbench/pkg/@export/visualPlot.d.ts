@@ -290,10 +290,11 @@ declare namespace visualPlot {
      * @param bg default value Is ``'white'``.
      * @param title default value Is ``'Multiple Comparision Volcano'``.
      * @param point_size default value Is ``5``.
+     * @param deg_class default value Is ``'sig'``.
      * @param dpi default value Is ``100``.
      * @param env default value Is ``null``.
    */
-   function multiple_volcano(groups: object, size?: any, padding?: any, bg?: any, title?: string, point_size?: object, dpi?: object, env?: object): any;
+   function multiple_volcano(groups: object, size?: any, padding?: any, bg?: any, title?: string, point_size?: object, deg_class?: string, dpi?: object, env?: object): any;
    module plot {
       /**
        * 
