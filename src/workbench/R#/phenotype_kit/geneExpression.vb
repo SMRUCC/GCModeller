@@ -284,7 +284,7 @@ Module geneExpression
         Dim row As DataFrameRow = x(geneId)
 
         If row Is Nothing Then
-            Call $"gene feature is missing from the expression matrix {x.tag}".Warning
+            Call $"gene feature is missing from the expression matrix {x.tag}".warning
             Return Nothing
         Else
             Return New r_vec(x.sampleID, row.experiments)
@@ -935,7 +935,7 @@ Module geneExpression
 
         If sampleinfo.IsNullOrEmpty Then
             If Not sampleinfo Is Nothing Then
-                Call "the provided sample information is not nothing, but collection is empty. numeric vector of average for each gene expression will be returns.".Warning
+                Call "the provided sample information is not nothing, but collection is empty. numeric vector of average for each gene expression will be returns.".warning
             End If
             Return matrix.expression.Select(Function(v) v.Average).ToArray
         Else
@@ -1616,17 +1616,39 @@ Module geneExpression
         End If
     End Function
 
+    ''' <summary>
+    ''' set deg class label
+    ''' </summary>
+    ''' <param name="deg"></param>
+    ''' <param name="class_labels">
+    ''' set deg class label manually
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("deg.class")>
     <RApiReturn(GetType(DEGModel))>
-    Public Function DEGclass(deg As DEGModel(), <RRawVectorArgument> classLabel As Object) As Object
-        Dim classList As String() = CLRVector.asCharacter(classLabel)
+    Public Function DEGclass(deg As DEGModel(), <RRawVectorArgument> Optional class_labels As Object = Nothing,
+                             Optional logFC As Double = 1,
+                             Optional pval_cutoff As Double = 0.05) As Object
+
+        Dim classList As String() = CLRVector.asCharacter(class_labels)
         Dim getClass As Func(Of Integer, String)
 
-        If classList.Length = 1 Then
-            getClass = Function() classList(Scan0)
-        Else
-            getClass = Function(i) classList(i)
+        If classList.IsNullOrEmpty Then
+            ' set sig/not_sig via logfc and pvalue cutoff
+            classList = deg _
+                .Select(Function(gene)
+                            If gene.pvalue < pval_cutoff AndAlso std.Abs(gene.logFC) > logFC Then
+                                Return "sig"
+                            Else
+                                Return "not_sig"
+                            End If
+                        End Function) _
+                .ToArray
         End If
+
+        getClass = GetVectorElement _
+            .Create(Of String)(classList) _
+            .Getter(Of String)
 
         Return deg _
             .Select(Function(d, i)
@@ -1634,7 +1656,10 @@ Module geneExpression
                             .[class] = getClass(i),
                             .label = d.label,
                             .logFC = d.logFC,
-                            .pvalue = d.pvalue
+                            .pvalue = d.pvalue,
+                            .fdr = d.fdr,
+                            .t = d.t,
+                            .VIP = d.VIP
                         }
                     End Function) _
             .ToArray
