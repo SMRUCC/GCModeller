@@ -155,7 +155,7 @@ Namespace ContextModel.Promoter
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function ContainsLength(length As Integer) As Boolean
             If Array.IndexOf(PrefixLengths, length) = -1 Then
-                Call $"The promoter region length {length} is not valid, using default value is 150bp.".__DEBUG_ECHO
+                Call $"The promoter region length {length} is not valid, using default value is 150bp.".debug
             Else
                 Return True
             End If

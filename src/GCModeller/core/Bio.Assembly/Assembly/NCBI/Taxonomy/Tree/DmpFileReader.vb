@@ -68,7 +68,7 @@ Namespace Assembly.NCBI.Taxonomy
             Dim taxid As String
             Dim lineToken As String()
 
-            Call $"{names.ToFileURL} parsing ...".__DEBUG_ECHO
+            Call $"{names.ToFileURL} parsing ...".debug
 
             For Each line As String In names.IterateAllLines
                 lineToken = line.Replace(ASCII.TAB, "").Split("|"c)
@@ -81,7 +81,7 @@ Namespace Assembly.NCBI.Taxonomy
                 End If
             Next
 
-            Call "names.dmp parsed".__DEBUG_ECHO
+            Call "names.dmp parsed".debug
 
             Return taxid2name
         End Function
@@ -98,7 +98,7 @@ Namespace Assembly.NCBI.Taxonomy
             Dim parent_taxid As String
             Dim lineTokens$()
 
-            Call $"{nodes} parsing ...".__DEBUG_ECHO
+            Call $"{nodes} parsing ...".debug
 
             For Each line As String In nodes.IterateAllLines
                 lineTokens = line.Replace(ASCII.TAB, "").Split("|"c)
@@ -161,7 +161,7 @@ Namespace Assembly.NCBI.Taxonomy
                 End If
             Next
 
-            Call "nodes.dmp parsed".__DEBUG_ECHO
+            Call "nodes.dmp parsed".debug
 
             ' To avoid infinite Loop
             Dim root_children = taxonomy("1").children

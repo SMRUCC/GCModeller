@@ -134,7 +134,7 @@ Namespace Net.Http
 
             If debug Then
                 ' display debug info
-                Call $"WebQuery download worker for query context [{GetType(Context).FullName}] thread sleep interval is {interval}ms".__INFO_ECHO
+                Call $"WebQuery download worker for query context [{GetType(Context).FullName}] thread sleep interval is {interval}ms".info
             End If
         End Sub
 
@@ -201,7 +201,7 @@ Namespace Net.Http
             Me.offlineMode = offline
 
             If offlineMode AndAlso debug Then
-                Call $"WebQuery of '{Me.GetType.Name}' running in offline mode!".__DEBUG_ECHO
+                Call $"WebQuery of '{Me.GetType.Name}' running in offline mode!".debug
             End If
 
             Me.url404 = cache.ReadAllText("/__404.txt").LineTokens.Indexing
@@ -340,12 +340,12 @@ Namespace Net.Http
                     Call Write404CacheList()
                     Call $"{url} 404 Not Found!".PrintException
                 ElseIf debug Then
-                    Call $"Worker thread sleep {sleepInterval}ms...".__INFO_ECHO
+                    Call $"Worker thread sleep {sleepInterval}ms...".info
                 End If
 
                 hitCache = False
             ElseIf debug Then
-                Call "hit cache!".__DEBUG_ECHO
+                Call "hit cache!".debug
             End If
         End Sub
 

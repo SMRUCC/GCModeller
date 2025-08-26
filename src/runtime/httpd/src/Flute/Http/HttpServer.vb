@@ -122,7 +122,7 @@ Namespace Core
             Me._silent = _settings.silent
 
             Call ThreadPool.SetMaxThreads(_threadPool, _threadPool)
-            Call $"Web server threads_pool_size={_threadPool}, buffer_size={BufferSize}bytes".__INFO_ECHO(_settings.silent)
+            Call $"Web server threads_pool_size={_threadPool}, buffer_size={BufferSize}bytes".info(_settings.silent)
         End Sub
 
         ''' <summary>
@@ -140,11 +140,11 @@ Namespace Core
                 _httpListener.Start()
                 Is_active = True
             Catch ex As Exception When ex.IsSocketPortOccupied
-                Call $"Could not start http services at {NameOf(_localPort)}:={_localPort}".__DEBUG_ECHO
-                Call ex.ToString.__DEBUG_ECHO
+                Call $"Could not start http services at {NameOf(_localPort)}:={_localPort}".debug
+                Call ex.ToString.debug
                 Call App.LogException(ex)
                 Call Console.WriteLine()
-                Call "Program http server thread was terminated.".__DEBUG_ECHO
+                Call "Program http server thread was terminated.".debug
                 Call Console.WriteLine()
                 Call Console.WriteLine()
                 Call Console.WriteLine()
@@ -158,7 +158,7 @@ Namespace Core
 
                 Return 500
             Finally
-                Call $"Http Server Start listen at {_httpListener.LocalEndpoint.ToString}".__INFO_ECHO(silent:=_silent)
+                Call $"Http Server Start listen at {_httpListener.LocalEndpoint.ToString}".info(_silent)
             End Try
 
             While Is_active
@@ -191,7 +191,7 @@ Namespace Core
                 Dim s As TcpClient = _httpListener.AcceptTcpClient
                 Dim processor As HttpProcessor = getHttpProcessor(s, BufferSize)
 
-                Call $"Process client from {s.Client.RemoteEndPoint.ToString}".__DEBUG_ECHO(mute:=_silent)
+                Call $"Process client from {s.Client.RemoteEndPoint.ToString}".debug(mute:=_silent)
                 Call RunTask(Sub(o) Call processor.Process())
             Catch ex As Exception
                 Call App.LogException(ex)

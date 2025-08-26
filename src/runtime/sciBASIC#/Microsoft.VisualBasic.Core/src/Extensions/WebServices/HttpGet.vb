@@ -100,7 +100,7 @@ Public Module HttpGet
         ' 类似于php之中的file_get_contents函数,可以读取本地文件内容
         If File.Exists(url) Then
             If echo Then
-                Call $"GET {If(isFileUrl, url.ToFileURL, url)}".__DEBUG_ECHO
+                Call $"GET {If(isFileUrl, url.ToFileURL, url)}".debug
             End If
 
             Return url.ReadAllText
@@ -275,7 +275,7 @@ Re0:
                 If timespan > 1000 Then
                     Call debug.Warning
                 Else
-                    Call debug.__INFO_ECHO
+                    Call debug.info
                 End If
             End If
 

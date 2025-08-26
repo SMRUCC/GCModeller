@@ -151,7 +151,7 @@ Namespace Assembly.MiST2
             Dim pageContent As String = url.GET, proteinCounts As String = GetProteinCounts(pageContent)
             Dim matchs = (From item As Match In Regex.Matches(pageContent, CONTENT_RECORD, RegexOptions.Singleline + RegexOptions.IgnoreCase) Select item.Value).ToArray
 
-            Call $"[MiST2 web_request handler] Loading data from {proteinCounts}...".__DEBUG_ECHO
+            Call $"[MiST2 web_request handler] Loading data from {proteinCounts}...".debug
 
             Dim proteinArray As List(Of Transducin) = (From strItem As String In matchs Select Match(strItem)).AsList
 

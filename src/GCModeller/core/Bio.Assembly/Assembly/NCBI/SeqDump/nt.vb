@@ -125,7 +125,7 @@ Namespace Assembly.NCBI.SequenceDump
                 Dim acc As String = accid(fa.Title).ToLower
 
                 If acc Like idlist Then
-                    Call fa.Title.__INFO_ECHO
+                    Call fa.Title.info
                     Call idlist.Delete(acc)
 
                     Yield fa
