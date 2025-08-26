@@ -118,7 +118,7 @@ Public Class VolcanoMultiple : Inherits Plot
         For Each group As NamedCollection(Of DEGModel) In TqdmWrapper.Wrap(compares)
             Dim width As Double = plotRect.Width * group.Count(Function(e) e.class = deg_class) / sumAll
             Dim maxlogp As Double = group.Max(Function(e) e.nLog10p)
-            Dim halfWidth As Double
+            Dim halfWidth As Double = width / 2
 
             For Each gene As DEGModel In group
                 Dim maxoffset As Double = randf.NextDouble(0, gene.nLog10p / maxlogp) * halfWidth
@@ -134,6 +134,8 @@ Public Class VolcanoMultiple : Inherits Plot
                     Call g.DrawCircle(New PointF(x, zero + sign * y), radius, down_deg)
                 End If
             Next
+
+            left += width
         Next
     End Sub
 End Class
