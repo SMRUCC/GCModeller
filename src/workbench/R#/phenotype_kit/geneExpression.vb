@@ -1148,18 +1148,30 @@ Module geneExpression
     ''' <summary>
     ''' read the cmeans expression pattern result from file
     ''' </summary>
-    ''' <param name="file">a binary data pack file that contains the expression pattern raw data</param>
+    ''' <param name="file">a binary data pack file that contains the expression pattern raw data.
+    ''' if this file is given by a csv file, then this csv file should be the cmeans cluster 
+    ''' membership matrix outtput.</param>
+    ''' <param name="samples">
+    ''' should be a csv file path to the sample matrix data if the input <paramref name="file"/>
+    ''' is a csv membership matrix file.
+    ''' </param>
     ''' <returns></returns>
     ''' <remarks>
     ''' this function can also read the csv matrix file and 
     ''' then cast as the expression pattern data object.
     ''' </remarks>
     <ExportAPI("readPattern")>
-    Public Function readPattern(file As String) As ExpressionPattern
+    Public Function readPattern(file As String, Optional samples As String = Nothing) As ExpressionPattern
         If file.ExtensionSuffix("csv") Then
+            Dim sampleData As DataSet() = Nothing
+
+            If samples.FileExists Then
+                sampleData = DataSet.LoadDataSet(samples, silent:=True).ToArray
+            End If
+
             Return DataSet.LoadDataSet(file, silent:=True) _
                 .ToArray _
-                .CastAsPatterns
+                .CastAsPatterns(sampleData)
         Else
             Return Reader.ReadExpressionPattern(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
         End If
