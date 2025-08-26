@@ -85,6 +85,7 @@ Public Class VolcanoMultiple : Inherits Plot
     ReadOnly non_deg As New SolidBrush(Color.LightGray)
     ReadOnly up_deg As New SolidBrush(Color.Red)
     ReadOnly down_deg As New SolidBrush(Color.Blue)
+    ReadOnly countWidth As Boolean = False
 
     Public Sub New(compares As IEnumerable(Of NamedCollection(Of DEGModel)), deg_class As String, theme As Theme)
         MyBase.New(theme)
@@ -97,7 +98,7 @@ Public Class VolcanoMultiple : Inherits Plot
         Dim css As CSSEnvirnment = g.LoadEnvironment
         Dim plotRect = canvas.PlotRegion(css)
         Dim sumAll As Double = compares _
-            .Select(Function(group) group.Count(Function(e) e.class = deg_class)) _
+            .Select(Function(group) std.Log(group.Count(Function(e) e.class = deg_class) + 1)) _
             .Sum
         Dim maxLogFC As Double = compares _
             .Select(Function(group) group.Max(Function(e) e.logFC)) _
@@ -115,18 +116,20 @@ Public Class VolcanoMultiple : Inherits Plot
         Dim radius As Single = theme.pointSize
         Dim lineEdge As Pen = css.GetPen(Stroke.TryParse(theme.gridStrokeX))
         Dim xAxisLine As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
+        Dim meanWidth As Double = plotRect.Width / compares.Length
 
         ' draw zero
         Call g.DrawLine(xAxisLine, New PointF(plotRect.Left, zero), New PointF(plotRect.Right, zero))
 
         For Each group As NamedCollection(Of DEGModel) In TqdmWrapper.Wrap(compares)
-            Dim width As Double = plotRect.Width * group.Count(Function(e) e.class = deg_class) / sumAll
+            Dim width As Double = If(countWidth, plotRect.Width * std.Log(group.Count(Function(e) e.class = deg_class) + 1) / sumAll, meanWidth)
             Dim maxlogp As Double = group.Max(Function(e) e.nLog10p)
             Dim halfWidth As Double = width / 2
 
             Call g.DrawLine(lineEdge, New PointF(left, plotRect.Top), New PointF(left, plotRect.Bottom))
 
-            For Each gene As DEGModel In group
+            ' draw non-deg first
+            For Each gene As DEGModel In group.OrderBy(Function(gi) If(gi.class = deg_class, 1, 0))
                 Dim maxoffset As Double = randf.NextDouble(0, gene.nLog10p / maxlogp) * halfWidth
                 Dim x As Double = If(randf.NextDouble > 0.5, 1, -1) * maxoffset + left
                 Dim y As Double = If(gene.logFC > 0, upAxis, downAxis)(std.Abs(gene.logFC))
