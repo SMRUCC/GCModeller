@@ -128,6 +128,8 @@ Public Class VolcanoMultiple : Inherits Plot
 
             Call g.DrawLine(lineEdge, New PointF(left, plotRect.Top), New PointF(left, plotRect.Bottom))
 
+            left += halfWidth
+
             ' draw non-deg first
             For Each gene As DEGModel In group.OrderBy(Function(gi) If(gi.class = deg_class, 1, 0))
                 Dim maxoffset As Double = randf.NextDouble(0, gene.nLog10p / maxlogp) * halfWidth
