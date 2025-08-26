@@ -88,7 +88,7 @@ Namespace ExpressionPattern
                     .First _
                     .Key _
                     .Match("\d+") _
-                    .DoCall(AddressOf Integer.Parse)
+                    .DoCall(AddressOf Integer.Parse) - 1
                 Dim sample As DataSet = sampleMatrix.TryGetValue(gene.ID)
                 Dim dataVec As Double() = Nothing
 
@@ -103,7 +103,7 @@ Namespace ExpressionPattern
                     .MarkClusterCenter = Color.Black,
                     .memberships = gene.Properties _
                         .Where(Function(si) Not si.Key = "Cluster") _
-                        .ToDictionary(Function(si) Integer.Parse(si.Key.Match("\d+")),
+                        .ToDictionary(Function(si) Integer.Parse(si.Key.Match("\d+")) - 1,
                                       Function(si)
                                           Return si.Value
                                       End Function)
