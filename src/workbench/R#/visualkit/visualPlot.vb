@@ -703,7 +703,7 @@ Module visualPlot
                         .main = "Pathway enrichment analysis"
                     }
                 Else
-                    app = New CatalogHeatMap(multiples, 100, theme)
+                    app = New CatalogHeatMap(multiples, 100, unenrichColor, False, theme)
                 End If
             Else
                 multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.PValue * b.Factor).AsList
@@ -730,7 +730,7 @@ Module visualPlot
             Else
                 ' processing on each sample group
                 ' data is group by sample info and use the average value
-                For Each groups As IGrouping(Of String, SampleInfo) In sampleinfo.GroupBy(Function(a) a.sample_info)
+                For Each groups As IGrouping(Of String, SampleInfo) In sampleinfo.GroupBy(Function(a) a.sample_info).OrderBy(Function(s) s.Key)
                     Dim sampleId = groups.Select(Function(si) si.ID).ToArray
                     Dim sampleData = mat.Project(sampleId)
                     Dim pathwayMeans = sampleData.expression.Select(Function(pwy) pwy.experiments.Average).AsVector
@@ -744,9 +744,11 @@ Module visualPlot
                 Next
             End If
 
-            multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.data).AsList
+            multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.data) _
+                .OrderBy(Function(a) a.Name) _
+                .AsList
 
-            Dim app As New CatalogHeatMap(multiples, 100, theme)
+            Dim app As New CatalogHeatMap(multiples, 100, unenrichColor, rankorder:=False, theme)
             Return app.Plot(sizeStr, ppi:=ppi, driver:=driver)
         Else
             Throw New NotImplementedException(profiles.GetType.FullName)
