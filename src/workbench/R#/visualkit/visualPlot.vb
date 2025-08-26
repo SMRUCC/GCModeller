@@ -608,6 +608,7 @@ Module visualPlot
     ''' + ``Hits``: the molecule hits number in current enrichment term
     ''' + ``pathway``: the kegg pathway id
     ''' 
+    ''' or a score matrix of the gsva analysis result.
     ''' </param>
     ''' <param name="size"></param>
     ''' <param name="padding"></param>
@@ -630,6 +631,7 @@ Module visualPlot
                                       Optional heatmap As Boolean = False,
                                       Optional bubbleStyle As Boolean = False,
                                       Optional top_samples As Integer = 16,
+                                      Optional sampleinfo As SampleInfo() = Nothing,
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
@@ -718,8 +720,36 @@ Module visualPlot
             End If
 
             Return app.Plot(sizeStr, ppi:=ppi, driver:=driver)
+        ElseIf TypeOf profiles Is Matrix Then
+            ' visual of the gsva scores in heatmap mode
+            Dim multiples As New List(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
+            Dim mat As Matrix = DirectCast(profiles, Matrix)
+
+            If sampleinfo.IsNullOrEmpty Then
+                ' processing on each sample
+            Else
+                ' processing on each sample group
+                ' data is group by sample info and use the average value
+                For Each groups As IGrouping(Of String, SampleInfo) In sampleinfo.GroupBy(Function(a) a.sample_info)
+                    Dim sampleId = groups.Select(Function(si) si.ID).ToArray
+                    Dim sampleData = mat.Project(sampleId)
+                    Dim pathwayMeans = sampleData.expression.Select(Function(pwy) pwy.experiments.Average).AsVector
+                    Dim bubbleData = BubbleTerm.CreateBubbles(pathwayMeans, pathwayMeans, pathwayMeans, mat.expression.Select(Function(gene) gene.geneID).ToArray)
+                    Dim data As New NamedValue(Of Dictionary(Of String, BubbleTerm())) With {
+                       .Name = groups.Key,
+                       .Value = bubbleData
+                    }
+
+                    Call multiples.Add(data)
+                Next
+            End If
+
+            multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.data).AsList
+
+            Dim app As New CatalogHeatMap(multiples, 100, theme)
+            Return app.Plot(sizeStr, ppi:=ppi, driver:=driver)
         Else
-            Throw New NotImplementedException
+            Throw New NotImplementedException(profiles.GetType.FullName)
         End If
     End Function
 
