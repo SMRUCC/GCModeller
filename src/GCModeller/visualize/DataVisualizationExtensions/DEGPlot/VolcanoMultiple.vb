@@ -88,6 +88,7 @@ Public Class VolcanoMultiple : Inherits Plot
     ReadOnly down_deg As New SolidBrush(Color.Blue)
     ReadOnly countWidth As Boolean = False
     ReadOnly topN As Integer = 6
+    ReadOnly rect_color As New SolidBrush(Color.FromArgb(245, 245, 245))
 
     Public Sub New(compares As IEnumerable(Of NamedCollection(Of DEGModel)), deg_class As String, theme As Theme)
         MyBase.New(theme)
@@ -125,6 +126,8 @@ Public Class VolcanoMultiple : Inherits Plot
 
         ' draw zero
         Call g.DrawLine(xAxisLine, New PointF(plotRect.Left, zero), New PointF(plotRect.Right, zero))
+        Call g.DrawLine(xAxisLine, New PointF(plotRect.Left, plotRect.Top), New PointF(plotRect.Left, plotRect.Bottom))
+        Call g.DrawString("Average log2FC FoldChange", axisFont, Brushes.Black, plotRect.Left, zero, -90)
 
         For Each group As NamedCollection(Of DEGModel) In TqdmWrapper.Wrap(compares)
             Dim delta_with = If(countWidth, plotRect.Width * std.Log(group.Count(Function(e) e.class = deg_class) + 1) / sumAll, meanWidth)
@@ -142,8 +145,8 @@ Public Class VolcanoMultiple : Inherits Plot
 
             Call g.DrawLine(lineEdge, New PointF(left, plotRect.Top), New PointF(left, plotRect.Bottom))
 
-            Call g.FillRectangle(Brushes.LightGray, New RectangleF(left - halfWidth, zero - upAxis(maxLogfcUp), width, upAxis(maxLogfcUp)))
-            Call g.FillRectangle(Brushes.LightGray, New RectangleF(left - halfWidth, zero, width, downAxis(maxlogfcDown)))
+            Call g.FillRectangle(rect_color, New RectangleF(left - halfWidth, zero - upAxis(maxLogfcUp), width, upAxis(maxLogfcUp)))
+            Call g.FillRectangle(rect_color, New RectangleF(left - halfWidth, zero, width, downAxis(maxlogfcDown)))
 
             ' draw non-deg first
             For Each gene As DEGModel In group.OrderBy(Function(gi) If(gi.class = deg_class, 1, 0))
