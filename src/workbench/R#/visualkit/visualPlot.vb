@@ -920,7 +920,8 @@ Module visualPlot
             axisTickCSS:=axisTickCSS,
             ppi:=ppi,
             topMembers:=topMembers,
-            driver:=env.getDriver
+            driver:=env.getDriver,
+            gridFill:=gridFill
         )
     End Function
 
