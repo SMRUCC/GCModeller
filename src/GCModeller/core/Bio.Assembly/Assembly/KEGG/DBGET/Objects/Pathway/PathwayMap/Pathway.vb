@@ -238,7 +238,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' <returns></returns>
         Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
             If genes.IsNullOrEmpty Then
-                Call $"{EntryId} gene set is Null!".__DEBUG_ECHO
+                Call $"{EntryId} gene set is Null!".debug
                 Return {}
             End If
 

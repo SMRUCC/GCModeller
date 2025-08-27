@@ -215,7 +215,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             If Len(QueryName) > 8 Then
                 QueryName = Mid(QueryName, 1, Len(QueryName) - 8).TrimNewLine
             Else
-                Call $"This query name value is not valid!{vbCrLf}""{QueryName}""".__DEBUG_ECHO
+                Call $"This query name value is not valid!{vbCrLf}""{QueryName}""".debug
                 QueryName = Regex.Replace(QueryName, "Length$", "", RegexOptions.IgnoreCase)
             End If
 

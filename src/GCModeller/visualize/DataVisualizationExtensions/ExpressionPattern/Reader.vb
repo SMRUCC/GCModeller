@@ -64,9 +64,23 @@ Namespace ExpressionPattern
 
     Public Module Reader
 
+        ''' <summary>
+        ''' load expression pattern model from the given dataframe object
+        ''' </summary>
+        ''' <param name="matrix"></param>
+        ''' <param name="sampleData"></param>
+        ''' <returns></returns>
         <Extension>
-        Public Function CastAsPatterns(matrix As DataSet()) As ExpressionPattern
+        Public Function CastAsPatterns(matrix As DataSet(), Optional sampleData As DataSet() = Nothing) As ExpressionPattern
             Dim patterns As New List(Of FuzzyCMeansEntity)
+            Dim sampleMatrix As New Dictionary(Of String, DataSet)
+
+            If Not sampleData.IsNullOrEmpty Then
+                sampleMatrix = sampleData.ToDictionary(Function(a) a.ID)
+            End If
+
+            Dim sampleIds As String() = sampleMatrix.Values.PropertyNames
+            Dim patternIds As String() = matrix.PropertyNames
 
             For Each gene As DataSet In matrix
                 Dim max_cluster As Integer = gene.Properties _
@@ -75,11 +89,17 @@ Namespace ExpressionPattern
                     .Key _
                     .Match("\d+") _
                     .DoCall(AddressOf Integer.Parse)
+                Dim sample As DataSet = sampleMatrix.TryGetValue(gene.ID)
+                Dim dataVec As Double() = Nothing
+
+                If Not sample Is Nothing Then
+                    dataVec = sample(sampleIds)
+                End If
 
                 Call patterns.Add(New FuzzyCMeansEntity With {
                     .uid = gene.ID,
                     .cluster = max_cluster,
-                    .entityVector = {},
+                    .entityVector = dataVec,
                     .MarkClusterCenter = Color.Black,
                     .memberships = gene.Properties _
                         .Where(Function(si) Not si.Key = "Cluster") _
@@ -90,7 +110,12 @@ Namespace ExpressionPattern
                 })
             Next
 
-            Return New ExpressionPattern With {.Patterns = patterns.ToArray}
+            Return New ExpressionPattern With {
+                .Patterns = patterns.ToArray,
+                .sampleNames = sampleIds,
+                .[dim] = {1, patternIds.Length},
+                .centers = {}
+            }
         End Function
 
         ''' <summary>

@@ -144,7 +144,7 @@ Public Module SeedCluster
                     End Function) _
             .ToArray
 
-        Call "Kmeans...".__DEBUG_ECHO
+        Call "Kmeans...".debug
 
         ' 进行聚类分簇
         Dim clusters = matrix _

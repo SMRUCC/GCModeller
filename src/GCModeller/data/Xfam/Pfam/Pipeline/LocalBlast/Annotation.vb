@@ -73,12 +73,12 @@ Namespace Pipeline.LocalBlast
         Public Iterator Function DoHitsGrouping(hits As IEnumerable(Of PfamHit)) As IEnumerable(Of NamedCollection(Of PfamHit))
             Dim proteinGroups As New Dictionary(Of String, List(Of PfamHit))
 
-            Call "Create protein groups...".__DEBUG_ECHO
+            Call "Create protein groups...".debug
 
             For Each hit As PfamHit In hits
                 If Not proteinGroups.ContainsKey(hit.QueryName) Then
                     proteinGroups(hit.QueryName) = New List(Of PfamHit)
-                    Call $"{hit.QueryName}: {hit.description}".__DEBUG_ECHO
+                    Call $"{hit.QueryName}: {hit.description}".debug
                 End If
 
                 proteinGroups(hit.QueryName) += hit

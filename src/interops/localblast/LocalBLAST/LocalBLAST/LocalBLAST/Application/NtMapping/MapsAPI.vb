@@ -260,7 +260,7 @@ Namespace LocalBLAST.Application.NtMapping
         <Extension>
         Public Function TrimAssembly(data As IEnumerable(Of BlastnMapping)) As BlastnMapping()
             Dim sw = Stopwatch.StartNew
-            Call $"Start of running {NameOf(TrimAssembly)} action...".__DEBUG_ECHO
+            Call $"Start of running {NameOf(TrimAssembly)} action...".debug
             Dim LQuery As BlastnMapping() =
                 LQuerySchedule.LQuery(Of
                     BlastnMapping,
@@ -268,7 +268,7 @@ Namespace LocalBLAST.Application.NtMapping
                                    Function(x) x,
                             where:=Function(x) x.Unique AndAlso
                             x.PerfectAlignment).ToArray
-            Call $"[Job DONE!] .....{sw.ElapsedMilliseconds}ms.".__DEBUG_ECHO
+            Call $"[Job DONE!] .....{sw.ElapsedMilliseconds}ms.".debug
             Return LQuery
         End Function
 

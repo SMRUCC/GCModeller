@@ -145,7 +145,7 @@ Namespace SequenceModel.Patterns
             Dim refFa As FastaSeq = source(ref)
 
             Call source.RemoveAt(ref)
-            Call $"Using {refFa.Title} as references...".__DEBUG_ECHO
+            Call $"Using {refFa.Title} as references...".debug
 
             Dim refSeq$ = refFa.SequenceData.ToUpper.Replace("N", "-")
             Dim out As SeqValue(Of Dictionary(Of String, Variations))() =

@@ -107,8 +107,19 @@ declare namespace geneExpression {
    function cmeans_matrix(pattern: any, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, env?: object): object;
    module deg {
       /**
+       * set deg class label
+       * 
+       * 
+        * @param deg -
+        * @param class_labels set deg class label manually
+        * 
+        * + default value Is ``null``.
+        * @param logFC 
+        * + default value Is ``1``.
+        * @param pval_cutoff 
+        * + default value Is ``0.05``.
       */
-      function class(deg: object, classLabel: any): object;
+      function class(deg: object, class_labels?: any, logFC?: number, pval_cutoff?: number): object;
       module t {
          /**
           * do t-test across specific analysis comparision
@@ -474,9 +485,15 @@ declare namespace geneExpression {
     * > this function can also read the csv matrix file and 
     * >  then cast as the expression pattern data object.
     * 
-     * @param file a binary data pack file that contains the expression pattern raw data
+     * @param file a binary data pack file that contains the expression pattern raw data.
+     *  if this file is given by a csv file, then this csv file should be the cmeans cluster 
+     *  membership matrix outtput.
+     * @param samples should be a csv file path to the sample matrix data if the input **`file`**
+     *  is a csv membership matrix file.
+     * 
+     * + default value Is ``null``.
    */
-   function readPattern(file: string): object;
+   function readPattern(file: string, samples?: string): object;
    /**
     * normalize data by feature rows
     * 

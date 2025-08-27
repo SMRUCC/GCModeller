@@ -418,9 +418,9 @@ Namespace Assembly.NCBI.GenBank
             Dim PlasmidList As New FASTA.FastaFile
             Dim GeneSequenceList As New FASTA.FastaFile
 
-            Call "Flushed memory....".__DEBUG_ECHO
+            Call "Flushed memory....".debug
             Call FlushMemory()
-            Call $"There is ""{list.Count}"" genome source will be export...".__DEBUG_ECHO
+            Call $"There is ""{list.Count}"" genome source will be export...".debug
 
             Dim ExportLQuery = (From GBKFF As GBFF.File
                                 In list.AsParallel
@@ -559,10 +559,10 @@ Namespace Assembly.NCBI.GenBank
                                          Where gb.isPlasmid
                                          Select gb).ToArray
 
-            Call "Flushed memory....".__DEBUG_ECHO
+            Call "Flushed memory....".debug
             list = Nothing
             Call FlushMemory()
-            Call $"There is ""{Source.Length}"" plasmid source will be export...".__DEBUG_ECHO
+            Call $"There is ""{Source.Length}"" plasmid source will be export...".debug
 
             For Each gb As GBFF.File In Source
                 Dim cds As GeneTable() = gb.ExportGeneFeatures

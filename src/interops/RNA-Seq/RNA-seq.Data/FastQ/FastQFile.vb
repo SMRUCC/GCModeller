@@ -167,7 +167,7 @@ Namespace FQ
         Public Function ToFasta(Optional index As Boolean = False) As FASTA.FastaFile
             Dim sw As Stopwatch = Stopwatch.StartNew
 
-            Call "Start to convert fastq to fastq...".__DEBUG_ECHO
+            Call "Start to convert fastq to fastq...".debug
 
             Dim __attrs As Func(Of Integer, FastQ, String())
 
@@ -188,7 +188,7 @@ Namespace FQ
                                                    }
                                                    Order By fasta.Headers.First Ascending
 
-            Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
+            Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".debug
 
             Return New FASTA.FastaFile(LQuery)
         End Function

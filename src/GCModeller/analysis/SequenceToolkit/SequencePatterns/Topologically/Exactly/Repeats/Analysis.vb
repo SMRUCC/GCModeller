@@ -136,13 +136,13 @@ Namespace Topologically
             VBDebugger.Mute = False
 
             If refGenome Is Nothing Then
-                Call $"Reference `{ref}` is not exists in the dataset, using the first sequence as default!".__DEBUG_ECHO
+                Call $"Reference `{ref}` is not exists in the dataset, using the first sequence as default!".debug
                 refGenome = Vecotrs.First.Value
             End If
 
-            Call New String("="c, 120).__DEBUG_ECHO
-            Call $"cutoff={cutoff}".__DEBUG_ECHO
-            Call $"genomes={Vecotrs.Count}".__DEBUG_ECHO
+            Call New String("="c, 120).debug
+            Call $"cutoff={cutoff}".debug
+            Call $"genomes={Vecotrs.Count}".debug
 
             Dim p_vectors As Double() = size _
                 .Sequence _

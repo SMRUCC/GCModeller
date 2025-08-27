@@ -156,7 +156,7 @@ Namespace Assembly.NCBI.CDD
         End Function
 
         Public Function Load(DbName As String) As DbFile
-            Call $"> Loading database ""{DbName}""...".__DEBUG_ECHO
+            Call $"> Loading database ""{DbName}""...".debug
 
             Dim FilePath As String = $"{DIR}/{DbName}.xml"
             Dim DbFile As DbFile = FilePath.LoadTextDoc(Of DbFile)(ThrowEx:=False)

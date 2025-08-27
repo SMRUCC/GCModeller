@@ -66,7 +66,7 @@ Namespace gast
 
         <Extension>
         Public Sub run_command(LOG As StreamWriter, command As String)
-            If verbose Then Call command.__DEBUG_ECHO
+            If verbose Then Call command.debug
             Call LOG.WriteLine(command)
 
             Dim command_err = Perl.system(command)

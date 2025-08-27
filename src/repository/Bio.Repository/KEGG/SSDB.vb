@@ -103,7 +103,7 @@ Public Module SSDB
                 Dim title$ = id & " " & region.ToString
 
                 If titles(title) > -1 AndAlso Not [overrides] Then
-                    Call $"Skip existed {title}...".__DEBUG_ECHO
+                    Call $"Skip existed {title}...".debug
                     Continue For
                 End If
 

@@ -150,7 +150,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                  Select Segment).AsList
 
             If LQuery.IsNullOrEmpty Then
-                Call $"Location is empty!   ""{strData}""".__DEBUG_ECHO
+                Call $"Location is empty!   ""{strData}""".debug
             End If
 
             Dim JoinLocation As RegionSegment = Nothing
@@ -164,7 +164,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                     Call LQuery.Remove(JoinLocation)
                 End If
 
-                Call $"Join location at {JoinLocation.ToString}".__DEBUG_ECHO
+                Call $"Join location at {JoinLocation.ToString}".debug
             End If
 
             Dim Location As New Location With {

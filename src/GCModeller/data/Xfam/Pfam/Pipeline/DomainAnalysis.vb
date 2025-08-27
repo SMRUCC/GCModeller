@@ -177,17 +177,17 @@ Public Module DomainAnalysis
                                      Optional offset As Double = 0.1) As PfamString.PfamString()
 
         ' Show parameters for debug
-        Call MethodBase.GetCurrentMethod().GetFullName.__DEBUG_ECHO
-        Call $"{NameOf(timeOut)}            => {timeOut}".__DEBUG_ECHO
-        Call $"{NameOf(num_threads)}        => {num_threads}".__DEBUG_ECHO
-        Call $"{NameOf(disableUltralarge)}  => {disableUltralarge}".__DEBUG_ECHO
-        Call $"{NameOf(evalue)}             => {evalue}".__DEBUG_ECHO
-        Call $"{NameOf(coverage)}           => {coverage}".__DEBUG_ECHO
-        Call $"{NameOf(identities)}         => {identities}".__DEBUG_ECHO
-        Call $"{NameOf(offset)}             => {offset}".__DEBUG_ECHO
+        Call MethodBase.GetCurrentMethod().GetFullName.debug
+        Call $"{NameOf(timeOut)}            => {timeOut}".debug
+        Call $"{NameOf(num_threads)}        => {num_threads}".debug
+        Call $"{NameOf(disableUltralarge)}  => {disableUltralarge}".debug
+        Call $"{NameOf(evalue)}             => {evalue}".debug
+        Call $"{NameOf(coverage)}           => {coverage}".debug
+        Call $"{NameOf(identities)}         => {identities}".debug
+        Call $"{NameOf(offset)}             => {offset}".debug
 
         Using busy As CBusyIndicator = New CBusyIndicator()
-            Call "Start to create basic pfam-string information....".__DEBUG_ECHO
+            Call "Start to create basic pfam-string information....".debug
             Call busy.Start()
 
             If blastOutput.Queries.Length > 5000 AndAlso Not disableUltralarge Then _
@@ -224,7 +224,7 @@ Public Module DomainAnalysis
         If query.IsNullOrEmpty Then
             Return result
         Else
-            Call "End of create basic pfam-string, start Chou-Fasman calculation threads....".__DEBUG_ECHO
+            Call "End of create basic pfam-string, start Chou-Fasman calculation threads....".debug
         End If
 
         Dim Cache = (From prot As PfamString.PfamString
@@ -245,7 +245,7 @@ Public Module DomainAnalysis
         If query.IsNullOrEmpty Then
             Return data
         Else
-            Call "End of create basic pfam-string, start Chou-Fasman calculation threads....".__DEBUG_ECHO
+            Call "End of create basic pfam-string, start Chou-Fasman calculation threads....".debug
         End If
 
         Dim Cache = (From item In data Let fasta = __getFasta(item.ProteinId, query) Select fasta, pfam_string = item).ToArray
@@ -295,7 +295,7 @@ Public Module DomainAnalysis
     ''' <remarks></remarks>
     Public Function FillChouFasmanData(pfString As PfamString.PfamString, Fasta As FASTA.FastaSeq) As PfamString.PfamString
         If Fasta Is Nothing Then '没有找到
-            Call $"{pfString.ProteinId} sequence fasta not found!".__DEBUG_ECHO
+            Call $"{pfString.ProteinId} sequence fasta not found!".debug
             Return pfString
         End If
 

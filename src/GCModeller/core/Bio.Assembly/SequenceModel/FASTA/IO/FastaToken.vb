@@ -331,7 +331,7 @@ AAGCGAACAAATGTTCTATA"
             End If
 
             If nt.IsProtSource Then   '判断是否为蛋白质序列
-                Call $" ""{path.ToFileURL}"" is a protein sequence!".__DEBUG_ECHO
+                Call $" ""{path.ToFileURL}"" is a protein sequence!".debug
 
                 If strict Then
                     Return Nothing
@@ -349,7 +349,7 @@ AAGCGAACAAATGTTCTATA"
             End If
 
             If nt.HaveGaps Then
-                Call $" ""{path.ToFileURL}"" has gaps in the sequence data!".__DEBUG_ECHO
+                Call $" ""{path.ToFileURL}"" has gaps in the sequence data!".debug
 
                 If strict Then
                     Return Nothing
@@ -373,7 +373,7 @@ AAGCGAACAAATGTTCTATA"
             Dim lines As String() = IO.File.ReadAllLines(file.FixPath)
 
             If lines.IsNullOrEmpty Then
-                Call $" {file.ToFileURL} is null or empty!".__DEBUG_ECHO
+                Call $" {file.ToFileURL} is null or empty!".debug
                 Return Nothing
             Else
                 Return ParseFromStream(lines, If(deli.IsNullOrEmpty, {"|"c}, deli))

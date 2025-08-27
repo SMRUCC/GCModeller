@@ -211,7 +211,7 @@ Namespace Settings
             Dim settings As String = settingsDir & "/Settings.xml"
             Dim save As Action(Of Settings.File, String) = AddressOf saveProfile
 #If DEBUG Then
-            Call $"Load GCModeller settings data from xml file: {settings.ToFileURL}".__DEBUG_ECHO
+            Call $"Load GCModeller settings data from xml file: {settings.ToFileURL}".debug
 #End If
             Session._profileData = ProfileEngine.Settings(Of Settings.File).LoadFile(settings, save)
             Session.initFlag = True
@@ -321,11 +321,11 @@ Namespace Settings
 
                 SettingsFile.Python = Python
                 SettingsFile.Save()
-                Call $"Set up python.exe path to {Python.CLIPath}".__DEBUG_ECHO
+                Call $"Set up python.exe path to {Python.CLIPath}".debug
 
                 Return Python
             Else
-                Call $"The {NameOf(Python)} path is not exists on {Python.CLIPath}!".__DEBUG_ECHO
+                Call $"The {NameOf(Python)} path is not exists on {Python.CLIPath}!".debug
                 Return ""
             End If
         End Function
@@ -391,7 +391,7 @@ Namespace Settings
             Call Script.SaveTo(ScriptPath)
 
             STDOUT = STDOUT & ".std_out"
-            Call $"{NameOf(STDOUT)} >>> {STDOUT.ToFileURL}".__DEBUG_ECHO
+            Call $"{NameOf(STDOUT)} >>> {STDOUT.ToFileURL}".debug
 
             Return New IORedirectFile(ShoalShell, argv:=ScriptPath.CLIPath, stdRedirect:=STDOUT).Run
         End Function

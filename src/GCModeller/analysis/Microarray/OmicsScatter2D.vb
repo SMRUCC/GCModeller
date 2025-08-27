@@ -246,7 +246,7 @@ Public Module OmicsScatter2D
                     End Function) _
             .ToArray
 
-        Call gene.ID.__INFO_ECHO
+        Call gene.ID.info
 
         Return links
     End Function

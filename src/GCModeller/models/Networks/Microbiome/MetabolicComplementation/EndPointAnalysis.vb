@@ -130,17 +130,17 @@ Public Module EndPointAnalysis
         Dim endPoints As (input As Node(), output As Node())
         Dim metabolicGraph As NetworkGraph
 
-        Call $"[{taxon.TaxonomyString.ToString(True)}] Assembling metabolic network.".__DEBUG_ECHO
+        Call $"[{taxon.TaxonomyString.ToString(True)}] Assembling metabolic network.".debug
         metabolicGraph = taxon.genome _
             .Terms _
             .Select(Function(t) t.name) _
             .ToArray _
             .BuildInternalNetwork(reactions, nonEnzymetic)
 
-        Call "Do endpoint analysis".__DEBUG_ECHO
+        Call "Do endpoint analysis".debug
         endPoints = metabolicGraph.EndPoints
 
-        Call $"[{taxon.TaxonomyString.ToString(True)}] {endPoints.input.Length} inputs / {endPoints.output.Length} outputs".__INFO_ECHO
+        Call $"[{taxon.TaxonomyString.ToString(True)}] {endPoints.input.Length} inputs / {endPoints.output.Length} outputs".info
         Return New MetabolicEndPoints With {
             .secrete = endPoints.output.Keys,
             .uptakes = endPoints.input.Keys,

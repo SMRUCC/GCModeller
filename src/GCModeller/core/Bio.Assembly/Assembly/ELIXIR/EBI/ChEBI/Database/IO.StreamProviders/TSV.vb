@@ -172,9 +172,9 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv
             If fieldData.IsNullOrEmpty Then
                 Dim path$ = $"{_DIR}/{FileName}"
                 Dim st = Stopwatch.StartNew
-                Call $"[{GetType(T).FullName}] Load data from {path.ToFileURL}".__DEBUG_ECHO
+                Call $"[{GetType(T).FullName}] Load data from {path.ToFileURL}".debug
                 fieldData = TsvFileIO.Load(Of T)(path).ToArray
-                Call $"[LOAD_DATA_DONE] Performance load {fieldData.Length} objects in {st.ElapsedMilliseconds} ms...".__DEBUG_ECHO
+                Call $"[LOAD_DATA_DONE] Performance load {fieldData.Length} objects in {st.ElapsedMilliseconds} ms...".debug
             End If
             Return fieldData
         End Function

@@ -131,7 +131,7 @@ Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
 Module visualPlot
 
     Sub Main()
-        Call RInternal.generic.add("plot", GetType(ExpressionPattern), AddressOf Plot)
+        Call RInternal.generic.add("plot", GetType(ExpressionPattern), AddressOf PlotCMeansPatterns)
         Call RInternal.generic.add("plot", GetType(CatalogProfiles), AddressOf CategoryProfilePlots)
         Call RInternal.generic.add("plot", GetType(GSVADiff()), AddressOf plotGSVA)
     End Sub
@@ -294,6 +294,52 @@ Module visualPlot
             )
     End Function
 
+    <ExportAPI("multiple_volcano")>
+    Public Function MultipleComparesVolcano(groups As list,
+                                            <RRawVectorArgument> Optional size As Object = "3600,2100",
+                                            <RRawVectorArgument> Optional padding As Object = "padding: 5% 10% 10% 10%",
+                                            Optional bg As Object = "white",
+                                            Optional title As String = "Multiple Comparision Volcano",
+                                            Optional point_size As Integer = 5,
+                                            Optional deg_class As String = "sig",
+                                            Optional draw_label As Boolean = True,
+                                            Optional draw_legend As Boolean = True,
+                                            Optional label_css As String = "font-style: normal; font-size: 20; font-family: " & FontFace.BookmanOldStyle & ";",
+                                            Optional legend_css As String = "font-style: normal; font-size: 32; font-family: " & FontFace.BookmanOldStyle & ";",
+                                            Optional dpi As Integer = 100,
+                                            Optional env As Environment = Nothing) As Object
+
+        Dim multiple As New List(Of NamedCollection(Of DEGModel))
+        Dim size_str As String = InteropArgumentHelper.getSize(size, env, [default]:="3600,2100")
+        Dim padding_str As String = InteropArgumentHelper.getPadding(padding, "padding: 5% 10% 10% 10%", env)
+        Dim bg_str As String = RColorPalette.GetRawColor(bg, "white").ToHtmlColor
+
+        For Each name As String In groups.getNames
+            Dim degs As pipeline = pipeline.TryCreatePipeline(Of DEGModel)(groups.getByName(name), env)
+
+            If degs.isError Then
+                Return degs.getError
+            End If
+
+            Call multiple.Add(New NamedCollection(Of DEGModel)(
+                name:=name,
+                data:=degs.populates(Of DEGModel)(env))
+            )
+        Next
+
+        Dim theme As New Theme With {
+            .padding = padding_str,
+            .background = bg_str,
+            .pointSize = point_size,
+            .drawLabels = draw_label,
+            .tagCSS = label_css,
+            .legendLabelCSS = legend_css,
+            .drawLegend = draw_legend
+        }
+        Dim app As New VolcanoMultiple(multiple, deg_class, theme)
+        Return app.Plot(size_str, dpi, driver:=env.getDriver)
+    End Function
+
     ''' <summary>
     ''' volcano plot of the different expression result
     ''' </summary>
@@ -304,7 +350,7 @@ Module visualPlot
     ''' <param name="colors"></param>
     ''' <param name="pvalue"></param>
     ''' <param name="level"></param>
-    ''' <param name="title$"></param>
+    ''' <param name="title"></param>
     ''' <returns></returns>
     <ExportAPI("volcano")>
     Public Function VolcanoPlot(<RRawVectorArgument> genes As Object,
@@ -845,7 +891,7 @@ Module visualPlot
         }
     End Function
 
-    Private Function Plot(matrix As ExpressionPattern, args As list, env As Environment) As Object
+    Private Function PlotCMeansPatterns(matrix As ExpressionPattern, args As list, env As Environment) As Object
         Dim type As String = args.getValue(Of String)("type", env, "patterns")
         Dim size As String = InteropArgumentHelper.getSize(args!size, env, "2400,2700")
         Dim padding As String = InteropArgumentHelper.getPadding(args!padding, g.DefaultLargerPadding)
@@ -859,6 +905,7 @@ Module visualPlot
         Dim axisLabelCSS As String = InteropArgumentHelper.getFontCSS("axis_label.cex", CSSFont.Win7Normal)
         Dim ppi As Integer = args.getValue("ppi", env, 300)
         Dim topMembers As Double = args.getValue("top_members", env, 500)
+        Dim gridFill As String = RColorPalette.getColor(args.getBySynonyms("grid_fill", "grid.fill"), "lightGray", env)
 
         Return matrix.DrawMatrix(
             size:=size,
@@ -872,7 +919,8 @@ Module visualPlot
             axisLabelCSS:=axisLabelCSS,
             axisTickCSS:=axisTickCSS,
             ppi:=ppi,
-            topMembers:=topMembers
+            topMembers:=topMembers,
+            driver:=env.getDriver
         )
     End Function
 

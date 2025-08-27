@@ -154,8 +154,8 @@ Module SAM_TSSs
         Dim Unmapped As Integer = BitFlags.Bit0x4
         Dim LowQuality As Integer = BitFlags.Bit0x200
 
-        Call $"There are {doc.AlignmentsReads.Count} reads in the sam mapping file".__DEBUG_ECHO
-        Call $"Triming reads which has flag [{NameOf(LowQuality)}]{BitFlags.Bit0x200} or [{NameOf(Unmapped)}]{BitFlags.Bit0x4}".__DEBUG_ECHO
+        Call $"There are {doc.AlignmentsReads.Count} reads in the sam mapping file".debug
+        Call $"Triming reads which has flag [{NameOf(LowQuality)}]{BitFlags.Bit0x200} or [{NameOf(Unmapped)}]{BitFlags.Bit0x4}".debug
         doc = New SAM.SAM With {
             .Head = doc.Head,
             .AlignmentsReads =
@@ -166,7 +166,7 @@ Module SAM_TSSs
                                                    reads.POS > 0
                                                Select reads
         }
-        Call $"Left {doc.AlignmentsReads.Length} alignment reads after triming data.".__DEBUG_ECHO
+        Call $"Left {doc.AlignmentsReads.Length} alignment reads after triming data.".debug
 
         Return doc
     End Function

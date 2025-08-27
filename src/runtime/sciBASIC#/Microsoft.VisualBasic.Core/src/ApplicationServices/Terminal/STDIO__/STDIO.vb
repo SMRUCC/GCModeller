@@ -114,7 +114,7 @@ Namespace ApplicationServices.Terminal
 
             Call VBDebugger.Echo(s)
             Call Trace.Write(s)
-            Call Debug.Write(s)
+            Call System.Diagnostics.Debug.Write(s)
         End Sub
 #End Region
 

@@ -248,7 +248,7 @@ Namespace SequenceModel.FASTA
             Dim seqs As FastaFile = FastaFile.Read(path)
 
             If seqs.IsNullOrEmpty Then
-NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG_ECHO
+NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
                 Return Nothing
             End If
 
