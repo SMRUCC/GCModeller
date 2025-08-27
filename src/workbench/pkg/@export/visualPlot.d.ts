@@ -249,6 +249,8 @@ declare namespace visualPlot {
            *  + ``Impact``: x axis value
            *  + ``Hits``: the molecule hits number in current enrichment term
            *  + ``pathway``: the kegg pathway id
+           *  
+           *  or a score matrix of the gsva analysis result.
            * @param size -
            * 
            * + default value Is ``'3800,2600'``.
@@ -274,6 +276,8 @@ declare namespace visualPlot {
            * + default value Is ``false``.
            * @param top_samples 
            * + default value Is ``16``.
+           * @param sampleinfo 
+           * + default value Is ``null``.
            * @param ppi -
            * 
            * + default value Is ``300``.
@@ -281,7 +285,7 @@ declare namespace visualPlot {
            * 
            * + default value Is ``null``.
          */
-         function bubbles(profiles: any, size?: any, padding?: any, unenrichColor?: string, themeColors?: string, alpha?: number, displays?: object, serialTopn?: boolean, bubbleRadius?: any, heatmap?: boolean, bubbleStyle?: boolean, top_samples?: object, ppi?: object, env?: object): any;
+         function bubbles(profiles: any, size?: any, padding?: any, unenrichColor?: string, themeColors?: string, alpha?: number, displays?: object, serialTopn?: boolean, bubbleRadius?: any, heatmap?: boolean, bubbleStyle?: boolean, top_samples?: object, sampleinfo?: object, ppi?: object, env?: object): any;
       }
    }
    /**
