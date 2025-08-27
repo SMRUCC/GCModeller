@@ -116,6 +116,10 @@ Namespace Core
         Public Property id As String
         Public Property compartment_id As String
 
+        Public Overrides Function ToString() As String
+            Return id
+        End Function
+
         Public Shared Function GetModel(list As IEnumerable(Of Variable)) As IEnumerable(Of VariableFactor)
             Return From m As Variable
                    In list
@@ -174,6 +178,10 @@ Namespace Core
         Public Property left As VariableFactor()
         Public Property right As VariableFactor()
         Public Property regulation As VariableFactor()
+
+        Public Overrides Function ToString() As String
+            Return left.JoinBy(" + ") & " = " & right.JoinBy(" + ")
+        End Function
 
     End Class
 End Namespace
