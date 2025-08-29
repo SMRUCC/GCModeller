@@ -122,10 +122,21 @@ Namespace Framework.Optimization.LBFGSB
         Public Sub New()
             Me.New(New Parameters())
         End Sub
+
         Public Sub New(param As Parameters)
             m_param = param
             m_bfgs = New BFGSMat()
         End Sub
+
+        Public Function maxit(n As Integer) As LBFGSB
+            m_param.max_iterations = n
+            Return Me
+        End Function
+
+        Public Function debug(Optional opt As Boolean = True) As LBFGSB
+            Debugger.flag = opt
+            Return Me
+        End Function
 
         Public Shared Sub force_bounds(x As Double(), lb As Double(), ub As Double())
             For i = 0 To x.Length - 1
@@ -158,7 +169,7 @@ Namespace Framework.Optimization.LBFGSB
             Return [step]
         End Function
 
-        Public Shared ReadOnly eps As Double = Microsoft.VisualBasic.Math.Ulp(1.0)
+        Public Shared ReadOnly eps As Double = Ulp(1.0)
 
         ''' <summary>
         ''' 
