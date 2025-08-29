@@ -65,40 +65,34 @@ Namespace HoughCircles
 
     Public Module Algorithm
 
-        Public Function CircleHough(baseImage As BitmapBuffer, radius As Single) As EllipseShape()
+        Public Function CircleHough(baseImage As BitmapBuffer, Optional radius As Single? = Nothing) As EllipseShape()
             ' the circle result
             Dim pick As EllipseShape() = Nothing
             Dim grayImg = CreateNegative(baseImage)
             Dim binarMap = DetectEdge(grayImg)
 
-            If String.IsNullOrEmpty(radius) Then
+            If radius Is Nothing Then
                 Dim houghMap = CreateHoughSpace(binarMap)
-
                 pick = GetHighestVotes(houghMap)
             Else
-                Dim r = Short.Parse(radius)
-                Dim houghMap = CreateHoughSpace(binarMap, r)
-
-                pick = GetHighestVotes(houghMap, r)
+                Dim houghMap = CreateHoughSpace(binarMap, radius)
+                pick = GetHighestVotes(houghMap, radius)
             End If
 
             Return pick
         End Function
 
-        Public Function CircleVector(baseImage As BitmapBuffer, radius As Single) As EllipseShape()
+        Public Function CircleVector(baseImage As BitmapBuffer, Optional radius As Single? = Nothing) As EllipseShape()
             Dim pick As EllipseShape() = Nothing
             Dim grayImg = CreateNegative(baseImage)
             Dim binarMap = DetectEdge(grayImg)
 
-            If String.IsNullOrEmpty(radius) Then
+            If radius Is Nothing Then
                 Dim vSpace = CreateVectorVoteSpace(binarMap, grayImg)
-
                 pick = GetHighestVotes(vSpace, 10)
             Else
-                Dim r = Short.Parse(radius)
-                Dim vSpace = CreateVectorVoteSpace(binarMap, r)
-
-                pick = GetHighestVotes(vSpace, r, 0)
+                Dim vSpace = CreateVectorVoteSpace(binarMap, radius)
+                pick = GetHighestVotes(vSpace, radius, 0)
             End If
 
             Return pick
@@ -218,65 +212,17 @@ Namespace HoughCircles
             Return results.ToArray()
         End Function
 
+        Private Function CreateHoughSpace(binarMap As Boolean(,)) As Short(,,)
+            Dim houghSpace As New HoughSpace(binarMap)
+            houghSpace.Run()
+            Return houghSpace.getHoughSpace
+        End Function
+
         Private Function CreateHoughSpace(BinarEdgeMap As Boolean(,), radius As Integer) As Short(,)
-            Dim binarHeight = BinarEdgeMap.GetLength(0)
-            Dim binarWidth = BinarEdgeMap.GetLength(1)
-
-            Dim resultMatrix = New Short(binarHeight - 1, binarWidth - 1) {}
-            For Y As Integer = 0 To binarHeight - 1
-                For X As Integer = 0 To binarWidth - 1
-                    If BinarEdgeMap(Y, X) Then
-                        UpdateHoughMatrix(resultMatrix, X, Y, radius)
-                    End If
-                Next
-            Next
-            Return resultMatrix
+            Dim houghSpace As New HoughSpaceRadius(BinarEdgeMap, radius)
+            houghSpace.Run()
+            Return houghSpace.getHoughSpace
         End Function
-
-        Private Function CreateHoughSpace(BinarEdgeMap As Boolean(,)) As Short(,,)
-            Dim binarHeight = BinarEdgeMap.GetLength(0)
-            Dim binarWidth = BinarEdgeMap.GetLength(1)
-
-            Dim radius = If(binarHeight < binarWidth, binarHeight, binarWidth)
-
-            Dim resultCube = New Short(radius - 1, binarHeight - 1, binarWidth - 1) {}
-            For Y As Integer = 0 To binarHeight - 1
-                For X As Integer = 0 To binarWidth - 1
-                    If BinarEdgeMap(Y, X) Then
-                        UpdateHoughMatrix(resultCube, X, Y, radius)
-                    End If
-                Next
-            Next
-            Return resultCube
-        End Function
-
-        Private Sub UpdateHoughMatrix(ByRef matrix As Short(,), x As Integer, y As Integer, radius As Integer)
-            For teta = 0 To 359
-                Dim a = CInt(x + radius * std.Cos(teta))
-                Dim b = CInt(y + radius * std.Sin(teta))
-
-                If a < 0 OrElse b < 0 OrElse b >= matrix.GetLength(0) OrElse a >= matrix.GetLength(1) Then
-                    Continue For
-                End If
-
-                matrix(b, a) += 1
-            Next
-        End Sub
-
-        Private Sub UpdateHoughMatrix(ByRef cube As Short(,,), x As Integer, y As Integer, maxRadius As Integer)
-            For radius = 1 To maxRadius - 1
-                For teta = 0 To 359
-                    Dim a = CInt(x + radius * std.Cos(teta))
-                    Dim b = CInt(y + radius * std.Sin(teta))
-
-                    If a < 0 OrElse b < 0 OrElse a >= cube.GetLength(0) OrElse b >= cube.GetLength(1) Then
-                        Continue For
-                    End If
-
-                    cube(radius, b, a) += 1
-                Next
-            Next
-        End Sub
 
         Private Function CreateNegative(img As BitmapBuffer) As Short(,)
             Dim grayMatrix = ToGrayMatrix(img)
@@ -294,38 +240,9 @@ Namespace HoughCircles
         End Function
 
         Private Function DetectEdge(binarImg As Short(,)) As Boolean(,)
-            Dim height = binarImg.GetLength(0)
-            Dim width = binarImg.GetLength(1)
-            Dim bb = New Boolean(height - 1, width - 1) {}
-
-            Dim gx = New Integer(,) {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}}
-            Dim gy = New Integer(,) {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}}
-
-            Dim limit = 128 * 128
-
-            Dim newX = 0, newY = 0, c = 0
-            For Y As Integer = 1 To height - 1 - 1
-                For X As Integer = 1 To width - 1 - 1
-
-                    newX = 0
-                    newY = 0
-                    c = 0
-
-                    For hw = -1 To 1
-                        For ww = -1 To 1
-                            c = binarImg(Y + hw, X + ww)
-                            newX += gx(hw + 1, ww + 1) * c
-                            newY += gy(hw + 1, ww + 1) * c
-                        Next
-                    Next
-                    If newX * newX + newY * newY > limit Then
-                        bb(Y, X) = True
-                    Else
-                        bb(Y, X) = False
-                    End If
-                Next
-            Next
-            Return bb
+            Dim task As New DetectEdge(binarImg)
+            Call task.Run()
+            Return task.getEdges
         End Function
 
         Private Function GetGradAngle(grayImg As Short(,), x0 As Integer, y0 As Integer) As Double
