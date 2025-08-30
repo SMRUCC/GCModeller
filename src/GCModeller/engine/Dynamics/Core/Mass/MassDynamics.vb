@@ -82,15 +82,10 @@ Namespace Core
             End Set
         End Property
 
-        Public Overrides Property Value As Double Implements Ivar.value
+        Public Shadows ReadOnly Property Value As Double
             Get
                 Return mass.Value
             End Get
-            Set(value As Double)
-                If Not mass Is Nothing Then
-                    mass.Value = value
-                End If
-            End Set
         End Property
 
         Dim channels As Channel()
@@ -149,7 +144,9 @@ Namespace Core
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getLastFluxVariants() As IEnumerable(Of var)
             For i As Integer = 0 To fluxValues.Length - 1
-                fluxVariants(i).Value += fluxValues(i)
+                If Not Double.IsNaN(fluxValues(i)) Then
+                    fluxVariants(i).Value += fluxValues(i)
+                End If
             Next
 
             Return fluxVariants

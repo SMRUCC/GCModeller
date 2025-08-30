@@ -128,6 +128,15 @@ Namespace Core
             Me.role = role
         End Sub
 
+        Sub New(id As String, value As Double)
+            Me.ID = id
+            Me.m_mass = value
+        End Sub
+
+        ''' <summary>
+        ''' reset the mass value to a given <paramref name="value"/> number.
+        ''' </summary>
+        ''' <param name="value"></param>
         Public Sub reset(value As Double)
             m_mass = value
         End Sub

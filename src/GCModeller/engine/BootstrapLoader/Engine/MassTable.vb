@@ -432,7 +432,7 @@ Namespace Engine
             End If
 
             m_massSet.mapping(factor.ID) = (factor.template_id, factor.cellular_compartment)
-            m_massSet(factor.cellular_compartment)(factor.ID).Value = factor.Value
+            m_massSet(factor.cellular_compartment)(factor.ID).reset(factor.Value)
         End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Factor) Implements IEnumerable(Of Factor).GetEnumerator
