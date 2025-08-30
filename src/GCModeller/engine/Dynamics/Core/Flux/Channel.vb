@@ -107,22 +107,22 @@ Namespace Core
             Me.right = right.ToArray
 
             If Me.left.IsNullOrEmpty Then
-                Message = "left side is empty!"
+                Message = "{0} - left side is empty!"
             ElseIf Me.right.IsNullOrEmpty Then
-                Message = "right side is empty!"
+                Message = "{0} - right side is empty!"
             End If
 
             ' 20250830 check of the zero factor
             Dim zero = Me.left.Where(Function(f) f.coefficient = 0.0).ToArray
 
             If zero.Length > 0 Then
-                Message = $"left side has zero coefficient factor: {zero.Select(Function(v) v.mass.ID).JoinBy(", ")}"
+                Message = $"{0} - left side has zero coefficient factor: {zero.Select(Function(v) v.mass.ID).JoinBy(", ")}"
             End If
 
             zero = Me.right.Where(Function(f) f.coefficient = 0.0).ToArray
 
             If zero.Length > 0 Then
-                Message = $"right side has zero coefficient factor: {zero.Select(Function(v) v.mass.ID).JoinBy(", ")}"
+                Message = $"{0} - right side has zero coefficient factor: {zero.Select(Function(v) v.mass.ID).JoinBy(", ")}"
             End If
 
             isBroken = Not Message.StringEmpty()

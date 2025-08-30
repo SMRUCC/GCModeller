@@ -56,6 +56,7 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Language
@@ -164,6 +165,7 @@ Namespace ModelLoader
             Dim cellular_id As String = cell.CellularEnvironmentName
             Dim left As New List(Of Variable)
             Dim flux As Channel
+            Dim transcript As Variable
 
             For Each type As KeyValuePair(Of String, List(Of String)) In rRNA
                 Dim rRNA_key As String = $"{type.Key}_rRNA"
@@ -177,14 +179,17 @@ Namespace ModelLoader
                 For Each id As String In type.Value
                     Call MassTable.addNew(id, MassRoles.RNA, cellular_id)
 
-                    Dim transcript = MassTable.variable(id, cellular_id)
-
-                    Yield New Channel(transcript, generic) With {
+                    transcript = MassTable.variable(id, cellular_id)
+                    flux = New Channel(transcript, generic) With {
                         .ID = $"{rRNA_key}<->{id}",
                         .bounds = New Boundary(100, 100),
                         .forward = Controls.StaticControl(100),
                         .reverse = Controls.StaticControl(100)
                     }
+
+                    If flux.isBroken Then
+                        Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                    End If
                 Next
             Next
 
@@ -200,6 +205,10 @@ Namespace ModelLoader
             }
 
             loader.fluxIndex(NameOf(Me.ribosomeAssembly)).Add(flux.ID)
+
+            If flux.isBroken Then
+                Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+            End If
 
             Yield flux
         End Function
