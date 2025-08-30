@@ -87,7 +87,7 @@ Namespace Core
                 Return mass.Value
             End Get
             Set(value As Double)
-                If Not mass Is Nothing Then
+                If mass IsNot Nothing AndAlso Not is_template Then
                     If Double.IsNaN(value) OrElse Double.IsNegativeInfinity(value) OrElse value < 0 Then
                         Call mass.reset(0.0)
                     ElseIf Double.IsPositiveInfinity(value) Then
@@ -108,8 +108,10 @@ Namespace Core
         Dim shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
         Dim fluxVariants As var()
         Dim fluxValues As Double()
+        Dim is_template As Boolean = False
 
-        Private Sub New()
+        Private Sub New(is_template As Boolean)
+            Me.is_template = is_template
         End Sub
 
         Public Function Evaluate() As Double Implements INonlinearVar.Evaluate
@@ -225,7 +227,7 @@ Namespace Core
                     channels = massIndex(mass.ID).ToArray
                 End If
 
-                ' channels = channels.Where(Function(fx) Not (fx.left.IsNullOrEmpty OrElse fx.right.IsNullOrEmpty)).ToArray
+                Dim is_template As Boolean = False
 
                 For Each flux As Channel In channels
                     matter = flux.GetReactants _
@@ -244,13 +246,17 @@ Namespace Core
                         ' 相关系数为正实数
                         factors.Add(matter.coefficient)
                     End If
+
+                    If matter.isTemplate Then
+                        is_template = True
+                    End If
                 Next
 
                 If channels.IsNullOrEmpty Then
                     Continue For
                 End If
 
-                Yield New MassDynamics With {
+                Yield New MassDynamics(is_template) With {
                     .mass = mass,
                     .factors = factors.ToArray,
                     .channels = channels,

@@ -324,6 +324,12 @@ Namespace Engine
             Return compounds.Select(Function(cpd) variable(cpd.ID, cpd.Compartment Or defaultCompartment, cpd.Stoichiometry))
         End Function
 
+        ''' <summary>
+        ''' create molecule variable in the flux model
+        ''' </summary>
+        ''' <param name="compounds"></param>
+        ''' <param name="templates"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function variables(compounds As IEnumerable(Of CompoundSpecieReference), templates As Index(Of String)) As IEnumerable(Of Variable)
             Return compounds _
