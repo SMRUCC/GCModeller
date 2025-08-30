@@ -133,6 +133,7 @@ Namespace ModelLoader
                                   Return p.ToArray
                               End Function)
             Dim proteinIDs = cell.Phenotype.proteins.Select(Function(p) p.ProteinID).Indexing
+            Dim missingVec As New List(Of String)
 
             ' protein degradation to amino acids and lignds
             For Each complex As Channel In proteinMatures
@@ -183,7 +184,7 @@ Namespace ModelLoader
                     .ToArray
 
                 If aaResidue.IsNullOrEmpty Then
-                    Call $"missing protein composition for complex: {complex.ID}".warning
+                    Call missingVec.Add(complex.ID)
                     Continue For
                 End If
 
@@ -205,6 +206,13 @@ Namespace ModelLoader
 
                 Yield flux
             Next
+
+            If missingVec.Any Then
+                Dim msg As String = $"missing protein composition for {missingVec.Count} complex: {missingVec.JoinBy(", ")}!"
+
+                Call msg.warning
+                Call msg.debug
+            End If
 
             ' polypeptide degradation to amino acids
             For Each gene As CentralDogma In cell.Genotype.centralDogmas
