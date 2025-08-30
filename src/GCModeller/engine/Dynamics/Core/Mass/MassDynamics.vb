@@ -212,6 +212,7 @@ Namespace Core
             Dim templates As Index(Of String) = Nothing
             Dim massIndex = createMassIndex(env.Channels, templates)
             Dim channels As Channel()
+            Dim missingFlux As New List(Of String)
 
             For Each mass As Factor In env.m_massIndex.Values
                 Call factors.Clear()
@@ -219,7 +220,7 @@ Namespace Core
                 If Not massIndex.ContainsKey(mass.ID) Then
                     If Not mass.ID Like templates Then
                         ' compound is constant value
-                        Call ($"missing dynamics for compound: " & mass.ID).Warning
+                        Call missingFlux.Add(mass.ID)
                     End If
 
                     channels = {}
@@ -273,6 +274,13 @@ Namespace Core
                     .fluxValues = New Double(.fluxVariants.Length - 1) {}
                 }
             Next
+
+            If missingFlux.Any Then
+                Dim msg As String = $"missing dynamics for compounds: {missingFlux.JoinBy(", ")}!"
+
+                Call msg.warning
+                Call msg.debug
+            End If
         End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of var) Implements Enumeration(Of var).GenericEnumerator
