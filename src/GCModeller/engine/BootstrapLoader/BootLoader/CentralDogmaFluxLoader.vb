@@ -588,8 +588,12 @@ Namespace ModelLoader
                             Return MassTable.variable(uncharged_tRNA(aa.Name), cellular_id, aa.Value)
                         End Function) _
                 .AsList
+            Dim mRNA As String = gene.RNAName
 
-            Return AAtRNA + MassTable.template(peptide, cellular_id) + MassTable.variable(loader.define.ADP, cellular_id)
+            ' 20250831
+            ' template of mRNA is not working in ODEs
+            ' restore the mRNA in product list at here
+            Return AAtRNA + MassTable.variable(peptide, cellular_id) + MassTable.variable(mRNA, cellular_id) + MassTable.variable(loader.define.ADP, cellular_id)
         End Function
 
         Protected Overrides Function GetMassSet() As IEnumerable(Of String)
