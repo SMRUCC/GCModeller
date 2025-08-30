@@ -145,6 +145,14 @@ Namespace Core
                         Throw New InvalidProgramException($"Unknown reaction direction status of reaction flux: {flux.ID}!")
                 End Select
 
+                If Double.IsNaN(variants) Then
+                    variants = 0
+                ElseIf Double.IsPositiveInfinity(variants) Then
+                    variants = 100
+                ElseIf Double.IsNegativeInfinity(variants) Then
+                    variants = -100
+                End If
+
                 additions(i) = variants
                 fluxValues(i) = fluxVariant
             Next
