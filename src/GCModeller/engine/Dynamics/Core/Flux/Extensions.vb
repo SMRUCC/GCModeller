@@ -179,6 +179,7 @@ Namespace Core
         Public Property left As VariableFactor()
         Public Property right As VariableFactor()
         Public Property regulation As VariableFactor()
+        Public Property id As String
 
         Public Overrides Function ToString() As String
             Return left.JoinBy(" + ") & " = " & right.JoinBy(" + ")
