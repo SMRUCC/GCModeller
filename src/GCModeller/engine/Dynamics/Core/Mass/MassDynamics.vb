@@ -87,12 +87,14 @@ Namespace Core
                 Return mass.Value
             End Get
             Set(value As Double)
-                If Double.IsNaN(value) OrElse Double.IsNegativeInfinity(value) OrElse value < 0 Then
-                    Call mass.reset(0.0)
-                ElseIf Double.IsPositiveInfinity(value) Then
-                    Call mass.reset(99999)
-                Else
-                    Call mass.reset(value)
+                If Not mass Is Nothing Then
+                    If Double.IsNaN(value) OrElse Double.IsNegativeInfinity(value) OrElse value < 0 Then
+                        Call mass.reset(0.0)
+                    ElseIf Double.IsPositiveInfinity(value) Then
+                        Call mass.reset(99999)
+                    Else
+                        Call mass.reset(value)
+                    End If
                 End If
             End Set
         End Property
