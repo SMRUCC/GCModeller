@@ -82,10 +82,19 @@ Namespace Core
             End Set
         End Property
 
-        Public Shadows ReadOnly Property Value As Double
+        Public Overrides Property Value As Double
             Get
                 Return mass.Value
             End Get
+            Set(value As Double)
+                If Double.IsNaN(value) OrElse Double.IsNegativeInfinity(value) OrElse value < 0 Then
+                    Call mass.reset(0.0)
+                ElseIf Double.IsPositiveInfinity(value) Then
+                    Call mass.reset(99999)
+                Else
+                    Call mass.reset(value)
+                End If
+            End Set
         End Property
 
         Dim channels As Channel()
