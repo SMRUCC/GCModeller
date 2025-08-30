@@ -104,7 +104,7 @@ Namespace Raw
         End Function
 
         Private Sub WriteCellularGraph(graph As NetworkGraph)
-            Dim s = output.GetStream
+            Dim s As StreamPack = output.GetStream
             Dim metaboIndex As New Index(Of String)
 
             ' write nodes
