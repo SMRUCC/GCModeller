@@ -237,7 +237,7 @@ Namespace ModelLoader
                 Dim warn As String = $"found {uniq.Length} duplicated RNA object: {uniq.JoinBy(", ")}!"
 
                 Call warn.warning
-                Call VBDebugger.EchoLine("[warning]" & warn)
+                Call warn.debug
             End If
 
             Return index
@@ -261,7 +261,7 @@ Namespace ModelLoader
                 Dim warn As String = $"found {uniq.Length} duplicated protein peptide chains object: {uniq.JoinBy(", ")}!"
 
                 Call warn.warning
-                Call VBDebugger.EchoLine("[warning]" & warn)
+                Call warn.debug
             End If
 
             Return index
@@ -387,7 +387,7 @@ Namespace ModelLoader
                 Dim warn = $"found {uniq.Length} duplicated gene models: {uniq.JoinBy(", ")}!"
 
                 Call warn.warning
-                Call VBDebugger.EchoLine("[warning] " & warn)
+                Call warn.debug
             End If
 
             If rRNA.IsNullOrEmpty Then
@@ -545,7 +545,7 @@ Namespace ModelLoader
             Dim warn As String = $"missing protein translation composition for gene: {gene.geneID}"
 
             Call warn.warning
-            Call VBDebugger.EchoLine("[warn] " & warn)
+            Call warn.debug
 
             Return New ProteinComposition With {
                 .A = 1,

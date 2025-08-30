@@ -145,8 +145,8 @@ Namespace ModelLoader
                 Dim uniq As String() = duplicated.Distinct.ToArray
                 Dim warn = $"found {uniq.Length} duplicated protein complex models: {uniq.JoinBy(", ")}!"
 
-                Call warn.Warning
-                Call VBDebugger.EchoLine($"[warning] {warn}")
+                Call warn.warning
+                Call warn.debug
             End If
 
             With proteinComplex.OrderBy(Function(a) a.Key).ToArray

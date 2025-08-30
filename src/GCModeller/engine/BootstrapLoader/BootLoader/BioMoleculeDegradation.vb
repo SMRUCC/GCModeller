@@ -183,7 +183,7 @@ Namespace ModelLoader
                     .ToArray
 
                 If aaResidue.IsNullOrEmpty Then
-                    Call VBDebugger.Warning($"missing protein composition for complex: {complex.ID}")
+                    Call $"missing protein composition for complex: {complex.ID}".warning
                     Continue For
                 End If
 
