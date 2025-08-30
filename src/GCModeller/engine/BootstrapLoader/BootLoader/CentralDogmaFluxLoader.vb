@@ -236,7 +236,7 @@ Namespace ModelLoader
                 Dim uniq = duplicateds.Distinct.ToArray
                 Dim warn As String = $"found {uniq.Length} duplicated RNA object: {uniq.JoinBy(", ")}!"
 
-                Call warn.Warning
+                Call warn.warning
                 Call VBDebugger.EchoLine("[warning]" & warn)
             End If
 
@@ -260,7 +260,7 @@ Namespace ModelLoader
                 Dim uniq = duplicateds.Distinct.ToArray
                 Dim warn As String = $"found {uniq.Length} duplicated protein peptide chains object: {uniq.JoinBy(", ")}!"
 
-                Call warn.Warning
+                Call warn.warning
                 Call VBDebugger.EchoLine("[warning]" & warn)
             End If
 
@@ -386,7 +386,7 @@ Namespace ModelLoader
                 Dim uniq = duplicatedGenes.Distinct.ToArray
                 Dim warn = $"found {uniq.Length} duplicated gene models: {uniq.JoinBy(", ")}!"
 
-                Call warn.Warning
+                Call warn.warning
                 Call VBDebugger.EchoLine("[warning] " & warn)
             End If
 
@@ -544,7 +544,7 @@ Namespace ModelLoader
         Private Function MissingAAComposition(gene As CentralDogma) As ProteinComposition
             Dim warn As String = $"missing protein translation composition for gene: {gene.geneID}"
 
-            Call warn.Warning
+            Call warn.warning
             Call VBDebugger.EchoLine("[warn] " & warn)
 
             Return New ProteinComposition With {
