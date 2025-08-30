@@ -152,6 +152,10 @@ Namespace ModelLoader
                .forward = Controls.StaticControl(loader.dynamics.tRNAChargeBaseline)
             }
 
+            If flux.isBroken Then
+                Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+            End If
+
             loader.fluxIndex(NameOf(Me.tRNAProcess)).Add(flux.ID)
 
             Yield flux
@@ -166,14 +170,14 @@ Namespace ModelLoader
             Dim left As New List(Of Variable)
             Dim flux As Channel
             Dim transcript As Variable
+            Dim generic As Variable
 
             For Each type As KeyValuePair(Of String, List(Of String)) In rRNA
                 Dim rRNA_key As String = $"{type.Key}_rRNA"
 
                 Call MassTable.addNew(rRNA_key, MassRoles.rRNA, cellular_id)
 
-                Dim generic = MassTable.variable(rRNA_key, cellular_id)
-
+                generic = MassTable.variable(rRNA_key, cellular_id)
                 left.Add(generic)
 
                 For Each id As String In type.Value
@@ -189,6 +193,8 @@ Namespace ModelLoader
 
                     If flux.isBroken Then
                         Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                    Else
+                        Yield flux
                     End If
                 Next
             Next
@@ -428,6 +434,10 @@ Namespace ModelLoader
                         }
                     }
 
+                    If translation.isBroken Then
+                        Throw New InvalidDataException(String.Format(translation.Message, translation.ID))
+                    End If
+
                     loader.fluxIndex("translation").Add(translation.ID)
 
                     Yield translation
@@ -463,6 +473,10 @@ Namespace ModelLoader
                         .reverse = 0
                     }
                 }
+
+                If transcription.isBroken Then
+                    Throw New InvalidDataException(String.Format(transcription.Message, transcription.ID))
+                End If
 
                 loader.fluxIndex("transcription").Add(transcription.ID)
 

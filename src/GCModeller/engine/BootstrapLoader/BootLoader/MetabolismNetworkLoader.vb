@@ -53,6 +53,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -254,6 +255,10 @@ Namespace ModelLoader
             ' 假设所有的反应过程化都存在产物抑制效应
             metabolismFlux.forward.inhibition = productInhibitionFactor(metabolismFlux.right, productCompart)
             metabolismFlux.reverse.inhibition = productInhibitionFactor(metabolismFlux.left, reactantCompart)
+
+            If metabolismFlux.isBroken Then
+                Throw New InvalidDataException(String.Format(metabolismFlux.Message, metabolismFlux.ID))
+            End If
 
             Call loader.fluxIndex(NameOf(MetabolismNetworkLoader)).Add(metabolismFlux.ID)
 

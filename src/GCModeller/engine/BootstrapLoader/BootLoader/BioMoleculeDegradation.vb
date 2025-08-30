@@ -55,6 +55,7 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -196,6 +197,10 @@ Namespace ModelLoader
                     }
                 }
 
+                If flux.isBroken Then
+                    Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                End If
+
                 Call loader.fluxIndex(NameOf(Me.proteinDegradation)).Add(flux.ID)
 
                 Yield flux
@@ -230,7 +235,11 @@ Namespace ModelLoader
                          .forward = 1000,
                          .reverse = 0
                      }
-                 }
+                }
+
+                If flux.isBroken Then
+                    Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                End If
 
                 Call loader.fluxIndex("polypeptideDegradation").Add(flux.ID)
 
@@ -283,6 +292,10 @@ Namespace ModelLoader
                         .reverse = 0
                     }
                 }
+
+                If flux.isBroken Then
+                    Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                End If
 
                 Call loader.fluxIndex(NameOf(Me.RNADegradation)).Add(flux.ID)
 
