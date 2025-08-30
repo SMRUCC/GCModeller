@@ -103,6 +103,7 @@ Namespace Definitions
         ''' <returns></returns>
         Public Property Water As String
         Public Property Oxygen As String
+        Public Property Ammonia As String
 #End Region
 
         Public Property NucleicAcid As NucleicAcid
@@ -110,6 +111,12 @@ Namespace Definitions
 
         Public Property GenericCompounds As Dictionary(Of String, GeneralCompound)
 #End Region
+
+        ''' <summary>
+        ''' the compartment id of the Culture medium
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property CultureMedium As String = "Extracellular"
 
         ''' <summary>
         ''' 对细胞的初始状态的定义

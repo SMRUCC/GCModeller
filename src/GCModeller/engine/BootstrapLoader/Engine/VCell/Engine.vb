@@ -160,7 +160,7 @@ Namespace Engine
             ' 达到无法执行转录过程反应的缺失突变的效果
             For Each geneTemplateId As String In deletions.SafeQuery
                 Call core.m_massIndex(geneTemplateId).reset(0)
-                Call $"Deletes '{geneTemplateId}'...".info
+                Call $"deletes '{geneTemplateId}'...".info
             Next
 
             Return Me
@@ -211,6 +211,12 @@ Namespace Engine
                     Else
                         Call mass.reset(randf.NextDouble(10, 250))
                     End If
+                End If
+            Next
+
+            For Each mass As Factor In core.m_massIndex.Values
+                If mass.cellular_compartment = initials.CultureMedium Then
+                    Call mass.reset(9999999999)
                 End If
             Next
         End Sub
