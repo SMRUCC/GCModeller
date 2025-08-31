@@ -380,7 +380,7 @@ Module microbiomeKit
     ''' rank levels.
     ''' </returns>
     <ExportAPI("taxonomy.rank_table")>
-    <RApiReturn(GetType(RankLevelView), GetType(Matrix))>
+    <RApiReturn(GetType(RankLevelView), GetType(HTSMatrix))>
     Public Function taxonomyRankTable(otu As OTUData(Of Double)(), Optional as_matrix As Boolean = False) As Object
         Dim all_ranks = otu.ExportByRanks.ToArray
         Dim ranks As list = list.empty
