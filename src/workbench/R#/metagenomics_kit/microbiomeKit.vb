@@ -380,13 +380,18 @@ Module microbiomeKit
     ''' rank levels.
     ''' </returns>
     <ExportAPI("taxonomy.rank_table")>
-    <RApiReturn(GetType(RankLevelView))>
-    Public Function taxonomyRankTable(otu As OTUData(Of Double)()) As Object
+    <RApiReturn(GetType(RankLevelView), GetType(Matrix))>
+    Public Function taxonomyRankTable(otu As OTUData(Of Double)(), Optional as_matrix As Boolean = False) As Object
         Dim all_ranks = otu.ExportByRanks.ToArray
         Dim ranks As list = list.empty
 
         For Each rank As NamedCollection(Of RankLevelView) In all_ranks
-            Call ranks.add(rank.name, rank.value)
+            Call ranks.add(
+                name:=rank.name,
+                value:=If(as_matrix,
+                    RankLevelView.ToMatrix(rank.value, rank.name),
+                    rank.value)
+            )
         Next
 
         Return ranks
