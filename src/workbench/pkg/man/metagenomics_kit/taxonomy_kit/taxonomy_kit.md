@@ -16,5 +16,4 @@ toolkit for process ncbi taxonomy tree data
 + [as.taxonomy.tree](taxonomy_kit/as.taxonomy.tree.1) build taxonomy tree based on a given collection of taxonomy object.
 + [consensus](taxonomy_kit/consensus.1) 
 + [read.mothurTree](taxonomy_kit/read.mothurTree.1) Parse the result output from mothur command ``summary.tax``.
-+ [as.OTU_table](taxonomy_kit/as.OTU_table.1) convert the mothur rank tree as the OTU table
 + [taxonomy_range](taxonomy_kit/taxonomy_range.1) 

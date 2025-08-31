@@ -30,6 +30,19 @@ declare namespace OTU_table {
         * @param otu_table -
       */
       function hts_matrix(otu_table: object): object;
+      /**
+       * convert the mothur rank tree as the OTU table
+       * 
+       * 
+        * @param x -
+        * @param id 
+        * + default value Is ``'OTU_num'``.
+        * @param taxonomy 
+        * + default value Is ``'taxonomy'``.
+        * @param env 
+        * + default value Is ``null``.
+      */
+      function OTU_table(x: any, id?: string, taxonomy?: string, env?: object): object;
    }
    /**
     * filter the otu data which has relative abundance greater than the given threshold
@@ -39,6 +52,13 @@ declare namespace OTU_table {
      * @param relative_abundance -
    */
    function filter(x: object, relative_abundance: number): object;
+   /**
+    * cast the expression matrix to the otu data
+    * 
+    * 
+     * @param x an expression matrix which use the biom taxonomy string as feature unique id reference.
+   */
+   function otu_from_matrix(x: object): object;
    module read {
       /**
        * read 16s OTU table

@@ -13,19 +13,6 @@
 */
 declare namespace taxonomy_kit {
    module as {
-      /**
-       * convert the mothur rank tree as the OTU table
-       * 
-       * 
-        * @param x -
-        * @param id 
-        * + default value Is ``'OTU_num'``.
-        * @param taxonomy 
-        * + default value Is ``'taxonomy'``.
-        * @param env 
-        * + default value Is ``null``.
-      */
-      function OTU_table(x: any, id?: string, taxonomy?: string, env?: object): object;
       module taxonomy {
          /**
           * build taxonomy tree based on a given collection of taxonomy object.
