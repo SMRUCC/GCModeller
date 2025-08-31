@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.Rsharp.Runtime.Interop
 
@@ -139,7 +140,9 @@ Module OTUTableTools
     ''' <param name="sumDuplicated"></param>
     ''' <returns></returns>
     <ExportAPI("read.OTUtable")>
-    Public Function readOTUTable(file As String, Optional sumDuplicated As Boolean = True, Optional OTUTaxonAnalysis As Boolean = False) As OTUTable()
+    Public Function readOTUTable(file As String,
+                                 Optional sumDuplicated As Boolean = True,
+                                 Optional OTUTaxonAnalysis As Boolean = False) As OTUTable()
         Dim otus As OTUTable()
 
         If OTUTaxonAnalysis Then
@@ -155,5 +158,11 @@ Module OTUTableTools
         Else
             Return otus
         End If
+    End Function
+
+    <ExportAPI("as.hts_matrix")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function cast_matrix(otu_table As OTUTable()) As Object
+        Return otu_table.CastMatrix
     End Function
 End Module
