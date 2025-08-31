@@ -160,6 +160,11 @@ Module OTUTableTools
         End If
     End Function
 
+    ''' <summary>
+    ''' Create expression matrix data from a given otu table
+    ''' </summary>
+    ''' <param name="otu_table"></param>
+    ''' <returns></returns>
     <ExportAPI("as.hts_matrix")>
     <RApiReturn(GetType(Matrix))>
     Public Function cast_matrix(otu_table As OTUTable()) As Object
