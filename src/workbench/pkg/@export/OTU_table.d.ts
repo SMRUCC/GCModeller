@@ -22,6 +22,15 @@
  * >  clusters.
 */
 declare namespace OTU_table {
+   module as {
+      /**
+       * Create expression matrix data from a given otu table
+       * 
+       * 
+        * @param otu_table -
+      */
+      function hts_matrix(otu_table: object): object;
+   }
    /**
     * filter the otu data which has relative abundance greater than the given threshold
     * 
@@ -30,6 +39,20 @@ declare namespace OTU_table {
      * @param relative_abundance -
    */
    function filter(x: object, relative_abundance: number): object;
+   module read {
+      /**
+       * read 16s OTU table
+       * 
+       * 
+        * @param file -
+        * @param sumDuplicated -
+        * 
+        * + default value Is ``true``.
+        * @param OTUTaxonAnalysis 
+        * + default value Is ``false``.
+      */
+      function OTUtable(file: string, sumDuplicated?: boolean, OTUTaxonAnalysis?: boolean): object;
+   }
    /**
     * Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
     *  

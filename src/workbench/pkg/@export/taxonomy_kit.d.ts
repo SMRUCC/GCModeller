@@ -113,16 +113,6 @@ declare namespace taxonomy_kit {
         * @param file -
       */
       function mothurTree(file: string): object;
-      /**
-       * read 16s OTU table
-       * 
-       * 
-        * @param file -
-        * @param sumDuplicated -
-        * 
-        * + default value Is ``true``.
-      */
-      function OTUtable(file: string, sumDuplicated?: boolean): object;
    }
    module taxonomy {
       /**
