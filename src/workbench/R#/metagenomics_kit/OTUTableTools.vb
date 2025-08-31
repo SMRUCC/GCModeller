@@ -176,7 +176,7 @@ Module OTUTableTools
     ''' <returns></returns>
     <ExportAPI("otu_from_matrix")>
     Public Function fromMatrix(x As Matrix) As OTUData(Of Double)()
-
+        Return x.FromExpressionMatrix.ToArray
     End Function
 
     ''' <summary>

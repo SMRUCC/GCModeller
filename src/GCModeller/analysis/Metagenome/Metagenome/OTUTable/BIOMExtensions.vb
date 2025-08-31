@@ -53,8 +53,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.foundation.BIOM.v10
+Imports SMRUCC.genomics.Metagenomics
 Imports std = System.Math
 
 Public Module BIOMExtensions
@@ -99,5 +101,18 @@ Public Module BIOMExtensions
             .sampleID = sampleIds,
             .tag = "otu_table"
         }
+    End Function
+
+    <Extension>
+    Public Iterator Function FromExpressionMatrix(mat As Matrix) As IEnumerable(Of OTUData(Of Double))
+        Dim i As i32 = 1
+
+        For Each feature As DataFrameRow In mat.expression
+            Yield New OTUData(Of Double) With {
+                .OTU = "otu_" & (++i),
+                .taxonomy = feature.geneID,
+                .data = feature.ToDataSet(mat.sampleID)
+            }
+        Next
     End Function
 End Module
