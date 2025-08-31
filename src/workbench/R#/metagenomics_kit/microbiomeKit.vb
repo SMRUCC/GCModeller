@@ -375,15 +375,35 @@ Module microbiomeKit
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="otu"></param>
+    ''' <param name="otus">
+    ''' the otu table data
+    ''' </param>
     ''' <returns>a tuple list of the <see cref="RankLevelView"/> in different taxonomy
     ''' rank levels.
     ''' </returns>
     <ExportAPI("taxonomy.rank_table")>
     <RApiReturn(GetType(RankLevelView), GetType(HTSMatrix))>
-    Public Function taxonomyRankTable(otu As OTUData(Of Double)(), Optional as_matrix As Boolean = False) As Object
-        Dim all_ranks = otu.ExportByRanks.ToArray
+    Public Function taxonomyRankTable(<RRawVectorArgument> otus As Object, Optional as_matrix As Boolean = False, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUData(Of Double))(otus, env)
+        Dim all_ranks As NamedCollection(Of RankLevelView)()
         Dim ranks As list = list.empty
+
+        If Not pull.isError Then
+            all_ranks = pull _
+                .populates(Of OTUData(Of Double))(env) _
+                .ExportByRanks _
+                .ToArray
+        Else
+            pull = pipeline.TryCreatePipeline(Of OTUTable)(otus, env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            all_ranks = pull.populates(Of OTUTable)(env) _
+                .ExportByRanks _
+                .ToArray
+        End If
 
         For Each rank As NamedCollection(Of RankLevelView) In all_ranks
             Call ranks.add(
