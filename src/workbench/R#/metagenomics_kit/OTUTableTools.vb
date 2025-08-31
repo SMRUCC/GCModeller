@@ -58,7 +58,14 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Metagenomics
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 
 ''' <summary>
 ''' Tools for handling OTU table data
@@ -169,5 +176,68 @@ Module OTUTableTools
     <RApiReturn(GetType(Matrix))>
     Public Function cast_matrix(otu_table As OTUTable()) As Object
         Return otu_table.CastMatrix
+    End Function
+
+    ''' <summary>
+    ''' convert the mothur rank tree as the OTU table
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    <ExportAPI("as.OTU_table")>
+    <RApiReturn(GetType(OTUTable))>
+    Public Function asOTUTable(x As Object,
+                               Optional id As String = "OTU_num",
+                               Optional taxonomy As String = "taxonomy",
+                               Optional env As Environment = Nothing) As Object
+
+        If x Is Nothing Then
+            Return Nothing
+        End If
+
+        If TypeOf x Is MothurRankTree Then
+            Return DirectCast(x, MothurRankTree).GetOTUTable
+        ElseIf TypeOf x Is rdataframe Then
+            Return asOTUTable(DirectCast(x, rdataframe), id, taxonomy)
+        Else
+            Return message.InCompatibleType(GetType(MothurRankTree), x.GetType, env)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' convert the dataframe object to OTU table
+    ''' </summary>
+    ''' <param name="table"></param>
+    ''' <param name="id"></param>
+    ''' <param name="taxonomy"></param>
+    ''' <returns></returns>
+    Public Function asOTUTable(table As rdataframe,
+                               Optional id As String = "OTU_num",
+                               Optional taxonomy As String = "taxonomy") As OTUTable()
+
+        Dim unique_id As String() = CLRVector.asCharacter(table.getColumnVector(id))
+        Dim taxonomyStr As Taxonomy() = CLRVector.asCharacter(table.getColumnVector(taxonomy)) _
+            .Select(Function(str) New Taxonomy(BIOMTaxonomy.TaxonomyParser(str))) _
+            .ToArray
+
+        Call table.columns.Remove(id)
+        Call table.columns.Remove(taxonomy)
+
+        Dim samples = table.forEachRow.ToArray
+        Dim sample_ids As String() = table.colnames
+
+        Return unique_id _
+            .Select(Function(tax, i)
+                        Return New OTUTable With {
+                            .ID = tax,
+                            .taxonomy = taxonomyStr(i),
+                            .Properties = samples(i) _
+                                .Select(Function(sample, j) (sample, sample_ids(j))) _
+                                .ToDictionary(Function(a) a.Item2,
+                                              Function(a)
+                                                  Return Val(a.Item1)
+                                              End Function)
+                        }
+                    End Function) _
+            .ToArray
     End Function
 End Module
