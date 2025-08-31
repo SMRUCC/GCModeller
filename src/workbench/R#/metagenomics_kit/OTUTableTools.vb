@@ -1,57 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::cecfa8fef07a6ff47476dc632a28b5c7, R#\metagenomics_kit\OTUTableTools.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 80
-    '    Code Lines: 41 (51.25%)
-    ' Comment Lines: 33 (41.25%)
-    '    - Xml Docs: 87.88%
-    ' 
-    '   Blank Lines: 6 (7.50%)
-    '     File Size: 3.09 KB
+' Summaries:
 
 
-    ' Module OTUTableTools
-    ' 
-    '     Function: filter, relativeAbundance
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 80
+'    Code Lines: 41 (51.25%)
+' Comment Lines: 33 (41.25%)
+'    - Xml Docs: 87.88%
+' 
+'   Blank Lines: 6 (7.50%)
+'     File Size: 3.09 KB
+
+
+' Module OTUTableTools
+' 
+'     Function: filter, relativeAbundance
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -129,5 +130,30 @@ Module OTUTableTools
                                End Function)
                    End Function) _
             .ToArray
+    End Function
+
+    ''' <summary>
+    ''' read 16s OTU table
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="sumDuplicated"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.OTUtable")>
+    Public Function readOTUTable(file As String, Optional sumDuplicated As Boolean = True, Optional OTUTaxonAnalysis As Boolean = False) As OTUTable()
+        Dim otus As OTUTable()
+
+        If OTUTaxonAnalysis Then
+            otus = OTU _
+                .LoadOTUTaxonAnalysis(file, tsv:=Not file.ExtensionSuffix("csv")) _
+                .ToArray
+        Else
+            otus = file.LoadCsv(Of OTUTable)(mute:=True).ToArray
+        End If
+
+        If sumDuplicated Then
+            Return OTUTable.SumDuplicatedOTU(otus).ToArray
+        Else
+            Return otus
+        End If
     End Function
 End Module

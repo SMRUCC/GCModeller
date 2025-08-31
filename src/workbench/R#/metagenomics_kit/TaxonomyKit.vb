@@ -475,23 +475,6 @@ Module TaxonomyKit
             .ToArray
     End Function
 
-    ''' <summary>
-    ''' read 16s OTU table
-    ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="sumDuplicated"></param>
-    ''' <returns></returns>
-    <ExportAPI("read.OTUtable")>
-    Public Function readOTUTable(file As String, Optional sumDuplicated As Boolean = True) As OTUTable()
-        Dim otus As OTUTable() = file.LoadCsv(Of OTUTable)(mute:=True).ToArray
-
-        If sumDuplicated Then
-            Return OTUTable.SumDuplicatedOTU(otus).ToArray
-        Else
-            Return otus
-        End If
-    End Function
-
     <ExportAPI("taxonomy_range")>
     Public Function TaxonomyRange(tax As Taxonomy, rank As TaxonomyRanks) As Taxonomy
         Return tax.TaxonomyRankString(rank).DoCall(AddressOf BIOMTaxonomyParser.Parse)
