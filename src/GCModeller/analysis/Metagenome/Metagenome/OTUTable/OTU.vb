@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
@@ -141,7 +142,7 @@ Public Module OTU
         Next
 
         Return LinqAPI.Exec(Of NamedValue(Of String())) <=
- _
+                                                          _
             From OTU As (ref As FastaSeq, fullEquals#, cluster As NamedValue(Of List(Of String)))
             In OTUs
             Let refSeq As FastaSeq = New FastaSeq With {
@@ -194,5 +195,49 @@ Public Module OTU
                 .taxonomy = New Taxonomy(parser(taxonomy))
             }
         Next
+    End Function
+
+    Public Iterator Function LoadOTUTaxonAnalysis(file As String, Optional tsv As Boolean = False) As IEnumerable(Of OTUTable)
+        Dim df As DataFrameResolver = DataFrameResolver.Load(file, tsv:=tsv)
+        Dim domain = df.GetOrdinal("domain")
+        Dim kingdom = df.GetOrdinal("kingdom")
+        Dim phylum = df.GetOrdinal("phylum")
+        Dim [class] = df.GetOrdinal("class")
+        Dim order = df.GetOrdinal("order")
+        Dim family = df.GetOrdinal("family")
+        Dim genus = df.GetOrdinal("genus")
+        Dim species = df.GetOrdinal("species")
+        Dim otu = df.GetOrdinal("otu")
+        Dim assets As Index(Of String) = {"Total", "Prevalence", "Percent", "domain", "kingdom", "phylum", "class", "order", "family", "genus", "species", "otu"}
+        Dim sampleIds As String() = df.HeadTitles _
+            .Where(Function(str)
+                       Return Not (str Like assets)
+                   End Function) _
+            .ToArray
+        Dim sampleIndex As Integer() = df.GetOrdinalSchema(sampleIds)
+
+        Do While df.Read
+            Dim tax As New Taxonomy() With {
+                .[class] = df.GetString([class]),
+                .family = df.GetString(family),
+                .genus = df.GetString(genus),
+                .kingdom = df.GetString(kingdom),
+                .order = df.GetString(order),
+                .phylum = df.GetString(phylum),
+                .species = df.GetString(species)
+            }
+            Dim id As String = df.GetString(otu)
+            Dim data As New Dictionary(Of String, Double)
+
+            For i As Integer = 0 To sampleIds.Length - 1
+                Call data.Add(sampleIds(i), df.GetDouble(sampleIndex(i)))
+            Next
+
+            Yield New OTUTable With {
+                .ID = id,
+                .Properties = data,
+                .taxonomy = tax
+            }
+        Loop
     End Function
 End Module
