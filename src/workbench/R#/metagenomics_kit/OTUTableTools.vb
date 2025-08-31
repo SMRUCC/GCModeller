@@ -56,16 +56,16 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
-Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
+Imports Vector = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
 ''' <summary>
 ''' Tools for handling OTU table data
@@ -199,7 +199,7 @@ Module OTUTableTools
         ElseIf TypeOf x Is rdataframe Then
             Return asOTUTable(DirectCast(x, rdataframe), id, taxonomy)
         Else
-            Return message.InCompatibleType(GetType(MothurRankTree), x.GetType, env)
+            Return Message.InCompatibleType(GetType(MothurRankTree), x.GetType, env)
         End If
     End Function
 
