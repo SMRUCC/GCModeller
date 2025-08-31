@@ -371,4 +371,24 @@ Module microbiomeKit
 
         Return New list With {.slots = origins}
     End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="otu"></param>
+    ''' <returns>a tuple list of the <see cref="RankLevelView"/> in different taxonomy
+    ''' rank levels.
+    ''' </returns>
+    <ExportAPI("taxonomy.rank_table")>
+    <RApiReturn(GetType(RankLevelView))>
+    Public Function taxonomyRankTable(otu As OTUData(Of Double)()) As Object
+        Dim all_ranks = otu.ExportByRanks.ToArray
+        Dim ranks As list = list.empty
+
+        For Each rank As NamedCollection(Of RankLevelView) In all_ranks
+            Call ranks.add(rank.name, rank.value)
+        Next
+
+        Return ranks
+    End Function
 End Module
