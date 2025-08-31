@@ -168,6 +168,18 @@ Module OTUTableTools
     End Function
 
     ''' <summary>
+    ''' cast the expression matrix to the otu data
+    ''' </summary>
+    ''' <param name="x">
+    ''' an expression matrix which use the biom taxonomy string as feature unique id reference.
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("otu_from_matrix")>
+    Public Function fromMatrix(x As Matrix) As OTUData(Of Double)()
+
+    End Function
+
+    ''' <summary>
     ''' Create expression matrix data from a given otu table
     ''' </summary>
     ''' <param name="otu_table"></param>

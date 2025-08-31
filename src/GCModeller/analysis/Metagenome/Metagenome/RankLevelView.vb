@@ -56,8 +56,15 @@
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 
+''' <summary>
+''' samples data aggregate in a specific taxonomy rank
+''' </summary>
 Public Class RankLevelView
 
+    ''' <summary>
+    ''' the otu id in current taxonomy rank
+    ''' </summary>
+    ''' <returns></returns>
     Public Property OTUs As String()
     Public Property TaxonomyName As String
     Public Property Tree As String
