@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::f4eba4f2b4247543bf4fba674e521c09, analysis\Metagenome\Metagenome\gast\Gast.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 528
-    '    Code Lines: 275 (52.08%)
-    ' Comment Lines: 152 (28.79%)
-    '    - Xml Docs: 22.37%
-    ' 
-    '   Blank Lines: 101 (19.13%)
-    '     File Size: 24.18 KB
+' Summaries:
 
 
-    '     Module GastAPI
-    ' 
-    '         Properties: mothur, usearch, verbose
-    ' 
-    '         Function: assign_taxonomy, Invoke, load_reftaxa, parse_uclust
-    ' 
-    '         Sub: Invoke
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 528
+'    Code Lines: 275 (52.08%)
+' Comment Lines: 152 (28.79%)
+'    - Xml Docs: 22.37%
+' 
+'   Blank Lines: 101 (19.13%)
+'     File Size: 24.18 KB
+
+
+'     Module GastAPI
+' 
+'         Properties: mothur, usearch, verbose
+' 
+'         Function: assign_taxonomy, Invoke, load_reftaxa, parse_uclust
+' 
+'         Sub: Invoke
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -544,7 +544,7 @@ Namespace gast
                                     If (gap > max_gap) Then
 
                                         If (verbose) Then
-                                            printf($"Skip {ref} of {read} at {pctid} pctid for {gap} gap.  \n")
+                                            STDIO.printf($"Skip {ref} of {read} at {pctid} pctid for {gap} gap.  \n")
                                         End If
 
                                         found_hit = False
@@ -564,7 +564,7 @@ Namespace gast
                         ' print out the data
                         '
                         If (verbose) Then
-                            printf({read, ref, CStr(pctid), dist, original_align}.JoinBy(vbTab) & "\n")
+                            STDIO.printf({read, ref, CStr(pctid), dist, original_align}.JoinBy(vbTab) & "\n")
                         End If
                         If Not results.ContainsKey(read) Then
                             Call results.Add(read, {})
