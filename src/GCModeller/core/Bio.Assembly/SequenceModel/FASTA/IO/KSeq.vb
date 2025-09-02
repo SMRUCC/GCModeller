@@ -91,10 +91,10 @@ Namespace SequenceModel.FASTA
     ''' </summary>
     Public Class KSeq : Inherits ISequenceBuilder
 
-        <XmlAttribute> Public Property Seq As Char()
+        <XmlAttribute> Public Property Seq As String
 
         Public Overrides Function GetSequenceData() As String
-            Return New String(Seq)
+            Return Seq
         End Function
 
         Public Overrides Function ToString() As String
@@ -104,7 +104,7 @@ Namespace SequenceModel.FASTA
         Public Shared Iterator Function Kmers(seq_str As String, k As Integer) As IEnumerable(Of KSeq)
             For i As Integer = 0 To seq_str.Length - k
                 Yield New KSeq With {
-                    .Seq = seq_str.Substring(i, length:=k).ToArray
+                    .Seq = seq_str.Substring(i, length:=k)
                 }
             Next
         End Function
