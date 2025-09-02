@@ -87,7 +87,7 @@ Namespace SequenceModel.FASTA
     ' Last Modified: 05MAR2012 
 
     ''' <summary>
-    ''' 
+    ''' k-mer sequence model
     ''' </summary>
     Public Class KSeq : Inherits ISequenceBuilder
 
@@ -98,7 +98,7 @@ Namespace SequenceModel.FASTA
         End Function
 
         Public Overrides Function ToString() As String
-            Return Name
+            Return If(Name, GetSequenceData())
         End Function
 
         Public Shared Iterator Function Kmers(seq_str As String, k As Integer) As IEnumerable(Of KSeq)
