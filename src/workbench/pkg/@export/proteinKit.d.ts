@@ -72,6 +72,11 @@ declare namespace proteinKit {
    */
    function chou_fasman(prot: any, polyaa?: boolean, env?: object): string|object;
    /**
+     * @param kmer default value Is ``3``.
+     * @param env default value Is ``null``.
+   */
+   function enzyme_builder(enzymes: any, kmer?: object, env?: object): object;
+   /**
     * Calculate the morgan fingerprint based on the k-mer graph data 
     *  
     *  Generates fixed-length molecular fingerprint vectors from k-mer graphs using 
@@ -124,6 +129,10 @@ declare namespace proteinKit {
      * @param pdb -
    */
    function pdb_models(pdb: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function predict_sequence(model: object, ec_number: any, env?: object): object;
    module read {
       /**
        * Reads a Protein Data Bank (PDB) file and parses it into a PDB object model.

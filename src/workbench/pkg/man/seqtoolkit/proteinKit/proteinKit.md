@@ -25,3 +25,5 @@ A computational biology toolkit for protein structural analysis and sequence-bas
 + [pdb_models](proteinKit/pdb_models.1) get structure models inside the given pdb object
 + [kmer_graph](proteinKit/kmer_graph.1) Constructs k-mer adjacency graphs from protein sequence data. Nodes represent k-length 
 + [kmer_fingerprint](proteinKit/kmer_fingerprint.1) Calculate the morgan fingerprint based on the k-mer graph data 
++ [enzyme_builder](proteinKit/enzyme_builder.1) 
++ [predict_sequence](proteinKit/predict_sequence.1) 
