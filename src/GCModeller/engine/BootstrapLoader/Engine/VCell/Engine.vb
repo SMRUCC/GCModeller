@@ -91,6 +91,7 @@ Namespace Engine
         ''' <returns></returns>
         Public ReadOnly Property initials As Definition
         Public ReadOnly Property debugView As DebuggerView
+        Public Property models As CellularModule()
 
         Sub New(def As Definition, dynamics As FluxBaseline, cellular_id As String(),
                 Optional iterations% = 500,
@@ -147,6 +148,7 @@ Namespace Engine
                                   Optional unitTest As Boolean = False) As Engine
 
             getLoader = New Loader(initials, dynamics, unitTest)
+            models = {virtualCell}
 
             With getLoader.CreateEnvironment(virtualCell)
                 Call core _
