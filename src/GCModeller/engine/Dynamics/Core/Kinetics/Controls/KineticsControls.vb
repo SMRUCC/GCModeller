@@ -97,7 +97,7 @@ Namespace Core
         ''' lambda function
         ''' </summary>
         ReadOnly lambda As DynamicInvoke
-        ReadOnly env As Vessel
+        ReadOnly env As MassTable
         ReadOnly raw As Expression
         ReadOnly fp_getMass As Func(Of String, Double) = AddressOf getMass
         ''' <summary>
@@ -115,7 +115,7 @@ Namespace Core
             End Get
         End Property
 
-        Sub New(env As Vessel, lambda As DynamicInvoke, raw As Expression, cellular_id As String, Optional pars As String() = Nothing)
+        Sub New(env As MassTable, lambda As DynamicInvoke, raw As Expression, cellular_id As String, Optional pars As String() = Nothing)
             Me.lambda = lambda
             Me.raw = raw
             Me.env = env
@@ -132,7 +132,7 @@ Namespace Core
         End Sub
 
         Private Function getMass(id As String) As Double
-            Return env.m_massIndex(pars(id)).Value
+            Return env(pars(id)).Value
         End Function
 
         Public Overrides Function ToString() As String
