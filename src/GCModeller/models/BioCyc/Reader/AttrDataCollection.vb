@@ -87,6 +87,7 @@ Public Class AttrDataCollection(Of T As Model)
         ' 20250903 possible duplicated key maybe existsed
         ' merge duplicated object data at here
         models = objects _
+            .Where(Function(o) Not o.uniqueId Is Nothing) _
             .GroupBy(Function(o) o.uniqueId) _
             .ToDictionary(Function(o) o.Key,
                           Function(group)
