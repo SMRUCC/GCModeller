@@ -148,10 +148,14 @@ Namespace Engine
                                   Optional unitTest As Boolean = False) As Engine
 
             getLoader = New Loader(initials, dynamics, unitTest)
-            core = getLoader _
-                .CreateEnvironment(virtualCell, core) _
-                .Initialize()
             _model = virtualCell
+
+            With getLoader.CreateEnvironment(virtualCell)
+                Call core _
+                    .load(.massTable.AsEnumerable) _
+                    .load(.processes) _
+                    .Initialize()
+            End With
 
             Call Reset()
 

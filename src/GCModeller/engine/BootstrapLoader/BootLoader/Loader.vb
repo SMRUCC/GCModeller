@@ -79,7 +79,6 @@ Namespace ModelLoader
         Friend ReadOnly define As Definition
         Friend ReadOnly dynamics As FluxBaseline
 
-        Dim vcellEngine As Vessel
         Dim centralDogmaFluxLoader As CentralDogmaFluxLoader
         Dim proteinMatureFluxLoader As ProteinMatureFluxLoader
         Dim metabolismNetworkLoader As MetabolismNetworkLoader
@@ -114,11 +113,6 @@ Namespace ModelLoader
                 Me.define = New Definition
             End If
         End Sub
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function getKernel() As Vessel
-            Return vcellEngine
-        End Function
 
         Public Function GetFluxIndex() As Dictionary(Of String, String())
             Return fluxIndex _
@@ -164,9 +158,7 @@ Namespace ModelLoader
             Return metabolismNetworkLoader
         End Function
 
-        Public Function CreateEnvironment(cell As CellularModule, <Out> ByRef core As Vessel) As Vessel
-            vcellEngine = core
-
+        Public Function CreateEnvironment(cell As CellularModule) As (massTable As MassTable, processes As Channel())
             ' create the flux simulation environment
             _massTable = New MassTable(cell.CellularEnvironmentName)
             _massLoader = New MassLoader(Me)
@@ -188,7 +180,7 @@ Namespace ModelLoader
             Return cell.DoCall(AddressOf create)
         End Function
 
-        Private Function create(cell As CellularModule) As Vessel
+        Private Function create(cell As CellularModule) As (MassTable, Channel())
             Dim centralDogmas = cell.DoCall(AddressOf GetCentralDogmaFluxLoader().CreateFlux).AsList
             Dim proteinMatrues = cell.DoCall(AddressOf GetProteinMatureFluxLoader().CreateFlux).ToArray
             Dim metabolism = cell.DoCall(AddressOf GetMetabolismNetworkLoader().CreateFlux).ToArray
@@ -222,9 +214,7 @@ Namespace ModelLoader
             Next
 
             ' setup engine environment
-            Return vcellEngine _
-                .load(massTable.AsEnumerable) _
-                .load(processes)
+            Return (massTable, processes)
         End Function
     End Class
 End Namespace
