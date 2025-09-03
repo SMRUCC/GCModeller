@@ -93,7 +93,7 @@ Namespace Engine
         Public ReadOnly Property initials As Definition
         Public ReadOnly Property debugView As DebuggerView
 
-        Sub New(def As Definition, dynamics As FluxBaseline, cellular_id As String,
+        Sub New(def As Definition, dynamics As FluxBaseline, cellular_id As String(),
                 Optional iterations% = 500,
                 Optional timeResolution# = 10000,
                 Optional showProgress As Boolean = True,
