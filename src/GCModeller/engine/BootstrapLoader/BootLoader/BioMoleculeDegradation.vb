@@ -55,6 +55,7 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -132,6 +133,7 @@ Namespace ModelLoader
                                   Return p.ToArray
                               End Function)
             Dim proteinIDs = cell.Phenotype.proteins.Select(Function(p) p.ProteinID).Indexing
+            Dim missingVec As New List(Of String)
 
             ' protein degradation to amino acids and lignds
             For Each complex As Channel In proteinMatures
@@ -182,7 +184,7 @@ Namespace ModelLoader
                     .ToArray
 
                 If aaResidue.IsNullOrEmpty Then
-                    Call VBDebugger.Warning($"missing protein composition for complex: {complex.ID}")
+                    Call missingVec.Add(complex.ID)
                     Continue For
                 End If
 
@@ -196,10 +198,21 @@ Namespace ModelLoader
                     }
                 }
 
+                If flux.isBroken Then
+                    Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                End If
+
                 Call loader.fluxIndex(NameOf(Me.proteinDegradation)).Add(flux.ID)
 
                 Yield flux
             Next
+
+            If missingVec.Any Then
+                Dim msg As String = $"missing protein composition for {missingVec.Count} complex: {missingVec.JoinBy(", ")}!"
+
+                Call msg.warning
+                Call msg.debug
+            End If
 
             ' polypeptide degradation to amino acids
             For Each gene As CentralDogma In cell.Genotype.centralDogmas
@@ -230,7 +243,11 @@ Namespace ModelLoader
                          .forward = 1000,
                          .reverse = 0
                      }
-                 }
+                }
+
+                If flux.isBroken Then
+                    Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                End If
 
                 Call loader.fluxIndex("polypeptideDegradation").Add(flux.ID)
 
@@ -283,6 +300,10 @@ Namespace ModelLoader
                         .reverse = 0
                     }
                 }
+
+                If flux.isBroken Then
+                    Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                End If
 
                 Call loader.fluxIndex(NameOf(Me.RNADegradation)).Add(flux.ID)
 

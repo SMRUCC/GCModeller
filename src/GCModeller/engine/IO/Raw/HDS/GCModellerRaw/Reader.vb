@@ -202,5 +202,13 @@ Namespace Raw
         Public Iterator Function PopulateFrames() As IEnumerable(Of (time#, frame As Dictionary(Of DataSet)))
 
         End Function
+
+        Protected Overrides Sub Dispose(disposing As Boolean)
+            Try
+                Call stream.Dispose()
+            Catch ex As Exception
+
+            End Try
+        End Sub
     End Class
 End Namespace

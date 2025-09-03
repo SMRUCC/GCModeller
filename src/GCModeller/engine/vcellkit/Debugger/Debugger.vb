@@ -217,6 +217,10 @@ Module Debugger
                     .reverse = New BaselineControls(1)
                 }
 
+                If channel.isBroken Then
+                    Throw New InvalidDataException(String.Format(channel.Message, channel.ID))
+                End If
+
                 flux += channel
 
             ElseIf TypeOf expr Is FormulaExpression Then
@@ -268,7 +272,7 @@ Module Debugger
 
     <Extension>
     Private Function GetFactor(vars As Dictionary(Of String, MassFactor), symbol As SymbolReference) As MassFactor
-        Return vars.ComputeIfAbsent(symbol.symbol, Function() New MassFactor With {.ID = symbol.symbol, .Value = 100})
+        Return vars.ComputeIfAbsent(symbol.symbol, Function() New MassFactor(symbol.symbol, 100))
     End Function
 
     ''' <summary>

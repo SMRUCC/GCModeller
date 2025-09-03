@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::e91997886c7eef77ae23185a56793d90, visualize\DataVisualizationExtensions\ExpressionPattern\Reader.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 115
-    '    Code Lines: 92 (80.00%)
-    ' Comment Lines: 5 (4.35%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 18 (15.65%)
-    '     File Size: 4.61 KB
+' Summaries:
 
 
-    '     Module Reader
-    ' 
-    '         Function: CastAsPatterns, readCenter, ReadExpressionPattern
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 115
+'    Code Lines: 92 (80.00%)
+' Comment Lines: 5 (4.35%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 18 (15.65%)
+'     File Size: 4.61 KB
+
+
+'     Module Reader
+' 
+'         Function: CastAsPatterns, readCenter, ReadExpressionPattern
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,6 +62,9 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace ExpressionPattern
 
+    ''' <summary>
+    ''' data reader of the cmeans pattern dumps files
+    ''' </summary>
     Public Module Reader
 
         ''' <summary>
@@ -80,7 +83,9 @@ Namespace ExpressionPattern
             End If
 
             Dim sampleIds As String() = sampleMatrix.Values.PropertyNames
-            Dim patternIds As String() = matrix.PropertyNames
+            Dim patternIds As String() = matrix.PropertyNames _
+                .Where(Function(col) col <> "Cluster") _
+                .ToArray
 
             For Each gene As DataSet In matrix
                 Dim max_cluster As Integer = gene.Properties _
@@ -88,7 +93,7 @@ Namespace ExpressionPattern
                     .First _
                     .Key _
                     .Match("\d+") _
-                    .DoCall(AddressOf Integer.Parse)
+                    .DoCall(AddressOf Integer.Parse) - 1
                 Dim sample As DataSet = sampleMatrix.TryGetValue(gene.ID)
                 Dim dataVec As Double() = Nothing
 
@@ -103,7 +108,7 @@ Namespace ExpressionPattern
                     .MarkClusterCenter = Color.Black,
                     .memberships = gene.Properties _
                         .Where(Function(si) Not si.Key = "Cluster") _
-                        .ToDictionary(Function(si) Integer.Parse(si.Key.Match("\d+")),
+                        .ToDictionary(Function(si) Integer.Parse(si.Key.Match("\d+")) - 1,
                                       Function(si)
                                           Return si.Value
                                       End Function)

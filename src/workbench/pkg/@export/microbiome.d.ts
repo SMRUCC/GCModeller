@@ -79,4 +79,18 @@ declare namespace microbiome {
       */
       function PICRUSt_matrix(ggtax: object, ko_13_5_precalculated: object, save: object): boolean;
    }
+   module taxonomy {
+      /**
+       * 
+       * 
+        * @param otus the otu table data
+        * @param as_matrix 
+        * + default value Is ``false``.
+        * @param env 
+        * + default value Is ``null``.
+        * @return a tuple list of the @``T:SMRUCC.genomics.Analysis.Metagenome.RankLevelView`` in different taxonomy
+        *  rank levels.
+      */
+      function rank_table(otus: any, as_matrix?: boolean, env?: object): object|object;
+   }
 }

@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
+Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader
@@ -98,8 +99,12 @@ Namespace Raw
             Call output.GetStream.WriteText(symbols.GetJson, "/symbols.json", allocate:=False)
         End Sub
 
+        Public Function GetStream() As StreamPack
+            Return output.GetStream
+        End Function
+
         Private Sub WriteCellularGraph(graph As NetworkGraph)
-            Dim s = output.GetStream
+            Dim s As StreamPack = output.GetStream
             Dim metaboIndex As New Index(Of String)
 
             ' write nodes

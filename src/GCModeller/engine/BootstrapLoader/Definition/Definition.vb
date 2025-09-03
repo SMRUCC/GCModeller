@@ -65,6 +65,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Definitions
 
@@ -103,17 +104,35 @@ Namespace Definitions
         ''' <returns></returns>
         Public Property Water As String
         Public Property Oxygen As String
+        Public Property Ammonia As String
 #End Region
 
+        ''' <summary>
+        ''' nucleotide metabolite id mapping for construct of the RNA molecule in the transcription process.
+        ''' </summary>
+        ''' <returns></returns>
         Public Property NucleicAcid As NucleicAcid
+        ''' <summary>
+        ''' amino acid metabolite id mapping for construct of the polypeptide in translation process
+        ''' </summary>
+        ''' <returns></returns>
         Public Property AminoAcid As AminoAcid
 
+        ''' <summary>
+        ''' define the id mapping to some general compounds
+        ''' </summary>
+        ''' <returns></returns>
         Public Property GenericCompounds As Dictionary(Of String, GeneralCompound)
 #End Region
 
         ''' <summary>
-        ''' 对细胞的初始状态的定义
-        ''' 初始物质浓度
+        ''' the compartment id of the Culture medium
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property CultureMedium As String = "Extracellular"
+
+        ''' <summary>
+        ''' define of the cell initial status.
         ''' </summary>
         ''' <returns></returns>
         Public Property status As Dictionary(Of String, Double)
@@ -156,11 +175,26 @@ Namespace Definitions
             End If
         End Function
 
+        Private Shared Function initMassValue(initMass As Double) As Func(Of Double)
+            If initMass.IsNaNImaginary Then
+                Return Function() 10000 * randf.NextDouble
+            Else
+                Return Function() initMass
+            End If
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="allCompounds"></param>
+        ''' <param name="initMass">NaN for random value</param>
+        ''' <returns></returns>
         Public Shared Function MetaCyc(allCompounds As IEnumerable(Of String), Optional initMass# = 100) As Definition
+            Dim val As Func(Of Double) = initMassValue(initMass)
             Dim initStatus As Dictionary(Of String, Double) = allCompounds _
                 .ToDictionary(Function(cid) cid,
                               Function(cid)
-                                  Return initMass
+                                  Return val()
                               End Function)
             Dim ntBase As New NucleicAcid With {
                 .A = "ADENOSINE",
@@ -216,12 +250,16 @@ Namespace Definitions
         ''' <summary>
         ''' Get the KEGG compound <see cref="Definition"/>
         ''' </summary>
+        ''' <param name="initMass">
+        ''' NaN for random value
+        ''' </param>
         ''' <returns></returns>
         Public Shared Function KEGG(allCompounds As IEnumerable(Of String), Optional initMass# = 100) As Definition
+            Dim val As Func(Of Double) = initMassValue(initMass)
             Dim initStatus As Dictionary(Of String, Double) = allCompounds _
                 .ToDictionary(Function(cid) cid,
                               Function(cid)
-                                  Return initMass
+                                  Return val()
                               End Function)
             Dim ntBase As New NucleicAcid With {
                 .A = "C00212",

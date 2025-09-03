@@ -56,6 +56,7 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Language
@@ -151,6 +152,10 @@ Namespace ModelLoader
                .forward = Controls.StaticControl(loader.dynamics.tRNAChargeBaseline)
             }
 
+            If flux.isBroken Then
+                Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+            End If
+
             loader.fluxIndex(NameOf(Me.tRNAProcess)).Add(flux.ID)
 
             Yield flux
@@ -164,27 +169,33 @@ Namespace ModelLoader
             Dim cellular_id As String = cell.CellularEnvironmentName
             Dim left As New List(Of Variable)
             Dim flux As Channel
+            Dim transcript As Variable
+            Dim generic As Variable
 
             For Each type As KeyValuePair(Of String, List(Of String)) In rRNA
                 Dim rRNA_key As String = $"{type.Key}_rRNA"
 
                 Call MassTable.addNew(rRNA_key, MassRoles.rRNA, cellular_id)
 
-                Dim generic = MassTable.variable(rRNA_key, cellular_id)
-
+                generic = MassTable.variable(rRNA_key, cellular_id)
                 left.Add(generic)
 
                 For Each id As String In type.Value
                     Call MassTable.addNew(id, MassRoles.RNA, cellular_id)
 
-                    Dim transcript = MassTable.variable(id, cellular_id)
-
-                    Yield New Channel(transcript, generic) With {
+                    transcript = MassTable.variable(id, cellular_id)
+                    flux = New Channel(transcript, generic) With {
                         .ID = $"{rRNA_key}<->{id}",
                         .bounds = New Boundary(100, 100),
                         .forward = Controls.StaticControl(100),
                         .reverse = Controls.StaticControl(100)
                     }
+
+                    If flux.isBroken Then
+                        Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                    Else
+                        Yield flux
+                    End If
                 Next
             Next
 
@@ -200,6 +211,10 @@ Namespace ModelLoader
             }
 
             loader.fluxIndex(NameOf(Me.ribosomeAssembly)).Add(flux.ID)
+
+            If flux.isBroken Then
+                Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+            End If
 
             Yield flux
         End Function
@@ -221,8 +236,8 @@ Namespace ModelLoader
                 Dim uniq = duplicateds.Distinct.ToArray
                 Dim warn As String = $"found {uniq.Length} duplicated RNA object: {uniq.JoinBy(", ")}!"
 
-                Call warn.Warning
-                Call VBDebugger.EchoLine("[warning]" & warn)
+                Call warn.warning
+                Call warn.debug
             End If
 
             Return index
@@ -245,8 +260,8 @@ Namespace ModelLoader
                 Dim uniq = duplicateds.Distinct.ToArray
                 Dim warn As String = $"found {uniq.Length} duplicated protein peptide chains object: {uniq.JoinBy(", ")}!"
 
-                Call warn.Warning
-                Call VBDebugger.EchoLine("[warning]" & warn)
+                Call warn.warning
+                Call warn.debug
             End If
 
             Return index
@@ -371,8 +386,8 @@ Namespace ModelLoader
                 Dim uniq = duplicatedGenes.Distinct.ToArray
                 Dim warn = $"found {uniq.Length} duplicated gene models: {uniq.JoinBy(", ")}!"
 
-                Call warn.Warning
-                Call VBDebugger.EchoLine("[warning] " & warn)
+                Call warn.warning
+                Call warn.debug
             End If
 
             If rRNA.IsNullOrEmpty Then
@@ -419,6 +434,10 @@ Namespace ModelLoader
                         }
                     }
 
+                    If translation.isBroken Then
+                        Throw New InvalidDataException(String.Format(translation.Message, translation.ID))
+                    End If
+
                     loader.fluxIndex("translation").Add(translation.ID)
 
                     Yield translation
@@ -454,6 +473,10 @@ Namespace ModelLoader
                         .reverse = 0
                     }
                 }
+
+                If transcription.isBroken Then
+                    Throw New InvalidDataException(String.Format(transcription.Message, transcription.ID))
+                End If
 
                 loader.fluxIndex("transcription").Add(transcription.ID)
 
@@ -521,8 +544,8 @@ Namespace ModelLoader
         Private Function MissingAAComposition(gene As CentralDogma) As ProteinComposition
             Dim warn As String = $"missing protein translation composition for gene: {gene.geneID}"
 
-            Call warn.Warning
-            Call VBDebugger.EchoLine("[warn] " & warn)
+            Call warn.warning
+            Call warn.debug
 
             Return New ProteinComposition With {
                 .A = 1,
@@ -565,8 +588,12 @@ Namespace ModelLoader
                             Return MassTable.variable(uncharged_tRNA(aa.Name), cellular_id, aa.Value)
                         End Function) _
                 .AsList
+            Dim mRNA As String = gene.RNAName
 
-            Return AAtRNA + MassTable.template(peptide, cellular_id) + MassTable.variable(loader.define.ADP, cellular_id)
+            ' 20250831
+            ' template of mRNA is not working in ODEs
+            ' restore the mRNA in product list at here
+            Return AAtRNA + MassTable.variable(peptide, cellular_id) + MassTable.variable(mRNA, cellular_id) + MassTable.variable(loader.define.ADP, cellular_id)
         End Function
 
         Protected Overrides Function GetMassSet() As IEnumerable(Of String)

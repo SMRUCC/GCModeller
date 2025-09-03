@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::0df09a92bd06ed7448ef05bdaa57a6e9, engine\BootstrapLoader\Engine\VCell\Engine.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 143
-    '    Code Lines: 94 (65.73%)
-    ' Comment Lines: 22 (15.38%)
-    '    - Xml Docs: 86.36%
-    ' 
-    '   Blank Lines: 27 (18.88%)
-    '     File Size: 5.52 KB
+' Summaries:
 
 
-    '     Class Engine
-    ' 
-    '         Properties: dataStorageDriver, debugView, dynamics, initials, model
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: AttachBiologicalStorage, getMassPool, LoadModel, Run
-    ' 
-    '         Sub: DumpDynamicsCore, Reset
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 143
+'    Code Lines: 94 (65.73%)
+' Comment Lines: 22 (15.38%)
+'    - Xml Docs: 86.36%
+' 
+'   Blank Lines: 27 (18.88%)
+'     File Size: 5.52 KB
+
+
+'     Class Engine
+' 
+'         Properties: dataStorageDriver, debugView, dynamics, initials, model
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: AttachBiologicalStorage, getMassPool, LoadModel, Run
+' 
+'         Sub: DumpDynamicsCore, Reset
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -160,7 +160,7 @@ Namespace Engine
             ' 达到无法执行转录过程反应的缺失突变的效果
             For Each geneTemplateId As String In deletions.SafeQuery
                 Call core.m_massIndex(geneTemplateId).reset(0)
-                Call $"Deletes '{geneTemplateId}'...".info
+                Call $"deletes '{geneTemplateId}'...".info
             Next
 
             Return Me
@@ -213,11 +213,17 @@ Namespace Engine
                     End If
                 End If
             Next
+
+            For Each mass As Factor In core.m_massIndex.Values
+                If mass.cellular_compartment = initials.CultureMedium Then
+                    Call mass.reset(9999999999)
+                End If
+            Next
         End Sub
 
         Public Overrides Function Run() As Integer Implements ITaskDriver.Run
             If dataStorageDriver Is Nothing Then
-                Call "Data storage driver not found! The simulation result can only be get from snapshot property...".Warning
+                Call "Data storage driver not found! The simulation result can only be get from snapshot property...".warning
                 Call VBDebugger.WaitOutput()
                 Call Console.WriteLine()
             End If

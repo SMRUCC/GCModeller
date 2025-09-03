@@ -55,6 +55,7 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -114,6 +115,10 @@ Namespace ModelLoader
                         .reverse = 0
                     }
                 }
+
+                If flux.isBroken Then
+                    Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                End If
 
                 loader.fluxIndex(NameOf(ProteinMatureFluxLoader)).Add(flux.ID)
 

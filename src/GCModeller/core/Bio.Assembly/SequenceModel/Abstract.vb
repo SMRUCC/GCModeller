@@ -110,9 +110,12 @@ Namespace SequenceModel
     Public MustInherit Class ISequenceBuilder
 
         ''' <summary>
-        ''' <see cref="GetSequenceData()"/> length.(序列的长度)
+        ''' <see cref="GetSequenceData()"/> length.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (序列的长度)
+        ''' </remarks>
         Public ReadOnly Property Length As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -121,9 +124,12 @@ Namespace SequenceModel
         End Property
 
         ''' <summary>
-        ''' This property is using for generates the fasta sequence title.(用于进行序列标识的标题摘要)
+        ''' This property is using for generates the fasta sequence title.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (用于进行序列标识的标题摘要)
+        ''' </remarks>
         <XmlAttribute>
         Public Overridable Property Name As String
 

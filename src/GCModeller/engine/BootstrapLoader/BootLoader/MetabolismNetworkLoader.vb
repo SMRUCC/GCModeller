@@ -53,11 +53,13 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -82,6 +84,10 @@ Namespace ModelLoader
             ' content of these metabolite will be changed
             default_compartment = loader.massTable.defaultCompartment
             infinitySource = loader.define.GetInfinitySource
+
+            If infinitySource.Any Then
+                Call $"{infinitySource.Objects.GetJson} are assume as infinity content.".debug
+            End If
 
             loader.fluxIndex.Add(NameOf(MetabolismNetworkLoader), New List(Of String))
         End Sub
@@ -254,6 +260,10 @@ Namespace ModelLoader
             ' 假设所有的反应过程化都存在产物抑制效应
             metabolismFlux.forward.inhibition = productInhibitionFactor(metabolismFlux.right, productCompart)
             metabolismFlux.reverse.inhibition = productInhibitionFactor(metabolismFlux.left, reactantCompart)
+
+            If metabolismFlux.isBroken Then
+                Throw New InvalidDataException(String.Format(metabolismFlux.Message, metabolismFlux.ID))
+            End If
 
             Call loader.fluxIndex(NameOf(MetabolismNetworkLoader)).Add(metabolismFlux.ID)
 

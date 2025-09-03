@@ -151,7 +151,7 @@ Namespace Engine
                 ' clip mass values, keeps positive
                 For Each factor As Factor In core.m_massIndex.Values
                     If factor.Value < 0 Then
-                        factor.Value = 0
+                        Call factor.reset(0)
                     End If
                 Next
 

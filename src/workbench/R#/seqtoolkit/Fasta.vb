@@ -70,6 +70,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -81,10 +82,9 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
+Imports FastaWriter = SMRUCC.genomics.SequenceModel.FASTA.StreamWriter
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
-Imports FastaWriter = SMRUCC.genomics.SequenceModel.FASTA.StreamWriter
-Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 
 ''' <summary>
 ''' Fasta sequence toolkit

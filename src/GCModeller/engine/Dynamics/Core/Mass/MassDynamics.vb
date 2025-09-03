@@ -82,13 +82,19 @@ Namespace Core
             End Set
         End Property
 
-        Public Overrides Property Value As Double Implements Ivar.value
+        Public Overrides Property Value As Double
             Get
                 Return mass.Value
             End Get
             Set(value As Double)
-                If Not mass Is Nothing Then
-                    mass.Value = value
+                If mass IsNot Nothing AndAlso Not is_template Then
+                    If Double.IsNaN(value) OrElse Double.IsNegativeInfinity(value) OrElse value < 0 Then
+                        Call mass.reset(0.0)
+                    ElseIf Double.IsPositiveInfinity(value) Then
+                        Call mass.reset(99999)
+                    Else
+                        Call mass.reset(value)
+                    End If
                 End If
             End Set
         End Property
@@ -102,8 +108,10 @@ Namespace Core
         Dim shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
         Dim fluxVariants As var()
         Dim fluxValues As Double()
+        Dim is_template As Boolean = False
 
-        Private Sub New()
+        Private Sub New(is_template As Boolean)
+            Me.is_template = is_template
         End Sub
 
         Public Function Evaluate() As Double Implements INonlinearVar.Evaluate
@@ -137,6 +145,14 @@ Namespace Core
                         Throw New InvalidProgramException($"Unknown reaction direction status of reaction flux: {flux.ID}!")
                 End Select
 
+                If Double.IsNaN(variants) Then
+                    variants = 0
+                ElseIf Double.IsPositiveInfinity(variants) Then
+                    variants = 100
+                ElseIf Double.IsNegativeInfinity(variants) Then
+                    variants = -100
+                End If
+
                 additions(i) = variants
                 fluxValues(i) = fluxVariant
             Next
@@ -149,7 +165,9 @@ Namespace Core
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getLastFluxVariants() As IEnumerable(Of var)
             For i As Integer = 0 To fluxValues.Length - 1
-                fluxVariants(i).Value += fluxValues(i)
+                If Not Double.IsNaN(fluxValues(i)) Then
+                    fluxVariants(i).Value += fluxValues(i)
+                End If
             Next
 
             Return fluxVariants
@@ -202,6 +220,7 @@ Namespace Core
             Dim templates As Index(Of String) = Nothing
             Dim massIndex = createMassIndex(env.Channels, templates)
             Dim channels As Channel()
+            Dim missingFlux As New List(Of String)
 
             For Each mass As Factor In env.m_massIndex.Values
                 Call factors.Clear()
@@ -209,7 +228,7 @@ Namespace Core
                 If Not massIndex.ContainsKey(mass.ID) Then
                     If Not mass.ID Like templates Then
                         ' compound is constant value
-                        Call ($"missing dynamics for compound: " & mass.ID).Warning
+                        Call missingFlux.Add(mass.ID)
                     End If
 
                     channels = {}
@@ -217,7 +236,7 @@ Namespace Core
                     channels = massIndex(mass.ID).ToArray
                 End If
 
-                ' channels = channels.Where(Function(fx) Not (fx.left.IsNullOrEmpty OrElse fx.right.IsNullOrEmpty)).ToArray
+                Dim is_template As Boolean = False
 
                 For Each flux As Channel In channels
                     matter = flux.GetReactants _
@@ -236,13 +255,17 @@ Namespace Core
                         ' 相关系数为正实数
                         factors.Add(matter.coefficient)
                     End If
+
+                    If matter.isTemplate Then
+                        is_template = True
+                    End If
                 Next
 
                 If channels.IsNullOrEmpty Then
                     Continue For
                 End If
 
-                Yield New MassDynamics With {
+                Yield New MassDynamics(is_template) With {
                     .mass = mass,
                     .factors = factors.ToArray,
                     .channels = channels,
@@ -259,6 +282,13 @@ Namespace Core
                     .fluxValues = New Double(.fluxVariants.Length - 1) {}
                 }
             Next
+
+            If missingFlux.Any Then
+                Dim msg As String = $"missing dynamics for compounds: {missingFlux.JoinBy(", ")}!"
+
+                Call msg.warning
+                Call msg.debug
+            End If
         End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of var) Implements Enumeration(Of var).GenericEnumerator

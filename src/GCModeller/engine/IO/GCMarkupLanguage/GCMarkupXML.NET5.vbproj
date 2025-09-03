@@ -22,6 +22,7 @@
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<Description>The core runtime module of sciBASIC# scientific computing project.</Description>
 		<PackageIconUrl />
+		<UseApplicationFramework>True</UseApplicationFramework>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

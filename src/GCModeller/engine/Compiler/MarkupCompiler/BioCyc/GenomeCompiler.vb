@@ -127,9 +127,19 @@ Namespace MarkupCompiler.BioCyc
                     Continue For
                 End If
 
-                Dim prot = If(data.product Is Nothing, Nothing, proteinIndex.TryGetValue(data.product))
+                Dim prot As proteins = If(data.product Is Nothing, Nothing, getTranslation(data.product))
                 Dim rna_type As RNATypes = RNATypes.micsRNA
                 Dim gene_seq As GeneObject = geneSeq.TryGetValue(id)
+                Dim rna As RNA = rna_genes.TryGetValue(id).DefaultFirst
+
+                rna_type = If(rna Is Nothing, RNATypes.micsRNA, rna.type)
+                prot_vec = Nothing
+
+                If Not gene_seq Is Nothing Then
+                    nucl_vec = RNAComposition.FromNtSequence(gene_seq.SequenceData, If(rna Is Nothing, id, rna.id)).CreateVector
+                Else
+                    nucl_vec = RNAComposition.Blank(If(rna Is Nothing, id, rna.id)).CreateVector
+                End If
 
                 If prot IsNot Nothing Then
                     Dim seq = protSeq.TryGetValue(prot.uniqueId)
@@ -140,24 +150,7 @@ Namespace MarkupCompiler.BioCyc
                         prot_vec = ProteinComposition.Blank(prot.uniqueId).CreateVector
                     End If
 
-                    If Not gene_seq Is Nothing Then
-                        nucl_vec = RNAComposition.FromNtSequence(gene_seq.SequenceData, id).CreateVector
-                    Else
-                        nucl_vec = RNAComposition.Blank(id).CreateVector
-                    End If
-
                     rna_type = RNATypes.mRNA
-                Else
-                    Dim rna As RNA = rna_genes.TryGetValue(id).DefaultFirst
-
-                    rna_type = If(rna Is Nothing, RNATypes.micsRNA, rna.type)
-                    prot_vec = Nothing
-
-                    If Not gene_seq Is Nothing Then
-                        nucl_vec = RNAComposition.FromNtSequence(gene_seq.SequenceData, If(rna Is Nothing, id, rna.id)).CreateVector
-                    Else
-                        nucl_vec = RNAComposition.Blank(If(rna Is Nothing, id, rna.id)).CreateVector
-                    End If
                 End If
 
                 Yield New gene With {
@@ -172,6 +165,16 @@ Namespace MarkupCompiler.BioCyc
                     .nucleotide_base = nucl_vec
                 }
             Next
+        End Function
+
+        Private Function getTranslation(products As IEnumerable(Of String)) As proteins
+            For Each id As String In products
+                If proteinIndex.ContainsKey(id) AndAlso protSeq.ContainsKey(proteinIndex(id).uniqueId) Then
+                    Return proteinIndex(id)
+                End If
+            Next
+
+            Return Nothing
         End Function
     End Class
 End Namespace

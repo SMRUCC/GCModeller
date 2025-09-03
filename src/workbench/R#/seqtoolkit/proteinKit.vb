@@ -56,10 +56,12 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.Transformer
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.RCSB.PDB
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer
 Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
@@ -68,6 +70,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 ''' <summary>
 ''' A computational biology toolkit for protein structural analysis and sequence-based modeling. 
@@ -211,7 +214,7 @@ Module proteinKit
                 Return PDB.Parse(pdb_txt, verbose)
             Catch ex As Exception
                 Call App.LogException(ex)
-                Call ex.Message.Warning
+                Call ex.Message.warning
 
                 Return Nothing
             End Try
@@ -250,7 +253,7 @@ Module proteinKit
             Try
                 pdb = RCSB.PDB.PDB.Load(s.TryCast(Of Stream)).ToArray
             Catch ex As Exception
-                Call ex.Message.Warning
+                Call ex.Message.warning
                 Call App.LogException(ex)
             End Try
         Else
@@ -335,8 +338,31 @@ Module proteinKit
     ''' }
     ''' </example>
     <ExportAPI("kmer_fingerprint")>
-    Public Function kmer_fingerprint(graph As KMerGraph, Optional radius As Integer = 3, Optional len As Integer = 4096) As Object
+    Public Function kmer_fingerprint(graph As KMerGraph,
+                                     Optional radius As Integer = 3,
+                                     Optional len As Integer = 4096) As Object
+
         Return graph.GetFingerprint(radius, len)
     End Function
 
+    <ExportAPI("enzyme_builder")>
+    <RApiReturn(GetType(TransformerModel))>
+    Public Function enzymeBuilder(<RRawVectorArgument> enzymes As Object,
+                                  Optional kmer As Integer = 3,
+                                  Optional env As Environment = Nothing) As Object
+
+        Dim seq = GetFastaSeq(enzymes, env)
+
+        If seq Is Nothing Then
+            Return Message.InCompatibleType(GetType(FastaSeq), enzymes.GetType, env)
+        End If
+
+        Return seq.MakeModel(kmer)
+    End Function
+
+    <ExportAPI("predict_sequence")>
+    <RApiReturn(GetType(FastaSeq))>
+    Public Function predict_sequence(model As TransformerModel, <RRawVectorArgument> ec_number As Object, Optional env As Environment = Nothing) As Object
+        Return model.BuildProteinSequence(CLRVector.asCharacter(ec_number)).ToArray
+    End Function
 End Module
