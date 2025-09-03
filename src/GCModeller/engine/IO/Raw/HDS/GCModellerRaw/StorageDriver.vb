@@ -83,6 +83,14 @@ Namespace Raw
 
         Public ReadOnly Property mass As OmicsTuple(Of String()) Implements IOmicsDataAdapter.mass
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="output">the file path for save the experiment data.</param>
+        ''' <param name="engine"></param>
+        ''' <param name="graph_debug">
+        ''' write the cellular graph into the result data file if this options is config as TRUE. debug used only
+        ''' </param>
         Sub New(output$, engine As Engine.Engine, Optional graph_debug As Boolean = True)
             Dim models As CellularModule() = engine.models
             Dim core = engine.getCore
