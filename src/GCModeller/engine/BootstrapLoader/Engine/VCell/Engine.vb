@@ -142,6 +142,12 @@ Namespace Engine
             Return Me
         End Function
 
+        Public Function SetModel(mass As MassTable, biologicalProcesses As IEnumerable(Of Channel)) As Engine
+            Call core.load(mass.AsEnumerable).load(biologicalProcesses).Initialize()
+            Call Reset()
+            Return Me
+        End Function
+
         Public Function LoadModel(virtualCell As CellularModule,
                                   Optional deletions As IEnumerable(Of String) = Nothing,
                                   Optional ByRef getLoader As Loader = Nothing,
