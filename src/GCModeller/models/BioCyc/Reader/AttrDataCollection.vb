@@ -99,6 +99,8 @@ Public Class AttrDataCollection(Of T As Model)
             Return group.First
         End If
 
+        Call $"found duplicated object definition: '{group.Key}'!".warning
+
         ' 20250903
         ' how to merge data?
         Return group.First
