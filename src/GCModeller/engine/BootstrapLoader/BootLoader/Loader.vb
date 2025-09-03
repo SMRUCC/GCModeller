@@ -104,10 +104,14 @@ Namespace ModelLoader
 
         Public Property strict As Boolean = False
 
-        Sub New(define As Definition, dynamics As FluxBaseline, unitTest As Boolean)
+        Sub New(define As Definition, dynamics As FluxBaseline,
+                Optional unitTest As Boolean = False,
+                Optional massTable As MassTable = Nothing)
+
             Me.unitTest = unitTest
             Me.define = define
             Me.dynamics = dynamics
+            Me.massTable = massTable
 
             If Me.define Is Nothing Then
                 Me.define = New Definition
@@ -160,7 +164,10 @@ Namespace ModelLoader
 
         Public Function CreateEnvironment(cell As CellularModule) As (massTable As MassTable, processes As Channel())
             ' create the flux simulation environment
-            _massTable = New MassTable(cell.CellularEnvironmentName)
+            If _massTable Is Nothing Then
+                _massTable = New MassTable(cell.CellularEnvironmentName)
+            End If
+
             _massLoader = New MassLoader(Me)
             _massLoader.doMassLoadingOn(cell)
 
