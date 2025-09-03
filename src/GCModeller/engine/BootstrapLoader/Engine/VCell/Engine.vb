@@ -85,7 +85,6 @@ Namespace Engine
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property dynamics As FluxBaseline
-        Public ReadOnly Property model As CellularModule
         ''' <summary>
         ''' The compound map definition and the initial status
         ''' </summary>
@@ -148,7 +147,6 @@ Namespace Engine
                                   Optional unitTest As Boolean = False) As Engine
 
             getLoader = New Loader(initials, dynamics, unitTest)
-            _model = virtualCell
 
             With getLoader.CreateEnvironment(virtualCell)
                 Call core _
