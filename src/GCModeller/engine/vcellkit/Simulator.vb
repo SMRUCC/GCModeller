@@ -365,7 +365,7 @@ Public Module Simulator
             showProgress:=showProgress,
             timeResolution:=time_resolutions,
             debug:=debug,
-            cellular_id:=vcell.CellularEnvironmentName
+            cellular_id:={vcell.CellularEnvironmentName}
         ) _
         .LoadModel(vcell, deletions, unitTest:=unit_test)
     End Function

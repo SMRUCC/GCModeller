@@ -126,18 +126,6 @@ Namespace ModelLoader
                               End Function)
         End Function
 
-        Public Shared Function GetTranscriptionId(cd As CentralDogma) As String
-            Return $"{cd.geneID}::transcript.process"
-        End Function
-
-        Public Shared Function GetTranslationId(cd As CentralDogma) As String
-            Return $"{cd.geneID}::translate.process"
-        End Function
-
-        Public Shared Function GetProteinMatureId(protein As Protein) As String
-            Return $"{protein.ProteinID}::mature.process"
-        End Function
-
         Public Function GetCentralDogmaFluxLoader() As CentralDogmaFluxLoader
             If centralDogmaFluxLoader Is Nothing Then
                 centralDogmaFluxLoader = New CentralDogmaFluxLoader(Me)

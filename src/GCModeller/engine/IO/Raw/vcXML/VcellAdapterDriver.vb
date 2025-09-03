@@ -72,7 +72,7 @@ Namespace vcXML
 
         Dim fs As Writer
 
-        Sub New(file As String, model As CellularModule, args As FluxBaseline)
+        Sub New(file As String, model As CellularModule(), args As FluxBaseline)
             mass = OmicsDataAdapter.GetMassTuples(model)
             flux = OmicsDataAdapter.GetFluxTuples(model)
 

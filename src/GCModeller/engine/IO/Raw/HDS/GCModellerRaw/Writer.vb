@@ -67,6 +67,7 @@ Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
@@ -99,9 +100,9 @@ Namespace Raw
             MyBase.Proteins = getProteins(model).Indexing
             MyBase.Metabolites = getMetabolites(model).Distinct.ToArray
             ' create flux index
-            MyBase.Reactions = getFluxIds(model).Distinct.ToArray
-            MyBase.Transcription = getTranscription(model).Indexing
-            MyBase.Translation = getTranslation(model).Indexing
+            MyBase.Reactions = DataHelper.getFluxIds(model).Distinct.ToArray
+            MyBase.Transcription = DataHelper.getTranscription(model).Indexing
+            MyBase.Translation = DataHelper.getTranslation(model).Indexing
 
             compartments = model.Select(Function(m) m.CellularEnvironmentName) _
                 .JoinIterates(model.Select(Function(m) m.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)).IteratesALL) _
@@ -132,32 +133,6 @@ Namespace Raw
                     }.GetJson
                 }, "/.etc/count.json")
         End Sub
-
-        Private Iterator Function getTranslation(models As CellularModule()) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each gene As CentralDogma In model.Genotype.centralDogmas
-                    If gene.RNA.Value = RNATypes.mRNA Then
-                        Yield Loader.GetTranslationId(gene)
-                    End If
-                Next
-            Next
-        End Function
-
-        Private Iterator Function getTranscription(models As CellularModule()) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each gene As CentralDogma In model.Genotype.centralDogmas
-                    Yield Loader.GetTranscriptionId(gene)
-                Next
-            Next
-        End Function
-
-        Private Iterator Function getFluxIds(models As CellularModule()) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each flux In model.Phenotype.fluxes
-                    Yield flux.ID
-                Next
-            Next
-        End Function
 
         Private Iterator Function getMetabolites(models As CellularModule()) As IEnumerable(Of String)
             For Each model As CellularModule In models
