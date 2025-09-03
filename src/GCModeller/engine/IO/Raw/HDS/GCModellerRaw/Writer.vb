@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::c5e958e2a543c96e10a283594db5ed09, engine\IO\Raw\HDS\GCModellerRaw\Writer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 126
-    '    Code Lines: 88 (69.84%)
-    ' Comment Lines: 17 (13.49%)
-    '    - Xml Docs: 94.12%
-    ' 
-    '   Blank Lines: 21 (16.67%)
-    '     File Size: 5.32 KB
+' Summaries:
 
 
-    '     Class Writer
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: GetStream, Init, Write
-    ' 
-    '         Sub: Dispose
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 126
+'    Code Lines: 88 (69.84%)
+' Comment Lines: 17 (13.49%)
+'    - Xml Docs: 94.12%
+' 
+'   Blank Lines: 21 (16.67%)
+'     File Size: 5.32 KB
+
+
+'     Class Writer
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: GetStream, Init, Write
+' 
+'         Sub: Dispose
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -86,7 +86,7 @@ Namespace Raw
         ReadOnly compartments As String()
         ReadOnly instance_id As New Dictionary(Of String, Dictionary(Of String, String()))
 
-        Sub New(model As CellularModule, output As Stream)
+        Sub New(model As CellularModule(), output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
             stream.Clear(32 * 1024 * 1024)
 
@@ -95,41 +95,24 @@ Namespace Raw
             MyBase.RNAId = getComponentRNAs(model).Indexing
             MyBase.tRNA = getRNAIndex(model, RNATypes.tRNA).Indexing
             MyBase.rRNA = getRNAIndex(model, RNATypes.ribosomalRNA).JoinIterates({"ribosomeAssembly"}).Indexing
-            MyBase.Polypeptide = model.Genotype.centralDogmas _
-                .Where(Function(g)
-                           Return g.RNA.Value = RNATypes.mRNA AndAlso Not g.polypeptide Is Nothing
-                       End Function) _
-                .Select(Function(c) c.polypeptide) _
-                .Indexing
-            MyBase.Proteins = model.Phenotype.proteins _
-                .Select(Function(p)
-                            Return p.ProteinID
-                            ' Return p.ProteinID & ".complex"
-                        End Function) _
-                .Indexing
-            MyBase.Metabolites = model.Phenotype.fluxes _
-                .Select(Function(r) r.AllCompounds) _
-                .IteratesALL _
-                .Distinct _
-                .ToArray
-
+            MyBase.Polypeptide = getPolypeptides(model).Indexing
+            MyBase.Proteins = getProteins(model).Indexing
+            MyBase.Metabolites = getMetabolites(model).Distinct.ToArray
             ' create flux index
-            MyBase.Reactions = model.Phenotype.fluxes _
-                .Select(Function(r) r.ID) _
-                .ToArray
-            MyBase.Transcription = model.Genotype.centralDogmas.SafeQuery.Select(Function(c) Loader.GetTranscriptionId(c)).Indexing
-            MyBase.Translation = model.Genotype.centralDogmas.Where(Function(g) g.RNA.Value = RNATypes.mRNA).Select(Function(c) Loader.GetTranslationId(c)).Indexing
+            MyBase.Reactions = getFluxIds(model).Distinct.ToArray
+            MyBase.Transcription = getTranscription(model).Indexing
+            MyBase.Translation = getTranslation(model).Indexing
 
-            compartments = {model.CellularEnvironmentName} _
-                .JoinIterates(model.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)) _
-                .JoinIterates(model.Phenotype.fluxes _
+            compartments = model.Select(Function(m) m.CellularEnvironmentName) _
+                .JoinIterates(model.Select(Function(m) m.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)).IteratesALL) _
+                .JoinIterates(model.Select(Function(m) m.Phenotype.fluxes _
                     .Select(Function(r)
                                 Return r.equation.GetMetabolites
                             End Function) _
                     .IteratesALL _
                     .Select(Function(c)
                                 Return c.Compartment
-                            End Function)) _
+                            End Function)).IteratesALL) _
                 .Distinct _
                 .Where(Function(s) Not s.StringEmpty(, True)) _
                 .ToArray
@@ -150,28 +133,86 @@ Namespace Raw
                 }, "/.etc/count.json")
         End Sub
 
-        Private Iterator Function getComponentRNAs(model As CellularModule) As IEnumerable(Of String)
-            For Each gene As CentralDogma In model.Genotype.centralDogmas
-                Dim RNA_type As RNATypes = gene.RNA.Value
-
-                Select Case RNA_type
-                    Case RNATypes.mRNA, RNATypes.ribosomalRNA, RNATypes.tRNA
-                        Continue For
-                    Case Else
-                        Yield gene.RNAName
-                End Select
+        Private Iterator Function getTranslation(models As CellularModule()) As IEnumerable(Of String)
+            For Each model As CellularModule In models
+                For Each gene As CentralDogma In model.Genotype.centralDogmas
+                    If gene.RNA.Value = RNATypes.mRNA Then
+                        Yield Loader.GetTranslationId(gene)
+                    End If
+                Next
             Next
         End Function
 
-        Private Iterator Function getRNAIndex(model As CellularModule, type_id As RNATypes) As IEnumerable(Of String)
-            For Each gene As CentralDogma In model.Genotype.centralDogmas
-                If gene.RNA.Value = type_id Then
-                    Yield gene.RNAName
+        Private Iterator Function getTranscription(models As CellularModule()) As IEnumerable(Of String)
+            For Each model As CellularModule In models
+                For Each gene As CentralDogma In model.Genotype.centralDogmas
+                    Yield Loader.GetTranscriptionId(gene)
+                Next
+            Next
+        End Function
 
-                    If type_id = RNATypes.tRNA Then
-                        Yield "*" & gene.RNAName
+        Private Iterator Function getFluxIds(models As CellularModule()) As IEnumerable(Of String)
+            For Each model As CellularModule In models
+                For Each flux In model.Phenotype.fluxes
+                    Yield flux.ID
+                Next
+            Next
+        End Function
+
+        Private Iterator Function getMetabolites(models As CellularModule()) As IEnumerable(Of String)
+            For Each model As CellularModule In models
+                For Each flux In model.Phenotype.fluxes
+                    For Each cid As String In flux.AllCompounds
+                        Yield cid
+                    Next
+                Next
+            Next
+        End Function
+
+        Private Iterator Function getProteins(models As CellularModule()) As IEnumerable(Of String)
+            For Each model As CellularModule In models
+                For Each prot In model.Phenotype.proteins
+                    Yield prot.ProteinID
+                Next
+            Next
+        End Function
+
+        Private Iterator Function getPolypeptides(models As CellularModule()) As IEnumerable(Of String)
+            For Each model As CellularModule In models
+                For Each gene As CentralDogma In model.Genotype.centralDogmas
+                    If gene.RNA.Value = RNATypes.mRNA AndAlso Not gene.polypeptide Is Nothing Then
+                        Yield gene.polypeptide
                     End If
-                End If
+                Next
+            Next
+        End Function
+
+        Private Iterator Function getComponentRNAs(models As CellularModule()) As IEnumerable(Of String)
+            For Each model As CellularModule In models
+                For Each gene As CentralDogma In model.Genotype.centralDogmas
+                    Dim RNA_type As RNATypes = gene.RNA.Value
+
+                    Select Case RNA_type
+                        Case RNATypes.mRNA, RNATypes.ribosomalRNA, RNATypes.tRNA
+                            Continue For
+                        Case Else
+                            Yield gene.RNAName
+                    End Select
+                Next
+            Next
+        End Function
+
+        Private Iterator Function getRNAIndex(models As CellularModule(), type_id As RNATypes) As IEnumerable(Of String)
+            For Each model As CellularModule In models
+                For Each gene As CentralDogma In model.Genotype.centralDogmas
+                    If gene.RNA.Value = type_id Then
+                        Yield gene.RNAName
+
+                        If type_id = RNATypes.tRNA Then
+                            Yield "*" & gene.RNAName
+                        End If
+                    End If
+                Next
             Next
         End Function
 
