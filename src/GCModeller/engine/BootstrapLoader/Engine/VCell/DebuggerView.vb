@@ -63,7 +63,7 @@ Namespace Engine
     Public Class DebuggerView
 
         ReadOnly engine As Engine
-        ReadOnly cellular_id As String
+        ReadOnly cellular_id As String()
 
         Public ReadOnly Property mass As MassTable
             Get
@@ -82,35 +82,20 @@ Namespace Engine
         Public ReadOnly Property viewTranscriptome As Dictionary(Of String, Double)
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return mass _
-                    .GetByKey(dataStorageDriver.mass.transcriptome, cellular_id) _
-                    .ToDictionary(Function(mass) mass.ID,
-                                  Function(mass)
-                                      Return mass.Value
-                                  End Function)
+                Return getByIds(dataStorageDriver.mass.transcriptome)
             End Get
         End Property
 
         Public ReadOnly Property viewProteome As Dictionary(Of String, Double)
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return mass _
-                    .GetByKey(dataStorageDriver.mass.proteome, cellular_id) _
-                    .ToDictionary(Function(mass) mass.ID,
-                                  Function(mass)
-                                      Return mass.Value
-                                  End Function)
+                Return getByIds(dataStorageDriver.mass.proteome)
             End Get
         End Property
 
         Public ReadOnly Property viewMetabolome As Dictionary(Of String, Double)
             Get
-                Return mass _
-                    .GetByKey(dataStorageDriver.mass.metabolome, cellular_id) _
-                    .ToDictionary(Function(mass) mass.ID,
-                                  Function(mass)
-                                      Return mass.Value
-                                  End Function)
+                Return getByIds(dataStorageDriver.mass.metabolome)
             End Get
         End Property
 
@@ -123,9 +108,21 @@ Namespace Engine
         ''' <param name="cellular_id">
         ''' the intracellular compartment id
         ''' </param>
-        Sub New(engine As Engine, cellular_id As String)
+        Sub New(engine As Engine, cellular_id As String())
             Me.engine = engine
             Me.cellular_id = cellular_id
         End Sub
+
+        Private Function getByIds(idset As IEnumerable(Of String)) As Dictionary(Of String, Double)
+            Dim debug As New Dictionary(Of String, Double)
+
+            For Each compart_id As String In cellular_id
+                For Each mass As Factor In Me.mass.GetByKey(idset, compart_id)
+                    Call debug.Add(mass.ID, mass.Value)
+                Next
+            Next
+
+            Return debug
+        End Function
     End Class
 End Namespace
