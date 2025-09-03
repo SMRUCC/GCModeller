@@ -21,6 +21,7 @@
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<Description>GCModeller Virtual Cell Data I/O</Description>
 		<PackageIconUrl />
+		<UseApplicationFramework>True</UseApplicationFramework>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
