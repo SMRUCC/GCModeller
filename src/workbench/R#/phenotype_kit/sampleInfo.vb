@@ -419,7 +419,10 @@ Module DEGSample
                 .ID = ID(i),
                 .sample_name = sample_name(i),
                 .sample_info = get_group(i),
-                .color = color.ElementAtOrNull(i)
+                .color = color.ElementAtOrNull(i),
+                .batch = 1,
+                .injectionOrder = i + 1,
+                .shape = "circle"
             }
         Next
 
