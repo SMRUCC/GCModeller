@@ -544,7 +544,7 @@ Namespace gast
                                     If (gap > max_gap) Then
 
                                         If (verbose) Then
-                                            printf($"Skip {ref} of {read} at {pctid} pctid for {gap} gap.  \n")
+                                            STDIO.printf($"Skip {ref} of {read} at {pctid} pctid for {gap} gap.  \n")
                                         End If
 
                                         found_hit = False
@@ -564,7 +564,7 @@ Namespace gast
                         ' print out the data
                         '
                         If (verbose) Then
-                            printf({read, ref, CStr(pctid), dist, original_align}.JoinBy(vbTab) & "\n")
+                            STDIO.printf({read, ref, CStr(pctid), dist, original_align}.JoinBy(vbTab) & "\n")
                         End If
                         If Not results.ContainsKey(read) Then
                             Call results.Add(read, {})
