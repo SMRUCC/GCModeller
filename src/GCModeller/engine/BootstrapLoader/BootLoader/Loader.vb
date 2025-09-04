@@ -185,27 +185,21 @@ Namespace ModelLoader
             Dim degradation = cell.DoCall(AddressOf degradationFluxLoader.CreateFlux).ToArray
             Dim processes As Channel() = centralDogmas + proteinMatrues + metabolism + degradation
 
-            For Each link_ref As String In New FluxLoader() {
-                metabolismNetworkLoader,
-                proteinMatureFluxLoader,
-                centralDogmaFluxLoader,
-                degradationFluxLoader
-            }.Select(Function(loader) loader.LinkingMassSet) _
-             .IteratesALL _
-             .Distinct
+            For Each loader In New FluxLoader() {metabolismNetworkLoader, proteinMatureFluxLoader, centralDogmaFluxLoader, degradationFluxLoader}
+                For Each link_ref As String In loader.LinkingMassSet
+                    ' check of the broken mass reference
+                    If Not massTable.ExistsAllCompartment(link_ref) Then
+                        Dim warn As String = $"found broken mass reference: {link_ref}"
 
-                ' check of the broken mass reference
-                If Not massTable.ExistsAllCompartment(link_ref) Then
-                    Dim warn As String = $"found broken mass reference: {link_ref}"
-
-                    If strict Then
-                        Throw New InvalidProgramException(warn)
-                    Else
-                        Call massTable.addNew(link_ref, MassRoles.compound, cell.CellularEnvironmentName)
-                        Call warn.warning
-                        Call warn.debug
+                        If strict Then
+                            Throw New InvalidProgramException(warn)
+                        Else
+                            Call massTable.addNew(link_ref, MassRoles.compound, cell.CellularEnvironmentName)
+                            Call warn.warning
+                            Call warn.debug
+                        End If
                     End If
-                End If
+                Next
             Next
 
             ' setup engine environment

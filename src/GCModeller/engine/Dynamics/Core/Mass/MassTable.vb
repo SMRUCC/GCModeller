@@ -269,7 +269,7 @@ Namespace Core
         Sub New()
         End Sub
 
-        Friend ReadOnly defaultCompartment As [Default](Of String)
+        Friend defaultCompartment As [Default](Of String)
 
         Sub New(defaultCompartment As String)
             Me.defaultCompartment = defaultCompartment
@@ -277,6 +277,10 @@ Namespace Core
 
         Sub New(cache As Dictionary(Of String, Factor), compart As String)
             m_massSet = New CompartTable(cache, compart)
+        End Sub
+
+        Public Sub SetDefaultCompartmentId(id As String)
+            defaultCompartment = New [Default](Of String)(id)
         End Sub
 
         Public Function getSource(instance_id As String) As (source_id$, compart_id$)
