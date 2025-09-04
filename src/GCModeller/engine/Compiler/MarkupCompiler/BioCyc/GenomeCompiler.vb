@@ -76,6 +76,9 @@ Namespace MarkupCompiler.BioCyc
                     Case "16S-rRNAs", "23S-rRNAs", "5S-rRNAs"
                         type = RNATypes.ribosomalRNA
                         value = rna_mol.types(0).Split("-"c).First.ToLower
+                    Case "rRNAs"
+                        type = RNATypes.ribosomalRNA
+                        value = rna_mol.commonName.Split(" "c).First.ToLower
                     Case Else
                         If rna_mol.types.Any(Function(t) t.EndsWith("-tRNAs")) OrElse
                             rna_mol.types.Any(Function(t) t = "Initiation-tRNAmet") OrElse
