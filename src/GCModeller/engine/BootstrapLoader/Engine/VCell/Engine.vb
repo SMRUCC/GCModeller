@@ -133,11 +133,22 @@ Namespace Engine
         End Function
 
         Public Function MakeNetworkSnapshot(storage As IFileSystemEnvironment) As Engine
-            Dim root_dir As String = "/cellular_graph"
+            Dim root_dir As String = "/cellular_graph.jsonl"
+            Dim buffer As New MemoryStream
+            Dim str As New StreamWriter(buffer)
 
             For Each flux As Channel In TqdmWrapper.Wrap(core.Channels)
-                Call storage.WriteText(flux.jsonView, $"{root_dir}/{flux.ID}.json")
+                Call str.WriteLine(flux.jsonView)
             Next
+
+            Call storage.DeleteFile(root_dir)
+
+            Using file = storage.OpenFile(root_dir, FileMode.OpenOrCreate, FileAccess.Write)
+                Call str.Flush()
+                Call buffer.Seek(Scan0, SeekOrigin.Begin)
+                Call buffer.CopyTo(file)
+                Call file.Flush()
+            End Using
 
             Return Me
         End Function
