@@ -527,12 +527,13 @@ Module genbankKit
         Dim geneList = gb.Features.Where(Function(g) g.KeyName = "gene").ToArray
         Dim fastaFile As New FastaFile
         Dim accessionId As String = gb.Accession.AccessionId
+        Dim lineage As String = gb.Source.BiomString
 
         For Each gene As Feature In geneList
             Call fastaFile.Add(New FastaSeq With {
                 .Headers = New String() {
-                    accessionId & "." & gene.Query(FeatureQualifiers.locus_tag),
-                    gene.Query(FeatureQualifiers.gene)
+                    accessionId & "." & gene.Query(FeatureQualifiers.locus_tag) & " " & gene.Location.ContiguousRegion.ToString,
+                    lineage
                 },
                 .SequenceData = gene.SequenceData
             })

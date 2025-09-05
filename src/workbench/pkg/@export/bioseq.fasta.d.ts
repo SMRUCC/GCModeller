@@ -103,6 +103,8 @@ declare namespace bioseq.fasta {
         * @param read load a set of fasta sequence data in lazy mode? default is yes.
         * 
         * + default value Is ``true``.
+        * @param line_break 
+        * + default value Is ``-1``.
         * @param delimiter 
         * + default value Is ``'|'``.
         * @param env -
@@ -110,7 +112,7 @@ declare namespace bioseq.fasta {
         * + default value Is ``null``.
         * @return a lazy collection of the fasta sequence data
       */
-      function fasta(file: string, read?: boolean, delimiter?: string, env?: object): object|object;
+      function fasta(file: string, read?: boolean, line_break?: object, delimiter?: string, env?: object): object|object;
    }
    module parse {
       /**
