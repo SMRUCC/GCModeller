@@ -522,6 +522,22 @@ Module genbankKit
         Return New FastaFile(fasta)
     End Function
 
+    <ExportAPI("export_geneNt_fasta")>
+    Public Function exportGeneNtFasta(gb As GBFF.File) As FastaFile
+        Dim geneList = gb.Features.Where(Function(g) g.KeyName = "gene").ToArray
+        Dim fastaFile As New FastaFile
+        Dim accessionId As String = gb.Accession.AccessionId
+
+        For Each gene As Feature In geneList
+            Call fastaFile.Add(New FastaSeq With {
+                .Headers = {accessionId & "." & gene.Query(FeatureQualifiers.locus_tag), gene.Query(FeatureQualifiers.gene)},
+                .SequenceData = gene.SequenceData
+            })
+        Next
+
+        Return fastaFile
+    End Function
+
     ''' <summary>
     ''' get or set fasta sequence of all CDS feature in the given genbank assembly file. 
     ''' </summary>
