@@ -61,6 +61,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
@@ -127,7 +128,7 @@ Namespace ModelLoader
             Dim flux As Channel
             Dim proteinComplex As Variable
             Dim proteinCplx = cell.Phenotype.proteins _
-                .GroupBy(Function(p) Loader.GetProteinMatureId(p)) _
+                .GroupBy(Function(p) DataHelper.GetProteinMatureId(p)) _
                 .ToDictionary(Function(p) p.Key,
                               Function(p)
                                   Return p.ToArray

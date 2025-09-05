@@ -85,15 +85,15 @@ Namespace Engine
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property dynamics As FluxBaseline
-        Public ReadOnly Property model As CellularModule
         ''' <summary>
         ''' The compound map definition and the initial status
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property initials As Definition
         Public ReadOnly Property debugView As DebuggerView
+        Public Property models As CellularModule()
 
-        Sub New(def As Definition, dynamics As FluxBaseline, cellular_id As String,
+        Sub New(def As Definition, dynamics As FluxBaseline, cellular_id As String(),
                 Optional iterations% = 500,
                 Optional timeResolution# = 10000,
                 Optional showProgress As Boolean = True,
@@ -133,12 +133,29 @@ Namespace Engine
         End Function
 
         Public Function MakeNetworkSnapshot(storage As IFileSystemEnvironment) As Engine
-            Dim root_dir As String = "/cellular_graph"
+            Dim root_dir As String = "/cellular_graph.jsonl"
+            Dim buffer As New MemoryStream
+            Dim str As New StreamWriter(buffer)
 
             For Each flux As Channel In TqdmWrapper.Wrap(core.Channels)
-                Call storage.WriteText(flux.jsonView, $"{root_dir}/{flux.ID}.json")
+                Call str.WriteLine(flux.jsonView)
             Next
 
+            Call storage.DeleteFile(root_dir)
+
+            Using file = storage.OpenFile(root_dir, FileMode.OpenOrCreate, FileAccess.Write)
+                Call str.Flush()
+                Call buffer.Seek(Scan0, SeekOrigin.Begin)
+                Call buffer.CopyTo(file)
+                Call file.Flush()
+            End Using
+
+            Return Me
+        End Function
+
+        Public Function SetModel(mass As MassTable, biologicalProcesses As IEnumerable(Of Channel)) As Engine
+            Call core.load(mass.AsEnumerable).load(biologicalProcesses).Initialize()
+            Call Reset()
             Return Me
         End Function
 
@@ -148,10 +165,14 @@ Namespace Engine
                                   Optional unitTest As Boolean = False) As Engine
 
             getLoader = New Loader(initials, dynamics, unitTest)
-            core = getLoader _
-                .CreateEnvironment(virtualCell, core) _
-                .Initialize()
-            _model = virtualCell
+            models = {virtualCell}
+
+            With getLoader.CreateEnvironment(virtualCell)
+                Call core _
+                    .load(.massTable.AsEnumerable) _
+                    .load(.processes) _
+                    .Initialize()
+            End With
 
             Call Reset()
 

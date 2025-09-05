@@ -78,9 +78,8 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
-Namespace Engine
+Namespace Core
 
     ''' <summary>
     ''' the cellular mass environment 
@@ -137,13 +136,24 @@ Namespace Engine
                 Next
             End Sub
 
+            Public Function getFactor(instance_id As String) As Factor
+                If Not mapping.ContainsKey(instance_id) Then
+                    Return Nothing
+                End If
+
+                Dim ref = mapping(instance_id)
+                Dim table = Me(ref.compart_id)
+
+                Return table(instance_id)
+            End Function
+
             Public Function getFactor(compart_id As String, mass_id As String) As Factor
                 Dim massTable As Dictionary(Of String, Factor)
                 Dim instance_id As String
 
                 If mapping.ContainsKey(mass_id) Then
                     instance_id = mass_id
-                    compart_id = instance_id.GetTagValue("@").Value
+                    compart_id = mapping(mass_id).compart_id
                 Else
                     instance_id = mass_id & "@" & compart_id
                 End If
@@ -236,11 +246,17 @@ Namespace Engine
             End Get
         End Property
 
-        Default Public ReadOnly Iterator Property GetVariables(list As IEnumerable(Of CompoundSpecieReference)) As IEnumerable(Of Variable)
+        Default Public ReadOnly Iterator Property GetVariable(list As IEnumerable(Of CompoundSpecieReference)) As IEnumerable(Of Variable)
             Get
                 For Each ref As CompoundSpecieReference In list
                     Yield variable(ref.ID, ref.Stoichiometry)
                 Next
+            End Get
+        End Property
+
+        Default Public ReadOnly Property GetVariable(instance_id As String) As Factor
+            Get
+                Return m_massSet.getFactor(instance_id)
             End Get
         End Property
 
@@ -253,7 +269,7 @@ Namespace Engine
         Sub New()
         End Sub
 
-        Friend ReadOnly defaultCompartment As [Default](Of String)
+        Friend defaultCompartment As [Default](Of String)
 
         Sub New(defaultCompartment As String)
             Me.defaultCompartment = defaultCompartment
@@ -261,6 +277,10 @@ Namespace Engine
 
         Sub New(cache As Dictionary(Of String, Factor), compart As String)
             m_massSet = New CompartTable(cache, compart)
+        End Sub
+
+        Public Sub SetDefaultCompartmentId(id As String)
+            defaultCompartment = New [Default](Of String)(id)
         End Sub
 
         Public Function getSource(instance_id As String) As (source_id$, compart_id$)

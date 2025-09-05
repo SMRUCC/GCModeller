@@ -90,6 +90,10 @@ Public Class FeatureElement : Implements IReadOnlyId
         Dim newBuf As New List(Of String)
 
         For i As Integer = 0 To buffer.Length - 1
+            If buffer(i) Is Nothing Then
+                Continue For
+            End If
+
             If buffer(i).StartsWith("/") Then
                 newBuf(newBuf.Count - 1) &= buffer(i).Trim("/"c, " "c)
             Else
@@ -136,6 +140,7 @@ Public Class FeatureElement : Implements IReadOnlyId
 
         Return New FeatureElement With {
             .attributes = attrs _
+                .Where(Function(a) Not a.Name Is Nothing) _
                 .GroupBy(Function(s) s.Name) _
                 .ToDictionary(Function(s) s.Key,
                               Function(s)

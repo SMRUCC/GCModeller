@@ -299,12 +299,6 @@ Module Debugger
 
     <ExportAPI("set_symbols")>
     Public Sub set_symbols(driver As StorageDriver, vcell As VirtualCell)
-        Dim symbolNames As New Dictionary(Of String, String)
-
-        For Each cpd In vcell.metabolismStructure.compounds
-            symbolNames(cpd.ID) = cpd.name
-        Next
-
-        Call driver.SetSymbolNames(symbolNames)
+        Call driver.SetSymbolNames(vcell.GetMetaboliteSymbolNames)
     End Sub
 End Module

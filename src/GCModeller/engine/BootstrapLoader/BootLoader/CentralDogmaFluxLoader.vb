@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
@@ -422,7 +423,7 @@ Namespace ModelLoader
 
                     ' 针对mRNA对象，创建翻译过程
                     translation = New Channel(templateRNA, productsPro) With {
-                        .ID = cd.DoCall(AddressOf Loader.GetTranslationId),
+                        .ID = cd.DoCall(AddressOf DataHelper.GetTranslationId),
                         .forward = New AdditiveControls With {
                             .baseline = 0,
                             .activation = {MassTable.variable(NameOf(ribosomeAssembly), cellular_id)}
@@ -461,7 +462,7 @@ Namespace ModelLoader
                 ' 针对所有基因对象，创建转录过程
                 ' 转录是以DNA为模板产生RNA分子
                 transcription = New Channel(templateDNA, productsRNA) With {
-                    .ID = cd.DoCall(AddressOf Loader.GetTranscriptionId),
+                    .ID = cd.DoCall(AddressOf DataHelper.GetTranscriptionId),
                     .forward = New AdditiveControls With {
                         .baseline = loader.dynamics.transcriptionBaseline,
                         .activation = activeReg,

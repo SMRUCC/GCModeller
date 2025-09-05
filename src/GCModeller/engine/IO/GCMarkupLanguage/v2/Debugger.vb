@@ -72,5 +72,16 @@ Namespace v2
         Public Function checkModel(vcell As VirtualCell, log As LogFile) As LogFile
             Return log
         End Function
+
+        <Extension>
+        Public Function GetMetaboliteSymbolNames(vcell As VirtualCell) As Dictionary(Of String, String)
+            Dim symbolNames As New Dictionary(Of String, String)
+
+            For Each cpd In vcell.metabolismStructure.compounds
+                symbolNames(cpd.ID) = cpd.name
+            Next
+
+            Return symbolNames
+        End Function
     End Module
 End Namespace

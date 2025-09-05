@@ -78,7 +78,7 @@ Public Class FileMeta
         Dim lines As New List(Of String)
         Dim meta As New FileMeta
 
-        Do While (line = file.ReadLine).StartsWith("#"c)
+        Do While (line = file.ReadLine) IsNot Nothing AndAlso line.StartsWith("#"c)
             Call lines.Add(line.Trim({"#"c}))
         Loop
 

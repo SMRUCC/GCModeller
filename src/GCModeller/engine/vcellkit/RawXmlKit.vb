@@ -158,7 +158,7 @@ Module RawXmlKit
             If vcell Is Nothing Then
                 Return RInternal.debug.stop("missing vcell engine argument value!", env)
             Else
-                Return New VcellAdapterDriver(file, vcell.model, vcell.dynamics)
+                Return New VcellAdapterDriver(file, vcell.models, vcell.dynamics)
             End If
         Else
             Return RInternal.debug.stop($"unknown I/O mode: {mode}...", env)
