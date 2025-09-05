@@ -1,0 +1,103 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "OperonMapper", "OperonMapper.vbproj", "{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Math.NET5", "..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj", "{858324EE-999E-E068-4C90-86B664A177CB}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Core", "..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj", "{8E0DAC93-81D0-4261-2CF9-087F28F0B285}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "biocore-netcore5", "..\..\core\Bio.Assembly\biocore-netcore5.vbproj", "{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		GCModeller(Release_X64)|Any CPU = GCModeller(Release_X64)|Any CPU
+		GCModeller(Release_X64)|x64 = GCModeller(Release_X64)|x64
+		GCModeller(UNIX-Release_X64)|Any CPU = GCModeller(UNIX-Release_X64)|Any CPU
+		GCModeller(UNIX-Release_X64)|x64 = GCModeller(UNIX-Release_X64)|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.Debug|x64.ActiveCfg = Debug|x64
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.Debug|x64.Build.0 = Debug|x64
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.GCModeller(Release_X64)|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.GCModeller(Release_X64)|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = GCModeller(UNIX-Release_X64)|Any CPU
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = GCModeller(UNIX-Release_X64)|Any CPU
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = GCModeller(UNIX-Release_X64)|x64
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.GCModeller(UNIX-Release_X64)|x64.Build.0 = GCModeller(UNIX-Release_X64)|x64
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.Release|x64.ActiveCfg = Release|x64
+		{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}.Release|x64.Build.0 = Release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|x64.ActiveCfg = Debug|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Debug|x64.Build.0 = Debug|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(Release_X64)|Any CPU.ActiveCfg = nuget_release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(Release_X64)|Any CPU.Build.0 = nuget_release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(Release_X64)|x64.ActiveCfg = nuget_release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(Release_X64)|x64.Build.0 = nuget_release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = Rsharp_app_release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.GCModeller(UNIX-Release_X64)|x64.Build.0 = Rsharp_app_release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|x64.ActiveCfg = Release|x64
+		{858324EE-999E-E068-4C90-86B664A177CB}.Release|x64.Build.0 = Release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|x64.ActiveCfg = Debug|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Debug|x64.Build.0 = Debug|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(Release_X64)|Any CPU.ActiveCfg = nuget_release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(Release_X64)|Any CPU.Build.0 = nuget_release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(Release_X64)|x64.ActiveCfg = nuget_release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(Release_X64)|x64.Build.0 = nuget_release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = Rsharp_app_release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.GCModeller(UNIX-Release_X64)|x64.Build.0 = Rsharp_app_release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|x64.ActiveCfg = Release|x64
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285}.Release|x64.Build.0 = Release|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Debug|x64.ActiveCfg = Debug|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Debug|x64.Build.0 = Debug|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.GCModeller(Release_X64)|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.GCModeller(Release_X64)|x64.ActiveCfg = Rsharp_app_release|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.GCModeller(Release_X64)|x64.Build.0 = Rsharp_app_release|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = Rsharp_app_release|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.GCModeller(UNIX-Release_X64)|x64.Build.0 = Rsharp_app_release|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Release|x64.ActiveCfg = Release|x64
+		{2DE312C2-6DC9-A812-B2F5-12DB3E706FCD}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{858324EE-999E-E068-4C90-86B664A177CB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{8E0DAC93-81D0-4261-2CF9-087F28F0B285} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1DEE8536-FED6-4687-B782-10B0282A2DDB}
+	EndGlobalSection
+EndGlobal
