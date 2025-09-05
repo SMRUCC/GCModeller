@@ -108,16 +108,12 @@ Namespace ContextModel.Operon
         ''' <param name="gene1"></param>
         ''' <param name="gene2"></param>
         ''' <param name="referenceGenomes"></param>
-        ''' <param name="phylumProbabilities"></param>
+        ''' <param name="phylumProbabilities">基因ID -> (门 -> 概率)</param>
         ''' <returns></returns>
         ''' <remarks>
         ''' 2. 计算基因邻域保守性 (Neighborhood Conservation)
         ''' </remarks>
-        Public Shared Function CalculateNeighborhoodConservation(
-        gene1 As GeneInfo, gene2 As GeneInfo,
-        referenceGenomes As List(Of GenomeInfo),
-        phylumProbabilities As Dictionary(Of String, Dictionary(Of String, Double)) ' 基因ID -> (门 -> 概率)
-    ) As Double
+        Public Shared Function CalculateNeighborhoodConservation(gene1 As GeneInfo, gene2 As GeneInfo, referenceGenomes As List(Of GenomeInfo), phylumProbabilities As Dictionary(Of String, Dictionary(Of String, Double))) As Double
             Dim totalScore As Double = 0.0
 
             For Each genome In referenceGenomes
@@ -163,10 +159,7 @@ Namespace ContextModel.Operon
         ''' <remarks>
         ''' 3. 计算系统发育距离 (Hamming Distance)
         ''' </remarks>
-        Public Shared Function CalculatePhylogeneticDistanceHamming(
-        gene1 As GeneInfo, gene2 As GeneInfo,
-        genomeIDs As List(Of String)
-    ) As Integer
+        Public Shared Function CalculatePhylogeneticDistanceHamming(gene1 As GeneInfo, gene2 As GeneInfo, genomeIDs As List(Of String)) As Integer
             Dim distance As Integer = 0
             For Each genomeID In genomeIDs
                 Dim g1Present As Boolean = gene1.PhylogeneticProfile.ContainsKey(genomeID) AndAlso
@@ -196,11 +189,7 @@ Namespace ContextModel.Operon
         End Function
 
         ' 5. 计算DNA基序频率 (Motif Frequency)
-        Public Shared Function CalculateMotifFrequency(
-        intergenicSequence As String,
-        motif As String,
-        nucleotideFrequencies As Dictionary(Of Char, Double)
-    ) As Double
+        Public Shared Function CalculateMotifFrequency(intergenicSequence As String, motif As String, nucleotideFrequencies As Dictionary(Of Char, Double)) As Double
             Dim observedCount As Integer = 0
             Dim motifLength As Integer = motif.Length
 
@@ -222,11 +211,14 @@ Namespace ContextModel.Operon
             Return If(expectedCount > 0, observedCount / expectedCount, 0)
         End Function
 
-        ' 6. 计算GO功能相似性 (GO Similarity)
-        Public Shared Function CalculateGOSimilarity(
-        gene1 As GeneInfo, gene2 As GeneInfo,
-        goHierarchy As Dictionary(Of String, List(Of String)) ' GO术语 -> 父术语列表
-    ) As Integer
+        ''' <summary>
+        ''' 6. 计算GO功能相似性 (GO Similarity)
+        ''' </summary>
+        ''' <param name="gene1"></param>
+        ''' <param name="gene2"></param>
+        ''' <param name="goHierarchy">GO术语 -> 父术语列表</param>
+        ''' <returns></returns>
+        Public Shared Function CalculateGOSimilarity(gene1 As GeneInfo, gene2 As GeneInfo, goHierarchy As Dictionary(Of String, List(Of String))) As Integer
             If gene1.GO_Terms Is Nothing OrElse gene2.GO_Terms Is Nothing OrElse
            gene1.GO_Terms.Count = 0 OrElse gene2.GO_Terms.Count = 0 Then
                 Return 0
