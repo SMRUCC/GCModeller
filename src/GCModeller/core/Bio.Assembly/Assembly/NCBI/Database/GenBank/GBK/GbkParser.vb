@@ -114,7 +114,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Function
 
         Friend Function doLoadData(innerBufs As String(), defaultAccession$) As NCBI.GenBank.GBFF.File
-            Call "Start loading ncbi gbk file...".debug
+            ' Call "Start loading ncbi gbk file...".debug
 
             Dim Sw As Stopwatch = Stopwatch.StartNew
             Dim gb As New File
