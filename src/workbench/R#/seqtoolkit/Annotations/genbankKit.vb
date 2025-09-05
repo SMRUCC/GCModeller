@@ -530,7 +530,10 @@ Module genbankKit
 
         For Each gene As Feature In geneList
             Call fastaFile.Add(New FastaSeq With {
-                .Headers = {accessionId & "." & gene.Query(FeatureQualifiers.locus_tag), gene.Query(FeatureQualifiers.gene)},
+                .Headers = New String() {
+                    accessionId & "." & gene.Query(FeatureQualifiers.locus_tag),
+                    gene.Query(FeatureQualifiers.gene)
+                },
                 .SequenceData = gene.SequenceData
             })
         Next
