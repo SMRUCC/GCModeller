@@ -385,12 +385,13 @@ Module Fasta
     <RApiReturn(GetType(FastaSeq), GetType(FastaWriter))>
     Public Function openFasta(file As String,
                               Optional read As Boolean = True,
+                              Optional delimiter As String = "|",
                               Optional env As Environment = Nothing) As Object
 
         If read Then
             Return StreamIterator.SeqSource(file).DoCall(AddressOf pipeline.CreateFromPopulator)
         Else
-            Return New FastaWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
+            Return New FastaWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False), deli:=delimiter)
         End If
     End Function
 

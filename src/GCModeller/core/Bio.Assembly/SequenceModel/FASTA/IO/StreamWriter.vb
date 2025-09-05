@@ -67,15 +67,17 @@ Namespace SequenceModel.FASTA
         Dim disposedValue As Boolean
         Dim file As System.IO.StreamWriter
         Dim lineBreak As Integer = -1
+        Dim deli As String
 
-        Sub New(s As Stream, Optional lineBreak As Integer = -1)
+        Sub New(s As Stream, Optional lineBreak As Integer = -1, Optional deli As String = "|")
             Me.file = New IO.StreamWriter(s, Encodings.ASCII.CodePage)
+            Me.deli = deli
             Me.lineBreak = lineBreak
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Add(seq As FastaSeq)
-            Call file.WriteLine(seq.GenerateDocument(lineBreak))
+            Call file.WriteLine(seq.GenerateDocument(lineBreak, delimiter:=deli))
         End Sub
 
         Public Sub Add(seqs As IEnumerable(Of FastaSeq), Optional filterEmpty As Boolean = False)
