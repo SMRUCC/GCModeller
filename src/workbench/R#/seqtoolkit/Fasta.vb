@@ -825,6 +825,7 @@ Module Fasta
     End Function
 
     <ExportAPI("make_clusterTree")>
+    <RApiReturn(GetType(NTCluster))>
     Public Function makeClusterTree(<RRawVectorArgument> fingerprints As Object, Optional env As Environment = Nothing) As Object
         Dim seeds = pipeline.TryCreatePipeline(Of NTCluster)(fingerprints, env)
 
@@ -832,9 +833,14 @@ Module Fasta
             Return seeds.getError
         End If
 
-        Dim tree As New NTTree(0.85, 0.6)
+        Dim tree As New NTTree(0.8, 0.6)
         Call tree.MakeTtree(seeds.populates(Of NTCluster)(env))
-        Dim cluster = tree.GetClusters.ToArray
+        Dim cluster = tree.GetClusters _
+            .GroupBy(Function(a) a.cluster) _
+            .OrderByDescending(Function(a) a.Count) _
+            .IteratesALL _
+            .ToArray
+
         Return cluster
     End Function
 End Module

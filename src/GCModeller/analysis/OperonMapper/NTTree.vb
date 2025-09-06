@@ -19,8 +19,8 @@ Public Class NTTree : Inherits ComparisonProvider
 
     Public Sub MakeTtree(seeds As IEnumerable(Of NTCluster))
         Dim args As New ClusterTree.Argument With {
-            .threshold = 0.85,
-            .diff = 0.05,
+            .threshold = equalsDbl,
+            .diff = 0.1,
             .alignment = Me
         }
         Dim key As String
@@ -45,6 +45,8 @@ Public Class NTTree : Inherits ComparisonProvider
                 gene.cluster = class_id.ToString
                 Yield gene
             Next
+
+            class_id += 1
         Next
     End Function
 
