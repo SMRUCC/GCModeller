@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::40ced0e713ef1a5cdd79b1f22c39234d, R#\seqtoolkit\Fasta.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 712
-    '    Code Lines: 486 (68.26%)
-    ' Comment Lines: 150 (21.07%)
-    '    - Xml Docs: 93.33%
-    ' 
-    '   Blank Lines: 76 (10.67%)
-    '     File Size: 28.98 KB
+' Summaries:
 
 
-    ' Module Fasta
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: chars, createSequenceCollectionTable, createSequenceTable, CutSequenceLinear, fasta
-    '               fastaTitle, fastaTitles, formula, mass, MSA
-    '               openFasta, parseFasta, readFasta, readSeq, seq_sgt
-    '               seq_vector, sizeof, Tofasta, Translates, translateSingleNtSeq
-    '               viewFasta, viewMSA, writeFasta
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 712
+'    Code Lines: 486 (68.26%)
+' Comment Lines: 150 (21.07%)
+'    - Xml Docs: 93.33%
+' 
+'   Blank Lines: 76 (10.67%)
+'     File Size: 28.98 KB
+
+
+' Module Fasta
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: chars, createSequenceCollectionTable, createSequenceTable, CutSequenceLinear, fasta
+'               fastaTitle, fastaTitles, formula, mass, MSA
+'               openFasta, parseFasta, readFasta, readSeq, seq_sgt
+'               seq_vector, sizeof, Tofasta, Translates, translateSingleNtSeq
+'               viewFasta, viewMSA, writeFasta
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -71,6 +71,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
+Imports SMRUCC.genomics.Model.OperonMapper
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -771,5 +772,33 @@ Module Fasta
                 Return New FastaFile(collection)
             End If
         End If
+    End Function
+
+    <ExportAPI("open.fingerprint_writer")>
+    <RApiReturn(GetType(FingerprintMatrixWriter))>
+    Public Function openFingerpintWriter(file As Object, Optional env As Environment = Nothing) As Object
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Write, env)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Return New FingerprintMatrixWriter(s.TryCast(Of Stream))
+    End Function
+
+    <ExportAPI("write_fingerprint")>
+    <RApiReturn(GetType(FingerprintMatrixWriter))>
+    Public Function createFingerprintMatrix(file As FingerprintMatrixWriter, <RRawVectorArgument> seqs As Object, Optional env As Environment = Nothing) As Object
+        Dim fasta = GetFastaSeq(seqs, env)
+
+        If fasta Is Nothing Then
+            Return Message.InCompatibleType(GetType(FastaFile), seqs.GetType, env)
+        End If
+
+        For Each seed As NTCluster In NTCluster.MakeFingerprint(fasta)
+            Call file.Add(seed)
+        Next
+
+        Return file
     End Function
 End Module
