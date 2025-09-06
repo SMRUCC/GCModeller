@@ -788,16 +788,26 @@ Module Fasta
 
     <ExportAPI("write_fingerprint")>
     <RApiReturn(GetType(FingerprintMatrixWriter))>
-    Public Function createFingerprintMatrix(file As FingerprintMatrixWriter, <RRawVectorArgument> seqs As Object, Optional env As Environment = Nothing) As Object
+    Public Function createFingerprintMatrix(file As FingerprintMatrixWriter, <RRawVectorArgument> seqs As Object,
+                                            Optional debug As Integer = -1,
+                                            Optional env As Environment = Nothing) As Object
         Dim fasta = GetFastaSeq(seqs, env)
 
         If fasta Is Nothing Then
             Return Message.InCompatibleType(GetType(FastaFile), seqs.GetType, env)
         End If
 
-        For Each seed As NTCluster In NTCluster.MakeFingerprint(fasta)
-            Call file.Add(seed)
-        Next
+        If debug > 0 Then
+            For Each seed As NTCluster In NTCluster.MakeFingerprint(fasta).Take(debug)
+                Call file.Add(seed)
+                Call seed.ToString.info
+            Next
+        Else
+            For Each seed As NTCluster In NTCluster.MakeFingerprint(fasta)
+                Call file.Add(seed)
+                Call seed.ToString.info
+            Next
+        End If
 
         Return file
     End Function

@@ -18,6 +18,10 @@ Public Class NTCluster
     Public Property cluster As String
     Public Property fingerprint As Double()
 
+    Public Overrides Function ToString() As String
+        Return $"{gb_acc}.{locus_tag} {biom_string}"
+    End Function
+
     Public Shared Iterator Function MakeFingerprint(nt As IEnumerable(Of FastaSeq),
                                                     Optional size As Integer = 4096,
                                                     Optional radius As Integer = 3) As IEnumerable(Of NTCluster)
