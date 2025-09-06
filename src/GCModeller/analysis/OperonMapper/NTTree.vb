@@ -7,6 +7,12 @@ Public Class NTTree : Inherits ComparisonProvider
     ReadOnly tree As New ClusterTree
     ReadOnly map As New Dictionary(Of String, NTCluster)
 
+    Default Public ReadOnly Property Item(i As Integer) As NTCluster
+        Get
+            Return map(CInt(i))
+        End Get
+    End Property
+
     Public Sub New(equals As Double, gt As Double)
         MyBase.New(equals, gt)
     End Sub
@@ -18,15 +24,29 @@ Public Class NTTree : Inherits ComparisonProvider
             .alignment = Me
         }
         Dim key As String
+        Dim i As Integer = 0
 
         For Each seed As NTCluster In seeds
-            key = seed.GetHashCode.ToString
+            key = i.ToString
+            i += 1
 
             Call map.Add(key, seed)
             Call args.SetTargetKey(key)
             Call ClusterTree.Add(tree, args)
         Next
     End Sub
+
+    Public Iterator Function GetClusters() As IEnumerable(Of NTCluster)
+        Dim class_id As Integer = 1
+
+        For Each node In ClusterTree.GetClusters(tree)
+            For Each key As String In node.Members
+                Dim gene As NTCluster = map(key)
+                gene.cluster = class_id.ToString
+                Yield gene
+            Next
+        Next
+    End Function
 
     Public Overrides Function GetSimilarity(x As String, y As String) As Double
         Dim a = map(x)

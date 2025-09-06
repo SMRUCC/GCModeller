@@ -834,6 +834,7 @@ Module Fasta
 
         Dim tree As New NTTree(0.85, 0.6)
         Call tree.MakeTtree(seeds.populates(Of NTCluster)(env))
-        Return tree
+        Dim cluster = tree.GetClusters.ToArray
+        Return cluster
     End Function
 End Module
