@@ -110,6 +110,10 @@ Namespace Core
             role = MassRoles.compound
         End Sub
 
+        ''' <summary>
+        ''' make value copy of the mass factor model
+        ''' </summary>
+        ''' <param name="copy"></param>
         Sub New(copy As Factor)
             Call Me.New(copy.ID, copy.role, copy.cellular_compartment)
 

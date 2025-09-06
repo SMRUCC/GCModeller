@@ -109,7 +109,7 @@ Namespace Engine
             Me.debugView = New DebuggerView(Me, cellular_id)
         End Sub
 
-        Friend Function getMassPool() As MassTable
+        Public Function getMassPool() As MassTable
             Dim table As New MassTable
 
             For Each factor As Factor In core.m_massIndex.Values

@@ -66,8 +66,8 @@ Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace Raw
 
@@ -85,18 +85,18 @@ Namespace Raw
         ReadOnly compartments As String()
         ReadOnly instance_id As New Dictionary(Of String, Dictionary(Of String, String()))
 
-        Sub New(model As CellularModule(), fluxIndex As Dictionary(Of String, String()), output As Stream)
+        Sub New(mass As MassTable, fluxIndex As Dictionary(Of String, String()), output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
             stream.Clear(32 * 1024 * 1024)
 
             ' create molecule index
-            MyBase.mRNAId = getRNAIndex(model, RNATypes.mRNA).Indexing
-            MyBase.RNAId = getComponentRNAs(model).Indexing
-            MyBase.tRNA = getRNAIndex(model, RNATypes.tRNA).Indexing
-            MyBase.rRNA = getRNAIndex(model, RNATypes.ribosomalRNA).JoinIterates({"ribosomeAssembly"}).Indexing
-            MyBase.Polypeptide = getPolypeptides(model).Indexing
-            MyBase.Proteins = getProteins(model).Indexing
-            MyBase.Metabolites = getMetabolites(model).Distinct.ToArray
+            MyBase.mRNAId = mass.GetRole(MassRoles.mRNA).Keys
+            MyBase.RNAId = mass.GetRole(MassRoles.RNA).Keys
+            MyBase.tRNA = mass.GetRole(MassRoles.tRNA).Keys
+            MyBase.rRNA = mass.GetRole(MassRoles.rRNA).Keys
+            MyBase.Polypeptide = mass.GetRole(MassRoles.polypeptide).Keys
+            MyBase.Proteins = mass.GetRole(MassRoles.protein).Keys
+            MyBase.Metabolites = mass.GetRole(MassRoles.compound).Keys
             ' create flux index
             MyBase.Reactions = fluxIndex!MetabolismNetworkLoader
             MyBase.Transcription = fluxIndex!transcription
@@ -108,19 +108,7 @@ Namespace Raw
             MyBase.ribosomeAssembly = fluxIndex!ribosomeAssembly
             MyBase.ProteinMature = fluxIndex!ProteinMatureFluxLoader
 
-            compartments = model.Select(Function(m) m.CellularEnvironmentName) _
-                .JoinIterates(model.Select(Function(m) m.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)).IteratesALL) _
-                .JoinIterates(model.Select(Function(m) m.Phenotype.fluxes _
-                    .Select(Function(r)
-                                Return r.equation.GetMetabolites
-                            End Function) _
-                    .IteratesALL _
-                    .Select(Function(c)
-                                Return c.Compartment
-                            End Function)).IteratesALL) _
-                .Distinct _
-                .Where(Function(s) Not s.StringEmpty(, True)) _
-                .ToArray
+            compartments = mass.compartment_ids.ToArray
 
             Call stream.WriteText(compartments.JoinBy(vbCrLf), "/compartments.txt")
             Call stream.WriteText(
@@ -138,61 +126,20 @@ Namespace Raw
                 }, "/.etc/count.json")
         End Sub
 
-        Private Iterator Function getMetabolites(models As CellularModule()) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each flux In model.Phenotype.fluxes
-                    For Each cid As String In flux.AllCompounds
-                        Yield cid
-                    Next
-                Next
-            Next
-        End Function
-
-        Private Iterator Function getProteins(models As CellularModule()) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each prot In model.Phenotype.proteins
-                    Yield prot.ProteinID
-                Next
-            Next
-        End Function
-
-        Private Iterator Function getPolypeptides(models As CellularModule()) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each gene As CentralDogma In model.Genotype.centralDogmas
-                    If gene.RNA.Value = RNATypes.mRNA AndAlso Not gene.polypeptide Is Nothing Then
-                        Yield gene.polypeptide
-                    End If
-                Next
-            Next
-        End Function
-
-        Private Iterator Function getComponentRNAs(models As CellularModule()) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each gene As CentralDogma In model.Genotype.centralDogmas
-                    Dim RNA_type As RNATypes = gene.RNA.Value
-
-                    Select Case RNA_type
-                        Case RNATypes.mRNA, RNATypes.ribosomalRNA, RNATypes.tRNA
-                            Continue For
-                        Case Else
-                            Yield gene.RNAName
-                    End Select
-                Next
-            Next
-        End Function
-
-        Private Iterator Function getRNAIndex(models As CellularModule(), type_id As RNATypes) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each gene As CentralDogma In model.Genotype.centralDogmas
-                    If gene.RNA.Value = type_id Then
-                        Yield gene.RNAName
-
-                        If type_id = RNATypes.tRNA Then
-                            Yield "*" & gene.RNAName
-                        End If
-                    End If
-                Next
-            Next
+        Public Shared Function CompartmentIdSet(models As IEnumerable(Of CellularModule)) As String()
+            Return models.Select(Function(m) m.CellularEnvironmentName) _
+                .JoinIterates(models.Select(Function(m) m.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)).IteratesALL) _
+                .JoinIterates(models.Select(Function(m) m.Phenotype.fluxes _
+                    .Select(Function(r)
+                                Return r.equation.GetMetabolites
+                            End Function) _
+                    .IteratesALL _
+                    .Select(Function(c)
+                                Return c.Compartment
+                            End Function)).IteratesALL) _
+                .Distinct _
+                .Where(Function(s) Not s.StringEmpty(, True)) _
+                .ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

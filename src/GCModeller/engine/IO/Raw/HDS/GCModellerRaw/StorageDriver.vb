@@ -97,7 +97,7 @@ Namespace Raw
             Dim core = engine.getCore
             Dim outfile As Stream = output.Open(FileMode.OpenOrCreate, doClear:=True)
 
-            Me.output = New Writer(models, engine.fluxIndex, outfile).Init
+            Me.output = New Writer(engine.getMassPool, engine.fluxIndex, outfile).Init
             Me.mass = New OmicsTuple(Of String())(transcriptome, proteome, metabolome)
 
             If graph_debug Then
@@ -181,11 +181,11 @@ Namespace Raw
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function transcriptome() As String()
-            Return output.mRNAId.Objects.AsList + output.RNAId.Objects
+            Return output.mRNAId.Objects.AsList + output.RNAId.Objects + output.tRNA.Objects + output.rRNA.Objects
         End Function
 
         Private Function proteome() As String()
-            Return output.Polypeptide.Objects
+            Return output.Polypeptide.Objects.AsList + output.Proteins.Objects
         End Function
 
         Private Function metabolome() As String()
@@ -207,6 +207,12 @@ Namespace Raw
             Call output.Write(NameOf(Writer.Reactions), iteration, snapshot:=data, fluxData:=True)
             Call output.Write(NameOf(Writer.Transcription), iteration, snapshot:=data, fluxData:=True)
             Call output.Write(NameOf(Writer.Translation), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.ProteinDegradation), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.PeptideDegradation), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.RNADegradation), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.tRNACharge), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.ribosomeAssembly), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.ProteinMature), iteration, snapshot:=data, fluxData:=True)
         End Sub
 
 #Region "IDisposable Support"
