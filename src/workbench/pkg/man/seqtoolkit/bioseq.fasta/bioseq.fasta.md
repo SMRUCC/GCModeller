@@ -20,3 +20,5 @@ Fasta sequence toolkit
 + [fasta.headers](bioseq.fasta/fasta.headers.1) get/set the fasta headers title
 + [fasta.titles](bioseq.fasta/fasta.titles.1) get the fasta titles from a collection of fasta sequence
 + [cut_seq.linear](bioseq.fasta/cut_seq.linear.1) cut part of the sequence
++ [open.fingerprint_writer](bioseq.fasta/open.fingerprint_writer.1) 
++ [write_fingerprint](bioseq.fasta/write_fingerprint.1) 

@@ -113,6 +113,10 @@ declare namespace bioseq.fasta {
         * @return a lazy collection of the fasta sequence data
       */
       function fasta(file: string, read?: boolean, line_break?: object, delimiter?: string, env?: object): object|object;
+      /**
+        * @param env default value Is ``null``.
+      */
+      function fingerprint_writer(file: any, env?: object): object;
    }
    module parse {
       /**
@@ -217,4 +221,9 @@ declare namespace bioseq.fasta {
       */
       function fasta(seq: any, file: any, lineBreak?: object, delimiter?: string, filter_empty?: boolean, encoding?: object, env?: object): boolean;
    }
+   /**
+     * @param debug default value Is ``-1``.
+     * @param env default value Is ``null``.
+   */
+   function write_fingerprint(file: object, seqs: any, debug?: object, env?: object): object;
 }
