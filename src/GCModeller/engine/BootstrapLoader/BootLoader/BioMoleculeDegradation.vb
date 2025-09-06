@@ -128,7 +128,7 @@ Namespace ModelLoader
             Dim flux As Channel
             Dim proteinComplex As Variable
             Dim proteinCplx = cell.Phenotype.proteins _
-                .GroupBy(Function(p) DataHelper.GetProteinMatureId(p)) _
+                .GroupBy(Function(p) DataHelper.GetProteinMatureId(p, cellular_id)) _
                 .ToDictionary(Function(p) p.Key,
                               Function(p)
                                   Return p.ToArray
@@ -190,7 +190,7 @@ Namespace ModelLoader
                 End If
 
                 flux = New Channel(MassTable.variables({proteinComplexId}, 1, cell.CellularEnvironmentName), aaResidue + compoundLigends) With {
-                    .ID = $"proteinComplexDegradationOf{proteinComplexId}",
+                    .ID = $"proteinComplexDegradationOf{proteinComplexId}@{cell.CellularEnvironmentName}",
                     .forward = Controls.StaticControl(10),
                     .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {
@@ -237,7 +237,7 @@ Namespace ModelLoader
                                 End Function) _
                         .AsList
                 flux = New Channel(MassTable.variables({gene.polypeptide}, 1, cell.CellularEnvironmentName), aaResidue) With {
-                     .ID = $"polypeptideDegradationOf{gene.polypeptide}",
+                     .ID = $"polypeptideDegradationOf{gene.polypeptide}@{cell.CellularEnvironmentName}",
                      .forward = Controls.StaticControl(10),
                      .reverse = Controls.StaticControl(0),
                      .bounds = New Boundary With {
@@ -293,7 +293,7 @@ Namespace ModelLoader
 
                 ' 降解过程是不可逆的
                 flux = New Channel(MassTable.variables({gene.RNAName}, 1, cell.CellularEnvironmentName), ntBase) With {
-                    .ID = $"RNADegradationOf{gene.RNAName}",
+                    .ID = $"RNADegradationOf{gene.RNAName}@{cell.CellularEnvironmentName}",
                     .forward = Controls.StaticControl(loader.dynamics.RNADegradationBaseline),
                     .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {

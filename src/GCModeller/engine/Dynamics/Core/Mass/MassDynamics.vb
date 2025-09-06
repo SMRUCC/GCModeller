@@ -57,6 +57,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 
@@ -284,10 +285,12 @@ Namespace Core
             Next
 
             If missingFlux.Any Then
-                Dim msg As String = $"missing dynamics for compounds: {missingFlux.JoinBy(", ")}!"
-
-                Call msg.warning
-                Call msg.debug
+                If redirectWarning() Then
+                    Call $"missing {missingFlux.Count} dynamics for compounds: {missingFlux.JoinBy(", ")}!".warning
+                    Call $"missing {missingFlux.Count} dynamics for compounds: {missingFlux.Concatenate(", ", max_number:=13)}!".debug
+                Else
+                    Call $"missing {missingFlux.Count} dynamics for compounds: {missingFlux.Concatenate(", ", max_number:=13)}!".warning
+                End If
             End If
         End Function
 

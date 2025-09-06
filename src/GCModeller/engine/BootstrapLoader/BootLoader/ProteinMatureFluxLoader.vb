@@ -108,7 +108,7 @@ Namespace ModelLoader
 
                 ' 酶的成熟过程也是一个不可逆的过程
                 flux = New Channel(unformed, {mature}) With {
-                    .ID = complex.DoCall(AddressOf DataHelper.GetProteinMatureId),
+                    .ID = DataHelper.GetProteinMatureId(complex, cellular_id),
                     .reverse = Controls.StaticControl(0),
                     .forward = Controls.StaticControl(loader.dynamics.proteinMatureBaseline),
                     .bounds = New Boundary With {
