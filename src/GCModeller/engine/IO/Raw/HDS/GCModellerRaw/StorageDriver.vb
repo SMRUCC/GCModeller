@@ -60,6 +60,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -115,45 +116,48 @@ Namespace Raw
             Dim s As StreamPack = output.GetStream
             Dim metaboIndex As New Index(Of String)
 
-            ' write nodes
-            For Each metabo As Node In graph.vertex
-                Using file As Stream = s.OpenBlock($"/graph/mass/{metabo.label}.dat")
-                    If Not file.CanWrite Then
-                        Continue For
-                    End If
+            Call s.Delete("/graph/mass.jsonl")
+            Call s.Delete("/graph/links.jsonl")
 
+            Using file As Stream = s.OpenBlock("/graph/mass.jsonl")
+                Dim sb As New StreamWriter(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
+
+                Call VBDebugger.EchoLine($"write {graph.vertex.Count} nodes...")
+
+                ' write nodes
+                For Each metabo As Node In TqdmWrapper.Wrap(graph.vertex.ToArray)
                     Dim metadata As New Dictionary(Of String, String) From {
                         {"id", metabo.ID},
                         {"label", metabo.label},
                         {"group", metabo.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)}
                     }
-                    Dim sb As New StreamWriter(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
 
                     Call sb.WriteLine(metadata.GetJson)
-                    Call sb.Flush()
-                End Using
 
-                If metabo.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) <> "reaction" Then
-                    Call metaboIndex.Add(metabo.label)
-                End If
-            Next
+                    If metabo.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) <> "reaction" Then
+                        Call metaboIndex.Add(metabo.label)
+                    End If
+                Next
 
-            ' write graph network
-            For Each link As Edge In graph.graphEdges
-                Dim metabo As String
-                Dim react As String
+                Call sb.Flush()
+            End Using
 
-                If link.U.label Like metaboIndex Then
-                    metabo = link.U.label
-                    react = link.V.label
-                Else
-                    metabo = link.V.label
-                    react = link.U.label
-                End If
+            Using file As Stream = s.OpenBlock($"/graph/links.jsonl")
+                Dim sb As New StreamWriter(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
 
-                Using file As Stream = s.OpenBlock($"/graph/links/{metabo}/{react}.dat")
-                    If Not file.CanWrite Then
-                        Continue For
+                Call VBDebugger.EchoLine($"write {graph.graphEdges.Count} network edges...")
+
+                ' write graph network
+                For Each link As Edge In TqdmWrapper.Wrap(graph.graphEdges.ToArray)
+                    Dim metabo As String
+                    Dim react As String
+
+                    If link.U.label Like metaboIndex Then
+                        metabo = link.U.label
+                        react = link.V.label
+                    Else
+                        metabo = link.V.label
+                        react = link.U.label
                     End If
 
                     Dim metadata As New Dictionary(Of String, String) From {
@@ -162,12 +166,12 @@ Namespace Raw
                         {"type", link.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE)},
                         {"graph", link.data!graph}
                     }
-                    Dim sb As New StreamWriter(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
 
                     Call sb.WriteLine(metadata.GetJson)
-                    Call sb.Flush()
-                End Using
-            Next
+                Next
+
+                Call sb.Flush()
+            End Using
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
