@@ -143,11 +143,11 @@ Namespace Raw
         Public Property PeptideDegradation As Index(Of String)
         <[Module]("RNA-Degradation-Flux")>
         Public Property RNADegradation As Index(Of String)
-        <[Module]("tRNA-Charge")>
+        <[Module]("tRNA-Charge-Flux")>
         Public Property tRNACharge As Index(Of String)
-        <[Module]("ribosome-Assembly")>
+        <[Module]("ribosome-Assembly-Flux")>
         Public Property ribosomeAssembly As Index(Of String)
-        <[Module]("Protein-Mature")>
+        <[Module]("Protein-Mature-Flux")>
         Public Property ProteinMature As Index(Of String)
 #End Region
 #End Region
