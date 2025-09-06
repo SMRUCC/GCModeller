@@ -811,4 +811,16 @@ Module Fasta
 
         Return file
     End Function
+
+    <ExportAPI("read.fingerprint_bson")>
+    <RApiReturn(GetType(NTCluster))>
+    Public Function readFingerprintBson(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Return FingerprintMatrixWriter.BSONReader(s.TryCast(Of Stream))
+    End Function
 End Module

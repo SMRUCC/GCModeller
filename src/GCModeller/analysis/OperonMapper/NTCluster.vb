@@ -66,6 +66,10 @@ Public Class FingerprintMatrixWriter : Implements IDisposable
         Call s.Write(buffer, Scan0, buffer.Length)
     End Sub
 
+    Public Shared Function BSONReader(s As Stream) As IEnumerable(Of NTCluster)
+        Return BSONFormat.LoadList(s, tqdm:=False).Select(Function(json) json.CreateObject(Of NTCluster))
+    End Function
+
     Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then
             If disposing Then
