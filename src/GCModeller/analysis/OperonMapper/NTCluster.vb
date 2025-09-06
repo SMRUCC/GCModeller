@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.BSON
@@ -25,11 +26,14 @@ Public Class NTCluster
         For Each seq As FastaSeq In nt.SafeQuery
             Dim kmer As KMerGraph = KMerGraph.FromSequence(seq)
             Dim checksum As Byte() = builder.CalculateFingerprintCheckSum(kmer, radius)
-            Dim header = seq.Title.GetTagValue("|")
-            Dim metadata = header.Name.StringSplit("[\s~.#]")
+            Dim header As NamedValue(Of String) = seq.Title.GetTagValue("|")
+            Dim metadata As String() = header.Name _
+                .StringSplit("[\s~.#]") _
+                .Where(Function(str) str <> "") _
+                .ToArray
 
             Yield New NTCluster With {
-                .biom_string = header(1),
+                .biom_string = header.Value,
                 .fingerprint = checksum _
                     .Select(Function(b) CDbl(b)) _
                     .ToArray,
