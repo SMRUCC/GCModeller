@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.json
@@ -26,6 +27,7 @@ Public Class NTCluster
                                                     Optional size As Integer = 4096,
                                                     Optional radius As Integer = 3) As IEnumerable(Of NTCluster)
         Dim builder As New MorganFingerprint(size)
+        Dim forwardReverse As Index(Of String) = {"forward", "reverse"}
 
         For Each seq As FastaSeq In nt.SafeQuery
             Dim header As NamedValue(Of String) = seq.Title.GetTagValue("|")
@@ -34,7 +36,7 @@ Public Class NTCluster
                 .Where(Function(str) str <> "") _
                 .ToArray
 
-            If metadata.Length <> 5 Then
+            If metadata.Length <> 5 OrElse Not (metadata(4) Like forwardReverse) Then
                 Call $"invalid header format: {seq.Title}".warning
                 Continue For
             End If
