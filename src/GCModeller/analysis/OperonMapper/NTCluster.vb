@@ -28,13 +28,19 @@ Public Class NTCluster
         Dim builder As New MorganFingerprint(size)
 
         For Each seq As FastaSeq In nt.SafeQuery
-            Dim kmer As KMerGraph = KMerGraph.FromSequence(seq)
-            Dim checksum As Byte() = builder.CalculateFingerprintCheckSum(kmer, radius)
             Dim header As NamedValue(Of String) = seq.Title.GetTagValue("|")
             Dim metadata As String() = header.Name _
                 .StringSplit("[\s~.#]") _
                 .Where(Function(str) str <> "") _
                 .ToArray
+
+            If metadata.Length <> 5 Then
+                Call $"invalid header format: {seq.Title}".warning
+                Continue For
+            End If
+
+            Dim kmer As KMerGraph = KMerGraph.FromSequence(seq)
+            Dim checksum As Byte() = builder.CalculateFingerprintCheckSum(kmer, radius)
 
             Yield New NTCluster With {
                 .biom_string = header.Value,

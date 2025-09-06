@@ -22,3 +22,5 @@ Fasta sequence toolkit
 + [cut_seq.linear](bioseq.fasta/cut_seq.linear.1) cut part of the sequence
 + [open.fingerprint_writer](bioseq.fasta/open.fingerprint_writer.1) 
 + [write_fingerprint](bioseq.fasta/write_fingerprint.1) 
++ [read.fingerprint_bson](bioseq.fasta/read.fingerprint_bson.1) 
++ [make_clusterTree](bioseq.fasta/make_clusterTree.1) 

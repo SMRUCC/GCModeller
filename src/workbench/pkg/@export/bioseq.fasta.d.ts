@@ -72,6 +72,10 @@ declare namespace bioseq.fasta {
       function titles(fa: any, env?: object): string;
    }
    /**
+     * @param env default value Is ``null``.
+   */
+   function make_clusterTree(fingerprints: any, env?: object): object;
+   /**
     * evaluate the molecule mass of the given sequence
     * 
     * 
@@ -138,6 +142,10 @@ declare namespace bioseq.fasta {
         * @return A collection of the fasta sequence object
       */
       function fasta(file: string, lazyStream?: boolean): object;
+      /**
+        * @param env default value Is ``null``.
+      */
+      function fingerprint_bson(file: any, env?: object): object;
       /**
        * Read a single fasta sequence file
        * 
