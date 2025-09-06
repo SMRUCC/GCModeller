@@ -823,4 +823,17 @@ Module Fasta
 
         Return FingerprintMatrixWriter.BSONReader(s.TryCast(Of Stream))
     End Function
+
+    <ExportAPI("make_clusterTree")>
+    Public Function makeClusterTree(<RRawVectorArgument> fingerprints As Object, Optional env As Environment = Nothing) As Object
+        Dim seeds = pipeline.TryCreatePipeline(Of NTCluster)(fingerprints, env)
+
+        If seeds.isError Then
+            Return seeds.getError
+        End If
+
+        Dim tree As New NTTree(0.85, 0.6)
+        Call tree.MakeTtree(seeds.populates(Of NTCluster)(env))
+        Return tree
+    End Function
 End Module
