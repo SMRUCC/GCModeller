@@ -66,8 +66,6 @@ Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
@@ -87,7 +85,7 @@ Namespace Raw
         ReadOnly compartments As String()
         ReadOnly instance_id As New Dictionary(Of String, Dictionary(Of String, String()))
 
-        Sub New(model As CellularModule(), output As Stream)
+        Sub New(model As CellularModule(), fluxIndex As Dictionary(Of String, String()), output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
             stream.Clear(32 * 1024 * 1024)
 
@@ -100,9 +98,15 @@ Namespace Raw
             MyBase.Proteins = getProteins(model).Indexing
             MyBase.Metabolites = getMetabolites(model).Distinct.ToArray
             ' create flux index
-            MyBase.Reactions = DataHelper.getFluxIds(model).Distinct.ToArray
-            MyBase.Transcription = DataHelper.getTranscription(model).Indexing
-            MyBase.Translation = DataHelper.getTranslation(model).Indexing
+            MyBase.Reactions = fluxIndex!MetabolismNetworkLoader
+            MyBase.Transcription = fluxIndex!transcription
+            MyBase.Translation = fluxIndex!translation
+            MyBase.ProteinDegradation = fluxIndex!proteinDegradation
+            MyBase.PeptideDegradation = fluxIndex!polypeptideDegradation
+            MyBase.RNADegradation = fluxIndex!RNADegradation
+            MyBase.tRNACharge = fluxIndex!tRNAProcess
+            MyBase.ribosomeAssembly = fluxIndex!ribosomeAssembly
+            MyBase.ProteinMature = fluxIndex!ProteinMatureFluxLoader
 
             compartments = model.Select(Function(m) m.CellularEnvironmentName) _
                 .JoinIterates(model.Select(Function(m) m.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)).IteratesALL) _

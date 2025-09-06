@@ -95,8 +95,9 @@ Namespace Raw
         Sub New(output$, engine As Engine.Engine, Optional graph_debug As Boolean = True)
             Dim models As CellularModule() = engine.models
             Dim core = engine.getCore
+            Dim outfile As Stream = output.Open(FileMode.OpenOrCreate, doClear:=True)
 
-            Me.output = New Writer(models, output.Open(FileMode.OpenOrCreate, doClear:=True)).Init
+            Me.output = New Writer(models, engine.fluxIndex, outfile).Init
             Me.mass = New OmicsTuple(Of String())(transcriptome, proteome, metabolome)
 
             If graph_debug Then
@@ -104,6 +105,10 @@ Namespace Raw
             End If
         End Sub
 
+        ''' <summary>
+        ''' set molecule symbol names
+        ''' </summary>
+        ''' <param name="symbols"></param>
         Public Sub SetSymbolNames(symbols As Dictionary(Of String, String))
             Call output.GetStream.WriteText(symbols.GetJson, "/symbols.json", allocate:=False)
         End Sub
