@@ -191,7 +191,15 @@ Namespace Raw
         End Function
 
         Public Iterator Function ReadModule(module$, stream As BinaryDataReader) As IEnumerable(Of (String, Double))
-            Dim list As String() = modules([module]).Objects
+            ' filter of the possible empty collection
+            Dim list As String() = modules([module]).Objects _
+                .Where(Function(id) Not id.StringEmpty(, True)) _
+                .ToArray
+
+            If list.IsNullOrEmpty Then
+                Return
+            End If
+
             Dim data#() = stream.ReadDoubles(list.Count)
 
             For i As Integer = 0 To data.Length - 1
