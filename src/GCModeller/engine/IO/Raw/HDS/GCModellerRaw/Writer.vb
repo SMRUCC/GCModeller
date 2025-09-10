@@ -186,6 +186,8 @@ Namespace Raw
                 Call Me.moduleIndex.Add(name)
             Next
 
+            Call stream.WriteText(instance_id.GetJson, "/dynamics/cellular_symbols.json")
+
             Return Me
         End Function
 

@@ -19,10 +19,12 @@ Public Class VCellMatrixWriter : Implements IDisposable
         Dim moleculeExpr = SaveMatrix(pack, moleculeSet)
         Dim fluxExpr = SaveMatrix(pack, fluxSet)
 
-        Call s.Delete("/matrix/molecule.dat")
-        Call s.Delete("/matrix/flux.dat")
+        For Each compart_id As String In pack.comparts
+            Call s.Delete($"/matrix/{compart_id}/molecule.dat")
+            Call s.Delete($"/matrix/{compart_id}/flux.dat")
 
 
+        Next
     End Sub
 
     Private Function SaveMatrix(pack As Reader, listSet As KeyValuePair(Of String, String())()) As Stream
