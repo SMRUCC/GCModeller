@@ -90,13 +90,13 @@ Namespace Raw
             stream.Clear(32 * 1024 * 1024)
 
             ' create molecule index
-            MyBase.mRNAId = mass.GetRole(MassRoles.mRNA).Keys
-            MyBase.RNAId = mass.GetRole(MassRoles.RNA).Keys
-            MyBase.tRNA = mass.GetRole(MassRoles.tRNA).Keys
-            MyBase.rRNA = mass.GetRole(MassRoles.rRNA).Keys
-            MyBase.Polypeptide = mass.GetRole(MassRoles.polypeptide).Keys
-            MyBase.Proteins = mass.GetRole(MassRoles.protein).Keys
-            MyBase.Metabolites = mass.GetRole(MassRoles.compound).Keys
+            MyBase.mRNAId = getTemplateIndex(mass.GetRole(MassRoles.mRNA))
+            MyBase.RNAId = getTemplateIndex(mass.GetRole(MassRoles.RNA))
+            MyBase.tRNA = getTemplateIndex(mass.GetRole(MassRoles.tRNA))
+            MyBase.rRNA = getTemplateIndex(mass.GetRole(MassRoles.rRNA))
+            MyBase.Polypeptide = getTemplateIndex(mass.GetRole(MassRoles.polypeptide))
+            MyBase.Proteins = getTemplateIndex(mass.GetRole(MassRoles.protein))
+            MyBase.Metabolites = getTemplateIndex(mass.GetRole(MassRoles.compound))
             ' create flux index
             MyBase.Reactions = fluxIndex!MetabolismNetworkLoader
             MyBase.Transcription = fluxIndex!transcription
@@ -125,6 +125,10 @@ Namespace Raw
                     }.GetJson
                 }, "/.etc/count.json")
         End Sub
+
+        Private Shared Function getTemplateIndex(factors As IEnumerable(Of Factor)) As Index(Of String)
+            Return factors.Select(Function(f) f.template_id).Distinct.Indexing
+        End Function
 
         Public Shared Function CompartmentIdSet(models As IEnumerable(Of CellularModule)) As String()
             Return models.Select(Function(m) m.CellularEnvironmentName) _

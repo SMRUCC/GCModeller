@@ -1,5 +1,7 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
 
 Public Class VCellMatrixWriter : Implements IDisposable
@@ -18,6 +20,10 @@ Public Class VCellMatrixWriter : Implements IDisposable
         Dim fluxSet = moduleSet.Where(Function(m) m.Key.EndsWith("-Flux")).ToArray
         Dim moleculeExpr = SaveMatrix(pack, moleculeSet)
         Dim fluxExpr = SaveMatrix(pack, fluxSet)
+        Dim instance_id As Dictionary(Of String, Dictionary(Of String, String())) = pack _
+            .GetStream _
+            .ReadText("/dynamics/cellular_symbols.json") _
+            .LoadJSON(Of Dictionary(Of String, Dictionary(Of String, String())))
 
         For Each compart_id As String In pack.comparts
             Call s.Delete($"/matrix/{compart_id}/molecule.dat")
