@@ -25,6 +25,29 @@ Public Class VCellMatrixWriter : Implements IDisposable
             .ReadText("/dynamics/cellular_symbols.json") _
             .LoadJSON(Of Dictionary(Of String, Dictionary(Of String, String())))
 
+        For Each fluxGroup As KeyValuePair(Of String, String()) In fluxSet
+            Dim tmp As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value)
+            Dim offset As Integer = 0
+
+            For Each name As String In fluxGroup.Value
+                Dim path As String = $"/matrix/flux/{name}.vec"
+
+                Call s.Delete(path)
+
+                Using buf As New BinaryDataWriter(s.OpenBlock(path), byteOrder:=ByteOrder.BigEndian)
+                    Dim timeline As Double() = tmp.Select(Function(ti) ti(offset)).ToArray
+                    buf.Write(timeline)
+                    buf.Flush()
+                End Using
+
+                offset += 1
+            Next
+
+            Call s.WriteText(fluxGroup.Value.JoinBy(vbCrLf), $"/matrix/flux/index.txt")
+
+            Erase tmp
+        Next
+
         For Each compart_id As String In pack.comparts
             Dim objs = instance_id(compart_id)
 
@@ -46,10 +69,27 @@ Public Class VCellMatrixWriter : Implements IDisposable
                     offset += 1
                 Next
 
+                Call s.WriteText([module].Value.JoinBy(vbCrLf), $"/matrix/{compart_id}/index.txt")
+
                 Erase tmp
             Next
         Next
     End Sub
+
+    Private Function SaveFlux(pack As Reader, group As String, idset As String()) As Double()()
+        Dim times As Double() = pack.AllTimePoints.ToArray
+        Dim mat As Double()() = RectangularArray.Matrix(Of Double)(times.Length, idset.Length)
+
+        For i As Integer = 0 To times.Length - 1
+            Dim ti As Double = times(i)
+            Dim list As New BinaryDataReader(pack.GetStream.OpenFile($"/dynamics/flux/{group}/frames/{ti}.dat"))
+            Dim vec As Double() = list.ReadDoubles(idset.Length)
+
+            mat(i) = vec
+        Next
+
+        Return mat
+    End Function
 
     Private Function SaveMatrix(pack As Reader, compartment_id As String, listSet As KeyValuePair(Of String, String())) As Double()()
         Dim times As Double() = pack.AllTimePoints.ToArray
