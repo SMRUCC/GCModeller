@@ -41,7 +41,6 @@ Public Class VCellMatrixWriter : Implements IDisposable
                         Dim timeline As Double() = tmp.Select(Function(ti) ti(offset)).ToArray
                         buf.Write(timeline)
                         buf.Flush()
-                        buf.Close()
                     End Using
 
                     offset += 1
