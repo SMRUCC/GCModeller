@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
@@ -25,7 +26,7 @@ Public Class VCellMatrixWriter : Implements IDisposable
             .ReadText("/dynamics/cellular_symbols.json") _
             .LoadJSON(Of Dictionary(Of String, Dictionary(Of String, String())))
 
-        For Each fluxGroup As KeyValuePair(Of String, String()) In fluxSet
+        For Each fluxGroup As KeyValuePair(Of String, String()) In TqdmWrapper.Wrap(fluxSet)
             Dim tmp As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value)
             Dim offset As Integer = 0
 
@@ -51,12 +52,12 @@ Public Class VCellMatrixWriter : Implements IDisposable
         For Each compart_id As String In pack.comparts
             Dim objs = instance_id(compart_id)
 
-            For Each [module] As KeyValuePair(Of String, String()) In objs
+            For Each [module] As KeyValuePair(Of String, String()) In TqdmWrapper.Wrap(objs)
                 Dim tmp As Double()() = SaveMatrix(pack, compart_id, [module])
                 Dim offset As Integer = 0
 
                 For Each name As String In [module].Value
-                    Dim path As String = $"/matrix/{compart_id}/{name}.vec"
+                    Dim path As String = $"/matrix/{compart_id}/{[module].Key}/{name}.vec"
 
                     Call s.Delete(path)
 
@@ -69,7 +70,7 @@ Public Class VCellMatrixWriter : Implements IDisposable
                     offset += 1
                 Next
 
-                Call s.WriteText([module].Value.JoinBy(vbCrLf), $"/matrix/{compart_id}/index.txt")
+                Call s.WriteText([module].Value.JoinBy(vbCrLf), $"/matrix/{compart_id}/{[module].Key}.txt")
 
                 Erase tmp
             Next
@@ -111,6 +112,8 @@ Public Class VCellMatrixWriter : Implements IDisposable
         If Not disposedValue Then
             If disposing Then
                 ' TODO: dispose managed state (managed objects)
+                Call s.Close()
+                Call s.Dispose()
             End If
 
             ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
