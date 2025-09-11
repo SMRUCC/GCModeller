@@ -84,6 +84,8 @@ Namespace Raw
         ReadOnly ticks As New List(Of Double)
         ReadOnly compartments As String()
         ReadOnly instance_id As New Dictionary(Of String, Dictionary(Of String, String()))
+        ReadOnly flux_idset As New Dictionary(Of String, String())
+        ReadOnly mapping As Dictionary(Of String, (source_id As String, compart_id As String))
 
         Sub New(mass As MassTable, fluxIndex As Dictionary(Of String, String()), output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
@@ -108,6 +110,7 @@ Namespace Raw
             MyBase.ribosomeAssembly = fluxIndex!ribosomeAssembly
             MyBase.ProteinMature = fluxIndex!ProteinMatureFluxLoader
 
+            mapping = mass.getMapping
             compartments = mass.compartment_ids.ToArray
 
             Call stream.WriteText(compartments.JoinBy(vbCrLf), "/compartments.txt")
@@ -121,13 +124,21 @@ Namespace Raw
                         {NameOf(Metabolites), Metabolites.Count},
                         {NameOf(Reactions), Reactions.Count},
                         {NameOf(tRNA), tRNA.Count},
-                        {NameOf(rRNA), rRNA.Count}
+                        {NameOf(rRNA), rRNA.Count},
+                        {NameOf(Transcription), Transcription.Count},
+                        {NameOf(Translation), Translation.Count},
+                        {NameOf(ProteinDegradation), ProteinDegradation.Count},
+                        {NameOf(PeptideDegradation), PeptideDegradation.Count},
+                        {NameOf(RNADegradation), RNADegradation.Count},
+                        {NameOf(tRNACharge), tRNACharge.Count},
+                        {NameOf(ribosomeAssembly), ribosomeAssembly.Count},
+                        {NameOf(ProteinMature), ProteinMature.Count}
                     }.GetJson
                 }, "/.etc/count.json")
         End Sub
 
         Private Shared Function getTemplateIndex(factors As IEnumerable(Of Factor)) As Index(Of String)
-            Return factors.Select(Function(f) f.template_id).Distinct.Indexing
+            Return factors.Select(Function(f) f.ID).Distinct.Indexing
         End Function
 
         Public Shared Function CompartmentIdSet(models As IEnumerable(Of CellularModule)) As String()
@@ -162,11 +173,13 @@ Namespace Raw
             Call Me.moduleIndex.Clear()
             Call Me.nameMaps.Clear()
             Call Me.ticks.Clear()
-            Call Me.instance_id.Clear()
+            Call instance_id.Clear()
+            Call flux_idset.Clear()
 
             For Each [module] As NamedValue(Of PropertyInfo) In modules.NamedValues
                 Dim name$ = [module].Name
                 Dim index As Index(Of String) = [module].Value.GetValue(Me)
+                Dim isFlux As Boolean = name.EndsWith("-Flux")
 
                 If index Is Nothing Then
                     Continue For
@@ -174,15 +187,22 @@ Namespace Raw
 
                 Dim list$() = index.Objects
 
-                For Each compart_id As String In compartments
-                    Dim instance_id = list.Select(Function(id) id & "@" & compart_id).ToArray
+                If isFlux Then
+                    Call flux_idset.Add(name, list)
+                Else
+                    Dim templates = list.Select(Function(id) mapping(id)).ToArray
 
-                    If Not Me.instance_id.ContainsKey(compart_id) Then
-                        Call Me.instance_id.Add(compart_id, New Dictionary(Of String, String()))
-                    End If
+                    For Each compartment In templates.GroupBy(Function(a) a.compart_id)
+                        Dim instance_id = compartment.Select(Function(id) id.source_id & "@" & id.compart_id).ToArray
+                        Dim compart_id As String = compartment.Key
 
-                    Call Me.instance_id(compart_id).Add(name, instance_id)
-                Next
+                        If Not Me.instance_id.ContainsKey(compart_id) Then
+                            Call Me.instance_id.Add(compart_id, New Dictionary(Of String, String()))
+                        End If
+
+                        Call Me.instance_id(compart_id).Add(name, instance_id)
+                    Next
+                End If
 
                 Call nameMaps.Add([module].Value.Name, name)
                 Call stream.WriteText(list.JoinBy(vbCrLf), $"/index/{name}.txt")
@@ -191,6 +211,7 @@ Namespace Raw
             Next
 
             Call stream.WriteText(instance_id.GetJson, "/dynamics/cellular_symbols.json")
+            Call stream.WriteText(flux_idset.GetJson, "/dynamics/cellular_flux.json")
 
             Return Me
         End Function
