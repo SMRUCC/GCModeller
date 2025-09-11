@@ -229,7 +229,12 @@ Namespace Raw
             Dim index As Index(Of String) = modules(resolve_name)
 
             For Each compart_id As String In compartments
-                Dim instance_id As String() = If(fluxData, index.Objects, Me.instance_id(compart_id)(resolve_name))
+                Dim instance_id As String() = If(fluxData, index.Objects, Me.instance_id(compart_id).TryGetValue(resolve_name))
+
+                If instance_id.IsNullOrEmpty Then
+                    Continue For
+                End If
+
                 Dim v As Double() = snapshot.Takes(instance_id).ToArray
                 Dim path As String = $"/dynamics/{compart_id}/{resolve_name}/frames/{time}.dat"
 
