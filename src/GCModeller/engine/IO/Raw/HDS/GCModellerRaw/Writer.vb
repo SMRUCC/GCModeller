@@ -228,23 +228,39 @@ Namespace Raw
             Dim resolve_name As String = nameMaps([module])
             Dim index As Index(Of String) = modules(resolve_name)
 
-            For Each compart_id As String In compartments
-                Dim instance_id As String() = If(fluxData, index.Objects, Me.instance_id(compart_id).TryGetValue(resolve_name))
+            If fluxData Then
+                Dim instance_id As String() = index.Objects
 
-                If instance_id.IsNullOrEmpty Then
-                    Continue For
+                If Not instance_id.IsNullOrEmpty Then
+                    Dim v As Double() = snapshot.Takes(instance_id).ToArray
+                    Dim path As String = $"/dynamics/flux/{resolve_name}/frames/{time}.dat"
+
+                    Call stream.Delete(path)
+                    Call ticks.Add(time)
+
+                    Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
+                        Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
+                    End Using
                 End If
+            Else
+                For Each compart_id As String In compartments
+                    Dim instance_id As String() = Me.instance_id(compart_id).TryGetValue(resolve_name)
 
-                Dim v As Double() = snapshot.Takes(instance_id).ToArray
-                Dim path As String = $"/dynamics/{compart_id}/{resolve_name}/frames/{time}.dat"
+                    If instance_id.IsNullOrEmpty Then
+                        Continue For
+                    End If
 
-                Call stream.Delete(path)
-                Call ticks.Add(time)
+                    Dim v As Double() = snapshot.Takes(instance_id).ToArray
+                    Dim path As String = $"/dynamics/{compart_id}/{resolve_name}/frames/{time}.dat"
 
-                Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
-                    Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
-                End Using
-            Next
+                    Call stream.Delete(path)
+                    Call ticks.Add(time)
+
+                    Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
+                        Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
+                    End Using
+                Next
+            End If
 
             Return Me
         End Function
