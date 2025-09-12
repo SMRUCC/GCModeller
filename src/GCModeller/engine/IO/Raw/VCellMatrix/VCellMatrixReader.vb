@@ -75,6 +75,20 @@ Public Class VCellMatrixReader : Implements IDisposable
         Return data
     End Function
 
+    Public Function ReadMoleculeTree() As Dictionary(Of String, String())
+        Dim tree As New Dictionary(Of String, String())
+
+        For Each file In s.OpenFolder("/index/").ListFiles(recursive:=False)
+            Dim key As String = file.fileName.BaseName
+
+            If Not key.EndsWith("-Flux") Then
+                Call tree.Add(key, s.ReadText(file).LineTokens)
+            End If
+        Next
+
+        Return tree
+    End Function
+
     Public Iterator Function GetCellularMolecules() As IEnumerable(Of (compartment_id As String, NamedCollection(Of String)()))
         For Each compartment In symbolSet
             Dim moduleSet = compartment.Value _
@@ -92,6 +106,10 @@ Public Class VCellMatrixReader : Implements IDisposable
         Dim line As Value(Of String) = ""
 
         Do While (line = reader.ReadLine) IsNot Nothing
+            If CStr(line) = "" Then
+                Continue Do
+            End If
+
             Dim edge As FluxEdge = CStr(line).LoadJSON(Of FluxEdge)
             Dim id As String = edge.id
 
@@ -108,6 +126,10 @@ Public Class VCellMatrixReader : Implements IDisposable
             Next
         Next
     End Sub
+
+    Public Function CheckSymbol(symbol As String) As Boolean
+        Return symbolIndex.ContainsKey(symbol)
+    End Function
 
     Public Function GetExpression(symbol As String) As Double()
         Dim arg = symbolIndex(symbol)
