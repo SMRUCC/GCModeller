@@ -14,8 +14,8 @@ Public Class VCellMatrixReader : Implements IDisposable
     ReadOnly fluxList As Dictionary(Of String, String())
     ReadOnly symbolSet As Dictionary(Of String, Dictionary(Of String, String()))
     ReadOnly symbolIndex As New Dictionary(Of String, (compartment As String, [module] As String))
-    ReadOnly network As New Dictionary(Of String, FluxEdge)
 
+    Public ReadOnly Property network As New Dictionary(Of String, FluxEdge)
     Public ReadOnly Property compartmentIds As IReadOnlyCollection(Of String)
     Public ReadOnly Property totalPoints As Integer
 
@@ -37,8 +37,12 @@ Public Class VCellMatrixReader : Implements IDisposable
 
     Private disposedValue As Boolean
 
-    Sub New(filepath As String)
-        s = StreamPack.OpenReadOnly(filepath)
+    Sub New(file As Stream)
+        Call Me.New(New StreamPack(file, [readonly]:=True))
+    End Sub
+
+    Sub New(pack As StreamPack)
+        s = pack
         fluxList = s.ReadText("/cellular_flux.json").LoadJSON(Of Dictionary(Of String, String()))
         symbolSet = s.ReadText("/cellular_symbols.json").LoadJSON(Of Dictionary(Of String, Dictionary(Of String, String())))
         compartmentIds = s.ReadText("/compartments.txt") _
@@ -53,6 +57,36 @@ Public Class VCellMatrixReader : Implements IDisposable
         Call loadNetwork(s.OpenFile("/cellular_graph.jsonl", FileMode.Open, FileAccess.Read), network)
     End Sub
 
+    Sub New(filepath As String)
+        Call Me.New(StreamPack.OpenReadOnly(filepath))
+    End Sub
+
+    Public Function ActivityLoads() As Dictionary(Of String, Double())
+        Dim folder = s.OpenFolder("/matrix/activityLoads/")
+        Dim data As New Dictionary(Of String, Double())
+
+        For Each file In folder.ListFiles(recursive:=False)
+            Dim buf = s.OpenBlock(file)
+            Dim list As New BinaryDataReader(buf)
+
+            Call data.Add(file.fileName.BaseName, list.ReadDoubles(totalPoints))
+        Next
+
+        Return data
+    End Function
+
+    Public Iterator Function GetCellularMolecules() As IEnumerable(Of (compartment_id As String, NamedCollection(Of String)()))
+        For Each compartment In symbolSet
+            Dim moduleSet = compartment.Value _
+                .Select(Function(m)
+                            Return New NamedCollection(Of String)(m.Key, m.Value)
+                        End Function) _
+                .ToArray
+
+            Yield (compartment.Key, moduleSet)
+        Next
+    End Function
+
     Private Shared Sub loadNetwork(s As Stream, network As Dictionary(Of String, FluxEdge))
         Dim reader As New StreamReader(s)
         Dim line As Value(Of String) = ""
@@ -66,7 +100,6 @@ Public Class VCellMatrixReader : Implements IDisposable
     End Sub
 
     Private Shared Sub buildSymbolIndex(symbolSet As Dictionary(Of String, Dictionary(Of String, String())), ByRef symbolIndex As Dictionary(Of String, (compartment As String, [module] As String)))
-
         For Each compartment In symbolSet
             For Each [module] In compartment.Value
                 For Each id As String In [module].Value

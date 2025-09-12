@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
 
@@ -31,6 +32,18 @@ Public Class VCellMatrixWriter : Implements IDisposable
         Call s.WriteText(pack.GetStream.ReadText("/.etc/ticks.txt"), "/ticks.txt")
         Call s.WriteText(pack.GetStream.ReadText("/symbols.json"), "/symbols.json")
         Call s.WriteText(pack.GetStream.ReadText("/cellular_graph.jsonl"), "/cellular_graph.jsonl")
+
+        For Each loads In MakeActivityLoadsSnapshot(pack)
+            Dim path As String = $"/matrix/activityLoads/{loads.Key}.vec"
+
+            Call s.Delete(path)
+
+            Using buf As New BinaryDataWriter(s.OpenBlock(path), byteOrder:=ByteOrder.BigEndian)
+                Dim timeline As Double() = loads.Value
+                buf.Write(timeline)
+                buf.Flush()
+            End Using
+        Next
 
         For Each fluxGroup As KeyValuePair(Of String, String()) In TqdmWrapper.Wrap(fluxSet)
             Dim tmp As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value)
@@ -82,6 +95,20 @@ Public Class VCellMatrixWriter : Implements IDisposable
             Next
         Next
     End Sub
+
+    Private Shared Function MakeActivityLoadsSnapshot(pack As Reader) As Dictionary(Of String, Double())
+        Dim loads = pack.ActivityLoads.ToArray
+        Dim idset = loads.Select(Function(ti) ti.Keys).IteratesALL.Distinct.ToArray
+        Dim matrix = idset _
+            .ToDictionary(Function(id) id,
+                          Function(id)
+                              Return loads _
+                                  .Select(Function(ti) ti(id)) _
+                                  .ToArray
+                          End Function)
+
+        Return matrix
+    End Function
 
     Private Function SaveFlux(pack As Reader, group As String, idset As String()) As Double()()
         Dim times As Double() = pack.AllTimePoints.ToArray
