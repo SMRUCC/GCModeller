@@ -328,8 +328,8 @@ Namespace Keywords
             End If
 
             Dim tokens As String() = str.StringSplit("\s+")
-            Dim ref As String = tokens(1)
-            Dim linksTo As Integer() = tokens.Skip(2).AsInteger
+            Dim ref As String = tokens(0)
+            Dim linksTo As Integer() = tokens.Skip(1).AsInteger
 
             Call conect.str.Add(New NamedCollection(Of Integer)(ref, linksTo))
 
