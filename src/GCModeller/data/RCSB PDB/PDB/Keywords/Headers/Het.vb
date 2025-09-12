@@ -1,154 +1,157 @@
 ﻿#Region "Microsoft.VisualBasic::6ed554e398bc2515372ef7713c015934, data\RCSB PDB\PDB\Keywords\Headers\Het.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 347
-    '    Code Lines: 260 (74.93%)
-    ' Comment Lines: 3 (0.86%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 84 (24.21%)
-    '     File Size: 9.18 KB
+' Summaries:
 
 
-    '     Class Het
-    ' 
-    '         Properties: AnnotationText, Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class HetName
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class Formula
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class Link
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class CISPEP
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class HETATM
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class HETSYN
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class CONECT
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class MODRES
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class SSBOND
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class SPRSDE
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class CAVEAT
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class MDLTYP
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class ANISOU
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class SIGATM
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class SIGUIJ
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    '     Class SPLIT
-    ' 
-    '         Properties: Keyword
-    ' 
-    '         Function: Append
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 347
+'    Code Lines: 260 (74.93%)
+' Comment Lines: 3 (0.86%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 84 (24.21%)
+'     File Size: 9.18 KB
+
+
+'     Class Het
+' 
+'         Properties: AnnotationText, Keyword
+' 
+'         Function: Append
+' 
+'     Class HetName
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class Formula
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class Link
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class CISPEP
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class HETATM
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class HETSYN
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class CONECT
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class MODRES
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class SSBOND
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class SPRSDE
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class CAVEAT
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class MDLTYP
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class ANISOU
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class SIGATM
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class SIGUIJ
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+'     Class SPLIT
+' 
+'         Properties: Keyword
+' 
+'         Function: Append
+' 
+' 
+' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Keywords
 
@@ -297,6 +300,12 @@ Namespace Keywords
 
     End Class
 
+    ''' <summary>
+    ''' ### PDB文件中的CONECT字段用于明确指定原子间的特殊连接关系
+    ''' 
+    ''' CONECT记录提供了原子之间除标准共价键以外的特定连接信息，例如二硫键、配位键、氢键（在某些情况下）、盐桥，
+    ''' 以及非标准残基（如辅因子、抑制剂）内部的键合关系或它们与蛋白质/核酸之间的连接。
+    ''' </summary>
     Public Class CONECT : Inherits Keyword
 
         Public Overrides ReadOnly Property Keyword As String
@@ -305,13 +314,25 @@ Namespace Keywords
             End Get
         End Property
 
-        Dim str As New List(Of String)
+        ' CONECT 1198 355 1248 1256 1266 1267 1268
+        '
+        ' 列 1-6: CONECT(记录类型标识)
+        ' 列 7-11: 参考原子的序列号 (例如 1198)
+        ' 列 12-16, 17-21, 22-26, 27-31, ...: 与该参考原子相连的最多4个原子的序列号 (例如 355, 1248, 1256, 1266)。如果连接原子超过4个，会使用多个CONECT记录来描述同一个参考原子的所有连接。
+
+        Dim str As New List(Of NamedCollection(Of Integer))
 
         Friend Shared Function Append(ByRef conect As CONECT, str As String) As CONECT
             If conect Is Nothing Then
                 conect = New CONECT
             End If
-            conect.str.Add(str)
+
+            Dim tokens As String() = str.StringSplit("\s+")
+            Dim ref As String = tokens(1)
+            Dim linksTo As Integer() = tokens.Skip(2).AsInteger
+
+            Call conect.str.Add(New NamedCollection(Of Integer)(ref, linksTo))
+
             Return conect
         End Function
 
