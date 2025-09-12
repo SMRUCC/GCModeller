@@ -1,3 +1,71 @@
-﻿Public Class VCellMatrixReader
+﻿Imports Microsoft.VisualBasic.Data.IO
+Imports Microsoft.VisualBasic.DataStorage.HDSPack
+Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Text
 
+Public Class VCellMatrixReader : Implements IDisposable
+
+    ReadOnly s As StreamPack
+    ReadOnly fluxIndex As Dictionary(Of String, String())
+    ReadOnly symbolSet As Dictionary(Of String, Dictionary(Of String, String()))
+    ReadOnly symbolIndex As Dictionary(Of String, (compartment As String, [module] As String))
+    ReadOnly compartmentIds As String()
+    ReadOnly totalPoints As Integer
+
+    Private disposedValue As Boolean
+
+    Sub New(filepath As String)
+        s = StreamPack.OpenReadOnly(filepath)
+        fluxIndex = s.ReadText("/cellular_flux.json").LoadJSON(Of Dictionary(Of String, String()))
+        symbolSet = s.ReadText("/cellular_symbols.json").LoadJSON(Of Dictionary(Of String, Dictionary(Of String, String())))
+        compartmentIds = s.ReadText("/compartments.txt") _
+            .LineTokens _
+            .Where(Function(si) Not si.StringEmpty(, True)) _
+            .ToArray
+        totalPoints = Strings.Trim(s.ReadText("/ticks.txt")) _
+            .Trim(" "c, ASCII.CR, ASCII.LF, ASCII.TAB) _
+            .ParseInteger
+
+        Call buildSymbolIndex(symbolSet, symbolIndex)
+    End Sub
+
+    Private Shared Sub buildSymbolIndex(symbolSet As Dictionary(Of String, Dictionary(Of String, String())), ByRef symbolIndex As Dictionary(Of String, (compartment As String, [module] As String)))
+
+    End Sub
+
+    Public Function GetExpression(symbol As String) As Double()
+        Dim arg = symbolIndex(symbol)
+        Dim path As String = $"/matrix/{arg.compartment}/{arg.[module]}/{symbol}.vec"
+
+        Using buf As New BinaryDataReader(s.OpenBlock(path), byteOrder:=ByteOrder.BigEndian)
+            Return buf.ReadDoubles(totalPoints)
+        End Using
+    End Function
+
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not disposedValue Then
+            If disposing Then
+                ' TODO: dispose managed state (managed objects)
+                Call s.Dispose()
+            End If
+
+            ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
+            ' TODO: set large fields to null
+            disposedValue = True
+        End If
+    End Sub
+
+    ' ' TODO: override finalizer only if 'Dispose(disposing As Boolean)' has code to free unmanaged resources
+    ' Protected Overrides Sub Finalize()
+    '     ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+    '     Dispose(disposing:=False)
+    '     MyBase.Finalize()
+    ' End Sub
+
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+        Dispose(disposing:=True)
+        GC.SuppressFinalize(Me)
+    End Sub
 End Class
