@@ -66,6 +66,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
@@ -306,6 +307,10 @@ Public Class PDB : Implements Enumeration(Of Atom)
 
     Protected Friend Sub New()
     End Sub
+
+    Public Iterator Function ListLigands() As IEnumerable(Of NamedValue(Of String))
+
+    End Function
 
     Public Overrides Function ToString() As String
         Return Header.ToString & $" [{Title}]"

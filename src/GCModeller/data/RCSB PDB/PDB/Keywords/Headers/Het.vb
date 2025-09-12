@@ -169,13 +169,55 @@ Namespace Keywords
             End Get
         End Property
 
-        Public Property AnnotationText As New List(Of String)
+        Public Class HETRecord
+
+            ''' <summary>
+            ''' 残基类型 (FMN, MPD等)
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property ResidueType As String
+            ''' <summary>
+            ''' 链标识符 (A, B等)
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property ChainID As String
+            ''' <summary>
+            ''' 序列号
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property SequenceNumber As Integer
+            ''' <summary>
+            ''' 原子数量
+            ''' </summary>
+            ''' <returns></returns>
+            Public Property AtomCount As Integer
+
+            Sub New(line As String)
+                ResidueType = Strings.Mid(line, 1, 3)
+                ChainID = Strings.Mid(line, 6, 1)
+                SequenceNumber = Strings.Mid(line, 8, 4).ParseInteger
+                AtomCount = Strings.Mid(line, 17, 4).ParseInteger
+            End Sub
+        End Class
+
+        ReadOnly hetList As New List(Of NamedValue(Of HETRecord))
+
+        Public ReadOnly Property HetAtoms As NamedValue(Of HETRecord)()
+            Get
+                Return hetList.ToArray
+            End Get
+        End Property
 
         Friend Shared Function Append(ByRef het As Het, line As String) As Het
             If het Is Nothing Then
                 het = New Het
             End If
-            het.AnnotationText.Add(line)
+
+            Dim atom As New HETRecord(line)
+            Dim record As New NamedValue(Of HETRecord)(atom.ResidueType, atom, line)
+
+            Call het.hetList.Add(record)
+
             Return het
         End Function
 
@@ -189,13 +231,25 @@ Namespace Keywords
             End Get
         End Property
 
-        Dim str As New List(Of String)
+        Public ReadOnly Property Residues As NamedValue(Of String)()
+            Get
+                Return residueList.ToArray
+            End Get
+        End Property
+
+        ReadOnly residueList As New List(Of NamedValue(Of String))
 
         Friend Shared Function Append(ByRef hetname As HetName, line As String) As HetName
             If hetname Is Nothing Then
                 hetname = New HetName
             End If
-            hetname.str.Add(line)
+
+            Dim residueType = line.Substring(1, 3).Trim()
+            Dim chemicalName = line.Substring(5).Trim()
+            Dim data As New NamedValue(Of String)(residueType, chemicalName, line)
+
+            Call hetname.residueList.Add(data)
+
             Return hetname
         End Function
 
