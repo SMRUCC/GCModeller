@@ -177,6 +177,19 @@ Namespace Raw
             Return buf
         End Function
 
+        Public Function ReadFlux(time As Double, group As String) As Dictionary(Of String, Double)
+            Dim path As String = $"/dynamics/flux/{group}/frames/{time}.dat"
+            Dim offset As Stream = stream.OpenBlock(path)
+            Dim buf As New BinaryDataReader(offset, byteOrder:=ByteOrder.BigEndian)
+            Dim data As New Dictionary(Of String, Double)
+
+            For Each xi In ReadModule(group, buf)
+                Call data.Add(xi.Item1, xi.Item2)
+            Next
+
+            Return data
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Read(time#, module$) As Dictionary(Of String, Double)
             Dim data As New Dictionary(Of String, Double)

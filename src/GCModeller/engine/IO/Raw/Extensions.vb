@@ -75,7 +75,7 @@ Public Module Extensions
             Dim data As New Dictionary(Of String, Double)
 
             For Each mod_id As String In dataSet.Keys
-                Call data.Add(mod_id, raw.Read(ti, mod_id).Values.Select(Function(xi) std.Abs(xi)).Sum)
+                Call data.Add(mod_id, raw.ReadFlux(ti, mod_id).Values.Select(Function(xi) std.Abs(xi)).Sum)
             Next
 
             Yield data
