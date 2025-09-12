@@ -192,8 +192,17 @@ Namespace Raw
                 Else
                     Dim templates = list.Select(Function(id) mapping(id)).ToArray
 
+                    list = templates _
+                        .Select(Function(a) a.source_id) _
+                        .Distinct _
+                        .ToArray
+
                     For Each compartment In templates.GroupBy(Function(a) a.compart_id)
-                        Dim instance_id = compartment.Select(Function(id) id.source_id & "@" & id.compart_id).ToArray
+                        Dim instance_id As String() = compartment _
+                            .Select(Function(id)
+                                        Return id.source_id & "@" & id.compart_id
+                                    End Function) _
+                            .ToArray
                         Dim compart_id As String = compartment.Key
 
                         If Not Me.instance_id.ContainsKey(compart_id) Then

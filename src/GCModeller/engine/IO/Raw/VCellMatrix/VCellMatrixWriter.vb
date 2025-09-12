@@ -33,6 +33,10 @@ Public Class VCellMatrixWriter : Implements IDisposable
         Call s.WriteText(pack.GetStream.ReadText("/symbols.json"), "/symbols.json")
         Call s.WriteText(pack.GetStream.ReadText("/cellular_graph.jsonl"), "/cellular_graph.jsonl")
 
+        For Each file In pack.GetStream.OpenFolder("/index/").ListFiles(recursive:=False)
+            Call s.WriteText(pack.GetStream.ReadText(file), file.referencePath.ToString)
+        Next
+
         For Each loads In MakeActivityLoadsSnapshot(pack)
             Dim path As String = $"/matrix/activityLoads/{loads.Key}.vec"
 
