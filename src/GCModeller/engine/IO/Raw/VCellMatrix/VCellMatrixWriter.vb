@@ -29,6 +29,8 @@ Public Class VCellMatrixWriter : Implements IDisposable
         Call s.WriteText(fluxText, "/cellular_flux.json")
         Call s.WriteText(pack.GetStream.ReadText("/compartments.txt"), "/compartments.txt")
         Call s.WriteText(pack.GetStream.ReadText("/.etc/ticks.txt"), "/ticks.txt")
+        Call s.WriteText(pack.GetStream.ReadText("/symbols.json"), "/symbols.json")
+        Call s.WriteText(pack.GetStream.ReadText("/cellular_graph.jsonl"), "/cellular_graph.jsonl")
 
         For Each fluxGroup As KeyValuePair(Of String, String()) In TqdmWrapper.Wrap(fluxSet)
             Dim tmp As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value)

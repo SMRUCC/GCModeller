@@ -3,21 +3,30 @@ Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 
 Public Class VCellMatrixReader : Implements IDisposable
 
     ReadOnly s As StreamPack
-    ReadOnly fluxIndex As Dictionary(Of String, String())
+    ReadOnly fluxList As Dictionary(Of String, String())
     ReadOnly symbolSet As Dictionary(Of String, Dictionary(Of String, String()))
-    ReadOnly symbolIndex As Dictionary(Of String, (compartment As String, [module] As String))
-    ReadOnly compartmentIds As String()
-    ReadOnly totalPoints As Integer
+    ReadOnly symbolIndex As New Dictionary(Of String, (compartment As String, [module] As String))
+    ReadOnly network As New Dictionary(Of String, FluxEdge)
+
+    Public ReadOnly Property compartmentIds As String()
+    Public ReadOnly Property totalPoints As Integer
+
+    Default Public ReadOnly Property Item(key As String) As FluxEdge
+        Get
+            Return network(key)
+        End Get
+    End Property
 
     Private disposedValue As Boolean
 
     Sub New(filepath As String)
         s = StreamPack.OpenReadOnly(filepath)
-        fluxIndex = s.ReadText("/cellular_flux.json").LoadJSON(Of Dictionary(Of String, String()))
+        fluxList = s.ReadText("/cellular_flux.json").LoadJSON(Of Dictionary(Of String, String()))
         symbolSet = s.ReadText("/cellular_symbols.json").LoadJSON(Of Dictionary(Of String, Dictionary(Of String, String())))
         compartmentIds = s.ReadText("/compartments.txt") _
             .LineTokens _
@@ -32,6 +41,13 @@ Public Class VCellMatrixReader : Implements IDisposable
 
     Private Shared Sub buildSymbolIndex(symbolSet As Dictionary(Of String, Dictionary(Of String, String())), ByRef symbolIndex As Dictionary(Of String, (compartment As String, [module] As String)))
 
+        For Each compartment In symbolSet
+            For Each [module] In compartment.Value
+                For Each id As String In [module].Value
+                    symbolIndex(id) = (compartment.Key, [module].Key)
+                Next
+            Next
+        Next
     End Sub
 
     Public Function GetExpression(symbol As String) As Double()

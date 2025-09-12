@@ -95,6 +95,11 @@ Namespace Core
             Return r.right.AsEnumerable
         End Function
 
+        ''' <summary>
+        ''' json string of <see cref="FluxEdge"/>
+        ''' </summary>
+        ''' <param name="flux"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function jsonView(flux As Channel) As String
             Dim left As VariableFactor() = VariableFactor.GetModel(flux.left).ToArray
