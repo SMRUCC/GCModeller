@@ -152,6 +152,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -325,7 +326,7 @@ Namespace Keywords
         ''' <summary>
         ''' 表示解析后的HETATM记录信息
         ''' </summary>
-        Public Class HETATMRecord
+        Public Class HETATMRecord : Implements PointF3D
             Public Property RecordType As String    ' 记录类型 (HETATM)
             Public Property AtomNumber As Integer   ' 原子序号
             Public Property AtomName As String      ' 原子名称
@@ -333,9 +334,9 @@ Namespace Keywords
             Public Property ResidueName As String   ' 残基名称
             Public Property ChainID As String       ' 链标识符
             Public Property ResidueSequenceNumber As Integer ' 残基序列号
-            Public Property XCoord As Double        ' X坐标
-            Public Property YCoord As Double        ' Y坐标
-            Public Property ZCoord As Double        ' Z坐标
+            Public Property XCoord As Double Implements PointF3D.X        ' X坐标
+            Public Property YCoord As Double Implements PointF3D.Y       ' Y坐标
+            Public Property ZCoord As Double Implements PointF3D.Z        ' Z坐标
             Public Property Occupancy As Double     ' 占据率
             Public Property TemperatureFactor As Double ' 温度因子
             Public Property ElementSymbol As String ' 元素符号
