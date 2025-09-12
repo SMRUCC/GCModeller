@@ -150,8 +150,11 @@
 
 #End Region
 
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Keywords
 
@@ -307,6 +310,7 @@ Namespace Keywords
     ''' 以及非标准残基（如辅因子、抑制剂）内部的键合关系或它们与蛋白质/核酸之间的连接。
     ''' </summary>
     Public Class CONECT : Inherits Keyword
+        Implements Enumeration(Of NamedCollection(Of Integer))
 
         Public Overrides ReadOnly Property Keyword As String
             Get
@@ -320,7 +324,17 @@ Namespace Keywords
         ' 列 7-11: 参考原子的序列号 (例如 1198)
         ' 列 12-16, 17-21, 22-26, 27-31, ...: 与该参考原子相连的最多4个原子的序列号 (例如 355, 1248, 1256, 1266)。如果连接原子超过4个，会使用多个CONECT记录来描述同一个参考原子的所有连接。
 
-        Dim str As New List(Of NamedCollection(Of Integer))
+        Dim links As New List(Of NamedCollection(Of Integer))
+
+        Public Overrides Function ToString() As String
+            Dim sb As New StringBuilder
+
+            For Each link In Me.AsEnumerable
+                Call sb.AppendLine(link.name & " => " & link.value.GetJson)
+            Next
+
+            Return sb.ToString
+        End Function
 
         Friend Shared Function Append(ByRef conect As CONECT, str As String) As CONECT
             If conect Is Nothing Then
@@ -331,11 +345,16 @@ Namespace Keywords
             Dim ref As String = tokens(0)
             Dim linksTo As Integer() = tokens.Skip(1).AsInteger
 
-            Call conect.str.Add(New NamedCollection(Of Integer)(ref, linksTo))
+            Call conect.links.Add(New NamedCollection(Of Integer)(ref, linksTo))
 
             Return conect
         End Function
 
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of NamedCollection(Of Integer)) Implements Enumeration(Of NamedCollection(Of Integer)).GenericEnumerator
+            For Each link As NamedCollection(Of Integer) In links
+                Yield link
+            Next
+        End Function
     End Class
 
     Public Class MODRES : Inherits Keyword
