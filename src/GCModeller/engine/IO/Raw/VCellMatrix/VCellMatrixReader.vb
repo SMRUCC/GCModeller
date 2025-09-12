@@ -1,6 +1,9 @@
-﻿Imports Microsoft.VisualBasic.Data.IO
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -13,12 +16,22 @@ Public Class VCellMatrixReader : Implements IDisposable
     ReadOnly symbolIndex As New Dictionary(Of String, (compartment As String, [module] As String))
     ReadOnly network As New Dictionary(Of String, FluxEdge)
 
-    Public ReadOnly Property compartmentIds As String()
+    Public ReadOnly Property compartmentIds As IReadOnlyCollection(Of String)
     Public ReadOnly Property totalPoints As Integer
 
     Default Public ReadOnly Property Item(key As String) As FluxEdge
         Get
             Return network(key)
+        End Get
+    End Property
+
+    Public ReadOnly Property fluxSet As NamedCollection(Of String)()
+        Get
+            Return fluxList _
+                .Select(Function(list)
+                            Return New NamedCollection(Of String)(list.Key, list.Value)
+                        End Function) _
+                .ToArray
         End Get
     End Property
 
@@ -37,6 +50,19 @@ Public Class VCellMatrixReader : Implements IDisposable
             .ParseInteger
 
         Call buildSymbolIndex(symbolSet, symbolIndex)
+        Call loadNetwork(s.OpenFile("/cellular_graph.jsonl", FileMode.Open, FileAccess.Read), network)
+    End Sub
+
+    Private Shared Sub loadNetwork(s As Stream, network As Dictionary(Of String, FluxEdge))
+        Dim reader As New StreamReader(s)
+        Dim line As Value(Of String) = ""
+
+        Do While (line = reader.ReadLine) IsNot Nothing
+            Dim edge As FluxEdge = CStr(line).LoadJSON(Of FluxEdge)
+            Dim id As String = edge.id
+
+            network(id) = edge
+        Loop
     End Sub
 
     Private Shared Sub buildSymbolIndex(symbolSet As Dictionary(Of String, Dictionary(Of String, String())), ByRef symbolIndex As Dictionary(Of String, (compartment As String, [module] As String)))
