@@ -21,10 +21,13 @@ Public Class VCellMatrixWriter : Implements IDisposable
         Dim moduleSet = pack.GetMoleculeIdList
         Dim moleculeSet = moduleSet.Where(Function(m) Not m.Key.EndsWith("-Flux")).ToArray
         Dim fluxSet = moduleSet.Where(Function(m) m.Key.EndsWith("-Flux")).ToArray
-        Dim instance_id As Dictionary(Of String, Dictionary(Of String, String())) = pack _
-            .GetStream _
-            .ReadText("/dynamics/cellular_symbols.json") _
-            .LoadJSON(Of Dictionary(Of String, Dictionary(Of String, String())))
+        Dim symbolText = pack.GetStream.ReadText("/dynamics/cellular_symbols.json")
+        Dim fluxText = pack.GetStream.ReadText("/dynamics/cellular_flux.json")
+        Dim instance_id As Dictionary(Of String, Dictionary(Of String, String())) = symbolText.LoadJSON(Of Dictionary(Of String, Dictionary(Of String, String())))
+
+        Call s.WriteText(symbolText, "/cellular_symbols.json")
+        Call s.WriteText(fluxText, "/cellular_flux.json")
+        Call s.WriteText(pack.GetStream.ReadText("/compartments.txt"), "/compartments.txt")
 
         For Each fluxGroup As KeyValuePair(Of String, String()) In TqdmWrapper.Wrap(fluxSet)
             Dim tmp As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value)
