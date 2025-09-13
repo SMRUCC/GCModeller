@@ -24,7 +24,8 @@ Public Class VCellMatrixWriter : Implements IDisposable
         Dim fluxSet = moduleSet.Where(Function(m) m.Key.EndsWith("-Flux")).ToArray
         Dim symbolText = pack.GetStream.ReadText("/dynamics/cellular_symbols.json")
         Dim fluxText = pack.GetStream.ReadText("/dynamics/cellular_flux.json")
-        Dim instance_id As Dictionary(Of String, Dictionary(Of String, String())) = symbolText.LoadJSON(Of Dictionary(Of String, Dictionary(Of String, String())))
+        Dim instance_id As Dictionary(Of String, Dictionary(Of String, String())) = symbolText _
+            .LoadJSON(Of Dictionary(Of String, Dictionary(Of String, String())))
 
         Call s.WriteText(symbolText, "/cellular_symbols.json")
         Call s.WriteText(fluxText, "/cellular_flux.json")
@@ -67,7 +68,7 @@ Public Class VCellMatrixWriter : Implements IDisposable
                 offset += 1
             Next
 
-            Call s.WriteText(fluxGroup.Value.JoinBy(vbCrLf), $"/matrix/flux/index.txt")
+            Call s.WriteText(fluxGroup.Value.JoinBy(vbCrLf), $"/matrix/flux/{fluxGroup.Key}.txt")
 
             Erase tmp
         Next
