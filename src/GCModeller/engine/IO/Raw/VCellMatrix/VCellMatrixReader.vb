@@ -67,7 +67,7 @@ Public Class VCellMatrixReader : Implements IDisposable
 
         For Each file In folder.ListFiles(recursive:=False)
             Dim buf = s.OpenBlock(file)
-            Dim list As New BinaryDataReader(buf)
+            Dim list As New BinaryDataReader(buf, byteOrder:=ByteOrder.BigEndian)
 
             Call data.Add(file.fileName.BaseName, list.ReadDoubles(totalPoints))
         Next
@@ -82,7 +82,7 @@ Public Class VCellMatrixReader : Implements IDisposable
             Dim key As String = file.fileName.BaseName
 
             If Not key.EndsWith("-Flux") Then
-                Call tree.Add(key, s.ReadText(file).LineTokens)
+                Call tree.Add(key, Strings.Trim(s.ReadText(file)).Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF).LineTokens)
             End If
         Next
 
@@ -134,6 +134,14 @@ Public Class VCellMatrixReader : Implements IDisposable
     Public Function GetExpression(symbol As String) As Double()
         Dim arg = symbolIndex(symbol)
         Dim path As String = $"/matrix/{arg.compartment}/{arg.[module]}/{symbol}.vec"
+
+        Using buf As New BinaryDataReader(s.OpenBlock(path), byteOrder:=ByteOrder.BigEndian)
+            Return buf.ReadDoubles(totalPoints)
+        End Using
+    End Function
+
+    Public Function GetFluxExpression(symbol As String) As Double()
+        Dim path As String = $"/matrix/flux/{symbol}.vec"
 
         Using buf As New BinaryDataReader(s.OpenBlock(path), byteOrder:=ByteOrder.BigEndian)
             Return buf.ReadDoubles(totalPoints)
