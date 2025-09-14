@@ -61,6 +61,10 @@ Public Class VCellMatrixReader : Implements IDisposable
         Call Me.New(StreamPack.OpenReadOnly(filepath))
     End Sub
 
+    Public Function GetStream() As StreamPack
+        Return s
+    End Function
+
     Public Function ActivityLoads() As Dictionary(Of String, Double())
         Dim folder = s.OpenFolder("/matrix/activityLoads/")
         Dim data As New Dictionary(Of String, Double())
@@ -138,6 +142,13 @@ Public Class VCellMatrixReader : Implements IDisposable
         Using buf As New BinaryDataReader(s.OpenBlock(path), byteOrder:=ByteOrder.BigEndian)
             Return buf.ReadDoubles(totalPoints)
         End Using
+    End Function
+
+    Public Function FluxExpressionExists(flux_id As String) As Boolean
+        Dim path As String = $"/matrix/flux/{flux_id}.vec"
+        Dim check As Boolean = s.FileExists(path, True)
+
+        Return check
     End Function
 
     Public Function GetFluxExpression(symbol As String) As Double()
