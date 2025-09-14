@@ -309,11 +309,17 @@ Public Class PDB : Implements Enumeration(Of Atom)
     End Sub
 
     Public Iterator Function ListLigands() As IEnumerable(Of NamedValue(Of Het.HETRecord))
-        Dim nameIndex = HetName.Residues.ToDictionary(Function(a) a.Name, Function(a) a.Value)
+        If Not HetName Is Nothing Then
+            Dim nameIndex = HetName.Residues _
+                .ToDictionary(Function(a) a.Name,
+                              Function(a)
+                                  Return a.Value
+                              End Function)
 
-        For Each ref As NamedValue(Of Het.HETRecord) In Het.HetAtoms
-            Yield New NamedValue(Of Het.HETRecord)(ref.Name, ref.Value, nameIndex(ref.Name))
-        Next
+            For Each ref As NamedValue(Of Het.HETRecord) In Het.HetAtoms
+                Yield New NamedValue(Of Het.HETRecord)(ref.Name, ref.Value, nameIndex(ref.Name))
+            Next
+        End If
     End Function
 
     Public Overrides Function ToString() As String
