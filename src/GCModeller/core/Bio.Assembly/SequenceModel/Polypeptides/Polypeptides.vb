@@ -56,6 +56,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 
 Namespace SequenceModel.Polypeptides
@@ -192,6 +193,7 @@ Namespace SequenceModel.Polypeptides
         ''' <returns></returns>
         Public ReadOnly Property MEGASchema As New Dictionary(Of Char, Color) From {
                                                                                     _
+            {"A"c, "#ccff00".TranslateColor},
             {"B"c, Color.FromArgb(192, 192, 192)},
             {"D"c, Color.FromArgb(255, 0, 0)},
             {"E"c, Color.FromArgb(255, 0, 0)},
