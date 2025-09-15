@@ -109,6 +109,7 @@ Namespace Keywords
         Public Property AA_IDX As Integer
         Public Property Index As Integer
         Public Property Atom As String
+        Public Property ChianID As String
         Public Property Location As Point3D
 
         Public Overrides Function ToString() As String
@@ -139,9 +140,9 @@ Namespace Keywords
                 t = {""}.Join(t).ToArray
             Else
                 xyz = New Point3D With {
-                    .X = Val(t(3)),
-                    .Y = Val(t(4)),
-                    .Z = Val(t(5))
+                    .X = Val(t(4)),
+                    .Y = Val(t(5)),
+                    .Z = Val(t(6))
                 }
             End If
 
@@ -150,7 +151,8 @@ Namespace Keywords
                 .Location = xyz,
                 .Atom = t(0),
                 .AA_ID = t(1),
-                .AA_IDX = Val(t(2))
+                .AA_IDX = Val(t(3)),
+                .ChianID = t(2)
             }
         End Function
     End Class
