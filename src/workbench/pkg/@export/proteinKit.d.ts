@@ -111,6 +111,11 @@ declare namespace proteinKit {
    */
    function kmer_graph(prot: any, k?: object, env?: object): object;
    /**
+     * @param key default value Is ``null``.
+     * @param number default value Is ``-1``.
+   */
+   function ligands(pdb: object, key?: string, number?: object): object;
+   /**
     * parse the pdb struct data from a given document text data
     * 
     * 
