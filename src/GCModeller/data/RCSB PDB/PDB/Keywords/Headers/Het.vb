@@ -345,6 +345,17 @@ Namespace Keywords
             Public Property TemperatureFactor As Double ' 温度因子
             Public Property ElementSymbol As String ' 元素符号
 
+            Sub New()
+            End Sub
+
+            ''' <summary>
+            ''' copy valye from atom model data
+            ''' </summary>
+            ''' <param name="atom"></param>
+            Sub New(atom As AtomUnit)
+
+            End Sub
+
             Public Overrides Function ToString() As String
                 Return $"HETATM {AtomNumber} {AtomName} {ResidueName} {ChainID} {ResidueSequenceNumber} " &
                    $"{XCoord:F3} {YCoord:F3} {ZCoord:F3} {Occupancy:F2} {TemperatureFactor:F2} {ElementSymbol}"

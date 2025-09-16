@@ -233,6 +233,7 @@ Friend Class Parser
                 ' contains only one structure model data
                 ' inside current pdb object
                 model.ModelId = "1"
+                model.Flush()
                 pdb._atomStructuresData.Add("1", model)
                 model = Nothing
             Else
@@ -242,6 +243,7 @@ Friend Class Parser
             ' contains only one structure model data
             ' inside current pdb object
             model.ModelId = pdb.AtomStructures.Count + 1
+            model.Flush()
             pdb._atomStructuresData.Add(model.ModelId, model)
             model = Nothing
         End If
