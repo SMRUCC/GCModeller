@@ -283,6 +283,10 @@ Namespace Core
             defaultCompartment = New [Default](Of String)(id)
         End Sub
 
+        Public Function getMapping() As Dictionary(Of String, (source_id As String, compart_id As String))
+            Return m_massSet.mapping
+        End Function
+
         Public Function getSource(instance_id As String) As (source_id$, compart_id$)
             Return m_massSet.mapping.TryGetValue(instance_id)
         End Function

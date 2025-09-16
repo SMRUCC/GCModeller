@@ -92,6 +92,7 @@ Namespace Engine
         Public ReadOnly Property initials As Definition
         Public ReadOnly Property debugView As DebuggerView
         Public Property models As CellularModule()
+        Public Property fluxIndex As Dictionary(Of String, String())
 
         Sub New(def As Definition, dynamics As FluxBaseline, cellular_id As String(),
                 Optional iterations% = 500,
@@ -108,7 +109,7 @@ Namespace Engine
             Me.debugView = New DebuggerView(Me, cellular_id)
         End Sub
 
-        Friend Function getMassPool() As MassTable
+        Public Function getMassPool() As MassTable
             Dim table As New MassTable
 
             For Each factor As Factor In core.m_massIndex.Values

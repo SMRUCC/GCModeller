@@ -59,6 +59,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -145,7 +146,7 @@ Namespace ModelLoader
                 MassTable.variable(loader.define.ADP, cellular_id)
             }
             Dim flux As New Channel(left, right) With {
-               .ID = $"chargeOf_{cd.RNAName}",
+               .ID = $"chargeOf_{cd.RNAName}@{cellular_id}",
                .bounds = New Boundary() With {
                    .forward = loader.dynamics.tRNAChargeCapacity
                },
@@ -186,7 +187,7 @@ Namespace ModelLoader
 
                     transcript = MassTable.variable(id, cellular_id)
                     flux = New Channel(transcript, generic) With {
-                        .ID = $"{rRNA_key}<->{id}",
+                        .ID = $"{rRNA_key}<->{id}@{cellular_id}",
                         .bounds = New Boundary(100, 100),
                         .forward = Controls.StaticControl(100),
                         .reverse = Controls.StaticControl(100)
@@ -202,7 +203,7 @@ Namespace ModelLoader
 
             MassTable.addNew(NameOf(ribosomeAssembly), MassRoles.protein, cellular_id)
             flux = New Channel(left, {MassTable.variable(NameOf(ribosomeAssembly), cellular_id)}) With {
-                .ID = NameOf(ribosomeAssembly),
+                .ID = NameOf(ribosomeAssembly) & "@" & cellular_id,
                 .bounds = New Boundary With {
                     .forward = loader.dynamics.ribosomeAssemblyCapacity,
                     .reverse = loader.dynamics.ribosomeDisassemblyCapacity
@@ -259,10 +260,13 @@ Namespace ModelLoader
 
             If duplicateds.Any Then
                 Dim uniq = duplicateds.Distinct.ToArray
-                Dim warn As String = $"found {uniq.Length} duplicated protein peptide chains object: {uniq.JoinBy(", ")}!"
 
-                Call warn.warning
-                Call warn.debug
+                If redirectWarning() Then
+                    Call $"found {uniq.Length} duplicated protein peptide chains object: {uniq.JoinBy(", ")}!".warning
+                    Call $"found {uniq.Length} duplicated protein peptide chains object: {uniq.Concatenate(",", max_number:=13)}!".debug
+                Else
+                    Call $"found {uniq.Length} duplicated protein peptide chains object: {uniq.Concatenate(",", max_number:=13)}!".warning
+                End If
             End If
 
             Return index
@@ -423,7 +427,7 @@ Namespace ModelLoader
 
                     ' 针对mRNA对象，创建翻译过程
                     translation = New Channel(templateRNA, productsPro) With {
-                        .ID = cd.DoCall(AddressOf DataHelper.GetTranslationId),
+                        .ID = DataHelper.GetTranslationId(cd, cellular_id),
                         .forward = New AdditiveControls With {
                             .baseline = 0,
                             .activation = {MassTable.variable(NameOf(ribosomeAssembly), cellular_id)}
@@ -462,7 +466,7 @@ Namespace ModelLoader
                 ' 针对所有基因对象，创建转录过程
                 ' 转录是以DNA为模板产生RNA分子
                 transcription = New Channel(templateDNA, productsRNA) With {
-                    .ID = cd.DoCall(AddressOf DataHelper.GetTranscriptionId),
+                    .ID = DataHelper.GetTranscriptionId(cd, cellular_id),
                     .forward = New AdditiveControls With {
                         .baseline = loader.dynamics.transcriptionBaseline,
                         .activation = activeReg,

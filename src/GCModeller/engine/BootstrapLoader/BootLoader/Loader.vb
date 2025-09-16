@@ -58,6 +58,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
+Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
@@ -184,23 +185,31 @@ Namespace ModelLoader
             }
             Dim degradation = cell.DoCall(AddressOf degradationFluxLoader.CreateFlux).ToArray
             Dim processes As Channel() = centralDogmas + proteinMatrues + metabolism + degradation
+            Dim broken As New List(Of String)
 
             For Each loader In New FluxLoader() {metabolismNetworkLoader, proteinMatureFluxLoader, centralDogmaFluxLoader, degradationFluxLoader}
                 For Each link_ref As String In loader.LinkingMassSet
                     ' check of the broken mass reference
                     If Not massTable.ExistsAllCompartment(link_ref) Then
-                        Dim warn As String = $"found broken mass reference: {link_ref}"
 
                         If strict Then
-                            Throw New InvalidProgramException(warn)
+                            Throw New InvalidProgramException($"found broken mass reference: {link_ref}")
                         Else
+                            Call broken.Add(link_ref)
                             Call massTable.addNew(link_ref, MassRoles.compound, cell.CellularEnvironmentName)
-                            Call warn.warning
-                            Call warn.debug
                         End If
                     End If
                 Next
             Next
+
+            If broken.Any Then
+                If redirectWarning() Then
+                    Call $"found {broken.Count} broken mass reference: {broken.JoinBy(", ")}.".warning
+                    Call $"found {broken.Count} broken mass reference: {broken.Concatenate(", ", max_number:=13)}.".debug
+                Else
+                    Call $"found {broken.Count} broken mass reference: {broken.Concatenate(", ", max_number:=13)}.".warning
+                End If
+            End If
 
             ' setup engine environment
             Return (massTable, processes)

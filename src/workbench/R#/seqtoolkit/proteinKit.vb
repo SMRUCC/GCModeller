@@ -55,6 +55,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -275,6 +276,22 @@ Module proteinKit
     <RApiReturn(GetType(Atom))>
     Public Function pdbModels(pdb As PDB) As Object
         Return pdb.AsEnumerable.ToArray
+    End Function
+
+    <ExportAPI("ligands")>
+    <RApiReturn(GetType(Het.HETRecord))>
+    Public Function ligands(pdb As PDB, Optional key As String = Nothing, Optional number As Integer = -1)
+        If key.StringEmpty(, True) OrElse number <= 0 Then
+            ' get all 
+            Return pdb.ListLigands.Values.ToArray
+        Else
+            Return pdb.ListLigands _
+                .Where(Function(li)
+                           Return li.Name = key AndAlso
+                               li.Value.SequenceNumber = number
+                       End Function) _
+                .FirstOrDefault
+        End If
     End Function
 
     ''' <summary>

@@ -66,10 +66,8 @@ Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace Raw
 
@@ -86,37 +84,34 @@ Namespace Raw
         ReadOnly ticks As New List(Of Double)
         ReadOnly compartments As String()
         ReadOnly instance_id As New Dictionary(Of String, Dictionary(Of String, String()))
+        ReadOnly flux_idset As New Dictionary(Of String, String())
+        ReadOnly mapping As Dictionary(Of String, (source_id As String, compart_id As String))
 
-        Sub New(model As CellularModule(), output As Stream)
+        Sub New(mass As MassTable, fluxIndex As Dictionary(Of String, String()), output As Stream)
             stream = New StreamPack(output, meta_size:=32 * 1024 * 1024)
             stream.Clear(32 * 1024 * 1024)
 
             ' create molecule index
-            MyBase.mRNAId = getRNAIndex(model, RNATypes.mRNA).Indexing
-            MyBase.RNAId = getComponentRNAs(model).Indexing
-            MyBase.tRNA = getRNAIndex(model, RNATypes.tRNA).Indexing
-            MyBase.rRNA = getRNAIndex(model, RNATypes.ribosomalRNA).JoinIterates({"ribosomeAssembly"}).Indexing
-            MyBase.Polypeptide = getPolypeptides(model).Indexing
-            MyBase.Proteins = getProteins(model).Indexing
-            MyBase.Metabolites = getMetabolites(model).Distinct.ToArray
+            MyBase.mRNAId = getTemplateIndex(mass.GetRole(MassRoles.mRNA))
+            MyBase.RNAId = getTemplateIndex(mass.GetRole(MassRoles.RNA))
+            MyBase.tRNA = getTemplateIndex(mass.GetRole(MassRoles.tRNA))
+            MyBase.rRNA = getTemplateIndex(mass.GetRole(MassRoles.rRNA))
+            MyBase.Polypeptide = getTemplateIndex(mass.GetRole(MassRoles.polypeptide))
+            MyBase.Proteins = getTemplateIndex(mass.GetRole(MassRoles.protein))
+            MyBase.Metabolites = getTemplateIndex(mass.GetRole(MassRoles.compound))
             ' create flux index
-            MyBase.Reactions = DataHelper.getFluxIds(model).Distinct.ToArray
-            MyBase.Transcription = DataHelper.getTranscription(model).Indexing
-            MyBase.Translation = DataHelper.getTranslation(model).Indexing
+            MyBase.Reactions = fluxIndex!MetabolismNetworkLoader
+            MyBase.Transcription = fluxIndex!transcription
+            MyBase.Translation = fluxIndex!translation
+            MyBase.ProteinDegradation = fluxIndex!proteinDegradation
+            MyBase.PeptideDegradation = fluxIndex!polypeptideDegradation
+            MyBase.RNADegradation = fluxIndex!RNADegradation
+            MyBase.tRNACharge = fluxIndex!tRNAProcess
+            MyBase.ribosomeAssembly = fluxIndex!ribosomeAssembly
+            MyBase.ProteinMature = fluxIndex!ProteinMatureFluxLoader
 
-            compartments = model.Select(Function(m) m.CellularEnvironmentName) _
-                .JoinIterates(model.Select(Function(m) m.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)).IteratesALL) _
-                .JoinIterates(model.Select(Function(m) m.Phenotype.fluxes _
-                    .Select(Function(r)
-                                Return r.equation.GetMetabolites
-                            End Function) _
-                    .IteratesALL _
-                    .Select(Function(c)
-                                Return c.Compartment
-                            End Function)).IteratesALL) _
-                .Distinct _
-                .Where(Function(s) Not s.StringEmpty(, True)) _
-                .ToArray
+            mapping = mass.getMapping
+            compartments = mass.compartment_ids.ToArray
 
             Call stream.WriteText(compartments.JoinBy(vbCrLf), "/compartments.txt")
             Call stream.WriteText(
@@ -129,66 +124,37 @@ Namespace Raw
                         {NameOf(Metabolites), Metabolites.Count},
                         {NameOf(Reactions), Reactions.Count},
                         {NameOf(tRNA), tRNA.Count},
-                        {NameOf(rRNA), rRNA.Count}
+                        {NameOf(rRNA), rRNA.Count},
+                        {NameOf(Transcription), Transcription.Count},
+                        {NameOf(Translation), Translation.Count},
+                        {NameOf(ProteinDegradation), ProteinDegradation.Count},
+                        {NameOf(PeptideDegradation), PeptideDegradation.Count},
+                        {NameOf(RNADegradation), RNADegradation.Count},
+                        {NameOf(tRNACharge), tRNACharge.Count},
+                        {NameOf(ribosomeAssembly), ribosomeAssembly.Count},
+                        {NameOf(ProteinMature), ProteinMature.Count}
                     }.GetJson
                 }, "/.etc/count.json")
         End Sub
 
-        Private Iterator Function getMetabolites(models As CellularModule()) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each flux In model.Phenotype.fluxes
-                    For Each cid As String In flux.AllCompounds
-                        Yield cid
-                    Next
-                Next
-            Next
+        Private Shared Function getTemplateIndex(factors As IEnumerable(Of Factor)) As Index(Of String)
+            Return factors.Select(Function(f) f.ID).Distinct.Indexing
         End Function
 
-        Private Iterator Function getProteins(models As CellularModule()) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each prot In model.Phenotype.proteins
-                    Yield prot.ProteinID
-                Next
-            Next
-        End Function
-
-        Private Iterator Function getPolypeptides(models As CellularModule()) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each gene As CentralDogma In model.Genotype.centralDogmas
-                    If gene.RNA.Value = RNATypes.mRNA AndAlso Not gene.polypeptide Is Nothing Then
-                        Yield gene.polypeptide
-                    End If
-                Next
-            Next
-        End Function
-
-        Private Iterator Function getComponentRNAs(models As CellularModule()) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each gene As CentralDogma In model.Genotype.centralDogmas
-                    Dim RNA_type As RNATypes = gene.RNA.Value
-
-                    Select Case RNA_type
-                        Case RNATypes.mRNA, RNATypes.ribosomalRNA, RNATypes.tRNA
-                            Continue For
-                        Case Else
-                            Yield gene.RNAName
-                    End Select
-                Next
-            Next
-        End Function
-
-        Private Iterator Function getRNAIndex(models As CellularModule(), type_id As RNATypes) As IEnumerable(Of String)
-            For Each model As CellularModule In models
-                For Each gene As CentralDogma In model.Genotype.centralDogmas
-                    If gene.RNA.Value = type_id Then
-                        Yield gene.RNAName
-
-                        If type_id = RNATypes.tRNA Then
-                            Yield "*" & gene.RNAName
-                        End If
-                    End If
-                Next
-            Next
+        Public Shared Function CompartmentIdSet(models As IEnumerable(Of CellularModule)) As String()
+            Return models.Select(Function(m) m.CellularEnvironmentName) _
+                .JoinIterates(models.Select(Function(m) m.Phenotype.fluxes.Select(Function(r) r.enzyme_compartment)).IteratesALL) _
+                .JoinIterates(models.Select(Function(m) m.Phenotype.fluxes _
+                    .Select(Function(r)
+                                Return r.equation.GetMetabolites
+                            End Function) _
+                    .IteratesALL _
+                    .Select(Function(c)
+                                Return c.Compartment
+                            End Function)).IteratesALL) _
+                .Distinct _
+                .Where(Function(s) Not s.StringEmpty(, True)) _
+                .ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -207,11 +173,13 @@ Namespace Raw
             Call Me.moduleIndex.Clear()
             Call Me.nameMaps.Clear()
             Call Me.ticks.Clear()
-            Call Me.instance_id.Clear()
+            Call instance_id.Clear()
+            Call flux_idset.Clear()
 
             For Each [module] As NamedValue(Of PropertyInfo) In modules.NamedValues
                 Dim name$ = [module].Name
                 Dim index As Index(Of String) = [module].Value.GetValue(Me)
+                Dim isFlux As Boolean = name.EndsWith("-Flux")
 
                 If index Is Nothing Then
                     Continue For
@@ -219,21 +187,40 @@ Namespace Raw
 
                 Dim list$() = index.Objects
 
-                For Each compart_id As String In compartments
-                    Dim instance_id = list.Select(Function(id) id & "@" & compart_id).ToArray
+                If isFlux Then
+                    Call flux_idset.Add(name, list)
+                Else
+                    Dim templates = list.Select(Function(id) mapping(id)).ToArray
 
-                    If Not Me.instance_id.ContainsKey(compart_id) Then
-                        Call Me.instance_id.Add(compart_id, New Dictionary(Of String, String()))
-                    End If
+                    list = templates _
+                        .Select(Function(a) a.source_id) _
+                        .Distinct _
+                        .ToArray
 
-                    Call Me.instance_id(compart_id).Add(name, instance_id)
-                Next
+                    For Each compartment In templates.GroupBy(Function(a) a.compart_id)
+                        Dim instance_id As String() = compartment _
+                            .Select(Function(id)
+                                        Return id.source_id & "@" & id.compart_id
+                                    End Function) _
+                            .ToArray
+                        Dim compart_id As String = compartment.Key
+
+                        If Not Me.instance_id.ContainsKey(compart_id) Then
+                            Call Me.instance_id.Add(compart_id, New Dictionary(Of String, String()))
+                        End If
+
+                        Call Me.instance_id(compart_id).Add(name, instance_id)
+                    Next
+                End If
 
                 Call nameMaps.Add([module].Value.Name, name)
                 Call stream.WriteText(list.JoinBy(vbCrLf), $"/index/{name}.txt")
                 Call Me.modules.Add(name, index)
                 Call Me.moduleIndex.Add(name)
             Next
+
+            Call stream.WriteText(instance_id.GetJson, "/dynamics/cellular_symbols.json")
+            Call stream.WriteText(flux_idset.GetJson, "/dynamics/cellular_flux.json")
 
             Return Me
         End Function
@@ -250,18 +237,39 @@ Namespace Raw
             Dim resolve_name As String = nameMaps([module])
             Dim index As Index(Of String) = modules(resolve_name)
 
-            For Each compart_id As String In compartments
-                Dim instance_id As String() = If(fluxData, index.Objects, Me.instance_id(compart_id)(resolve_name))
-                Dim v As Double() = snapshot.Takes(instance_id).ToArray
-                Dim path As String = $"/dynamics/{compart_id}/{resolve_name}/frames/{time}.dat"
+            If fluxData Then
+                Dim instance_id As String() = index.Objects
 
-                Call stream.Delete(path)
-                Call ticks.Add(time)
+                If Not instance_id.IsNullOrEmpty Then
+                    Dim v As Double() = snapshot.Takes(instance_id).ToArray
+                    Dim path As String = $"/dynamics/flux/{resolve_name}/frames/{time}.dat"
 
-                Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
-                    Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
-                End Using
-            Next
+                    Call stream.Delete(path)
+                    Call ticks.Add(time)
+
+                    Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
+                        Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
+                    End Using
+                End If
+            Else
+                For Each compart_id As String In compartments
+                    Dim instance_id As String() = Me.instance_id(compart_id).TryGetValue(resolve_name)
+
+                    If instance_id.IsNullOrEmpty Then
+                        Continue For
+                    End If
+
+                    Dim v As Double() = snapshot.Takes(instance_id).ToArray
+                    Dim path As String = $"/dynamics/{compart_id}/{resolve_name}/frames/{time}.dat"
+
+                    Call stream.Delete(path)
+                    Call ticks.Add(time)
+
+                    Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
+                        Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
+                    End Using
+                Next
+            End If
 
             Return Me
         End Function

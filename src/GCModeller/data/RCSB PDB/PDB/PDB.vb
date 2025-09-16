@@ -1,71 +1,72 @@
 ﻿#Region "Microsoft.VisualBasic::9a64802ba54f6f31b815eba9978e2f12, data\RCSB PDB\PDB\PDB.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 292
-    '    Code Lines: 127 (43.49%)
-    ' Comment Lines: 139 (47.60%)
-    '    - Xml Docs: 85.61%
-    ' 
-    '   Blank Lines: 26 (8.90%)
-    '     File Size: 12.11 KB
+' Summaries:
 
 
-    ' Class PDB
-    ' 
-    '     Properties: ANISOU, AtomStructures, Author, CAVEAT, CISPEP
-    '                 Compound, Conect, crystal1, DbRef, Experiment
-    '                 Formula, Header, Helix, Het, HetName
-    '                 HETSYN, Journal, Keywords, Links, Master
-    '                 Matrix1, Matrix2, Matrix3, MaxSpace, MDLTYP
-    '                 MinSpace, MODRES, NUMMDL, Origin1, Origin2
-    '                 Origin3, Remark, Revisions, Scale1, Scale2
-    '                 Scale3, seqadv, Sequence, Sheet, SIGATM
-    '                 SIGUIJ, Site, Source, SourceText, SPLIT
-    '                 SPRSDE, SSBOND, Title
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: GenericEnumerator, (+2 Overloads) Load, Parse, ToString
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 292
+'    Code Lines: 127 (43.49%)
+' Comment Lines: 139 (47.60%)
+'    - Xml Docs: 85.61%
+' 
+'   Blank Lines: 26 (8.90%)
+'     File Size: 12.11 KB
+
+
+' Class PDB
+' 
+'     Properties: ANISOU, AtomStructures, Author, CAVEAT, CISPEP
+'                 Compound, Conect, crystal1, DbRef, Experiment
+'                 Formula, Header, Helix, Het, HetName
+'                 HETSYN, Journal, Keywords, Links, Master
+'                 Matrix1, Matrix2, Matrix3, MaxSpace, MDLTYP
+'                 MinSpace, MODRES, NUMMDL, Origin1, Origin2
+'                 Origin3, Remark, Revisions, Scale1, Scale2
+'                 Scale3, seqadv, Sequence, Sheet, SIGATM
+'                 SIGUIJ, Site, Source, SourceText, SPLIT
+'                 SPRSDE, SSBOND, Title
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: GenericEnumerator, (+2 Overloads) Load, Parse, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
@@ -307,6 +308,20 @@ Public Class PDB : Implements Enumeration(Of Atom)
     Protected Friend Sub New()
     End Sub
 
+    Public Iterator Function ListLigands() As IEnumerable(Of NamedValue(Of Het.HETRecord))
+        If Not HetName Is Nothing Then
+            Dim nameIndex = HetName.Residues _
+                .ToDictionary(Function(a) a.Name,
+                              Function(a)
+                                  Return a.Value
+                              End Function)
+
+            For Each ref As NamedValue(Of Het.HETRecord) In Het.HetAtoms
+                Yield New NamedValue(Of Het.HETRecord)(ref.Name, ref.Value, nameIndex(ref.Name))
+            Next
+        End If
+    End Function
+
     Public Overrides Function ToString() As String
         Return Header.ToString & $" [{Title}]"
     End Function
@@ -320,7 +335,9 @@ Public Class PDB : Implements Enumeration(Of Atom)
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function Load(path As String) As PDB
-        Return Parser.Load(path.Open(FileMode.Open, doClear:=False, [readOnly]:=True)).FirstOrDefault
+        Return Parser _
+            .Load(path.Open(FileMode.Open, doClear:=False, [readOnly]:=True)) _
+            .FirstOrDefault
     End Function
 
     ''' <summary>

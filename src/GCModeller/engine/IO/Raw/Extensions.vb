@@ -71,11 +71,11 @@ Public Module Extensions
     Public Iterator Function ActivityLoads(raw As Raw.Reader) As IEnumerable(Of Dictionary(Of String, Double))
         Dim dataSet = raw.GetMoleculeIdList.Where(Function(c) c.Key.EndsWith("-Flux")).ToArray
 
-        For Each ti As Double In raw.AllTimePoints
+        For Each ti As Double In TqdmWrapper.Wrap(raw.AllTimePoints.ToArray)
             Dim data As New Dictionary(Of String, Double)
 
             For Each mod_id As String In dataSet.Keys
-                Call data.Add(mod_id, raw.Read(ti, mod_id).Values.Select(Function(xi) std.Abs(xi)).Sum)
+                Call data.Add(mod_id, raw.ReadFlux(ti, mod_id).Values.Select(Function(xi) std.Abs(xi)).Sum)
             Next
 
             Yield data

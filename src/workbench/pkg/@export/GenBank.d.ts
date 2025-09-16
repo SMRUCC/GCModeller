@@ -71,6 +71,9 @@ declare namespace GenBank {
    */
    function enumerateFeatures(gb: object, keys?: string): object;
    /**
+   */
+   function export_geneNt_fasta(gb: object): object;
+   /**
     * create new feature site
     * 
     * 

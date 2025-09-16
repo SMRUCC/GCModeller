@@ -121,6 +121,9 @@ Namespace Raw
         ''' </remarks>
         <[Module]("Metabolite")>
         Public Property Metabolites As Index(Of String)
+
+#Region "Biological Process"
+
         ''' <summary>
         ''' 反应过程编号列表
         ''' </summary>
@@ -136,8 +139,17 @@ Namespace Raw
         Public Property Translation As Index(Of String)
         <[Module]("Protein-Degradation-Flux")>
         Public Property ProteinDegradation As Index(Of String)
+        <[Module]("Polypeptide-Degradation-Flux")>
+        Public Property PeptideDegradation As Index(Of String)
         <[Module]("RNA-Degradation-Flux")>
         Public Property RNADegradation As Index(Of String)
+        <[Module]("tRNA-Charge-Flux")>
+        Public Property tRNACharge As Index(Of String)
+        <[Module]("ribosome-Assembly-Flux")>
+        Public Property ribosomeAssembly As Index(Of String)
+        <[Module]("Protein-Mature-Flux")>
+        Public Property ProteinMature As Index(Of String)
+#End Region
 #End Region
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

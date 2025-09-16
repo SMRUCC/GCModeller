@@ -101,7 +101,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                     Return Me.gb.Origin.GetFeatureSegment(Me)
                 Else
                     Dim part1 As String = gb.Origin.GetFeatureSegment(Me)
-                    Dim part2 As String = gb.Origin.CutSequenceBylength(
+                    Dim part2 As String = gb.Origin.CutSequenceByLength(
                         jLoci.Left,
                         jLoci.RegionLength).SequenceData
 

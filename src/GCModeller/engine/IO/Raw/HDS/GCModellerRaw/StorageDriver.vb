@@ -60,6 +60,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -94,8 +95,9 @@ Namespace Raw
         Sub New(output$, engine As Engine.Engine, Optional graph_debug As Boolean = True)
             Dim models As CellularModule() = engine.models
             Dim core = engine.getCore
+            Dim outfile As Stream = output.Open(FileMode.OpenOrCreate, doClear:=True)
 
-            Me.output = New Writer(models, output.Open(FileMode.OpenOrCreate, doClear:=True)).Init
+            Me.output = New Writer(engine.getMassPool, engine.fluxIndex, outfile).Init
             Me.mass = New OmicsTuple(Of String())(transcriptome, proteome, metabolome)
 
             If graph_debug Then
@@ -103,6 +105,10 @@ Namespace Raw
             End If
         End Sub
 
+        ''' <summary>
+        ''' set molecule symbol names
+        ''' </summary>
+        ''' <param name="symbols"></param>
         Public Sub SetSymbolNames(symbols As Dictionary(Of String, String))
             Call output.GetStream.WriteText(symbols.GetJson, "/symbols.json", allocate:=False)
         End Sub
@@ -115,45 +121,48 @@ Namespace Raw
             Dim s As StreamPack = output.GetStream
             Dim metaboIndex As New Index(Of String)
 
-            ' write nodes
-            For Each metabo As Node In graph.vertex
-                Using file As Stream = s.OpenBlock($"/graph/mass/{metabo.label}.dat")
-                    If Not file.CanWrite Then
-                        Continue For
-                    End If
+            Call s.Delete("/graph/mass.jsonl")
+            Call s.Delete("/graph/links.jsonl")
 
+            Using file As Stream = s.OpenBlock("/graph/mass.jsonl")
+                Dim sb As New StreamWriter(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
+
+                Call VBDebugger.EchoLine($"write {graph.vertex.Count} nodes...")
+
+                ' write nodes
+                For Each metabo As Node In TqdmWrapper.Wrap(graph.vertex.ToArray)
                     Dim metadata As New Dictionary(Of String, String) From {
                         {"id", metabo.ID},
                         {"label", metabo.label},
                         {"group", metabo.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)}
                     }
-                    Dim sb As New StreamWriter(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
 
                     Call sb.WriteLine(metadata.GetJson)
-                    Call sb.Flush()
-                End Using
 
-                If metabo.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) <> "reaction" Then
-                    Call metaboIndex.Add(metabo.label)
-                End If
-            Next
+                    If metabo.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) <> "reaction" Then
+                        Call metaboIndex.Add(metabo.label)
+                    End If
+                Next
 
-            ' write graph network
-            For Each link As Edge In graph.graphEdges
-                Dim metabo As String
-                Dim react As String
+                Call sb.Flush()
+            End Using
 
-                If link.U.label Like metaboIndex Then
-                    metabo = link.U.label
-                    react = link.V.label
-                Else
-                    metabo = link.V.label
-                    react = link.U.label
-                End If
+            Using file As Stream = s.OpenBlock($"/graph/links.jsonl")
+                Dim sb As New StreamWriter(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
 
-                Using file As Stream = s.OpenBlock($"/graph/links/{metabo}/{react}.dat")
-                    If Not file.CanWrite Then
-                        Continue For
+                Call VBDebugger.EchoLine($"write {graph.graphEdges.Count} network edges...")
+
+                ' write graph network
+                For Each link As Edge In TqdmWrapper.Wrap(graph.graphEdges.ToArray)
+                    Dim metabo As String
+                    Dim react As String
+
+                    If link.U.label Like metaboIndex Then
+                        metabo = link.U.label
+                        react = link.V.label
+                    Else
+                        metabo = link.V.label
+                        react = link.U.label
                     End If
 
                     Dim metadata As New Dictionary(Of String, String) From {
@@ -162,21 +171,21 @@ Namespace Raw
                         {"type", link.data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE)},
                         {"graph", link.data!graph}
                     }
-                    Dim sb As New StreamWriter(file, encoding:=Encodings.UTF8WithoutBOM.CodePage)
 
                     Call sb.WriteLine(metadata.GetJson)
-                    Call sb.Flush()
-                End Using
-            Next
+                Next
+
+                Call sb.Flush()
+            End Using
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function transcriptome() As String()
-            Return output.mRNAId.Objects.AsList + output.RNAId.Objects
+            Return output.mRNAId.Objects.AsList + output.RNAId.Objects + output.tRNA.Objects + output.rRNA.Objects
         End Function
 
         Private Function proteome() As String()
-            Return output.Polypeptide.Objects
+            Return output.Polypeptide.Objects.AsList + output.Proteins.Objects
         End Function
 
         Private Function metabolome() As String()
@@ -198,6 +207,12 @@ Namespace Raw
             Call output.Write(NameOf(Writer.Reactions), iteration, snapshot:=data, fluxData:=True)
             Call output.Write(NameOf(Writer.Transcription), iteration, snapshot:=data, fluxData:=True)
             Call output.Write(NameOf(Writer.Translation), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.ProteinDegradation), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.PeptideDegradation), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.RNADegradation), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.tRNACharge), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.ribosomeAssembly), iteration, snapshot:=data, fluxData:=True)
+            Call output.Write(NameOf(Writer.ProteinMature), iteration, snapshot:=data, fluxData:=True)
         End Sub
 
 #Region "IDisposable Support"

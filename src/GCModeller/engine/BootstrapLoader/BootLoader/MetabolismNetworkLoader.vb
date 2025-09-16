@@ -97,7 +97,7 @@ Namespace ModelLoader
         ''' </summary>
         ''' <returns></returns>
         Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
-            Dim KOfunctions = cell.Genotype.centralDogmas _
+            Dim KOfunctions As Dictionary(Of String, String()) = cell.Genotype.centralDogmas _
                 .Select(Function(cd) (If(cd.orthology, cd.geneID), cd.polypeptide)) _
                 .GroupBy(Function(pro) pro.Item1) _
                 .ToDictionary(Function(KO) KO.Key,
@@ -250,9 +250,18 @@ Namespace ModelLoader
                 }
             End If
 
+            Dim compart_idset = left.JoinIterates(right).Select(Function(f) f.mass.cellular_compartment).Distinct.ToArray
+            Dim compart_suffix As String
+
+            If compart_idset.Length = 1 Then
+                compart_suffix = compart_idset(0)
+            Else
+                compart_suffix = $"transportOf_{compart_idset.JoinBy(",")}"
+            End If
+
             Dim metabolismFlux As New Channel(left, right) With {
                 .bounds = bounds,
-                .ID = reaction.ID,
+                .ID = reaction.ID & "@" & compart_suffix,
                 .forward = forward,
                 .reverse = reverse
             }
