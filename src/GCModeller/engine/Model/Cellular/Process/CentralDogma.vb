@@ -132,7 +132,7 @@ Namespace Cellular.Process
             Get
                 Select Case RNA.Value
                     Case RNATypes.mRNA
-                        Return $"{geneID}::mRNA"
+                        Return geneID
                     Case RNATypes.ribosomalRNA
                         ' 20200313 因为tRNA和rRNA具有通用性
                         ' 不像mRNA一样和基因蛋白石一一对应的
@@ -144,7 +144,7 @@ Namespace Cellular.Process
                         If geneID <> RNA.Name Then
                             Return RNA.Name
                         Else
-                            Return geneID & "::" & RNA.Value.ToString
+                            Return geneID & $"({RNA.Value.ToString})"
                         End If
                 End Select
             End Get

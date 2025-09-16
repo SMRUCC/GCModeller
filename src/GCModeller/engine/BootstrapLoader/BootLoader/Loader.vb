@@ -157,6 +157,7 @@ Namespace ModelLoader
                 _massTable = New MassTable(cell.CellularEnvironmentName)
             End If
 
+            ' create mass table index
             _massLoader = New MassLoader(Me)
             _massLoader.doMassLoadingOn(cell)
 
@@ -176,6 +177,11 @@ Namespace ModelLoader
             Return cell.DoCall(AddressOf create)
         End Function
 
+        ''' <summary>
+        ''' Create the flux network in the target cellular module
+        ''' </summary>
+        ''' <param name="cell"></param>
+        ''' <returns></returns>
         Private Function create(cell As CellularModule) As (MassTable, Channel())
             Dim centralDogmas = cell.DoCall(AddressOf GetCentralDogmaFluxLoader().CreateFlux).AsList
             Dim proteinMatrues = cell.DoCall(AddressOf GetProteinMatureFluxLoader().CreateFlux).ToArray

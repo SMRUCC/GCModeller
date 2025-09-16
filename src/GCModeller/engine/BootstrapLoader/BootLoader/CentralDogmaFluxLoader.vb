@@ -59,6 +59,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -302,14 +303,16 @@ Namespace ModelLoader
             Dim translation As Channel
             Dim regulations As Regulation()
             Dim proteinList As New Dictionary(Of String, String)
-            Dim proteinComplex = loader.massLoader.proteinComplex
+            Dim proteinComplex As Dictionary(Of String, String) = loader.massLoader.proteinComplex
             Dim tRNA As New Dictionary(Of String, List(Of String))
             Dim rRNA As New Dictionary(Of String, List(Of String))
 
             Call VBDebugger.WaitOutput()
             Call VBDebugger.EchoLine("initialize of the mass environment for central dogma")
 
-            Dim RNAList = cell.Genotype.centralDogmas.Select(Function(c) c.RNA).ToArray
+            Dim RNAList As NamedValue(Of RNATypes)() = cell.Genotype.centralDogmas _
+                .Select(Function(c) c.RNA) _
+                .ToArray
 
             For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas)
                 If cd.isChargedtRNA Then
@@ -327,7 +330,7 @@ Namespace ModelLoader
                 ' if the gene template mass value is set to ZERO
                 ' that means no transcription activity that it will be
                 ' A deletion mutation was created
-                Call MassTable.addNew(cd.geneID, MassRoles.gene, cellular_id)
+                Call MassTable.addNew($"[{cd.geneID}]", MassRoles.gene, cellular_id)
 
                 If Not cd.polypeptide Is Nothing Then
                     Call MassTable.addNew(cd.polypeptide, MassRoles.polypeptide, cellular_id)
@@ -515,7 +518,7 @@ Namespace ModelLoader
                             Dim baseName = loader.define.NucleicAcid(base.Name)
                             Return MassTable.variable(baseName, cellular_id, base.Value)
                         End Function) _
-                .AsList + MassTable.template(geneID, cellular_id) + MassTable.variable(loader.define.ATP, cellular_id)
+                .AsList + MassTable.template($"[{geneID}]", cellular_id) + MassTable.variable(loader.define.ATP, cellular_id)
         End Function
 
         '       ATP + AA   + ADP

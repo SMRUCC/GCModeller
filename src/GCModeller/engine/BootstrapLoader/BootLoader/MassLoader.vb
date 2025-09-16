@@ -78,7 +78,7 @@ Namespace ModelLoader
         End Sub
 
         ''' <summary>
-        ''' create mass table from the virtual cell model
+        ''' Create mass table from the virtual cell model
         ''' </summary>
         ''' <param name="cell"></param>
         Public Sub doMassLoadingOn(cell As CellularModule)
