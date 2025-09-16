@@ -122,36 +122,38 @@ Namespace Core
 
         Public Property id As String
         Public Property compartment_id As String
+        Public Property factor As Double
 
         Public Overrides Function ToString() As String
             Return id
         End Function
 
-        Public Shared Function GetModel(list As IEnumerable(Of Variable)) As IEnumerable(Of VariableFactor)
+        Public Shared Function GetModel(list As IEnumerable(Of Variable), Optional sign As Double = 1) As IEnumerable(Of VariableFactor)
             Return From m As Variable
                    In list
                    Select New VariableFactor With {
                        .id = m.mass.ID,
-                       .compartment_id = m.mass.cellular_compartment
+                       .compartment_id = m.mass.cellular_compartment,
+                       .factor = m.coefficient * sign
                    }
         End Function
 
         Public Shared Iterator Function GetModel(forwards As Controls, reverse As Controls) As IEnumerable(Of VariableFactor)
             If Not TypeOf forwards Is BaselineControls Then
-                For Each f As VariableFactor In GetModel(forwards)
+                For Each f As VariableFactor In GetModel(forwards, 1)
                     Yield f
                 Next
             End If
             If Not TypeOf reverse Is BaselineControls Then
-                For Each r As VariableFactor In GetModel(reverse)
+                For Each r As VariableFactor In GetModel(reverse, -1)
                     Yield r
                 Next
             End If
         End Function
 
-        Private Shared Iterator Function GetModel(reg As Controls) As IEnumerable(Of VariableFactor)
+        Private Shared Iterator Function GetModel(reg As Controls, factor As Double) As IEnumerable(Of VariableFactor)
             If TypeOf reg Is AdditiveControls Then
-                For Each r As VariableFactor In GetModel(DirectCast(reg, AdditiveControls).activation)
+                For Each r As VariableFactor In GetModel(DirectCast(reg, AdditiveControls).activation, factor)
                     Yield r
                 Next
             ElseIf TypeOf reg Is KineticsControls Then
@@ -163,13 +165,14 @@ Namespace Core
 
                         Yield New VariableFactor With {
                             .compartment_id = compart,
-                            .id = cid
+                            .id = cid,
+                            .factor = factor
                         }
                     End If
                 Next
             ElseIf TypeOf reg Is KineticsOverlapsControls Then
                 For Each kit As KineticsControls In DirectCast(reg, KineticsOverlapsControls).kinetics
-                    For Each f As VariableFactor In GetModel(kit)
+                    For Each f As VariableFactor In GetModel(kit, factor)
                         Yield f
                     Next
                 Next

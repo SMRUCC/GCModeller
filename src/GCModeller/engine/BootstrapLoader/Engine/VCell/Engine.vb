@@ -238,7 +238,7 @@ Namespace Engine
 
             For Each mass As Factor In core.m_massIndex.Values
                 If mass.cellular_compartment = initials.CultureMedium Then
-                    Call mass.reset(9999999999)
+                    Call mass.reset(9999)
                 End If
             Next
         End Sub

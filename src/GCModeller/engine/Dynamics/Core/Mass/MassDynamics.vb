@@ -92,7 +92,7 @@ Namespace Core
                     If Double.IsNaN(value) OrElse Double.IsNegativeInfinity(value) OrElse value < 0 Then
                         Call mass.reset(0.0)
                     ElseIf Double.IsPositiveInfinity(value) Then
-                        Call mass.reset(99999)
+                        Call mass.reset(9999)
                     Else
                         Call mass.reset(value)
                     End If
