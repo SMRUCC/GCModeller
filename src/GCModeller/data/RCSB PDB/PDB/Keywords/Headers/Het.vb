@@ -331,7 +331,7 @@ Namespace Keywords
         ''' 表示解析后的HETATM记录信息
         ''' </summary>
         Public Class HETATMRecord : Implements PointF3D
-            Public Property RecordType As String    ' 记录类型 (HETATM)
+
             Public Property AtomNumber As Integer   ' 原子序号
             Public Property AtomName As String      ' 原子名称
             Public Property AlternateLocation As String ' 交替位置指示符
@@ -353,7 +353,17 @@ Namespace Keywords
             ''' </summary>
             ''' <param name="atom"></param>
             Sub New(atom As AtomUnit)
+                With atom.Location
+                    XCoord = .X
+                    YCoord = .Y
+                    ZCoord = .Z
+                End With
 
+                ChainID = atom.ChianID
+                AtomName = atom.AA_ID
+                ResidueName = atom.AA_ID
+                AtomNumber = atom.Index
+                ElementSymbol = atom.Atom
             End Sub
 
             Public Overrides Function ToString() As String
@@ -379,7 +389,6 @@ Namespace Keywords
             End If
 
             Dim record As New HETATMRecord()
-            record.RecordType = "HETATM"
 
             line = "HETATM " & line
 
