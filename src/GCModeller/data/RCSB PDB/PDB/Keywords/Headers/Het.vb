@@ -199,6 +199,10 @@ Namespace Keywords
                 SequenceNumber = Strings.Mid(line, 8, 4).ParseInteger
                 AtomCount = Strings.Mid(line, 17, 4).ParseInteger
             End Sub
+
+            Public Overrides Function ToString() As String
+                Return $"[{SequenceNumber}] {ResidueType}"
+            End Function
         End Class
 
         ReadOnly hetList As New List(Of NamedValue(Of HETRecord))

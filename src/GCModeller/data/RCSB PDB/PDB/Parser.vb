@@ -197,7 +197,8 @@ Friend Class Parser
             Case Keyword.KEYWORD_ATOM
                 model = Atom.Append(model, data.Value)
             Case "TER"
-                model = Atom.Append(model, data.Value)
+                ' chain/model terminator
+                model = Atom.AppendTerminator(model, data.Value)
                 model.Flush()
 
             Case Keyword.KEYWORD_MASTER : pdb.Master = Master.Parse(data.Value)
