@@ -184,6 +184,10 @@ Namespace Core
 
         Public Property left As VariableFactor()
         Public Property right As VariableFactor()
+        ''' <summary>
+        ''' regulation or enzyme catalysis
+        ''' </summary>
+        ''' <returns></returns>
         Public Property regulation As VariableFactor()
         Public Property id As String
 
