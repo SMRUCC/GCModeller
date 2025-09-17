@@ -129,6 +129,10 @@ Namespace Engine
 
             Call AttatchMassDriver(AddressOf driver.MassSnapshot)
             Call AttatchFluxDriver(AddressOf driver.FluxSnapshot)
+            Call AttachRegulationDriver(
+                AddressOf driver.ForwardRegulation,
+                AddressOf driver.ReverseRegulation
+            )
 
             Return Me
         End Function

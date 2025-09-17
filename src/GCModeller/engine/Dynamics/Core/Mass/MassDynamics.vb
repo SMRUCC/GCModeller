@@ -177,6 +177,18 @@ Namespace Core
             Return variants
         End Function
 
+        Public Sub setReverse(ByRef buffer As Dictionary(Of String, Double))
+            For i As Integer = 0 To fluxReverse.Length - 1
+                buffer(channels(i).ID) = fluxReverse(i)
+            Next
+        End Sub
+
+        Public Sub setForward(ByRef buffer As Dictionary(Of String, Double))
+            For i As Integer = 0 To fluxForward.Length - 1
+                buffer(channels(i).ID) = fluxForward(i)
+            Next
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getLastFluxVariants() As IEnumerable(Of var)
             For i As Integer = 0 To fluxValues.Length - 1

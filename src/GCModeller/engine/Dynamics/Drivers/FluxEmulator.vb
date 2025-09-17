@@ -79,6 +79,8 @@ Namespace Engine
 
         Dim massSnapshotDriver As SnapshotDriver
         Dim fluxSnapshotDriver As SnapshotDriver
+        Dim forwardSnapshot As SnapshotDriver
+        Dim reverseSnapshot As SnapshotDriver
 
         Sub New(Optional core As Vessel = Nothing,
                 Optional maxTime As Integer = 50,
@@ -104,6 +106,12 @@ Namespace Engine
 
         Public Function AttatchFluxDriver(driver As SnapshotDriver) As FluxEmulator
             fluxSnapshotDriver = driver
+            Return Me
+        End Function
+
+        Public Function AttachRegulationDriver(forward As SnapshotDriver, reverse As SnapshotDriver) As FluxEmulator
+            forwardSnapshot = forward
+            reverseSnapshot = reverse
             Return Me
         End Function
 
@@ -158,6 +166,11 @@ Namespace Engine
                 ' and then populate result data snapshot
                 Call massSnapshotDriver(i, core.getMassValues)
                 Call fluxSnapshotDriver(i, flux.getFlux)
+
+                With flux.getRegulations
+                    Call forwardSnapshot(i, .forward)
+                    Call reverseSnapshot(i, .reverse)
+                End With
 
                 Call tick(i)
             Next
