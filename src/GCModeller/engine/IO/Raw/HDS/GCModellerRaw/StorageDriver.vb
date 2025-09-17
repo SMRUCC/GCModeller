@@ -219,7 +219,7 @@ Namespace Raw
             Call output.WriteFluxForwardRegulation(NameOf(Writer.Reactions), iteration, snapshot:=data)
             Call output.WriteFluxForwardRegulation(NameOf(Writer.Transcription), iteration, snapshot:=data)
             Call output.WriteFluxForwardRegulation(NameOf(Writer.Translation), iteration, snapshot:=data)
-            Call output.WriteFluxForwardRegulation(NameOf(Writer.ProteinDegradation), iteration, snapshot:=data
+            Call output.WriteFluxForwardRegulation(NameOf(Writer.ProteinDegradation), iteration, snapshot:=data)
             Call output.WriteFluxForwardRegulation(NameOf(Writer.PeptideDegradation), iteration, snapshot:=data)
             Call output.WriteFluxForwardRegulation(NameOf(Writer.RNADegradation), iteration, snapshot:=data)
             Call output.WriteFluxForwardRegulation(NameOf(Writer.tRNACharge), iteration, snapshot:=data)
