@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::d7b80db5377684811665f89745d09316, engine\Dynamics\Core\Mass\MassDynamics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 194
-    '    Code Lines: 142 (73.20%)
-    ' Comment Lines: 24 (12.37%)
-    '    - Xml Docs: 62.50%
-    ' 
-    '   Blank Lines: 28 (14.43%)
-    '     File Size: 7.68 KB
+' Summaries:
 
 
-    '     Class MassDynamics
-    ' 
-    '         Properties: Name, Value
-    ' 
-    '         Function: createMassIndex, Evaluate, getLastFluxVariants, PopulateDynamics, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 194
+'    Code Lines: 142 (73.20%)
+' Comment Lines: 24 (12.37%)
+'    - Xml Docs: 62.50%
+' 
+'   Blank Lines: 28 (14.43%)
+'     File Size: 7.68 KB
+
+
+'     Class MassDynamics
+' 
+'         Properties: Name, Value
+' 
+'         Function: createMassIndex, Evaluate, getLastFluxVariants, PopulateDynamics, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -109,6 +109,8 @@ Namespace Core
         Dim shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
         Dim fluxVariants As var()
         Dim fluxValues As Double()
+        Dim fluxForward As Double()
+        Dim fluxReverse As Double()
         Dim is_template As Boolean = False
 
         Private Sub New(is_template As Boolean)
@@ -130,13 +132,16 @@ Namespace Core
                 flux = channels(i)
                 dir = flux.GetCurrentDirection
 
+                Dim forward As Double = SafeFactorValue(flux.forward.coefficient, -100, 100)
+                Dim reverse As Double = SafeFactorValue(flux.reverse.coefficient, -100, 100)
+
                 Select Case dir
                     Case Directions.forward
-                        variants = flux.forward.coefficient - flux.reverse.coefficient
+                        variants = forward - reverse
                         fluxVariant = flux.CoverLeft(shareFactors.left, variants)
                         variants = factors(i) * fluxVariant
                     Case Directions.reverse
-                        variants = flux.reverse.coefficient - flux.forward.coefficient
+                        variants = reverse - forward
                         fluxVariant = -flux.CoverRight(shareFactors.right, variants)
                         variants = factors(i) * fluxVariant
                     Case Directions.stop
@@ -146,16 +151,13 @@ Namespace Core
                         Throw New InvalidProgramException($"Unknown reaction direction status of reaction flux: {flux.ID}!")
                 End Select
 
-                If Double.IsNaN(variants) Then
-                    variants = 0
-                ElseIf Double.IsPositiveInfinity(variants) Then
-                    variants = 100
-                ElseIf Double.IsNegativeInfinity(variants) Then
-                    variants = -100
-                End If
+                variants = SafeFactorValue(variants, -100, 100)
+                fluxVariant = SafeFactorValue(fluxVariant, -100, 100)
 
                 additions(i) = variants
                 fluxValues(i) = fluxVariant
+                fluxForward(i) = forward
+                fluxReverse(i) = reverse
             Next
 
             Dim dy As Double = additions.Average
@@ -163,12 +165,22 @@ Namespace Core
             Return dy
         End Function
 
+        Private Shared Function SafeFactorValue(variants As Double, clipMin As Double, clipMax As Double) As Double
+            If Double.IsNaN(variants) Then
+                variants = 0
+            ElseIf Double.IsPositiveInfinity(variants) Then
+                variants = clipMax
+            ElseIf Double.IsNegativeInfinity(variants) Then
+                variants = clipMin
+            End If
+
+            Return variants
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getLastFluxVariants() As IEnumerable(Of var)
             For i As Integer = 0 To fluxValues.Length - 1
-                If Not Double.IsNaN(fluxValues(i)) Then
-                    fluxVariants(i).Value += fluxValues(i)
-                End If
+                fluxVariants(i).Value += fluxValues(i)
             Next
 
             Return fluxVariants
@@ -280,7 +292,9 @@ Namespace Core
                                     }
                                 End Function) _
                         .ToArray,
-                    .fluxValues = New Double(.fluxVariants.Length - 1) {}
+                    .fluxValues = New Double(.fluxVariants.Length - 1) {},
+                    .fluxForward = New Double(.fluxVariants.Length - 1) {},
+                    .fluxReverse = New Double(.fluxVariants.Length - 1) {}
                 }
             Next
 

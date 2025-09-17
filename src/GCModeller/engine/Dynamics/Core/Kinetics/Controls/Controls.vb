@@ -64,6 +64,10 @@ Namespace Core
     ''' </summary>
     Public MustInherit Class Controls
 
+        ''' <summary>
+        ''' the regulation coefficient factor based on various related regulation factors
+        ''' </summary>
+        ''' <returns></returns>
         Public MustOverride ReadOnly Property coefficient As Double
 
         ''' <summary>
@@ -86,6 +90,16 @@ Namespace Core
                 .inhibition = {}
             }
         End Function
+
+        ''' <summary>
+        ''' Convert the control model as coefficient factor number
+        ''' </summary>
+        ''' <param name="ctl"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(ctl As Controls) As Double
+            Return ctl.coefficient
+        End Operator
 
         Public Shared Operator >(a As Controls, b As Controls) As Boolean
             If a Is Nothing Then
