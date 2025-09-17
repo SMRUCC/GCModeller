@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
@@ -14,8 +15,8 @@ Public Class VCellMatrixWriter : Implements IDisposable
     Private disposedValue As Boolean
 
     Sub New(file As Stream)
-        s = New StreamPack(file, [readonly]:=False)
-        s.Clear()
+        s = New StreamPack(file, meta_size:=16 * ByteSize.MB, [readonly]:=False)
+        s.Clear(16 * ByteSize.MB)
     End Sub
 
     Public Sub ConvertPackData(pack As Reader)
