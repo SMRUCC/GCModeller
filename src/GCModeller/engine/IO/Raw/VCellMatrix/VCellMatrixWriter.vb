@@ -51,16 +51,32 @@ Public Class VCellMatrixWriter : Implements IDisposable
         Next
 
         For Each fluxGroup As KeyValuePair(Of String, String()) In TqdmWrapper.Wrap(fluxSet)
-            Dim tmp As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value)
+            Dim tmp As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value, Nothing)
+            Dim forward As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value, "forward")
+            Dim reverse As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value, "reverse")
             Dim offset As Integer = 0
 
             For Each name As String In fluxGroup.Value
                 Dim path As String = $"/matrix/flux/{name}.vec"
+                Dim forwardFile As String = $"/matrix/flux/forward/{name}.vec"
+                Dim reverseFile As String = $"/matrix/flux/reverse/{name}.vec"
 
                 Call s.Delete(path)
+                Call s.Delete(forwardFile)
+                Call s.Delete(reverseFile)
 
                 Using buf As New BinaryDataWriter(s.OpenBlock(path), byteOrder:=ByteOrder.BigEndian)
                     Dim timeline As Double() = tmp.Select(Function(ti) ti(offset)).ToArray
+                    buf.Write(timeline)
+                    buf.Flush()
+                End Using
+                Using buf As New BinaryDataWriter(s.OpenBlock(forwardFile), byteOrder:=ByteOrder.BigEndian)
+                    Dim timeline As Double() = forward.Select(Function(ti) ti(offset)).ToArray
+                    buf.Write(timeline)
+                    buf.Flush()
+                End Using
+                Using buf As New BinaryDataWriter(s.OpenBlock(reverseFile), byteOrder:=ByteOrder.BigEndian)
+                    Dim timeline As Double() = reverse.Select(Function(ti) ti(offset)).ToArray
                     buf.Write(timeline)
                     buf.Flush()
                 End Using
@@ -115,13 +131,17 @@ Public Class VCellMatrixWriter : Implements IDisposable
         Return matrix
     End Function
 
-    Private Function SaveFlux(pack As Reader, group As String, idset As String()) As Double()()
+    Private Function SaveFlux(pack As Reader, group As String, idset As String(), regulation As String) As Double()()
         Dim times As Double() = pack.AllTimePoints.ToArray
         Dim mat As Double()() = RectangularArray.Matrix(Of Double)(times.Length, idset.Length)
 
+        If regulation Is Nothing Then
+            regulation = "frames"
+        End If
+
         For i As Integer = 0 To times.Length - 1
             Dim ti As Double = times(i)
-            Dim list As New BinaryDataReader(pack.GetStream.OpenFile($"/dynamics/flux/{group}/frames/{ti}.dat"))
+            Dim list As New BinaryDataReader(pack.GetStream.OpenFile($"/dynamics/flux/{group}/{regulation}/{ti}.dat"))
             Dim vec As Double() = list.ReadDoubles(idset.Length)
 
             mat(i) = vec
