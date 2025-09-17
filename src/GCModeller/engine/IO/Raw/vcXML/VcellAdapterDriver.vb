@@ -92,6 +92,12 @@ Namespace vcXML
             Call fs.addFrame(iteration, NameOf(flux.metabolome), "flux_size", data.Takes(flux.metabolome))
         End Sub
 
+        Public Sub ForwardRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ForwardRegulation
+        End Sub
+
+        Public Sub ReverseRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ReverseRegulation
+        End Sub
+
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' To detect redundant calls
 
