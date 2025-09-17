@@ -233,42 +233,94 @@ Namespace Raw
         ''' <param name="snapshot">The snapshot value after the loop cycle in <paramref name="time"/> point</param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Write(module$, time#, snapshot As Dictionary(Of String, Double), fluxData As Boolean) As Writer
+        Public Function WriteMassData(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
             Dim resolve_name As String = nameMaps([module])
             Dim index As Index(Of String) = modules(resolve_name)
 
-            If fluxData Then
-                Dim instance_id As String() = index.Objects
+            For Each compart_id As String In compartments
+                Dim instance_id As String() = Me.instance_id(compart_id).TryGetValue(resolve_name)
 
-                If Not instance_id.IsNullOrEmpty Then
-                    Dim v As Double() = snapshot.Takes(instance_id).ToArray
-                    Dim path As String = $"/dynamics/flux/{resolve_name}/frames/{time}.dat"
-
-                    Call stream.Delete(path)
-                    Call ticks.Add(time)
-
-                    Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
-                        Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
-                    End Using
+                If instance_id.IsNullOrEmpty Then
+                    Continue For
                 End If
-            Else
-                For Each compart_id As String In compartments
-                    Dim instance_id As String() = Me.instance_id(compart_id).TryGetValue(resolve_name)
 
-                    If instance_id.IsNullOrEmpty Then
-                        Continue For
-                    End If
+                Dim v As Double() = snapshot.Takes(instance_id).ToArray
+                Dim path As String = $"/dynamics/{compart_id}/{resolve_name}/frames/{time}.dat"
 
-                    Dim v As Double() = snapshot.Takes(instance_id).ToArray
-                    Dim path As String = $"/dynamics/{compart_id}/{resolve_name}/frames/{time}.dat"
+                Call stream.Delete(path)
+                Call ticks.Add(time)
 
-                    Call stream.Delete(path)
-                    Call ticks.Add(time)
+                Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
+                    Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
+                End Using
+            Next
 
-                    Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
-                        Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
-                    End Using
-                Next
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="module">the molecule data types</param>
+        ''' <param name="time">the time tick point</param>
+        ''' <param name="snapshot">The snapshot value after the loop cycle in <paramref name="time"/> point</param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function WriteFluxData(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
+            Dim resolve_name As String = nameMaps([module])
+            Dim index As Index(Of String) = modules(resolve_name)
+            Dim instance_id As String() = index.Objects
+
+            If Not instance_id.IsNullOrEmpty Then
+                Dim v As Double() = snapshot.Takes(instance_id).ToArray
+                Dim path As String = $"/dynamics/flux/{resolve_name}/frames/{time}.dat"
+
+                Call stream.Delete(path)
+                Call ticks.Add(time)
+
+                Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
+                    Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
+                End Using
+            End If
+
+            Return Me
+        End Function
+
+        Public Function WriteFluxForwardRegulation(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
+            Dim resolve_name As String = nameMaps([module])
+            Dim index As Index(Of String) = modules(resolve_name)
+            Dim instance_id As String() = index.Objects
+
+            If Not instance_id.IsNullOrEmpty Then
+                Dim v As Double() = snapshot.Takes(instance_id).ToArray
+                Dim path As String = $"/dynamics/flux/{resolve_name}/forward/{time}.dat"
+
+                Call stream.Delete(path)
+                Call ticks.Add(time)
+
+                Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
+                    Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
+                End Using
+            End If
+
+            Return Me
+        End Function
+
+        Public Function WriteFluxReverseRegulation(module$, time#, snapshot As Dictionary(Of String, Double)) As Writer
+            Dim resolve_name As String = nameMaps([module])
+            Dim index As Index(Of String) = modules(resolve_name)
+            Dim instance_id As String() = index.Objects
+
+            If Not instance_id.IsNullOrEmpty Then
+                Dim v As Double() = snapshot.Takes(instance_id).ToArray
+                Dim path As String = $"/dynamics/flux/{resolve_name}/reverse/{time}.dat"
+
+                Call stream.Delete(path)
+                Call ticks.Add(time)
+
+                Using file As Stream = stream.OpenFile(path, FileMode.OpenOrCreate, FileAccess.Write)
+                    Call New BinaryDataWriter(file, ByteOrder.BigEndian).Write(v)
+                End Using
             End If
 
             Return Me

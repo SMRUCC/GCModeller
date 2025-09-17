@@ -193,26 +193,50 @@ Namespace Raw
         End Function
 
         Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot
-            Call output.Write(NameOf(Writer.Metabolites), iteration, snapshot:=data, fluxData:=False)
-            Call output.Write(NameOf(Writer.mRNAId), iteration, snapshot:=data, fluxData:=False)
-            Call output.Write(NameOf(Writer.Polypeptide), iteration, snapshot:=data, fluxData:=False)
-            Call output.Write(NameOf(Writer.Proteins), iteration, snapshot:=data, fluxData:=False)
-            Call output.Write(NameOf(Writer.RNAId), iteration, snapshot:=data, fluxData:=False)
-            Call output.Write(NameOf(Writer.tRNA), iteration, snapshot:=data, fluxData:=False)
-            Call output.Write(NameOf(Writer.rRNA), iteration, snapshot:=data, fluxData:=False)
+            Call output.WriteMassData(NameOf(Writer.Metabolites), iteration, snapshot:=data)
+            Call output.WriteMassData(NameOf(Writer.mRNAId), iteration, snapshot:=data)
+            Call output.WriteMassData(NameOf(Writer.Polypeptide), iteration, snapshot:=data)
+            Call output.WriteMassData(NameOf(Writer.Proteins), iteration, snapshot:=data)
+            Call output.WriteMassData(NameOf(Writer.RNAId), iteration, snapshot:=data)
+            Call output.WriteMassData(NameOf(Writer.tRNA), iteration, snapshot:=data)
+            Call output.WriteMassData(NameOf(Writer.rRNA), iteration, snapshot:=data)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.FluxSnapshot
-            Call output.Write(NameOf(Writer.Reactions), iteration, snapshot:=data, fluxData:=True)
-            Call output.Write(NameOf(Writer.Transcription), iteration, snapshot:=data, fluxData:=True)
-            Call output.Write(NameOf(Writer.Translation), iteration, snapshot:=data, fluxData:=True)
-            Call output.Write(NameOf(Writer.ProteinDegradation), iteration, snapshot:=data, fluxData:=True)
-            Call output.Write(NameOf(Writer.PeptideDegradation), iteration, snapshot:=data, fluxData:=True)
-            Call output.Write(NameOf(Writer.RNADegradation), iteration, snapshot:=data, fluxData:=True)
-            Call output.Write(NameOf(Writer.tRNACharge), iteration, snapshot:=data, fluxData:=True)
-            Call output.Write(NameOf(Writer.ribosomeAssembly), iteration, snapshot:=data, fluxData:=True)
-            Call output.Write(NameOf(Writer.ProteinMature), iteration, snapshot:=data, fluxData:=True)
+            Call output.WriteFluxData(NameOf(Writer.Reactions), iteration, snapshot:=data)
+            Call output.WriteFluxData(NameOf(Writer.Transcription), iteration, snapshot:=data)
+            Call output.WriteFluxData(NameOf(Writer.Translation), iteration, snapshot:=data)
+            Call output.WriteFluxData(NameOf(Writer.ProteinDegradation), iteration, snapshot:=data)
+            Call output.WriteFluxData(NameOf(Writer.PeptideDegradation), iteration, snapshot:=data)
+            Call output.WriteFluxData(NameOf(Writer.RNADegradation), iteration, snapshot:=data)
+            Call output.WriteFluxData(NameOf(Writer.tRNACharge), iteration, snapshot:=data)
+            Call output.WriteFluxData(NameOf(Writer.ribosomeAssembly), iteration, snapshot:=data)
+            Call output.WriteFluxData(NameOf(Writer.ProteinMature), iteration, snapshot:=data)
+        End Sub
+
+        Public Sub ForwardRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ForwardRegulation
+            Call output.WriteFluxForwardRegulation(NameOf(Writer.Reactions), iteration, snapshot:=data)
+            Call output.WriteFluxForwardRegulation(NameOf(Writer.Transcription), iteration, snapshot:=data)
+            Call output.WriteFluxForwardRegulation(NameOf(Writer.Translation), iteration, snapshot:=data)
+            Call output.WriteFluxForwardRegulation(NameOf(Writer.ProteinDegradation), iteration, snapshot:=data
+            Call output.WriteFluxForwardRegulation(NameOf(Writer.PeptideDegradation), iteration, snapshot:=data)
+            Call output.WriteFluxForwardRegulation(NameOf(Writer.RNADegradation), iteration, snapshot:=data)
+            Call output.WriteFluxForwardRegulation(NameOf(Writer.tRNACharge), iteration, snapshot:=data)
+            Call output.WriteFluxForwardRegulation(NameOf(Writer.ribosomeAssembly), iteration, snapshot:=data)
+            Call output.WriteFluxForwardRegulation(NameOf(Writer.ProteinMature), iteration, snapshot:=data)
+        End Sub
+
+        Public Sub ReverseRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ReverseRegulation
+            Call output.WriteFluxReverseRegulation(NameOf(Writer.Reactions), iteration, snapshot:=data)
+            Call output.WriteFluxReverseRegulation(NameOf(Writer.Transcription), iteration, snapshot:=data)
+            Call output.WriteFluxReverseRegulation(NameOf(Writer.Translation), iteration, snapshot:=data)
+            Call output.WriteFluxReverseRegulation(NameOf(Writer.ProteinDegradation), iteration, snapshot:=data)
+            Call output.WriteFluxReverseRegulation(NameOf(Writer.PeptideDegradation), iteration, snapshot:=data)
+            Call output.WriteFluxReverseRegulation(NameOf(Writer.RNADegradation), iteration, snapshot:=data)
+            Call output.WriteFluxReverseRegulation(NameOf(Writer.tRNACharge), iteration, snapshot:=data)
+            Call output.WriteFluxReverseRegulation(NameOf(Writer.ribosomeAssembly), iteration, snapshot:=data)
+            Call output.WriteFluxReverseRegulation(NameOf(Writer.ProteinMature), iteration, snapshot:=data)
         End Sub
 
 #Region "IDisposable Support"
@@ -246,7 +270,6 @@ Namespace Raw
             ' TODO: uncomment the following line if Finalize() is overridden above.
             ' GC.SuppressFinalize(Me)
         End Sub
-
 #End Region
 
     End Class

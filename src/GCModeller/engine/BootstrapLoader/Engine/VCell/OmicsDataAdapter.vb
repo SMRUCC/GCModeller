@@ -142,5 +142,13 @@ Namespace Engine
                 metabolome:=proteinComplex + metabolism
             )
         End Function
+
+        Public Sub ForwardRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ForwardRegulation
+
+        End Sub
+
+        Public Sub ReverseRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ReverseRegulation
+
+        End Sub
     End Class
 End Namespace
