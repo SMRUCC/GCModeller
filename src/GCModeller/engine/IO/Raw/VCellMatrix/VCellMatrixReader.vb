@@ -159,6 +159,14 @@ Public Class VCellMatrixReader : Implements IDisposable
         End Using
     End Function
 
+    Public Function GetRegulationExpression(symbol As String, reg As String) As Double()
+        Dim path As String = $"/matrix/flux/{reg}/{symbol}.vec"
+
+        Using buf As New BinaryDataReader(s.OpenBlock(path), byteOrder:=ByteOrder.BigEndian)
+            Return buf.ReadDoubles(totalPoints)
+        End Using
+    End Function
+
     Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then
             If disposing Then
