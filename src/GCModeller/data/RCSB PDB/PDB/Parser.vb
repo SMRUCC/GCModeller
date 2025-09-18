@@ -85,6 +85,7 @@ Friend Class Parser
                 pdb.SourceText = reader.lines _
                     .PopAll _
                     .JoinBy(vbCrLf)
+                reader.FlushModel(pdb)
 
                 Yield pdb
 
@@ -97,6 +98,7 @@ Friend Class Parser
                 Call reader.last.Flush()
             End If
 
+            reader.FlushModel(pdb)
             pdb.SourceText = reader.lines _
                 .PopAll _
                 .JoinBy(vbCrLf)
@@ -195,7 +197,8 @@ Friend Class Parser
             Case Keyword.KEYWORD_ATOM
                 model = Atom.Append(model, data.Value)
             Case "TER"
-                model = Atom.Append(model, data.Value)
+                ' chain/model terminator
+                model = Atom.AppendTerminator(model, data.Value)
                 model.Flush()
 
             Case Keyword.KEYWORD_MASTER : pdb.Master = Master.Parse(data.Value)
@@ -214,24 +217,37 @@ Friend Class Parser
             Case "SIGUIJ" : pdb.SIGUIJ = SIGUIJ.Append(last, data.Value)
 
             Case "END"
-                ' end of current protein/molecule structure data
-                If pdb._atomStructuresData.IsNullOrEmpty Then
-                    If model IsNot Nothing Then
-                        ' contains only one structure model data
-                        ' inside current pdb object
-                        model.ModelId = "1"
-                        pdb._atomStructuresData.Add("1", model)
-                    Else
-                        Call $"RCSB pdb object '{pdb.Header}' has no structure model data!".Warning
-                    End If
-                End If
-
-                Return True
+                Return FlushModel(pdb)
 
             Case Else
                 Throw New NotImplementedException(data.Name)
         End Select
 
         Return False
+    End Function
+
+    Private Function FlushModel(pdb As PDB) As Boolean
+        ' end of current protein/molecule structure data
+        If pdb._atomStructuresData.IsNullOrEmpty Then
+            If model IsNot Nothing Then
+                ' contains only one structure model data
+                ' inside current pdb object
+                model.ModelId = "1"
+                model.Flush()
+                pdb._atomStructuresData.Add("1", model)
+                model = Nothing
+            Else
+                Call $"RCSB pdb object '{pdb.Header}' has no structure model data!".warning
+            End If
+        ElseIf Not model Is Nothing Then
+            ' contains only one structure model data
+            ' inside current pdb object
+            model.ModelId = pdb.AtomStructures.Count + 1
+            model.Flush()
+            pdb._atomStructuresData.Add(model.ModelId, model)
+            model = Nothing
+        End If
+
+        Return True
     End Function
 End Class

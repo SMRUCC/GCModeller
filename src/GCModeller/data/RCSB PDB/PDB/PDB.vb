@@ -317,7 +317,11 @@ Public Class PDB : Implements Enumeration(Of Atom)
                               End Function)
 
             For Each ref As NamedValue(Of Het.HETRecord) In Het.HetAtoms
-                Yield New NamedValue(Of Het.HETRecord)(ref.Name, ref.Value, nameIndex(ref.Name))
+                Dim fullName As String = nameIndex.TryGetValue(ref.Name, [default]:=ref.Name)
+                Dim het As Het.HETRecord = ref.Value
+                Dim id As String = ref.Name
+
+                Yield New NamedValue(Of Het.HETRecord)(id, het, fullName)
             Next
         End If
     End Function
