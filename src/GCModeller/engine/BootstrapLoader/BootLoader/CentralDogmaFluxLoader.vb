@@ -333,7 +333,7 @@ Namespace ModelLoader
                 Call MassTable.addNew($"[{cd.geneID}]", MassRoles.gene, cellular_id)
 
                 If Not cd.polypeptide Is Nothing Then
-                    Call MassTable.addNew(cd.polypeptide, MassRoles.polypeptide, cellular_id)
+                    Call MassTable.addNew("*" & cd.polypeptide, MassRoles.polypeptide, cellular_id)
                     Call mRNA.Add(cd.geneID)
 
                     If proteinList.ContainsKey(cd.geneID) Then
@@ -601,7 +601,7 @@ Namespace ModelLoader
             ' 20250831
             ' template of mRNA is not working in ODEs
             ' restore the mRNA in product list at here
-            Return AAtRNA + MassTable.variable(peptide, cellular_id) + MassTable.variable(mRNA, cellular_id) + MassTable.variable(loader.define.ADP, cellular_id)
+            Return AAtRNA + MassTable.variable("*" & peptide, cellular_id) + MassTable.variable(mRNA, cellular_id) + MassTable.variable(loader.define.ADP, cellular_id)
         End Function
 
         Protected Overrides Function GetMassSet() As IEnumerable(Of String)

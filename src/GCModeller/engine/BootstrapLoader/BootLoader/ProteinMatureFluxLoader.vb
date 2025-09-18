@@ -56,6 +56,7 @@
 #End Region
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -73,11 +74,12 @@ Namespace ModelLoader
         Public ReadOnly Property proteinComplex As String()
 
         ReadOnly pull As New List(Of String)
+        ReadOnly proteinIds As New Index(Of String)
 
         Public Sub New(loader As Loader)
             MyBase.New(loader)
 
-            Call loader.fluxIndex.Add(NameOf(ProteinMatureFluxLoader), New List(Of String))
+            loader.fluxIndex.Add(NameOf(ProteinMatureFluxLoader), New List(Of String))
         End Sub
 
         Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
@@ -86,13 +88,22 @@ Namespace ModelLoader
             Dim flux As Channel
             Dim cellular_id As String = cell.CellularEnvironmentName
 
+            For Each proteinId As String In cell.Phenotype.proteins.Select(Function(p) p.ProteinID)
+                Call proteinIds.Add(proteinId)
+            Next
+
             For Each complex As Protein In cell.Phenotype.proteins
                 For Each compound In complex.compounds.SafeQuery
                     If Not MassTable.Exists(compound, cellular_id) Then
                         Call MassTable.addNew(compound, MassRoles.compound, cellular_id)
                     End If
                 Next
-                For Each peptide In complex.polypeptides
+                ' polypeptide or other protein complex
+                For Each peptide As String In complex.polypeptides
+                    If Not peptide Like proteinIds Then
+                        peptide = "*" & peptide
+                    End If
+
                     If Not MassTable.Exists(peptide, cellular_id) Then
                         Throw New MissingMemberException("Missing protein complex component polypeptide: " & peptide)
                     Else
