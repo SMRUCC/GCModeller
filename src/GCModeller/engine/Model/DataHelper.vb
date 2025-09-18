@@ -5,15 +5,15 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Public Module DataHelper
 
     Public Function GetTranscriptionId(cd As CentralDogma, cellular_id As String) As String
-        Return $"{cd.geneID}@{cellular_id}::transcript.process"
+        Return $"{cd.geneID}@{cellular_id}[Transcription]"
     End Function
 
     Public Function GetTranslationId(cd As CentralDogma, cellular_id As String) As String
-        Return $"{cd.geneID}@{cellular_id}::translate.process"
+        Return $"{cd.geneID}@{cellular_id}[Translation]"
     End Function
 
     Public Function GetProteinMatureId(protein As Protein, cellular_id As String) As String
-        Return $"{protein.ProteinID}@{cellular_id}::mature.process"
+        Return $"{protein.ProteinID}@{cellular_id}[Protein-Mature]"
     End Function
 
     Public Iterator Function getProteinProcess(models As CellularModule()) As IEnumerable(Of String)

@@ -147,7 +147,7 @@ Namespace ModelLoader
                 MassTable.variable(loader.define.ADP, cellular_id)
             }
             Dim flux As New Channel(left, right) With {
-               .ID = $"chargeOf_{cd.RNAName}@{cellular_id}",
+               .ID = $"{cd.RNAName}@{cellular_id}[tRNA-Charge]",
                .bounds = New Boundary() With {
                    .forward = loader.dynamics.tRNAChargeCapacity
                },
