@@ -198,6 +198,12 @@ Namespace Core
             Return left.JoinBy(" + ") & " = " & right.JoinBy(" + ")
         End Function
 
+        ''' <summary>
+        ''' populate all related factor in current flux model:
+        ''' 
+        ''' left + right + regulation
+        ''' </summary>
+        ''' <returns></returns>
         Public Iterator Function FactorIds() As IEnumerable(Of String)
             For Each factor As VariableFactor In left.JoinIterates(right).JoinIterates(regulation)
                 Yield factor.id
