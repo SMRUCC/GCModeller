@@ -111,7 +111,7 @@ Namespace ModelLoader
                     End If
                 Next
 
-                Dim unformed = MassTable.variables(complex, cellular_id).ToArray
+                Dim unformed = MassTable.variables(complex, cellular_id, proteinIds).ToArray
                 Dim complexID As String = loader.massLoader.proteinComplex(complex.ProteinID)
                 Dim mature As Variable = MassTable.variable(complexID, cellular_id)
 
