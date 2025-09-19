@@ -67,12 +67,12 @@ Public Module Extensions
     ''' <param name="complex"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function variables(massTable As MassTable, complex As Protein, cellular_id As String, proteinIds As Index(Of String)) As IEnumerable(Of Variable)
+    Public Iterator Function variables(massTable As MassTable, complex As Protein, cellular_id As String, polypeptideIds As Index(Of String)) As IEnumerable(Of Variable)
         For Each compound As String In complex.compounds.SafeQuery
             Yield massTable.variable(compound, cellular_id)
         Next
         For Each peptide As String In complex.polypeptides
-            If Not peptide Like proteinIds Then
+            If peptide Like polypeptideIds Then
                 Yield massTable.variable("*" & peptide, cellular_id)
             Else
                 Yield massTable.variable(peptide, cellular_id)

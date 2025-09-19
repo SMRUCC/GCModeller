@@ -74,7 +74,7 @@ Namespace ModelLoader
         Public ReadOnly Property proteinComplex As String()
 
         ReadOnly pull As New List(Of String)
-        ReadOnly proteinIds As New Index(Of String)
+        ReadOnly polypeptideIds As New Index(Of String)
 
         Public Sub New(loader As Loader)
             MyBase.New(loader)
@@ -88,8 +88,8 @@ Namespace ModelLoader
             Dim flux As Channel
             Dim cellular_id As String = cell.CellularEnvironmentName
 
-            For Each proteinId As String In cell.Phenotype.proteins.Select(Function(p) p.ProteinID)
-                Call proteinIds.Add(proteinId)
+            For Each proteinId As String In cell.GetPolypeptideIds
+                Call polypeptideIds.Add(proteinId)
             Next
 
             For Each complex As Protein In cell.Phenotype.proteins
@@ -100,7 +100,7 @@ Namespace ModelLoader
                 Next
                 ' polypeptide or other protein complex
                 For Each peptide As String In complex.polypeptides
-                    If Not peptide Like proteinIds Then
+                    If peptide Like polypeptideIds Then
                         peptide = "*" & peptide
                     End If
 
@@ -111,7 +111,7 @@ Namespace ModelLoader
                     End If
                 Next
 
-                Dim unformed = MassTable.variables(complex, cellular_id, proteinIds).ToArray
+                Dim unformed = MassTable.variables(complex, cellular_id, polypeptideIds).ToArray
                 Dim complexID As String = loader.massLoader.proteinComplex(complex.ProteinID)
                 Dim mature As Variable = MassTable.variable(complexID, cellular_id)
 
