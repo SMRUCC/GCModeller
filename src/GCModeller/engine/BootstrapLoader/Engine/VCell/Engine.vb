@@ -159,13 +159,16 @@ Namespace Engine
         End Function
 
         Public Function SetModel(mass As MassTable, biologicalProcesses As IEnumerable(Of Channel)) As Engine
-            Call core.load(mass.AsEnumerable).load(biologicalProcesses).Initialize()
+            Call core _
+                .load(mass.AsEnumerable) _
+                .load(biologicalProcesses) _
+                .Initialize()
             Call Reset()
+
             Return Me
         End Function
 
         Public Function LoadModel(virtualCell As CellularModule,
-                                  Optional deletions As IEnumerable(Of String) = Nothing,
                                   Optional ByRef getLoader As Loader = Nothing,
                                   Optional unitTest As Boolean = False) As Engine
 
@@ -181,12 +184,22 @@ Namespace Engine
 
             Call Reset()
 
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' should be call after the model was loaded, via function <see cref="SetModel(MassTable, IEnumerable(Of Channel))"/> or 
+        ''' <see cref="LoadModel(CellularModule, ByRef Loader, Boolean)"/>
+        ''' </summary>
+        ''' <param name="knockouts"></param>
+        ''' <returns></returns>
+        Public Function MakeKnockout(knockouts As IEnumerable(Of String)) As Engine
             ' 在这里完成初始化后
             ' 再将对应的基因模板的数量设置为0
             ' 达到无法执行转录过程反应的缺失突变的效果
-            For Each geneTemplateId As String In deletions.SafeQuery
-                Call core.m_massIndex(geneTemplateId).reset(0)
-                Call $"deletes '{geneTemplateId}'...".info
+            For Each gene_id As String In knockouts.SafeQuery
+                Call core.m_massIndex(gene_id).reset(0)
+                Call $"deletes '{gene_id}'...".info
             Next
 
             Return Me
@@ -199,7 +212,7 @@ Namespace Engine
 
             Call s.WriteLine($"----======== {core.MassEnvironment.Length} molecules =========----")
 
-            For Each mass In core.MassEnvironment
+            For Each mass As Factor In core.MassEnvironment
                 Call s.WriteLine(mass.ToString)
             Next
 
