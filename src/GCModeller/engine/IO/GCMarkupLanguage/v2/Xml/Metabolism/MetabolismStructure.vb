@@ -160,6 +160,15 @@ Namespace v2
 
         Dim m_refs As Dictionary(Of String, Compound())
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="protein_id"></param>
+        ''' <returns></returns>
+        Public Iterator Function GetImpactedMetabolicNetwork(protein_id As String) As IEnumerable(Of Reaction)
+
+        End Function
+
         Public Function FindByReference(id As String) As Compound()
             If m_refs Is Nothing Then
                 m_refs = compounds.SafeQuery _
