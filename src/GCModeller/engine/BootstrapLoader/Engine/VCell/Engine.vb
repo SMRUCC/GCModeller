@@ -187,6 +187,26 @@ Namespace Engine
             Return Me
         End Function
 
+        Public Function SetCopyNumbers(copyNum As Integer) As Engine
+
+        End Function
+
+        Public Function SetCopyNumbers(copyNum As Dictionary(Of String, Integer)) As Engine
+            If core Is Nothing Then
+                Throw New InvalidProgramException("Please load model at first!")
+            End If
+
+            For Each kv As KeyValuePair(Of String, Integer) In copyNum
+                If core.m_massIndex.ContainsKey(kv.Key) Then
+                    Call core.m_massIndex(kv.Key).reset(kv.Value)
+                Else
+                    Call $"gene '{kv.Key}' not found in the model!".warning
+                End If
+            Next
+
+            Return Me
+        End Function
+
         ''' <summary>
         ''' should be call after the model was loaded, via function <see cref="SetModel(MassTable, IEnumerable(Of Channel))"/> or 
         ''' <see cref="LoadModel(CellularModule, ByRef Loader, Boolean)"/>
@@ -194,6 +214,10 @@ Namespace Engine
         ''' <param name="knockouts"></param>
         ''' <returns></returns>
         Public Function MakeKnockout(knockouts As IEnumerable(Of String)) As Engine
+            If core Is Nothing Then
+                Throw New InvalidProgramException("Please load model at first!")
+            End If
+
             ' 在这里完成初始化后
             ' 再将对应的基因模板的数量设置为0
             ' 达到无法执行转录过程反应的缺失突变的效果

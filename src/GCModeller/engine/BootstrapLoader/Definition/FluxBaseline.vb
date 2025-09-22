@@ -104,12 +104,6 @@ Namespace Definitions
         Public Property ribosomeAssemblyCapacity As Double = 10
         Public Property ribosomeDisassemblyCapacity As Double = 5
 
-        ''' <summary>
-        ''' the cell copy number, which is used for reset the gene template number
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property numCells As Integer = 1000
-
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
