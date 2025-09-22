@@ -33,6 +33,12 @@ Namespace v2
         ''' <returns></returns>
         Public Property none_enzymatic As Reaction()
 
+        Default Public ReadOnly Property Item(id As String) As Reaction
+            Get
+                Return Me.AsEnumerable.Where(Function(rxn) rxn.ID = id).FirstOrDefault
+            End Get
+        End Property
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CompoundLinks() As Dictionary(Of String, Reaction())
             Return enzymatic _
@@ -75,8 +81,6 @@ Namespace v2
             }
         End Operator
     End Class
-
-
 
     ''' <summary>
     ''' the reaction graph model

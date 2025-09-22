@@ -166,7 +166,18 @@ Namespace v2
         ''' <param name="protein_id"></param>
         ''' <returns></returns>
         Public Iterator Function GetImpactedMetabolicNetwork(protein_id As String) As IEnumerable(Of Reaction)
+            Dim enzymeList = enzymes.Where(Function(enz) enz.proteinID = protein_id).ToArray
+            Dim fluxID As String() = enzymeList _
+                .Select(Function(enz)
+                            Return enz.catalysis.Select(Function(c) c.reaction)
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
 
+            For Each id As String In fluxID
+                Yield _reactions(id)
+            Next
         End Function
 
         Public Function FindByReference(id As String) As Compound()
