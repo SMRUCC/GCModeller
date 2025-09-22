@@ -187,20 +187,44 @@ Namespace Engine
             Return Me
         End Function
 
+        ''' <summary>
+        ''' set all genes its copy number to a given value
+        ''' </summary>
+        ''' <param name="copyNum"></param>
+        ''' <returns></returns>
         Public Function SetCopyNumbers(copyNum As Integer) As Engine
+            For Each mass As Factor In core.m_massIndex.Values
+                If mass.role = MassRoles.gene Then
+                    Call mass.reset(copyNum)
+                End If
+            Next
 
+            Return Me
         End Function
 
+        ''' <summary>
+        ''' set gene copy numbers
+        ''' </summary>
+        ''' <param name="copyNum">a tuple list of [gene_id => copyNumber]</param>
+        ''' <returns></returns>
         Public Function SetCopyNumbers(copyNum As Dictionary(Of String, Integer)) As Engine
             If core Is Nothing Then
                 Throw New InvalidProgramException("Please load model at first!")
             End If
 
-            For Each kv As KeyValuePair(Of String, Integer) In copyNum
-                If core.m_massIndex.ContainsKey(kv.Key) Then
-                    Call core.m_massIndex(kv.Key).reset(kv.Value)
-                Else
-                    Call $"gene '{kv.Key}' not found in the model!".warning
+            For Each mass As Factor In core.m_massIndex.Values
+                If copyNum.ContainsKey(mass.template_id) AndAlso mass.role = MassRoles.gene Then
+                    Call mass.reset(copyNum(mass.template_id))
+                End If
+            Next
+
+            Return Me
+        End Function
+
+        Public Function SetCultureMedium(cultureMedium As Dictionary(Of String, Double)) As Engine
+            For Each mass As Factor In core.m_massIndex.Values
+                If cultureMedium.ContainsKey(mass.template_id) AndAlso mass.cellular_compartment = initials.CultureMedium Then
+                    Call mass.reset(cultureMedium(mass.template_id))
                 End If
             Next
 
@@ -269,8 +293,6 @@ Namespace Engine
                 Else
                     If initials.status.ContainsKey(mass.template_id) Then
                         Call mass.reset(initials.status(mass.template_id))
-                    ElseIf mass.role = MassRoles.gene Then
-                        Call mass.reset(dynamics.numCells)
                     Else
                         Call mass.reset(randf.NextDouble(10, 250))
                     End If
