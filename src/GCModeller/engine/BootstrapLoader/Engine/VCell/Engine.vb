@@ -242,11 +242,27 @@ Namespace Engine
                 Throw New InvalidProgramException("Please load model at first!")
             End If
 
+            Dim index As Dictionary(Of String, Factor) = core.m_massIndex
+            Dim compartment_id As String() = models _
+                .Select(Function(cell) cell.CellularEnvironmentName) _
+                .ToArray
+
             ' 在这里完成初始化后
             ' 再将对应的基因模板的数量设置为0
             ' 达到无法执行转录过程反应的缺失突变的效果
             For Each gene_id As String In knockouts.SafeQuery
-                Call core.m_massIndex(gene_id).reset(0)
+                If index.ContainsKey(gene_id) Then
+                    Call index(gene_id).reset(0)
+                Else
+                    For Each cid As String In compartment_id
+                        Dim full_id As String = $"{gene_id}@{cid}"
+
+                        If index.ContainsKey(full_id) Then
+                            Call index(full_id).reset(0)
+                        End If
+                    Next
+                End If
+
                 Call $"deletes '{gene_id}'...".info
             Next
 
