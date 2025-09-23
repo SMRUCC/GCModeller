@@ -279,8 +279,15 @@ Module proteinKit
     End Function
 
     <ExportAPI("pdb_centroid")>
-    Public Function pdb_centroid(pdb As PDB) As Point3D
-        Return pdb.ModelCentroid
+    <RApiReturn(GetType(Point3D), GetType(Double))>
+    Public Function pdb_centroid(pdb As PDB, Optional as_vector As Boolean = False) As Object
+        If as_vector Then
+            With pdb.ModelCentroid
+                Return New Double() { .X, .Y, .Z}
+            End With
+        Else
+            Return pdb.ModelCentroid
+        End If
     End Function
 
     <ExportAPI("ligands")>
