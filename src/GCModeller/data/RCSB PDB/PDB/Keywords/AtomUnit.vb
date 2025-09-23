@@ -79,6 +79,10 @@ Namespace Keywords
             _Z = z
         End Sub
 
+        Sub New(pt As PointF3D)
+            Call Me.New(pt.X, pt.Y, pt.Z)
+        End Sub
+
         Public Function DistanceTo(x As Double, y As Double, z As Double) As Double
             Return New Double() {Me.X, Me.Y, Me.Z}.EuclideanDistance({x, y, z})
         End Function

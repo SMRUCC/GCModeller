@@ -320,6 +320,7 @@ Namespace Keywords
     End Class
 
     Public Class HETATM : Inherits Keyword
+        Implements Enumeration(Of HETATMRecord)
 
         Public Overrides ReadOnly Property Keyword As String
             Get
@@ -470,6 +471,13 @@ Namespace Keywords
             Return hetatom
         End Function
 
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of HETATMRecord) Implements Enumeration(Of HETATMRecord).GenericEnumerator
+            For Each tuple In atomList
+                For Each atom As HETATMRecord In tuple.Value
+                    Yield atom
+                Next
+            Next
+        End Function
     End Class
 
     Public Class HETSYN : Inherits Keyword
