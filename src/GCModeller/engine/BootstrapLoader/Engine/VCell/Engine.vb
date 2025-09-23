@@ -223,7 +223,9 @@ Namespace Engine
 
         Public Function SetCultureMedium(cultureMedium As Dictionary(Of String, Double)) As Engine
             For Each mass As Factor In core.m_massIndex.Values
-                If cultureMedium.ContainsKey(mass.template_id) AndAlso mass.cellular_compartment = initials.CultureMedium Then
+                If cultureMedium.ContainsKey(mass.template_id) AndAlso
+                    mass.cellular_compartment = initials.CultureMedium Then
+
                     Call mass.reset(cultureMedium(mass.template_id))
                 End If
             Next
@@ -315,9 +317,10 @@ Namespace Engine
                 End If
             Next
 
+            ' clear the culture medium
             For Each mass As Factor In core.m_massIndex.Values
                 If mass.cellular_compartment = initials.CultureMedium Then
-                    Call mass.reset(9999)
+                    Call mass.reset(0)
                 End If
             Next
         End Sub
