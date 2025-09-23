@@ -128,6 +128,10 @@ declare namespace proteinKit {
    */
    function parse_pdb(pdb_txt: string, safe?: boolean, verbose?: boolean): object;
    /**
+     * @param as_vector default value Is ``false``.
+   */
+   function pdb_centroid(pdb: object, as_vector?: boolean): object|number;
+   /**
     * get structure models inside the given pdb object
     * 
     * 
