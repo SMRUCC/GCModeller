@@ -279,6 +279,10 @@ Namespace Core
             m_massSet = New CompartTable(cache, compart)
         End Sub
 
+        ''' <summary>
+        ''' set current mass environment its <see cref="defaultCompartment"/> label as given input <paramref name="id"/>.
+        ''' </summary>
+        ''' <param name="id"></param>
         Public Sub SetDefaultCompartmentId(id As String)
             defaultCompartment = New [Default](Of String)(id)
         End Sub
