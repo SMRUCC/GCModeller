@@ -35,7 +35,7 @@ Public Class ComplexGenerator
     ''' <returns>
     ''' a collection of the pdb content text data of the generated complex in different docking conformations
     ''' </returns>
-    Public Iterator Function GetComplexList(dock_result As String, prot_pdbqt As String) As IEnumerable(Of String)
+    Public Iterator Function CreateComplexList(dock_result As String, prot_pdbqt As String) As IEnumerable(Of String)
         Dim matches As String() = dock_result _
             .Matches("MODEL\s+\d+(.*?)ENDMDL") _
             .ToArray
