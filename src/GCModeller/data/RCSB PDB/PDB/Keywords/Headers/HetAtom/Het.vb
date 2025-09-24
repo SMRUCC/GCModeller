@@ -195,8 +195,20 @@ Namespace Keywords
                 AtomCount = Strings.Mid(line, 17, 4).ParseInteger
             End Sub
 
+            Sub New()
+            End Sub
+
             Public Overrides Function ToString() As String
                 Return $"[{SequenceNumber}] {ResidueType}"
+            End Function
+
+            ''' <summary>
+            ''' 生成PDB格式的HET记录行
+            ''' </summary>
+            ''' <returns>符合PDB格式的HET记录字符串</returns>
+            Public Function ToPdbHETLine() As String
+                ' 格式: "HET  残基类型 链标识符序列号 原子数量      "
+                Return $"HET   {ResidueType.PadRight(3)} {ChainID.PadRight(1)}{SequenceNumber.ToString().PadLeft(4)} {AtomCount.ToString().PadLeft(4)}          "
             End Function
         End Class
 

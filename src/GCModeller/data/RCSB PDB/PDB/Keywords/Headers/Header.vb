@@ -294,15 +294,14 @@ Namespace Keywords
         ''' <summary>
         ''' 生成符合PDB文件格式的AUTHOR字段文本。
         ''' </summary>
-        ''' <param name="authorList">Author类的实例</param>
         ''' <returns>格式化后的AUTHOR字段文本，每行以"AUTHOR"关键字开头</returns>
-        Public Shared Function GenerateAuthorFieldText(authorList As Author) As String
-            If authorList Is Nothing OrElse authorList.Name Is Nothing OrElse authorList.Name.Length = 0 Then
+        Public Function ToPDBAuthorFieldText() As String
+            If Name.IsNullOrEmpty Then
                 Return $"{Keywords.KEYWORD_AUTHOR}{vbCrLf}"
             End If
 
             ' 将作者名用分号和空格连接成一个长字符串
-            Dim allAuthors As String = String.Join("; ", authorList.Name)
+            Dim allAuthors As String = String.Join("; ", Name)
             ' PDB行标准长度（包括关键字）
             Const maxLineLength As Integer = 80
             ' 关键字长度 "AUTHOR " (注意包含空格)
@@ -348,7 +347,7 @@ Namespace Keywords
             End If
 
             ' 将每行用换行符连接，并确保最后以换行符结束
-            Return String.Join(vbCrLf, lines) & vbCrLf
+            Return String.Join(vbCrLf, lines)
         End Function
     End Class
 

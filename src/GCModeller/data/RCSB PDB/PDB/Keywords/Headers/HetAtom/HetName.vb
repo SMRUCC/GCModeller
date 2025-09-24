@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports System.Runtime.CompilerServices
+Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Keywords
 
@@ -18,6 +20,28 @@ Namespace Keywords
 
         ReadOnly residueList As New List(Of NamedValue(Of String))
 
+        Sub New()
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(ParamArray ligands As NamedValue(Of String)())
+            Call residueList.AddRange(ligands)
+        End Sub
+
+        Public Function ToPDBText() As String
+            Dim sb As New StringBuilder
+            For Each residue As NamedValue(Of String) In residueList
+                Call sb.AppendLine($"HETNAM     {residue.Name} {residue.Value}")
+            Next
+            Return sb.ToString
+        End Function
+
+        ''' <summary>
+        ''' append a new line of hetname record to the current hetname object
+        ''' </summary>
+        ''' <param name="hetname"></param>
+        ''' <param name="line"></param>
+        ''' <returns></returns>
         Friend Shared Function Append(ByRef hetname As HetName, line As String) As HetName
             If hetname Is Nothing Then
                 hetname = New HetName
