@@ -119,7 +119,18 @@ Namespace Keywords
             If remark Is Nothing Then
                 remark = New Remark
             End If
-            remark.cache.Add(str.Trim.GetTagValue(" ", trim:=True, failureNoName:=False))
+
+            Dim catNumber = str.Substring(0, 4).Trim
+            Dim value As String
+
+            If catNumber.IsInteger Then
+                value = str.Substring(4).Trim
+            Else
+                catNumber = "1"
+                value = str.Trim
+            End If
+
+            remark.cache.Add(New NamedValue(Of String)(catNumber, value))
             Return remark
         End Function
 

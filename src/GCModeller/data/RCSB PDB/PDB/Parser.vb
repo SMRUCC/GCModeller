@@ -219,6 +219,9 @@ Friend Class Parser
             Case "END"
                 Return FlushModel(pdb)
 
+                ' 20250924 ignores of the pdbqt specific tags
+            Case "ROOT", "ENDROOT", "BRANCH", "ENDBRANCH", "TORSDOF"
+                ' just do nothing at here
             Case Else
                 Throw New NotImplementedException(data.Name)
         End Select
