@@ -3,6 +3,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords.Het
+Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords.HETATM
 
 ''' <summary>
 ''' Helper module for generate protein complex from the autodock vina docking result
@@ -41,18 +42,37 @@ Public Class ComplexGenerator
 
         For Each model As String In matches
             Dim pdb As New StringBuilder
-            Dim het As New HETRecord With {
-                .ResidueType = "CPD",
-                .ChainID = "A",
-                .AtomCount = 0,
-                .SequenceNumber = 0
-            }
+            Dim hetatoms As Atom = Nothing
+
+            For Each line_str As String In model _
+                .LineTokens _
+                .Where(Function(line) line.StartsWith("HETATM"))
+
+                Call HETATM.Append(hetatoms, line_str.GetTagValue(" ", trim:=True).Value)
+            Next
 
             Call pdb.AppendLine(header.ToPdbString)
             Call pdb.AppendLine(author.ToPDBAuthorFieldText)
-            Call pdb.AppendLine(het.ToPdbHETLine)
-            Call pdb.AppendLine(ligand.ToPDBText)
-            Call pdb.AppendLine(model)
+
+            For Each key As String In hetatoms.HetAtoms.Keys
+                Dim atoms As HETATMRecord() = hetatoms.HetAtoms(key)
+                Dim het As New HETRecord With {
+                    .ResidueType = key,
+                    .ChainID = "X",
+                    .AtomCount = atoms.Length,
+                    .SequenceNumber = atoms(Scan0).ResidueSequenceNumber
+                }
+
+                Call pdb.AppendLine(het.ToPdbHETLine)
+                Call pdb.AppendLine(ligand.ToPDBText)
+            Next
+            For Each key As String In hetatoms.HetAtoms.Keys
+                For Each atom As HETATMRecord In hetatoms.HetAtoms(key)
+                    atom.ChainID = "X"
+                    pdb.AppendLine(atom.ToString)
+                Next
+            Next
+
             Call pdb.AppendLine(prot_pdbqt)
 
             Yield pdb.ToString
