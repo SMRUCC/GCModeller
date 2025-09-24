@@ -108,7 +108,7 @@ Friend Class Parser
     End Function
 
     Private Function ReadLine(ByRef pdb As PDB, line As String, verbose As Boolean) As Boolean
-        Dim data = line.GetTagValue(trim:=True, failureNoName:=False)
+        Dim data = line.GetTagValue(trim:=False, failureNoName:=False)
 
         Call lines.Add(line)
 

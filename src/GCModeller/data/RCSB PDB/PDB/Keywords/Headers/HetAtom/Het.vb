@@ -225,6 +225,8 @@ Namespace Keywords
                 het = New Het
             End If
 
+            line = Strings.LTrim(line)
+
             Dim atom As New HETRecord(line)
             Dim record As New NamedValue(Of HETRecord)(atom.ResidueType, atom, line)
 

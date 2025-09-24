@@ -39,6 +39,7 @@ Public Class ComplexGenerator
         Dim matches As String() = dock_result _
             .Matches("MODEL\s+\d+(.*?)ENDMDL") _
             .ToArray
+        Dim line_val As String
 
         For Each model As String In matches
             Dim pdb As New StringBuilder
@@ -48,7 +49,8 @@ Public Class ComplexGenerator
                 .LineTokens _
                 .Where(Function(line) line.StartsWith("HETATM"))
 
-                Call HETATM.Append(hetatoms, line_str.GetTagValue(" ", trim:=True).Value)
+                line_val = line_str.GetTagValue(" ", trim:=False)
+                HETATM.Append(hetatoms, line_val)
             Next
 
             Call pdb.AppendLine(header.ToPdbString)
@@ -57,8 +59,8 @@ Public Class ComplexGenerator
             For Each key As String In hetatoms.HetAtoms.Keys
                 Dim atoms As HETATMRecord() = hetatoms.HetAtoms(key)
                 Dim het As New HETRecord With {
-                    .ResidueType = key,
-                    .ChainID = "X",
+                    .ResidueType = key.Substring(0, 3),
+                    .ChainID = "A",
                     .AtomCount = atoms.Length,
                     .SequenceNumber = atoms(Scan0).ResidueSequenceNumber
                 }
@@ -68,7 +70,7 @@ Public Class ComplexGenerator
             Next
             For Each key As String In hetatoms.HetAtoms.Keys
                 For Each atom As HETATMRecord In hetatoms.HetAtoms(key)
-                    atom.ChainID = "X"
+                    atom.ChainID = "A"
                     pdb.AppendLine(atom.ToString)
                 Next
             Next

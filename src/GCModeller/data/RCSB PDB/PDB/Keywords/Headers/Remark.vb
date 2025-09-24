@@ -119,7 +119,7 @@ Namespace Keywords
             If remark Is Nothing Then
                 remark = New Remark
             End If
-            remark.cache.Add(str.GetTagValue(" ", trim:=True, failureNoName:=False))
+            remark.cache.Add(str.Trim.GetTagValue(" ", trim:=True, failureNoName:=False))
             Return remark
         End Function
 

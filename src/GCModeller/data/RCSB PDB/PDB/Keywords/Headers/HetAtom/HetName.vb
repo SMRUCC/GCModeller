@@ -47,6 +47,8 @@ Namespace Keywords
                 hetname = New HetName
             End If
 
+            line = Strings.LTrim(line)
+
             Dim residueType = Strings.Mid(line, 1, 3).Trim()
             Dim chemicalName = Strings.Mid(line, 5).Trim()
             Dim data As New NamedValue(Of String)(residueType, chemicalName, line)

@@ -310,7 +310,7 @@ Namespace Keywords
 
             ' 如果整个作者字符串（加上关键字）能在一行内放下
             If prefixLength + allAuthors.Length <= maxLineLength Then
-                Return keywordPrefix & allAuthors & vbCrLf
+                Return keywordPrefix & allAuthors
             End If
 
             ' 多行处理

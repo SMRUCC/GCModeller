@@ -92,7 +92,7 @@ Namespace Keywords
             If atoms Is Nothing Then
                 atoms = New Atom
             End If
-            Dim index = str.GetTagValue(" ", trim:=True)
+            Dim index = str.Trim.GetTagValue(" ", trim:=True)
             atoms.cache.Add((CInt(Val(index.Name)), index.Value))
             Return atoms
         End Function
@@ -103,7 +103,7 @@ Namespace Keywords
             End If
 
             ' 确保行长度足够，不足时填充空格以避免索引越界
-            Dim paddedLine As String = ("TER     " & str).PadRight(27) ' 至少填充到残基序号之后
+            Dim paddedLine As String = ("TER    " & Strings.LTrim(str)).PadRight(27) ' 至少填充到残基序号之后
             Dim record As New Terminator()
 
             ' 提取各字段（注意VB.NET字符串索引从0开始）
