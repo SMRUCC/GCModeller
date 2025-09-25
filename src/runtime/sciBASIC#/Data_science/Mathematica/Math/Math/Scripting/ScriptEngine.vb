@@ -57,6 +57,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
@@ -172,7 +173,8 @@ Namespace Scripting
         ''' </summary>
         ''' <param name="statement$"></param>
         ''' <returns></returns>
-        <Extension> Public Function Evaluate(statement$, Optional echo As Boolean = True) As Double
+        <Extension>
+        Public Function Evaluate(statement$, Optional echo As Boolean = True) As Double
             Dim x# = Shell(statement)
 
             If echo Then
@@ -196,6 +198,16 @@ Namespace Scripting
             Call Expression.SetSymbol(name, value)
         End Sub
 
+        ''' <summary>
+        ''' Parse the given expression string as the math expression
+        ''' </summary>
+        ''' <param name="expression"></param>
+        ''' <param name="throwEx">
+        ''' throw exception if the parser error occured.
+        ''' </param>
+        ''' <returns>
+        ''' this function will returns nothing if the expression parser error and also not throw exception
+        ''' </returns>
         Public Function ParseExpression(expression As String, Optional throwEx As Boolean = True) As Expression
             Try
                 Dim tokenSet = New ExpressionTokenIcer(expression) _
@@ -208,6 +220,38 @@ Namespace Scripting
                 Call App.LogException(New Exception(expression, ex))
                 Return Nothing
             End Try
+        End Function
+
+        ''' <summary>
+        ''' check of the formula symbol dependency and sort the formulas in asc order by dependency list
+        ''' </summary>
+        ''' <param name="formulas">
+        ''' a collection of the symbol value assigned expression: [symbol &lt;- expression]
+        ''' </param>
+        ''' <param name="ignores"></param>
+        ''' <returns>
+        ''' the given formula dependency result list is sorted via the dependency order
+        ''' </returns>
+        <Extension>
+        Public Function CheckFormulaDependency(formulas As Dictionary(Of String, Expression), Optional ignores As Index(Of String) = Nothing) As FormulaDependency()
+            Dim check As New List(Of FormulaDependency)
+
+            If ignores Is Nothing Then
+                ignores = New String() {}
+            End If
+
+            For Each symbol As KeyValuePair(Of String, Expression) In formulas
+                Call check.Add(New FormulaDependency With {
+                    .symbol = symbol.Key,
+                    .formula = symbol.Value,
+                    .dependency = .formula _
+                        .GetVariableSymbols _
+                        .Where(Function(x) Not x Like ignores) _
+                        .ToArray
+                })
+            Next
+
+            Return FormulaDependency.Sort(check)
         End Function
     End Module
 End Namespace
