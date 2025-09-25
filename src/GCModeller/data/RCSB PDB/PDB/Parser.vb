@@ -108,7 +108,7 @@ Friend Class Parser
     End Function
 
     Private Function ReadLine(ByRef pdb As PDB, line As String, verbose As Boolean) As Boolean
-        Dim data = line.GetTagValue(trim:=True, failureNoName:=False)
+        Dim data = line.GetTagValue(trim:=False, failureNoName:=False)
 
         Call lines.Add(line)
 
@@ -219,6 +219,9 @@ Friend Class Parser
             Case "END"
                 Return FlushModel(pdb)
 
+                ' 20250924 ignores of the pdbqt specific tags
+            Case "ROOT", "ENDROOT", "BRANCH", "ENDBRANCH", "TORSDOF"
+                ' just do nothing at here
             Case Else
                 Throw New NotImplementedException(data.Name)
         End Select

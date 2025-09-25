@@ -190,7 +190,7 @@ Namespace ModelLoader
                 End If
 
                 flux = New Channel(MassTable.variables({proteinComplexId}, 1, cell.CellularEnvironmentName), aaResidue + compoundLigends) With {
-                    .ID = $"proteinComplexDegradationOf{proteinComplexId}@{cell.CellularEnvironmentName}",
+                    .ID = $"{proteinComplexId}@{cell.CellularEnvironmentName}[Protein-Complex-Degradation]",
                     .forward = Controls.StaticControl(10),
                     .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {
@@ -237,7 +237,7 @@ Namespace ModelLoader
                                 End Function) _
                         .AsList
                 flux = New Channel(MassTable.variables({gene.polypeptide}, 1, cell.CellularEnvironmentName), aaResidue) With {
-                     .ID = $"polypeptideDegradationOf{gene.polypeptide}@{cell.CellularEnvironmentName}",
+                     .ID = $"{gene.polypeptide}@{cell.CellularEnvironmentName}[Polypeptide-Degradation]",
                      .forward = Controls.StaticControl(10),
                      .reverse = Controls.StaticControl(0),
                      .bounds = New Boundary With {
@@ -293,7 +293,7 @@ Namespace ModelLoader
 
                 ' 降解过程是不可逆的
                 flux = New Channel(MassTable.variables({gene.RNAName}, 1, cell.CellularEnvironmentName), ntBase) With {
-                    .ID = $"RNADegradationOf{gene.RNAName}@{cell.CellularEnvironmentName}",
+                    .ID = $"{gene.RNAName}@{cell.CellularEnvironmentName}[RNA-Degradation]",
                     .forward = Controls.StaticControl(loader.dynamics.RNADegradationBaseline),
                     .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {

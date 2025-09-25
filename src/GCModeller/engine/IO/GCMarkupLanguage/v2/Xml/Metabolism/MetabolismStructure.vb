@@ -160,6 +160,31 @@ Namespace v2
 
         Dim m_refs As Dictionary(Of String, Compound())
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="protein_id"></param>
+        ''' <returns></returns>
+        Public Iterator Function GetImpactedMetabolicNetwork(protein_id As String) As IEnumerable(Of Reaction)
+            Dim enzymeList = enzymes _
+                .Where(Function(enz)
+                           Return enz.proteinID = protein_id AndAlso
+                              Not enz.catalysis.IsNullOrEmpty
+                       End Function) _
+                .ToArray
+            Dim fluxID As String() = enzymeList _
+                .Select(Function(enz)
+                            Return enz.catalysis.Select(Function(c) c.reaction)
+                        End Function) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+
+            For Each id As String In fluxID
+                Yield _reactions(id)
+            Next
+        End Function
+
         Public Function FindByReference(id As String) As Compound()
             If m_refs Is Nothing Then
                 m_refs = compounds.SafeQuery _

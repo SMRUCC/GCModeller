@@ -159,13 +159,16 @@ Namespace Engine
         End Function
 
         Public Function SetModel(mass As MassTable, biologicalProcesses As IEnumerable(Of Channel)) As Engine
-            Call core.load(mass.AsEnumerable).load(biologicalProcesses).Initialize()
+            Call core _
+                .load(mass.AsEnumerable) _
+                .load(biologicalProcesses) _
+                .Initialize()
             Call Reset()
+
             Return Me
         End Function
 
         Public Function LoadModel(virtualCell As CellularModule,
-                                  Optional deletions As IEnumerable(Of String) = Nothing,
                                   Optional ByRef getLoader As Loader = Nothing,
                                   Optional unitTest As Boolean = False) As Engine
 
@@ -181,12 +184,88 @@ Namespace Engine
 
             Call Reset()
 
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' set all genes its copy number to a given value
+        ''' </summary>
+        ''' <param name="copyNum"></param>
+        ''' <returns></returns>
+        Public Function SetCopyNumbers(copyNum As Integer) As Engine
+            For Each mass As Factor In core.m_massIndex.Values
+                If mass.role = MassRoles.gene Then
+                    Call mass.reset(copyNum)
+                End If
+            Next
+
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' set gene copy numbers
+        ''' </summary>
+        ''' <param name="copyNum">a tuple list of [gene_id => copyNumber]</param>
+        ''' <returns></returns>
+        Public Function SetCopyNumbers(copyNum As Dictionary(Of String, Integer)) As Engine
+            If core Is Nothing Then
+                Throw New InvalidProgramException("Please load model at first!")
+            End If
+
+            For Each mass As Factor In core.m_massIndex.Values
+                If copyNum.ContainsKey(mass.template_id) AndAlso mass.role = MassRoles.gene Then
+                    Call mass.reset(copyNum(mass.template_id))
+                End If
+            Next
+
+            Return Me
+        End Function
+
+        Public Function SetCultureMedium(cultureMedium As Dictionary(Of String, Double)) As Engine
+            For Each mass As Factor In core.m_massIndex.Values
+                If cultureMedium.ContainsKey(mass.template_id) AndAlso
+                    mass.cellular_compartment = initials.CultureMedium Then
+
+                    Call mass.reset(cultureMedium(mass.template_id))
+                End If
+            Next
+
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' should be call after the model was loaded, via function <see cref="SetModel(MassTable, IEnumerable(Of Channel))"/> or 
+        ''' <see cref="LoadModel(CellularModule, ByRef Loader, Boolean)"/>
+        ''' </summary>
+        ''' <param name="knockouts"></param>
+        ''' <returns></returns>
+        Public Function MakeKnockout(knockouts As IEnumerable(Of String)) As Engine
+            If core Is Nothing Then
+                Throw New InvalidProgramException("Please load model at first!")
+            End If
+
+            Dim index As Dictionary(Of String, Factor) = core.m_massIndex
+            Dim compartment_id As String() = models _
+                .Select(Function(cell) cell.CellularEnvironmentName) _
+                .ToArray
+
             ' 在这里完成初始化后
             ' 再将对应的基因模板的数量设置为0
             ' 达到无法执行转录过程反应的缺失突变的效果
-            For Each geneTemplateId As String In deletions.SafeQuery
-                Call core.m_massIndex(geneTemplateId).reset(0)
-                Call $"deletes '{geneTemplateId}'...".info
+            For Each gene_id As String In knockouts.SafeQuery
+                If index.ContainsKey(gene_id) Then
+                    Call index(gene_id).reset(0)
+                Else
+                    For Each cid As String In compartment_id
+                        Dim full_id As String = $"{gene_id}@{cid}"
+
+                        If index.ContainsKey(full_id) Then
+                            Call index(full_id).reset(0)
+                        End If
+                    Next
+                End If
+
+                Call $"deletes '{gene_id}'...".info
             Next
 
             Return Me
@@ -199,7 +278,7 @@ Namespace Engine
 
             Call s.WriteLine($"----======== {core.MassEnvironment.Length} molecules =========----")
 
-            For Each mass In core.MassEnvironment
+            For Each mass As Factor In core.MassEnvironment
                 Call s.WriteLine(mass.ToString)
             Next
 
@@ -232,17 +311,16 @@ Namespace Engine
                 Else
                     If initials.status.ContainsKey(mass.template_id) Then
                         Call mass.reset(initials.status(mass.template_id))
-                    ElseIf mass.role = MassRoles.gene Then
-                        Call mass.reset(dynamics.numCells)
                     Else
                         Call mass.reset(randf.NextDouble(10, 250))
                     End If
                 End If
             Next
 
+            ' clear the culture medium
             For Each mass As Factor In core.m_massIndex.Values
                 If mass.cellular_compartment = initials.CultureMedium Then
-                    Call mass.reset(9999)
+                    Call mass.reset(0)
                 End If
             Next
         End Sub

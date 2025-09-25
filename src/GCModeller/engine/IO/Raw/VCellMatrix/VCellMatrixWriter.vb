@@ -142,7 +142,7 @@ Public Class VCellMatrixWriter : Implements IDisposable
 
         For i As Integer = 0 To times.Length - 1
             Dim ti As Double = times(i)
-            Dim list As New BinaryDataReader(pack.GetStream.OpenFile($"/dynamics/flux/{group}/{regulation}/{ti}.dat"))
+            Dim list As New BinaryDataReader(pack.GetStream.OpenFile($"/dynamics/flux/{group}/{regulation}/{ti}.dat"), byteOrder:=ByteOrder.BigEndian)
             Dim vec As Double() = list.ReadDoubles(idset.Length)
 
             mat(i) = vec

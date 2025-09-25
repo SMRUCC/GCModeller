@@ -278,6 +278,18 @@ Module proteinKit
         Return pdb.AsEnumerable.ToArray
     End Function
 
+    <ExportAPI("pdb_centroid")>
+    <RApiReturn(GetType(Point3D), GetType(Double))>
+    Public Function pdb_centroid(pdb As PDB, Optional as_vector As Boolean = False) As Object
+        If as_vector Then
+            With pdb.ModelCentroid
+                Return New Double() { .X, .Y, .Z}
+            End With
+        Else
+            Return pdb.ModelCentroid
+        End If
+    End Function
+
     <ExportAPI("ligands")>
     <RApiReturn(GetType(Het.HETRecord))>
     Public Function ligands(pdb As PDB, Optional key As String = Nothing, Optional number As Integer = -1)

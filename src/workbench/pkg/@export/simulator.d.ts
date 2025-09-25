@@ -47,9 +47,6 @@ declare namespace simulator {
         * @param time_resolutions the time steps
         * 
         * + default value Is ``10000``.
-        * @param deletions make a specific gene nodes deletions
-        * 
-        * + default value Is ``null``.
         * @param dynamics -
         * 
         * + default value Is ``null``.
@@ -60,7 +57,7 @@ declare namespace simulator {
         * @param debug 
         * + default value Is ``false``.
       */
-      function load(vcell: object, inits?: object, iterations?: object, time_resolutions?: object, deletions?: string, dynamics?: object, showProgress?: boolean, unit_test?: boolean, debug?: boolean): object;
+      function load(vcell: object, inits?: object, iterations?: object, time_resolutions?: object, dynamics?: object, showProgress?: boolean, unit_test?: boolean, debug?: boolean): object;
    }
    /**
     * Create a new status profile data object with unify mass contents.

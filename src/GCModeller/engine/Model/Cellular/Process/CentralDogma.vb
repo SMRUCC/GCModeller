@@ -64,13 +64,14 @@ Namespace Cellular.Process
 
     ''' <summary>
     ''' Transcription and Translation.
-    ''' (一个中心法则对象就是一个基因表达的过程，这个基因表达过程的名称为<see cref="ToString"/>方法的返回值)
-    ''' 
     ''' ```
     ''' CDS -> RNA
     ''' ORF -> mRNA -> polypeptide
     ''' ```
     ''' </summary>
+    ''' <remarks>
+    ''' (一个中心法则对象就是一个基因表达的过程，这个基因表达过程的名称为<see cref="ToString"/>方法的返回值)
+    ''' </remarks>
     Public Structure CentralDogma : Implements INamedValue
 
         ''' <summary>
