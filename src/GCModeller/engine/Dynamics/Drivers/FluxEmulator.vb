@@ -171,19 +171,21 @@ Namespace Engine
                     End If
                 Next
 
-                Dim fluxData = flux.getFlux
+                Dim fluxData As Dictionary(Of String, Double) = flux.getFlux
                 Dim abs As Double() = fluxData.Values _
                     .Select(Function(xi) std.Abs(xi)) _
                     .ToArray
+                Dim max As Integer = which.Max(abs)
+                Dim maxKey As String = fluxData.Keys(which.Max(abs))
 
                 ' and then populate result data snapshot
                 Call massSnapshotDriver(i, core.getMassValues)
                 Call fluxSnapshotDriver(i, fluxData)
 
                 summary.Clear()
-                summary.AppendFormat("total_loads: {0}", abs.Sum.ToString("F3"))
-                summary.AppendFormat("mean_loads: {0}", abs.Average.ToString("F3"))
-                summary.AppendFormat("max_loads_flux: {0}", fluxData.Keys(which.Max(abs)))
+                summary.AppendFormat("total_loads: {0} ", abs.Sum.ToString("F3"))
+                summary.AppendFormat("mean_loads: {0} ", abs.Average.ToString("F3"))
+                summary.AppendFormat("max_loads_flux: {0}={1}", maxKey, fluxData(maxKey).ToString("F4"))
 
                 With flux.getRegulations
                     Call forwardSnapshot(i, .forward)
