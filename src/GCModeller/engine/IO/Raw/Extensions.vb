@@ -71,7 +71,7 @@ Public Module Extensions
     Public Iterator Function ActivityLoads(raw As Raw.Reader) As IEnumerable(Of Dictionary(Of String, Double))
         Dim dataSet = raw.GetMoleculeIdList.Where(Function(c) c.Key.EndsWith("-Flux")).ToArray
 
-        For Each ti As Double In TqdmWrapper.Wrap(raw.AllTimePoints.ToArray)
+        For Each ti As Double In TqdmWrapper.Wrap(raw.AllTimePoints.ToArray, wrap_console:=App.EnableTqdm)
             Dim data As New Dictionary(Of String, Double)
 
             For Each mod_id As String In dataSet.Keys
@@ -124,7 +124,7 @@ Public Module Extensions
 
         Dim vec As Double()
 
-        For Each ti As Double In TqdmWrapper.Wrap(t)
+        For Each ti As Double In TqdmWrapper.Wrap(t, wrap_console:=App.EnableTqdm)
             ds = raw.Read(time:=ti, modu)
             vec = list.Select(Function(i) ds(i)).ToArray
             ticks.Add(New DataFrameRow With {.geneID = ti, .experiments = vec})

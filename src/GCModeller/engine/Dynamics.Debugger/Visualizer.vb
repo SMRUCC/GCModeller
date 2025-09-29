@@ -73,7 +73,7 @@ Public Module Visualizer
     Private Sub AttachReactionNode(g As NetworkGraph, cell As Vessel, flux As Dictionary(Of String, Double))
         Dim reactionMass#
 
-        For Each reaction As Channel In TqdmWrapper.Wrap(cell.Channels)
+        For Each reaction As Channel In TqdmWrapper.Wrap(cell.Channels, wrap_console:=App.EnableTqdm)
             If Not g.GetElementByID(reaction.ID) Is Nothing Then
                 Continue For
             End If

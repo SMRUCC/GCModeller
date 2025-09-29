@@ -142,7 +142,7 @@ Namespace Engine
             Dim buffer As New MemoryStream
             Dim str As New StreamWriter(buffer)
 
-            For Each flux As Channel In TqdmWrapper.Wrap(core.Channels)
+            For Each flux As Channel In TqdmWrapper.Wrap(core.Channels, wrap_console:=App.EnableTqdm)
                 Call str.WriteLine(flux.jsonView)
             Next
 

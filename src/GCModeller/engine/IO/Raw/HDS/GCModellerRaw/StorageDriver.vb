@@ -130,7 +130,7 @@ Namespace Raw
                 Call VBDebugger.EchoLine($"write {graph.vertex.Count} nodes...")
 
                 ' write nodes
-                For Each metabo As Node In TqdmWrapper.Wrap(graph.vertex.ToArray)
+                For Each metabo As Node In TqdmWrapper.Wrap(graph.vertex.ToArray, wrap_console:=App.EnableTqdm)
                     Dim metadata As New Dictionary(Of String, String) From {
                         {"id", metabo.ID},
                         {"label", metabo.label},
@@ -153,7 +153,7 @@ Namespace Raw
                 Call VBDebugger.EchoLine($"write {graph.graphEdges.Count} network edges...")
 
                 ' write graph network
-                For Each link As Edge In TqdmWrapper.Wrap(graph.graphEdges.ToArray)
+                For Each link As Edge In TqdmWrapper.Wrap(graph.graphEdges.ToArray, wrap_console:=App.EnableTqdm)
                     Dim metabo As String
                     Dim react As String
 

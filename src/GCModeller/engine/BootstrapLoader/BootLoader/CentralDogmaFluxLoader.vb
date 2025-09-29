@@ -314,7 +314,7 @@ Namespace ModelLoader
                 .Select(Function(c) c.RNA) _
                 .ToArray
 
-            For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas)
+            For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas, wrap_console:=App.EnableTqdm)
                 If cd.isChargedtRNA Then
                     charged_names($"*tRNA{cd.RNA.Description.Replace("charged", "")}") = cd.RNAName
                 End If
@@ -412,7 +412,7 @@ Namespace ModelLoader
 
             ' 在这里创建针对每一个基因的从转录到翻译的整个过程
             ' 之中的不同阶段的生物学过程的模型对象
-            For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas)
+            For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas, wrap_console:=App.EnableTqdm)
                 ' cd.RNA.Name属性值是基因的id，会产生对象引用错误 
                 templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
                 productsRNA = {
