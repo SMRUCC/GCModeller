@@ -129,7 +129,7 @@ Namespace Engine
             Dim tick As Action(Of Integer)
             Dim process As Tqdm.ProgressBar = Nothing
 
-            If showProgress Then
+            If showProgress AndAlso App.EnableTqdm Then
                 process = New Tqdm.ProgressBar(total:=resolution, useColor:=True)
                 tick = AddressOf process.Progress
             Else
