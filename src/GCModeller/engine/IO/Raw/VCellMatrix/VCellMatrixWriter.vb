@@ -51,7 +51,7 @@ Public Class VCellMatrixWriter : Implements IDisposable
             End Using
         Next
 
-        For Each fluxGroup As KeyValuePair(Of String, String()) In TqdmWrapper.Wrap(fluxSet)
+        For Each fluxGroup As KeyValuePair(Of String, String()) In TqdmWrapper.Wrap(fluxSet, wrap_console:=App.EnableTqdm)
             Dim tmp As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value, Nothing)
             Dim forward As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value, "forward")
             Dim reverse As Double()() = SaveFlux(pack, fluxGroup.Key, fluxGroup.Value, "reverse")
@@ -93,7 +93,7 @@ Public Class VCellMatrixWriter : Implements IDisposable
         For Each compart_id As String In pack.comparts
             Dim objs = instance_id(compart_id)
 
-            For Each [module] As KeyValuePair(Of String, String()) In TqdmWrapper.Wrap(objs)
+            For Each [module] As KeyValuePair(Of String, String()) In TqdmWrapper.Wrap(objs, wrap_console:=App.EnableTqdm)
                 Dim tmp As Double()() = SaveMatrix(pack, compart_id, [module])
                 Dim offset As Integer = 0
 

@@ -118,7 +118,7 @@ Namespace ModelLoader
 
             Call VBDebugger.EchoLine("Initialize of the metabolism network...")
 
-            For Each reaction As Reaction In TqdmWrapper.Wrap(cell.Phenotype.fluxes)
+            For Each reaction As Reaction In TqdmWrapper.Wrap(cell.Phenotype.fluxes, wrap_console:=App.EnableTqdm)
                 If reaction.AllCompounds.Any(AddressOf generals.ContainsKey) Then
                     For Each instance In generalFluxExpansion(reaction, KOfunctions)
                         Yield instance

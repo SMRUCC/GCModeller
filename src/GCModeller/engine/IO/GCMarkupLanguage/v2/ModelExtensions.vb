@@ -184,7 +184,7 @@ Namespace v2
                 Dim brokens As New List(Of String)
 
                 For Each operon As TranscriptUnit In replicon.operons
-                    For Each gene As gene In operon.genes
+                    For Each gene As gene In operon.genes.SafeQuery
                         If rnaTable.ContainsKey(gene.locus_tag) Then
                             RNA = rnaTable(gene.locus_tag)
                             RNA = New NamedValue(Of RNATypes)(gene.nucleotide_base.name, RNA.Value, RNA.Description)
