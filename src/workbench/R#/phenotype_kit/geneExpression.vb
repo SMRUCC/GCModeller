@@ -804,7 +804,8 @@ Module geneExpression
 
         Return New Matrix With {
             .expression = genes,
-            .sampleID = sampleNames
+            .sampleID = sampleNames,
+            .tag = table.description
         }
     End Function
 
