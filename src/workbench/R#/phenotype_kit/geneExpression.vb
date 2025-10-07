@@ -94,14 +94,15 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports clr_df = Microsoft.VisualBasic.Data.Framework.DataFrame
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports r_vec = SMRUCC.Rsharp.Runtime.Internal.Object.vector
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
 Imports std_vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
-Imports r_vec = SMRUCC.Rsharp.Runtime.Internal.Object.vector
-Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
 ''' the gene expression matrix data toolkit
@@ -582,6 +583,10 @@ Module geneExpression
             Return DirectCast(REnv.asVector(Of DataSet)(file), DataSet()) _
                 .loadFromGenericDataSet(rm_ZERO, ignores) _
                 .uniqueGeneId(makeNames)
+        ElseIf TypeOf file Is clr_df Then
+            Return DirectCast(file, clr_df) _
+                .loadFromClrDataframe(rm_ZERO, ignores) _
+                .uniqueGeneId(makeNames)
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
         End If
@@ -764,6 +769,43 @@ Module geneExpression
         }
 
         Return newMatrix
+    End Function
+
+    <Extension>
+    Private Function loadFromClrDataframe(table As clr_df, rm_zero As Boolean, ignores As Index(Of String)) As Matrix
+        Dim sampleNames As String() = table.features.Keys.Where(Function(c) Not c Like ignores).ToArray
+        Dim genes As DataFrameRow() = New clr_df With {
+                .rownames = table.rownames,
+                .features = table.features _
+                    .Where(Function(c) Not c.Key Like ignores) _
+                    .ToDictionary(Function(a) a.Key,
+                                  Function(a)
+                                      Return a.Value
+                                  End Function)
+        } _
+            .foreachRow() _
+            .Select(Function(v)
+                        Return New DataFrameRow With {
+                            .geneID = v.name,
+                            .experiments = v.value _
+                                .Select(Function(obj) CDbl(obj)) _
+                                .ToArray
+                        }
+                    End Function) _
+            .ToArray
+
+        If rm_zero Then
+            genes = genes _
+                .Where(Function(gene)
+                           Return Not gene.experiments.All(Function(x) x = 0.0)
+                       End Function) _
+                .ToArray
+        End If
+
+        Return New Matrix With {
+            .expression = genes,
+            .sampleID = sampleNames
+        }
     End Function
 
     <Extension>
