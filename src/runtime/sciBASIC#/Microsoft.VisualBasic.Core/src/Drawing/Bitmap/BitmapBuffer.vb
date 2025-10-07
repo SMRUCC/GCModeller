@@ -89,8 +89,8 @@ Namespace Imaging.BitmapImage
         Implements Enumeration(Of Color)
 
 #If NET48 Then
-        ReadOnly raw As Bitmap
-        ReadOnly handle As BitmapData
+        Protected raw As Bitmap
+        Protected handle As BitmapData
 #End If
 
         ''' <summary>
@@ -116,11 +116,20 @@ Namespace Imaging.BitmapImage
         End Property
 
 #If NET48 Then
-        Protected Sub New(ptr As IntPtr,
-                          byts%,
-                          raw As Bitmap,
-                          handle As BitmapData,
-                          channel As Integer)
+
+        ''' <summary>
+        ''' constructor for gdi+ image data object
+        ''' </summary>
+        ''' <param name="ptr"></param>
+        ''' <param name="byts"></param>
+        ''' <param name="raw"></param>
+        ''' <param name="handle"></param>
+        ''' <param name="channel"></param>
+        Public Sub New(ptr As IntPtr,
+                       byts%,
+                       raw As Bitmap,
+                       handle As BitmapData,
+                       channel As Integer)
 
             Call MyBase.New(ptr, byts)
 
@@ -135,6 +144,17 @@ Namespace Imaging.BitmapImage
             Me.memoryBuffer = False
         End Sub
 #End If
+
+        Sub New(ptr As IntPtr, byts%, size As Size, stride As Integer, channel As Integer)
+            Call MyBase.New(ptr, byts)
+
+            Me.Stride = stride
+            Me.Width = size.Width
+            Me.Height = size.Height
+            Me.Size = size
+            Me.channels = channel
+            Me.memoryBuffer = False
+        End Sub
 
         ''' <summary>
         ''' Make the memory data copy
