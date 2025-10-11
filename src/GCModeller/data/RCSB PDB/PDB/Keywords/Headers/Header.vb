@@ -126,6 +126,12 @@ Namespace Keywords
             End Get
         End Property
 
+        Public ReadOnly Property EmptyContent As Boolean
+            Get
+                Return pdbID.StringEmpty(, True) AndAlso Title.StringEmpty(, True)
+            End Get
+        End Property
+
         Friend Shared Function Parse(line As String) As Header
             Dim str = line.StringSplit("\s+")
             Dim header As New Header With {
