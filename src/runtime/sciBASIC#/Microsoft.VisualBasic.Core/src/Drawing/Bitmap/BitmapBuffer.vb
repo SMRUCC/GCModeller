@@ -89,9 +89,13 @@ Namespace Imaging.BitmapImage
         Implements Enumeration(Of Color)
 
 #If NET48 Then
-        ReadOnly raw As Bitmap
-        ReadOnly handle As BitmapData
+        Protected raw As Bitmap
 #End If
+
+        ''' <summary>
+        ''' BitmapData
+        ''' </summary>
+        Protected handle As Object
 
         ''' <summary>
         ''' current bitmap data is construct from a pixel data array, not read from memory via pointer.
@@ -116,11 +120,20 @@ Namespace Imaging.BitmapImage
         End Property
 
 #If NET48 Then
-        Protected Sub New(ptr As IntPtr,
-                          byts%,
-                          raw As Bitmap,
-                          handle As BitmapData,
-                          channel As Integer)
+
+        ''' <summary>
+        ''' constructor for gdi+ image data object
+        ''' </summary>
+        ''' <param name="ptr"></param>
+        ''' <param name="byts"></param>
+        ''' <param name="raw"></param>
+        ''' <param name="handle"></param>
+        ''' <param name="channel"></param>
+        Public Sub New(ptr As IntPtr,
+                       byts%,
+                       raw As Bitmap,
+                       handle As BitmapData,
+                       channel As Integer)
 
             Call MyBase.New(ptr, byts)
 
@@ -135,6 +148,18 @@ Namespace Imaging.BitmapImage
             Me.memoryBuffer = False
         End Sub
 #End If
+
+        Sub New(ptr As IntPtr, byts%, size As Size, stride As Integer, channel As Integer, Optional handle As Object = Nothing)
+            Call MyBase.New(ptr, byts)
+
+            Me.Stride = stride
+            Me.Width = size.Width
+            Me.Height = size.Height
+            Me.Size = size
+            Me.channels = channel
+            Me.memoryBuffer = False
+            Me.handle = handle
+        End Sub
 
         ''' <summary>
         ''' Make the memory data copy
@@ -213,6 +238,10 @@ Namespace Imaging.BitmapImage
             Dim bytes As Byte() = New Byte(width * height * 4 - 1) {}
             Call bytes.fill(255)
             Return New BitmapBuffer(bytes, New Size(width, height), 4)
+        End Function
+
+        Public Function GetHandleObject() As Object
+            Return handle
         End Function
 
         ''' <summary>
@@ -806,7 +835,9 @@ Namespace Imaging.BitmapImage
                 Call Write()
             End If
 #If NET48 Then
-            Call raw.UnlockBits(handle)
+            If TypeOf handle Is BitmapData Then
+                Call raw.UnlockBits(DirectCast(handle, BitmapData))
+            End If
 #End If
         End Sub
 
