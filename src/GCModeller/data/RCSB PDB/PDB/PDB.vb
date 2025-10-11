@@ -327,7 +327,19 @@ Public Class PDB : Implements Enumeration(Of Atom)
     End Function
 
     Public Overrides Function ToString() As String
-        Return Header.ToString & $" [{Title}]"
+        ' 20251011 header or title maybe missing for pdbqt output file
+        Dim header_str As String = If(Header Is Nothing OrElse Header.EmptyContent, "", Header.ToString)
+        Dim title_str As String = If(Title Is Nothing, "", Title.ToString)
+
+        If header_str.StringEmpty AndAlso title_str.StringEmpty Then
+            Return Nothing
+        ElseIf header_str.StringEmpty Then
+            Return title_str
+        ElseIf title_str.StringEmpty Then
+            Return header_str
+        Else
+            Return header_str & $" [{title_str}]"
+        End If
     End Function
 
     ''' <summary>
