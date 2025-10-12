@@ -1608,7 +1608,7 @@ Module geneExpression
     End Function
 
     ''' <summary>
-    ''' get gene Id list
+    ''' get gene Id list or byref set of the gene id alias set.
     ''' </summary>
     ''' <param name="x">
     ''' A collection of the deg/dep object or a raw HTS matrix object
@@ -1616,8 +1616,11 @@ Module geneExpression
     ''' <returns>A collection of the gene id set</returns>
     ''' <example>
     ''' let rnaseqs = load.expr("rnaseq.csv");
+    ''' let alias = readLines("gene_id.txt");
     ''' 
     ''' print(rnaseqs |> geneId());
+    ''' 
+    ''' geneId(rnaseqs) &lt;- alias;
     ''' </example>
     <ExportAPI("geneId")>
     <RApiReturn(GetType(String))>
