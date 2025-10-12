@@ -155,8 +155,12 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
         Get
             If m_geneIndex Is Nothing AndAlso Not expression Is Nothing Then
                 m_geneIndex = expression _
+                    .GroupBy(Function(c) c.geneID) _
                     .ToDictionary(Function(g)
-                                      Return g.geneID
+                                      Return g.Key
+                                  End Function,
+                                  Function(duplicated)
+                                      Return duplicated.First
                                   End Function)
             End If
 

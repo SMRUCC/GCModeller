@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
@@ -21,7 +22,7 @@ Public Module PathForceBuilder
         Dim cor As New List(Of Double())
         Dim gene_ids As New List(Of String)
 
-        For Each gene As DataFrameRow In expr1.AsEnumerable
+        For Each gene As DataFrameRow In TqdmWrapper.Wrap(expr1.expression)
             Call cor.Add(gene.corVec(expr2, background))
             Call gene_ids.Add(gene.geneID)
         Next

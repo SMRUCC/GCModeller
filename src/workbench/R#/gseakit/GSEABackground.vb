@@ -419,6 +419,12 @@ Public Module GSEABackground
         Return background.GetXml.SaveTo(file)
     End Function
 
+    ''' <summary>
+    ''' make gsea background dynamic cut
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="annotated"></param>
+    ''' <returns></returns>
     <ExportAPI("cut_background")>
     Public Function cut_background(background As Background, <RRawVectorArgument> annotated As Object) As Background
         Dim takes As Index(Of String) = CLRVector.asCharacter(annotated).Indexing
