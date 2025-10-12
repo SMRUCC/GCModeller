@@ -48,9 +48,9 @@ Public Module PathForceBuilder
             .tag = $"{expr1.tag} ~ {expr2.tag}",
             .expression = force _
                 .foreachRow _
-                .Select(Function(r)
+                .Select(Function(r, i)
                             Return New DataFrameRow With {
-                                .geneID = r.name,
+                                .geneID = gene_ids(i),
                                 .experiments = r.value _
                                     .Select(Function(d) CDbl(d)) _
                                     .ToArray
