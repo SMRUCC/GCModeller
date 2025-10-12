@@ -133,6 +133,11 @@ declare namespace background {
    */
    function compoundBrite(): object;
    /**
+    * make gsea background dynamic cut
+    * 
+    * 
+     * @param background -
+     * @param annotated -
    */
    function cut_background(background: object, annotated: any): object;
    module dag {
