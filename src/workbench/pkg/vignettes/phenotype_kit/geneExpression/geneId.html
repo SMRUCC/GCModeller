@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>get gene Id list</title>
+    <title>get gene Id list or byref set of the gene id alias set.</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,7 +18,7 @@
             </tr>
         </table>
 
-        <h2>get gene Id list</h2>
+        <h2>get gene Id list or byref set of the gene id alias set.</h2>
 
         <h3>Description</h3>
 
@@ -27,7 +27,8 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>geneId</strong>(<i>x</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>geneId</strong>(<i>x</i>,
+    <i>set.id</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -55,8 +56,11 @@
         <h3 style="display: block;">Examples</h3>
 
         <pre><code id="example_r"> let rnaseqs = load.expr("rnaseq.csv");
+ let alias = readLines("gene_id.txt");
  
- print(rnaseqs |> geneId());</code></pre>
+ print(rnaseqs |> geneId());
+ 
+ geneId(rnaseqs) <- alias;</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
