@@ -500,4 +500,9 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     Public Function GetLabels() As IEnumerable(Of String) Implements ILabeledMatrix.GetLabels
         Return expression.Keys
     End Function
+
+    Public Sub ResetIndex()
+        m_geneIndex = Nothing
+        m_sampleIndex = Nothing
+    End Sub
 End Class

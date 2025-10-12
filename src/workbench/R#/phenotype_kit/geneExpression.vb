@@ -1621,8 +1621,24 @@ Module geneExpression
     ''' </example>
     <ExportAPI("geneId")>
     <RApiReturn(GetType(String))>
-    Public Function geneId(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+    Public Function geneId(<RRawVectorArgument> x As Object,
+                           <RRawVectorArgument>
+                           <RByRefValueAssign>
+                           Optional set_id As Object = Nothing,
+                           Optional env As Environment = Nothing) As Object
+
         If TypeOf x Is Matrix Then
+            If Not set_id Is Nothing Then
+                Dim set_idset As String() = CLRVector.asCharacter(set_id)
+                Dim set_matrix As Matrix = DirectCast(x, Matrix)
+
+                For i As Integer = 0 To set_matrix.expression.Length - 1
+                    set_matrix.expression(i).geneID = set_idset(i)
+                Next
+
+                Call set_matrix.ResetIndex()
+            End If
+
             Return DirectCast(x, Matrix).rownames
         Else
             Dim deps As pipeline = pipeline.TryCreatePipeline(Of DEP_iTraq)(x, env)
