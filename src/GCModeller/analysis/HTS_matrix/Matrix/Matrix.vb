@@ -151,6 +151,29 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
         End Get
     End Property
 
+    Default Public ReadOnly Property gene(gene_ids As IEnumerable(Of String)) As Matrix
+        Get
+            If m_geneIndex Is Nothing AndAlso Not expression Is Nothing Then
+                m_geneIndex = expression _
+                    .GroupBy(Function(c) c.geneID) _
+                    .ToDictionary(Function(g)
+                                      Return g.Key
+                                  End Function,
+                                  Function(duplicated)
+                                      Return duplicated.First
+                                  End Function)
+            End If
+
+            Return New Matrix With {
+                .sampleID = sampleID,
+                .tag = $"row_slice({tag})",
+                .expression = gene_ids _
+                    .Select(Function(gene_id) m_geneIndex(gene_id)) _
+                    .ToArray
+            }
+        End Get
+    End Property
+
     ''' <summary>
     ''' get sample column as vector by sample id
     ''' </summary>
@@ -199,6 +222,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     End Property
 
     Dim m_sampleIndex As Index(Of String)
+    Dim m_geneIndex As Dictionary(Of String, DataFrameRow)
 
     Public Function GetSampleArray(name As String) As IEnumerable(Of Double)
         Dim i As Integer = IndexOf(name)
@@ -208,6 +232,10 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
         Return expr
     End Function
 
+    ''' <summary>
+    ''' get sample index
+    ''' </summary>
+    ''' <returns></returns>
     Private Function GetIndex() As Index(Of String)
         If m_sampleIndex Is Nothing Then
             m_sampleIndex = sampleID.Indexing
@@ -221,6 +249,11 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
         Return $"[{tag}] {expression.Length} genes, {sampleID.Length} samples; {sampleID.GetJson}"
     End Function
 
+    ''' <summary>
+    ''' get the ordinal offset in the matrix of the samples inside the given sample group data
+    ''' </summary>
+    ''' <param name="sampleGroup"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function IndexOf(sampleGroup As DataGroup) As Integer()
         Return IndexOf(sampleGroup.sample_id)
@@ -241,7 +274,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     End Function
 
     ''' <summary>
-    ''' make column projection via <see cref="TakeSamples(DataFrameRow(), Integer(), Boolean)"/>.
+    ''' make column sample data projection via <see cref="TakeSamples(DataFrameRow(), Integer(), Boolean)"/>.
     ''' </summary>
     ''' <param name="sampleNames"></param>
     ''' <returns></returns>
@@ -471,4 +504,9 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     Public Function GetLabels() As IEnumerable(Of String) Implements ILabeledMatrix.GetLabels
         Return expression.Keys
     End Function
+
+    Public Sub ResetIndex()
+        m_geneIndex = Nothing
+        m_sampleIndex = Nothing
+    End Sub
 End Class

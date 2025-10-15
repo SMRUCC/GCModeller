@@ -262,15 +262,17 @@ declare namespace geneExpression {
    */
    function filterZeroSamples(mat: object, env?: object): object;
    /**
-    * get gene Id list
+    * get gene Id list or byref set of the gene id alias set.
     * 
     * 
      * @param x A collection of the deg/dep object or a raw HTS matrix object
+     * @param set_id 
+     * + default value Is ``null``.
      * @param env 
      * + default value Is ``null``.
      * @return A collection of the gene id set
    */
-   function geneId(x: any, env?: object): string;
+   function geneId(x: any, set_id?: any, env?: object): string;
    /**
     * set the zero value to the half of the min positive value
     * 

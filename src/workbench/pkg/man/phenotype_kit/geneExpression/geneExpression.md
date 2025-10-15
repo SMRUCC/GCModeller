@@ -44,7 +44,7 @@ the gene expression matrix data toolkit
 + [log](geneExpression/log.1) log scale of the HTS raw matrix
 + [minmax01Norm](geneExpression/minmax01Norm.1) min max normalization
 + [take_shuffle](geneExpression/take_shuffle.1) 
-+ [geneId](geneExpression/geneId.1) get gene Id list
++ [geneId](geneExpression/geneId.1) get gene Id list or byref set of the gene id alias set.
 + [as.deg](geneExpression/as.deg.1) create gene expression DEG model
 + [deg.class](geneExpression/deg.class.1) set deg class label
 + [joinSample](geneExpression/joinSample.1) do matrix join by samples

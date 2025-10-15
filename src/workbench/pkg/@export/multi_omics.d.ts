@@ -7,6 +7,9 @@
 /**
 */
 declare namespace multi_omics {
+   /**
+   */
+   function map_force(x: object, y: object, maps: object): object;
    module omics {
       /**
         * @param xlab default value Is ``'X'``.

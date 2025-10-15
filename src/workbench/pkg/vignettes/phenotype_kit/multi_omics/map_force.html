@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>get gene Id list or byref set of the gene id alias set.</title>
+    <title>map_force</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,31 +13,27 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>geneId {geneExpression}</td>
+                <td>map_force {multi_omics}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>get gene Id list or byref set of the gene id alias set.</h2>
+        <h2>map_force</h2>
 
         <h3>Description</h3>
 
-        
+        map_force
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>geneId</strong>(<i>x</i>,
-    <i>set.id</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>map_force</strong>(<i>x</i>, <i>y</i>, <i>maps</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>x</dt>
-<dd><p>A collection of the deg/dep object or a raw HTS matrix object</p></dd>
-
         </table>
 
 
@@ -51,20 +47,15 @@
 
         <h3>Value</h3>
 
-        <p>A collection of the gene id set</p><h4>clr value class</h4><ul><li>string</li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
 
-        <h3 style="display: block;">Examples</h3>
+        <h3 style="display: none;">Examples</h3>
 
-        <pre><code id="example_r"> let rnaseqs = load.expr("rnaseq.csv");
- let alias = readLines("gene_id.txt");
- 
- print(rnaseqs |> geneId());
- 
- geneId(rnaseqs) <- alias;</code></pre>
+        
 
         <hr />
-        <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
-                href="../geneExpression.html">Index</a>]
+        <div style="text-align: center;">[Package <em>multi_omics</em> version 1.0.0.0 <a
+                href="../multi_omics.html">Index</a>]
         </div>
     </div>
 </body>
