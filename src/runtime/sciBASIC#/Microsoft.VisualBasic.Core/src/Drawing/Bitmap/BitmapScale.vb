@@ -1,64 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::b76d7450136b9e84cb0aaa9ec5c8ca77, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\BitmapScale.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 308
-    '    Code Lines: 168 (54.55%)
-    ' Comment Lines: 99 (32.14%)
-    '    - Xml Docs: 75.76%
-    ' 
-    '   Blank Lines: 41 (13.31%)
-    '     File Size: 11.37 KB
+' Summaries:
 
 
-    '     Module BitmapScale
-    ' 
-    '         Function: GetBinaryBitmap
-    '         Enum BinarizationStyles
-    ' 
-    ' 
-    ' 
-    ' 
-    '         Delegate Sub
-    ' 
-    '             Function: ByteLength, Colors, Grayscale, (+2 Overloads) GrayScale, GrayScaleF
-    ' 
-    '             Sub: AdjustContrast, Binarization, BitmapPixelScans, (+2 Overloads) scanInternal
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 308
+'    Code Lines: 168 (54.55%)
+' Comment Lines: 99 (32.14%)
+'    - Xml Docs: 75.76%
+' 
+'   Blank Lines: 41 (13.31%)
+'     File Size: 11.37 KB
+
+
+'     Module BitmapScale
+' 
+'         Function: GetBinaryBitmap
+'         Enum BinarizationStyles
+' 
+' 
+' 
+' 
+'         Delegate Sub
+' 
+'             Function: ByteLength, Colors, Grayscale, (+2 Overloads) GrayScale, GrayScaleF
+' 
+'             Sub: AdjustContrast, Binarization, BitmapPixelScans, (+2 Overloads) scanInternal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -66,6 +66,7 @@ Imports System.Drawing
 Imports System.Drawing.Imaging
 Imports System.Math
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Emit
 Imports std = System.Math
 
@@ -131,7 +132,7 @@ Namespace Imaging.BitmapImage
             ' Unlock the bits.
             Call curBitmap.UnlockBits(bmpData)
 #Else
-            Throw New NotImplementedException
+            Call scan(curBitmap.MemoryBuffer)
 #End If
 
         End Sub
@@ -191,20 +192,8 @@ Namespace Imaging.BitmapImage
             Loop
         End Sub
 
-        ''' <summary>
-        ''' Adjust the contrast of an image.
-        ''' (调整图像的对比度)
-        ''' </summary>
-        ''' <param name="bmp"></param>
-        ''' <param name="contrast">
-        ''' Used to set the contrast (-100 to 100)
-        ''' </param>
-        ''' <remarks>
-        ''' https://stackoverflow.com/questions/3115076/adjust-the-contrast-of-an-image-in-c-sharp-efficiently
-        ''' </remarks>
-        <Extension>
-        Public Sub AdjustContrast(ByRef bmp As Bitmap, contrast#)
-            Dim contrastLookup As Byte() = New Byte(255) {}
+        Private Function ContrastLookup(contrast As Double) As Byte()
+            Dim lookups As Byte() = New Byte(255) {}
             Dim newValue As Double = 0
             Dim c As Double = (100.0 + contrast) / 100.0
 
@@ -225,26 +214,63 @@ Namespace Imaging.BitmapImage
                     newValue = 255
                 End If
 
-                contrastLookup(i) = CByte(Truncate(newValue))
+                lookups(i) = CByte(Truncate(newValue))
             Next
 
+            Return lookups
+        End Function
+
+        ''' <summary>
+        ''' Adjust the contrast of an image.
+        ''' (调整图像的对比度)
+        ''' </summary>
+        ''' <param name="bmp"></param>
+        ''' <param name="contrast">
+        ''' Used to set the contrast (-100 to 100)
+        ''' </param>
+        ''' <remarks>
+        ''' https://stackoverflow.com/questions/3115076/adjust-the-contrast-of-an-image-in-c-sharp-efficiently
+        ''' </remarks>
+        <Extension>
+        Public Sub AdjustContrast(ByRef bmp As Bitmap, contrast#)
             Using bitmapdata As BitmapBuffer = BitmapBuffer.FromBitmap(bmp)
-                Dim destPixels As BitmapBuffer = bitmapdata
-
-                For y As Integer = 0 To bitmapdata.Height - 1
-                    destPixels += bitmapdata.Stride
-
-                    For x As Integer = 0 To bitmapdata.Width - 1
-                        Dim i As Integer = x * PixelSize
-
-                        If i + destPixels.Position < destPixels.Length Then
-                            destPixels(i) = contrastLookup(destPixels(i))
-                            destPixels(i + 1) = contrastLookup(destPixels(i + 1))
-                            destPixels(i + 2) = contrastLookup(destPixels(i + 2))
-                        End If
-                    Next
-                Next
+                Call bitmapdata.AdjustContrast(contrast)
             End Using
+        End Sub
+
+        ''' <summary>
+        ''' Adjust the contrast of an image.
+        ''' (调整图像的对比度)
+        ''' </summary>
+        ''' <param name="destPixels">target bitmap data buffer for make contrast processing.</param>
+        ''' <param name="contrast">
+        ''' Used to set the contrast (-100 to 100)
+        ''' </param>
+        ''' <remarks>
+        ''' https://stackoverflow.com/questions/3115076/adjust-the-contrast-of-an-image-in-c-sharp-efficiently
+        ''' </remarks>
+        <Extension>
+        Public Sub AdjustContrast(ByRef destPixels As BitmapBuffer, contrast#)
+            Dim contrastLookup As Byte()
+            Dim key As String = contrast.ToString("F4")
+
+            Static lookups As New Dictionary(Of String, Byte())
+
+            contrastLookup = lookups.ComputeIfAbsent(key, Function() BitmapScale.ContrastLookup(contrast))
+
+            For y As Integer = 0 To destPixels.Height - 1
+                destPixels += destPixels.Stride
+
+                For x As Integer = 0 To destPixels.Width - 1
+                    Dim i As Integer = x * PixelSize
+
+                    If i + destPixels.Position < destPixels.Length Then
+                        destPixels(i) = contrastLookup(destPixels(i))
+                        destPixels(i + 1) = contrastLookup(destPixels(i + 1))
+                        destPixels(i + 2) = contrastLookup(destPixels(i + 2))
+                    End If
+                Next
+            Next
         End Sub
 
         ''' <summary>
@@ -260,6 +286,20 @@ Namespace Imaging.BitmapImage
             Return curBitmap
         End Function
 
+        ''' <summary>
+        ''' 将彩色图转换为灰度图
+        ''' </summary>
+        ''' <param name="source"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Grayscale(ByRef source As BitmapBuffer,
+                                  Optional wr As Single = 0.3,
+                                  Optional wg As Single = 0.59,
+                                  Optional wb As Single = 0.11) As BitmapBuffer
+            Call BitmapScale.scanInternal(source, wr, wg, wb)
+            Return source
+        End Function
+
         <Extension>
         Friend Sub scanInternal(byts As Marshal.Byte,
                                 Optional wr As Single = 0.3,
@@ -269,6 +309,7 @@ Namespace Imaging.BitmapImage
             Dim iR As Integer = 0 ' Red
             Dim iG As Integer = 0 ' Green
             Dim iB As Integer = 0 ' Blue
+            Dim luma%
 
             ' Set every third value to 255. A 24bpp bitmap will binarization.  
             Do While Not byts.NullEnd(3)
@@ -279,7 +320,8 @@ Namespace Imaging.BitmapImage
                 ' Get the blue channel
                 iB = byts(0)
 
-                Dim luma% = GrayScale(iR, iG, iB, wr, wg, wb)
+                luma = GrayScale(iR, iG, iB, wr, wg, wb)
+
                 ' gray pixel
                 byts(2) = luma
                 byts(1) = luma

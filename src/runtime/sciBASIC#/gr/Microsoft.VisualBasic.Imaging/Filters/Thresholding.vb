@@ -1,95 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::febdee27da34b1840e5021e4a6112972, gr\Microsoft.VisualBasic.Imaging\Filters\Thresholding.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 253
-    '    Code Lines: 179 (70.75%)
-    ' Comment Lines: 44 (17.39%)
-    '    - Xml Docs: 56.82%
-    ' 
-    '   Blank Lines: 30 (11.86%)
-    '     File Size: 11.21 KB
+' Summaries:
 
 
-    '     Module Thresholding
-    ' 
-    '         Function: AverageFilter, convertToGray, MedianFilter, ostuFilter, otsuThreshold
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 253
+'    Code Lines: 179 (70.75%)
+' Comment Lines: 44 (17.39%)
+'    - Xml Docs: 56.82%
+' 
+'   Blank Lines: 30 (11.86%)
+'     File Size: 11.21 KB
+
+
+'     Module Thresholding
+' 
+'         Function: AverageFilter, convertToGray, MedianFilter, ostuFilter, otsuThreshold
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
-Imports std = System.Math
 
 Namespace Filters
 
     Public Module Thresholding
-
-        ''' <summary>
-        ''' 将彩色图转换为灰度图
-        ''' </summary>
-        ''' <param name="bitmap"> 位图 </param>
-        ''' <returns> 返回转换好的位图 </returns>
-        Public Function convertToGray(bitmap As BitmapBuffer) As BitmapBuffer
-            Dim width As Integer = bitmap.Width
-            Dim height As Integer = bitmap.Height
-            Dim result As New BitmapBuffer(width, height, 4)
-            '根据宽高创建像素点数组,并将bitmap的rgb值赋给它
-            Dim pixels As UInteger() = bitmap.GetARGBStream
-            Dim alpha As Integer = &HFF << 24
-
-            For i As Integer = 0 To height - 1
-                For j As Integer = 0 To width - 1
-                    '获取当前元素rgb值并以此修改为灰度化后的值
-                    Dim rgb As Integer = pixels(width * i + j)
-                    Dim red As Integer = (rgb And &HFF0000) >> 16
-                    Dim green As Integer = (rgb And &HFF00) >> 8
-                    Dim blue As Integer = rgb And &HFF
-                    Dim grey As Integer = CInt(std.Truncate(CSng(red) * 0.299 + CSng(green) * 0.587 + CSng(blue) * 0.114))
-                    grey = alpha Or (grey << 16) Or (grey << 8) Or grey
-                    pixels(width * i + j) = grey
-                Next
-            Next
-
-            result.WriteARGBStream(pixels)
-
-            Return result
-        End Function
 
         ''' <summary>
         ''' 通过中值滤波去噪
@@ -193,6 +162,24 @@ Namespace Filters
                                    Optional factor As Double = 0.65,
                                    Optional verbose As Boolean = True) As BitmapBuffer
 
+            Return bitmap.ostuFilter(
+                threshold:=otsuThreshold(bitmap) * factor,
+                flip:=flip,
+                verbose:=verbose
+            )
+        End Function
+
+        ''' <summary>
+        ''' 通过OSTU二值化
+        ''' </summary>
+        ''' <param name="bitmap"> 位图 </param>
+        ''' <returns> 返回转换好的位图 </returns>
+        ''' 
+        <Extension>
+        Public Function ostuFilter(bitmap As BitmapBuffer, threshold As Integer,
+                                   Optional flip As Boolean = False,
+                                   Optional verbose As Boolean = True) As BitmapBuffer
+
             '获取源位图的宽、高,并创建一个等宽高的bitmap
             Dim width As Integer = bitmap.Width
             Dim height As Integer = bitmap.Height
@@ -207,7 +194,6 @@ Namespace Filters
             Dim alpha As Integer = &HFF << 24
             Dim black As Integer = If(flip, 255, 0)
             Dim white As Integer = If(flip, 0, 255)
-            Dim threshold As Integer = otsuThreshold(bitmap) * factor
 
             If verbose Then
                 Call VBDebugger.EchoLine($"find threshold value for OSTU: {threshold}")
@@ -233,33 +219,33 @@ Namespace Filters
         ''' </summary>
         ''' <param name="bitmap"> 位图 </param>
         ''' <returns> 返回阈值大小 </returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function otsuThreshold(bitmap As BitmapBuffer) As Integer
-            '获取源位图的宽、高
-            Dim width As Integer = bitmap.Width
-            Dim height As Integer = bitmap.Height
+            Return otsuThreshold(New BucketSet(Of UInteger)(New UInteger()() {bitmap.GetARGBStream}))
+        End Function
 
-            '根据宽高创建像素点数组,并将bitmap的rgb值赋给它
-            Dim pixels As UInteger() = bitmap.GetARGBStream
-
-            '创建两个大小为256的数组，用来保存灰度级中每个像素
+        ''' <summary>
+        ''' 通过OSTU寻找二值化的最佳阈值
+        ''' </summary>
+        ''' <param name="bitmap"> 位图 </param>
+        ''' <returns> 返回阈值大小 </returns>
+        Public Function otsuThreshold(bitmap As BucketSet(Of UInteger)) As Integer
+            ' 创建两个大小为256的数组，用来保存灰度级中每个像素
             ' 在整幅图像中的个数和在图中所占比例,先暂时初始为0
-            Dim pixelCount(255) As Integer
+            Dim pixelCount(255) As Long
             Dim pixelPro(255) As Single
+            Dim size As Long = bitmap.Count
 
-            '统计每个像素在整幅图像中的个数
-            For i As Integer = 0 To height - 1
-                For j As Integer = 0 To width - 1
-                    Dim rgb As Integer = pixels(width * i + j)
+            ' 统计每个像素在整幅图像中的个数
+            For Each rgb As UInteger In bitmap
+                pixelCount(rgb And &HFF) += 1
+            Next
 
-                    Dim grey As Integer = rgb And &HFF
-
-                    pixelCount(grey) += 1
-                Next j
-            Next i
-            '统计每个像素占整幅图像中的比例
+            ' 统计每个像素占整幅图像中的比例
             For i As Integer = 0 To 255
-                pixelPro(i) = CSng(pixelCount(i)) / (width * height)
-            Next i
+                pixelPro(i) = CSng(pixelCount(i) / size)
+            Next
 
             '遍历灰度级[0,255]
             Dim w0 As Single, w1 As Single, u0tmp As Single, u1tmp As Single, u0 As Single, u1 As Single, u As Single, deltaTmp As Single, deltaMax As Single = 0

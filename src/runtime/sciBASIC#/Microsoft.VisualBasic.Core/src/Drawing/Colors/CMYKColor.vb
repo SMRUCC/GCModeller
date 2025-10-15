@@ -72,9 +72,25 @@ Namespace Imaging
     ''' </remarks>
     Public Class CMYKColor
 
+        ''' <summary>
+        ''' cyan
+        ''' </summary>
+        ''' <returns></returns>
         Public Property C As Single
+        ''' <summary>
+        ''' magenta
+        ''' </summary>
+        ''' <returns></returns>
         Public Property M As Single
+        ''' <summary>
+        ''' yellow
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Y As Single
+        ''' <summary>
+        ''' key (black)
+        ''' </summary>
+        ''' <returns></returns>
         Public Property K As Single
 
         Sub New()
@@ -120,6 +136,15 @@ Namespace Imaging
             Dim B = 255 * (1 - Y) * (1 - K)
             Return Color.FromArgb(255, R, G, B)
         End Function
+
+        Public Shared Narrowing Operator CType(color As CMYKColor) As Color
+            Return color.ToRGB
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(color As Color) As CMYKColor
+            Return FromRGB(color)
+        End Operator
 
     End Class
 End Namespace
