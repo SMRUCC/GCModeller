@@ -228,6 +228,11 @@ Module genomics
         Return 0
     End Function
 
+    ''' <summary>
+    ''' load operon set data from the ODB database
+    ''' </summary>
+    ''' <param name="file">dataset text file that download from https://operondb.jp/</param>
+    ''' <returns></returns>
     <ExportAPI("operon_set")>
     Public Function operon_set(Optional file As String = Nothing) As OperonRow()
         If file.StringEmpty(, True) Then
