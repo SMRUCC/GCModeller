@@ -64,6 +64,7 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.Model.OperonMapper
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -225,5 +226,14 @@ Module genomics
         End If
 
         Return 0
+    End Function
+
+    <ExportAPI("operon_set")>
+    Public Function operon_set(Optional file As String = Nothing) As OperonRow()
+        If file.StringEmpty(, True) Then
+            Return OperonRow.LoadInternalResource.ToArray
+        Else
+            Return OperonRow.Load(file).ToArray
+        End If
     End Function
 End Module
