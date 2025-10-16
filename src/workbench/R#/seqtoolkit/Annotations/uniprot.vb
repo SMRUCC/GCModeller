@@ -261,6 +261,36 @@ Module uniprot
                             .JoinBy("+")
                     End Function) _
             .ToArray
+        Dim signal_peptide = all _
+            .Select(Function(p)
+                        Return p.features _
+                            .SafeQuery _
+                            .Where(Function(f) f.type = "signal peptide") _
+                            .Select(Function(f) $"{f.type}({f.location.begin}|{f.location.end})") _
+                            .JoinBy("+")
+                    End Function) _
+            .ToArray
+        Dim region_of_interest = all.Select(Function(p)
+                                                Return p.features.SafeQuery.Where(Function(f) f.type = "region of interest").Select(Function(f) $"{f.description}({f.location.begin}|{f.location.end})").JoinBy("; ")
+                                            End Function).ToArray
+        Dim active_site = all.Select(Function(p)
+                                         Return p.features.SafeQuery.Where(Function(f) f.type = "active site").Select(Function(f) $"{f.description}_{f.location.position}").JoinBy("; ")
+                                     End Function).ToArray
+        Dim binding_site = all.Select(Function(p)
+                                          Return p.features.SafeQuery.Where(Function(f) f.type = "binding site").Select(Function(f) $"{f.description}_{f.location.position}").JoinBy("; ")
+                                      End Function).ToArray
+        Dim chain = all.Select(Function(p)
+                                   Return p.features.SafeQuery.Where(Function(f) f.type = "chain").Select(Function(f) $"{f.description}({f.location.begin}|{f.location.end})").JoinBy("; ")
+                               End Function).ToArray
+
+        Dim transmembrane_region = all.Select(Function(p)
+                                                  Return p.features.SafeQuery.Where(Function(f) f.type = "transmembrane region").Select(Function(f) $"{f.description}({f.location.begin}|{f.location.end})").JoinBy("; ")
+                                              End Function).ToArray
+
+        Dim locations = all.Select(Function(p)
+                                       Return p.SubCellularLocations.JoinBy("; ")
+                                   End Function) _
+                           .ToArray
 
         Return New dataframe With {
             .columns = New Dictionary(Of String, Array) From {
@@ -279,7 +309,14 @@ Module uniprot
                 {"eggNOG", eggNOG},
                 {"RefSeq", RefSeq},
                 {"KEGG", KEGG},
-                {"features", motif},
+                {"motif", motif},
+                {"chain", chain},
+                {"region of interest", region_of_interest},
+                {"transmembrane_region", transmembrane_region},
+                {"active_site", active_site},
+                {"binding_site", binding_site},
+                {"signal_peptide", signal_peptide},
+                {"subcellularLocation", locations},
                 {"NCBI_taxonomyId", NCBITaxonomyId},
                 {"organism", organism}
             }
