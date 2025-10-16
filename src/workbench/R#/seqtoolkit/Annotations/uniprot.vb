@@ -217,6 +217,7 @@ Module uniprot
         End If
 
         Dim all As entry() = source.TryCast(Of IEnumerable(Of entry)).ToArray
+        Dim orf As String() = all.Select(Function(p) p.ORF).ToArray
         Dim uniprotId As String() = all.Select(Function(p) p.accessions(Scan0)).ToArray
         Dim name As String() = all.Select(Function(p) p.name).ToArray
         Dim geneName As String() = all.Select(Function(p) p.gene?.Primary.JoinBy("; ")).ToArray
@@ -249,6 +250,7 @@ Module uniprot
                         End If
                     End Function) _
             .ToArray
+        Dim GeneID As String() = all.Select(Function(p) p.DbReferenceId("GeneID")).ToArray
         Dim Proteomes As String() = all.Select(Function(p) p.DbReferenceId("Proteomes")).ToArray
         Dim Bgee As String() = all.Select(Function(p) p.DbReferenceId("Bgee")).ToArray
         Dim eggNOG As String() = all.Select(Function(p) p.DbReferenceId("eggNOG")).ToArray
@@ -296,9 +298,11 @@ Module uniprot
             .columns = New Dictionary(Of String, Array) From {
                 {"uniprotId", uniprotId},
                 {"name", name},
+                {"orf", orf},
                 {"geneName", geneName},
                 {"fullName", fullName},
                 {"EC_number", ECnumber},
+                {"GeneID", GeneID},
                 {"GO", GOterms},
                 {"EMBL", EMBL},
                 {"Ensembl", Ensembl},
