@@ -128,4 +128,22 @@
     <ProjectReference Include="..\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Compile Update="Resources\Data.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Data.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Data.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Data.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

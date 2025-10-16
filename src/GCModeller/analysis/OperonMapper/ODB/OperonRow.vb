@@ -61,7 +61,7 @@ Public Class OperonRow : Implements INamedValue
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function LoadInternalResource() As IEnumerable(Of OperonRow)
-        Return Load(My.Resources.known_operon_download)
+        Return Load(My.Resources.Data.ResourceManager.GetString("known_operon.download"))
     End Function
 
     Public Shared Iterator Function Load(file As String) As IEnumerable(Of OperonRow)
