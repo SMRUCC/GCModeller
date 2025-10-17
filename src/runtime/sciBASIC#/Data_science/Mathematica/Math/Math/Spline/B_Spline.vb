@@ -59,6 +59,24 @@ Imports Microsoft.VisualBasic.Linq
 Namespace Interpolation
 
     ''' <summary>
+    ''' B-spline arguments
+    ''' </summary>
+    Public Class BSpline
+
+        Public Property degree As Single = 2
+        Public Property resolution As Integer = 10
+
+        Sub New()
+        End Sub
+
+        Sub New(degree As Single, resolution As Integer)
+            Me.degree = degree
+            Me.resolution = resolution
+        End Sub
+
+    End Class
+
+    ''' <summary>
     ''' B-spline.
     ''' 
     ''' degree参数应该是大于1的，否则等于1的时候将不会进行插值处理
