@@ -152,7 +152,7 @@ Partial Module CLI
         Dim gpffs As IEnumerable(Of String) = ls - l - r - wildcards("*.gpff") <= inDIR
         Dim gffs As IEnumerable(Of String) = ls - l - r - wildcards("*.gff") <= inDIR
 
-        Call $"Found {gpffs.Count} *.gpff and {gffs.Count} *.gff files....".__DEBUG_ECHO
+        Call $"Found {gpffs.Count} *.gpff and {gffs.Count} *.gff files....".debug
 
         For Each pair As PathMatch In PathMatch.Pairs(gpffs, gffs, AddressOf __trimName)
             Dim out As String = pair.Pair1.TrimSuffix & ".PTT"
@@ -250,10 +250,10 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{If(top, "top", "")}.blastx.csv")
 
         If top Then
-            Call "The top one will be output...".__INFO_ECHO
+            Call "The top one will be output...".info
         End If
         If UncharacterizedExclude Then
-            Call "The Uncharacterized protein will be Excluded...".__INFO_ECHO
+            Call "The Uncharacterized protein will be Excluded...".info
         End If
 
         Dim blastxOut As v228_BlastX = BlastX.TryParseOutput([in], UncharacterizedExclude)
@@ -457,7 +457,7 @@ Partial Module CLI
             Call Console.Write(".")
         Next
 
-        If args.GetBoolean("/add.gene") Then
+        If args("/add.gene") Then
             Call gb.Features.AddGenes()
         End If
 

@@ -65,7 +65,7 @@ Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -116,7 +116,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
     Public Function XmlToExcelBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".Exports/")
-        Dim Merge As Boolean = args.GetBoolean("/merge")
+        Dim Merge As Boolean = args("/merge")
         Dim MergeList As New List(Of BestHit)
 
         For Each inXml As String In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
@@ -193,7 +193,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
     <Argument("/all", True, Description:="If this all Boolean value is specific, then the program will export all hits for the bbh not the top 1 best.")>
     Public Function ExportBBH(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
-        Dim isAll As Boolean = args.GetBoolean("/all")
+        Dim isAll As Boolean = args("/all")
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim identities As Double = args.GetValue("/identities", 0.15)
         Dim Entries = BBHLogs.BuildBBHEntry(inDIR)  ' 得到bbh对
@@ -230,13 +230,13 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
 
         Dim query As BlastPlus.v228 = BlastPlus.Parser.TryParse(queryFile)
         If query Is Nothing Then
-            Call $"Query file {queryFile.ToFileURL} is not valid!".__DEBUG_ECHO
+            Call $"Query file {queryFile.ToFileURL} is not valid!".debug
             Return Nothing
         End If
 
         Dim subject As BlastPlus.v228 = BlastPlus.Parser.TryParse(subjectFile)
         If subject Is Nothing Then
-            Call $"Subject file {subjectFile.ToFileURL} is not valid!".__DEBUG_ECHO
+            Call $"Subject file {subjectFile.ToFileURL} is not valid!".debug
             Return Nothing
         End If
 
@@ -249,13 +249,13 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
     Private Function ParseAllbbhhits(queryFile As String, subjectFile As String, coverage As Double, identities As Double) As BiDirectionalBesthit()
         Dim query = BlastPlus.Parser.TryParse(queryFile)
         If query Is Nothing Then
-            Call $"Query file {queryFile.ToFileURL} is not valid!".__DEBUG_ECHO
+            Call $"Query file {queryFile.ToFileURL} is not valid!".debug
             Return Nothing
         End If
 
         Dim subject = BlastPlus.Parser.TryParse(subjectFile)
         If subject Is Nothing Then
-            Call $"Subject file {subjectFile.ToFileURL} is not valid!".__DEBUG_ECHO
+            Call $"Subject file {subjectFile.ToFileURL} is not valid!".debug
             Return Nothing
         End If
 

@@ -56,8 +56,8 @@ Imports System.ComponentModel
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting
@@ -254,7 +254,7 @@ Partial Module CLI
         Dim evalue$ = args.GetValue("/evalue", "1e-5")
         Dim coverage# = args.GetValue("/coverage", 0.65)
         Dim identities# = args.GetValue("/identities", 0.85)
-        Dim isAll As Boolean = args.GetBoolean("/all")
+        Dim isAll As Boolean = args("/all")
         Dim out As String = args.GetValue("/out", query.TrimSuffix & "_cog2003-2014/")
         Dim db$ = args.GetValue("/db", Settings.SettingsFile.COG2003_2014)
         Dim bin$ = args.GetValue("/blast+", GCModeller.FileSystem.GetLocalblast)

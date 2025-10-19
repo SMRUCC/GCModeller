@@ -54,8 +54,8 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
@@ -108,7 +108,7 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim OTU As String = args("/OTU")
         Dim tax As String = args("/tax")
-        Dim fillEmpty As Boolean = args.GetBoolean("/fill.empty")
+        Dim fillEmpty As Boolean = args("/fill.empty")
         Dim out As String = args.GetValue(
             "/out",
             [in].TrimSuffix & "-" & OTU.BaseName & $".Taxonomy{If(fillEmpty, ".fillEmpty", "")}.csv")
