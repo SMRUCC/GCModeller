@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "localblast": {
+      "commandName": "Project",
+      "commandLineArgs": "/export_hits /in \"Z:\\tmp\\1\\Sophia\\24948\\enzyme_blast265351.txt\""
+    }
+  }
+}
