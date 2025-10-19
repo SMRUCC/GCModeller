@@ -124,13 +124,10 @@ Namespace LocalBLAST.Programs
                 e = "1e-3"
             End If
 
-            Dim DIR As String = FileIO.FileSystem.GetFileInfo(Output).Directory.FullName
-
-            Call FileIO.FileSystem.CreateDirectory(DIR)
-
             Dim argv As String = String.Format(BLAST_PLUS_ARGUMS, Input, TargetDb, e, Output, NumThreads)
             Dim cmdl As String = String.Format("{0} {1}", _blastpAssembly, argv)
-            VBDebugger.EchoLine("LOCALBLAST+::BLASTP" & vbCrLf & $" --> {cmdl}")
+            Call Output.ParentPath.MakeDir
+            Call VBDebugger.EchoLine("LOCALBLAST+::BLASTP" & vbCrLf & $" --> {cmdl}")
             MyBase._InternalLastBLASTOutputFile = Output
             Return New IORedirectFile(_blastpAssembly, argv, win_os:=True)
         End Function
@@ -143,9 +140,6 @@ Namespace LocalBLAST.Programs
             If String.IsNullOrEmpty(e) Then
                 e = "1e-3"
             End If
-
-            Dim DIR As String = FileIO.FileSystem.GetFileInfo(Output).Directory.FullName
-            Call FileIO.FileSystem.CreateDirectory(DIR)
 
             Dim Argums As String = String.Format(BLAST_PLUS_ARGUMS, Input, TargetDb, e, Output, NumThreads)
 
@@ -160,7 +154,8 @@ Namespace LocalBLAST.Programs
             End If
 
             Dim cmdl As String = String.Format("{0} {1}", _blastnAssembly, Argums)
-            VBDebugger.EchoLine("LOCALBLAST+::BLASTN" & vbCrLf & $" --> {cmdl}")
+            Call Output.ParentPath.MakeDir
+            Call VBDebugger.EchoLine("LOCALBLAST+::BLASTN" & vbCrLf & $" --> {cmdl}")
             MyBase._InternalLastBLASTOutputFile = Output
             Return New IORedirectFile(_blastnAssembly, argv:=Argums)
         End Function
