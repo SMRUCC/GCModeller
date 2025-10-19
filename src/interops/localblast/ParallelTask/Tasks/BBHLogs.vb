@@ -426,12 +426,11 @@ RETURN_VALUE:
                             }
                             Select desc = hitttt.description,
                                 hhh).ToArray
-                Let hitCol As HitCollection =
-                    New HitCollection With {
-                        .QueryName = query,
-                        .description = hits.First.desc,
-                        .hits = hits.Select(Function(x) x.hhh).ToArray
-                    }
+                Let hitCol As HitCollection = New HitCollection With {
+                    .QueryName = query,
+                    .description = hits.First.desc,
+                    .hits = hits.Select(Function(x) x.hhh).ToArray
+                }
                 Select hitCol
 
             Return New SpeciesBesthit With {

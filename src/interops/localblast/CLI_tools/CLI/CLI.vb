@@ -1,64 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::7819844f7257d1aaba72c2554ec66455, localblast\CLI_tools\CLI\CLI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 305
-    '    Code Lines: 246 (80.66%)
-    ' Comment Lines: 16 (5.25%)
-    '    - Xml Docs: 87.50%
-    ' 
-    '   Blank Lines: 43 (14.10%)
-    '     File Size: 15.04 KB
+' Summaries:
 
 
-    ' Module CLI
-    ' 
-    '     Function: __exportBBH, __orderEntry, BashShellRun, ExportBBH, XmlToExcel
-    '               XmlToExcelBatch
-    '     Delegate Function
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __assignAddition, Copys, ParseAllbbhhits, ParsebbhBesthit, SelfBlast
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 305
+'    Code Lines: 246 (80.66%)
+' Comment Lines: 16 (5.25%)
+'    - Xml Docs: 87.50%
+' 
+'   Blank Lines: 43 (14.10%)
+'     File Size: 15.04 KB
+
+
+' Module CLI
+' 
+'     Function: __exportBBH, __orderEntry, BashShellRun, ExportBBH, XmlToExcel
+'               XmlToExcelBatch
+'     Delegate Function
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: __assignAddition, Copys, ParseAllbbhhits, ParsebbhBesthit, SelfBlast
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
@@ -71,6 +72,7 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Linq.JoinExtensions
+Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
@@ -78,6 +80,9 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 Imports SMRUCC.genomics.Interops.NCBI.ParallelTask.Tasks
 Imports SMRUCC.genomics.SequenceModel
@@ -334,7 +339,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
                                  Where Not String.IsNullOrEmpty(x.SequenceData)
                                  Select x)
             For Each x As FastaSeq In nulls
-                Call VBDebugger.Warning(x.Title & "  have not sequence data!")
+                Call VBDebugger.warning(x.Title & "  have not sequence data!")
             Next
             Call prot.Save(path)
         Next
@@ -349,7 +354,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
             Dim nulls = (From x In fa Where String.IsNullOrEmpty(x.SequenceData) Select x).ToArray
             fa = New FastaFile((From x In fa.AsParallel Where Not String.IsNullOrEmpty(x.SequenceData) Select x).ToArray)
             For Each x In nulls
-                Call VBDebugger.Warning(x.Title & "  have not sequence data!")
+                Call VBDebugger.warning(x.Title & "  have not sequence data!")
             Next
             Try
                 Call fa.Save(out & "/" & fasta.BaseName.Replace(" ", "_") & ".fasta", Encodings.ASCII)
@@ -359,6 +364,29 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
                 Call ex.PrintException
             End Try
         Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/export_hits")>
+    <Usage("/export_hits /in <blastp.txt> [/out <default=output.json>]")>
+    Public Function ExportSubjectHitCollection(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args("/out") Or ([in].TrimSuffix & "_output.json")
+        Dim hits = BlastpOutputReader _
+            .RunParser([in]) _
+            .ExportHistResult _
+            .ToArray
+
+        Using s As Stream = out.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False),
+            jsonl As New System.IO.StreamWriter(s)
+
+            For Each result As HitCollection In hits
+                Call jsonl.WriteLine(result.GetJson)
+            Next
+
+            Call jsonl.Flush()
+        End Using
 
         Return 0
     End Function
