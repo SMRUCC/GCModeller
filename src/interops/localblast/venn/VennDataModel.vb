@@ -42,8 +42,8 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -147,8 +147,8 @@ Namespace BlastAPI
             Call dataHash.Remove(IndexKey)
 
             If indexQuery.hits.IsNullOrEmpty Then
-                Call $"The profile data of your key ""{mainIndex}"" ---> ""{indexQuery.sp}"" is null!".__DEBUG_ECHO
-                Call "Thread exists...".__DEBUG_ECHO
+                Call $"The profile data of your key ""{mainIndex}"" ---> ""{indexQuery.sp}"" is null!".debug
+                Call "Thread exists...".debug
                 Return New IO.File
             End If
 
@@ -159,7 +159,7 @@ Namespace BlastAPI
                 Dim subMain As SpeciesBesthit = dataHash.Values(deltaIndex)
 
                 If subMain.hits.IsNullOrEmpty Then
-                    Call $"Profile data {subMain.sp} is null!".__DEBUG_ECHO
+                    Call $"Profile data {subMain.sp} is null!".debug
                     Continue For
                 End If
 

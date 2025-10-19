@@ -48,6 +48,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -88,7 +89,7 @@ Public Module Greedy
             Next
 
             ' 然后合并每一个cluster中的reads为contig
-            clusters = avltree.ToArray
+            clusters = avltree.AsEnumerable.ToArray
             readsList = clusters _
                 .AsParallel _
                 .Select(AddressOf unionFasta) _
@@ -102,7 +103,7 @@ Public Module Greedy
 
             Dim contigSize = readsList.Select(Function(fa) fa.Length).ToArray
 
-            Call $" #cycle_{++cycles}  [{App.ElapsedMilliseconds - start}ms] {readsList.Length} reads left, average contig size={contigSize.Average} bytes in range [{contigSize.Min}, {contigSize.Max}].".__DEBUG_ECHO
+            Call $" #cycle_{++cycles}  [{App.ElapsedMilliseconds - start}ms] {readsList.Length} reads left, average contig size={contigSize.Average} bytes in range [{contigSize.Min}, {contigSize.Max}].".debug
         Loop
 
         Return readsList

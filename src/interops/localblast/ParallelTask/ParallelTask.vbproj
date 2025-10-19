@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Interops.NCBI.ParallelTask</RootNamespace>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0;net48</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.Interops.NCBI.ParallelTask</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
