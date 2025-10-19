@@ -136,10 +136,12 @@ Namespace ComponentModel.Annotation
                 Return New NucleotideLocation(left, right, Strand:=strand)
             End Get
             Set(value As NucleotideLocation)
-                left = value.left
-                right = value.right
-                strand = If(value.Strand = Strands.Forward, "+", "-")
-                length = value.FragmentSize
+                If Not value Is Nothing Then
+                    left = value.left
+                    right = value.right
+                    strand = If(value.Strand = Strands.Forward, "+", "-")
+                    length = value.FragmentSize
+                End If
             End Set
         End Property
 
