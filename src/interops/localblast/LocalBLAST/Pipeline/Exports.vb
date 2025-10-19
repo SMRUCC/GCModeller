@@ -22,7 +22,7 @@ Namespace Pipeline
 
         <Extension>
         Private Iterator Function ReadSubjectHits(subjects As IEnumerable(Of SubjectHit)) As IEnumerable(Of Hit)
-            For Each subj As SubjectHit In subjects
+            For Each subj As SubjectHit In subjects.SafeQuery
                 Yield New Hit With {
                     .hitName = subj.Name,
                     .identities = subj.Score.Identities,
