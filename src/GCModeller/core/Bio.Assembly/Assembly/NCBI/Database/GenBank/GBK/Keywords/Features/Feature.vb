@@ -133,6 +133,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <returns>
         ''' this function returns nothing if the given key is not found in current feature.
         ''' </returns>
+        ''' <remarks>
+        ''' query by a <see cref="FeatureQualifiers"/> key string name
+        ''' </remarks>
         Public Function Query(key$) As String
             Dim LQuery = LinqAPI.DefaultFirst(Of String) <=
  _
