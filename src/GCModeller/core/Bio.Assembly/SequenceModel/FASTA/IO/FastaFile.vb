@@ -282,10 +282,10 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
         ''' <param name="lines"></param>
         ''' <param name="deli"></param>
         ''' <returns></returns>
-        Public Shared Iterator Function DocParser(lines As String(), Optional deli As String = "|") As IEnumerable(Of FastaSeq)
+        Public Shared Iterator Function DocParser(lines As IEnumerable(Of String), Optional deli As String = "|") As IEnumerable(Of FastaSeq)
             Dim faseq As New List(Of String)
 
-            If lines.IsNullOrEmpty Then
+            If lines Is Nothing Then
                 Return
             ElseIf deli.StringEmpty Then
                 deli = "|"

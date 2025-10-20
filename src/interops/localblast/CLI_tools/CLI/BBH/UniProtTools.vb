@@ -58,7 +58,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -100,7 +100,7 @@ Partial Module CLI
         Dim lineBreak As Integer = args("/lineBreak") Or 120
         Dim files$() = [in].GetFileList
 
-        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+        Using writer As System.IO.StreamWriter = out.OpenWriter(Encodings.ASCII)
             For Each fa As FastaSeq In UniProtXML _
                 .EnumerateEntries(files) _
                 .UniProtProteinExports(Function(prot)
@@ -144,7 +144,7 @@ Partial Module CLI
         End If
 
         For Each path As String In files
-            Call path.__DEBUG_ECHO
+            Call path.debug
         Next
 
         Return files
@@ -176,7 +176,7 @@ Partial Module CLI
         Dim lineBreak As Integer = args("/lineBreak") Or 120
         Dim files$() = [in].GetFileList
 
-        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+        Using writer As System.IO.StreamWriter = out.OpenWriter(Encodings.ASCII)
             For Each fa As FastaSeq In UniProtXML _
                 .EnumerateEntries(files) _
                 .UniProtProteinExports(Function(prot)
@@ -248,7 +248,7 @@ Partial Module CLI
         ' 1GB buffer size?
         Call App.SetBufferSize(128 * 1024 * 1024)
 
-        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+        Using writer As System.IO.StreamWriter = out.OpenWriter(Encodings.ASCII)
             Dim source As IEnumerable(Of UniProtEntry) = UniProtXML.EnumerateEntries(path:=[in])
 
             If Not String.IsNullOrEmpty(sp) Then

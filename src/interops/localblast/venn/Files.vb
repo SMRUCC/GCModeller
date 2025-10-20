@@ -43,7 +43,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -85,7 +85,7 @@ Namespace BlastAPI
                          Blastout,
                          Besthits = Blastout.ExportAllBestHist(identities) ' 加载单向最佳比对
 
-            Call "Blast output data parsing job done, start to screening the besthit genomes.....".__DEBUG_ECHO
+            Call "Blast output data parsing job done, start to screening the besthit genomes.....".debug
 
             Dim selecteds = (From genome
                          In LQuery.AsParallel
@@ -95,7 +95,7 @@ Namespace BlastAPI
                              genome.ID,
                              genome.Blastout).ToArray
 
-            Call $"Screening {selecteds.Length} genomes at first time!".__DEBUG_ECHO
+            Call $"Screening {selecteds.Length} genomes at first time!".debug
 
             Dim n As Integer = selecteds.First.Blastout.Queries.Length * trimValue
             selecteds = (From genome
@@ -103,7 +103,7 @@ Namespace BlastAPI
                          Where genome.Besthits.Length >= n
                          Select genome).ToArray
 
-            Call $"Screening {selecteds.Length} genomes at second time which contains at least {n} besthit proteins.".__DEBUG_ECHO
+            Call $"Screening {selecteds.Length} genomes at second time which contains at least {n} besthit proteins.".debug
 
             Dim LoadORFres = (From path As KeyValuePair(Of String, String)
                           In CopySource.LoadSourceEntryList({"*.fasta", "*.fsa", "*.fa"})
@@ -114,9 +114,9 @@ Namespace BlastAPI
                                            Function(g) g.Group.Select(Function(gp) gp.pathValue).ToArray)
 
             Call (From genome In selecteds Select genome.Besthits).IteratesALL.SaveTo(EXPORT & "/Besthits.csv", False)
-            Call "Start to copy genome proteins data...".__DEBUG_ECHO
+            Call "Start to copy genome proteins data...".debug
             Call (From genome In selecteds Select __innerCopy(LoadORFres, EXPORT, genome.ID)).ToArray
-            Call "Job done!".__DEBUG_ECHO
+            Call "Job done!".debug
         End Sub
 
         Private Function __innerCopy(loadORFres As Dictionary(Of String, String()), EXPORT$, genomeID$) As Boolean

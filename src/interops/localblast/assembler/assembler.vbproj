@@ -205,33 +205,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vbproj">
-      <Project>{96973118-8964-49c4-b34f-086c4f9e2cdf}</Project>
-      <Name>SmithWaterman</Name>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj">
+      <Project>{0c52579a-4ba0-615c-472c-c3149ebcbd67}</Project>
+      <Name>annotation.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\Bio.Annotation.vbproj">
-      <Project>{e5ad6940-d449-471d-9539-65b4e457e6e3}</Project>
-      <Name>Bio.Annotation</Name>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{e6075059-b6e2-8fe8-0c2c-a7a202da0f4a}</Project>
+      <Name>biocore-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.NET5.vbproj">
+      <Project>{f6a772da-032e-c99a-9847-432cb34cb381}</Project>
+      <Name>DynamicProgramming.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{d6a933d3-a04d-0d7b-c14a-d8f9a9f8fa51}</Project>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.vbproj">
-      <Project>{a903b744-c08d-4869-bc35-3dd25e36aa16}</Project>
-      <Name>DynamicProgramming</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LocalBLAST\NCBI.Extensions.localblast.vbproj">
-      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>NCBI.Extensions.localblast</Name>
+    <ProjectReference Include="..\LocalBLAST\localblast.NET5.vbproj">
+      <Project>{ed963278-68be-a1c7-b989-5dd34ce51c01}</Project>
+      <Name>localblast.NET5</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

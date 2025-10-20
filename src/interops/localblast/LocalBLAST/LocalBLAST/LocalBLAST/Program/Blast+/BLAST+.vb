@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::f67c764145dac12733640296867e8953, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\Blast+\BLAST+.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 162
-    '    Code Lines: 91 (56.17%)
-    ' Comment Lines: 46 (28.40%)
-    '    - Xml Docs: 97.83%
-    ' 
-    '   Blank Lines: 25 (15.43%)
-    '     File Size: 7.09 KB
+' Summaries:
 
 
-    '     Class BLASTPlus
-    ' 
-    '         Properties: BlastnOptionalArguments, BlastpOptionalArguments, MolTypeNucleotide, MolTypeProtein, Version
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: Blastn, Blastp, FormatDb, GetHelp, GetLastLogFile
-    '                   GetManual
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 162
+'    Code Lines: 91 (56.17%)
+' Comment Lines: 46 (28.40%)
+'    - Xml Docs: 97.83%
+' 
+'   Blank Lines: 25 (15.43%)
+'     File Size: 7.09 KB
+
+
+'     Class BLASTPlus
+' 
+'         Properties: BlastnOptionalArguments, BlastpOptionalArguments, MolTypeNucleotide, MolTypeProtein, Version
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: Blastn, Blastp, FormatDb, GetHelp, GetLastLogFile
+'                   GetManual
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -124,13 +124,10 @@ Namespace LocalBLAST.Programs
                 e = "1e-3"
             End If
 
-            Dim DIR As String = FileIO.FileSystem.GetFileInfo(Output).Directory.FullName
-
-            Call FileIO.FileSystem.CreateDirectory(DIR)
-
             Dim argv As String = String.Format(BLAST_PLUS_ARGUMS, Input, TargetDb, e, Output, NumThreads)
-            Dim Cmdl As String = String.Format("{0} {1}", _blastpAssembly, argv)
-            Console.WriteLine("LOCALBLAST+::BLASTP" & vbCrLf & "  ---> {0}", Cmdl)
+            Dim cmdl As String = String.Format("{0} {1}", _blastpAssembly, argv)
+            Call Output.ParentPath.MakeDir
+            Call VBDebugger.EchoLine("LOCALBLAST+::BLASTP" & vbCrLf & $" --> {cmdl}")
             MyBase._InternalLastBLASTOutputFile = Output
             Return New IORedirectFile(_blastpAssembly, argv, win_os:=True)
         End Function
@@ -144,9 +141,6 @@ Namespace LocalBLAST.Programs
                 e = "1e-3"
             End If
 
-            Dim DIR As String = FileIO.FileSystem.GetFileInfo(Output).Directory.FullName
-            Call FileIO.FileSystem.CreateDirectory(DIR)
-
             Dim Argums As String = String.Format(BLAST_PLUS_ARGUMS, Input, TargetDb, e, Output, NumThreads)
 
             If BlastnOptionalArguments?.WordSize > 0 Then
@@ -159,8 +153,9 @@ Namespace LocalBLAST.Programs
                 Argums &= $" -reward {BlastnOptionalArguments.reward}"
             End If
 
-            Dim Cmdl As String = String.Format("{0} {1}", _blastnAssembly, Argums)
-            Console.WriteLine("LOCALBLAST+::BLASTN" & vbCrLf & "  ---> {0}", Cmdl)
+            Dim cmdl As String = String.Format("{0} {1}", _blastnAssembly, Argums)
+            Call Output.ParentPath.MakeDir
+            Call VBDebugger.EchoLine("LOCALBLAST+::BLASTN" & vbCrLf & $" --> {cmdl}")
             MyBase._InternalLastBLASTOutputFile = Output
             Return New IORedirectFile(_blastnAssembly, argv:=Argums)
         End Function
@@ -173,8 +168,8 @@ Namespace LocalBLAST.Programs
                 Argums = String.Format(MAKE_BLAST_DB_NUCL, Db)
             End If
 
-            Dim Cmdl As String = String.Format("{0} {1}", _makeBlastDbAsm, Argums)
-            Console.WriteLine("LOCALBLAST+::MAKE_BLAST_DB" & vbCrLf & "  ---> {0}", Cmdl)
+            Dim cmdl As String = String.Format("{0} {1}", _makeBlastDbAsm, Argums)
+            VBDebugger.EchoLine("LOCALBLAST+::MAKE_BLAST_DB" & vbCrLf & $" --> {cmdl}")
             Return New IORedirectFile(_makeBlastDbAsm, argv:=Argums, win_os:=True)
         End Function
 
@@ -210,7 +205,7 @@ Namespace LocalBLAST.Programs
         ''' <remarks></remarks>
         Public Overrides ReadOnly Property Version As String
             Get
-                Dim Process As IORedirect = New IORedirect(Me._blastnAssembly, "-version", hide:=False)
+                Dim Process As New IORedirect(Me._blastnAssembly, "-version", hide:=False)
                 Call Process.Start(True)
                 Dim str As String = Regex.Split(Process.StandardOutput, "Package:\s+", RegexOptions.IgnoreCase).Last.Trim
                 Return str

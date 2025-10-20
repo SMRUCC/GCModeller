@@ -345,7 +345,7 @@ Partial Module CLI
         Using writer As New WriteStream(Of BlastnMapping)(out,,, {"track"})
             For Each block As BlastnMapping() In LQuery
                 Call writer.Flush(block)
-                Call block.First.Extensions("track").__DEBUG_ECHO
+                Call block.First.Extensions("track").debug
             Next
 
             Return 0
@@ -456,7 +456,7 @@ Partial Module CLI
             tax = New NcbiTaxonomyTree(taxDIR)
         End If
 
-        Call "All data load done!".__DEBUG_ECHO
+        Call "All data load done!".debug
 
         Dim taxidFromRef As Mapping = Reference2Taxid(mapping, is_gi2taxid)
 

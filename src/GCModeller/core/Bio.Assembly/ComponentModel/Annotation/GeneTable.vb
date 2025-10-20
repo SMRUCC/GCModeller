@@ -1,63 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::7a4512e3d4ac99b41dce63d7e579ac1a, core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 93
-    '    Code Lines: 46 (49.46%)
-    ' Comment Lines: 40 (43.01%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 7 (7.53%)
-    '     File Size: 3.59 KB
+' Summaries:
 
 
-    '     Class GeneTable
-    ' 
-    '         Properties: [function], CDS, COG, commonName, EC_Number
-    '                     GC_Content, geneName, GI, GO, InterPro
-    '                     KO, left, length, Location, locus_id
-    '                     ProteinId, right, species, SpeciesAccessionID, strand
-    '                     Transl_table, Translation, type, UniprotSwissProt, UniprotTrEMBL
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 93
+'    Code Lines: 46 (49.46%)
+' Comment Lines: 40 (43.01%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 7 (7.53%)
+'     File Size: 3.59 KB
+
+
+'     Class GeneTable
+' 
+'         Properties: [function], CDS, COG, commonName, EC_Number
+'                     GC_Content, geneName, GI, GO, InterPro
+'                     KO, left, length, Location, locus_id
+'                     ProteinId, right, species, SpeciesAccessionID, strand
+'                     Transl_table, Translation, type, UniprotSwissProt, UniprotTrEMBL
+' 
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -131,15 +132,18 @@ Namespace ComponentModel.Annotation
         Public Property COG As String Implements IFeatureDigest.Feature
         Public Property length As Integer Implements IGeneBrief.Length
 
+        <IgnoreDataMember>
         Public Property Location As NucleotideLocation Implements IGeneBrief.Location
             Get
                 Return New NucleotideLocation(left, right, Strand:=strand)
             End Get
             Set(value As NucleotideLocation)
-                left = value.left
-                right = value.right
-                strand = If(value.Strand = Strands.Forward, "+", "-")
-                length = value.FragmentSize
+                If Not value Is Nothing Then
+                    left = value.left
+                    right = value.right
+                    strand = If(value.Strand = Strands.Forward, "+", "-")
+                    length = value.FragmentSize
+                End If
             End Set
         End Property
 

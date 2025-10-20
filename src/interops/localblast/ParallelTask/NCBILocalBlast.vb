@@ -216,7 +216,7 @@ Public Module NCBILocalBlast
             Call Handle.FormatDb(nt, Handle.MolTypeNucleotide).Start(waitForExit:=True)
         End If
 
-        Call $"{NameOf(GenomeSource)}:={GenomeSource.Count}".__DEBUG_ECHO
+        Call $"{NameOf(GenomeSource)}:={GenomeSource.Count}".debug
 
         Dim taskArray As Func(Of Boolean)() = (From Subject As String
                                                In GenomeSource

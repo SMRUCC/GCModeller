@@ -90,6 +90,14 @@ Namespace SequenceModel.FASTA
             Next
         End Sub
 
+        Public Shared Sub WriteList(seqs As IDictionary(Of String, String), file As Stream, Optional lineBreak As Integer = -1)
+            Using fasta As New StreamWriter(file, lineBreak)
+                For Each seq As KeyValuePair(Of String, String) In seqs
+                    Call fasta.Add(New FastaSeq(seq.Value, title:=seq.Key))
+                Next
+            End Using
+        End Sub
+
         Protected Overridable Sub Dispose(disposing As Boolean)
             If Not disposedValue Then
                 If disposing Then

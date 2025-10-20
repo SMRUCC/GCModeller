@@ -58,6 +58,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 Imports r = System.Text.RegularExpressions.Regex
@@ -186,10 +187,38 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 x.HitName = subjectInfo.Name
             Next
 
+            Dim qscore As Score
+
+            If tmp.Count = 1 Then
+                qscore = tmp(0).Score
+            ElseIf tmp.Count > 1 Then
+                qscore = New Score With {
+                    .Score = tmp.Average(Function(a) a.Score.Score),
+                    .Expect = tmp.Average(Function(a) a.Score.Expect),
+                    .Method = tmp.First.Score.Method,
+                    .RawScore = tmp.Average(Function(a) a.Score.RawScore),
+                    .Gaps = New Percentage() With {
+                        .Denominator = 1,
+                        .Numerator = tmp.Average(Function(a) CDbl(a.Score.Gaps))
+                    },
+                    .Identities = New Percentage() With {
+                        .Denominator = 1,
+                        .Numerator = tmp.Average(Function(a) CDbl(a.Score.Identities))
+                    },
+                    .Positives = New Percentage With {
+                        .Denominator = 1,
+                        .Numerator = tmp.Average(Function(a) CDbl(a.Score.Positives))
+                    }
+                }
+            Else
+                qscore = Nothing
+            End If
+
             Return New BlastpSubjectHit With {
                 .Length = subjectInfo.Value,
                 .Name = subjectInfo.Name,
-                .FragmentHits = tmp
+                .FragmentHits = tmp,
+                .Score = qscore
             }
         End Function
 

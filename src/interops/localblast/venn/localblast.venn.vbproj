@@ -286,28 +286,32 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj">
+      <Project>{0c52579a-4ba0-615c-472c-c3149ebcbd67}</Project>
+      <Name>annotation.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\Darwinism\Parallel\Parallel.vbproj">
-      <Project>{085171ca-6a65-494c-9b4a-477d35bcbc90}</Project>
-      <Name>Parallel</Name>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{e6075059-b6e2-8fe8-0c2c-a7a202da0f4a}</Project>
+      <Name>biocore-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
+    <ProjectReference Include="..\..\..\runtime\Darwinism\src\computing\Parallel\parallel-netcore5.vbproj">
+      <Project>{eb4bbe2b-d7c5-0c2e-7648-8000d37abdd2}</Project>
+      <Name>parallel-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj">
+      <Project>{4ea5d1a3-20ac-5ef2-e8e3-8e8c905d86b7}</Project>
+      <Name>dataframework-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LocalBLAST\NCBI.Extensions.localblast.vbproj">
-      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>NCBI.Extensions.localblast</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{d6a933d3-a04d-0d7b-c14a-d8f9a9f8fa51}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LocalBLAST\localblast.NET5.vbproj">
+      <Project>{ed963278-68be-a1c7-b989-5dd34ce51c01}</Project>
+      <Name>localblast.NET5</Name>
     </ProjectReference>
     <ProjectReference Include="..\ParallelTask\ParallelTask.vbproj">
-      <Project>{e957bc7d-d283-47d3-b6fe-7545937149a7}</Project>
+      <Project>{cec4e509-fbb7-c2a8-5ab3-ed05fff34f54}</Project>
       <Name>ParallelTask</Name>
     </ProjectReference>
   </ItemGroup>
