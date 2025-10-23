@@ -1,15 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|e:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\internalinvokes\\file.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\proteinkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\proteinkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -17,38 +9,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "file.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\file.vb",
-              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\file.vb",
-              "ToolTip": "E:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\file.vb",
-              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\file.vb",
-              "ViewState": "AgIAADMEAAAAAAAAAAAcwEgEAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-09-29T07:30:14.342Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "proteinKit.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\proteinKit.vb",
-              "RelativeDocumentMoniker": "seqtoolkit\\proteinKit.vb",
-              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\proteinKit.vb",
-              "RelativeToolTip": "seqtoolkit\\proteinKit.vb",
-              "ViewState": "AgIAAMAAAAAAMzMzMzMpwNsAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-09-29T07:25:51.598Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -60,6 +22,10 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             }
           ]
         },
