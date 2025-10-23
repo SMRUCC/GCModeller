@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::da0fb94164e12ada8d21bfcbf950d1f3, core\Bio.Assembly\ContextModel\Promoter\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 83
-    '    Code Lines: 52 (62.65%)
-    ' Comment Lines: 22 (26.51%)
-    '    - Xml Docs: 86.36%
-    ' 
-    '   Blank Lines: 9 (10.84%)
-    '     File Size: 3.49 KB
+' Summaries:
 
 
-    '     Module Extensions
-    ' 
-    '         Function: GetPrefixLengths, GetUpstreamSeq, headers, ParseUpstreamByLength
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 83
+'    Code Lines: 52 (62.65%)
+' Comment Lines: 22 (26.51%)
+'    - Xml Docs: 86.36%
+' 
+'   Blank Lines: 9 (10.84%)
+'     File Size: 3.49 KB
+
+
+'     Module Extensions
+' 
+'         Function: GetPrefixLengths, GetUpstreamSeq, headers, ParseUpstreamByLength
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -102,16 +103,16 @@ Namespace ContextModel.Promoter
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function GetUpstreamSeq(gene As GeneBrief, nt As IPolymerSequenceModel, len%) As FastaSeq
+        Public Function GetUpstreamSeq(gene As IGeneBrief, nt As IPolymerSequenceModel, len%) As FastaSeq
             Dim loci As NucleotideLocation = gene.Location
 
             With loci.Normalization()
                 If .Strand = Strands.Forward Then
                     ' 正向序列是上游，无需额外处理
-                    loci = New NucleotideLocation(.Left - len, .Left - 1)
+                    loci = New NucleotideLocation(.left - len, .left - 1)
                 Else
                     ' 反向序列是下游，需要额外小心
-                    loci = New NucleotideLocation(.Right + 1, .Right + len, ComplementStrand:=True)
+                    loci = New NucleotideLocation(.right + 1, .right + len, ComplementStrand:=True)
                 End If
             End With
 
@@ -126,11 +127,11 @@ Namespace ContextModel.Promoter
         End Function
 
         <Extension>
-        Private Function headers(gene As GeneBrief, site As SimpleSegment) As String()
+        Private Function headers(gene As IGeneBrief, site As SimpleSegment) As String()
             If gene.Product.StringEmpty Then
-                Return {gene.Synonym & " " & site.ID}
+                Return {gene.Feature & " " & site.ID}
             Else
-                Return {gene.Synonym & " " & site.ID, gene.Product}
+                Return {gene.Feature & " " & site.ID, gene.Product}
             End If
         End Function
     End Module
