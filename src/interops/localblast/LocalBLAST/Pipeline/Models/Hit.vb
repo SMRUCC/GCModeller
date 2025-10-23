@@ -77,9 +77,14 @@ Namespace Tasks.Models
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property hitName As String Implements INamedValue.Key
+        <XmlText>
+        Public Property hitName As String Implements INamedValue.Key
+
+        <XmlAttribute> Public Property score As Double
         <XmlAttribute> Public Property identities As Double
         <XmlAttribute> Public Property positive As Double
+        <XmlAttribute> Public Property gaps As Double
+        <XmlAttribute> Public Property evalue As Double
 
         Public Overrides Function ToString() As String
             Return $"[{tag}] {hitName} {{identities:= {identities}, positive:= {positive}}}"
