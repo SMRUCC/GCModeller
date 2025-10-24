@@ -91,12 +91,13 @@ Namespace Drawing2D.Math2D.ConcaveHull
         ''' <returns></returns>
         <Extension>
         Public Function ConcaveHull(points As IEnumerable(Of PointF), Optional r# = -1) As PointF()
-            With New AlphaShapes2D(points)
+            With New BallConcave(points)
                 If r# <= 0 Then
-                    r# = .ComputeOptimalAlpha
+                    r# = .RecomandedRadius
                 End If
 
-                Return .ComputeAlphaShape(r).ToArray
+                Return .GetConcave_Ball(r) _
+                       .ToArray
             End With
         End Function
     End Module
