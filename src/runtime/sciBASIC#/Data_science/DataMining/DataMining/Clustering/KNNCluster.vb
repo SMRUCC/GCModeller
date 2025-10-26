@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.DataMining.DBSCAN
@@ -6,6 +7,7 @@ Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 
 Namespace Clustering
@@ -16,21 +18,40 @@ Namespace Clustering
         ReadOnly k As Integer
         ReadOnly p As Integer
         ReadOnly distanceMap As DistanceMap(Of DbscanPoint(Of T))
+        ReadOnly density As Double()
 
         Sub New(data As IEnumerable(Of T), metricFunc As Func(Of T, T, Double), knn As Integer, Optional threshold As Double = 0.8)
             points = data.SafeQuery.Select(Function(a, i) New DbscanPoint(Of T)(a, i)).ToArray
             k = knn
             p = threshold * knn
             distanceMap = New DistanceMap(Of DbscanPoint(Of T))(points, Function(a, b) metricFunc(a.ClusterPoint, b.ClusterPoint))
+            density = New Double(points.Length - 1) {}
         End Sub
 
         Public Function AssignClusterId() As IEnumerable(Of DbscanPoint(Of T))
             Dim cluster_id As i32 = 1
+            Dim bar As Tqdm.ProgressBar = Nothing
 
-            For Each point As DbscanPoint(Of T) In TqdmWrapper.Wrap(points, wrap_console:=App.EnableTqdm)
-                If Not point.IsVisited Then
+            For Each point As DbscanPoint(Of T) In TqdmWrapper.Wrap(points, bar:=bar, wrap_console:=App.EnableTqdm)
+                If point.ClusterId <= 0 OrElse Not point.IsVisited Then
                     point.ClusterId = ++cluster_id
-                    ExpandCluster(point)
+
+                    Call bar.SetLabel($"processing cluster {point.ClusterId}...")
+                    Call ExpandCluster(point)
+
+                    ' removes noise
+                    Dim clusterMembers As DbscanPoint(Of T)() = (From a As DbscanPoint(Of T)
+                                                                 In points
+                                                                 Where a.ClusterId = point.ClusterId).ToArray
+                    Dim density = clusterMembers.Select(Function(a) Me.density(a.Index)).ToArray
+                    Dim cutoff As Double = density.GKQuantile.Query(0.99)
+
+                    For Each p As DbscanPoint(Of T) In clusterMembers
+                        If Me.density(p.Index) > cutoff Then
+                            p.ClusterId = ClusterIDs.Noise
+                            p.IsVisited = False
+                        End If
+                    Next
                 End If
             Next
 
@@ -52,6 +73,8 @@ Namespace Clustering
                               In knn
                               Where a.dist <= cutoff
                               Select a.p).ToArray
+
+                density(seedPoint.Index) = cutoff
 
                 If filter.Length >= p Then
                     For Each neighborPoint As DbscanPoint(Of T) In filter
