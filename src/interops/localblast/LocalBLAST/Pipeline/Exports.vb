@@ -27,7 +27,10 @@ Namespace Pipeline
                     .hitName = subj.Name,
                     .identities = subj.Score.Identities,
                     .positive = subj.Score.Positives,
-                    .tag = subj.Name
+                    .tag = subj.Name,
+                    .evalue = subj.Score.Expect,
+                    .gaps = subj.Score.Gaps,
+                    .score = subj.Score.Score
                 }
             Next
         End Function
