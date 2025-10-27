@@ -418,7 +418,7 @@ Public Class DrawingDevice
     End Sub
 
     Private Shared Function getRulerText(n As Single) As String
-        Dim s As String = Format(n, "##.#")
+        Dim s As String = Strings.Format(n, "##.#")
         Dim p = InStr(s, ".")
 
         If p = 0 Then
