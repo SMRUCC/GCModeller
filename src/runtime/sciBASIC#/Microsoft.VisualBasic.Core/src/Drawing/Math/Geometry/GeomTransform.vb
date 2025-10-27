@@ -157,7 +157,8 @@ Namespace Imaging.Math2D
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function GetCenter(size As Size) As Point
+        <Extension>
+        Public Function GetCenter(size As Size) As Point
             Return New Point(size.Width / 2, size.Height / 2)
         End Function
 
@@ -259,7 +260,8 @@ Namespace Imaging.Math2D
         ''' <param name="y!"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function OffSet2D(pt As PointF, x!, y!) As PointF
+        <Extension>
+        Public Function OffSet2D(pt As PointF, x!, y!) As PointF
             With pt
                 Return New PointF(x + .X, y + .Y)
             End With
@@ -348,6 +350,13 @@ Namespace Imaging.Math2D
             Return std.Sqrt(std.Pow(x1 - x2, 2) + std.Pow(y1 - y2, 2))
         End Function
 
+        ''' <summary>
+        ''' Euclidean distance
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function DistanceTo(Of T As Layout2D)(a As T, b As T) As Double

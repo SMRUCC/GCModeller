@@ -96,7 +96,8 @@ Namespace Drawing2D.Math2D.ConcaveHull
                     r# = .RecomandedRadius
                 End If
 
-                Return .GetConcave_Ball(r).ToArray
+                Return .GetConcave_Ball(r) _
+                       .ToArray
             End With
         End Function
     End Module
