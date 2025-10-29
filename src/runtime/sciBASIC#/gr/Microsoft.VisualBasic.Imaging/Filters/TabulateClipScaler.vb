@@ -146,7 +146,7 @@ Namespace Filters
             Next
 
             Call "create global heatmap bins".info
-            
+
             Dim hist As IntegerTagged(Of Integer())() = heatmap.ForEachBucket _
                 .AsParallel _
                 .Select(Function(tile)
@@ -164,6 +164,8 @@ Namespace Filters
             Dim resample As New DoubleRange(hist.TakeBags(maxN, nbags:=5).IteratesALL)
             Dim i As i32 = 0
             Dim bin As Double() = resample.MinMax
+
+            Call $"re-sampling heatmap grayscale range for make value clip: {bin.GetJson}".debug
 
             For Each grayscale As Integer() In TqdmWrapper.Wrap(heatmap.ForEachBucket.ToArray)            
                 Dim tile As BitmapBuffer = pull(++i)
