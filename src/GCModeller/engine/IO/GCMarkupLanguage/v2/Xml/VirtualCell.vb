@@ -106,6 +106,16 @@ Namespace v2
             Call xmlns.Add("GCModeller", SMRUCC.genomics.LICENSE.GCModeller)
         End Sub
 
+        Sub New(copy As VirtualCell)
+            Call Me.New
+
+            taxonomy = New Taxonomy(copy.taxonomy)
+            properties = New [Property](copy.properties)
+            cellular_id = copy.cellular_id
+            genome = New Genome(copy.genome)
+            metabolismStructure = New MetabolismStructure(copy.metabolismStructure)
+        End Sub
+
         Public Overrides Function ToString() As String
             Dim sb As New StringBuilder
             Dim lv As i32 = Scan0

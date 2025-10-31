@@ -150,6 +150,16 @@ Namespace v2
         <XmlArray("pathwayMaps")>
         Public Property maps As FunctionalCategory()
 
+        Sub New()
+        End Sub
+
+        Sub New(copy As MetabolismStructure)
+            compounds = copy.compounds.SafeQuery.ToArray
+            enzymes = copy.enzymes.SafeQuery.ToArray
+            maps = copy.maps.SafeQuery.ToArray
+            reactions = New ReactionGroup(copy.reactions)
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetAllFluxID() As String()
             Return reactions _

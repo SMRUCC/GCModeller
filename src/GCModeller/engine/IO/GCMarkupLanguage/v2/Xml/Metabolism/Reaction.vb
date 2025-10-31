@@ -39,6 +39,14 @@ Namespace v2
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
+        Sub New(copy As ReactionGroup)
+            enzymatic = copy.enzymatic.SafeQuery.ToArray
+            none_enzymatic = copy.none_enzymatic.SafeQuery.ToArray
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CompoundLinks() As Dictionary(Of String, Reaction())
             Return enzymatic _

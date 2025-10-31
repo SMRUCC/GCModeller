@@ -90,6 +90,12 @@ Namespace v2
         <XmlAttribute> Public Property right As Integer
 
         ''' <summary>
+        ''' apply for the gene overexpress
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property expression_level As Double = 1
+
+        ''' <summary>
         ''' 
         ''' </summary>
         ''' <returns></returns>

@@ -63,6 +63,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
 Namespace v2
@@ -87,6 +88,15 @@ Namespace v2
         Public Property regulations As transcription()
 
         Public Property proteins As protein()
+
+        Sub New()
+        End Sub
+
+        Sub New(copy As Genome)
+            replicons = copy.replicons.SafeQuery.ToArray
+            regulations = copy.regulations.SafeQuery.ToArray
+            proteins = copy.proteins.SafeQuery.ToArray
+        End Sub
 
         Public Iterator Function GetAllGenes(Optional skipPlasmids As Boolean = False) As IEnumerable(Of gene)
             Dim source As IEnumerable(Of replicon)
