@@ -54,6 +54,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.Linq
 
 Namespace v2
 
@@ -77,11 +78,24 @@ Namespace v2
         Public Function GetMetaboliteSymbolNames(vcell As VirtualCell) As Dictionary(Of String, String)
             Dim symbolNames As New Dictionary(Of String, String)
 
-            For Each cpd In vcell.metabolismStructure.compounds
+            For Each cpd As Compound In vcell.metabolismStructure.compounds
                 symbolNames(cpd.ID) = cpd.name
             Next
 
             Return symbolNames
+        End Function
+
+        <Extension>
+        Public Function GetMetaboliteReferenceMaps(vcell As VirtualCell) As Dictionary(Of String, String)
+            Dim refs As New Dictionary(Of String, String)
+
+            For Each cpd As Compound In vcell.metabolismStructure.compounds
+                For Each ref_id As String In cpd.referenceIds.SafeQuery
+                    refs(ref_id) = cpd.ID
+                Next
+            Next
+
+            Return refs
         End Function
     End Module
 End Namespace

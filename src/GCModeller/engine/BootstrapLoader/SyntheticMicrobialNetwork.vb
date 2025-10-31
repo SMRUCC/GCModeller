@@ -12,12 +12,14 @@ Public Module SyntheticMicrobialNetwork
     <Extension>
     Public Function CreateNetwork(models As IEnumerable(Of CellularModule),
                                   define As Definition,
-                                  dynamics As FluxBaseline) As (
+                                  dynamics As FluxBaseline,
+                                  referenceIds As Dictionary(Of String, String)) As (
         mass As MassTable,
         network As Channel(),
         fluxIndex As Dictionary(Of String, List(Of String))
     )
-        Dim massTable As New MassTable
+
+        Dim massTable As New MassTable(referenceIds)
         Dim fluxIndex As New Dictionary(Of String, List(Of String))
         Dim processList As New List(Of Channel)
 
