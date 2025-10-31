@@ -70,41 +70,34 @@ Namespace v2
         Public Function DeleteMutation(model As VirtualCell, knockoutGeneList$()) As VirtualCell
             Dim suffix As String = If(knockoutGeneList.Length = 1, "-" & knockoutGeneList(0), $"-({knockoutGeneList.JoinBy(",")})")
             Dim knockouts As Index(Of String) = knockoutGeneList.Indexing
+            Dim copy As New VirtualCell(model)
 
-            Return New VirtualCell With {
-                .cellular_id = model.cellular_id & suffix,
-                .taxonomy = model.taxonomy,
-                .properties = model.properties,
-                .metabolismStructure = model.metabolismStructure,
-                .genome = New Genome With {
-                    .proteins = model.genome.proteins,
-                    .regulations = model.genome.regulations,
-                    .replicons = model.genome.replicons _
-                        .Select(Function(rep)
-                                    Return New replicon With {
-                                        .genomeName = rep.genomeName & suffix,
-                                        .isPlasmid = rep.isPlasmid,
-                                        .RNAs = rep.RNAs _
-                                            .Where(Function(r) Not (r.gene Like knockouts)) _
-                                            .ToArray,
-                                        .operons = rep.operons _
-                                            .Select(Function(o)
-                                                        Return New TranscriptUnit With {
-                                                            .id = o.id,
-                                                            .name = o.name,
-                                                            .note = o.note,
-                                                            .sites = o.sites,
-                                                            .genes = o.genes _
-                                                                .Where(Function(g) Not (g.locus_tag Like knockouts)) _
-                                                                .ToArray
-                                                        }
-                                                    End Function) _
-                                            .ToArray
-                                    }
-                                End Function) _
-                        .ToArray
-                }
-            }
+            copy.genome.replicons = model.genome.replicons _
+                .Select(Function(rep)
+                            Return New replicon With {
+                                .genomeName = rep.genomeName & suffix,
+                                .isPlasmid = rep.isPlasmid,
+                                .RNAs = rep.RNAs _
+                                    .Where(Function(r) Not (r.gene Like knockouts)) _
+                                    .ToArray,
+                                .operons = rep.operons _
+                                    .Select(Function(o)
+                                                Return New TranscriptUnit With {
+                                                    .id = o.id,
+                                                    .name = o.name,
+                                                    .note = o.note,
+                                                    .sites = o.sites,
+                                                    .genes = o.genes _
+                                                        .Where(Function(g) Not (g.locus_tag Like knockouts)) _
+                                                        .ToArray
+                                                }
+                                            End Function) _
+                                    .ToArray
+                            }
+                        End Function) _
+                .ToArray
+
+            Return copy
         End Function
 
         ''' <summary>
