@@ -8,6 +8,12 @@ Namespace Core
         Public Property compartment_id As String
         Public Property factor As Double
 
+        Public ReadOnly Property mass_id As String
+            Get
+                Return id.Replace("@" & compartment_id, "")
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return id
         End Function
@@ -83,7 +89,7 @@ Namespace Core
         End Function
 
         Public Overloads Function ToString(symbols As Dictionary(Of String, String)) As String
-            Return left.Select(Function(v) symbols.TryGetValue(v.id, [default]:=v.id)).JoinBy(" + ") & " = " & right.Select(Function(v) symbols.TryGetValue(v.id, [default]:=v.id)).JoinBy(" + ")
+            Return left.Select(Function(v) symbols.TryGetValue(v.mass_id, [default]:=v.id)).JoinBy(" + ") & " = " & right.Select(Function(v) symbols.TryGetValue(v.mass_id, [default]:=v.id)).JoinBy(" + ")
         End Function
 
         ''' <summary>
