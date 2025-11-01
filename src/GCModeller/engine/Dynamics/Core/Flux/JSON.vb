@@ -82,6 +82,10 @@ Namespace Core
             Return left.JoinBy(" + ") & " = " & right.JoinBy(" + ")
         End Function
 
+        Public Overloads Function ToString(symbols As Dictionary(Of String, String)) As String
+            Return left.Select(Function(v) symbols.TryGetValue(v.id, [default]:=v.id)).JoinBy(" + ") & " = " & right.Select(Function(v) symbols.TryGetValue(v.id, [default]:=v.id)).JoinBy(" + ")
+        End Function
+
         ''' <summary>
         ''' populate all related factor in current flux model:
         ''' 
