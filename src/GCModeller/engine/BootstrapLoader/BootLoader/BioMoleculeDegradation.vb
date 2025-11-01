@@ -227,6 +227,9 @@ Namespace ModelLoader
                     ' is component rna
                     Continue For
                 End If
+                If Not MassTable.Exists(gene.polypeptide, cell.CellularEnvironmentName) Then
+                    Call MassTable.addNew(gene.polypeptide, MassRoles.polypeptide, cell.CellularEnvironmentName)
+                End If
 
                 composition = proteinMatrix(gene.polypeptide)
                 aaResidue = composition _
