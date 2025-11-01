@@ -7,8 +7,9 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
 
-Public Class VCellMatrixReader : Implements IDisposable
+Public Class VCellMatrixReader : Implements IDisposable, IStreamContainer
 
     ReadOnly s As StreamPack
     ReadOnly fluxList As Dictionary(Of String, String())
@@ -61,7 +62,7 @@ Public Class VCellMatrixReader : Implements IDisposable
         Call Me.New(StreamPack.OpenReadOnly(filepath))
     End Sub
 
-    Public Function GetStream() As StreamPack
+    Public Function GetStream() As StreamPack Implements IStreamContainer.GetStream
         Return s
     End Function
 

@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
 Imports HTS_Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports std = System.Math
 Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
@@ -98,7 +99,7 @@ Public Module Extensions
     ''' <param name="raw"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function LoadSymbols(raw As Raw.Reader) As Dictionary(Of String, String)
+    Public Function LoadSymbols(raw As IStreamContainer) As Dictionary(Of String, String)
         Dim json_str = Strings.Trim(raw.GetStream.ReadText("/symbols.json"))
 
         If json_str.StringEmpty(, True) Then

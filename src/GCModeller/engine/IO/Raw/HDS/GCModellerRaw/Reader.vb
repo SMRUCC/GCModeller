@@ -69,7 +69,14 @@ Imports Microsoft.VisualBasic.Text
 
 Namespace Raw
 
+    Public Interface IStreamContainer
+
+        Function GetStream() As StreamPack
+
+    End Interface
+
     Public Class Reader : Inherits CellularModules
+        Implements IStreamContainer
 
         ReadOnly stream As StreamPack
 
@@ -104,7 +111,7 @@ Namespace Raw
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetStream() As StreamPack
+        Public Function GetStream() As StreamPack Implements IStreamContainer.GetStream
             Return stream
         End Function
 
