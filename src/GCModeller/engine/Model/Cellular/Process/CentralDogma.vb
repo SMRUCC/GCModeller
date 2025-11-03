@@ -112,6 +112,7 @@ Namespace Cellular.Process
         ''' </summary>
         Dim translation As String
         Dim transcript_unit As String
+        Dim expression_level As Double
 
         ''' <summary>
         ''' 如果这个属性返回false就说明不是编码蛋白序列的基因

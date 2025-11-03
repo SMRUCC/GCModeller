@@ -86,12 +86,15 @@ Namespace Core
     ''' </summary>
     Public Class MassTable : Implements IEnumerable(Of Factor)
 
-        Dim m_massSet As New CompartTable
+        Dim m_massSet As New CompartTable(Me)
+        Dim m_referenceIds As New Dictionary(Of String, String)
 
         Private Class CompartTable
 
             Friend ReadOnly compartments As New Dictionary(Of String, Dictionary(Of String, Factor))
             Friend ReadOnly mapping As New Dictionary(Of String, (source_id As String, compart_id As String))
+
+            ReadOnly massTable As MassTable
 
             Public ReadOnly Property Values As IEnumerable(Of Factor)
                 Get
@@ -119,11 +122,13 @@ Namespace Core
                 End Get
             End Property
 
-            Sub New(cache As Dictionary(Of String, Factor), compart_id As String)
+            Sub New(cache As Dictionary(Of String, Factor), compart_id As String, hook As MassTable)
+                massTable = hook
                 compartments = New Dictionary(Of String, Dictionary(Of String, Factor)) From {{compart_id, cache}}
             End Sub
 
-            Sub New()
+            Sub New(hook As MassTable)
+                massTable = hook
             End Sub
 
             Public Sub add(instance_id As String, compart_id As String, source_id As String)
@@ -161,6 +166,10 @@ Namespace Core
                 massTable = Me(compart_id)
 
                 If Not massTable.ContainsKey(instance_id) Then
+                    If Me.massTable.m_referenceIds.ContainsKey(mass_id) Then
+                        Return getFactor(compart_id, Me.massTable.m_referenceIds(mass_id))
+                    End If
+
                     Throw New InvalidDataException($"missing molecule '{mass_id}' factor data inside compartment '{compart_id}'!")
                 Else
                     Return massTable(instance_id)
@@ -271,12 +280,16 @@ Namespace Core
 
         Friend defaultCompartment As [Default](Of String)
 
+        Sub New(refIds As Dictionary(Of String, String))
+            m_referenceIds = refIds
+        End Sub
+
         Sub New(defaultCompartment As String)
             Me.defaultCompartment = defaultCompartment
         End Sub
 
         Sub New(cache As Dictionary(Of String, Factor), compart As String)
-            m_massSet = New CompartTable(cache, compart)
+            m_massSet = New CompartTable(cache, compart, hook:=Me)
         End Sub
 
         ''' <summary>

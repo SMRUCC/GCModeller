@@ -19,10 +19,16 @@ Public Class VCellMatrixWriter : Implements IDisposable
         s.Clear(16 * ByteSize.MB)
     End Sub
 
+    Private Shared Iterator Function TrimEmpty(data As IEnumerable(Of KeyValuePair(Of String, String()))) As IEnumerable(Of KeyValuePair(Of String, String()))
+        For Each item In data
+            Yield New KeyValuePair(Of String, String())(item.Key, item.Value.Where(Function(id) Not id.StringEmpty(, True)).ToArray)
+        Next
+    End Function
+
     Public Sub ConvertPackData(pack As Reader)
         Dim moduleSet = pack.GetMoleculeIdList
-        Dim moleculeSet = moduleSet.Where(Function(m) Not m.Key.EndsWith("-Flux")).ToArray
-        Dim fluxSet = moduleSet.Where(Function(m) m.Key.EndsWith("-Flux")).ToArray
+        Dim moleculeSet = TrimEmpty(moduleSet.Where(Function(m) Not m.Key.EndsWith("-Flux"))).ToArray
+        Dim fluxSet = TrimEmpty(moduleSet.Where(Function(m) m.Key.EndsWith("-Flux"))).ToArray
         Dim symbolText = pack.GetStream.ReadText("/dynamics/cellular_symbols.json")
         Dim fluxText = pack.GetStream.ReadText("/dynamics/cellular_flux.json")
         Dim instance_id As Dictionary(Of String, Dictionary(Of String, String())) = symbolText _

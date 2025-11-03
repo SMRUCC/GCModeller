@@ -212,7 +212,8 @@ Namespace v2
                                     .RNA = RNA,
                                     .transcript = gene.nucleotide_base?.name,
                                     .translation = gene.amino_acid?.name,
-                                    .transcript_unit = operon.id
+                                    .transcript_unit = operon.id,
+                                    .expression_level = gene.expression_level
                                 }
                             Next
                         Else
@@ -225,7 +226,8 @@ Namespace v2
                                 .RNA = RNA,
                                 .transcript = gene.nucleotide_base?.name,
                                 .translation = Nothing,
-                                .transcript_unit = operon.id
+                                .transcript_unit = operon.id,
+                                .expression_level = gene.expression_level
                             }
                         End If
                     Next

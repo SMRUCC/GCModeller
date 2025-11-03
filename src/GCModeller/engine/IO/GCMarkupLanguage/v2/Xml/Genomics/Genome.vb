@@ -1,67 +1,69 @@
 ﻿#Region "Microsoft.VisualBasic::644d464eb06a32bff3e96d3ab7a969b0, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\Genome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 70
-    '    Code Lines: 37 (52.86%)
-    ' Comment Lines: 19 (27.14%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 14 (20.00%)
-    '     File Size: 2.28 KB
+' Summaries:
 
 
-    '     Class Genome
-    ' 
-    '         Properties: regulations, replicons
-    ' 
-    '         Function: GetAllGeneLocusTags
-    ' 
-    '     Class RNA
-    ' 
-    '         Properties: gene, type, val
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 70
+'    Code Lines: 37 (52.86%)
+' Comment Lines: 19 (27.14%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 14 (20.00%)
+'     File Size: 2.28 KB
+
+
+'     Class Genome
+' 
+'         Properties: regulations, replicons
+' 
+'         Function: GetAllGeneLocusTags
+' 
+'     Class RNA
+' 
+'         Properties: gene, type, val
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 
 Namespace v2
@@ -87,7 +89,16 @@ Namespace v2
 
         Public Property proteins As protein()
 
-        Public Iterator Function GetAllGeneLocusTags(Optional skipPlasmids As Boolean = False) As IEnumerable(Of String)
+        Sub New()
+        End Sub
+
+        Sub New(copy As Genome)
+            replicons = copy.replicons.SafeQuery.ToArray
+            regulations = copy.regulations.SafeQuery.ToArray
+            proteins = copy.proteins.SafeQuery.ToArray
+        End Sub
+
+        Public Iterator Function GetAllGenes(Optional skipPlasmids As Boolean = False) As IEnumerable(Of gene)
             Dim source As IEnumerable(Of replicon)
 
             If skipPlasmids Then
@@ -98,9 +109,14 @@ Namespace v2
 
             For Each replicon As replicon In source
                 For Each gene As gene In replicon.GetGeneList
-                    Yield gene.locus_tag
+                    Yield gene
                 Next
             Next
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetAllGeneLocusTags(Optional skipPlasmids As Boolean = False) As IEnumerable(Of String)
+            Return From gene As gene In GetAllGenes(skipPlasmids) Select gene.locus_tag
         End Function
     End Class
 

@@ -471,13 +471,13 @@ Namespace ModelLoader
                 transcription = New Channel(templateDNA, productsRNA) With {
                     .ID = DataHelper.GetTranscriptionId(cd, cellular_id),
                     .forward = New AdditiveControls With {
-                        .baseline = loader.dynamics.transcriptionBaseline,
+                        .baseline = loader.dynamics.transcriptionBaseline * cd.expression_level,
                         .activation = activeReg,
                         .inhibition = suppressReg
                     },
                     .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {
-                        .forward = loader.dynamics.transcriptionCapacity,
+                        .forward = loader.dynamics.transcriptionCapacity * cd.expression_level,
                         .reverse = 0
                     }
                 }
