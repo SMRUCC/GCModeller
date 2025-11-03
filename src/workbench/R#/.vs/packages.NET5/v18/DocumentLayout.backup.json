@@ -3,10 +3,16 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\kineticsmodeller\\modeller.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\markupcompiler\\compilegenemodelworkflow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\markupcompiler\\biocyc\\genomecompiler.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\modeller\\compiler.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\kineticsmodeller\\modeller.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -16,21 +22,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Modeller.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\KineticsModeller\\Modeller.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\KineticsModeller\\Modeller.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\KineticsModeller\\Modeller.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\KineticsModeller\\Modeller.vb",
-              "ViewState": "AgIAAIkAAAAAAAAAAAAowKsAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-10-30T16:15:24.144Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -49,13 +42,51 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CompileGeneModelWorkflow.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGeneModelWorkflow.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGeneModelWorkflow.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGeneModelWorkflow.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\CompileGeneModelWorkflow.vb",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAcwIkAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-03T05:51:30.731Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "GenomeCompiler.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\GenomeCompiler.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\GenomeCompiler.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\GenomeCompiler.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\GenomeCompiler.vb",
+              "ViewState": "AgIAAHoAAAAAAAAAAAAcwJUAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-03T05:50:58.24Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Modeller.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\KineticsModeller\\Modeller.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\KineticsModeller\\Modeller.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\KineticsModeller\\Modeller.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\KineticsModeller\\Modeller.vb",
+              "ViewState": "AgIAAK0AAAAAAAAAAAAAwKsAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-10-30T16:15:24.144Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Compiler.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Compiler.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Compiler.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Modeller\\Compiler.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Modeller\\Compiler.vb",
-              "ViewState": "AgIAANEAAAAAAAAAAAAAwOwAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAOwAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-10-30T15:58:31.788Z",
               "EditorCaption": ""
