@@ -224,6 +224,11 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     Dim m_sampleIndex As Index(Of String)
     Dim m_geneIndex As Dictionary(Of String, DataFrameRow)
 
+    ''' <summary>
+    ''' get sample data column vector
+    ''' </summary>
+    ''' <param name="name"></param>
+    ''' <returns></returns>
     Public Function GetSampleArray(name As String) As IEnumerable(Of Double)
         Dim i As Integer = IndexOf(name)
         Dim expr As IEnumerable(Of Double) = From v As DataFrameRow
