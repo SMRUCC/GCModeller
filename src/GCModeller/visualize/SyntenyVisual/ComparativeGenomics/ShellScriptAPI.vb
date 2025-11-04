@@ -60,6 +60,18 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
+#If NET48 Then
+Imports Brush = System.Drawing.Brush
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports Brushes = System.Drawing.Brushes
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
+
 Namespace ComparativeGenomics
 
     <[Namespace]("data.visualization.Comparative_Genomics")>

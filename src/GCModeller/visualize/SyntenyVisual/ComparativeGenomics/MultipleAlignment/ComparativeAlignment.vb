@@ -71,6 +71,20 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
 
+#If NET48 Then
+Imports Brush = System.Drawing.Brush
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports Brushes = System.Drawing.Brushes
+Imports FontStyle = System.Drawing.FontStyle
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
+
 Namespace ComparativeAlignment
 
     <[Namespace]("Comparative.alignment")>
@@ -253,7 +267,7 @@ Namespace ComparativeAlignment
                             Continue For
                         End If
 
-                        Dim LinkdrModel = New System.Drawing.Drawing2D.GraphicsPath
+                        Dim LinkdrModel = New GraphicsPath
 
                         Dim p1, p2, p3, p4 As Point
                         p1 = New Point(Region1.Location.X, Region1.Location.Y + Region1.Height + 3)
@@ -274,7 +288,7 @@ Namespace ComparativeAlignment
                         Call LinkdrModel.AddLine(p2, p3)
                         Call LinkdrModel.AddLine(p3, p4)
                         Call LinkdrModel.AddLine(p4, p1)
-                        Call g.FillPath(New System.Drawing.SolidBrush(If(Link.Color = Nothing, DefaultColor, Link.Color)), LinkdrModel)
+                        Call g.FillPath(New SolidBrush(If(Link.Color = Nothing, DefaultColor, Link.Color)), LinkdrModel)
                     Next
 
                     If Not Up Then
@@ -611,7 +625,7 @@ POSITIONNING:
                 Query = ColumnList.First
             Else
                 If Regex.Match(Query, "\d+").Value.Equals(Query) Then
-                    Query = ColumnList(Val(Query))
+                    Query = ColumnList.ElementAtOrDefault(CInt(Val(Query)))
                 End If
             End If
 
