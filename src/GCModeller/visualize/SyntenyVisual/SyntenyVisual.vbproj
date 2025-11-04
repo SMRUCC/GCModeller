@@ -356,13 +356,29 @@
       <Project>{165db006-b18c-edc2-ca15-e69b0c68db1f}</Project>
       <Name>localblast.NET5</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj">
+      <Project>{4ea5d1a3-20ac-5ef2-e8e3-8e8c905d86b7}</Project>
+      <Name>dataframework-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.NET5.vbproj">
+      <Project>{f6a772da-032e-c99a-9847-432cb34cb381}</Project>
+      <Name>DynamicProgramming.NET5</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj">
       <Project>{132ee744-eff7-3644-6a33-d81504e7f9ef}</Project>
       <Name>Math.NET5</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj">
+      <Project>{ef7641e1-9ba7-eee7-fb3f-a056539320af}</Project>
+      <Name>imaging.NET5</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
       <Project>{d6a933d3-a04d-0d7b-c14a-d8f9a9f8fa51}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%25html\html_netcore5.vbproj">
+      <Project>{b43ec60f-c887-3bd6-9f97-d5d36d5fda87}</Project>
+      <Name>html_netcore5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\core\Bio.Annotation\annotation.NET5.vbproj">
       <Project>{77595721-b60d-1dde-6ce8-d552c0634fa7}</Project>
@@ -371,6 +387,10 @@
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj">
       <Project>{337d6884-20a4-1a04-31e6-cf595656d545}</Project>
       <Name>biocore-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataVisualizationExtensions\datavisual-netcore5.vbproj">
+      <Project>{99ca5928-4042-e12a-a451-507b12179fb6}</Project>
+      <Name>datavisual-netcore5</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

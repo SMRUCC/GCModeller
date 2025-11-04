@@ -50,9 +50,12 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace ComparativeGenomics
@@ -74,7 +77,7 @@ Namespace ComparativeGenomics
         ''' <param name="left%"></param>
         ''' <param name="IDDown">ID绘制的位置，对于query，位于图上部分，不需要绘制在下面，对于ref则需要绘制于下方</param>
         ''' <returns></returns>
-        Private Function drawBasicGenomeLayout(gdi As Graphics2D, models As GenomeModel,
+        Private Function drawBasicGenomeLayout(gdi As IGraphics, models As GenomeModel,
                                                ByRef height%,
                                                ByRef left%,
                                                IDDown As Boolean,
@@ -92,14 +95,15 @@ Namespace ComparativeGenomics
                 Order By gene.Left Ascending
             ).ToArray
 
+            Dim css As CSSEnvirnment = gdi.LoadEnvironment
             Dim rect As New Rectangle With {
                 .Location = New Point(padding.Left, height + 0.2 * DrawHeight),
-                .Size = New Size(gdi.Width - padding.Horizontal, DrawHeight - 0.4 * DrawHeight)
+                .Size = New Size(gdi.Width - padding.Horizontal(css), DrawHeight - 0.4 * DrawHeight)
             }
 
             Call gdi.FillRectangle(Brushes.LightGray, rect)
 
-            Dim scaleFactor As Double = (gdi.Width - padding.Horizontal) / models.Length
+            Dim scaleFactor As Double = (gdi.Width - padding.Horizontal(css)) / models.Length
             Dim r As Rectangle
 
             left += models.First.Left * scaleFactor
@@ -110,7 +114,7 @@ Namespace ComparativeGenomics
                 Dim nextGene As GeneObject = models(i + 1)
 
                 left = gene.InvokeDrawing(
-                    gdi.Graphics, New Point(left, height),
+                    gdi, New Point(left, height),
                     NextLeft:=nextGene.Left,
                     scaleFactor:=scaleFactor,
                     arrowRect:=r,
@@ -126,7 +130,7 @@ Namespace ComparativeGenomics
                 Call geneLayouts.Add(gene.locus_tag, r)
             Next
 
-            Call models.Last.InvokeDrawing(gdi.Graphics, New Point(left, height),
+            Call models.Last.InvokeDrawing(gdi, New Point(left, height),
                                            NextLeft:=models.Length,
                                            scaleFactor:=scaleFactor,
                                            arrowRect:=r,
@@ -149,7 +153,7 @@ Namespace ComparativeGenomics
         Public Function Plot(model As DrawingModel,
                              Optional canvasSize$ = "15024,2000",
                              Optional margin$ = "padding: 300px 100px 1000px 100px",
-                             Optional dLabel% = 20) As Image
+                             Optional dLabel% = 20) As GraphicsData
 
             Dim left, height As Integer
             Dim title$
@@ -161,38 +165,36 @@ Namespace ComparativeGenomics
                 Call Console.WriteLine()
             End If
 
-            Using g As Graphics2D = Graphics2D.CreateDevice(canvasSize.SizeParser)
+            height = padding.Top
+            left = padding.Left
 
-                height = padding.Top
-                left = padding.Left
+            Return g.GraphicsPlots(canvasSize.SizeParser, padding, "white",
+                                   Sub(ByRef g, canvas)
+                                       Dim layoutQuery = drawBasicGenomeLayout(g, model.Genome1, height, left, False, padding, labelY)
+                                       Dim top = labelY.Min
 
-                Dim layoutQuery = drawBasicGenomeLayout(g, model.Genome1, height, left, False, padding, labelY)
-                Dim top = labelY.Min
+                                       title = model.Genome1.Title
+                                       size = g.MeasureString(title, titleFont)
+                                       left = (g.Width - size.Width) / 2
+                                       g.DrawString(title, titleFont, Brushes.Black, left, top - size.Height - dLabel)
 
-                title = model.Genome1.Title
-                size = g.MeasureString(title, titleFont)
-                left = (g.Width - size.Width) / 2
-                g.DrawString(title, titleFont, Brushes.Black, left, top - size.Height - dLabel)
+                                       height = g.Height - DrawHeight - padding.Bottom
+                                       left = padding.Left
 
-                height = g.Height - DrawHeight - padding.Bottom
-                left = padding.Left
+                                       Dim layoutRef = drawBasicGenomeLayout(g, model.Genome2, height, left, True, padding, labelY)
 
-                Dim layoutRef = drawBasicGenomeLayout(g, model.Genome2, height, left, True, padding, labelY)
+                                       height = labelY.Max
+                                       title = model.Genome2.Title
+                                       size = g.MeasureString(title, titleFont)
+                                       left = (g.Width - size.Width) / 2
+                                       g.DrawString(title, titleFont, Brushes.Black, left, height + dLabel)
 
-                height = labelY.Max
-                title = model.Genome2.Title
-                size = g.MeasureString(title, titleFont)
-                left = (g.Width - size.Width) / 2
-                g.DrawString(title, titleFont, Brushes.Black, left, height + dLabel)
-
-                Call drawHomologousRibbon(g, model, layoutQuery, layoutRef)
-                Call drawRibbonColorLegend(g, model, top:=height + dLabel + size.Height, padding:=padding)
-
-                Return g.ImageResource
-            End Using
+                                       Call drawHomologousRibbon(g, model, layoutQuery, layoutRef)
+                                       Call drawRibbonColorLegend(g, model, top:=height + dLabel + size.Height, padding:=padding)
+                                   End Sub)
         End Function
 
-        Private Sub drawRibbonColorLegend(gdi As Graphics2D, model As DrawingModel, top%, padding As Padding)
+        Private Sub drawRibbonColorLegend(gdi As IGraphics, model As DrawingModel, top%, padding As Padding)
             Dim min$ = model.RibbonScoreColors.scoreRange.Min
             Dim max$ = model.RibbonScoreColors.scoreRange.Max
             Dim legendSize As New Size(350, 1000)
@@ -208,7 +210,7 @@ Namespace ComparativeGenomics
         ''' <summary>
         ''' 绘制由于同源所产生的链接信息
         ''' </summary>
-        Private Sub drawHomologousRibbon(gdi As Graphics2D, model As DrawingModel,
+        Private Sub drawHomologousRibbon(gdi As IGraphics, model As DrawingModel,
                                          layoutQuery As Dictionary(Of String, Rectangle),
                                          layoutRef As Dictionary(Of String, Rectangle))
 

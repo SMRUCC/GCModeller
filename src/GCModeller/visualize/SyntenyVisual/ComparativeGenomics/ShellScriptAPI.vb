@@ -45,7 +45,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -199,7 +199,7 @@ Namespace ComparativeGenomics
             Dim mapsVector = maps.ToArray
             Dim scores As Vector = mapsVector.Select(Function(d) d.identitiesValue).AsVector  ' maps.LogScore(Function(m) m.Evalue)
             Dim colorIndex As New DoubleRange(scores)
-            Dim indexRange As DoubleRange = {0, colors.Length - 1}
+            Dim indexRange As New DoubleRange(0, colors.Length - 1)
 
             model.Links = mapsVector _
                 .Select(Function(m, i)
