@@ -47,6 +47,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -90,7 +91,7 @@ Namespace ComparativeGenomics
                     Dim G2 = GBFF.File.Load(File2)
                     Dim Model = ModelFromGBK(G1, G2)
                     Call LinkFromBesthit(Besthits, Model)
-                    Dim res As Image = New DrawingDevice().Plot(Model)
+                    Dim res As GraphicsData = New DrawingDevice().Plot(Model)
                     Call res.Save(EXPORT & "/" & FileIO.FileSystem.GetFileInfo(df).Name & ".bmp")
                 Catch ex As Exception
                     ex = New Exception(df.ToFileURL, ex)
@@ -108,7 +109,7 @@ Namespace ComparativeGenomics
         End Function
 
         <ExportAPI("invoke.drawing")>
-        Public Function InvokeDrawing(Model As DrawingModel) As Image
+        Public Function InvokeDrawing(Model As DrawingModel) As GraphicsData
             Return New DrawingDevice().Plot(Model)
         End Function
 
