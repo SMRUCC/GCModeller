@@ -57,6 +57,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -77,6 +78,11 @@ Module genomics
     <ExportAPI("read.gtf")>
     Public Function readGtf(file As String) As GeneBrief()
         Return Gtf.ParseFile(file)
+    End Function
+
+    <ExportAPI("read.gff")>
+    Public Function readGff(file As String) As GFFTable
+        Return GFFTable.LoadDocument(file)
     End Function
 
     <ExportAPI("as.tabular")>
