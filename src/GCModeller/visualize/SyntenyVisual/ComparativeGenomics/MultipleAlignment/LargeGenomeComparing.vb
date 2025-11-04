@@ -56,6 +56,18 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
+#If NET48 Then
+Imports Brush = System.Drawing.Brush
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports Brushes = System.Drawing.Brushes
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
+
 Namespace ComparativeAlignment
 
     ''' <summary>
@@ -206,7 +218,7 @@ Namespace ComparativeAlignment
                 Dim Height As Integer = Margin
                 Dim Length As Integer = g.Width - 3 * Margin - maxLenTitleSize.Width + 20  '基因组的绘制区域的长度已经被固定下来了
                 Dim tagFont As New Font(FontFace.MicrosoftYaHei, FontSize)
-                Dim titleFont As New Font("Microsoft YaHei", 32, System.Drawing.FontStyle.Italic)
+                Dim titleFont As New Font("Microsoft YaHei", 32, FontStyle.Italic)
 
                 Height += 3 * Margin + GenomeInterval
 
@@ -315,7 +327,7 @@ Namespace ComparativeAlignment
                 Dim X, Y As Integer
                 X = g.Width * 0.25
                 Y = g.Height - Margin - "0".MeasureSize(g, titleFont).Height
-                titleFont = New Font(FontFace.MicrosoftYaHei, 30, System.Drawing.FontStyle.Bold)
+                titleFont = New Font(FontFace.MicrosoftYaHei, 30, FontStyle.Bold)
 
                 Dim gfx = g
                 Dim __drawTrangle = Sub(color As Color, Direction As Integer)
@@ -351,7 +363,7 @@ Namespace ComparativeAlignment
                                       <Parameter("Rule.Disp")> Optional DisplayRule As Boolean = True) As GraphicsData
 
             Dim tagFont As New Font(FontFace.MicrosoftYaHei, FontSize)
-            Dim titleFont As New Font("Microsoft YaHei", 32, System.Drawing.FontStyle.Italic)
+            Dim titleFont As New Font("Microsoft YaHei", 32, FontStyle.Italic)
             Dim maxLenTitle As String = model.EnumerateTitles.OrderByDescending(Function(s) Len(s)).First
             Dim maxLenTitleSize As SizeF = DriverLoad.MeasureTextSize(maxLenTitle, titleFont) '得到最长的标题字符串作为基本的绘制长度的标准
             Dim devSize As New Size(Margin * 10 + model.Query.Length * InternalConvertFactor + maxLenTitleSize.Width * 2, 5 * Margin + model.aligns.Count * (GenomeInterval + 400))
