@@ -66,6 +66,7 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Model.OperonMapper
+Imports SMRUCC.genomics.Visualize.SyntenyVisualize
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -246,5 +247,10 @@ Module genomics
         Else
             Return OperonRow.Load(file).ToArray
         End If
+    End Function
+
+    <ExportAPI("read.nucmer")>
+    Public Function read_nucmer(file As String) As DeltaFile
+        Return DeltaFile.LoadDocument(file)
     End Function
 End Module

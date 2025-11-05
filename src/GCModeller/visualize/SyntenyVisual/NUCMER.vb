@@ -32,6 +32,10 @@ Public Class DeltaFile
         Return sb.ToString
     End Function
 
+    Public Shared Function LoadDocument(file As String) As DeltaFile
+        Return NucmerDeltaParser.Parse(file)
+    End Function
+
 End Class
 
 ''' <summary>
