@@ -67,6 +67,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{0B0E925C-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visual", "visual", "{9444F197-E2F0-4A14-8DA1-761E88DE85C3}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ParserTest", "MEME.DocParser\ParserTest\ParserTest.vbproj", "{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -291,6 +293,14 @@ Global
 		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}.Release|x64.ActiveCfg = Release|x64
 		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}.Release|x64.Build.0 = Release|x64
+		{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}.Debug|x64.ActiveCfg = Debug|x64
+		{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}.Debug|x64.Build.0 = Debug|x64
+		{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}.Release|x64.ActiveCfg = Release|Any CPU
+		{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
