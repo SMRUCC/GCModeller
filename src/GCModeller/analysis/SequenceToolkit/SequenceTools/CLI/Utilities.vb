@@ -1,58 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::c4c708e02018f8a062eb0952185602f8, analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 267
-    '    Code Lines: 185 (69.29%)
-    ' Comment Lines: 55 (20.60%)
-    '    - Xml Docs: 58.18%
-    ' 
-    '   Blank Lines: 27 (10.11%)
-    '     File Size: 12.66 KB
+' Summaries:
 
 
-    ' Module Utilities
-    ' 
-    '     Function: Complement, DrawClustalW, FindMotifs, PatternSearchA, PromoterRegionParser_gb
-    '               Reverse, SequenceLogo
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 267
+'    Code Lines: 185 (69.29%)
+' Comment Lines: 55 (20.60%)
+'    - Xml Docs: 58.18%
+' 
+'   Blank Lines: 27 (10.11%)
+'     File Size: 12.66 KB
+
+
+' Module Utilities
+' 
+'     Function: Complement, DrawClustalW, FindMotifs, PatternSearchA, PromoterRegionParser_gb
+'               Reverse, SequenceLogo
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
@@ -70,13 +71,17 @@ Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.Extensions
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel.Promoter
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports std = System.Math
 
 ''' <summary>
 ''' Sequence Utilities
@@ -315,6 +320,38 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
             Dim save$ = $"{out}-promoter-regions/-{l.Tag}bp.fasta"
             Call New FastaFile(l.Value.Values).Save(120, save, Encodings.ASCII)
         Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/promoter_regions")>
+    <Usage("/promoter_regions /nt <nt.fasta> /gff <genomics.gff3> [/upstream_len <default=500bp> /out <default=output.fasta>]")>
+    Public Function PromoterRegionParser(args As CommandLine) As Integer
+        Dim nt_file As String = args("/nt")
+        Dim gff As GFFTable = GFFTable.LoadDocument(args("/gff"))
+        Dim upstream_len As Integer = args("/upstream_len") Or 500
+        Dim out_file As String = args("/out") Or $"{nt_file.ParentPath}/{nt_file.BaseName}_upstream_{upstream_len}bp.fasta"
+
+        Using s As Stream = out_file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False),
+            output As New FASTA.StreamWriter(s),
+            input As Stream = nt_file.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+
+            For Each nt As ChunkedNtFasta In ChunkedNtFasta.LoadDocument(input)
+                For Each gene As Feature In gff.features
+                    Dim left As Integer = If(gene.strand = Strands.Forward, gene.left - 1, gene.right + 1)
+                    Dim upstream As Integer = If(gene.strand = Strands.Forward, left - upstream_len, left + upstream_len)
+                    Dim from = std.Min(left, upstream)
+                    Dim [to] = std.Max(left, upstream)
+                    Dim seq As String = nt.GetRegion(from, [to])
+                    Dim promoter_region As New FastaSeq With {
+                        .Headers = {nt.title, gene.ID, $"{from}-{[to]}"},
+                        .SequenceData = seq
+                    }
+
+                    Call output.Add(promoter_region)
+                Next
+            Next
+        End Using
 
         Return 0
     End Function
