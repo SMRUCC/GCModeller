@@ -8,7 +8,7 @@ Namespace SequenceModel.NucleotideModels
     ''' <summary>
     ''' 分块存储的FASTA序列对象，用于处理大型基因组序列，例如植物基因组，动物基因组这些序列长度超过了2GB的基因组序列
     ''' </summary>
-    Public Class ChunkedFasta
+    Public Class ChunkedNtFasta
 
         ReadOnly seq As New BucketSet(Of DNA)()
 
@@ -36,9 +36,9 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="s">输入文件流</param>
         ''' <param name="chunkSize">分块大小，默认32MB</param>
         ''' <returns>FASTA序列对象的枚举</returns>
-        Public Shared Iterator Function LoadDocument(s As Stream, Optional chunkSize As Integer = ByteSize.MB * 32) As IEnumerable(Of ChunkedFasta)
+        Public Shared Iterator Function LoadDocument(s As Stream, Optional chunkSize As Integer = ByteSize.MB * 32) As IEnumerable(Of ChunkedNtFasta)
             Using reader As New StreamReader(s)
-                Dim currentFasta As ChunkedFasta = Nothing
+                Dim currentFasta As ChunkedNtFasta = Nothing
                 Dim currentChunk As New List(Of DNA)()
                 Dim line As String = Nothing
 
@@ -63,7 +63,7 @@ Namespace SequenceModel.NucleotideModels
 
                         ' 开始新的序列
                         ' 去掉'>'符号并去除两端空格
-                        currentFasta = New ChunkedFasta(line.Substring(1).Trim())
+                        currentFasta = New ChunkedNtFasta(line.Substring(1).Trim())
                     Else
                         ' 序列数据行
                         If currentFasta Is Nothing Then
