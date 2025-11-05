@@ -217,7 +217,7 @@ Public Class NucmerDeltaParser
 
         ' 第3行: ID 和长度
         Dim idParts = lines(2).Split({" "c}, StringSplitOptions.RemoveEmptyEntries)
-        If idParts.Length < 5 Then
+        If idParts.Length < 4 Then
             Throw New FormatException("Header ID line is malformed.")
         End If
         header.ReferenceId = idParts(0).Substring(1) ' 移除开头的 '>'
