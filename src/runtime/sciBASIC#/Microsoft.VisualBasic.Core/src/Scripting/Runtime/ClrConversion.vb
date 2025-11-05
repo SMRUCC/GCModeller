@@ -61,7 +61,10 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace Scripting.Runtime
 
-    Public Module Extensions
+    ''' <summary>
+    ''' helper for make clr value type conversion
+    ''' </summary>
+    Public Module ClrConversion
 
         Public ReadOnly Property Numerics As Index(Of TypeCode)
 
@@ -135,8 +138,8 @@ Namespace Scripting.Runtime
         ''' </param>
         ''' <returns>a generic type array</returns>
         <Extension>
-        Public Function CreateArray(data As IEnumerable, type As Type, Optional safeCast As Boolean = True) As Object
-            Dim src = data.Cast(Of Object).ToArray
+        Public Function CreateArray(data As IEnumerable, type As Type, Optional safeCast As Boolean = True) As Array
+            Dim src As Object() = data.Cast(Of Object).ToArray
             Dim array As Array = Array.CreateInstance(type, src.Length)
 
             If safeCast Then
