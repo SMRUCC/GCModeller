@@ -81,6 +81,8 @@ Public Module ProbabilityScanner
         For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW, identities)
             If Not motif.seeds Is Nothing Then
                 scan.seeds = motif.seeds.names
+            Else
+                scan.seeds = {motif.tag}
             End If
 
             Yield scan
