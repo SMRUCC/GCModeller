@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::0185baf0eb545a62786d123cb9070a57, R#\phenotype_kit\sampleInfo.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 427
-    '    Code Lines: 308 (72.13%)
-    ' Comment Lines: 63 (14.75%)
-    '    - Xml Docs: 95.24%
-    ' 
-    '   Blank Lines: 56 (13.11%)
-    '     File Size: 16.86 KB
+' Summaries:
 
 
-    ' Module DEGSample
-    ' 
-    '     Function: DesignAnalysis, getSampleId, groupColors, guessSampleGroups, PopulateSampleInfo
-    '               print, ReadSampleInfo, sample_groups, sampleinfoTable, sampleInfoTable
-    '               ScanForSampleInfo, shuffle_groups, WriteSampleInfo
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 427
+'    Code Lines: 308 (72.13%)
+' Comment Lines: 63 (14.75%)
+'    - Xml Docs: 95.24%
+' 
+'   Blank Lines: 56 (13.11%)
+'     File Size: 16.86 KB
+
+
+' Module DEGSample
+' 
+'     Function: DesignAnalysis, getSampleId, groupColors, guessSampleGroups, PopulateSampleInfo
+'               print, ReadSampleInfo, sample_groups, sampleinfoTable, sampleInfoTable
+'               ScanForSampleInfo, shuffle_groups, WriteSampleInfo
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,12 +62,14 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.DataSets
@@ -76,10 +78,10 @@ Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
-Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
 ''' GCModeller DEG experiment analysis designer toolkit
@@ -502,5 +504,42 @@ Module DEGSample
             .ToArray
 
         Return New DataAnalysis(sampleinfo)
+    End Function
+
+    <ExportAPI("make.MLdataset")>
+    Public Function makeMLdataset(x As HTS.DataFrame.Matrix, sampleinfo As SampleInfo()) As Object
+        Dim gene_ids As String() = x.rownames
+        Dim samples As Dictionary(Of String, Double()) = x.sampleID _
+            .ToDictionary(Function(name) name,
+                          Function(name)
+                              Return x.GetSampleArray(name).ToArray
+                          End Function)
+        Dim dataset As New List(Of EntityClusterModel)
+        Dim missing As New List(Of SampleInfo)
+
+        For Each sample As SampleInfo In sampleinfo
+            If samples.ContainsKey(sample.ID) Then
+                Dim vec As New Dictionary(Of String, Double)
+                Dim vals As Double() = samples(sample.ID)
+
+                For i As Integer = 0 To gene_ids.Length - 1
+                    Call vec.Add(gene_ids(i), vals(i))
+                Next
+
+                Call dataset.Add(New EntityClusterModel With {
+                    .ID = sample.ID,
+                    .Cluster = sample.sample_info,
+                    .Properties = vec
+                })
+            Else
+                Call missing.Add(sample)
+            End If
+        Next
+
+        If missing.Any Then
+            Call $"found {missing.Count} missing samples from the given expression matrix: {missing.JoinBy(", ")}".warning
+        End If
+
+        Return dataset.ToArray
     End Function
 End Module

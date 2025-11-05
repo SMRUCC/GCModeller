@@ -150,7 +150,7 @@ Namespace MarkupCompiler
                     .left = gene.Location.left,
                     .right = gene.Location.right,
                     .locus_tag = locus_tag,
-                    .product = {gene.Product},
+                    .product = gene.Product,
                     .protein_id = If(aa Is Nothing, {}, {proteinId(locus_tag).polypeptide}),
                     .strand = gene.Location.Strand.Description,
                     .amino_acid = aa,

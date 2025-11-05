@@ -158,7 +158,7 @@ Namespace MarkupCompiler.BioCyc
 
                 Yield New gene With {
                     .locus_tag = data.uniqueId,
-                    .product = If(prot Is Nothing, data.product, {prot.uniqueId}),
+                    .product = If(prot Is Nothing, data.product.JoinBy("; "), prot.uniqueId),
                     .left = data.left,
                     .right = data.right,
                     .strand = data.direction.ToString,

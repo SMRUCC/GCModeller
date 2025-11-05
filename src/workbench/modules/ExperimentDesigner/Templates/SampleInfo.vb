@@ -96,6 +96,10 @@ Public Class SampleInfo : Inherits SampleGroup
         Me.shape = copy.shape
     End Sub
 
+    Public Overrides Function ToString() As String
+        Return $"[{ID} - {sample_info}({color})] {sample_name}"
+    End Function
+
     Public Shared Iterator Function FromTagGroup(tags As NamedCollection(Of String),
                                                  Optional color As String = "#FF0000",
                                                  Optional shape As String = "21") As IEnumerable(Of SampleInfo)

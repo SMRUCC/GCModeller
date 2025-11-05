@@ -57,6 +57,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
@@ -91,6 +92,10 @@ Public Class OTUTable : Inherits DataSet
     ''' 
     <Column("taxonomy", GetType(BIOMTaxonomyParser))>
     Public Property taxonomy As Taxonomy
+
+    Public Overrides Function ToString() As String
+        Return $"{ID} - {taxonomy} [{Properties.Keys.JoinBy(", ")}]"
+    End Function
 
     Public Shared Iterator Function SumDuplicatedOTU(otus As IEnumerable(Of OTUTable)) As IEnumerable(Of OTUTable)
         For Each otu As IGrouping(Of String, OTUTable) In otus.GroupBy(Function(o) o.taxonomy.ToString)

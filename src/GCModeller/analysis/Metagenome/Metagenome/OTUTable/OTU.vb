@@ -197,6 +197,12 @@ Public Module OTU
         Next
     End Function
 
+    ''' <summary>
+    ''' load OTU data with seperated taxonomy rank data
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="tsv"></param>
+    ''' <returns></returns>
     Public Iterator Function LoadOTUTaxonAnalysis(file As String, Optional tsv As Boolean = False) As IEnumerable(Of OTUTable)
         Dim df As DataFrameResolver = DataFrameResolver.Load(file, tsv:=tsv)
         Dim domain = df.GetOrdinal("domain")

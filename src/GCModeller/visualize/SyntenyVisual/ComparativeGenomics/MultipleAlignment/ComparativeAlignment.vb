@@ -1,43 +1,43 @@
 ﻿#Region "Microsoft.VisualBasic::6c60147894c43fd8d9695866753a753d, visualize\SyntenyVisual\ComparativeGenomics\MultipleAlignment\ComparativeAlignment.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module ComparativeAlignment
-    ' 
-    '         Function: __internalFilter, __invokeDrawing, BuildModel, BuildMultipleAlignmentModel, CreateColor
-    '                   InvokeDrawing, TCSVisualization
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module ComparativeAlignment
+' 
+'         Function: __internalFilter, __invokeDrawing, BuildModel, BuildMultipleAlignmentModel, CreateColor
+'                   InvokeDrawing, TCSVisualization
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -47,14 +47,19 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
@@ -65,6 +70,20 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
+
+#If NET48 Then
+Imports Brush = System.Drawing.Brush
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports Brushes = System.Drawing.Brushes
+Imports FontStyle = System.Drawing.FontStyle
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
 
 Namespace ComparativeAlignment
 
@@ -80,7 +99,7 @@ Namespace ComparativeAlignment
         End Function
 
         Private Function __invokeDrawing(Models As GenomeModel,
-                                           Device As Graphics2D,
+                                           Device As IGraphics,
                                            Length As Integer,
                                            MaxLengthTitleSize As SizeF,
                                            Height As Integer,
@@ -94,7 +113,7 @@ Namespace ComparativeAlignment
 
             Models.genes = (From obj As GeneObject In Models.genes Select obj Order By obj.Left Ascending).ToArray
 
-            Call Device.Graphics.FillRectangle(New SolidBrush(Color.FromArgb(200, Color.Black)),
+            Call Device.FillRectangle(New SolidBrush(Color.FromArgb(200, Color.Black)),
                                             New Rectangle(New Point(RegionLeft, Height + 0.5 * GeneHeight), New Size(Length, 10)))
 
             RegionLeft += Models.First.Left * ConvertFactor
@@ -119,7 +138,7 @@ Namespace ComparativeAlignment
                     GeneObjectModel.Color = oC
                 End If
 
-                RegionLeft = GeneObjectModel.InvokeDrawing(Device.Graphics, New Point(RegionLeft, Height),
+                RegionLeft = GeneObjectModel.InvokeDrawing(Device, New Point(RegionLeft, Height),
                                                        NextLeft:=NextGeneObject.Left,
                                                        scaleFactor:=ConvertFactor,
                                                        arrowRect:=rtvlRegion,
@@ -136,13 +155,13 @@ Namespace ComparativeAlignment
                 LastModel.Color = oC
             End If
 
-            Call LastModel.InvokeDrawing(Device.Graphics, New Point(RegionLeft, Height), NextLeft:=Models.Length,
+            Call LastModel.InvokeDrawing(Device, New Point(RegionLeft, Height), NextLeft:=Models.Length,
                                      scaleFactor:=ConvertFactor,
                                      arrowRect:=rtvlRegion, IdDrawPositionDown:=True,
                                      Font:=Font, AlternativeArrowStyle:=Type2Arrow,
                                      overlapLayout:=IDConflictedRegion)
             Call GeneObjectDrawingRegions.Add(Models.Last.locus_tag, rtvlRegion)
-            Call Device.Graphics.DrawString(Models.Title, TitleDrawingFont, Brushes.Black, New Point(Margin, Height))
+            Call Device.DrawString(Models.Title, TitleDrawingFont, Brushes.Black, New Point(Margin, Height))
 
             Return GeneObjectDrawingRegions
         End Function
@@ -150,135 +169,171 @@ Namespace ComparativeAlignment
         <DataFrameColumn("convert.factor")> Dim InternalConvertFactor As Double = 0.0015
         <DataFrameColumn("font.size")> Dim FontSize As Integer = 20
 
+        Private Class PlotRegions : Inherits Plot
+
+            ReadOnly Model As DrawingModel
+            Dim DefaultColor As Color = Nothing,
+                Type2Arrow As Boolean = True,
+                QueryMiddle As Boolean = False,
+                color_overrides As String = ""
+
+            ReadOnly MaxLengthTitleSize As SizeF
+
+            Public Sub New(Model As DrawingModel, theme As Theme, MaxLengthTitleSize As SizeF,
+                           Optional DefaultColor As Color = Nothing,
+                           Optional Type2Arrow As Boolean = True,
+                           Optional QueryMiddle As Boolean = False,
+                           Optional color_overrides As String = "")
+
+                MyBase.New(theme)
+
+                Me.MaxLengthTitleSize = MaxLengthTitleSize
+                Me.Model = Model
+                Me.DefaultColor = DefaultColor
+                Me.Type2Arrow = Type2Arrow
+                Me.QueryMiddle = QueryMiddle
+                Me.color_overrides = color_overrides
+            End Sub
+
+            Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
+                Dim TitleDrawingFont As New Font("Microsoft YaHei", 20)
+                Dim Font As New Font(FontFace.MicrosoftYaHei, FontSize)
+                Dim Height As Integer = Margin
+                Dim Length As Integer = g.Width - 3 * Margin - MaxLengthTitleSize.Width + 20  '基因组的绘制区域的长度已经被固定下来了
+
+                '    Call GCSkew.InvokeDrawing(Device.ImageResource, Model.NT, New Point(MaxLengthTitleSize.Width + 2 * Margin, Height + 3 * Margin), New Size(Length, 3 * Margin)) '绘制GC偏移曲线
+
+                If QueryMiddle Then
+                    Height = (g.Height - Margin) / 2
+                Else
+                    Height += 3 * Margin + GeneHeight
+                End If
+
+                Dim RegionData1 = __invokeDrawing(Model.Query, g, Length, MaxLengthTitleSize, Height, TitleDrawingFont, Font, Type2Arrow, color_overrides)
+                Dim RegionData2 As Dictionary(Of String, Rectangle)
+
+                Dim Links As List(Of GeneLink) = (From itemfff In (From ItemLinks In Model.links Select ItemLinks Group By ItemLinks.genome1 Into Group).ToArray Let id = (From nnn In itemfff.Group Select nnn.genome2).ToArray Let idComb = Comb(Of String).CreateCompleteObjectPairs(id) Select (From nnnnn In idComb Select (From jjjjjj In nnnnn Select New ComparativeGenomics.GeneLink With {.genome1 = jjjjjj.Item1, .genome2 = jjjjjj.Item2}).ToArray).ToArray).ToArray.Unlist.Unlist
+                Call Links.AddRange(Model.links)
+
+                If DefaultColor = Nothing Then
+                    DefaultColor = Color.FromArgb(180, Color.SandyBrown)
+                End If
+
+                Dim Up As Boolean = False
+                Dim dHeight As Integer = 2.5 * GeneHeight  '相邻的两个基因组之间的绘图的间隔距离
+                Dim Height1 As Integer = Height - dHeight
+                Dim Height2 As Integer = Height + dHeight
+                Dim LastRegion1 As Dictionary(Of String, Rectangle) = RegionData1
+                Dim LastRegion2 As Dictionary(Of String, Rectangle) = RegionData1
+
+                For Each hit In Model.aligns
+
+                    If Up Then
+                        Height = Height1
+                        Height1 -= dHeight
+                    Else
+                        Height = Height2
+                        Height2 += dHeight
+                    End If
+
+                    If QueryMiddle Then Up = Not Up '位置进行翻转
+
+                    RegionData2 = __invokeDrawing(hit, g, Length, MaxLengthTitleSize, Height, TitleDrawingFont, Font, Type2Arrow, color_overrides)
+
+                    Dim GNModel___1 = Model.Query.ToDictionary(Function(Gene) Gene.locus_tag), GNModel___2 = Model.aligns.First.ToDictionary(Function(Gene) Gene.locus_tag)
+
+                    On Error Resume Next
+
+                    If Not Up Then
+                        RegionData1 = LastRegion1
+                    Else
+                        RegionData1 = LastRegion2
+                    End If
+
+                    '绘制连接信息
+                    For Each Link As ComparativeGenomics.GeneLink In Links
+                        Dim Region1 As Rectangle
+
+                        If RegionData1.ContainsKey(Link.genome1) Then
+                            Region1 = RegionData1(Link.genome1)
+                        Else
+                            Continue For
+                        End If
+
+                        Dim Region2 As Rectangle
+                        If RegionData2.ContainsKey(Link.genome2) Then
+                            Region2 = RegionData2(Link.genome2)
+                        Else
+                            Continue For
+                        End If
+
+                        Dim LinkdrModel = New GraphicsPath
+
+                        Dim p1, p2, p3, p4 As Point
+                        p1 = New Point(Region1.Location.X, Region1.Location.Y + Region1.Height + 3)
+                        p2 = New Point(Region1.Right, Region1.Top + Region1.Height + 3)
+
+                        If GNModel___1(Link.genome1).Direction < 0 Then
+                            Call p1.Swap(p2)
+                        End If
+
+                        p3 = New Point(Region2.Right, Region2.Top - 3)
+                        p4 = New Point(Region2.Location.X, Region2.Location.Y - 3)
+
+                        If GNModel___2(Link.genome2).Direction < 0 Then
+                            Call p3.Swap(p4)
+                        End If
+
+                        Call LinkdrModel.AddLine(p1, p2)
+                        Call LinkdrModel.AddLine(p2, p3)
+                        Call LinkdrModel.AddLine(p3, p4)
+                        Call LinkdrModel.AddLine(p4, p1)
+                        Call g.FillPath(New SolidBrush(If(Link.Color = Nothing, DefaultColor, Link.Color)), LinkdrModel)
+                    Next
+
+                    If Not Up Then
+                        LastRegion1 = RegionData2
+                    Else
+                        LastRegion2 = RegionData2
+                    End If
+                Next
+
+                If String.IsNullOrEmpty(color_overrides) Then
+                    Call g.DrawingCOGColors(Model.COGColors, New Point(Margin, g.Height - Margin), Font, g.Width, Margin)
+                End If
+            End Sub
+        End Class
+
         ''' <summary>
         ''' If the parameter color_overrides is not null then all of the gene 
         ''' color will overrides the cog color as the parameter specific 
         ''' color.
-        ''' (绘制对比对图)
+        ''' 
         ''' </summary>
         ''' <param name="model"></param>
         ''' <param name="defaultColor"></param>
         ''' <param name="type2Arrow"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(绘制对比对图)</remarks>
         Public Function InvokeDrawing(Model As DrawingModel,
                                       Optional DefaultColor As Color = Nothing,
                                       Optional Type2Arrow As Boolean = True,
                                       Optional QueryMiddle As Boolean = False,
-                                      Optional color_overrides As String = "") As Image
+                                      Optional color_overrides As String = "") As GraphicsData
 
-            Dim Font As New Font(FontFace.MicrosoftYaHei, FontSize)
             Dim TitleDrawingFont As New Font("Microsoft YaHei", 20)
-            Dim MaxLengthTitleSize As SizeF = (From str As String In New String()() {New String() {Model.Query.Title}, (From mm In Model.aligns Select mm.Title).ToArray}.Unlist
-                                               Select str
-                                               Order By Len(str) Descending).First.MeasureSize(New Size(1, 1).CreateGDIDevice, TitleDrawingFont) '得到最长的标题字符串作为基本的绘制长度的标准
+            Dim maxLenTitle As String = (From str As String In New String()() {New String() {Model.Query.Title}, (From mm In Model.aligns Select mm.Title).ToArray}.Unlist
+                                         Select str
+                                         Order By Len(str) Descending).First
+            Dim MaxLengthTitleSize As SizeF = DriverLoad.MeasureTextSize(maxLenTitle, TitleDrawingFont) '得到最长的标题字符串作为基本的绘制长度的标准
+            Dim plotSize As New Size(Margin * 10 + Model.Query.Length * InternalConvertFactor + MaxLengthTitleSize.Width * 2, 5 * Margin + Model.aligns.Count * (GeneHeight + 400))
+            Dim theme As New Theme With {
+                .mainCSS = New CSSFont(TitleDrawingFont, Brushes.Black).CSSValue,
+                .padding = New Padding(Margin).ToString
+            }
+            Dim app As New PlotRegions(Model, theme, MaxLengthTitleSize, DefaultColor, Type2Arrow, QueryMiddle, color_overrides)
 
-            Dim Device = (New Size(Margin * 10 + Model.Query.Length * InternalConvertFactor + MaxLengthTitleSize.Width * 2, 5 * Margin + Model.aligns.Count * (GeneHeight + 400))).CreateGDIDevice '创建GDI设备
-            Dim Height As Integer = Margin
-            Dim Length As Integer = Device.Width - 3 * Margin - MaxLengthTitleSize.Width + 20  '基因组的绘制区域的长度已经被固定下来了
-
-            '    Call GCSkew.InvokeDrawing(Device.ImageResource, Model.NT, New Point(MaxLengthTitleSize.Width + 2 * Margin, Height + 3 * Margin), New Size(Length, 3 * Margin)) '绘制GC偏移曲线
-
-            If QueryMiddle Then
-                Height = (Device.Height - Margin) / 2
-            Else
-                Height += 3 * Margin + GeneHeight
-            End If
-
-            Dim RegionData1 = __invokeDrawing(Model.Query, Device, Length, MaxLengthTitleSize, Height, TitleDrawingFont, Font, Type2Arrow, color_overrides)
-            Dim RegionData2 As Dictionary(Of String, Rectangle)
-
-            Dim Links As List(Of GeneLink) = (From itemfff In (From ItemLinks In Model.links Select ItemLinks Group By ItemLinks.genome1 Into Group).ToArray Let id = (From nnn In itemfff.Group Select nnn.genome2).ToArray Let idComb = Comb(Of String).CreateCompleteObjectPairs(id) Select (From nnnnn In idComb Select (From jjjjjj In nnnnn Select New ComparativeGenomics.GeneLink With {.genome1 = jjjjjj.Item1, .genome2 = jjjjjj.Item2}).ToArray).ToArray).ToArray.Unlist.Unlist
-            Call Links.AddRange(Model.links)
-
-            If DefaultColor = Nothing Then
-                DefaultColor = Color.FromArgb(180, Color.SandyBrown)
-            End If
-
-            Dim Up As Boolean = False
-            Dim dHeight As Integer = 2.5 * GeneHeight  '相邻的两个基因组之间的绘图的间隔距离
-            Dim Height1 As Integer = Height - dHeight
-            Dim Height2 As Integer = Height + dHeight
-            Dim LastRegion1 As Dictionary(Of String, Rectangle) = RegionData1
-            Dim LastRegion2 As Dictionary(Of String, Rectangle) = RegionData1
-
-            For Each hit In Model.aligns
-
-                If Up Then
-                    Height = Height1
-                    Height1 -= dHeight
-                Else
-                    Height = Height2
-                    Height2 += dHeight
-                End If
-
-                If QueryMiddle Then Up = Not Up '位置进行翻转
-
-                RegionData2 = __invokeDrawing(hit, Device, Length, MaxLengthTitleSize, Height, TitleDrawingFont, Font, Type2Arrow, color_overrides)
-
-                Dim GNModel___1 = Model.Query.ToDictionary(Function(Gene) Gene.locus_tag), GNModel___2 = Model.aligns.First.ToDictionary(Function(Gene) Gene.locus_tag)
-
-                On Error Resume Next
-
-                If Not Up Then
-                    RegionData1 = LastRegion1
-                Else
-                    RegionData1 = LastRegion2
-                End If
-
-                '绘制连接信息
-                For Each Link As ComparativeGenomics.GeneLink In Links
-                    Dim Region1 As Rectangle
-
-                    If RegionData1.ContainsKey(Link.genome1) Then
-                        Region1 = RegionData1(Link.genome1)
-                    Else
-                        Continue For
-                    End If
-
-                    Dim Region2 As Rectangle
-                    If RegionData2.ContainsKey(Link.genome2) Then
-                        Region2 = RegionData2(Link.genome2)
-                    Else
-                        Continue For
-                    End If
-
-                    Dim LinkdrModel = New System.Drawing.Drawing2D.GraphicsPath
-
-                    Dim p1, p2, p3, p4 As Point
-                    p1 = New Point(Region1.Location.X, Region1.Location.Y + Region1.Height + 3)
-                    p2 = New Point(Region1.Right, Region1.Top + Region1.Height + 3)
-
-                    If GNModel___1(Link.genome1).Direction < 0 Then
-                        Call p1.Swap(p2)
-                    End If
-
-                    p3 = New Point(Region2.Right, Region2.Top - 3)
-                    p4 = New Point(Region2.Location.X, Region2.Location.Y - 3)
-
-                    If GNModel___2(Link.genome2).Direction < 0 Then
-                        Call p3.Swap(p4)
-                    End If
-
-                    Call LinkdrModel.AddLine(p1, p2)
-                    Call LinkdrModel.AddLine(p2, p3)
-                    Call LinkdrModel.AddLine(p3, p4)
-                    Call LinkdrModel.AddLine(p4, p1)
-                    Call Device.Graphics.FillPath(New System.Drawing.SolidBrush(If(Link.Color = Nothing, DefaultColor, Link.Color)), LinkdrModel)
-                Next
-
-                If Not Up Then
-                    LastRegion1 = RegionData2
-                Else
-                    LastRegion2 = RegionData2
-                End If
-            Next
-
-            If String.IsNullOrEmpty(color_overrides) Then
-                Call Device.DrawingCOGColors(Model.COGColors, New Point(Margin, Device.Height - Margin), Font, Device.Width, Margin)
-            End If
-
-            Return Device.ImageResource
+            Return app.Plot($"{plotSize.Width},{plotSize.Height}")
         End Function
 
         ''' <summary>
@@ -555,7 +610,7 @@ POSITIONNING:
         ''' <param name="PttSource">请注意，这个值的顺序是与数据框之中的列是一一对应的</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function BuildModel(DF As IO.DataFrame,
+        Public Function BuildModel(DF As DataFrameResolver,
                                <Parameter("List.Paths.Ptt", "The source file list of the ptt data of the target drawing genomes.")> PttSource As IEnumerable(Of String),
                                <Parameter("List.ID", "The column id headers in the data frame csv data file.")> Optional ColumnList As IEnumerable(Of String) = Nothing,
                                <Parameter("Query.ID", "The column query id in the data frame.")> Optional Query As String = "",
@@ -570,7 +625,7 @@ POSITIONNING:
                 Query = ColumnList.First
             Else
                 If Regex.Match(Query, "\d+").Value.Equals(Query) Then
-                    Query = ColumnList(Val(Query))
+                    Query = ColumnList.ElementAtOrDefault(CInt(Val(Query)))
                 End If
             End If
 
