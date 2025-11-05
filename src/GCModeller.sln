@@ -4329,8 +4329,8 @@ Global
 		{9C062857-0E2C-175D-B623-441E0B5EA3B2}.gcmodeller_desktop|Any CPU.Build.0 = nuget_release|Any CPU
 		{9C062857-0E2C-175D-B623-441E0B5EA3B2}.gcmodeller_desktop|ARM32.ActiveCfg = nuget_release|Any CPU
 		{9C062857-0E2C-175D-B623-441E0B5EA3B2}.gcmodeller_desktop|ARM32.Build.0 = nuget_release|Any CPU
-		{9C062857-0E2C-175D-B623-441E0B5EA3B2}.gcmodeller_desktop|x64.ActiveCfg = nuget_release|x64
-		{9C062857-0E2C-175D-B623-441E0B5EA3B2}.gcmodeller_desktop|x64.Build.0 = nuget_release|x64
+		{9C062857-0E2C-175D-B623-441E0B5EA3B2}.gcmodeller_desktop|x64.ActiveCfg = Release|x64
+		{9C062857-0E2C-175D-B623-441E0B5EA3B2}.gcmodeller_desktop|x64.Build.0 = Release|x64
 		{9C062857-0E2C-175D-B623-441E0B5EA3B2}.gcmodeller_desktop|x86.ActiveCfg = nuget_release|Any CPU
 		{9C062857-0E2C-175D-B623-441E0B5EA3B2}.gcmodeller_desktop|x86.Build.0 = nuget_release|Any CPU
 		{9C062857-0E2C-175D-B623-441E0B5EA3B2}.LipidSearch|Any CPU.ActiveCfg = nuget_release|Any CPU
