@@ -40,11 +40,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.Linq
 
 Public Module Extensions
 
@@ -118,5 +120,60 @@ Public Module Extensions
             .Ends = right
         }
         Return mastSite
+    End Function
+
+    Public Iterator Function ParsePWNFile(file As String) As IEnumerable(Of MotifPWM)
+        Dim lines As String() = file.ReadAllLines
+        Dim alphabets As Char() = Nothing
+        Dim offset As Integer = 0
+
+        Do While offset <= lines.Length - 1
+            Dim line As String = lines(offset)
+
+            With line.GetTagValue("=")
+                If .Name = "ALPHABET" Then
+                    alphabets = Strings.Trim(.Value).ToArray
+                End If
+                If line.StartsWith("MOTIF") Then
+                    Exit Do
+                End If
+            End With
+
+            offset += 1
+        Loop
+
+        For Each block As String() In lines.Skip(offset) _
+            .Where(Function(si) Not si.StringEmpty(, True)) _
+            .Split(Function(si)
+                       Return si.StartsWith("MOTIF")
+                   End Function, deliPosition:=DelimiterLocation.NextFirst)
+
+            Dim name As String = block(0)
+            Dim notes As String = block(1) & vbCrLf & block.Last
+
+            block = block.Skip(2).Take(block.Length - 2).ToArray
+            offset = 1
+
+            Dim matrix As New List(Of ResidueSite)
+
+            For Each line As String In block
+                Dim p As Double() = line.Trim.StringSplit("\s+").AsDouble
+                Dim row As New ResidueSite With {
+                    .Bits = 1,
+                    .PWM = p,
+                    .Site = offset
+                }
+
+                offset += 1
+                matrix.Add(row)
+            Next
+
+            Yield New MotifPWM With {
+                .Alphabets = alphabets,
+                .name = name,
+                .note = notes,
+                .PWM = matrix.ToArray
+            }
+        Next
     End Function
 End Module
