@@ -3,6 +3,30 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\interops\\meme_suite\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{CC81BD51-18F5-9ED7-5C62-345408AA04E2}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\logo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC81BD51-18F5-9ED7-5C62-345408AA04E2}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\residue.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC81BD51-18F5-9ED7-5C62-345408AA04E2}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\drawingmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC81BD51-18F5-9ED7-5C62-345408AA04E2}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\drawingdevice.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B43EC60F-C887-3BD6-9F97-D5D36D5FDA87}|..\\..\\runtime\\sciBASIC#\\mime\\text%html\\html_netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\text%html\\css\\elements\\fontstyle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC81BD51-18F5-9ED7-5C62-345408AA04E2}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC81BD51-18F5-9ED7-5C62-345408AA04E2}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\colorschema.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC81BD51-18F5-9ED7-5C62-345408AA04E2}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\alphabet.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CC81BD51-18F5-9ED7-5C62-345408AA04E2}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\clustalvisual.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -69,24 +93,128 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FontStyle.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\text%html\\CSS\\Elements\\FontStyle.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\mime\\text%html\\CSS\\Elements\\FontStyle.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\text%html\\CSS\\Elements\\FontStyle.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\mime\\text%html\\CSS\\Elements\\FontStyle.vb",
+              "ViewState": "AgIAAKgAAAAAAAAAAAAowMkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T17:29:41.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Logo.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Logo.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Logo.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Logo.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Logo.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T17:25:09.709Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Extensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAABcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T17:24:20.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Residue.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Residue.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Residue.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Residue.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Residue.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwEQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T17:24:09.784Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DrawingModel.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingModel.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingModel.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingModel.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingModel.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwFkAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T17:24:00.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DrawingDevice.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
+              "ViewState": "AgIAAKcAAAAAAAAAAAAAANYAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T17:23:38.239Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ColorSchema.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\ColorSchema.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\ColorSchema.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\ColorSchema.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\ColorSchema.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T17:23:37.361Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Alphabet.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Alphabet.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Alphabet.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Alphabet.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Alphabet.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T17:23:27.192Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "ClustalVisual.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\ClustalVisual.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\ClustalVisual.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\ClustalVisual.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\ClustalVisual.vb",
-              "ViewState": "AgIAAIAAAAAAAAAAAAAcwJkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAQwFMAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-05T17:13:59.526Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 9,
               "Title": "MotifSite.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\ComponentModel\\MotifSite.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\ComponentModel\\MotifSite.vb",
@@ -99,7 +227,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 10,
               "Title": "MotifPM.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\ComponentModel\\MotifPM.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\ComponentModel\\MotifPM.vb",
@@ -112,7 +240,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 11,
               "Title": "Site.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\HtmlParser\\LDM\\Site.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\MEME\\HtmlParser\\LDM\\Site.vb",
@@ -125,7 +253,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 12,
               "Title": "Motif.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\HtmlParser\\LDM\\Motif.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\MEME\\HtmlParser\\LDM\\Motif.vb",
@@ -138,7 +266,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 13,
               "Title": "MEMEOutput.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\HtmlParser\\LDM\\MEMEOutput.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\MEME\\HtmlParser\\LDM\\MEMEOutput.vb",
@@ -151,7 +279,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 14,
               "Title": "ParserAPI.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\HtmlParser\\ParserAPI.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\MEME\\HtmlParser\\ParserAPI.vb",
@@ -164,7 +292,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 15,
               "Title": "MEME_HTML.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\HtmlParser\\MEME_HTML.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\MEME\\HtmlParser\\MEME_HTML.vb",
@@ -177,7 +305,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 16,
               "Title": "Site.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\LDM\\Site.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\MEME\\LDM\\Site.vb",
@@ -206,7 +334,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 17,
               "Title": "Motif.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\LDM\\Motif.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\MEME\\LDM\\Motif.vb",
@@ -219,7 +347,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 18,
               "Title": "XmlBaseAbstract.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\XmlBaseAbstract.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\XmlOutput\\XmlBaseAbstract.vb",
@@ -232,7 +360,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 19,
               "Title": "MEME.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\MEME.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\XmlOutput\\MEME.vb",
@@ -245,7 +373,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 20,
               "Title": "MAST.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\MAST.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\XmlOutput\\MAST.vb",
@@ -258,7 +386,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 21,
               "Title": "Extensions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\Extensions.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\Extensions.vb",
@@ -271,7 +399,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 22,
               "Title": "ModuleMotif.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\ModuleMotif.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\ModuleMotif.vb",
