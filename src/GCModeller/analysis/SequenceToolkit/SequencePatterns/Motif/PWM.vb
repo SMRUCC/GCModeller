@@ -73,6 +73,17 @@ Namespace Motif
         Public Property name As String
         Public Property note As String
 
+        Public Overrides Function ToString() As String
+            Return name & " - " & PWM _
+                .Select(Function(p)
+                            Dim max As Integer = which.Max(p.PWM)
+                            Dim c As Char = Alphabets(max)
+
+                            Return ResidueSite.ToChar(c, p.PWM.Max)
+                        End Function) _
+                .CharString
+        End Function
+
         Public Shared Function NT_PWM(sites As IEnumerable(Of ResidueSite)) As MotifPWM
             Return New MotifPWM With {
                 .Alphabets = SequenceModel.NT.ToArray,

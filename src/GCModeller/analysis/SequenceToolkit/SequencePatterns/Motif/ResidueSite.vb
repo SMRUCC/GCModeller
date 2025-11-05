@@ -128,6 +128,10 @@ Namespace Motif
             Return $"{ATGC}   //({Math.Round(Bits, 2)} bits) [{Math.Round(PWM(0), 2)}, {Math.Round(PWM(1), 2)}, {Math.Round(PWM(2), 2)}, {Math.Round(PWM(3), 2)}];"
         End Function
 
+        ''' <summary>
+        ''' 请注意，在这里显示的字符是按照内部默认的ATGC的顺序来显示的，可能会与实际的字符顺序不符合，这里仅做调试查看使用
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property AsChar As Char
             Get
                 Dim mxInd As Integer = PWM.MaxIndex

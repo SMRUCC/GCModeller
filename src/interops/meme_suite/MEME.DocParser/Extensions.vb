@@ -154,7 +154,7 @@ Public Module Extensions
             Dim name As String = block(0)
             Dim notes As String = block(1) & vbCrLf & block.Last
 
-            block = block.Skip(2).Take(block.Length - 2).ToArray
+            block = block.Skip(2).Take(block.Length - 3).ToArray
             offset = 1
 
             Dim matrix As New List(Of ResidueSite)
