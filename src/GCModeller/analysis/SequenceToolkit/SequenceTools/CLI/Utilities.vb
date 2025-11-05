@@ -352,6 +352,11 @@ Imports std = System.Math
                     Dim from = std.Min(left, upstream)
                     Dim [to] = std.Max(left, upstream)
                     Dim seq As String = nt.GetRegion(from, [to])
+
+                    If gene.strand = Strands.Reverse Then
+                        seq = NucleicAcid.Complement(seq).Reverse.CharString
+                    End If
+
                     Dim promoter_region As New FastaSeq With {
                         .Headers = {nt.title, gene.ID, $"{from}-{[to]}"},
                         .SequenceData = seq
