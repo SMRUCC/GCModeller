@@ -346,26 +346,30 @@ Imports std = System.Math
 
                 Call $"load genomics chromosome sequence {nt.ToString}".info
 
-                For Each gene As Feature In Tqdm.Wrap(chr_genes, bar:=bar)
-                    Dim left As Integer = If(gene.strand = Strands.Forward, gene.left - 1, gene.right + 1)
-                    Dim upstream As Integer = If(gene.strand = Strands.Forward, left - upstream_len, left + upstream_len)
-                    Dim from = std.Min(left, upstream)
-                    Dim [to] = std.Max(left, upstream)
-                    Dim seq As String = nt.GetRegion(from, [to])
+                Try
+                    For Each gene As Feature In Tqdm.Wrap(chr_genes, bar:=bar)
+                        Dim left As Integer = If(gene.strand = Strands.Forward, gene.left - 1, gene.right + 1)
+                        Dim upstream As Integer = If(gene.strand = Strands.Forward, left - upstream_len, left + upstream_len)
+                        Dim from = std.Min(left, upstream)
+                        Dim [to] = std.Max(left, upstream)
+                        Dim seq As String = nt.GetRegion(from, [to])
 
-                    If gene.strand = Strands.Reverse Then
-                        seq = NucleicAcid.Complement(seq).Reverse.CharString
-                    End If
+                        If gene.strand = Strands.Reverse Then
+                            seq = NucleicAcid.Complement(seq).Reverse.CharString
+                        End If
 
-                    Dim promoter_region As New FastaSeq With {
-                        .Headers = {nt.title, gene.ID, $"{from}-{[to]}"},
-                        .SequenceData = seq
-                    }
+                        Dim promoter_region As New FastaSeq With {
+                            .Headers = {nt.title, gene.ID, $"{from}-{[to]}"},
+                            .SequenceData = seq
+                        }
 
-                    Call bar.SetLabel(promoter_region.Title)
+                        Call bar.SetLabel(promoter_region.Title)
 
-                    Call output.Add(promoter_region)
-                Next
+                        Call output.Add(promoter_region)
+                    Next
+                Catch ex As Exception
+                    Call $"error while processing chromosome {nt.title}".warning
+                End Try
             Next
         End Using
 
