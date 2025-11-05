@@ -285,8 +285,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".png")
         Dim aln As New FASTA.FastaFile(inFile)
-        ClustalVisual.DotSize = args("/dot.size") Or 10
-        Dim res As Image = ClustalVisual.InvokeDrawing(aln)
+        Dim dotSize As Single = args("/dot.size") Or 10
+        Dim res As Image = ClustalVisual.InvokeDrawing(aln, dotSize:=dotSize).AsGDIImage
         Return res.SaveAs(out, ImageFormats.Png)
     End Function
 
