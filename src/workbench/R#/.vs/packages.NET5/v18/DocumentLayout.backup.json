@@ -3,11 +3,14 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C0AE418B-9E6D-C99A-1BB4-45ED783D63B5}|..\\..\\GCModeller\\visualize\\SyntenyVisual\\SyntenyVisual.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\syntenyvisual\\nucmer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\genomics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\genomics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C0AE418B-9E6D-C99A-1BB4-45ED783D63B5}|..\\..\\GCModeller\\visualize\\SyntenyVisual\\SyntenyVisual.vbproj|g:\\gcmodeller\\src\\gcmodeller\\visualize\\syntenyvisual\\nucmer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AD129A16-C806-42DF-B090-DEFEDF09B227}|..\\..\\GCModeller\\core\\Bio.Annotation\\annotation.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.annotation\\gff\\feature.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -23,9 +26,6 @@
       "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\context.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AD129A16-C806-42DF-B090-DEFEDF09B227}|..\\..\\GCModeller\\core\\Bio.Annotation\\annotation.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.annotation\\gff\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
@@ -36,21 +36,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "NUCMER.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\SyntenyVisual\\NUCMER.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\SyntenyVisual\\NUCMER.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\SyntenyVisual\\NUCMER.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\SyntenyVisual\\NUCMER.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T08:46:51.419Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -69,7 +56,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "NUCMER.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\visualize\\SyntenyVisual\\NUCMER.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\visualize\\SyntenyVisual\\NUCMER.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\visualize\\SyntenyVisual\\NUCMER.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\visualize\\SyntenyVisual\\NUCMER.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T08:46:51.419Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Feature.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Annotation\\GFF\\Feature.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Annotation\\GFF\\Feature.vb",
@@ -82,7 +82,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "FileFormat.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Annotation\\GFF\\Document\\FileFormat.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Annotation\\GFF\\Document\\FileFormat.vb",
@@ -94,14 +94,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "R-cmd.NET5",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-11-04T19:15:54.922Z"
+              "WhenOpened": "2025-11-04T19:15:54.922Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -117,7 +118,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "GFF.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Annotation\\GFF\\GFF.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Annotation\\GFF\\GFF.vb",
@@ -129,20 +130,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "genomics.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genomics.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genomics.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genomics.vb",
               "RelativeToolTip": "seqtoolkit\\Annotations\\genomics.vb",
-              "ViewState": "AgIAAMIAAAAAAAAAAAAswPsAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAMoAAAAAAAAAAAAYwP0AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-04T19:11:41.794Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "context.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\context.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\context.vb",

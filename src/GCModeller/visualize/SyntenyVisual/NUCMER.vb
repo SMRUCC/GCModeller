@@ -9,12 +9,13 @@ Imports System.Text
 ''' 代表一个完整的 Delta 文件，包含文件头和所有比对块。
 ''' </summary>
 Public Class DeltaFile
+
     Public Property Header As DeltaHeader
-    Public Property Alignments As List(Of AlignmentBlock)
+    Public Property Alignments As AlignmentBlock()
 
     Default Public ReadOnly Property Item(i As Integer) As AlignmentBlock
         Get
-            Return Alignments(i)
+            Return _Alignments(i)
         End Get
     End Property
 
@@ -139,39 +140,32 @@ Public Class NucmerDeltaParser
     ''' </summary>
     ''' <param name="filePath">Delta 文件的完整路径。</param>
     ''' <returns>一个包含解析后数据的 DeltaFile 对象，如果解析失败则返回 Nothing。</returns>
-    Public Shared Function Parse(ByVal filePath As String) As DeltaFile
-        If Not File.Exists(filePath) Then
-            Console.Error.WriteLine($"错误: 文件未找到 '{filePath}'")
-            Return Nothing
-        End If
+    Public Shared Function Parse(filePath As String) As DeltaFile
+        Dim lines = filePath.ReadAllLines
 
-        Dim lines As List(Of String)
-        Try
-            lines = File.ReadAllLines(filePath).ToList()
-        Catch ex As Exception
-            Console.Error.WriteLine($"错误: 读取文件失败 '{filePath}'. {ex.Message}")
-            Return Nothing
-        End Try
-
-        If lines.Count < 3 Then
+        If lines.Length < 3 Then
             Console.Error.WriteLine("错误: 文件格式不正确，行数不足。")
             Return Nothing
         End If
 
         Dim result As New DeltaFile()
-        result.Alignments = New List(Of AlignmentBlock)()
 
         ' --- 1. 解析文件头 ---
         Try
             result.Header = ParseHeader(lines)
+            result.Alignments = ParseAlignment(lines).ToArray
         Catch ex As Exception
             Console.Error.WriteLine($"错误: 解析文件头失败. {ex.Message}")
             Return Nothing
         End Try
 
+        Return result
+    End Function
+
+    Private Shared Iterator Function ParseAlignment(lines As String()) As IEnumerable(Of AlignmentBlock)
         ' --- 2. 解析比对块 ---
         Dim i As Integer = 3 ' 从第4行开始 (索引为3)
-        While i < lines.Count
+        While i < lines.Length
             Dim line As String = lines(i).Trim()
 
             ' 跳过空行
@@ -185,7 +179,8 @@ Public Class NucmerDeltaParser
             If parts.Length = 7 AndAlso parts.All(Function(p) Long.TryParse(p, Nothing)) Then
                 Dim alignment As AlignmentBlock = ParseAlignmentBlock(lines, i)
                 If alignment IsNot Nothing Then
-                    result.Alignments.Add(alignment)
+                    Yield alignment
+
                     ' 移动到下一个比对块的坐标行
                     i += 1 ' 跳过当前坐标行
                     ' 跳过所有差异值行
@@ -204,14 +199,12 @@ Public Class NucmerDeltaParser
                 i += 1
             End If
         End While
-
-        Return result
     End Function
 
     ''' <summary>
     ''' 从文件行列表中解析文件头。
     ''' </summary>
-    Private Shared Function ParseHeader(lines As List(Of String)) As DeltaHeader
+    Private Shared Function ParseHeader(ByRef lines As String()) As DeltaHeader
         Dim header As New DeltaHeader()
 
         ' 第1行: 文件路径
@@ -238,7 +231,7 @@ Public Class NucmerDeltaParser
     ''' <summary>
     ''' 从指定行开始解析一个比对块。
     ''' </summary>
-    Private Shared Function ParseAlignmentBlock(lines As List(Of String), ByVal startIndex As Integer) As AlignmentBlock
+    Private Shared Function ParseAlignmentBlock(ByRef lines As String(), startIndex As Integer) As AlignmentBlock
         Dim block As New AlignmentBlock()
         block.Deltas = New List(Of Long)()
 
@@ -254,7 +247,7 @@ Public Class NucmerDeltaParser
 
         ' 解析后续的差异值行
         Dim i As Integer = startIndex + 1
-        While i < lines.Count
+        While i < lines.Length
             Dim deltaLineParts = lines(i).Trim().Split({" "c}, StringSplitOptions.RemoveEmptyEntries)
             ' 如果该行所有部分都是整数，则认为是差异值行
             If deltaLineParts.All(Function(p) Long.TryParse(p, Nothing)) Then
