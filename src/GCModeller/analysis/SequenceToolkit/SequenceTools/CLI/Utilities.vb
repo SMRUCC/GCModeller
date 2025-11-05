@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -79,6 +80,8 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel.Promoter
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
@@ -405,17 +408,21 @@ Imports std = System.Math
                     End Function) _
             .ToArray
         Dim target As FastaFile = FastaFile.Read([in])
-        Dim scan As MotifMatch() = motifs.AsParallel _
-            .Select(Iterator Function(motif) As IEnumerable(Of MotifMatch)
-                        For Each seq As FastaSeq In target.AsEnumerable
-                            For Each hit As MotifMatch In motif.ScanSites(seq)
-                                Yield hit
-                            Next
-                        Next
-                    End Function) _
-            .IteratesALL _
-            .ToArray
 
-        Return scan.SaveTo(out).CLICode
+        Using IO As New WriteStream(Of MotifMatch)(out)
+            Dim write = IO _
+                .ToArray(Of SequenceMotif)(Function(q)
+                                               Return target _
+                                                   .AsParallel _
+                                                   .Select(Function(seq) q.ScanSites(seq)) _
+                                                   .IteratesALL
+                                           End Function)
+
+            For Each motif As SequenceMotif In Tqdm.Wrap(motifs)
+                Call write(motif)
+            Next
+        End Using
+
+        Return 0
     End Function
 End Module
