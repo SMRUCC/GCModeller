@@ -79,7 +79,9 @@ Public Module ProbabilityScanner
                                        Optional identities As Double = 0.5) As IEnumerable(Of MotifMatch)
 
         For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW, identities)
-            scan.seeds = motif.seeds.names
+            If Not motif.seeds Is Nothing Then
+                scan.seeds = motif.seeds.names
+            End If
 
             Yield scan
         Next
