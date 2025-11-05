@@ -413,6 +413,7 @@ Imports std = System.Math
                             Next
                         Next
                     End Function) _
+            .IteratesALL _
             .ToArray
 
         Return scan.SaveTo(out).CLICode
