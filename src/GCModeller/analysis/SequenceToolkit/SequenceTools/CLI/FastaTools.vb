@@ -168,7 +168,7 @@ Partial Module Utilities
         For Each x In fa1
             Dim id = x.Headers.First.Split.First
             If Not f2Dict.ContainsKey(id) Then
-                Call $"{x.Title} is not exists in  ""{f2}""".__DEBUG_ECHO
+                Call $"{x.Title} is not exists in  ""{f2}""".debug
             End If
         Next
 
@@ -177,7 +177,7 @@ Partial Module Utilities
         For Each x In fa2
             Dim id = x.Headers.First.Split.First
             If Not f1Dict.ContainsKey(id) Then
-                Call $"{x.Title} is not exists in  ""{f1}""".__DEBUG_ECHO
+                Call $"{x.Title} is not exists in  ""{f1}""".debug
             End If
         Next
 
@@ -217,7 +217,7 @@ Partial Module Utilities
                 .ToArray
         End If
 
-        Call $"Found {fasta.Length} fasta files in source DIR  {fa}".__DEBUG_ECHO
+        Call $"Found {fasta.Length} fasta files in source DIR  {fa}".debug
 
         Dim LQuery As List(Of FastaSeq)
 
@@ -232,7 +232,7 @@ Partial Module Utilities
                     .ToDictionary(Function(x) x.uid,
                                   Function(x) x.Group.ToArray)
 
-            Call $"Files loads {seqHash.Count} sequence...".__DEBUG_ECHO
+            Call $"Files loads {seqHash.Count} sequence...".debug
 
             LQuery = LinqAPI.MakeList(Of FastaSeq) <=
  _
@@ -677,7 +677,7 @@ Partial Module Utilities
 
         If Not String.IsNullOrEmpty(uidRegx) Then
             out = out.TrimSuffix & ".unique_uid.fasta"
-            Call $"uidRegexp using {uidRegx}".__DEBUG_ECHO
+            Call $"uidRegexp using {uidRegx}".debug
 
             Dim uids = From fa As FastaSeq
                        In fasta

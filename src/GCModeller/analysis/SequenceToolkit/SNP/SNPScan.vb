@@ -57,13 +57,10 @@ Imports System.Data
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs
-Imports SMRUCC.genomics.Interops
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Public Module SNPScan
 
@@ -156,7 +153,7 @@ Public Module SNPScan
         If index = -1 Then
             Throw New EvaluateException($"{refInd} is not a valid reference....")
         Else
-            Call $"Using {nt(index).Title} as reference...".__DEBUG_ECHO
+            Call $"Using {nt(index).Title} as reference...".debug
         End If
 
         Return nt.SNPSitesGeneric(1, 1, 1, TempFileSystem.GetAppSysTempFile, index, If(pureMode, 1, 0), If(monomorphic, 1, 0), vcf_output_filename)

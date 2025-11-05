@@ -64,7 +64,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
@@ -134,7 +134,7 @@ Partial Module Utilities
         Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, BlosumParser.LoadMatrix(blosum))
         Dim sw As SequenceTools.SmithWaterman = SequenceTools.SmithWaterman.Align(queryFa, subjectFa, mat)
         Dim output As Output = sw.GetOutput(0.65, 6)
-        Call output.__DEBUG_ECHO
+        Call output.debug
         Return output.SaveAsXml(out).CLICode
     End Function
 
@@ -175,7 +175,7 @@ Partial Module Utilities
                 Call result.HTMLVisualize.SaveTo(path)
             Next
 
-            Call queryToken.Title.__DEBUG_ECHO
+            Call queryToken.Title.debug
             Call FlushMemory()
         Next
 

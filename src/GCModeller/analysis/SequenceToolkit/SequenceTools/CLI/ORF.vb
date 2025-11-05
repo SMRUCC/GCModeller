@@ -74,10 +74,10 @@ Partial Module Utilities
         Dim ORF = FastaFile.LoadNucleotideData(args("/orf"))
         Dim TranslTbl As Integer = args.GetValue(Of Integer)("/transl_table", 1)
         Dim Table = TranslTable.GetTable(TranslTbl)
-        Dim Force As Boolean = args.GetBoolean("/force")
+        Dim Force As Boolean = args("/force")
         Dim Codes = Codon.CreateHashTable
         Dim StopCodes = (From code In Codes Where Table.IsStopCoden(code.TranslHashCode) Select code.CodonValue).ToArray
-        Call ($"{Table.ToString} ==> stop_codons={String.Join(",", StopCodes)}" & vbCrLf & vbCrLf).__DEBUG_ECHO
+        Call ($"{Table.ToString} ==> stop_codons={String.Join(",", StopCodes)}" & vbCrLf & vbCrLf).debug
         Dim PRO = ORF.Select(Function(Fasta) Fasta.__translate(Table, Force)).ToArray
         Dim PROFasta As New FastaFile(PRO)
         Return PROFasta.Save(args("/orf") & ".PRO.fasta").CLICode

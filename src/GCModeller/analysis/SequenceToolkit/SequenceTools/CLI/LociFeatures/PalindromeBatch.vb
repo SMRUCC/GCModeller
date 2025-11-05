@@ -72,7 +72,7 @@ Partial Module Utilities
     Public Function CheckHeaders(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim n As Integer = args("/n")
-        Dim all As Boolean = args.GetBoolean("/all")
+        Dim all As Boolean = args("/all")
 
         For Each fa As FastaSeq In New FastaFile([in])
             If fa.Headers.Length <> n OrElse fa.ToString.Length > 220 Then
@@ -104,7 +104,7 @@ Partial Module Utilities
         Dim maxDist As Integer = args.GetValue("/max-dist", 1000)
         Dim parts As Integer = args.GetValue("/partitions", -1)
         Dim minAp As Integer = args.GetValue("/min-appears", 2)
-        Dim onlyPalindrome As String = If(args.GetBoolean("/Palindrome"), "/Palindrome", "")
+        Dim onlyPalindrome As String = If(args("/Palindrome"), "/Palindrome", "")
         Dim task As Func(Of String, String) =
             Function(fa) _
                 $"{api} /in {fa.CLIPath} /min {min} /max {max} /min-appears {minAp} /out {out.CLIPath} /cutoff {cutoff} /max-dist {maxDist} /partitions {parts} /batch {onlyPalindrome}"
@@ -129,7 +129,7 @@ Partial Module Utilities
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Palindrome.Workflow/")
-        Dim isBatch As Boolean = args.GetBoolean("/batch") ' 批量和单独的模式相比，差异只是在保存结果的时候的位置
+        Dim isBatch As Boolean = args("/batch") ' 批量和单独的模式相比，差异只是在保存结果的时候的位置
         Dim nt As New FASTA.FastaSeq([in])
         Dim minAp As Integer = args.GetValue("/min-appears", 2)
 
@@ -174,7 +174,7 @@ Partial Module Utilities
             Call imPalLocis.SaveTo(prefix & ".Sites-ImperfectPalindrome.csv")
         End If
 
-        If Not args.GetBoolean("/Palindrome") Then
+        If Not args("/Palindrome") Then
             Dim repeats As Topologically.Repeats() = RepeatsSearchAPI.SearchRepeats(nt, min, max, minAp) ' 简单重复
             Dim rev As ReverseRepeats() = RepeatsSearchAPI.SearchReversedRepeats(nt, min, max, minAp) ' 反向重复
 

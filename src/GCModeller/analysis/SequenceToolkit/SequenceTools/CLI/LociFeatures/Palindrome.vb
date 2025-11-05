@@ -601,7 +601,7 @@ Partial Module Utilities
         Dim output As New List(Of PalindromeLoci)
 
         For Each promoter As FastaSeq In source
-            Call promoter.Title.__DEBUG_ECHO
+            Call promoter.Title.debug
 
             If mirror Then
                 output += promoter.SearchMirrorPalindrome(min, max, promoter.Title)

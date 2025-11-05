@@ -235,7 +235,7 @@ Partial Module Utilities
                Usage:="/Write.Seeds /out <out.dat> [/prot /max <20>]")>
     <Group(CLIGrouping.RepeatsTools)>
     Public Function WriteSeeds(args As CommandLine) As Integer
-        Dim isProt As Boolean = args.GetBoolean("/prot")
+        Dim isProt As Boolean = args("/prot")
         Dim out As String = args("/out")
         Dim max As Integer = args.GetValue("/max", 20)
         Dim chars As Char() = If(isProt, ToChar.Values.Distinct.ToArray, {"A"c, "T"c, "G"c, "C"c})
@@ -275,7 +275,7 @@ Partial Module Utilities
                     Console.Write(".")
                     Continue For
                 Else
-                    Call nt.Title.__INFO_ECHO
+                    Call nt.Title.info
                 End If
 
                 Try
