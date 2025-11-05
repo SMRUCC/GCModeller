@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Visualize.SyntenyVisualize.AlignmentBlock</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>AlignmentBlock {SMRUCC.genomics.Visualize.SyntenyVisualize}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>AlignmentBlock</h2>
+
+        <h3>Description</h3>
+
+        <p>代表一个单独的比对块。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Visualize.SyntenyVisualize
+export class AlignmentBlock {
+   # 描述该比对区域内具体差异的整数列表。
+   Deltas: <a href="/vignettes/clr/System/Int64.html">iterates(Int64)</a>;
+   # 比对区域内的错误总数 (错配 + 插入缺失)。
+   Errors: integer;
+   # 获取一个值，指示该比对是否为反向互补比对。
+   #  如果 QStart > QEnd，则为反向互补。
+   IsReverseComplement: boolean;
+   # 查询序列上的结束位置 (1-based inclusive)。
+   QEnd: integer;
+   # 查询序列上的起始位置 (1-based inclusive)。
+   QStart: integer;
+   # 获取查询序列上比对区域的长度。
+   QueryAlignmentLength: integer;
+   # 获取参考序列上比对区域的长度。
+   ReferenceAlignmentLength: integer;
+   # 参考序列上的结束位置 (1-based inclusive)。
+   REnd: integer;
+   # 参考序列上的起始位置 (1-based inclusive)。
+   RStart: integer;
+   # 比对区域内相似碱基的数量。
+   Similarity: integer;
+   # 终止符，通常为 0。
+   Stop: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Deltas</code>: <a href="/vignettes/clr/System/Int64.html">iterates(Int64)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

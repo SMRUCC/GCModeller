@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF.GFFTable</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GFFTable {SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GFFTable</h2>
+
+        <h3>Description</h3>
+
+        <p>GFF (General Feature Format) specifications document</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
+export class GFFTable {
+   # date    (##date <date>)
+   #  
+   #  The date the file was made, Or perhaps that the prediction programs were run. We suggest to use 
+   #  astronomical format 1997-11-08 for 8th November 1997, first because these sort properly, And 
+   #  second to avoid any US/European bias.
+   date: string;
+   # DNA 
+   #  
+   #  (##DNA <seqname>
+   #   ##acggctcggattggcgctggatgatagatcagacgac
+   #   ##...
+   #   ##End-DNA)
+   #  
+   #  To give a DNA sequence. Several people have pointed out that it may be convenient to include the sequence in the file. 
+   #  It should Not become mandatory to do so, And in our experience this has been very little used. Often the seqname will 
+   #  be a well-known identifier, And the sequence can easily be retrieved from a database, Or an accompanying file.
+   DNA: string;
+   # 基因组上面的特性位点
+   features: <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/Feature.html">Feature[]</a>;
+   # gff-version   (##gff-version 2)
+   #  
+   #  GFF version - In Case it Is a real success And we want To change it. The current Default version Is 2, 
+   #  so If this line Is Not present version 2 Is assumed.
+   GffVersion: integer;
+   # 生成这个文件的应用程序
+   processor: string;
+   # Protein
+   #  
+   #  (##Protein <seqname>
+   # 
+   # ##MVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSF
+   #   ##...
+   #   ##End-Protein)
+   #  
+   #  Similar to DNA. Creates an implicit ##Type Protein <seqname> directive.
+   Protein: string;
+   # RNA 
+   #  
+   #  (##RNA <seqname>
+   #   ##acggcucggauuggcgcuggaugauagaucagacgac
+   #   ##...
+   #   ##End-RNA)
+   #  
+   #  Similar to DNA. Creates an implicit ##Type RNA <seqname> directive.
+   RNA: string;
+   # sequence-region  (##sequence-region <seqname> <start> <end>)
+   #  
+   #  To indicate that this file only contains entries for the specified subregion of a sequence.
+   SeqRegion: <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/SeqRegion.html">SeqRegion</a>;
+   # Genome size
+   Size: integer;
+   species: string;
+   # source-version   (##source-version <source> <version text>)
+   #  
+   #  So that people can record what version Of a program Or package was used To make the data In this file. 
+   #  I suggest the version Is text without whitespace. That allows things Like 1.3, 4a etc. There should be 
+   #  at most one source-version line per source.
+   SrcVersion: string;
+   # type   (##Type <type> [<seqname>])
+   #  
+   #  The type Of host sequence described by the features. Standard types are 'DNA', 'Protein' and 'RNA'. 
+   #  The optional <seqname> allows multiple ##Type definitions describing multiple GFF sets in one file, 
+   #  each of which have a distinct type. If the name is not provided, then all the features in the file 
+   #  are of the given type. Thus, with this meta-comment, a single file could contain DNA, RNA and 
+   #  Protein features, for example, representing a single genomic locus or 'gene', alongside type-specific 
+   #  features of its transcribed mRNA and translated protein sequences. If no ##Type meta-comment is 
+   #  provided for a given GFF file, then the type is assumed to be DNA.
+   type: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>features</code>: <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/Feature.html">Feature</a></li>
+<li>use by <i>property</i> member <code>SeqRegion</code>: <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/SeqRegion.html">SeqRegion</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

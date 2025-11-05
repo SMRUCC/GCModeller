@@ -13,3 +13,4 @@ GCModeller DEG experiment analysis designer toolkit
 + [sampleId](sampleInfo/sampleId.1) Get sample id collection from a speicifc sample data groups
 + [sampleinfo.text.groups](sampleInfo/sampleinfo.text.groups.1) Create sampleInfo table from text files
 + [make.analysis](sampleInfo/make.analysis.1) 
++ [make.MLdataset](sampleInfo/make.MLdataset.1) 

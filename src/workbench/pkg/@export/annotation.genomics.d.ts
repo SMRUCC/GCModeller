@@ -41,7 +41,13 @@ declare namespace annotation.genomics {
    module read {
       /**
       */
+      function gff(file: string): object;
+      /**
+      */
       function gtf(file: string): object;
+      /**
+      */
+      function nucmer(file: string): object;
    }
    /**
     * Create the upstream location

@@ -56,6 +56,9 @@ declare namespace sampleInfo {
       /**
       */
       function analysis(sampleinfo: object, control: string, treatment: string): object;
+      /**
+      */
+      function MLdataset(x: object, sampleinfo: object): any;
    }
    module read {
       /**
