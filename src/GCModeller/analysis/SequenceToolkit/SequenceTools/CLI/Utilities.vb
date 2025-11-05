@@ -397,7 +397,8 @@ Imports std = System.Math
                                                                       Return c.Value
                                                                   End Function)
                                             }
-                                        End Function)
+                                        End Function) _
+                                .ToArray
                         }
                     End Function) _
             .ToArray
