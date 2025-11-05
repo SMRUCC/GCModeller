@@ -121,7 +121,7 @@ Public Module ProbabilityScanner
                 Continue For
             End If
 
-            Dim maxMatch = m.pairwiseIdentities(PWM, subject, pairwiseMatrix)
+            Dim maxMatch As GlobalAlign(Of Residue) = m.pairwiseIdentities(PWM, subject, pairwiseMatrix)
 
             If maxMatch Is Nothing OrElse (maxIdentities = maxMatch.Identities(pairwiseMatrix)) < identities Then
                 Continue For
