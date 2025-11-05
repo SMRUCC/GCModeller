@@ -187,7 +187,7 @@ Namespace SequenceModel.NucleotideModels
         ''' </summary>
         ''' <returns>序列的字符串表示</returns>
         Public Overrides Function ToString() As String
-            Return $"{title} (size: {Length}bp)"
+            Return $"{title} (size: {Length}bp, chunks: {seq.Chunks})"
         End Function
     End Class
 
