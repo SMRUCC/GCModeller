@@ -37,32 +37,6 @@
           "SelectedChildIndex": 9,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Genes.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
-              "RelativeDocumentMoniker": "GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
-              "RelativeToolTip": "GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
-              "ViewState": "AgIAAEoAAAAAAAAAAAAswG4AAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T18:44:10.388Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PatternScanner.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
-              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
-              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T18:43:39.897Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
@@ -80,6 +54,30 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Genes.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
+              "RelativeDocumentMoniker": "GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
+              "RelativeToolTip": "GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAswG4AAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T18:44:10.388Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PatternScanner.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T18:43:39.897Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
               "Title": "BucketSet.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
@@ -88,8 +86,7 @@
               "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T18:34:04.553Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T18:34:04.553Z"
             },
             {
               "$type": "Document",
@@ -101,8 +98,7 @@
               "RelativeToolTip": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
               "ViewState": "AgIAAJYAAAAAAAAAAAAUwJoAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T18:28:22.375Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T18:28:22.375Z"
             },
             {
               "$type": "Document",
@@ -113,8 +109,7 @@
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-11-05T18:26:40.991Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T18:26:40.991Z"
             },
             {
               "$type": "Document",
@@ -124,7 +119,7 @@
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
-              "ViewState": "AgIAADgBAAAAAAAAAAAAAEYBAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEQAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-05T18:26:19.983Z",
               "EditorCaption": ""

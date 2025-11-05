@@ -55,7 +55,6 @@
 Imports System.ComponentModel
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
@@ -69,6 +68,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
@@ -374,5 +374,44 @@ Imports std = System.Math
         End Using
 
         Return 0
+    End Function
+
+    <ExportAPI("/motif_scan")>
+    <Usage("/motif_scan /in <input.fasta> /motif_db <motifs_db.xml> [/out <default=motif_scan.csv>]")>
+    Public Function MotifScan(args As CommandLine) As Integer
+        Dim in$ = args("/in")
+        Dim motif_file As String = args("/motif_db")
+        Dim out As String = args("/out") Or $"{[in].ParentPath}/{[in].BaseName}_vs_{motif_file.BaseName}_motif_scan.csv"
+        Dim motifs As SequenceMotif() = motif_file.LoadXml(Of XmlList(Of MotifPWM)) _
+            .AsEnumerable _
+            .Select(Function(pwm)
+                        Return New SequenceMotif With {
+                            .tag = pwm.name,
+                            .region = pwm.pwm _
+                                .Select(Function(p)
+                                            Return New SequencePatterns.Residue With {
+                                                .index = p.site,
+                                                .frequency = p(pwm.alphabets) _
+                                                    .ToDictionary(Function(c) c.ToString,
+                                                                  Function(c)
+                                                                      Return c.Value
+                                                                  End Function)
+                                            }
+                                        End Function)
+                        }
+                    End Function) _
+            .ToArray
+        Dim target As FastaFile = FastaFile.Read([in])
+        Dim scan As MotifMatch() = motifs.AsParallel _
+            .Select(Iterator Function(motif) As IEnumerable(Of MotifMatch)
+                        For Each seq As FastaSeq In target.AsEnumerable
+                            For Each hit As MotifMatch In motif.ScanSites(seq)
+                                Yield hit
+                            Next
+                        Next
+                    End Function) _
+            .ToArray
+
+        Return scan.SaveTo(out).CLICode
     End Function
 End Module
