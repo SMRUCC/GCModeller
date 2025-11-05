@@ -146,7 +146,10 @@ Public Module Extensions
             .Where(Function(si) Not si.StringEmpty(, True)) _
             .Split(Function(si)
                        Return si.StartsWith("MOTIF")
-                   End Function, deliPosition:=DelimiterLocation.NextFirst)
+                   End Function, deliPosition:=DelimiterLocation.NextFirst) _
+            .Where(Function(b)
+                       Return Not b.IsNullOrEmpty
+                   End Function)
 
             Dim name As String = block(0)
             Dim notes As String = block(1) & vbCrLf & block.Last
