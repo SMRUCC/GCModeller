@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.MIME.application.json
 
 ' ============================================================================
 ' 1. 数据结构类
@@ -94,7 +95,7 @@ Public Class AlignmentBlock
     ''' <summary>
     ''' 描述该比对区域内具体差异的整数列表。
     ''' </summary>
-    Public Property Deltas As List(Of Long)
+    Public Property Deltas As Long()
 
     ''' <summary>
     ''' 获取一个值，指示该比对是否为反向互补比对。
@@ -123,6 +124,10 @@ Public Class AlignmentBlock
             Return Math.Abs(QEnd - QStart) + 1
         End Get
     End Property
+
+    Public Overrides Function ToString() As String
+        Return Deltas.GetJson
+    End Function
 End Class
 
 
@@ -178,21 +183,9 @@ Public Class NucmerDeltaParser
             Dim parts As String() = line.Split({" "c}, StringSplitOptions.RemoveEmptyEntries)
             If parts.Length = 7 AndAlso parts.All(Function(p) Long.TryParse(p, Nothing)) Then
                 Dim alignment As AlignmentBlock = ParseAlignmentBlock(lines, i)
+
                 If alignment IsNot Nothing Then
                     Yield alignment
-
-                    ' 移动到下一个比对块的坐标行
-                    i += 1 ' 跳过当前坐标行
-                    ' 跳过所有差异值行
-                    While i < lines.Count
-                        Dim deltaLineParts = lines(i).Trim().Split({" "c}, StringSplitOptions.RemoveEmptyEntries)
-                        If deltaLineParts.All(Function(p) Long.TryParse(p, Nothing)) Then
-                            i += 1
-                        Else
-                            ' 遇到非数字行，说明是下一个比对块的开始或文件结束
-                            Exit While
-                        End If
-                    End While
                 End If
             Else
                 ' 如果不是坐标行，继续向下搜索
@@ -231,9 +224,9 @@ Public Class NucmerDeltaParser
     ''' <summary>
     ''' 从指定行开始解析一个比对块。
     ''' </summary>
-    Private Shared Function ParseAlignmentBlock(ByRef lines As String(), startIndex As Integer) As AlignmentBlock
+    Private Shared Function ParseAlignmentBlock(ByRef lines As String(), ByRef startIndex As Integer) As AlignmentBlock
         Dim block As New AlignmentBlock()
-        block.Deltas = New List(Of Long)()
+        Dim deltas As New List(Of Long)()
 
         ' 解析坐标行
         Dim coordParts = lines(startIndex).Split({" "c}, StringSplitOptions.RemoveEmptyEntries)
@@ -249,17 +242,17 @@ Public Class NucmerDeltaParser
         Dim i As Integer = startIndex + 1
         While i < lines.Length
             Dim deltaLineParts = lines(i).Trim().Split({" "c}, StringSplitOptions.RemoveEmptyEntries)
-            ' 如果该行所有部分都是整数，则认为是差异值行
-            If deltaLineParts.All(Function(p) Long.TryParse(p, Nothing)) Then
-                For Each part In deltaLineParts
-                    block.Deltas.Add(Long.Parse(part))
-                Next
+
+            If deltaLineParts.Length = 1 Then
+                deltas.Add(Long.Parse(deltaLineParts(0)))
                 i += 1
             Else
-                ' 遇到非数字行，说明差异值行结束
                 Exit While
             End If
         End While
+
+        block.Deltas = deltas.ToArray
+        startIndex = i
 
         Return block
     End Function
