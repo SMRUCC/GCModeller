@@ -417,9 +417,11 @@ Imports std = System.Math
                                                    .Select(Function(seq) q.ScanSites(seq)) _
                                                    .IteratesALL
                                            End Function)
+            Dim bar As Tqdm.ProgressBar = Nothing
 
-            For Each motif As SequenceMotif In Tqdm.Wrap(motifs)
+            For Each motif As SequenceMotif In Tqdm.Wrap(motifs, bar:=bar)
                 Call write(motif)
+                Call bar.SetLabel(motif.tag)
             Next
         End Using
 
