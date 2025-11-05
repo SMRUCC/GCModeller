@@ -94,7 +94,7 @@ Public Module Extensions
         start -= OffSet
         If start <= 0 Then
             start = 1
-            'Call $"{hit.pos} - {start} is not enough".__DEBUG_ECHO
+            'Call $"{hit.pos} - {start} is not enough".debug
         End If
 
         Dim site As String = Mid(sequence, start, length)

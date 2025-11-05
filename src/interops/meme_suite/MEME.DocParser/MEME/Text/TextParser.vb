@@ -45,8 +45,8 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -235,7 +235,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
                     End If
                 Next
 
-                Call $"{path.ToFileURL} segment length can not be determined...".__DEBUG_ECHO
+                Call $"{path.ToFileURL} segment length can not be determined...".debug
                 Return 150
             End Try
         End Function
@@ -274,11 +274,11 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
 #If DEBUG Then
             Try
 #End If
-            Dim hash As Dictionary(Of String, Integer) =
+                Dim hash As Dictionary(Of String, Integer) =
                 LQuery.RemoveDuplicates(Function(obj) obj.ID) _
                       .ToDictionary(Of String, Integer)(Function(obj) obj.ID,
                                                         Function(obj) CInt(obj.Right))
-            Return hash
+                Return hash
 #If DEBUG Then
             Catch ex As Exception
                 Dim DuplicatedPreviews = LQuery.Select(Function(obj) obj.ID).CheckDuplicated(Function(s) s.ToLower)
@@ -417,7 +417,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
                 getsId = AddressOf GetSubsampleID
             End If
 
-            Call $"There are {Motifs.Count} motifs from the source!".__DEBUG_ECHO
+            Call $"There are {Motifs.Count} motifs from the source!".debug
 
             Dim LQuery = (From nn In (From motifX As Motif
                                       In Motifs
@@ -436,7 +436,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
                 Call Head.Add(Motif.Signature)
             Next
 
-            Call $" There are {LQuery.Length} genomes are ready to go to write into the output data!".__DEBUG_ECHO
+            Call $" There are {LQuery.Length} genomes are ready to go to write into the output data!".debug
             Call File.AppendLine(Head)
 
             For Each Genome In LQuery
@@ -496,7 +496,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
                 If fasta.ContainsKey(row.First) Then
                     l = fasta(row.First)
                 Else
-                    Call $"Could not fould the genomeId {row.First} in the fasta source!".__DEBUG_ECHO
+                    Call $"Could not fould the genomeId {row.First} in the fasta source!".debug
                     l = 0
                 End If
 
@@ -541,7 +541,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
             Dim Reference = csv.FindAtColumn(KeyWord:=queryref, Column:=0).FirstOrDefault
 
             If Reference Is Nothing OrElse Reference.IsNullOrEmpty Then
-                Call "Could not found the query reference, the calculation is unable to carried out!".__DEBUG_ECHO
+                Call "Could not found the query reference, the calculation is unable to carried out!".debug
                 Return csv
             End If
 
@@ -556,7 +556,7 @@ User-Computer Interface", Issue:="Web Server issue", ISSN:="1362-4962 (Electroni
                 If fasta.ContainsKey(row.First) Then
                     l = fasta(row.First)
                 Else
-                    Call $"Could not fould the genomeid {row.First} in the fasta source!".__DEBUG_ECHO
+                    Call $"Could not fould the genomeid {row.First} in the fasta source!".debug
                     l = Integer.MaxValue
                 End If
 
