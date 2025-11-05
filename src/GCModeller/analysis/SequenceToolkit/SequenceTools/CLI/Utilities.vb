@@ -389,13 +389,15 @@ Imports std = System.Math
                             .tag = pwm.name,
                             .region = pwm.pwm _
                                 .Select(Function(p)
+                                            Dim pvec = p(pwm.alphabets) _
+                                                .ToDictionary(Function(c) c.Key.ToString,
+                                                                Function(c)
+                                                                    Return c.Value
+                                                                End Function)
+
                                             Return New SequencePatterns.Residue With {
                                                 .index = p.site,
-                                                .frequency = p(pwm.alphabets) _
-                                                    .ToDictionary(Function(c) c.ToString,
-                                                                  Function(c)
-                                                                      Return c.Value
-                                                                  End Function)
+                                                .frequency = pvec
                                             }
                                         End Function) _
                                 .ToArray
