@@ -181,7 +181,7 @@ Public Module ProbabilityScanner
         ' 当前的序列位点为N任意碱基的时候
         ' 则取最大的出现频率的得分
         With prob.frequency.ToArray
-            Return .ByRef(which.Min(.Values)) _
+            Return .ElementAt(which.Min(.Values)) _
                    .Value * 10
         End With
     End Function
