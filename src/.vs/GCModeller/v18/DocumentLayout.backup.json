@@ -3,52 +3,12 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\sequencetools.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\sequencetools.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\sequencetools.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\sequencetools.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\cli\\utilities.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\cli\\utilities.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\cligrouping.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\cligrouping.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\shellscriptapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\shellscriptapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\chunkedntfasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|solutionrelative:gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\chunkedntfasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\datastructures\\enumerable\\bucketset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|solutionrelative:runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\datastructures\\enumerable\\bucketset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\contig.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|solutionrelative:gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\contig.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\dna.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|solutionrelative:gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\dna.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\system.collections.generic\\bucketdictionary.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|solutionrelative:runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\system.collections.generic\\bucketdictionary.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\nucleicacid.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|solutionrelative:gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\nucleicacid.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\sequencetools.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\sequencetools.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,111 +18,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 5,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SequenceTools",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
-              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
-              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-11-05T18:24:30.374Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SequenceTools",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
-              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
-              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-11-05T18:24:27.301Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CLIGrouping.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLIGrouping.vb",
-              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLIGrouping.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLIGrouping.vb",
-              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLIGrouping.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T18:12:30.262Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Program.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\Program.vb",
-              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\Program.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\Program.vb",
-              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T18:12:21.314Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ShellScriptAPI.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\ShellScriptAPI.vb",
-              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\ShellScriptAPI.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\ShellScriptAPI.vb",
-              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\ShellScriptAPI.vb",
-              "ViewState": "AgIAAFwAAAAAAAAAAAA8wAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T18:11:59.575Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Contig.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Contig.vb",
-              "RelativeDocumentMoniker": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Contig.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Contig.vb",
-              "RelativeToolTip": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\Contig.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T18:06:17.304Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ChunkedNtFasta.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "RelativeDocumentMoniker": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "RelativeToolTip": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "ViewState": "AgIAAGEAAAAAAAAAAAAuwCwAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T18:06:16.321Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "BucketSet.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
-              "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
-              "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAmwIMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T17:49:36.384Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -181,54 +38,27 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "BucketDictionary.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\System.Collections.Generic\\BucketDictionary.vb",
-              "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\System.Collections.Generic\\BucketDictionary.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\System.Collections.Generic\\BucketDictionary.vb",
-              "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\System.Collections.Generic\\BucketDictionary.vb",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T17:49:16.146Z",
+              "DocumentIndex": 1,
+              "Title": "SequenceTools",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
+              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
+              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-11-05T18:26:40.991Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "DNA.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DNA.vb",
-              "RelativeDocumentMoniker": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DNA.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DNA.vb",
-              "RelativeToolTip": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\DNA.vb",
-              "ViewState": "AgIAAFYAAAAAAAAAAAAIwIsAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T17:46:58.05Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "NucleicAcid.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\NucleicAcid.vb",
-              "RelativeDocumentMoniker": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\NucleicAcid.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\NucleicAcid.vb",
-              "RelativeToolTip": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\NucleicAcid.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T17:46:55.992Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Utilities.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
-              "ViewState": "AgIAACABAAAAAAAAAAAAACkBAAARAAAAAAAAAA==",
+              "ViewState": "AgIAADYBAAAAAAAAAAAAAFMBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T17:41:21.675Z",
+              "WhenOpened": "2025-11-05T18:26:19.983Z",
               "EditorCaption": ""
             }
           ]

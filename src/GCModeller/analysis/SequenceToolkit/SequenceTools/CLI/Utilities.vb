@@ -54,6 +54,8 @@
 
 Imports System.ComponentModel
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
@@ -331,13 +333,20 @@ Imports std = System.Math
         Dim gff As GFFTable = GFFTable.LoadDocument(args("/gff"))
         Dim upstream_len As Integer = args("/upstream_len") Or 500
         Dim out_file As String = args("/out") Or $"{nt_file.ParentPath}/{nt_file.BaseName}_upstream_{upstream_len}bp.fasta"
+        Dim bar As Tqdm.ProgressBar = Nothing
 
         Using s As Stream = out_file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False),
             output As New FASTA.StreamWriter(s),
             input As Stream = nt_file.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
 
             For Each nt As ChunkedNtFasta In ChunkedNtFasta.LoadDocument(input)
-                For Each gene As Feature In gff.features
+                Dim chr_genes As Feature() = (From gene As Feature
+                                              In gff.features.AsParallel
+                                              Where nt.title = gene.seqname).ToArray
+
+                Call $"load genomics chromosome sequence {nt.ToString}".info
+
+                For Each gene As Feature In Tqdm.Wrap(chr_genes, bar:=bar)
                     Dim left As Integer = If(gene.strand = Strands.Forward, gene.left - 1, gene.right + 1)
                     Dim upstream As Integer = If(gene.strand = Strands.Forward, left - upstream_len, left + upstream_len)
                     Dim from = std.Min(left, upstream)
@@ -347,6 +356,8 @@ Imports std = System.Math
                         .Headers = {nt.title, gene.ID, $"{from}-{[to]}"},
                         .SequenceData = seq
                     }
+
+                    Call bar.SetLabel(promoter_region.Title)
 
                     Call output.Add(promoter_region)
                 Next

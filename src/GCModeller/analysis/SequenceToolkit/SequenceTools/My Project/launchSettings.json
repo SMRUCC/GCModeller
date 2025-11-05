@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SequenceTools": {
+      "commandName": "Project",
+      "commandLineArgs": "/promoter_regions /nt \"M:\\project\\20251010-wheat\\20251105\\LargePanicleDevelopment\\snp\\Lanmai.fasta\" /gff \"M:\\project\\20251010-wheat\\20251105\\LargePanicleDevelopment\\genomics_struct\\Lanmai.gff3\""
+    }
+  }
+}
