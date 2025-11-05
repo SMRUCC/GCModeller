@@ -7,6 +7,14 @@
       "RelativeMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\cli\\utilities.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\metacyc\\file\\attributevalue datafile\\datafiles\\files\\genes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|solutionrelative:gcmodeller\\core\\bio.assembly\\assembly\\metacyc\\file\\attributevalue datafile\\datafiles\\files\\genes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1C757BF-6D57-4298-B01A-6F08B3417666}|GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motifscanner\\patternscanner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{B1C757BF-6D57-4298-B01A-6F08B3417666}|GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\motifscanner\\patternscanner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\chunkedntfasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{29EC4AF8-2A85-4296-B7C4-444E2994B767}|GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|solutionrelative:gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\chunkedntfasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -26,32 +34,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BucketSet.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
-              "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
-              "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAPAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "Genes.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
+              "RelativeDocumentMoniker": "GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
+              "RelativeToolTip": "GCModeller\\core\\Bio.Assembly\\Assembly\\MetaCyc\\File\\AttributeValue DataFile\\DataFiles\\Files\\Genes.vb",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAswG4AAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T18:34:04.553Z",
+              "WhenOpened": "2025-11-05T18:44:10.388Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ChunkedNtFasta.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "RelativeDocumentMoniker": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "RelativeToolTip": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
-              "ViewState": "AgIAAJYAAAAAAAAAAAAUwJoAAAApAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "PatternScanner.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T18:28:22.375Z",
+              "WhenOpened": "2025-11-05T18:43:39.897Z",
               "EditorCaption": ""
             },
             {
@@ -72,7 +80,33 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BucketSet.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
+              "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
+              "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Enumerable\\BucketSet.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T18:34:04.553Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "ChunkedNtFasta.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
+              "RelativeDocumentMoniker": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
+              "RelativeToolTip": "GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\ChunkedNtFasta.vb",
+              "ViewState": "AgIAAJYAAAAAAAAAAAAUwJoAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T18:28:22.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "SequenceTools",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
@@ -90,7 +124,7 @@
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
-              "ViewState": "AgIAADgBAAAAAAAAAAAAAD4BAABAAAAAAAAAAA==",
+              "ViewState": "AgIAADgBAAAAAAAAAAAAAGYBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-05T18:26:19.983Z",
               "EditorCaption": ""
