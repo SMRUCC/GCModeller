@@ -345,7 +345,8 @@ Imports std = System.Math
             For Each nt As ChunkedNtFasta In ChunkedNtFasta.LoadDocument(input)
                 Dim chr_genes As Feature() = (From gene As Feature
                                               In gff.features.AsParallel
-                                              Where nt.title = gene.seqname).ToArray
+                                              Where nt.title = gene.seqname AndAlso
+                                                  gene.feature = "gene").ToArray
 
                 Call $"load genomics chromosome sequence {nt.ToString}".info
 
