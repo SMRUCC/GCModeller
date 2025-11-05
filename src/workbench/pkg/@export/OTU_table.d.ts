@@ -45,6 +45,14 @@ declare namespace OTU_table {
       function OTU_table(x: any, id?: string, taxonomy?: string, env?: object): object;
    }
    /**
+    * combine of two batch data
+    * 
+    * 
+     * @param batch1 -
+     * @param batch2 -
+   */
+   function batch_combine(batch1: object, batch2: object): object;
+   /**
     * filter the otu data which has relative abundance greater than the given threshold
     * 
     * 

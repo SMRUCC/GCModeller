@@ -3,6 +3,7 @@
 
 
 + [read.gtf](annotation.genomics/read.gtf.1) 
++ [read.gff](annotation.genomics/read.gff.1) 
 + [as.tabular](annotation.genomics/as.tabular.1) 
 + [as.geneTable](annotation.genomics/as.geneTable.1) 
 + [as.PTT](annotation.genomics/as.PTT.1) 
