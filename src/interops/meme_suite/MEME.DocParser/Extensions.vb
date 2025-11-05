@@ -1,47 +1,48 @@
 ﻿#Region "Microsoft.VisualBasic::7a0d3a95e6a1b6d8c65cde25cf4281af, meme_suite\MEME.DocParser\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Extensions
-    ' 
-    '     Function: (+2 Overloads) __createObject, __toSites, MASTSites, TraceName
-    ' 
-    ' /********************************************************************************/
+' Module Extensions
+' 
+'     Function: (+2 Overloads) __createObject, __toSites, MASTSites, TraceName
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
@@ -162,20 +163,29 @@ Public Module Extensions
             For Each line As String In block
                 Dim p As Double() = line.Trim.StringSplit("\s+").AsDouble
                 Dim row As New ResidueSite With {
-                    .Bits = 1,
+                    .bits = 1,
                     .PWM = p,
-                    .Site = offset
+                    .site = offset
                 }
 
                 offset += 1
                 matrix.Add(row)
             Next
 
+            Dim n As Integer = 100
+            Dim base As Integer = 4
+            Dim E As Double = (1 / Math.Log(2)) * ((base - 1) / (2 * n))
+            Dim H As Double() = matrix.Select(Function(x) Probability.HI(x(alphabets))).ToArray
+
+            For i As Integer = 0 To matrix.Count - 1
+                matrix(i).bits = Math.Log(n, 2) - (H(i) + E)
+            Next
+
             Yield New MotifPWM With {
-                .Alphabets = alphabets,
+                .alphabets = alphabets,
                 .name = name,
                 .note = notes,
-                .PWM = matrix.ToArray
+                .pwm = matrix.ToArray
             }
         Next
     End Function

@@ -164,7 +164,7 @@ For example, we identified a new domain, likely to have a role downstream of the
             Dim model As New DrawingModel
 
 #If DEBUG Then
-            Dim m As String = New String(PWM.PWM.Select(Function(r) r.AsChar))
+            Dim m As String = New String(PWM.pwm.Select(Function(r) r.AsChar))
             Call VBDebugger.WriteLine(m, ConsoleColor.Magenta)
 #End If
 
@@ -172,7 +172,7 @@ For example, we identified a new domain, likely to have a role downstream of the
                 If Not String.IsNullOrEmpty(fasta.FilePath) Then
                     model.ModelsId = fasta.FilePath.BaseName
                 Else
-                    model.ModelsId = New String(PWM.PWM.Select(Function(r) r.AsChar).ToArray)
+                    model.ModelsId = New String(PWM.pwm.Select(Function(r) r.AsChar).ToArray)
                 End If
             Else
                 model.ModelsId = title
@@ -180,7 +180,7 @@ For example, we identified a new domain, likely to have a role downstream of the
 
             getModel = PWM
             model.Residues =
-                LinqAPI.Exec(Of ResidueSite, Residue)(PWM.PWM) <=
+                LinqAPI.Exec(Of ResidueSite, Residue)(PWM.pwm) <=
                     Function(rsd As ResidueSite)
                         Return New Residue With {
                             .Bits = rsd.Bits,

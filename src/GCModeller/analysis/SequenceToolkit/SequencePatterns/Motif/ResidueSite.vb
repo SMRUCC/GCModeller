@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::b17df84d7f99ea3af10b259b41fdd3b4, analysis\SequenceToolkit\SequencePatterns\Motif\ResidueSite.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 100
-    '    Code Lines: 62 (62.00%)
-    ' Comment Lines: 25 (25.00%)
-    '    - Xml Docs: 92.00%
-    ' 
-    '   Blank Lines: 13 (13.00%)
-    '     File Size: 3.43 KB
+' Summaries:
 
 
-    '     Class ResidueSite
-    ' 
-    '         Properties: AsChar, Bits, PWM, Site
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    ' 
-    '         Function: Complement, ToChar, ToString
-    ' 
-    '         Sub: Assign
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 100
+'    Code Lines: 62 (62.00%)
+' Comment Lines: 25 (25.00%)
+'    - Xml Docs: 92.00%
+' 
+'   Blank Lines: 13 (13.00%)
+'     File Size: 3.43 KB
+
+
+'     Class ResidueSite
+' 
+'         Properties: AsChar, Bits, PWM, Site
+' 
+'         Constructor: (+2 Overloads) Sub New
+' 
+'         Function: Complement, ToChar, ToString
+' 
+'         Sub: Assign
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -69,7 +69,7 @@ Namespace Motif
     ''' </summary>
     <XmlType("Residue")> Public Class ResidueSite : Implements IAddressOf
 
-        <XmlAttribute> Public Property Site As Integer Implements IAddressOf.Address
+        <XmlAttribute> Public Property site As Integer Implements IAddressOf.Address
         ''' <summary>
         ''' ATGC/
         ''' </summary>
@@ -79,10 +79,22 @@ Namespace Motif
         ''' Information content
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Bits As Double
+        <XmlAttribute> Public Property bits As Double
+
+        Default Public ReadOnly Property probability(alphabets As Char()) As Dictionary(Of Char, Double)
+            Get
+                Dim p As New Dictionary(Of Char, Double)
+
+                For i As Integer = 0 To alphabets.Length - 1
+                    p(alphabets(i)) = PWM(i)
+                Next
+
+                Return p
+            End Get
+        End Property
 
         Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
-            Me.Site = address
+            Me.site = address
         End Sub
 
         ''' <summary>
@@ -94,8 +106,8 @@ Namespace Motif
             Dim cA As Double = T, cT As Double = A, cG As Double = C, cC As Double = G
             Dim rsd As New ResidueSite With {
                 .PWM = {cA, cT, cG, cC},
-                .Bits = Bits,
-                .Site = Site
+                .bits = bits,
+                .site = site
             }
             Return rsd
         End Function
@@ -120,12 +132,12 @@ Namespace Motif
                 PWM = New Double() {0.25, 0.25, 0.25, 0.25}
             End If
 
-            Bits = 1.5
+            bits = 1.5
         End Sub
 
         Public Overrides Function ToString() As String
             Dim ATGC As String = New String({ToChar("A"c, PWM(0)), ToChar("T"c, PWM(1)), ToChar("G"c, PWM(2)), ToChar("C"c, PWM(3))})
-            Return $"{ATGC}   //({Math.Round(Bits, 2)} bits) [{Math.Round(PWM(0), 2)}, {Math.Round(PWM(1), 2)}, {Math.Round(PWM(2), 2)}, {Math.Round(PWM(3), 2)}];"
+            Return $"{ATGC}   //({Math.Round(bits, 2)} bits) [{Math.Round(PWM(0), 2)}, {Math.Round(PWM(1), 2)}, {Math.Round(PWM(2), 2)}, {Math.Round(PWM(3), 2)}];"
         End Function
 
         ''' <summary>

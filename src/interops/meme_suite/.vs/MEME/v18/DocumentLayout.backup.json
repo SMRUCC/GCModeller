@@ -6,11 +6,11 @@
       "AbsoluteMoniker": "D:0:0:{10882691-B340-7419-76DF-C78C61918FCD}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns\\motif\\pwm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|solutionrelative:meme.docparser\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{10882691-B340-7419-76DF-C78C61918FCD}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns\\motif\\residuesite.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{10882691-B340-7419-76DF-C78C61918FCD}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns\\motif\\residuesite.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}|MEME.DocParser\\ParserTest\\ParserTest.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\parsertest\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}|MEME.DocParser\\ParserTest\\ParserTest.vbproj|solutionrelative:meme.docparser\\parsertest\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -20,34 +20,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 6,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ResidueSite.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\ResidueSite.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\ResidueSite.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\ResidueSite.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\ResidueSite.vb",
-              "ViewState": "AgIAAGQAAAAAAAAAAAAAAIMAAAA3AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T19:59:31.084Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PWM.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\PWM.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\PWM.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\PWM.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\PWM.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T19:59:06.747Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -66,15 +40,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Extensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\Extensions.vb",
-              "RelativeDocumentMoniker": "MEME.DocParser\\Extensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\Extensions.vb",
-              "RelativeToolTip": "MEME.DocParser\\Extensions.vb",
-              "ViewState": "AgIAAHAAAAAAAAAAAAAhwK0AAAAaAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "Module1.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\ParserTest\\Module1.vb",
+              "RelativeDocumentMoniker": "MEME.DocParser\\ParserTest\\Module1.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\ParserTest\\Module1.vb",
+              "RelativeToolTip": "MEME.DocParser\\ParserTest\\Module1.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADQAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T19:37:07.708Z",
+              "WhenOpened": "2025-11-05T20:03:17.202Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ResidueSite.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\ResidueSite.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\ResidueSite.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\ResidueSite.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\ResidueSite.vb",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAmwEsAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T19:59:31.084Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PWM.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\PWM.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\PWM.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\PWM.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Motif\\PWM.vb",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAUwGwAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-05T19:59:06.747Z",
               "EditorCaption": ""
             }
           ]

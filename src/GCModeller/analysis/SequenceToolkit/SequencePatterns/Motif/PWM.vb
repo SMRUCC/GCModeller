@@ -68,16 +68,16 @@ Namespace Motif
 
     Public Class MotifPWM
 
-        <XmlElement> Public Property PWM As ResidueSite()
-        <XmlAttribute> Public Property Alphabets As Char()
-        Public Property name As String
+        <XmlElement> Public Property pwm As ResidueSite()
+        <XmlAttribute> Public Property alphabets As Char()
+        <XmlAttribute> Public Property name As String
         Public Property note As String
 
         Public Overrides Function ToString() As String
-            Return name & " - " & PWM _
+            Return name & " - " & pwm _
                 .Select(Function(p)
                             Dim max As Integer = which.Max(p.PWM)
-                            Dim c As Char = Alphabets(max)
+                            Dim c As Char = alphabets(max)
 
                             Return ResidueSite.ToChar(c, p.PWM.Max)
                         End Function) _
@@ -86,15 +86,15 @@ Namespace Motif
 
         Public Shared Function NT_PWM(sites As IEnumerable(Of ResidueSite)) As MotifPWM
             Return New MotifPWM With {
-                .Alphabets = SequenceModel.NT.ToArray,
-                .PWM = sites.ToArray
+                .alphabets = SequenceModel.NT.ToArray,
+                .pwm = sites.ToArray
             }
         End Function
 
         Public Shared Function AA_PWM(sites As IEnumerable(Of ResidueSite)) As MotifPWM
             Return New MotifPWM With {
-                .Alphabets = SequenceModel.AA,
-                .PWM = sites.ToArray
+                .alphabets = SequenceModel.AA,
+                .pwm = sites.ToArray
             }
         End Function
     End Class
@@ -147,9 +147,9 @@ Namespace Motif
             End If
 
             Return New ResidueSite With {
-                .Bits = R,
+                .bits = R,
                 .PWM = alphabets,
-                .Site = i
+                .site = i
             }
         End Function
     End Module
