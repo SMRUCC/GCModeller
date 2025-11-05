@@ -45,7 +45,6 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.ComponentModel
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace DocumentFormat.MEME.LDM

@@ -61,6 +61,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MotifFinder", "..\..\GCMode
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MotifGraph", "..\..\GCModeller\analysis\Motifs\MotifGraph\MotifGraph.vbproj", "{BE2226E1-1BB8-E925-E8B2-D7443AD47345}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "plots-netcore5", "..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\plots-netcore5.vbproj", "{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -277,6 +279,14 @@ Global
 		{BE2226E1-1BB8-E925-E8B2-D7443AD47345}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BE2226E1-1BB8-E925-E8B2-D7443AD47345}.Release|x64.ActiveCfg = Release|x64
 		{BE2226E1-1BB8-E925-E8B2-D7443AD47345}.Release|x64.Build.0 = Release|x64
+		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}.Debug|x64.ActiveCfg = Debug|x64
+		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}.Debug|x64.Build.0 = Debug|x64
+		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}.Release|x64.ActiveCfg = Release|x64
+		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -308,6 +318,7 @@ Global
 		{986B40F3-72AF-5320-15C4-6AA73C7BFE49} = {9B29191E-E61D-4F6D-9CCA-2F42A45DBE4A}
 		{3BE6B451-870E-BCC3-BA74-6B492E119179} = {9B29191E-E61D-4F6D-9CCA-2F42A45DBE4A}
 		{BE2226E1-1BB8-E925-E8B2-D7443AD47345} = {9B29191E-E61D-4F6D-9CCA-2F42A45DBE4A}
+		{180A8A74-E39E-A79F-D91A-2F3DC6915AB5} = {96C86544-850F-43D7-9CC9-CB1362BB9DD3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A8CEAA13-90C4-4FB5-BEF6-5F4671F29EBB}
