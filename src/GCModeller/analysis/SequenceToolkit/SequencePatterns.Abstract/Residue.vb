@@ -73,7 +73,7 @@ Public Structure Residue
 
     Default Public ReadOnly Property getFrequency(base As Char) As Double
         Get
-            Return _frequency(base)
+            Return _frequency.TryGetValue(base)
         End Get
     End Property
 

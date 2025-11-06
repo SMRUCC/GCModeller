@@ -1,67 +1,74 @@
 ﻿#Region "Microsoft.VisualBasic::b0bcab52bc6fe829c25bbe8634e2a728, analysis\SequenceToolkit\MotifFinder\Scanner\ProbabilityScanner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 153
-    '    Code Lines: 112 (73.20%)
-    ' Comment Lines: 21 (13.73%)
-    '    - Xml Docs: 71.43%
-    ' 
-    '   Blank Lines: 20 (13.07%)
-    '     File Size: 6.03 KB
+' Summaries:
 
 
-    ' Module ProbabilityScanner
-    ' 
-    '     Function: Compare, pairwiseIdentities, RefLoci, (+2 Overloads) ScanSites, ToResidues
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 153
+'    Code Lines: 112 (73.20%)
+' Comment Lines: 21 (13.73%)
+'    - Xml Docs: 71.43%
+' 
+'   Blank Lines: 20 (13.07%)
+'     File Size: 6.03 KB
+
+
+' Module ProbabilityScanner
+' 
+'     Function: Compare, pairwiseIdentities, RefLoci, (+2 Overloads) ScanSites, ToResidues
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.DataMining.AprioriRules
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports std = System.Math
 
 Public Module ProbabilityScanner
 
@@ -87,6 +94,97 @@ Public Module ProbabilityScanner
 
             Yield scan
         Next
+    End Function
+
+    Private Function GenerateRandomSequence(length As Integer, background As Dictionary(Of Char, Double)) As String
+        Dim cumulativeProbs As New List(Of Double)()
+        Dim nucleotides As Char() = background.Keys.ToArray
+        ' 构建累积概率分布
+        Dim cumulative As Double = 0
+        For Each NT As Char In background.Keys
+            cumulative += background(NT)
+            cumulativeProbs.Add(cumulative)
+        Next
+
+        ' 生成随机序列
+        Dim sequence As String = ""
+        For i As Integer = 1 To length
+            Dim rndValue As Double = randf.NextDouble()
+
+            ' 选择核苷酸
+            For j As Integer = 0 To nucleotides.Length - 1
+                If rndValue <= cumulativeProbs(j) Then
+                    sequence &= nucleotides(j)
+                    Exit For
+                End If
+            Next
+        Next
+
+        Return sequence
+    End Function
+
+    <Extension>
+    Public Iterator Function LinearScan(motif As SequenceMotif, target As FastaSeq, Optional n As Integer = 1000) As IEnumerable(Of MotifMatch)
+        For Each scan As MotifMatch In motif.region.LinearScan(target, n)
+            If Not motif.seeds Is Nothing Then
+                scan.seeds = motif.seeds.names
+            Else
+                scan.seeds = {motif.tag}
+            End If
+
+            Yield scan
+        Next
+    End Function
+
+    <Extension>
+    Public Function LinearScan(PWM As IReadOnlyCollection(Of Residue), target As FastaSeq, Optional n As Integer = 1000) As IEnumerable(Of MotifMatch)
+        Dim slices = target.SequenceData.CreateSlideWindows(PWM.Count)
+        Dim motifStr As String = PWM.JoinBy("")
+        Dim seqTitle As String = target.Title
+        Dim zero As String() = New String(n - 1) {}
+        Dim background As Dictionary(Of Char, Double) = NT.ToDictionary(Function(b) b, Function(b) target.SequenceData.Count(b) / target.Length)
+
+        For i As Integer = 0 To zero.Length - 1
+            zero(i) = GenerateRandomSequence(PWM.Count, background)
+        Next
+
+        Dim one As Vector = Vector.Ones(PWM.Count)
+        Dim matches = slices.Select(Function(frag, offset)
+                                        Dim total As Double = 0
+                                        Dim v As Double() = New Double(frag.Length - 1) {}
+
+                                        For i As Integer = 0 To frag.Length - 1
+                                            v(i) = PWM(i)(frag(i))
+                                            total += v(i)
+                                        Next
+
+                                        Dim score2 As Double = one.SSM(v.AsVector)
+                                        Dim extremes = zero.Select(Function(si) score(si, PWM)).Count(Function(a) a >= total)
+                                        Dim pvalue = (extremes + 1) / (n + 1)
+
+                                        Return New MotifMatch With {
+                                            .start = offset + 1,
+                                            .ends = .start + frag.Length,
+                                            .motif = motifStr,
+                                            .segment = frag.CharString,
+                                            .title = seqTitle,
+                                            .score1 = total,
+                                            .score2 = -std.Log10(pvalue),
+                                            .identities = score2
+                                        }
+                                    End Function).OrderByDescending(Function(a) a.score1 * a.score2).ToArray
+
+        Return matches.Take(5)
+    End Function
+
+    Private Function score(seq As Char(), PWM As IReadOnlyCollection(Of Residue)) As Double
+        Dim total As Double = 0
+
+        For i As Integer = 0 To seq.Length - 1
+            total += PWM(i)(seq(i))
+        Next
+
+        Return total
     End Function
 
     ''' <summary>
