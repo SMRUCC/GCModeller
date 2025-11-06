@@ -63,10 +63,10 @@ Namespace SequenceModel.NucleotideModels
 
     ''' <summary>
     ''' Deoxyribonucleotides NT base which consist of the DNA sequence.
-    ''' (枚举所有的脱氧核糖核苷酸)
     ''' </summary>
-    ''' <remarks></remarks>
-    <Description("Deoxyribonucleotides")> Public Enum DNA As Byte
+    ''' <remarks>(枚举所有的脱氧核糖核苷酸)</remarks>
+    <Description("Deoxyribonucleotides")>
+    Public Enum DNA As Byte
 
         ''' <summary>
         ''' Gaps/Rare bases(空格或者其他的稀有碱基)

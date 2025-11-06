@@ -126,7 +126,7 @@ Partial Module CLI
         Dim list = PTT.GetRelatedGenes(loci, unstrand)
 
         For Each g As Relationship(Of GeneBrief) In list
-            Call g.__DEBUG_ECHO
+            Call g.debug
         Next
 
         Return 0

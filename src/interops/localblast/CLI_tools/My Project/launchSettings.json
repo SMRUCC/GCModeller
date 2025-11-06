@@ -2,7 +2,7 @@
   "profiles": {
     "localblast": {
       "commandName": "Project",
-      "commandLineArgs": "/export_hits /in \"Z:\\tmp\\1\\Sophia\\24948\\enzyme_blast265351.txt\""
+      "commandLineArgs": "/export_blastp /in \"M:\\project\\20251010-wheat\\20251105\\LargePanicleDevelopment\\blastp\\TF\\TF_Lanmai.txt\""
     }
   }
 }

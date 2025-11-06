@@ -67,6 +67,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -311,9 +312,9 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
             End If
         End Function
 
-        Public Shared Function DocParser(doc As String, deli As Char()) As List(Of FastaSeq)
-            Dim TokenLines As String() = doc.LineTokens
-            Return DocParser(TokenLines, deli)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function DocParser(doc As String, deli As Char()) As IEnumerable(Of FastaSeq)
+            Return DocParser(doc.LineTokens, deli)
         End Function
 
         ''' <summary>

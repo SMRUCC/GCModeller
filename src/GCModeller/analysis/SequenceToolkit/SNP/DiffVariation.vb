@@ -83,7 +83,7 @@ Public Module DiffVariation
             Throw New Exception(
                 $"Reference sequence index value {refIndex} is not valid!")
         Else
-            Call $"Using reference sequence: {source(index).Title}".__DEBUG_ECHO
+            Call $"Using reference sequence: {source(index).Title}".debug
         End If
 
         Dim ref As FastaSeq = source(index%)
@@ -189,7 +189,7 @@ Public Module DiffVariation
                 .Properties = rawRow
             }
 
-            Call tag.__DEBUG_ECHO
+            Call tag.debug
         Next
 
         Return out

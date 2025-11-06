@@ -43,7 +43,7 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
@@ -83,7 +83,7 @@ Namespace DocumentFormat.MAST.HTML
             Dim Directories As String() = FileIO.FileSystem.GetDirectories(MEME_out, FileIO.SearchOption.SearchTopLevelOnly).ToArray
             Dim DirName As String = MEME_out.Replace("\", "/").Split(CChar("/")).Last
 
-            Call $"Load data from dir {MEME_out }!".__DEBUG_ECHO
+            Call $"Load data from dir {MEME_out }!".debug
 
             Dim LQuery = (From i As Integer
                           In Directories.Sequence.AsParallel
@@ -93,7 +93,7 @@ Namespace DocumentFormat.MAST.HTML
             Dim Path As String = String.Format("{0}/Exported/{1}.csv", BaseDirExported, DirName)
 
             Call LQuery.SaveTo(Path, False)
-            Call $"Dir {MEME_out} data load completed!".__DEBUG_ECHO
+            Call $"Dir {MEME_out} data load completed!".debug
 
             Return Path
         End Function

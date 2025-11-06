@@ -181,6 +181,23 @@ Partial Module CLI
         Return Csv.Save(out & ".Hits.Csv", Encoding:=System.Text.Encoding.ASCII).CLICode
     End Function
 
+    <ExportAPI("/export_blastp")>
+    <Usage("/export_blastp /in <blastp.txt> [/out <default=blastp.csv>]")>
+    Public Function ExportBlastp(args As CommandLine) As Integer
+        Dim in$ = args("/in")
+        Dim out As String = args("/out") Or [in].ChangeSuffix("csv")
+
+        Using IO As New WriteStream(Of BestHit)(out)
+            Dim write = IO.ToArray(Of Query)(Function(q) v228.SBHLines(Query:=q, coverage:=0, identities:=0, keepsRawQueryName:=True))
+
+            For Each query As Query In BlastpOutputReader.RunParser(in$)
+                Call write(query)
+            Next
+        End Using
+
+        Return 0
+    End Function
+
     <ExportAPI("/SBH.Export.Large")>
     <Description("Using this command for export the sbh result of your blastp raw data.")>
     <Usage("/SBH.Export.Large /in <blastp_out.txt/directory> [/top.best /trim-kegg /s.pattern <default=-> /q.pattern <default=-> /keeps_raw.queryName /identities 0.15 /coverage 0.5 /split /out <sbh.csv>]")>

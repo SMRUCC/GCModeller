@@ -1,63 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::c4c708e02018f8a062eb0952185602f8, analysis\SequenceToolkit\SequenceTools\CLI\Utilities.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 267
-    '    Code Lines: 185 (69.29%)
-    ' Comment Lines: 55 (20.60%)
-    '    - Xml Docs: 58.18%
-    ' 
-    '   Blank Lines: 27 (10.11%)
-    '     File Size: 12.66 KB
+' Summaries:
 
 
-    ' Module Utilities
-    ' 
-    '     Function: Complement, DrawClustalW, FindMotifs, PatternSearchA, PromoterRegionParser_gb
-    '               Reverse, SequenceLogo
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 267
+'    Code Lines: 185 (69.29%)
+' Comment Lines: 55 (20.60%)
+'    - Xml Docs: 58.18%
+' 
+'   Blank Lines: 27 (10.11%)
+'     File Size: 12.66 KB
+
+
+' Module Utilities
+' 
+'     Function: Complement, DrawClustalW, FindMotifs, PatternSearchA, PromoterRegionParser_gb
+'               Reverse, SequenceLogo
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
+Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -66,17 +69,22 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.Extensions
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel.Promoter
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports std = System.Math
 
 ''' <summary>
 ''' Sequence Utilities
@@ -285,8 +293,8 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
         Dim inFile As String = args("/in")
         Dim out As String = args.GetValue("/out", inFile.TrimSuffix & ".png")
         Dim aln As New FASTA.FastaFile(inFile)
-        ClustalVisual.DotSize = args("/dot.size") Or 10
-        Dim res As Image = ClustalVisual.InvokeDrawing(aln)
+        Dim dotSize As Single = args("/dot.size") Or 10
+        Dim res As Image = ClustalVisual.InvokeDrawing(aln, dotSize:=dotSize).AsGDIImage
         Return res.SaveAs(out, ImageFormats.Png)
     End Function
 
@@ -315,6 +323,106 @@ Imports SMRUCC.genomics.SequenceModel.FASTA.Reflection
             Dim save$ = $"{out}-promoter-regions/-{l.Tag}bp.fasta"
             Call New FastaFile(l.Value.Values).Save(120, save, Encodings.ASCII)
         Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/promoter_regions")>
+    <Usage("/promoter_regions /nt <nt.fasta> /gff <genomics.gff3> [/upstream_len <default=500bp> /out <default=output.fasta>]")>
+    Public Function PromoterRegionParser(args As CommandLine) As Integer
+        Dim nt_file As String = args("/nt")
+        Dim gff As GFFTable = GFFTable.LoadDocument(args("/gff"))
+        Dim upstream_len As Integer = args("/upstream_len") Or 500
+        Dim out_file As String = args("/out") Or $"{nt_file.ParentPath}/{nt_file.BaseName}_upstream_{upstream_len}bp.fasta"
+        Dim bar As Tqdm.ProgressBar = Nothing
+
+        Using s As Stream = out_file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False),
+            output As New FASTA.StreamWriter(s),
+            input As Stream = nt_file.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+
+            For Each nt As ChunkedNtFasta In ChunkedNtFasta.LoadDocument(input)
+                Dim chr_genes As Feature() = (From gene As Feature
+                                              In gff.features.AsParallel
+                                              Where nt.title = gene.seqname AndAlso
+                                                  gene.feature = "gene").ToArray
+
+                Call $"load genomics chromosome sequence {nt.ToString}".info
+
+                Try
+                    For Each gene As Feature In Tqdm.Wrap(chr_genes, bar:=bar)
+                        Dim left As Integer = If(gene.strand = Strands.Forward, gene.left - 1, gene.right + 1)
+                        Dim upstream As Integer = If(gene.strand = Strands.Forward, left - upstream_len, left + upstream_len)
+                        Dim from = std.Min(left, upstream)
+                        Dim [to] = std.Max(left, upstream)
+                        Dim seq As String = nt.GetRegion(from, [to])
+
+                        If gene.strand = Strands.Reverse Then
+                            seq = NucleicAcid.Complement(seq).Reverse.CharString
+                        End If
+
+                        Dim promoter_region As New FastaSeq With {
+                            .Headers = {nt.title, gene.ID, $"{from}-{[to]}"},
+                            .SequenceData = seq
+                        }
+
+                        Call bar.SetLabel(promoter_region.Title)
+
+                        Call output.Add(promoter_region)
+                    Next
+                Catch ex As Exception
+                    Call $"error while processing chromosome {nt.title}".warning
+                End Try
+            Next
+        End Using
+
+        Return 0
+    End Function
+
+    <ExportAPI("/motif_scan")>
+    <Usage("/motif_scan /in <input.fasta> /motif_db <motifs_db.xml> [/top <default=9> /out <default=motif_scan.csv>]")>
+    Public Function MotifScan(args As CommandLine) As Integer
+        Dim in$ = args("/in")
+        Dim motif_file As String = args("/motif_db")
+        Dim top As Integer = args("/top") Or 9
+        Dim out As String = args("/out") Or $"{[in].ParentPath}/{[in].BaseName}_vs_{motif_file.BaseName}_motif_scan.csv"
+        Dim motifs As SequenceMotif() = motif_file.LoadXml(Of XmlList(Of MotifPWM)) _
+            .AsEnumerable _
+            .Select(Function(pwm)
+                        Return New SequenceMotif With {
+                            .tag = pwm.name,
+                            .region = pwm.pwm _
+                                .Select(Function(p)
+                                            Dim pvec = p(pwm.alphabets) _
+                                                .ToDictionary(Function(c) c.Key.ToString,
+                                                                Function(c)
+                                                                    Return c.Value
+                                                                End Function)
+
+                                            Return New SequencePatterns.Residue With {
+                                                .index = p.site,
+                                                .frequency = pvec
+                                            }
+                                        End Function) _
+                                .ToArray
+                        }
+                    End Function) _
+            .ToArray
+        Dim target As FastaFile = FastaFile.Read([in])
+
+        Using IO As New WriteStream(Of MotifMatch)(out)
+            Dim write = IO _
+                .ToArray(Of SequenceMotif)(Function(q)
+                                               Return target.AsParallel _
+                                                    .Select(Function(seq) q.ScanSites(seq, cutoff:=0.8, top:=top).ToArray) _
+                                                    .IteratesALL
+                                           End Function)
+            Dim bar As Tqdm.ProgressBar = Nothing
+
+            For Each motif As SequenceMotif In Tqdm.Wrap(motifs, bar:=bar)
+                Call write(motif)
+                Call bar.SetLabel(motif.tag)
+            Next
+        End Using
 
         Return 0
     End Function

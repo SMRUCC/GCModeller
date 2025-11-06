@@ -11,3 +11,4 @@
 + [genome.genes](annotation.genomics/genome.genes.1) 
 + [write.PTT_tabular](annotation.genomics/write.PTT_tabular.1) 
 + [operon_set](annotation.genomics/operon_set.1) load operon set data from the ODB database
++ [read.nucmer](annotation.genomics/read.nucmer.1) 

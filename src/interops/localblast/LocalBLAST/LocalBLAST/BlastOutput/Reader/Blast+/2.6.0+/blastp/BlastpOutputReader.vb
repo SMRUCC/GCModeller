@@ -77,7 +77,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim skip As Boolean = True
             Dim buffer As New List(Of String)
 
-            For Each line As String In path.IterateAllLines
+            For Each line As String In path.IterateAllLines(tqdm_wrap:=App.EnableTqdm)
                 If InStr(line, "Query=", CompareMethod.Binary) = 1 Then
                     ' 新的block数据块
                     ' 则需要将前面的buffer数据抛出去

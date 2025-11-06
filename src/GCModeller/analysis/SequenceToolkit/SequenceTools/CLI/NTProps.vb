@@ -129,7 +129,7 @@ Partial Module Utilities
         Dim outDIR As String = args.GetValue("/out", [in].TrimSuffix)
         Dim data As PalindromeLoci() = [in].LoadCsv(Of PalindromeLoci)
         Dim cut As Double = args.GetValue("/fuzzy", -1.0R)
-        Dim batch As Boolean = args.GetBoolean("/batch")
+        Dim batch As Boolean = args("/batch")
 
         If cut > 0 Then
             For Each g As GroupResult(Of PalindromeLoci, String) In data.FuzzyGroups(
@@ -221,10 +221,10 @@ Partial Module Utilities
     Public Function MirrorContextBatch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim PTT_DIR As String = args("/PTT")
-        Dim trans As Boolean = args.GetBoolean("/trans")
+        Dim trans As Boolean = args("/trans")
         Dim strand As String = args.GetValue("/strand", "+")
         Dim dist As Integer = args.GetValue("/dist", 500)
-        Dim stranded As Boolean = args.GetBoolean("/stranded")
+        Dim stranded As Boolean = args("/stranded")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".genomics_context_" & dist & "/")
         Dim cliTask As Func(Of String, String, String) =
             Function(mirror, PTT)
@@ -270,13 +270,13 @@ Partial Module Utilities
         Dim [in] As String = args("/in")
         Dim PTT As String = args("/PTT")
         Dim strand As String = args.GetValue("/strand", "+")
-        Dim stranded As Boolean = args.GetBoolean("/stranded")
+        Dim stranded As Boolean = args("/stranded")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & PTT.BaseName & "." & strand & ".csv")
         Dim context As PTT = TabularFormat.PTT.Load(PTT)
         Dim genome As New GenomeContextProvider(Of GeneBrief)(context)  ' 构建基因组的上下文模型
         Dim lStrand As Strands = strand.GetStrand
         Dim dist As Integer = args.GetValue("/dist", 500)
-        Dim trans As Boolean = args.GetBoolean("/trans")
+        Dim trans As Boolean = args("/trans")
 
         If trans Then
             If lStrand <> Strands.Reverse Then
@@ -285,7 +285,7 @@ Partial Module Utilities
         End If
 
         If trans Then
-            Call $"Reversed strand location will be transformed by genome size!".__DEBUG_ECHO
+            Call $"Reversed strand location will be transformed by genome size!".debug
             out = out.TrimSuffix & ".trans.Csv"
         End If
 

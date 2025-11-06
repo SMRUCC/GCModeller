@@ -287,7 +287,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
         ''' <remarks></remarks>
         Public Shared Function Load(path As String, Optional fillBlank As Boolean = False) As PTT
             If Not path.FileExists Then
-                Call xConsole.WriteLine($"^r {path.ToFileURL} is not exists on your file system!^!")
+                Call $"{path.ToFileURL} is not exists on your file system!".warning
                 Return Nothing
             End If
 

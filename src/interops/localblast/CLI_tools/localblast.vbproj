@@ -13,68 +13,11 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(TargetFramework)' == 'gcmodeller_desktop|net6.0' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(TargetFramework)' == 'gcmodeller_desktop|net8.0' ">
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <OutputPath>../../../../GCModeller/bin</OutputPath>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <Optimize>False</Optimize>
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Optimize>False</Optimize>
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineTrace>True</DefineTrace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineTrace>True</DefineTrace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineTrace>True</DefineTrace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineTrace>True</DefineTrace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|AnyCPU'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineTrace>True</DefineTrace>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
-    <RemoveIntegerChecks>True</RemoveIntegerChecks>
-    <DebugType>full</DebugType>
-    <DefineTrace>True</DefineTrace>
-  </PropertyGroup>
+ 
 
   <ItemGroup>
     <Content Include="ncbi.ico" />

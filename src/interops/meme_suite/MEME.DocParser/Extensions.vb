@@ -1,50 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::7a0d3a95e6a1b6d8c65cde25cf4281af, meme_suite\MEME.DocParser\Extensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module Extensions
-    ' 
-    '     Function: (+2 Overloads) __createObject, __toSites, MASTSites, TraceName
-    ' 
-    ' /********************************************************************************/
+' Module Extensions
+' 
+'     Function: (+2 Overloads) __createObject, __toSites, MASTSites, TraceName
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MAST
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.Linq
 
 Public Module Extensions
 
@@ -94,7 +97,7 @@ Public Module Extensions
         start -= OffSet
         If start <= 0 Then
             start = 1
-            'Call $"{hit.pos} - {start} is not enough".__DEBUG_ECHO
+            'Call $"{hit.pos} - {start} is not enough".debug
         End If
 
         Dim site As String = Mid(sequence, start, length)
@@ -118,5 +121,72 @@ Public Module Extensions
             .Ends = right
         }
         Return mastSite
+    End Function
+
+    Public Iterator Function ParsePWNFile(file As String) As IEnumerable(Of MotifPWM)
+        Dim lines As String() = file.ReadAllLines
+        Dim alphabets As Char() = Nothing
+        Dim offset As Integer = 0
+
+        Do While offset <= lines.Length - 1
+            Dim line As String = lines(offset)
+
+            With line.GetTagValue("=")
+                If .Name = "ALPHABET" Then
+                    alphabets = Strings.Trim(.Value).ToArray
+                End If
+                If line.StartsWith("MOTIF") Then
+                    Exit Do
+                End If
+            End With
+
+            offset += 1
+        Loop
+
+        For Each block As String() In lines.Skip(offset) _
+            .Where(Function(si) Not si.StringEmpty(, True)) _
+            .Split(Function(si)
+                       Return si.StartsWith("MOTIF")
+                   End Function, deliPosition:=DelimiterLocation.NextFirst) _
+            .Where(Function(b)
+                       Return Not b.IsNullOrEmpty
+                   End Function)
+
+            Dim name As String = block(0)
+            Dim notes As String = block(1) & vbCrLf & block.Last
+
+            block = block.Skip(2).Take(block.Length - 3).ToArray
+            offset = 1
+
+            Dim matrix As New List(Of ResidueSite)
+
+            For Each line As String In block
+                Dim p As Double() = line.Trim.StringSplit("\s+").AsDouble
+                Dim row As New ResidueSite With {
+                    .bits = 1,
+                    .PWM = p,
+                    .site = offset
+                }
+
+                offset += 1
+                matrix.Add(row)
+            Next
+
+            Dim n As Integer = 100
+            Dim base As Integer = 4
+            Dim E As Double = (1 / Math.Log(2)) * ((base - 1) / (2 * n))
+            Dim H As Double() = matrix.Select(Function(x) Probability.HI(x(alphabets))).ToArray
+
+            For i As Integer = 0 To matrix.Count - 1
+                matrix(i).bits = Math.Log(n, 2) - (H(i) + E)
+            Next
+
+            Yield New MotifPWM With {
+                .alphabets = alphabets,
+                .name = name,
+                .note = notes,
+                .pwm = matrix.ToArray
+            }
+        Next
     End Function
 End Module

@@ -126,7 +126,7 @@ Partial Module Utilities
                     Next
                 End Using
 
-                Call nt.Title.__INFO_ECHO
+                Call nt.Title.info
             Next
         Next
 
