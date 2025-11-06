@@ -474,3 +474,6 @@ src/workbench/pkg/test/omics/.Rhistory
 /src/.vs/GCModeller/CopilotIndices/17.14.1368.60722
 /src/.vs/GCModeller/CopilotIndices/18.0.923.20550
 /src/.vs/GCModeller/copilot-chat/43b105f3/sessions
+GCModeller/PlantTFDB_TF_binding_motifs_from_experiments.xml
+GCModeller/YL-443_upstream_500bp.fasta
+GCModeller/YL-443_upstream_500bp_vs_PlantTFDB_TF_binding_motifs_from_experiments_motif_scan.csv
