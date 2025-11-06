@@ -64,7 +64,7 @@ Namespace Regprecise
 
     Public Module MotifWebAPI
 
-        Public Const RegPrecise As String = "http://regprecise.lbl.gov/"
+        Public Const RegPrecise As String = "https://regprecise.lbl.gov/"
 
         Const __logo As String = "<div id=""logoblock"">.+?</div>"
         Const __sites As String = "<a href=""[^""]+?""><b>DOWNLOAD</b></a>"

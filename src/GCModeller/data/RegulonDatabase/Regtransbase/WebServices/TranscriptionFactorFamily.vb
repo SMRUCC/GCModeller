@@ -152,7 +152,7 @@ Namespace Regtransbase.WebServices
         End Function
 
         Public Overrides Function ToString() As String
-            Return "http://regprecise.lbl.gov/collections_tffam.jsp"
+            Return "https://regprecise.lbl.gov/collections_tffam.jsp"
         End Function
 
         Public Shared Widening Operator CType(FilePath As String) As RegPreciseTFFamily
@@ -161,7 +161,7 @@ Namespace Regtransbase.WebServices
     End Class
 
     ''' <summary>
-    ''' http://regprecise.lbl.gov/collections_tffam.jsp
+    ''' https://regprecise.lbl.gov/collections_tffam.jsp
     ''' </summary>
     ''' <remarks></remarks>
     Public Class TranscriptionFactorFamily
@@ -192,7 +192,7 @@ Namespace Regtransbase.WebServices
             TFF.Family = Regex.Match(Mid(Head, InStr(Head, "href", CompareMethod.Text)), "[^>]+<a", RegexOptions.Singleline).Value
 
             TFF.Url = Mid(TFF.Url, 6)
-            TFF.Url = "http://regprecise.lbl.gov/" & Mid(TFF.Url, 2, Len(TFF.Url) - 2)
+            TFF.Url = "https://regprecise.lbl.gov/" & Mid(TFF.Url, 2, Len(TFF.Url) - 2)
             TFF.Regulogs.Counts = Mid(TFF.Regulogs.Counts, 1, Len(TFF.Regulogs.Counts) - 2)
             TFF.TFRegulons = Mid(TFF.TFRegulons, 1, Len(TFF.TFRegulons) - 2)
             TFF.TFBindingSites = Mid(TFF.TFBindingSites, 1, Len(TFF.TFBindingSites) - 2)
@@ -253,7 +253,7 @@ Namespace Regtransbase.WebServices
 
                 Dim TFBSsUrl As String = Columns(++p)
                 TFBSsUrl = Mid(Regex.Match(TFBSsUrl, "href="".+?""").Value, 7)
-                TFBSsUrl = "http://regprecise.lbl.gov/" & Mid(TFBSsUrl, 1, Len(TFBSsUrl) - 1)
+                TFBSsUrl = "https://regprecise.lbl.gov/" & Mid(TFBSsUrl, 1, Len(TFBSsUrl) - 1)
 
                 item.TFBSs = Regulator.Parse(TFBSsUrl)
 
@@ -265,7 +265,7 @@ Namespace Regtransbase.WebServices
                 Pair.Key = Regex.Match(strText, ">[^>]+?</a").Value
                 Pair.Value = Regex.Match(strText, "href="".+?""").Value
                 Pair.Key = Mid(Pair.Key, 2, Len(Pair.Key) - 4)
-                Pair.Value = "http://regprecise.lbl.gov/" & Mid(Pair.Value, 7, Len(Pair.Value) - 7)
+                Pair.Value = "https://regprecise.lbl.gov/" & Mid(Pair.Value, 7, Len(Pair.Value) - 7)
 
                 Return Pair
             End Function
@@ -380,7 +380,7 @@ Namespace Regtransbase.WebServices
             Dim pageContent As String = url.GET
             Dim ExportDownloadUrl As String = Regex.Match(pageContent, "<a href=""[^>]+?""><b>DOWNLOAD</b></a>", RegexOptions.Singleline).Value
             ExportDownloadUrl = Regex.Match(ExportDownloadUrl, "href="".+?""", RegexOptions.IgnoreCase).Value
-            ExportDownloadUrl = "http://regprecise.lbl.gov/" & Mid(ExportDownloadUrl, 7, Len(ExportDownloadUrl) - 7)
+            ExportDownloadUrl = "https://regprecise.lbl.gov/" & Mid(ExportDownloadUrl, 7, Len(ExportDownloadUrl) - 7)
 
             Dim Regulator As Regulator = New Regulator
             Regulator.TFBSs = MotifFasta.Parse(ExportDownloadUrl)
@@ -412,7 +412,7 @@ Namespace Regtransbase.WebServices
             pair.Key = Regex.Match(str, ">[^>]+?</a>", RegexOptions.Singleline).Value
             pair.Value = Regex.Match(str, "href="".+?""", RegexOptions.Singleline).Value
             pair.Key = Regulogs.TrimText(Mid(pair.Key, 2, Len(pair.Key) - 5))
-            pair.Value = "http://regprecise.lbl.gov/" & Mid(pair.Value, 7, Len(pair.Value) - 7)
+            pair.Value = "https://regprecise.lbl.gov/" & Mid(pair.Value, 7, Len(pair.Value) - 7)
 
             Return pair
         End Function

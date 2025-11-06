@@ -1,60 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::14798914321fffc27800e57f9b651ccb, data\RegulonDatabase\Regtransbase\WebServices\WebServiceHandler.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 160
-    '    Code Lines: 127 (79.38%)
-    ' Comment Lines: 12 (7.50%)
-    '    - Xml Docs: 75.00%
-    ' 
-    '   Blank Lines: 21 (13.12%)
-    '     File Size: 10.24 KB
+' Summaries:
 
 
-    '     Class WebServiceHandler
-    ' 
-    '         Function: DownloadSequenceData, HandleErrorSequence, TFFamily
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 160
+'    Code Lines: 127 (79.38%)
+' Comment Lines: 12 (7.50%)
+'    - Xml Docs: 75.00%
+' 
+'   Blank Lines: 21 (13.12%)
+'     File Size: 10.24 KB
+
+
+'     Class WebServiceHandler
+' 
+'         Function: DownloadSequenceData, HandleErrorSequence, TFFamily
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regtransbase.WebServices
@@ -62,7 +60,7 @@ Namespace Regtransbase.WebServices
     Public Class WebServiceHandler
 
         Public Shared Function TFFamily() As WebServices.RegPreciseTFFamily
-            Dim url = "http://regprecise.lbl.gov/collections_tffam.jsp"
+            Dim url = "https://regprecise.lbl.gov/collections_tffam.jsp"
             Return WebServices.RegPreciseTFFamily.Download(url)
         End Function
 

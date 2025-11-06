@@ -70,7 +70,7 @@ Namespace Regprecise
     <XmlType("bacterial_regulome", [Namespace]:=BacteriaRegulome.regulomeNamespace)>
     Public Class BacteriaRegulome : Inherits XmlDataModel
 
-        Public Const regulomeNamespace$ = "http://regprecise.lbl.gov/genome.jsp?genome_id=taxonomy"
+        Public Const regulomeNamespace$ = "https://regprecise.lbl.gov/genome.jsp?genome_id=taxonomy"
 
         ''' <summary>
         ''' {GenomeName, Url}

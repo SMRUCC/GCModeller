@@ -81,9 +81,9 @@ Imports System.Xml.Serialization
 Namespace Regprecise.WebServices.JSON
 
     ''' <summary>
-    ''' http://regprecise.lbl.gov/Services/rest/genomeStats
+    ''' https://regprecise.lbl.gov/Services/rest/genomeStats
     ''' </summary>
-    <Description("http://regprecise.lbl.gov/Services/rest/genomeStats")> Public Class genomeStat
+    <Description("https://regprecise.lbl.gov/Services/rest/genomeStats")> Public Class genomeStat
         ''' <summary>
         ''' genome identifier
         ''' </summary>
@@ -224,11 +224,11 @@ Namespace Regprecise.WebServices.JSON
     End Class
 
     ''' <summary>
-    ''' http://regprecise.lbl.gov/Services/rest/genomes
+    ''' https://regprecise.lbl.gov/Services/rest/genomes
     ''' </summary>
     ''' 
-    <Description("http://regprecise.lbl.gov/Services/rest/genomes")>
-    <XmlType("bacterial.genome", [Namespace]:="http://regprecise.lbl.gov/Services/rest/genomes")>
+    <Description("https://regprecise.lbl.gov/Services/rest/genomes")>
+    <XmlType("bacterial.genome", [Namespace]:="https://regprecise.lbl.gov/Services/rest/genomes")>
     Public Class genome
 
         ''' <summary>

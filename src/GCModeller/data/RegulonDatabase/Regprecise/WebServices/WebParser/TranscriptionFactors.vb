@@ -79,7 +79,7 @@ Namespace Regprecise
     ''' </summary>
     ''' <remarks></remarks>
     '''
-    <XmlRoot("TranscriptionFactors", Namespace:="http://regprecise.lbl.gov/")>
+    <XmlRoot("TranscriptionFactors", Namespace:="https://regprecise.lbl.gov/")>
     Public Class TranscriptionFactors
         Implements Enumeration(Of BacteriaRegulome)
         Implements ISaveHandle

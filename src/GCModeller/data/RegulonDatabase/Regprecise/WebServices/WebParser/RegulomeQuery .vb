@@ -75,7 +75,7 @@ Namespace Regprecise
 
         Protected Overrides Function doParseUrl(context As String) As String
             Dim str$ = r.Match(context, "href="".+?"">.+?</a>").Value
-            Dim strUrl$ = "http://regprecise.lbl.gov/" & str.href
+            Dim strUrl$ = "https://regprecise.lbl.gov/" & str.href
 
             Return strUrl
         End Function
