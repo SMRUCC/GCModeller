@@ -3,22 +3,28 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{337D6884-20A4-1A04-31E6-CF595656D545}|..\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\elixir\\ebi\\chebi\\web\\webservices.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\webparser\\bacteriagenome.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|solutionrelative:regulondatabase\\regprecise\\webservices\\webparser\\bacteriagenome.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\datamodels\\stats.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|solutionrelative:regulondatabase\\regprecise\\webservices\\datamodels\\stats.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\regpreciseapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|solutionrelative:regulondatabase\\regprecise\\regpreciseapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\webparser\\regulomequery .vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|solutionrelative:regulondatabase\\regprecise\\webservices\\webparser\\regulomequery .vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\webparser\\webapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|solutionrelative:regulondatabase\\regprecise\\webservices\\webparser\\webapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D6A933D3-A04D-0D7B-C14A-D8F9A9F8FA51}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\terminal\\utility\\progressbar\\progressbar.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2876ADE0-6E86-4AC2-A0ED-0A67730E5B2C}|RegulonDatabase\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{2876ADE0-6E86-4AC2-A0ED-0A67730E5B2C}|RegulonDatabase\\test\\test.vbproj|solutionrelative:regulondatabase\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regulondatabase.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|solutionrelative:regulondatabase\\regulondatabase.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -33,27 +39,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "WebServices.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\EBI\\ChEBI\\Web\\WebServices.vb",
-              "RelativeDocumentMoniker": "..\\core\\Bio.Assembly\\Assembly\\ELIXIR\\EBI\\ChEBI\\Web\\WebServices.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\EBI\\ChEBI\\Web\\WebServices.vb",
-              "RelativeToolTip": "..\\core\\Bio.Assembly\\Assembly\\ELIXIR\\EBI\\ChEBI\\Web\\WebServices.vb",
-              "ViewState": "AgIAAFIAAAAAAAAAAAAcwHkAAAAAAAAAAAAAAA==",
+              "Title": "BacteriaGenome.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\BacteriaGenome.vb",
+              "RelativeDocumentMoniker": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\BacteriaGenome.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\BacteriaGenome.vb",
+              "RelativeToolTip": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\BacteriaGenome.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-06T06:53:09.689Z",
+              "WhenOpened": "2025-11-06T06:55:51.09Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Stats.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\DataModels\\Stats.vb",
+              "RelativeDocumentMoniker": "RegulonDatabase\\Regprecise\\WebServices\\DataModels\\Stats.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\DataModels\\Stats.vb",
+              "RelativeToolTip": "RegulonDatabase\\Regprecise\\WebServices\\DataModels\\Stats.vb",
+              "ViewState": "AgIAAM0AAAAAAAAAAAAkwOYAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-06T06:55:38.965Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ProgressBar.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\ProgressBar.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\ProgressBar.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\ProgressBar.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Terminal\\Utility\\ProgressBar\\ProgressBar.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEoAAAAYAAAAAAAAAA==",
+              "Title": "RegpreciseAPI.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\RegpreciseAPI.vb",
+              "RelativeDocumentMoniker": "RegulonDatabase\\Regprecise\\RegpreciseAPI.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\RegpreciseAPI.vb",
+              "RelativeToolTip": "RegulonDatabase\\Regprecise\\RegpreciseAPI.vb",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAYwGAAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-06T06:49:43.592Z",
+              "WhenOpened": "2025-11-06T06:55:34.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RegulomeQuery .vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\RegulomeQuery .vb",
+              "RelativeDocumentMoniker": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\RegulomeQuery .vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\RegulomeQuery .vb",
+              "RelativeToolTip": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\RegulomeQuery .vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-06T06:54:59.486Z",
               "EditorCaption": ""
             },
             {
@@ -74,41 +106,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "WebAPI.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
-              "RelativeDocumentMoniker": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
-              "RelativeToolTip": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAiwIsAAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-06T06:41:17.129Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\test\\Program.vb",
               "RelativeDocumentMoniker": "RegulonDatabase\\test\\Program.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\test\\Program.vb",
               "RelativeToolTip": "RegulonDatabase\\test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-06T06:38:52.21Z",
+              "WhenOpened": "2025-11-06T06:54:15.618Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "RegulonDatabase.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj",
-              "RelativeDocumentMoniker": "RegulonDatabase\\RegulonDatabase.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj",
-              "RelativeToolTip": "RegulonDatabase\\RegulonDatabase.NET5.vbproj",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-11-06T06:38:38.028Z",
+              "Title": "WebAPI.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "RelativeDocumentMoniker": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "RelativeToolTip": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAuwK0AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-06T06:41:17.129Z",
               "EditorCaption": ""
             }
           ]

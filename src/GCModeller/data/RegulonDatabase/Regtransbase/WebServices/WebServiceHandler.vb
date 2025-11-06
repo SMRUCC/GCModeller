@@ -62,7 +62,7 @@ Namespace Regtransbase.WebServices
     Public Class WebServiceHandler
 
         Public Shared Function TFFamily() As WebServices.RegPreciseTFFamily
-            Dim url = "http://regprecise.lbl.gov/RegPrecise/collections_tffam.jsp"
+            Dim url = "http://regprecise.lbl.gov/collections_tffam.jsp"
             Return WebServices.RegPreciseTFFamily.Download(url)
         End Function
 
