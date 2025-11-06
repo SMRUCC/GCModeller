@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\",
   "Documents": [],
   "DocumentGroupContainers": [
     {
@@ -30,7 +30,7 @@
           ]
         },
         {
-          "DockedWidth": 1858,
+          "DockedWidth": 200,
           "SelectedChildIndex": -1,
           "Children": [
             {
