@@ -69,11 +69,18 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type string.<h4>clr value class</h4><ul><li>string</li></ul>
+        <p>a character vector of the intersected gene id set or the cluster id set based on the option of parameter <strong>`get_clusterID`</strong>.</p><h4>clr value class</h4><ul><li>string</li></ul>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r"> let kb = read.background("kegg_background.xml");
+ let idset = c("id1","id2","id3");
+ 
+ print("intersect gene ids:");
+ print(kb |> geneSet.intersects(idset));
+ 
+ print("intersect cluster ids:");
+ print(kb |> geneSet.intersects(idset, get_clusterID=TRUE));</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>background</em> version 1.0.0.0 <a
@@ -86,4 +93,4 @@
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
-</html>
+</html>

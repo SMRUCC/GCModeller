@@ -9,3 +9,4 @@ tools for metagenomics and microbiome
 + [diff.entropy](microbiome/diff.entropy.1) evaluate the similarity of two taxonomy data vector
 + [compounds.origin.profile](microbiome/compounds.origin.profile.1) 
 + [compounds.origin](microbiome/compounds.origin.1) create compound origin profile dataset
++ [taxonomy.rank_table](microbiome/taxonomy.rank_table.1) 

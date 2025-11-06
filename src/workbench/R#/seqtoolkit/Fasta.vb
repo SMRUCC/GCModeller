@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::40ced0e713ef1a5cdd79b1f22c39234d, R#\seqtoolkit\Fasta.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 712
-    '    Code Lines: 486 (68.26%)
-    ' Comment Lines: 150 (21.07%)
-    '    - Xml Docs: 93.33%
-    ' 
-    '   Blank Lines: 76 (10.67%)
-    '     File Size: 28.98 KB
+' Summaries:
 
 
-    ' Module Fasta
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: chars, createSequenceCollectionTable, createSequenceTable, CutSequenceLinear, fasta
-    '               fastaTitle, fastaTitles, formula, mass, MSA
-    '               openFasta, parseFasta, readFasta, readSeq, seq_sgt
-    '               seq_vector, sizeof, Tofasta, Translates, translateSingleNtSeq
-    '               viewFasta, viewMSA, writeFasta
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 712
+'    Code Lines: 486 (68.26%)
+' Comment Lines: 150 (21.07%)
+'    - Xml Docs: 93.33%
+' 
+'   Blank Lines: 76 (10.67%)
+'     File Size: 28.98 KB
+
+
+' Module Fasta
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: chars, createSequenceCollectionTable, createSequenceTable, CutSequenceLinear, fasta
+'               fastaTitle, fastaTitles, formula, mass, MSA
+'               openFasta, parseFasta, readFasta, readSeq, seq_sgt
+'               seq_vector, sizeof, Tofasta, Translates, translateSingleNtSeq
+'               viewFasta, viewMSA, writeFasta
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -70,6 +70,8 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
+Imports SMRUCC.genomics.Model.OperonMapper
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -81,10 +83,9 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
+Imports FastaWriter = SMRUCC.genomics.SequenceModel.FASTA.StreamWriter
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
-Imports FastaWriter = SMRUCC.genomics.SequenceModel.FASTA.StreamWriter
-Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 
 ''' <summary>
 ''' Fasta sequence toolkit
@@ -385,12 +386,17 @@ Module Fasta
     <RApiReturn(GetType(FastaSeq), GetType(FastaWriter))>
     Public Function openFasta(file As String,
                               Optional read As Boolean = True,
+                              Optional line_break As Integer = -1,
+                              Optional delimiter As String = "|",
                               Optional env As Environment = Nothing) As Object
 
         If read Then
             Return StreamIterator.SeqSource(file).DoCall(AddressOf pipeline.CreateFromPopulator)
         Else
-            Return New FastaWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False))
+            Return New FastaWriter(file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False),
+                                   lineBreak:=line_break,
+                                   deli:=delimiter
+            )
         End If
     End Function
 
@@ -766,5 +772,75 @@ Module Fasta
                 Return New FastaFile(collection)
             End If
         End If
+    End Function
+
+    <ExportAPI("open.fingerprint_writer")>
+    <RApiReturn(GetType(FingerprintMatrixWriter))>
+    Public Function openFingerpintWriter(file As Object, Optional env As Environment = Nothing) As Object
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Write, env)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Return New FingerprintMatrixWriter(s.TryCast(Of Stream))
+    End Function
+
+    <ExportAPI("write_fingerprint")>
+    <RApiReturn(GetType(FingerprintMatrixWriter))>
+    Public Function createFingerprintMatrix(file As FingerprintMatrixWriter, <RRawVectorArgument> seqs As Object,
+                                            Optional debug As Integer = -1,
+                                            Optional env As Environment = Nothing) As Object
+        Dim fasta = GetFastaSeq(seqs, env)
+
+        If fasta Is Nothing Then
+            Return Message.InCompatibleType(GetType(FastaFile), seqs.GetType, env)
+        End If
+
+        If debug > 0 Then
+            For Each seed As NTCluster In NTCluster.MakeFingerprint(fasta).Take(debug)
+                Call file.Add(seed)
+                Call seed.ToString.info
+            Next
+        Else
+            For Each seed As NTCluster In NTCluster.MakeFingerprint(fasta)
+                Call file.Add(seed)
+                Call seed.ToString.info
+            Next
+        End If
+
+        Return file
+    End Function
+
+    <ExportAPI("read.fingerprint_bson")>
+    <RApiReturn(GetType(NTCluster))>
+    Public Function readFingerprintBson(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Return FingerprintMatrixWriter.BSONReader(s.TryCast(Of Stream))
+    End Function
+
+    <ExportAPI("make_clusterTree")>
+    <RApiReturn(GetType(NTCluster))>
+    Public Function makeClusterTree(<RRawVectorArgument> fingerprints As Object, Optional env As Environment = Nothing) As Object
+        Dim seeds = pipeline.TryCreatePipeline(Of NTCluster)(fingerprints, env)
+
+        If seeds.isError Then
+            Return seeds.getError
+        End If
+
+        Dim tree As New NTTree(0.8, 0.6)
+        Call tree.MakeTtree(seeds.populates(Of NTCluster)(env))
+        Dim cluster = tree.GetClusters _
+            .GroupBy(Function(a) a.cluster) _
+            .OrderByDescending(Function(a) a.Count) _
+            .IteratesALL _
+            .ToArray
+
+        Return cluster
     End Function
 End Module

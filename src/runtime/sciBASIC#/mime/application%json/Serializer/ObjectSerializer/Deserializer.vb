@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b22c5474fc198962904e205c001af781, mime\application%json\Serializer\ObjectSerializer\Deserializer.vb"
+﻿#Region "Microsoft.VisualBasic::4aafca6db6798f2f0053ea779768773b, mime\application%json\Serializer\ObjectSerializer\Deserializer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 180
-    '    Code Lines: 128 (71.11%)
-    ' Comment Lines: 34 (18.89%)
-    '    - Xml Docs: 61.76%
+    '   Total Lines: 183
+    '    Code Lines: 129 (70.49%)
+    ' Comment Lines: 36 (19.67%)
+    '    - Xml Docs: 66.67%
     ' 
-    '   Blank Lines: 18 (10.00%)
-    '     File Size: 7.68 KB
+    '   Blank Lines: 18 (9.84%)
+    '     File Size: 7.88 KB
 
 
     ' Module Deserializer
@@ -89,16 +89,18 @@ Public Module Deserializer
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Cast the json element data as specific clr type object
     ''' </summary>
     ''' <typeparam name="T">add know types for object by using the <see cref="KnownTypeAttribute"/>.</typeparam>
     ''' <param name="json"></param>
     ''' <param name="decodeMetachar"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function will returns nothing if the input json element is nothing
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function CreateObject(Of T As Class)(json As JsonElement, Optional decodeMetachar As Boolean = True) As Object
-        Return json.CreateObject(Nothing, GetType(T), decodeMetachar)
+    Public Function CreateObject(Of T As Class)(json As JsonElement, Optional decodeMetachar As Boolean = True) As T
+        Return DirectCast(json.CreateObject(Nothing, GetType(T), decodeMetachar), T)
     End Function
 
     <Extension>
@@ -190,6 +192,7 @@ Public Module Deserializer
         If metadata IsNot Nothing Then
             metaObj2 = Activator.CreateInstance(metadata.PropertyType)
             metaVal = metadata.PropertyType.GetGenericArguments()(1)
+            metadata.SetValue(obj, metaObj2)
         End If
 
         ' write property value at here

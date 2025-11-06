@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccf641a705133e0fc1daa4e2c5e0ff01, mime\application%json\Serializer\JSONSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::71fe5261d86324c3558959873bd05714, mime\application%json\Serializer\JSONSerializer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 83
-    '    Code Lines: 62 (74.70%)
-    ' Comment Lines: 9 (10.84%)
-    '    - Xml Docs: 88.89%
+    '   Total Lines: 98
+    '    Code Lines: 64 (65.31%)
+    ' Comment Lines: 22 (22.45%)
+    '    - Xml Docs: 95.45%
     ' 
-    '   Blank Lines: 12 (14.46%)
-    '     File Size: 3.07 KB
+    '   Blank Lines: 12 (12.24%)
+    '     File Size: 3.74 KB
 
 
     ' Module JSONSerializer
@@ -69,6 +69,10 @@ Public Module JSONSerializer
     ''' <param name="maskReadonly">
     ''' 如果这个参数为真，则不会序列化只读属性
     ''' </param>
+    ''' <param name="comment">
+    ''' add property xml comment summary as comment into the generated json text? 
+    ''' this option usually be apply to generates the config json file.
+    ''' </param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
@@ -76,18 +80,29 @@ Public Module JSONSerializer
                                   Optional maskReadonly As Boolean = False,
                                   Optional indent As Boolean = False,
                                   Optional enumToStr As Boolean = True,
-                                  Optional unixTimestamp As Boolean = True) As String
+                                  Optional unixTimestamp As Boolean = True,
+                                  Optional comment As Boolean = False) As String
 
         Return New JSONSerializerOptions With {
             .indent = indent,
             .maskReadonly = maskReadonly,
             .enumToString = enumToStr,
-            .unixTimestamp = unixTimestamp
+            .unixTimestamp = unixTimestamp,
+            .comment = comment
         }.DoCall(Function(opts)
                      Return obj.GetType.GetJsonElement(obj, opts).BuildJsonString(opts)
                  End Function)
     End Function
 
+    ''' <summary>
+    ''' Convet any clr object into a <see cref="JsonElement"/> based instance.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="obj"></param>
+    ''' <param name="maskReadonly"></param>
+    ''' <param name="enumToStr"></param>
+    ''' <param name="unixTimestamp"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CreateJSONElement(Of T)(obj As T,
                                             Optional maskReadonly As Boolean = False,

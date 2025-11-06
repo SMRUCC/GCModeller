@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ad1e4b847438d6164b908bc8d582ad2, Microsoft.VisualBasic.Core\src\ComponentModel\Ranges\RangeModel\DoubleRange.vb"
+﻿#Region "Microsoft.VisualBasic::b8b63d35c6fdddae55a68c78e8641f05, Microsoft.VisualBasic.Core\src\ComponentModel\Ranges\RangeModel\DoubleRange.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 386
-    '    Code Lines: 205 (53.11%)
-    ' Comment Lines: 133 (34.46%)
-    '    - Xml Docs: 78.95%
+    '   Total Lines: 416
+    '    Code Lines: 227 (54.57%)
+    ' Comment Lines: 135 (32.45%)
+    '    - Xml Docs: 79.26%
     ' 
-    '   Blank Lines: 48 (12.44%)
-    '     File Size: 14.26 KB
+    '   Blank Lines: 54 (12.98%)
+    '     File Size: 15.35 KB
 
 
     '     Class DoubleRange
@@ -49,7 +49,7 @@
     ' 
     '         Constructor: (+10 Overloads) Sub New
     '         Function: Contains, (+2 Overloads) Enumerate, GetEnumerator, (+3 Overloads) IsInside, (+2 Overloads) IsOverlapping
-    '                   (+2 Overloads) ScaleMapping, (+2 Overloads) ToString, TryParse
+    '                   (+3 Overloads) ScaleMapping, (+2 Overloads) ToString, TryParse
     '         Operators: *, <>, =, (+2 Overloads) Like
     ' 
     ' 
@@ -132,8 +132,15 @@ Namespace ComponentModel.Ranges.Model
                 Min = Double.NaN
                 Max = Double.NaN
             Else
-                Min = data.Min
-                Max = data.Max
+                Min = Double.MaxValue
+                Max = Double.MinValue
+
+                For i As Integer = 0 To data.Length - 1
+                    Dim xi As Double = data(i)
+
+                    If xi > Max Then Max = xi
+                    If xi < Min Then Min = xi
+                Next
             End If
         End Sub
 
@@ -142,8 +149,15 @@ Namespace ComponentModel.Ranges.Model
                 Min = Double.NaN
                 Max = Double.NaN
             Else
-                Min = data.Min
-                Max = data.Max
+                Min = Double.MaxValue
+                Max = Double.MinValue
+
+                For i As Integer = 0 To data.Length - 1
+                    Dim xi As Double = data(i)
+
+                    If xi > Max Then Max = xi
+                    If xi < Min Then Min = xi
+                Next
             End If
         End Sub
 
@@ -152,23 +166,33 @@ Namespace ComponentModel.Ranges.Model
         ''' </summary>
         ''' <param name="vector"></param>
         Sub New(vector As IEnumerable(Of Double))
-            Call Me.New(data:=vector.ToArray)
+            Min = Double.MaxValue
+            Max = Double.MinValue
+
+            For Each xi As Double In vector
+                If xi > Max Then Max = xi
+                If xi < Min Then Min = xi
+            Next
         End Sub
 
         Sub New(vector As IEnumerable(Of Single))
-            Call Me.New(data:=vector.Select(Function(f) CDbl(f)).ToArray)
+            Min = Double.MaxValue
+            Max = Double.MinValue
+
+            For Each xi As Single In vector
+                If xi > Max Then Max = xi
+                If xi < Min Then Min = xi
+            Next
         End Sub
 
         Sub New(vector As IEnumerable(Of Integer))
-            With vector.ToArray
-                If .Length = 0 Then
-                    Min = Double.NaN
-                    Max = Double.NaN
-                Else
-                    Min = .Min
-                    Max = .Max
-                End If
-            End With
+            Min = Double.MaxValue
+            Max = Double.MinValue
+
+            For Each xi As Integer In vector
+                If xi > Max Then Max = xi
+                If xi < Min Then Min = xi
+            Next
         End Sub
 
         Sub New(range As IntRange)
@@ -384,15 +408,42 @@ Namespace ComponentModel.Ranges.Model
         ''' <summary>
         ''' Transform a numeric value in this <see cref="DoubleRange"/> into 
         ''' target numeric range: ``<paramref name="valueRange"/>``.
-        ''' (将当前的范围内的一个实数映射到另外的一个范围内的实数区间之中)
         ''' </summary>
-        ''' <param name="x#">A numeric value in this <see cref="DoubleRange"/></param>
+        ''' <param name="x">A numeric value in this <see cref="DoubleRange"/></param>
         ''' <param name="valueRange"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (将当前的范围内的一个实数映射到另外的一个范围内的实数区间之中)
+        ''' </remarks>
         Public Function ScaleMapping(x#, valueRange As DoubleRange) As Double
+            If Length = 0.0 Then
+                Return valueRange.Min
+            End If
+
             Dim percent# = (x - Min) / Length
             Dim value# = percent * valueRange.Length + valueRange.Min
             Return value
+        End Function
+
+        Public Function ScaleMapping(x As IEnumerable(Of Double), valueRange As DoubleRange) As Double()
+            If x Is Nothing Then
+                Return New Double() {}
+            End If
+
+            Dim length As Double = Me.Length
+            Dim mapLen As Double = valueRange.Length
+
+            If Length = 0.0 Then
+                Return x.Select(Function(a) valueRange.Min).ToArray
+            End If
+
+            Dim percent As IEnumerable(Of Double) = From xi As Double In x Select (xi - Min) / length
+            Dim value As IEnumerable(Of Double) = From pct As Double
+                                                  In percent
+                                                  Select pct * mapLen + valueRange.Min
+            Dim result As Double() = value.ToArray
+
+            Return result
         End Function
 
         ''' <summary>
@@ -403,6 +454,9 @@ Namespace ComponentModel.Ranges.Model
         ''' <param name="valueRange">levels in integer values.</param>
         ''' <returns></returns>
         Public Function ScaleMapping(x As Double, valueRange As IntRange) As Integer
+            If Length = 0.0 Then
+                Return valueRange.Min
+            End If
             Dim percent# = (x - Min) / Length
             Dim value# = percent * valueRange.Interval + valueRange.Min
             Return CInt(value)

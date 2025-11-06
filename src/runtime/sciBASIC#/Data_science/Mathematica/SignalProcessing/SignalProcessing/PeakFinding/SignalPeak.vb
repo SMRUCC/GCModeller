@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb1085258a9021193d33040c5e972eea, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\SignalPeak.vb"
+﻿#Region "Microsoft.VisualBasic::973b6a6783589d8620ce54d6db07767d, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\SignalPeak.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 85
-    '    Code Lines: 67 (78.82%)
-    ' Comment Lines: 3 (3.53%)
+    '   Total Lines: 100
+    '    Code Lines: 78 (78.00%)
+    ' Comment Lines: 3 (3.00%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (17.65%)
-    '     File Size: 2.88 KB
+    '   Blank Lines: 19 (19.00%)
+    '     File Size: 3.26 KB
 
 
     '     Structure SignalPeak
@@ -86,27 +86,42 @@ Namespace PeakFinding
 
         Public ReadOnly Property rt As Double
             Get
+                If region.IsNullOrEmpty Then
+                    Return 0
+                End If
+
                 Return region _
                     .OrderByDescending(Function(a) a.intensity) _
-                    .FirstOrDefault _
-                    .time
+                    .FirstOrDefault.time
             End Get
         End Property
 
         Public ReadOnly Property rtmin As Double
             Get
+                If region.IsNullOrEmpty Then
+                    Return 0
+                End If
+
                 Return region.First.time
             End Get
         End Property
 
         Public ReadOnly Property rtmax As Double
             Get
+                If region.IsNullOrEmpty Then
+                    Return 0
+                End If
+
                 Return region.Last.time
             End Get
         End Property
 
         Public ReadOnly Property signalMax As Double
             Get
+                If region.IsNullOrEmpty Then
+                    Return 0
+                End If
+
                 Return Aggregate tick As ITimeSignal
                        In region
                        Let data As Double = tick.intensity

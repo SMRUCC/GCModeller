@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56971090e3208bfe0522953f29c78b08, gr\network-visualization\Datavisualization.Network\Analysis\Model\DirectedVertex.vb"
+﻿#Region "Microsoft.VisualBasic::236ae7a4520520e5e3a8dadb7beec4cb, gr\network-visualization\Datavisualization.Network\Analysis\Model\DirectedVertex.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 92
-    '    Code Lines: 48 (52.17%)
-    ' Comment Lines: 30 (32.61%)
-    '    - Xml Docs: 86.67%
+    '   Total Lines: 128
+    '    Code Lines: 69 (53.91%)
+    ' Comment Lines: 42 (32.81%)
+    '    - Xml Docs: 90.48%
     ' 
-    '   Blank Lines: 14 (15.22%)
-    '     File Size: 3.05 KB
+    '   Blank Lines: 17 (13.28%)
+    '     File Size: 4.28 KB
 
 
     '     Class DirectedVertex
     ' 
-    '         Properties: label
+    '         Properties: connectivity, inDegree, label, outDegree
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -59,6 +59,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Analysis.Model
 
@@ -78,6 +79,38 @@ Namespace Analysis.Model
         ''' </summary>
         Friend ReadOnly incomingEdges As New HashSet(Of Edge)
 
+        Public ReadOnly Property outDegree As Integer
+            Get
+                Return outgoingEdges.Count
+            End Get
+        End Property
+
+        Public ReadOnly Property inDegree As Integer
+            Get
+                Return incomingEdges.Count
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' summ all connected edge weights as weighted degree connectivity
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' the edge weight data should be not missing!
+        ''' </remarks>
+        Public ReadOnly Property connectivity As Double
+            Get
+                Return Aggregate link As Edge
+                       In outgoingEdges.JoinIterates(incomingEdges)
+                       Into Sum(link.weight)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' create a new node edge connection collection object
+        ''' </summary>
+        ''' <param name="label">the node unique id</param>
+        ''' <exception cref="ArgumentNullException"></exception>
         Sub New(label As String)
             Me.label = label
 
@@ -141,6 +174,9 @@ Namespace Analysis.Model
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Edge) Implements IEnumerable(Of Edge).GetEnumerator
             For Each edge As Edge In outgoingEdges
+                Yield edge
+            Next
+            For Each edge As Edge In incomingEdges
                 Yield edge
             Next
         End Function

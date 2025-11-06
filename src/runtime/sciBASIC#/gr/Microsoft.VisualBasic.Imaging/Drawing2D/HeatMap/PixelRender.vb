@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4838c00b823a656036916c3ac0fa08de, gr\Microsoft.VisualBasic.Imaging\Drawing2D\HeatMap\PixelRender.vb"
+﻿#Region "Microsoft.VisualBasic::a36b90f5b37de6088d219908c9dc801b, gr\Microsoft.VisualBasic.Imaging\Drawing2D\HeatMap\PixelRender.vb"
 
     ' Author:
     ' 
@@ -57,13 +57,13 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Imaging
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 
 #If NET48 Then
+Imports System.Drawing.Imaging
 #Else
 Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
 #End If

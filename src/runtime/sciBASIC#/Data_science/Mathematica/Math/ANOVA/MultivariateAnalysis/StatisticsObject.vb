@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93809bea614973964a3b1a4a4cd4f663, Data_science\Mathematica\Math\ANOVA\MultivariateAnalysis\StatisticsObject.vb"
+﻿#Region "Microsoft.VisualBasic::f9d28f7864c53243057a03346d1150f5, Data_science\Mathematica\Math\ANOVA\MultivariateAnalysis\StatisticsObject.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 33 (17.10%)
-    '     File Size: 6.78 KB
+    '     File Size: 6.79 KB
 
 
     ' Enum ScaleMethod
@@ -140,7 +140,7 @@ Public Class StatisticsObject
     Public Property Scale As ScaleMethod = ScaleMethod.AutoScale
     Public Property Transform As TransformMethod = TransformMethod.None
 
-    Sub New(x As Double()(), y As Double())
+    Sub New(x As IEnumerable(Of Double()), y As Double())
         XDataMatrix = x.ToMatrix
         YVariables = y
 

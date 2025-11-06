@@ -1,4 +1,4 @@
-﻿.TH METPA_BACKGROUND 1 2025-Aug "" "Create metpa background model for LCMS analysis"
+﻿.TH METPA_BACKGROUND 1 2025-Nov "" "Create metpa background model for LCMS analysis"
 .SH NAME
 metpa_background \- metpa_background(pathways,
     <i>taxonomy.name</i> = <span style='color: blue !important;'>NULL</span>,
@@ -17,14 +17,21 @@ metpa_background \- metpa_background(pathways,
 \fBtaxonomy.name\fB \fR\- NULL. 
 .PP
 .PP
-\fBraw\fB \fR\- TRUE. if this parameter value is set to TRUE, then a raw CLR object will be returns, otherwise a converted list object will be generated from the raw CLR object.
+\fBraw\fB \fR\- TRUE. if this parameter value is set to TRUE, then a raw CLR object
+will be returns, otherwise a converted list object will be generated
+from the raw CLR object.
 .PP
 .PP
 \fBmultiple.omics\fB \fR\- FALSE. 
 .PP
 .SH VALUE
 .PP
-a gcmodeller background model if raw is true, and a R# object list will be converts from the clr background model otherwise the raw is not.
+a gcmodeller background model if raw is true, and a R# object list will
+be converts from the clr background model otherwise the raw is not.
+.PP
+.SH DETAILS
+.PP
+the reaction data is loaded from the package internal resource file
 .PP
 .SH FILES
 .PP

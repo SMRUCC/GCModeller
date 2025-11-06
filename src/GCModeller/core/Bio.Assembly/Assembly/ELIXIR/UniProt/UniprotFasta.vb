@@ -220,12 +220,12 @@ Namespace Assembly.Uniprot
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function LoadFasta(path As String) As UniprotFasta()
-            Call $"Start loading the fasta sequence from file ""{path.ToFileURL}""...".__DEBUG_ECHO
+            Call $"Start loading the fasta sequence from file ""{path.ToFileURL}""...".debug
             Dim sw As Stopwatch = Stopwatch.StartNew
             Dim LQuery = (From fa As FASTA.FastaSeq
                           In FASTA.FastaFile.Read(path).AsParallel
                           Select UniprotFasta.CreateObject(fa)).ToArray
-            Call $"Uniprot fasta data load done!   {sw.ElapsedMilliseconds}ms.".__DEBUG_ECHO
+            Call $"Uniprot fasta data load done!   {sw.ElapsedMilliseconds}ms.".debug
             Return LQuery
         End Function
     End Class

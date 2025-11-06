@@ -58,6 +58,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Annotation
@@ -174,6 +175,34 @@ Namespace ComponentModel.Annotation
 
         Public Overrides Function ToString() As String
             Return catalogs.Keys.GetJson
+        End Function
+
+        Public Function ImputeMissing() As CatalogProfiles
+            Dim impute As New Dictionary(Of String, CatalogProfile)
+            Dim profileValues = catalogs.Values.Select(Function(c) c.profile.Values).IteratesALL.Where(Function(xi) Not xi.IsNaNImaginary).ToArray
+            Dim maxValue As Double = If(profileValues.Length = 0, 0, profileValues.Max) * 1.25
+            Dim minValue As Double = If(profileValues.Length = 0, 0, profileValues.Min) / 2
+
+            For Each category As KeyValuePair(Of String, CatalogProfile) In catalogs
+                impute(category.Key) = New CatalogProfile With {
+                    .information = New Dictionary(Of String, String)(category.Value.information),
+                    .profile = category.Value.profile _
+                        .ToDictionary(Function(a) a.Key,
+                                      Function(a)
+                                          If Double.IsInfinity(a.Value) Then
+                                              Return maxValue
+                                          ElseIf a.Value.IsNaNImaginary Then
+                                              Return minValue
+                                          Else
+                                              Return a.Value
+                                          End If
+                                      End Function)
+                }
+            Next
+
+            Return New CatalogProfiles With {
+                .catalogs = impute
+            }
         End Function
 
     End Class

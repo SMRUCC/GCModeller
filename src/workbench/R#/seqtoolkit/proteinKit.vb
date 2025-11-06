@@ -55,11 +55,14 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.Transformer
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.RCSB.PDB
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure.Kmer
 Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
@@ -68,6 +71,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 ''' <summary>
 ''' A computational biology toolkit for protein structural analysis and sequence-based modeling. 
@@ -211,7 +215,7 @@ Module proteinKit
                 Return PDB.Parse(pdb_txt, verbose)
             Catch ex As Exception
                 Call App.LogException(ex)
-                Call ex.Message.Warning
+                Call ex.Message.warning
 
                 Return Nothing
             End Try
@@ -250,7 +254,7 @@ Module proteinKit
             Try
                 pdb = RCSB.PDB.PDB.Load(s.TryCast(Of Stream)).ToArray
             Catch ex As Exception
-                Call ex.Message.Warning
+                Call ex.Message.warning
                 Call App.LogException(ex)
             End Try
         Else
@@ -272,6 +276,34 @@ Module proteinKit
     <RApiReturn(GetType(Atom))>
     Public Function pdbModels(pdb As PDB) As Object
         Return pdb.AsEnumerable.ToArray
+    End Function
+
+    <ExportAPI("pdb_centroid")>
+    <RApiReturn(GetType(Point3D), GetType(Double))>
+    Public Function pdb_centroid(pdb As PDB, Optional as_vector As Boolean = False) As Object
+        If as_vector Then
+            With pdb.ModelCentroid
+                Return New Double() { .X, .Y, .Z}
+            End With
+        Else
+            Return pdb.ModelCentroid
+        End If
+    End Function
+
+    <ExportAPI("ligands")>
+    <RApiReturn(GetType(Het.HETRecord))>
+    Public Function ligands(pdb As PDB, Optional key As String = Nothing, Optional number As Integer = -1)
+        If key.StringEmpty(, True) OrElse number <= 0 Then
+            ' get all 
+            Return pdb.ListLigands.Values.ToArray
+        Else
+            Return pdb.ListLigands _
+                .Where(Function(li)
+                           Return li.Name = key AndAlso
+                               li.Value.SequenceNumber = number
+                       End Function) _
+                .FirstOrDefault
+        End If
     End Function
 
     ''' <summary>
@@ -335,8 +367,31 @@ Module proteinKit
     ''' }
     ''' </example>
     <ExportAPI("kmer_fingerprint")>
-    Public Function kmer_fingerprint(graph As KMerGraph, Optional radius As Integer = 3, Optional len As Integer = 4096) As Object
+    Public Function kmer_fingerprint(graph As KMerGraph,
+                                     Optional radius As Integer = 3,
+                                     Optional len As Integer = 4096) As Object
+
         Return graph.GetFingerprint(radius, len)
     End Function
 
+    <ExportAPI("enzyme_builder")>
+    <RApiReturn(GetType(TransformerModel))>
+    Public Function enzymeBuilder(<RRawVectorArgument> enzymes As Object,
+                                  Optional kmer As Integer = 3,
+                                  Optional env As Environment = Nothing) As Object
+
+        Dim seq = GetFastaSeq(enzymes, env)
+
+        If seq Is Nothing Then
+            Return Message.InCompatibleType(GetType(FastaSeq), enzymes.GetType, env)
+        End If
+
+        Return seq.MakeModel(kmer)
+    End Function
+
+    <ExportAPI("predict_sequence")>
+    <RApiReturn(GetType(FastaSeq))>
+    Public Function predict_sequence(model As TransformerModel, <RRawVectorArgument> ec_number As Object, Optional env As Environment = Nothing) As Object
+        Return model.BuildProteinSequence(CLRVector.asCharacter(ec_number)).ToArray
+    End Function
 End Module

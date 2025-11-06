@@ -206,8 +206,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End Get
             Set(value As Feature())
                 _features = value
-                _forwards = __getStrandFeatures(Strands.Forward)
-                _reversed = __getStrandFeatures(Strands.Reverse)
+                _forwards = filterStrandFeatures(Strands.Forward)
+                _reversed = filterStrandFeatures(Strands.Reverse)
                 _contextModel = New GenomeContextProvider(Of Feature)(Me)
             End Set
         End Property
@@ -325,7 +325,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
             Call Document.TrySetMetaData(text, gff, defaultVer:=defaultVersion)
             Call Linq.SetValue(Of GFFTable).InvokeSet(gff, NameOf(gff.features), Document.TryGetFreaturesData(text, gff.GffVersion))
-            Call $"There are {gff.Features.Length} genome features exists in the gff file: {path.ToFileURL}".__DEBUG_ECHO
+            Call $"There are {gff.features.Length} genome features exists in the gff file: {path.ToFileURL}".debug
 
             Return gff
         End Function
@@ -339,8 +339,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return relates
         End Function
 
-        Private Function __getStrandFeatures(strand As Strands) As Feature()
-            Return (From x As Feature In Features Where x.strand = strand Select x).ToArray
+        Private Function filterStrandFeatures(strand As Strands) As Feature()
+            Return (From x As Feature In features Where x.strand = strand Select x).ToArray
         End Function
 
         Public Function GetStrandFeatures(strand As Strands) As Feature() Implements IGenomicsContextProvider(Of Feature).GetStrandFeatures

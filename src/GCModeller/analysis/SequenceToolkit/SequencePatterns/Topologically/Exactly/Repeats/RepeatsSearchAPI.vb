@@ -226,7 +226,7 @@ returns:    Return New Repeats With {
         <ExportAPI("Search.Batch")>
         Public Sub BatchSearch(Mla As FastaFile, Min As Integer, Max As Integer, Optional MinAppeared As Integer = 2, Optional saveDIR As String = "./")
             For Each genome As FastaSeq In Mla
-                Call genome.__DEBUG_ECHO
+                Call genome.debug
 
                 Dim repeats = RepeatsSearchAPI.SearchRepeats(genome, Min, Max, MinAppeared)
                 Dim rev = RepeatsSearchAPI.SearchReversedRepeats(genome, Min, Max, MinAppeared)

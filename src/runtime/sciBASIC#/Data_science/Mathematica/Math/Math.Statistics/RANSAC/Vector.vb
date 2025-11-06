@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ec43e2bf1bfde68d6f70224173da2cc, Data_science\Mathematica\Math\Math.Statistics\RANSAC\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::884aaf13de7be82a7dd904fe271f0c05, Data_science\Mathematica\Math\Math.Statistics\RANSAC\Vector.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 10 (27.03%)
-    '     File Size: 1.06 KB
+    '     File Size: 1.05 KB
 
 
     '     Class Vector
@@ -55,7 +55,7 @@
 
 #End Region
 
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace RANSAC
 
@@ -63,7 +63,7 @@ Namespace RANSAC
 
         Public ReadOnly Property magnitude As Double
             Get
-                Return stdNum.Sqrt(stdNum.Pow(x, 2) + stdNum.Pow(y, 2) + stdNum.Pow(z, 2))
+                Return std.Sqrt(std.Pow(x, 2) + std.Pow(y, 2) + std.Pow(z, 2))
             End Get
         End Property
 

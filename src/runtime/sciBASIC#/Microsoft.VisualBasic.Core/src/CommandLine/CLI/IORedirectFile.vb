@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab2064be779bfeaa0b3a54e7edc1e579, Microsoft.VisualBasic.Core\src\CommandLine\CLI\IORedirectFile.vb"
+﻿#Region "Microsoft.VisualBasic::a47f5ff6836b99b584893d13c745b300, Microsoft.VisualBasic.Core\src\CommandLine\CLI\IORedirectFile.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 292
-    '    Code Lines: 156 (53.42%)
-    ' Comment Lines: 96 (32.88%)
-    '    - Xml Docs: 59.38%
+    '   Total Lines: 291
+    '    Code Lines: 156 (53.61%)
+    ' Comment Lines: 95 (32.65%)
+    '    - Xml Docs: 60.00%
     ' 
-    '   Blank Lines: 40 (13.70%)
-    '     File Size: 14.39 KB
+    '   Blank Lines: 40 (13.75%)
+    '     File Size: 14.30 KB
 
 
     '     Class IORedirectFile
@@ -51,7 +51,7 @@
     ' 
     '         Function: CopyRedirect, Run, (+2 Overloads) Start, ToString, writeScript
     ' 
-    '         Sub: __processExitHandle, (+2 Overloads) Dispose, Start
+    '         Sub: (+2 Overloads) Dispose, ProcessExitHandle, Start
     ' 
     ' 
     ' /********************************************************************************/
@@ -202,12 +202,12 @@ Namespace CommandLine
 
             If debug Then
                 If isShellCommand Then
-                    Call $"""{file}"" {app_argv}".__DEBUG_ECHO
+                    Call $"""{file}"" {app_argv}".debug
                 Else
-                    Call $"""{file.ToFileURL}"" {app_argv}".__DEBUG_ECHO
+                    Call $"""{file.ToFileURL}"" {app_argv}".debug
                 End If
 
-                Call $"stdout_temp: {_TempRedirect}".__DEBUG_ECHO
+                Call $"stdout_temp: {_TempRedirect}".debug
             End If
         End Sub
 
@@ -261,8 +261,7 @@ Namespace CommandLine
             [Call](path, "", "")
 #End If
 #End If
-            Call path.__DEBUG_ECHO
-            ' Call path.DeleteFile
+            Call path.debug
 
             Return exitCode
         End Function
@@ -296,16 +295,16 @@ Namespace CommandLine
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Start(Optional procExitCallback As Action = Nothing)
-            Call New Tasks.Task(Of Action)(procExitCallback, AddressOf __processExitHandle).Start()
+            Call New Tasks.Task(Of Action)(procExitCallback, AddressOf ProcessExitHandle).Start()
         End Sub
 
-        Private Sub __processExitHandle(ProcessExitCallback As Action)
-            Dim ExitCode = Run()
+        Private Sub ProcessExitHandle(callback As Action)
+            Dim exitCode As Integer = Run()
 
-            RaiseEvent ProcessExit(ExitCode, Now.ToString)
+            RaiseEvent ProcessExit(exitCode, Now.ToString)
 
-            If Not ProcessExitCallback Is Nothing Then
-                Call ProcessExitCallback()
+            If Not callback Is Nothing Then
+                Call callback()
             End If
         End Sub
 

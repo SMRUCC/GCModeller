@@ -112,14 +112,14 @@ Namespace Regprecise.WebServices
                                               .ToDictionary(Function(obj) obj.Regulator,
                                                             Function(obj) obj.Group.ToArray)
 
-                Call $"{value.Length} {NameOf(Regulations)} rules...".__DEBUG_ECHO
-                Call $"{_siteRegulations.Count} {NameOf(_siteRegulations)} rules...".__DEBUG_ECHO
-                Call $"{_regulatorRegulations.Count} {NameOf(_regulatorRegulations)} rules...".__DEBUG_ECHO
+                Call $"{value.Length} {NameOf(Regulations)} rules...".debug
+                Call $"{_siteRegulations.Count} {NameOf(_siteRegulations)} rules...".debug
+                Call $"{_regulatorRegulations.Count} {NameOf(_regulatorRegulations)} rules...".debug
 
 #If DEBUG Then
                 Dim LQuery = (From site In _siteRegulations.AsParallel Where site.Value.Length > 1 Select site.Key).ToArray
                 If Not LQuery.IsNullOrEmpty Then
-                    Call $"{String.Join("; ", LQuery)} have more than one  duplicated records....".__DEBUG_ECHO
+                    Call $"{String.Join("; ", LQuery)} have more than one  duplicated records....".debug
                 End If
 #End If
             End Set
@@ -143,9 +143,9 @@ Namespace Regprecise.WebServices
                                    Group By uid Into Group).ToDictionary(Function(site) site.uid,
                                                                          Function(site) site.Group.First.site)
 
-                Call $"{_sites.Length} {NameOf(Sites)}...".__DEBUG_ECHO
-                Call $"{_sitesHash.Count} {NameOf(_sitesHash)}....".__DEBUG_ECHO
-                Call $"{_sitesLocusHash.Count} {NameOf(_sitesLocusHash)}...".__DEBUG_ECHO
+                Call $"{_sites.Length} {NameOf(Sites)}...".debug
+                Call $"{_sitesHash.Count} {NameOf(_sitesHash)}....".debug
+                Call $"{_sitesLocusHash.Count} {NameOf(_sitesLocusHash)}...".debug
             End Set
         End Property
         Public Property Regulators As JSON.regulator()
@@ -171,8 +171,8 @@ Namespace Regprecise.WebServices
                                         .ToDictionary(Function(prot) prot.locusTag,
                                                       Function(prot) prot.Group.First)
 
-                Call $"{_regulators.Length} {NameOf(Regulators)}....".__DEBUG_ECHO
-                Call $"{_regulatorsHash.Count} {NameOf(_regulatorsHash)}...".__DEBUG_ECHO
+                Call $"{_regulators.Length} {NameOf(Regulators)}....".debug
+                Call $"{_regulatorsHash.Count} {NameOf(_regulatorsHash)}...".debug
             End Set
         End Property
 

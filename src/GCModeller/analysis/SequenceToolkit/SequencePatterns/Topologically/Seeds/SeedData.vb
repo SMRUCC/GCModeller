@@ -82,7 +82,7 @@ Namespace Topologically.Seeding
             For i As Integer = 2 To max
                 tmp = ExtendSequence(tmp, chars).Distinct.ToArray
                 seedsBuf += tmp
-                Call $"{New String("-"c, 20)}>  {i}bp".__DEBUG_ECHO
+                Call $"{New String("-"c, 20)}>  {i}bp".debug
             Next
 
             Return New SeedData With {

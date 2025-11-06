@@ -56,7 +56,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.Distributions
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace C
 
@@ -123,7 +123,7 @@ Namespace C
                 Next
 
                 left_tail = left_tail / size_density_n
-                r(j) = -1 * stdNum.Log((1 - left_tail) / left_tail)
+                r(j) = -1 * std.Log((1 - left_tail) / left_tail)
             Next
 
             Return r
@@ -137,7 +137,7 @@ Namespace C
             ElseIf v > MAX_PRECOMPUTE Then
                 Return 1
             Else
-                Dim i As Integer = stdNum.Abs(v) / MAX_PRECOMPUTE * PRECOMPUTE_RESOLUTION
+                Dim i As Integer = std.Abs(v) / MAX_PRECOMPUTE * PRECOMPUTE_RESOLUTION
                 Dim cdf As Double = precomputed_cdf(i)
 
                 If v < 0 Then
@@ -156,7 +156,7 @@ Namespace C
             Dim divisor = PRECOMPUTE_RESOLUTION * 1.0
 
             For i As Integer = 0 To PRECOMPUTE_RESOLUTION
-                precomputed_cdf(i) = pnorm.Eval(MAX_PRECOMPUTE * i / divisor, 0.0, 1.0, lower_tail:=True, logP:=False)
+                precomputed_cdf(i) = pnorm.eval(MAX_PRECOMPUTE * i / divisor, 0.0, 1.0, lower_tail:=True, logP:=False)
             Next
         End Sub
 
@@ -196,7 +196,7 @@ Namespace C
                 sum += (x(i) - mean) ^ 2
             Next
 
-            sd = stdNum.Sqrt(sum / n1)
+            sd = std.Sqrt(sum / n1)
 
             Return sd
         End Function

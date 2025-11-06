@@ -1,0 +1,20 @@
+﻿.TH SPLIT_OMICS_IDSET 1 2025-Nov "" "split the id set in enrichment result into metabolite and genes id"
+.SH NAME
+split_omics_idset \- split_omics_idset(IDs)
+.SH SYNOPSIS
+\fIsplit_omics_idset(IDs)\fR
+.SH OPTIONS
+.PP
+\fBIDs\fB \fR\- . the column of IDs in enrichment result table
+.PP
+.SH VALUE
+.PP
+a tuple list that contains idset for each term result:
+list(metabolite = ..., genes = ...)
+.PP
+.SH FILES
+.PP
+SMRUCC/R#.declare_function.split_omics_idset at idset.R:line 9
+.PP
+.SH COPYRIGHT
+Copyright © xieguigang, GPL3 Licensed 2025

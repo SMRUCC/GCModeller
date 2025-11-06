@@ -1,57 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::f298eb3504097f75bfbcc88259f274fe, modules\ExperimentDesigner\SampleNames.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 75
-    '    Code Lines: 51 (68.00%)
-    ' Comment Lines: 15 (20.00%)
-    '    - Xml Docs: 53.33%
-    ' 
-    '   Blank Lines: 9 (12.00%)
-    '     File Size: 2.65 KB
+' Summaries:
 
 
-    ' Module SampleNames
-    ' 
-    '     Function: GuessPossibleGroups, ParseGroupInfo
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 75
+'    Code Lines: 51 (68.00%)
+' Comment Lines: 15 (20.00%)
+'    - Xml Docs: 53.33%
+' 
+'   Blank Lines: 9 (12.00%)
+'     File Size: 2.65 KB
+
+
+' Module SampleNames
+' 
+'     Function: GuessPossibleGroups, ParseGroupInfo
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Text.Patterns
 
@@ -124,5 +126,48 @@ Public Module SampleNames
                         End Function) _
                 .ToArray
         }
+    End Function
+
+    <Extension>
+    Public Function GroupIndexing(sampleId As IEnumerable(Of String), sampleinfo As IEnumerable(Of SampleInfo), Optional strict As Boolean = True) As Dictionary(Of String, Integer())
+        Dim sampleIndex As Index(Of String) = sampleId.Indexing
+        Dim nameGroups = DataGroup.NameGroups(sampleinfo)
+        Dim missing As New List(Of NamedCollection(Of String))
+        Dim indexing As New Dictionary(Of String, Integer())
+
+        For Each group In nameGroups
+            Dim miss As New List(Of String)
+            Dim offsets As New List(Of Integer)
+
+            For Each id As String In group.Value
+                Dim i As Integer = sampleIndex(id)
+
+                If i < 0 Then
+                    Call miss.Add(id)
+                Else
+                    Call offsets.Add(i)
+                End If
+            Next
+
+            If offsets.Any Then
+                Call indexing.Add(group.Key, offsets.ToArray)
+            End If
+            If miss.Any Then
+                Call missing.Add(New NamedCollection(Of String)(group.Key, miss))
+            End If
+        Next
+
+        If missing.Any Then
+            Dim missing_groups = missing.Select(Function(s) s.JoinBy(", ") & $" from group '{s.name}'").JoinBy("; ")
+            Dim msg As String = $"missing sample id: {missing_groups}!"
+
+            If strict Then
+                Throw New InvalidDataException(msg)
+            Else
+                Call msg.Warning
+            End If
+        End If
+
+        Return indexing
     End Function
 End Module

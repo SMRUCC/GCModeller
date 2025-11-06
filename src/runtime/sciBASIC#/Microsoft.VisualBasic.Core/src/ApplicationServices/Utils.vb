@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b659f7d97f9bd3b03c366e48f01bf4f6, Microsoft.VisualBasic.Core\src\ApplicationServices\Utils.vb"
+﻿#Region "Microsoft.VisualBasic::15771871aee69b9c82b72f91dcebade0, Microsoft.VisualBasic.Core\src\ApplicationServices\Utils.vb"
 
     ' Author:
     ' 
@@ -34,25 +34,25 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 263
-    '    Code Lines: 150 (57.03%)
-    ' Comment Lines: 79 (30.04%)
-    '    - Xml Docs: 88.61%
+    '   Total Lines: 255
+    '    Code Lines: 148 (58.04%)
+    ' Comment Lines: 74 (29.02%)
+    '    - Xml Docs: 87.84%
     ' 
-    '   Blank Lines: 34 (12.93%)
-    '     File Size: 10.22 KB
+    '   Blank Lines: 33 (12.94%)
+    '     File Size: 9.97 KB
 
 
     '     Module Utils
     ' 
-    '         Function: FormatTicks, Shell, TaskRun, (+2 Overloads) Time
+    '         Function: Shell, TaskRun, (+2 Overloads) Time
     ' 
     '         Sub: TryRun
     '         Delegate Function
     ' 
     '             Function: CLIPath, CLIToken, FileMimeType, GetMIMEDescrib
     ' 
-    '             Sub: (+2 Overloads) Wait
+    '             Sub: print, printf, (+2 Overloads) Wait
     ' 
     ' 
     ' 
@@ -60,9 +60,11 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 Imports Microsoft.VisualBasic.Parallel.Tasks
 Imports Microsoft.VisualBasic.Text.Parser
@@ -118,7 +120,7 @@ Namespace ApplicationServices
             Try
                 Call task()
             Catch ex As Exception
-                Call $"[{stack}] {task.Method.ToString} failure!".Warning
+                Call $"[{stack}] {task.Method.ToString} failure!".warning
                 Call App.LogException(ex)
             End Try
         End Sub
@@ -130,7 +132,8 @@ Namespace ApplicationServices
         ''' <param name="task"></param>
         ''' <param name="stack">进行调用堆栈的上一层的栈名称</param>
         ''' <returns></returns>
-        <Extension> Public Function TaskRun(task As Action, <CallerMemberName> Optional stack$ = Nothing) As AsyncHandle(Of Exception)
+        <Extension>
+        Public Function TaskRun(task As Action, <CallerMemberName> Optional stack$ = Nothing) As AsyncHandle(Of Exception)
             Dim handle = Function() As Exception
                              Try
                                  Call task()
@@ -152,14 +155,13 @@ Namespace ApplicationServices
         ''' </param>
         ''' <returns>Returns the total executation time of the target <paramref name="work"/>. ms</returns>
         Public Function Time(work As Action) As Long
-            Dim startTick As Long = App.NanoTime
-
+            Dim startTick As DateTime = Now
             ' -------- start worker ---------
             Call work()
             ' --------- end worker ---------
+            Dim endTick As DateTime = Now
+            Dim t& = (endTick - startTick).TotalMilliseconds
 
-            Dim endTick As Long = App.NanoTime
-            Dim t& = (endTick - startTick) / TimeSpan.TicksPerMillisecond
             Return t
         End Function
 
@@ -179,30 +181,10 @@ Namespace ApplicationServices
             Dim value As T
             Dim task As Action = Sub() value = work()
 
-            task.BENCHMARK(trace)
+            task.benchmark(trace)
             tick = False  ' 需要使用这个变量的变化来控制 tickTask 里面的过程
 
             Return value
-        End Function
-
-        ''' <summary>
-        ''' Format ``ms`` for content print.
-        ''' </summary>
-        ''' <param name="ms"></param>
-        ''' <returns></returns>
-        <Extension> Public Function FormatTicks(ms&) As String
-            If ms > 1000 Then
-                Dim s = ms / 1000
-
-                If s < 1000 Then
-                    Return s & "s"
-                Else
-                    Dim min = s \ 60
-                    Return $"{min}min{s Mod 60}s"
-                End If
-            Else
-                Return ms & "ms"
-            End If
         End Function
 
         Public Delegate Function TaskWaitHandle() As Boolean
@@ -321,5 +303,15 @@ Namespace ApplicationServices
         Public Function FileMimeType(path As String, Optional defaultUnknown As Boolean = True) As ContentType
             Return ("*." & path.ExtensionSuffix).GetMIMEDescrib(defaultUnknown)
         End Function
+
+        <Extension>
+        Public Sub printf(dev As TextWriter, format$, ParamArray args As Object())
+            Call dev.Write(sprintf(format, args))
+        End Sub
+
+        <Extension>
+        Public Sub print(dev As TextWriter, line As String)
+            Call dev.Write(line)
+        End Sub
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0af630391a215da560683e3677f51374, Microsoft.VisualBasic.Core\src\Drawing\Colors\CMYKColor.vb"
+﻿#Region "Microsoft.VisualBasic::d75b6388da07421349e7203d4d9d561f, Microsoft.VisualBasic.Core\src\Drawing\Colors\CMYKColor.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 68
-    '    Code Lines: 43 (63.24%)
-    ' Comment Lines: 14 (20.59%)
+    '   Total Lines: 93
+    '    Code Lines: 50 (53.76%)
+    ' Comment Lines: 30 (32.26%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 11 (16.18%)
-    '     File Size: 2.12 KB
+    '   Blank Lines: 13 (13.98%)
+    '     File Size: 2.85 KB
 
 
     '     Class CMYKColor
@@ -72,9 +72,25 @@ Namespace Imaging
     ''' </remarks>
     Public Class CMYKColor
 
+        ''' <summary>
+        ''' cyan
+        ''' </summary>
+        ''' <returns></returns>
         Public Property C As Single
+        ''' <summary>
+        ''' magenta
+        ''' </summary>
+        ''' <returns></returns>
         Public Property M As Single
+        ''' <summary>
+        ''' yellow
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Y As Single
+        ''' <summary>
+        ''' key (black)
+        ''' </summary>
+        ''' <returns></returns>
         Public Property K As Single
 
         Sub New()
@@ -120,6 +136,15 @@ Namespace Imaging
             Dim B = 255 * (1 - Y) * (1 - K)
             Return Color.FromArgb(255, R, G, B)
         End Function
+
+        Public Shared Narrowing Operator CType(color As CMYKColor) As Color
+            Return color.ToRGB
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(color As Color) As CMYKColor
+            Return FromRGB(color)
+        End Operator
 
     End Class
 End Namespace

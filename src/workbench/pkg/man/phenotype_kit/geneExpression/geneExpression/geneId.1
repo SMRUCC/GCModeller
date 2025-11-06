@@ -1,23 +1,33 @@
 .\" man page create by R# package system.
 .TH GENEEXPRESSION 1 2000-Jan "geneId" "geneId"
 .SH NAME
-geneId \- get gene Id list
+geneId \- get gene Id list or byref set of the gene id alias set.
 .SH SYNOPSIS
-\fIgeneId(\fBdep\fR as any, 
+\fIgeneId(\fBx\fR as any, 
+\fBset_id\fR as any = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-get gene Id list
+get gene Id list or byref set of the gene id alias set.
 .PP
 .SH OPTIONS
 .PP
-\fBdep\fB \fR\- 
+\fBx\fB \fR\- 
  A collection of the deg/dep object or a raw HTS matrix object
 . 
 .PP
 .SH VALUE
 .PP
 A collection of the gene id set
+.PP
+.SH EXAMPLES
+.PP
+let rnaseqs = load.expr("rnaseq.csv");
+ let alias = readLines("gene_id.txt");
+ 
+ print(rnaseqs |> geneId());
+ 
+ geneId(rnaseqs) <- alias;
 .PP
 .SH SEE ALSO
 geneExpression

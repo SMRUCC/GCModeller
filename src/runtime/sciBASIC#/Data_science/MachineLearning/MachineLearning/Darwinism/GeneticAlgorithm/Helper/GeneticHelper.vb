@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5d5ec8c235b22e68b56b7dadc3b8567, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Helper\GeneticHelper.vb"
+﻿#Region "Microsoft.VisualBasic::035cd8204f413a8fc5e4233fc7ea1cea, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Helper\GeneticHelper.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 53.25%
     ' 
     '   Blank Lines: 25 (13.16%)
-    '     File Size: 7.26 KB
+    '     File Size: 7.24 KB
 
 
     '     Module GeneticHelper
@@ -71,13 +71,13 @@ Namespace Darwinism.GAF.Helper
         '
         ' With New Random
         '    For i As Integer = 0 To 100
-        '        Call .NextDouble.__DEBUG_ECHO
+        '        Call .NextDouble.debug
         '    Next
         '
-        '    Call "==============================================".__INFO_ECHO
+        '    Call "==============================================".info
         '
         '    For i As Integer = 0 To 100
-        '        Call New Random().NextDouble.__DEBUG_ECHO
+        '        Call New Random().NextDouble.debug
         '    Next
         ' End With
 

@@ -53,7 +53,9 @@ WGCNA, which stands for Weighted Gene Co-expression Network Analysis, is a syste
  WGCNA is a powerful tool for exploring gene co-expression patterns and has been widely used in genomics research to uncover 
  the underlying biology of complex traits and diseases.
 
-+ [read.modules](WGCNA/read.modules.1) 
-+ [read.weightMatrix](WGCNA/read.weightMatrix.1) 
++ [read.modules](WGCNA/read.modules.1) load TOM module network nodes
++ [read.weight_matrix](WGCNA/read.weight_matrix.1) read the TOM correlation network matrix file
++ [load_TOM_graph](WGCNA/load_TOM_graph.1) load network graph from the WGCNA exportNetworkToCytoscape function exports
++ [connectivity](WGCNA/connectivity.1) export a dataframe of the node information with connectivity value
 + [applyModuleColors](WGCNA/applyModuleColors.1) 
 + [cor_network](WGCNA/cor_network.1) Create correlation network based on WGCNA method

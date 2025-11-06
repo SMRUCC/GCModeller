@@ -205,7 +205,7 @@ Public Module GoEnrichment
                                Optional isLocustag As Boolean = False,
                                Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
 
-        Call "Create GO DAG graph... please wait for a while...".__DEBUG_ECHO
+        Call "Create GO DAG graph... please wait for a while...".debug
 
         With New DAG.Graph(go.AsEnumerable)
             Return .DoCall(Function(dag)

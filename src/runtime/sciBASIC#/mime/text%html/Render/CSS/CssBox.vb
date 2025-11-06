@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10cf435c17af6a9529f7fdc6968754b5, mime\text%html\Render\CSS\CssBox.vb"
+﻿#Region "Microsoft.VisualBasic::dd14acc39759f152442ae2b26329cd02, mime\text%html\Render\CSS\CssBox.vb"
 
     ' Author:
     ' 
@@ -1297,7 +1297,7 @@ Namespace Render.CSS
                         _fontFamily = Value
 #If DEBUG Then
                         If _fontFamily.TextEquals("Ubuntu") Then
-                            Call Me.ToString.__DEBUG_ECHO
+                            Call Me.ToString.debug
                         End If
 #End If
                         _fontFamily = FontFace.GetFontName(_fontFamily)

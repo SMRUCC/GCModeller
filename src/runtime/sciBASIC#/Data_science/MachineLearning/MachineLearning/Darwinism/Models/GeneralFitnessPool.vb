@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::737b9a7ab097fdd23295973e1bf844c9, Data_science\MachineLearning\MachineLearning\Darwinism\Models\GeneralFitnessPool.vb"
+﻿#Region "Microsoft.VisualBasic::051f97cb403a58668588554d00fa186e, Data_science\MachineLearning\MachineLearning\Darwinism\Models\GeneralFitnessPool.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 84.00%
     ' 
     '   Blank Lines: 19 (16.81%)
-    '     File Size: 4.23 KB
+    '     File Size: 4.22 KB
 
 
     '     Class GeneralFitnessPool
@@ -101,9 +101,9 @@ Namespace Darwinism.Models
 
             If capacity <= 0 AndAlso cacl.Cacheable Then
                 Call $"Target environment marked as cacheable, but cache size is invalid...".Warning
-                Call $"Use default cache size for fitness: {defaultCacheSize.DefaultValue}".__INFO_ECHO
+                Call $"Use default cache size for fitness: {defaultCacheSize.DefaultValue}".info
             ElseIf cacl.Cacheable Then
-                Call $"Fitness was marked as cacheable with cache table size {capacity}".__INFO_ECHO
+                Call $"Fitness was marked as cacheable with cache table size {capacity}".info
             End If
         End Sub
 

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>deg.class</title>
+    <title>set deg class label</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,22 +18,32 @@
             </tr>
         </table>
 
-        <h2>deg.class</h2>
+        <h2>set deg class label</h2>
 
         <h3>Description</h3>
 
-        deg.class
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>deg.class</strong>(<i>deg</i>, <i>classLabel</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>deg.class</strong>(<i>deg</i>,
+    <i>class.labels</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>logFC</i> = <span style='color: green;'>1</span>,
+    <i>pval.cutoff</i> = <span style='color: green;'>0.05</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>deg</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/DEGModel.html">DEGModel</a>]</p></dd>
+
+
+<dt>class.labels</dt>
+<dd><p>set deg class label manually</p></dd>
+
         </table>
 
 
@@ -64,4 +74,4 @@
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
-</html>
+</html>

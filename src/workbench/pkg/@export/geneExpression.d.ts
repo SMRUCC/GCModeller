@@ -34,7 +34,7 @@ declare namespace geneExpression {
        * create gene expression DEG model
        * 
        * 
-        * @param x -
+        * @param x usually be a dataframe object of the different expression analysis result
         * @param logFC -
         * 
         * + default value Is ``'logFC'``.
@@ -81,12 +81,15 @@ declare namespace geneExpression {
      * @param sampleinfo The sample group data
      * 
      * + default value Is ``null``.
+     * @param strict will try to ignores of the missing sample if strict option is off.
+     * 
+     * + default value Is ``true``.
      * @return this function return value is determined based on the sampleinfo parameter:
      *  
      *  1. for sampleinfo not nothing, a matrix with sample group as the sample feature data will be returns
      *  2. for missing sampleinfo data, a numeric vector of average value for each gene feature will be returns
    */
-   function average(matrix: object, sampleinfo?: object): object|number;
+   function average(matrix: object, sampleinfo?: object, strict?: boolean): object|number;
    /**
     * get cluster membership matrix
     * 
@@ -104,8 +107,19 @@ declare namespace geneExpression {
    function cmeans_matrix(pattern: any, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, env?: object): object;
    module deg {
       /**
+       * set deg class label
+       * 
+       * 
+        * @param deg -
+        * @param class_labels set deg class label manually
+        * 
+        * + default value Is ``null``.
+        * @param logFC 
+        * + default value Is ``1``.
+        * @param pval_cutoff 
+        * + default value Is ``0.05``.
       */
-      function class(deg: object, classLabel: any): object;
+      function class(deg: object, class_labels?: any, logFC?: number, pval_cutoff?: number): object;
       module t {
          /**
           * do t-test across specific analysis comparision
@@ -189,6 +203,15 @@ declare namespace geneExpression {
       function cmeans3D(matrix: object, fuzzification?: number, threshold?: number): object;
    }
    /**
+    * get gene expression vector data
+    * 
+    * 
+     * @param x -
+     * @param geneId -
+     * @return a numeric vector of the target gene expression across multiple samples
+   */
+   function expression_vector(x: object, geneId: string): number;
+   /**
     * Filter the geneID rows
     * 
     * 
@@ -239,15 +262,17 @@ declare namespace geneExpression {
    */
    function filterZeroSamples(mat: object, env?: object): object;
    /**
-    * get gene Id list
+    * get gene Id list or byref set of the gene id alias set.
     * 
     * 
-     * @param dep A collection of the deg/dep object or a raw HTS matrix object
+     * @param x A collection of the deg/dep object or a raw HTS matrix object
+     * @param set_id 
+     * + default value Is ``null``.
      * @param env 
      * + default value Is ``null``.
      * @return A collection of the gene id set
    */
-   function geneId(dep: any, env?: object): string;
+   function geneId(x: any, set_id?: any, env?: object): string;
    /**
     * set the zero value to the half of the min positive value
     * 
@@ -272,6 +297,16 @@ declare namespace geneExpression {
      * + default value Is ``true``.
    */
    function joinSample(samples: object, strict?: boolean): object;
+   /**
+    * The limma algorithm (Linear Models for Microarray Data) is a widely used statistical framework in R/Bioconductor 
+    *  for differential expression (DE) analysis of RNA-seq data. Originally designed for microarray studies, its 
+    *  flexibility and robustness have extended its utility to RNA-seq through the voomtransformation.
+    * 
+    * 
+     * @param x -
+     * @param design -
+   */
+   function limma(x: object, design: object): object;
    module load {
       /**
        * load an expressin matrix data
@@ -346,6 +381,17 @@ declare namespace geneExpression {
    */
    function matrix_info(file: any): object;
    /**
+    * min max normalization
+    *  
+    *  (row - min(row)) / (max(row) - min(row))
+    *  
+    *  this normalization method is usually used for the metabolomics data
+    * 
+    * 
+     * @param x -
+   */
+   function minmax01Norm(x: object): any;
+   /**
     * get the top n representatives genes in each expression pattern
     * 
     * 
@@ -410,6 +456,10 @@ declare namespace geneExpression {
      * + default value Is ``'font-style: normal; font-size: 12; font-family: Segoe UI;'``.
      * @param axis_label_css 
      * + default value Is ``'font-style: normal; font-size: 10; font-family: Microsoft YaHei;'``.
+     * @param grid_fill 
+     * + default value Is ``'LightGray'``.
+     * @param grid_draw 
+     * + default value Is ``true``.
      * @param x_lab_rotate 
      * + default value Is ``45``.
      * @param env -
@@ -422,7 +472,7 @@ declare namespace geneExpression {
      *  2. 'image' is a bitmap image that plot based on the object cluster patterns data.
      *  3. 'pdf' is a pdf image that could be edit
    */
-   function peakCMeans(matrix: object, nsize?: any, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, cluster_label_css?: string, legend_title_css?: string, legend_tick_css?: string, axis_tick_css?: string, axis_label_css?: string, x_lab_rotate?: number, env?: object): any;
+   function peakCMeans(matrix: object, nsize?: any, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, cluster_label_css?: string, legend_title_css?: string, legend_tick_css?: string, axis_tick_css?: string, axis_label_css?: string, grid_fill?: string, grid_draw?: boolean, x_lab_rotate?: number, env?: object): any;
    /**
     * make matrix samples column projection
     * 
@@ -437,9 +487,15 @@ declare namespace geneExpression {
     * > this function can also read the csv matrix file and 
     * >  then cast as the expression pattern data object.
     * 
-     * @param file a binary data pack file that contains the expression pattern raw data
+     * @param file a binary data pack file that contains the expression pattern raw data.
+     *  if this file is given by a csv file, then this csv file should be the cmeans cluster 
+     *  membership matrix outtput.
+     * @param samples should be a csv file path to the sample matrix data if the input **`file`**
+     *  is a csv membership matrix file.
+     * 
+     * + default value Is ``null``.
    */
-   function readPattern(file: string): object;
+   function readPattern(file: string, samples?: string): object;
    /**
     * normalize data by feature rows
     * 
@@ -451,6 +507,28 @@ declare namespace geneExpression {
      * + default value Is ``false``.
    */
    function relative(matrix: object, median?: boolean): object;
+   /**
+    * get/set new sample id list to the matrix columns
+    * 
+    * > it is kind of ``colnames`` liked function for dataframe object.
+    * 
+     * @param x target gene expression matrix object
+     * @param sample_ids a character vector of the new sample id list for
+     *  set to the sample columns of the gene expression 
+     *  matrix.
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return this function will get sample_id character vector from the input matrix if the 
+     *  **`sample_ids`** parameter is missing, otherwise it will set the new 
+     *  sample id list to the input matrix object and return the modified matrix object.
+     *  
+     *  if the input **`x`** object is not a valid gene expression matrix object,
+     *  then a error message object will be returned.
+   */
+   function sample_id(x: any, sample_ids?: string, env?: object): object|object|string;
    /**
     * save the cmeans expression pattern result to local file
     * 
@@ -472,20 +550,6 @@ declare namespace geneExpression {
      * + default value Is ``null``.
    */
    function setFeatures(x: any, gene_ids: string, env?: object): object|object;
-   /**
-    * set new sample id list to the matrix columns
-    * 
-    * > it is kind of ``colnames`` liked function for dataframe object.
-    * 
-     * @param x target gene expression matrix object
-     * @param sample_ids a character vector of the new sample id list for
-     *  set to the sample columns of the gene expression 
-     *  matrix.
-     * @param env -
-     * 
-     * + default value Is ``null``.
-   */
-   function setSamples(x: any, sample_ids: string, env?: object): object|object;
    /**
     * set a new tag string to the matrix
     * 
@@ -529,6 +593,9 @@ declare namespace geneExpression {
       */
       function cmeans_clusters(cmeans: object): any;
    }
+   /**
+   */
+   function take_shuffle(x: object, n: object): object;
    /**
     * normalize data by sample column
     * 

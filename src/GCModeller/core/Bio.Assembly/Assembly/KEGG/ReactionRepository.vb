@@ -299,7 +299,7 @@ Public Class ReactionRepository : Inherits XmlDataModel
         Dim list As New Dictionary(Of String, Reaction)
         Dim busy As New SwayBar
 
-        Call $"Loading kegg reaction repository: {directory}...".__DEBUG_ECHO(waitOutput:=True)
+        Call $"Loading kegg reaction repository: {directory}...".debug
 
         For Each Xml As String In ls - l - r - {"*.Xml", "*.xml"} <= directory
             With Reaction.LoadXml(handle:=Xml)

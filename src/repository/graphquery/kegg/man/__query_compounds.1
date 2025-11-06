@@ -1,4 +1,4 @@
-﻿.TH __QUERY_COMPOUNDS 1 2025-Aug "" "get query of the kegg compound"
+﻿.TH __QUERY_COMPOUNDS 1 2025-Sep "" "get query of the kegg compound"
 .SH NAME
 __query_compounds \- __query_compounds(compounds,
     <i>fs.dir</i> = <span style='color: brown;'><strong>'/'</strong></span>,
@@ -9,7 +9,9 @@ __query_compounds \- __query_compounds(compounds,
     <i>cache.dir</i> = <span style='color: brown;'><strong>'./'</strong></span>)\fR
 .SH OPTIONS
 .PP
-\fBcompounds\fB \fR\- . 
+\fBcompounds\fB \fR\- . a dataframe object that contains the a set of
+the kegg compounds for run data downloads, the two data fields:
+name and text should be includes in this dataframe object.
 .PP
 .PP
 \fBfs.dir\fB \fR\- '/'. 

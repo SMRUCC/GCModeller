@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24926215db8aa9a68b30ece4cecc7234, Data_science\MachineLearning\DeepLearning\NeuralNetwork\Trainings\TrainingUtils.vb"
+﻿#Region "Microsoft.VisualBasic::1ce96db82c30fff61d698725117671e0, Data_science\MachineLearning\DeepLearning\NeuralNetwork\Trainings\TrainingUtils.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 63.64%
     ' 
     '   Blank Lines: 9 (16.36%)
-    '     File Size: 2.37 KB
+    '     File Size: 2.36 KB
 
 
     '     Class TrainingUtils
@@ -84,12 +84,12 @@ Namespace NeuralNetwork
         End Sub
 
         Protected Overrides Sub SaveSnapshot()
-            Call "save trained ANN model!".__DEBUG_ECHO
+            Call "save trained ANN model!".debug
 
             If Not snapshotSaveLocation.StringEmpty Then
                 Call TakeSnapshot.ScatteredStore(Directory.FromLocalFileSystem(snapshotSaveLocation))
             Else
-                Call "Snapshot location is empty, trained model will not saved...".__DEBUG_ECHO
+                Call "Snapshot location is empty, trained model will not saved...".debug
             End If
         End Sub
 

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>as.geneSet</title>
+    <title>Extract the gene set list from the background model</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>as.geneSet</h2>
+        <h2>Extract the gene set list from the background model</h2>
 
         <h3>Description</h3>
 
-        as.geneSet
+        
 
         <h3>Usage</h3>
 
@@ -34,12 +34,17 @@
 
         <table>
             
+<dt>background</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a>]</p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>the result list could be used for save as json file for 
+ parsed in R by <code>jsonlite::fromJSON</code> function, and used
+ for the gsva analysis.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,11 +52,35 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type list.<h4>clr value class</h4><ul><li>list</li></ul>
+        <p>a tuple list object that contains the gene set information,
+ data result in format like:
 
-        <h3 style="display: none;">Examples</h3>
+<pre><code class="r"> list(
+     "cluster id 1" = c("gene id", "gene id", ...),
+     "cluster id 2" = c("gene id", "gene id", ...),
+     ...
+ )
+</code></pre>
 
-        
+</p><h4>clr value class</h4><ul><li>list</li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> let kb = read.background("hsa.xml");
+ let geneSet = as.geneSet(kb);
+ 
+ # save as json file
+ geneSet 
+ |> JSON::json_encode()
+ |> writeLines(con = "hsa.json")
+ ;
+ 
+ # load in R
+ library(jsonlite);
+ geneSet = jsonlite::fromJSON("hsa.json");
+ 
+ # use for gsva analysis
+ gsva(data, geneSet, method="gsva", ...);</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>background</em> version 1.0.0.0 <a
@@ -64,4 +93,4 @@
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
-</html>
+</html>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8fdce19e374981bdca028a24b38d5cc, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\ProgressBar\Tqdm\ProgressBar.vb"
+﻿#Region "Microsoft.VisualBasic::295c1949a76c6473c2df82d3dd37f735, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\ProgressBar\Tqdm\ProgressBar.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 347
-    '    Code Lines: 203 (58.50%)
-    ' Comment Lines: 92 (26.51%)
-    '    - Xml Docs: 59.78%
+    '   Total Lines: 358
+    '    Code Lines: 208 (58.10%)
+    ' Comment Lines: 97 (27.09%)
+    '    - Xml Docs: 61.86%
     ' 
-    '   Blank Lines: 52 (14.99%)
-    '     File Size: 14.29 KB
+    '   Blank Lines: 53 (14.80%)
+    '     File Size: 14.75 KB
 
 
     '     Class ProgressBar
@@ -48,7 +48,7 @@
     '         Properties: CurrentTicks, ElapsedSeconds, FormatTaskCounter, UpdateDynamicConfigs
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Sub: [Step], Finish, PrintLine, (+2 Overloads) Progress, Reset
+    '         Sub: [Step], Finish, PrintLine, (+3 Overloads) Progress, Reset
     '              SetLabel, SetTheme, SetThemeAscii, SetThemeBasic, SetThemePython
     ' 
     ' 
@@ -57,6 +57,7 @@
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.CommandLine.InteropService.Pipeline
 Imports std = System.Math
 
 Namespace ApplicationServices.Terminal.ProgressBar.Tqdm
@@ -240,6 +241,16 @@ Namespace ApplicationServices.Terminal.ProgressBar.Tqdm
         Public Sub Progress(current As Integer, total As Integer)
             _total = total
             Progress(current)
+        End Sub
+
+        ''' <summary>
+        ''' adapter interface for <see cref="RunSlavePipeline.SetProgressEventHandler"/>
+        ''' </summary>
+        ''' <param name="current"></param>
+        ''' <param name="message"></param>
+        Public Sub Progress(current As Integer, message As String)
+            Call Me.Progress(current)
+            Call Me.SetLabel(message)
         End Sub
 
         ''' <summary>

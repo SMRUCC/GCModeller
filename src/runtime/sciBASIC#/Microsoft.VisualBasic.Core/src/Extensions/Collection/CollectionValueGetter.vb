@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a114078eabccf33cff017905bea191d5, Microsoft.VisualBasic.Core\src\Extensions\Collection\CollectionValueGetter.vb"
+﻿#Region "Microsoft.VisualBasic::348d9132ca3641d34f4aedece3590e88, Microsoft.VisualBasic.Core\src\Extensions\Collection\CollectionValueGetter.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 404
-    '    Code Lines: 222 (54.95%)
-    ' Comment Lines: 144 (35.64%)
+    '   Total Lines: 402
+    '    Code Lines: 220 (54.73%)
+    ' Comment Lines: 144 (35.82%)
     '    - Xml Docs: 93.06%
     ' 
-    '   Blank Lines: 38 (9.41%)
-    '     File Size: 14.78 KB
+    '   Blank Lines: 38 (9.45%)
+    '     File Size: 14.70 KB
 
 
     ' Module CollectionValueGetter
@@ -399,19 +399,17 @@ Public Module CollectionValueGetter
         ' 直接返回默认值
         If table Is Nothing Then
 #If DEBUG Then
-            Call PrintException("Hash_table is nothing!")
+            Call "Hash_table is nothing!".error
 #End If
             Return [default]
         ElseIf index Is Nothing Then
 #If DEBUG Then
-            Call PrintException("Index key is nothing!")
+            Call "Index key is nothing!".error
 #End If
             Return [default]
         ElseIf Not table.ContainsKey(index) Then
 #If DEBUG Then
-            If Not mute Then
-                Call PrintException($"missing_index:={Scripting.ToString(index)}!", trace)
-            End If
+            Call $"missing_index:={Scripting.ToString(index)}!".error(mute:=mute)
 #End If
             Return [default]
         End If

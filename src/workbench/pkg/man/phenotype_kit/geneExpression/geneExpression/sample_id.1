@@ -1,0 +1,45 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-Jan "sample_id" "sample_id"
+.SH NAME
+sample_id \- get/set new sample id list to the matrix columns
+.SH SYNOPSIS
+\fIsample_id(\fBx\fR as any, 
+\fBsample_ids\fR as string = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get/set new sample id list to the matrix columns
+.PP
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- target gene expression matrix object. 
+.PP
+.PP
+\fBsample_ids\fB \fR\- 
+ a character vector of the new sample id list for
+ set to the sample columns of the gene expression 
+ matrix.
+. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+this function will get sample_id character vector from the input matrix if the 
+ **`sample_ids`** parameter is missing, otherwise it will set the new 
+ sample id list to the input matrix object and return the modified matrix object.
+ 
+ if the input **`x`** object is not a valid gene expression matrix object,
+ then a error message object will be returned.
+.PP
+.SH DETAILS
+.PP
+it is kind of \fBcolnames\fR liked function for dataframe object.
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

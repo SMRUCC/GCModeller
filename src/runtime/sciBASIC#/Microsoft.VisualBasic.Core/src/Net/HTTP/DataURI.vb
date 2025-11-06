@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1d73003d9b97b9826872cebc861680e, Microsoft.VisualBasic.Core\src\Net\HTTP\DataURI.vb"
+﻿#Region "Microsoft.VisualBasic::adf0c29ed8b6ba4e88746910aefd4460, Microsoft.VisualBasic.Core\src\Net\HTTP\DataURI.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 151
-    '    Code Lines: 94 (62.25%)
-    ' Comment Lines: 38 (25.17%)
-    '    - Xml Docs: 94.74%
+    '   Total Lines: 168
+    '    Code Lines: 105 (62.50%)
+    ' Comment Lines: 40 (23.81%)
+    '    - Xml Docs: 90.00%
     ' 
-    '   Blank Lines: 19 (12.58%)
-    '     File Size: 5.25 KB
+    '   Blank Lines: 23 (13.69%)
+    '     File Size: 5.97 KB
 
 
     '     Class DataURI
@@ -48,8 +48,8 @@
     '         Properties: base64, chartSet, mime
     ' 
     '         Constructor: (+5 Overloads) Sub New
-    '         Function: FromFile, IsWellFormedUriString, SVGImage, ToStream, ToString
-    '                   URIParser
+    '         Function: FromFile, IsWellFormedUriString, StringFormatter, SVGImage, ToStream
+    '                   ToString, URIParser
     ' 
     ' 
     ' /********************************************************************************/
@@ -178,19 +178,36 @@ Namespace Net.Http
         End Function
 
         Public Shared Function URIParser(uri As String) As DataURI
-            Dim tokens As Dictionary(Of String, String) = uri _
+            Dim parsed = Strings.Trim(uri) _
+                .Trim(" "c, """"c, vbTab) _
                 .Split(";"c) _
                 .Select(Function(p) p.StringSplit("[:=,]")) _
+                .ToArray
+            Dim tokens As Dictionary(Of String, String) = parsed _
                 .ToDictionary(Function(k) k(0).ToLower,
                               Function(value)
                                   Return value(1)
                               End Function)
 
             Return New DataURI(
-                base64:=tokens.TryGetValue("base64"),
+                base64:=StringFormatter(tokens.TryGetValue("base64")),
                 charset:=tokens.TryGetValue("charset"),
                 mime:=tokens.TryGetValue("data")
             )
+        End Function
+
+        Private Shared Function StringFormatter(base64 As String) As String
+            ' 2. 处理URL安全Base64变体：将 '-' 替换为 '+'，将 '_' 替换为 '/'
+            base64 = base64.Replace("-", "+").Replace("_", "/")
+
+            ' 3. 检查并修复长度问题：确保字符串长度是4的倍数
+            Dim paddingNeeded As Integer = base64.Length Mod 4
+
+            If paddingNeeded > 0 Then
+                base64 = base64.PadRight(base64.Length + (4 - paddingNeeded), "="c)
+            End If
+
+            Return base64
         End Function
 
         ''' <summary>

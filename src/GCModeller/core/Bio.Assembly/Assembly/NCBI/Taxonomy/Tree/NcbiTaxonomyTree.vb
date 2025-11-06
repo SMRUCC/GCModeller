@@ -179,9 +179,9 @@ Namespace Assembly.NCBI.Taxonomy
             If (Not nodes.FileExists) OrElse (Not names.FileExists) Then
                 Throw New Exception("Missing file ""node.dmp"" or ""names.dmp"".")
             Else
-                Call "NcbiTaxonomyTree building ...".__DEBUG_ECHO
+                Call "NcbiTaxonomyTree building ...".debug
                 Call DmpFileReader.loadTree(names, nodes, Taxonomy)
-                Call "NcbiTaxonomyTree built".__DEBUG_ECHO
+                Call "NcbiTaxonomyTree built".debug
             End If
         End Sub
 
@@ -307,7 +307,7 @@ Namespace Assembly.NCBI.Taxonomy
             For Each taxid In taxids
                 If Not Taxonomy.ContainsKey(taxid.ToString) Then
                     result(key:=taxid) = {}
-                    Call $"Missing taxid {taxid}!".__DEBUG_ECHO
+                    Call $"Missing taxid {taxid}!".debug
                 Else
                     result(key:=taxid) = __ascendantsWithRanksAndNames(taxid, only_std_ranks)
                 End If

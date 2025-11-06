@@ -80,6 +80,33 @@ Public Module BIOMkit
         RInternal.Object.Converts.makeDataframe.addHandler(GetType(BIOMDataSet(Of Double)), AddressOf asDataFrame)
     End Sub
 
+    <RGenericOverloads("as.data.frame")>
+    Public Function asDataFrame(biomTable As BIOMDataSet(Of Double), args As list, env As Environment) As RDataframe
+        Dim columns As New Dictionary(Of String, List(Of Double))
+        Dim taxonomyNames As New List(Of String)
+
+        For Each otu As NamedValue(Of [Property](Of Double)) In biomTable.PopulateRows
+            For Each col In otu.Value
+                If Not columns.ContainsKey(col.Name) Then
+                    Call columns.Add(col.Name, New List(Of Double))
+                End If
+
+                Call columns(col.Name).Add(col.Value)
+            Next
+
+            Call taxonomyNames.Add(otu.Name)
+        Next
+
+        Return New RDataframe With {
+            .columns = columns _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return DirectCast(a.Value.ToArray, Array)
+                              End Function),
+            .rownames = taxonomyNames.ToArray
+        }
+    End Function
+
     ''' <summary>
     ''' read matrix data from a given BIOM file.
     ''' </summary>
@@ -159,32 +186,5 @@ Public Module BIOMkit
         Else
             Return result
         End If
-    End Function
-
-    <RGenericOverloads("as.data.frame")>
-    Public Function asDataFrame(biomTable As BIOMDataSet(Of Double), args As list, env As Environment) As RDataframe
-        Dim columns As New Dictionary(Of String, List(Of Double))
-        Dim taxonomyNames As New List(Of String)
-
-        For Each otu As NamedValue(Of [Property](Of Double)) In biomTable.PopulateRows
-            For Each col In otu.Value
-                If Not columns.ContainsKey(col.Name) Then
-                    Call columns.Add(col.Name, New List(Of Double))
-                End If
-
-                Call columns(col.Name).Add(col.Value)
-            Next
-
-            Call taxonomyNames.Add(otu.Name)
-        Next
-
-        Return New RDataframe With {
-            .columns = columns _
-                .ToDictionary(Function(a) a.Key,
-                              Function(a)
-                                  Return DirectCast(a.Value.ToArray, Array)
-                              End Function),
-            .rownames = taxonomyNames.ToArray
-        }
     End Function
 End Module

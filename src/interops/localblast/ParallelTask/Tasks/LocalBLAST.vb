@@ -68,7 +68,7 @@ Namespace Tasks
 
             Dim LogFile As String = VennDataBuilder.BuildFileName(File1, File2, logDIR)
 
-            Call $"[{File1}, {File2}]".__DEBUG_ECHO
+            Call $"[{File1}, {File2}]".debug
             Call LocalBlast.Blastp(File1, File2, LogFile, e:="1").Start(waitForExit:=True) 'performence the BLAST
 
             Return LogFile

@@ -69,7 +69,7 @@ Public Module Annotations
             If Not mapstoGO.ContainsKey(hit.QueryName) Then
                 mapstoGO(hit.QueryName) = (hit.description, New List(Of toGO))
 
-                Call $"{hit.QueryName}: {hit.description}".__DEBUG_ECHO
+                Call $"{hit.QueryName}: {hit.description}".debug
             End If
 
             go = pfam2GO.TryGetValue(hit.pfamID)

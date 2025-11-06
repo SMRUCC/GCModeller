@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::0185baf0eb545a62786d123cb9070a57, R#\phenotype_kit\sampleInfo.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 427
-    '    Code Lines: 308 (72.13%)
-    ' Comment Lines: 63 (14.75%)
-    '    - Xml Docs: 95.24%
-    ' 
-    '   Blank Lines: 56 (13.11%)
-    '     File Size: 16.86 KB
+' Summaries:
 
 
-    ' Module DEGSample
-    ' 
-    '     Function: DesignAnalysis, getSampleId, groupColors, guessSampleGroups, PopulateSampleInfo
-    '               print, ReadSampleInfo, sample_groups, sampleinfoTable, sampleInfoTable
-    '               ScanForSampleInfo, shuffle_groups, WriteSampleInfo
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 427
+'    Code Lines: 308 (72.13%)
+' Comment Lines: 63 (14.75%)
+'    - Xml Docs: 95.24%
+' 
+'   Blank Lines: 56 (13.11%)
+'     File Size: 16.86 KB
+
+
+' Module DEGSample
+' 
+'     Function: DesignAnalysis, getSampleId, groupColors, guessSampleGroups, PopulateSampleInfo
+'               print, ReadSampleInfo, sample_groups, sampleinfoTable, sampleInfoTable
+'               ScanForSampleInfo, shuffle_groups, WriteSampleInfo
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,12 +62,14 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.DataSets
@@ -76,10 +78,10 @@ Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
-Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
 ''' GCModeller DEG experiment analysis designer toolkit
@@ -373,23 +375,31 @@ Module DEGSample
     ''' <summary>
     ''' create ``sample_info`` data table
     ''' </summary>
-    ''' <param name="ID"></param>
-    ''' <param name="sample_name"></param>
-    ''' <param name="sample_info"></param>
+    ''' <param name="ID">the sample id in the raw data files</param>
+    ''' <param name="sample_name">the sample name label for display, this character vector could be nothing, 
+    ''' then the generated sample display name will be replaced with the input sample id</param>
+    ''' <param name="sample_info">the sample group information.</param>
     ''' <returns></returns>
+    ''' <example>
+    ''' let group_vec = c("control","control","treat","control","treat","treat");
+    ''' let samples = sampleInfo(group_vec, group_vec);
+    ''' let analysis = make.analysis(samples, "control","treat");
+    ''' let deg = limma(x, analysis);
+    ''' 
+    ''' # view deg analysis result of control vs treat
+    ''' print(as.data.frame(deg));
+    ''' </example>
     <ExportAPI("sampleInfo")>
     <RApiReturn(GetType(SampleInfo))>
-    Public Function sampleInfoTable(ID As String(),
-                                    sample_name As String(),
-                                    sample_info As String(),
+    Public Function sampleInfoTable(ID As String(), sample_info As String(),
+                                    Optional sample_name As String() = Nothing,
                                     Optional color As String() = Nothing,
                                     Optional env As Environment = Nothing) As Object
 
-        If ID.IsNullOrEmpty OrElse
-            sample_info.IsNullOrEmpty OrElse
-            sample_name.IsNullOrEmpty Then
-
+        If ID.IsNullOrEmpty OrElse sample_info.IsNullOrEmpty Then
             Return Nothing
+        ElseIf sample_name.IsNullOrEmpty Then
+            sample_name = ID
         End If
 
         If ID.Length <> sample_name.Length Then
@@ -403,13 +413,7 @@ Module DEGSample
                 $"size of sample_info: {sample_info.Length}"}, env)
         End If
 
-        Dim get_group = Function(i As Integer)
-                            If sample_info.Length = 1 Then
-                                Return sample_info(Scan0)
-                            Else
-                                Return sample_info(i)
-                            End If
-                        End Function
+        Dim get_group = GetVectorElement.Create(Of String)(sample_info)
         Dim list As New List(Of SampleInfo)
 
         For i As Integer = 0 To ID.Length - 1
@@ -417,7 +421,10 @@ Module DEGSample
                 .ID = ID(i),
                 .sample_name = sample_name(i),
                 .sample_info = get_group(i),
-                .color = color.ElementAtOrNull(i)
+                .color = color.ElementAtOrNull(i),
+                .batch = 1,
+                .injectionOrder = i + 1,
+                .shape = "circle"
             }
         Next
 
@@ -480,5 +487,59 @@ Module DEGSample
         Next
 
         Return sampleInfo
+    End Function
+
+    <ExportAPI("make.analysis")>
+    <RApiReturn(GetType(DataAnalysis))>
+    Public Function makeDataAnalysis(sampleinfo As SampleInfo(), control As String, treatment As String) As Object
+        sampleinfo = sampleinfo _
+            .Where(Function(si) si.sample_info = control OrElse si.sample_info = treatment) _
+            .OrderBy(Function(si)
+                         If si.sample_info = control Then
+                             Return 0
+                         Else
+                             Return 1
+                         End If
+                     End Function) _
+            .ToArray
+
+        Return New DataAnalysis(sampleinfo)
+    End Function
+
+    <ExportAPI("make.MLdataset")>
+    Public Function makeMLdataset(x As HTS.DataFrame.Matrix, sampleinfo As SampleInfo()) As Object
+        Dim gene_ids As String() = x.rownames
+        Dim samples As Dictionary(Of String, Double()) = x.sampleID _
+            .ToDictionary(Function(name) name,
+                          Function(name)
+                              Return x.GetSampleArray(name).ToArray
+                          End Function)
+        Dim dataset As New List(Of EntityClusterModel)
+        Dim missing As New List(Of SampleInfo)
+
+        For Each sample As SampleInfo In sampleinfo
+            If samples.ContainsKey(sample.ID) Then
+                Dim vec As New Dictionary(Of String, Double)
+                Dim vals As Double() = samples(sample.ID)
+
+                For i As Integer = 0 To gene_ids.Length - 1
+                    Call vec.Add(gene_ids(i), vals(i))
+                Next
+
+                Call dataset.Add(New EntityClusterModel With {
+                    .ID = sample.ID,
+                    .Cluster = sample.sample_info,
+                    .Properties = vec
+                })
+            Else
+                Call missing.Add(sample)
+            End If
+        Next
+
+        If missing.Any Then
+            Call $"found {missing.Count} missing samples from the given expression matrix: {missing.JoinBy(", ")}".warning
+        End If
+
+        Return dataset.ToArray
     End Function
 End Module

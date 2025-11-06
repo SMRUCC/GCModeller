@@ -60,6 +60,7 @@
 #End Region
 
 Imports System.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Cellular.Vector
@@ -67,9 +68,13 @@ Namespace Cellular.Vector
     ''' <summary>
     ''' the amino acid composition vector
     ''' </summary>
-    Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double))
+    Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double)), INamedValue
 
-        Public Property proteinID As String
+        ''' <summary>
+        ''' is the polypeptide unique reference id
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property proteinID As String Implements INamedValue.Key
 
         ''' <summary>
         ''' L-Alanine

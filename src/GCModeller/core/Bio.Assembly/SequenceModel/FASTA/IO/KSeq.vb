@@ -87,24 +87,28 @@ Namespace SequenceModel.FASTA
     ' Last Modified: 05MAR2012 
 
     ''' <summary>
-    ''' 
+    ''' k-mer sequence model
     ''' </summary>
     Public Class KSeq : Inherits ISequenceBuilder
 
-        <XmlAttribute> Public Property Seq As Char()
+        <XmlAttribute> Public Property Seq As String
 
         Public Overrides Function GetSequenceData() As String
-            Return New String(Seq)
+            Return Seq
+        End Function
+
+        Public Overrides Function GetHashCode() As Integer
+            Return If(Seq Is Nothing, 0, CalculateDirectQuaternaryHashCode(Seq))
         End Function
 
         Public Overrides Function ToString() As String
-            Return Name
+            Return If(Name, GetSequenceData())
         End Function
 
         Public Shared Iterator Function Kmers(seq_str As String, k As Integer) As IEnumerable(Of KSeq)
-            For i As Integer = 0 To seq_str.Length - k - 1
+            For i As Integer = 0 To seq_str.Length - k
                 Yield New KSeq With {
-                    .Seq = seq_str.Substring(i, length:=k).ToArray
+                    .Seq = seq_str.Substring(i, length:=k)
                 }
             Next
         End Function
@@ -112,6 +116,48 @@ Namespace SequenceModel.FASTA
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Kmers(seq As ISequenceProvider, k As Integer) As IEnumerable(Of KSeq)
             Return Kmers(seq_str:=seq.GetSequenceData, k)
+        End Function
+
+        ''' <summary>
+        ''' 计算DNA k-mer的直接四进制哈希值。
+        ''' </summary>
+        ''' <param name="kmer">输入的k-mer字符串（例如 "ATCG"）。</param>
+        ''' <returns>计算出的哈希值（一个Long整数）。如果输入无效，则抛出异常。</returns>
+        ''' <remarks>
+        ''' 算法原理：
+        ''' 1. 将k-mer的每个碱基映射为一个数字 (A=0, C=1, G=2, T=3)。
+        ''' 2. 将整个k-mer串视为一个k位的四进制数。
+        ''' 3. 通过迭代方式计算其十进制值：hash = (hash * 4) + current_value。
+        ''' 例如，对于 k-mer "ACGT" (k=4):
+        '''  A(0) C(1) G(2) T(3)
+        '''  哈希值 = (((0 * 4 + 1) * 4 + 2) * 4 + 3) = 27
+        ''' </remarks>
+        Public Shared Function CalculateDirectQuaternaryHashCode(kmer As String) As Long
+            ' 将输入转换为大写，使算法不区分大小写
+            Dim upperKmer As String = kmer.ToUpper()
+            ' 2. 初始化哈希值
+            ' 使用Long类型以防止k值较大时整数溢出 (4^15 > 2^31)
+            Dim hashValue As Long = 0
+
+            Static baseInt As New Dictionary(Of Char, Integer) From {{"A"c, 0}, {"T"c, 1}, {"G"c, 2}, {"C"c, 3}}
+
+            ' 3. 遍历k-mer中的每一个碱基
+            For Each base As Char In upperKmer
+                Dim numericValue As Integer
+
+                ' 4. 将碱基字符转换为对应的数字
+                If baseInt.TryGetValue(base, numericValue) Then
+                    ' 5. 迭代计算哈希值
+                    ' 这相当于将当前哈希值左移两位（乘以4），然后加上新碱基的值
+                    hashValue = (hashValue << 2) + numericValue ' 位运算 << 2 等同于 * 4，但通常更快
+                Else
+                    ' 如果遇到非法字符（非A,C,G,T），则抛出异常
+                    Throw New ArgumentException($"k-mer中包含非法字符: '{base}'")
+                End If
+            Next
+
+            ' 6. 返回最终的哈希值
+            Return hashValue
         End Function
     End Class
 End Namespace

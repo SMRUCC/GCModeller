@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>A generic model for different expression molecule</p>
 
         <h3>Declare</h3>        
 
@@ -31,10 +31,17 @@
 # namespace SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 export class DEGModel {
    class: string;
+   fdr: double;
+   # usually be the gene id
    label: string;
    logFC: double;
+   # -log10(p-value)
+   nLog10p: double;
+   # The p-value of the differential expression test
    pvalue: double;
-   # Variance importance
+   # t stats value
+   t: double;
+   # Variance importance(used in metabolomics data)
    VIP: double;
 }
 </code>
@@ -56,4 +63,4 @@ export class DEGModel {
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
-</html>
+</html>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70fd68fd2eafbadf80da2922e0ec0b7d, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\DebuggerLevels.vb"
+﻿#Region "Microsoft.VisualBasic::c74298c498ca544467c5e39c4cefd660, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\DebuggerLevels.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 28
-    '    Code Lines: 9 (32.14%)
-    ' Comment Lines: 18 (64.29%)
+    '   Total Lines: 32
+    '    Code Lines: 12 (37.50%)
+    ' Comment Lines: 18 (56.25%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 1 (3.57%)
-    '     File Size: 837 B
+    '   Blank Lines: 2 (6.25%)
+    '     File Size: 976 B
 
 
     '     Enum DebuggerLevels
     ' 
-    '         [Error], [On], All, Off, Warning
+    '         [Error], Debug, Info, Warning
     ' 
     '  
     ' 
@@ -56,24 +56,28 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+
 Namespace ApplicationServices.Debugging
 
     ''' <summary>
     ''' 默认的参数值是<see cref="DebuggerLevels.On"/>
     ''' </summary>
-    Public Enum DebuggerLevels
+    Public Enum DebuggerLevels As Integer
         ''' <summary>
         ''' 是否输出调试信息有程序代码来控制，这个是默认的参数
         ''' </summary>
-        [On]
+        [On] = -1
         ''' <summary>
         ''' 不会输出任务调试信息
         ''' </summary>
-        Off
+        Off = Integer.MaxValue
         ''' <summary>
         ''' 强制覆盖掉<see cref="[On]"/>的设置，输出所有类型的信息
         ''' </summary>
-        All
+        All = 0
+        Info
+        Debug
         ''' <summary>
         ''' 只会输出警告或者错误类型的信息
         ''' </summary>

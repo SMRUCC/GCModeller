@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28bd9261a4e8c097332e7c9484557bb6, Microsoft.VisualBasic.Core\src\Data\Repository\RepositoryFileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::a036bfe49c18877689bb9094378a8911, Microsoft.VisualBasic.Core\src\Data\Repository\RepositoryFileSystem.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.86%
     ' 
     '   Blank Lines: 26 (11.76%)
-    '     File Size: 10.20 KB
+    '     File Size: 10.19 KB
 
 
     '     Module RepositoryFileSystem
@@ -158,7 +158,7 @@ Namespace Data.Repository
                                     Function(x) x.Value)
             End With
 
-            Call $"{NameOf(ProgramPathSearchTool)} load {res.Count} source entry...".__DEBUG_ECHO
+            Call $"{NameOf(ProgramPathSearchTool)} load {res.Count} source entry...".debug
 
             Return res
         End Function

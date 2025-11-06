@@ -135,7 +135,7 @@ Public Class PopulatorParameter
             .ScanCutoff = 0.6,
             .ScanMinW = 6,
             .seedOccurances = 0.6,
-            .log = Sub(msg) Call any.ToString(msg).__DEBUG_ECHO,
+            .log = Sub(msg) Call any.ToString(msg).debug,
             .significant_sites = 4,
             .seedScanner = Scanners.TreeScan
         }

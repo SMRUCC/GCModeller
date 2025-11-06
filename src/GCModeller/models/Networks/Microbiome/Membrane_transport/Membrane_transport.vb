@@ -260,7 +260,7 @@ Public Module Membrane_transport
                 If supports = 0R Then
                     Continue For
                 Else
-                    Call $"  {reaction.ToString} [supports={supports}]".__DEBUG_ECHO
+                    Call $"  {reaction.ToString} [supports={supports}]".debug
                 End If
 
                 With reaction.ReactionModel
@@ -326,13 +326,13 @@ Public Module Membrane_transport
                 End With
             Next
 
-            Call genome.ToString.__INFO_ECHO
+            Call genome.ToString.info
         Next
 
         ' 计算每一种代谢物节点的degree数量
         ' 将top10删除
         ' 因为这些边链接非常高的代谢物可能是细胞内的通用代谢物,而非分泌到外部的代谢物
-        Call "Do graph node connectivity analysis...".__INFO_ECHO
+        Call "Do graph node connectivity analysis...".info
         Call g.ApplyAnalysis
 
         Dim metabolites = g.vertex _
@@ -345,8 +345,8 @@ Public Module Membrane_transport
         Dim quartile As DataQuartile = degrees.Quartile
         Dim threshold = quartile.Q3
 
-        Call $"There is {metabolites.Length} metabolites in graph".__DEBUG_ECHO
-        Call $"Node degree distribution: {quartile.ToString}".__DEBUG_ECHO
+        Call $"There is {metabolites.Length} metabolites in graph".debug
+        Call $"Node degree distribution: {quartile.ToString}".debug
 
         metabolites = metabolites.Where(Function(m) m.data.neighborhoods > threshold).ToArray
 
@@ -363,7 +363,7 @@ Public Module Membrane_transport
         For Each node As Node In metabolites
             deleteEdges += edgeIndexByNodeLabel(node.label)
 
-            Call $"Delete high connected metabolite: [{node}] {node.data!title}".__DEBUG_ECHO
+            Call $"Delete high connected metabolite: [{node}] {node.data!title}".debug
         Next
 
         ' 重新生成graph对象

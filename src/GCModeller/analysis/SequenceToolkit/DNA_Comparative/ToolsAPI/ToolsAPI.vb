@@ -240,7 +240,7 @@ Public Module ToolsAPI
             Call da.GetXml.SaveTo(XMLPath)
         End If
 
-        Call $"""{seqId}"" job done!!!".__DEBUG_ECHO
+        Call $"""{seqId}"" job done!!!".debug
 
         Return da
     End Function
@@ -278,7 +278,7 @@ Public Module ToolsAPI
     End Function
 
     Private Function __echo(segment As SlideWindow(Of DNA), numWins As Integer) As Integer
-        Call $"{100 * segment.Index / numWins}%".__DEBUG_ECHO
+        Call $"{100 * segment.Index / numWins}%".debug
         Return segment.Index
     End Function
 

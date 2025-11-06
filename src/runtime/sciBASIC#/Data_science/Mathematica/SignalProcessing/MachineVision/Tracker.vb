@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe398e718de5169b1f41d664b93dc9b2, Data_science\Mathematica\SignalProcessing\MachineVision\Tracker.vb"
+﻿#Region "Microsoft.VisualBasic::1445bce9b5872362d8b77c128bac1cb2, Data_science\Mathematica\SignalProcessing\MachineVision\Tracker.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 41.38%
     ' 
     '   Blank Lines: 17 (16.83%)
-    '     File Size: 3.87 KB
+    '     File Size: 3.86 KB
 
 
     ' Class Tracker
@@ -113,7 +113,7 @@ Public Class Tracker : Implements Enumeration(Of Trajectory)
             Next
         Next
 
-        ' 应用匈牙利算法[7](@ref)
+        ' 应用匈牙利算法
         ' size of the assignments vector is equals to the current trajectories
         Dim assignments As Integer() = HungarianAlgorithm.FindAssignments(costMatrix)
 

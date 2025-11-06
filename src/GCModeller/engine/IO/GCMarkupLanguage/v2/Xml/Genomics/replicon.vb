@@ -104,7 +104,7 @@ Namespace v2
 
         Private Iterator Function GenericEnumerator() As IEnumerator(Of gene) Implements Enumeration(Of gene).GenericEnumerator
             For Each operon As TranscriptUnit In operons
-                For Each gene As gene In operon.genes.AsEnumerable
+                For Each gene As gene In operon.genes.SafeQuery
                     Yield gene
                 Next
             Next
@@ -115,7 +115,7 @@ Namespace v2
 
             For Each item As TranscriptUnit In operons
                 item.genes = item.genes _
-                    .AsEnumerable _
+                    .SafeQuery _
                     .Where(Function(g)
                                Return Not g.locus_tag Like deleted
                            End Function) _

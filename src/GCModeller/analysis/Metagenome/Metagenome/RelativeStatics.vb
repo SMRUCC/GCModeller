@@ -109,9 +109,25 @@ Public Module RelativeStatics
     ''' <param name="source">OTU统计数据</param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function ExportByRanks(source As IEnumerable(Of OTUData(Of Double))) As IEnumerable(Of NamedCollection(Of RankLevelView))
-        Dim samples As OTUTable() = source.CastView.ToArray
+    Public Function ExportByRanks(source As IEnumerable(Of OTUTable)) As IEnumerable(Of NamedCollection(Of RankLevelView))
+        Return source _
+            .Select(Function(o)
+                        Return New OTUTable() With {
+                            .ID = o.ID,
+                            .Properties = o.Properties,
+                            .taxonomy = New gast.Taxonomy(o.taxonomy)
+                        }
+                    End Function) _
+            .ExportByRanksInternal
+    End Function
 
+    ''' <summary>
+    ''' 统计OTU在不同的物种分类层次上面每一个实验样品的相对丰度
+    ''' </summary>
+    ''' <param name="samples">OTU统计数据</param>
+    ''' <returns></returns>
+    <Extension>
+    Private Iterator Function ExportByRanksInternal(samples As IEnumerable(Of OTUTable)) As IEnumerable(Of NamedCollection(Of RankLevelView))
         ' 按照rank层次进行计算
         For Each rank As SeqValue(Of String) In gast.Taxonomy.ranks.SeqIterator
             ' 按照物种树进行数据分组
@@ -128,6 +144,18 @@ Public Module RelativeStatics
                 .value = result
             }
         Next
+    End Function
+
+    ''' <summary>
+    ''' 统计OTU在不同的物种分类层次上面每一个实验样品的相对丰度
+    ''' </summary>
+    ''' <param name="source">OTU统计数据</param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ExportByRanks(source As IEnumerable(Of OTUData(Of Double))) As IEnumerable(Of NamedCollection(Of RankLevelView))
+        Return source _
+            .CastView _
+            .ExportByRanksInternal
     End Function
 
     <Extension>

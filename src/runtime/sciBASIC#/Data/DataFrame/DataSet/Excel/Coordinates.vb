@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab9adf17f60ed78b542821dda166a83d, Data\DataFrame\DataSet\Excel\Coordinates.vb"
+﻿#Region "Microsoft.VisualBasic::b8f6f2f6adcc3f6d9b9f348bc69fa958, Data\DataFrame\DataSet\Excel\Coordinates.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 130
-    '    Code Lines: 95 (73.08%)
-    ' Comment Lines: 14 (10.77%)
-    '    - Xml Docs: 71.43%
+    '   Total Lines: 129
+    '    Code Lines: 94 (72.87%)
+    ' Comment Lines: 15 (11.63%)
+    '    - Xml Docs: 66.67%
     ' 
-    '   Blank Lines: 21 (16.15%)
-    '     File Size: 4.28 KB
+    '   Blank Lines: 20 (15.50%)
+    '     File Size: 4.44 KB
 
 
     '     Module Coordinates
@@ -92,6 +92,28 @@ Namespace Excel
             Return New Point(X, Y.YValue)
         End Function
 
+        ''' <summary>
+        ''' 也就是获取得到列的顶点编号
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function YValue(x As IEnumerable(Of Char)) As Integer
+            Dim value As Integer = 0
+            Dim power As Integer = 0
+
+            ' 从右向左遍历每个字母（从最低位到最高位）
+            For Each c As Char In x.Reverse()
+                ' 计算当前字母对应的数值 (A=1, B=2, ..., Z=26)
+                Dim charValue As Integer = Asc(c) - Asc("A"c) + 1
+                ' 将数值乘以26的power次方，并累加到总和中
+                value += charValue * CInt(26 ^ power)
+                power += 1
+            Next
+
+            Return value
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ColumnIndex(i%) As String
@@ -120,29 +142,6 @@ Namespace Excel
             bottom += 1
 
             Return $"{left.ColumnIndex}{top}:{right.ColumnIndex}{bottom}"
-        End Function
-
-        ''' <summary>
-        ''' 也就是获取得到列的顶点编号
-        ''' </summary>
-        ''' <param name="x"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function YValue(x As IEnumerable(Of Char)) As Integer
-            Dim value#
-            Dim power% = 0
-            Dim offset As Integer = 0
-
-            ' power = 0, offset = 0
-            ' power > 0, offset = 1
-
-            For Each c As Char In x.Reverse
-                value += (Asc(c) - ZERO) + (26 * power - offset)
-                power += 1
-                offset = 1
-            Next
-
-            Return CInt(value)
         End Function
 
         <Extension>

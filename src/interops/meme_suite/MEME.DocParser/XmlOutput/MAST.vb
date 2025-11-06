@@ -1,141 +1,139 @@
 ﻿#Region "Microsoft.VisualBasic::37820aeb3814124625e71d902323e94f, meme_suite\MEME.DocParser\XmlOutput\MAST.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class ValueBase
-    ' 
-    '         Properties: value
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
-    '         Class RemoveCorrelated
-    ' 
-    ' 
-    ' 
-    '         Class StrandHandling
-    ' 
-    ' 
-    ' 
-    '         Class TranslateDNA
-    ' 
-    ' 
-    ' 
-    '         Class adj_hit_pvalue
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    '     Class Model
-    ' 
-    '         Properties: [When], adj_hit_pvalue, max_correlation, max_hit_pvalue, max_seq_evalue
-    '                     max_weak_pvalue, remove_correlated, strand_handling, translate_dna
-    ' 
-    '     Class Motif
-    ' 
-    '         Properties: BriefName, Correlations, Directory, last_mod_date, memePWM
-    '                     Motifs, name, source
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class MotifSite
-    ' 
-    '         Properties: bad, best_f, best_r, id, name
-    '                     num, width
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Correlation
-    ' 
-    '         Properties: motif_a, motif_b, value
-    ' 
-    '     Class DbProperty
-    ' 
-    '         Properties: id, last_mod_date, name, num, residue_count
-    '                     seq_count, source, type
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class SequenceList
-    ' 
-    '         Properties: Databases, ListCount, SequenceList
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class SequenceDescript
-    ' 
-    '         Properties: comment, db, id, length, name
-    '                     num, Score, Segments, title
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Score
-    ' 
-    '         Properties: combined_pvalue, evalue, strand
-    ' 
-    '     Class Segment
-    ' 
-    '         Properties: Hits, SegmentData, SequenceData, start
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class HitResult
-    ' 
-    '         Properties: gap, idx, match, motif, pos
-    '                     pvalue, rc, strand
-    ' 
-    '         Function: GetId, GetStrand, ToString
-    ' 
-    '     Class RuntimeEnvironment
-    ' 
-    '         Properties: cycles, seconds
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class MAST
-    ' 
-    '         Properties: Model, Motifs, Runtime, Sequences
-    ' 
-    '         Function: Convert, ExportMotifs, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class ValueBase
+' 
+'         Properties: value
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: ToString
+'         Class RemoveCorrelated
+' 
+' 
+' 
+'         Class StrandHandling
+' 
+' 
+' 
+'         Class TranslateDNA
+' 
+' 
+' 
+'         Class adj_hit_pvalue
+' 
+' 
+' 
+' 
+' 
+'     Class Model
+' 
+'         Properties: [When], adj_hit_pvalue, max_correlation, max_hit_pvalue, max_seq_evalue
+'                     max_weak_pvalue, remove_correlated, strand_handling, translate_dna
+' 
+'     Class Motif
+' 
+'         Properties: BriefName, Correlations, Directory, last_mod_date, memePWM
+'                     Motifs, name, source
+' 
+'         Function: ToString
+' 
+'     Class MotifSite
+' 
+'         Properties: bad, best_f, best_r, id, name
+'                     num, width
+' 
+'         Function: ToString
+' 
+'     Class Correlation
+' 
+'         Properties: motif_a, motif_b, value
+' 
+'     Class DbProperty
+' 
+'         Properties: id, last_mod_date, name, num, residue_count
+'                     seq_count, source, type
+' 
+'         Function: ToString
+' 
+'     Class SequenceList
+' 
+'         Properties: Databases, ListCount, SequenceList
+' 
+'         Function: ToString
+' 
+'     Class SequenceDescript
+' 
+'         Properties: comment, db, id, length, name
+'                     num, Score, Segments, title
+' 
+'         Function: ToString
+' 
+'     Class Score
+' 
+'         Properties: combined_pvalue, evalue, strand
+' 
+'     Class Segment
+' 
+'         Properties: Hits, SegmentData, SequenceData, start
+' 
+'         Function: ToString
+' 
+'     Class HitResult
+' 
+'         Properties: gap, idx, match, motif, pos
+'                     pvalue, rc, strand
+' 
+'         Function: GetId, GetStrand, ToString
+' 
+'     Class RuntimeEnvironment
+' 
+'         Properties: cycles, seconds
+' 
+'         Function: ToString
+' 
+'     Class MAST
+' 
+'         Properties: Model, Motifs, Runtime, Sequences
+' 
+'         Function: Convert, ExportMotifs, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace DocumentFormat.XmlOutput.MAST

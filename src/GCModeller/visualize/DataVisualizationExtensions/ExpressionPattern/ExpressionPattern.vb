@@ -68,13 +68,29 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Namespace ExpressionPattern
 
     ''' <summary>
-    ''' 表达模式聚类
+    ''' The cmeans expression cluster result
     ''' </summary>
     Public Class ExpressionPattern
 
+        ''' <summary>
+        ''' The fuzzy cmeans cluster result matrix
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Patterns As FuzzyCMeansEntity()
+        ''' <summary>
+        ''' the sample id for the cmeans cluster dataset vector
+        ''' </summary>
+        ''' <returns></returns>
         Public Property sampleNames As String()
+        ''' <summary>
+        ''' plot dimension layout information
+        ''' </summary>
+        ''' <returns></returns>
         Public Property [dim] As Integer()
+        ''' <summary>
+        ''' center feature points
+        ''' </summary>
+        ''' <returns></returns>
         Public Property centers As Classify()
 
         Public Function ToSummaryText(Optional membershipCutoff As Double = 0.8) As String

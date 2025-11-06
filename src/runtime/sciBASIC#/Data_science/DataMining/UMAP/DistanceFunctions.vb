@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8c3c5134f82399f8b9c0717d5fa9ac8, Data_science\DataMining\UMAP\DistanceFunctions.vb"
+﻿#Region "Microsoft.VisualBasic::ca2c67343c8e9ced63b1dcb652750039, Data_science\DataMining\UMAP\DistanceFunctions.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 102
-    '    Code Lines: 57 (55.88%)
-    ' Comment Lines: 32 (31.37%)
-    '    - Xml Docs: 87.50%
+    '   Total Lines: 133
+    '    Code Lines: 82 (61.65%)
+    ' Comment Lines: 34 (25.56%)
+    '    - Xml Docs: 82.35%
     ' 
-    '   Blank Lines: 13 (12.75%)
-    '     File Size: 3.75 KB
+    '   Blank Lines: 17 (12.78%)
+    '     File Size: 4.81 KB
 
 
     ' Enum DistanceFunction
     ' 
-    '     Cosine, Euclidean, NormalizedCosine, SpectralCosine, TanimotoFingerprint
+    '     AbsPearson, Cosine, Euclidean, NormalizedCosine, Pearson
+    '     SpectralCosine, TanimotoFingerprint
     ' 
     '  
     ' 
@@ -54,7 +55,7 @@
     ' Class DistanceFunctions
     ' 
     '     Function: Cosine, CosineForNormalizedVectors, Euclidean, GetFunction, JaccardSimilarity
-    '               SpectralSimilarity
+    '               PearsonAbs, PearsonCor, SpectralSimilarity
     ' 
     ' /********************************************************************************/
 
@@ -62,6 +63,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports std = System.Math
 
 Public Enum DistanceFunction
@@ -70,6 +72,8 @@ Public Enum DistanceFunction
     SpectralCosine
     TanimotoFingerprint
     Euclidean
+    Pearson
+    AbsPearson
 End Enum
 
 Public NotInheritable Class DistanceFunctions
@@ -81,9 +85,37 @@ Public NotInheritable Class DistanceFunctions
             Case DistanceFunction.SpectralCosine : Return AddressOf SpectralSimilarity
             Case DistanceFunction.TanimotoFingerprint : Return AddressOf JaccardSimilarity
             Case DistanceFunction.Euclidean : Return AddressOf Euclidean
+            Case DistanceFunction.Pearson : Return AddressOf PearsonCor
+            Case DistanceFunction.AbsPearson : Return AddressOf PearsonAbs
             Case Else
                 Return AddressOf Cosine
         End Select
+    End Function
+
+    Public Shared Function PearsonCor(lhs As Double(), rhs As Double()) As Double
+        Dim cor As Double = Correlations.GetPearson(lhs, rhs)
+
+        If Double.IsNaN(cor) Then
+            Return 1
+        ElseIf Double.IsInfinity(cor) Then
+            Return 0
+        Else
+            ' pearson distance is defined as 1 - r ^ 2
+            Return 1 - cor ^ 2
+        End If
+    End Function
+
+    Public Shared Function PearsonAbs(lhs As Double(), rhs As Double()) As Double
+        Dim cor As Double = Correlations.GetPearson(lhs, rhs)
+
+        If Double.IsNaN(cor) Then
+            Return 1
+        ElseIf Double.IsInfinity(cor) Then
+            Return 0
+        Else
+            ' pearson distance is defined as 1 - |r|
+            Return 1 - std.Abs(cor)
+        End If
     End Function
 
     ''' <summary>
@@ -149,11 +181,11 @@ Public NotInheritable Class DistanceFunctions
 
         ' 处理全0情况（避免除以零）
         If union = 0 Then
-            Return 0.0
+            Return 1.0
         End If
 
         ' 计算Tanimoto系数
-        Return CDbl(intersection) / CDbl(union)
+        Return 1 - CDbl(intersection) / CDbl(union)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

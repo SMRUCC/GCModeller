@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::224066dfe29f0b7a75aef751f7affed3, Data_science\MachineLearning\DeepLearning\CNN\Layers\RectifiedLinearUnitsLayer.vb"
+﻿#Region "Microsoft.VisualBasic::aaa6b8510e12e20ff05d982a051d88f4, Data_science\MachineLearning\DeepLearning\CNN\Layers\RectifiedLinearUnitsLayer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 74
-    '    Code Lines: 46 (62.16%)
-    ' Comment Lines: 13 (17.57%)
-    '    - Xml Docs: 76.92%
+    '   Total Lines: 80
+    '    Code Lines: 47 (58.75%)
+    ' Comment Lines: 18 (22.50%)
+    '    - Xml Docs: 55.56%
     ' 
-    '   Blank Lines: 15 (20.27%)
-    '     File Size: 2.37 KB
+    '   Blank Lines: 15 (18.75%)
+    '     File Size: 2.72 KB
 
 
     '     Class RectifiedLinearUnitsLayer
@@ -116,12 +116,18 @@ Namespace CNN.layers
             Dim V = in_act.clearGradient() ' we need to set dw of this
             Dim V2 = out_act
             Dim N = V.Weights.Length
+            Dim Vw = V.Weights ' 获取前向传播的输入值
 
             For i As Integer = 0 To N - 1
-                If V2.getWeight(i) <= threshold Then
-                    V.setGradient(i, threshold) ' threshold
+                'If V2.getWeight(i) <= threshold Then
+                '    V.setGradient(i, threshold) ' threshold
+                'Else
+                '    V.setGradient(i, V2.getGradient(i))
+                'End If
+                If Vw(i) <= 0 Then ' 如果原始输入 <= 0
+                    V.setGradient(i, 0.0) ' 则梯度为 0
                 Else
-                    V.setGradient(i, V2.getGradient(i))
+                    V.setGradient(i, V2.getGradient(i)) ' 如果原始输入 > 0，则梯度 = 上游传来的梯度
                 End If
             Next
         End Sub

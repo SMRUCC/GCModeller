@@ -65,13 +65,13 @@ Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.ParallelTask.Tasks.BBHLogs
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Partial Module CLI
 
@@ -82,10 +82,10 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", [in].TrimSuffix & ".tsv")
         Dim row As RowObject
 
-        Using writer As StreamWriter = out.OpenWriter
+        Using writer As System.IO.StreamWriter = out.OpenWriter
             For Each match As BestHit In [in].LoadCsv(Of BestHit)
                 With match
-                    row = { .QueryName, .HitName, .coverage, .length_hsp, 0, 0, 0, 0, 0, 0, .evalue, .Score}
+                    row = { .QueryName, .HitName, .coverage, .length_hsp, 0, 0, 0, 0, 0, 0, .evalue, .score}
                 End With
 
                 Call writer.WriteLine(row.AsLine(ASCII.TAB))
@@ -167,18 +167,35 @@ Partial Module CLI
                                                             .ToDictionary(Function(xx) xx.HitName,
                                                                           Function(xx) xx.Group.ToArray))
         Dim hitsTags As String() = (From x As BestHit In sbh Select x.HitName Distinct).ToArray
-        Dim flip As Boolean = args.GetBoolean("/flip")
+        Dim flip As Boolean = args("/flip")
         Dim LQuery = (From contig In contigs.AsParallel Select __evalueRow(hitsTags, contig.Key, contig.Value, flip)).ToArray
         Dim hits = (From contig In contigs.AsParallel Select __HitsRow(hitsTags, contig.Key, contig.Value)).ToArray
 
-        Dim Csv As csv.IO.File = New csv.IO.File + New RowObject("+".Join(hitsTags))
+        Dim Csv As Framework.IO.File = New Framework.IO.File + New RowObject("+".Join(hitsTags))
         Csv += LQuery
         Csv.Save(out, Encoding:=Encoding.ASCII)
 
-        Csv = New csv.IO.File + New RowObject("+".Join(hitsTags))
+        Csv = New Framework.IO.File + New RowObject("+".Join(hitsTags))
         Csv += hits
 
         Return Csv.Save(out & ".Hits.Csv", Encoding:=System.Text.Encoding.ASCII).CLICode
+    End Function
+
+    <ExportAPI("/export_blastp")>
+    <Usage("/export_blastp /in <blastp.txt> [/out <default=blastp.csv>]")>
+    Public Function ExportBlastp(args As CommandLine) As Integer
+        Dim in$ = args("/in")
+        Dim out As String = args("/out") Or [in].ChangeSuffix("csv")
+
+        Using IO As New WriteStream(Of BestHit)(out)
+            Dim write = IO.ToArray(Of Query)(Function(q) v228.SBHLines(Query:=q, coverage:=0, identities:=0, keepsRawQueryName:=True))
+
+            For Each query As Query In BlastpOutputReader.RunParser(in$)
+                Call write(query)
+            Next
+        End Using
+
+        Return 0
     End Function
 
     <ExportAPI("/SBH.Export.Large")>
@@ -213,7 +230,7 @@ Partial Module CLI
         Dim keepsRawQueryName As Boolean = args("/keeps_raw.queryName")
 
         If keepsRawQueryName Then
-            Call "All of the query name will keeps as its original raw value".__INFO_ECHO
+            Call "All of the query name will keeps as its original raw value".info
         End If
 
         If isSplit AndAlso inFile.DirectoryExists Then
@@ -245,7 +262,7 @@ Partial Module CLI
                         Sub([in] As String)
                             Dim i As i32 = 0
 
-                            Call $"Parse {[in]}...".__INFO_ECHO
+                            Call $"Parse {[in]}...".info
 
                             For Each query As Query In BlastpOutputReader.RunParser(in$)
                                 query.QueryName = qPattern(query.QueryName)
@@ -268,7 +285,7 @@ Partial Module CLI
                 n += 1
             Next
 
-            Call $"Parse {n} file data job done!".__DEBUG_ECHO
+            Call $"Parse {n} file data job done!".debug
         Else
             Using IO As New WriteStream(Of BestHit)(out)
                 Dim handle As Action(Of Query) = IO _
@@ -294,7 +311,7 @@ Partial Module CLI
                 Dim parseOne = Sub([in] As String)
                                    Dim i As i32 = 0
 
-                                   Call $"Parse {[in]}...".__INFO_ECHO
+                                   Call $"Parse {[in]}...".info
 
                                    For Each query As Query In BlastpOutputReader.RunParser(in$)
                                        query.QueryName = qPattern(query.QueryName)
@@ -319,7 +336,7 @@ Partial Module CLI
                         n += 1
                     Next
 
-                    Call $"Parse {n} file data job done!".__DEBUG_ECHO
+                    Call $"Parse {n} file data job done!".debug
                 Else
                     Call parseOne(inFile)
                 End If
@@ -356,7 +373,7 @@ Partial Module CLI
     Public Function ExportSBH(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim query As String = args("/prefix")
-        Dim isTxtLog As Boolean = args.GetBoolean("/txt")
+        Dim isTxtLog As Boolean = args("/txt")
         Dim out As String = args("/out")
         Dim lst As String() = LoadSBHEntry(inDIR, query)
         Dim blastp As BBH.BestHit()()

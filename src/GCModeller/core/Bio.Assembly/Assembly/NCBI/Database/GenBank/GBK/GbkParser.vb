@@ -83,7 +83,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Dim bufs As String() = Internal_readBlock(KeyWord.GBK_FIELD_KEY_ORIGIN, buf)
 
             If bufs.IsNullOrEmpty Then
-                Call $"{gb.Locus} have no sequence data.".__DEBUG_ECHO
+                Call $"{gb.Locus} have no sequence data.".debug
 
                 Return New ORIGIN With {
                     .SequenceData = ""
@@ -114,7 +114,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Function
 
         Friend Function doLoadData(innerBufs As String(), defaultAccession$) As NCBI.GenBank.GBFF.File
-            Call "Start loading ncbi gbk file...".__DEBUG_ECHO
+            ' Call "Start loading ncbi gbk file...".debug
 
             Dim Sw As Stopwatch = Stopwatch.StartNew
             Dim gb As New File

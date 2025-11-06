@@ -28,13 +28,13 @@ Namespace Engine
 
         Public Sub reset(value As Double)
             For Each factor As Factor In compartments.Values
-                factor.Value = value
+                Call factor.reset(value)
             Next
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub reset(compart_id As String, value As Double)
-            compartments(compart_id).Value = value
+            Call compartments(compart_id).reset(value)
         End Sub
 
         Public Overrides Function ToString() As String

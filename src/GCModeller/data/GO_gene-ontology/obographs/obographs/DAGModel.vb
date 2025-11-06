@@ -126,7 +126,7 @@ Public Module DAGModel
         ' 每一个term都单独构建出一条通往base namespace的途径
         For Each termId As String In terms.SafeQuery
             Call termsTable(termId).addTerm(g, termsTable, relIndex)
-            Call termsTable(termId).ToString.__INFO_ECHO
+            Call termsTable(termId).ToString.info
         Next
 
         Return g

@@ -52,6 +52,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
@@ -108,6 +109,14 @@ Namespace Cellular
 
         Public Function GetCompartments() As IEnumerable(Of String)
             Return GetCompartmentsInternal.Distinct.Where(Function(s) Not s.StringEmpty(, True))
+        End Function
+
+        Public Function GetPolypeptideIds() As IEnumerable(Of String)
+            If Genotype.ProteinMatrix.IsNullOrEmpty Then
+                Return {}
+            End If
+
+            Return Genotype.ProteinMatrix.Keys
         End Function
 
         Private Iterator Function GetCompartmentsInternal() As IEnumerable(Of String)

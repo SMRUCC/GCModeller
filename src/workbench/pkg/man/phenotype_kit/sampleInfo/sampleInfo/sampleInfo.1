@@ -4,8 +4,8 @@
 sampleInfo \- create \fBsample_info\fR data table
 .SH SYNOPSIS
 \fIsampleInfo(\fBID\fR as string, 
-\fBsample_name\fR as string, 
 \fBsample_info\fR as string, 
+\fBsample_name\fR as string = \fB<NULL>\fR, 
 \fBcolor\fR as string = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
@@ -14,13 +14,24 @@ create \fBsample_info\fR data table
 .PP
 .SH OPTIONS
 .PP
-\fBID\fB \fR\- -. 
+\fBID\fB \fR\- the sample id in the raw data files. 
 .PP
 .PP
-\fBsample_name\fB \fR\- -. 
+\fBsample_name\fB \fR\- the sample name label for display, this character vector could be nothing, 
+ then the generated sample display name will be replaced with the input sample id. 
 .PP
 .PP
-\fBsample_info\fB \fR\- -. 
+\fBsample_info\fB \fR\- the sample group information.. 
+.PP
+.SH EXAMPLES
+.PP
+let group_vec = c("control","control","treat","control","treat","treat");
+ let samples = sampleInfo(group_vec, group_vec);
+ let analysis = make.analysis(samples, "control","treat");
+ let deg = limma(x, analysis);
+ 
+ # view deg analysis result of control vs treat
+ print(as.data.frame(deg));
 .PP
 .SH SEE ALSO
 sampleInfo

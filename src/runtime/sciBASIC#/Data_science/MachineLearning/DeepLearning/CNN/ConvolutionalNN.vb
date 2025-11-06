@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e89d330cb68257e15d472907e97825df, Data_science\MachineLearning\DeepLearning\CNN\ConvolutionalNN.vb"
+﻿#Region "Microsoft.VisualBasic::25169d509a4ed8bd65fab28918776e34, Data_science\MachineLearning\DeepLearning\CNN\ConvolutionalNN.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 221
-    '    Code Lines: 124 (56.11%)
-    ' Comment Lines: 58 (26.24%)
+    '   Total Lines: 222
+    '    Code Lines: 125 (56.31%)
+    ' Comment Lines: 58 (26.13%)
     '    - Xml Docs: 93.10%
     ' 
-    '   Blank Lines: 39 (17.65%)
-    '     File Size: 7.61 KB
+    '   Blank Lines: 39 (17.57%)
+    '     File Size: 7.63 KB
 
 
     '     Class ConvolutionalNN
@@ -203,18 +203,18 @@ Namespace CNN
         ''' <param name="db"></param>
         ''' <param name="training"></param>
         ''' <returns></returns>
-        Public Overridable Function forward(db As DataBlock, training As PerformanceCounter) As DataBlock
+        Public Overridable Function forward(db As DataBlock, Optional training As PerformanceCounter = Nothing) As DataBlock
             Dim flag As Boolean = Not training Is Nothing
             Dim act = m_layers(0).forward(db, training:=flag)
 
-            If Not training Is Nothing Then
+            If flag Then
                 Call training.Mark("[forward]" & m_layers(0).ToString)
             End If
 
             For i As Integer = 1 To m_layers.Length - 1
                 act = m_layers(i).forward(act, training:=flag)
 
-                If Not training Is Nothing Then
+                If flag Then
                     Call training.Mark("[forward]" & m_layers(i).ToString)
                 End If
             Next
@@ -225,18 +225,19 @@ Namespace CNN
         ''' <summary>
         ''' Backprop: compute gradients wrt all parameters
         ''' </summary>
-        Public Overridable Function backward(y As Double(), training As PerformanceCounter) As Double()
+        Public Overridable Function backward(y As Double(), Optional training As PerformanceCounter = Nothing) As Double()
+            Dim flag As Boolean = Not training Is Nothing
             Dim N = m_layers.Length
             Dim loss = output.backward(y)
 
-            If Not training Is Nothing Then
+            If flag Then
                 Call training.Mark("[backward]" & output.ToString)
             End If
 
             For i As Integer = N - 2 To 0 Step -1 ' first layer assumed input
                 Call m_layers(i).backward()
 
-                If Not training Is Nothing Then
+                If flag Then
                     Call training.Mark("[backward]" & m_layers(i).ToString)
                 End If
             Next

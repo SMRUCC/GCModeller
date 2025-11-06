@@ -1,4 +1,4 @@
-﻿.TH KEGG_COLORS 1 2025-Aug "" "generate color map for do colorful encode of the kegg map url"
+﻿.TH KEGG_COLORS 1 2025-Nov "" "generate color map for do colorful encode of the kegg map url"
 .SH NAME
 kegg_colors \- kegg_colors(id, log2FC,
     <i>up</i> = <span style='color: #FF0000;'><strong>'red'</strong></span>,
@@ -9,7 +9,7 @@ kegg_colors \- kegg_colors(id, log2FC,
     <i>down</i> = <span style='color: #0000FF;'><strong>'blue'</strong></span>)\fR
 .SH OPTIONS
 .PP
-\fBid\fB \fR\- . 
+\fBid\fB \fR\- . a character vector of a collection of the kegg id
 .PP
 .PP
 \fBlog2FC\fB \fR\- . a numeric vector of the log2 Foldchange value of the corresponding kegg id
@@ -22,7 +22,9 @@ kegg_colors \- kegg_colors(id, log2FC,
 .PP
 .SH VALUE
 .PP
-a lambda function that accept two parameters for generates the kegg pathway map url: 1. map_id: the kegg pathway map id 2. idset: a character vector of the kegg id for make url
+a lambda function that accept two parameters for generates the kegg pathway map url:
+1. map_id: the kegg pathway map id
+2. idset: a character vector of the kegg id for make url
 .PP
 .SH FILES
 .PP

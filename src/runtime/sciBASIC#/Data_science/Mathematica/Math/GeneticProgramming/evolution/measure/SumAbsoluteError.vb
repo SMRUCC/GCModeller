@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6dbf6f96b49cfcbbe1a5faf2ef8c7615, Data_science\Mathematica\Math\GeneticProgramming\evolution\measure\SumAbsoluteError.vb"
+﻿#Region "Microsoft.VisualBasic::c5867edd8568d5c469b416b6cbd40edd, Data_science\Mathematica\Math\GeneticProgramming\evolution\measure\SumAbsoluteError.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 21
-    '    Code Lines: 16 (76.19%)
+    '   Total Lines: 17
+    '    Code Lines: 12 (70.59%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (23.81%)
-    '     File Size: 642 B
+    '   Blank Lines: 5 (29.41%)
+    '     File Size: 532 B
 
 
     '     Class SumAbsoluteError
@@ -63,11 +63,7 @@ Namespace evolution.measure
         End Function
 
         Public Overridable Function getOverallError(ParamArray errors As Double()) As Double Implements Objective.getOverallError
-            Dim sum = 0.0
-            For Each [error] In errors
-                sum += [error]
-            Next
-            Return sum
+            Return errors.Sum
         End Function
 
     End Class

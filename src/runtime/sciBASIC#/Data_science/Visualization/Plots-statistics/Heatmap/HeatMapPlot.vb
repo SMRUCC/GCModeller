@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::104aaf030c900bfbaeb2c42edeaf5d2d, Data_science\Visualization\Plots-statistics\Heatmap\HeatMapPlot.vb"
+﻿#Region "Microsoft.VisualBasic::7835b9d67e62ba8ac4c43dc57f27e001, Data_science\Visualization\Plots-statistics\Heatmap\HeatMapPlot.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 54 (16.56%)
-    '     File Size: 14.29 KB
+    '     File Size: 14.28 KB
 
 
     '     Class HeatMapPlot
@@ -150,7 +150,7 @@ Namespace Heatmap
                 ticks = globalRange.CreateAxisTicks(ticks:=5)
             End If
 
-            Call $"{globalRange.ToString} -> {ticks.GetJson}".__INFO_ECHO
+            Call $"{globalRange.ToString} -> {ticks.GetJson}".info
 
             Dim margin As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, canvas.Padding)
             ' 根据布局计算出矩阵的大小和位置
@@ -343,7 +343,7 @@ Namespace Heatmap
                                 .Size = blockSize
                             }
 #If DEBUG Then
-                            ' Call $"{level} -> {b.Color.ToString}".__DEBUG_ECHO
+                            ' Call $"{level} -> {b.Color.ToString}".debug
 #End If
                     Call g.FillRectangle(b, rect)
 

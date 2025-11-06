@@ -138,7 +138,7 @@ Public Class Output
         Dim best As HSP = SequenceTools.HSP.CreateFrom(hspList.GetBestAlignment, toChar)
 
         If m2Len < minW Then
-            Call $"Min width {minW} is too large than query/subject, using min(query,subject):={m2Len} instead....".__DEBUG_ECHO
+            Call $"Min width {minW} is too large than query/subject, using min(query,subject):={m2Len} instead....".debug
             minW = m2Len
         End If
 

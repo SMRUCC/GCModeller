@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>union_render</title>
+    <title>Render KEGG Pathway Maps with Multi-Omics Highlighting</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,13 @@
             </tr>
         </table>
 
-        <h2>union_render</h2>
+        <h2>Render KEGG Pathway Maps with Multi-Omics Highlighting</h2>
 
         <h3>Description</h3>
 
-        
+        <p>Generates interactive HTML and static PNG visualizations of KEGG pathway maps
+with customizable highlighting for compounds, genes, and proteins. Output files
+are saved to the specified directory.</p>
 
         <h3>Usage</h3>
 
@@ -41,12 +43,67 @@
 
         <table>
             
+<dt>union.data</dt>
+<dd><p><p>A data frame or file path (CSV) containing KEGG pathway IDs
+and highlight information. Must include columns specified in `id`, `compound`,
+`gene`, and `protein` parameters. If a character string is provided,
+it is interpreted as a file path to a CSV file.</p></p></dd>
+
+
+<dt>outputdir</dt>
+<dd><p><p>Output directory path for rendered files (default: "./").</p></p></dd>
+
+
+<dt>id</dt>
+<dd><p><p>Column name in `union_data` containing KEGG pathway IDs (default: "KEGG").</p></p></dd>
+
+
+<dt>compound</dt>
+<dd><p><p>Column name in `union_data` containing compound highlight data
+(default: "compound"). See Details for formatting.</p></p></dd>
+
+
+<dt>gene</dt>
+<dd><p><p>Column name in `union_data` containing gene highlight data
+(default: "gene").</p></p></dd>
+
+
+<dt>protein</dt>
+<dd><p><p>Column name in `union_data` containing protein highlight data
+(default: "protein").</p></p></dd>
+
+
+<dt>text.color</dt>
+<dd><p><p>Color for node labels on pathway maps (default: "white").</p></p></dd>
+
+
+<dt>kegg.maps</dt>
+<dd><p><p>Directory path containing KEGG map XML files. If `NULL` (default),
+uses the package's internal XML resources.</p></p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p><strong>Highlight Data Format</strong>:
+The `compound`, `gene`, and `protein` columns should contain strings in one of two formats:
+<ol>
+<li>Semicolon-separated key-value pairs: `"K00001:blue;K00002:red;C00001:green"`</li>
+<li>Semicolon-separated IDs (default color: red): `"K00001;K00002;C00001"`</li>
+</ol></p>
+
+<p>These are parsed by <a href='' title='`parse.highlight_tuples()`'>`parse.highlight_tuples()`</a>
+into named lists (e.g., `list(K00001 = "blue", K00002 = "red")`).
+<strong>Output Files</strong>:
+For each KEGG ID, two files are generated:
+<ul>
+<li>`[KEGG_ID].html`: Interactive pathway visualization</li>
+<li>`[KEGG_ID].png`: Static PNG image</li>
+</ul></p>
+
+<p><strong>Error Handling</strong>:
+Errors during rendering are caught and printed to the console without stopping execution.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -54,11 +111,35 @@
 
         <h3>Value</h3>
 
-        This function has no value returns.
+        <p>Invisibly returns `NULL`. Primary output is generated as files in `outputdir`.</p>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r">#\dontrun{
+
+# Minimal example with default column names
+data <- data.frame(
+KEGG = "map00010",
+compound = "C00031:green;C00022:blue",
+gene = "hsa:1234;hsa:5678:yellow",
+protein = "P12345"
+)
+union_render(data, outputdir = "~/kegg_output")
+# Custom column names and text color
+data <- data.frame(
+PathwayID = "map00020",
+Metabolites = "C00024; C00036:orange",
+Genes = "hsa:9012:purple",
+Proteins = "P67890:red"
+)
+union_render(data,
+id = "PathwayID",
+compound = "Metabolites",
+gene = "Genes",
+protein = "Proteins",
+text.color = "black"
+)
+#}</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>GCModeller</em> version 1.1.0-beta <a
@@ -71,4 +152,4 @@
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
-</html>
+</html>

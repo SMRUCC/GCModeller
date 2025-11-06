@@ -98,6 +98,7 @@ Namespace Core
         End Property
 
         Public ReadOnly Property isBroken As Boolean
+        Public ReadOnly Property Message As String
 
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
@@ -105,7 +106,26 @@ Namespace Core
             Me.left = left.ToArray
             Me.right = right.ToArray
 
-            isBroken = Me.left.IsNullOrEmpty OrElse Me.right.IsNullOrEmpty
+            If Me.left.IsNullOrEmpty Then
+                Message = "{0} - left side is empty!"
+            ElseIf Me.right.IsNullOrEmpty Then
+                Message = "{0} - right side is empty!"
+            End If
+
+            ' 20250830 check of the zero factor
+            Dim zero = Me.left.Where(Function(f) f.coefficient = 0.0).ToArray
+
+            If zero.Length > 0 Then
+                Message = $"{0} - left side has zero coefficient factor: {zero.Select(Function(v) v.mass.ID).JoinBy(", ")}"
+            End If
+
+            zero = Me.right.Where(Function(f) f.coefficient = 0.0).ToArray
+
+            If zero.Length > 0 Then
+                Message = $"{0} - right side has zero coefficient factor: {zero.Select(Function(v) v.mass.ID).JoinBy(", ")}"
+            End If
+
+            isBroken = Not Message.StringEmpty()
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -176,8 +196,8 @@ Namespace Core
         End Function
 
         Private Shared Function minimalUnit(parallel As Dictionary(Of String, Double), regulation#, v As Variable) As Double
-            Dim r = regulation * v.coefficient
-            Dim shares# = parallel(v.mass.ID)
+            Dim r# = regulation * v.coefficient
+            Dim shares# = parallel(v.mass.ID) + 1
             Dim massUnit = v.mass.Value / shares
             Dim reactionUnit As Double
 

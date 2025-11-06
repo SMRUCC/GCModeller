@@ -56,6 +56,7 @@
 
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Math.Statistics
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -66,11 +67,12 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 ''' </summary>
 Public Class DEP_iTraq : Inherits EntityObject
     Implements IDeg
+    Implements IStatPvalue
 
     Public Overrides Property ID As String Implements IDeg.label
 
     <Column("FC.avg")> Public Property foldchange As Double
-    <Column("p.value")> Public Property pvalue As Double Implements IDeg.pvalue
+    <Column("p.value")> Public Property pvalue As Double Implements IDeg.pvalue, IStatPvalue.pValue
     <Column("is.DEP")> Public Property isDEP As Boolean
     <Column("log2FC")> Public Property log2FC As Double Implements IDeg.log2FC
     <Column("FDR")> Public Property FDR As Double

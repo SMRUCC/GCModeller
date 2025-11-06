@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48e52b42a99c39ca74b8bd144f2ad581, Data\DataFrame\IO\CSVText\CSVFile\StreamIO.vb"
+﻿#Region "Microsoft.VisualBasic::5f35155bbb98ca4d1cddfa0cc07cb3ee, Data\DataFrame\IO\CSVText\CSVFile\StreamIO.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 71.43%
     ' 
     '   Blank Lines: 18 (12.95%)
-    '     File Size: 5.89 KB
+    '     File Size: 5.88 KB
 
 
     '     Module StreamIO
@@ -184,7 +184,7 @@ Namespace IO.CSVFile
             End If
 
             If Not silent Then
-                Call $"Generate csv file document using time {stopwatch.ElapsedMilliseconds} ms.".__INFO_ECHO
+                Call $"Generate csv file document using time {stopwatch.ElapsedMilliseconds} ms.".info
             End If
 
             Return True

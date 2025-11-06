@@ -126,7 +126,7 @@ Public Module GSVA
 
         If method = Methods.ssgsea Then
             If verbose Then
-                Call $"Estimating ssGSEA scores for {gsetIdxList.Count} gene sets.".__DEBUG_ECHO
+                Call $"Estimating ssGSEA scores for {gsetIdxList.Count} gene sets.".debug
             End If
 
             Throw New NotImplementedException
@@ -135,7 +135,7 @@ Public Module GSVA
                 Throw New InvalidProgramException("rnaseq=TRUE does not work with method='zscore'.")
             End If
             If verbose Then
-                Call $"Estimating combined z-scores for {gsetIdxList.Count} gene sets.".__DEBUG_ECHO
+                Call $"Estimating combined z-scores for {gsetIdxList.Count} gene sets.".debug
             End If
 
             Throw New NotImplementedException
@@ -144,13 +144,13 @@ Public Module GSVA
                 Throw New InvalidProgramException("rnaseq=TRUE does not work with method='plage'.")
             End If
             If verbose Then
-                Call $"Estimating PLAGE scores for {gsetIdxList.Count} gene sets.".__DEBUG_ECHO
+                Call $"Estimating PLAGE scores for {gsetIdxList.Count} gene sets.".debug
             End If
 
             Throw New NotImplementedException
         Else
             If verbose Then
-                Call $"Estimating GSVA scores for {gsetIdxList.Count} gene sets.".__DEBUG_ECHO
+                Call $"Estimating GSVA scores for {gsetIdxList.Count} gene sets.".debug
             End If
         End If
 
@@ -188,12 +188,12 @@ Public Module GSVA
         If verbose Then
             If kernel Then
                 If rnaseq Then
-                    Call "Estimating ECDFs with Poisson kernels".__DEBUG_ECHO
+                    Call "Estimating ECDFs with Poisson kernels".debug
                 Else
-                    Call "Estimating ECDFs with Gaussian kernels".__DEBUG_ECHO
+                    Call "Estimating ECDFs with Gaussian kernels".debug
                 End If
             Else
-                Call "Estimating ECDFs directly".__DEBUG_ECHO
+                Call "Estimating ECDFs directly".debug
             End If
         End If
 

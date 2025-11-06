@@ -91,6 +91,8 @@ Namespace Engine
 
         Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
         Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
+        Sub ForwardRegulation(iteration As Integer, data As Dictionary(Of String, Double))
+        Sub ReverseRegulation(iteration As Integer, data As Dictionary(Of String, Double))
 
     End Interface
 
@@ -112,6 +114,12 @@ Namespace Engine
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.FluxSnapshot
             _flux = data
+        End Sub
+
+        Private Sub ForwardRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ForwardRegulation
+        End Sub
+
+        Private Sub ReverseRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ReverseRegulation
         End Sub
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7968d67953fc77c9194e2b6a71927e0, Microsoft.VisualBasic.Core\src\Text\Xml\Linq\DataSetWriter.vb"
+﻿#Region "Microsoft.VisualBasic::f9dc30f5ca3fe7670a67c574f5b8d493, Microsoft.VisualBasic.Core\src\Text\Xml\Linq\DataSetWriter.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 93
-    '    Code Lines: 50 (53.76%)
-    ' Comment Lines: 29 (31.18%)
-    '    - Xml Docs: 27.59%
+    '   Total Lines: 122
+    '    Code Lines: 57 (46.72%)
+    ' Comment Lines: 48 (39.34%)
+    '    - Xml Docs: 43.75%
     ' 
-    '   Blank Lines: 14 (15.05%)
-    '     File Size: 3.90 KB
+    '   Blank Lines: 17 (13.93%)
+    '     File Size: 4.93 KB
 
 
     '     Class DataSetWriter
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     '         Sub: (+2 Overloads) Dispose, Flush, Write
     ' 
     ' 
@@ -62,12 +62,43 @@ Namespace Text.Xml.Linq
     ''' <summary>
     ''' Write a very large dataset in Xml format
     ''' </summary>
+    ''' <remarks>
+    ''' usually be used for dump the database table data to a xml file
+    ''' 
+    ''' the output xml file format is compatible with the .NET DataSet xml format
+    ''' 
+    ''' see also: https://docs.microsoft.com/en-us/dotnet/api/system.data.dataset.writexml?view=net-5.0
+    ''' 
+    ''' example:
+    ''' 
+    ''' ```vb
+    ''' Dim writer As New DataSetWriter(Of biocad_registryModel.molecule)("molecules.xml")
+    ''' 
+    ''' For Each mol As biocad_registryModel.molecule In registry.molecule.all(Of biocad_registryModel.molecule)()
+    '''     Call writer.Write(mol)
+    ''' Next
+    ''' 
+    ''' Call writer.Dispose()
+    ''' ```
+    ''' </remarks>
     Public Class DataSetWriter(Of T) : Implements IDisposable
 
         Dim file As StreamWriter
         Dim indentBlank$ = "   "
+        Dim leaveOpen As Boolean = True
 
         Public Const DataSetPrefix$ = "XmlDataSetOf"
+
+        Sub New(file As StreamWriter, Optional leaveOpen As Boolean = True)
+            Me.leaveOpen = leaveOpen
+
+            Me.file = file
+            Me.file.WriteLine(NodeIterator.XmlDeclare.Replace("utf-16", XmlDeclaration.ToEncoding(file.Encoding).Description.ToLower))
+            Me.file.WriteLine($"<{DataSetPrefix}{GetType(T).Name} xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">")
+            Me.file.WriteLine(indentBlank & "<!--")
+            Me.file.WriteLine(XmlDataModel.GetTypeReferenceComment(GetType(T), 6))
+            Me.file.WriteLine(indentBlank & "-->")
+        End Sub
 
         ''' <summary>
         ''' Create a new xml dataset writer
@@ -82,12 +113,7 @@ Namespace Text.Xml.Linq
             '
             ' 下面的两行代码是专门用来处理编码问题来避免出现上面的错误
             '
-            Me.file = file.OpenWriter(encoding.TextEncoding)
-            Me.file.WriteLine(NodeIterator.XmlDeclare.Replace("utf-16", encoding.Description.ToLower))
-            Me.file.WriteLine($"<{DataSetPrefix}{GetType(T).Name} xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">")
-            Me.file.WriteLine(indentBlank & "<!--")
-            Me.file.WriteLine(XmlDataModel.GetTypeReferenceComment(GetType(T), 6))
-            Me.file.WriteLine(indentBlank & "-->")
+            Call Me.New(file.OpenWriter(encoding.TextEncoding), leaveOpen:=False)
         End Sub
 
         Public Sub Write(data As T)
@@ -119,8 +145,11 @@ Namespace Text.Xml.Linq
                     ' TODO: dispose managed state (managed objects).
                     Call file.WriteLine($"</{DataSetPrefix}{GetType(T).Name}>")
                     Call file.Flush()
-                    Call file.Close()
-                    Call file.Dispose()
+
+                    If Not leaveOpen Then
+                        Call file.Close()
+                        Call file.Dispose()
+                    End If
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.

@@ -32,6 +32,7 @@
 export class Controls {
    # 没有任何调控的时候的基准反应单位，因为有些过程是不需要调控以及催化的
    baseline: double;
+   # the regulation coefficient factor based on various related regulation factors
    coefficient: double;
    # 如果抑制的总量大于激活的总量，那么这个调控的反应过程将不会进行
    inhibition: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/Variable.html">Variable[]</a>;
@@ -57,4 +58,4 @@ export class Controls {
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
-</html>
+</html>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab641aeee8cec85c08dad1ca61688f9e, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Point3D.vb"
+﻿#Region "Microsoft.VisualBasic::37c42981c3c2a11778e5d9a66873d374, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Point3D.vb"
 
     ' Author:
     ' 
@@ -34,23 +34,25 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 213
-    '    Code Lines: 132 (61.97%)
-    ' Comment Lines: 49 (23.00%)
-    '    - Xml Docs: 89.80%
+    '   Total Lines: 286
+    '    Code Lines: 183 (63.99%)
+    ' Comment Lines: 54 (18.88%)
+    '    - Xml Docs: 85.19%
     ' 
-    '   Blank Lines: 32 (15.02%)
-    '     File Size: 8.28 KB
+    '   Blank Lines: 49 (17.13%)
+    '     File Size: 11.17 KB
 
 
     '     Structure Point3D
     ' 
     '         Properties: Depth, X, Y, Z
     ' 
-    '         Constructor: (+6 Overloads) Sub New
+    '         Constructor: (+7 Overloads) Sub New
     ' 
-    '         Function: Cross, Dot, Parse, Project, RotateX
-    '                   RotateY, RotateZ, ToString
+    '         Function: add, Clone, Cross, distance, divide
+    '                   Dot, length, lerp, (+2 Overloads) multiply, normalize
+    '                   Parse, Project, RotateX, RotateY, rotateYP
+    '                   RotateZ, subtract, ToArray, ToString, translate
     ' 
     '         Sub: Project
     ' 
@@ -65,7 +67,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Math
 Imports std = System.Math
 Imports vec = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
@@ -98,6 +100,12 @@ Namespace Drawing3D
         <XmlAttribute("z")> Public Property Z As Double Implements PointF3D.Z
 
         Public Sub New(x!, y!, Optional z! = 0)
+            Me.X = x
+            Me.Y = y
+            Me.Z = z
+        End Sub
+
+        Sub New(x#, y#, Optional z# = 0)
             Me.X = x
             Me.Y = y
             Me.Z = z
@@ -137,6 +145,14 @@ Namespace Drawing3D
             Return $"[x:{X.ToString("F2")},y:{Y.ToString("F3")},z:{Z.ToString("F3")}]"
         End Function
 
+        Public Function Clone() As Point3D
+            Return New Point3D(X, Y, Z)
+        End Function
+
+        Public Function ToArray() As Single()
+            Return New Single() {X, Y, Z}
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Dot(a As Point3D, b As Point3D) As Double
             Return a.DotProduct(b)
@@ -145,6 +161,65 @@ Namespace Drawing3D
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Cross(v1 As Point3D, v2 As Point3D) As Point3D
             Return v1.CrossProduct(v2)
+        End Function
+
+        Public Function add(vec As Point3D) As Point3D
+            Return New Point3D(_X + vec.X, _Y + vec.Y, _Z + vec.Z)
+        End Function
+
+        Public Function subtract(vec As Point3D) As Point3D
+            Return New Point3D(_X - vec.X, _Y - vec.Y, _Z - vec.Z)
+        End Function
+
+        Public Function multiply(scalar As Double) As Point3D
+            Return New Point3D(_X * scalar, _Y * scalar, _Z * scalar)
+        End Function
+
+        Public Function multiply(vec As Point3D) As Point3D
+            Return New Point3D(_X * vec.X, _Y * vec.Y, _Z * vec.Z)
+        End Function
+
+        Public Function divide(vec As Point3D) As Point3D
+            Return New Point3D(_X / vec.X, _Y / vec.Y, _Z / vec.Z)
+        End Function
+
+        Public Function length() As Double
+            Return System.Math.Sqrt(_X ^ 2 + _Y ^ 2 + _Z ^ 2)
+        End Function
+
+        Public Function normalize() As Point3D
+            Dim length As Double = Me.length()
+            Return New Point3D(_X / length, _Y / length, _Z / length)
+        End Function
+
+        Public Function rotateYP(yaw As Single, pitch As Single) As Point3D
+            ' Convert to radians
+            Dim yawRads = Trigonometric.ToRadians(yaw)
+            Dim pitchRads = Trigonometric.ToRadians(pitch)
+
+            ' Step one: Rotate around X axis (pitch)
+            Dim _y As Double = Y * System.Math.Cos(pitchRads) - Z * System.Math.Sin(pitchRads)
+            Dim _z As Double = Y * System.Math.Sin(pitchRads) + Z * System.Math.Cos(pitchRads)
+
+            ' Step two: Rotate around the Y axis (yaw)
+            Dim _x As Double = X * System.Math.Cos(yawRads) + _z * System.Math.Sin(yawRads)
+            _z = CSng(-X * System.Math.Sin(yawRads) + _z * System.Math.Cos(yawRads))
+
+            Return New Point3D(_x, _y, _z)
+        End Function
+
+        ''' <summary>
+        ''' Does the same as Point3D.add but changes the vector itself instead of returning a new one </summary>
+        Public Function translate(vec As Point3D) As Point3D
+            Return New Point3D(X + vec.X, Y + vec.Y, Z + vec.Z)
+        End Function
+
+        Public Shared Function distance(a As Point3D, b As Point3D) As Double
+            Return System.Math.Sqrt(System.Math.Pow(a.X - b.X, 2) + System.Math.Pow(a.Y - b.Y, 2) + System.Math.Pow(a.Z - b.Z, 2))
+        End Function
+
+        Public Shared Function lerp(a As Point3D, b As Point3D, t As Single) As Point3D
+            Return a.add(b.subtract(a).multiply(t))
         End Function
 
         ''' <summary>

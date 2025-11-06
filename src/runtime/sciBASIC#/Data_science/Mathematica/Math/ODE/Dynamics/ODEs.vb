@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c3c235e65dc82b8d822ef1b6d393805, Data_science\Mathematica\Math\ODE\Dynamics\ODEs.vb"
+﻿#Region "Microsoft.VisualBasic::5deb090abc5b72a0d46c1467c9acc904, Data_science\Mathematica\Math\ODE\Dynamics\ODEs.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 238
-    '    Code Lines: 129 (54.20%)
-    ' Comment Lines: 77 (32.35%)
+    '   Total Lines: 240
+    '    Code Lines: 128 (53.33%)
+    ' Comment Lines: 77 (32.08%)
     '    - Xml Docs: 77.92%
     ' 
-    '   Blank Lines: 32 (13.45%)
-    '     File Size: 8.54 KB
+    '   Blank Lines: 35 (14.58%)
+    '     File Size: 8.62 KB
 
 
     '     Class ODEs
@@ -229,7 +229,7 @@ Namespace Dynamics
 
         Public Shared Function CreateOutput(system As ODEs, y0 As Dictionary(Of String, Double), x As Double(), y As List(Of Double)()) As ODEsOut
             Dim out = LinqAPI.MakeList(Of NamedCollection(Of Double)) _
- _
+                                                                      _
                 () <= From var As var
                       In system.vars
                       Select New NamedCollection(Of Double) With {
@@ -267,6 +267,8 @@ Namespace Dynamics
                 x.Value = y(x.Index)
             Next
 
+            k = k.ImputeNA(fill_as:=0.0)
+
             Call func(dx, dy:=k)
         End Sub
 
@@ -275,11 +277,11 @@ Namespace Dynamics
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function GetParameters(model As Type) As IEnumerable(Of String)
-            Dim fields = CType(model, TypeInfo) _
-                .DeclaredFields _
+            Dim fields = CType(model, TypeInfo).DeclaredFields _
                 .Where(Function(f)
                            Return (Not f.IsLiteral) AndAlso f.FieldType.Equals(GetType(Double))
                        End Function)
+
             Return fields.Select(Function(f) f.Name)
         End Function
 
@@ -288,11 +290,11 @@ Namespace Dynamics
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function GetVariables(model As Type) As IEnumerable(Of String)
-            Dim fields = CType(model, TypeInfo) _
-                .DeclaredFields _
+            Dim fields = CType(model, TypeInfo).DeclaredFields _
                 .Where(Function(f)
                            Return f.FieldType.Equals(GetType(var))
                        End Function)
+
             Return fields.Select(Function(f) f.Name)
         End Function
     End Class

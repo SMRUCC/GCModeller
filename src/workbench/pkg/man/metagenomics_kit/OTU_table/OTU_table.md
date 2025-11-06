@@ -17,3 +17,8 @@ Tools for handling OTU table data
 
 + [relative_abundance](OTU_table/relative_abundance.1) Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
 + [filter](OTU_table/filter.1) filter the otu data which has relative abundance greater than the given threshold
++ [read.OTUtable](OTU_table/read.OTUtable.1) read 16s OTU table
++ [batch_combine](OTU_table/batch_combine.1) combine of two batch data
++ [otu_from_matrix](OTU_table/otu_from_matrix.1) cast the expression matrix to the otu data
++ [as.hts_matrix](OTU_table/as.hts_matrix.1) Create expression matrix data from a given otu table
++ [as.OTU_table](OTU_table/as.OTU_table.1) convert the mothur rank tree as the OTU table

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0fa26df35d79fe666e6a9b610dbef71, Data_science\Mathematica\Math\Math\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::acb0e2bd28c465ac10fb4a48d086eff8, Data_science\Mathematica\Math\Math\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 362
-    '    Code Lines: 198 (54.70%)
-    ' Comment Lines: 122 (33.70%)
+    '   Total Lines: 367
+    '    Code Lines: 202 (55.04%)
+    ' Comment Lines: 122 (33.24%)
     '    - Xml Docs: 95.08%
     ' 
-    '   Blank Lines: 42 (11.60%)
-    '     File Size: 13.32 KB
+    '   Blank Lines: 43 (11.72%)
+    '     File Size: 13.61 KB
 
 
     ' Module Extensions
     ' 
     '     Function: [Shadows], AsSample, (+4 Overloads) AsVector, DoubleRange, FDR
-    '               FilterNaN, FirstDecrease, FirstIncrease, FlipCoin, IntRange
-    '               IsInside, Iterates, (+2 Overloads) Range, Reach, seq2
-    '               Sim, SSM, SSM_SIMD, Tanimoto, X
-    '               Y
+    '               FilterNaN, FirstDecrease, FirstIncrease, FlipCoin, ImputeNA
+    '               IntRange, IsInside, Iterates, (+2 Overloads) Range, Reach
+    '               seq2, Sim, SSM, SSM_SIMD, Tanimoto
+    '               X, Y
     ' 
     ' /********************************************************************************/
 
@@ -380,8 +380,8 @@ Imports std = System.Math
     ''' x·y是x和y共同具有的属性数，而xy是x具有的属性数与y具有的属性数的几何均值。于是，sim(x,y)是公共属性相
     ''' 对拥有的一种度量。
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="y"></param>
+    ''' <param name="x">vector of elements of 0 or 1 binary data</param>
+    ''' <param name="y">vector of elements of 0 or 1 binary data</param>
     ''' <returns></returns>
     ''' <remarks>
     ''' http://xiao5461.blog.163.com/blog/static/22754562201211237567238/
@@ -415,5 +415,10 @@ Imports std = System.Math
         Next
 
         Return m
+    End Function
+
+    <Extension>
+    Public Function ImputeNA(v As Vector, fill_as As Double) As Vector
+        Return New Vector(From xi As Double In v.Array Select If(xi.IsNaNImaginary, fill_as, xi))
     End Function
 End Module

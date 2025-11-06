@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30f54801d3005f0f8ccfb2bec16fa26c, Data\DataFrame\StorageProvider\Reflection\StorageProviders\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::e68285c76096e9c20968f127b80a5336, Data\DataFrame\StorageProvider\Reflection\StorageProviders\Reflection.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 86.75%
     ' 
     '   Blank Lines: 39 (11.21%)
-    '     File Size: 16.73 KB
+    '     File Size: 16.71 KB
 
 
     '     Module Reflector
@@ -210,7 +210,7 @@ Namespace StorageProvider.Reflection
                 Call $"Csv file ""{path.ToFileURL}"" is empty!".Warning
                 Return {}
             Else
-                Call "Load data from filestream....".__DEBUG_ECHO(mute:=mute)
+                Call "Load data from filestream....".debug(mute:=mute)
             End If
 
             Dim buffer As IEnumerable(Of T)
@@ -224,9 +224,9 @@ Namespace StorageProvider.Reflection
                 Call reader.ChangeMapping(maps)
             End If
 
-            Call $"Reflector load data into type {GetType(T).FullName}".__DEBUG_ECHO(mute:=mute)
+            Call $"Reflector load data into type {GetType(T).FullName}".debug(mute:=mute)
             buffer = Reflector.Convert(Of T)(reader, Explicit, metaBlank, silent:=mute)
-            Call "[Job Done!]".__DEBUG_ECHO(mute:=mute)
+            Call "[Job Done!]".debug(mute:=mute)
 
             Return buffer
         End Function

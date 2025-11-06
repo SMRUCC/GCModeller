@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74999d925b1135b696144ab7cd4b30b8, Data_science\Mathematica\Math\DataFittings\Logistic\Instance.vb"
+﻿#Region "Microsoft.VisualBasic::a7e1e778fac94762f42be3ec3ea7a616, Data_science\Mathematica\Math\DataFittings\Logistic\Instance.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 74
-    '    Code Lines: 44 (59.46%)
-    ' Comment Lines: 19 (25.68%)
+    '   Total Lines: 77
+    '    Code Lines: 46 (59.74%)
+    ' Comment Lines: 19 (24.68%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 11 (14.86%)
-    '     File Size: 2.25 KB
+    '   Blank Lines: 12 (15.58%)
+    '     File Size: 2.52 KB
 
 
-    ' Class Instance
+    '     Class Instance
     ' 
-    '     Properties: featureSize, label, x
+    '         Properties: featureSize, label, x
     ' 
-    '     Constructor: (+3 Overloads) Sub New
-    '     Function: Load, ToString, ZScore
+    '         Constructor: (+3 Overloads) Sub New
+    '         Function: Load, ToString, ZScore
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -59,72 +60,75 @@ Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-''' <summary>
-''' classify training model
-''' </summary>
-Public Class Instance
+Namespace Logistic
 
     ''' <summary>
-    ''' the real label data
+    ''' classify training model
     ''' </summary>
-    ''' <returns></returns>
-    Public Property label As Double
-    ''' <summary>
-    ''' the object properties vector
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property x As Double()
+    Public Class Instance
 
-    Public ReadOnly Property featureSize As Integer
-        Get
-            Return x.Length
-        End Get
-    End Property
+        ''' <summary>
+        ''' the real label data
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property label As Double
+        ''' <summary>
+        ''' the object properties vector
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property x As Double()
 
-    Public Sub New(label As Integer, x As Integer())
-        Me.label = label
-        Me.x = x.Select(Function(d) CDbl(d)).ToArray
-    End Sub
+        Public ReadOnly Property featureSize As Integer
+            Get
+                Return x.Length
+            End Get
+        End Property
 
-    Public Sub New(label As Integer, x As Double())
-        Me.label = label
-        Me.x = x
-    End Sub
+        Public Sub New(label As Integer, x As Integer())
+            Me.label = label
+            Me.x = x.Select(Function(d) CDbl(d)).ToArray
+        End Sub
 
-    Sub New(label As Double, x As IEnumerable(Of Double))
-        Me.label = label
-        Me.x = x.ToArray
-    End Sub
+        Public Sub New(label As Integer, x As Double())
+            Me.label = label
+            Me.x = x
+        End Sub
 
-    Public Overrides Function ToString() As String
-        Return $"[{label}] {x.GetJson}"
-    End Function
+        Sub New(label As Double, x As IEnumerable(Of Double))
+            Me.label = label
+            Me.x = x.ToArray
+        End Sub
 
-    Public Shared Function ZScore(data As Instance(), size As Integer) As Instance()
-        For i As Integer = 0 To size - 1
-            Dim offset As Integer = i
-            Dim v As New Vector(data.Select(Function(a) a.x(offset)))
-            Dim z As Double() = New Vector(v).Z
+        Public Overrides Function ToString() As String
+            Return $"[{label}] {x.GetJson}"
+        End Function
 
-            For j As Integer = 0 To data.Length - 1
-                data(j).x(i) = z(j)
+        Public Shared Function ZScore(data As Instance(), size As Integer) As Instance()
+            For i As Integer = 0 To size - 1
+                Dim offset As Integer = i
+                Dim v As New Vector(data.Select(Function(a) a.x(offset)))
+                Dim z As Double() = New Vector(v).Z
+
+                For j As Integer = 0 To data.Length - 1
+                    data(j).x(i) = z(j)
+                Next
             Next
-        Next
 
-        Return data
-    End Function
+            Return data
+        End Function
 
-    ''' <summary>
-    ''' load raw dataset helper function
-    ''' </summary>
-    ''' <typeparam name="T"></typeparam>
-    ''' <param name="data"></param>
-    ''' <param name="featureSet"></param>
-    ''' <param name="label"></param>
-    ''' <returns></returns>
-    Public Shared Iterator Function Load(Of T As {DynamicPropertyBase(Of Double)})(data As IEnumerable(Of T), featureSet As String(), label As String) As IEnumerable(Of Instance)
-        For Each row As T In data
-            Yield New Instance(row(label), row(featureSet))
-        Next
-    End Function
-End Class
+        ''' <summary>
+        ''' load raw dataset helper function
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="data"></param>
+        ''' <param name="featureSet"></param>
+        ''' <param name="label"></param>
+        ''' <returns></returns>
+        Public Shared Iterator Function Load(Of T As {DynamicPropertyBase(Of Double)})(data As IEnumerable(Of T), featureSet As String(), label As String) As IEnumerable(Of Instance)
+            For Each row As T In data
+                Yield New Instance(row(label), row(featureSet))
+            Next
+        End Function
+    End Class
+End Namespace

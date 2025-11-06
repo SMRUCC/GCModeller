@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::82433e84ade5f828e997e497d5d6e050, analysis\Metagenome\Metagenome\OTUTable\OTU.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 146
-    '    Code Lines: 125 (85.62%)
-    ' Comment Lines: 9 (6.16%)
-    '    - Xml Docs: 88.89%
-    ' 
-    '   Blank Lines: 12 (8.22%)
-    '     File Size: 6.06 KB
+' Summaries:
 
 
-    ' Module OTU
-    ' 
-    '     Function: BuildOTUClusters, CreateGastCountTabel, LoadOTU_taxa_table
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 146
+'    Code Lines: 125 (85.62%)
+' Comment Lines: 9 (6.16%)
+'    - Xml Docs: 88.89%
+' 
+'   Blank Lines: 12 (8.22%)
+'     File Size: 6.06 KB
+
+
+' Module OTU
+' 
+'     Function: BuildOTUClusters, CreateGastCountTabel, LoadOTU_taxa_table
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
@@ -142,7 +142,7 @@ Public Module OTU
         Next
 
         Return LinqAPI.Exec(Of NamedValue(Of String())) <=
- _
+                                                          _
             From OTU As (ref As FastaSeq, fullEquals#, cluster As NamedValue(Of List(Of String)))
             In OTUs
             Let refSeq As FastaSeq = New FastaSeq With {
@@ -195,5 +195,55 @@ Public Module OTU
                 .taxonomy = New Taxonomy(parser(taxonomy))
             }
         Next
+    End Function
+
+    ''' <summary>
+    ''' load OTU data with seperated taxonomy rank data
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="tsv"></param>
+    ''' <returns></returns>
+    Public Iterator Function LoadOTUTaxonAnalysis(file As String, Optional tsv As Boolean = False) As IEnumerable(Of OTUTable)
+        Dim df As DataFrameResolver = DataFrameResolver.Load(file, tsv:=tsv)
+        Dim domain = df.GetOrdinal("domain")
+        Dim kingdom = df.GetOrdinal("kingdom")
+        Dim phylum = df.GetOrdinal("phylum")
+        Dim [class] = df.GetOrdinal("class")
+        Dim order = df.GetOrdinal("order")
+        Dim family = df.GetOrdinal("family")
+        Dim genus = df.GetOrdinal("genus")
+        Dim species = df.GetOrdinal("species")
+        Dim otu = df.GetOrdinal("otu")
+        Dim assets As Index(Of String) = {"Total", "Prevalence", "Percent", "domain", "kingdom", "phylum", "class", "order", "family", "genus", "species", "otu"}
+        Dim sampleIds As String() = df.HeadTitles _
+            .Where(Function(str)
+                       Return Not (str Like assets)
+                   End Function) _
+            .ToArray
+        Dim sampleIndex As Integer() = df.GetOrdinalSchema(sampleIds)
+
+        Do While df.Read
+            Dim tax As New Taxonomy() With {
+                .[class] = df.GetString([class]),
+                .family = df.GetString(family),
+                .genus = df.GetString(genus),
+                .kingdom = df.GetString(kingdom),
+                .order = df.GetString(order),
+                .phylum = df.GetString(phylum),
+                .species = df.GetString(species)
+            }
+            Dim id As String = df.GetString(otu)
+            Dim data As New Dictionary(Of String, Double)
+
+            For i As Integer = 0 To sampleIds.Length - 1
+                Call data.Add(sampleIds(i), df.GetDouble(sampleIndex(i)))
+            Next
+
+            Yield New OTUTable With {
+                .ID = id,
+                .Properties = data,
+                .taxonomy = tax
+            }
+        Loop
     End Function
 End Module

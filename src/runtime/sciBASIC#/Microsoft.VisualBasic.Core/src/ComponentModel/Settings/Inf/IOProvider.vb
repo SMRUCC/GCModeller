@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d3eb3705667b82881bcc847fca2a15a, Microsoft.VisualBasic.Core\src\ComponentModel\Settings\Inf\IOProvider.vb"
+﻿#Region "Microsoft.VisualBasic::968e873a96eae610b40a20ca262747db, Microsoft.VisualBasic.Core\src\ComponentModel\Settings\Inf\IOProvider.vb"
 
     ' Author:
     ' 
@@ -84,7 +84,7 @@ Namespace ComponentModel.Settings.Inf
         Public Function WriteProfile(Of T As Class)(x As T, path$) As Boolean
             Using ini As New IniFile(path)
                 Call x.WriteProfile(ini)
-                Call $"Ini profile data was saved at location: {path.GetFullPath}".__INFO_ECHO
+                Call $"Ini profile data was saved at location: {path.GetFullPath}".info
 
                 Return True
             End Using

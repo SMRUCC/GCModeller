@@ -64,13 +64,14 @@ Namespace Cellular.Process
 
     ''' <summary>
     ''' Transcription and Translation.
-    ''' (一个中心法则对象就是一个基因表达的过程，这个基因表达过程的名称为<see cref="ToString"/>方法的返回值)
-    ''' 
     ''' ```
     ''' CDS -> RNA
     ''' ORF -> mRNA -> polypeptide
     ''' ```
     ''' </summary>
+    ''' <remarks>
+    ''' (一个中心法则对象就是一个基因表达的过程，这个基因表达过程的名称为<see cref="ToString"/>方法的返回值)
+    ''' </remarks>
     Public Structure CentralDogma : Implements INamedValue
 
         ''' <summary>
@@ -111,6 +112,7 @@ Namespace Cellular.Process
         ''' </summary>
         Dim translation As String
         Dim transcript_unit As String
+        Dim expression_level As Double
 
         ''' <summary>
         ''' 如果这个属性返回false就说明不是编码蛋白序列的基因
@@ -132,7 +134,7 @@ Namespace Cellular.Process
             Get
                 Select Case RNA.Value
                     Case RNATypes.mRNA
-                        Return $"{geneID}::mRNA"
+                        Return geneID
                     Case RNATypes.ribosomalRNA
                         ' 20200313 因为tRNA和rRNA具有通用性
                         ' 不像mRNA一样和基因蛋白石一一对应的
@@ -144,7 +146,7 @@ Namespace Cellular.Process
                         If geneID <> RNA.Name Then
                             Return RNA.Name
                         Else
-                            Return geneID & "::" & RNA.Value.ToString
+                            Return geneID & $"({RNA.Value.ToString})"
                         End If
                 End Select
             End Get

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6737351435ea95aa38f58ff92e6cf17, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\BIRCH\CFTree.vb"
+﻿#Region "Microsoft.VisualBasic::80f6676ac55316b1e167c274ae77fd0d, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\BIRCH\CFTree.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 621
-    '    Code Lines: 281 (45.25%)
-    ' Comment Lines: 243 (39.13%)
+    '   Total Lines: 615
+    '    Code Lines: 276 (44.88%)
+    ' Comment Lines: 243 (39.51%)
     '    - Xml Docs: 74.90%
     ' 
-    '   Blank Lines: 97 (15.62%)
-    '     File Size: 26.21 KB
+    '   Blank Lines: 96 (15.61%)
+    '     File Size: 26.02 KB
 
 
     '     Class CFTree
     ' 
-    '         Properties: AutomaticRebuild, LeafListStart, MemoryLimit, MemoryLimitMB, PeriodicMemLimitCheck
-    '                     SubclusterMembers
+    '         Properties: LeafListStart, MemoryLimit, SubclusterMembers
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -54,8 +53,8 @@
     '                   countNodes, hasReachedMemoryLimit, (+3 Overloads) insertEntry, mapToClosestSubcluster, rebuildIfAboveMemLimit
     '                   rebuildTree
     ' 
-    '         Sub: copyTree, finishedInsertingData, printCFTree, printLeafEntries, printLeafIndexes
-    '              splitRoot
+    '         Sub: AutomaticRebuild, copyTree, finishedInsertingData, MemoryLimitMB, PeriodicMemLimitCheck
+    '              printCFTree, printLeafEntries, printLeafIndexes, splitRoot
     ' 
     ' 
     ' /********************************************************************************/
@@ -63,6 +62,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports std = System.Math
 
@@ -205,30 +205,23 @@ Namespace BIRCH
             End Get
         End Property
 
-
         ''' 
         ''' <param name="limit"> memory limit in Mbytes </param>
-        Public Overridable WriteOnly Property MemoryLimitMB As Long
-            Set(value As Long)
-                memLimit = value * 1024 * 1024
-            End Set
-        End Property
+        Public Sub MemoryLimitMB(limit As Long)
+            memLimit = limit * ByteSize.MB
+        End Sub
 
         ''' 
         ''' <param name="auto"> if true, and memory limit is reached, the tree is automatically rebuilt with larger threshold </param>
-        Public Overridable WriteOnly Property AutomaticRebuild As Boolean
-            Set(value As Boolean)
-                automaticRebuildField = value
-            End Set
-        End Property
+        Public Sub AutomaticRebuild(auto As Boolean)
+            automaticRebuildField = auto
+        End Sub
 
         ''' 
         ''' <param name="period"> the number of insert operations after which we check whether the tree has reached the memory limit </param>
-        Public Overridable WriteOnly Property PeriodicMemLimitCheck As Long
-            Set(value As Long)
-                periodicMemLimitCheckField = value
-            End Set
-        End Property
+        Public Sub PeriodicMemLimitCheck(period As Long)
+            periodicMemLimitCheckField = period
+        End Sub
 
         ''' <summary>
         ''' Inserts a single pattern vector into the CFTree

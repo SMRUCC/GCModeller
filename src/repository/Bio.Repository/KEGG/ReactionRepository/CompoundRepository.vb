@@ -155,7 +155,7 @@ Public Class CompoundRepository : Inherits XmlDataModel
                 Call $"Repository {directory} invalid...".Warning
                 Return
             Else
-                Call $"Loading compounds data repository: {directory}...".__DEBUG_ECHO
+                Call $"Loading compounds data repository: {directory}...".debug
             End If
 
             ' have some case sensitive problem on Linux platform

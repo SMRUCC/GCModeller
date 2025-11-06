@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b96da5e7643a2f1028e70f7635a2572, Data\BinaryData\BinaryData\ByteBuffer.vb"
+﻿#Region "Microsoft.VisualBasic::6e23a3020bdcc00f7e40721e8eeac441, Data\BinaryData\BinaryData\ByteBuffer.vb"
 
     ' Author:
     ' 
@@ -34,25 +34,26 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 358
-    '    Code Lines: 283 (79.05%)
-    ' Comment Lines: 35 (9.78%)
+    '   Total Lines: 370
+    '    Code Lines: 293 (79.19%)
+    ' Comment Lines: 35 (9.46%)
     '    - Xml Docs: 45.71%
     ' 
-    '   Blank Lines: 40 (11.17%)
-    '     File Size: 11.56 KB
+    '   Blank Lines: 42 (11.35%)
+    '     File Size: 11.96 KB
 
 
     ' Class ByteBuffer
     ' 
     '     Constructor: (+2 Overloads) Sub New
     ' 
-    '     Function: (+2 Overloads) [get], allocate, allocateDirect, capacity, clear
-    '               compact, Equals, flip, (+2 Overloads) getChar, (+2 Overloads) getDouble
-    '               (+2 Overloads) getFloat, (+2 Overloads) getInt, (+2 Overloads) getLong, (+2 Overloads) getShort, hasRemaining
-    '               limit, order, (+2 Overloads) position, (+2 Overloads) put, (+2 Overloads) putChar
-    '               (+2 Overloads) putDouble, (+2 Overloads) putFloat, (+2 Overloads) putInt, (+2 Overloads) putLong, (+2 Overloads) putShort
-    '               remaining, rewind, (+2 Overloads) wrap
+    '     Function: [char], [double], [float], (+3 Overloads) [get], [int]
+    '               [long], [short], allocate, allocateDirect, capacity
+    '               clear, compact, Equals, flip, getChar
+    '               getDouble, getFloat, getInt, getLong, getShort
+    '               hasRemaining, limit, order, (+2 Overloads) position, (+2 Overloads) put
+    '               (+2 Overloads) putChar, (+2 Overloads) putDouble, (+2 Overloads) putFloat, (+2 Overloads) putInt, (+2 Overloads) putLong
+    '               (+2 Overloads) putShort, remaining, rewind, unsignedBytes, (+2 Overloads) wrap
     ' 
     '     Sub: (+4 Overloads) [get], Finalize
     ' 
@@ -199,13 +200,21 @@ Public Class ByteBuffer : Inherits DataView
         Return stream.ReadByte()
     End Function
 
+    Public Function [get](index As Integer) As Byte
+        Dim originalPosition As Long = stream.Position
+        stream.Position = index
+        Dim value As Byte = reader.ReadByte()
+        stream.Position = originalPosition
+        Return value
+    End Function
+
     ''' <summary>
     ''' asDoubleBuffer
     ''' </summary>
     ''' <param name="dst"></param>
     Public Sub [get](dst() As Double)
         For i As Integer = 0 To dst.Length - 1
-            dst(i) = getDouble()
+            dst(i) = [double]()
         Next
     End Sub
 
@@ -215,7 +224,7 @@ Public Class ByteBuffer : Inherits DataView
     ''' <param name="dst"></param>
     Public Sub [get](dst As Long())
         For i As Integer = 0 To dst.Length - 1
-            dst(i) = getLong()
+            dst(i) = [long]()
         Next
     End Sub
 
@@ -225,7 +234,7 @@ Public Class ByteBuffer : Inherits DataView
     ''' <param name="dst"></param>
     Public Sub [get](dst As Integer())
         For i As Integer = 0 To dst.Length - 1
-            dst(i) = getInt()
+            dst(i) = [int]()
         Next
     End Sub
 
@@ -235,7 +244,7 @@ Public Class ByteBuffer : Inherits DataView
     ''' <param name="dst"></param>
     Public Sub [get](dst As Short())
         For i As Integer = 0 To dst.Length - 1
-            dst(i) = getShort()
+            dst(i) = [short]()
         Next
     End Sub
 
@@ -281,7 +290,7 @@ Public Class ByteBuffer : Inherits DataView
     End Function
 
     'methods using the internal BinaryReader:
-    Public Function getChar() As Char
+    Public Function [char]() As Char
         Return reader.ReadChar()
     End Function
     Public Function getChar(index As Integer) As Char
@@ -291,7 +300,7 @@ Public Class ByteBuffer : Inherits DataView
         stream.Position = originalPosition
         Return value
     End Function
-    Public Function getDouble() As Double
+    Public Function [double]() As Double
         Return reader.ReadDouble()
     End Function
     Public Function getDouble(index As Integer) As Double
@@ -301,7 +310,7 @@ Public Class ByteBuffer : Inherits DataView
         stream.Position = originalPosition
         Return value
     End Function
-    Public Function getFloat() As Single
+    Public Function [float]() As Single
         Return reader.ReadSingle()
     End Function
     Public Function getFloat(index As Integer) As Single
@@ -311,7 +320,7 @@ Public Class ByteBuffer : Inherits DataView
         stream.Position = originalPosition
         Return value
     End Function
-    Public Function getInt() As Integer
+    Public Function [int]() As Integer
         Return reader.ReadInt32()
     End Function
     Public Function getInt(index As Integer) As Integer
@@ -321,7 +330,7 @@ Public Class ByteBuffer : Inherits DataView
         stream.Position = originalPosition
         Return value
     End Function
-    Public Function getLong() As Long
+    Public Function [long]() As Long
         Return reader.ReadInt64()
     End Function
     Public Function getLong(index As Integer) As Long
@@ -331,7 +340,7 @@ Public Class ByteBuffer : Inherits DataView
         stream.Position = originalPosition
         Return value
     End Function
-    Public Function getShort() As Short
+    Public Function [short]() As Short
         Return reader.ReadInt16()
     End Function
     Public Function getShort(index As Integer) As Short
@@ -415,6 +424,10 @@ Public Class ByteBuffer : Inherits DataView
     End Function
 
     Public Shared Function wrap(bytes As SByte()) As ByteBuffer
-        Return New ByteBuffer(New MemoryStream(CType(CObj(bytes), Byte())))
+        Return New ByteBuffer(New MemoryStream(unsignedBytes(bytes)))
+    End Function
+
+    Public Shared Function unsignedBytes(sbytes As SByte()) As Byte()
+        Return CType(CObj(sbytes), Byte())
     End Function
 End Class

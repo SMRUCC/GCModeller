@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43ed9200d171c2d04c2acb1f82851a99, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\BitmapBuffer.vb"
+﻿#Region "Microsoft.VisualBasic::418c67680aa43f24fb79efc5b1198d22, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\BitmapBuffer.vb"
 
     ' Author:
     ' 
@@ -34,25 +34,26 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 702
-    '    Code Lines: 414 (58.97%)
-    ' Comment Lines: 179 (25.50%)
-    '    - Xml Docs: 81.56%
+    '   Total Lines: 810
+    '    Code Lines: 475 (58.64%)
+    ' Comment Lines: 204 (25.19%)
+    '    - Xml Docs: 79.90%
     ' 
-    '   Blank Lines: 109 (15.53%)
-    '     File Size: 23.93 KB
+    '   Blank Lines: 131 (16.17%)
+    '     File Size: 27.44 KB
 
 
     '     Class BitmapBuffer
     ' 
     '         Properties: Height, Size, SortBins, Stride, Width
     ' 
-    '         Constructor: (+5 Overloads) Sub New
+    '         Constructor: (+6 Overloads) Sub New
     ' 
-    '         Function: (+2 Overloads) FromBitmap, FromImage, GetAlpha, GetARGB, GetARGBStream
-    '                   GetBlue, GetColor, GetEnumerator, GetGreen, GetImage
-    '                   (+2 Overloads) GetIndex, (+3 Overloads) GetPixel, GetPixelChannels, GetPixelsAll, GetRed
-    '                   OutOfRange, ToPixel2D, ToString, Unpack, White
+    '         Function: A, B, (+2 Overloads) FromBitmap, FromImage, G
+    '                   GetAlpha, GetARGB, GetARGBStream, GetBlue, GetColor
+    '                   GetEnumerator, GetGreen, GetHandleObject, GetImage, (+2 Overloads) GetIndex
+    '                   (+3 Overloads) GetPixel, GetPixelChannels, GetPixelsAll, GetRed, OutOfRange
+    '                   R, ToPixel2D, ToString, Unpack, White
     ' 
     '         Sub: Dispose, (+2 Overloads) Save, SetAlpha, SetBlue, SetGreen
     '              (+4 Overloads) SetPixel, SetRed, WriteARGBStream
@@ -88,9 +89,13 @@ Namespace Imaging.BitmapImage
         Implements Enumeration(Of Color)
 
 #If NET48 Then
-        ReadOnly raw As Bitmap
-        ReadOnly handle As BitmapData
+        Protected raw As Bitmap
 #End If
+
+        ''' <summary>
+        ''' BitmapData
+        ''' </summary>
+        Protected handle As Object
 
         ''' <summary>
         ''' current bitmap data is construct from a pixel data array, not read from memory via pointer.
@@ -115,11 +120,20 @@ Namespace Imaging.BitmapImage
         End Property
 
 #If NET48 Then
-        Protected Sub New(ptr As IntPtr,
-                          byts%,
-                          raw As Bitmap,
-                          handle As BitmapData,
-                          channel As Integer)
+
+        ''' <summary>
+        ''' constructor for gdi+ image data object
+        ''' </summary>
+        ''' <param name="ptr"></param>
+        ''' <param name="byts"></param>
+        ''' <param name="raw"></param>
+        ''' <param name="handle"></param>
+        ''' <param name="channel"></param>
+        Public Sub New(ptr As IntPtr,
+                       byts%,
+                       raw As Bitmap,
+                       handle As BitmapData,
+                       channel As Integer)
 
             Call MyBase.New(ptr, byts)
 
@@ -134,6 +148,18 @@ Namespace Imaging.BitmapImage
             Me.memoryBuffer = False
         End Sub
 #End If
+
+        Sub New(ptr As IntPtr, byts%, size As Size, stride As Integer, channel As Integer, Optional handle As Object = Nothing)
+            Call MyBase.New(ptr, byts)
+
+            Me.Stride = stride
+            Me.Width = size.Width
+            Me.Height = size.Height
+            Me.Size = size
+            Me.channels = channel
+            Me.memoryBuffer = False
+            Me.handle = handle
+        End Sub
 
         ''' <summary>
         ''' Make the memory data copy
@@ -162,14 +188,34 @@ Namespace Imaging.BitmapImage
             _Height = size.Height
         End Sub
 
-        Sub New(width As Integer, height As Integer, Optional channels As Integer = 4)
+        Sub New(width As Integer, height As Integer, Optional channels As Integer = TYPE_INT_ARGB)
             Call Me.New(New Byte(width * height * channels - 1) {}, New Size(width, height), channels)
+        End Sub
+
+        ''' <summary>
+        ''' make in-memory data copy
+        ''' </summary>
+        ''' <param name="source"></param>
+        Sub New(source As BitmapBuffer)
+            Call Me.New(source.buffer.ToArray, source.Size, source.channels)
         End Sub
 
         Sub New(pixels As Color(,), size As Size)
             Call MyBase.New(Unpack(pixels, size))
 
-            channels = 4 ' argb
+            channels = TYPE_INT_ARGB  ' argb
+            memoryBuffer = True
+
+            _Stride = size.Width * channels
+            _Size = size
+            _Width = size.Width
+            _Height = size.Height
+        End Sub
+
+        Sub New(pixels As Color(), size As Size)
+            Call MyBase.New(Unpack(pixels, size))
+
+            channels = TYPE_INT_ARGB  ' argb
             memoryBuffer = True
 
             _Stride = size.Width * channels
@@ -208,10 +254,21 @@ Namespace Imaging.BitmapImage
         ''' </returns>
         Public ReadOnly Property Stride As Integer
 
+        ''' <summary>
+        ''' Create a new blank bitmap data with all pixel fill with color white
+        ''' </summary>
+        ''' <param name="width"></param>
+        ''' <param name="height"></param>
+        ''' <returns></returns>
         Public Shared Function White(width As Integer, height As Integer) As BitmapBuffer
             Dim bytes As Byte() = New Byte(width * height * 4 - 1) {}
             Call bytes.fill(255)
             Return New BitmapBuffer(bytes, New Size(width, height), 4)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetHandleObject() As Object
+            Return handle
         End Function
 
         ''' <summary>
@@ -369,6 +426,87 @@ Namespace Imaging.BitmapImage
             End If
         End Function
 
+        Public Function A() As Byte()
+            Dim alpha As Byte() = New Byte(Width * Height - 1) {}
+
+            If channels = TYPE_INT_ARGB Then
+                Dim offset As Integer = 0
+
+                'ARGB
+                For i As Integer = 0 To buffer.Length - 1 Step 4
+                    alpha(offset) = buffer(i)
+                    offset += 1
+                Next
+            Else
+                ' RGB
+                For i As Integer = 0 To alpha.Length - 1
+                    alpha(i) = 255
+                Next
+            End If
+
+            Return alpha
+        End Function
+
+        Public Function R() As Byte()
+            Dim red As Byte() = New Byte(Width * Height - 1) {}
+            Dim pad As Integer = If(channels = TYPE_INT_ARGB, 1, 0)
+            Dim offset As Integer = 0
+
+            For i As Integer = 0 To buffer.Length - 1 Step channels
+                red(offset) = buffer(i + pad)
+                offset += 1
+            Next
+
+            Return red
+        End Function
+
+        Public Function G() As Byte()
+            Dim green As Byte() = New Byte(Width * Height - 1) {}
+            Dim pad As Integer = If(channels = TYPE_INT_ARGB, 2, 1)
+            Dim offset As Integer = 0
+
+            For i As Integer = 0 To buffer.Length - 1 Step channels
+                green(offset) = buffer(i + pad)
+                offset += 1
+            Next
+
+            Return green
+        End Function
+
+        Public Function B() As Byte()
+            Dim blue As Byte() = New Byte(Width * Height - 1) {}
+            Dim pad As Integer = If(channels = TYPE_INT_ARGB, 3, 2)
+            Dim offset As Integer = 0
+
+            For i As Integer = 0 To buffer.Length - 1 Step channels
+                blue(offset) = buffer(i + pad)
+                offset += 1
+            Next
+
+            Return blue
+        End Function
+
+        Public Shared ReadOnly Property UInt32White As UInteger = BitConverter.ToUInt32({
+            255, ' A
+            255, ' R
+            255, ' G
+            255  ' B
+        }, 0)
+
+        Public Shared ReadOnly Property UInt32Black1 As UInteger = BitConverter.ToUInt32({
+            0, ' A
+            0, ' R
+            0, ' G
+            0  ' B
+        }, 0)
+
+        Public Shared ReadOnly Property UInt32Black2 As UInteger = BitConverter.ToUInt32({
+            255, ' A
+            0, ' R
+            0, ' G
+            0  ' B
+        }, 0)
+
         ''' <summary>
         ''' get image data array in ARGB format
         ''' </summary>
@@ -427,19 +565,63 @@ Namespace Imaging.BitmapImage
             Return color
         End Function
 
+        ''' <summary>
+        ''' argb channels=4
+        ''' </summary>
+        ''' <param name="pixels"></param>
+        ''' <param name="size"></param>
+        ''' <returns></returns>
+        Public Shared Function Unpack(pixels As Color(), size As Size) As Byte()
+            Dim bytes As Byte() = New Byte(TYPE_INT_ARGB * size.Width * size.Height - 1) {}
+
+            ' If channels = TYPE_INT_ARGB Then
+            '    iA = buffer(i + 3)
+            ' End If
+
+            ' Dim iR As Byte = buffer(i + 2)
+            ' Dim iG As Byte = buffer(i + 1)
+            ' Dim iB As Byte = buffer(i + 0)
+
+            For i As Integer = 0 To pixels.Length - 1 Step TYPE_INT_ARGB
+                Dim pixel As Color = pixels(i)
+
+                bytes(i + 3) = pixel.A
+
+                bytes(i + 2) = pixel.R
+                bytes(i + 1) = pixel.G
+                bytes(i + 0) = pixel.B
+            Next
+
+            Return bytes
+        End Function
+
+        ''' <summary>
+        ''' argb channels=4
+        ''' </summary>
+        ''' <param name="pixels"></param>
+        ''' <param name="size"></param>
+        ''' <returns></returns>
         Public Shared Function Unpack(pixels As Color(,), size As Size) As Byte()
-            Dim channels As Integer = 4
-            Dim bytes As Byte() = New Byte(channels * pixels.Length - 1) {}
+            Dim bytes As Byte() = New Byte(TYPE_INT_ARGB * pixels.Length - 1) {}
+
+            ' If channels = TYPE_INT_ARGB Then
+            '    iA = buffer(i + 3)
+            ' End If
+
+            ' Dim iR As Byte = buffer(i + 2)
+            ' Dim iG As Byte = buffer(i + 1)
+            ' Dim iB As Byte = buffer(i + 0)
 
             For y As Integer = 0 To size.Height - 1
                 For x As Integer = 0 To size.Width - 1
                     Dim pixel As Color = pixels(y, x)
-                    Dim i As Integer = GetIndex(x, y, size.Width, channels)
+                    Dim i As Integer = GetIndex(x, y, size.Width, TYPE_INT_ARGB)
 
-                    bytes(i) = pixel.A
-                    bytes(i + 1) = pixel.R
-                    bytes(i + 2) = pixel.G
-                    bytes(i + 3) = pixel.B
+                    bytes(i + 3) = pixel.A
+
+                    bytes(i + 2) = pixel.R
+                    bytes(i + 1) = pixel.G
+                    bytes(i + 0) = pixel.B
                 Next
             Next
 
@@ -453,8 +635,8 @@ Namespace Imaging.BitmapImage
         Public Sub WriteARGBStream(ints As UInteger())
             Dim p As i32 = 0
 
-            If channels = 4 Then
-                For i As Integer = 0 To buffer.Length - 1 Step 4
+            If channels = TYPE_INT_ARGB Then
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_ARGB
                     Dim uint As Byte() = BitConverter.GetBytes(ints(++p))
 
                     buffer(i) = uint(0)  ' A
@@ -464,7 +646,7 @@ Namespace Imaging.BitmapImage
                 Next
             Else
                 ' channels = 3
-                For i As Integer = 0 To buffer.Length - 1 Step 3
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_RGB
                     Dim uint As Byte() = BitConverter.GetBytes(ints(++p))
 
                     buffer(i) = uint(1)  ' R
@@ -504,7 +686,7 @@ Namespace Imaging.BitmapImage
             Dim i As Integer = GetIndex(x, y)
 
             If channel = 3 Then
-                If channels = 4 Then
+                If channels = TYPE_INT_ARGB Then
                     Return buffer(i + 3)
                 Else
                     Return 255
@@ -683,7 +865,7 @@ Namespace Imaging.BitmapImage
 
             Return BitmapBuffer.FromBitmap(copy)
 #Else
-            Return FromBitmap(New Bitmap(res))
+            Return res.GetMemoryBitmap
 #End If
         End Function
 
@@ -745,7 +927,9 @@ Namespace Imaging.BitmapImage
                 Call Write()
             End If
 #If NET48 Then
-            Call raw.UnlockBits(handle)
+            If TypeOf handle Is BitmapData Then
+                Call raw.UnlockBits(DirectCast(handle, BitmapData))
+            End If
 #End If
         End Sub
 

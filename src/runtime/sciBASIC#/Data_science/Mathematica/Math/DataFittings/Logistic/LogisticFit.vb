@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d16d718703edc78a2cd0651f423fe6a1, Data_science\Mathematica\Math\DataFittings\Logistic\LogisticFit.vb"
+﻿#Region "Microsoft.VisualBasic::9af27ab260647b89731babeada3a2abb, Data_science\Mathematica\Math\DataFittings\Logistic\LogisticFit.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 43
-    '    Code Lines: 36 (83.72%)
+    '   Total Lines: 45
+    '    Code Lines: 37 (82.22%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 7 (16.28%)
-    '     File Size: 1.50 KB
+    '   Blank Lines: 8 (17.78%)
+    '     File Size: 1.66 KB
 
 
-    ' Class LogisticFit
+    '     Class LogisticFit
     ' 
-    '     Properties: ErrorTest, Polynomial, R2
+    '         Properties: ErrorTest, Polynomial, R2
     ' 
-    '     Function: CreateFit, GetY
+    '         Function: CreateFit, GetY
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -56,43 +57,45 @@
 Imports Microsoft.VisualBasic.Data.Bootstrapping.Multivariate
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
-Public Class LogisticFit : Implements IFitted
+Namespace Logistic
 
-    Public ReadOnly Property R2 As Double Implements IFitted.R2
-        Get
-            Return 1
-        End Get
-    End Property
+    Public Class LogisticFit : Implements IFitted
 
-    Public Property Polynomial As Formula Implements IFitted.Polynomial
-    Public Property ErrorTest As IFitError() Implements IFitted.ErrorTest
+        Public ReadOnly Property R2 As Double Implements IFitted.R2
+            Get
+                Return 1
+            End Get
+        End Property
 
-    Public Function GetY(ParamArray x() As Double) As Double Implements IFitted.GetY
-        Dim logit As Double = Polynomial _
-            .Factors _
-            .Select(Function(wi, i) wi * x(i)) _
-            .Sum
-        Dim log As Double = Logistic.sigmoid(logit)
+        Public Property Polynomial As Formula Implements IFitted.Polynomial
+        Public Property ErrorTest As IFitError() Implements IFitted.ErrorTest
 
-        Return log
-    End Function
+        Public Function GetY(ParamArray x() As Double) As Double Implements IFitted.GetY
+            Dim logit As Double = Polynomial.Factors _
+                .Select(Function(wi, i) wi * x(i)) _
+                .Sum
+            Dim log As Double = Logistic.sigmoid(logit)
 
-    Friend Shared Function CreateFit(log As Logistic, matrix As Instance()) As LogisticFit
-        Dim weights As New Polynomial With {.Factors = log.theta.ToArray}
-        Dim test As IFitError() = matrix _
-            .Select(Function(i)
-                        Return New [Error] With {
-                            .X = i.x.AsVector,
-                            .Y = i.label,
-                            .Yfit = log.predict(i.x)
-                        }
-                    End Function) _
-            .Select(Function(pi) DirectCast(pi, IFitError)) _
-            .ToArray
+            Return log
+        End Function
 
-        Return New LogisticFit With {
-            .ErrorTest = test,
-            .Polynomial = weights
-        }
-    End Function
-End Class
+        Friend Shared Function CreateFit(log As Logistic, matrix As Instance()) As LogisticFit
+            Dim weights As New Polynomial With {.Factors = log.theta.ToArray}
+            Dim test As IFitError() = matrix _
+                .Select(Function(i)
+                            Return New [Error] With {
+                                .X = i.x.AsVector,
+                                .Y = i.label,
+                                .Yfit = log.predict(i.x)
+                            }
+                        End Function) _
+                .Select(Function(pi) DirectCast(pi, IFitError)) _
+                .ToArray
+
+            Return New LogisticFit With {
+                .ErrorTest = test,
+                .Polynomial = weights
+            }
+        End Function
+    End Class
+End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::291d91f8cd28a1872a42a1b6ae687f21, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\UnaryNot.vb"
+﻿#Region "Microsoft.VisualBasic::d0afc2060d4b729cf7f859067397e357, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\UnaryNot.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 12
-    '    Code Lines: 9 (75.00%)
+    '   Total Lines: 16
+    '    Code Lines: 12 (75.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 3 (25.00%)
-    '     File Size: 363 B
+    '   Blank Lines: 4 (25.00%)
+    '     File Size: 514 B
 
 
     '     Class UnaryNot
     ' 
     '         Properties: value
     ' 
-    '         Function: Evaluate
+    '         Function: Evaluate, GetVariableSymbols
     ' 
     ' 
     ' /********************************************************************************/
@@ -63,6 +63,10 @@ Namespace Scripting.MathExpression.Impl
         Public Overrides Function Evaluate(env As ExpressionEngine) As Double
             Dim val As Double = value.Evaluate(env)
             Return If(val = 0.0, 1, 0)
+        End Function
+
+        Public Overrides Function GetVariableSymbols() As IEnumerable(Of String)
+            Return value.GetVariableSymbols
         End Function
     End Class
 End Namespace

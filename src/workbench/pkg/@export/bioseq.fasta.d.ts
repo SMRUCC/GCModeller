@@ -72,6 +72,10 @@ declare namespace bioseq.fasta {
       function titles(fa: any, env?: object): string;
    }
    /**
+     * @param env default value Is ``null``.
+   */
+   function make_clusterTree(fingerprints: any, env?: object): object;
+   /**
     * evaluate the molecule mass of the given sequence
     * 
     * 
@@ -103,12 +107,20 @@ declare namespace bioseq.fasta {
         * @param read load a set of fasta sequence data in lazy mode? default is yes.
         * 
         * + default value Is ``true``.
+        * @param line_break 
+        * + default value Is ``-1``.
+        * @param delimiter 
+        * + default value Is ``'|'``.
         * @param env -
         * 
         * + default value Is ``null``.
         * @return a lazy collection of the fasta sequence data
       */
-      function fasta(file: string, read?: boolean, env?: object): object|object;
+      function fasta(file: string, read?: boolean, line_break?: object, delimiter?: string, env?: object): object|object;
+      /**
+        * @param env default value Is ``null``.
+      */
+      function fingerprint_writer(file: any, env?: object): object;
    }
    module parse {
       /**
@@ -130,6 +142,10 @@ declare namespace bioseq.fasta {
         * @return A collection of the fasta sequence object
       */
       function fasta(file: string, lazyStream?: boolean): object;
+      /**
+        * @param env default value Is ``null``.
+      */
+      function fingerprint_bson(file: any, env?: object): object;
       /**
        * Read a single fasta sequence file
        * 
@@ -213,4 +229,9 @@ declare namespace bioseq.fasta {
       */
       function fasta(seq: any, file: any, lineBreak?: object, delimiter?: string, filter_empty?: boolean, encoding?: object, env?: object): boolean;
    }
+   /**
+     * @param debug default value Is ``-1``.
+     * @param env default value Is ``null``.
+   */
+   function write_fingerprint(file: object, seqs: any, debug?: object, env?: object): object;
 }

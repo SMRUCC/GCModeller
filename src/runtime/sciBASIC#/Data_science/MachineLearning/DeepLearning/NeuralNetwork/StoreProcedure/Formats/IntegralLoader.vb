@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c079b3ff789758c7faa3dab764fcb99, Data_science\MachineLearning\DeepLearning\NeuralNetwork\StoreProcedure\Formats\IntegralLoader.vb"
+﻿#Region "Microsoft.VisualBasic::73771de2b6a3018123a0f6553da29762, Data_science\MachineLearning\DeepLearning\NeuralNetwork\StoreProcedure\Formats\IntegralLoader.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 72.73%
     ' 
     '   Blank Lines: 25 (13.97%)
-    '     File Size: 7.81 KB
+    '     File Size: 7.76 KB
 
 
     '     Module IntegralLoader
@@ -115,7 +115,7 @@ Namespace NeuralNetwork.StoreProcedure
         Private Function createNeuronBuckets(model As StoreProcedure.NeuralNetwork, activations As LayerActives, mute As Boolean) As neuronLoader
             Dim neuronDataTable = model.neurons.ToDictionary(Function(n) n.id)
 
-            Call "Start to create neuron nodes...".__DEBUG_ECHO(mute:=mute)
+            Call "Start to create neuron nodes...".debug(mute:=mute)
 
             Dim inputLayer As Dictionary(Of String, Neuron) = model.inputlayer _
                 .createNeurons(Nothing, neuronDataTable) _
@@ -144,7 +144,7 @@ Namespace NeuralNetwork.StoreProcedure
                 .outputLayer = outputLayer', .neuronBucket = neurons
             }
 
-            Call "Job done!".__INFO_ECHO(silent:=mute)
+            Call "Job done!".info(mute)
 
             Return loader
         End Function
@@ -190,7 +190,7 @@ Namespace NeuralNetwork.StoreProcedure
                 })
             Dim neurons As neuronLoader = model.createNeuronBuckets(activations, mute)
 
-            Call "Create neuron synapse links in parallel...".__DEBUG_ECHO(mute:=mute)
+            Call "Create neuron synapse links in parallel...".debug(mute:=mute)
 
             ' The size of edge links between the neuron nodes in ANN network is huge
             ' parallel can make this process fast
@@ -202,7 +202,7 @@ Namespace NeuralNetwork.StoreProcedure
                 .Select(Function(edge) edge.addLink(neurons)) _
                 .ToArray
 
-            Call "Job done!".__INFO_ECHO(silent:=mute)
+            Call "Job done!".info(mute)
 
             Return New Network(activations) With {
                 .LearnRate = model.learnRate,

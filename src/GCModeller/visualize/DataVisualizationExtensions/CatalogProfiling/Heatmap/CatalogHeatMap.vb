@@ -104,8 +104,8 @@ Namespace CatalogProfiling
     ''' </summary>
     Public Class CatalogHeatMap : Inherits MultipleCatalogHeatmap
 
-        Public Sub New(profile As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), mapLevels As Integer, theme As Theme)
-            Call MyBase.New(profile, mapLevels, "black", theme)
+        Public Sub New(profile As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))), mapLevels As Integer, unenriched$, rankorder As Boolean, theme As Theme)
+            Call MyBase.New(profile, mapLevels, unenriched, rankorder, theme)
         End Sub
 
         ''' <summary>

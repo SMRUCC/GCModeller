@@ -33,13 +33,18 @@
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 export class Definition {
    ADP: string;
+   # amino acid metabolite id mapping for construct of the polypeptide in translation process
    AminoAcid: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/AminoAcid.html">AminoAcid</a>;
+   Ammonia: string;
    ATP: string;
+   # the compartment id of the Culture medium
+   CultureMedium: string;
+   # define the id mapping to some general compounds
    GenericCompounds: list;
+   # nucleotide metabolite id mapping for construct of the RNA molecule in the transcription process.
    NucleicAcid: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/BootstrapLoader/Definitions/NucleicAcid.html">NucleicAcid</a>;
    Oxygen: string;
-   # 对细胞的初始状态的定义
-   #  初始物质浓度
+   # define of the cell initial status.
    status: list;
    Water: string;
 }
@@ -67,4 +72,4 @@ export class Definition {
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
-</html>
+</html>

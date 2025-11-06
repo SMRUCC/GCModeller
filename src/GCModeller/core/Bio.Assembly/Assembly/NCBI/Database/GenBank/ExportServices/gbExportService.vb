@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::886abf30b7394af0310710b85e6508ac, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 680
-    '    Code Lines: 499 (73.38%)
-    ' Comment Lines: 99 (14.56%)
-    '    - Xml Docs: 85.86%
-    ' 
-    '   Blank Lines: 82 (12.06%)
-    '     File Size: 33.32 KB
+' Summaries:
 
 
-    '     Module gbExportService
-    ' 
-    '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, BatchExport, BatchExportPlasmid
-    '                   CopyGenomeSequence, (+2 Overloads) Distinct, DnaSequenceExports, DumpEXPORT, DumpExportFeature
-    '                   EnsureNonEmptyLocusId, EnumerateGeneFeatures, ExportGeneFeatures, ExportGeneNtFasta, ExportPTTAsDump
-    '                   FeatureGenes, GbffToPTT, InvokeExport, LoadGbkSource, TryParseGBKID
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 680
+'    Code Lines: 499 (73.38%)
+' Comment Lines: 99 (14.56%)
+'    - Xml Docs: 85.86%
+' 
+'   Blank Lines: 82 (12.06%)
+'     File Size: 33.32 KB
+
+
+'     Module gbExportService
+' 
+'         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, BatchExport, BatchExportPlasmid
+'                   CopyGenomeSequence, (+2 Overloads) Distinct, DnaSequenceExports, DumpEXPORT, DumpExportFeature
+'                   EnsureNonEmptyLocusId, EnumerateGeneFeatures, ExportGeneFeatures, ExportGeneNtFasta, ExportPTTAsDump
+'                   FeatureGenes, GbffToPTT, InvokeExport, LoadGbkSource, TryParseGBKID
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -127,7 +127,7 @@ Namespace Assembly.NCBI.GenBank
             Catch ex As Exception
                 Dim msg As String = $"{gene.locus_id}@{obj.gb.Accession.AccessionId} nucleotide location data is null!"
                 ex = New Exception(msg)
-                Call VBDebugger.Warning(msg)
+                Call VBDebugger.warning(msg)
                 Call App.LogException(ex)
             End Try
 
@@ -325,6 +325,17 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         <Extension>
+        Public Iterator Function ExportTable(features As IEnumerable(Of Feature)) As IEnumerable(Of GeneTable)
+            For Each gene As Feature In features
+                If gene.KeyName = "CDS" Then
+                    Yield New CDS(gene).DumpEXPORT
+                Else
+                    Yield gene.DumpExportFeature
+                End If
+            Next
+        End Function
+
+        <Extension>
         Public Function FeatureGenes(genes As IEnumerable(Of Feature)) As IEnumerable(Of GeneBrief)
             Dim PTT_genes = From g As Feature
                             In genes
@@ -338,7 +349,7 @@ Namespace Assembly.NCBI.GenBank
                                    In array
                                    Where ggene.ggenes.Length > 1
                                    Select ggene
-                Call VBDebugger.Warning($"""{duplicated.Synonym}"" data was duplicated!")
+                Call VBDebugger.warning($"""{duplicated.Synonym}"" data was duplicated!")
             Next
 
             Return From gene In array Select gene.ggenes.First
@@ -418,9 +429,9 @@ Namespace Assembly.NCBI.GenBank
             Dim PlasmidList As New FASTA.FastaFile
             Dim GeneSequenceList As New FASTA.FastaFile
 
-            Call "Flushed memory....".__DEBUG_ECHO
+            Call "Flushed memory....".debug
             Call FlushMemory()
-            Call $"There is ""{list.Count}"" genome source will be export...".__DEBUG_ECHO
+            Call $"There is ""{list.Count}"" genome source will be export...".debug
 
             Dim ExportLQuery = (From GBKFF As GBFF.File
                                 In list.AsParallel
@@ -502,7 +513,7 @@ Namespace Assembly.NCBI.GenBank
 
         <Extension> Public Function ExportPTTAsDump(PTT As NCBI.GenBank.TabularFormat.PTT) As GeneTable()
             Dim LQuery As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
- _
+                                                                     _
                 From gene As GeneBrief
                 In PTT.GeneObjects.AsParallel
                 Select New GeneTable With {
@@ -559,10 +570,10 @@ Namespace Assembly.NCBI.GenBank
                                          Where gb.isPlasmid
                                          Select gb).ToArray
 
-            Call "Flushed memory....".__DEBUG_ECHO
+            Call "Flushed memory....".debug
             list = Nothing
             Call FlushMemory()
-            Call $"There is ""{Source.Length}"" plasmid source will be export...".__DEBUG_ECHO
+            Call $"There is ""{Source.Length}"" plasmid source will be export...".debug
 
             For Each gb As GBFF.File In Source
                 Dim cds As GeneTable() = gb.ExportGeneFeatures

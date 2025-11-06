@@ -122,7 +122,7 @@ Public Class IdentityResult : Implements INamedValue
                 .Value = 0R
             }
 
-            Call nt.UserTag.__DEBUG_ECHO
+            Call nt.UserTag.debug
 
             Yield New IdentityResult With {
                 .Identities = result.ToDictionary(Function(x) x.Name, Function(x) x.Value),
@@ -169,7 +169,7 @@ Public Class IdentityResult : Implements INamedValue
                   .Value = getValue(sigma * 1000)
               }
 
-            Call rule.UserTag.__DEBUG_ECHO
+            Call rule.UserTag.debug
 
             Yield New IdentityResult With {
                 .Identities = result _

@@ -197,11 +197,7 @@ Public Module Extensions
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function SampleGroupInfo(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of String, String)
-        Return sampleInfo.ToDictionary(
-            Function(sample) sample.ID,
-            Function(sample)
-                Return sample.sample_info
-            End Function)
+        Return sampleInfo.ToDictionary(Function(sample) sample.ID, Function(sample) sample.sample_info)
     End Function
 
     ''' <summary>

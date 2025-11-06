@@ -56,6 +56,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Emit.Marshal
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports std = System.Math
@@ -283,6 +284,17 @@ Namespace Math.Correlations
         ''' <summary>
         ''' SUM((a - v) ^ 2)
         ''' </summary>
+        ''' <param name="v"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function SquareDistance(x As Double(), v As Double()) As Double
+            Return SIMD.Exponent.f64_op_exponent_f64_scalar(SIMD.Subtract.f64_op_subtract_f64(x, v), 2).Sum
+        End Function
+
+        ''' <summary>
+        ''' SUM((a - v) ^ 2)
+        ''' </summary>
         ''' <param name="a"></param>
         ''' <param name="v"></param>
         ''' <returns></returns>
@@ -309,6 +321,22 @@ Namespace Math.Correlations
             Next
 
             Return SIMD.Exponent.f64_op_exponent_f64_scalar(v, 2).Sum
+        End Function
+
+        ''' <summary>
+        ''' Reduced Euclidean distance
+        ''' </summary>
+        ''' <remarks>
+        ''' SUM((x - y) ^ 2)
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function SquareDistance(a As Layout2D, b As Layout2D) As Double
+            ' 计算欧几里得距离的平方（避免开方运算提高性能）
+            Dim dx As Double = a.X - b.X
+            Dim dy As Double = a.Y - b.Y
+
+            Return dx * dx + dy * dy
         End Function
 
         ''' <summary>

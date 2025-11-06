@@ -149,7 +149,7 @@ Here, we report on the progress of the curation effort and associated improvemen
                 If Not value.IsNullOrEmpty Then
                     _innerDict = value.ToDictionary(Function(o As CDD.SmpFile) o.Name)
                 Else
-                    Call $"Null database entries!".__DEBUG_ECHO
+                    Call $"Null database entries!".debug
                     _innerDict = New Dictionary(Of DIR, SmpFile)
                 End If
             End Set
@@ -228,7 +228,7 @@ Here, we report on the progress of the curation effort and associated improvemen
 
         Private Shared Sub __buildDb(DIR As String, EXPORT As String)
             For Each Pn As Pn In PreLoad(DIR)
-                Call $"> Build {Pn.FilePath.ToFileURL}".__DEBUG_ECHO
+                Call $"> Build {Pn.FilePath.ToFileURL}".debug
                 Call __buildDb(Pn, EXPORT)
             Next
         End Sub
@@ -249,7 +249,7 @@ Here, we report on the progress of the curation effort and associated improvemen
                 .BuildTime = Now.ToString
             }
 
-            Call $" EXPORT fasta sequence data {FASTA}".__DEBUG_ECHO
+            Call $" EXPORT fasta sequence data {FASTA}".debug
             Call CType((From Smp As SmpFile
                         In DbFile.SmpData.AsParallel
                         Let Fsa As FASTA.FastaSeq = Smp.EXPORT

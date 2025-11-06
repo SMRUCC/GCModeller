@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac98d82a1ababb387feb45e34a9ee396, Data\DataFrame\StorageProvider\ComponntModels\RowBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::5ada8ef7b5125e40f4b4099708517167, Data\DataFrame\StorageProvider\ComponntModels\RowBuilder.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 92.16%
     ' 
     '   Blank Lines: 46 (17.42%)
-    '     File Size: 10.61 KB
+    '     File Size: 10.59 KB
 
 
     '     Interface ISchema
@@ -204,14 +204,14 @@ Namespace StorageProvider.ComponentModels
                 ' why two reference that have the effects????
                 Dim schema As SchemaProvider = SchemaProvider.Raw.Raw
 
-                Call "Schema has meta dictionary property...".__DEBUG_ECHO(mute:=silent)
+                Call "Schema has meta dictionary property...".debug(mute:=silent)
 
                 For Each name In NonIndexed.Keys.ToArray
                     ' 在原始的数据之中可以找得到这个域，则说明是只读属性，移除他
                     If Not schema.GetField(name) Is Nothing Then
                         Call NonIndexed.Remove(name)
 #If DEBUG Then
-                        Call $"{name} was removed!".__DEBUG_ECHO
+                        Call $"{name} was removed!".debug
 #End If
                     End If
                 Next

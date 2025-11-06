@@ -111,7 +111,7 @@ Public Module RunModel
         End If
 
         If args("/ODEs") Then
-            Call "PLAS using ODEs solver....".__DEBUG_ECHO
+            Call "PLAS using ODEs solver....".debug
 
             Dim p As Double = args.GetValue("/precise", 10000)
             Dim output As ODEsOut = Kernel.ODEs.RunSystem(model, Nothing)

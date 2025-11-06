@@ -58,6 +58,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Tasks.Models
 
@@ -67,7 +68,7 @@ Namespace Tasks.Models
     ''' <remarks>
     ''' 其实这个就是相当于一个KEGG里面的SSDB BBH结果文件
     ''' </remarks>
-    Public Class HitCollection : Implements INamedValue
+    Public Class HitCollection : Implements INamedValue, Enumeration(Of Hit)
 
         ''' <summary>
         ''' The locus tag of the query protein.(主键蛋白质名称)
@@ -172,6 +173,16 @@ Namespace Tasks.Models
                 .description = description,
                 .QueryName = QueryName
             }
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of Hit) Implements Enumeration(Of Hit).GenericEnumerator
+            If hitTable Is Nothing Then
+                Return
+            End If
+
+            For Each item As Hit In hitTable.Values
+                Yield item
+            Next
         End Function
     End Class
 End Namespace

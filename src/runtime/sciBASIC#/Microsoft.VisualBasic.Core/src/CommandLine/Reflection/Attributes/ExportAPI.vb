@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd30cfe09e28baa6bc1a76150bae8a36, Microsoft.VisualBasic.Core\src\CommandLine\Reflection\Attributes\ExportAPI.vb"
+﻿#Region "Microsoft.VisualBasic::1f254ab55e59d9a14fa0d33a4589045f, Microsoft.VisualBasic.Core\src\CommandLine\Reflection\Attributes\ExportAPI.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 68
-    '    Code Lines: 20 (29.41%)
-    ' Comment Lines: 42 (61.76%)
-    '    - Xml Docs: 97.62%
+    '   Total Lines: 65
+    '    Code Lines: 19 (29.23%)
+    ' Comment Lines: 41 (63.08%)
+    '    - Xml Docs: 95.12%
     ' 
-    '   Blank Lines: 6 (8.82%)
-    '     File Size: 2.75 KB
+    '   Blank Lines: 5 (7.69%)
+    '     File Size: 2.67 KB
 
 
     '     Class ExportAPIAttribute
@@ -55,60 +55,57 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Scripting.MetaData
-
 Namespace CommandLine.Reflection
 
     ''' <summary>
-    ''' A command object that with a specific name.(一个具有特定名称命令执行对象)
+    ''' A command object that with a specific name.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(一个具有特定名称命令执行对象)</remarks>
     <AttributeUsage(AttributeTargets.Method, AllowMultiple:=False, Inherited:=True)>
     Public Class ExportAPIAttribute : Inherits Attribute
         Implements IExportAPI
 
         ''' <summary>
-        ''' The name of the commandline object.(这个命令的名称)
+        ''' The name of the commandline object.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(这个命令的名称)</remarks>
         Public ReadOnly Property Name As String Implements IExportAPI.Name
         ''' <summary>
-        ''' Something detail of help information.(详细的帮助信息)
+        ''' Something detail of help information.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(详细的帮助信息)</remarks>
         <Obsolete> Public Property Info As String Implements IExportAPI.Info
         ''' <summary>
-        ''' The usage of this command.(这个命令的用法，本属性仅仅是一个助记符，当用户没有编写任何的使用方法信息的时候才会使用本属性的值)
+        ''' The usage of this command.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(这个命令的用法，本属性仅仅是一个助记符，当用户没有编写任何的使用方法信息的时候才会使用本属性的值)</remarks>
         <Obsolete> Public Property Usage As String Implements IExportAPI.Usage
         ''' <summary>
         ''' A example that to useing this command.
-        ''' (对这个命令的使用示例，本属性仅仅是一个助记符，当用户没有编写任何示例信息的时候才会使用本属性的值，
-        ''' 在编写帮助示例的时候，需要编写出包括命令开关名称的完整的例子)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(对这个命令的使用示例，本属性仅仅是一个助记符，当用户没有编写任何示例信息的时候才会使用本属性的值，
+        ''' 在编写帮助示例的时候，需要编写出包括命令开关名称的完整的例子)</remarks>
         <Obsolete> Public Property Example As String Implements IExportAPI.Example
 
         ''' <summary>
         ''' You are going to define a available export api 
         ''' for you application to another language or 
         ''' scripting program environment.
-        ''' (定义一个命令行程序之中可以使用的命令)
+        ''' 
         ''' </summary>
         ''' <param name="Name">
         ''' The name of the commandline object or you define 
-        ''' the exported API name here.(这个命令的名称)
+        ''' the exported API name here.
         ''' </param>
-        ''' <remarks></remarks>
+        ''' <remarks>(定义一个命令行程序之中可以使用的命令)</remarks>
         ''' 
         <DebuggerStepThrough>
         Sub New(Name As String)

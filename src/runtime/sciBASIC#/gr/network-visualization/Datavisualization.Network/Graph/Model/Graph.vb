@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51efd27aa4b0031e9341b733dbc1b896, gr\network-visualization\Datavisualization.Network\Graph\Model\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::26efda190cb9badbe6595788501c4bba, gr\network-visualization\Datavisualization.Network\Graph\Model\Graph.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 666
-    '    Code Lines: 377 (56.61%)
-    ' Comment Lines: 205 (30.78%)
+    '   Total Lines: 667
+    '    Code Lines: 378 (56.67%)
+    ' Comment Lines: 205 (30.73%)
     '    - Xml Docs: 71.71%
     ' 
-    '   Blank Lines: 84 (12.61%)
-    '     File Size: 25.72 KB
+    '   Blank Lines: 84 (12.59%)
+    '     File Size: 25.76 KB
 
 
     '     Class NetworkGraph
@@ -101,6 +101,7 @@
 '
 
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.InteropServices
 Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
@@ -293,7 +294,7 @@ Namespace Graph
             Return AddEdge(u, v, weight, Nothing)
         End Function
 
-        Public Overloads Function AddEdge(u As String, v As String, weight As Double, ByRef getNewEdge As Edge) As NetworkGraph(Of Node, Edge)
+        Public Overloads Function AddEdge(u As String, v As String, weight As Double, <Out> ByRef getNewEdge As Edge) As NetworkGraph(Of Node, Edge)
             getNewEdge = New EdgeData With {
                 .bends = {},
                 .label = $"{u}->{v}"

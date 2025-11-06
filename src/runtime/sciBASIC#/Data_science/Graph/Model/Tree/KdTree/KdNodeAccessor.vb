@@ -54,6 +54,10 @@
 
 Namespace KdTree
 
+    ''' <summary>
+    ''' Helper class for access the node data by different dimensions
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public MustInherit Class KdNodeAccessor(Of T)
 
         Default Public Property DimensionAccess(x As T, dimName As String) As Double
@@ -61,7 +65,7 @@ Namespace KdTree
                 Return getByDimension(x, dimName)
             End Get
             Set(value As Double)
-                Call setByDimensin(x, dimName, value)
+                Call setByDimension(x, dimName, value)
             End Set
         End Property
 
@@ -74,7 +78,7 @@ Namespace KdTree
         ''' <returns></returns>
         Public MustOverride Function metric(a As T, b As T) As Double
         Public MustOverride Function getByDimension(x As T, dimName As String) As Double
-        Public MustOverride Sub setByDimensin(x As T, dimName As String, value As Double)
+        Public MustOverride Sub setByDimension(x As T, dimName As String, value As Double)
 
         ''' <summary>
         ''' test node equals?

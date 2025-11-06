@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aae66f861993435c8cb74793c7682fc8, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\SubspaceMin.vb"
+﻿#Region "Microsoft.VisualBasic::ccbc77441aca93faccd615b57fd84a87, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\SubspaceMin.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 48 (17.58%)
-    '     File Size: 10.01 KB
+    '     File Size: 10.05 KB
 
 
     '     Class SubspaceMin
@@ -122,8 +122,8 @@ Namespace Framework.Optimization.LBFGSB
         End Function
 
         Public Shared Sub subspace_minimize(bfgs As BFGSMat, x0 As Double(), g As Double(), lb As Double(), ub As Double(), cauchy As Cauchy, maxit As Integer, drt As Double())
-            If Debug.flag Then
-                Debug.debug("-"c, "subspace minimize")
+            If Debugger.flag Then
+                Debugger.debug("-"c, "subspace minimize")
             End If
 
             Dim Wd = cauchy.vecc
@@ -133,8 +133,8 @@ Namespace Framework.Optimization.LBFGSB
             Dim nfree = cauchy.fv_set.Count
 
             If nfree < 1 Then
-                If Debug.flag Then
-                    Debug.debug("-"c, "leaving subspace_minimize, nfree<1")
+                If Debugger.flag Then
+                    Debugger.debug("-"c, "leaving subspace_minimize, nfree<1")
                 End If
                 Return
             End If
@@ -163,8 +163,8 @@ Namespace Framework.Optimization.LBFGSB
 
             If in_bounds(vecy, vecl, vecu) Then
                 subvec_assign(drt, cauchy.fv_set, vecy)
-                If Debug.flag Then
-                    Debug.debug("-"c, "leaving subspace_minimize, solution has been found")
+                If Debugger.flag Then
+                    Debugger.debug("-"c, "leaving subspace_minimize, solution has been found")
                 End If
                 Return
             End If
@@ -286,8 +286,8 @@ Namespace Framework.Optimization.LBFGSB
                 Dim dg = Vector.dot(drt, g)
 
                 If dg <= meps Then
-                    If Debug.flag Then
-                        Debug.debug("-"c, "leaving subspace_minimize, projected")
+                    If Debugger.flag Then
+                        Debugger.debug("-"c, "leaving subspace_minimize, projected")
                     End If
                     Return
                 End If
@@ -300,8 +300,8 @@ Namespace Framework.Optimization.LBFGSB
                 dg = Vector.dot(drt, g)
 
                 If dg <= meps Then
-                    If Debug.flag Then
-                        Debug.debug("-"c, "leaving subspace_minimize, projected unconstrained")
+                    If Debugger.flag Then
+                        Debugger.debug("-"c, "leaving subspace_minimize, projected unconstrained")
                     End If
                     Return
                 End If
@@ -310,8 +310,8 @@ Namespace Framework.Optimization.LBFGSB
 
                 subvec_assign(drt, cauchy.fv_set, yfallback)
 
-                If Debug.flag Then
-                    Debug.debug("-"c, "leaving subspace_minimize, projected unconstrained")
+                If Debugger.flag Then
+                    Debugger.debug("-"c, "leaving subspace_minimize, projected unconstrained")
                 End If
 
                 Return
@@ -319,8 +319,8 @@ Namespace Framework.Optimization.LBFGSB
 
             subvec_assign(drt, cauchy.fv_set, vecy)
 
-            If Debug.flag Then
-                Debug.debug("-"c, "leaving subspace_minimize, converged")
+            If Debugger.flag Then
+                Debugger.debug("-"c, "leaving subspace_minimize, converged")
             End If
 
         End Sub

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b5fd79c839d14c50504d7e923b59bebb, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::081992eabd48dc9482b35aae99a707e2, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Reflection.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 83.44%
     ' 
     '   Blank Lines: 70 (12.24%)
-    '     File Size: 21.97 KB
+    '     File Size: 21.96 KB
 
 
     ' Module EmitReflection
@@ -465,7 +465,7 @@ Public Module EmitReflection
     <Extension>
     Public Function Collection2GenericIEnumerable(type As Type, Optional showDebugMsg As Boolean = True) As Type
         If Array.IndexOf(type.GetInterfaces, GetType(IEnumerable)) = -1 Then
-EXIT_:      If showDebugMsg Then Call $"[WARN] Target type ""{type.FullName}"" is not a collection type!".__DEBUG_ECHO
+EXIT_:      If showDebugMsg Then Call $"[WARN] Target type ""{type.FullName}"" is not a collection type!".debug
             Return type
         End If
 

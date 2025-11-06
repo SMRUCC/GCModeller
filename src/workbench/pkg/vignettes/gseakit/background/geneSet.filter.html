@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>make filter of the background model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>geneSet.filter {background}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>make filter of the background model</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>geneSet.filter</strong>(<i>background</i>, <i>geneSet</i>,
+    <i>min.size</i> = <span style='color: green;'>3</span>,
+    <i>max.intersects</i> = <span style='color: green;'>500</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>background</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a>]</p></dd>
+
+
+<dt>geneSet</dt>
+<dd><p>usually be a character of the gene id set.</p></dd>
+
+
+<dt>min.size</dt>
+<dd><p>the min feature size is required for each cluster. 
+ all of the cluster that have the feature number less than this cutoff 
+ will be removed from the background. [as integer]</p></dd>
+
+
+<dt>max.intersects</dt>
+<dd><p>the max intersect number that each cluster 
+ intersect with the input geneSet. all of the clusters that greater than 
+ this value will be removed from the background. [as integer]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        gseakit
+
+        <h3>Value</h3>
+
+        <p>a new background model that has cluster filtered by the given rule.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a></li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> let kb = read.background("hsa.xml");
+ let idset = c("id1","id2","id3");
+ let filter_kb = kb |> geneSet.filter(idset, min.size=5, max.intersects=500);
+ 
+ print(background_summary(filter_kb));</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>background</em> version 1.0.0.0 <a
+                href="../background.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

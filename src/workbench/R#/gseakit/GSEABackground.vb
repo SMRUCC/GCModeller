@@ -132,7 +132,13 @@ Public Module GSEABackground
     ''' get all of the cluster id set from the given background model object 
     ''' </summary>
     ''' <param name="background"></param>
-    ''' <returns></returns>
+    ''' <returns>A character vector of the cluster id(or pathway id) that defined inside the given background model</returns>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' let ids = clusterIDs(kb);
+    ''' 
+    ''' print(ids);
+    ''' </example>
     <ExportAPI("clusterIDs")>
     Public Function clusterIDs(background As Background) As String()
         Return background.clusters.Select(Function(a) a.ID).ToArray
@@ -142,7 +148,13 @@ Public Module GSEABackground
     ''' get all of the molecule id set from the given background model object
     ''' </summary>
     ''' <param name="background"></param>
-    ''' <returns></returns>
+    ''' <returns>A character vector of the gene id that defined inside the given background model</returns>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' let ids = moleculeIDs(kb);
+    ''' 
+    ''' print(ids);
+    ''' </example>
     <ExportAPI("moleculeIDs")>
     Public Function moleculeIDs(background As Background) As String()
         Return background.clusters _
@@ -155,6 +167,7 @@ Public Module GSEABackground
     End Function
 
     <ExportAPI("meta_background")>
+    <RApiReturn(GetType(Background))>
     Public Function MetaEnrichBackground(enrich As EnrichmentResult(), graphQuery As GraphQuery) As Object
         Return enrich.CastBackground(graphQuery)
     End Function
@@ -285,6 +298,7 @@ Public Module GSEABackground
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("background.id_mapping")>
+    <RApiReturn(GetType(Background))>
     Public Function BackgroundIDmapping(background As Background, mapping As list,
                                         Optional subset As String() = Nothing,
                                         Optional env As Environment = Nothing) As Object
@@ -382,6 +396,9 @@ Public Module GSEABackground
     ''' </summary>
     ''' <param name="file"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' </example>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("read.background")>
     Public Function ReadBackground(file As String) As Background
@@ -392,13 +409,22 @@ Public Module GSEABackground
     ''' Save GSEA background model as xml file
     ''' </summary>
     ''' <param name="background"></param>
-    ''' <param name="file$"></param>
+    ''' <param name="file"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' write.background(kb, "hsa.xml");
+    ''' </example>
     <ExportAPI("write.background")>
     Public Function WriteBackground(background As Background, file$) As Boolean
         Return background.GetXml.SaveTo(file)
     End Function
 
+    ''' <summary>
+    ''' make gsea background dynamic cut
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="annotated"></param>
+    ''' <returns></returns>
     <ExportAPI("cut_background")>
     Public Function cut_background(background As Background, <RRawVectorArgument> annotated As Object) As Background
         Dim takes As Index(Of String) = CLRVector.asCharacter(annotated).Indexing
@@ -574,7 +600,19 @@ Public Module GSEABackground
     ''' this parameter only works when the cluster object is a 
     ''' gsea background model object.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a character vector of the intersected gene id set or the cluster id set based on the option of parameter <paramref name="get_clusterID"/>.
+    ''' </returns>
+    ''' <example>
+    ''' let kb = read.background("kegg_background.xml");
+    ''' let idset = c("id1","id2","id3");
+    ''' 
+    ''' print("intersect gene ids:");
+    ''' print(kb |> geneSet.intersects(idset));
+    ''' 
+    ''' print("intersect cluster ids:");
+    ''' print(kb |> geneSet.intersects(idset, get_clusterID=TRUE));
+    ''' </example>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("geneSet.intersects")>
     <RApiReturn(GetType(String))>
@@ -608,6 +646,60 @@ Public Module GSEABackground
             End If
         Else
             Return Message.InCompatibleType(GetType(Background), cluster.GetType, env)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' make filter of the background model 
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <param name="geneSet">usually be a character of the gene id set.</param>
+    ''' <param name="min_size">the min feature size is required for each cluster. 
+    ''' all of the cluster that have the feature number less than this cutoff 
+    ''' will be removed from the background.</param>
+    ''' <param name="max_intersects">the max intersect number that each cluster 
+    ''' intersect with the input geneSet. all of the clusters that greater than 
+    ''' this value will be removed from the background.</param>
+    ''' <returns>
+    ''' a new background model that has cluster filtered by the given rule.
+    ''' </returns>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' let idset = c("id1","id2","id3");
+    ''' let filter_kb = kb |> geneSet.filter(idset, min.size=5, max.intersects=500);
+    ''' 
+    ''' print(background_summary(filter_kb));
+    ''' </example>
+    <ExportAPI("geneSet.filter")>
+    <RApiReturn(GetType(Background))>
+    Public Function ClusterFilter(background As Background, <RRawVectorArgument> geneSet As Object,
+                                  Optional min_size As Integer = 3,
+                                  Optional max_intersects As Integer = 500,
+                                  Optional env As Environment = Nothing) As Object
+
+        Dim idset As String() = CLRVector.asCharacter(geneSet).SafeQuery.Distinct.ToArray
+
+        If idset.IsNullOrEmpty Then
+            Return RInternal.debug.stop("the required gene idset for test intersect should not be empty!", env)
+        End If
+
+        Dim filtered As Cluster() = background.clusters _
+            .Where(Function(c)
+                       Return c.size >= min_size AndAlso c.Intersect(idset).Count <= max_intersects
+                   End Function) _
+            .ToArray
+
+        If filtered.IsNullOrEmpty Then
+            Return RInternal.debug.stop($"no cluster left after filter by the given feature size range(min.size={min_size}, max.intersects={max_intersects})!", env)
+        Else
+            Return New Background With {
+                .build = Now,
+                .comments = background.comments,
+                .id = background.id,
+                .name = background.name,
+                .clusters = filtered,
+                .size = filtered.BackgroundSize
+            }
         End If
     End Function
 
@@ -961,7 +1053,9 @@ Public Module GSEABackground
     ''' <summary>
     ''' gene/protein KO id background
     ''' </summary>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' A reference background of the kegg pathway by parse the internal resource file.
+    ''' </returns>
     <ExportAPI("KO_reference")>
     Public Function CreateKOReference() As Background
         Dim ko00001 = htext.ko00001.Hierarchical.categoryItems
@@ -981,13 +1075,51 @@ Public Module GSEABackground
         }
     End Function
 
+    ''' <summary>
+    ''' Extract the gene set list from the background model
+    ''' </summary>
+    ''' <param name="background"></param>
+    ''' <returns>
+    ''' a tuple list object that contains the gene set information,
+    ''' data result in format like:
+    ''' 
+    ''' ```r
+    ''' list(
+    '''     "cluster id 1" = c("gene id", "gene id", ...),
+    '''     "cluster id 2" = c("gene id", "gene id", ...),
+    '''     ...
+    ''' )
+    ''' ```
+    ''' </returns>
+    ''' <remarks>
+    ''' the result list could be used for save as json file for 
+    ''' parsed in R by ``jsonlite::fromJSON`` function, and used
+    ''' for the gsva analysis.
+    ''' </remarks>
+    ''' <example>
+    ''' let kb = read.background("hsa.xml");
+    ''' let geneSet = as.geneSet(kb);
+    ''' 
+    ''' # save as json file
+    ''' geneSet 
+    ''' |> JSON::json_encode()
+    ''' |> writeLines(con = "hsa.json")
+    ''' ;
+    ''' 
+    ''' # load in R
+    ''' library(jsonlite);
+    ''' geneSet = jsonlite::fromJSON("hsa.json");
+    ''' 
+    ''' # use for gsva analysis
+    ''' gsva(data, geneSet, method="gsva", ...);
+    ''' </example>
     <ExportAPI("as.geneSet")>
     Public Function asGenesetList(background As Background) As list
         Return New list With {
             .slots = background _
                 .clusters _
                 .ToDictionary(Function(c)
-                                  Return $"{c.ID} {c.names}"
+                                  Return $"{c.ID} - {c.names}"
                               End Function,
                               Function(c)
                                   Return CObj(c.members.Select(Function(d) d.accessionID).ToArray)

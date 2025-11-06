@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>Do enrichment based on metpa background model</p>
 
         <h3>Usage</h3>
 
@@ -37,19 +37,28 @@
         <table>
             
 <dt>data</dt>
-<dd><p><p>a given set of the target for do enrichment analysis, this parameter value could be a character vector which is stands for the kegg id character vector or a dataframe object that contains the data annotation fields and the log2fc value.</p></p></dd>
+<dd><p><p>a given set of the target for do enrichment analysis,
+this parameter value could be a character vector which is stands
+for the kegg id character vector or a dataframe object that
+contains the data annotation fields and the log2fc value.</p></p></dd>
 
 
 <dt>metpa</dt>
-<dd><p><p>the metabolic network pathway model for used as the enrichment background data to run enrichment analysis. this parameter value should be a CLR object that read from file.</p></p></dd>
+<dd><p><p>the metabolic network pathway model for used as the
+enrichment background data to run enrichment analysis. this
+parameter value should be a CLR object that read from file.</p></p></dd>
 
 
 <dt>log2FC</dt>
-<dd><p><p>the field name for get the log2FC value, the log2FC value will be used for do colorful url encoded. And this parameter option only works when the input data is a dataframe object.</p></p></dd>
+<dd><p><p>the field name for get the log2FC value, the log2FC
+value will be used for do colorful url encoded. And this parameter
+option only works when the input data is a dataframe object.</p></p></dd>
 
 
 <dt>id</dt>
-<dd><p><p>the field name for get the target idset data for run the enrichment analysis. And this parameter option only works when the input data is a dataframe object.</p></p></dd>
+<dd><p><p>the field name for get the target idset data for run the
+enrichment analysis. And this parameter option only works when
+the input data is a dataframe object.</p></p></dd>
 
         </table>
 
@@ -64,7 +73,8 @@
 
         <h3>Value</h3>
 
-        <p>A dataframe object that contains the enrichment analysis result, value nothing will be return if the given kegg idset is empty.</p>
+        <p>A dataframe object that contains the enrichment analysis result,
+value nothing will be return if the given kegg idset is empty.</p>
 
         <h3 style="display: none;">Examples</h3>
 
@@ -81,4 +91,4 @@
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
-</html>
+</html>

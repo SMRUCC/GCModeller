@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc76f5ac842201d91a16de786bfa00dc, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\RTCP.vb"
+﻿#Region "Microsoft.VisualBasic::cb810448372e436a99b9eab4cc2ee776, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\RTCP.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 232
-    '    Code Lines: 170 (73.28%)
-    ' Comment Lines: 29 (12.50%)
-    '    - Xml Docs: 68.97%
+    '   Total Lines: 220
+    '    Code Lines: 163 (74.09%)
+    ' Comment Lines: 27 (12.27%)
+    '    - Xml Docs: 74.07%
     ' 
-    '   Blank Lines: 33 (14.22%)
-    '     File Size: 9.07 KB
+    '   Blank Lines: 30 (13.64%)
+    '     File Size: 8.63 KB
 
 
     '     Module RTCP
@@ -237,8 +237,8 @@ Namespace Imaging.BitmapImage
             Marshal.Copy(bpData.Scan0, bpBuffer, 0, bpBuffer.Length)
             bp.UnlockBits(bpData)
 #Else
-            bpBuffer = inBitmap.MemoryBuffer.RawBuffer
-            stride = inBitmap.MemoryBuffer.Stride
+            bpBuffer = inBitmap.memoryBuffer.RawBuffer
+            stride = inBitmap.memoryBuffer.Stride
 #End If
 
             Call VBDebugger.EchoLine($"image_src_dims: [{inBitmap.Width},{inBitmap.Height}]")
@@ -260,27 +260,15 @@ Namespace Imaging.BitmapImage
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function RTCPGray(inBitmap As Bitmap, Optional sigma As Single = 0.05!) As Bitmap
-#If net48 Then
-
-            Dim bp As Bitmap = inBitmap.Clone
-            Dim bpData = bp.LockBits(New Rectangle(0, 0, bp.Width, bp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb)
+            Dim copyBitmap As New Bitmap(inBitmap)
             Dim w = MeasureGlobalWeight(inBitmap, sigma)
+            Dim bpData As BitmapBuffer = BitmapBuffer.FromBitmap(copyBitmap)
 
-            Using rgbValues As Emit.Marshal.Byte = New Emit.Marshal.Byte(
-                p:=bpData.Scan0,
-                chunkSize:=std.Abs(bpData.Stride) * bpData.Height
-            )
-                ' Calls unmanaged memory write when this 
-                ' memory pointer was disposed
-                Call rgbValues.scanInternal(w.r, w.g, w.b)
-            End Using
-
-            Call bp.UnlockBits(bpData)
-
-            Return bp
-#Else
-            Throw New NotImplementedException
+            Call bpData.scanInternal(w.r, w.g, w.b)
+#If NET48 Then
+            Call bpData.Dispose()
 #End If
+            Return copyBitmap
         End Function
     End Module
 End Namespace

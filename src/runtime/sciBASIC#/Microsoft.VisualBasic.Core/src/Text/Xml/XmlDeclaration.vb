@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27027b5df5b26c037d3512bb2a33963e, Microsoft.VisualBasic.Core\src\Text\Xml\XmlDeclaration.vb"
+﻿#Region "Microsoft.VisualBasic::b8f53ad4b19f759809dc23bea701dbaf, Microsoft.VisualBasic.Core\src\Text\Xml\XmlDeclaration.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 64
-    '    Code Lines: 49 (76.56%)
-    ' Comment Lines: 4 (6.25%)
+    '   Total Lines: 78
+    '    Code Lines: 61 (78.21%)
+    ' Comment Lines: 4 (5.13%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 11 (17.19%)
-    '     File Size: 2.44 KB
+    '   Blank Lines: 13 (16.67%)
+    '     File Size: 3.12 KB
 
 
     '     Enum XmlEncodings
@@ -55,7 +55,7 @@
     '         Properties: [Default]
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: EncodingParser, ToString, XmlStandaloneString
+    '         Function: EncodingParser, ToEncoding, ToString, XmlStandaloneString
     ' 
     ' 
     ' /********************************************************************************/
@@ -63,7 +63,8 @@
 #End Region
 
 Imports System.ComponentModel
-Imports System.Text.RegularExpressions
+Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.Language.Default
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -121,6 +122,19 @@ Namespace Text.Xml
             End If
         End Function
 
+        Shared ReadOnly convert As New Dictionary(Of Encoding, XmlEncodings) From {
+            {System.Text.Encoding.UTF8, XmlEncodings.UTF8},
+            {System.Text.Encoding.Unicode, XmlEncodings.UTF16},
+            {System.Text.Encoding.BigEndianUnicode, XmlEncodings.UTF16},
+            {Encodings.GB2312.CodePage, XmlEncodings.GB2312}
+        }
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ToEncoding(enc As Encoding) As XmlEncodings
+            Return convert.TryGetValue(enc, [default]:=XmlEncodings.UTF8)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function XmlStandaloneString(standalone As Boolean) As String
             Return If(standalone, "yes", "no")
         End Function

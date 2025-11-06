@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f5536584b129f25cdf42389d5b5cc67, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Line.vb"
+﻿#Region "Microsoft.VisualBasic::333899a188eaea5015d5cd6141d1c913, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Line.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 41
-    '    Code Lines: 32 (78.05%)
+    '   Total Lines: 46
+    '    Code Lines: 36 (78.26%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 9 (21.95%)
-    '     File Size: 1.33 KB
+    '   Blank Lines: 10 (21.74%)
+    '     File Size: 1.44 KB
 
 
     '     Structure Line3D
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: Copy, GetEnumerator, IEnumerable_GetEnumerator
     ' 
@@ -65,6 +67,11 @@ Namespace Drawing3D.Models
 
         Public a, b As Point3D
         Public pen As Pen
+
+        Sub New(a As Point3D, b As Point3D)
+            Me.a = a
+            Me.b = b
+        End Sub
 
         Public Sub Draw(ByRef canvas As IGraphics, camera As Camera) Implements I3DModel.Draw
             Dim pts As PointF() = camera _

@@ -65,6 +65,9 @@ Namespace Engine
         ReadOnly core As Vessel
         ReadOnly fluxes As Dictionary(Of String, var())
 
+        ReadOnly forward As New Dictionary(Of String, Double)
+        ReadOnly reverse As New Dictionary(Of String, Double)
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(core As Vessel)
             Me.core = core
@@ -77,6 +80,21 @@ Namespace Engine
                                   Return a.ToArray
                               End Function)
         End Sub
+
+        Private Sub updateFluxRegulationCache()
+            Call forward.Clear()
+            Call reverse.Clear()
+
+            For Each mass As MassDynamics In core.m_dynamics
+                Call mass.setForward(buffer:=forward)
+                Call mass.setReverse(buffer:=reverse)
+            Next
+        End Sub
+
+        Public Function getRegulations() As (forward As Dictionary(Of String, Double), reverse As Dictionary(Of String, Double))
+            Call updateFluxRegulationCache()
+            Return (forward, reverse)
+        End Function
 
         Private Function fluxDynamicsCache() As Dictionary(Of String, var())
             For Each flux As String In fluxes.Keys

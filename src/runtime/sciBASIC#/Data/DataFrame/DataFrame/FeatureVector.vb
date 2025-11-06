@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3470a423d67c3a4ce0952b7e9b65178d, Data\DataFrame\DataFrame\FeatureVector.vb"
+﻿#Region "Microsoft.VisualBasic::02eaff2795999ff2ced63c10326f3796, Data\DataFrame\DataFrame\FeatureVector.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 226
-    '    Code Lines: 159 (70.35%)
-    ' Comment Lines: 29 (12.83%)
+    '   Total Lines: 235
+    '    Code Lines: 165 (70.21%)
+    ' Comment Lines: 29 (12.34%)
     '    - Xml Docs: 96.55%
     ' 
-    '   Blank Lines: 38 (16.81%)
-    '     File Size: 7.65 KB
+    '   Blank Lines: 41 (17.45%)
+    '     File Size: 7.89 KB
 
 
     ' Class FeatureVector
     ' 
-    '     Properties: isScalar, name, size, type, vector
+    '     Properties: attributes, isScalar, name, size, type
+    '                 vector
     ' 
-    '     Constructor: (+10 Overloads) Sub New
+    '     Constructor: (+11 Overloads) Sub New
     '     Function: [TryCast], CastTo, CheckSupports, FromGeneral, GetScalarValue
     '               Getter, ToString
     ' 
@@ -85,6 +86,8 @@ Public Class FeatureVector : Implements IReadOnlyId
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property name As String Implements IReadOnlyId.Identity
+
+    Public Property attributes As Dictionary(Of String, String)
 
     ''' <summary>
     ''' does current vector has no data or just a single value?
@@ -137,6 +140,13 @@ Public Class FeatureVector : Implements IReadOnlyId
 
         vector = factors.ToArray
         type = GetType(String)
+    End Sub
+
+    Sub New(name As String, factors As IEnumerable(Of Byte))
+        Call Me.New(name)
+
+        vector = factors.ToArray
+        type = GetType(Byte)
     End Sub
 
     Sub New(name As String, floats As IEnumerable(Of Single))

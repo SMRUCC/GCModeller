@@ -64,7 +64,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Python
 Imports Microsoft.VisualBasic.Linq
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace KdTree
 
@@ -97,7 +97,7 @@ Namespace KdTree
 
         Public ReadOnly Property balanceFactor() As Double
             Get
-                Return height(root) / (stdNum.Log(count(root)) / stdNum.Log(2))
+                Return height(root) / (std.Log(count(root)) / std.Log(2))
             End Get
         End Property
 
@@ -114,8 +114,14 @@ Namespace KdTree
         ''' <summary>
         ''' total number of nodes 
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' count nodes number from the <see cref="root"/>
+        ''' </returns>
         Public ReadOnly Property counts As Integer
+            Get
+                Return count(root)
+            End Get
+        End Property
 
         Public ReadOnly Property rootNode As KdTreeNode(Of T)
             Get
@@ -165,12 +171,8 @@ Namespace KdTree
                 Return New KdTreeNode(Of T)(points(Scan0), axis, parent)
             Else
                 ' sort by the axis dimensions
-                points.Sort(Function(a, b)
-                                Return access(a, dimensions(axis)) - access(b, dimensions(axis))
-                            End Function)
-
-                _counts += 1
-                median = stdNum.Floor(points.Length / 2)
+                points.Sort(Function(a, b) access(a, dimensions(axis)).CompareTo(access(b, dimensions(axis))))
+                median = std.Floor(points.Length / 2)
             End If
 
             Dim left = points.slice(0, median).ToArray
@@ -258,7 +260,7 @@ Namespace KdTree
 
                 pDimension = dimensions(node.parent.dimension)
 
-                If access.getByDimension(node, pDimension) < access.getByDimension(node.parent.data, pDimension) Then
+                If access.getByDimension(node.data, pDimension) < access.getByDimension(node.parent.data, pDimension) Then
                     node.parent.left = Nothing
                 Else
                     node.parent.right = Nothing
@@ -276,10 +278,11 @@ Namespace KdTree
             nextObj = nextNode.data
             Call removeNode(nextNode)
             node.data = nextObj
+            node.dimension = (node.parent.dimension + 1) Mod dimensions.Length  ' 更新维度
         End Sub
 
         Private Function findMax(node As KdTreeNode(Of T), [dim] As Integer) As KdTreeNode(Of T)
-            Dim dimension As Integer
+            Dim dimension As String
             Dim own As Double
             Dim Left, Right, max As KdTreeNode(Of T)
 
@@ -313,7 +316,7 @@ Namespace KdTree
         End Function
 
         Private Function findMin(node As KdTreeNode(Of T), [dim] As Integer) As KdTreeNode(Of T)
-            Dim dimension As Integer
+            Dim dimension As String
             Dim own As Double
             Dim left, Right, min As KdTreeNode(Of T)
 
@@ -358,22 +361,15 @@ Namespace KdTree
         ''' <param name="maxNodes">
         ''' k
         ''' </param>
-        ''' <returns></returns>
+        ''' <returns>KNN search result</returns>
         Public Iterator Function nearest(point As T, maxNodes As Integer, Optional maxDistance As Double? = Nothing) As IEnumerable(Of KdNodeHeapItem(Of T))
             Dim bestNodes As New List(Of KdNodeHeapItem(Of T))
             Dim query As New KdTreeNode(Of T)(point, 0, Nothing)
 
             ' 20210920 似乎在这里必须要保证足够大的采样集大小才可以找到正确的解
-            Call nearestSearch(query, root, 0, bestNodes, maxNodes * 60)
+            Call nearestSearch(query, root, 0, bestNodes, maxNodes)
 
-            Dim bestOutput = bestNodes _
-                .GroupBy(Function(i) i.node.data) _
-                .Select(Function(i) i.First) _
-                .OrderBy(Function(i) access.metric(i.node.data, point)) _
-                .Take(maxNodes) _
-                .ToArray
-
-            For Each node As KdNodeHeapItem(Of T) In bestOutput
+            For Each node As KdNodeHeapItem(Of T) In bestNodes
                 If Not maxDistance Is Nothing Then
                     If node.distance <= maxDistance Then
                         Yield New KdNodeHeapItem(Of T)(node.node, node.distance)
@@ -408,7 +404,7 @@ Namespace KdTree
             Dim addNode As Boolean = False
 
             If result = 0 Then
-                result.Push(New KdNodeHeapItem(Of T)(node, distance))
+                result.Add(New KdNodeHeapItem(Of T)(node, distance))
                 addNode = True
             End If
 
@@ -429,7 +425,7 @@ Namespace KdTree
             Loop
 
             ' whats got the got best _search result? left or right?
-            Dim goLeft = access(node.data, axis) < access(point.data, axis)
+            Dim goLeft = access(point.data, axis) < access(node.data, axis)
             Dim target = If(goLeft, node.left, node.right)
             Dim opposite = If(goLeft, node.right, node.left)
 
@@ -450,7 +446,7 @@ Namespace KdTree
             If node Is Nothing Then
                 Return 0
             Else
-                Return stdNum.Max(height(node.left), height(node.right)) + 1
+                Return std.Max(height(node.left), height(node.right)) + 1
             End If
         End Function
 

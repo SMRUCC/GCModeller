@@ -105,7 +105,7 @@ Namespace Regprecise
             regulator.type = If(InStr(list(++i), " RNA "), Types.RNA, Types.TF)
 
             Dim entry As String = r.Match(list(++i), "href="".+?"">.+?</a>").Value
-            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & entry.href
+            Dim url As String = "https://regprecise.lbl.gov/" & entry.href
             regulator.regulator = New NamedValue With {
                 .name = RegulomeQuery.GetsId(entry),
                 .text = url
@@ -124,7 +124,7 @@ Namespace Regprecise
 
             With r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
                 If Not .StringEmpty Then
-                    regulator.infoURL = $"http://regprecise.lbl.gov/RegPrecise/{ .href}"
+                    regulator.infoURL = $"https://regprecise.lbl.gov/{ .href}"
                 End If
             End With
 
@@ -153,7 +153,7 @@ Namespace Regprecise
             regulator.biological_process = getTagValue_td(properties(++i)).StringSplit("\s*;\s*")
 
             Dim regulogEntry$ = r.Match(properties(i + 1), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
-            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & regulogEntry.href
+            Dim url As String = "https://regprecise.lbl.gov/" & regulogEntry.href
 
             regulator.regulog = New NamedValue With {
                 .name = RegulomeQuery _
@@ -166,7 +166,7 @@ Namespace Regprecise
 
             Dim exportServletLnks$() = exportServlet(html)
             Dim motifFile$ = exportServletLnks.ElementAtOrDefault(1)
-            Dim cache$ = motifFile.Replace("http://regprecise.lbl.gov/RegPrecise/", "").NormalizePathString(True).Replace("_", "/")
+            Dim cache$ = motifFile.Replace("https://regprecise.lbl.gov/", "").NormalizePathString(True).Replace("_", "/")
 
             cache = $"{Me.cache}/{cache}.txt"
 
@@ -196,7 +196,7 @@ Namespace Regprecise
 
             links = links _
                 .Select(Function(s) Regex.Match(s, "href="".+?""><b>DOWNLOAD</b>").Value) _
-                .Select(Function(s) "http://regprecise.lbl.gov/RegPrecise/" & s.href) _
+                .Select(Function(s) "https://regprecise.lbl.gov/" & s.href) _
                 .ToArray
 
             Return links

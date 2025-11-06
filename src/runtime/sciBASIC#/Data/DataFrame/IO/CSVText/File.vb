@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::852a8dfb9237776b9c55892eec953a8e, Data\DataFrame\IO\CSVText\File.vb"
+﻿#Region "Microsoft.VisualBasic::90165f997e31649aaf40760ac5f1dcc7, Data\DataFrame\IO\CSVText\File.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 96.91%
     ' 
     '   Blank Lines: 125 (12.79%)
-    '     File Size: 39.67 KB
+    '     File Size: 39.66 KB
 
 
     '     Class File
@@ -686,7 +686,7 @@ B21,B22,B23,...
             Dim sw As Stopwatch = Stopwatch.StartNew
             Dim CSV As New File(__LINQ_LOAD(data:=Lines))
 
-            Call $"Csv load {Lines.Length} lines data in {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO ' //{LoadMethod.ToString}".__DEBUG_ECHO
+            Call $"Csv load {Lines.Length} lines data in {sw.ElapsedMilliseconds}ms...".debug ' //{LoadMethod.ToString}".debug
 
             Return CSV
         End Operator
@@ -719,12 +719,12 @@ B21,B22,B23,...
         End Operator
 
         ''' <summary>
-        ''' Load the csv data document from a given path.(从指定的文件路径之中加载一个CSV格式的数据文件)
+        ''' Load the csv data document from a given path.
         ''' </summary>
         ''' <param name="Path"></param>
         ''' <param name="encoding"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(从指定的文件路径之中加载一个CSV格式的数据文件)</remarks>
         Public Shared Function Load(path$,
                                     Optional encoding As Encoding = Nothing,
                                     Optional trimBlanks As Boolean = False,

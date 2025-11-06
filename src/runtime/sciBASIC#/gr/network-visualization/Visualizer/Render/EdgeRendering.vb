@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db1e4540e324e698d242e2dc818304ad, gr\network-visualization\Visualizer\Render\EdgeRendering.vb"
+﻿#Region "Microsoft.VisualBasic::d707f85be471b7d61d0109af78a56f17, gr\network-visualization\Visualizer\Render\EdgeRendering.vb"
 
     ' Author:
     ' 
@@ -187,7 +187,7 @@ Friend Class EdgeRendering
 
         If (Not isNan) AndAlso drawEdgeBends AndAlso Not bends.IsNullOrEmpty Then
             If bends.Length <> edge.data.bends.Length Then
-                Call $"{edge.ID} removes {edge.data.bends.Length - bends.Length} bends points.".__DEBUG_ECHO
+                Call $"{edge.ID} removes {edge.data.bends.Length - bends.Length} bends points.".debug
             End If
 
             If bends.Length = 1 Then

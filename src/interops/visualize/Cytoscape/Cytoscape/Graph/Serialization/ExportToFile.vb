@@ -380,26 +380,26 @@ Namespace CytoscapeGraphView.Serialization
             Dim fromNode As XGMMLnode = Nodes.TryGetValue(nodeName)
 
             If fromNode Is Nothing Then
-                Call $"fromNode '{nodeName}' could not be found in the node list!".__DEBUG_ECHO
+                Call $"fromNode '{nodeName}' could not be found in the node list!".debug
                 fromNode = New XGMMLnode With {
                     .label = nodeName,
                     .id = Nodes.Count
                 }
                 Call Nodes.Add(nodeName, fromNode)
-                Call $"INSERT this absence node into network...".__DEBUG_ECHO
+                Call $"INSERT this absence node into network...".debug
             Else
                 nodeName = dict(REFLECTION_ID_MAPPING_TO_NODE)
             End If
 
             Dim toNode As XGMMLnode = Nodes.TryGetValue(nodeName)
             If toNode Is Nothing Then
-                Call $"toNode '{nodeName}' could not be found in the node list!".__DEBUG_ECHO
+                Call $"toNode '{nodeName}' could not be found in the node list!".debug
                 toNode = New XGMMLnode With {
                     .label = nodeName,
                     .id = Nodes.Count
                 }
                 Call Nodes.Add(nodeName, toNode)
-                Call $"INSERT this absence node into network...".__DEBUG_ECHO
+                Call $"INSERT this absence node into network...".debug
             End If
 
             Dim InteractionType As String = dict.TryGetValue(REFLECTION_ID_MAPPING_INTERACTION_TYPE)

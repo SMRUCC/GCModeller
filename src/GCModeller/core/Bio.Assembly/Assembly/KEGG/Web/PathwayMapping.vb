@@ -113,7 +113,7 @@ Namespace Assembly.KEGG.WebServices
 
             Dim args As New NameValueCollection
 
-            Call $"Reconstruct Pathway for {list.LineTokens.Length} genes...".__DEBUG_ECHO
+            Call $"Reconstruct Pathway for {list.LineTokens.Length} genes...".debug
             Call args.Add(NameOf(globalmap), If(globalmap, yes, no))
             Call args.Add("submit", "Exec")
             Call args.Add("unclassified", list)
@@ -170,7 +170,7 @@ Namespace Assembly.KEGG.WebServices
 
             Dim args As New NameValueCollection
 
-            Call $"Reconstruct Pathway for {list.LineTokens.Length} genes...".__DEBUG_ECHO
+            Call $"Reconstruct Pathway for {list.LineTokens.Length} genes...".debug
             Call args.Add("org", "ko")
             Call args.Add("other_dbs", "")
             Call args.Add("unclassified", list)
@@ -240,7 +240,7 @@ Namespace Assembly.KEGG.WebServices
                             .Name = id,
                             .Value = hit.KO.Value
                         }
-                        Call $"[{hit.KO.Value}] {id}".__DEBUG_ECHO
+                        Call $"[{hit.KO.Value}] {id}".debug
                         Exit For
                     End If
                 Next

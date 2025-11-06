@@ -60,6 +60,23 @@ declare namespace background {
       */
       function background(clusters: any, background_size?: object, name?: string, tax_id?: string, desc?: string, omics?: object, filter_compoundId?: boolean, kegg_code?: string, env?: object): object;
       /**
+       * Extract the gene set list from the background model
+       * 
+       * > the result list could be used for save as json file for 
+       * >  parsed in R by ``jsonlite::fromJSON`` function, and used
+       * >  for the gsva analysis.
+       * 
+        * @param background -
+        * @return a tuple list object that contains the gene set information,
+        *  data result in format like:
+        *  
+        *  ```r
+        *  list(
+        *      "cluster id 1" = c("gene id", "gene id", ...),
+        *      "cluster id 2" = c("gene id", "gene id", ...),
+        *      ...
+        *  )
+        *  ```
       */
       function geneSet(background: object): object;
    }
@@ -79,7 +96,7 @@ declare namespace background {
         * 
         * + default value Is ``null``.
       */
-      function id_mapping(background: object, mapping: object, subset?: string, env?: object): any;
+      function id_mapping(background: object, mapping: object, subset?: string, env?: object): object;
    }
    /**
     * summary of the background model as dataframe
@@ -95,6 +112,7 @@ declare namespace background {
     * 
     * 
      * @param background -
+     * @return A character vector of the cluster id(or pathway id) that defined inside the given background model
    */
    function clusterIDs(background: object): string;
    /**
@@ -115,6 +133,11 @@ declare namespace background {
    */
    function compoundBrite(): object;
    /**
+    * make gsea background dynamic cut
+    * 
+    * 
+     * @param background -
+     * @param annotated -
    */
    function cut_background(background: object, annotated: any): object;
    module dag {
@@ -162,6 +185,27 @@ declare namespace background {
       */
       function annotations(background: object, geneSet: any, env?: object): any;
       /**
+       * make filter of the background model
+       * 
+       * 
+        * @param background -
+        * @param geneSet usually be a character of the gene id set.
+        * @param min_size the min feature size is required for each cluster. 
+        *  all of the cluster that have the feature number less than this cutoff 
+        *  will be removed from the background.
+        * 
+        * + default value Is ``3``.
+        * @param max_intersects the max intersect number that each cluster 
+        *  intersect with the input geneSet. all of the clusters that greater than 
+        *  this value will be removed from the background.
+        * 
+        * + default value Is ``500``.
+        * @param env 
+        * + default value Is ``null``.
+        * @return a new background model that has cluster filtered by the given rule.
+      */
+      function filter(background: object, geneSet: any, min_size?: object, max_intersects?: object, env?: object): object;
+      /**
        * get an intersection id list between the background
        *  model and the given gene id list.
        * 
@@ -181,6 +225,7 @@ declare namespace background {
         * + default value Is ``false``.
         * @param env 
         * + default value Is ``null``.
+        * @return a character vector of the intersected gene id set or the cluster id set based on the option of parameter **`get_clusterID`**.
       */
       function intersects(cluster: any, geneSet: string, isLocusTag?: boolean, get_clusterID?: boolean, env?: object): string;
    }
@@ -237,11 +282,12 @@ declare namespace background {
     * gene/protein KO id background
     * 
     * 
+     * @return A reference background of the kegg pathway by parse the internal resource file.
    */
    function KO_reference(): object;
    /**
    */
-   function meta_background(enrich: object, graphQuery: object): any;
+   function meta_background(enrich: object, graphQuery: object): object;
    module metabolism {
       /**
        * create kegg maps background for the metabolism data analysis
@@ -282,6 +328,7 @@ declare namespace background {
     * 
     * 
      * @param background -
+     * @return A character vector of the gene id that defined inside the given background model
    */
    function moleculeIDs(background: object): string;
    module read {
@@ -299,6 +346,7 @@ declare namespace background {
        * 
        * 
         * @param background -
+        * @param file -
       */
       function background(background: object, file: string): boolean;
    }

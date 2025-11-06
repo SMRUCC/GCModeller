@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a7fc2cf667377d44c96978ac1b8cdde, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
+﻿#Region "Microsoft.VisualBasic::dffc754569e3614154d057ec57397fb9, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 72.94%
     ' 
     '   Blank Lines: 53 (11.57%)
-    '     File Size: 22.00 KB
+    '     File Size: 21.93 KB
 
 
     ' Module NetworkVisualizer
@@ -232,8 +232,8 @@ Public Module NetworkVisualizer
                 .Top = 100
             })
 
-        Call $"Canvas size expression '{canvasSize}' = [{frameSize.Width}, {frameSize.Height}]".__DEBUG_ECHO
-        Call $"Canvas padding [{margin.Top}, {margin.Right}, {margin.Bottom}, {margin.Left}]".__DEBUG_ECHO
+        Call $"Canvas size expression '{canvasSize}' = [{frameSize.Width}, {frameSize.Height}]".debug
+        Call $"Canvas padding [{margin.Top}, {margin.Right}, {margin.Bottom}, {margin.Left}]".debug
 
         ' 1. 先将网络图形对象置于输出的图像的中心位置
         ' 2. 进行矢量图放大
@@ -242,7 +242,7 @@ Public Module NetworkVisualizer
         ' 获取得到当前的这个网络对象相对于图像的中心点的位移值
         Dim scalePos As Dictionary(Of String, PointF) = CanvasScaler.CalculateNodePositions(net, frameSize, margin)
 
-        Call "Initialize gdi objects...".__INFO_ECHO
+        Call "Initialize gdi objects...".info
 
         Dim env As CSSEnvirnment = CSSEnvirnment.Empty(ppi)
         Dim stroke As Pen = env.GetPen(CSS.Stroke.TryParse(nodeStroke), allowNull:=True)
@@ -253,7 +253,7 @@ Public Module NetworkVisualizer
                 .style = FontStyle.Regular
             }))
 
-        Call "Initialize variables, done!".__INFO_ECHO
+        Call "Initialize variables, done!".info
 
         If edgeDashTypes Is Nothing Then
             edgeDashTypes = New Dictionary(Of String, DashStyle)
@@ -353,7 +353,7 @@ Public Module NetworkVisualizer
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
                 If Not hullPolygonGroups.IsEmpty Then
-                    Call "Render hull polygon layer...".__DEBUG_ECHO
+                    Call "Render hull polygon layer...".debug
                     Call g.drawhullPolygon(
                         drawPoints:=drawPoints,
                         hullPolygonGroups:=hullPolygonGroups,
@@ -366,11 +366,11 @@ Public Module NetworkVisualizer
                     )
                 End If
 
-                Call "Render network edges...".__INFO_ECHO
+                Call "Render network edges...".info
                 ' 首先在这里绘制出网络的框架：将所有的边绘制出来
                 labels += renderEdge.drawEdges(g, graph:=net)
 
-                Call "Render network elements...".__INFO_ECHO
+                Call "Render network elements...".info
                 ' 然后将网络之中的节点绘制出来，同时记录下节点的位置作为label text的锚点
                 ' 最后通过退火算法计算出合适的节点标签文本的位置之后，再使用一个循环绘制出
                 ' 所有的节点的标签文本
@@ -386,10 +386,10 @@ Public Module NetworkVisualizer
                     Call renderLabel.renderLabels(g, labels)
                 End If
 
-                Call "Network canvas rendering job done!".__DEBUG_ECHO
+                Call "Network canvas rendering job done!".debug
             End Sub
 
-        Call "Start Render...".__INFO_ECHO
+        Call "Start Render...".info
 
         Return g.GraphicsPlots(frameSize.ToSize, margin, background, plotInternal, driver:=driver)
     End Function
@@ -478,7 +478,7 @@ Public Module NetworkVisualizer
         For Each group In groups
             If group.Count > 2 AndAlso group.Key Like hullPolygon Then
 
-                Call $"[ConvexHull] render for {group.Key}".__DEBUG_ECHO
+                Call $"[ConvexHull] render for {group.Key}".debug
 
                 Dim positions = group _
                     .Select(Function(p) scalePos(p.label)) _

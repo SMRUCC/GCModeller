@@ -12,6 +12,17 @@ get all of the cluster id set from the given background model object
 .PP
 \fBbackground\fB \fR\- -. 
 .PP
+.SH VALUE
+.PP
+A character vector of the cluster id(or pathway id) that defined inside the given background model
+.PP
+.SH EXAMPLES
+.PP
+let kb = read.background("hsa.xml");
+ let ids = clusterIDs(kb);
+ 
+ print(ids);
+.PP
 .SH SEE ALSO
 background
 .SH FILES

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5073ecb157d1fa074417dbecb583c22, Microsoft.VisualBasic.Core\src\CommandLine\Interpreters\View\ManualBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::90ddbd25ce395f3f951d74cf387aade1, Microsoft.VisualBasic.Core\src\CommandLine\Interpreters\View\ManualBuilder.vb"
 
     ' Author:
     ' 
@@ -224,7 +224,7 @@ Namespace CommandLine.ManView
                     .MaxLengthString _
                     .Length
 
-                ' Call stringL.MaxLengthString.__DEBUG_ECHO
+                ' Call stringL.MaxLengthString.debug
 
                 ' 加上开关名字的最大长度就是前面的开关说明部分的最大字符串长度
                 ' 后面的description帮助信息的偏移量都是依据这个值计算出来的

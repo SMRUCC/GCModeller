@@ -1,4 +1,4 @@
-﻿.TH UNION_RENDER 1 2025-Aug "" "union_render"
+﻿.TH UNION_RENDER 1 2025-Nov "" "Render KEGG Pathway Maps with Multi-Omics Highlighting"
 .SH NAME
 union_render \- union_render(union.data,
     <i>outputdir</i> = <span style='color: brown;'><strong>'./'</strong></span>,
@@ -17,34 +17,90 @@ union_render \- union_render(union.data,
     <i>protein</i> = <span style='color: brown;'><strong>'protein'</strong></span>,
     <i>text.color</i> = <span style='color: #FFFFFF;'><strong>'white'</strong></span>,
     <i>kegg.maps</i> = <span style='color: blue !important;'>NULL</span>)\fR
+.SH DESCRIPTION
+.PP
+Generates interactive HTML and static PNG visualizations of KEGG pathway maps
+with customizable highlighting for compounds, genes, and proteins. Output files
+are saved to the specified directory.
+.PP
 .SH OPTIONS
 .PP
 \fBunion.data\fB \fR\- . 
 .PP
 .PP
-\fBoutputdir\fB \fR\- './'. 
+\fBoutputdir\fB \fR\- './'. Output directory path for rendered files (default: "./").
 .PP
 .PP
-\fBid\fB \fR\- 'KEGG'. 
+\fBid\fB \fR\- 'KEGG'. Column name in `union_data` containing KEGG pathway IDs (default: "KEGG").
 .PP
 .PP
-\fBcompound\fB \fR\- 'compound'. 
+\fBcompound\fB \fR\- 'compound'. Column name in `union_data` containing compound highlight data
+(default: "compound"). See Details for formatting.
 .PP
 .PP
-\fBgene\fB \fR\- 'gene'. 
+\fBgene\fB \fR\- 'gene'. Column name in `union_data` containing gene highlight data
+(default: "gene").
 .PP
 .PP
-\fBprotein\fB \fR\- 'protein'. 
+\fBprotein\fB \fR\- 'protein'. Column name in `union_data` containing protein highlight data
+(default: "protein").
 .PP
 .PP
-\fBtext.color\fB \fR\- 'white'. 
+\fBtext.color\fB \fR\- 'white'. Color for node labels on pathway maps (default: "white").
 .PP
 .PP
 \fBkegg.maps\fB \fR\- NULL. 
 .PP
+.SH VALUE
+.PP
+Invisibly returns `NULL`. Primary output is generated as files in `outputdir`.
+.PP
+.SH DETAILS
+.PP
+**Highlight Data Format**:
+The `compound`, `gene`, and `protein` columns should contain strings in one of two formats:
+1. Semicolon-separated key-value pairs: `"K00001:blue;K00002:red;C00001:green"`
+2. Semicolon-separated IDs (default color: red): `"K00001;K00002;C00001"`
+These are parsed by [`parse.highlight_tuples()`](https://gcmodeller.org/vignettes/kegg_kit/report.utils/parse.highlight_tuples.html)
+into named lists (e.g., `list(K00001 = "blue", K00002 = "red")`).
+**Output Files**:
+For each KEGG ID, two files are generated:
+- `[KEGG_ID].html`: Interactive pathway visualization
+- `[KEGG_ID].png`: Static PNG image
+**Error Handling**:
+Errors during rendering are caught and printed to the console without stopping execution.
+.PP
+.SH EXAMPLES
+.PP
+#\dontrun{
+
+# Minimal example with default column names
+data <- data.frame(
+KEGG = "map00010",
+compound = "C00031:green;C00022:blue",
+gene = "hsa:1234;hsa:5678:yellow",
+protein = "P12345"
+)
+union_render(data, outputdir = "~/kegg_output")
+# Custom column names and text color
+data <- data.frame(
+PathwayID = "map00020",
+Metabolites = "C00024; C00036:orange",
+Genes = "hsa:9012:purple",
+Proteins = "P67890:red"
+)
+union_render(data,
+id = "PathwayID",
+compound = "Metabolites",
+gene = "Genes",
+protein = "Proteins",
+text.color = "black"
+)
+#}
+.PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.union_render at union_render.R:line 3
+SMRUCC/R#.declare_function.union_render at union_render.R:line 73
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, GPL3 Licensed 2025

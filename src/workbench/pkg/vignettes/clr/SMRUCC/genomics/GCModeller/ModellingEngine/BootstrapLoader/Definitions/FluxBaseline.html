@@ -32,7 +32,6 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 export class FluxBaseline {
-   numCells: integer;
    productInhibitionFactor: double;
    proteinMatureBaseline: double;
    proteinMatureCapacity: double;
@@ -44,9 +43,11 @@ export class FluxBaseline {
    RNADegradationCapacity: double;
    # min rate of the transcription of gene template to RNA
    transcriptionBaseline: double;
+   # the max capacity of the transcription process
    transcriptionCapacity: double;
    # 对于翻译过程，因为需要有核糖体来介导，所以就不设置最低下限了
    translationCapacity: double;
+   # min kinetic rate for tRNA charged with amino acid
    tRNAChargeBaseline: double;
    tRNAChargeCapacity: double;
 }
@@ -69,4 +70,4 @@ export class FluxBaseline {
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
-</html>
+</html>

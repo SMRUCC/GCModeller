@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::350c143046d13673e3f6d3018abbed3d, Microsoft.VisualBasic.Core\src\Drawing\Math\Geometry\GeomTransform.vb"
+﻿#Region "Microsoft.VisualBasic::1033273133f1ae816ef42437424eb7cb, Microsoft.VisualBasic.Core\src\Drawing\Math\Geometry\GeomTransform.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,23 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 582
-    '    Code Lines: 317 (54.47%)
-    ' Comment Lines: 206 (35.40%)
-    '    - Xml Docs: 95.63%
+    '   Total Lines: 660
+    '    Code Lines: 363 (55.00%)
+    ' Comment Lines: 228 (34.55%)
+    '    - Xml Docs: 92.54%
     ' 
-    '   Blank Lines: 59 (10.14%)
-    '     File Size: 21.84 KB
+    '   Blank Lines: 69 (10.45%)
+    '     File Size: 24.85 KB
 
 
     '     Module GeomTransform
     ' 
     '         Function: Angle, (+2 Overloads) Area, (+2 Overloads) CalculateAngle, CenterAlign, (+2 Overloads) CentralOffset
-    '                   (+4 Overloads) Centre, CircleRectangle, (+6 Overloads) Distance, (+2 Overloads) DistanceTo, (+2 Overloads) GetBounds
-    '                   GetCenter, (+2 Overloads) InRegion, MirrorX, MirrorY, (+9 Overloads) OffSet2D
-    '                   (+2 Overloads) Offsets, (+5 Overloads) Scale, ShapePoints, SquareSize
+    '                   (+4 Overloads) Centre, CircleRectangle, (+6 Overloads) Distance, (+2 Overloads) DistanceTo, DistanceTo3D
+    '                   (+2 Overloads) GetBounds, GetCenter, (+2 Overloads) InRegion, MirrorX, MirrorY
+    '                   (+9 Overloads) OffSet2D, (+2 Overloads) Offsets, (+5 Overloads) Scale, ShapePoints, SquareSize
+    ' 
+    '         Sub: Rotate, Scale, Translate
     ' 
     ' 
     ' /********************************************************************************/
@@ -155,7 +157,8 @@ Namespace Imaging.Math2D
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function GetCenter(size As Size) As Point
+        <Extension>
+        Public Function GetCenter(size As Size) As Point
             Return New Point(size.Width / 2, size.Height / 2)
         End Function
 
@@ -257,7 +260,8 @@ Namespace Imaging.Math2D
         ''' <param name="y!"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function OffSet2D(pt As PointF, x!, y!) As PointF
+        <Extension>
+        Public Function OffSet2D(pt As PointF, x!, y!) As PointF
             With pt
                 Return New PointF(x + .X, y + .Y)
             End With
@@ -346,10 +350,23 @@ Namespace Imaging.Math2D
             Return std.Sqrt(std.Pow(x1 - x2, 2) + std.Pow(y1 - y2, 2))
         End Function
 
+        ''' <summary>
+        ''' Euclidean distance
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function DistanceTo(Of T As Layout2D)(a As T, b As T) As Double
             Return std.Sqrt((a.X - b.X) ^ 2 + (a.Y - b.Y) ^ 2)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function DistanceTo3D(Of T As PointF3D)(a As T, b As T) As Double
+            Return std.Sqrt((a.X - b.X) ^ 2 + (a.Y - b.Y) ^ 2 + (a.Z - b.Z) ^ 2)
         End Function
 
         ''' <summary>
@@ -635,5 +652,77 @@ Namespace Imaging.Math2D
 
             Return New PointF(left - xo, top - yo)
         End Function
+
+        ''' <summary>
+        ''' 绕多边形自身中心旋转指定弧度
+        ''' </summary>
+        ''' <param name="theta">旋转角度（弧度），逆时针为正</param>
+        Public Sub Rotate(ByRef xpoints As Double(), ByRef ypoints As Double(), theta As Double)
+            ' 1. 计算多边形中心点
+            Dim cx As Double = 0
+            Dim cy As Double = 0
+            Dim length As Integer = xpoints.Length
+
+            For i As Integer = 0 To length - 1
+                cx += xpoints(i)
+                cy += ypoints(i)
+            Next
+            cx /= length
+            cy /= length
+
+            ' 2. 对每个顶点应用绕中心点的旋转变换
+            For i As Integer = 0 To length - 1
+                ' 平移至原点
+                Dim xTranslated As Double = xpoints(i) - cx
+                Dim yTranslated As Double = ypoints(i) - cy
+
+                ' 旋转
+                Dim xRotated As Double = xTranslated * Cos(theta) - yTranslated * Sin(theta)
+                Dim yRotated As Double = xTranslated * Sin(theta) + yTranslated * Cos(theta)
+
+                ' 平移回原位置
+                xpoints(i) = xRotated + cx
+                ypoints(i) = yRotated + cy
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 平移多边形
+        ''' </summary>
+        ''' <param name="tx">X轴平移量</param>
+        ''' <param name="ty">Y轴平移量</param>
+        Public Sub Translate(ByRef xpoints As Double(), ByRef ypoints As Double(), tx As Double, ty As Double)
+            Dim length As Integer = xpoints.Length
+
+            For i As Integer = 0 To length - 1
+                xpoints(i) += tx
+                ypoints(i) += ty
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' 缩放多边形
+        ''' </summary>
+        ''' <param name="sx">X轴缩放因子</param>
+        ''' <param name="sy">Y轴缩放因子</param>
+        Public Sub Scale(ByRef xpoints As Double(), ByRef ypoints As Double(), sx As Double, sy As Double)
+            Dim length As Integer = xpoints.Length
+            ' 计算多边形中心点作为缩放参考点
+            Dim cx As Double = 0
+            Dim cy As Double = 0
+            For i As Integer = 0 To length - 1
+                cx += xpoints(i)
+                cy += ypoints(i)
+            Next
+            cx /= length
+            cy /= length
+
+            ' 对每个顶点进行缩放
+            For i As Integer = 0 To length - 1
+                ' 相对于中心点缩放
+                xpoints(i) = cx + (xpoints(i) - cx) * sx
+                ypoints(i) = cy + (ypoints(i) - cy) * sy
+            Next
+        End Sub
     End Module
 End Namespace

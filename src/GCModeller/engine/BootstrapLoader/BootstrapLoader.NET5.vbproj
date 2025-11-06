@@ -23,6 +23,7 @@
 		<PackageIconUrl />
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<UseApplicationFramework>True</UseApplicationFramework>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

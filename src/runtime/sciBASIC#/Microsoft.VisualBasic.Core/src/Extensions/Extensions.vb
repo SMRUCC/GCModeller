@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::290a68801375534a689a09afab1e2300, Microsoft.VisualBasic.Core\src\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::df9c150fadf9fc1adfef4c42ff83e4ba, Microsoft.VisualBasic.Core\src\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1551
-    '    Code Lines: 855 (55.13%)
-    ' Comment Lines: 554 (35.72%)
+    '   Total Lines: 1554
+    '    Code Lines: 857 (55.15%)
+    ' Comment Lines: 554 (35.65%)
     '    - Xml Docs: 91.88%
     ' 
-    '   Blank Lines: 142 (9.16%)
-    '     File Size: 57.59 KB
+    '   Blank Lines: 143 (9.20%)
+    '     File Size: 57.60 KB
 
 
     ' Module Extensions
@@ -51,14 +51,14 @@
     '     Function: [Set], Add, (+5 Overloads) AddRange, AsRange, (+2 Overloads) Average
     '               CheckDuplicated, Constrain, DateToString, DescriptionValue, DriverRun
     '               FuzzyMatching, IndexOf, (+2 Overloads) InlineCopy, InsertOrUpdate, Invoke
-    '               InvokeSet, is_empty, Is_NA_UHandle, (+2 Overloads) IsNaNImaginary, (+2 Overloads) JoinBy
-    '               (+2 Overloads) LongSeq, MatrixToUltraLargeVector, MatrixTranspose, MatrixTransposeIgnoredDimensionAgreement, MD5
-    '               ModifyValue, (+2 Overloads) Offset, Range, Remove, RemoveDuplicates
-    '               RemoveFirst, (+2 Overloads) RemoveLast, Second, SeqRandom, (+3 Overloads) Sequence
-    '               (+11 Overloads) ShadowCopy, Shell, Shuffles, Slice, (+2 Overloads) SplitMV
-    '               Sum, (+2 Overloads) ToArray, ToBoolean, ToDictionary, ToNormalizedPathString
-    '               ToString, ToStringArray, ToVector, (+3 Overloads) TrimNull, TryCount
-    '               Unlist, WriteAddress
+    '               InvokeSet, is_empty, (+3 Overloads) IsNaNImaginary, (+2 Overloads) JoinBy, (+2 Overloads) LongSeq
+    '               MatrixToUltraLargeVector, MatrixTranspose, MatrixTransposeIgnoredDimensionAgreement, MD5, ModifyValue
+    '               (+2 Overloads) Offset, Range, Remove, RemoveDuplicates, RemoveFirst
+    '               (+2 Overloads) RemoveLast, Second, SeqRandom, (+3 Overloads) Sequence, (+11 Overloads) ShadowCopy
+    '               Shell, Shuffles, Slice, (+2 Overloads) SplitMV, Sum
+    '               (+2 Overloads) ToArray, ToBoolean, ToDictionary, ToNormalizedPathString, ToString
+    '               ToStringArray, ToVector, (+3 Overloads) TrimNull, TryCount, Unlist
+    '               WriteAddress
     ' 
     '     Sub: Add, Removes, (+2 Overloads) Swap, SwapItem
     ' 
@@ -641,13 +641,13 @@ Public Module Extensions
     End Function
 
     ''' <summary>
-    ''' Value assignment to the target variable.(将<paramref name="value"/>参数里面的值赋值给<paramref name="var"/>参数然后返回<paramref name="value"/>)
+    ''' Value assignment to the target variable.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="var"></param>
     ''' <param name="value"></param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>(将<paramref name="value"/>参数里面的值赋值给<paramref name="var"/>参数然后返回<paramref name="value"/>)</remarks>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension> Public Function InlineCopy(Of T)(ByRef var As T, value As T) As T
@@ -868,7 +868,7 @@ Public Module Extensions
             pre = dict(item.Key)
 
             Call dict.Remove(item.Key)
-            Call $"data was updated: {Scripting.ToString(pre)} -> {item.Key}".__DEBUG_ECHO
+            Call $"data was updated: {Scripting.ToString(pre)} -> {item.Key}".debug
         Else
             pre = item
         End If
@@ -1070,7 +1070,8 @@ Public Module Extensions
     <Extension>
     Public Function IsNaNImaginary(n As Double) As Boolean
 #Else
-    <Extension> Public Function Is_NA_UHandle(n As Double) As Boolean
+    <Extension> 
+    Public Function IsNaNImaginary(n As Double) As Boolean
 #End If
         Return Double.IsNaN(n) OrElse
             Double.IsInfinity(n) OrElse
@@ -1079,12 +1080,14 @@ Public Module Extensions
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function IsNaNImaginary(n As Single) As Boolean
+    <Extension>
+    Public Function IsNaNImaginary(n As Single) As Boolean
         Return Single.IsNaN(n) OrElse
             Single.IsInfinity(n) OrElse
             Single.IsNegativeInfinity(n) OrElse
             Single.IsPositiveInfinity(n)
     End Function
+
 #If FRAMEWORD_CORE Then
 
     ''' <summary>

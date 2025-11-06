@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f0a8f5b0f459050853e0380f80240bc, Microsoft.VisualBasic.Core\src\Extensions\Doc\Text.vb"
+﻿#Region "Microsoft.VisualBasic::81d59c6b10fb2940770dafe783b2ee7c, Microsoft.VisualBasic.Core\src\Extensions\Doc\Text.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 552
-    '    Code Lines: 327 (59.24%)
-    ' Comment Lines: 163 (29.53%)
-    '    - Xml Docs: 91.41%
+    '   Total Lines: 582
+    '    Code Lines: 351 (60.31%)
+    ' Comment Lines: 168 (28.87%)
+    '    - Xml Docs: 91.67%
     ' 
-    '   Blank Lines: 62 (11.23%)
-    '     File Size: 21.09 KB
+    '   Blank Lines: 63 (10.82%)
+    '     File Size: 22.48 KB
 
 
     ' Module TextDoc
@@ -57,6 +57,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -217,15 +218,23 @@ Public Module TextDoc
     Public Function IterateAllLines(path$,
                                     Optional encoding As Encodings = Encodings.Default,
                                     Optional verbose As Boolean = True,
-                                    Optional unsafe As Boolean = False) As IEnumerable(Of String)
-
-        Return path.IterateAllLines(encoding.CodePage, verbose:=verbose, unsafe:=unsafe)
+                                    Optional unsafe As Boolean = False,
+                                    Optional tqdm_wrap As Boolean = False) As IEnumerable(Of String)
+        Return path.IterateAllLines(
+            encoding:=encoding.CodePage,
+            verbose:=verbose,
+            unsafe:=unsafe,
+            tqdm_wrap:=tqdm_wrap
+        )
     End Function
 
     ''' <summary>
     ''' Reading a super large size text file through stream method.
     ''' </summary>
     ''' <param name="path"></param>
+    ''' <param name="tqdm_wrap">
+    ''' show tqdm progress bar for the file reading process when deal with a large file?
+    ''' </param>
     ''' <returns>不存在的文件会返回空集合</returns>
     ''' <remarks>
     ''' (通过具有缓存的流对象读取文本数据，使用迭代器来读取文件之中的所有的行，大文件推荐使用这个方法进行读取操作)
@@ -233,7 +242,8 @@ Public Module TextDoc
     <Extension>
     Public Iterator Function IterateAllLines(path$, encoding As Encoding,
                                              Optional verbose As Boolean = True,
-                                             Optional unsafe As Boolean = False) As IEnumerable(Of String)
+                                             Optional unsafe As Boolean = False,
+                                             Optional tqdm_wrap As Boolean = False) As IEnumerable(Of String)
         If path.IsURLPattern Then
             ' get request a html page
             For Each line As String In path.GET.LineTokens
@@ -247,7 +257,7 @@ Public Module TextDoc
                     Throw New InvalidProgramException($"in-valid! ({path})")
                 Else
                     If verbose Then
-                        Call $"the given path is a text paragraph? ({path})".Warning
+                        Call $"the given path is a text paragraph? ({path})".warning
                     End If
 
                     ' returns an empty string collection
@@ -258,7 +268,7 @@ Public Module TextDoc
             End If
 
             If verbose Then
-                Call $"the given path ({display_str}) is not exists on your file system!".Warning
+                Call $"the given path ({display_str}) is not exists on your file system!".warning
             End If
 
             ' returns an empty string collection
@@ -268,9 +278,32 @@ Public Module TextDoc
         ' path.Open is affects by the memory configuration
         Using fs As Stream = path.Open(FileMode.Open, doClear:=False, [readOnly]:=True, verbose:=verbose)
             Using reader As New StreamReader(fs, encoding Or DefaultEncoding)
-                Do While Not reader.EndOfStream
-                    Yield reader.ReadLine
-                Loop
+                If tqdm_wrap Then
+                    For Each line As String In TqdmWrapper.WrapStreamReader(Of String)(
+                        bytesOfStream:=fs.Length,
+                        request:=Function(ByRef offset, bar) As String
+                                     offset = reader.BaseStream.Position
+
+                                     If reader.EndOfStream Then
+                                         Call bar.Finish()
+                                         Return Nothing
+                                     Else
+                                         Return reader.ReadLine
+                                     End If
+                                 End Function)
+
+                        ' 20251106 break the possible dead loop at here
+                        If line Is Nothing Then
+                            Exit For
+                        Else
+                            Yield line
+                        End If
+                    Next
+                Else
+                    Do While Not reader.EndOfStream
+                        Yield reader.ReadLine
+                    Loop
+                End If
             End Using
         End Using
     End Function
@@ -282,7 +315,9 @@ Public Module TextDoc
     ''' <param name="encoding">
     ''' Parameter value is set to <see cref="DefaultEncoding"/> if this parameter is not specific.
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function may returns empty string if the file is empty or not exists
+    ''' </returns>
     <Extension>
     Public Function ReadFirstLine(path$, Optional encoding As Encoding = Nothing) As String
         If path.FileLength <= 0 Then
@@ -414,10 +449,10 @@ Public Module TextDoc
                 .ToArray
         Else
             If path.StringEmpty Then
-                Call "empty file path!".Warning
+                Call "empty file path!".warning
             Else
                 Try
-                    Call $"missing text file: {path.GetFullPath}!".Warning
+                    Call $"missing text file: {path.GetFullPath}!".warning
                 Catch ex As Exception
 
                 End Try

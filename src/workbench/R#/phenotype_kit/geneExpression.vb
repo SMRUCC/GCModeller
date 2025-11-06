@@ -94,7 +94,10 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports clr_df = Microsoft.VisualBasic.Data.Framework.DataFrame
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports r_vec = SMRUCC.Rsharp.Runtime.Internal.Object.vector
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
@@ -111,6 +114,7 @@ Module geneExpression
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of ExpressionPattern)(Function(a) DirectCast(a, ExpressionPattern).ToSummaryText)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
+        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEGModel()), AddressOf degTable)
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
 
         Call REnv.Internal.generic.add(
@@ -119,6 +123,27 @@ Module geneExpression
             [overloads]:=AddressOf getFuzzyPatternMembers
         )
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function degTable(degs As DEGModel(), args As list, env As Environment) As Rdataframe
+        Dim df As New Rdataframe With {
+            .rownames = degs.Keys.ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+        Dim metabolomics As Boolean = CLRVector.asScalarLogical(args.getBySynonyms("metabolite", "vip"))
+
+        Call df.add("t", From gi As DEGModel In degs Select gi.t)
+        Call df.add("log2fc", From gi As DEGModel In degs Select gi.logFC)
+        Call df.add("p-value", From gi As DEGModel In degs Select gi.pvalue)
+
+        If metabolomics Then
+            Call df.add("vip", From gi As DEGModel In degs Select gi.VIP)
+        End If
+
+        Call df.add("class", From gi As DEGModel In degs Select gi.class)
+
+        Return df
+    End Function
 
     Private Function getFuzzyPatternMembers(x As Object, args As list, env As Environment) As Object
         Dim cutoff As Double = args.getValue("cutoff", env, [default]:=0.6)
@@ -249,6 +274,25 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' get gene expression vector data
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="geneId"></param>
+    ''' <returns>a numeric vector of the target gene expression across multiple samples</returns>
+    <ExportAPI("expression_vector")>
+    <RApiReturn(TypeCodes.double)>
+    Public Function expressionVector(x As Matrix, geneId As String) As Object
+        Dim row As DataFrameRow = x(geneId)
+
+        If row Is Nothing Then
+            Call $"gene feature is missing from the expression matrix {x.tag}".warning
+            Return Nothing
+        Else
+            Return New r_vec(x.sampleID, row.experiments)
+        End If
+    End Function
+
+    ''' <summary>
     ''' set a new tag string to the matrix
     ''' </summary>
     ''' <param name="expr0"></param>
@@ -285,7 +329,7 @@ Module geneExpression
     End Function
 
     ''' <summary>
-    ''' set new sample id list to the matrix columns
+    ''' get/set new sample id list to the matrix columns
     ''' </summary>
     ''' <param name="x">target gene expression matrix object</param>
     ''' <param name="sample_ids">
@@ -294,13 +338,35 @@ Module geneExpression
     ''' matrix.
     ''' </param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function will get sample_id character vector from the input matrix if the 
+    ''' <paramref name="sample_ids"/> parameter is missing, otherwise it will set the new 
+    ''' sample id list to the input matrix object and return the modified matrix object.
+    ''' 
+    ''' if the input <paramref name="x"/> object is not a valid gene expression matrix object,
+    ''' then a error message object will be returned.
+    ''' </returns>
     ''' <remarks>
     ''' it is kind of ``colnames`` liked function for dataframe object.
     ''' </remarks>
-    <ExportAPI("setSamples")>
-    <RApiReturn(GetType(Matrix), GetType(MatrixViewer))>
-    Public Function setSampleIDs(x As Object, sample_ids As String(), Optional env As Environment = Nothing) As Object
+    <ExportAPI("sample_id")>
+    <RApiReturn(GetType(Matrix), GetType(MatrixViewer), GetType(String))>
+    Public Function setSampleIDs(x As Object,
+                                 <RByRefValueAssign>
+                                 Optional sample_ids As String() = Nothing,
+                                 Optional env As Environment = Nothing) As Object
+
+        If sample_ids.IsNullOrEmpty Then
+            ' getter
+            If TypeOf x Is Matrix Then
+                Return DirectCast(x, Matrix).sampleID
+            ElseIf TypeOf x Is MatrixViewer Then
+                Return DirectCast(x, MatrixViewer).SampleIDs.ToArray
+            Else
+                Return Message.InCompatibleType(GetType(Matrix), x.GetType, env)
+            End If
+        End If
+
         If TypeOf x Is Matrix Then
             Dim expr0 As Matrix = DirectCast(x, Matrix)
 
@@ -517,6 +583,10 @@ Module geneExpression
             Return DirectCast(REnv.asVector(Of DataSet)(file), DataSet()) _
                 .loadFromGenericDataSet(rm_ZERO, ignores) _
                 .uniqueGeneId(makeNames)
+        ElseIf TypeOf file Is clr_df Then
+            Return DirectCast(file, clr_df) _
+                .loadFromClrDataframe(rm_ZERO, ignores) _
+                .uniqueGeneId(makeNames)
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
         End If
@@ -702,6 +772,44 @@ Module geneExpression
     End Function
 
     <Extension>
+    Private Function loadFromClrDataframe(table As clr_df, rm_zero As Boolean, ignores As Index(Of String)) As Matrix
+        Dim sampleNames As String() = table.features.Keys.Where(Function(c) Not c Like ignores).ToArray
+        Dim genes As DataFrameRow() = New clr_df With {
+                .rownames = table.rownames,
+                .features = table.features _
+                    .Where(Function(c) Not c.Key Like ignores) _
+                    .ToDictionary(Function(a) a.Key,
+                                  Function(a)
+                                      Return a.Value
+                                  End Function)
+        } _
+            .foreachRow() _
+            .Select(Function(v)
+                        Return New DataFrameRow With {
+                            .geneID = v.name,
+                            .experiments = v.value _
+                                .Select(Function(obj) CDbl(obj)) _
+                                .ToArray
+                        }
+                    End Function) _
+            .ToArray
+
+        If rm_zero Then
+            genes = genes _
+                .Where(Function(gene)
+                           Return Not gene.experiments.All(Function(x) x = 0.0)
+                       End Function) _
+                .ToArray
+        End If
+
+        Return New Matrix With {
+            .expression = genes,
+            .sampleID = sampleNames,
+            .tag = table.description
+        }
+    End Function
+
+    <Extension>
     Private Function loadFromDataFrame(table As Rdataframe, rm_ZERO As Boolean, ignores As Index(Of String)) As Matrix
         Dim sampleNames As String() = table.columns.Keys.Where(Function(c) Not c Like ignores).ToArray
         Dim genes As DataFrameRow() = table _
@@ -853,6 +961,9 @@ Module geneExpression
     ''' </summary>
     ''' <param name="matrix">a gene expression matrix</param>
     ''' <param name="sampleinfo">The sample group data</param>
+    ''' <param name="strict">
+    ''' will try to ignores of the missing sample if strict option is off.
+    ''' </param>
     ''' <returns>
     ''' this function return value is determined based on the sampleinfo parameter:
     ''' 
@@ -861,14 +972,17 @@ Module geneExpression
     ''' </returns>
     <ExportAPI("average")>
     <RApiReturn(GetType(Matrix), GetType(Double))>
-    Public Function average(matrix As Matrix, Optional sampleinfo As SampleInfo() = Nothing) As Object
+    Public Function average(matrix As Matrix,
+                            Optional sampleinfo As SampleInfo() = Nothing,
+                            Optional strict As Boolean = True) As Object
+
         If sampleinfo.IsNullOrEmpty Then
             If Not sampleinfo Is Nothing Then
-                Call "the provided sample information is not nothing, but collection is empty. numeric vector of average for each gene expression will be returns.".Warning
+                Call "the provided sample information is not nothing, but collection is empty. numeric vector of average for each gene expression will be returns.".warning
             End If
             Return matrix.expression.Select(Function(v) v.Average).ToArray
         Else
-            Return Matrix.MatrixAverage(matrix, sampleinfo)
+            Return Matrix.MatrixAverage(matrix, sampleinfo, strict:=strict)
         End If
     End Function
 
@@ -1077,18 +1191,30 @@ Module geneExpression
     ''' <summary>
     ''' read the cmeans expression pattern result from file
     ''' </summary>
-    ''' <param name="file">a binary data pack file that contains the expression pattern raw data</param>
+    ''' <param name="file">a binary data pack file that contains the expression pattern raw data.
+    ''' if this file is given by a csv file, then this csv file should be the cmeans cluster 
+    ''' membership matrix outtput.</param>
+    ''' <param name="samples">
+    ''' should be a csv file path to the sample matrix data if the input <paramref name="file"/>
+    ''' is a csv membership matrix file.
+    ''' </param>
     ''' <returns></returns>
     ''' <remarks>
     ''' this function can also read the csv matrix file and 
     ''' then cast as the expression pattern data object.
     ''' </remarks>
     <ExportAPI("readPattern")>
-    Public Function readPattern(file As String) As ExpressionPattern
+    Public Function readPattern(file As String, Optional samples As String = Nothing) As ExpressionPattern
         If file.ExtensionSuffix("csv") Then
+            Dim sampleData As DataSet() = Nothing
+
+            If samples.FileExists Then
+                sampleData = DataSet.LoadDataSet(samples, silent:=True).ToArray
+            End If
+
             Return DataSet.LoadDataSet(file, silent:=True) _
                 .ToArray _
-                .CastAsPatterns
+                .CastAsPatterns(sampleData)
         Else
             Return Reader.ReadExpressionPattern(file.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
         End If
@@ -1316,6 +1442,8 @@ Module geneExpression
                            Optional legend_tick_css As String = CSSFont.Win7Small,
                            Optional axis_tick_css$ = CSSFont.Win10Normal,
                            Optional axis_label_css$ = CSSFont.Win7Small,
+                           Optional grid_fill As String = NameOf(Color.LightGray),
+                           Optional grid_draw As Boolean = True,
                            Optional x_lab_rotate As Double = 45,
                            Optional env As Environment = Nothing) As Object
 
@@ -1354,7 +1482,9 @@ Module geneExpression
                            legendTitleStyle:=legend_title_css,
                            legendTickStyle:=legend_tick_css,
                            axisTickCSS:=axis_tick_css,
-                           axisLabelCSS:=axis_label_css
+                           axisLabelCSS:=axis_label_css,
+                           gridFill:=grid_fill,
+                           gridDraw:=grid_draw
                        )
                    End Function
 
@@ -1411,6 +1541,19 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' The limma algorithm (Linear Models for Microarray Data) is a widely used statistical framework in R/Bioconductor 
+    ''' for differential expression (DE) analysis of RNA-seq data. Originally designed for microarray studies, its 
+    ''' flexibility and robustness have extended its utility to RNA-seq through the voomtransformation. 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="design"></param>
+    ''' <returns></returns>
+    <ExportAPI("limma")>
+    Public Function limma(x As Matrix, design As DataAnalysis) As DEGModel()
+        Return x.LmFit(design).ToArray
+    End Function
+
+    ''' <summary>
     ''' log scale of the HTS raw matrix
     ''' </summary>
     ''' <param name="expr">should be a HTS expression matrix object</param>
@@ -1434,19 +1577,74 @@ Module geneExpression
     End Function
 
     ''' <summary>
-    ''' get gene Id list
+    ''' min max normalization
+    ''' 
+    ''' (row - min(row)) / (max(row) - min(row))
+    ''' 
+    ''' this normalization method is usually used for the metabolomics data
     ''' </summary>
-    ''' <param name="dep">
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    <ExportAPI("minmax01Norm")>
+    Public Function minmax01(x As Matrix) As Object
+        Return x.MinMaxNorm
+    End Function
+
+    <ExportAPI("take_shuffle")>
+    Public Function take_shuffle(x As Matrix, n As Integer) As dataframe
+        Dim sample = x.expression.OrderBy(Function() randf.NextDouble()).Take(n).ToArray
+        Dim data As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = sample _
+                .Select(Function(r) r.geneID) _
+                .ToArray
+        }
+
+        For Each gene As DataFrameRow In sample
+            Call data.add(gene.geneID, gene.experiments)
+        Next
+
+        Return data
+    End Function
+
+    ''' <summary>
+    ''' get gene Id list or byref set of the gene id alias set.
+    ''' </summary>
+    ''' <param name="x">
     ''' A collection of the deg/dep object or a raw HTS matrix object
     ''' </param>
     ''' <returns>A collection of the gene id set</returns>
+    ''' <example>
+    ''' let rnaseqs = load.expr("rnaseq.csv");
+    ''' let alias = readLines("gene_id.txt");
+    ''' 
+    ''' print(rnaseqs |> geneId());
+    ''' 
+    ''' geneId(rnaseqs) &lt;- alias;
+    ''' </example>
     <ExportAPI("geneId")>
     <RApiReturn(GetType(String))>
-    Public Function geneId(<RRawVectorArgument> dep As Object, Optional env As Environment = Nothing) As Object
-        If TypeOf dep Is Matrix Then
-            Return DirectCast(dep, Matrix).rownames
+    Public Function geneId(<RRawVectorArgument> x As Object,
+                           <RRawVectorArgument>
+                           <RByRefValueAssign>
+                           Optional set_id As Object = Nothing,
+                           Optional env As Environment = Nothing) As Object
+
+        If TypeOf x Is Matrix Then
+            If Not set_id Is Nothing Then
+                Dim set_idset As String() = CLRVector.asCharacter(set_id)
+                Dim set_matrix As Matrix = DirectCast(x, Matrix)
+
+                For i As Integer = 0 To set_matrix.expression.Length - 1
+                    set_matrix.expression(i).geneID = set_idset(i)
+                Next
+
+                Call set_matrix.ResetIndex()
+            End If
+
+            Return DirectCast(x, Matrix).rownames
         Else
-            Dim deps As pipeline = pipeline.TryCreatePipeline(Of DEP_iTraq)(dep, env)
+            Dim deps As pipeline = pipeline.TryCreatePipeline(Of DEP_iTraq)(x, env)
 
             If deps.isError Then
                 Return deps.getError
@@ -1462,7 +1660,7 @@ Module geneExpression
     ''' <summary>
     ''' create gene expression DEG model
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="x">usually be a dataframe object of the different expression analysis result</param>
     ''' <param name="logFC"></param>
     ''' <param name="pvalue"></param>
     ''' <param name="label"></param>
@@ -1496,17 +1694,39 @@ Module geneExpression
         End If
     End Function
 
+    ''' <summary>
+    ''' set deg class label
+    ''' </summary>
+    ''' <param name="deg"></param>
+    ''' <param name="class_labels">
+    ''' set deg class label manually
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("deg.class")>
     <RApiReturn(GetType(DEGModel))>
-    Public Function DEGclass(deg As DEGModel(), <RRawVectorArgument> classLabel As Object) As Object
-        Dim classList As String() = CLRVector.asCharacter(classLabel)
+    Public Function DEGclass(deg As DEGModel(), <RRawVectorArgument> Optional class_labels As Object = Nothing,
+                             Optional logFC As Double = 1,
+                             Optional pval_cutoff As Double = 0.05) As Object
+
+        Dim classList As String() = CLRVector.asCharacter(class_labels)
         Dim getClass As Func(Of Integer, String)
 
-        If classList.Length = 1 Then
-            getClass = Function() classList(Scan0)
-        Else
-            getClass = Function(i) classList(i)
+        If classList.IsNullOrEmpty Then
+            ' set sig/not_sig via logfc and pvalue cutoff
+            classList = deg _
+                .Select(Function(gene)
+                            If gene.pvalue < pval_cutoff AndAlso std.Abs(gene.logFC) > logFC Then
+                                Return "sig"
+                            Else
+                                Return "not_sig"
+                            End If
+                        End Function) _
+                .ToArray
         End If
+
+        getClass = GetVectorElement _
+            .Create(Of String)(classList) _
+            .Getter(Of String)
 
         Return deg _
             .Select(Function(d, i)
@@ -1514,7 +1734,10 @@ Module geneExpression
                             .[class] = getClass(i),
                             .label = d.label,
                             .logFC = d.logFC,
-                            .pvalue = d.pvalue
+                            .pvalue = d.pvalue,
+                            .fdr = d.fdr,
+                            .t = d.t,
+                            .VIP = d.VIP
                         }
                     End Function) _
             .ToArray

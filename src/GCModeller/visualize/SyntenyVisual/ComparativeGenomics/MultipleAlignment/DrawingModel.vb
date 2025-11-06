@@ -62,6 +62,16 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel
 
+#If NET48 Then
+Imports Brush = System.Drawing.Brush
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports Brushes = System.Drawing.Brushes
+#Else
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+#End If
+
 Namespace ComparativeAlignment
 
     Public Structure ColorLegend : Implements INamedValue

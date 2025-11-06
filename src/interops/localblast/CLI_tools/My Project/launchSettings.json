@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "localblast": {
+      "commandName": "Project",
+      "commandLineArgs": "/export_blastp /in \"M:\\project\\20251010-wheat\\20251105\\LargePanicleDevelopment\\blastp\\TF\\TF_Lanmai.txt\""
+    }
+  }
+}

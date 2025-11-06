@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4f1881a88ecf1b1364c300fdc3fbe52, Microsoft.VisualBasic.Core\src\Language\Value\Numeric\i32.vb"
+﻿#Region "Microsoft.VisualBasic::0b8b1e06ea0bdf9299711d820870690d, Microsoft.VisualBasic.Core\src\Language\Value\Numeric\i32.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 313
-    '    Code Lines: 178 (56.87%)
-    ' Comment Lines: 94 (30.03%)
-    '    - Xml Docs: 94.68%
+    '   Total Lines: 312
+    '    Code Lines: 178 (57.05%)
+    ' Comment Lines: 93 (29.81%)
+    '    - Xml Docs: 94.62%
     ' 
-    '   Blank Lines: 41 (13.10%)
-    '     File Size: 11.23 KB
+    '   Blank Lines: 41 (13.14%)
+    '     File Size: 11.22 KB
 
 
     '     Class i32
@@ -293,10 +293,9 @@ Namespace Language
 
         ''' <summary>
         ''' Auto increment value with step 1 and then returns the previous value.
-        ''' (自增1然后返回之前的值)
         ''' </summary>
         ''' <param name="x"></param>
-        ''' <returns></returns>
+        ''' <returns>自增1然后返回之前的值</returns>
         Public Overloads Shared Operator +(x As i32) As Integer
             Dim i As Integer = x.Value
             x.Value += 1

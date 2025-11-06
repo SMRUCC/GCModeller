@@ -274,7 +274,7 @@ Namespace ComponentModel
                 Try
                     AtomWeight = PeriodicTable(Atom)
                 Catch ex As Exception
-                    Call $"Atom ""{Atom}"" is not found!  [{Formula}]".__DEBUG_ECHO
+                    Call $"Atom ""{Atom}"" is not found!  [{Formula}]".debug
                     Return 0  '出错了，无法进行计算
                 End Try
 

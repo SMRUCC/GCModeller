@@ -1,62 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::d7b80db5377684811665f89745d09316, engine\Dynamics\Core\Mass\MassDynamics.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 194
-    '    Code Lines: 142 (73.20%)
-    ' Comment Lines: 24 (12.37%)
-    '    - Xml Docs: 62.50%
-    ' 
-    '   Blank Lines: 28 (14.43%)
-    '     File Size: 7.68 KB
+' Summaries:
 
 
-    '     Class MassDynamics
-    ' 
-    '         Properties: Name, Value
-    ' 
-    '         Function: createMassIndex, Evaluate, getLastFluxVariants, PopulateDynamics, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 194
+'    Code Lines: 142 (73.20%)
+' Comment Lines: 24 (12.37%)
+'    - Xml Docs: 62.50%
+' 
+'   Blank Lines: 28 (14.43%)
+'     File Size: 7.68 KB
+
+
+'     Class MassDynamics
+' 
+'         Properties: Name, Value
+' 
+'         Function: createMassIndex, Evaluate, getLastFluxVariants, PopulateDynamics, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 
@@ -82,13 +83,19 @@ Namespace Core
             End Set
         End Property
 
-        Public Overrides Property Value As Double Implements Ivar.value
+        Public Overrides Property Value As Double
             Get
                 Return mass.Value
             End Get
             Set(value As Double)
-                If Not mass Is Nothing Then
-                    mass.Value = value
+                If mass IsNot Nothing AndAlso Not is_template Then
+                    If Double.IsNaN(value) OrElse Double.IsNegativeInfinity(value) OrElse value < 0 Then
+                        Call mass.reset(0.0)
+                    ElseIf Double.IsPositiveInfinity(value) Then
+                        Call mass.reset(9999)
+                    Else
+                        Call mass.reset(value)
+                    End If
                 End If
             End Set
         End Property
@@ -102,8 +109,12 @@ Namespace Core
         Dim shareFactors As (left As Dictionary(Of String, Double), right As Dictionary(Of String, Double))
         Dim fluxVariants As var()
         Dim fluxValues As Double()
+        Dim fluxForward As Double()
+        Dim fluxReverse As Double()
+        Dim is_template As Boolean = False
 
-        Private Sub New()
+        Private Sub New(is_template As Boolean)
+            Me.is_template = is_template
         End Sub
 
         Public Function Evaluate() As Double Implements INonlinearVar.Evaluate
@@ -121,13 +132,16 @@ Namespace Core
                 flux = channels(i)
                 dir = flux.GetCurrentDirection
 
+                Dim forward As Double = SafeFactorValue(flux.forward.coefficient, -100, 100)
+                Dim reverse As Double = SafeFactorValue(flux.reverse.coefficient, -100, 100)
+
                 Select Case dir
                     Case Directions.forward
-                        variants = flux.forward.coefficient - flux.reverse.coefficient
+                        variants = forward - reverse
                         fluxVariant = flux.CoverLeft(shareFactors.left, variants)
                         variants = factors(i) * fluxVariant
                     Case Directions.reverse
-                        variants = flux.reverse.coefficient - flux.forward.coefficient
+                        variants = reverse - forward
                         fluxVariant = -flux.CoverRight(shareFactors.right, variants)
                         variants = factors(i) * fluxVariant
                     Case Directions.stop
@@ -137,14 +151,43 @@ Namespace Core
                         Throw New InvalidProgramException($"Unknown reaction direction status of reaction flux: {flux.ID}!")
                 End Select
 
+                variants = SafeFactorValue(variants, -100, 100)
+                fluxVariant = SafeFactorValue(fluxVariant, -100, 100)
+
                 additions(i) = variants
                 fluxValues(i) = fluxVariant
+                fluxForward(i) = forward
+                fluxReverse(i) = reverse
             Next
 
             Dim dy As Double = additions.Average
             ' dy = (channels.Length * dy) / (channels.Length + Math.Abs(dy))
             Return dy
         End Function
+
+        Private Shared Function SafeFactorValue(variants As Double, clipMin As Double, clipMax As Double) As Double
+            If Double.IsNaN(variants) Then
+                variants = 0
+            ElseIf Double.IsPositiveInfinity(variants) Then
+                variants = clipMax
+            ElseIf Double.IsNegativeInfinity(variants) Then
+                variants = clipMin
+            End If
+
+            Return variants
+        End Function
+
+        Public Sub setReverse(ByRef buffer As Dictionary(Of String, Double))
+            For i As Integer = 0 To fluxReverse.Length - 1
+                buffer(channels(i).ID) = fluxReverse(i)
+            Next
+        End Sub
+
+        Public Sub setForward(ByRef buffer As Dictionary(Of String, Double))
+            For i As Integer = 0 To fluxForward.Length - 1
+                buffer(channels(i).ID) = fluxForward(i)
+            Next
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getLastFluxVariants() As IEnumerable(Of var)
@@ -202,6 +245,7 @@ Namespace Core
             Dim templates As Index(Of String) = Nothing
             Dim massIndex = createMassIndex(env.Channels, templates)
             Dim channels As Channel()
+            Dim missingFlux As New List(Of String)
 
             For Each mass As Factor In env.m_massIndex.Values
                 Call factors.Clear()
@@ -209,7 +253,7 @@ Namespace Core
                 If Not massIndex.ContainsKey(mass.ID) Then
                     If Not mass.ID Like templates Then
                         ' compound is constant value
-                        Call ($"missing dynamics for compound: " & mass.ID).Warning
+                        Call missingFlux.Add(mass.ID)
                     End If
 
                     channels = {}
@@ -217,7 +261,7 @@ Namespace Core
                     channels = massIndex(mass.ID).ToArray
                 End If
 
-                ' channels = channels.Where(Function(fx) Not (fx.left.IsNullOrEmpty OrElse fx.right.IsNullOrEmpty)).ToArray
+                Dim is_template As Boolean = False
 
                 For Each flux As Channel In channels
                     matter = flux.GetReactants _
@@ -236,13 +280,17 @@ Namespace Core
                         ' 相关系数为正实数
                         factors.Add(matter.coefficient)
                     End If
+
+                    If matter.isTemplate Then
+                        is_template = True
+                    End If
                 Next
 
                 If channels.IsNullOrEmpty Then
                     Continue For
                 End If
 
-                Yield New MassDynamics With {
+                Yield New MassDynamics(is_template) With {
                     .mass = mass,
                     .factors = factors.ToArray,
                     .channels = channels,
@@ -256,9 +304,20 @@ Namespace Core
                                     }
                                 End Function) _
                         .ToArray,
-                    .fluxValues = New Double(.fluxVariants.Length - 1) {}
+                    .fluxValues = New Double(.fluxVariants.Length - 1) {},
+                    .fluxForward = New Double(.fluxVariants.Length - 1) {},
+                    .fluxReverse = New Double(.fluxVariants.Length - 1) {}
                 }
             Next
+
+            If missingFlux.Any Then
+                If redirectWarning() Then
+                    Call $"missing {missingFlux.Count} dynamics for compounds: {missingFlux.JoinBy(", ")}!".warning
+                    Call $"missing {missingFlux.Count} dynamics for compounds: {missingFlux.Concatenate(", ", max_number:=13)}!".debug
+                Else
+                    Call $"missing {missingFlux.Count} dynamics for compounds: {missingFlux.Concatenate(", ", max_number:=13)}!".warning
+                End If
+            End If
         End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of var) Implements Enumeration(Of var).GenericEnumerator

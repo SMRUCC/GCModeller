@@ -133,7 +133,7 @@ Namespace PathwayProfile
                             Dim taxonomy As Taxonomy = tax.taxonomy
                             Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
 
-                            Call taxonomy.ToString(BIOMstyle:=True).__DEBUG_ECHO
+                            Call taxonomy.ToString(BIOMstyle:=True).debug
 
                             ' 因为可能是gast.taxonomy，所以在这里需要使用new来进行复制
                             ' 否则后面的json/XML序列化会出错

@@ -204,9 +204,10 @@ Public Module Protocol
 
         ' pvalue / scores
         ' 在这里score是这个motif的多重比对的结果的PWM矩阵对原始序列的扫描结果的最高得分值
+        Dim PWMvec As Residue() = residues.ToArray
         Dim scores As Vector = members _
             .Select(Function(fa)
-                        Dim best As MotifMatch = residues _
+                        Dim best As MotifMatch = PWMvec _
                             .ScanSites(fa, param.ScanCutoff, param.ScanMinW) _
                             .OrderByDescending(Function(a) a.identities) _
                             .FirstOrDefault

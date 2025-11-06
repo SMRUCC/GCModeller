@@ -76,7 +76,7 @@ Namespace Assembly.NCBI.Entrez
             Dim url As String = CreateQuery(Keyword, Organism)
             Dim pageContent As String = url.GET
 
-            Call Debug.WriteLine(url)
+            Call url.debug
 
             pageContent = Mid(pageContent, InStr(pageContent, "<div class=""title_and_pager"">", CompareMethod.Text) + 20)
             pageContent = Mid(pageContent, 1, InStr(pageContent, "<div class=""title_and_pager bottom"">", CompareMethod.Text))

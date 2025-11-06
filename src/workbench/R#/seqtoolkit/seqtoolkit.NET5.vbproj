@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\MotifGraph\MotifGraph.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\OperonMapper\OperonMapper.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.netcoreapp.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\gwANI\gwANI.NET5.vbproj" />
@@ -54,6 +55,7 @@
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\data\RCSB PDB\RCSB PDB.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\visualize\SyntenyVisual\SyntenyVisual.vbproj" />
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\Library\shares\graphics.common_runtime\R_graphics.common_runtime.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />

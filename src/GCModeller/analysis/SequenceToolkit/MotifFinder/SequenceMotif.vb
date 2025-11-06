@@ -67,6 +67,8 @@ Public Class SequenceMotif : Inherits Probability
     <XmlAttribute>
     Public Property alignments As Double()
 
+    Public Property tag As String
+
     Public ReadOnly Property RSD As Double
         Get
             Return alignments.RSD

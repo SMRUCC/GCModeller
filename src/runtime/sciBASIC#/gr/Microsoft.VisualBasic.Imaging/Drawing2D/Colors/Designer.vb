@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a8c6a83bc5ccbc5176d010888ef5a1f, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
+﻿#Region "Microsoft.VisualBasic::b76598bc16af2e8177635e9b25dc5617, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 88.43%
     ' 
     '   Blank Lines: 65 (10.43%)
-    '     File Size: 34.18 KB
+    '     File Size: 34.20 KB
 
 
     '     Module Designer
@@ -476,7 +476,7 @@ Namespace Drawing2D.Colors
                 Case "d3.scale.category20c()" : Return d3js.category20c
 
                     ' viridis
-                Case "viridis" : Return Viridis.viridis.ToArray
+                Case "viridis:viridis", "viridis" : Return Viridis.viridis.ToArray
                 Case "viridis:magma", "magma" : Return Viridis.magma.ToArray
                 Case "viridis:inferno", "inferno" : Return Viridis.inferno.ToArray
                 Case "viridis:plasma", "plasma" : Return Viridis.plasma.ToArray

@@ -133,7 +133,7 @@ Namespace Pipeline.Database
                 tokens.TryCount = 0 OrElse
                 tokens.Length < 2 Then
 
-                Call $"NULL title tokens!!!  ----->   ""{str}""".__DEBUG_ECHO
+                Call $"NULL title tokens!!!  ----->   ""{str}""".debug
 
                 Return internalCreateNull(Of T)()
             Else

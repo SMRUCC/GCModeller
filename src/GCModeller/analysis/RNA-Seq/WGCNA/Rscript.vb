@@ -1,58 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::99b703267b590bc82becd991c877a004, analysis\RNA-Seq\WGCNA\Rscript.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 99
-    '    Code Lines: 93 (93.94%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 6 (6.06%)
-    '     File Size: 8.89 KB
+' Summaries:
 
 
-    ' Module Rscript
-    ' 
-    '     Function: FastImports
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 99
+'    Code Lines: 93 (93.94%)
+' Comment Lines: 0 (0.00%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 6 (6.06%)
+'     File Size: 8.89 KB
+
+
+' Module Rscript
+' 
+'     Function: FastImports
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
@@ -131,22 +136,101 @@ Principal Component Analysis",
       Year:=2011, Volume:=6, PubMed:=22039529)>
 Public Module Rscript
 
+    ''' <summary>
+    ''' load wgcna weight matrix
+    ''' </summary>
+    ''' <param name="path"></param>
+    ''' <param name="threshold"></param>
+    ''' <param name="prefix$"></param>
+    ''' <returns></returns>
     Public Function FastImports(path As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
-        Dim lines As String() = path.IterateAllLines.ToArray
-        Dim tokens = lines.Skip(1).Select(Function(line) line.Split(ASCII.TAB)).ToArray
-        Dim weights As IEnumerable(Of Weight) = tokens _
-            .Select(Function(line)
-                        Dim u As String = If(prefix Is Nothing, line(Scan0), prefix & line(Scan0))
-                        Dim v As String = If(prefix Is Nothing, line(1), prefix & line(1))
+        Return WGCNAWeight.CreateMatrix(dataSet:=LoadTOMWeights(path, threshold, prefix))
+    End Function
 
-                        Return New Weight With {
-                            .FromNode = u,
-                            .ToNode = v,
-                            .Weight = Val(line(2))
-                        }
-                    End Function) _
-            .Where(Function(itr) itr.Weight >= threshold)
+    <Extension>
+    Public Function AsDataMatrix(wgcna As WGCNAWeight) As DataMatrix
+        Dim names As String() = wgcna.geneSet.ToArray
+        Dim w As Double()() = RectangularArray.Matrix(Of Double)(names.Length, names.Length)
 
-        Return WGCNAWeight.CreateMatrix(dataSet:=weights)
+        For i As Integer = 0 To names.Length - 1
+            Dim u As String = names(i)
+            Dim wij As Double() = w(i)
+
+            For j As Integer = 0 To names.Length - 1
+                wij(j) = wgcna(u, names(j))
+            Next
+        Next
+
+        Return New DataMatrix(names, w)
+    End Function
+
+    Private Function LoadTOMWeights(path As String, threshold As Double, prefix$) As IEnumerable(Of Weight)
+        Dim headers As Index(Of String) = Tokenizer.CharsParser(path.ReadFirstLine, delimiter:=ASCII.TAB).Indexing
+        Dim fromNode As Integer = headers(NameOf(fromNode))
+        Dim toNode As Integer = headers(NameOf(toNode))
+        Dim weight As Integer = headers(NameOf(weight))
+        Dim direction As Integer = headers(NameOf(direction))
+        Dim fromAltName As Integer = headers(NameOf(fromAltName))
+        Dim toAltName As Integer = headers(NameOf(toAltName))
+        Dim weights As IEnumerable(Of Weight) =
+            From line As String
+            In path.IterateAllLines(tqdm_wrap:=True).Skip(1).AsParallel
+            Let data As String() = Tokenizer.CharsParser(line, ASCII.TAB).ToArray
+            Let w As Double = Double.Parse(data(weight))
+            Where w > threshold
+            Select New Weight With {
+                .weight = w,
+                .direction = If(direction >= 0, data(direction), Nothing),
+                .fromAltName = If(fromAltName >= 0, data(fromAltName), Nothing),
+                .fromNode = If(prefix Is Nothing, data(fromNode), prefix & data(fromNode)),
+                .toAltName = If(toAltName >= 0, data(toAltName), Nothing),
+                .toNode = If(prefix Is Nothing, data(toNode), prefix & data(toNode))
+            }
+
+        Return weights
+    End Function
+
+    ''' <summary>
+    ''' load network graph from the WGCNA exportNetworkToCytoscape function exports
+    ''' </summary>
+    ''' <param name="edges"></param>
+    ''' <param name="nodes"></param>
+    ''' <param name="threshold"></param>
+    ''' <param name="prefix$"></param>
+    ''' <returns></returns>
+    Public Function LoadTOMModuleGraph(edges As String, nodes As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As NetworkGraph
+        Return LoadTOMModuleGraph(LoadTOMWeights(edges, threshold, prefix), WGCNAModules.LoadModules(nodes))
+    End Function
+
+    <Extension>
+    Public Function LoadTOMModuleGraph(edges As IEnumerable(Of Weight), nodes As IEnumerable(Of CExprMods)) As NetworkGraph
+        Dim g As New NetworkGraph
+
+        For Each node As CExprMods In nodes
+            Call g.CreateNode(node.nodeName, New NodeData With {
+                .label = node.nodeName,
+                .origID = node.nodeName,
+                .Properties = New Dictionary(Of String, String) From {
+                    {"module", node.nodesPresent}
+                }
+            })
+        Next
+
+        For Each edge As Weight In edges
+            Call g.CreateEdge(
+                g.GetElementByID(edge.fromNode),
+                g.GetElementByID(edge.toNode),
+                weight:=edge.weight,
+                data:=New EdgeData With {
+                    .label = $"{edge.fromNode}--{edge.toNode}",
+                    .Properties = New Dictionary(Of String, String) From {
+                        {"fromAltName", edge.fromAltName},
+                        {"toAltName", edge.toAltName},
+                        {"direction", edge.direction}
+                    }
+                })
+        Next
+
+        Return g
     End Function
 End Module

@@ -53,11 +53,13 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -83,6 +85,10 @@ Namespace ModelLoader
             default_compartment = loader.massTable.defaultCompartment
             infinitySource = loader.define.GetInfinitySource
 
+            If infinitySource.Any Then
+                Call $"{infinitySource.Objects.GetJson} are assume as infinity content.".debug
+            End If
+
             loader.fluxIndex.Add(NameOf(MetabolismNetworkLoader), New List(Of String))
         End Sub
 
@@ -91,7 +97,7 @@ Namespace ModelLoader
         ''' </summary>
         ''' <returns></returns>
         Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
-            Dim KOfunctions = cell.Genotype.centralDogmas _
+            Dim KOfunctions As Dictionary(Of String, String()) = cell.Genotype.centralDogmas _
                 .Select(Function(cd) (If(cd.orthology, cd.geneID), cd.polypeptide)) _
                 .GroupBy(Function(pro) pro.Item1) _
                 .ToDictionary(Function(KO) KO.Key,
@@ -112,7 +118,7 @@ Namespace ModelLoader
 
             Call VBDebugger.EchoLine("Initialize of the metabolism network...")
 
-            For Each reaction As Reaction In TqdmWrapper.Wrap(cell.Phenotype.fluxes)
+            For Each reaction As Reaction In TqdmWrapper.Wrap(cell.Phenotype.fluxes, wrap_console:=App.EnableTqdm)
                 If reaction.AllCompounds.Any(AddressOf generals.ContainsKey) Then
                     For Each instance In generalFluxExpansion(reaction, KOfunctions)
                         Yield instance
@@ -202,7 +208,7 @@ Namespace ModelLoader
                     Dim scalar As Kinetics = reaction.kinetics(0)
 
                     forward = New KineticsControls(
-                        env:=loader.getKernel,
+                        env:=loader.massTable,
                         lambda:=scalar.CompileLambda(geneIndex),
                         raw:=scalar.formula,
                         pars:=SetParameterLinks(scalar.paramVals _
@@ -216,7 +222,7 @@ Namespace ModelLoader
                     ' multiple kineticis overlaps
                     forward = New KineticsOverlapsControls(
                         From k In reaction.kinetics Select New KineticsControls(
-                            env:=loader.getKernel,
+                            env:=loader.massTable,
                             lambda:=k.CompileLambda(geneIndex),
                             raw:=k.formula,
                             pars:=SetParameterLinks(k.paramVals _
@@ -244,9 +250,18 @@ Namespace ModelLoader
                 }
             End If
 
+            Dim compart_idset = left.JoinIterates(right).Select(Function(f) f.mass.cellular_compartment).Distinct.ToArray
+            Dim compart_suffix As String
+
+            If compart_idset.Length = 1 Then
+                compart_suffix = compart_idset(0)
+            Else
+                compart_suffix = $"transportOf_{compart_idset.JoinBy(",")}"
+            End If
+
             Dim metabolismFlux As New Channel(left, right) With {
                 .bounds = bounds,
-                .ID = reaction.ID,
+                .ID = reaction.ID & "@" & compart_suffix,
                 .forward = forward,
                 .reverse = reverse
             }
@@ -255,13 +270,17 @@ Namespace ModelLoader
             metabolismFlux.forward.inhibition = productInhibitionFactor(metabolismFlux.right, productCompart)
             metabolismFlux.reverse.inhibition = productInhibitionFactor(metabolismFlux.left, reactantCompart)
 
+            If metabolismFlux.isBroken Then
+                Throw New InvalidDataException(String.Format(metabolismFlux.Message, metabolismFlux.ID))
+            End If
+
             Call loader.fluxIndex(NameOf(MetabolismNetworkLoader)).Add(metabolismFlux.ID)
 
             Return metabolismFlux
         End Function
 
         Private Iterator Function generalFluxExpansion(template As Reaction, KOfunctions As Dictionary(Of String, String())) As IEnumerable(Of Channel)
-            Call $"Generic {template.ID} = {template.name}".__INFO_ECHO
+            Call $"Generic {template.ID} = {template.name}".info
         End Function
 
         Private Function productInhibitionFactor(factors As IEnumerable(Of Variable), compart_id As String) As Variable()

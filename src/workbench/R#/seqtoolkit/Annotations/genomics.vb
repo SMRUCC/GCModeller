@@ -57,6 +57,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -64,6 +65,8 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.Model.OperonMapper
+Imports SMRUCC.genomics.Visualize.SyntenyVisualize
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -76,6 +79,11 @@ Module genomics
     <ExportAPI("read.gtf")>
     Public Function readGtf(file As String) As GeneBrief()
         Return Gtf.ParseFile(file)
+    End Function
+
+    <ExportAPI("read.gff")>
+    Public Function readGff(file As String) As GFFTable
+        Return GFFTable.LoadDocument(file)
     End Function
 
     <ExportAPI("as.tabular")>
@@ -225,5 +233,24 @@ Module genomics
         End If
 
         Return 0
+    End Function
+
+    ''' <summary>
+    ''' load operon set data from the ODB database
+    ''' </summary>
+    ''' <param name="file">dataset text file that download from https://operondb.jp/</param>
+    ''' <returns></returns>
+    <ExportAPI("operon_set")>
+    Public Function operon_set(Optional file As String = Nothing) As OperonRow()
+        If file.StringEmpty(, True) Then
+            Return OperonRow.LoadInternalResource.ToArray
+        Else
+            Return OperonRow.Load(file).ToArray
+        End If
+    End Function
+
+    <ExportAPI("read.nucmer")>
+    Public Function read_nucmer(file As String) As DeltaFile
+        Return DeltaFile.LoadDocument(file)
     End Function
 End Module

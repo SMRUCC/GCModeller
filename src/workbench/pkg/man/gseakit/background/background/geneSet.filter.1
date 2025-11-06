@@ -1,0 +1,49 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-Jan "geneSet.filter" "geneSet.filter"
+.SH NAME
+geneSet.filter \- make filter of the background model
+.SH SYNOPSIS
+\fIgeneSet.filter(\fBbackground\fR as <generic> Background, 
+\fBgeneSet\fR as any, 
+\fBmin_size\fR as integer = 3, 
+\fBmax_intersects\fR as integer = 500, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+make filter of the background model
+.PP
+.SH OPTIONS
+.PP
+\fBbackground\fB \fR\- -. 
+.PP
+.PP
+\fBgeneSet\fB \fR\- usually be a character of the gene id set.. 
+.PP
+.PP
+\fBmin_size\fB \fR\- the min feature size is required for each cluster. 
+ all of the cluster that have the feature number less than this cutoff 
+ will be removed from the background.. 
+.PP
+.PP
+\fBmax_intersects\fB \fR\- the max intersect number that each cluster 
+ intersect with the input geneSet. all of the clusters that greater than 
+ this value will be removed from the background.. 
+.PP
+.SH VALUE
+.PP
+a new background model that has cluster filtered by the given rule.
+.PP
+.SH EXAMPLES
+.PP
+let kb = read.background("hsa.xml");
+ let idset = c("id1","id2","id3");
+ let filter_kb = kb |> geneSet.filter(idset, min.size=5, max.intersects=500);
+ 
+ print(background_summary(filter_kb));
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP

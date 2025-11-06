@@ -339,6 +339,35 @@ Module report
         End If
     End Function
 
+    ''' <summary>
+    ''' Parse the kegg pathway node highlight information
+    ''' </summary>
+    ''' <param name="x">
+    ''' should be a character string that contains the pathway nodes id and 
+    ''' optional highligh color for make the kegg pathway map rendering.
+    ''' 
+    ''' value should be in formats of:
+    ''' 
+    '''     "K00001:blue;K00002:red;C00001:green"
+    ''' 
+    ''' where the first part is the kegg id, the second part is the highlight color.
+    ''' 
+    ''' or just a list of the kegg id without highlight color, such as:
+    ''' 
+    '''     "K00001;K00002;C00001"
+    ''' 
+    ''' The default color is "red" if the highlight color is not specified.
+    ''' </param>
+    ''' <param name="default">
+    ''' the default color for the hightlights
+    ''' </param>
+    ''' <returns>
+    ''' a tuple list that contains the highlight information, such as:
+    ''' 
+    ''' ```r
+    ''' list(K00001 = "blue", K00002 = "red", C00001 = "green");
+    ''' ```
+    ''' </returns>
     <ExportAPI("parse.highlight_tuples")>
     Public Function parseHighlightTuples(x As String, Optional default$ = "red") As Object
         Dim strim As String = Strings.Trim(x)

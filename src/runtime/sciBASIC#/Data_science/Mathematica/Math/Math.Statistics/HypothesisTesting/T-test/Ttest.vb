@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25f0d9c77acf5516a9b1ff92888e7fc0, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\T-test\Ttest.vb"
+﻿#Region "Microsoft.VisualBasic::1f0199651004c6a14e4a340ca5cdc743, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\T-test\Ttest.vb"
 
     ' Author:
     ' 
@@ -34,24 +34,25 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 307
-    '    Code Lines: 134 (43.65%)
-    ' Comment Lines: 144 (46.91%)
+    '   Total Lines: 312
+    '    Code Lines: 138 (44.23%)
+    ' Comment Lines: 144 (46.15%)
     '    - Xml Docs: 56.94%
     ' 
-    '   Blank Lines: 29 (9.45%)
-    '     File Size: 17.96 KB
+    '   Blank Lines: 30 (9.62%)
+    '     File Size: 18.24 KB
 
 
     '     Module t
     ' 
-    '         Function: Pvalue, (+2 Overloads) Tcdf, (+2 Overloads) Test, welch2df, welch2t
+    '         Function: (+2 Overloads) Pvalue, (+2 Overloads) Tcdf, (+2 Overloads) Test, welch2df, welch2t
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Math.Statistics.MomentFunctions
@@ -307,6 +308,10 @@ Namespace Hypothesis
                 Case Else
                     Return d128_two * (d128_one - tdist.cdf(std.Abs(t)))
             End Select
+        End Function
+
+        Public Function Pvalue(t As IEnumerable(Of Double), df As Integer, Optional hyp As Hypothesis = Hypothesis.TwoSided) As Double()
+            Return t.SafeQuery.Select(Function(ti) Pvalue(ti, df, hyp)).ToArray
         End Function
 
         Const d128_one As Double = 1.0

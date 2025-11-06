@@ -27,7 +27,8 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>readPattern</strong>(<i>file</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>readPattern</strong>(<i>file</i>,
+    <i>samples</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -35,7 +36,14 @@
         <table>
             
 <dt>file</dt>
-<dd><p>a binary data pack file that contains the expression pattern raw data. [as string]</p></dd>
+<dd><p>a binary data pack file that contains the expression pattern raw data.
+ if this file is given by a csv file, then this csv file should be the cmeans cluster 
+ membership matrix outtput. [as string]</p></dd>
+
+
+<dt>samples</dt>
+<dd><p>should be a csv file path to the sample matrix data if the input <strong>`file`</strong>
+ is a csv membership matrix file. [as string]</p></dd>
 
         </table>
 
@@ -68,4 +76,4 @@
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
-</html>
+</html>

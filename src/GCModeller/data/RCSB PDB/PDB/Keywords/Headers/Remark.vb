@@ -1,68 +1,69 @@
 ﻿#Region "Microsoft.VisualBasic::1c188a6bc325dce5de9210c809350a18, data\RCSB PDB\PDB\Keywords\Headers\Remark.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 94
-    '    Code Lines: 75 (79.79%)
-    ' Comment Lines: 2 (2.13%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 17 (18.09%)
-    '     File Size: 4.19 KB
+' Summaries:
 
 
-    '     Enum RemarkCategory
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Class Remark
-    ' 
-    '         Properties: Keyword, RemarkText
-    ' 
-    '         Function: Append, GetRemarkCategory
-    ' 
-    '         Sub: Flush
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 94
+'    Code Lines: 75 (79.79%)
+' Comment Lines: 2 (2.13%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 17 (18.09%)
+'     File Size: 4.19 KB
+
+
+'     Enum RemarkCategory
+' 
+' 
+'  
+' 
+' 
+' 
+'     Class Remark
+' 
+'         Properties: Keyword, RemarkText
+' 
+'         Function: Append, GetRemarkCategory
+' 
+'         Sub: Flush
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Keywords
@@ -95,6 +96,9 @@ Namespace Keywords
         Other = 999              ' 其他未分类的REMARK
     End Enum
 
+    ''' <summary>
+    ''' the pdb remark keyword data
+    ''' </summary>
     Public Class Remark : Inherits Keyword
 
         Public Overrides ReadOnly Property Keyword As String
@@ -103,6 +107,10 @@ Namespace Keywords
             End Get
         End Property
 
+        ''' <summary>
+        ''' the pdb remark text data with different categories labels
+        ''' </summary>
+        ''' <returns></returns>
         Public Property RemarkText As Dictionary(Of RemarkCategory, String)
 
         Dim cache As New List(Of NamedValue(Of String))
@@ -111,7 +119,18 @@ Namespace Keywords
             If remark Is Nothing Then
                 remark = New Remark
             End If
-            remark.cache.Add(str.GetTagValue(" ", trim:=True, failureNoName:=False))
+
+            Dim catNumber = str.Substring(0, 4).Trim
+            Dim value As String
+
+            If catNumber.IsInteger Then
+                value = str.Substring(4).Trim
+            Else
+                catNumber = "1"
+                value = str.Trim
+            End If
+
+            remark.cache.Add(New NamedValue(Of String)(catNumber, value))
             Return remark
         End Function
 
@@ -154,6 +173,55 @@ Namespace Keywords
                 Case Else
                     Return RemarkCategory.Other
             End Select
+        End Function
+
+        ''' <summary>
+        ''' 生成PDB格式的REMARK部分文本内容
+        ''' </summary>
+        ''' <param name="remarkObj">Remark对象实例</param>
+        ''' <returns>格式化后的REMARK文本</returns>
+        Public Shared Function GenerateRemarkText(remarkObj As Remark) As String
+            If remarkObj Is Nothing OrElse remarkObj.RemarkText Is Nothing Then
+                Return String.Empty
+            End If
+
+            Dim sb As New StringBuilder()
+            ' 按照REMARK编号顺序处理各个类别
+            Dim orderedCategories = remarkObj.RemarkText.Keys.OrderBy(Function(c) CInt(c))
+
+            For Each category As RemarkCategory In orderedCategories
+                Dim remarkNumber As Integer = CInt(category)
+                Dim textContent As String = remarkObj.RemarkText(category)
+
+                If Not String.IsNullOrEmpty(textContent) Then
+                    ' 将文本内容按行分割
+                    Dim lines = textContent.Split({vbCrLf, vbCr, vbLf}, StringSplitOptions.RemoveEmptyEntries)
+
+                    For Each line In lines
+                        ' 格式化REMARK行（符合PDB格式规范）
+                        Dim formattedLine = FormatRemarkLine(remarkNumber, line)
+                        sb.AppendLine(formattedLine)
+                    Next
+                End If
+            Next
+
+            Return sb.ToString()
+        End Function
+
+        ''' <summary>
+        ''' 格式化单个REMARK行（符合PDB文件格式规范）
+        ''' </summary>
+        Private Shared Function FormatRemarkLine(remarkNumber As Integer, content As String) As String
+            ' PDB格式要求：REMARK记录前6字符为"REMARK"，然后是3字符的编号（右对齐）
+            Dim numberPart = remarkNumber.ToString().PadLeft(3)
+
+            ' 确保内容不超过PDB格式限制（通常约70字符）
+            Dim contentPart = content
+            If contentPart.Length > 70 Then
+                contentPart = contentPart.Substring(0, 70)
+            End If
+
+            Return $"REMARK {numberPart} {contentPart}"
         End Function
     End Class
 End Namespace

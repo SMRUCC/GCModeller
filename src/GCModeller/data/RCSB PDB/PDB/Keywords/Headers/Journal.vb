@@ -89,7 +89,7 @@ Namespace Keywords
             If jrnl Is Nothing Then
                 jrnl = New Journal
             End If
-            jrnl.cache.Add(str.GetTagValue(" ", trim:=True, failureNoName:=False))
+            jrnl.cache.Add(str.Trim.GetTagValue(" ", trim:=True, failureNoName:=False))
             Return jrnl
         End Function
 

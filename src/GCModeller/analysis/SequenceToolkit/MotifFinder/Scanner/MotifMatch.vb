@@ -63,5 +63,6 @@ Public Class MotifMatch
     Public Property start As Integer
     Public Property ends As Integer
     Public Property seeds As String()
+    Public Property pvalue As Double
 
 End Class

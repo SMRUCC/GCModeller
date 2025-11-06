@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90047379c4788082f0d12f5454c90286, Data\BinaryData\DataStorage\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::ba15f62215075c447e9ee877e5fdeacd, Data\BinaryData\DataStorage\test\Module1.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 25 (33.33%)
-    '     File Size: 2.40 KB
+    '     File Size: 2.42 KB
 
 
     ' Module Module1
@@ -51,8 +51,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.IO.netCDF
-Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
+Imports Microsoft.VisualBasic.DataStorage.netCDF
+Imports Microsoft.VisualBasic.DataStorage.netCDF.Components
 Imports Microsoft.VisualBasic.Text
 
 Module Module1
@@ -108,7 +108,7 @@ Module Module1
         Dim massvalue = file.getDataVariable("mass_values")
         Dim scans = file.getDataVariable("actual_scan_number")
 
-        Call Xml.SaveAsXml(file, "./output_dump-writer.Xml")
+        Call Data.Xml.SaveAsXml(file, "./output_dump-writer.Xml")
 
         Pause()
     End Sub
@@ -122,7 +122,7 @@ Module Module1
 
         Dim massvalue = file.getDataVariable("mass_values")
 
-        Call Xml.SaveAsXml(file, "./output_dump.Xml")
+        Call Data.Xml.SaveAsXml(file, "./output_dump.Xml")
     End Sub
 
 End Module

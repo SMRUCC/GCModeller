@@ -53,7 +53,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace C
 
@@ -145,7 +145,7 @@ Namespace C
                     mx_value_sign = mx_pos - mx_neg
                 End If
             Else
-                mx_value_sign = If(mx_pos > stdNum.Abs(mx_neg), mx_pos, mx_neg)
+                mx_value_sign = If(mx_pos > std.Abs(mx_neg), mx_pos, mx_neg)
             End If
 
             Return mx_value_sign

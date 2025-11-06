@@ -235,7 +235,7 @@ Namespace ReactionNetwork
             reactionIDlist = New List(Of String)
 
             If extended Then
-                Call "KEGG compound network will appends with extended compound reactions".__DEBUG_ECHO
+                Call "KEGG compound network will appends with extended compound reactions".debug
             End If
 
             Dim compoundNodesAll As Node() = nodes.values _

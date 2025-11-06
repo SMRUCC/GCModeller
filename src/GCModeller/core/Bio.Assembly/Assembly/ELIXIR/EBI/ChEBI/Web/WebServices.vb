@@ -118,21 +118,13 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.WebServices
         ''' 
         <Extension>
         Public Iterator Function BatchQuery(chebiIDlist$(), localCache$, Optional sleepInterval% = 2000) As IEnumerable(Of ChEBIEntity)
-            Using progress As New ProgressBar("Downloading ChEBI data...")
-                Dim tick As New ProgressProvider(progress, chebiIDlist.Length)
-                Dim ETA$
-                Dim query As New QueryImpl(localCache, sleep:=sleepInterval)
+            Dim query As New QueryImpl(localCache, sleep:=sleepInterval)
 
-                For Each id As String In chebiIDlist
-                    For Each part As ChEBIEntity In query.Query(Of ChEBIEntity())(id).SafeQuery
-                        Yield part
-                    Next
-
-                    ETA = $"ETA=" & tick.ETA().FormatTime
-
-                    progress.SetProgress(tick.StepProgress, ETA)
+            For Each id As String In Tqdm.Wrap(chebiIDlist)
+                For Each part As ChEBIEntity In query.Query(Of ChEBIEntity())(id).SafeQuery
+                    Yield part
                 Next
-            End Using
+            Next
         End Function
     End Module
 End Namespace

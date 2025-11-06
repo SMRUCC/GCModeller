@@ -55,7 +55,6 @@
 
 #End Region
 
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
@@ -78,7 +77,7 @@ Namespace ModelLoader
         End Sub
 
         ''' <summary>
-        ''' create mass table from the virtual cell model
+        ''' Create mass table from the virtual cell model
         ''' </summary>
         ''' <param name="cell"></param>
         Public Sub doMassLoadingOn(cell As CellularModule)
@@ -145,8 +144,8 @@ Namespace ModelLoader
                 Dim uniq As String() = duplicated.Distinct.ToArray
                 Dim warn = $"found {uniq.Length} duplicated protein complex models: {uniq.JoinBy(", ")}!"
 
-                Call warn.Warning
-                Call VBDebugger.EchoLine($"[warning] {warn}")
+                Call warn.warning
+                Call warn.debug
             End If
 
             With proteinComplex.OrderBy(Function(a) a.Key).ToArray

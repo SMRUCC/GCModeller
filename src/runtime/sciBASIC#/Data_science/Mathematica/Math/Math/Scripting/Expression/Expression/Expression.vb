@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03ad8ecb598d6d321ebf20fafef6b20a, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\Expression.vb"
+﻿#Region "Microsoft.VisualBasic::75494352b319fb09d3e33d6581867667, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\Expression.vb"
 
     ' Author:
     ' 
@@ -34,23 +34,26 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 25
-    '    Code Lines: 14 (56.00%)
-    ' Comment Lines: 5 (20.00%)
-    '    - Xml Docs: 60.00%
+    '   Total Lines: 38
+    '    Code Lines: 20 (52.63%)
+    ' Comment Lines: 10 (26.32%)
+    '    - Xml Docs: 80.00%
     ' 
-    '   Blank Lines: 6 (24.00%)
-    '     File Size: 812 B
+    '   Blank Lines: 8 (21.05%)
+    '     File Size: 1.36 KB
 
 
     '     Class Expression
     ' 
+    '         Function: Parse
     '         Operators: <>, =
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.Runtime.CompilerServices
 
 Namespace Scripting.MathExpression.Impl
 
@@ -60,6 +63,17 @@ Namespace Scripting.MathExpression.Impl
     Public MustInherit Class Expression
 
         Public MustOverride Function Evaluate(env As ExpressionEngine) As Double
+        Public MustOverride Function GetVariableSymbols() As IEnumerable(Of String)
+
+        ''' <summary>
+        ''' Parse a given math formula expression code as the math expression model
+        ''' </summary>
+        ''' <param name="str"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Parse(str As String) As Expression
+            Return ScriptEngine.ParseExpression(str, throwEx:=True)
+        End Function
 
         Public Shared Operator =(expr As Expression, literal As Literal) As Boolean
             ' test expression type is literal?

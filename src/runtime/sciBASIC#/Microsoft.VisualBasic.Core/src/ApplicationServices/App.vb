@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36864ddc536a542cb425429ad099da8b, Microsoft.VisualBasic.Core\src\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::674afa6aed98f44cbd9440720ffb09c3, Microsoft.VisualBasic.Core\src\ApplicationServices\App.vb"
 
     ' Author:
     ' 
@@ -34,27 +34,27 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 1577
-    '    Code Lines: 761 (48.26%)
-    ' Comment Lines: 633 (40.14%)
+    '   Total Lines: 1598
+    '    Code Lines: 779 (48.75%)
+    ' Comment Lines: 633 (39.61%)
     '    - Xml Docs: 83.41%
     ' 
-    '   Blank Lines: 183 (11.60%)
-    '     File Size: 67.96 KB
+    '   Blank Lines: 186 (11.64%)
+    '     File Size: 68.67 KB
 
 
     ' Module App
     ' 
     '     Properties: AppSystemTemp, AssemblyName, BufferSize, Command, CommandLine
     '                 CPUCoreNumbers, CurrentDirectory, CurrentProcessTemp, CurrentUnixTimeMillis, Desktop
-    '                 EnableTqdm, ExecutablePath, GetLastError, Github, HOME
-    '                 Info, InputFile, IsConsoleApp, IsMicrosoftPlatform, LocalData
-    '                 LocalDataTemp, LogErrDIR, LogFile, MemoryLoad, n_threads
-    '                 NanoTime, NextTempName, OutFile, PID, Platform
-    '                 PreviousDirectory, Process, ProductName, ProductProgramData, ProductSharedDIR
-    '                 ProductSharedTemp, Running, RunningInGitBash, RunTimeDirectory, StartTime
-    '                 StartupDirectory, StdErr, StdInput, StdOut, SysTemp
-    '                 UnixTimeStamp, UserHOME, Version
+    '                 EnableAnsiColor, EnableTqdm, ExecutablePath, GetLastError, Github
+    '                 HOME, Info, InputFile, IsConsoleApp, IsMicrosoftPlatform
+    '                 LocalData, LocalDataTemp, LogErrDIR, LogFile, MemoryLoad
+    '                 n_threads, NanoTime, NextTempName, OutFile, PID
+    '                 Platform, PreviousDirectory, Process, ProductName, ProductProgramData
+    '                 ProductSharedDIR, ProductSharedTemp, Running, RunningInGitBash, RunTimeDirectory
+    '                 StartTime, StartupDirectory, StdErr, StdInput, StdOut
+    '                 SysTemp, UnixTimeStamp, UserHOME, Version
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
@@ -67,7 +67,7 @@
     ' 
     '     Sub: __GCThreadInvoke, __removesTEMP, [Stop], AddExitCleanHook, (+2 Overloads) DoNothing
     '          FlushMemory, Free, JoinVariable, (+2 Overloads) JoinVariables, Pause
-    '          (+2 Overloads) println, SetBufferSize, StartGC, StopGC
+    '          (+2 Overloads) println, SetBufferSize, SetSystemTemp, StartGC, StopGC
     ' 
     ' /********************************************************************************/
 
@@ -170,6 +170,13 @@ Public Module App
     Public ReadOnly Property EnableTqdm As Boolean
         Get
             Return App.GetVariable("tqdm", "TRUE").ParseBoolean
+        End Get
+    End Property
+
+    Public ReadOnly Property EnableAnsiColor As Boolean
+        Get
+            Return App.GetVariable("ansi_color", "TRUE").ParseBoolean AndAlso
+                Not App.GetVariable("internal_pipeline", "false").ParseBoolean
         End Get
     End Property
 
@@ -566,7 +573,7 @@ Public Module App
 
 #Region "这里的环境变量方法主要是操作从命令行之中所传递进来的额外的参数的"
 
-    Dim m_joinedVariables As New Dictionary(Of NamedValue(Of String))
+    ReadOnly m_joinedVariables As New Dictionary(Of NamedValue(Of String))
 
     ''' <summary>
     ''' add/update the environment variable in sciBASIC.NET framework.
@@ -582,10 +589,12 @@ Public Module App
     ''' (如果给定的当前这个参数名称存在于当前框架环境中，则会更新原来的值)</param>
     ''' <param name="value"></param>
     Public Sub JoinVariable(name$, value$)
-        m_joinedVariables(name) = New NamedValue(Of String) With {
-            .Name = name,
-            .Value = value
-        }
+        SyncLock m_joinedVariables
+            m_joinedVariables(name) = New NamedValue(Of String) With {
+                .Name = name,
+                .Value = value
+            }
+        End SyncLock
     End Sub
 
     ''' <summary>
@@ -594,7 +603,9 @@ Public Module App
     ''' <param name="vars"></param>
     Public Sub JoinVariables(ParamArray vars As NamedValue(Of String)())
         For Each v As NamedValue(Of String) In vars
-            m_joinedVariables(v.Name) = v
+            SyncLock m_joinedVariables
+                m_joinedVariables(v.Name) = v
+            End SyncLock
         Next
     End Sub
 
@@ -622,15 +633,17 @@ Public Module App
     ''' </param>
     ''' <returns>当没有查找到相对应的环境变量的时候会返回空值</returns>
     Public Function GetVariable(<CallerMemberName> Optional name$ = Nothing, Optional defaultValue$ = Nothing) As String
-        If m_joinedVariables.ContainsKey(name) Then
-            Return m_joinedVariables(name).Value
-        Else
-            For Each v As NamedValue(Of String) In m_joinedVariables.Values
-                If v.Name.TextEquals(name) Then
-                    Return v.Value
-                End If
-            Next
-        End If
+        SyncLock m_joinedVariables
+            If m_joinedVariables.ContainsKey(name) Then
+                Return m_joinedVariables(name).Value
+            Else
+                For Each v As NamedValue(Of String) In m_joinedVariables.Values
+                    If v.Name.TextEquals(name) Then
+                        Return v.Value
+                    End If
+                Next
+            End If
+        End SyncLock
 
         Return defaultValue
     End Function
@@ -850,7 +863,7 @@ Public Module App
     ''' The distance of time that this application running from start and to current time.
     ''' (当前距离应用程序启动所逝去的时间)
     ''' </summary>
-    ''' <returns></returns>
+    ''' <returns>ms timespan</returns>
     ''' <remarks>
     ''' 通过<see cref="App.UnixTimeStamp"/>以及<see cref="StartTime"/>得到的时间都是带小数的秒数
     ''' 所以在这里计算出当前时间点与启动时间点之间的差值之后，还需要乘以1000才可以得到毫秒数
@@ -888,6 +901,14 @@ Public Module App
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property SysTemp As String = TempFileSystem.__sysTEMP
+
+    Public Sub SetSystemTemp(Optional dir As String = Nothing)
+        If dir Is Nothing Then
+            dir = TempFileSystem.__sysTEMP
+        End If
+
+        _SysTemp = dir
+    End Sub
 
     ''' <summary>
     ''' Application temp data directory in the system temp root: %<see cref="App.SysTemp"/>%/<see cref="App.AssemblyName"/>
@@ -968,12 +989,12 @@ Public Module App
     ''' <returns></returns>
     <Extension>
     Public Function FormatTime(time As DateTime, Optional sep$ = ":") As String
-        Dim yy = Format(time.Year, "0000")
-        Dim mm = Format(time.Month, "00")
-        Dim dd = Format(time.Day, "00")
-        Dim hh = Format(time.Hour, "00")
-        Dim mi = Format(time.Minute, "00")
-        Dim ss = Format(time.Second, "00")
+        Dim yy = Strings.Format(time.Year, "0000")
+        Dim mm = Strings.Format(time.Month, "00")
+        Dim dd = Strings.Format(time.Day, "00")
+        Dim hh = Strings.Format(time.Hour, "00")
+        Dim mi = Strings.Format(time.Minute, "00")
+        Dim ss = Strings.Format(time.Second, "00")
 
         Return $"{yy}-{mm}-{dd}, {hh}{sep}{mi}{sep}{ss}"
     End Function
@@ -1292,7 +1313,7 @@ Public Module App
                                     executeFile As ExecuteFile,
                                     executeQuery As ExecuteQuery) As Integer
 #If DEBUG Then
-        Call args.__DEBUG_ECHO
+        Call args.debug
 #End If
         Call args.InitDebuggerEnvir(caller)
 
@@ -1511,7 +1532,7 @@ Public Module App
         End SyncLock
     End Sub
 
-    Public Const FlagInternalPipeline As String = "--internal_pipeline"
+    Public Const FlagInternalPipeline As String = "internal_pipeline"
 
     ''' <summary>
     ''' 自动停止GC当前程序的线程

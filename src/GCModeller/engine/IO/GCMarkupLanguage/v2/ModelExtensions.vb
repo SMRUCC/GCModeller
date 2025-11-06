@@ -181,8 +181,10 @@ Namespace v2
                                       }
                                   End Function)
 
+                Dim brokens As New List(Of String)
+
                 For Each operon As TranscriptUnit In replicon.operons
-                    For Each gene As gene In operon.genes
+                    For Each gene As gene In operon.genes.SafeQuery
                         If rnaTable.ContainsKey(gene.locus_tag) Then
                             RNA = rnaTable(gene.locus_tag)
                             RNA = New NamedValue(Of RNATypes)(gene.nucleotide_base.name, RNA.Value, RNA.Description)
@@ -195,10 +197,7 @@ Namespace v2
                             proteinId = gene.protein_id ' Or $"{gene.locus_tag}::peptide".AsDefault
 
                             If proteinId.IsNullOrEmpty Then
-                                Dim warn = $"broken central dogma of '{gene.locus_tag}' was found. this gene should be a mRNA but missing polypeptide data."
-
-                                Call warn.Warning
-                                Call VBDebugger.EchoLine("[warn] " & warn)
+                                Call brokens.Add(gene.locus_tag)
                             End If
                         End If
 
@@ -213,7 +212,8 @@ Namespace v2
                                     .RNA = RNA,
                                     .transcript = gene.nucleotide_base?.name,
                                     .translation = gene.amino_acid?.name,
-                                    .transcript_unit = operon.id
+                                    .transcript_unit = operon.id,
+                                    .expression_level = gene.expression_level
                                 }
                             Next
                         Else
@@ -226,11 +226,19 @@ Namespace v2
                                 .RNA = RNA,
                                 .transcript = gene.nucleotide_base?.name,
                                 .translation = Nothing,
-                                .transcript_unit = operon.id
+                                .transcript_unit = operon.id,
+                                .expression_level = gene.expression_level
                             }
                         End If
                     Next
                 Next
+
+                If brokens.Any Then
+                    Dim warn = $"broken central dogma of '{brokens.JoinBy(", ")}' was found in replicon {replicon.ToString}. this gene should be a mRNA but missing polypeptide data."
+
+                    Call warn.warning
+                    Call warn.debug
+                End If
             Next
         End Function
 

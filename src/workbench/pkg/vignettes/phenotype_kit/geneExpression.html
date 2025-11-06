@@ -82,6 +82,12 @@ table caption {font-size:14px;font-weight:bolder;}
       <table class="table-three-line">
         <caption>.NET clr function exports</caption>
         <tbody><tr>
+  <td id="as.data.frame.degmodel">
+    <a href="./geneExpression/as.data.frame.degmodel.html">as.data.frame.degmodel</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/DEGModel.html">DEGModel</a>: <p>A generic model for different expression molecule</p></td>
+</tr>
+<tr>
   <td id="exp">
     <a href="./geneExpression/exp.html">exp</a>
   </td>
@@ -106,6 +112,12 @@ table caption {font-size:14px;font-weight:bolder;}
   <td><p>convert the matrix into row gene list</p></td>
 </tr>
 <tr>
+  <td id="expression_vector">
+    <a href="./geneExpression/expression_vector.html">expression_vector</a>
+  </td>
+  <td><p>get gene expression vector data</p></td>
+</tr>
+<tr>
   <td id="setTag">
     <a href="./geneExpression/setTag.html">setTag</a>
   </td>
@@ -120,10 +132,10 @@ table caption {font-size:14px;font-weight:bolder;}
  if the expression value is less than a given threshold</p></td>
 </tr>
 <tr>
-  <td id="setSamples">
-    <a href="./geneExpression/setSamples.html">setSamples</a>
+  <td id="sample_id">
+    <a href="./geneExpression/sample_id.html">sample_id</a>
   </td>
-  <td><p>set new sample id list to the matrix columns</p></td>
+  <td><p>get/set new sample id list to the matrix columns</p></td>
 </tr>
 <tr>
   <td id="setFeatures">
@@ -333,16 +345,40 @@ table caption {font-size:14px;font-weight:bolder;}
   <td><p>do t-test across specific analysis comparision</p></td>
 </tr>
 <tr>
+  <td id="limma">
+    <a href="./geneExpression/limma.html">limma</a>
+  </td>
+  <td><p>The limma algorithm (Linear Models for Microarray Data) is a widely used statistical framework in R/Bioconductor 
+ for differential expression (DE) analysis of RNA-seq data. Originally designed for microarray studies, its 
+ flexibility and robustness have extended its utility to RNA-seq through the voomtransformation.</p></td>
+</tr>
+<tr>
   <td id="log">
     <a href="./geneExpression/log.html">log</a>
   </td>
   <td><p>log scale of the HTS raw matrix</p></td>
 </tr>
 <tr>
+  <td id="minmax01Norm">
+    <a href="./geneExpression/minmax01Norm.html">minmax01Norm</a>
+  </td>
+  <td><p>min max normalization
+ 
+ (row - min(row)) / (max(row) - min(row))
+ 
+ this normalization method is usually used for the metabolomics data</p></td>
+</tr>
+<tr>
+  <td id="take_shuffle">
+    <a href="./geneExpression/take_shuffle.html">take_shuffle</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
   <td id="geneId">
     <a href="./geneExpression/geneId.html">geneId</a>
   </td>
-  <td><p>get gene Id list</p></td>
+  <td><p>get gene Id list or byref set of the gene id alias set.</p></td>
 </tr>
 <tr>
   <td id="as.deg">
@@ -354,7 +390,7 @@ table caption {font-size:14px;font-weight:bolder;}
   <td id="deg.class">
     <a href="./geneExpression/deg.class.html">deg.class</a>
   </td>
-  <td></td>
+  <td><p>set deg class label</p></td>
 </tr>
 <tr>
   <td id="joinSample">
@@ -385,4 +421,4 @@ table caption {font-size:14px;font-weight:bolder;}
     <hr />
     <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
   </body>
-</html>
+</html>

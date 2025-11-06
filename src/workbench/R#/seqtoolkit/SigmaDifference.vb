@@ -130,9 +130,9 @@ Module SigmaDifference
     ''' <returns></returns>
     ''' <remarks></remarks>
     Private Function __genomeSigmaDiff(cache As Cache(), compare As FastaSeq) As SiteSigma()
-        Call "Creating compare cache..... ".__DEBUG_ECHO
+        Call "Creating compare cache..... ".debug
         Dim CompareCache = New DeltaSimilarity1998.NucleicAcid(compare)
-        Call "Compare cache creating job done!".__DEBUG_ECHO
+        Call "Compare cache creating job done!".debug
         Dim LQuery = (From segment As Cache In cache
                       Let Sigma = DifferenceMeasurement.Sigma(segment.Cache, CompareCache)
                       Select New SiteSigma With {
@@ -211,7 +211,7 @@ Module SigmaDifference
         Dim pb As New CBusyIndicator(start:=True)
         Dim FastaObjects = (From path As String In FileIO.FileSystem.GetFiles(source, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel Select SMRUCC.genomics.SequenceModel.FASTA.FastaSeq.Load(path)).ToArray
 
-        Call $"Fasta data load done!, start to calculates the sigma differences in window_size {windowsSize / 1000}KB....".__DEBUG_ECHO
+        Call $"Fasta data load done!, start to calculates the sigma differences in window_size {windowsSize / 1000}KB....".debug
 
         Dim MAT = Comb(Of FastaSeq).CreateCompleteObjectPairs(FastaObjects)
         Dim ChunkBuffer = (From pairedList In MAT.AsParallel
@@ -380,7 +380,7 @@ Module SigmaDifference
                             Name
 
             For Each locus In genes
-                Call locus.__DEBUG_ECHO
+                Call locus.debug
 
                 Dim Rule As FastaSeq = FastaSeq.LoadNucleotideData(Folder & "/" & locus.ID & ".fna")
 
@@ -436,7 +436,7 @@ Module SigmaDifference
     ''' 
     <ExportAPI("sigma_diff.query")>
     Public Function SigmaCompareWith(query As String, sbjDIR As String, EXPORT As String, Optional windowsSize As Integer = 1000) As Boolean
-        Call ("Start to load subject fasta data from " & sbjDIR).__DEBUG_ECHO
+        Call ("Start to load subject fasta data from " & sbjDIR).debug
 
         Using pb = New CBusyIndicator(start:=True)
             Return __sigmaCompareWith(query, sbjDIR, EXPORT, windowsSize)
@@ -448,7 +448,7 @@ Module SigmaDifference
                             In FileIO.FileSystem.GetFiles(subject, FileIO.SearchOption.SearchTopLevelOnly, "*.fasta", "*.fsa").AsParallel
                             Select FastaSeq.LoadNucleotideData(path)).ToArray
 
-        Call $"Fasta data load done!, start to calculates the sigma differences in window_size {windowsSize / 1000}KB....".__DEBUG_ECHO
+        Call $"Fasta data load done!, start to calculates the sigma differences in window_size {windowsSize / 1000}KB....".debug
         Dim QueryFasta = FastaSeq.LoadNucleotideData(query)
         Dim Windows = New NucleotideModels.NucleicAcid(QueryFasta).ToArray.CreateSlideWindows(windowsSize)
         Dim InternalCache = (From Window In Windows.AsParallel
@@ -654,7 +654,7 @@ Module SigmaDifference
                              .ToDictionary(Function(item) item.PartitioningTag,
                                            Function(item) item.dict)  '按照基因组分区进行分组
             Dim QuerySource = (From item In MAT Select item.Value(query)).ToArray
-            Call $"Fasta data load done!, start to calculates the sigma differences in window_size {winSize / 1000}KB....".__DEBUG_ECHO
+            Call $"Fasta data load done!, start to calculates the sigma differences in window_size {winSize / 1000}KB....".debug
 
             Dim LQuery = (From queryItem In QuerySource.AsParallel
                           Where Not String.IsNullOrEmpty(queryItem.SequenceData) OrElse
@@ -671,7 +671,7 @@ Module SigmaDifference
                                         Select New Cache With {
                                             .Cache = cacheData,
                                             .SlideWindow = Window}).ToArray 'Internal create cache data.
-        Call $"[INFO] query for the Sigma difference calculation in length of {querySource.SequenceData.Length / 1000}KB...".__DEBUG_ECHO
+        Call $"[INFO] query for the Sigma difference calculation in length of {querySource.SequenceData.Length / 1000}KB...".debug
 
         Dim EmptySigma As SiteSigma() = New SiteSigma() {}
 
@@ -695,14 +695,14 @@ Module SigmaDifference
                                InternalCache As Cache(),
                                querySource As PartitioningData,
                                EXPORT As String) As KeyValuePair(Of String, SiteSigma())
-        Call $"Start the calculation threads ""{SubjectData.Key}""... ".__DEBUG_ECHO
+        Call $"Start the calculation threads ""{SubjectData.Key}""... ".debug
         Dim sigma = If(String.IsNullOrEmpty(SubjectFasta.SequenceData) OrElse SubjectFasta.SequenceData.Length = 1,
             EmptySigma,
             __genomeSigmaDiff(InternalCache, SubjectFasta))
         Dim f As String = querySource.Title.Split(CChar("|")).First.NormalizePathString
         Dim g As String = SubjectFasta.Title.Split(CChar("|")).First.NormalizePathString
         Dim path As String = String.Format("{0}/{1}-{2}.csv", EXPORT, f, g)
-        Call $"Calculation job done, trying to export data to filesystem {path}".__DEBUG_ECHO
+        Call $"Calculation job done, trying to export data to filesystem {path}".debug
         Call sigma.SaveTo(path, False)
         Return New KeyValuePair(Of String, SiteSigma())(g, sigma)
     End Function
@@ -720,7 +720,7 @@ Module SigmaDifference
 
     Private Function __readSeq(left As Integer, right As Integer, faReader As Dictionary(Of String, FastaSeq), genomeId As String) As String
         If Not faReader.ContainsKey(genomeId) Then
-            Call $"The genome id ""{genomeId}"" is not exists in the fasta source...".__DEBUG_ECHO
+            Call $"The genome id ""{genomeId}"" is not exists in the fasta source...".debug
             Return ""
         End If
 
@@ -743,7 +743,7 @@ Module SigmaDifference
                                     left As Integer,
                                     right As Integer) As String
         If Not fastaReader.ContainsKey(genomeId) Then
-            Call $"The genome id ""{genomeId}"" is not exists in the fasta source...".__DEBUG_ECHO
+            Call $"The genome id ""{genomeId}"" is not exists in the fasta source...".debug
             Return ""
         End If
 
@@ -883,7 +883,7 @@ Module SigmaDifference
                                    Select Idx = i, j, Delta)).Unlist '为了保证顺序，这里也不可以使用并行化
 
         For Each Row In DeltaLQuery
-            Call Row.GetJson.__DEBUG_ECHO
+            Call Row.GetJson.debug
             Call DataSource(Row.Idx).SetAttributeValue(String.Format("Delta({0}, {1})", Row.Idx, Row.j), Row.Delta)
         Next
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0025461a2400c504ae0148a18a8110af, Microsoft.VisualBasic.Core\src\CommandLine\CLI\IORedirect.vb"
+﻿#Region "Microsoft.VisualBasic::4d6e74d2cc4174cbe7a70a0edfd7f3d8, Microsoft.VisualBasic.Core\src\CommandLine\CLI\IORedirect.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 80.73%
     ' 
     '   Blank Lines: 66 (15.38%)
-    '     File Size: 17.55 KB
+    '     File Size: 17.56 KB
 
 
     '     Delegate Function
@@ -285,7 +285,7 @@ Namespace CommandLine
                 Dim Exe As String = processInfo.StartInfo.FileName.GetFullPath.Replace("\", "/")
                 Dim argvs As String = processInfo.StartInfo.Arguments
 
-                Call Console.WriteLine("# ""{0}"" {1}", Exe, argvs)
+                Call VBDebugger.EchoLine($"# ""{Exe}"" {argvs}")
             End If
 
             Try
@@ -297,8 +297,8 @@ Namespace CommandLine
                 End If
             Catch ex As Exception
                 Call printf("FATAL_ERROR::%s", ex.ToString)
-                Call Console.WriteLine("  Exe ==> " & processInfo.StartInfo.FileName)
-                Call Console.WriteLine("argvs ==> " & processInfo.StartInfo.Arguments)
+                Call VBDebugger.EchoLine("  Exe ==> " & processInfo.StartInfo.FileName)
+                Call VBDebugger.EchoLine("argvs ==> " & processInfo.StartInfo.Arguments)
 
                 ' Return ex.HResul '4.5
                 Return -1
@@ -312,7 +312,7 @@ Namespace CommandLine
                     Call input.WriteLine(line)
                     Call input.Flush()
 
-                    Call Console.WriteLine("  >>>   " & line)
+                    Call VBDebugger.EchoLine("  >>>   " & line)
                 Next
             End If
 

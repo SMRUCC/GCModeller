@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64ce18d5e11fa8327acf972f9a37bc87, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\LBFGSB.vb"
+﻿#Region "Microsoft.VisualBasic::896109c7389126b8dc821b28a6141d52, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\LBFGSB.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 261
-    '    Code Lines: 179 (68.58%)
-    ' Comment Lines: 37 (14.18%)
-    '    - Xml Docs: 64.86%
+    '   Total Lines: 279
+    '    Code Lines: 187 (67.03%)
+    ' Comment Lines: 44 (15.77%)
+    '    - Xml Docs: 70.45%
     ' 
-    '   Blank Lines: 45 (17.24%)
-    '     File Size: 10.14 KB
+    '   Blank Lines: 48 (17.20%)
+    '     File Size: 10.71 KB
 
 
     '     Class LBFGSB
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: max_step_size, minimize, proj_grad_norm
+    '         Function: debug, max_step_size, maxit, minimize, proj_grad_norm
     ' 
     '         Sub: force_bounds, reset
     ' 
@@ -122,10 +122,21 @@ Namespace Framework.Optimization.LBFGSB
         Public Sub New()
             Me.New(New Parameters())
         End Sub
+
         Public Sub New(param As Parameters)
             m_param = param
             m_bfgs = New BFGSMat()
         End Sub
+
+        Public Function maxit(n As Integer) As LBFGSB
+            m_param.max_iterations = n
+            Return Me
+        End Function
+
+        Public Function debug(Optional opt As Boolean = True) As LBFGSB
+            Debugger.flag = opt
+            Return Me
+        End Function
 
         Public Shared Sub force_bounds(x As Double(), lb As Double(), ub As Double())
             For i = 0 To x.Length - 1
@@ -158,12 +169,19 @@ Namespace Framework.Optimization.LBFGSB
             Return [step]
         End Function
 
-        Public Shared ReadOnly eps As Double = Microsoft.VisualBasic.Math.Ulp(1.0)
+        Public Shared ReadOnly eps As Double = Ulp(1.0)
 
-        ' f -function, x - initial and final value, lb - lower bounds, ub - upper bounds 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="f">function</param>
+        ''' <param name="[in]">initial and final value</param>
+        ''' <param name="lb">lower bounds</param>
+        ''' <param name="ub">upper bounds</param>
+        ''' <returns></returns>
         Public Function minimize(f As IGradFunction, [in] As Double(), lb As Double(), ub As Double()) As Double()
-            If Debug.flag Then
-                Debug.debug("="c, "entering minimization")
+            If Debugger.flag Then
+                Debugger.debug("="c, "entering minimization")
             End If
 
             Dim x As Double() = CType([in].Clone(), Double())
@@ -182,20 +200,20 @@ Namespace Framework.Optimization.LBFGSB
             fx = f.eval(x, m_grad)
             m_projgnorm = proj_grad_norm(x, m_grad, lb, ub)
 
-            If Debug.flag Then
-                Debug.debug("initial")
+            If Debugger.flag Then
+                Debugger.debug("initial")
             End If
-            If Debug.flag Then
-                Call Debug.debug("  fx:        " & fx.ToString())
+            If Debugger.flag Then
+                Call Debugger.debug("  fx:        " & fx.ToString())
             End If
-            If Debug.flag Then
-                Call Debug.debug("  projgnorm: " & m_projgnorm.ToString())
+            If Debugger.flag Then
+                Call Debugger.debug("  projgnorm: " & m_projgnorm.ToString())
             End If
-            If Debug.flag Then
-                Debug.debug("  x:         ", x)
+            If Debugger.flag Then
+                Debugger.debug("  x:         ", x)
             End If
-            If Debug.flag Then
-                Debug.debug("  grad:      ", m_grad)
+            If Debugger.flag Then
+                Debugger.debug("  grad:      ", m_grad)
             End If
 
             If fpast > 0 Then
@@ -203,8 +221,8 @@ Namespace Framework.Optimization.LBFGSB
             End If
 
             If m_projgnorm <= m_param.epsilon OrElse m_projgnorm <= m_param.epsilon_rel * Vector.norm(x) Then
-                If Debug.flag Then
-                    Call Debug.debug("="c, "leaving minimization, projgnorm less than epsilon, projgnorm = " & m_projgnorm.ToString())
+                If Debugger.flag Then
+                    Call Debugger.debug("="c, "leaving minimization, projgnorm less than epsilon, projgnorm = " & m_projgnorm.ToString())
                 End If
                 Return x
             End If
@@ -223,8 +241,8 @@ Namespace Framework.Optimization.LBFGSB
             k = 1
 
             While True
-                If Debug.flag Then
-                    Call Debug.debug("#"c, "K = " & k.ToString())
+                If Debugger.flag Then
+                    Call Debugger.debug("#"c, "K = " & k.ToString())
                 End If
 
                 m_xp = CType(x.Clone(), Double())
@@ -259,22 +277,22 @@ Namespace Framework.Optimization.LBFGSB
 
                 m_projgnorm = proj_grad_norm(x, m_grad, lb, ub)
 
-                If Debug.flag Then
-                    Call Debug.debug("  fx:        " & fx.ToString())
+                If Debugger.flag Then
+                    Call Debugger.debug("  fx:        " & fx.ToString())
                 End If
-                If Debug.flag Then
-                    Call Debug.debug("  projgnorm: " & m_projgnorm.ToString())
+                If Debugger.flag Then
+                    Call Debugger.debug("  projgnorm: " & m_projgnorm.ToString())
                 End If
-                If Debug.flag Then
-                    Debug.debug("  x:         ", x)
+                If Debugger.flag Then
+                    Debugger.debug("  x:         ", x)
                 End If
-                If Debug.flag Then
-                    Debug.debug("  grad:      ", m_grad)
+                If Debugger.flag Then
+                    Debugger.debug("  grad:      ", m_grad)
                 End If
 
                 If m_projgnorm <= m_param.epsilon OrElse m_projgnorm <= m_param.epsilon_rel * Vector.norm(x) Then
-                    If Debug.flag Then
-                        Call Debug.debug("="c, "leaving minimization, projgnorm less than epsilons, projgnorm = " & m_projgnorm.ToString())
+                    If Debugger.flag Then
+                        Call Debugger.debug("="c, "leaving minimization, projgnorm less than epsilons, projgnorm = " & m_projgnorm.ToString())
                     End If
                     Return x
                 End If
@@ -282,8 +300,8 @@ Namespace Framework.Optimization.LBFGSB
                 If fpast > 0 Then
                     Dim fxd = m_fx(k Mod fpast)
                     If k >= fpast AndAlso std.Abs(fxd - fx) <= m_param.delta * std.Max(std.Max(std.Abs(fx), std.Abs(fxd)), 1.0) Then
-                        If Debug.flag Then
-                            Debug.debug("="c, "leaving minimization, past results less than delta")
+                        If Debugger.flag Then
+                            Debugger.debug("="c, "leaving minimization, past results less than delta")
                         End If
                         Return x
                     End If
@@ -291,8 +309,8 @@ Namespace Framework.Optimization.LBFGSB
                 End If
 
                 If m_param.max_iterations <> 0 AndAlso k >= m_param.max_iterations Then
-                    If Debug.flag Then
-                        Debug.debug("="c, "leaving minimization, max iterations reached")
+                    If Debugger.flag Then
+                        Debugger.debug("="c, "leaving minimization, max iterations reached")
                     End If
                     Return x
                 End If

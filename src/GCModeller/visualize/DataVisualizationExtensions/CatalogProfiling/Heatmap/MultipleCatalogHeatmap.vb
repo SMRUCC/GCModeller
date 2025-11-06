@@ -90,18 +90,19 @@ Namespace CatalogProfiling
         Protected Sub New(multiples As IEnumerable(Of NamedValue(Of Dictionary(Of String, BubbleTerm()))),
                           mapLevels As Integer,
                           colorMissing As String,
+                          rankOrder As Boolean,
                           theme As Theme
             )
 
             Call MyBase.New(multiples, theme)
             Call Z()
 
-            Dim orders As String() = TreeOrder.OrderByTree(Me)
-
             Me.mapLevels = mapLevels
             Me.colorMissing = colorMissing
 
-            Call Me.ReOrder(orders)
+            If rankOrder Then
+                Call Me.ReOrder(TreeOrder.OrderByTree(Me))
+            End If
         End Sub
 
         Protected Overloads Function getPathways(groupUnions As Integer, unionAll As Integer) As Dictionary(Of String, String())

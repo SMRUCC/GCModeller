@@ -76,9 +76,11 @@ Public Module RankAbundance
     ''' </summary>
     ''' <returns></returns>
     ''' <remarks>
-    ''' > Scott T Bates, Jose C Clemente, et al. Global biogeography of highly diverse protistan communities in soil. The ISME Journal (2013) 7, 652–659; doi:10.1038/ismej.2012.147.
+    ''' > Scott T Bates, Jose C Clemente, et al. Global biogeography of highly diverse protistan communities in soil. 
+    ''' > The ISME Journal (2013) 7, 652–659; doi:10.1038/ismej.2012.147.
     ''' </remarks>
-    <Extension> Public Function RankAbundance(otus As IEnumerable(Of OTUTable)) As OTUTable()
+    <Extension> 
+    Public Function RankAbundance(otus As IEnumerable(Of OTUTable)) As OTUTable()
         Dim vector = otus.ToArray
         Dim OTU_seqs = vector _
             .Select(Function(OTU)
@@ -119,16 +121,6 @@ Public Module RankAbundance
     End Function
 
     ''' <summary>
-    ''' 对样本结果进行实验内合并
-    ''' </summary>
-    ''' <param name="otus"></param>
-    ''' <param name="sampleGroups">样品的分组信息</param>
-    ''' <returns></returns>
-    <Extension> Public Function GroupValue(otus As IEnumerable(Of OTUTable), sampleGroups As Dictionary(Of String, String())) As OTUTable()
-        Throw New NotImplementedException
-    End Function
-
-    ''' <summary>
     ''' 按照rank等级来查看物种的含量为多少
     ''' </summary>
     ''' <param name="OTUs"></param>
@@ -136,7 +128,9 @@ Public Module RankAbundance
     ''' <param name="percentage"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function TaxonomyProfile(OTUs As IEnumerable(Of gastOUT), rank As TaxonomyRanks, Optional percentage As Boolean = True) As Dictionary(Of String, Double)
+    Public Function TaxonomyProfile(OTUs As IEnumerable(Of gastOUT),
+                                    rank As TaxonomyRanks,
+                                    Optional percentage As Boolean = True) As Dictionary(Of String, Double)
         Dim counts = OTUs _
             .Select(Function(otu)
                         Return (tax:=otu.TaxonomyLineage.TaxonomyRankString(rank), counts:=otu.counts)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d021def3aa282a2f6db359ba604c8c1d, Microsoft.VisualBasic.Core\src\Extensions\WebServices\WebServiceUtils.vb"
+﻿#Region "Microsoft.VisualBasic::1066efa9bc67714ce1590274dd1880e5, Microsoft.VisualBasic.Core\src\Extensions\WebServices\WebServiceUtils.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 89.87%
     ' 
     '   Blank Lines: 137 (14.05%)
-    '     File Size: 35.46 KB
+    '     File Size: 35.43 KB
 
 
     ' Module WebServiceUtils
@@ -792,7 +792,7 @@ Public Module WebServiceUtils
             Call request.SetProxy(proxy)
         End If
 
-        Call $"[POST] {url}....".__DEBUG_ECHO
+        Call $"[POST] {url}....".debug
 
         ' post data Is sent as a stream
         Using sender As New StreamWriter(request.GetRequestStream())
@@ -904,7 +904,7 @@ RE0:
                 Call browser.Headers.Add(UserAgent.UAheader, ua Or DefaultUA)
 
                 If Not silent Then
-                    Call $"{strUrl} --> {save}".__DEBUG_ECHO
+                    Call $"{strUrl} --> {save}".debug
                 End If
 
                 Call save.ParentPath.MakeDir
@@ -927,9 +927,9 @@ RE0:
         Finally
             If Not silent Then
                 If save.FileExists Then
-                    Call $"[{FileIO.FileSystem.GetFileInfo(save).Length} Bytes]".__DEBUG_ECHO
+                    Call $"[{FileIO.FileSystem.GetFileInfo(save).Length} Bytes]".debug
                 Else
-                    Call $"Download failure!".__DEBUG_ECHO
+                    Call $"Download failure!".debug
                 End If
             End If
         End Try
@@ -948,7 +948,7 @@ RE0:
         Try
             Dim responseStream As Stream = GetRequestRaw(url)
             Dim localBuffer As Stream = responseStream.CopyStream
-            Call $"[{localBuffer.Length} Bytes]".__DEBUG_ECHO
+            Call $"[{localBuffer.Length} Bytes]".debug
             Return localBuffer.FlushStream(savePath)
         Catch ex As Exception
             ex = New Exception(url, ex)

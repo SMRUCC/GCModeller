@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d593f1c22ac916c3ca4cad11b5bba340, Data_science\Mathematica\Math\Math\Distributions\Gaussian.vb"
+﻿#Region "Microsoft.VisualBasic::21334a0ecfa954efae5389e1ff556d20, Data_science\Mathematica\Math\Math\Distributions\Gaussian.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 68
-    '    Code Lines: 36 (52.94%)
-    ' Comment Lines: 25 (36.76%)
-    '    - Xml Docs: 84.00%
+    '   Total Lines: 74
+    '    Code Lines: 39 (52.70%)
+    ' Comment Lines: 27 (36.49%)
+    '    - Xml Docs: 77.78%
     ' 
-    '   Blank Lines: 7 (10.29%)
-    '     File Size: 2.86 KB
+    '   Blank Lines: 8 (10.81%)
+    '     File Size: 3.24 KB
 
 
     '     Module Gaussian
     ' 
-    '         Function: (+2 Overloads) Gaussian, (+2 Overloads) rnorm, StandadizedGaussianFunction
+    '         Function: (+2 Overloads) Gaussian, GaussianDistribution, (+2 Overloads) rnorm, StandadizedGaussianFunction
     ' 
     ' 
     ' /********************************************************************************/
@@ -65,6 +65,12 @@ Namespace Distributions
     ''' https://en.wikipedia.org/wiki/Gaussian_function
     ''' </summary>
     Public Module Gaussian
+
+        Public Function GaussianDistribution(x As Single, sigma As Single) As Single
+            ' 计算高斯分布函数 (参考: https://en.wikipedia.org/wiki/Gaussian_blur)
+            ' 公式: (1 / √(2πσ²)) * e^(-(x²)/(2σ²))
+            Return CSng(1 / std.Sqrt(2 * std.PI * sigma * sigma) * std.Exp(-(x * x) / (2 * sigma * sigma)))
+        End Function
 
         ''' <summary>
         ''' 

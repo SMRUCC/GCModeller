@@ -333,7 +333,7 @@ Namespace Core
                 http_protocol_versionstring = tokens(2)
 
                 Call _raw.AppendLine(request)
-                Call $"starting: {request}".__INFO_ECHO(_settings.silent)
+                Call $"starting: {request}".info(_settings.silent)
             End If
 
             Return True

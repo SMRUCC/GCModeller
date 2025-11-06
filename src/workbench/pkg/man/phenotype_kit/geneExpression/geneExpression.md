@@ -6,9 +6,10 @@ the gene expression matrix data toolkit
 + [tr](geneExpression/tr.1) do matrix transpose
 + [dims](geneExpression/dims.1) get summary information about the HTS matrix dimensions
 + [as.expr_list](geneExpression/as.expr_list.1) convert the matrix into row gene list
++ [expression_vector](geneExpression/expression_vector.1) get gene expression vector data
 + [setTag](geneExpression/setTag.1) set a new tag string to the matrix
 + [setZero](geneExpression/setZero.1) set the expression value to zero 
-+ [setSamples](geneExpression/setSamples.1) set new sample id list to the matrix columns
++ [sample_id](geneExpression/sample_id.1) get/set new sample id list to the matrix columns
 + [setFeatures](geneExpression/setFeatures.1) set new gene id list to the matrix rows
 + [filterZeroSamples](geneExpression/filterZeroSamples.1) filter out all samples columns which its expression vector is ZERO!
 + [filterZeroGenes](geneExpression/filterZeroGenes.1) removes the rows which all gene expression result is ZERO
@@ -39,10 +40,13 @@ the gene expression matrix data toolkit
 + [peakCMeans](geneExpression/peakCMeans.1) ### clustering analysis of time course data
 + [expr_ranking](geneExpression/expr_ranking.1) 
 + [deg.t.test](geneExpression/deg.t.test.1) do t-test across specific analysis comparision
++ [limma](geneExpression/limma.1) The limma algorithm (Linear Models for Microarray Data) is a widely used statistical framework in R/Bioconductor 
 + [log](geneExpression/log.1) log scale of the HTS raw matrix
-+ [geneId](geneExpression/geneId.1) get gene Id list
++ [minmax01Norm](geneExpression/minmax01Norm.1) min max normalization
++ [take_shuffle](geneExpression/take_shuffle.1) 
++ [geneId](geneExpression/geneId.1) get gene Id list or byref set of the gene id alias set.
 + [as.deg](geneExpression/as.deg.1) create gene expression DEG model
-+ [deg.class](geneExpression/deg.class.1) 
++ [deg.class](geneExpression/deg.class.1) set deg class label
 + [joinSample](geneExpression/joinSample.1) do matrix join by samples
 + [joinFeatures](geneExpression/joinFeatures.1) 
 + [aggregate](geneExpression/aggregate.1) merge row or column where the tag is identical

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::873e1965e63335164cb2a33b2f76dc37, Microsoft.VisualBasic.Core\src\Language\Linq\Vectorization\BooleanVector.vb"
+﻿#Region "Microsoft.VisualBasic::75f16a6a70a56c81268945cdee446fc0, Microsoft.VisualBasic.Core\src\Language\Linq\Vectorization\BooleanVector.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 171
-    '    Code Lines: 86 (50.29%)
-    ' Comment Lines: 65 (38.01%)
+    '   Total Lines: 177
+    '    Code Lines: 91 (51.41%)
+    ' Comment Lines: 65 (36.72%)
     '    - Xml Docs: 83.08%
     ' 
-    '   Blank Lines: 20 (11.70%)
-    '     File Size: 6.04 KB
+    '   Blank Lines: 21 (11.86%)
+    '     File Size: 6.14 KB
 
 
     '     Class BooleanVector
     ' 
-    '         Properties: [False], [True], IsLogical
+    '         Properties: [False], [True], Any, IsLogical
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: (+2 Overloads) Sum, ToString
@@ -95,6 +95,12 @@ Namespace Language.Vectorization
             End Get
         End Property
 
+        Public ReadOnly Property Any As Boolean
+            Get
+                Return buffer.Any(Function(a) a)
+            End Get
+        End Property
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(b As IEnumerable(Of Boolean))
             MyBase.New(b)
@@ -108,7 +114,7 @@ Namespace Language.Vectorization
             Dim countTrue% = Linq.which(buffer).Count
             Dim countFalse% = Linq.which(Not Me).Count
 
-            Return $"ALL({Length}) = {countTrue} true + {countFalse} false"
+            Return $"all({Length}) = {countTrue}:true + {countFalse}:false"
         End Function
 
         ''' <summary>
@@ -142,9 +148,9 @@ Namespace Language.Vectorization
         ''' <param name="y"></param>
         ''' <returns></returns>
         ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Operator &(x As BooleanVector, y As BooleanVector) As BooleanVector
-            Return New BooleanVector(From i As SeqValue(Of Boolean) In x.SeqIterator Select i.value AndAlso y(i))
+            Dim vy = y.buffer
+            Return New BooleanVector(x.Select(Function(xi, i) xi AndAlso vy(i)))
         End Operator
 
         ''' <summary>
@@ -155,7 +161,7 @@ Namespace Language.Vectorization
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator Not(x As BooleanVector) As BooleanVector
-            Return New BooleanVector((From b As Boolean In x Select Not b).ToArray)
+            Return New BooleanVector(From b As Boolean In x Select Not b)
         End Operator
 
         ''' <summary>
@@ -213,7 +219,7 @@ Namespace Language.Vectorization
             If b.IsNullOrEmpty Then
                 Return False
             Else
-                Return Not b.Any(Function(x) x = False)
+                Return Not Enumerable.Any(b, Function(x) x = False)
             End If
         End Operator
 

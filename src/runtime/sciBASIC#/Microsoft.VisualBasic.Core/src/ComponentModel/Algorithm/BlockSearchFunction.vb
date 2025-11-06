@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef88ad8a59bd0d5d1242a548315bf944, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BlockSearchFunction.vb"
+﻿#Region "Microsoft.VisualBasic::07f40adac058e5b0cb55a0afb21fd373, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BlockSearchFunction.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 276
-    '    Code Lines: 173 (62.68%)
-    ' Comment Lines: 64 (23.19%)
+    '   Total Lines: 278
+    '    Code Lines: 175 (62.95%)
+    ' Comment Lines: 64 (23.02%)
     '    - Xml Docs: 85.94%
     ' 
-    '   Blank Lines: 39 (14.13%)
-    '     File Size: 9.72 KB
+    '   Blank Lines: 39 (14.03%)
+    '     File Size: 9.88 KB
 
 
     '     Structure Block
@@ -107,11 +107,13 @@ Namespace ComponentModel.Algorithm
             Return Function(source, target)
                        ' target is the input data to search
                        Dim x As Double = target.min
+                       Dim checkRange As Boolean = x >= source.min AndAlso x <= source.max
 
                        ' 20240809 fix bug for matches when source block contains only one element
                        ' needs a tolerance window for make matches!
-                       If (x > source.min AndAlso x < source.max) OrElse
-                            (source.zero AndAlso std.Abs(source.min - x) <= fuzzy) Then
+                       If checkRange Then
+                           Return 0
+                       ElseIf source.zero AndAlso fuzzy > 0 AndAlso (std.Abs(source.min - x) <= fuzzy OrElse std.Abs(source.max - x) <= fuzzy) Then
                            Return 0
                        ElseIf source.min < x Then
                            Return -1

@@ -67,6 +67,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -248,7 +249,7 @@ Namespace SequenceModel.FASTA
             Dim seqs As FastaFile = FastaFile.Read(path)
 
             If seqs.IsNullOrEmpty Then
-NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG_ECHO
+NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
                 Return Nothing
             End If
 
@@ -282,10 +283,10 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="lines"></param>
         ''' <param name="deli"></param>
         ''' <returns></returns>
-        Public Shared Iterator Function DocParser(lines As String(), Optional deli As String = "|") As IEnumerable(Of FastaSeq)
+        Public Shared Iterator Function DocParser(lines As IEnumerable(Of String), Optional deli As String = "|") As IEnumerable(Of FastaSeq)
             Dim faseq As New List(Of String)
 
-            If lines.IsNullOrEmpty Then
+            If lines Is Nothing Then
                 Return
             ElseIf deli.StringEmpty Then
                 deli = "|"
@@ -311,9 +312,9 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
             End If
         End Function
 
-        Public Shared Function DocParser(doc As String, deli As Char()) As List(Of FastaSeq)
-            Dim TokenLines As String() = doc.LineTokens
-            Return DocParser(TokenLines, deli)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function DocParser(doc As String, deli As Char()) As IEnumerable(Of FastaSeq)
+            Return DocParser(doc.LineTokens, deli)
         End Function
 
         ''' <summary>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c61119da25805db77f760bbdd56ab298, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\BIRCH\CFNode.vb"
+﻿#Region "Microsoft.VisualBasic::1c988341598c60d65fbdda4c3bdfca6b, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\BIRCH\CFNode.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 608
-    '    Code Lines: 368 (60.53%)
-    ' Comment Lines: 140 (23.03%)
-    '    - Xml Docs: 45.00%
+    '   Total Lines: 602
+    '    Code Lines: 368 (61.13%)
+    ' Comment Lines: 134 (22.26%)
+    '    - Xml Docs: 42.54%
     ' 
-    '   Blank Lines: 100 (16.45%)
-    '     File Size: 25.13 KB
+    '   Blank Lines: 100 (16.61%)
+    '     File Size: 24.88 KB
 
 
     '     Class CFNode
@@ -352,9 +352,6 @@ Namespace BIRCH
         ''' </summary>
         ''' <param name="oldEntries1"> </param>
         ''' <param name="oldEntries2"> </param>
-        ''' <param name="cloePair"> </param>
-        ''' <param name="e1"> </param>
-        ''' <param name="e2"> </param>
         Protected Friend Overridable Sub redistributeEntries(oldEntries1 As List(Of CFEntry), oldEntries2 As List(Of CFEntry), closeEntries As CFEntryPair, newE1 As CFEntry, newE2 As CFEntry)
             Dim v As List(Of CFEntry) = New List(Of CFEntry)()
             v.AddRange(oldEntries1)
@@ -389,9 +386,6 @@ Namespace BIRCH
         ''' </summary>
         ''' <param name="oldEntries1"> </param>
         ''' <param name="oldEntries2"> </param>
-        ''' <param name="cloePair"> </param>
-        ''' <param name="e1"> </param>
-        ''' <param name="e2"> </param>
         Protected Friend Overridable Sub redistributeEntries(oldEntries1 As List(Of CFEntry), oldEntries2 As List(Of CFEntry), newE As CFEntry)
             Dim v As List(Of CFEntry) = New List(Of CFEntry)()
             v.AddRange(oldEntries1)

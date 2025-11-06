@@ -178,7 +178,7 @@ Namespace SequenceModel.FASTA
         Public Shared Iterator Function SeqSource(handle$, Optional ext$() = Nothing, Optional debug As Boolean = False) As IEnumerable(Of FastaSeq)
             If (handle.Last <> "/"c AndAlso handle.Last <> "\"c) AndAlso handle.FixPath.FileExists Then
                 If debug Then
-                    Call "File exists, reading fasta data from file...".__DEBUG_ECHO
+                    Call "File exists, reading fasta data from file...".debug
                 End If
 
                 For Each fa As FastaSeq In New StreamIterator(handle).ReadStream
@@ -186,13 +186,13 @@ Namespace SequenceModel.FASTA
                 Next
             Else
                 If debug Then
-                    Call "Directory exists, reading fasta data from files in DATA directory...".__DEBUG_ECHO
-                    Call $"File types: {(ext Or DefaultSuffix).GetJson}".__DEBUG_ECHO
+                    Call "Directory exists, reading fasta data from files in DATA directory...".debug
+                    Call $"File types: {(ext Or DefaultSuffix).GetJson}".debug
                 End If
 
                 For Each file As String In ls - l - r - (ext Or DefaultSuffix) <= handle
                     If debug Then
-                        Call file.ToFileURL.__DEBUG_ECHO
+                        Call file.ToFileURL.debug
                     End If
                     For Each nt As FastaSeq In New StreamIterator(file).ReadStream
                         Yield nt

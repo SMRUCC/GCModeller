@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b6312009e9010203ac3f5b3a1fe4b4e, Microsoft.VisualBasic.Core\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::e198dd5d3671990b86e1762f7cef975f, Microsoft.VisualBasic.Core\test\Program.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 20
-    '    Code Lines: 15 (75.00%)
+    '   Total Lines: 23
+    '    Code Lines: 17 (73.91%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (25.00%)
-    '     File Size: 474 B
+    '   Blank Lines: 6 (26.09%)
+    '     File Size: 546 B
 
 
     ' Module Program
@@ -55,6 +55,10 @@ Imports System
 
 Module Program
     Sub Main(args As String())
+        Call progrsssBarTest.testLoop()
+        Call streamTest.dataUriStreamtest()
+
+        Call logprint()
         Call memoryTest.runTest()
         Call numberParserTest.Main1()
 

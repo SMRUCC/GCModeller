@@ -308,7 +308,9 @@ Namespace Assembly.Uniprot.XML
         ''' 获取蛋白质的功能结构信息
         ''' </summary>
         ''' <param name="prot"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' get domain type feature information
+        ''' </returns>
         <Extension>
         Public Function GetDomainData(prot As entry) As DomainModel()
             Dim features As feature() = prot.features.SafeQuery.Takes("domain").ToArray

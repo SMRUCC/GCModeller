@@ -198,14 +198,14 @@ Public Module VennDataBuilder
                 End Function
             Select taskHandle
 
-        Call $"Fasta source is {Files.Length} genomes...".__DEBUG_ECHO
-        Call $"Build bbh task list of {taskList.Length} tasks...".__DEBUG_ECHO
+        Call $"Fasta source is {Files.Length} genomes...".debug
+        Call $"Build bbh task list of {taskList.Length} tasks...".debug
         Call outDIR.MakeDir
         Call App.StartGC(True)
-        Call "Start BLAST threads...".__DEBUG_ECHO
-        Call $"     {NameOf(num_threads)} => {num_threads}".__DEBUG_ECHO
-        Call $"     {NameOf(taskList)}    => {taskList.Length}".__DEBUG_ECHO
-        Call New String("+", 200).__DEBUG_ECHO
+        Call "Start BLAST threads...".debug
+        Call $"     {NameOf(num_threads)} => {num_threads}".debug
+        Call $"     {NameOf(taskList)}    => {taskList.Length}".debug
+        Call New String("+", 200).debug
 
         Dim fileList As String() = New ThreadTask(Of String)(taskList).WithDegreeOfParallelism(num_threads).RunParallel.ToArray  ' 启动批量本地blast操作
 

@@ -35,8 +35,19 @@
 
         <table>
             
+<dt>compoundsId</dt>
+<dd><p><p>a <code>dataframe</code> object that contains the kegg compound
+cid as the node item in the network graph data. there are fields in this
+dataframe that must be included:
+<ol>
+<li>kegg_id: is the kegg compound cid</li>
+<li>weight: apply for measure the node size</li>
+</ol></p></p></dd>
+
+
 <dt>make.pathway.cluster</dt>
-<dd><p><p>make node cluster info via pathway maps information?</p></p></dd>
+<dd><p><p>make node cluster info via pathway maps
+information?</p></p></dd>
 
         </table>
 
@@ -51,7 +62,8 @@
 
         <h3>Value</h3>
 
-        <p>a network graph object model, which can be export as table file or run network visualization rendering in the downstream data analysis.</p>
+        <p>a network graph object model, which can be export as table file or
+run network visualization rendering in the downstream data analysis.</p>
 
         <h3 style="display: none;">Examples</h3>
 
@@ -68,4 +80,4 @@
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
-</html>
+</html>

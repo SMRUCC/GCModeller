@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::059b17e665bbf104f7059d48161d6d99, analysis\HTS_matrix\Math.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 126
-    '    Code Lines: 91 (72.22%)
-    ' Comment Lines: 23 (18.25%)
-    '    - Xml Docs: 95.65%
-    ' 
-    '   Blank Lines: 12 (9.52%)
-    '     File Size: 5.09 KB
+' Summaries:
 
 
-    ' Module Math
-    ' 
-    '     Function: log, rowSds, Sum, TRanking
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 126
+'    Code Lines: 91 (72.22%)
+' Comment Lines: 23 (18.25%)
+'    - Xml Docs: 95.65%
+' 
+'   Blank Lines: 12 (9.52%)
+'     File Size: 5.09 KB
+
+
+' Module Math
+' 
+'     Function: log, rowSds, Sum, TRanking
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,6 +63,24 @@ Imports std = System.Math
 ''' math helper for HTS matrix
 ''' </summary>
 Public Module Math
+
+    <Extension>
+    Public Function MinMaxNorm(x As Matrix) As Matrix
+        Return New Matrix With {
+            .sampleID = x.sampleID,
+            .tag = $"minmax({x.tag})",
+            .expression = x.expression _
+                .Select(Function(gene)
+                            Dim v As New Vector(gene.experiments)
+
+                            Return New DataFrameRow With {
+                                .geneID = gene.geneID,
+                                .experiments = (v - v.Min) / (v.Max - v.Min)
+                            }
+                        End Function) _
+                .ToArray
+        }
+    End Function
 
     ''' <summary>
     ''' sum multiple gene expression into a vector
@@ -96,6 +114,20 @@ Public Module Math
     ''' <param name="expr"></param>
     ''' <param name="base">the base for log function.</param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' # 分布转换（处理非正态分布）
+    ''' 
+    ''' 对数转换是处理非正态分布数据的常用方法，尤其是右偏数据。通过对数转换，可以将数据的分布变得更接近正态分布，从而满足统计分析的假设。
+    ''' 
+    ''' 例如，对于基因表达数据，通常会使用对数转换来减少数据的偏态性，使得后续的统计分析（如t检验、方差分析等）更加可靠。
+    ''' 
+    ''' 对于右偏数据，可以使用以下代码进行对数转换：
+    ''' 
+    ''' # 对数转换（右偏数据）
+    ''' log_transform &lt;- function(mat) {
+    '''    log(mat + 1 - min(mat))  # 避免log(0)
+    ''' }
+    ''' </remarks>
     <Extension>
     Public Function log(expr As Matrix, base As Double) As Matrix
         Dim logMat As New Matrix With {
@@ -103,6 +135,10 @@ Public Module Math
             .tag = $"log({expr.tag}, base={base})",
             .expression = expr.expression _
                 .Select(Function(exp)
+                            Dim min As Double = exp.experiments _
+                                .Where(Function(v) v > 0 AndAlso Not v.IsNaNImaginary) _
+                                .DefaultIfEmpty(0) _
+                                .Min
                             Return New DataFrameRow With {
                                 .geneID = exp.geneID,
                                 .experiments = exp.experiments _
@@ -110,7 +146,7 @@ Public Module Math
                                                 If v <= 0 Then
                                                     Return 0
                                                 Else
-                                                    Return std.Log(v, newBase:=base)
+                                                    Return std.Log(v + 1 - min, newBase:=base)
                                                 End If
                                             End Function) _
                                     .ToArray

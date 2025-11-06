@@ -73,6 +73,10 @@ Namespace Definitions
         ''' </summary>
         ''' <returns></returns>
         Public Property transcriptionBaseline As Double = 100
+        ''' <summary>
+        ''' the max capacity of the transcription process
+        ''' </summary>
+        ''' <returns></returns>
         Public Property transcriptionCapacity As Double = 1000
 
         ''' <summary>
@@ -84,6 +88,10 @@ Namespace Definitions
         Public Property proteinMatureCapacity As Double = 10000
         Public Property productInhibitionFactor As Double = 1.25E-20
 
+        ''' <summary>
+        ''' min kinetic rate for tRNA charged with amino acid
+        ''' </summary>
+        ''' <returns></returns>
         Public Property tRNAChargeBaseline As Double = 1
         Public Property tRNAChargeCapacity As Double = 10
 
@@ -95,8 +103,6 @@ Namespace Definitions
 
         Public Property ribosomeAssemblyCapacity As Double = 10
         Public Property ribosomeDisassemblyCapacity As Double = 5
-
-        Public Property numCells As Integer = 1000
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

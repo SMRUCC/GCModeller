@@ -102,7 +102,7 @@ Namespace LocalBLAST.InteropService
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property NumThreads As Integer
+        Public Property NumThreads As Integer = 8
 
         ''' <summary>
         ''' Gets the directory which contains the local blast program group.(本地blast程序组所在的文件夹)

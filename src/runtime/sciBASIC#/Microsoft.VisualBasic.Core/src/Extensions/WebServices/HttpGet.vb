@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::500298774507b0d82e206a74936561ec, Microsoft.VisualBasic.Core\src\Extensions\WebServices\HttpGet.vb"
+﻿#Region "Microsoft.VisualBasic::e906df2a1af29b7c51351df102d01123, Microsoft.VisualBasic.Core\src\Extensions\WebServices\HttpGet.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 58.33%
     ' 
     '   Blank Lines: 38 (15.97%)
-    '     File Size: 9.17 KB
+    '     File Size: 9.16 KB
 
 
     ' Module HttpGet
@@ -100,7 +100,7 @@ Public Module HttpGet
         ' 类似于php之中的file_get_contents函数,可以读取本地文件内容
         If File.Exists(url) Then
             If echo Then
-                Call $"GET {If(isFileUrl, url.ToFileURL, url)}".__DEBUG_ECHO
+                Call $"GET {If(isFileUrl, url.ToFileURL, url)}".debug
             End If
 
             Return url.ReadAllText
@@ -220,7 +220,9 @@ Re0:
             Next
         End If
         If Not String.IsNullOrEmpty(proxy) Then
-            Call webRequest.SetProxy(proxy)
+            webRequest.SetProxy(proxy)
+        Else
+            webRequest.Proxy = Nothing
         End If
 
         Return webRequest
@@ -275,7 +277,7 @@ Re0:
                 If timespan > 1000 Then
                     Call debug.Warning
                 Else
-                    Call debug.__INFO_ECHO
+                    Call debug.info
                 End If
             End If
 

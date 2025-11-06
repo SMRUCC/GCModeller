@@ -130,7 +130,7 @@ Namespace SAM
             Dim IO As New SAMStream(Path, encoding)
             Dim readsBuffer As AlignmentReads() = IO.IteratesAllReads.ToArray
 
-            Call $"There are {readsBuffer.Length} alignment reads in the sam mapping file  {Path.ToFileURL}".__DEBUG_ECHO
+            Call $"There are {readsBuffer.Length} alignment reads in the sam mapping file  {Path.ToFileURL}".debug
             Call FlushMemory()
 
             Return New SAM With {
@@ -191,12 +191,12 @@ Namespace SAM
                                          Group Read By Read.POS Into Group).ToArray
             Dim FwStart = FwAyHandle.BeginInvoke(Nothing, Nothing)
 
-            Call $"Get reads on the reversed strand....".__DEBUG_ECHO
+            Call $"Get reads on the reversed strand....".debug
             Dim ReversedReads = (From Read In AlignmentReads.AsParallel
                                  Where Read.Strand = Strands.Reverse
                                  Select Read
                                  Group Read By Read.POS Into Group).ToArray
-            Call $"Get reads on the forwards strand....".__DEBUG_ECHO
+            Call $"Get reads on the forwards strand....".debug
             Dim ForwardReads = FwAyHandle.EndInvoke(FwStart)
 
 #If DEBUG Then

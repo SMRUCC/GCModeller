@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2cd2d4a1c757ad07a7a9a2409c7ec4c, Microsoft.VisualBasic.Core\src\Extensions\Collection\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::cdace292f5a9503f6f33407c57da0025, Microsoft.VisualBasic.Core\src\Extensions\Collection\KeyValuePair.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 964
-    '    Code Lines: 555 (57.57%)
-    ' Comment Lines: 301 (31.22%)
+    '   Total Lines: 969
+    '    Code Lines: 559 (57.69%)
+    ' Comment Lines: 301 (31.06%)
     '    - Xml Docs: 94.68%
     ' 
-    '   Blank Lines: 108 (11.20%)
-    '     File Size: 40.99 KB
+    '   Blank Lines: 109 (11.25%)
+    '     File Size: 41.27 KB
 
 
     '     Module KeyValuePairExtensions
@@ -49,7 +49,7 @@
     '                   ComputeIfAbsent, (+3 Overloads) ContainsKey, (+2 Overloads) DescendingMap, DictionaryData, (+2 Overloads) EnumerateTuples
     '                   EnumParser, FlatTable, (+2 Overloads) GetByKey, GetValueOrDefault, GroupByKey
     '                   HaveData, IterateNameCollections, IterateNameValues, IteratesAll, Join
-    '                   KeyItem, (+3 Overloads) Keys, (+2 Overloads) NamedValues, (+3 Overloads) NameValueCollection, ParserDictionary
+    '                   KeyItem, (+4 Overloads) Keys, (+2 Overloads) NamedValues, (+3 Overloads) NameValueCollection, ParserDictionary
     '                   Popout, RemoveAndGet, ReverseMaps, (+2 Overloads) Selects, SetOfKeyValuePairs
     '                   (+2 Overloads) Subset, tableInternal, (+2 Overloads) Takes, (+3 Overloads) ToDictionary, ToLower
     '                   ToUpper, Tsv, Tuple, TupleTable, (+3 Overloads) Values
@@ -536,6 +536,11 @@ Namespace ComponentModel.Collection
                 .ToArray
         End Function
 
+        <Extension>
+        Public Function Keys(Of K, V)(source As IEnumerable(Of KeyValuePair(Of K, V))) As K()
+            Return (From t As KeyValuePair(Of K, V) In source Select t.Key).ToArray
+        End Function
+
         ''' <summary>
         ''' Get a specific item value from the target collction data using its UniqueID property，
         ''' (请注意，请尽量不要使用本方法，因为这个方法的效率有些低，对于获取<see cref="INamedValue">
@@ -556,7 +561,7 @@ Namespace ComponentModel.Collection
                                                   As T
 
             Dim find As T = LinqAPI.DefaultFirst(Of T) _
- _
+                                                       _
                 () <= From x As T
                       In source
                       Where String.Equals(uid, x.Key, ignoreCase)

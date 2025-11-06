@@ -61,9 +61,10 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace Engine
 
@@ -94,18 +95,18 @@ Namespace Engine
             Call saveFlux.metabolome(iteration, data.Subset(flux.metabolome))
         End Sub
 
-        Public Shared Function GetMassTuples(model As CellularModule) As OmicsTuple(Of String())
+        Public Shared Function GetMassTuples(ParamArray models As CellularModule()) As OmicsTuple(Of String())
             ' 因为rRNA和tRNA会存在重复
             ' 所以对于RNA分子需要做一下去重复
-            Dim RNA = model.Genotype.centralDogmas _
-                .Select(Function(gene) gene.RNAName) _
-                .Distinct _
-                .ToArray
-            Dim protein = model.Genotype.centralDogmas _
-                .Where(Function(gene) Not gene.IsRNAGene) _
-                .Select(Function(gene) gene.polypeptide) _
-                .ToArray
-            Dim metabolites = model.Phenotype.fluxes _
+            Dim RNA = models.Select(Function(m) modelRNANames(m)).IteratesALL.Distinct.ToArray
+            Dim protein = models.Select(Function(m) modelPolypeptides(m)).IteratesALL.Distinct.ToArray
+            Dim metabolites = models.Select(Function(m) modelMetabolites(m)).IteratesALL.Distinct.ToArray
+
+            Return New OmicsTuple(Of String())(RNA, protein, metabolites)
+        End Function
+
+        Private Shared Function modelMetabolites(model As CellularModule) As IEnumerable(Of String)
+            Return model.Phenotype.fluxes _
                 .Select(Iterator Function(flux) As IEnumerable(Of CompoundSpecieReference)
                             For Each c As CompoundSpecieReference In flux.equation.Reactants
                                 Yield c
@@ -115,27 +116,25 @@ Namespace Engine
                             Next
                         End Function) _
                 .IteratesALL _
-                .Select(Function(mass) mass.ID) _
-                .Distinct _
-                .ToArray
-
-            Return New OmicsTuple(Of String())(RNA, protein, metabolites)
+                .Select(Function(mass) mass.ID)
         End Function
 
-        Public Shared Function GetFluxTuples(model As CellularModule) As OmicsTuple(Of String())
-            Dim transcription As String() = model.Genotype.centralDogmas _
-                .Select(AddressOf Loader.GetTranscriptionId) _
-                .ToArray
-            Dim translation As String() = model.Genotype.centralDogmas _
-                .Where(Function(cd) Not cd.IsRNAGene) _
-                .Select(AddressOf Loader.GetTranslationId) _
-                .ToArray
-            Dim proteinComplex = model.Phenotype.proteins _
-                .Select(AddressOf Loader.GetProteinMatureId) _
-                .AsList
-            Dim metabolism = model.Phenotype.fluxes _
-                .Select(Function(r) r.ID) _
-                .ToArray
+        Private Shared Function modelPolypeptides(model As CellularModule) As IEnumerable(Of String)
+            Return From gene As CentralDogma
+                   In model.Genotype.centralDogmas
+                   Where Not gene.IsRNAGene
+                   Select gene.polypeptide
+        End Function
+
+        Private Shared Function modelRNANames(model As CellularModule) As IEnumerable(Of String)
+            Return model.Genotype.centralDogmas.Select(Function(gene) gene.RNAName)
+        End Function
+
+        Public Shared Function GetFluxTuples(ParamArray models As CellularModule()) As OmicsTuple(Of String())
+            Dim transcription As String() = DataHelper.getTranscription(models).ToArray
+            Dim translation As String() = DataHelper.getTranslation(models).ToArray
+            Dim proteinComplex = DataHelper.getProteinProcess(models).AsList
+            Dim metabolism = DataHelper.getFluxIds(models).ToArray
 
             Return New OmicsTuple(Of String())(
                 transcriptome:=transcription,
@@ -143,5 +142,13 @@ Namespace Engine
                 metabolome:=proteinComplex + metabolism
             )
         End Function
+
+        Public Sub ForwardRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ForwardRegulation
+
+        End Sub
+
+        Public Sub ReverseRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ReverseRegulation
+
+        End Sub
     End Class
 End Namespace

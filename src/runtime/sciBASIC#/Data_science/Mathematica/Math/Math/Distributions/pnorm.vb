@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b446249da90ef6e4ca112a69559a2daa, Data_science\Mathematica\Math\Math\Distributions\pnorm.vb"
+﻿#Region "Microsoft.VisualBasic::29ebba01f6dbe56d476434de12111d07, Data_science\Mathematica\Math\Math\Distributions\pnorm.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 355
-    '    Code Lines: 147 (41.41%)
-    ' Comment Lines: 170 (47.89%)
-    '    - Xml Docs: 75.29%
+    '   Total Lines: 359
+    '    Code Lines: 147 (40.95%)
+    ' Comment Lines: 174 (48.47%)
+    '    - Xml Docs: 75.86%
     ' 
-    '   Blank Lines: 38 (10.70%)
-    '     File Size: 15.39 KB
+    '   Blank Lines: 38 (10.58%)
+    '     File Size: 15.49 KB
 
 
     '     Module pnorm
@@ -324,12 +324,16 @@ Namespace Distributions
         ''' <summary>
         ''' #### normal-pdf
         ''' 
-        ''' Normal Distribution.(正态分布)
+        ''' Gaussian PDF function,
+        ''' Normal Distribution.
         ''' </summary>
         ''' <param name="x"></param>
         ''' <param name="m">Mean</param>
         ''' <param name="sd"></param>
         ''' <returns>Get normal distribution density value at a point.</returns>
+        ''' <remarks>
+        ''' (正态分布)
+        ''' </remarks>
         Public Function ProbabilityDensity(x#, m#, sd#) As Double
             ' 1 / (sd * sqrt(2 * PI)) * exp(-(x - u)^2 / (2* sd ^ 2))
 

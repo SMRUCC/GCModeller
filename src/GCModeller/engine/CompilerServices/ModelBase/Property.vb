@@ -57,6 +57,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' the property about the current virtual cell model
@@ -86,6 +87,23 @@ Public Class [Property]
         publications = New String() {}
         URLs = New String() {"https://gcmodeller.org/"}
         DBLinks = New String() {}
+    End Sub
+
+    Sub New(copy As [Property])
+        name = copy.name
+        compiled = copy.compiled
+        reversion = copy.reversion
+
+        guid = copy.guid
+        specieId = copy.specieId
+        title = copy.title
+        Emails = copy.Emails.SafeQuery.ToArray
+        authors = copy.authors.SafeQuery.ToArray
+        comment = copy.comment
+        publications = copy.publications.SafeQuery.ToArray
+        URLs = copy.URLs.SafeQuery.ToArray
+
+        DBLinks = copy.DBLinks.SafeQuery.ToArray
     End Sub
 
     Public Overrides Function ToString() As String

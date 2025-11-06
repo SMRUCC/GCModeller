@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>parse.highlight_tuples</title>
+    <title>Parse the kegg pathway node highlight information</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,11 @@
             </tr>
         </table>
 
-        <h2>parse.highlight_tuples</h2>
+        <h2>Parse the kegg pathway node highlight information</h2>
 
         <h3>Description</h3>
 
-        parse.highlight_tuples
+        
 
         <h3>Usage</h3>
 
@@ -35,6 +35,26 @@
 
         <table>
             
+<dt>x</dt>
+<dd><p>should be a character string that contains the pathway nodes id and 
+ optional highligh color for make the kegg pathway map rendering.
+ 
+ value should be in formats of:
+ 
+     "K00001:blue;K00002:red;C00001:green"
+ 
+ where the first part is the kegg id, the second part is the highlight color.
+ 
+ or just a list of the kegg id without highlight color, such as:
+ 
+     "K00001;K00002;C00001"
+ 
+ The default color is "red" if the highlight color is not specified. [as string]</p></dd>
+
+
+<dt>default</dt>
+<dd><p>the default color for the hightlights. [as string]</p></dd>
+
         </table>
 
 
@@ -48,7 +68,12 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+        <p>a tuple list that contains the highlight information, such as:
+
+<pre><code class="r"> list(K00001 = "blue", K00002 = "red", C00001 = "green");
+</code></pre>
+
+</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
@@ -65,4 +90,4 @@
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
-</html>
+</html>

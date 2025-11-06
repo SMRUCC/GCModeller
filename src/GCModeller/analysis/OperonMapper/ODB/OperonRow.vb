@@ -43,9 +43,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 ''' <summary>
 ''' A row of the data in ODB dataset ``known_operon.download.txt``
@@ -61,7 +62,7 @@ Public Class OperonRow : Implements INamedValue
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function LoadInternalResource() As IEnumerable(Of OperonRow)
-        Return Load(My.Resources.known_operon_download)
+        Return Load(Encoding.UTF8.GetString(My.Resources.Data.known_operon_download))
     End Function
 
     Public Shared Iterator Function Load(file As String) As IEnumerable(Of OperonRow)

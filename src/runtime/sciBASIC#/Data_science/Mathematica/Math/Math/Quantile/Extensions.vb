@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d2dae826b1316ca476a9278e2f737f3, Data_science\Mathematica\Math\Math\Quantile\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::90ed3d6818b61980dd2bca8ecb1152f1, Data_science\Mathematica\Math\Math\Quantile\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 73.00%
     ' 
     '   Blank Lines: 43 (15.36%)
-    '     File Size: 11.15 KB
+    '     File Size: 11.14 KB
 
 
     '     Module Extensions
@@ -102,7 +102,7 @@ Namespace Quantile
         '''     Dim actual As Long = Shuffle.actually(q)
         '''     Dim out As String = String.Format("Estimated {0:F2} quantile as {1:D} (actually {2:D})", q, estimate, actual)
         '''
-        '''     Call out.__DEBUG_ECHO
+        '''     Call out.debug
         ''' Next
         ''' ```
         ''' </summary>
@@ -299,7 +299,7 @@ Namespace Quantile
         '        Dim actual As Long = shuffle.actually(q)
         '        Dim out As String = String.Format("Estimated {0:F2} quantile as {1:D} (actually {2:D})", q, estimate, actual)
 
-        '        Call out.__DEBUG_ECHO
+        '        Call out.debug
         '    Next
         'End Sub
 

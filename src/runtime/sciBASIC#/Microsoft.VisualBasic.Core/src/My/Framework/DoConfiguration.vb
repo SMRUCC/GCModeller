@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b928ec5cb5ce058d9ccb119a3d091aea, Microsoft.VisualBasic.Core\src\My\Framework\DoConfiguration.vb"
+﻿#Region "Microsoft.VisualBasic::c6d6d0391b4f399b32cfd0534d04de3d, Microsoft.VisualBasic.Core\src\My\Framework\DoConfiguration.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 40.00%
     ' 
     '   Blank Lines: 17 (13.93%)
-    '     File Size: 4.81 KB
+    '     File Size: 4.80 KB
 
 
     '     Module DoConfiguration
@@ -141,11 +141,11 @@ Namespace My.FrameworkInternal
             If Not disableLoadOptions AndAlso Not envir.IsNullOrEmpty Then
                 If envir.ContainsKey("proxy") Then
                     WebServiceUtils.Proxy = envir("proxy")
-                    Call $"[Config] webUtils_proxy={WebServiceUtils.Proxy}".__INFO_ECHO
+                    Call $"[Config] webUtils_proxy={WebServiceUtils.Proxy}".info
                 End If
                 If envir.ContainsKey("setwd") Then
                     App.CurrentDirectory = envir("setwd")
-                    Call $"[Config] current_work_directory={App.CurrentDirectory}".__INFO_ECHO
+                    Call $"[Config] current_work_directory={App.CurrentDirectory}".info
                 End If
                 If envir.ContainsKey("buffer_size") Then
                     Call App.SetBufferSize(envir!buffer_size)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b5bb278e9cc7e9e483c1e377eaae6ea, Microsoft.VisualBasic.Core\src\Language\Language\Java\LogTricks.vb"
+﻿#Region "Microsoft.VisualBasic::071fd3e94bd960ef51b8d4ada9848e6b, Microsoft.VisualBasic.Core\src\Language\Language\Java\LogTricks.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 11.11%
     ' 
     '   Blank Lines: 11 (12.94%)
-    '     File Size: 3.18 KB
+    '     File Size: 3.20 KB
 
 
     '     Module LogTricks
@@ -132,7 +132,7 @@ Namespace Language.Java
         End Sub
 
         Public Function logDiff(x As Double, y As Double) As Double
-            Debug.Assert(x > y)
+            System.Diagnostics.Debug.Assert(x > y)
             Dim temp As Double = y - x
             If temp < -NATS OrElse y < logLimit Then Return x
             Return x + JavaMath.log1p(-sys.Exp(temp))

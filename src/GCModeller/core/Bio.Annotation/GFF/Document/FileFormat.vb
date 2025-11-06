@@ -1,63 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::a77f1036c87d0753dd6550a3198348af, core\Bio.Annotation\GFF\Document\FileFormat.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 93
-    '    Code Lines: 73 (78.49%)
-    ' Comment Lines: 7 (7.53%)
-    '    - Xml Docs: 71.43%
-    ' 
-    '   Blank Lines: 13 (13.98%)
-    '     File Size: 4.10 KB
+' Summaries:
 
 
-    '     Module FileFormat
-    ' 
-    '         Function: TryGetFreaturesData, TryGetMetaData
-    ' 
-    '         Sub: TrySetMetaData
-    '         Structure parserHelper
-    ' 
-    '             Function: IsMetaDataLine, parse
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 93
+'    Code Lines: 73 (78.49%)
+' Comment Lines: 7 (7.53%)
+'    - Xml Docs: 71.43%
+' 
+'   Blank Lines: 13 (13.98%)
+'     File Size: 4.10 KB
+
+
+'     Module FileFormat
+' 
+'         Function: TryGetFreaturesData, TryGetMetaData
+' 
+'         Sub: TrySetMetaData
+'         Structure parserHelper
+' 
+'             Function: IsMetaDataLine, parse
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
+
+Imports System.Runtime.CompilerServices
 
 Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
 
@@ -91,7 +93,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
                                       .JoinBy("; ")
                               End Function)
 
-            Call $"There are {attrs.Count} meta data was parsed from the gff file.".__DEBUG_ECHO
+            Call $"There are {attrs.Count} meta data was parsed from the gff file.".debug
 
             Gff.GffVersion = CInt(Val(TryGetValue(attrs, "##gff-version")))
             Gff.date = TryGetValue(attrs, "##date")
@@ -104,10 +106,10 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
                 Gff.GffVersion = defaultVer
             End If
 
-            Call $"The parser version of the gff file is version {Gff.GffVersion}...".__DEBUG_ECHO
+            Call $"The parser version of the gff file is version {Gff.GffVersion}...".debug
 
             If {1, 2, 3}.IndexOf(Gff.GffVersion) = -1 Then
-                Call $"{NameOf(Version)}={Gff.GffVersion} is currently not supported yet, ignored!".Warning
+                Call $"{NameOf(Version)}={Gff.GffVersion} is currently not supported yet, ignored!".warning
             End If
         End Sub
 
@@ -121,18 +123,21 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
                 .version = version
             }
             Dim features As Feature() = loadBuffer _
+                .AsParallel _
                 .Select(AddressOf helper.parse) _
                 .ToArray
             Return features
         End Function
 
         Private Structure parserHelper
+
             Public version As Integer
 
             Public Function parse(s As String) As Feature
                 Return FeatureParser.CreateObject(s, version)
             End Function
 
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Public Shared Function IsMetaDataLine(line As String) As Boolean
                 Return Not String.IsNullOrEmpty(line) AndAlso Len(line) > 2 AndAlso String.Equals(Mid(line, 1, 2), "##")
             End Function
@@ -147,6 +152,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
                 Return LQuery
             Catch ex As Exception
                 Call App.LogException(New Exception(data.JoinBy(vbCrLf), ex))
+                Call ex.Message.error
                 Return New String() {}
             End Try
         End Function

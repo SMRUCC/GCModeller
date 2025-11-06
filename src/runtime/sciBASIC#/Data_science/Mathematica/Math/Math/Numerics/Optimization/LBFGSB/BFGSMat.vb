@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c368d045b42e6ba591b59075ba446c2b, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\BFGSMat.vb"
+﻿#Region "Microsoft.VisualBasic::5ed9d2f3688067afc8ff6b59a403f40c, Data_science\Mathematica\Math\Math\Numerics\Optimization\LBFGSB\BFGSMat.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 555
-    '    Code Lines: 447 (80.54%)
+    '   Total Lines: 553
+    '    Code Lines: 447 (80.83%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 108 (19.46%)
-    '     File Size: 17.98 KB
+    '   Blank Lines: 106 (19.17%)
+    '     File Size: 18.25 KB
 
 
     '     Class BFGSMat
@@ -58,7 +58,6 @@
 #End Region
 
 Namespace Framework.Optimization.LBFGSB
-
 
     Public NotInheritable Class BFGSMat
 
@@ -98,10 +97,10 @@ Namespace Framework.Optimization.LBFGSB
         End Sub
 
         Public Sub add_correction(s As Double(), y As Double())
-            If Debug.flag Then
-                Debug.debug("-"c, "add correction")
-                Debug.debug("s: ", s)
-                Debug.debug("y: ", y)
+            If Debugger.flag Then
+                Debugger.debug("-"c, "add correction")
+                Debugger.debug("s: ", s)
+                Debugger.debug("y: ", y)
             End If
 
             Dim loc = m_ptr Mod m_m
@@ -156,15 +155,15 @@ Namespace Framework.Optimization.LBFGSB
                 Next
             Next
 
-            If Debug.flag Then
-                Debug.debug("-"c, "add correction - end")
+            If Debugger.flag Then
+                Debugger.debug("-"c, "add correction - end")
             End If
         End Sub
 
         Public Sub apply_Wtv(v As Double(), res As Double())
-            If Debug.flag Then
-                Debug.debug("-"c, "apply_Wtv")
-                Debug.debug("v:  ", v)
+            If Debugger.flag Then
+                Debugger.debug("-"c, "apply_Wtv")
+                Debugger.debug("v:  ", v)
             End If
 
             For i = 0 To m_ncorr - 1
@@ -175,21 +174,21 @@ Namespace Framework.Optimization.LBFGSB
                 res(i + m_ncorr) = m_theta * m_s.colDot(i, v)
             Next
 
-            If Debug.flag Then
-                Debug.debug("res: ", res)
-                Debug.debug("-"c, "apply_Wtv - end")
+            If Debugger.flag Then
+                Debugger.debug("res: ", res)
+                Debugger.debug("-"c, "apply_Wtv - end")
             End If
         End Sub
 
         Public Sub apply_Mv(v As Double(), res As Double())
-            If Debug.flag Then
-                Debug.debug("-"c, "apply Mv")
-                Debug.debug("v:  ", v)
+            If Debugger.flag Then
+                Debugger.debug("-"c, "apply Mv")
+                Debugger.debug("v:  ", v)
             End If
 
             If m_ncorr < 1 Then
-                If Debug.flag Then
-                    Debug.debug("-"c, "leaving apply_Mv, m_ncorr < 1")
+                If Debugger.flag Then
+                    Debugger.debug("-"c, "leaving apply_Mv, m_ncorr < 1")
                 End If
                 Return
             End If
@@ -207,16 +206,16 @@ Namespace Framework.Optimization.LBFGSB
                 res(i + m_ncorr) = vpadding(m_m + i)
             Next
 
-            If Debug.flag Then
-                Debug.debug("res: ", res)
-                Debug.debug("-"c, "apply Mv - end")
+            If Debugger.flag Then
+                Debugger.debug("res: ", res)
+                Debugger.debug("-"c, "apply Mv - end")
             End If
         End Sub
 
         Public Function Wb(b As Integer) As Double()
-            If Debug.flag Then
-                Debug.debug("-"c, "Wb")
-                Call Debug.debug("b: " & b.ToString())
+            If Debugger.flag Then
+                Debugger.debug("-"c, "Wb")
+                Call Debugger.debug("b: " & b.ToString())
             End If
 
             Dim res = New Double(2 * m_ncorr - 1) {}
@@ -226,18 +225,18 @@ Namespace Framework.Optimization.LBFGSB
                 res(m_ncorr + j) = m_theta * m_s.get(b, j)
             Next
 
-            If Debug.flag Then
-                Debug.debug("res: ", res)
-                Debug.debug("-"c, "Wb - end")
+            If Debugger.flag Then
+                Debugger.debug("res: ", res)
+                Debugger.debug("-"c, "Wb - end")
             End If
 
             Return res
         End Function
 
         Public Function Wb(b As List(Of Integer)) As Matrix
-            If Debug.flag Then
-                Debug.debug("-"c, "Wb")
-                Call Debug.debug("b: " & b.ToString())
+            If Debugger.flag Then
+                Debugger.debug("-"c, "Wb")
+                Call Debugger.debug("b: " & b.ToString())
             End If
 
             Dim nb = b.Count
@@ -251,9 +250,9 @@ Namespace Framework.Optimization.LBFGSB
                 Next
             Next
 
-            If Debug.flag Then
-                Debug.debug("res: ", res)
-                Debug.debug("-"c, "Wb - end")
+            If Debugger.flag Then
+                Debugger.debug("res: ", res)
+                Debugger.debug("-"c, "Wb - end")
             End If
 
             Return res
@@ -264,10 +263,10 @@ Namespace Framework.Optimization.LBFGSB
         End Function
 
         Public Function apply_WtPv(P_set As List(Of Integer), v As Double(), res As Double(), test_zero As Boolean) As Boolean
-            If Debug.flag Then
-                Call Debug.debug("-"c, "apply_WtPv, test_zero=" & test_zero.ToString())
-                Call Debug.debug("P_set: " & P_set.ToString())
-                Debug.debug("v: ", v)
+            If Debugger.flag Then
+                Call Debugger.debug("-"c, "apply_WtPv, test_zero=" & test_zero.ToString())
+                Call Debugger.debug("P_set: " & P_set.ToString())
+                Debugger.debug("v: ", v)
             End If
 
             Dim Pptr = P_set
@@ -294,8 +293,8 @@ Namespace Framework.Optimization.LBFGSB
             End If
 
             If m_ncorr < 1 OrElse nP < 1 Then
-                If Debug.flag Then
-                    Debug.debug("-"c, "leaving apply_WtPv")
+                If Debugger.flag Then
+                    Debugger.debug("-"c, "leaving apply_WtPv")
                 End If
                 Vector.setAll(res, 0.0)
                 Return False
@@ -313,26 +312,26 @@ Namespace Framework.Optimization.LBFGSB
                 res(m_ncorr + j) = m_theta * ress
             Next
 
-            If Debug.flag Then
-                Debug.debug("res: ", res)
-                Debug.debug("-"c, "apply_WtPv - end")
+            If Debugger.flag Then
+                Debugger.debug("res: ", res)
+                Debugger.debug("-"c, "apply_WtPv - end")
             End If
 
             Return True
         End Function
 
         Public Function apply_PtWMv(P_set As List(Of Integer), v As Double(), res As Double(), scale As Double) As Boolean
-            If Debug.flag Then
-                Call Debug.debug("-"c, "apply_PtWMv, scale=" & scale.ToString())
-                Call Debug.debug("P_set: " & P_set.ToString())
-                Debug.debug("v: ", v)
+            If Debugger.flag Then
+                Call Debugger.debug("-"c, "apply_PtWMv, scale=" & scale.ToString())
+                Call Debugger.debug("P_set: " & P_set.ToString())
+                Debugger.debug("v: ", v)
             End If
 
             Dim nP = P_set.Count
             Vector.setAll(res, 0.0)
             If m_ncorr < 1 OrElse nP < 1 Then
-                If Debug.flag Then
-                    Debug.debug("-"c, "leaving apply_PTWMv, m_ncorr < 1 || np < 1")
+                If Debugger.flag Then
+                    Debugger.debug("-"c, "leaving apply_PTWMv, m_ncorr < 1 || np < 1")
                 End If
                 Return False
             End If
@@ -356,26 +355,26 @@ Namespace Framework.Optimization.LBFGSB
                 res(i) *= scale
             Next
 
-            If Debug.flag Then
-                Debug.debug("res: ", res)
-                Debug.debug("-"c, "apply_PtWMv - end")
+            If Debugger.flag Then
+                Debugger.debug("res: ", res)
+                Debugger.debug("-"c, "apply_PtWMv - end")
             End If
 
             Return True
         End Function
 
         Public Function apply_PtWMv(WP As Matrix, v As Double(), res As Double(), scale As Double) As Boolean
-            If Debug.flag Then
-                Call Debug.debug("-"c, "apply_PtWMv, scale=" & scale.ToString())
-                Debug.debug("WP: ", WP)
-                Debug.debug("v:", v)
+            If Debugger.flag Then
+                Call Debugger.debug("-"c, "apply_PtWMv, scale=" & scale.ToString())
+                Debugger.debug("WP: ", WP)
+                Debugger.debug("v:", v)
             End If
 
             Dim nP = WP.rows
 
             If m_ncorr < 1 OrElse nP < 1 Then
-                If Debug.flag Then
-                    Debug.debug("-"c, "leaving apply_PtWMv, m_ncorr < 1 || nP < 1")
+                If Debugger.flag Then
+                    Debugger.debug("-"c, "leaving apply_PtWMv, m_ncorr < 1 || nP < 1")
                 End If
                 Vector.setAll(res, 0.0)
                 Return False
@@ -396,31 +395,30 @@ Namespace Framework.Optimization.LBFGSB
                 res(i) = scale * dot
             Next
 
-            If Debug.flag Then
-                Debug.debug("res: ", res)
-                Debug.debug("-"c, "apply_PtWMv - end")
+            If Debugger.flag Then
+                Debugger.debug("res: ", res)
+                Debugger.debug("-"c, "apply_PtWMv - end")
             End If
 
             Return True
         End Function
 
         Public Sub compute_FtBAb(WF As Matrix, fv_set As List(Of Integer), newact_set As List(Of Integer), Wd As Double(), drt As Double(), res As Double())
-
-            If Debug.flag Then
-                Debug.debug("-"c, "compute_FtBAb")
-                Debug.debug("WF: ", WF)
-                Call Debug.debug("fv_set: " & fv_set.ToString())
-                Call Debug.debug("newact_set: " & newact_set.ToString())
-                Debug.debug("Wd: ", Wd)
-                Debug.debug("drt: ", drt)
+            If Debugger.flag Then
+                Debugger.debug("-"c, "compute_FtBAb")
+                Debugger.debug("WF: ", WF)
+                Call Debugger.debug("fv_set: " & fv_set.ToString())
+                Call Debugger.debug("newact_set: " & newact_set.ToString())
+                Debugger.debug("Wd: ", Wd)
+                Debugger.debug("drt: ", drt)
             End If
 
             Dim nact = newact_set.Count
             Dim nfree = WF.rows
 
             If m_ncorr < 1 OrElse nact < 1 OrElse nfree < 1 Then
-                If Debug.flag Then
-                    Debug.debug("-"c, "leaving compute_FtBAb, m_ncorr < 1 || nact < 1 || nfree < 1")
+                If Debugger.flag Then
+                    Debugger.debug("-"c, "leaving compute_FtBAb, m_ncorr < 1 || nact < 1 || nfree < 1")
                 End If
                 Vector.setAll(res, 0.0)
                 Return
@@ -456,9 +454,9 @@ Namespace Framework.Optimization.LBFGSB
 
             apply_PtWMv(WF, rhs, res, -1.0)
 
-            If Debug.flag Then
-                Debug.debug("res: ", res)
-                Debug.debug("-"c, "compute_FtBAb - end")
+            If Debugger.flag Then
+                Debugger.debug("res: ", res)
+                Debugger.debug("-"c, "compute_FtBAb - end")
             End If
         End Sub
 
@@ -468,19 +466,19 @@ Namespace Framework.Optimization.LBFGSB
 
         Public Function apply_PtBQv(WP As Matrix, Q_set As List(Of Integer), v As Double(), res As Double(), test_zero As Boolean) As Boolean
 
-            If Debug.flag Then
-                Call Debug.debug("-"c, "PtBQv, test_zero=" & test_zero.ToString())
-                Debug.debug("WP: ", WP)
-                Call Debug.debug("Q_set: " & Q_set.ToString())
-                Debug.debug("v: ", v)
+            If Debugger.flag Then
+                Call Debugger.debug("-"c, "PtBQv, test_zero=" & test_zero.ToString())
+                Debugger.debug("WP: ", WP)
+                Call Debugger.debug("Q_set: " & Q_set.ToString())
+                Debugger.debug("v: ", v)
             End If
 
             Dim nP = WP.rows
             Dim nQ = Q_set.Count
 
             If m_ncorr < 1 OrElse nP < 1 OrElse nQ < 1 Then
-                If Debug.flag Then
-                    Debug.debug("-"c, "leaving PtBQv, m_ncorr < 1 || nP < 1 || nQ < 1")
+                If Debugger.flag Then
+                    Debugger.debug("-"c, "leaving PtBQv, m_ncorr < 1 || nP < 1 || nQ < 1")
                 End If
 
                 Vector.setAll(res, 0.0)
@@ -490,8 +488,8 @@ Namespace Framework.Optimization.LBFGSB
             Dim WQtv = New Double(2 * m_ncorr - 1) {}
             Dim nonzero = apply_WtPv(Q_set, v, WQtv, test_zero)
             If Not nonzero Then
-                If Debug.flag Then
-                    Debug.debug("-"c, "leaving PtBQv, !nonzero")
+                If Debugger.flag Then
+                    Debugger.debug("-"c, "leaving PtBQv, !nonzero")
                 End If
                 Vector.setAll(res, 0.0)
                 Return False
@@ -512,19 +510,19 @@ Namespace Framework.Optimization.LBFGSB
                 res(row) = -dot
             Next
 
-            If Debug.flag Then
-                Debug.debug("res: ", res)
-                Debug.debug("-"c, "PtBQv - end")
+            If Debugger.flag Then
+                Debugger.debug("res: ", res)
+                Debugger.debug("-"c, "PtBQv - end")
             End If
 
             Return True
         End Function
 
         Public Sub solve_PtBP(WP As Matrix, v As Double(), res As Double())
-            If Debug.flag Then
-                Debug.debug("-"c, "solve_PtBP")
-                Debug.debug("WP: ", WP)
-                Debug.debug("v: ", v)
+            If Debugger.flag Then
+                Debugger.debug("-"c, "solve_PtBP")
+                Debugger.debug("WP: ", WP)
+                Debugger.debug("v: ", v)
             End If
 
             Dim nP = WP.rows
@@ -533,9 +531,9 @@ Namespace Framework.Optimization.LBFGSB
                     res(i) = v(i) / m_theta
                 Next
 
-                If Debug.flag Then
-                    Debug.debug("res: ", res)
-                    Debug.debug("-"c, "leaving PtBQv, m_ncorr < 1 || nP < 1")
+                If Debugger.flag Then
+                    Debugger.debug("res: ", res)
+                    Debugger.debug("-"c, "leaving PtBQv, m_ncorr < 1 || nP < 1")
                 End If
 
                 Return
@@ -604,9 +602,9 @@ Namespace Framework.Optimization.LBFGSB
                 res(i) = v(i) / m_theta + dot / t2
             Next
 
-            If Debug.flag Then
-                Debug.debug("res: ", res)
-                Debug.debug("-"c, "PtBP - end")
+            If Debugger.flag Then
+                Debugger.debug("res: ", res)
+                Debugger.debug("-"c, "PtBP - end")
             End If
         End Sub
     End Class

@@ -121,9 +121,9 @@ Namespace CytoscapeGraphView.XGMML
             Dim sw As Stopwatch = Stopwatch.StartNew
             Dim edges = graph.edges
 
-            Call $"{NameOf(edges)}:={edges.Length} in the network model...".__DEBUG_ECHO
+            Call $"{NameOf(edges)}:={edges.Length} in the network model...".debug
             graph.edges = Distinct(graph.edges)
-            Call $"{NameOf(edges)}:={edges.Length} left after remove duplicates in {sw.ElapsedMilliseconds}ms....".__DEBUG_ECHO
+            Call $"{NameOf(edges)}:={edges.Length} left after remove duplicates in {sw.ElapsedMilliseconds}ms....".debug
 
             Return graph
         End Function

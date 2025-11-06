@@ -339,7 +339,6 @@ Public Module Simulator
     ''' <param name="time_resolutions">
     ''' the time steps
     ''' </param>
-    ''' <param name="deletions">make a specific gene nodes deletions</param>
     ''' <param name="dynamics"></param>
     ''' <returns></returns>
     <ExportAPI("engine.load")>
@@ -348,7 +347,6 @@ Public Module Simulator
                                       Optional inits As Definition = Nothing,
                                       Optional iterations% = 100,
                                       Optional time_resolutions% = 10000,
-                                      Optional deletions$() = Nothing,
                                       Optional dynamics As FluxBaseline = Nothing,
                                       Optional showProgress As Boolean = True,
                                       Optional unit_test As Boolean = False,
@@ -365,9 +363,9 @@ Public Module Simulator
             showProgress:=showProgress,
             timeResolution:=time_resolutions,
             debug:=debug,
-            cellular_id:=vcell.CellularEnvironmentName
+            cellular_id:={vcell.CellularEnvironmentName}
         ) _
-        .LoadModel(vcell, deletions, unitTest:=unit_test)
+        .LoadModel(vcell, unitTest:=unit_test)
     End Function
 
     ''' <summary>

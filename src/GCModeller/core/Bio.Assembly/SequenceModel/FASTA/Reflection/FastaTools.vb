@@ -231,7 +231,7 @@ REDO:           seq = Mid(seq, i)
                 isCorrupted = True
 
                 If i = 0 OrElse n > fa.Length Then
-                    Call $"ERROR__{fa.SequenceData}  =>  {seq}".__DEBUG_ECHO
+                    Call $"ERROR__{fa.SequenceData}  =>  {seq}".debug
                     ' seq = ""
                     Exit Do
                 Else
@@ -253,7 +253,7 @@ REDO:           seq = Mid(seq, i)
             End If
 
             If isCorrupted Then
-                Call $"{fa.ToString} was corrupted, automatically corrected as {locus}!".__DEBUG_ECHO
+                Call $"{fa.ToString} was corrupted, automatically corrected as {locus}!".debug
             End If
 
             Return New FastaSeq With {

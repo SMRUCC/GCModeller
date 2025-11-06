@@ -64,36 +64,40 @@ Namespace v2
         ''' 基因组之中的基因发生了缺失突变
         ''' </summary>
         ''' <param name="model"></param>
-        ''' <param name="geneList$"></param>
+        ''' <param name="knockoutGeneList$"></param>
         ''' <returns></returns>
-        <Extension> Public Function DeleteMutation(model As VirtualCell, geneList$()) As VirtualCell
-            Dim deleted As Index(Of String) = geneList
+        <Extension>
+        Public Function DeleteMutation(model As VirtualCell, knockoutGeneList$()) As VirtualCell
+            Dim suffix As String = If(knockoutGeneList.Length = 1, "-" & knockoutGeneList(0), $"-({knockoutGeneList.JoinBy(",")})")
+            Dim knockouts As Index(Of String) = knockoutGeneList.Indexing
+            Dim copy As New VirtualCell(model)
 
-            ' 删除目标基因组之中所有发生缺失突变的基因
-            For Each replicon As replicon In model.genome.replicons
-                Call replicon.RemoveByIdList(deleted)
-            Next
-
-            ' 将对应的调控关系也删除掉
-            model.genome.regulations = model.genome _
-                .regulations _
-                .Where(Function(reg)
-                           Return Not reg.regulator Like deleted
-                       End Function) _
+            copy.genome.replicons = model.genome.replicons _
+                .Select(Function(rep)
+                            Return New replicon With {
+                                .genomeName = rep.genomeName & suffix,
+                                .isPlasmid = rep.isPlasmid,
+                                .RNAs = rep.RNAs _
+                                    .Where(Function(r) Not (r.gene Like knockouts)) _
+                                    .ToArray,
+                                .operons = rep.operons _
+                                    .Select(Function(o)
+                                                Return New TranscriptUnit With {
+                                                    .id = o.id,
+                                                    .name = o.name,
+                                                    .note = o.note,
+                                                    .sites = o.sites,
+                                                    .genes = o.genes _
+                                                        .Where(Function(g) Not (g.locus_tag Like knockouts)) _
+                                                        .ToArray
+                                                }
+                                            End Function) _
+                                    .ToArray
+                            }
+                        End Function) _
                 .ToArray
-            ' 将对应的酶促过程也删除掉
-            model.metabolismStructure.enzymes = model.metabolismStructure _
-                .enzymes _
-                .Where(Function(enz) Not enz.proteinID Like deleted) _
-                .ToArray
-            ' 讲代谢途径之中的酶分子的定义也删除掉
-            For Each [module] As FunctionalCategory In model.metabolismStructure.maps
-                For Each pathway As Pathway In [module].pathways
 
-                Next
-            Next
-
-            Return model
+            Return copy
         End Function
 
         ''' <summary>

@@ -202,7 +202,7 @@ Public Class DrawingDevice
 
     Public Function InvokeDrawing(model As ChromesomeDrawingModel) As GraphicsData()
         With model
-            Call .ToString.__DEBUG_ECHO
+            Call .ToString.debug
 
             .MotifSites = .MotifSites Or Empty(Of MotifSite)()
             .MutationDatas = .MutationDatas Or Empty(Of MultationPointData)()
@@ -260,7 +260,7 @@ Public Class DrawingDevice
                                Call doRender(g, region, chr, args)
                            End Sub
 
-        Call $"Resolution is {_Width}, {_Height}".__DEBUG_ECHO
+        Call $"Resolution is {_Width}, {_Height}".debug
 
         Return g.GraphicsPlots(New Size(_Width, _Height), g.DefaultPadding, "white", plotInternal)
     End Function
@@ -418,7 +418,7 @@ Public Class DrawingDevice
     End Sub
 
     Private Shared Function getRulerText(n As Single) As String
-        Dim s As String = Format(n, "##.#")
+        Dim s As String = Strings.Format(n, "##.#")
         Dim p = InStr(s, ".")
 
         If p = 0 Then
@@ -501,7 +501,7 @@ Public Class DrawingDevice
         Dim _Width As Integer = 1920, _Height As Integer = 1200
 
         Try
-            Call $"Resolution is {_Width}, {_Height}".__DEBUG_ECHO
+            Call $"Resolution is {_Width}, {_Height}".debug
             Call FlushMemory()
 
             g = DriverLoad.CreateGraphicsDevice(New Size(_Width, _Height))

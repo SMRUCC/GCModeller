@@ -72,7 +72,7 @@ Namespace vcXML
 
         Dim fs As Writer
 
-        Sub New(file As String, model As CellularModule, args As FluxBaseline)
+        Sub New(file As String, model As CellularModule(), args As FluxBaseline)
             mass = OmicsDataAdapter.GetMassTuples(model)
             flux = OmicsDataAdapter.GetFluxTuples(model)
 
@@ -90,6 +90,12 @@ Namespace vcXML
             Call fs.addFrame(iteration, NameOf(flux.transcriptome), "activity", data.Takes(flux.transcriptome))
             Call fs.addFrame(iteration, NameOf(flux.proteome), "activity", data.Takes(flux.proteome))
             Call fs.addFrame(iteration, NameOf(flux.metabolome), "flux_size", data.Takes(flux.metabolome))
+        End Sub
+
+        Public Sub ForwardRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ForwardRegulation
+        End Sub
+
+        Public Sub ReverseRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ReverseRegulation
         End Sub
 
 #Region "IDisposable Support"

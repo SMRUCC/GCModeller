@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::318ed5029670885b6b78fad2dc21fc4e, Microsoft.VisualBasic.Core\test\test\logfiletest.vb"
+﻿#Region "Microsoft.VisualBasic::a1f31e651ee1c0863715b2183d5ca933, Microsoft.VisualBasic.Core\test\test\logfiletest.vb"
 
     ' Author:
     ' 
@@ -34,27 +34,42 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 11
-    '    Code Lines: 7 (63.64%)
+    '   Total Lines: 26
+    '    Code Lines: 20 (76.92%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 4 (36.36%)
-    '     File Size: 278 B
+    '   Blank Lines: 6 (23.08%)
+    '     File Size: 697 B
 
 
     ' Module logfiletest
     ' 
-    '     Sub: readerTest
+    '     Sub: download, logprint, readerTest
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 
 Module logfiletest
 
+    Sub logprint()
+        Call "debug message is here".debug
+        Call New Action(AddressOf download).benchmark
+        Call "invalid data!".warning
+        Call "hi, welcome".info
+        Call "missing file for run startup!".error
+        Call "new message recived".logging
+
+        Pause()
+    End Sub
+
+    Sub download()
+        Call Thread.Sleep(3.25 * 1000)
+    End Sub
 
     Sub readerTest()
         Dim logs = LogReader.Parse("C:\Users\Administrator\AppData\Local\BioDeep\pipeline_calls_2024-02.txt").ToArray

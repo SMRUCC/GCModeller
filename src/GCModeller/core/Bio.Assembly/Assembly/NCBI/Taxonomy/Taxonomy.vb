@@ -207,9 +207,9 @@ Namespace Assembly.NCBI.Taxonomy
             Using reader As New BinaryReader(New FileStream(bin, FileMode.Open))
                 Dim hash As BucketDictionary(Of Integer, Integer)
 
-                Call "Start to load gi2taxi database into memory....".__DEBUG_ECHO
+                Call "Start to load gi2taxi database into memory....".debug
                 hash = reader.__loadArchive.CreateBuckets(Function(x) x(Scan0), Function(x) x(1))
-                Call "JOB DONE!".__DEBUG_ECHO
+                Call "JOB DONE!".debug
                 Return hash
             End Using
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a96eebe53ccc7e496293a9b3e915a52, Microsoft.VisualBasic.Core\src\My\Log4VB.vb"
+﻿#Region "Microsoft.VisualBasic::08b579f7d7b37d1b1530b714278fd0fe, Microsoft.VisualBasic.Core\src\My\Log4VB.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 175
-    '    Code Lines: 101 (57.71%)
-    ' Comment Lines: 51 (29.14%)
+    '   Total Lines: 186
+    '    Code Lines: 111 (59.68%)
+    ' Comment Lines: 51 (27.42%)
     '    - Xml Docs: 92.16%
     ' 
-    '   Blank Lines: 23 (13.14%)
-    '     File Size: 7.21 KB
+    '   Blank Lines: 24 (12.90%)
+    '     File Size: 7.70 KB
 
 
     '     Module Log4VB
     ' 
-    '         Function: getColor, Print
+    '         Function: getColor, getLogger, Print
     ' 
     '         Sub: Print, Println
     ' 
@@ -97,6 +97,17 @@ Namespace My
         ''' </summary>
         Public redirectInfo As LoggingDriver
 
+        Public Function getLogger(level As MSG_TYPES) As LoggingDriver
+            Select Case level
+                Case MSG_TYPES.DEBUG : Return redirectDebug
+                Case MSG_TYPES.ERR : Return redirectError
+                Case MSG_TYPES.INF : Return redirectInfo
+                Case MSG_TYPES.WRN : Return redirectWarning
+                Case Else
+                    Return Nothing
+            End Select
+        End Function
+
         ''' <summary>
         ''' Translate <see cref="MSG_TYPES"/> to <see cref="ConsoleColor"/>
         ''' </summary>
@@ -110,7 +121,7 @@ Namespace My
         End Function
 
         ''' <summary>
-        ''' 头部和消息字符串都是放在一个task之中进行输出的，<see cref="xConsole"/>的输出也是和内部的debugger输出使用的同一个消息线程
+        ''' 头部和消息字符串都是放在一个task之中进行输出的
         ''' </summary>
         ''' <param name="header"></param>
         ''' <param name="msg"></param>
@@ -153,12 +164,8 @@ Namespace My
         End Function
 
         ''' <summary>
-        ''' 输出的终端消息带有指定的终端颜色色彩，当<see cref="UsingxConsole"/>为True的时候，
-        ''' <paramref name="msg"/>参数之中的文本字符串兼容<see cref="xConsole"/>语法，
-        ''' 而<paramref name="color"/>将会被<see cref="xConsole"/>覆盖而不会起作用
+        ''' 输出的终端消息带有指定的终端颜色色彩
         ''' </summary>
-        ''' <param name="msg">兼容<see cref="xConsole"/>语法</param>
-        ''' <param name="color">当<see cref="UsingxConsole"/>参数为True的时候，这个函数参数将不会起作用</param>
         <Extension>
         Public Sub Print(msg$,
                          Optional color As ConsoleColor = ConsoleColor.White,
@@ -185,17 +192,13 @@ Namespace My
             End If
 
 #If DEBUG Then
-            Call Debug.Write(msg)
+            Call System.Diagnostics.Debug.Write(msg)
 #End If
         End Sub
 
         ''' <summary>
-        ''' 输出的终端消息带有指定的终端颜色色彩，当<see cref="UsingxConsole"/>为True的时候，
-        ''' <paramref name="msg"/>参数之中的文本字符串兼容<see cref="xConsole"/>语法，
-        ''' 而<paramref name="color"/>将会被<see cref="xConsole"/>覆盖而不会起作用
+        ''' 输出的终端消息带有指定的终端颜色色彩
         ''' </summary>
-        ''' <param name="msg">兼容<see cref="xConsole"/>语法</param>
-        ''' <param name="color">当<see cref="UsingxConsole"/>参数为True的时候，这个函数参数将不会起作用</param>
         <Extension>
         Public Sub Println(msg$, Optional color As ConsoleColor = ConsoleColor.White, Optional background As ConsoleColor = -1)
             If Mute Then
@@ -205,26 +208,22 @@ Namespace My
             If ForceSTDError Then
                 Console.Error.WriteLine(msg)
             Else
-                If UsingxConsole AndAlso App.IsMicrosoftPlatform Then
-                    Call xConsole.CoolWrite(msg)
-                Else
-                    ' 使用传统的输出输出方法
-                    Dim cl As ConsoleColor = Console.ForegroundColor
-                    Dim bg As ConsoleColor = Console.BackgroundColor
+                ' 使用传统的输出输出方法
+                Dim cl As ConsoleColor = Console.ForegroundColor
+                Dim bg As ConsoleColor = Console.BackgroundColor
 
-                    If background >= 0 Then
-                        Console.BackgroundColor = background
-                    End If
-
-                    Console.ForegroundColor = color
-                    Console.WriteLine(msg)
-                    Console.ForegroundColor = cl
-                    Console.BackgroundColor = bg
+                If background >= 0 Then
+                    Console.BackgroundColor = background
                 End If
+
+                Console.ForegroundColor = color
+                Console.WriteLine(msg)
+                Console.ForegroundColor = cl
+                Console.BackgroundColor = bg
             End If
 
 #If DEBUG Then
-            Call Debug.WriteLine(msg)
+            Call System.Diagnostics.Debug.WriteLine(msg)
 #End If
         End Sub
     End Module

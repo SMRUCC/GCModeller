@@ -138,9 +138,17 @@ Namespace SequenceModel
         End Function
 #End Region
 
+        ''' <summary>
+        ''' Cut sequence by given left loci and segment length.
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <param name="left"></param>
+        ''' <param name="length"></param>
+        ''' <param name="tag$">the tag information about this sequence segment.</param>
+        ''' <returns></returns>
         <Extension>
-        Public Function CutSequenceBylength(seq As IPolymerSequenceModel, left%, length%, Optional tag$ = Nothing) As SimpleSegment
-            Dim cut$ = Mid(seq.SequenceData, left, length)
+        Public Function CutSequenceByLength(seq As IPolymerSequenceModel, left%, length%, Optional tag$ = Nothing) As SimpleSegment
+            Dim cut$ = seq.SequenceData.Substring(left - 1, length)
 
             Return New SimpleSegment With {
                 .SequenceData = cut,

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc20216af37a878f027443833505df24, gr\Microsoft.VisualBasic.Imaging\Filters\Thresholding.vb"
+﻿#Region "Microsoft.VisualBasic::db26bab93bd5c55c877228380770cf85, gr\Microsoft.VisualBasic.Imaging\Filters\Thresholding.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 250
-    '    Code Lines: 176 (70.40%)
-    ' Comment Lines: 44 (17.60%)
-    '    - Xml Docs: 56.82%
+    '   Total Lines: 239
+    '    Code Lines: 166 (69.46%)
+    ' Comment Lines: 47 (19.67%)
+    '    - Xml Docs: 63.83%
     ' 
-    '   Blank Lines: 30 (12.00%)
-    '     File Size: 11.08 KB
+    '   Blank Lines: 26 (10.88%)
+    '     File Size: 10.43 KB
 
 
     '     Module Thresholding
     ' 
-    '         Function: AverageFilter, convertToGray, MedianFilter, ostuFilter, otsuThreshold
+    '         Function: AverageFilter, MedianFilter, (+2 Overloads) ostuFilter, (+2 Overloads) otsuThreshold
     ' 
     ' 
     ' /********************************************************************************/
@@ -53,43 +53,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
-Imports std = System.Math
 
 Namespace Filters
 
     Public Module Thresholding
-
-        ''' <summary>
-        ''' 将彩色图转换为灰度图
-        ''' </summary>
-        ''' <param name="bitmap"> 位图 </param>
-        ''' <returns> 返回转换好的位图 </returns>
-        Public Function convertToGray(bitmap As BitmapBuffer) As BitmapBuffer
-            Dim width As Integer = bitmap.Width
-            Dim height As Integer = bitmap.Height
-            Dim result As New BitmapBuffer(width, height, 4)
-            '根据宽高创建像素点数组,并将bitmap的rgb值赋给它
-            Dim pixels As UInteger() = bitmap.GetARGBStream
-            Dim alpha As Integer = &HFF << 24
-
-            For i As Integer = 0 To height - 1
-                For j As Integer = 0 To width - 1
-                    '获取当前元素rgb值并以此修改为灰度化后的值
-                    Dim rgb As Integer = pixels(width * i + j)
-                    Dim red As Integer = (rgb And &HFF0000) >> 16
-                    Dim green As Integer = (rgb And &HFF00) >> 8
-                    Dim blue As Integer = rgb And &HFF
-                    Dim grey As Integer = CInt(std.Truncate(CSng(red) * 0.299 + CSng(green) * 0.587 + CSng(blue) * 0.114))
-                    grey = alpha Or (grey << 16) Or (grey << 8) Or grey
-                    pixels(width * i + j) = grey
-                Next
-            Next
-
-            result.WriteARGBStream(pixels)
-
-            Return result
-        End Function
 
         ''' <summary>
         ''' 通过中值滤波去噪
@@ -190,12 +159,34 @@ Namespace Filters
         <Extension>
         Public Function ostuFilter(bitmap As BitmapBuffer,
                                    Optional flip As Boolean = False,
-                                   Optional factor As Double = 0.65) As BitmapBuffer
+                                   Optional factor As Double = 0.65,
+                                   Optional ignore_white As Boolean = True,
+                                   Optional verbose As Boolean = True) As BitmapBuffer
+
+            Return bitmap.ostuFilter(
+                threshold:=otsuThreshold(bitmap, ignoreWhite:=ignore_white) * factor,
+                flip:=flip,
+                verbose:=verbose
+            )
+        End Function
+
+        ''' <summary>
+        ''' 通过OSTU二值化
+        ''' </summary>
+        ''' <param name="bitmap"> 位图 </param>
+        ''' <returns> 返回转换好的位图 </returns>
+        ''' 
+        <Extension>
+        Public Function ostuFilter(bitmap As BitmapBuffer, threshold As Integer,
+                                   Optional flip As Boolean = False,
+                                   Optional verbose As Boolean = True) As BitmapBuffer
 
             '获取源位图的宽、高,并创建一个等宽高的bitmap
             Dim width As Integer = bitmap.Width
             Dim height As Integer = bitmap.Height
             Dim result As New BitmapBuffer(width, height)
+
+            If threshold < 0 Then threshold = otsuThreshold(bitmap)
 
             '根据宽高创建像素点数组,并将bitmap的rgb值赋给它，同时创建一个空的等大数组
             Dim pixels As UInteger() = bitmap.GetARGBStream
@@ -206,9 +197,10 @@ Namespace Filters
             Dim alpha As Integer = &HFF << 24
             Dim black As Integer = If(flip, 255, 0)
             Dim white As Integer = If(flip, 0, 255)
-            Dim threshold As Integer = otsuThreshold(bitmap) * factor
 
-            Call VBDebugger.EchoLine($"find threshold value for OSTU: {threshold}")
+            If verbose Then
+                Call VBDebugger.EchoLine($"find threshold value for OSTU: {threshold}")
+            End If
 
             black = alpha Or (black << 16) Or (black << 8) Or black
             white = alpha Or (white << 16) Or (white << 8) Or white
@@ -230,33 +222,38 @@ Namespace Filters
         ''' </summary>
         ''' <param name="bitmap"> 位图 </param>
         ''' <returns> 返回阈值大小 </returns>
-        Public Function otsuThreshold(bitmap As BitmapBuffer) As Integer
-            '获取源位图的宽、高
-            Dim width As Integer = bitmap.Width
-            Dim height As Integer = bitmap.Height
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function otsuThreshold(bitmap As BitmapBuffer, Optional ignoreWhite As Boolean = True) As Integer
+            Return otsuThreshold(New BucketSet(Of UInteger)(New UInteger()() {bitmap.GetARGBStream}), ignoreWhite)
+        End Function
 
-            '根据宽高创建像素点数组,并将bitmap的rgb值赋给它
-            Dim pixels As UInteger() = bitmap.GetARGBStream
-
-            '创建两个大小为256的数组，用来保存灰度级中每个像素
+        ''' <summary>
+        ''' 通过OSTU寻找二值化的最佳阈值
+        ''' </summary>
+        ''' <param name="bitmap"> 位图 </param>
+        ''' <returns> 返回阈值大小 </returns>
+        Public Function otsuThreshold(bitmap As BucketSet(Of UInteger), Optional ignoreWhite As Boolean = True) As Integer
+            ' 创建两个大小为256的数组，用来保存灰度级中每个像素
             ' 在整幅图像中的个数和在图中所占比例,先暂时初始为0
-            Dim pixelCount(255) As Integer
+            Dim pixelCount(255) As Long
             Dim pixelPro(255) As Single
+            Dim size As Long = bitmap.Count
+            Dim white As Integer = 0
 
-            '统计每个像素在整幅图像中的个数
-            For i As Integer = 0 To height - 1
-                For j As Integer = 0 To width - 1
-                    Dim rgb As Integer = pixels(width * i + j)
+            ' 统计每个像素在整幅图像中的个数
+            For Each rgb As UInteger In bitmap
+                If ignoreWhite AndAlso rgb <> BitmapBuffer.UInt32White Then
+                    pixelCount(rgb And &HFF) += 1
+                Else
+                    white += 1
+                End If
+            Next
 
-                    Dim grey As Integer = rgb And &HFF
-
-                    pixelCount(grey) += 1
-                Next j
-            Next i
-            '统计每个像素占整幅图像中的比例
+            ' 统计每个像素占整幅图像中的比例
             For i As Integer = 0 To 255
-                pixelPro(i) = CSng(pixelCount(i)) / (width * height)
-            Next i
+                pixelPro(i) = CSng(pixelCount(i) / (size - white))
+            Next
 
             '遍历灰度级[0,255]
             Dim w0 As Single, w1 As Single, u0tmp As Single, u1tmp As Single, u0 As Single, u1 As Single, u As Single, deltaTmp As Single, deltaMax As Single = 0

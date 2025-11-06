@@ -104,6 +104,7 @@ Namespace v2
         Sub New(gene As gene)
             genes = {gene}
             id = "TU-" & gene.locus_tag
+            name = gene.locus_tag
         End Sub
 
         Public Overrides Function ToString() As String

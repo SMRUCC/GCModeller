@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbed2893d9dd9ce224ceb9ae4bd6f488, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\netcore8.0\Image.vb"
+﻿#Region "Microsoft.VisualBasic::722ddbe5a216ff3fcaf4fc44b6ccf042, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\netcore8.0\Image.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 49.00%
     ' 
     '   Blank Lines: 61 (19.00%)
-    '     File Size: 12.38 KB
+    '     File Size: 12.36 KB
 
 
     '     Class Image
@@ -136,7 +136,7 @@ Namespace Imaging
         ''' function for make bitmap object constructor
         ''' </remarks>
         Protected Friend MustOverride Function ConvertToBitmapStream() As MemoryStream
-        Protected Friend MustOverride Function GetMemoryBitmap() As BitmapBuffer Implements IRasterMemory.GetMemoryBuffer
+        Public MustOverride Function GetMemoryBitmap() As BitmapBuffer Implements IRasterMemory.GetMemoryBuffer
 
         ''' <summary>
         ''' Load bitmap image from file stream
@@ -294,7 +294,7 @@ Namespace Imaging
             Return ms
         End Function
 
-        Protected Friend Overrides Function GetMemoryBitmap() As BitmapBuffer
+        Public Overrides Function GetMemoryBitmap() As BitmapBuffer
             Return MemoryBuffer
         End Function
 

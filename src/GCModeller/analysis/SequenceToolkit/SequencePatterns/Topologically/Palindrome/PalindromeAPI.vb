@@ -215,11 +215,11 @@ Namespace Topologically
 
         <ExportAPI("ImperfectPalindrome.Vector.TRIM")>
         Public Function ImperfectPalindromeVector(DIR As String, length As Integer, min As Integer, max As Integer) As Double()
-            Call $"Start loading original data from {DIR}".__DEBUG_ECHO
+            Call $"Start loading original data from {DIR}".debug
             Dim files = (From file As String
                          In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.csv")
                          Select file.LoadCsv(Of ImperfectPalindrome)).ToArray
-            Call $"Data load done! Start to filter data...".__DEBUG_ECHO
+            Call $"Data load done! Start to filter data...".debug
             files = (From genome
                      In files.AsParallel
                      Select From site As ImperfectPalindrome
@@ -229,7 +229,7 @@ Namespace Topologically
                                  site.Palindrome.Count("-"c) <> site.Palindrome.Length AndAlso
                                  site.Site.Count("-"c) <> site.Site.Length
                             Select site).ToArray
-            Call $"Generates density vector....".__DEBUG_ECHO
+            Call $"Generates density vector....".debug
             Return Density(Of ImperfectPalindrome)(files, size:=length)
         End Function
 
@@ -256,8 +256,8 @@ Namespace Topologically
                            In genomes.AsParallel
                            Select vector = ToVector(genome, size)).ToArray
 
-            Call New String("="c, 120).__DEBUG_ECHO
-            Call $"genomes={Vecotrs.Count}".__DEBUG_ECHO
+            Call New String("="c, 120).debug
+            Call $"genomes={Vecotrs.Count}".debug
 
             Dim p_vectors As Double() = size.Sequence.Select(Function(index As Integer) As Double
                                                                  Dim site As Integer() = Vecotrs.Select(Function(genome) genome(index)).ToArray

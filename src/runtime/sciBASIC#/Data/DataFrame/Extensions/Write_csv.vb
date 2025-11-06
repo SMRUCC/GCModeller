@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee531c649a540cf95a155ede211caae1, Data\DataFrame\Extensions\Write_csv.vb"
+﻿#Region "Microsoft.VisualBasic::694f747ac96984bb8e811df93aa1ab33, Data\DataFrame\Extensions\Write_csv.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 144
-    '    Code Lines: 98 (68.06%)
-    ' Comment Lines: 31 (21.53%)
+    '   Total Lines: 145
+    '    Code Lines: 98 (67.59%)
+    ' Comment Lines: 32 (22.07%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (10.42%)
-    '     File Size: 6.23 KB
+    '   Blank Lines: 15 (10.34%)
+    '     File Size: 6.24 KB
 
 
     ' Module Write_csv
@@ -114,9 +114,6 @@ Public Module Write_csv
 
     ''' <summary>
     ''' Save the object collection data dump into a csv file.
-    ''' (将一个对象数组之中的对象保存至一个Csv文件之中，请注意:
-    ''' + 这个方法仅仅会保存简单的基本数据类型的属性值
-    ''' + 并且这个方法仅适用于小型数据集, 如果需要保存大型数据集, 请使用Linq版本的拓展函数)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source">应该是List, Array或者Collection, 不应该是一个Linq拓展表达式</param>
@@ -129,7 +126,11 @@ Public Module Write_csv
     ''' <param name="maps">``{meta_define -> custom}``</param>
     ''' <param name="layout">可以通过这个参数来进行列顺序的重排，值越小表示排在越前面</param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' (将一个对象数组之中的对象保存至一个Csv文件之中，请注意:
+    ''' + 这个方法仅仅会保存简单的基本数据类型的属性值
+    ''' + 并且这个方法仅适用于小型数据集, 如果需要保存大型数据集, 请使用Linq版本的拓展函数)
+    ''' </remarks>
     <Extension>
     Public Function SaveTo(Of T)(source As IEnumerable(Of T), path As String,
                                  Optional strict As Boolean = False,

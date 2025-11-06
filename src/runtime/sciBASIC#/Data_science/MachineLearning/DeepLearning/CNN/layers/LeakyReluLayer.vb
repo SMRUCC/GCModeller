@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4ee01f0cd8e646644cf857e11c6708c, Data_science\MachineLearning\DeepLearning\CNN\Layers\LeakyReluLayer.vb"
+﻿#Region "Microsoft.VisualBasic::7b1fa5ec442f4b6eac8630a98a642988, Data_science\MachineLearning\DeepLearning\CNN\Layers\LeakyReluLayer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 60
-    '    Code Lines: 45 (75.00%)
-    ' Comment Lines: 1 (1.67%)
+    '   Total Lines: 66
+    '    Code Lines: 46 (69.70%)
+    ' Comment Lines: 6 (9.09%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 14 (23.33%)
-    '     File Size: 1.76 KB
+    '   Blank Lines: 14 (21.21%)
+    '     File Size: 2.09 KB
 
 
     '     Class LeakyReluLayer
@@ -103,12 +103,18 @@ Namespace CNN.layers
             Dim V = in_act.clearGradient() ' we need to set dw of this
             Dim V2 = out_act
             Dim N = V.Weights.Length
+            Dim Vw = V.Weights ' 获取前向传播的输入值
 
             For i As Integer = 0 To N - 1
-                If V2.getWeight(i) <= threshold Then
-                    V.setGradient(i, V2.getGradient(i) * leakySlope) ' threshold
+                'If V2.getWeight(i) <= threshold Then
+                '    V.setGradient(i, V2.getGradient(i) * leakySlope) ' threshold
+                'Else
+                '    V.setGradient(i, V2.getGradient(i))
+                'End If
+                If Vw(i) <= 0 Then ' 如果原始输入 <= 0
+                    V.setGradient(i, V2.getGradient(i) * leakySlope)
                 Else
-                    V.setGradient(i, V2.getGradient(i))
+                    V.setGradient(i, V2.getGradient(i)) ' 如果原始输入 > 0
                 End If
             Next
         End Sub

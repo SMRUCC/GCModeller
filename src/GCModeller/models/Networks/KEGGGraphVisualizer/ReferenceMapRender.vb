@@ -248,10 +248,10 @@ Namespace PathwayMaps
                 .ToArray
 
             If Not allCategories.IsNullOrEmpty Then
-                Call $"Network canvas will render {allCategories.Length} category data for convexHull...".__INFO_ECHO
+                Call $"Network canvas will render {allCategories.Length} category data for convexHull...".info
 
                 For Each category As SeqValue(Of String) In allCategories.SeqIterator
-                    Call $"  {category.value} -> {categoryColors(category)}".__INFO_ECHO
+                    Call $"  {category.value} -> {categoryColors(category)}".info
                 Next
             End If
 
@@ -299,7 +299,7 @@ Namespace PathwayMaps
                 )
             End If
 
-            Call $"Network render style engine is: {renderStyle.GetType.FullName}".__DEBUG_ECHO
+            Call $"Network render style engine is: {renderStyle.GetType.FullName}".debug
 
             Dim getLabelPositoon As GetLabelPosition =
                 Function(node As Node, label$, shapeLayout As RectangleF, labelSize As SizeF)

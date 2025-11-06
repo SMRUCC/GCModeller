@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a898878557e79b72bea8e70ca74066e, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Set\SetAPI.vb"
+﻿#Region "Microsoft.VisualBasic::67da914564a61281e77141cf63782804, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Set\SetAPI.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 105
-    '    Code Lines: 74 (70.48%)
-    ' Comment Lines: 16 (15.24%)
-    '    - Xml Docs: 75.00%
+    '   Total Lines: 154
+    '    Code Lines: 101 (65.58%)
+    ' Comment Lines: 32 (20.78%)
+    '    - Xml Docs: 65.62%
     ' 
-    '   Blank Lines: 15 (14.29%)
-    '     File Size: 4.52 KB
+    '   Blank Lines: 21 (13.64%)
+    '     File Size: 6.48 KB
 
 
     '     Class GenericLambda
@@ -55,7 +55,7 @@
     ' 
     '     Module SetAPI
     ' 
-    '         Function: Contains, (+3 Overloads) Intersection
+    '         Function: Contains, (+3 Overloads) Intersection, VennExclusiveSet
     '         Structure __stringCompares
     ' 
     '             Constructor: (+1 Overloads) Sub New
@@ -74,6 +74,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace ComponentModel.DataStructures
 
@@ -174,5 +175,53 @@ Namespace ComponentModel.DataStructures
                 Return String.Equals(a, b, mode)
             End Function
         End Structure
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="groups"></param>
+        ''' <param name="commonIds">
+        ''' common ids in all groups, if you do not need this parameter, you can set it to <c>Nothing</c>.
+        ''' </param>
+        ''' <returns>
+        ''' exclusive ids in each groups
+        ''' </returns>
+        <Extension>
+        Public Function VennExclusiveSet(groups As Dictionary(Of String, String()), Optional ByRef commonIds As String() = Nothing) As Dictionary(Of String, String())
+            ' 统计每个ID出现的组数
+            Dim idOccurrence As New Dictionary(Of String, Integer)
+            ' 计算总组数
+            Dim totalGroups = groups.Count
+            ' 计算每个组特有的ID
+            Dim exclusiveIds As New Dictionary(Of String, String())
+
+            For Each group As KeyValuePair(Of String, String()) In groups
+                ' 对每个组的ID进行去重处理
+                For Each id As String In group.Value.Distinct()
+                    If idOccurrence.ContainsKey(id) Then
+                        idOccurrence(id) += 1
+                    Else
+                        idOccurrence(id) = 1
+                    End If
+                Next
+            Next
+
+            ' 计算所有组共有的ID
+            commonIds = idOccurrence _
+                .Where(Function(kv) kv.Value = totalGroups) _
+                .Keys
+
+            For Each group As KeyValuePair(Of String, String()) In groups
+                ' 找出只在该组出现的ID
+                Dim uniqueIds = group.Value _
+                    .Distinct() _
+                    .Where(Function(id) idOccurrence(id) = 1) _
+                    .ToArray
+
+                Call exclusiveIds.Add(group.Key, uniqueIds)
+            Next
+
+            Return exclusiveIds
+        End Function
     End Module
 End Namespace

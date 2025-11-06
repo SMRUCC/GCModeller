@@ -1,9 +1,54 @@
 .\" man page create by R# package system.
 .TH BACKGROUND 2 2000-Jan "as.geneSet" "as.geneSet"
 .SH NAME
-as.geneSet \- 
+as.geneSet \- Extract the gene set list from the background model
 .SH SYNOPSIS
 \fIas.geneSet(\fBbackground\fR as <generic> Background);\fR
+.SH DESCRIPTION
+.PP
+Extract the gene set list from the background model
+.PP
+.SH OPTIONS
+.PP
+\fBbackground\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+a tuple list object that contains the gene set information,
+ data result in format like:
+ 
+ \fBr
+ list(
+     "cluster id 1" = c("gene id", "gene id", ...),
+     "cluster id 2" = c("gene id", "gene id", ...),
+     ...
+ )
+ \fR`
+.PP
+.SH DETAILS
+.PP
+the result list could be used for save as json file for 
+ parsed in R by \fBjsonlite::fromJSON\fR function, and used
+ for the gsva analysis.
+.PP
+.SH EXAMPLES
+.PP
+let kb = read.background("hsa.xml");
+ let geneSet = as.geneSet(kb);
+ 
+ # save as json file
+ geneSet 
+ |> JSON::json_encode()
+ |> writeLines(con = "hsa.json")
+ ;
+ 
+ # load in R
+ library(jsonlite);
+ geneSet = jsonlite::fromJSON("hsa.json");
+ 
+ # use for gsva analysis
+ gsva(data, geneSet, method="gsva", ...);
+.PP
 .SH SEE ALSO
 background
 .SH FILES

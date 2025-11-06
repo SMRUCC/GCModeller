@@ -28,7 +28,8 @@
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>average</strong>(<i>matrix</i>,
-    <i>sampleinfo</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+    <i>sampleinfo</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>strict</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -41,6 +42,10 @@
 
 <dt>sampleinfo</dt>
 <dd><p>The sample group data. [as <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>]</p></dd>
+
+
+<dt>strict</dt>
+<dd><p>will try to ignores of the missing sample if strict option is off. [as boolean]</p></dd>
 
         </table>
 
@@ -75,4 +80,4 @@
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
-</html>
+</html>

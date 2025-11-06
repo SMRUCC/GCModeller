@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36221.1 d17.14
+VisualStudioVersion = 17.14.36221.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "HTS_matrix-netcore5", "HTS_matrix-netcore5.vbproj", "{6BFB402C-2ADA-FCF5-E537-4C99075C3753}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "designer-netcore5", "..\..\..\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj", "{294B8C1B-898A-7580-9FC8-A60094B2EE14}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "linear-netcore5", "..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFittings\linear-netcore5.vbproj", "{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -151,6 +153,30 @@ Global
 		{294B8C1B-898A-7580-9FC8-A60094B2EE14}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
 		{294B8C1B-898A-7580-9FC8-A60094B2EE14}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
 		{294B8C1B-898A-7580-9FC8-A60094B2EE14}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Debug|x64.ActiveCfg = Debug|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Debug|x64.Build.0 = Debug|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.gcmodeller_desktop|Any CPU.ActiveCfg = gcmodeller_desktop|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.gcmodeller_desktop|Any CPU.Build.0 = gcmodeller_desktop|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.gcmodeller_desktop|x64.ActiveCfg = gcmodeller_desktop|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.gcmodeller_desktop|x64.Build.0 = gcmodeller_desktop|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.LipidSearch|Any CPU.ActiveCfg = LipidSearch|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.LipidSearch|Any CPU.Build.0 = LipidSearch|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.LipidSearch|x64.ActiveCfg = LipidSearch|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.LipidSearch|x64.Build.0 = LipidSearch|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.mzkit_win32|Any CPU.ActiveCfg = mzkit_win32|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.mzkit_win32|Any CPU.Build.0 = mzkit_win32|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.mzkit_win32|x64.ActiveCfg = mzkit_win32|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.mzkit_win32|x64.Build.0 = mzkit_win32|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Release|x64.ActiveCfg = Release|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Release|x64.Build.0 = Release|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -160,6 +186,7 @@ Global
 		{858324EE-999E-E068-4C90-86B664A177CB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{81195B2C-F41C-92ED-3149-9B6BD2A7386C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{294B8C1B-898A-7580-9FC8-A60094B2EE14} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{B6CDE7F4-9558-1CD7-60AE-E846BEE7C75B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {48BCA481-EDFD-4B9B-A9AE-C6E38EACA8C2}

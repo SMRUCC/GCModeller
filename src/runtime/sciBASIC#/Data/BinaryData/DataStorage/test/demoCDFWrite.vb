@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ff4d89124a64b1c77ac8a0e343c9c05, Data\BinaryData\DataStorage\test\demoCDFWrite.vb"
+﻿#Region "Microsoft.VisualBasic::22b54127cda4e8b9604659fde18b9d1d, Data\BinaryData\DataStorage\test\demoCDFWrite.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 34
-    '    Code Lines: 26 (76.47%)
-    ' Comment Lines: 1 (2.94%)
+    '   Total Lines: 36
+    '    Code Lines: 28 (77.78%)
+    ' Comment Lines: 1 (2.78%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 7 (20.59%)
-    '     File Size: 1.67 KB
+    '   Blank Lines: 7 (19.44%)
+    '     File Size: 1.82 KB
 
 
     ' Module demoCDFWrite
@@ -52,15 +52,17 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.IO.netCDF
-Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
+Imports Microsoft.VisualBasic.DataStorage.netCDF
+Imports Microsoft.VisualBasic.DataStorage.netCDF.Components
+Imports Microsoft.VisualBasic.DataStorage.netCDF.Data
+Imports Microsoft.VisualBasic.DataStorage.netCDF.DataVector
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Module demoCDFWrite
 
     Sub Main()
         Using cdf As New CDFWriter("E:\GCModeller\src\R-sharp\tutorials\io\CDF\dataframe.netcdf")
-            Dim range1 As DoubleRange = {-99, 99}
+            Dim range1 As DoubleRange = New Double() {-99, 99}
 
             ' create random data vectors as demo data
             Dim a As integers = {2, 2, 3, 4, 5, 1, 1, 1, 1, 1}
@@ -73,14 +75,14 @@ Module demoCDFWrite
                 .size = a.Length
             }
 
-            Call cdf.GlobalAttributes(New attribute("time", Now.ToString, CDFDataTypes.CHAR)) _
-                    .GlobalAttributes(New attribute("num_of_variables", 4, CDFDataTypes.INT)) _
-                    .GlobalAttributes(New attribute("github", "https://github.com/xieguigang/sciBASIC", CDFDataTypes.CHAR))
+            Call cdf.GlobalAttributes(New attribute("time", Now.ToString, CDFDataTypes.NC_CHAR)) _
+                    .GlobalAttributes(New attribute("num_of_variables", 4, CDFDataTypes.NC_INT)) _
+                    .GlobalAttributes(New attribute("github", "https://github.com/xieguigang/sciBASIC", CDFDataTypes.NC_CHAR))
 
-            Call cdf.AddVariable("a", a, data_size, {New attribute("note", "this is an integer vector", CDFDataTypes.CHAR)})
+            Call cdf.AddVariable("a", a, data_size, {New attribute("note", "this is an integer vector", CDFDataTypes.NC_CHAR)})
             Call cdf.AddVariable("b", b, data_size)
             Call cdf.AddVariable("flags", flags, data_size)
-            Call cdf.AddVariable("id", id, data_size, {New attribute("note", "this is a unique id vector in asc order", CDFDataTypes.CHAR)})
+            Call cdf.AddVariable("id", id, data_size, {New attribute("note", "this is a unique id vector in asc order", CDFDataTypes.NC_CHAR)})
         End Using
 
     End Sub

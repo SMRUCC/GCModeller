@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::96a9cd8dfc421fee2968bc9fa32c339e, Data_science\MachineLearning\DeepLearning\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::96930286c1a46d14d3227f47044e5657, Data_science\MachineLearning\DeepLearning\test\Program.vb"
 
     ' Author:
     ' 
@@ -34,15 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 69
-    '    Code Lines: 0 (0.00%)
-    ' Comment Lines: 59 (85.51%)
+    '   Total Lines: 71
+    '    Code Lines: 5 (7.04%)
+    ' Comment Lines: 56 (78.87%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 10 (14.49%)
-    '     File Size: 2.65 KB
+    '   Blank Lines: 10 (14.08%)
+    '     File Size: 2.73 KB
 
 
+    ' Module Program
+    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 
@@ -112,8 +115,10 @@
 '    End Sub
 'End Class
 
-'Module Program
-'    Sub Main2(args As String())
-'        RunCNN.runCnn()
-'    End Sub
-'End Module
+Module Program
+    Sub Main(args As String())
+        ' RunCNN.runCnn()
+        ' Call testTransformer.seqGenerate()
+        Call testTransformer.run()
+    End Sub
+End Module

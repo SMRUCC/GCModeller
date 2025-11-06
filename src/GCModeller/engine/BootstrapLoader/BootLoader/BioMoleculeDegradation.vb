@@ -55,11 +55,13 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
@@ -126,12 +128,13 @@ Namespace ModelLoader
             Dim flux As Channel
             Dim proteinComplex As Variable
             Dim proteinCplx = cell.Phenotype.proteins _
-                .GroupBy(Function(p) Loader.GetProteinMatureId(p)) _
+                .GroupBy(Function(p) DataHelper.GetProteinMatureId(p, cellular_id)) _
                 .ToDictionary(Function(p) p.Key,
                               Function(p)
                                   Return p.ToArray
                               End Function)
             Dim proteinIDs = cell.Phenotype.proteins.Select(Function(p) p.ProteinID).Indexing
+            Dim missingVec As New List(Of String)
 
             ' protein degradation to amino acids and lignds
             For Each complex As Channel In proteinMatures
@@ -182,12 +185,12 @@ Namespace ModelLoader
                     .ToArray
 
                 If aaResidue.IsNullOrEmpty Then
-                    Call VBDebugger.Warning($"missing protein composition for complex: {complex.ID}")
+                    Call missingVec.Add(complex.ID)
                     Continue For
                 End If
 
                 flux = New Channel(MassTable.variables({proteinComplexId}, 1, cell.CellularEnvironmentName), aaResidue + compoundLigends) With {
-                    .ID = $"proteinComplexDegradationOf{proteinComplexId}",
+                    .ID = $"{proteinComplexId}@{cell.CellularEnvironmentName}[Protein-Complex-Degradation]",
                     .forward = Controls.StaticControl(10),
                     .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {
@@ -196,10 +199,21 @@ Namespace ModelLoader
                     }
                 }
 
+                If flux.isBroken Then
+                    Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                End If
+
                 Call loader.fluxIndex(NameOf(Me.proteinDegradation)).Add(flux.ID)
 
                 Yield flux
             Next
+
+            If missingVec.Any Then
+                Dim msg As String = $"missing protein composition for {missingVec.Count} complex: {missingVec.JoinBy(", ")}!"
+
+                Call msg.warning
+                Call msg.debug
+            End If
 
             ' polypeptide degradation to amino acids
             For Each gene As CentralDogma In cell.Genotype.centralDogmas
@@ -213,6 +227,9 @@ Namespace ModelLoader
                     ' is component rna
                     Continue For
                 End If
+                If Not MassTable.Exists(gene.polypeptide, cell.CellularEnvironmentName) Then
+                    Call MassTable.addNew(gene.polypeptide, MassRoles.polypeptide, cell.CellularEnvironmentName)
+                End If
 
                 composition = proteinMatrix(gene.polypeptide)
                 aaResidue = composition _
@@ -223,14 +240,18 @@ Namespace ModelLoader
                                 End Function) _
                         .AsList
                 flux = New Channel(MassTable.variables({gene.polypeptide}, 1, cell.CellularEnvironmentName), aaResidue) With {
-                     .ID = $"polypeptideDegradationOf{gene.polypeptide}",
+                     .ID = $"{gene.polypeptide}@{cell.CellularEnvironmentName}[Polypeptide-Degradation]",
                      .forward = Controls.StaticControl(10),
                      .reverse = Controls.StaticControl(0),
                      .bounds = New Boundary With {
                          .forward = 1000,
                          .reverse = 0
                      }
-                 }
+                }
+
+                If flux.isBroken Then
+                    Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                End If
 
                 Call loader.fluxIndex("polypeptideDegradation").Add(flux.ID)
 
@@ -275,7 +296,7 @@ Namespace ModelLoader
 
                 ' 降解过程是不可逆的
                 flux = New Channel(MassTable.variables({gene.RNAName}, 1, cell.CellularEnvironmentName), ntBase) With {
-                    .ID = $"RNADegradationOf{gene.RNAName}",
+                    .ID = $"{gene.RNAName}@{cell.CellularEnvironmentName}[RNA-Degradation]",
                     .forward = Controls.StaticControl(loader.dynamics.RNADegradationBaseline),
                     .reverse = Controls.StaticControl(0),
                     .bounds = New Boundary With {
@@ -283,6 +304,10 @@ Namespace ModelLoader
                         .reverse = 0
                     }
                 }
+
+                If flux.isBroken Then
+                    Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                End If
 
                 Call loader.fluxIndex(NameOf(Me.RNADegradation)).Add(flux.ID)
 

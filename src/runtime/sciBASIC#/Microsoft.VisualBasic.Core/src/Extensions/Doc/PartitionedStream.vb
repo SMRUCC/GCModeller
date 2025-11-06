@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::349dba59af30a71bbdc1a237da4f671c, Microsoft.VisualBasic.Core\src\Extensions\Doc\PartitionedStream.vb"
+﻿#Region "Microsoft.VisualBasic::5fd62bc2c743b63d8a4943b627d99253, Microsoft.VisualBasic.Core\src\Extensions\Doc\PartitionedStream.vb"
 
     ' Author:
     ' 
@@ -34,17 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 116
-    '    Code Lines: 70 (60.34%)
-    ' Comment Lines: 23 (19.83%)
+    '   Total Lines: 127
+    '    Code Lines: 79 (62.20%)
+    ' Comment Lines: 23 (18.11%)
     '    - Xml Docs: 39.13%
     ' 
-    '   Blank Lines: 23 (19.83%)
-    '     File Size: 4.26 KB
+    '   Blank Lines: 25 (19.69%)
+    '     File Size: 4.61 KB
 
 
     ' Delegate Function
     ' 
+    ' 
+    '     Module PrintHelper
+    ' 
+    '         Sub: format
     ' 
     '     Class PartitionedStream
     ' 
@@ -62,12 +66,23 @@
 
 #End Region
 
+Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Linq
 
 Public Delegate Function PartitioningMethod(block As String, ByRef Left As String) As String()
 
 Namespace Text
+
+    Public Module PrintHelper
+
+        <Extension>
+        Public Sub format(ps As StreamWriter, format_str As String, ParamArray args As Object())
+            Call ps.Write(sprintf(format_str, args))
+        End Sub
+    End Module
 
     ''' <summary>
     ''' 只是针对文本文件的

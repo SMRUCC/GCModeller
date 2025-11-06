@@ -74,8 +74,8 @@ Partial Module Utilities
     <Group(CLIGrouping.SNPTools)>
     Public Function SNP(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim pure As Boolean = args.GetBoolean("/pure")
-        Dim monomorphic As Boolean = args.GetBoolean("/monomorphic")
+        Dim pure As Boolean = args("/pure")
+        Dim monomorphic As Boolean = args("/monomorphic")
         Dim nt As New FastaFile([in])
         Dim ref$ = args.GetValue("/ref", "0")
         Dim high# = args.GetValue("/high", 0.65)
@@ -98,7 +98,7 @@ Partial Module Utilities
     Public Function TimeDiffs(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".time_variation.csv")
-        Dim isCumulative As Boolean = args.GetBoolean("/cumulative")
+        Dim isCumulative As Boolean = args("/cumulative")
 
         If isCumulative Then
             out = out.TrimSuffix & "-cumulative.csv"

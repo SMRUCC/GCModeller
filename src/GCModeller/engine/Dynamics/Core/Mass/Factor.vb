@@ -76,7 +76,12 @@ Namespace Core
         ''' this unique instance id usually be in format like: ``id@compart_id``
         ''' </remarks>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
-        Public Property Value As Double
+        Public ReadOnly Property Value As Double
+            Get
+                Return m_mass
+            End Get
+        End Property
+
         ''' <summary>
         ''' 分子角色
         ''' </summary>
@@ -96,10 +101,19 @@ Namespace Core
         ''' <returns></returns>
         Public Property cellular_compartment As String
 
+        ''' <summary>
+        ''' this mass factor value
+        ''' </summary>
+        Dim m_mass As Double
+
         Sub New()
             role = MassRoles.compound
         End Sub
 
+        ''' <summary>
+        ''' make value copy of the mass factor model
+        ''' </summary>
+        ''' <param name="copy"></param>
         Sub New(copy As Factor)
             Call Me.New(copy.ID, copy.role, copy.cellular_compartment)
 
@@ -118,8 +132,35 @@ Namespace Core
             Me.role = role
         End Sub
 
+        Sub New(id As String, value As Double)
+            Me.ID = id
+            Me.m_mass = value
+        End Sub
+
+        ''' <summary>
+        ''' reset the mass value to a given <paramref name="value"/> number.
+        ''' </summary>
+        ''' <param name="value"></param>
         Public Sub reset(value As Double)
-            Me.Value = value
+            m_mass = value
+        End Sub
+
+        Public Sub add(delta As Double)
+            If Not Double.IsNaN(delta) Then
+                Dim mass As Double = m_mass
+
+                If Double.IsPositiveInfinity(delta) Then
+                    m_mass = m_mass * 100
+                ElseIf Double.IsNegativeInfinity(delta) Then
+                    m_mass = m_mass / 100
+                Else
+                    m_mass += delta
+                End If
+
+                If m_mass.IsNaNImaginary Then
+                    m_mass = mass
+                End If
+            End If
         End Sub
 
         Public Overrides Function ToString() As String

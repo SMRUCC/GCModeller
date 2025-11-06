@@ -84,6 +84,9 @@ Namespace Kernel.ObjectModels
         ''' <remarks></remarks>
         Friend var As var
 
+        ''' <summary>
+        ''' A math expression which is parsed from the <see cref="Model"/>
+        ''' </summary>
         Dim dynamics As Expression
         Dim bound As DoubleRange
 
@@ -193,6 +196,10 @@ Namespace Kernel.ObjectModels
             Else
                 Return String.Format("{0}; //{1}'={2}", var.ToString, Id, Expression)
             End If
+        End Function
+
+        Public Overrides Function GetVariableSymbols() As IEnumerable(Of String)
+            Return dynamics.GetVariableSymbols
         End Function
     End Class
 End Namespace

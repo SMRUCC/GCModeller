@@ -154,7 +154,7 @@ Namespace Assembly.Uniprot.XML
                                                 Optional tqdm As Boolean = False) As IEnumerable(Of entry)
             Return files _
                 .Select(Function(path)
-                            Call $"Populate uniprot proteins {path} [{StringFormats.Lanudry(bytes:=path.FileLength)}]".__INFO_ECHO
+                            Call $"Populate uniprot proteins {path} [{StringFormats.Lanudry(bytes:=path.FileLength)}]".info
                             Return EnumerateEntries(path, isUniParc,
                                                     ignoreError:=ignoreError,
                                                     tqdm:=tqdm)

@@ -134,7 +134,7 @@ Namespace Assembly.NCBI.Taxonomy
             End If
 
             For Each file$ In files
-                Call file.ToFileURL.__DEBUG_ECHO
+                Call file.ToFileURL.debug
 
                 For Each x In file.ReadFile
                     Yield x
@@ -182,13 +182,13 @@ Namespace Assembly.NCBI.Taxonomy
                         Call n.InlineCopy(n + 1)
 
                         If debug Then
-                            Call accessionId.Description.__DEBUG_ECHO
+                            Call accessionId.Description.debug
                         End If
                     End If
                 End If
             Next
 
-            Call $"{ALL} accession id match {n} taxonomy info.".__INFO_ECHO
+            Call $"{ALL} accession id match {n} taxonomy info.".info
         End Function
     End Module
 End Namespace

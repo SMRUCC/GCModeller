@@ -50,11 +50,14 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type string.<h4>clr value class</h4><ul><li>string</li></ul>
+        <p>A character vector of the gene id that defined inside the given background model</p><h4>clr value class</h4><ul><li>string</li></ul>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r"> let kb = read.background("hsa.xml");
+ let ids = moleculeIDs(kb);
+ 
+ print(ids);</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>background</em> version 1.0.0.0 <a
@@ -67,4 +70,4 @@
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
-</html>
+</html>

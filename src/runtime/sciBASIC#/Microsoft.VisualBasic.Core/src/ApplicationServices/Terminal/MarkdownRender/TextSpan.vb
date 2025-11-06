@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db8c64960649fd050e784298d8fb20ca, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\MarkdownRender\TextSpan.vb"
+﻿#Region "Microsoft.VisualBasic::e582f274f1c318c3224dcb568715bfb7, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\MarkdownRender\TextSpan.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 41
-    '    Code Lines: 27 (65.85%)
-    ' Comment Lines: 4 (9.76%)
+    '   Total Lines: 61
+    '    Code Lines: 40 (65.57%)
+    ' Comment Lines: 7 (11.48%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 10 (24.39%)
-    '     File Size: 1.18 KB
+    '   Blank Lines: 14 (22.95%)
+    '     File Size: 1.96 KB
 
 
     '     Class TextSpan
     ' 
     '         Properties: IsEndByNewLine, style, text
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: ToString
     ' 
     ' 
@@ -81,6 +81,15 @@ Namespace ApplicationServices.Terminal
             Me.style = style
         End Sub
 
+        Sub New(s As String, foreground As AnsiColor,
+                Optional background As AnsiColor = Nothing,
+                Optional bold As Boolean = False,
+                Optional underline As Boolean = False,
+                Optional inverted As Boolean = False)
+
+            Call Me.New(s, New ConsoleFormat(foreground, background, bold, underline, inverted))
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             If style Is Nothing Then
@@ -96,6 +105,14 @@ Namespace ApplicationServices.Terminal
             End If
 
             Return AnsiEscapeCodes.ToAnsiEscapeSequenceSlow(span.style) & span.text
+        End Operator
+
+        Public Shared Operator &(span As TextSpan, str As String) As String
+            Return CType(span, String) & str
+        End Operator
+
+        Public Shared Operator &(str As String, span As TextSpan) As String
+            Return str & CType(span, String)
         End Operator
     End Class
 End Namespace

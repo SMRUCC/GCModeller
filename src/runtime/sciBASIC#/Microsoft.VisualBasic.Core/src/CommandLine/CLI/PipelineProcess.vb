@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b9bfc2821619b9f5d1c355c431163d1, Microsoft.VisualBasic.Core\src\CommandLine\CLI\PipelineProcess.vb"
+﻿#Region "Microsoft.VisualBasic::5ce222a451f35de546b671a8bdc72fad, Microsoft.VisualBasic.Core\src\CommandLine\CLI\PipelineProcess.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 347
-    '    Code Lines: 186 (53.60%)
-    ' Comment Lines: 110 (31.70%)
-    '    - Xml Docs: 84.55%
+    '   Total Lines: 353
+    '    Code Lines: 190 (53.82%)
+    ' Comment Lines: 112 (31.73%)
+    '    - Xml Docs: 83.04%
     ' 
-    '   Blank Lines: 51 (14.70%)
-    '     File Size: 13.49 KB
+    '   Blank Lines: 51 (14.45%)
+    '     File Size: 13.65 KB
 
 
     '     Module PipelineProcess
@@ -139,12 +139,14 @@ Namespace CommandLine
                                 Optional workdir As String = Nothing,
                                 Optional shell As Boolean = False,
                                 Optional setProcess As Action(Of Process) = Nothing) As Integer
-
-            Dim check_shell = (Not app.ExtensionSuffix("sh")) OrElse (Not shell) OrElse app.FileExists
+            ' check for shell flag
+            Dim check_shell = app.ExtensionSuffix("sh", "cmd", "bat") OrElse
+                shell OrElse
+                Not app.FileExists
             Dim p As Process = CreatePipeline(
                 appPath:=app,
                 args:=args,
-                it:=check_shell,
+                it:=Not check_shell,
                 workdir:=workdir
             )
 
@@ -262,12 +264,16 @@ Namespace CommandLine
             p.StartInfo = New ProcessStartInfo
             p.StartInfo.FileName = appPath
             p.StartInfo.Arguments = args.TrimNewLine(replacement:=" ")
-            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
-            p.StartInfo.RedirectStandardOutput = it
-            p.StartInfo.RedirectStandardInput = it
-            p.StartInfo.RedirectStandardError = it
-            p.StartInfo.UseShellExecute = Not it
-            p.StartInfo.CreateNoWindow = App.IsMicrosoftPlatform
+
+            If it Then
+                ' io redirect
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
+                p.StartInfo.RedirectStandardOutput = True
+                p.StartInfo.RedirectStandardInput = True
+                p.StartInfo.RedirectStandardError = True
+                p.StartInfo.UseShellExecute = False
+                p.StartInfo.CreateNoWindow = True
+            End If
 
             If Not workdir.StringEmpty Then
                 If Not workdir.DirectoryExists Then

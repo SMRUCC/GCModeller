@@ -27,7 +27,8 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>sampleInfo</strong>(<i>ID</i>, <i>sample.name</i>, <i>sample.info</i>,
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>sampleInfo</strong>(<i>ID</i>, <i>sample.info</i>,
+    <i>sample.name</i> = <span style='color: blue !important;'>NULL</span>,
     <i>color</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
@@ -36,15 +37,16 @@
         <table>
             
 <dt>ID</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the sample id in the raw data files. [as string]</p></dd>
 
 
 <dt>sample.name</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the sample name label for display, this character vector could be nothing, 
+ then the generated sample display name will be replaced with the input sample id. [as string]</p></dd>
 
 
 <dt>sample.info</dt>
-<dd><p>[as string]</p></dd>
+<dd><p>the sample group information. [as string]</p></dd>
 
         </table>
 
@@ -61,9 +63,15 @@
 
         this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/SampleInfo.html">SampleInfo</a></li></ul>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r"> let group_vec = c("control","control","treat","control","treat","treat");
+ let samples = sampleInfo(group_vec, group_vec);
+ let analysis = make.analysis(samples, "control","treat");
+ let deg = limma(x, analysis);
+ 
+ # view deg analysis result of control vs treat
+ print(as.data.frame(deg));</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>sampleInfo</em> version 1.0.0.0 <a
@@ -76,4 +84,4 @@
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("example_r");</script>
 
-</html>
+</html>

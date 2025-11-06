@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32ee08122c749372ad79e4038ee01479, mime\application%json\Serializer\JSONWriter.vb"
+﻿#Region "Microsoft.VisualBasic::2856b71a32e19338ea4d3323e278cd5a, mime\application%json\Serializer\JSONWriter.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 314
-    '    Code Lines: 231 (73.57%)
-    ' Comment Lines: 36 (11.46%)
+    '   Total Lines: 325
+    '    Code Lines: 241 (74.15%)
+    ' Comment Lines: 36 (11.08%)
     '    - Xml Docs: 44.44%
     ' 
-    '   Blank Lines: 47 (14.97%)
-    '     File Size: 11.12 KB
+    '   Blank Lines: 48 (14.77%)
+    '     File Size: 11.61 KB
 
 
     ' Class JSONWriter
@@ -154,18 +154,29 @@ Friend Class JSONWriter : Implements IDisposable
     ''' </summary>
     ''' <param name="obj"></param>
     Private Sub jsonObjectString(obj As JsonObject, indent As Integer)
+        Dim members As NamedValue(Of JsonElement)() = obj.ToArray
+
         If opts.indent Then
             Call json.WriteLine(opts.offsets(indent) & "{")
         Else
             Call json.Write("{")
         End If
 
-        Dim members = obj.ToArray
-
         For i As Integer = 0 To members.Length - 1
             Dim member As NamedValue(Of JsonElement) = members(i)
             Dim name As String = encodeString(member.Name)
             Dim isLiteral As Boolean = TypeOf member.Value Is JsonValue
+            Dim comment As String = obj.GetCommentText(member.Name)
+
+            If Not comment.StringEmpty Then
+                For Each line As String In comment.LineTokens
+                    If opts.indent Then
+                        Call json.WriteLine(opts.offsets(indent + 1) & $"// {line}")
+                    Else
+                        Call json.Write($"/* {line} */")
+                    End If
+                Next
+            End If
 
             If Not isLiteral Then
                 If TypeOf member.Value Is JsonArray Then

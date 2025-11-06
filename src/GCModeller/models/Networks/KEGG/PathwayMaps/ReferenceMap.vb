@@ -306,7 +306,7 @@ Namespace PathwayMaps
             Call g.ComputeNodeDegrees
             Call g.RemovesIsolatedNodes()
 
-            Call $"Result network size=[{g.vertex.Count} nodes, {g.graphEdges.Count} edges]".__INFO_ECHO
+            Call $"Result network size=[{g.vertex.Count} nodes, {g.graphEdges.Count} edges]".info
 
             Return g
         End Function
@@ -316,20 +316,20 @@ Namespace PathwayMaps
             If Not doRemoveUnmmaped Then
                 Return
             Else
-                Call "All of the unmapped node and the related edges will be removed from the network graph.".__DEBUG_ECHO
+                Call "All of the unmapped node and the related edges will be removed from the network graph.".debug
             End If
 
             Dim nodesToRemoves As Index(Of String) = g.vertex.Where(Function(n) n.data("group") = "NA").Keys.Indexing
 
-            Call $"There are {nodesToRemoves.Count} unmapped nodes will be removes from graph".__INFO_ECHO
-            Call $"Current network size=[{g.vertex.Count} nodes, {g.graphEdges.Count} edges]".__INFO_ECHO
+            Call $"There are {nodesToRemoves.Count} unmapped nodes will be removes from graph".info
+            Call $"Current network size=[{g.vertex.Count} nodes, {g.graphEdges.Count} edges]".info
 
             ' removes all of the unmapped nodes
             ' removes all of the unmapped node related edges
             Call g.graphEdges.Where(Function(e) e.U.label Like nodesToRemoves OrElse e.V.label Like nodesToRemoves).DoEach(Sub(e) Call g.RemoveEdge(e))
             Call g.vertex.Where(Function(v) v.label Like nodesToRemoves).DoEach(Sub(v) Call g.RemoveNode(v))
 
-            Call $"Network size=[{g.vertex.Count} nodes, {g.graphEdges.Count} edges] after operation of removes unmapped nodes".__INFO_ECHO
+            Call $"Network size=[{g.vertex.Count} nodes, {g.graphEdges.Count} edges] after operation of removes unmapped nodes".info
         End Sub
 
         <Extension>
@@ -458,7 +458,7 @@ Namespace PathwayMaps
                 topMaps:=topMaps
             ).CategoryValues
 
-            Call "Do node map assignment.".__DEBUG_ECHO
+            Call "Do node map assignment.".debug
 
             For Each node As Node In nodes
                 If node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "flux" Then
@@ -480,7 +480,7 @@ Namespace PathwayMaps
             Dim map As Pathway
 
             If categoryLevel2 Then
-                Call "Do map assignment in category level 3".__DEBUG_ECHO
+                Call "Do map assignment in category level 3".debug
             End If
 
             For Each node As Node In nodes

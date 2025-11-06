@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84336cdfd4b2ad6df6f2ad4367255f1d, Data_science\Mathematica\Math\Math\Spline\B_Spline.vb"
+﻿#Region "Microsoft.VisualBasic::0af1795855bfdc7bdf4fabfaad752591, Data_science\Mathematica\Math\Math\Spline\B_Spline.vb"
 
     ' Author:
     ' 
@@ -34,15 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 143
-    '    Code Lines: 85 (59.44%)
-    ' Comment Lines: 37 (25.87%)
-    '    - Xml Docs: 91.89%
+    '   Total Lines: 161
+    '    Code Lines: 95 (59.01%)
+    ' Comment Lines: 40 (24.84%)
+    '    - Xml Docs: 92.50%
     ' 
-    '   Blank Lines: 21 (14.69%)
-    '     File Size: 5.16 KB
+    '   Blank Lines: 26 (16.15%)
+    '     File Size: 5.56 KB
 
 
+    '     Class BSpline
+    ' 
+    '         Properties: degree, resolution
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '     Module B_Spline
     ' 
     '         Function: (+2 Overloads) BSpline, Compute, OutputPoint
@@ -57,6 +63,24 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Interpolation
+
+    ''' <summary>
+    ''' B-spline arguments
+    ''' </summary>
+    Public Class BSpline
+
+        Public Property degree As Single = 2
+        Public Property resolution As Integer = 10
+
+        Sub New()
+        End Sub
+
+        Sub New(degree As Single, Optional resolution As Integer = 5)
+            Me.degree = degree
+            Me.resolution = resolution
+        End Sub
+
+    End Class
 
     ''' <summary>
     ''' B-spline.

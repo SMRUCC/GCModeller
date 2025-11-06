@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f69148cdaf90d330fd3222af16235968, Microsoft.VisualBasic.Core\src\Drawing\Math\Polygon2D.vb"
+﻿#Region "Microsoft.VisualBasic::7576087c9097f2013f3adc54766a53f3, Microsoft.VisualBasic.Core\src\Drawing\Math\Polygon2D.vb"
 
     ' Author:
     ' 
@@ -34,24 +34,25 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 437
-    '    Code Lines: 262 (59.95%)
-    ' Comment Lines: 113 (25.86%)
+    '   Total Lines: 482
+    '    Code Lines: 293 (60.79%)
+    ' Comment Lines: 113 (23.44%)
     '    - Xml Docs: 87.61%
     ' 
-    '   Blank Lines: 62 (14.19%)
-    '     File Size: 15.89 KB
+    '   Blank Lines: 76 (15.77%)
+    '     File Size: 17.31 KB
 
 
     '     Class Polygon2D
     ' 
-    '         Properties: height, length, width, xpoints, ypoints
+    '         Properties: centroid, height, length, width, xpoints
+    '                     ypoints
     ' 
     '         Constructor: (+11 Overloads) Sub New
     ' 
     '         Function: boundingInside, checkInside, GenericEnumerator, GetArea, GetDimension
     '                   GetFillPoints, GetRandomPoint, GetRectangle, GetShoelaceArea, GetSize
-    '                   GetSizeF, (+4 Overloads) inside
+    '                   GetSizeF, (+4 Overloads) inside, (+2 Overloads) rectanglesX, (+2 Overloads) rectanglesY
     ' 
     '         Sub: calculateBounds
     ' 
@@ -64,6 +65,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
@@ -79,14 +81,38 @@ Namespace Imaging.Math2D
     ''' </remarks>
     Public Class Polygon2D : Implements Enumeration(Of PointF)
 
+        <XmlAttribute> Public Property xpoints As Double() = New Double(3) {}
+        <XmlAttribute> Public Property ypoints As Double() = New Double(3) {}
+
         ''' <summary>
-        ''' the size of the polygon points collection
+        ''' get/set the point data by a given index
+        ''' </summary>
+        ''' <param name="index"></param>
+        ''' <returns></returns>
+        Default Public Property Item(index As Integer) As PointF
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return New PointF(xpoints(index), ypoints(index))
+            End Get
+            Set(value As PointF)
+                xpoints(index) = value.X
+                ypoints(index) = value.Y
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' get centroid point of this 2d polygon shape
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property length As Integer = 0
+        Public ReadOnly Property centroid As PointF
+            Get
+                If length = 0 Then
+                    Return Nothing
+                End If
 
-        Public Property xpoints As Double() = New Double(3) {}
-        Public Property ypoints As Double() = New Double(3) {}
+                Return New PointF(xpoints.Average, ypoints.Average)
+            End Get
+        End Property
 
         ''' <summary>
         ''' [left, top]
@@ -96,6 +122,12 @@ Namespace Imaging.Math2D
         ''' [right, bottom]
         ''' </summary>
         Protected Friend bounds2 As Vector2D = Nothing
+
+        ''' <summary>
+        ''' the size of the polygon points collection
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property length As Integer = 0
 
         ''' <summary>
         ''' max y - min y
@@ -125,17 +157,6 @@ Namespace Imaging.Math2D
                     Return xpoints.Max - xpoints.Min
                 End If
             End Get
-        End Property
-
-        Default Public Property Item(index As Integer) As PointF
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return New PointF(xpoints(index), ypoints(index))
-            End Get
-            Set(value As PointF)
-                xpoints(index) = value.X
-                ypoints(index) = value.Y
-            End Set
         End Property
 
         Sub New()
@@ -218,12 +239,49 @@ Namespace Imaging.Math2D
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <DebuggerStepThrough>
-        Sub New(rect As Rectangle)
-            Call Me.New(
-                x:={rect.Left, rect.Right, rect.Right, rect.Left},
-                y:={rect.Top, rect.Top, rect.Bottom, rect.Bottom}
-            )
+        Sub New(ParamArray rect As Rectangle())
+            Call Me.New(x:=rectanglesX(rect), y:=rectanglesY(rect))
         End Sub
+
+        Private Shared Function rectanglesX(rect As Rectangle()) As Double()
+            Dim vec As New List(Of Double)
+
+            For Each r As Rectangle In rect
+                Call vec.AddRange({r.Left, r.Right, r.Right, r.Left})
+            Next
+
+            Return vec.ToArray
+        End Function
+
+        Private Shared Function rectanglesY(rect As Rectangle()) As Double()
+            Dim vec As New List(Of Double)
+
+            For Each r As Rectangle In rect
+                Call vec.AddRange({r.Top, r.Top, r.Bottom, r.Bottom})
+            Next
+
+            Return vec.ToArray
+        End Function
+
+        Private Shared Function rectanglesX(rect As RectangleF()) As Double()
+            Dim vec As New List(Of Double)
+
+            For Each r As RectangleF In rect
+                Call vec.AddRange({r.Left, r.Right, r.Right, r.Left})
+            Next
+
+            Return vec.ToArray
+        End Function
+
+        Private Shared Function rectanglesY(rect As RectangleF()) As Double()
+            Dim vec As New List(Of Double)
+
+            For Each r As RectangleF In rect
+                Call vec.AddRange({r.Top, r.Top, r.Bottom, r.Bottom})
+            Next
+
+            Return vec.ToArray
+        End Function
 
         ''' <summary>
         ''' 
@@ -234,11 +292,8 @@ Namespace Imaging.Math2D
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <DebuggerStepThrough>
-        Sub New(rect As RectangleF)
-            Call Me.New(
-                x:={rect.Left, rect.Right, rect.Right, rect.Left},
-                y:={rect.Top, rect.Top, rect.Bottom, rect.Bottom}
-            )
+        Sub New(ParamArray rect As RectangleF())
+            Call Me.New(x:=rectanglesX(rect), y:=rectanglesY(rect))
         End Sub
 
         ''' <summary>
@@ -457,6 +512,10 @@ Namespace Imaging.Math2D
             Return area
         End Function
 
+        ''' <summary>
+        ''' Get scan line result for fill the space inside of this polygon object
+        ''' </summary>
+        ''' <returns></returns>
         Public Function GetFillPoints() As IEnumerable(Of PointF)
             Return PolygonFiller.FillPolygon(Me.AsEnumerable.ToPoints.ToList).PointF
         End Function

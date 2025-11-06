@@ -55,9 +55,12 @@
 
 #End Region
 
+Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 
 Namespace ModelLoader
@@ -71,11 +74,12 @@ Namespace ModelLoader
         Public ReadOnly Property proteinComplex As String()
 
         ReadOnly pull As New List(Of String)
+        ReadOnly polypeptideIds As New Index(Of String)
 
         Public Sub New(loader As Loader)
             MyBase.New(loader)
 
-            Call loader.fluxIndex.Add(NameOf(ProteinMatureFluxLoader), New List(Of String))
+            loader.fluxIndex.Add(NameOf(ProteinMatureFluxLoader), New List(Of String))
         End Sub
 
         Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
@@ -84,13 +88,22 @@ Namespace ModelLoader
             Dim flux As Channel
             Dim cellular_id As String = cell.CellularEnvironmentName
 
+            For Each proteinId As String In cell.GetPolypeptideIds
+                Call polypeptideIds.Add(proteinId)
+            Next
+
             For Each complex As Protein In cell.Phenotype.proteins
                 For Each compound In complex.compounds.SafeQuery
                     If Not MassTable.Exists(compound, cellular_id) Then
                         Call MassTable.addNew(compound, MassRoles.compound, cellular_id)
                     End If
                 Next
-                For Each peptide In complex.polypeptides
+                ' polypeptide or other protein complex
+                For Each peptide As String In complex.polypeptides
+                    If peptide Like polypeptideIds Then
+                        peptide = "*" & peptide
+                    End If
+
                     If Not MassTable.Exists(peptide, cellular_id) Then
                         Throw New MissingMemberException("Missing protein complex component polypeptide: " & peptide)
                     Else
@@ -98,7 +111,7 @@ Namespace ModelLoader
                     End If
                 Next
 
-                Dim unformed = MassTable.variables(complex, cellular_id).ToArray
+                Dim unformed = MassTable.variables(complex, cellular_id, polypeptideIds).ToArray
                 Dim complexID As String = loader.massLoader.proteinComplex(complex.ProteinID)
                 Dim mature As Variable = MassTable.variable(complexID, cellular_id)
 
@@ -106,7 +119,7 @@ Namespace ModelLoader
 
                 ' 酶的成熟过程也是一个不可逆的过程
                 flux = New Channel(unformed, {mature}) With {
-                    .ID = complex.DoCall(AddressOf Loader.GetProteinMatureId),
+                    .ID = DataHelper.GetProteinMatureId(complex, cellular_id),
                     .reverse = Controls.StaticControl(0),
                     .forward = Controls.StaticControl(loader.dynamics.proteinMatureBaseline),
                     .bounds = New Boundary With {
@@ -114,6 +127,10 @@ Namespace ModelLoader
                         .reverse = 0
                     }
                 }
+
+                If flux.isBroken Then
+                    Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
+                End If
 
                 loader.fluxIndex(NameOf(ProteinMatureFluxLoader)).Add(flux.ID)
 

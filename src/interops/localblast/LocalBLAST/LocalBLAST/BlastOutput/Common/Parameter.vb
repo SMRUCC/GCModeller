@@ -99,7 +99,7 @@ NULL:           ' 如果序列的长度是零的时候，会出现无参数的�
                     .Value = "0"
 
                 If Not zeroLen Then
-                    Call $"[{line}] ===> {NameOf(tokens)}:=null".__DEBUG_ECHO
+                    Call $"[{line}] ===> {NameOf(tokens)}:=null".debug
                 End If
 
                 Return {

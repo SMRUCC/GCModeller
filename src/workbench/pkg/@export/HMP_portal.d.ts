@@ -15,11 +15,13 @@ declare namespace HMP_portal {
     * 
      * @param files -
      * @param outputdir -
+     * @param aspera 
+     * + default value Is ``null``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function fetch(files: any, outputdir: string, env?: object): any;
+   function fetch(files: any, outputdir: string, aspera?: object, env?: object): any;
    module read {
       /**
         * @param env default value Is ``null``.

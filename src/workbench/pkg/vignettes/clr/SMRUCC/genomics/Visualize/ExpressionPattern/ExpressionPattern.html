@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        <p>表达模式聚类</p>
+        <p>The cmeans expression cluster result</p>
 
         <h3>Declare</h3>        
 
@@ -30,9 +30,13 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Visualize.ExpressionPattern
 export class ExpressionPattern {
+   # center feature points
    centers: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyCMeans/Classify.html">Classify[]</a>;
+   # plot dimension layout information
    dim: integer;
+   # The fuzzy cmeans cluster result matrix
    Patterns: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/FuzzyCMeans/FuzzyCMeansEntity.html">FuzzyCMeansEntity[]</a>;
+   # the sample id for the cmeans cluster dataset vector
    sampleNames: string;
 }
 </code>
@@ -57,4 +61,4 @@ export class ExpressionPattern {
 <script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
 <script type="text/javascript">r_highlights("clr_ts");</script>
 
-</html>
+</html>

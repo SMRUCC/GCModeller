@@ -1,62 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::122c6c9260b411e8d39bc4447386c540, core\Bio.Annotation\GFF\Feature.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 300
-    '    Code Lines: 157 (52.33%)
-    ' Comment Lines: 114 (38.00%)
-    '    - Xml Docs: 90.35%
-    ' 
-    '   Blank Lines: 29 (9.67%)
-    '     File Size: 14.26 KB
+' Summaries:
 
 
-    '     Class Feature
-    ' 
-    '         Properties: attributes, COG, comments, ends, feature
-    '                     frame, ID, left, Length, Location
-    '                     Product, proteinId, right, score, seqname
-    '                     source, start, strand, synonym
-    ' 
-    '         Function: __getMappingLoci, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 300
+'    Code Lines: 157 (52.33%)
+' Comment Lines: 114 (38.00%)
+'    - Xml Docs: 90.35%
+' 
+'   Blank Lines: 29 (9.67%)
+'     File Size: 14.26 KB
+
+
+'     Class Feature
+' 
+'         Properties: attributes, COG, comments, ends, feature
+'                     frame, ID, left, Length, Location
+'                     Product, proteinId, right, score, seqname
+'                     source, start, strand, synonym
+' 
+'         Function: __getMappingLoci, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.Serialization
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -68,13 +69,15 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
     ''' <summary>
     ''' A feature is here an interval (i.e., a range of positions) on a chromosome or a union of such intervals.
-    ''' (Feature是基因组序列片段之上的一个具备有生物学功能意义的区域，故而这个对象继承自核酸位点对象)
-    ''' 
+    '''
     ''' In the case of RNA-Seq, the features are typically genes, where each gene is considered here as the union of all its exons. 
     ''' One may also consider each exon as a feature, e.g., in order to check for alternative splicing. 
     ''' 
     ''' For comparative ChIP-Seq, the features might be binding region from a pre-determined list.
     ''' </summary>
+    ''' <remarks>
+    ''' (Feature是基因组序列片段之上的一个具备有生物学功能意义的区域，故而这个对象继承自核酸位点对象)
+    ''' </remarks>
     Public Class Feature : Inherits Contig
         Implements INamedValue
         Implements IGeneBrief
@@ -275,6 +278,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End Set
         End Property
 
+        <IgnoreDataMember>
         Public Property Location As NucleotideLocation Implements IContig.Location
             Get
                 Return MappingLocation

@@ -240,7 +240,7 @@ Namespace Assembly.KEGG.WebServices
         Public Function BatchQuery(keyword$, Optional limit As Integer = 30) As FastaFile
             Dim list As QueryEntry() = HandleQuery(keyword)
 
-            Call $"KEGG DBGET Service return {list.Length} records...".__DEBUG_ECHO
+            Call $"KEGG DBGET Service return {list.Length} records...".debug
 
             If limit > list.Length Then
                 limit = list.Length
@@ -265,7 +265,7 @@ Namespace Assembly.KEGG.WebServices
             Dim fa = WebRequest.FetchSeq(entry)
 
             If fa Is Nothing Then
-                Call $"[KEGG_DATA_NOT_FOUND] [{Scripting.ToString(entry)}] KEGG not sure the object is a protein.".__DEBUG_ECHO
+                Call $"[KEGG_DATA_NOT_FOUND] [{Scripting.ToString(entry)}] KEGG not sure the object is a protein.".debug
             End If
 
             Return fa
@@ -281,7 +281,7 @@ Namespace Assembly.KEGG.WebServices
             Dim list As QueryEntry() = WebRequest.HandleQuery(locus_id)
 
             If list.IsNullOrEmpty Then
-                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locus_id}]".__DEBUG_ECHO
+                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locus_id}]".debug
                 Return Nothing
             End If
 
@@ -292,7 +292,7 @@ Namespace Assembly.KEGG.WebServices
             Dim entry As QueryEntry = LQuery.FirstOrDefault
 
             If entry Is Nothing Then
-                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locus_id}]".__DEBUG_ECHO
+                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locus_id}]".debug
             End If
 
             Return entry
@@ -339,7 +339,7 @@ Namespace Assembly.KEGG.WebServices
                           Select Entry).FirstOrDefault
 
             If LQuery Is Nothing Then ' 找不到记录
-                Call $"Could not found any record from KEGG database for {list.Take(5).ToArray.JoinBy("; ")}!!!".__DEBUG_ECHO
+                Call $"Could not found any record from KEGG database for {list.Take(5).ToArray.JoinBy("; ")}!!!".debug
                 Return Nothing
             End If
 
@@ -398,7 +398,7 @@ Namespace Assembly.KEGG.WebServices
                     Call fa.SaveTo(path)
                     Call out.Add(fa)
                 Else
-                    Call $"{gene.speciesID}:{gene.locusID} Download failure!".__DEBUG_ECHO
+                    Call $"{gene.speciesID}:{gene.locusID} Download failure!".debug
                 End If
             Next
 

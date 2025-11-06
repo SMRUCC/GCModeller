@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad167c096d12efeffcddb06c5e8a433c, Data_science\Mathematica\Math\GeneticProgramming\evolution\measure\SumSquareError.vb"
+﻿#Region "Microsoft.VisualBasic::f714ad7d58fff3995d76a3659e7efebc, Data_science\Mathematica\Math\GeneticProgramming\evolution\measure\SumSquareError.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 20
-    '    Code Lines: 16 (80.00%)
+    '   Total Lines: 16
+    '    Code Lines: 11 (68.75%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 4 (20.00%)
-    '     File Size: 629 B
+    '   Blank Lines: 5 (31.25%)
+    '     File Size: 514 B
 
 
     '     Class SumSquareError
@@ -53,8 +53,8 @@
 #End Region
 
 Namespace evolution.measure
-    Public Class SumSquareError
-        Implements Objective
+
+    Public Class SumSquareError : Implements Objective
 
         Public Overridable Function getError(expected As Double, real As Double) As Double Implements Objective.getError
             Dim e = expected - real
@@ -62,11 +62,7 @@ Namespace evolution.measure
         End Function
 
         Public Overridable Function getOverallError(ParamArray errors As Double()) As Double Implements Objective.getOverallError
-            Dim sum = 0.0
-            For Each [error] In errors
-                sum += [error]
-            Next
-            Return sum
+            Return errors.Sum
         End Function
 
     End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c38bbe73e27cc528fe3ef64a455c19cc, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\ProgressBar\Tqdm\Tqdm.vb"
+﻿#Region "Microsoft.VisualBasic::aed6e2f6f2f465245ddfbc625164a237, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\ProgressBar\Tqdm\Tqdm.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 80.30%
     ' 
     '   Blank Lines: 33 (13.75%)
-    '     File Size: 12.24 KB
+    '     File Size: 12.26 KB
 
 
     '     Module TqdmWrapper
@@ -218,7 +218,7 @@ Namespace ApplicationServices.Terminal.ProgressBar.Tqdm
             ' bytes of stream in different unit which is converted via page_unit
             ' so needs convert the offset in same page_unit factor scale
             Do While (offset / page_unit) < bytesOfStream
-                Call bar.Progress(offset / page_unit, bytesOfStream)
+                Call bar.Progress(CInt(offset / page_unit), CInt(bytesOfStream))
                 Call bar.SetLabel(StringFormats.Lanudry(offset / (bar.ElapsedSeconds + 1)) & "/s")
 
                 Yield request(offset, bar)
@@ -257,7 +257,7 @@ Namespace ApplicationServices.Terminal.ProgressBar.Tqdm
                        Dim line As String = str.ReadLine
                        Dim offset As Long = str.BaseStream.Position
 
-                       Call bar.Progress(offset / page_unit, bytesOfStream)
+                       Call bar.Progress(CInt(offset / page_unit), CInt(bytesOfStream))
                        Call bar.SetLabel(StringFormats.Lanudry(offset / (bar.ElapsedSeconds + 1)) & "/s")
 
                        Return line
