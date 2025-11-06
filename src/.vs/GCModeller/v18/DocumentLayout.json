@@ -7,16 +7,28 @@
       "RelativeMoniker": "D:0:0:{75F76733-09BF-4C37-9D4B-AE8E1B0E6248}|GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\MotifFinder.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\motiffinder\\scanner\\probabilityscanner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\reflection\\marshal\\span1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|solutionrelative:runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\reflection\\marshal\\span1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\cli\\utilities.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\cli\\utilities.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{20542702-87B1-4C94-9F32-7A7D682B60F3}|GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns.abstract\\residue.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{20542702-87B1-4C94-9F32-7A7D682B60F3}|GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns.abstract\\residue.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{75F76733-09BF-4C37-9D4B-AE8E1B0E6248}|GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\MotifFinder.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motiffinder\\protocol.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{75F76733-09BF-4C37-9D4B-AE8E1B0E6248}|GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\MotifFinder.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\motiffinder\\protocol.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{75F76733-09BF-4C37-9D4B-AE8E1B0E6248}|GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\MotifFinder.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motiffinder\\scanner\\motifmatch.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{75F76733-09BF-4C37-9D4B-AE8E1B0E6248}|GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\MotifFinder.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\motiffinder\\scanner\\motifmatch.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{26764484-8DCA-4BF3-9297-4C9D75A09911}|runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\DynamicProgramming.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\dynamicprogramming\\smithwaterman\\gsw.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{26764484-8DCA-4BF3-9297-4C9D75A09911}|runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\DynamicProgramming.NET5.vbproj|solutionrelative:runtime\\scibasic#\\data_science\\datamining\\dynamicprogramming\\smithwaterman\\gsw.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20542702-87B1-4C94-9F32-7A7D682B60F3}|GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns.abstract\\residue.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{20542702-87B1-4C94-9F32-7A7D682B60F3}|GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns.abstract\\residue.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{26764484-8DCA-4BF3-9297-4C9D75A09911}|runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\DynamicProgramming.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\dynamicprogramming\\generic\\genericsymbol.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -46,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 13,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,7 +78,46 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Protocol.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Protocol.vb",
+              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Protocol.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Protocol.vb",
+              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Protocol.vb",
+              "ViewState": "AgIAAKQAAAAAAAAAAAAcwM4AAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-06T03:35:01.44Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Span1.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Reflection\\Marshal\\Span1.vb",
+              "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Reflection\\Marshal\\Span1.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Reflection\\Marshal\\Span1.vb",
+              "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Reflection\\Marshal\\Span1.vb",
+              "ViewState": "AgIAAE8AAAAAAAAAAAA2wGEAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-06T03:29:06.002Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "MotifMatch.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifMatch.vb",
+              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifMatch.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifMatch.vb",
+              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifMatch.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwD0AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-06T03:20:59.19Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "GenericSymbol.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\Generic\\GenericSymbol.vb",
               "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\Generic\\GenericSymbol.vb",
@@ -79,7 +130,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "MotifNeedlemanWunsch.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifNeedlemanWunsch.vb",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifNeedlemanWunsch.vb",
@@ -92,7 +143,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "Residue.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\Residue.vb",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\Residue.vb",
@@ -105,7 +156,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "Match.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\SmithWaterman\\Match.vb",
               "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\SmithWaterman\\Match.vb",
@@ -118,7 +169,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "SequenceTools",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj",
@@ -130,13 +181,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "GSW.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\SmithWaterman\\GSW.vb",
               "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\SmithWaterman\\GSW.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\SmithWaterman\\GSW.vb",
               "RelativeToolTip": "runtime\\sciBASIC#\\Data_science\\DataMining\\DynamicProgramming\\SmithWaterman\\GSW.vb",
-              "ViewState": "AgIAANkAAAAAAAAAAAAowBgBAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAHoBAAAAAAAAAAAowI0BAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-05T21:24:11.898Z",
               "EditorCaption": ""
@@ -149,14 +200,14 @@
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\ProbabilityScanner.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\ProbabilityScanner.vb",
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\ProbabilityScanner.vb",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAiwHQAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAYwGMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-05T20:36:23.637Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "SBH.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\CLI_tools\\CLI\\BBH\\SBH.vb",
               "RelativeDocumentMoniker": "interops\\localblast\\CLI_tools\\CLI\\BBH\\SBH.vb",
@@ -169,13 +220,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Utilities.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
-              "ViewState": "AgIAAHIBAAAAAAAAAAAiwJwBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAHIBAAAAAAAAAAAiwJIBAABWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-05T18:26:19.983Z",
               "EditorCaption": ""

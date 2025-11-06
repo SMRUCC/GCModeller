@@ -58,7 +58,9 @@ Imports Microsoft.VisualBasic.DataMining.AprioriRules
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
+Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Python
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -96,32 +98,45 @@ Public Module ProbabilityScanner
         Next
     End Function
 
-    Private Function GenerateRandomSequence(length As Integer, background As Dictionary(Of Char, Double)) As String
-        Dim cumulativeProbs As New List(Of Double)()
-        Dim nucleotides As Char() = background.Keys.ToArray
-        ' 构建累积概率分布
-        Dim cumulative As Double = 0
-        For Each NT As Char In background.Keys
-            cumulative += background(NT)
-            cumulativeProbs.Add(cumulative)
-        Next
+    Public Class ZERO
 
-        ' 生成随机序列
-        Dim sequence As String = ""
-        For i As Integer = 1 To length
-            Dim rndValue As Double = randf.NextDouble()
+        ReadOnly nucleotides As Char()
+        ReadOnly cumulativeProbs As IReadOnlyCollection(Of Double)
 
-            ' 选择核苷酸
-            For j As Integer = 0 To nucleotides.Length - 1
-                If rndValue <= cumulativeProbs(j) Then
-                    sequence &= nucleotides(j)
-                    Exit For
-                End If
+        Sub New(background As Dictionary(Of Char, Double))
+            Dim cumulativeProbs As New List(Of Double)()
+            Dim nucleotides As Char() = background.Keys.ToArray
+            ' 构建累积概率分布
+            Dim cumulative As Double = 0
+            For Each NT As Char In background.Keys
+                cumulative += background(NT)
+                cumulativeProbs.Add(cumulative)
             Next
-        Next
 
-        Return sequence
-    End Function
+            Me.nucleotides = nucleotides
+            Me.cumulativeProbs = cumulativeProbs
+        End Sub
+
+        Public Function NextSequence(length As Integer) As String
+            ' 生成随机序列
+            Dim sequence As Char() = New Char(length - 1) {}
+
+            For i As Integer = 1 To length
+                Dim rndValue As Double = randf.NextDouble()
+
+                ' 选择核苷酸
+                For j As Integer = 0 To nucleotides.Length - 1
+                    If rndValue <= cumulativeProbs(j) Then
+                        sequence(i - 1) = nucleotides(j)
+                        Exit For
+                    End If
+                Next
+            Next
+
+            Return New String(sequence)
+        End Function
+
+    End Class
 
     <Extension>
     Public Iterator Function LinearScan(motif As SequenceMotif, target As FastaSeq, Optional n As Integer = 1000) As IEnumerable(Of MotifMatch)
@@ -142,10 +157,10 @@ Public Module ProbabilityScanner
         Dim motifStr As String = PWM.JoinBy("")
         Dim seqTitle As String = target.Title
         Dim zero As String() = New String(n - 1) {}
-        Dim background As Dictionary(Of Char, Double) = NT.ToDictionary(Function(b) b, Function(b) target.SequenceData.Count(b) / target.Length)
+        Dim background As New ZERO(background:=NT.ToDictionary(Function(b) b, Function(b) target.SequenceData.Count(b) / target.Length))
 
         For i As Integer = 0 To zero.Length - 1
-            zero(i) = GenerateRandomSequence(PWM.Count, background)
+            zero(i) = background.NextSequence(PWM.Count)
         Next
 
         Dim one As Vector = Vector.Ones(PWM.Count)
@@ -196,11 +211,13 @@ Public Module ProbabilityScanner
     ''' <param name="minW%"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function ScanSites(PWM As IReadOnlyCollection(Of Residue), target As FastaSeq,
+    Public Iterator Function ScanSites(PWM As Residue(), target As FastaSeq,
                                        Optional cutoff# = 0.6,
                                        Optional minW% = 6,
-                                       Optional identities As Double = 0.5) As IEnumerable(Of MotifMatch)
+                                       Optional identities As Double = 0.5,
+                                       Optional n As Integer = 100) As IEnumerable(Of MotifMatch)
 
+        Dim chars As Char() = target.SequenceData.ToCharArray
         Dim subject As Residue() = target.ToResidues
         Dim symbol As New GenericSymbol(Of Residue)(
             equals:=Function(a, b) Compare(a, b) >= 0.85,
@@ -209,33 +226,46 @@ Public Module ProbabilityScanner
             empty:=AddressOf Residue.GetEmpty
         )
         Dim core As New GSW(Of Residue)(PWM, subject, symbol)
-        Dim result = core.BuildMatrix.GetMatches(cutoff * core.MaxScore).ToArray
-        Dim pairwiseMatrix = MotifNeedlemanWunsch.defaultScoreMatrix
-        Dim maxIdentities As Value(Of Double) = 0
+        Dim result = core.BuildMatrix.GetMatches(cutoff * core.MaxScore).OrderByDescending(Function(a) a.score).Take(6).ToArray
         Dim seqTitle As String = target.Title
+        Dim background As New ZERO(background:=NT.ToDictionary(Function(b) b, Function(b) target.SequenceData.Count(b) / target.Length))
 
         For Each m As Match In result
             If (m.toB - m.fromB) < minW Then
                 Continue For
             End If
 
-            Dim maxMatch As GlobalAlign(Of Residue) = m.pairwiseIdentities(PWM, subject, pairwiseMatrix)
+            Dim motifSpan As New Span(Of Residue)(PWM, m.fromA, m.toA - m.fromA)
+            Dim motifSlice = motifSpan.SpanView
+            Dim site As New Span(Of Char)(chars, m.fromB, motifSpan.Length)
+            Dim motifStr As String = motifSpan.SpanCopy.JoinBy("")
+            Dim v As Double() = New Double(motifStr.Length - 1) {}
+            Dim total As Double = 0
+            Dim one As Vector = Vector.Ones(v.Length)
+            Dim zero As String() = New String(n - 1) {}
 
-            If maxMatch Is Nothing OrElse (maxIdentities = maxMatch.Identities(pairwiseMatrix)) < identities Then
-                Continue For
-            End If
+            For i As Integer = 0 To motifStr.Length - 1
+                v(i) = motifSpan(i)(site(i))
+                total += v(i)
+            Next
+            For i As Integer = 0 To zero.Length - 1
+                zero(i) = background.NextSequence(v.Length)
+            Next
 
-            Dim site As SimpleSegment = target.CutSequenceLinear(m.RefLoci)
+            Dim score2 As Double = one.SSM(v.AsVector)
+            Dim extremes = zero.Select(Function(si) score(si, motifSlice)).Count(Function(a) a >= total)
+            Dim pvalue = (extremes + 1) / (n + 1)
 
             Yield New MotifMatch With {
-                .identities = maxIdentities,
-                .segment = site.SequenceData,
-                .motif = maxMatch.query.JoinBy(""),
-                .score1 = maxMatch.score,
-                .score2 = m.score,
+                .identities = score2,
+                .segment = site.SpanCopy.CharString,
+                .motif = motifStr,
+                .score1 = m.score,
+                .score2 = total,
                 .title = seqTitle,
-                .start = site.Start,
-                .ends = site.Ends
+                .start = m.fromB,
+                .ends = m.toB,
+                .pvalue = pvalue
             }
         Next
     End Function

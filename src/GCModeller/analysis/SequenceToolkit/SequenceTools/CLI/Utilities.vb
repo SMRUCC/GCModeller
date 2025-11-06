@@ -414,8 +414,8 @@ Imports std = System.Math
         Using IO As New WriteStream(Of MotifMatch)(out)
             Dim write = IO _
                 .ToArray(Of SequenceMotif)(Function(q)
-                                               Return target _
-                                                    .Select(Function(seq) q.LinearScan(seq).ToArray) _
+                                               Return Tqdm.Wrap(target.ToArray) _
+                                                    .Select(Function(seq) q.ScanSites(seq).ToArray).Take(1000) _
                                                     .IteratesALL
                                            End Function)
             Dim bar As Tqdm.ProgressBar = Nothing
