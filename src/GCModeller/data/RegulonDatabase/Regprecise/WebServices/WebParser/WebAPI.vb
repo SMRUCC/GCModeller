@@ -146,15 +146,9 @@ Namespace Regprecise
             Call $"{list.Length} bacteria genome are ready to download!".debug
 
             For Each entry As String In Tqdm.Wrap(list, bar:=bar)
-                Dim skip As Boolean = False
-
                 genomes += doDownload(entry, EXPORT, skip:=skip)
                 message = genomes.Last.genome.name
                 bar.SetLabel(message)
-
-                If Not skip Then
-                    Call Thread.Sleep(60 * 1000)
-                End If
             Next
 
             Return New TranscriptionFactors With {
