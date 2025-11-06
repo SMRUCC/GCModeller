@@ -1,7 +1,20 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2876ADE0-6E86-4AC2-A0ED-0A67730E5B2C}|RegulonDatabase\\test\\test.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2876ADE0-6E86-4AC2-A0ED-0A67730E5B2C}|RegulonDatabase\\test\\test.vbproj|solutionrelative:regulondatabase\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\webparser\\webapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|solutionrelative:regulondatabase\\regprecise\\webservices\\webparser\\webapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regulondatabase.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A8A987C1-EE38-6F40-C131-2BB46089C081}|RegulonDatabase\\RegulonDatabase.NET5.vbproj|solutionrelative:regulondatabase\\regulondatabase.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +22,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WebAPI.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "RelativeDocumentMoniker": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "RelativeToolTip": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-06T06:41:17.129Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -26,6 +52,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\test\\Program.vb",
+              "RelativeDocumentMoniker": "RegulonDatabase\\test\\Program.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\test\\Program.vb",
+              "RelativeToolTip": "RegulonDatabase\\test\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-06T06:38:52.21Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RegulonDatabase.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj",
+              "RelativeDocumentMoniker": "RegulonDatabase\\RegulonDatabase.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj",
+              "RelativeToolTip": "RegulonDatabase\\RegulonDatabase.NET5.vbproj",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-11-06T06:38:38.028Z",
+              "EditorCaption": ""
             }
           ]
         },
