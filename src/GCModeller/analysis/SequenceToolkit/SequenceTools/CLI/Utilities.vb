@@ -420,7 +420,7 @@ Imports std = System.Math
                                            End Function)
             Dim bar As Tqdm.ProgressBar = Nothing
 
-            For Each motif As SequenceMotif In Tqdm.Wrap(motifs, bar:=bar).Take(1)
+            For Each motif As SequenceMotif In Tqdm.Wrap(motifs, bar:=bar)
                 Call write(motif)
                 Call bar.SetLabel(motif.tag)
             Next
