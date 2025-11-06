@@ -122,7 +122,7 @@ Namespace Regprecise
             Dim html$
             Dim list$()
             Dim genomes As New List(Of BacteriaRegulome)
-            Dim index$ = $"{EXPORT}/index.html"
+            Dim index$ = $"{EXPORT}/.cache/index.html"
 
             Call "Start to fetch regprecise genome information....".debug
 
