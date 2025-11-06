@@ -85,10 +85,11 @@ Public Module ProbabilityScanner
     Public Iterator Function ScanSites(motif As SequenceMotif, target As FastaSeq,
                                        Optional cutoff# = 0.6,
                                        Optional minW% = 6,
+                                       Optional identities As Double = 0.8,
                                        Optional pvalue As Double = 0.05,
                                        Optional top As Integer = 9) As IEnumerable(Of MotifMatch)
 
-        For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW, pvalue_cut:=pvalue, top:=top)
+        For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW, identities:=identities, pvalue_cut:=pvalue, top:=top)
             If Not motif.seeds Is Nothing Then
                 scan.seeds = motif.seeds.names
             Else
@@ -216,6 +217,7 @@ Public Module ProbabilityScanner
                                        Optional cutoff# = 0.6,
                                        Optional minW% = 6,
                                        Optional pvalue_cut As Double = 0.05,
+                                       Optional identities As Double = 0.8,
                                        Optional n As Integer = 500,
                                        Optional top As Integer = 9) As IEnumerable(Of MotifMatch)
 
@@ -266,6 +268,10 @@ Public Module ProbabilityScanner
             End If
 
             Dim score2 As Double = one.SSM(v.AsVector)
+
+            If score2 < identities Then
+                Continue For
+            End If
 
             Yield New MotifMatch With {
                 .identities = score2,
