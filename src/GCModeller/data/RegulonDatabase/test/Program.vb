@@ -10,6 +10,8 @@ Module Program
     Sub download_regprecise()
         Dim target = "F:\ecoli\regprecise"
 
+        WebServiceUtils.Proxy = "http://127.0.0.1:10809"
+
         Call Regprecise.WebAPI.Download(target)
     End Sub
 End Module

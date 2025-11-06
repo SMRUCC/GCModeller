@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::a5b01d0ef75e880f77de158ec8101072, data\RegulonDatabase\Regprecise\WebServices\WebParser\WebAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 189
-    '    Code Lines: 154 (81.48%)
-    ' Comment Lines: 8 (4.23%)
-    '    - Xml Docs: 75.00%
-    ' 
-    '   Blank Lines: 27 (14.29%)
-    '     File Size: 8.26 KB
+' Summaries:
 
 
-    '     Module WebAPI
-    ' 
-    '         Function: __downloads, CreateRegulator, doDownload, Download, DownloadRegulatorSequence
-    '                   GetRegulates, ToType
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 189
+'    Code Lines: 154 (81.48%)
+' Comment Lines: 8 (4.23%)
+'    - Xml Docs: 75.00%
+' 
+'   Blank Lines: 27 (14.29%)
+'     File Size: 8.26 KB
+
+
+'     Module WebAPI
+' 
+'         Function: __downloads, CreateRegulator, doDownload, Download, DownloadRegulatorSequence
+'                   GetRegulates, ToType
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -114,7 +114,7 @@ Namespace Regprecise
         End Function
 
         Public Const TABLE_REGEX As String = "<table class=""stattbl"">.+</table>"
-        Public Const browse_genomes$ = "http://regprecise.lbl.gov/RegPrecise/browse_genomes.jsp"
+        Public Const browse_genomes$ = "https://regprecise.lbl.gov/browse_genomes.jsp"
         Public Const taxonomic_collection$ = "https://regprecise.lbl.gov/collections_tax.jsp"
 
         <ExportAPI("Regprecise.Downloads")>
@@ -140,27 +140,22 @@ Namespace Regprecise
                 .Matches(html, "<tr .+?</tr>", RegexICSng) _
                 .ToArray
 
+            Dim message As String
+            Dim bar As Tqdm.ProgressBar = Nothing
+
             Call $"{list.Length} bacteria genome are ready to download!".debug
 
-            Using progress As New ProgressBar("Download regprecise database...")
-                Dim tick As New ProgressProvider(progress, total:=list.Length)
-                Dim ETA$
-                Dim message$
+            For Each entry As String In Tqdm.Wrap(list, bar:=bar)
                 Dim skip As Boolean = False
 
-                For i As Integer = 0 To list.Length - 1
-                    genomes += doDownload(list(i), EXPORT, skip:=skip)
-                    ETA = tick.ETA().FormatTime
-                    message = $"{genomes(i).genome.name}  ETA: {ETA}"
-                    progress.SetProgress(tick.StepProgress, message)
+                genomes += doDownload(entry, EXPORT, skip:=skip)
+                message = genomes.Last.genome.name
+                bar.SetLabel(message)
 
-                    If Not skip Then
-                        Call Thread.Sleep(60 * 1000)
-                    End If
-
-                    ' Call Console.Clear()
-                Next
-            End Using
+                If Not skip Then
+                    Call Thread.Sleep(60 * 1000)
+                End If
+            Next
 
             Return New TranscriptionFactors With {
                 .genomes = genomes,
