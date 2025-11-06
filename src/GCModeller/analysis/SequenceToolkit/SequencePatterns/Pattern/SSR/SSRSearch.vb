@@ -64,7 +64,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.ConsoleProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
@@ -141,18 +141,8 @@ Public Module SSRSearch
                                         ' Do Nothing
                                     End Sub)
                 Else
-                    Using progress As New ProgressBar($"Search for Pure SSR on {strand} strand...", 1, CLS:=True)
-                        Dim tick As New ProgressProvider(progress, repeatUnit.Count)
-                        Dim ETA$
-                        Dim msg$
-                        Dim work = Sub(unit$)
-                                       ETA = tick.ETA().FormatTime
-                                       msg = $"{unit}...  ETA: {ETA}"
-
-                                       Call progress.SetProgress(tick.StepProgress, msg)
-                                   End Sub
-
-                        Call searchWork(report:=work)
+                    Using progress As New ProgressBar With {.Maximum = repeatUnit.Count}
+                        Call searchWork(report:=Sub(msg) progress.PerformStep(msg))
                     End Using
                 End If
 
