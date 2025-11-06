@@ -381,11 +381,11 @@ Imports std = System.Math
     End Function
 
     <ExportAPI("/motif_scan")>
-    <Usage("/motif_scan /in <input.fasta> /motif_db <motifs_db.xml> [/identities <default=0.65> /out <default=motif_scan.csv>]")>
+    <Usage("/motif_scan /in <input.fasta> /motif_db <motifs_db.xml> [/top <default=9> /out <default=motif_scan.csv>]")>
     Public Function MotifScan(args As CommandLine) As Integer
         Dim in$ = args("/in")
         Dim motif_file As String = args("/motif_db")
-        Dim identities As Double = args("/identities") Or 0.65
+        Dim top As Integer = args("/top") Or 9
         Dim out As String = args("/out") Or $"{[in].ParentPath}/{[in].BaseName}_vs_{motif_file.BaseName}_motif_scan.csv"
         Dim motifs As SequenceMotif() = motif_file.LoadXml(Of XmlList(Of MotifPWM)) _
             .AsEnumerable _
@@ -414,8 +414,8 @@ Imports std = System.Math
         Using IO As New WriteStream(Of MotifMatch)(out)
             Dim write = IO _
                 .ToArray(Of SequenceMotif)(Function(q)
-                                               Return Tqdm.Wrap(target.ToArray) _
-                                                    .Select(Function(seq) q.ScanSites(seq).ToArray).Take(1000) _
+                                               Return target.AsParallel _
+                                                    .Select(Function(seq) q.ScanSites(seq, cutoff:=0.8, top:=top).ToArray) _
                                                     .IteratesALL
                                            End Function)
             Dim bar As Tqdm.ProgressBar = Nothing

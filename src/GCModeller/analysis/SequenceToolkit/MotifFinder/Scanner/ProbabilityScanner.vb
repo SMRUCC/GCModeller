@@ -85,9 +85,10 @@ Public Module ProbabilityScanner
     Public Iterator Function ScanSites(motif As SequenceMotif, target As FastaSeq,
                                        Optional cutoff# = 0.6,
                                        Optional minW% = 6,
-                                       Optional identities As Double = 0.5) As IEnumerable(Of MotifMatch)
+                                       Optional pvalue As Double = 0.05,
+                                       Optional top As Integer = 9) As IEnumerable(Of MotifMatch)
 
-        For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW, identities)
+        For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW, pvalue_cut:=pvalue, top:=top)
             If Not motif.seeds Is Nothing Then
                 scan.seeds = motif.seeds.names
             Else
@@ -214,8 +215,9 @@ Public Module ProbabilityScanner
     Public Iterator Function ScanSites(PWM As Residue(), target As FastaSeq,
                                        Optional cutoff# = 0.6,
                                        Optional minW% = 6,
-                                       Optional identities As Double = 0.5,
-                                       Optional n As Integer = 100) As IEnumerable(Of MotifMatch)
+                                       Optional pvalue_cut As Double = 0.05,
+                                       Optional n As Integer = 500,
+                                       Optional top As Integer = 9) As IEnumerable(Of MotifMatch)
 
         Dim chars As Char() = target.SequenceData.ToCharArray
         Dim subject As Residue() = target.ToResidues
@@ -226,7 +228,10 @@ Public Module ProbabilityScanner
             empty:=AddressOf Residue.GetEmpty
         )
         Dim core As New GSW(Of Residue)(PWM, subject, symbol)
-        Dim result = core.BuildMatrix.GetMatches(cutoff * core.MaxScore).OrderByDescending(Function(a) a.score).Take(6).ToArray
+        Dim result = core.BuildMatrix.GetMatches(cutoff * core.MaxScore) _
+            .OrderByDescending(Function(a) a.score) _
+            .Take(top) _
+            .ToArray
         Dim seqTitle As String = target.Title
         Dim background As New ZERO(background:=NT.ToDictionary(Function(b) b, Function(b) target.SequenceData.Count(b) / target.Length))
 
@@ -235,14 +240,15 @@ Public Module ProbabilityScanner
                 Continue For
             End If
 
-            Dim motifSpan As New Span(Of Residue)(PWM, m.fromA, m.toA - m.fromA)
+            Dim zero As String() = New String(n - 1) {}
+            Dim len As Integer = std.Min(m.toA - m.fromA, m.toB - m.fromB)
+            Dim motifSpan As New Span(Of Residue)(PWM, m.fromA, len)
             Dim motifSlice = motifSpan.SpanView
             Dim site As New Span(Of Char)(chars, m.fromB, motifSpan.Length)
             Dim motifStr As String = motifSpan.SpanCopy.JoinBy("")
             Dim v As Double() = New Double(motifStr.Length - 1) {}
             Dim total As Double = 0
             Dim one As Vector = Vector.Ones(v.Length)
-            Dim zero As String() = New String(n - 1) {}
 
             For i As Integer = 0 To motifStr.Length - 1
                 v(i) = motifSpan(i)(site(i))
@@ -252,9 +258,14 @@ Public Module ProbabilityScanner
                 zero(i) = background.NextSequence(v.Length)
             Next
 
-            Dim score2 As Double = one.SSM(v.AsVector)
             Dim extremes = zero.Select(Function(si) score(si, motifSlice)).Count(Function(a) a >= total)
             Dim pvalue = (extremes + 1) / (n + 1)
+
+            If pvalue >= pvalue_cut Then
+                Continue For
+            End If
+
+            Dim score2 As Double = one.SSM(v.AsVector)
 
             Yield New MotifMatch With {
                 .identities = score2,
