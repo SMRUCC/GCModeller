@@ -134,7 +134,7 @@ Public Structure Residue
             If .Values.All(Function(p) p = 0R) Then
                 Return "-"c
             Else
-                Return .ByRef(which.Max(.Values)) _
+                Return .ElementAt(which.Max(.Values)) _
                        .Key
             End If
         End With

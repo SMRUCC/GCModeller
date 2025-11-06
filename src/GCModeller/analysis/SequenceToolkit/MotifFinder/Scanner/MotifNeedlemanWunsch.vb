@@ -83,8 +83,8 @@ Public Class MotifNeedlemanWunsch : Inherits NeedlemanWunsch(Of Residue)
     End Function
 
     Private Shared Function equalsTo(a As Residue, b As Residue) As Boolean
-        Dim maxA = Residue.Max(a)
-        Dim maxB = Residue.Max(b)
+        Dim maxA As Char = Residue.Max(a)
+        Dim maxB As Char = Residue.Max(b)
 
         If a.isEmpty OrElse b.isEmpty Then
             Return False
@@ -94,12 +94,16 @@ Public Class MotifNeedlemanWunsch : Inherits NeedlemanWunsch(Of Residue)
             Return True
         Else
             ' A是motif模型，所以不一致的时候以A为准
-            Dim freqB = b(maxA)
+            Dim freqB As Double = b(maxA)
 
+            ' 最大的值是小于0.3，说明这个位点是随机分布的
+            ' 即 0.25 0.25 0.25 0.25
+            ' 是空白还是可以看作为可以匹配上任意符号？
             If freqB < 0.3 Then
-                Return False
-            Else
                 Return True
+            Else
+                ' 不是一个随机的分布，是一个比较明确的符号
+                Return False
             End If
         End If
     End Function

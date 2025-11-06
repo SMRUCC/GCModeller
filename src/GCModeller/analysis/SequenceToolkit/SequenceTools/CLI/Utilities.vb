@@ -415,14 +415,12 @@ Imports std = System.Math
             Dim write = IO _
                 .ToArray(Of SequenceMotif)(Function(q)
                                                Return target _
-                                                    .ToArray _
-                                                    .AsParallel _
-                                                    .Select(Function(seq) q.ScanSites(seq, identities:=identities).ToArray) _
+                                                    .Select(Function(seq) q.ScanSites(seq, cutoff:=0.95, identities:=0).ToArray) _
                                                     .IteratesALL
                                            End Function)
             Dim bar As Tqdm.ProgressBar = Nothing
 
-            For Each motif As SequenceMotif In Tqdm.Wrap(motifs, bar:=bar)
+            For Each motif As SequenceMotif In Tqdm.Wrap(motifs, bar:=bar).Take(1)
                 Call write(motif)
                 Call bar.SetLabel(motif.tag)
             Next
