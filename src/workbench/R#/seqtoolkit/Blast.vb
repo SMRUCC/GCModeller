@@ -111,9 +111,8 @@ Module Blast
         Return SmithWaterman.Align(query, ref, blosum)
     End Function
 
-
     ''' <summary>
-    ''' 
+    ''' get the high score region from the given alignment result
     ''' </summary>
     ''' <param name="align"></param>
     ''' <param name="cutoff">[0,1] threshold</param>

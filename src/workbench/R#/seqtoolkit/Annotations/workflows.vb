@@ -58,6 +58,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
+Imports Microsoft.VisualBasic.DataMining.AprioriRules
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -345,6 +346,15 @@ Module workflows
         End If
     End Function
 
+    <ExportAPI("read.besthits")>
+    <RApiReturn(GetType(BestHit))>
+    Public Function read_besthits(file As String, Optional encoding As Encodings = Encodings.ASCII) As Object
+        Return file _
+            .OpenHandle(encoding.CodePage) _
+            .AsLinq(Of BestHit) _
+            .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
     ''' <summary>
     ''' Open result table stream writer
     ''' </summary>
@@ -362,10 +372,7 @@ Module workflows
         Select Case type
             Case TableTypes.SBH
                 If ioRead Then
-                    Return file _
-                        .OpenHandle(encoding.CodePage) _
-                        .AsLinq(Of BestHit) _
-                        .DoCall(AddressOf pipeline.CreateFromPopulator)
+                    Return read_besthits(file, encoding)
                 Else
                     Return New WriteStream(Of BestHit)(file, encoding:=encoding)
                 End If
