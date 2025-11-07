@@ -72,7 +72,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports IContext = SMRUCC.genomics.ContextModel.Context
 
-<Package("annotation.genomics_context", Category:=APICategories.ResearchTools)>
+<Package("genomics_context", Category:=APICategories.ResearchTools)>
 Module context
 
     Sub New()
@@ -110,14 +110,18 @@ Module context
         Return sb.ToString
     End Function
 
+    Public Function set_context()
+
+    End Function
+
     ''' <summary>
     ''' filter genes by given strand direction
     ''' </summary>
-    ''' <param name="genes"></param>
-    ''' <param name="strand"></param>
+    ''' <param name="genes">a collection of the gene model object which is subclass of <see cref="IGeneBrief"/></param>
+    ''' <param name="strand">the nucleotide sequence strand direction, value could be +, -, forward, reverse.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("strand.filter")>
+    <ExportAPI("filter_strand")>
     Public Function strandFilter(<RRawVectorArgument> genes As Object,
                                  Optional strand As Object = "+",
                                  Optional env As Environment = Nothing) As Object
@@ -127,6 +131,8 @@ Module context
 
         If geneObjects.isError Then
             Return geneObjects.getError
+        ElseIf strVal = Strands.Unknown Then
+            Call "the given strand value for make gene direction filter is missing!".warning
         End If
 
         Return geneObjects _
