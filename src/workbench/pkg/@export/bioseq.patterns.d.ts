@@ -164,6 +164,10 @@ declare namespace bioseq.patterns {
       */
       function motifs(file: string): object;
       /**
+       * read the motif match scan result table file
+       * 
+       * 
+        * @param file should be a file path to a csv table file.
       */
       function scans(file: string): object;
    }
