@@ -1,12 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\GCModeller\\src\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{DF1248CD-54AE-48A8-BBB9-EDEB905AB168}|GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns\\pattern\\ssr\\ssrsearch.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{DF1248CD-54AE-48A8-BBB9-EDEB905AB168}|GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns\\pattern\\ssr\\ssrsearch.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -14,12 +9,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -33,17 +24,8 @@
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SSRSearch.vb",
-              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Pattern\\SSR\\SSRSearch.vb",
-              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Pattern\\SSR\\SSRSearch.vb",
-              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Pattern\\SSR\\SSRSearch.vb",
-              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\Pattern\\SSR\\SSRSearch.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFYAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-06T15:21:32.804Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             }
           ]
         },
