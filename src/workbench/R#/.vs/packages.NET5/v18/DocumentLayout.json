@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E1175640-D773-46F9-A2F6-9C1C1A94B7C3}|..\\..\\GCModeller\\annotations\\GO\\GOAnalysis.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\go\\plantregmap\\enrichmentplots.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -36,8 +39,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EnrichmentPlots.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GO\\PlantRegMap\\EnrichmentPlots.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GO\\PlantRegMap\\EnrichmentPlots.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GO\\PlantRegMap\\EnrichmentPlots.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GO\\PlantRegMap\\EnrichmentPlots.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T06:17:00.093Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -56,7 +72,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "R-cmd.NET5",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
@@ -68,7 +84,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "genomics.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genomics.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genomics.vb",
@@ -81,7 +97,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "genbankKit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genbankKit.vb",
@@ -94,7 +110,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "workflows.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\workflows.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\workflows.vb",
@@ -107,7 +123,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "DataStream.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\Linq\\DataStream.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\Linq\\DataStream.vb",
@@ -120,20 +136,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "patterns.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\patterns.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
               "RelativeToolTip": "seqtoolkit\\patterns.vb",
-              "ViewState": "AgIAAE0CAAAAAAAAAAAIwIECAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAFwCAAAAAAAAAAAIwG0CAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-07T00:58:09.583Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "RegPrecise.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
               "RelativeDocumentMoniker": "TRNtoolkit\\RegPrecise.vb",
