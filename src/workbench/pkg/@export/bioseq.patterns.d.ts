@@ -204,11 +204,13 @@ declare namespace bioseq.patterns {
     * 
      * @param matches -
      * @param gff -
+     * 
+     * + default value Is ``null``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function split_match_source(matches: any, gff: object, env?: object): any;
+   function split_match_source(matches: any, gff?: object, env?: object): any;
    module view {
       /**
        * 
