@@ -272,7 +272,7 @@ Module patterns
     ''' <returns></returns>
     <ExportAPI("read.scans")>
     Public Function readSites(file As String) As MotifMatch()
-        Return file.LoadCsv(Of MotifMatch).ToArray
+        Return file.LoadCsv(Of MotifMatch)(mute:=True).ToArray
     End Function
 
     ''' <summary>
