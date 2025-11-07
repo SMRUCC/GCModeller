@@ -311,6 +311,14 @@
       <Project>{858324ee-999e-e068-4c90-86b664a177cb}</Project>
       <Name>Math.NET5</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj">
+      <Project>{511bf067-37d9-43b3-10cf-e0bb895fca11}</Project>
+      <Name>network_graph-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\network_io-netcore5.vbproj">
+      <Project>{4a9268be-d5ac-5ec0-951b-50d156452bd0}</Project>
+      <Name>network_io-netcore5</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
       <Project>{8e0dac93-81d0-4261-2cf9-087f28f0b285}</Project>
       <Name>Core</Name>
@@ -330,6 +338,10 @@
     <ProjectReference Include="..\..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SequenceToolkit\MotifFinder\MotifFinder.vbproj">
+      <Project>{143a720c-4b57-82a3-6999-0de6797b26de}</Project>
+      <Name>MotifFinder</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
       <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
