@@ -604,7 +604,7 @@ Module patterns
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("split_match_source")>
-    Public Function SplitMatchesSource(<RRawVectorArgument> matches As Object, gff As GFFTable, Optional env As Environment = Nothing) As Object
+    Public Function SplitMatchesSource(<RRawVectorArgument> matches As Object, Optional gff As GFFTable = Nothing, Optional env As Environment = Nothing) As Object
         Dim matchList = pipeline.TryCreatePipeline(Of MotifMatch)(matches, env)
 
         If matchList.isError Then
@@ -621,10 +621,38 @@ Module patterns
         End If
 
         Dim sourceList As New Dictionary(Of String, List(Of MotifMatch))
+        Dim hashContextData As Boolean = Not gff Is Nothing
 
-        For Each match As MotifMatch In matchList.populates(Of MotifMatch)(env)
+        If hashContextData Then
+            Dim context = gff.features _
+                .GroupBy(Function(a) a.ID) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.First
+                              End Function)
 
-        Next
+            For Each match As MotifMatch In matchList.populates(Of MotifMatch)(env)
+                Dim feature = context(match.title)
+                Dim source As String = feature.seqname
+
+                If Not sourceList.ContainsKey(source) Then
+                    Call sourceList.Add(source, New List(Of MotifMatch))
+                End If
+
+                Call sourceList(source).Add(match)
+            Next
+        Else
+            For Each match As MotifMatch In matchList.populates(Of MotifMatch)(env)
+                Dim title As String() = match.title.Split("|"c)
+                Dim source As String = title(0)
+
+                If Not sourceList.ContainsKey(source) Then
+                    Call sourceList.Add(source, New List(Of MotifMatch))
+                End If
+
+                Call sourceList(source).Add(match)
+            Next
+        End If
 
         Return New list(sourceList.ToDictionary(Function(a) a.Key, Function(a) a.Value.ToArray))
     End Function
