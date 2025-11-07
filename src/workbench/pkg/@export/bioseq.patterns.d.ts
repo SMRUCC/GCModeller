@@ -215,6 +215,12 @@ declare namespace bioseq.patterns {
      * + default value Is ``null``.
    */
    function split_match_source(matches: any, gff?: object, env?: object): any;
+   /**
+     * @param identities default value Is ``null``.
+     * @param pvalue default value Is ``null``.
+     * @param minW default value Is ``null``.
+   */
+   function top_sites(sites: object, identities?: object, pvalue?: object, minW?: object): object;
    module view {
       /**
        * 
