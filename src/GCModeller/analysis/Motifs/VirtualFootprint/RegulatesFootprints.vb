@@ -161,18 +161,24 @@ Namespace DocumentFormat
         End Property
 
         ''' <summary>
-        ''' Trace.Regulator.(调控因子的匹配来源)
+        ''' source trace of the TF regulator.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (调控因子的匹配来源)
+        ''' </remarks>
         <Column("regulator_matched")>
-        Public Overridable Property RegulatorTrace As String
+        Public Overridable Property regulator_trace As String
 
         ''' <summary>
-        ''' Trace.Site.(Motif的匹配来源)
+        ''' source trace of the TFBS site motif.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (Motif的匹配来源)
+        ''' </remarks>
         <Column("site_matched")>
-        Public Overridable Property MotifTrace As String
+        Public Overridable Property motif_trace As String
 
         ''' <summary>
         ''' 自定义的一个标签数据
