@@ -67,6 +67,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Node = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen

@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6B942C74-D570-4E2E-A0C4-D349CF15E17E}|..\\..\\GCModeller\\models\\Networks\\Microbiome\\Microbiome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\networks\\microbiome\\membrane_transport\\membrane_transport.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D278BC20-62AB-45A4-9B00-9A68E222D3B5}|..\\..\\GCModeller\\models\\Networks\\KEGG\\KEGGNetwork.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\models\\networks\\kegg\\reactionnetwork\\builder\\builderbase.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -54,11 +57,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "Membrane_transport.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\Microbiome\\Membrane_transport\\Membrane_transport.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\Microbiome\\Membrane_transport\\Membrane_transport.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\Microbiome\\Membrane_transport\\Membrane_transport.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\Microbiome\\Membrane_transport\\Membrane_transport.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T08:37:54.443Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "ReactionClassNetwork.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\Builder\\ReactionClassNetwork.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\Builder\\ReactionClassNetwork.vb",
@@ -71,7 +87,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ReactionNetwork.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\Builder\\ReactionNetwork.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\Builder\\ReactionNetwork.vb",
@@ -84,20 +100,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "BuilderBase.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\Builder\\BuilderBase.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\Builder\\BuilderBase.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\Builder\\BuilderBase.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\KEGG\\ReactionNetwork\\Builder\\BuilderBase.vb",
-              "ViewState": "AgIAAKsAAAAAAAAAAAAIwLcAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-07T08:34:51.224Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "ExportToFile.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Cytoscape\\Cytoscape\\Graph\\Serialization\\ExportToFile.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\visualize\\Cytoscape\\Cytoscape\\Graph\\Serialization\\ExportToFile.vb",
@@ -110,7 +126,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Cyjs.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\visualize\\Cytoscape\\Cytoscape\\Graph\\cytoscape.js\\Cyjs.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\visualize\\Cytoscape\\Cytoscape\\Graph\\cytoscape.js\\Cyjs.vb",
@@ -123,7 +139,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "workflows.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\workflows.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\workflows.vb",
@@ -136,7 +152,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Extensions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Extensions.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Extensions.vb",
@@ -165,7 +181,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "SubjectHit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\LocalBLAST\\BlastOutput\\Reader\\Blast\u002B\\Models\\SubjectHit.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\LocalBLAST\\BlastOutput\\Reader\\Blast\u002B\\Models\\SubjectHit.vb",
@@ -178,7 +194,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Hits.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hits.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hits.vb",
@@ -191,7 +207,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Hit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hit.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hit.vb",
@@ -204,7 +220,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Blast.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Blast.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Blast.vb",
@@ -217,7 +233,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "ISiteReader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\ComponentModel\\ISiteReader.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\meme_suite\\MEME.DocParser\\ComponentModel\\ISiteReader.vb",
@@ -230,7 +246,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "ModuleMotif.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\ModuleMotif.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\meme_suite\\MEME.DocParser\\ModuleMotif.vb",
@@ -243,7 +259,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "TRN.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\models\\Networks\\Network.Regulons\\TRN.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\Network.Regulons\\TRN.vb",
