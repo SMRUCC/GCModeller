@@ -3,23 +3,27 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\shareddatamodels\\iequals.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:shareddatamodels\\iequals.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8E0DAC93-81D0-4261-2CF9-087F28F0B285}|..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\datastructures\\set\\setapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\regprecisescan.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:virtualfootprint\\regprecisescan.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:virtualfootprint\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\regulon.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:virtualfootprint\\regulon.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:virtualfootprint\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\regprecisescan.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:virtualfootprint\\regprecisescan.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\keggregulon.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:virtualfootprint\\keggregulon.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\shareddatamodels\\iequals.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:shareddatamodels\\iequals.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E0DAC93-81D0-4261-2CF9-087F28F0B285}|..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\datastructures\\set\\setapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B89BCE36-1236-E6BD-8335-2F6729B46CB5}|..\\..\\core\\Bio.InteractionModel\\InteractionModel.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.interactionmodel\\interactionmodel.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
@@ -43,11 +47,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "KEGGRegulon.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\KEGGRegulon.vb",
+              "RelativeDocumentMoniker": "VirtualFootprint\\KEGGRegulon.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\KEGGRegulon.vb",
+              "RelativeToolTip": "VirtualFootprint\\KEGGRegulon.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T08:04:53.735Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "SetAPI.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Set\\SetAPI.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataStructures\\Set\\SetAPI.vb",
@@ -68,13 +85,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "IEquals.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\SharedDataModels\\IEquals.vb",
               "RelativeDocumentMoniker": "SharedDataModels\\IEquals.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\SharedDataModels\\IEquals.vb",
               "RelativeToolTip": "SharedDataModels\\IEquals.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFgAAABkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-07T07:59:28.33Z",
               "EditorCaption": ""
@@ -94,7 +111,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "Regulon.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\Regulon.vb",
               "RelativeDocumentMoniker": "VirtualFootprint\\Regulon.vb",
@@ -107,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "InteractionModel.NET5",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.InteractionModel\\InteractionModel.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\core\\Bio.InteractionModel\\InteractionModel.NET5.vbproj",
@@ -119,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Regulon.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.InteractionModel\\RegulonModels\\Regulon.vb",
               "RelativeDocumentMoniker": "..\\..\\core\\Bio.InteractionModel\\RegulonModels\\Regulon.vb",
@@ -132,20 +149,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "Extensions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\Extensions.vb",
               "RelativeDocumentMoniker": "VirtualFootprint\\Extensions.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\Extensions.vb",
               "RelativeToolTip": "VirtualFootprint\\Extensions.vb",
-              "ViewState": "AgIAAJ0AAAAAAAAAAAAowMIAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAJ0AAAAAAAAAAAAowLQAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-07T07:49:25.515Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "VirtualFootprints.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\SharedDataModels\\VirtualFootprints.vb",
               "RelativeDocumentMoniker": "SharedDataModels\\VirtualFootprints.vb",
@@ -158,7 +175,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "RegulatesFootprints.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\SharedDataModels\\RegulatesFootprints.vb",
               "RelativeDocumentMoniker": "SharedDataModels\\RegulatesFootprints.vb",

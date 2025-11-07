@@ -255,8 +255,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IEquals.vb" />
     <Compile Include="KEGGRegulon.vb" />
+    <Compile Include="ModuleClassAPI.vb" />
     <Compile Include="RegPreciseScan.vb" />
+    <Compile Include="RegulatesFootprints.vb" />
     <Compile Include="Regulon.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -274,6 +277,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="VirtualFootprints.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
