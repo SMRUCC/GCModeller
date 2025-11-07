@@ -91,6 +91,10 @@ declare namespace annotation.workflow {
    }
    module read {
       /**
+        * @param encoding default value Is ``null``.
+      */
+      function besthits(file: string, encoding?: object): object;
+      /**
        * Open the blast output text file for parse data result.
        * 
        * 

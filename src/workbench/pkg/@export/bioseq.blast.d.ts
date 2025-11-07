@@ -43,6 +43,7 @@ declare namespace bioseq.blast {
    */
    function blosum(file?: string): object;
    /**
+    * get the high score region from the given alignment result
     * 
     * 
      * @param align -

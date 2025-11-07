@@ -10,4 +10,5 @@ A pipeline collection for proteins' biological function
 + [grep.names](annotation.workflow/grep.names.1) 
 + [stream.flush](annotation.workflow/stream.flush.1) 
 + [besthit.filter](annotation.workflow/besthit.filter.1) 
++ [read.besthits](annotation.workflow/read.besthits.1) 
 + [open.stream](annotation.workflow/open.stream.1) Open result table stream writer

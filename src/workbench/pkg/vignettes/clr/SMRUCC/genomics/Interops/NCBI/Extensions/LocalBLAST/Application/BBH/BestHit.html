@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>BestHit {SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>BestHit</h2>
+
+        <h3>Description</h3>
+
+        <p>A single direction best hit.
+ (单向的最佳比对结果)</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+export class BestHit extends <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a> {
+   BBH_ID: string;
+   # 这个覆盖度是相对于query作为未知功能的全长protein序列而言的。
+   #  <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BestHit.html">BestHit</a>.<a href="#">length_query</a> / <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BestHit.html">BestHit</a>.<a href="#">query_length</a>
+   coverage: double;
+   # The functional description of <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">HitName</a>
+   description: string;
+   evalue: double;
+   hit_length: integer;
+   HitName: string;
+   identities: double;
+   isMatched: boolean;
+   isSelfHit: boolean;
+   length_hit: integer;
+   length_hsp: integer;
+   length_query: integer;
+   positive: double;
+   query_length: integer;
+   QueryName: string;
+   SBHScore: double;
+   score: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
