@@ -323,6 +323,10 @@
       <Project>{b89bce36-1236-e6bd-8335-2f6729b46cb5}</Project>
       <Name>InteractionModel.NET5</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\data\RegulonDatabase\RegulonDatabase.NET5.vbproj">
+      <Project>{45d8dfc0-f4b0-a4a2-91b4-7f1d3b99329f}</Project>
+      <Name>RegulonDatabase.NET5</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>
