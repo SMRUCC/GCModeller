@@ -3,12 +3,8 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\virtualfootprint.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:virtualfootprint\\virtualfootprint.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\moduleclassapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:virtualfootprint\\moduleclassapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\regulatesfootprints.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:virtualfootprint\\regulatesfootprints.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -31,26 +27,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "VirtualFootprint",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj",
-              "RelativeDocumentMoniker": "VirtualFootprint\\VirtualFootprint.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj",
-              "RelativeToolTip": "VirtualFootprint\\VirtualFootprint.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-11-07T08:11:13.203Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ModuleClassAPI.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\ModuleClassAPI.vb",
-              "RelativeDocumentMoniker": "VirtualFootprint\\ModuleClassAPI.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\ModuleClassAPI.vb",
-              "RelativeToolTip": "VirtualFootprint\\ModuleClassAPI.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "RegulatesFootprints.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\RegulatesFootprints.vb",
+              "RelativeDocumentMoniker": "VirtualFootprint\\RegulatesFootprints.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\RegulatesFootprints.vb",
+              "RelativeToolTip": "VirtualFootprint\\RegulatesFootprints.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-07T08:10:25.738Z",
+              "WhenOpened": "2025-11-07T08:12:22.091Z",
               "EditorCaption": ""
             }
           ]
