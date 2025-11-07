@@ -316,6 +316,7 @@ Module patterns
                                Optional cutoff# = 0.6,
                                Optional minW# = 8,
                                Optional identities As Double = 0.85,
+                               Optional pvalue As Double = 0.05,
                                Optional parallel As Boolean = False,
                                Optional env As Environment = Nothing) As Object
 
@@ -324,7 +325,9 @@ Module patterns
         ElseIf TypeOf target Is FastaSeq Then
             ' scan a simple single sequence
             Return motif.region _
-                .ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities) _
+                .ScanSites(DirectCast(target, FastaSeq), cutoff, minW,
+                           pvalue_cut:=pvalue,
+                           identities:=identities) _
                 .ToArray
         Else
             Dim seqs = GetFastaSeq(target, env)
@@ -336,7 +339,7 @@ Module patterns
                 Return seqs.ToArray _
                     .Populate(parallel, App.CPUCoreNumbers) _
                     .Select(Function(seq)
-                                Return motif.ScanSites(seq, cutoff, minW, identities)
+                                Return motif.ScanSites(seq, cutoff, minW, identities, pvalue:=pvalue)
                             End Function) _
                     .IteratesALL _
                     .ToArray
