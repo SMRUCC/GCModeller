@@ -319,6 +319,10 @@
       <Project>{2de312c2-6dc9-a812-b2f5-12db3e706fcd}</Project>
       <Name>biocore-netcore5</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\core\Bio.InteractionModel\InteractionModel.NET5.vbproj">
+      <Project>{b89bce36-1236-e6bd-8335-2f6729b46cb5}</Project>
+      <Name>InteractionModel.NET5</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\data\RegulonDatabase\RegulonDatabase.vbproj">
       <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
       <Name>RegulonDatabase</Name>

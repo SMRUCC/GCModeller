@@ -3,6 +3,20 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B89BCE36-1236-E6BD-8335-2F6729B46CB5}|..\\..\\core\\Bio.InteractionModel\\InteractionModel.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.interactionmodel\\interactionmodel.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B89BCE36-1236-E6BD-8335-2F6729B46CB5}|..\\..\\core\\Bio.InteractionModel\\InteractionModel.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.interactionmodel\\regulonmodels\\regulon.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:virtualfootprint\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\shareddatamodels\\virtualfootprints.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:shareddatamodels\\virtualfootprints.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\shareddatamodels\\regulatesfootprints.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|VirtualFootprint\\VirtualFootprint.vbproj|solutionrelative:shareddatamodels\\regulatesfootprints.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
@@ -27,6 +41,57 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "InteractionModel.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.InteractionModel\\InteractionModel.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\core\\Bio.InteractionModel\\InteractionModel.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.InteractionModel\\InteractionModel.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\core\\Bio.InteractionModel\\InteractionModel.NET5.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-11-07T07:50:45.554Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Regulon.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.InteractionModel\\RegulonModels\\Regulon.vb",
+              "RelativeDocumentMoniker": "..\\..\\core\\Bio.InteractionModel\\RegulonModels\\Regulon.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.InteractionModel\\RegulonModels\\Regulon.vb",
+              "RelativeToolTip": "..\\..\\core\\Bio.InteractionModel\\RegulonModels\\Regulon.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFAAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T07:50:17.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\Extensions.vb",
+              "RelativeDocumentMoniker": "VirtualFootprint\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\Extensions.vb",
+              "RelativeToolTip": "VirtualFootprint\\Extensions.vb",
+              "ViewState": "AgIAAKAAAAAAAAAAAAAUwKwAAABeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T07:49:25.515Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "VirtualFootprints.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\SharedDataModels\\VirtualFootprints.vb",
+              "RelativeDocumentMoniker": "SharedDataModels\\VirtualFootprints.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\SharedDataModels\\VirtualFootprints.vb",
+              "RelativeToolTip": "SharedDataModels\\VirtualFootprints.vb",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAUwC0AAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T07:49:14.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "RegulatesFootprints.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\SharedDataModels\\RegulatesFootprints.vb",
               "RelativeDocumentMoniker": "SharedDataModels\\RegulatesFootprints.vb",
