@@ -94,6 +94,12 @@ Namespace LocalBLAST.Application.BBH.Abstract
                        IMap.Maps
 
         ''' <summary>
+        ''' The functional description of <see cref="HitName"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overridable Property description As String Implements IBlastHit.description
+
+        ''' <summary>
         ''' 仅仅是依靠对HitName的判断来使用这个属性了解<see cref="QueryName"></see>是否已经和<see cref="HitName"></see>比对上了
         ''' </summary>
         ''' <value></value>

@@ -66,8 +66,16 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Namespace LocalBLAST.Application.BBH.Abstract
 
     Public Interface IBlastHit
+
         Property queryName As String
         Property hitName As String
+
+        ''' <summary>
+        ''' the description of the subject hit reference object, will be used as the annotation text result of the corresponding <see cref="queryName"/> target.
+        ''' </summary>
+        ''' <returns></returns>
+        Property description As String
+
     End Interface
 
     Public Interface IQueryHits : Inherits IBlastHit

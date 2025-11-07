@@ -84,7 +84,7 @@ Namespace Pipeline.COG
         ''' <remarks></remarks>
         <Column("COG_category")> Public Property Category As String Implements ICOGCatalog.Catalog
         <Column("COG")> Public Property COG As String Implements IFeatureDigest.Feature, IBlastHit.hitName, ICOGCatalog.COG
-        <Column("description")> Public Property Description As String
+        <Column("description")> Public Property Description As String Implements IBlastHit.description
 
         Public Property Evalue As Double
         Public Property Identities As Double Implements IQueryHits.identities

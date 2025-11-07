@@ -87,7 +87,8 @@ Namespace Pipeline.COG
         <Column("Identity")>
         Public Property identities As Double Implements IQueryHits.identities
 
-        Public Property description As String
+        Public Property description As String Implements IBlastHit.description
+
         Public Property [class] As String
         <Column("class description")>
         Public Property classDescrib As String

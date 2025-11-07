@@ -83,12 +83,6 @@ Namespace LocalBLAST.Application.BBH
         <Column("length_hsp")> Public Property length_hsp As Integer
 
         ''' <summary>
-        ''' The functional description of <see cref="HitName"/>
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property description As String
-
-        ''' <summary>
         ''' 这个覆盖度是相对于query作为未知功能的全长protein序列而言的。
         ''' <see cref="length_query"/> / <see cref="query_length"/>
         ''' </summary>
