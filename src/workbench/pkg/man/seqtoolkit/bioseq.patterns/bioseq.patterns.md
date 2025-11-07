@@ -7,7 +7,7 @@ Tools for sequence patterns
 + [gibbs_scan](bioseq.patterns/gibbs_scan.1) 
 + [view.sites](bioseq.patterns/view.sites.1) 
 + [read.motifs](bioseq.patterns/read.motifs.1) read sequence motif json file.
-+ [read.scans](bioseq.patterns/read.scans.1) 
++ [read.scans](bioseq.patterns/read.scans.1) read the motif match scan result table file
 + [as.seq_graph](bioseq.patterns/as.seq_graph.1) 
 + [motif.find_sites](bioseq.patterns/motif.find_sites.1) Find target loci site based on the given motif model
 + [palindrome.mirror](bioseq.patterns/palindrome.mirror.1) Search mirror palindrome sites for a given seed sequence
