@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::3ed4c354ade1ca594d1b4753ff7c92c5, models\Networks\KEGG\ReactionNetwork\Builder\BuilderBase.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 272
-    '    Code Lines: 195 (71.69%)
-    ' Comment Lines: 41 (15.07%)
-    '    - Xml Docs: 70.73%
-    ' 
-    '   Blank Lines: 36 (13.24%)
-    '     File Size: 11.40 KB
+' Summaries:
 
 
-    '     Class BuilderBase
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: BuildModel, doExpansion, doNetworkExpansion
-    ' 
-    '         Sub: addNewEdge
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 272
+'    Code Lines: 195 (71.69%)
+' Comment Lines: 41 (15.07%)
+'    - Xml Docs: 70.73%
+' 
+'   Blank Lines: 36 (13.24%)
+'     File Size: 11.40 KB
+
+
+'     Class BuilderBase
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: BuildModel, doExpansion, doNetworkExpansion
+' 
+'         Sub: addNewEdge
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -60,14 +60,13 @@ Imports System.Data
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Data.GraphTheory
-
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -194,7 +193,9 @@ Namespace ReactionNetwork
         ''' <param name="commons">a list of reaction id</param>
         ''' <param name="a"></param>
         ''' <param name="b"></param>
-        Protected MustOverride Sub createEdges(commons As String(), a As Node, b As Node)
+        Protected MustOverride Sub createEdges(commons As String(),
+                                               a As Microsoft.VisualBasic.Data.visualize.Network.Graph.Node,
+                                               b As Microsoft.VisualBasic.Data.visualize.Network.Graph.Node)
 
         Protected Sub addNewEdge(edge As Edge)
             Dim ledge As SparseGraph.IInteraction = edge
