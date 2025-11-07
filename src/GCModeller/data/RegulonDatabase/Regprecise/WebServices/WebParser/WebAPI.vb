@@ -146,7 +146,7 @@ Namespace Regprecise
             Call $"{list.Length} bacteria genome are ready to download!".debug
 
             For Each entry As String In Tqdm.Wrap(list, bar:=bar)
-                genomes += doDownload(entry, EXPORT, skip:=skip)
+                genomes += doDownload(entry, EXPORT)
                 message = genomes.Last.genome.name
                 bar.SetLabel(message)
             Next
@@ -157,7 +157,7 @@ Namespace Regprecise
             }
         End Function
 
-        Private Function doDownload(entryHref$, EXPORT$, ByRef skip As Boolean) As BacteriaRegulome
+        Private Function doDownload(entryHref$, EXPORT$) As BacteriaRegulome
             Dim str$ = r.Match(entryHref, "href="".+?"">.+?</a>").Value
             Dim entry$ = RegulomeQuery.GetsId(str)
             Dim name$ = entry.NormalizePathString
@@ -175,7 +175,7 @@ Namespace Regprecise
                 .genome = New JSON.genome With {
                     .name = entry
                 },
-                .regulome = WebApi.Query(Of Regulome)(entryHref, hitCache:=skip)
+                .regulome = WebApi.Query(Of Regulome)(entryHref)
             }
                 Call .GetXml.SaveTo(save)
 

@@ -1,63 +1,63 @@
 ﻿#Region "Microsoft.VisualBasic::a2b50e8950af39ffe721ed636b327e19, analysis\SequenceToolkit\SequencePatterns\Pattern\SSR\SSRSearch.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 207
-    '    Code Lines: 140 (67.63%)
-    ' Comment Lines: 29 (14.01%)
-    '    - Xml Docs: 62.07%
-    ' 
-    '   Blank Lines: 38 (18.36%)
-    '     File Size: 8.57 KB
+' Summaries:
 
 
-    ' Module SSRSearch
-    ' 
-    '     Properties: Parallel
-    ' 
-    '     Function: CompoundSSR, InterruptedSSR, PureSSR, SeedingInternal, SSR
-    ' 
-    '     Sub: MatchInternal
-    ' 
-    ' Structure SSR
-    ' 
-    '     Properties: Ends, RepeatUnit, Sequence, Start, Strand
-    ' 
-    '     Function: ToFasta, ToString
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 207
+'    Code Lines: 140 (67.63%)
+' Comment Lines: 29 (14.01%)
+'    - Xml Docs: 62.07%
+' 
+'   Blank Lines: 38 (18.36%)
+'     File Size: 8.57 KB
+
+
+' Module SSRSearch
+' 
+'     Properties: Parallel
+' 
+'     Function: CompoundSSR, InterruptedSSR, PureSSR, SeedingInternal, SSR
+' 
+'     Sub: MatchInternal
+' 
+' Structure SSR
+' 
+'     Properties: Ends, RepeatUnit, Sequence, Start, Strand
+' 
+'     Function: ToFasta, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -65,6 +65,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
@@ -141,18 +142,8 @@ Public Module SSRSearch
                                         ' Do Nothing
                                     End Sub)
                 Else
-                    Using progress As New ProgressBar($"Search for Pure SSR on {strand} strand...", 1, CLS:=True)
-                        Dim tick As New ProgressProvider(progress, repeatUnit.Count)
-                        Dim ETA$
-                        Dim msg$
-                        Dim work = Sub(unit$)
-                                       ETA = tick.ETA().FormatTime
-                                       msg = $"{unit}...  ETA: {ETA}"
-
-                                       Call progress.SetProgress(tick.StepProgress, msg)
-                                   End Sub
-
-                        Call searchWork(report:=work)
+                    Using progress As New ConsoleProgressBar.ProgressBar With {.Maximum = repeatUnit.Count}
+                        Call searchWork(report:=Sub(msg) progress.PerformStep(msg))
                     End Using
                 End If
 
@@ -210,24 +201,15 @@ Public Module SSRSearch
 
         Dim SearchInternal =
            Sub(strand$)
-               Using progress As New ProgressBar($"Search for Compound SSR on {strand} strand...", 1, CLS:=True)
-                   Dim tick As New ProgressProvider(progress, repeatUnit.Count)
-                   Dim ETA$
-                   Dim msg$
+               Call $"Search for Compound SSR on {strand} strand...".info
 
-                   For Each a$ In repeatUnit
-                       For Each b$ In repeatUnit.Where(Function(s) s <> a) ' 如果相等的话就是pureSSR了，在其他的函数中已经搜索过了，就不需要再搜索了
-                           Dim pattern$ = $"(({a}){{2,}}({b}){{2,}}){{{minRepeats},}}"
+               For Each a$ In TqdmWrapper.Wrap(repeatUnit)
+                   For Each b$ In repeatUnit.Where(Function(s) s <> a) ' 如果相等的话就是pureSSR了，在其他的函数中已经搜索过了，就不需要再搜索了
+                       Dim pattern$ = $"(({a}){{2,}}({b}){{2,}}){{{minRepeats},}}"
 
-                           seq.MatchInternal(pattern, SSR, a & b, strand, NameOf(CompoundSSR))
-                       Next
-
-                       ETA = tick.ETA().FormatTime
-                       msg = $"{a}...  ETA: {ETA}"
-
-                       Call progress.SetProgress(tick.StepProgress, msg)
+                       seq.MatchInternal(pattern, SSR, a & b, strand, NameOf(CompoundSSR))
                    Next
-               End Using
+               Next
            End Sub
 
         seq = nt.SequenceData.ToUpper

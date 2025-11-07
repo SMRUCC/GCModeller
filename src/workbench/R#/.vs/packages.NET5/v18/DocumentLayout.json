@@ -1,20 +1,21 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
+  "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{FA3DB933-8FEE-4593-BDEB-227EB9FF3B68}|..\\..\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\webparser\\webapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7A5E0EB8-F726-4C01-8C8B-912ECA77F079}|..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\dataframework-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data\\dataframe\\linq\\datastream.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{6B942C74-D570-4E2E-A0C4-D349CF15E17E}|..\\..\\GCModeller\\models\\Networks\\Microbiome\\Microbiome.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\models\\networks\\microbiome\\metaboliccomplementation\\metaboliccomplementation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\workflows.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\workflows.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{9BF1E3F8-127E-4E51-8F0C-9D7358DAD89E}|..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\SSystem.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\sub-system\\plas.net\\ssystem\\system\\kernel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{39E79CAD-3B89-48AE-9CB9-5F0D41F0449B}|TRNtoolkit\\TRNtoolkit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\trntoolkit\\regprecise.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "AbsoluteMoniker": "D:0:0:{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}|..\\..\\GCModeller\\analysis\\Microarray\\Microarray.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\enrichment\\keggpathwaymap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{39E79CAD-3B89-48AE-9CB9-5F0D41F0449B}|TRNtoolkit\\TRNtoolkit.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\trntoolkit\\regprecise.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{39E79CAD-3B89-48AE-9CB9-5F0D41F0449B}|TRNtoolkit\\TRNtoolkit.vbproj|solutionrelative:trntoolkit\\regprecise.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
@@ -25,20 +26,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 4,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "workflows.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\workflows.vb",
-              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\workflows.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\workflows.vb",
-              "RelativeToolTip": "seqtoolkit\\Annotations\\workflows.vb",
-              "ViewState": "AgIAAEgBAAAAAAAAAAAowG8BAABHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-07T03:32:57.952Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Bookmark",
@@ -53,44 +45,66 @@
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DataStream.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\Linq\\DataStream.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\Linq\\DataStream.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\Linq\\DataStream.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\Linq\\DataStream.vb",
-              "ViewState": "AgIAAGsAAAAAAAAAAAAiwIEAAAAcAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "WebAPI.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "ViewState": "AgIAAHgAAAAAAAAAAIA0wI0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-07T03:29:58.483Z",
+              "WhenOpened": "2025-11-07T02:26:26.325Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "patterns.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
-              "RelativeDocumentMoniker": "seqtoolkit\\patterns.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
-              "RelativeToolTip": "seqtoolkit\\patterns.vb",
-              "ViewState": "AgIAADoCAAAAAAAAAAAIwFcCAABCAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "MetabolicComplementation.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\Microbiome\\MetabolicComplementation\\MetabolicComplementation.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\Microbiome\\MetabolicComplementation\\MetabolicComplementation.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\Microbiome\\MetabolicComplementation\\MetabolicComplementation.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\Microbiome\\MetabolicComplementation\\MetabolicComplementation.vb",
+              "ViewState": "AgIAANEAAAAAAAAAAAAcwPcAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-07T00:58:09.583Z",
+              "WhenOpened": "2025-11-07T02:23:39.285Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Kernel.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
+              "ViewState": "AgIAALAAAAAAAAAAAAAcwNAAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T02:17:30.216Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "KEGGPathwayMap.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAYwKoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T02:15:50.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "RegPrecise.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
               "RelativeDocumentMoniker": "TRNtoolkit\\RegPrecise.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
               "RelativeToolTip": "TRNtoolkit\\RegPrecise.vb",
-              "ViewState": "AgIAAJMAAAAAAAAAAAAowGUAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-06T06:25:01.711Z",
               "EditorCaption": ""
