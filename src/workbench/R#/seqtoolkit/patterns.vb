@@ -265,6 +265,11 @@ Module patterns
         Return file.LoadJSON(Of SequenceMotif())
     End Function
 
+    ''' <summary>
+    ''' read the motif match scan result table file
+    ''' </summary>
+    ''' <param name="file">should be a file path to a csv table file.</param>
+    ''' <returns></returns>
     <ExportAPI("read.scans")>
     Public Function readSites(file As String) As MotifMatch()
         Return file.LoadCsv(Of MotifMatch).ToArray
