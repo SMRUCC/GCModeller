@@ -65,7 +65,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 <Package("MicrobesOnline.fetchLocus",
                   Category:=APICategories.SoftwareTools,
                   Url:="http://www.microbesonline.org/cgi-bin/fetchLocus.cgi?locus=<gene_locus>&disp=4")>
-Public Module fetchLocus
+Public Module MicrobesOnline
 
     Const FetchLocus As String = "http://www.microbesonline.org/cgi-bin/fetchLocus.cgi?locus={0}&disp=4"
 
