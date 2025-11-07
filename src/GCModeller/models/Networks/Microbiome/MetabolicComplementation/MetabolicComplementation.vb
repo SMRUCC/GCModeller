@@ -243,16 +243,15 @@ Public Module MetabolicComplementation
         Next
     End Sub
 
-    <Extension> Private Sub linkNodes(graph As NetworkGraph)
-        Using progress As New ProgressBar("Link networks...", 1, CLS:=True)
-            Dim ticks As New ProgressProvider(progress, graph.vertex.Count)
-            Dim msg$
+    <Extension>
+    Private Sub linkNodes(graph As NetworkGraph)
+        Dim bar As Tqdm.ProgressBar = Nothing
 
-            For Each genome As Node In graph.vertex
-                genome.link(graph)
-                msg$ = $"ETA={ticks.ETA().FormatTime}  // {genome.data.label}"
-                progress.SetProgress(ticks.StepProgress, msg)
-            Next
-        End Using
+        Call "link networks...".info
+
+        For Each genome As Node In Tqdm.Wrap(graph.vertex.ToArray, bar:=bar)
+            Call genome.link(graph)
+            Call bar.SetLabel(genome.data.label)
+        Next
     End Sub
 End Module

@@ -3,6 +3,12 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6B942C74-D570-4E2E-A0C4-D349CF15E17E}|..\\..\\GCModeller\\models\\Networks\\Microbiome\\Microbiome.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\models\\networks\\microbiome\\metaboliccomplementation\\metaboliccomplementation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9BF1E3F8-127E-4E51-8F0C-9D7358DAD89E}|..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\SSystem.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\sub-system\\plas.net\\ssystem\\system\\kernel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}|..\\..\\GCModeller\\analysis\\Microarray\\Microarray.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\enrichment\\keggpathwaymap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -38,6 +44,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MetabolicComplementation.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\Microbiome\\MetabolicComplementation\\MetabolicComplementation.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\Microbiome\\MetabolicComplementation\\MetabolicComplementation.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\Microbiome\\MetabolicComplementation\\MetabolicComplementation.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\models\\Networks\\Microbiome\\MetabolicComplementation\\MetabolicComplementation.vb",
+              "ViewState": "AgIAANEAAAAAAAAAAAAcwPcAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T02:23:39.285Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Kernel.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
+              "ViewState": "AgIAALAAAAAAAAAAAAAcwNAAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T02:17:30.216Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "KEGGPathwayMap.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
@@ -50,7 +82,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "RegPrecise.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
               "RelativeDocumentMoniker": "TRNtoolkit\\RegPrecise.vb",
