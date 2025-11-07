@@ -3,15 +3,30 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D63A19F3-3729-465E-BADA-5DE55732D915}|annotations{D63A19F3-3729-465E-BADA-5DE55732D915}|VirtualFootprint||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\regprecisescan.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\keggregulon.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{39E79CAD-3B89-48AE-9CB9-5F0D41F0449B}|TRNtoolkit\\TRNtoolkit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\trntoolkit\\regprecise.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39E79CAD-3B89-48AE-9CB9-5F0D41F0449B}|TRNtoolkit\\TRNtoolkit.vbproj|solutionrelative:trntoolkit\\regprecise.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1175640-D773-46F9-A2F6-9C1C1A94B7C3}|..\\..\\GCModeller\\annotations\\GO\\GOAnalysis.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\go\\plantregmap\\enrichmentplots.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7A5E0EB8-F726-4C01-8C8B-912ECA77F079}|..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\dataframework-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data\\dataframe\\linq\\datastream.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{39E79CAD-3B89-48AE-9CB9-5F0D41F0449B}|TRNtoolkit\\TRNtoolkit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\trntoolkit\\regprecise.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{39E79CAD-3B89-48AE-9CB9-5F0D41F0449B}|TRNtoolkit\\TRNtoolkit.vbproj|solutionrelative:trntoolkit\\regprecise.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
@@ -27,6 +42,9 @@
     {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\workflows.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\workflows.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1DC0341C-37F5-45A6-B486-337EDC2BAD76}|..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|8998e48e-b89a-4034-b66e-353d8c1fdc2e"
     }
   ],
   "DocumentGroupContainers": [
@@ -36,7 +54,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -56,19 +74,82 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "VirtualFootprint",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-11-07T07:27:00.688Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "KEGGRegulon.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\KEGGRegulon.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\KEGGRegulon.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\KEGGRegulon.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\KEGGRegulon.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T07:26:47.164Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\Extensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T07:26:40.835Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RegPreciseScan.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\RegPreciseScan.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\RegPreciseScan.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\RegPreciseScan.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\RegPreciseScan.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T07:26:35.05Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EnrichmentPlots.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GO\\PlantRegMap\\EnrichmentPlots.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GO\\PlantRegMap\\EnrichmentPlots.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GO\\PlantRegMap\\EnrichmentPlots.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GO\\PlantRegMap\\EnrichmentPlots.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T06:17:00.093Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "R-cmd.NET5",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-11-07T04:00:40.528Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-07T04:00:40.528Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "genomics.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genomics.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genomics.vb",
@@ -76,12 +157,11 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\genomics.vb",
               "ViewState": "AgIAAEAAAAAAAAAAAAAAAFMAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-07T03:59:09.553Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-07T03:59:09.553Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "genbankKit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genbankKit.vb",
@@ -89,12 +169,11 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\genbankKit.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-07T03:59:04.802Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-07T03:59:04.802Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "workflows.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\workflows.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\workflows.vb",
@@ -102,12 +181,11 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\workflows.vb",
               "ViewState": "AgIAAEgBAAAAAAAAAAAowG8BAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-07T03:32:57.952Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-07T03:32:57.952Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "DataStream.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data\\DataFrame\\Linq\\DataStream.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\Linq\\DataStream.vb",
@@ -115,31 +193,29 @@
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data\\DataFrame\\Linq\\DataStream.vb",
               "ViewState": "AgIAAGAAAAAAAAAAAAAqwHsAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-07T03:29:58.483Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-07T03:29:58.483Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "patterns.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\patterns.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
               "RelativeToolTip": "seqtoolkit\\patterns.vb",
-              "ViewState": "AgIAAE0CAAAAAAAAAAAIwIECAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAFwCAAAAAAAAAAAIwG0CAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-07T00:58:09.583Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-07T00:58:09.583Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "RegPrecise.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
               "RelativeDocumentMoniker": "TRNtoolkit\\RegPrecise.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
               "RelativeToolTip": "TRNtoolkit\\RegPrecise.vb",
-              "ViewState": "AgIAAJMAAAAAAAAAAAAowGUAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAFgAAAAAAAAAAAAAAGUAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-06T06:25:01.711Z",
               "EditorCaption": ""
