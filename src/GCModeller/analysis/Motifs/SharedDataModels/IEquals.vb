@@ -46,6 +46,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 Public Module IEqualsAPI
@@ -110,9 +111,9 @@ Public Module IEqualsAPI
         '    .strict = strict
         '}
         If strict Then
-            Return s1.Intersection(s2, AddressOf DocumentFormat.RegulatesFootprints.TraceUidStrict)
+            Return s1.Intersection(s2, getUID:=AddressOf DocumentFormat.RegulatesFootprints.TraceUidStrict)
         Else
-            Return s1.Intersection(s2, AddressOf DocumentFormat.RegulatesFootprints.TraceUid)
+            Return s1.Intersection(s2, getUID:=AddressOf DocumentFormat.RegulatesFootprints.TraceUid)
         End If
     End Function
 
