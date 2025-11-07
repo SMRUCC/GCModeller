@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FA3DB933-8FEE-4593-BDEB-227EB9FF3B68}|..\\..\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\webparser\\webapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6B942C74-D570-4E2E-A0C4-D349CF15E17E}|..\\..\\GCModeller\\models\\Networks\\Microbiome\\Microbiome.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\models\\networks\\microbiome\\metaboliccomplementation\\metaboliccomplementation.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -44,6 +47,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "WebAPI.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\WebAPI.vb",
+              "ViewState": "AgIAAHgAAAAAAAAAAIA0wI0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T02:26:26.325Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "MetabolicComplementation.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\models\\Networks\\Microbiome\\MetabolicComplementation\\MetabolicComplementation.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\models\\Networks\\Microbiome\\MetabolicComplementation\\MetabolicComplementation.vb",
@@ -56,7 +72,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Kernel.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
@@ -69,7 +85,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "KEGGPathwayMap.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
@@ -82,7 +98,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "RegPrecise.vb",
               "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
               "RelativeDocumentMoniker": "TRNtoolkit\\RegPrecise.vb",
