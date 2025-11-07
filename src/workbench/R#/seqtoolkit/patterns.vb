@@ -275,6 +275,37 @@ Module patterns
         Return file.LoadCsv(Of MotifMatch)(mute:=True).ToArray
     End Function
 
+    <ExportAPI("top_sites")>
+    Public Function top_sites(sites As MotifMatch(),
+                              Optional identities As Double? = Nothing,
+                              Optional pvalue As Double? = Nothing,
+                              Optional minW As Integer? = Nothing) As MotifMatch()
+
+        If identities IsNot Nothing Then
+            Dim identitiesVal As Double = CDbl(identities)
+
+            sites = (From site As MotifMatch
+                     In sites
+                     Where site.identities > identitiesVal).ToArray
+        End If
+        If pvalue IsNot Nothing Then
+            Dim pvalue_cut As Double = CDbl(pvalue)
+
+            sites = (From site As MotifMatch
+                     In sites
+                     Where site.pvalue < pvalue_cut).ToArray
+        End If
+        If minW IsNot Nothing Then
+            Dim width As Integer = CInt(minW)
+
+            sites = (From site As MotifMatch
+                     In sites
+                     Where (site.ends - site.start) >= minW).ToArray
+        End If
+
+        Return sites
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
