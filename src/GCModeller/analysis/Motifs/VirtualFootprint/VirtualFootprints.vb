@@ -51,24 +51,27 @@ Namespace DocumentFormat
 
     Public Class VirtualFootprints : Implements ILocationComponent
         Implements ITagSite
+        Implements INucleotideLocation
 
         ''' <summary>
         ''' 注释源信息
         ''' </summary>
         ''' <returns></returns>
-        Public Property MotifId As String
-        Public Property Starts As Integer Implements ILocationComponent.Left
-        Public Property Ends As Integer Implements ILocationComponent.Right
-        <Column("ORF ID")> Public Overridable Property ORF As String Implements ITagSite.tag
-        ' <Column("RNA-Gene?")> Public Property RNAGene As String
+        Public Property motif_id As String
+
+        Public Property starts As Integer Implements ILocationComponent.left
+        Public Property ends As Integer Implements ILocationComponent.right
+
+        <Column("ORF ID")>
+        Public Overridable Property ORF As String Implements ITagSite.tag
 
         ''' <summary>
-        ''' <see cref="MotifId"></see>与<see cref="ORF"></see>的ATG之间的距离
+        ''' <see cref="motif_id"></see>与<see cref="ORF"></see>的ATG之间的距离
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Column("ATG-Distance")> Public Property Distance As Integer Implements ITagSite.Distance
+        <Column("TSS-distance")> Public Property distance As Integer Implements ITagSite.Distance
 
         '''' <summary>
         '''' 字符串形式的相对位置描述：请参阅<seealso cref="PredictedRegulationFootprint.MotifLocation"></seealso>
@@ -123,14 +126,19 @@ Namespace DocumentFormat
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property Length As Integer
+        Public ReadOnly Property length As Integer
             Get
                 Return Math.Abs(Ends - Starts)
             End Get
         End Property
-        Public Property Strand As String
-        <Column("ORF.Direct")> Public Property ORFDirection As String
-        Public Property Sequence As String
+
+        Public Property strand As Strands Implements INucleotideLocation.Strand
+
+        ''' <summary>
+        ''' the matched TFBS site sequence 
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property sequence As String
 
         ''' <summary>
         ''' Motif序列的正则表达式表述模型
@@ -138,7 +146,7 @@ Namespace DocumentFormat
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Signature As String
+        Public Property signature As String
 
         Public Overrides Function ToString() As String
             Return $"{ORF}   Left={Starts};  ATG.Distance={Distance};   // {Sequence()}"

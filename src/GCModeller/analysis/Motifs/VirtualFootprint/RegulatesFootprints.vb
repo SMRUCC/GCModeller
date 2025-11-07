@@ -106,7 +106,7 @@ Namespace DocumentFormat
             End Set
         End Property
 
-        Public Property MotifFamily As String
+        Public Property motif_family As String
 
         ''' <summary>
         ''' 这个基因对象所被预测的调控因子
@@ -114,37 +114,42 @@ Namespace DocumentFormat
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Regulator As String Implements IInteraction.source
+        Public Property regulator As String Implements IInteraction.source
+
         ''' <summary>
         ''' 所预测的调控因子对目标基因的调控作用的权重的大小，这里的元素的顺序是和<see cref="Regulator"></see>之中的顺序是一一对应的
         ''' </summary>
         ''' <value></value>
-        ''' <returns></returns>
+        ''' <returns>the correlation value which is evaluated from the expression value of target gene and target regulator</returns>
         ''' <remarks></remarks>
-        Public Property Pcc As Double Implements INetworkEdge.value
-        Public Property sPcc As Double
-        Public Property WGCNA As Double
+        Public Property cor As Double Implements INetworkEdge.value
 
         ''' <summary>
-        ''' A
+        ''' the WGCNA module type of this regulated ORF gene
         ''' </summary>
         ''' <returns></returns>
-        Public Property Type As String
+        Public Property WGCNA As String
 
+        ''' <summary>
+        ''' annotation type
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property type As String
+
+        ''' <summary>
+        ''' A 目标基因对象的KEGG的代谢途径分类
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        Public Property [class] As String
         ''' <summary>
         ''' B 目标基因对象的KEGG的代谢途径分类
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property [Class] As String
-        ''' <summary>
-        ''' C. 目标基因对象的KEGG的代谢途径分类
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property Category As String
+        Public Property subclass As String
 
         Protected Overridable Property InteractionType As String Implements INetworkEdge.Interaction
             Get
@@ -159,12 +164,16 @@ Namespace DocumentFormat
         ''' Trace.Regulator.(调控因子的匹配来源)
         ''' </summary>
         ''' <returns></returns>
-        <Column("Trace.Regulator")> Public Overridable Property RegulatorTrace As String
+        <Column("regulator_matched")>
+        Public Overridable Property RegulatorTrace As String
+
         ''' <summary>
         ''' Trace.Site.(Motif的匹配来源)
         ''' </summary>
         ''' <returns></returns>
-        <Column("Trace.Site")> Public Overridable Property MotifTrace As String
+        <Column("site_matched")>
+        Public Overridable Property MotifTrace As String
+
         ''' <summary>
         ''' 自定义的一个标签数据
         ''' </summary>
@@ -172,7 +181,7 @@ Namespace DocumentFormat
         Public Property tag As String
 
         Public Overrides Function ToString() As String
-            Return String.Format("({0},{1})  {2}:  {3}", Starts, Ends, MotifFamily, Sequence)
+            Return String.Format("({0},{1})  {2}:  {3}", starts, ends, motif_family, sequence)
         End Function
 
         Public Overrides Function Equals(obj As Object) As Boolean
@@ -197,7 +206,7 @@ Namespace DocumentFormat
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Shared Function TraceUid(x As RegulatesFootprints) As String
-            Return $"{x.ORF}-{x.Regulator}-{x.MotifFamily}-{ __posUidNonStrict(x.Starts, x.Ends)}"
+            Return $"{x.ORF}-{x.regulator}-{x.motif_family}-{ __posUidNonStrict(x.starts, x.ends)}"
         End Function
 
         ''' <summary>
@@ -206,7 +215,7 @@ Namespace DocumentFormat
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Shared Function TraceUidStrict(x As RegulatesFootprints) As String
-            Return $"{x.ORF}-{x.Regulator}-{x.MotifFamily}-{__posUid(x.Starts, x.Ends)}"
+            Return $"{x.ORF}-{x.regulator}-{x.motif_family}-{__posUid(x.starts, x.ends)}"
         End Function
 
         Private Shared Function __posUid(x As Integer, y As Integer) As String

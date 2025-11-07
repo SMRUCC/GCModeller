@@ -58,7 +58,7 @@ Namespace DocumentFormat
             Dim B = __firstCount(mods, api.GetXClass)
             Dim C = __firstCount(mods, api.GetXCategory)
 
-            x.Category = C
+            x.subclass = C
             x.Class = B
             x.Type = A
 
