@@ -17,3 +17,4 @@ Tools for sequence patterns
 + [find_motifs](bioseq.patterns/find_motifs.1) find possible motifs of the given sequence collection
 + [plot.seqLogo](bioseq.patterns/plot.seqLogo.1) Drawing the sequence logo just simply modelling this motif site 
 + [scaffold.orthogonality](bioseq.patterns/scaffold.orthogonality.1) analyses orthogonality of two DNA-Origami scaffold strands.
++ [split_match_source](bioseq.patterns/split_match_source.1) split the motif matches result in parts by its gene source

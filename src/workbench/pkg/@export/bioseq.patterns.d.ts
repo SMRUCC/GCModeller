@@ -99,12 +99,14 @@ declare namespace bioseq.patterns {
         * + default value Is ``8``.
         * @param identities 
         * + default value Is ``0.85``.
+        * @param pvalue 
+        * + default value Is ``0.05``.
         * @param parallel 
         * + default value Is ``false``.
         * @param env 
         * + default value Is ``null``.
       */
-      function find_sites(motif: object, target: any, cutoff?: number, minW?: number, identities?: number, parallel?: boolean, env?: object): object;
+      function find_sites(motif: object, target: any, cutoff?: number, minW?: number, identities?: number, pvalue?: number, parallel?: boolean, env?: object): object;
    }
    /**
     * 
@@ -156,7 +158,7 @@ declare namespace bioseq.patterns {
       /**
        * read sequence motif json file.
        * 
-       * > apply for search by @``M:seqtoolkit.patterns.matchSites(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.SequenceMotif,System.Object,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
+       * > apply for search by @``M:seqtoolkit.patterns.matchSites(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.SequenceMotif,System.Object,System.Double,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
        * 
         * @param file -
       */
@@ -196,6 +198,17 @@ declare namespace bioseq.patterns {
      * @param base -
    */
    function seeds(size: object, base: string): string;
+   /**
+    * split the motif matches result in parts by its gene source
+    * 
+    * 
+     * @param matches -
+     * @param gff -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function split_match_source(matches: any, gff: object, env?: object): any;
    module view {
       /**
        * 
