@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -76,6 +77,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.GCModeller.Workbench.SeqFeature
 Imports SMRUCC.genomics.Model.MotifGraph
 Imports SMRUCC.genomics.SequenceModel
@@ -85,6 +87,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
@@ -93,6 +96,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' Tools for sequence patterns
 ''' </summary>
 <Package("bioseq.patterns", Category:=APICategories.ResearchTools)>
+<RTypeExport("motif_match", GetType(MotifMatch))>
 Module patterns
 
     Friend Sub Main()
@@ -590,5 +594,38 @@ Module patterns
         Next
 
         Return outputs.ToArray
+    End Function
+
+    ''' <summary>
+    ''' split the motif matches result in parts by its gene source
+    ''' </summary>
+    ''' <param name="matches"></param>
+    ''' <param name="gff"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("split_match_source")>
+    Public Function SplitMatchesSource(<RRawVectorArgument> matches As Object, gff As GFFTable, Optional env As Environment = Nothing) As Object
+        Dim matchList = pipeline.TryCreatePipeline(Of MotifMatch)(matches, env)
+
+        If matchList.isError Then
+            Dim filepath As String = CLRVector.asScalarCharacter(matches)
+
+            If Not filepath.FileExists Then
+                Return matchList.getError
+            End If
+
+            matchList = filepath _
+                .OpenHandle() _
+                .AsLinq(Of MotifMatch) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        End If
+
+        Dim sourceList As New Dictionary(Of String, List(Of MotifMatch))
+
+        For Each match As MotifMatch In matchList.populates(Of MotifMatch)(env)
+
+        Next
+
+        Return New list(sourceList.ToDictionary(Function(a) a.Key, Function(a) a.Value.ToArray))
     End Function
 End Module
