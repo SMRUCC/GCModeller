@@ -54,15 +54,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace DocumentFormat
 
-    ''' <summary>
-    ''' 简单描述调控位点和调控因子之间的关系以及该位点在基因组上面的位置
-    ''' </summary>
-    Public Class RegulatesFootprints : Inherits VirtualFootprints
-        Implements IInteraction
-        Implements ILocationComponent
-        Implements INetworkEdge
-
-#Region "Public Properties & Fields"
+    Public Class BacterialRegulation : Inherits RegulatesFootprints
 
         ''' <summary>
         ''' 目标基因所在的操纵子对象的Door数据库之中的编号
@@ -81,6 +73,29 @@ Namespace DocumentFormat
         ''' </summary>
         ''' <returns></returns>
         <Collection("Operon")> Public Property StructGenes As String()
+
+        Protected Overrides Property InteractionType As String
+            Get
+                If InitX.ParseBoolean Then
+                    Return $"[Operon] TF Regulation"
+                Else
+                    Return "TF Regulation"
+                End If
+            End Get
+            Set(value As String)
+                MyBase.InteractionType = value
+            End Set
+        End Property
+
+    End Class
+
+    ''' <summary>
+    ''' 简单描述调控位点和调控因子之间的关系以及该位点在基因组上面的位置
+    ''' </summary>
+    Public Class RegulatesFootprints : Inherits VirtualFootprints
+        Implements IInteraction
+        Implements ILocationComponent
+        Implements INetworkEdge
 
         <Column("ORF ID")> Public Overrides Property ORF As String Implements IInteraction.target
             Get
@@ -131,13 +146,9 @@ Namespace DocumentFormat
         ''' <remarks></remarks>
         Public Property Category As String
 
-        Private Property InteractionType As String Implements INetworkEdge.Interaction
+        Protected Overridable Property InteractionType As String Implements INetworkEdge.Interaction
             Get
-                If InitX.ParseBoolean Then
-                    Return $"[Operon] TF Regulation"
-                Else
-                    Return "TF Regulation"
-                End If
+                Return "TF Regulation"
             End Get
             Set(value As String)
                 ' NULL
@@ -159,7 +170,6 @@ Namespace DocumentFormat
         ''' </summary>
         ''' <returns></returns>
         Public Property tag As String
-#End Region
 
         Public Overrides Function ToString() As String
             Return String.Format("({0},{1})  {2}:  {3}", Starts, Ends, MotifFamily, Sequence)
