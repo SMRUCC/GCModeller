@@ -132,36 +132,30 @@ Public Module KEGGPathwayMap
         color = color Or blue
         translateKO = translateKO Or noTranslate
 
-        Using progress As New ProgressBar("KEGG pathway map visualization....", 1, CLS:=True)
-            Dim tick As New ProgressProvider(progress, all.Length)
-            Dim ETA$
+        Call "KEGG pathway map visualization....".info
 
-            For Each term As IKEGGTerm In all
-                Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
-                Dim path$ = export & "/" & pngName & $"-pvalue={term.Pvalue}.png"
-                Dim query = URLEncoder.URLParser(term.Link)
-                Dim url As String = New NamedCollection(Of NamedValue(Of String)) With {
-                    .name = query.name.Match("\d+"),
-                    .value = query.value _
-                         .Select(Function(gene)
-                                     Return New NamedValue(Of String) With {
-                                          .Name = translateKO(gene.Name),
-                                          .Value = color(gene.Name)
-                                     }
-                                 End Function) _
-                         .ToArray
-                }.KEGGURLEncode()
+        For Each term As IKEGGTerm In Tqdm.Wrap(all)
+            Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
+            Dim path$ = export & "/" & pngName & $"-pvalue={term.Pvalue}.png"
+            Dim query = URLEncoder.URLParser(term.Link)
+            Dim url As String = New NamedCollection(Of NamedValue(Of String)) With {
+                .name = query.name.Match("\d+"),
+                .value = query.value _
+                        .Select(Function(gene)
+                                    Return New NamedValue(Of String) With {
+                                        .Name = translateKO(gene.Name),
+                                        .Value = color(gene.Name)
+                                    }
+                                End Function) _
+                        .ToArray
+            }.KEGGURLEncode()
 
-                If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
-                    Call render.Rendering(url).SaveAs(path)
-                Else
-                    failures += term.ID
-                End If
-
-                ETA = $"{term.ID}  ETA={tick.ETA().FormatTime}"
-                progress.SetProgress(tick.StepProgress, details:=ETA)
-            Next
-        End Using
+            If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
+                Call render.Rendering(url).SaveAs(path)
+            Else
+                failures += term.ID
+            End If
+        Next
 
         Return failures
     End Function
@@ -173,7 +167,8 @@ Public Module KEGGPathwayMap
     ''' <param name="EXPORT">代谢途径的绘图结果的保存文件夹</param>
     ''' <param name="pvalue">-1表示不筛选</param>
     ''' <returns></returns>
-    <Extension> Public Function KOBAS_visualize(kobas As IEnumerable(Of IKEGGTerm), EXPORT$, Optional pvalue# = 0.05) As String()
+    <Extension>
+    Public Function KOBAS_visualize(kobas As IEnumerable(Of IKEGGTerm), EXPORT$, Optional pvalue# = 0.05) As String()
         Dim all As IKEGGTerm() = kobas.ToArray
         Dim failures As New List(Of String)
 
@@ -185,25 +180,19 @@ Public Module KEGGPathwayMap
                 .ToArray
         End If
 
-        Using progress As New ProgressBar("KEGG pathway map visualization....", 1, CLS:=True)
-            Dim tick As New ProgressProvider(progress, all.Length)
-            Dim ETA$
+        Call "KEGG pathway map visualization....".info
 
-            For Each term As IKEGGTerm In all
-                Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
-                Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}.png"
+        For Each term As IKEGGTerm In Tqdm.Wrap(all)
+            Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
+            Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}.png"
 
-                If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
-                    Call PathwayMapping.ShowEnrichmentPathway(term.Link, save:=path)
-                    Call Thread.Sleep(2000)
-                Else
-                    failures += term.ID
-                End If
-
-                ETA = $"{term.ID}  ETA={tick.ETA().FormatTime}"
-                progress.SetProgress(tick.StepProgress, details:=ETA)
-            Next
-        End Using
+            If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
+                Call PathwayMapping.ShowEnrichmentPathway(term.Link, save:=path)
+                Call Thread.Sleep(2000)
+            Else
+                failures += term.ID
+            End If
+        Next
 
         Return failures
     End Function

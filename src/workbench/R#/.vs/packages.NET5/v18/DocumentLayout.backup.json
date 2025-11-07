@@ -1,7 +1,15 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E1CBC537-C0AD-475B-83D3-1F09F59D58C8}|..\\..\\GCModeller\\analysis\\Microarray\\Microarray.NET5.vbproj|e:\\gcmodeller\\src\\gcmodeller\\analysis\\microarray\\enrichment\\keggpathwaymap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{39E79CAD-3B89-48AE-9CB9-5F0D41F0449B}|TRNtoolkit\\TRNtoolkit.vbproj|e:\\gcmodeller\\src\\workbench\\r#\\trntoolkit\\regprecise.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{39E79CAD-3B89-48AE-9CB9-5F0D41F0449B}|TRNtoolkit\\TRNtoolkit.vbproj|solutionrelative:trntoolkit\\regprecise.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +17,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -24,8 +36,30 @@
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "KEGGPathwayMap.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "ToolTip": "E:\\GCModeller\\src\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Microarray\\Enrichment\\KEGGPathwayMap.vb",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAYwKoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-07T02:15:50.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RegPrecise.vb",
+              "DocumentMoniker": "E:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
+              "RelativeDocumentMoniker": "TRNtoolkit\\RegPrecise.vb",
+              "ToolTip": "E:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
+              "RelativeToolTip": "TRNtoolkit\\RegPrecise.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-06T06:25:01.711Z",
+              "EditorCaption": ""
             }
           ]
         },
