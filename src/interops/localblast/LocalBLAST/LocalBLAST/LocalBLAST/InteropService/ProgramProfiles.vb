@@ -225,14 +225,14 @@ Namespace LocalBLAST.InteropService
 
         Public Class Executable_BLAST : Inherits Executable
 
-            Public Function CreateCommand(Query As String, Subject As String, EValue As String, Output As String) As CommandLine.IORedirectFile
+            Public Function CreateCommand(Query As String, Subject As String, EValue As String, Output As String) As CommandLine.IORedirect
                 Dim sBuilder As StringBuilder = New StringBuilder(512)
                 Call sBuilder.Append(String.Format("{0} ""{1}"" ", GetValue("query"), Query))
                 Call sBuilder.Append(String.Format("{0} ""{1}"" ", GetValue("subject"), Subject))
                 Call sBuilder.Append(String.Format("{0} ""{1}"" ", GetValue("evalue"), EValue))
                 Call sBuilder.Append(String.Format("{0} ""{1}""", GetValue("output"), Output))
 
-                Return New CommandLine.IORedirectFile(MyBase.AssemblyCommand, sBuilder.ToString)
+                Return New CommandLine.IORedirect(MyBase.AssemblyCommand, sBuilder.ToString, IOredirect:=False, hide:=False)
             End Function
 
             Public Overrides Function ToString() As String
@@ -242,12 +242,12 @@ Namespace LocalBLAST.InteropService
 
         Public Class Executable_BuildDB : Inherits Executable
 
-            Public Function CreateCommand(TargetDb As String, DbType As String) As CommandLine.IORedirectFile
+            Public Function CreateCommand(TargetDb As String, DbType As String) As CommandLine.IORedirect
                 Dim sBuilder As StringBuilder = New StringBuilder(512)
                 Call sBuilder.Append(String.Format("{0} ""{1}"" ", GetValue("targetdb"), TargetDb))
                 Call sBuilder.Append(String.Format("{0} ""{1}""", GetValue("dbtype"), DbType))
 
-                Return New CommandLine.IORedirectFile(MyBase.AssemblyCommand, sBuilder.ToString)
+                Return New CommandLine.IORedirect(MyBase.AssemblyCommand, sBuilder.ToString, IOredirect:=False, hide:=False)
             End Function
         End Class
     End Class
