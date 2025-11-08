@@ -1,7 +1,18 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{302E1169-3316-4BBC-BDC2-FA3201EBCEA1}|..\\modules\\Knowledge_base\\ncbi_kb\\ncbi_kb.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\medlinecitation\\article.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\dbget\\objects\\reference.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\visualkit\\chromosome_map.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{5E88C198-DB8F-4CD1-8312-2E962E52D1C7}|visualkit\\visualkit.NET5.vbproj|solutionrelative:visualkit\\chromosome_map.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +20,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Article.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
+              "RelativeDocumentMoniker": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
+              "RelativeToolTip": "..\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwJwAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-08T09:12:36.475Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Reference.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Reference.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Reference.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Reference.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Reference.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwEsAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-08T09:12:18.989Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -26,6 +63,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "chromosome_map.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\visualkit\\chromosome_map.vb",
+              "RelativeDocumentMoniker": "visualkit\\chromosome_map.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\visualkit\\chromosome_map.vb",
+              "RelativeToolTip": "visualkit\\chromosome_map.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE4AAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-08T09:12:01.334Z",
+              "EditorCaption": ""
             }
           ]
         },

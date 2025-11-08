@@ -119,86 +119,8 @@ Namespace PubMed
         'End Function
 
         <Extension>
-        Public Iterator Function ParseArticles(text As String) As IEnumerable(Of PubmedArticle)
-            For Each block As String() In text _
-                .LineTokens _
-                .Split(Function(line) Strings.Trim(line).Length = 0, includes:=False)
-
-                Yield GetArticleInfo(block)
-            Next
-        End Function
-
-        Private Function GetArticleInfo(lines As String()) As PubmedArticle
-            Dim article As New PubmedArticle With {
-                .MedlineCitation = New MedlineCitation With {.Article = New Article},
-                .PubmedData = New PubmedData
-            }
-
-            For Each meta As NamedValue(Of String) In lines.MetaLines
-                Select Case meta.Name
-                    Case "PMID" : article.MedlineCitation.PMID = New PMID With {.ID = meta.Value, .Version = "n/a"}
-                    Case "OWN"
-                    Case "STAT"
-                        article.MedlineCitation.Status = meta.Value
-                        article.PubmedData.PublicationStatus = meta.Value
-                    Case "LR"
-                    Case "IS"
-                    Case "VI"
-                    Case "IP"
-                    Case "DP"
-                    Case "TI" : article.MedlineCitation.Article.ArticleTitle = meta.Value
-                    Case "PG"
-                    Case "LID" : article.setDoi(meta.Value)
-                    Case "AB" : article.MedlineCitation.Article.Abstract = New Abstract(meta.Value)
-                    Case "CI" : article.MedlineCitation.Article.Abstract.CopyrightInformation = meta.Value
-                    Case ""
-                End Select
-            Next
-
-            Return article
-        End Function
-
-        <Extension>
-        Private Sub setDoi(article As PubmedArticle, data As String)
-            If data.IndexOf("[doi]") > -1 Then
-                If article.MedlineCitation.Article.ELocationID.IsNullOrEmpty Then
-                    article.MedlineCitation.Article.ELocationID = {}
-                End If
-
-                Dim ref As New ELocationID With {
-                    .EIdType = "DOI",
-                    .Value = data.Replace("[doi]", "").Trim
-                }
-
-                Call article _
-                    .MedlineCitation _
-                    .Article _
-                    .ELocationID _
-                    .Add(ref)
-            End If
-        End Sub
-
-        <Extension>
-        Private Iterator Function MetaLines(lines As String()) As IEnumerable(Of NamedValue(Of String))
-            Dim buf As String = Nothing
-            Dim bufName As String = Nothing
-            Dim tmp As NamedValue(Of String)
-
-            For Each line As String In lines
-                If line.IndexOf("- ") > -1 Then
-                    If Not bufName.StringEmpty Then
-                        Yield New NamedValue(Of String)(bufName, buf)
-                    End If
-
-                    tmp = line.GetTagValue("- ", trim:=True)
-                    buf = tmp.Value
-                    bufName = tmp.Name
-                Else
-                    buf = Strings.Trim(buf & " " & line.Trim)
-                End If
-            Next
-
-            Yield New NamedValue(Of String)(bufName, buf)
+        Public Function ParseArticles(text As String) As IEnumerable(Of PubmedArticle)
+            Return PlainTextParser.LoadArticles(text)
         End Function
 
         Const eSearch$ = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
