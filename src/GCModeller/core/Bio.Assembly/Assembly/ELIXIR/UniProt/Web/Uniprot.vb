@@ -99,19 +99,6 @@ Namespace Assembly.Uniprot.Web
             Dim html As String = url.GET
             Return FASTA.FastaSeq.TryParse(html)
         End Function
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="url">CreateQuery(geneId, taxonomy)</param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        ''' 
-        <ExportAPI("ListEntries")>
-        Public Function GetEntries(url As String) As Entry
-            Dim pageContent As String = url.GET
-            Return Nothing
-        End Function
     End Module
 
     Public Class RestQueryResultSet : Implements Enumeration(Of RestQueryResult)
