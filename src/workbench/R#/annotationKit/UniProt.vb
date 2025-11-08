@@ -115,7 +115,7 @@ Public Module UniProt
     ''' <param name="q"></param>
     ''' <returns></returns>
     <ExportAPI("rest_query")>
-    Public Function uniprot_query(q As String) As RestQueryResult()
-        Return WebServices.CreateQuery(q)
+    Public Function uniprot_query(q As String, Optional tax_id As UInteger? = Nothing) As RestQueryResult()
+        Return WebServices.CreateQuery(q, tax_id)
     End Function
 End Module

@@ -72,8 +72,13 @@ Namespace Assembly.Uniprot.Web
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        Public Function CreateQuery(q As String) As RestQueryResult()
+        Public Function CreateQuery(q As String, Optional tax_id As UInteger? = Nothing) As RestQueryResult()
             Dim url As String = UNIPROT_QUERY & q.UrlEncode(jswhitespace:=True)
+
+            If Not tax_id Is Nothing Then
+                url = url & $"%20AND%20(organism_id:{tax_id})"
+            End If
+
             Dim json_str As String = url.GET
             Dim results As RestQueryResult() = json_str.LoadJSON(Of RestQueryResultSet) _
                 .AsEnumerable _
