@@ -53,7 +53,10 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Assembly.Uniprot.Web
@@ -61,18 +64,23 @@ Namespace Assembly.Uniprot.Web
     <Package("Uniprot.WebServices")>
     Public Module WebServices
 
-        Const UNIPROT_QUERY As String = "http://www.uniprot.org/uniprot/?query=name%3A{0}+AND+taxonomy%3A{1}&sort=score"
+        Const UNIPROT_QUERY As String = "https://rest.uniprot.org/uniprotkb/search?query="
 
         ''' <summary>
         ''' Create a protein query url. 
         ''' </summary>
-        ''' <param name="geneId"></param>
-        ''' <param name="taxonomy"></param>
+        ''' <param name="q"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        Public Function CreateQuery(<Parameter("Gene.ID")> geneId As String, taxonomy As String) As String
-            Return String.Format(UNIPROT_QUERY, geneId, taxonomy)
+        Public Function CreateQuery(q As String) As RestQueryResult()
+            Dim url As String = UNIPROT_QUERY & q.UrlEncode(jswhitespace:=True)
+            Dim json_str As String = url.GET
+            Dim results As RestQueryResult() = json_str.LoadJSON(Of RestQueryResultSet) _
+                .AsEnumerable _
+                .ToArray
+
+            Return results
         End Function
 
         Const UNIPROT_FASTA_DOWNLOAD_URL As String = "http://www.uniprot.org/uniprot/{0}.fasta"
@@ -105,4 +113,57 @@ Namespace Assembly.Uniprot.Web
             Return Nothing
         End Function
     End Module
+
+    Public Class RestQueryResultSet : Implements Enumeration(Of RestQueryResult)
+
+        Public Property results As RestQueryResult()
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of RestQueryResult) Implements Enumeration(Of RestQueryResult).GenericEnumerator
+            If results Is Nothing Then
+                Return
+            End If
+
+            For Each result As RestQueryResult In results
+                If result IsNot Nothing Then
+                    Yield result
+                End If
+            Next
+        End Function
+    End Class
+
+    Public Class RestQueryResult
+
+        Public Property entryType As String
+        Public Property primaryAccession As String
+        Public Property secondaryAccessions As String()
+        Public Property uniProtkbId As String
+        Public Property proteinDescription As proteinDescription
+        Public Property annotationScore As Double
+        Public Property organism As organism
+        Public Property proteinExistence As String
+        Public Property sequence As sequence
+
+    End Class
+
+    Public Class proteinDescription
+        Public Property recommendedName As recommendedName
+        Public Property alternativeNames As recommendedName()
+    End Class
+
+    Public Class sequence
+
+        Public Property value As String
+        Public Property length As Integer
+        Public Property molWeight As Double
+
+    End Class
+
+    Public Class organism
+
+        Public Property scientificName As String
+        Public Property commonName As String
+        Public Property taxonId As String
+        Public Property lineage As String()
+
+    End Class
 End Namespace
