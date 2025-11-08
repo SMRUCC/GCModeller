@@ -57,7 +57,6 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 
 Namespace LocalBLAST.Programs
@@ -93,6 +92,7 @@ Namespace LocalBLAST.Programs
 
         Dim _makeBlastDbAsm As String
         Dim _blastpAssembly, _blastnAssembly As String
+        Dim _win32 As Boolean = True
 
         ''' <summary>
         ''' 
@@ -101,9 +101,18 @@ Namespace LocalBLAST.Programs
         Sub New(bin As String)
             Call MyBase.New(bin)
 
-            _makeBlastDbAsm = String.Format("{0}\makeblastdb.exe", bin)
-            _blastpAssembly = String.Format("{0}\blastp.exe", bin)
-            _blastnAssembly = String.Format("{0}\blastn.exe", bin)
+            If Environment.OSVersion.Platform = PlatformID.Win32NT Then
+                _makeBlastDbAsm = String.Format("{0}\makeblastdb.exe", bin)
+                _blastpAssembly = String.Format("{0}\blastp.exe", bin)
+                _blastnAssembly = String.Format("{0}\blastn.exe", bin)
+                _win32 = True
+            Else
+                ' linux/macos
+                _makeBlastDbAsm = String.Format("{0}/makeblastdb", bin)
+                _blastpAssembly = String.Format("{0}/blastp", bin)
+                _blastnAssembly = String.Format("{0}/blastn", bin)
+                _win32 = False
+            End If
         End Sub
 
         Const MAKE_BLAST_DB_PROT As String = "-dbtype prot -in ""{0}"""
@@ -129,7 +138,7 @@ Namespace LocalBLAST.Programs
             Call Output.ParentPath.MakeDir
             Call VBDebugger.EchoLine("LOCALBLAST+::BLASTP" & vbCrLf & $" --> {cmdl}")
             MyBase._InternalLastBLASTOutputFile = Output
-            Return New IORedirectFile(_blastpAssembly, argv, win_os:=True)
+            Return New IORedirectFile(_blastpAssembly, argv, win_os:=_win32)
         End Function
 
         Public Overrides Function GetLastLogFile() As BLASTOutput.IBlastOutput
@@ -157,7 +166,7 @@ Namespace LocalBLAST.Programs
             Call Output.ParentPath.MakeDir
             Call VBDebugger.EchoLine("LOCALBLAST+::BLASTN" & vbCrLf & $" --> {cmdl}")
             MyBase._InternalLastBLASTOutputFile = Output
-            Return New IORedirectFile(_blastnAssembly, argv:=Argums)
+            Return New IORedirectFile(_blastnAssembly, argv:=Argums, win_os:=_win32)
         End Function
 
         Public Overloads Overrides Function FormatDb(Db As String, dbType As String) As IORedirectFile
@@ -170,7 +179,7 @@ Namespace LocalBLAST.Programs
 
             Dim cmdl As String = String.Format("{0} {1}", _makeBlastDbAsm, Argums)
             VBDebugger.EchoLine("LOCALBLAST+::MAKE_BLAST_DB" & vbCrLf & $" --> {cmdl}")
-            Return New IORedirectFile(_makeBlastDbAsm, argv:=Argums, win_os:=True)
+            Return New IORedirectFile(_makeBlastDbAsm, argv:=Argums, win_os:=_win32)
         End Function
 
         ''' <summary>
