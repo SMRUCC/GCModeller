@@ -118,9 +118,11 @@ Public Module UniProt
                 Return pull.getError
             End If
 
-            Return New FastaFile(From prot As RestQueryResult
-                                 In pull.populates(Of RestQueryResult)(env)
-                                 Select prot.GetFasta)
+            Dim load = pull.populates(Of RestQueryResult)(env).ToArray
+            Dim fasta As New FastaFile(From prot As RestQueryResult In load Select prot.GetFasta)
+            Dim uniprot_id As String() = (From prot As RestQueryResult In load Select prot.primaryAccession Distinct).ToArray
+            Dim wrap As New vbObject(fasta)
+
         End If
     End Function
 
