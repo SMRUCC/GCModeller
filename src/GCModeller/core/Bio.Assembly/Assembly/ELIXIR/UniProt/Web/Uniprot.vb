@@ -61,6 +61,11 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.Uniprot.Web
 
+    ''' <summary>
+    ''' https://www.uniprot.org/help/api_queries
+    ''' https://www.uniprot.org/help/text-search
+    ''' https://www.uniprot.org/help/query-fields
+    ''' </summary>
     <Package("Uniprot.WebServices")>
     Public Module WebServices
 
