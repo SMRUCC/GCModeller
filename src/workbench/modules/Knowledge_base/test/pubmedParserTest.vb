@@ -16,7 +16,8 @@ Module pubmedParserTest
 "M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-barleyspik-set.txt",
 "M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-Hordeumspi-set.txt",
 "M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-Oryzaspike-set.txt",
-"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-ricespiked-set.txt"}.Select(Function(file) PlainTextParser.LoadArticles(file)).IteratesALL.GroupBy(Function(a) a.PMID).Select(Function(a) a.First).ToArray
+"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-ricespiked-set.txt",
+"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-spikeletde-set.txt"}.Select(Function(file) PlainTextParser.LoadArticles(file)).IteratesALL.GroupBy(Function(a) a.PMID).Select(Function(a) a.First).ToArray
 
         Dim table As New DataFrame With {
             .features = New Dictionary(Of String, FeatureVector),
@@ -38,7 +39,7 @@ Module pubmedParserTest
         Call "LLM AI is thinking...".info
 
         For Each article As PubmedArticle In TqdmWrapper.Wrap(articles)
-            If genes.TryGetValue(article.PMID).IsNullOrEmpty Then
+            If Not genes.ContainsKey(article.PMID) Then
                 Dim pmid = article.PMID
                 Dim abstract = article.GetAbstractText
                 Dim keywords = article.GetOtherTerms.ToArray
