@@ -1,17 +1,19 @@
 .\" man page create by R# package system.
 .TH UNIPROT 1 2000-Jan "extract_fasta" "extract_fasta"
 .SH NAME
-extract_fasta \- extract fasta data from a HDS stream database
+extract_fasta \- extract fasta data from a data source
 .SH SYNOPSIS
-\fIextract_fasta(\fBpack\fR as <generic> ECNumberReader, 
-\fBenzyme\fR as boolean = TRUE);\fR
+\fIextract_fasta(\fBpack\fR as any, 
+\fBenzyme\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
-extract fasta data from a HDS stream database
+extract fasta data from a data source
 .PP
 .SH OPTIONS
 .PP
-\fBpack\fB \fR\- -. 
+\fBpack\fB \fR\- the data pack of @\fBT:SMRUCC.genomics.Data.ECNumberReader\fR HDS stream database object or 
+ the uniprot result api query @\fBT:SMRUCC.genomics.Assembly.Uniprot.Web.RestQueryResult\fR. 
 .PP
 .PP
 \fBenzyme\fB \fR\- -. 

@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\elixir\\uniprot\\web\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\elixir\\uniprot\\web\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\elixir\\uniprot\\web\\retrieve_idmapping.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -33,7 +33,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -53,7 +53,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Uniprot.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\Web\\Uniprot.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\Web\\Uniprot.vb",
@@ -118,13 +118,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "UniProt.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\UniProt.vb",
               "RelativeDocumentMoniker": "annotationKit\\UniProt.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\UniProt.vb",
               "RelativeToolTip": "annotationKit\\UniProt.vb",
-              "ViewState": "AgIAAEkAAAAAAAAAAAAYwG8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAYwHsAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-08T18:28:18.027Z",
               "EditorCaption": ""

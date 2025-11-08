@@ -86,6 +86,11 @@ declare namespace GCModeller {
    */
    function CompoundNetwork(compoundsId: any, make.pathway_cluster?: any): object;
    /**
+     * @param tax_id default value Is ``null``.
+     * @param as_fasta default value Is ``true``.
+   */
+   function download_proteins(q: any, tax_id?: any, as_fasta?: any): object;
+   /**
      * @param ec_number default value Is ``*``.
    */
    function ecnumber_to_ko(ec_number?: any): object;
