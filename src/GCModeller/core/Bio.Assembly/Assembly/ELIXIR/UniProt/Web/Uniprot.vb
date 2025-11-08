@@ -77,7 +77,7 @@ Namespace Assembly.Uniprot.Web
             Dim url As String = UNIPROT_QUERY & q.UrlEncode(jswhitespace:=True)
 
             If Not tax_id Is Nothing Then
-                url = url & $"%20AND%20(organism_id:{tax_id})"
+                url = url & $"%20AND%20(taxonomy_id:{tax_id})"
             End If
 
             Dim json_str As String = url.GET
