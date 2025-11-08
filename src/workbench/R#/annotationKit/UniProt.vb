@@ -122,7 +122,8 @@ Public Module UniProt
             Dim fasta As New FastaFile(From prot As RestQueryResult In load Select prot.GetFasta)
             Dim uniprot_id As String() = (From prot As RestQueryResult In load Select prot.primaryAccession Distinct).ToArray
             Dim wrap As New vbObject(fasta)
-
+            Call wrap.setAttribute("uniprot_id", uniprot_id)
+            Return wrap
         End If
     End Function
 
