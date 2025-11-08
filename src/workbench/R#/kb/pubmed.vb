@@ -185,7 +185,9 @@ Module pubmed_tools
 
     <RGenericOverloads("as.data.frame")>
     Public Function createArticleTable(list As PubmedArticle(), args As list, env As Environment) As dataframe
-        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array)
+        }
         Dim articles = list.Select(Function(a) a.MedlineCitation).ToArray
         Call df.add("pubmed", articles.Select(Function(a) a.PMID?.ID))
         Call df.add("doi", articles.Select(Function(a) a.Article.ELocationID.SafeQuery.Where(Function(d) d.EIdType = "DOI").FirstOrDefault?.Value))
