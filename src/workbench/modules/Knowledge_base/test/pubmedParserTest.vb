@@ -26,7 +26,7 @@ Module pubmedParserTest
             "genome-wide", "genome", "transgenosis", "anther", "starch", "heredity", "mutant", "evolution", "spikelet", "expression", "rna-seq", "differentiation", "tissue"}
 
         Dim genes As Dictionary(Of String, String())
-        Dim ollama As New Ollama.Ollama("qwen3:30b")
+        Dim ollama As New Ollama.Ollama("qwen3:30b", preserveMemory:=False)
 
         genes = "./tmp.json".LoadJsonFile(Of Dictionary(Of String, String()))
 
