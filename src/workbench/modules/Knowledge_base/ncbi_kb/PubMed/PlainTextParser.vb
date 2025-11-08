@@ -12,7 +12,7 @@ Public Module PlainTextParser
     Public Iterator Function LoadArticles(file As String) As IEnumerable(Of PubmedArticle)
         Dim blocks As String()() = file _
             .IterateAllLines _
-            .Split(Function(line) line.StringEmpty) _
+            .Split(Function(line) line.StringEmpty, includes:=False) _
             .Where(Function(b)
                        Return Not (b.IsNullOrEmpty OrElse
                            b.All(Function(si) si.StringEmpty(, True)))
