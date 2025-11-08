@@ -162,6 +162,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\LLMs\src\Ollama\Ollama.vbproj">
+      <Project>{a3db5f16-9fd1-7c58-7361-128d6d665428}</Project>
+      <Name>Ollama</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj">
       <Project>{913e7e7b-7b31-4d9b-b9e2-edf72c088f3d}</Project>
       <Name>biocore-netcore5</Name>
