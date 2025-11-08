@@ -129,7 +129,7 @@ Public Module PlainTextParser
             If Not line.StartsWith("    ") Then
                 ' start with new term
                 If temp.Any Then
-                    Yield New NamedValue(Of String)(term, temp.JoinBy(" "))
+                    Yield New NamedValue(Of String)(Strings.Trim(term), temp.JoinBy(" "))
                     Call temp.Clear()
                 End If
 
@@ -141,7 +141,7 @@ Public Module PlainTextParser
         Next
 
         If temp.Any Then
-            Yield New NamedValue(Of String)(term, temp.JoinBy(" "))
+            Yield New NamedValue(Of String)(Strings.Trim(term), temp.JoinBy(" "))
         End If
     End Function
 End Module
