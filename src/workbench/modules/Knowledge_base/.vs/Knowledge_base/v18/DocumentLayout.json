@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{97BEE61A-60EA-4AAE-BACF-04E3655598F6}|ncbi_kb\\ncbi_kb.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\medlinecitation\\article.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{97BEE61A-60EA-4AAE-BACF-04E3655598F6}|ncbi_kb\\ncbi_kb.vbproj|solutionrelative:ncbi_kb\\pubmed\\medlinecitation\\article.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{97BEE61A-60EA-4AAE-BACF-04E3655598F6}|ncbi_kb\\ncbi_kb.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\plaintextparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{97BEE61A-60EA-4AAE-BACF-04E3655598F6}|ncbi_kb\\ncbi_kb.vbproj|solutionrelative:ncbi_kb\\pubmed\\plaintextparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{97BEE61A-60EA-4AAE-BACF-04E3655598F6}|ncbi_kb\\ncbi_kb.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\pubmedarticle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{97BEE61A-60EA-4AAE-BACF-04E3655598F6}|ncbi_kb\\ncbi_kb.vbproj|solutionrelative:ncbi_kb\\pubmed\\pubmedarticle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,13 +42,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "PlainTextParser.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PlainTextParser.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\PlainTextParser.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PlainTextParser.vb",
               "RelativeToolTip": "ncbi_kb\\PubMed\\PlainTextParser.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwCEAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-08T09:13:17.93Z",
               "EditorCaption": ""
@@ -54,6 +62,53 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "e7ee8cec-9f39-4ef4-b405-6852be83db2f",
+        "Display": 1,
+        "X": 240,
+        "Y": 92,
+        "Width": 2078,
+        "Height": 1326,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Article.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
+              "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
+              "RelativeToolTip": "ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
+              "ViewState": "AgIAANwAAAAAAAAAAAAmwPIAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-08T09:29:24.616Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PubmedArticle.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
+              "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\PubmedArticle.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
+              "RelativeToolTip": "ncbi_kb\\PubMed\\PubmedArticle.vb",
+              "ViewState": "AgIAACQBAAAAAAAAAAAowDgBAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-08T09:26:43.835Z",
+              "EditorCaption": ""
             }
           ]
         }

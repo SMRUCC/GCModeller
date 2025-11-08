@@ -139,6 +139,13 @@ Namespace PubMed
         <XmlText>
         Public Property ID As String
 
+        Sub New()
+        End Sub
+
+        Sub New(pmid As String)
+            ID = pmid
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"PMID:{ID}.{Version}"
         End Function
@@ -246,6 +253,10 @@ Namespace PubMed
             AbstractText = {New AbstractText With {.Text = text}}
         End Sub
 
+        Sub New(lines As IEnumerable(Of String))
+            Call Me.New(lines.JoinBy(vbCrLf))
+        End Sub
+
         Public Overrides Function ToString() As String
             Return AbstractText _
                 .SafeQuery _
@@ -281,6 +292,10 @@ Namespace PubMed
         Public Property JournalIssue As JournalIssue
         Public Property Title As String
         Public Property ISOAbbreviation As String
+
+        Sub New(title As String)
+            _Title = title
+        End Sub
 
         Public Overrides Function ToString() As String
             Return Title
