@@ -52,6 +52,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -134,8 +135,17 @@ Namespace Assembly.Uniprot.Web
         Public Property proteinExistence As String
         Public Property sequence As sequence
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetFasta() As FastaSeq
+            Return New FastaSeq(New String() {primaryAccession, uniProtkbId, organism.scientificName, ToString()}, sequence.value)
+        End Function
 
+        Public Overrides Function ToString() As String
+            If proteinDescription IsNot Nothing AndAlso proteinDescription.recommendedName IsNot Nothing Then
+                Return proteinDescription.recommendedName.fullName.value
+            Else
+                Return ""
+            End If
         End Function
 
     End Class
