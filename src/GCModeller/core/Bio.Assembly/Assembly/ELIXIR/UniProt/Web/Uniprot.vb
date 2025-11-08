@@ -56,7 +56,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.Uniprot.Web
 
@@ -98,10 +98,10 @@ Namespace Assembly.Uniprot.Web
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        Public Function DownloadProtein(UniprotId As String) As FASTA.FastaSeq
+        Public Function DownloadProtein(UniprotId As String) As FastaSeq
             Dim url As String = String.Format(UNIPROT_FASTA_DOWNLOAD_URL, UniprotId)
             Dim html As String = url.GET
-            Return FASTA.FastaSeq.TryParse(html)
+            Return FastaSeq.TryParse(html)
         End Function
     End Module
 
@@ -133,6 +133,10 @@ Namespace Assembly.Uniprot.Web
         Public Property organism As organism
         Public Property proteinExistence As String
         Public Property sequence As sequence
+
+        Public Function GetFasta() As FastaSeq
+
+        End Function
 
     End Class
 

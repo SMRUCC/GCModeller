@@ -59,6 +59,7 @@ Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports protein = SMRUCC.genomics.Assembly.Uniprot.XML.entry
 
@@ -99,14 +100,28 @@ Public Module UniProt
     End Function
 
     ''' <summary>
-    ''' extract fasta data from a HDS stream database
+    ''' extract fasta data from a data source
     ''' </summary>
-    ''' <param name="pack"></param>
+    ''' <param name="pack">the data pack of <see cref="ECNumberReader"/> HDS stream database object or 
+    ''' the uniprot result api query <see cref="RestQueryResult"/></param>
     ''' <param name="enzyme"></param>
     ''' <returns></returns>
     <ExportAPI("extract_fasta")>
-    Public Function ExtractFasta(pack As ECNumberReader, Optional enzyme As Boolean = True) As FastaFile
-        Return New FastaFile(pack.QueryFasta(enzymeQuery:=enzyme))
+    <RApiReturn(GetType(FastaFile))>
+    Public Function ExtractFasta(<RRawVectorArgument> pack As Object, Optional enzyme As Boolean = True, Optional env As Environment = Nothing) As Object
+        If TypeOf pack Is ECNumberReader Then
+            Return New FastaFile(DirectCast(pack, ECNumberReader).QueryFasta(enzymeQuery:=enzyme))
+        Else
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of RestQueryResult)(pack, env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            Return New FastaFile(From prot As RestQueryResult
+                                 In pull.populates(Of RestQueryResult)(env)
+                                 Select prot.GetFasta)
+        End If
     End Function
 
     ''' <summary>
