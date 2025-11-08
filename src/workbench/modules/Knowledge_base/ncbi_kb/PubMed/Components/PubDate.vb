@@ -86,14 +86,21 @@ Namespace PubMed
                 Dim result As DateTime
 
                 With [date].Split
-                    If .Length = 2 Then
-                        result = DateTime.ParseExact([date], format2, provider)
-                    Else
-                        result = DateTime.ParseExact([date], format, provider)
-                    End If
+                    ' 20251108 ensure that the year has the correct value
+                    Year = CInt(Val(.First))
+
+                    Try
+                        If .Length = 2 Then
+                            result = DateTime.ParseExact([date], format2, provider)
+                        Else
+                            result = DateTime.ParseExact([date], format, provider)
+                        End If
+
+                        Year = result.Year
+                    Catch ex As Exception
+                    End Try
                 End With
 
-                Year = result.Year
                 Month = result.Month
                 Day = result.Day
             End If
