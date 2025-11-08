@@ -174,6 +174,13 @@ Namespace PubMed
                     End If
                 End If
             End If
+            If PubmedData IsNot Nothing Then
+                Dim doi = PubmedData.ArticleIdList.Where(Function(a) a.IdType.TextEquals("doi")).FirstOrDefault
+
+                If Not doi Is Nothing Then
+                    Return doi.ID
+                End If
+            End If
 
             Return "-"
         End Function
@@ -234,6 +241,16 @@ Namespace PubMed
                         If term.NameOfSubstance IsNot Nothing Then
                             Yield New NamedValue(Of String)(term.NameOfSubstance.UI, term.NameOfSubstance.Value)
                         End If
+                    Next
+                End If
+            End If
+        End Function
+
+        Public Iterator Function GetOtherTerms() As IEnumerable(Of String)
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.KeywordList IsNot Nothing Then
+                    For Each term As Keyword In MedlineCitation.KeywordList.AsEnumerable
+                        Yield term.Keyword
                     Next
                 End If
             End If
