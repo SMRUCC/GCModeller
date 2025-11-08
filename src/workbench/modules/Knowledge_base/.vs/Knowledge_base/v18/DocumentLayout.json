@@ -50,8 +50,7 @@
               "RelativeToolTip": "ncbi_kb\\PubMed\\Components\\PubDate.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEEAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-08T09:49:26.513Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-08T09:49:26.513Z"
             },
             {
               "$type": "Document",
@@ -61,7 +60,7 @@
               "RelativeDocumentMoniker": "test\\pubmedParserTest.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\pubmedParserTest.vb",
               "RelativeToolTip": "test\\pubmedParserTest.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAB5AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-08T09:21:49.172Z",
               "EditorCaption": ""
@@ -76,8 +75,7 @@
               "RelativeToolTip": "ncbi_kb\\PubMed\\PlainTextParser.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-08T09:13:17.93Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-08T09:13:17.93Z"
             }
           ]
         },

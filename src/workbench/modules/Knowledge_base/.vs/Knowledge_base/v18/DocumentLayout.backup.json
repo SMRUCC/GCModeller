@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\pubmedparsertest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\pubmedparsertest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{97BEE61A-60EA-4AAE-BACF-04E3655598F6}|ncbi_kb\\ncbi_kb.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\components\\pubdate.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{97BEE61A-60EA-4AAE-BACF-04E3655598F6}|ncbi_kb\\ncbi_kb.vbproj|solutionrelative:ncbi_kb\\pubmed\\components\\pubdate.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -18,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,7 +42,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "PubDate.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\Components\\PubDate.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\Components\\PubDate.vb",
@@ -46,12 +50,24 @@
               "RelativeToolTip": "ncbi_kb\\PubMed\\Components\\PubDate.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEEAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-08T09:49:26.513Z",
+              "WhenOpened": "2025-11-08T09:49:26.513Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "pubmedParserTest.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\pubmedParserTest.vb",
+              "RelativeDocumentMoniker": "test\\pubmedParserTest.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\pubmedParserTest.vb",
+              "RelativeToolTip": "test\\pubmedParserTest.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-08T09:21:49.172Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "PlainTextParser.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PlainTextParser.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\PlainTextParser.vb",
@@ -59,8 +75,7 @@
               "RelativeToolTip": "ncbi_kb\\PubMed\\PlainTextParser.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-08T09:13:17.93Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-08T09:13:17.93Z"
             }
           ]
         },
