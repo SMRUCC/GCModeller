@@ -178,6 +178,14 @@
       <Project>{d1203462-f42e-417b-939d-c4eb239ac6de}</Project>
       <Name>Trinity.NET5</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\BinaryTree\btree-netcore5.vbproj">
+      <Project>{85d24b65-32e1-43dd-88ef-af5b27d4a9b7}</Project>
+      <Name>btree-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj">
+      <Project>{5995facf-b235-46e0-bede-7bc51e219678}</Project>
+      <Name>DataMining.NET5</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.NET5.vbproj">
       <Project>{ff5f3da2-07f5-4ffa-b97d-37745f5fd7f8}</Project>
       <Name>DynamicProgramming.NET5</Name>
@@ -185,6 +193,14 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj">
       <Project>{0a0d23e3-13d6-414c-a9ac-ae5e14460089}</Project>
       <Name>graph-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj">
+      <Project>{cc2d9800-c506-43bc-bc85-574f2f13c443}</Project>
+      <Name>dataframeUtils-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj">
+      <Project>{3b2b9e80-7757-49bd-926c-4d2e34789dfc}</Project>
+      <Name>stats-netcore5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj">
       <Project>{ad14fc1b-84dd-4746-b917-0d6b2d2f42ac}</Project>
@@ -194,9 +210,9 @@
       <Project>{afc8d059-0ba7-4ceb-882b-b3929cad4294}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\www\Microsoft.VisualBasic.Webservices.Bing\Bing.NET5.vbproj">
-      <Project>{6f3ed30f-1aeb-42e9-88c9-f6d6a0d69df2}</Project>
-      <Name>Bing.NET5</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25json\JSON-netcore5.vbproj">
+      <Project>{167e1a5e-5e32-3ae9-f8be-225c09dd4c71}</Project>
+      <Name>JSON-netcore5</Name>
     </ProjectReference>
     <ProjectReference Include="..\Knowledge_base\kb.NET5.vbproj">
       <Project>{19c089e0-f0c5-400d-97c5-77dc8b93193c}</Project>

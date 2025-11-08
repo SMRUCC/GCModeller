@@ -3,27 +3,31 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|test||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\pubmedparsertest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\pubmedparsertest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\mesh_test.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\mesh_test.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\name_test.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\name_test.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\module2.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\module2.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\name_test.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\name_test.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\mesh_test.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\mesh_test.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\test\\pubmedparsertest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{299BC67C-AF08-43EA-89D4-17624B1DA081}|test\\test.vbproj|solutionrelative:test\\pubmedparsertest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|test||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{19C089E0-F0C5-400D-97C5-77DC8B93193C}|Knowledge_base\\kb.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\knowledge_base\\kb.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{19C089E0-F0C5-400D-97C5-77DC8B93193C}|Knowledge_base\\kb.NET5.vbproj|solutionrelative:knowledge_base\\kb.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{97BEE61A-60EA-4AAE-BACF-04E3655598F6}|ncbi_kb\\ncbi_kb.vbproj|g:\\gcmodeller\\src\\workbench\\modules\\knowledge_base\\ncbi_kb\\pubmed\\plaintextparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -76,7 +80,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 19,
           "Children": [
             {
               "$type": "Bookmark",
@@ -96,7 +100,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
+              "Title": "kb.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj",
+              "RelativeDocumentMoniker": "Knowledge_base\\kb.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\Knowledge_base\\kb.NET5.vbproj",
+              "RelativeToolTip": "Knowledge_base\\kb.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-11-08T09:21:14.557Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "test",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\test.vbproj",
               "RelativeDocumentMoniker": "test\\test.vbproj",
@@ -108,20 +125,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "pubmedParserTest.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\pubmedParserTest.vb",
               "RelativeDocumentMoniker": "test\\pubmedParserTest.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\pubmedParserTest.vb",
               "RelativeToolTip": "test\\pubmedParserTest.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-08T09:17:31.363Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "mesh_test.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\mesh_test.vb",
               "RelativeDocumentMoniker": "test\\mesh_test.vb",
@@ -134,7 +151,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Module1.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\Module1.vb",
               "RelativeDocumentMoniker": "test\\Module1.vb",
@@ -147,7 +164,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Module2.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\Module2.vb",
               "RelativeDocumentMoniker": "test\\Module2.vb",
@@ -160,20 +177,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "PlainTextParser.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PlainTextParser.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\PlainTextParser.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PlainTextParser.vb",
               "RelativeToolTip": "ncbi_kb\\PubMed\\PlainTextParser.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-08T09:13:17.93Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Article.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\MedlineCitation\\Article.vb",
@@ -186,7 +203,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Components.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\MedlineCitation\\Components.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\MedlineCitation\\Components.vb",
@@ -198,7 +215,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "PubDate.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\Components\\PubDate.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\Components\\PubDate.vb",
@@ -210,7 +227,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Data.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedData\\Data.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\PubmedData\\Data.vb",
@@ -222,7 +239,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "PubmedArticle.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticle.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\PubmedArticle.vb",
@@ -235,7 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "PubmedArticleSet.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubmedArticleSet.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\PubmedArticleSet.vb",
@@ -247,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "PubMedTextTable.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\PubMedTextTable.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\PubMedTextTable.vb",
@@ -259,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "QueryForm.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\PubMed\\QueryForm.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\PubMed\\QueryForm.vb",
@@ -271,20 +288,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "name_test.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\name_test.vb",
               "RelativeDocumentMoniker": "test\\name_test.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\test\\name_test.vb",
               "RelativeToolTip": "test\\name_test.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-08T09:09:05.538Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Citation.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\modules\\Knowledge_base\\ncbi_kb\\Citation.vb",
               "RelativeDocumentMoniker": "ncbi_kb\\Citation.vb",
