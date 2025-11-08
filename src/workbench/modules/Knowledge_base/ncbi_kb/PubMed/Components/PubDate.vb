@@ -78,13 +78,25 @@ Namespace PubMed
         Sub New([date] As String)
             ' 2022 Dec 27
             Const format As String = "yyyy MMM dd"
+            Const format2 As String = "yyyy MMM"
+
             Static provider As IFormatProvider = CultureInfo.InvariantCulture
 
-            Dim result As DateTime = DateTime.ParseExact([date], format, provider)
+            If Not [date].StringEmpty(, True) Then
+                Dim result As DateTime
 
-            Year = result.Year
-            Month = result.Month
-            Day = result.Day
+                With [date].Split
+                    If .Length = 2 Then
+                        result = DateTime.ParseExact([date], format2, provider)
+                    Else
+                        result = DateTime.ParseExact([date], format, provider)
+                    End If
+                End With
+
+                Year = result.Year
+                Month = result.Month
+                Day = result.Day
+            End If
         End Sub
 
         Public Overrides Function ToString() As String
