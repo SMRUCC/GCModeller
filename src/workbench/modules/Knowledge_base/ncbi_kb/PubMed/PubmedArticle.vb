@@ -268,6 +268,13 @@ Namespace PubMed
         <XmlText>
         Public Property Keyword As String
 
+        Sub New()
+        End Sub
+
+        Sub New(term As String)
+            Keyword = term
+        End Sub
+
         Public Overrides Function ToString() As String
             Return Keyword
         End Function
@@ -331,6 +338,13 @@ Namespace PubMed
         Public Property DescriptorName As RegisterObject
         <XmlElement("QualifierName")>
         Public Property QualifierName As RegisterObject()
+
+        Sub New()
+        End Sub
+
+        Sub New(keyword As String)
+            DescriptorName = New RegisterObject With {.Value = keyword}
+        End Sub
 
         Public Overrides Function ToString() As String
             Return DescriptorName.ToString

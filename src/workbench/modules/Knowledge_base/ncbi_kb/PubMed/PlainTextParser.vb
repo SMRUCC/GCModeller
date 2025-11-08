@@ -45,11 +45,24 @@ Public Module PlainTextParser
             .Owner = terms.TryGetValue("OWN").JoinBy("; "),
             .Status = terms.TryGetValue("STAT").JoinBy("; "),
             .PMID = New PMID(terms.TryGetValue("PMID").DefaultFirst),
-            .Article = article
+            .Article = article,
+            .KeywordList = New KeywordList With {
+                .Keywords = terms _
+                    .TryGetValue("OT") _
+                    .SafeQuery _
+                    .Select(Function(key) New Keyword(key)) _
+                    .ToArray
+            },
+            .MeshHeadingList = terms.TryGetValue("MH") _
+                .SafeQuery _
+                .Select(Function(key) New MeshHeading(key)) _
+                .ToArray
         }
+        Dim metadata As New PubmedData
 
         Return New PubmedArticle With {
-            .MedlineCitation = cite
+            .MedlineCitation = cite,
+            .PubmedData = metadata
         }
     End Function
 
