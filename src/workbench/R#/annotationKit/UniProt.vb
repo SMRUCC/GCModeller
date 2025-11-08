@@ -55,12 +55,12 @@ Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
-Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports protein = SMRUCC.genomics.Assembly.Uniprot.XML.entry
 
 <Package("UniProt")>
 Public Module UniProt
@@ -90,7 +90,7 @@ Public Module UniProt
         If source Like GetType(Message) Then
             Return source.TryCast(Of Message)
         Else
-            For Each protein As Entry In source.TryCast(Of IEnumerable(Of Entry))
+            For Each protein As protein In source.TryCast(Of IEnumerable(Of protein))
                 Call pack.AddProtein(protein)
             Next
         End If
