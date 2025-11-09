@@ -144,7 +144,7 @@ Module context
             End If
         Next
 
-        Return all_sites
+        Return all_sites.TryCastGenericArray(env)
     End Function
 
     ''' <summary>
