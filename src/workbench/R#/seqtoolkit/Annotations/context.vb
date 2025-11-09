@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -116,7 +117,32 @@ Module context
 
     <ExportAPI("set_context")>
     Public Function set_context(<RRawVectorArgument> sites As Object, genomics As GFFTable, Optional env As Environment = Nothing) As Object
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of VirtualFootprints)
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of VirtualFootprint)(sites, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim all_sites As VirtualFootprint() = pull _
+            .populates(Of VirtualFootprint)(env) _
+            .ToArray
+        Dim index As Dictionary(Of String, Feature) = genomics.CreateGeneObjectIndex
+
+        For Each site As VirtualFootprint In all_sites
+            Dim feature As Feature = index(site.ORF)
+            Dim loc As NucleotideLocation = feature.Location
+            Dim locSize As Integer = site.sequence.Length
+
+            If loc.Strand = Strands.Forward Then
+                site.starts = loc.left + site.distance
+                site.ends = site.starts - locSize
+            Else
+                site.starts = loc.right - site.distance
+                site.ends = site.starts + locSize
+            End If
+        Next
+
+        Return all_sites
     End Function
 
     ''' <summary>

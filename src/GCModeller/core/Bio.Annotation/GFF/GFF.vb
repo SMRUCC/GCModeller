@@ -248,6 +248,16 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return SeqRegion.GetJson
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function CreateGeneObjectIndex() As Dictionary(Of String, Feature)
+            Return _features _
+                .GroupBy(Function(a) a.ID) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.First
+                              End Function)
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>

@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\MotifGraph\MotifGraph.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\OperonMapper\OperonMapper.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.netcoreapp.vbproj" />
