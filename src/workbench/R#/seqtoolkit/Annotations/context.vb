@@ -136,9 +136,11 @@ Module context
             If loc.Strand = Strands.Forward Then
                 site.starts = loc.left + site.distance
                 site.ends = site.starts - locSize
+                site.strand = Strands.Forward
             Else
                 site.starts = loc.right - site.distance
                 site.ends = site.starts + locSize
+                site.strand = Strands.Reverse
             End If
         Next
 
