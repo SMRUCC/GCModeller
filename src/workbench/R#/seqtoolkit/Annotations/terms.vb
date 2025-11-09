@@ -163,6 +163,11 @@ Module terms
         End If
     End Function
 
+    <ExportAPI("assign_terms")>
+    Public Function TermAnnotations(<RRawVectorArgument> alignment As Object, Optional env As Environment = Nothing) As Object
+
+    End Function
+
     <ExportAPI("assign.Pfam")>
     Public Function Pfamannotations()
         Throw New NotImplementedException

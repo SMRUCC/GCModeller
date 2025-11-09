@@ -61,7 +61,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace Pipeline.COG
 
