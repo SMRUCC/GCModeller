@@ -34,6 +34,7 @@ Namespace Pipeline
 
         Private Shared Function MeasureTopTerm(group As IGrouping(Of String, BestHit), termMaps As Dictionary(Of String, String)) As RankTerm()
             Dim scores As NamedValue(Of Double)() = group _
+                .Where(Function(h) h.identities > 0 AndAlso h.HitName <> "HITS_NOT_FOUND") _
                 .Select(Function(h)
                             Dim key As String = h.HitName.Split.First.Split("|"c).First
                             Dim score As Double = (h.score + 1) * (h.identities + 1)
