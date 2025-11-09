@@ -32,6 +32,19 @@ declare namespace annotation.terms {
       function Pfam(): any;
    }
    /**
+    * assign the top term by score ranking
+    * 
+    * 
+     * @param alignment -
+     * @param term_maps -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function assign_terms(alignment: any, term_maps?: object, env?: object): object;
+   /**
     * try parse gene names from the product description strings
     * 
     * 
