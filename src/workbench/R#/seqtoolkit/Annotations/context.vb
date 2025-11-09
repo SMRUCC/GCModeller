@@ -60,6 +60,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
@@ -113,8 +114,9 @@ Module context
         Return sb.ToString
     End Function
 
-    Public Function set_context()
-
+    <ExportAPI("set_context")>
+    Public Function set_context(<RRawVectorArgument> sites As Object, genomics As GFFTable, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of VirtualFootprints)
     End Function
 
     ''' <summary>

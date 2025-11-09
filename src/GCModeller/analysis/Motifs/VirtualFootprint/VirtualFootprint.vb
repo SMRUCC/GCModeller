@@ -53,7 +53,7 @@ Namespace DocumentFormat
     ''' <summary>
     ''' A motif site feature data model
     ''' </summary>
-    Public Class VirtualFootprints : Implements ILocationComponent
+    Public Class VirtualFootprint : Implements ILocationComponent
         Implements ITagSite
         Implements INucleotideLocation
         Implements INamedValue
