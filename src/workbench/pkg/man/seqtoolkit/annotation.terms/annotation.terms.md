@@ -2,6 +2,7 @@
 
 
 
++ [read_rankterms](annotation.terms/read_rankterms.1) 
 + [geneNames](annotation.terms/geneNames.1) try parse gene names from the product description strings
 + [assign.KO](annotation.terms/assign.KO.1) do KO number assign based on the bbh alignment result.
 + [assign.COG](annotation.terms/assign.COG.1) 

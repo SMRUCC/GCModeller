@@ -66,6 +66,9 @@ declare namespace annotation.terms {
       function MyvaCOG(file: string): object;
    }
    /**
+   */
+   function read_rankterms(file: string): object;
+   /**
      * @param excludeNull default value Is ``false``.
    */
    function synonym(idlist: string, idmap: object, excludeNull?: boolean): object;
