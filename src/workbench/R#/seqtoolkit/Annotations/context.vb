@@ -72,6 +72,9 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports IContext = SMRUCC.genomics.ContextModel.Context
 
+''' <summary>
+''' the tools for processing of the genomics context information
+''' </summary>
 <Package("genomics_context", Category:=APICategories.ResearchTools)>
 Module context
 
@@ -174,9 +177,9 @@ Module context
     End Function
 
     ''' <summary>
-    ''' the given nucleotide location is in forward direction
+    ''' assert that does the given nucleotide location is in forward direction?
     ''' </summary>
-    ''' <param name="loci"></param>
+    ''' <param name="loci">a target nucleotide location</param>
     ''' <returns></returns>
     <ExportAPI("is.forward")>
     Public Function isForward(loci As NucleotideLocation) As Boolean
