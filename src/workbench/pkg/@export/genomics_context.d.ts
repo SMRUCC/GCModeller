@@ -5,6 +5,7 @@
 // ref=seqtoolkit.context@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * the tools for processing of the genomics context information
  * 
 */
 declare namespace genomics_context {
@@ -37,10 +38,10 @@ declare namespace genomics_context {
    function filter_strand(genes: any, strand?: any, env?: object): any;
    module is {
       /**
-       * the given nucleotide location is in forward direction
+       * assert that does the given nucleotide location is in forward direction?
        * 
        * 
-        * @param loci -
+        * @param loci a target nucleotide location
       */
       function forward(loci: object): boolean;
    }
@@ -74,4 +75,8 @@ declare namespace genomics_context {
      * + default value Is ``null``.
    */
    function relationship(a: any, b: any, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function set_context(sites: any, genomics: object, env?: object): any;
 }
