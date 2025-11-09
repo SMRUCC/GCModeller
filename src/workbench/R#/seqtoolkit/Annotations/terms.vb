@@ -113,6 +113,11 @@ Module terms
         Return sb.ToString
     End Function
 
+    <ExportAPI("read_rankterms")>
+    Public Function read_rankterms(file As String) As RankTerm()
+        Return file.LoadCsv(Of RankTerm)(mute:=True).ToArray
+    End Function
+
     ''' <summary>
     ''' try parse gene names from the product description strings
     ''' </summary>
