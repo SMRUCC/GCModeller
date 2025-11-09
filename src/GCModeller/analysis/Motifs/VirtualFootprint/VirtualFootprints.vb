@@ -43,6 +43,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
@@ -52,6 +53,7 @@ Namespace DocumentFormat
     Public Class VirtualFootprints : Implements ILocationComponent
         Implements ITagSite
         Implements INucleotideLocation
+        Implements INamedValue
 
         ''' <summary>
         ''' 注释源信息
@@ -62,8 +64,12 @@ Namespace DocumentFormat
         Public Property starts As Integer Implements ILocationComponent.left
         Public Property ends As Integer Implements ILocationComponent.right
 
+        ''' <summary>
+        ''' target gene that to be regulated
+        ''' </summary>
+        ''' <returns></returns>
         <Column("ORF ID")>
-        Public Overridable Property ORF As String Implements ITagSite.tag
+        Public Overridable Property ORF As String Implements ITagSite.tag, INamedValue.Key
 
         ''' <summary>
         ''' <see cref="motif_id"></see>与<see cref="ORF"></see>的ATG之间的距离
@@ -128,7 +134,7 @@ Namespace DocumentFormat
         ''' <remarks></remarks>
         Public ReadOnly Property length As Integer
             Get
-                Return Math.Abs(Ends - Starts)
+                Return Math.Abs(ends - starts)
             End Get
         End Property
 
@@ -149,7 +155,7 @@ Namespace DocumentFormat
         Public Property signature As String
 
         Public Overrides Function ToString() As String
-            Return $"{ORF}   Left={Starts};  ATG.Distance={Distance};   // {Sequence()}"
+            Return $"{ORF}   Left={starts};  ATG.Distance={distance};   // {sequence()}"
         End Function
     End Class
 End Namespace
