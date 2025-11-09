@@ -5,12 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\context.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\context.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AD129A16-C806-42DF-B090-DEFEDF09B227}|..\\..\\GCModeller\\core\\Bio.Annotation\\annotation.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.annotation\\gff\\gff.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A0F5CCB0-0321-6A4E-CE21-CE22652571A5}|..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\virtualfootprint\\virtualfootprint.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -20,21 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GFF.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Annotation\\GFF\\GFF.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Annotation\\GFF\\GFF.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Annotation\\GFF\\GFF.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Annotation\\GFF\\GFF.vb",
-              "ViewState": "AgIAAMsAAAAAAAAAAAAcwOoAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-09T14:05:00.598Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -53,26 +34,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "VirtualFootprint",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\VirtualFootprint\\VirtualFootprint.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-11-09T14:03:03.426Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "context.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\context.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\context.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\context.vb",
               "RelativeToolTip": "seqtoolkit\\Annotations\\context.vb",
-              "ViewState": "AgIAAFQAAAAAAAAAAAAYwF0AAABeAAAAAAAAAA==",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAowJMAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-09T13:46:50.794Z",
               "EditorCaption": ""
