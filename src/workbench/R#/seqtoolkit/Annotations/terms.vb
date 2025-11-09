@@ -163,9 +163,38 @@ Module terms
         End If
     End Function
 
+    ''' <summary>
+    ''' assign the top term by score ranking
+    ''' </summary>
+    ''' <param name="alignment"></param>
+    ''' <param name="term_maps"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("assign_terms")>
-    Public Function TermAnnotations(<RRawVectorArgument> alignment As Object, Optional env As Environment = Nothing) As Object
+    <RApiReturn(GetType(RankTerm))>
+    Public Function TermAnnotations(<RRawVectorArgument> alignment As Object,
+                                    Optional term_maps As list = Nothing,
+                                    Optional env As Environment = Nothing) As Object
 
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of BestHit)(alignment, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim maps As New Dictionary(Of String, String)
+
+        For Each term As KeyValuePair(Of String, Object) In term_maps.slots
+            For Each id As String In CLRVector.asCharacter(term.Value).SafeQuery
+                maps(id) = term.Key
+            Next
+        Next
+
+        Dim terms As RankTerm() = RankTerm _
+            .RankTopTerm(pull.populates(Of BestHit)(env), maps) _
+            .ToArray
+
+        Return terms
     End Function
 
     <ExportAPI("assign.Pfam")>
