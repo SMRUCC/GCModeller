@@ -50,6 +50,9 @@ Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace DocumentFormat
 
+    ''' <summary>
+    ''' A motif site feature data model
+    ''' </summary>
     Public Class VirtualFootprints : Implements ILocationComponent
         Implements ITagSite
         Implements INucleotideLocation
