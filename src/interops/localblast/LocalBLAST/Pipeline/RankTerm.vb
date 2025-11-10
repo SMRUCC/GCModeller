@@ -10,12 +10,19 @@ Namespace Pipeline
 
         Public Property queryName As String
         Public Property term As String
+
         Public Property source As String()
         Public Property scores As Double()
 
         Public ReadOnly Property score As Double
             Get
                 Return scores.SafeQuery.Sum
+            End Get
+        End Property
+
+        Public ReadOnly Property supports As Integer
+            Get
+                Return source.TryCount
             End Get
         End Property
 
