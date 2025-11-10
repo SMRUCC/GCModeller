@@ -113,6 +113,11 @@ Module terms
         Return sb.ToString
     End Function
 
+    ''' <summary>
+    ''' read the given table file as rank term object
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read_rankterms")>
     Public Function read_rankterms(file As String) As RankTerm()
         Return file.LoadCsv(Of RankTerm)(mute:=True).ToArray
@@ -179,6 +184,7 @@ Module terms
     <RApiReturn(GetType(RankTerm))>
     Public Function TermAnnotations(<RRawVectorArgument> alignment As Object,
                                     Optional term_maps As list = Nothing,
+                                    Optional topBest As Boolean = True,
                                     Optional env As Environment = Nothing) As Object
 
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of BestHit)(alignment, env)
@@ -196,7 +202,7 @@ Module terms
         Next
 
         Dim terms As RankTerm() = RankTerm _
-            .RankTopTerm(pull.populates(Of BestHit)(env), maps) _
+            .RankTopTerm(pull.populates(Of BestHit)(env), maps, topBest:=topBest) _
             .ToArray
 
         Return terms

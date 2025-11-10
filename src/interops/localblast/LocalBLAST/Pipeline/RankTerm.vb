@@ -22,11 +22,18 @@ Namespace Pipeline
             Return $"{queryName} = {score}"
         End Function
 
-        Public Shared Iterator Function RankTopTerm(hits As IEnumerable(Of BestHit), Optional termMaps As Dictionary(Of String, String) = Nothing) As IEnumerable(Of RankTerm)
+        Public Shared Iterator Function RankTopTerm(hits As IEnumerable(Of BestHit),
+                                                    Optional termMaps As Dictionary(Of String, String) = Nothing,
+                                                    Optional topBest As Boolean = True) As IEnumerable(Of RankTerm)
+
             For Each group As IGrouping(Of String, BestHit) In hits.SafeQuery.GroupBy(Function(a) a.QueryName)
                 With MeasureTopTerm(group, termMaps)
-                    If .Any Then
+                    If topBest AndAlso .Any Then
                         Yield .First
+                    Else
+                        For Each term As RankTerm In .AsEnumerable
+                            Yield term
+                        Next
                     End If
                 End With
             Next
