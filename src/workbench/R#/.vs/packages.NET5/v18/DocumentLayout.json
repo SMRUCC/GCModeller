@@ -3,15 +3,19 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\workflows.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\workflows.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\terms.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\terms.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AE9626DD-95BB-436D-8816-11A0AC7672C8}|..\\..\\interops\\localblast\\LocalBLAST\\localblast.NET5.vbproj|g:\\gcmodeller\\src\\interops\\localblast\\localblast\\pipeline\\rankterm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\workflows.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\workflows.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\blast.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -56,7 +60,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 14,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Bookmark",
@@ -77,6 +81,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "patterns.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\patterns.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
+              "RelativeToolTip": "seqtoolkit\\patterns.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-10T08:03:27.482Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "RankTerm.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\RankTerm.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\RankTerm.vb",
@@ -88,7 +105,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "COGsUtils.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\COGsUtils.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\COGsUtils.vb",
@@ -100,7 +117,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "COG2014.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\COG2014.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\COG2014.vb",
@@ -112,7 +129,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "SpeciesBesthit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\SpeciesBesthit.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\SpeciesBesthit.vb",
@@ -124,7 +141,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Hits.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hits.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hits.vb",
@@ -136,7 +153,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Hit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hit.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hit.vb",
@@ -148,7 +165,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "KOAssignment.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\KO\\KOAssignment.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\KO\\KOAssignment.vb",
@@ -160,7 +177,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Exports.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\Exports.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\Exports.vb",
@@ -172,7 +189,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "NamespaceDoc.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\NamespaceDoc.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\NamespaceDoc.vb",
@@ -184,7 +201,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "MyvaCOG.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\Reports\\MyvaCOG.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\Reports\\MyvaCOG.vb",
@@ -196,32 +213,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "terms.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\terms.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\terms.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\terms.vb",
               "RelativeToolTip": "seqtoolkit\\Annotations\\terms.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEwAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-09T17:17:29.591Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "workflows.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\workflows.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\workflows.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\workflows.vb",
               "RelativeToolTip": "seqtoolkit\\Annotations\\workflows.vb",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAiwEEBAAA7AAAAAAAAAA==",
+              "ViewState": "AgIAAEYBAAAAAAAAAAAmwG0BAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-09T17:17:18.332Z"
+              "WhenOpened": "2025-11-09T17:17:18.332Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "blastPlus.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\blastPlus.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\blastPlus.vb",
@@ -233,7 +251,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Blast.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Blast.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Blast.vb",
