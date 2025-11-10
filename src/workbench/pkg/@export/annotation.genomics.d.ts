@@ -30,6 +30,16 @@ declare namespace annotation.genomics {
       function genes(genome: any, env?: object): object;
    }
    /**
+    * get gff features by id reference
+    * 
+    * 
+     * @param gff -
+     * @param id -
+     * 
+     * + default value Is ``null``.
+   */
+   function gff_features(gff: object, id?: any): any;
+   /**
     * load operon set data from the ODB database
     * 
     * 

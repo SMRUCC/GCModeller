@@ -4,6 +4,7 @@
 
 + [read.gtf](annotation.genomics/read.gtf.1) 
 + [read.gff](annotation.genomics/read.gff.1) 
++ [gff_features](annotation.genomics/gff_features.1) get gff features by id reference
 + [as.tabular](annotation.genomics/as.tabular.1) 
 + [as.geneTable](annotation.genomics/as.geneTable.1) 
 + [as.PTT](annotation.genomics/as.PTT.1) 
