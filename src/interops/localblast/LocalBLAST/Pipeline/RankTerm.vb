@@ -19,6 +19,16 @@ Namespace Pipeline
             End Get
         End Property
 
+        Public ReadOnly Property topHit As String
+            Get
+                If scores.IsNullOrEmpty OrElse source.IsNullOrEmpty Then
+                    Return Nothing
+                End If
+
+                Return source(which.Max(scores))
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return $"[{term}] {queryName} = {score}"
         End Function
