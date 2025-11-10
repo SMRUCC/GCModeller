@@ -187,7 +187,7 @@ Module terms
     <RApiReturn(GetType(RankTerm))>
     Public Function TermAnnotations(<RRawVectorArgument> alignment As Object,
                                     Optional term_maps As list = Nothing,
-                                    Optional topBest As Boolean = True,
+                                    Optional top_best As Boolean = True,
                                     Optional env As Environment = Nothing) As Object
 
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of BestHit)(alignment, env)
@@ -205,7 +205,7 @@ Module terms
         Next
 
         Dim terms As RankTerm() = RankTerm _
-            .RankTopTerm(pull.populates(Of BestHit)(env), maps, topBest:=topBest) _
+            .RankTopTerm(pull.populates(Of BestHit)(env), maps, topBest:=top_best) _
             .ToArray
 
         Return terms
