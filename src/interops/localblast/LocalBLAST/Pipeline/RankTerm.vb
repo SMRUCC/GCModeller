@@ -78,8 +78,8 @@ Namespace Pipeline
             For Each term As IGrouping(Of String, NamedValue(Of Double)) In scores.GroupBy(Function(a) If(termMaps Is Nothing, a.Name, termMaps.TryGetValue(a.Name, [default]:="Unknown")))
                 Dim scoreSet As NamedValue(Of Double)() = term.ToArray
                 Dim termName As String = term.Key
-                Dim sourceNames As String() = scores.Select(Function(a) a.Name).ToArray
-                Dim vec As Double() = scores.Select(Function(a) a.Value).ToArray
+                Dim sourceNames As String() = term.Select(Function(a) a.Name).ToArray
+                Dim vec As Double() = term.Select(Function(a) a.Value).ToArray
 
                 Yield New RankTerm With {
                     .queryName = queryId,
