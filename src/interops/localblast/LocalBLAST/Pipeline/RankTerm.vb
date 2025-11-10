@@ -1,6 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
@@ -11,16 +10,17 @@ Namespace Pipeline
 
         Public Property queryName As String
         Public Property term As String
-        Public Property scores As Dictionary(Of String, Double)
+        Public Property source As String()
+        Public Property scores As Double()
 
         Public ReadOnly Property score As Double
             Get
-                Return scores.SafeQuery.Values.Sum
+                Return scores.SafeQuery.Sum
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return $"{queryName} = {score}"
+            Return $"[{term}] {queryName} = {score}"
         End Function
 
         Public Shared Iterator Function RankTopTerm(hits As IEnumerable(Of BestHit),
@@ -76,13 +76,16 @@ Namespace Pipeline
 
         Private Shared Iterator Function MakeTerms(scores As IEnumerable(Of NamedValue(Of Double)), queryId As String, termMaps As Dictionary(Of String, String)) As IEnumerable(Of RankTerm)
             For Each term As IGrouping(Of String, NamedValue(Of Double)) In scores.GroupBy(Function(a) If(termMaps Is Nothing, a.Name, termMaps.TryGetValue(a.Name, [default]:="Unknown")))
-                Dim scoreSet As Dictionary(Of String, Double) = term.UniqueNames.ToDictionary(Function(x) x.Name, Function(x) x.Value)
+                Dim scoreSet As NamedValue(Of Double)() = term.ToArray
                 Dim termName As String = term.Key
+                Dim sourceNames As String() = scores.Select(Function(a) a.Name).ToArray
+                Dim vec As Double() = scores.Select(Function(a) a.Value).ToArray
 
                 Yield New RankTerm With {
                     .queryName = queryId,
-                    .scores = scoreSet,
-                    .term = termName
+                    .scores = vec,
+                    .term = termName,
+                    .source = sourceNames
                 }
             Next
         End Function
