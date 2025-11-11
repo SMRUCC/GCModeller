@@ -88,8 +88,18 @@ Module NCBI
     ''' </returns>
     <ExportAPI("query")>
     <RApiReturn(GetType(GenBankAssemblyIndex))>
-    Public Function find(db As AssemblySummaryGenbank, q As String, Optional cutoff As Double = 0.8) As Object
+    Public Function find(db As AssemblySummaryGenbank, q As String,
+                         Optional cutoff As Double = 0.8,
+                         Optional best_match As Boolean = False) As Object
+
         Dim index As FindResult() = db.Query(q, cutoff).ToArray
+
+        If best_match Then
+            Return index _
+                .OrderByDescending(Function(a) a.similarity) _
+                .FirstOrDefault
+        End If
+
         Dim result As GenBankAssemblyIndex() = index.Select(Function(i) db(i)).ToArray
         Dim vec As New vector(result, RType.GetRSharpType(GetType(GenBankAssemblyIndex)))
         vec.setAttribute("index", index)
