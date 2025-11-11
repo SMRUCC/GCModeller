@@ -3,11 +3,32 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\genbankassemblyindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\objects\\rconversion\\makedataframe.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\componentmodel\\datasource\\repository\\textindex\\qgramindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\ncbi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\ncbi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\assemblysummarygenbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\genbankassemblyindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\webapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\repositoryextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\geodataset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\genbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AE9626DD-95BB-436D-8816-11A0AC7672C8}|..\\..\\interops\\localblast\\LocalBLAST\\localblast.NET5.vbproj|g:\\gcmodeller\\src\\interops\\localblast\\localblast\\pipeline\\rankterm.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -71,17 +92,95 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "makeDataframe.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\objects\\RConversion\\makeDataframe.vb",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\objects\\RConversion\\makeDataframe.vb",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\objects\\RConversion\\makeDataframe.vb",
+              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\objects\\RConversion\\makeDataframe.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-11T08:30:49.461Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AssemblySummaryGenbank.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
+              "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
+              "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-11T08:19:48.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "WebAPI.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\WebAPI.vb",
+              "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\NCBI\\WebAPI.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\WebAPI.vb",
+              "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\NCBI\\WebAPI.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFEAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-11T08:19:27.537Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RepositoryExtensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\RepositoryExtensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\NCBI\\RepositoryExtensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\RepositoryExtensions.vb",
+              "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\NCBI\\RepositoryExtensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-11T08:19:24.963Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GEODataSet.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\GEODataSet.vb",
+              "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\NCBI\\GEODataSet.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\GEODataSet.vb",
+              "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\NCBI\\GEODataSet.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-11T08:19:22.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Genbank.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\Genbank.vb",
+              "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\NCBI\\Genbank.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\Genbank.vb",
+              "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\NCBI\\Genbank.vb",
+              "ViewState": "AgIAANYAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-11T08:19:01.84Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "NCBI.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\NCBI.vb",
               "RelativeDocumentMoniker": "annotationKit\\NCBI.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\NCBI.vb",
               "RelativeToolTip": "annotationKit\\NCBI.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAABAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-11T08:17:13.637Z",
               "EditorCaption": ""
@@ -104,20 +203,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "GenBankAssemblyIndex.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\GenBankAssemblyIndex.vb",
               "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\NCBI\\GenBankAssemblyIndex.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\GenBankAssemblyIndex.vb",
               "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\NCBI\\GenBankAssemblyIndex.vb",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAAAIUAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-11T08:17:02.785Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 12,
               "Title": "genomics.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genomics.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genomics.vb",
@@ -129,7 +228,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 14,
               "Title": "patterns.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\patterns.vb",
@@ -141,7 +240,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 9,
               "Title": "RankTerm.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\RankTerm.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\RankTerm.vb",
@@ -154,7 +253,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 17,
               "Title": "COGsUtils.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\COGsUtils.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\COGsUtils.vb",
@@ -166,7 +265,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 18,
               "Title": "COG2014.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\COG2014.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\COG2014.vb",
@@ -178,7 +277,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 21,
               "Title": "SpeciesBesthit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\SpeciesBesthit.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\SpeciesBesthit.vb",
@@ -190,7 +289,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 20,
               "Title": "Hits.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hits.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hits.vb",
@@ -202,7 +301,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 19,
               "Title": "Hit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hit.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\Models\\Hit.vb",
@@ -214,7 +313,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 22,
               "Title": "KOAssignment.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\KO\\KOAssignment.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\KO\\KOAssignment.vb",
@@ -226,7 +325,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 16,
               "Title": "Exports.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\Exports.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\Exports.vb",
@@ -238,7 +337,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 23,
               "Title": "NamespaceDoc.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\NamespaceDoc.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\NamespaceDoc.vb",
@@ -250,7 +349,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 24,
               "Title": "MyvaCOG.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\Reports\\MyvaCOG.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\LocalBLAST\\Pipeline\\COG\\Reports\\MyvaCOG.vb",
@@ -262,7 +361,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
               "Title": "terms.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\terms.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\terms.vb",
@@ -274,7 +373,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
               "Title": "workflows.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\workflows.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\workflows.vb",
@@ -286,7 +385,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "blastPlus.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\blastPlus.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\blastPlus.vb",
@@ -298,7 +397,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "Blast.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Blast.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Blast.vb",
@@ -317,6 +416,40 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "37336564-0646-4605-80a2-e0e26c2a7943",
+        "Display": 1,
+        "X": 436,
+        "Y": 56,
+        "Width": 2078,
+        "Height": 1300,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "QGramIndex.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataSource\\Repository\\TextIndex\\QGramIndex.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataSource\\Repository\\TextIndex\\QGramIndex.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataSource\\Repository\\TextIndex\\QGramIndex.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\DataSource\\Repository\\TextIndex\\QGramIndex.vb",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAowH8AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-11T08:32:09.478Z",
+              "EditorCaption": ""
             }
           ]
         }
