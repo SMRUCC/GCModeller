@@ -137,7 +137,7 @@ Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 ''' e-mail: info@ncbi.nlm.nih.gov
 ''' ________________________________________________________________________________
 ''' </remarks>
-Public Class FtpIndex
+Public Class GenBankAssemblyIndex
 
     ''' <summary>
     ''' Assembly accession: the assembly accession.version reported in this field is 
@@ -485,9 +485,9 @@ Public Class FtpIndex
     ''' <returns></returns>
     <Collection("pubmed_id", ";")> Public Property pubmed_id As String()
 
-    Public Shared Function LoadIndex(file As String) As IEnumerable(Of FtpIndex)
+    Public Shared Function LoadIndex(file As String) As IEnumerable(Of GenBankAssemblyIndex)
         Dim loader As New DataStream(file, trim:=True, skip:=1, tsv:=True)
-        Dim refs As IEnumerable(Of FtpIndex) = loader.AsLinq(Of FtpIndex)(, silent:=True)
+        Dim refs As IEnumerable(Of GenBankAssemblyIndex) = loader.AsLinq(Of GenBankAssemblyIndex)(, silent:=True)
         Return refs
     End Function
 

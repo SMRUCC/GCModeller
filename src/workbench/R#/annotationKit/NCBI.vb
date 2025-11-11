@@ -65,9 +65,9 @@ Module NCBI
     ''' </summary>
     ''' <returns></returns>
     <ExportAPI("genome_assembly_index")>
-    <RApiReturn(GetType(FtpIndex))>
+    <RApiReturn(GetType(GenBankAssemblyIndex))>
     Public Function genome_assembly_index(file As String) As Object
-        Return pipeline.CreateFromPopulator(FtpIndex.LoadIndex(file))
+        Return pipeline.CreateFromPopulator(GenBankAssemblyIndex.LoadIndex(file))
     End Function
 
 End Module
