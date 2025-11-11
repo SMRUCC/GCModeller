@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Imaging.Math2D
+﻿Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports std = System.Math
 
@@ -11,6 +12,13 @@ Namespace Interpolation
         Private _maxIterations As Integer
         Private _tolerance As Double
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="dataPoints">the input scatter data points</param>
+        ''' <param name="bandwidth"></param>
+        ''' <param name="maxIterations"></param>
+        ''' <param name="tolerance"></param>
         Public Sub New(dataPoints As IEnumerable(Of Vector2D),
                   Optional bandwidth As Double = 1.0,
                   Optional maxIterations As Integer = 100,
@@ -21,6 +29,16 @@ Namespace Interpolation
             Me._tolerance = tolerance
             Me._curvePoints = New List(Of Vector2D)()
         End Sub
+
+        Public Shared Function Fit(Of T As IReadOnlyPoint)(dataPoints As IEnumerable(Of T),
+                  Optional bandwidth As Double = 1.0,
+                  Optional maxIterations As Integer = 100,
+                  Optional tolerance As Double = 0.001) As IEnumerable(Of Vector2D)
+
+            Dim pc As New PrincipalCurve(dataPoints.Select(Function(p) New Vector2D(p)), bandwidth, maxIterations, tolerance)
+            pc.Fit()
+            Return pc.CurvePoints
+        End Function
 
         ' 获取主曲线点
         Public ReadOnly Property CurvePoints As List(Of Vector2D)
@@ -100,7 +118,7 @@ Namespace Interpolation
 
             For iter = 0 To _maxIterations - 1
                 ' 投影步骤：将每个数据点投影到曲线上
-                Dim projections = ProjectDataToCurve()
+                Dim projections = ProjectDataToCurve().ToArray
 
                 ' 重构步骤：根据投影重新估计曲线
                 ReconstructCurve(projections)
@@ -121,9 +139,7 @@ Namespace Interpolation
         End Sub
 
         ' 将数据点投影到曲线上
-        Private Function ProjectDataToCurve() As List(Of ProjectionInfo)
-            Dim projections = New List(Of ProjectionInfo)()
-
+        Private Iterator Function ProjectDataToCurve() As IEnumerable(Of ProjectionInfo)
             For Each dataPoint In _dataPoints
                 Dim minDistance = Double.MaxValue
                 Dim closestSegmentIndex = -1
@@ -159,17 +175,15 @@ Namespace Interpolation
                 Next
 
                 If closestSegmentIndex >= 0 Then
-                    projections.Add(New ProjectionInfo(
-                    dataPoint, closestPoint, closestSegmentIndex + closestT, minDistance))
+                    Yield New ProjectionInfo(
+                    dataPoint, closestPoint, closestSegmentIndex + closestT, minDistance)
                 End If
             Next
-
-            Return projections
         End Function
 
         ' 根据投影重新构建曲线
-        Private Sub ReconstructCurve(projections As List(Of ProjectionInfo))
-            If projections.Count = 0 Then Return
+        Private Sub ReconstructCurve(projections As ProjectionInfo())
+            If projections.Length = 0 Then Return
 
             ' 按投影位置排序
             Dim sortedProjections = projections.OrderBy(Function(p) p.CurveParameter).ToList()
@@ -207,9 +221,8 @@ Namespace Interpolation
         ' 平滑曲线（防止过拟合）
         Private Sub SmoothCurve()
             If _curvePoints.Count < 3 Then Return
-
-            Dim smoothedPoints = New List(Of Vector2D)()
-            smoothedPoints.Add(_curvePoints(0)) ' 保持起点不变
+            ' 保持起点不变
+            Dim smoothedPoints As New List(Of Vector2D)() From {_curvePoints(0)}
 
             For i = 1 To _curvePoints.Count - 2
                 ' 简单移动平均平滑
@@ -223,9 +236,9 @@ Namespace Interpolation
         End Sub
 
         ' 计算重构误差
-        Private Function CalculateReconstructionError(projections As List(Of ProjectionInfo)) As Double
-            If projections.Count = 0 Then Return 0
-            Return projections.Average(Function(p) p.Distance)
+        Private Function CalculateReconstructionError(projections As ProjectionInfo()) As Double
+            If projections.Length = 0 Then Return 0
+            Return Aggregate p As ProjectionInfo In projections Into Average(p.Distance)
         End Function
 
         ' 投影信息辅助类
