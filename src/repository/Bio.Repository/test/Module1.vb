@@ -52,6 +52,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Data
@@ -68,8 +69,12 @@ Module Module1
     End Sub
 
     Sub loadIndexTest()
+        Dim pool As New List(Of FtpIndex)
+        Dim qgram As New QGramIndex(6)
+
         For Each asm In FtpIndex.LoadIndex("D:\datapool\assembly_summary_genbank.txt")
-            Call Console.WriteLine(asm.GetJson)
+            Call pool.Add(asm)
+            Call qgram.AddString(asm.organism_name)
         Next
 
         Pause()

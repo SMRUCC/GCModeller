@@ -1,13 +1,16 @@
-﻿Namespace ComponentModel.DataSourceModel.Repository
+﻿Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
+
+Namespace ComponentModel.DataSourceModel.Repository
 
     Public Class QGramIndex
 
         ''' <summary>
         ''' q-gram的长度
         ''' </summary>
-        Private ReadOnly _q As Integer
-        Private ReadOnly _index As Dictionary(Of String, HashSet(Of Integer))
-        Private ReadOnly _strings As List(Of String)
+        ReadOnly _q As Integer
+        ReadOnly _index As Dictionary(Of String, HashSet(Of Integer))
+        ReadOnly _strings As List(Of String)
+        ReadOnly _counts As New Dictionary(Of String, Integer)
 
         Public Sub New(q As Integer)
             _q = q
@@ -21,12 +24,14 @@
         Public Sub AddString(s As String)
             If String.IsNullOrEmpty(s) Then Return
 
-            Dim stringIndex = _strings.Count
-            _strings.Add(s)
-
             ' 生成q-grams
             Dim grams = GenerateQGrams(s)
-            For Each gram In grams
+            Dim stringIndex = _strings.Count
+
+            _strings.Add(s)
+            _counts(s) = grams.Count
+
+            For Each gram As String In grams
                 If Not _index.ContainsKey(gram) Then
                     _index(gram) = New HashSet(Of Integer)()
                 End If
@@ -64,9 +69,10 @@
         ''' <summary>
         ''' 基于q-gram重叠度查找相似字符串
         ''' </summary>
-        Public Function FindSimilar(query As String, threshold As Double) As List(Of (String, Double, Integer))
-            Dim results = New List(Of (String, Double, Integer))()
-            If String.IsNullOrEmpty(query) Then Return results
+        Public Function FindSimilar(query As String, Optional threshold As Double = 0) As IEnumerable(Of FindResult)
+            If String.IsNullOrEmpty(query) Then
+                Return New FindResult() {}
+            End If
 
             Dim queryGrams = GenerateQGrams(query)
             Dim candidateCounts = New Dictionary(Of Integer, Integer)()
@@ -84,22 +90,27 @@
                 End If
             Next
 
+            Dim results As New List(Of FindResult)
+
             ' 计算Jaccard相似度并筛选结果
-            For Each kvp In candidateCounts
+            For Each kvp As KeyValuePair(Of Integer, Integer) In candidateCounts
                 Dim strIndex = kvp.Key
                 Dim commonGrams = kvp.Value
-                Dim targetGrams = GenerateQGrams(_strings(strIndex)).Count
+                Dim targetGrams = _counts(_strings(strIndex))
                 Dim unionGrams = queryGrams.Count + targetGrams - commonGrams
 
                 Dim similarity = commonGrams / CDbl(unionGrams)
-                If similarity >= threshold Then
+
+                If similarity > threshold Then
                     ' 计算编辑距离作为二次验证
-                    Dim distance = ComputeLevenshtein(query, _strings(strIndex))
-                    results.Add((_strings(strIndex), similarity, distance))
+                    Dim dist = LevenshteinDistance.ComputeDistance(query, _strings(strIndex))
+                    Dim distance = If(dist Is Nothing, Double.PositiveInfinity, dist.Distance)
+
+                    Call results.Add(New FindResult(_strings(strIndex), similarity, distance) With {.index = strIndex})
                 End If
             Next
 
-            Return results.OrderByDescending(Function(r) r.Item2).ToList()
+            Return results.OrderByDescending(Function(r) r.similarity)
         End Function
 
         ''' <summary>
@@ -107,6 +118,27 @@
         ''' </summary>
         Public Function GetIndexStats() As (Integer, Integer, Integer)
             Return (_strings.Count, _index.Count, _index.Sum(Function(x) x.Value.Count))
+        End Function
+    End Class
+
+    Public Class FindResult
+
+        Public Property text As String
+        Public Property similarity As Double
+        Public Property levenshtein As Double
+        Public Property index As Integer
+
+        Sub New()
+        End Sub
+
+        Sub New(text As String, similairty As Double, levenshtein As Double)
+            _text = text
+            _similarity = similairty
+            _levenshtein = levenshtein
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"[{index}] {text} = {similarity}"
         End Function
     End Class
 End Namespace
