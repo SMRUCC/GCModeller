@@ -40,13 +40,13 @@ declare namespace annotation.terms {
      * @param term_maps -
      * 
      * + default value Is ``null``.
-     * @param topBest 
+     * @param top_best 
      * + default value Is ``true``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function assign_terms(alignment: any, term_maps?: object, topBest?: boolean, env?: object): object;
+   function assign_terms(alignment: any, term_maps?: object, top_best?: boolean, env?: object): object;
    /**
     * try parse gene names from the product description strings
     * 

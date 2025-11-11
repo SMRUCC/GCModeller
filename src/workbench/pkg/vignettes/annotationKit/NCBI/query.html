@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>read ncbi ftp index of the genome assembly</title>
+    <title>make the in-memory assembly summary database query by the organism name matches</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>genome_assembly_index {NCBI}</td>
+                <td>query {NCBI}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>read ncbi ftp index of the genome assembly</h2>
+        <h2>make the in-memory assembly summary database query by the organism name matches</h2>
 
         <h3>Description</h3>
 
@@ -27,13 +27,25 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>genome_assembly_index</strong>(<i>file</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>query</strong>(<i>db</i>, <i>q</i>,
+    <i>cutoff</i> = <span style='color: green;'>0.8</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>db</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Data/AssemblySummaryGenbank.html">AssemblySummaryGenbank</a>]</p></dd>
+
+
+<dt>q</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>cutoff</dt>
+<dd><p>[as double]</p></dd>
+
         </table>
 
 
@@ -47,7 +59,8 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Data/GenBankAssemblyIndex.html">GenBankAssemblyIndex</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/GenBankAssemblyIndex.html">GenBankAssemblyIndex</a></li></ul>
+        <p>a vector of <a href="/vignettes/clr/SMRUCC/genomics/Data/GenBankAssemblyIndex.html">GenBankAssemblyIndex</a>. and this vector data has the attribute data 
+ of query <code>index</code> result with clr type <a href="/vignettes/clr/Microsoft/VisualBasic/ComponentModel/DataSourceModel/Repository/FindResult.html">FindResult</a>.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/GenBankAssemblyIndex.html">GenBankAssemblyIndex</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
