@@ -70,4 +70,9 @@ Module NCBI
         Return pipeline.CreateFromPopulator(GenBankAssemblyIndex.LoadIndex(file))
     End Function
 
+    <ExportAPI("genbank_assemblyDb")>
+    Public Function genbank_assemblyDb(file As String, Optional qgram As Integer = 6) As AssemblySummaryGenbank
+        Return New AssemblySummaryGenbank(qgram).LoadIntoMemory(file)
+    End Function
+
 End Module
