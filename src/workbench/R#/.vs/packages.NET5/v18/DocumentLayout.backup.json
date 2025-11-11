@@ -1,7 +1,15 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\ncbi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\ncbi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\internalinvokes\\utils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +17,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 6,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "utils.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\utils.vb",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\utils.vb",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\utils.vb",
+              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\utils.vb",
+              "ViewState": "AgIAAHUBAAAAAAAAAAAQwLABAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-11T12:34:39.259Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -26,6 +47,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NCBI.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\NCBI.vb",
+              "RelativeDocumentMoniker": "annotationKit\\NCBI.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\NCBI.vb",
+              "RelativeToolTip": "annotationKit\\NCBI.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-11T08:43:03.485Z",
+              "EditorCaption": ""
             }
           ]
         },
