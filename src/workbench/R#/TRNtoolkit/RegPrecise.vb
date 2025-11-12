@@ -122,6 +122,28 @@ Public Module RegPrecise
         Return file.LoadXml(Of TranscriptionFactors)
     End Function
 
+    <ExportAPI("write.regprecise")>
+    Public Function writeRegprecise(<RRawVectorArgument> db As Object, file As String, Optional env As Environment = Nothing) As Object
+        If TypeOf db Is TranscriptionFactors Then
+            Return DirectCast(db, TranscriptionFactors).GetXml.SaveTo(file)
+        End If
+
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of BacteriaRegulome)(db, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim dbData As New TranscriptionFactors With {
+            .genomes = pull _
+                .populates(Of BacteriaRegulome)(env) _
+                .ToArray,
+            .update = Now.ToString
+        }
+
+        Return dbData.GetXml.SaveTo(file)
+    End Function
+
     ''' <summary>
     ''' export the raw motif site sequence in fasta file format
     ''' </summary>
