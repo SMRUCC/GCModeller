@@ -1,65 +1,69 @@
 ﻿#Region "Microsoft.VisualBasic::f6291955274e322858805c3063e26d94, R#\TRNtoolkit\RegPrecise.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 150
-    '    Code Lines: 118 (78.67%)
-    ' Comment Lines: 14 (9.33%)
-    '    - Xml Docs: 35.71%
-    ' 
-    '   Blank Lines: 18 (12.00%)
-    '     File Size: 10.90 KB
+' Summaries:
 
 
-    ' Module RegPrecise
-    ' 
-    '     Function: exportRegPrecise, FromGenome, readMotifSites, readOperon, readRegPrecise
-    '               readRegulators, readRegulome, regJoin
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 150
+'    Code Lines: 118 (78.67%)
+' Comment Lines: 14 (9.33%)
+'    - Xml Docs: 35.71%
+' 
+'   Blank Lines: 18 (12.00%)
+'     File Size: 10.90 KB
+
+
+' Module RegPrecise
+' 
+'     Function: exportRegPrecise, FromGenome, readMotifSites, readOperon, readRegPrecise
+'               readRegulators, readRegulome, regJoin
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Development.NetCoreApp
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
@@ -207,7 +211,55 @@ Public Module RegPrecise
         Return RegulateGraph.ParseMotifSites(file.LineIterators).ToArray
     End Function
 
-    Public Function match_taxonomy()
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="ncbi"></param>
+    ''' <param name="regprecise"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("match_taxonomy")>
+    <RApiReturn(GetType(TranscriptionFactors), GetType(BacteriaRegulome))>
+    Public Function match_taxonomy(ncbi As AssemblySummaryGenbank, regprecise As Object, Optional env As Environment = Nothing) As Object
+        If regprecise Is Nothing Then
+            Call "the given database for make matches with ncbi genbank database is nothing!".warning
+            Return Nothing
+        End If
 
+        If TypeOf regprecise Is BacteriaRegulome Then
+            Dim target As BacteriaRegulome = DirectCast(regprecise, BacteriaRegulome)
+            Dim match = ncbi.GetBestMatch(target.genome.name, 0.85)
+
+            If Not match Is Nothing Then
+                target.genome.name = match.organism_name
+                target.genome.taxonomyId = match.taxid
+            Else
+                Call $"the bacterial genome '{target.genome.name}' is not existsed inside ncbi genbank database!".warning
+            End If
+
+            Return target
+        ElseIf TypeOf regprecise Is TranscriptionFactors Then
+            Dim db As TranscriptionFactors = DirectCast(regprecise, TranscriptionFactors)
+            Dim missing As New List(Of String)
+
+            For Each target As BacteriaRegulome In TqdmWrapper.Wrap(db.AsEnumerable.ToArray)
+                Dim match = ncbi.GetBestMatch(target.genome.name, 0.85)
+
+                If Not match Is Nothing Then
+                    target.genome.name = match.organism_name
+                    target.genome.taxonomyId = match.taxid
+                Else
+                    Call missing.Add(target.genome.name)
+                End If
+            Next
+
+            If missing.Any Then
+                Call $"found {missing.Count} bacterial genomes is missing from the ncbi genbank database: {missing.JoinBy("; ")}".warning
+            End If
+
+            Return db
+        Else
+            Return Message.InCompatibleType(GetType(TranscriptionFactors), regprecise.GetType, env)
+        End If
     End Function
 End Module

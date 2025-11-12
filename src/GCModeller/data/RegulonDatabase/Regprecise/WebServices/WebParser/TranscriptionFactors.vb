@@ -77,7 +77,9 @@ Namespace Regprecise
     ''' for comparative and evolutionary analysis of TF binding site motifs and regulon content for orthologous
     ''' transcription factors.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' regprecise database is a collection of <see cref="BacteriaRegulome"/> reference data
+    ''' </remarks>
     '''
     <XmlRoot("TranscriptionFactors", Namespace:="https://regprecise.lbl.gov/")>
     Public Class TranscriptionFactors
@@ -272,7 +274,7 @@ Namespace Regprecise
         End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of BacteriaRegulome) Implements Enumeration(Of BacteriaRegulome).GenericEnumerator
-            For Each genome As BacteriaRegulome In genomes
+            For Each genome As BacteriaRegulome In genomes.SafeQuery
                 Yield genome
             Next
         End Function
