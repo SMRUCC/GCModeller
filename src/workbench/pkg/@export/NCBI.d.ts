@@ -27,8 +27,10 @@ declare namespace NCBI {
      * @param cutoff -
      * 
      * + default value Is ``0.8``.
+     * @param best_match 
+     * + default value Is ``false``.
      * @return a vector of @``T:SMRUCC.genomics.Data.GenBankAssemblyIndex``. and this vector data has the attribute data 
      *  of query ``index`` result with clr type @``T:Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository.FindResult``.
    */
-   function query(db: object, q: string, cutoff?: number): object;
+   function query(db: object, q: string, cutoff?: number, best_match?: boolean): object;
 }

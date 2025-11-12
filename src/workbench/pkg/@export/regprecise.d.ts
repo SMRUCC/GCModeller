@@ -14,6 +14,10 @@ declare namespace regprecise {
    function join(blast: any, regulators: any, env?: object): object;
    module motif {
       /**
+       * export the raw motif site sequence in fasta file format
+       * 
+       * 
+        * @param regprecise -
       */
       function raw(regprecise: object): object;
    }

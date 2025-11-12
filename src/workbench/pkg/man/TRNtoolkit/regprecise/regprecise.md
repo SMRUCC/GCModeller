@@ -3,7 +3,7 @@
 
 
 + [read.regprecise](regprecise/read.regprecise.1) load regprecise database from a given file.
-+ [motif.raw](regprecise/motif.raw.1) 
++ [motif.raw](regprecise/motif.raw.1) export the raw motif site sequence in fasta file format
 + [read.regulome](regprecise/read.regulome.1) 
 + [regulators](regprecise/regulators.1) 
 + [join](regprecise/join.1) 
