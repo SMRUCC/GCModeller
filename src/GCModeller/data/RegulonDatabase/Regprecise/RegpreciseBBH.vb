@@ -200,9 +200,9 @@ Namespace Regprecise
     End Class
 
     ''' <summary>
-    ''' Bidirectional best hit regulator with the regprecise database.(调控因子与Regprecise数据库的双向最佳比对结果)
+    ''' Bidirectional best hit regulator with the regprecise database.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(调控因子与Regprecise数据库的双向最佳比对结果)</remarks>
     ''' 
     Public Class RegpreciseMPBBH : Inherits RegpreciseBBH
 
