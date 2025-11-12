@@ -54,21 +54,18 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.DataMining.AprioriRules
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.Python
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.Statistics
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
 
@@ -140,6 +137,31 @@ Public Module ProbabilityScanner
 
     End Class
 
+    Public Class NullTest : Inherits NullHypothesis(Of String)
+
+        ReadOnly length As Integer
+        ReadOnly zero As ZERO
+        ReadOnly motifSlice As Residue()
+
+        Sub New(zero As ZERO, motifSlice As Residue(), length As Integer, Optional permutation As Integer = 1000)
+            Call MyBase.New(permutation)
+
+            Me.motifSlice = motifSlice
+            Me.zero = zero
+            Me.length = length
+        End Sub
+
+        Public Overrides Iterator Function ZeroSet() As IEnumerable(Of String)
+            For i As Integer = 1 To Permutation
+                Yield zero.NextSequence(length)
+            Next
+        End Function
+
+        Public Overrides Function Score(x As String) As Double
+            Return ProbabilityScanner.score(x.ToCharArray, motifSlice)
+        End Function
+    End Class
+
     <Extension>
     Public Iterator Function LinearScan(motif As SequenceMotif, target As FastaSeq, Optional n As Integer = 1000) As IEnumerable(Of MotifMatch)
         For Each scan As MotifMatch In motif.region.LinearScan(target, n)
@@ -194,7 +216,7 @@ Public Module ProbabilityScanner
         Return matches.Take(5)
     End Function
 
-    Private Function score(seq As Char(), PWM As IReadOnlyCollection(Of Residue)) As Double
+    Private Function score(seq As String, PWM As IReadOnlyCollection(Of Residue)) As Double
         Dim total As Double = 0
 
         For i As Integer = 0 To seq.Length - 1
@@ -242,7 +264,6 @@ Public Module ProbabilityScanner
                 Continue For
             End If
 
-            Dim zero As String() = New String(n - 1) {}
             Dim len As Integer = std.Min(m.toA - m.fromA, m.toB - m.fromB)
             Dim motifSpan As New Span(Of Residue)(PWM, m.fromA, len)
             Dim motifSlice = motifSpan.SpanView
@@ -256,12 +277,9 @@ Public Module ProbabilityScanner
                 v(i) = motifSpan(i)(site(i))
                 total += v(i)
             Next
-            For i As Integer = 0 To zero.Length - 1
-                zero(i) = background.NextSequence(v.Length)
-            Next
 
-            Dim extremes = zero.Select(Function(si) score(si, motifSlice)).Count(Function(a) a >= total)
-            Dim pvalue = (extremes + 1) / (n + 1)
+            Dim null As New NullTest(background, motifSlice, v.Length, permutation:=n)
+            Dim pvalue As Double = null.Pvalue(total, Hypothesis.Greater)
 
             If pvalue >= pvalue_cut Then
                 Continue For
