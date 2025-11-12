@@ -13,3 +13,4 @@ for(let genome in tqdm(regprecise)) {
     genbank |> match_taxonomy(genome);
 }
 
+write.regprecise(regprecise, file = "F:\ecoli\regprecise.xml");
