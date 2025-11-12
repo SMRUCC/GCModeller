@@ -65,7 +65,7 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Text
 Imports r = System.Text.RegularExpressions.Regex
-Imports stdNum = System.Math
+Imports std = System.Math
 
 ''' <summary>
 ''' This module implements TextRank, an unsupervised keyword
@@ -289,9 +289,9 @@ Public Module TextRank
             Return 0
         End If
 
-        Dim denominator = stdNum.Log(wordList1.Count) + stdNum.Log(wordList2.Count)
+        Dim denominator = std.Log(wordList1.Count) + std.Log(wordList2.Count)
 
-        If stdNum.Abs(denominator) = 0R Then
+        If std.Abs(denominator) = 0R Then
             Return 0
         End If
 
