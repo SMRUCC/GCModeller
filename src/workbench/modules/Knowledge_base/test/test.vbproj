@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{299BC67C-AF08-43EA-89D4-17624B1DA081}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>test.pubmedParserTest</StartupObject>
+    <StartupObject>test.Module1GeneMatchTest</StartupObject>
     <RootNamespace>test</RootNamespace>
     <AssemblyName>test</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -119,6 +119,7 @@
     <Compile Include="Module1.vb" />
     <Compile Include="mesh_test.vb" />
     <Compile Include="Module2.vb" />
+    <Compile Include="Module3.vb" />
     <Compile Include="pubmedParserTest.vb" />
     <Compile Include="name_test.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
