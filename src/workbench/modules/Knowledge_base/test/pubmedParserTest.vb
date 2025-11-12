@@ -59,7 +59,7 @@ Module pubmedParserTest
         Call table.add("genes", From article As PubmedArticle In articles Let mesh_genes = genes.TryGetValue(article.PMID) Select mesh_genes.JoinBy("; "))
         Call table.add("keywords", From article As PubmedArticle In articles Select article.GetOtherTerms.JoinBy("; "))
 
-        Call table.WriteCsv("M:\project\20251010-wheat\20251105\LargePanicleDevelopment\articles.csv")
+        Call table.WriteCsv("M:\project\20250728-wheat\20251012\pubmed\articles.csv")
 
         '  Pause()
     End Sub
