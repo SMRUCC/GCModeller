@@ -67,7 +67,7 @@ Imports Oracle.Java.IO.Properties.Reflector
 <[PackageNamespace]("Sigma70")>
 Module TSSsValidation
 
-    Public Class RockhopperGeneStructure : Inherits LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.Workflows.PromoterParser.MEME_DIP
+    Public Class RockhopperGeneStructure : Inherits MEME_DIP
 
         Public Property Loci As String
         Public Property Synonym As String

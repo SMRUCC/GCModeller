@@ -22,7 +22,7 @@ Namespace My.Resources
     '''<summary>
     '''  A strongly-typed resource class, for looking up localized strings, etc.
     '''</summary>
-    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0"),  _
+    <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0"),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
      Global.Microsoft.VisualBasic.HideModuleNameAttribute()>  _
@@ -74,7 +74,7 @@ Namespace My.Resources
         '''software and other kinds of works.
         '''
         '''  The licenses for most software and other practical works are designed
-        '''to take away yo [rest of string was truncated]&quot;;.
+        '''to [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property gpl() As String
             Get
