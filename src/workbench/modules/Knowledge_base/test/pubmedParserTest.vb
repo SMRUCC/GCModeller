@@ -9,24 +9,16 @@ Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.PubMed
 Module pubmedParserTest
 
     Sub Main()
-        Dim articles = {"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-Secalespik-set.txt",
-"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-Triticumsp-set.txt",
-"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-wheatspike-set.txt",
-"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-Agropyrons-set.txt",
-"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-barleyspik-set.txt",
-"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-Hordeumspi-set.txt",
-"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-Oryzaspike-set.txt",
-"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-ricespiked-set.txt",
-"M:\project\20251010-wheat\释放数据20250927\pubmed\pubmed-spikeletde-set.txt"}.Select(Function(file) PlainTextParser.LoadArticles(file)).IteratesALL.GroupBy(Function(a) a.PMID).Select(Function(a) a.First).ToArray
+        Dim articles = {"M:\project\20250728-wheat\20251012\pubmed\pubmed-WheatStrip-set.txt",
+"M:\project\20250728-wheat\20251012\pubmed\pubmed-plantNLRim-set.txt",
+"M:\project\20250728-wheat\20251012\pubmed\pubmed-plantdisea-set.txt",
+"M:\project\20250728-wheat\20251012\pubmed\pubmed-StripeRust-set.txt",
+"M:\project\20250728-wheat\20251012\pubmed\pubmed-PlantImmun-set.txt"}.Select(Function(file) PlainTextParser.LoadArticles(file)).IteratesALL.GroupBy(Function(a) a.PMID).Select(Function(a) a.First).ToArray
 
         Dim table As New DataFrame With {
             .features = New Dictionary(Of String, FeatureVector),
             .rownames = (From article As PubmedArticle In articles Select article.PMID).ToArray
         }
-
-        Dim ignores As Index(Of String) = {"wheat", "transcriptome", "spike", "transcriptome", "yield", "metabolome", "barley", "rice", "bioinformatics", "gwas", "haplotype", "h2o2", "lncrna", "proteomics", "rye",
-            "genome-wide", "genome", "transgenosis", "anther", "starch", "heredity", "mutant", "evolution", "spikelet", "expression", "rna-seq", "differentiation", "tissue"}
-
         Dim genes As Dictionary(Of String, String())
         Dim ollama As New Ollama.Ollama("qwen3:30b", preserveMemory:=False)
 
