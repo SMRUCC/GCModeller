@@ -75,10 +75,10 @@ Namespace Metagenomics
     ''' 主要是用来保存csv以及Xml文件使用
     ''' </remarks>
     <XmlType("taxonomy", [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
-    Public Class Taxonomy
+    Public Class Taxonomy : Implements IGenomeObject
 
-        <XmlAttribute> Public Property ncbi_taxid As String
-        <XmlAttribute> Public Property scientificName As String
+        <XmlAttribute> Public Property ncbi_taxid As UInteger Implements IGenomeObject.ncbi_taxid
+        <XmlAttribute> Public Property scientificName As String Implements IGenomeObject.genome_name
 
 #Region "BIOM taxonomy k__ p__ c__ o__ f__ g__ s__"
 
