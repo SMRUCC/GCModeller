@@ -92,18 +92,16 @@ Module NCBI
                          Optional cutoff As Double = 0.8,
                          Optional best_match As Boolean = False) As Object
 
-        Dim index As FindResult() = db.Query(q, cutoff).ToArray
-
         If best_match Then
-            Return index _
-                .OrderByDescending(Function(a) a.similarity) _
-                .FirstOrDefault
+            Return db.GetBestMatch(q, cutoff)
+        Else
+            Dim index = db.Query(q, cutoff).ToArray
+            Dim result As GenBankAssemblyIndex() = index.Select(Function(i) i.genome).ToArray
+            Dim vec As New vector(result, RType.GetRSharpType(GetType(GenBankAssemblyIndex)))
+            Dim matches = index.Select(Function(i) i.match).ToArray
+            vec.setAttribute("index", matches)
+            Return vec
         End If
-
-        Dim result As GenBankAssemblyIndex() = index.Select(Function(i) db(i)).ToArray
-        Dim vec As New vector(result, RType.GetRSharpType(GetType(GenBankAssemblyIndex)))
-        vec.setAttribute("index", index)
-        Return vec
     End Function
 
 End Module

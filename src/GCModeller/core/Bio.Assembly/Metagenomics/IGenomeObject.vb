@@ -34,6 +34,14 @@ Namespace Metagenomics
             Return Me
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <param name="cutoff"></param>
+        ''' <returns>
+        ''' the query output result has already been sorted with <see cref="FindResult.similarity"/> in decreasing order.
+        ''' </returns>
         Public Iterator Function Query(name As String, Optional cutoff As Double = 0.8) As IEnumerable(Of (genome As T, match As FindResult))
             Dim offsets As FindResult() = qgram.FindSimilar(name, cutoff) _
                 .OrderByDescending(Function(a) a.similarity) _
