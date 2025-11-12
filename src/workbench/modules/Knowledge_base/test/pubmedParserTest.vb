@@ -30,25 +30,30 @@ Module pubmedParserTest
 
         Call "LLM AI is thinking...".info
 
+        Dim extractor As New GeneIdentifierExtractor()
+
         For Each article As PubmedArticle In TqdmWrapper.Wrap(articles)
-            If Not genes.ContainsKey(article.PMID) Then
-                Dim pmid = article.PMID
-                Dim abstract = article.GetAbstractText
-                Dim keywords = article.GetOtherTerms.ToArray
+            'If Not genes.ContainsKey(article.PMID) Then
+            Dim pmid = article.PMID
+            Dim abstract = article.GetAbstractText
+            Dim keywords = article.GetOtherTerms.ToArray
 
-                If keywords.IsNullOrEmpty Then
-                    Continue For
-                End If
+            'If keywords.IsNullOrEmpty Then
+            '    Continue For
+            'End If
 
-                Dim payload As String = keywords.GetJson
-                Dim prompt = "下面有一个我从研究文献中提取出来的关键词列表，现在我需要你从下面我所提取出来的关键词列表中提取出一个包含有基因名称或者基因家族名称的列表。
-返回给我的文本应该是仅包含有结果的json数组的json字符串格式返回结果给我，例如[""geneName""]这样子的格式；假若没有结果，则返回一个空的json数组[]给我，以方便我进行自动化解析。
-以下是需要做提取处理的关键词列表的json数组信息：" & payload
-                Dim result = ollama.Chat(prompt)
+            '                Dim payload As String = keywords.GetJson
+            '                Dim prompt = "下面有一个我从研究文献中提取出来的关键词列表，现在我需要你从下面我所提取出来的关键词列表中提取出一个包含有基因名称或者基因家族名称的列表。
+            '返回给我的文本应该是仅包含有结果的json数组的json字符串格式返回结果给我，例如[""geneName""]这样子的格式；假若没有结果，则返回一个空的json数组[]给我，以方便我进行自动化解析。
+            '以下是需要做提取处理的关键词列表的json数组信息：" & payload
+            '                Dim result = ollama.Chat(prompt)
 
-                Call genes.Add(pmid, result.output.LoadJSON(Of String()))
-                Call genes.GetJson.SaveTo("./tmp.json")
-            End If
+            '                Call genes.Add(pmid, result.output.LoadJSON(Of String()))
+            '                Call genes.GetJson.SaveTo("./tmp.json")
+            Dim geneIds = extractor.ExtractGenes(abstract).JoinIterates(extractor.ExtractGenes(keywords.JoinBy(" "))).ToArray
+
+            genes(pmid) = geneIds
+            ' End If
         Next
 
         Call table.add("title", From article As PubmedArticle In articles Select article.GetTitle)
