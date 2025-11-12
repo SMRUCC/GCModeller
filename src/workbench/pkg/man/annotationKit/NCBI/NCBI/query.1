@@ -1,0 +1,33 @@
+.\" man page create by R# package system.
+.TH NCBI 1 2000-Jan "query" "query"
+.SH NAME
+query \- make the in-memory assembly summary database query by the organism name matches
+.SH SYNOPSIS
+\fIquery(\fBdb\fR as <generic> AssemblySummaryGenbank, 
+\fBq\fR as string, 
+\fBcutoff\fR as double = 0.8);\fR
+.SH DESCRIPTION
+.PP
+make the in-memory assembly summary database query by the organism name matches
+.PP
+.SH OPTIONS
+.PP
+\fBdb\fB \fR\- -. 
+.PP
+.PP
+\fBq\fB \fR\- -. 
+.PP
+.PP
+\fBcutoff\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+a vector of @\fBT:SMRUCC.genomics.Data.GenBankAssemblyIndex\fR. and this vector data has the attribute data 
+ of query \fBindex\fR result with clr type @\fBT:Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository.FindResult\fR.
+.PP
+.SH SEE ALSO
+NCBI
+.SH FILES
+.PP
+annotationKit.dll
+.PP

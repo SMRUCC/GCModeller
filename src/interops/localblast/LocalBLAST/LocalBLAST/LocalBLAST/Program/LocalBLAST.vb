@@ -512,12 +512,12 @@ Namespace LocalBLAST.Programs
         ''' <param name="e"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overrides Function Blastp(Input As File, TargetDb As String, Output As File, Optional e As String = "10") As Microsoft.VisualBasic.CommandLine.IORedirectFile
+        Public Overrides Function Blastp(Input As File, TargetDb As String, Output As File, Optional e As String = "10") As Microsoft.VisualBasic.CommandLine.IORedirect
             Dim Argums As String = String.Format(ARGUMS_BLASTP, Input, TargetDb, Output, e)
             MyBase._InternalLastBLASTOutputFile = Output
             Dim Cmdl As String = String.Format("{0} {1}", BLASTALLAssembly, Argums)
             Call Console.WriteLine("BLASTP::" & vbCrLf & "  ---> {0}", Cmdl)
-            Return New CommandLine.IORedirectFile(BLASTALLAssembly, Argums)
+            Return New CommandLine.IORedirect(BLASTALLAssembly, Argums)
         End Function
 
         ''' <summary>
@@ -534,12 +534,12 @@ Namespace LocalBLAST.Programs
         End Function
 #End Region
 
-        Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As CommandLine.IORedirectFile
+        Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As CommandLine.IORedirect
             Dim Argums As String = String.Format(ARGUMS_BLASTN, Input, TargetDb, Output, e, Strand, Output & ".aln")
             MyBase._InternalLastBLASTOutputFile = Output
             Dim Cmdl As String = String.Format("{0} {1}", BLASTALLAssembly, Argums)
             Call Console.WriteLine("BLASTN::" & vbCrLf & "  ---> {0}", Cmdl)
-            Return New CommandLine.IORedirectFile(BLASTALLAssembly, Argums)
+            Return New CommandLine.IORedirect(BLASTALLAssembly, Argums)
         End Function
 
         ''' <summary>
@@ -549,10 +549,10 @@ Namespace LocalBLAST.Programs
         ''' <param name="dbType">"T" for protein, "F" for nucleotide.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overloads Overrides Function FormatDb(Db As String, dbType As String) As CommandLine.IORedirectFile
+        Public Overloads Overrides Function FormatDb(Db As String, dbType As String) As CommandLine.IORedirect
             Dim CommandLine As String = String.Format("{0} {1}", FormatDbAssembly, String.Format(ARGUMS_FORMATDB, Db, dbType))
             Call Console.WriteLine("FORMAT_DB::" & vbCrLf & "  ---> {0}", CommandLine)
-            Return New CommandLine.IORedirectFile(FormatDbAssembly, String.Format(ARGUMS_FORMATDB, Db, dbType))
+            Return New CommandLine.IORedirect(FormatDbAssembly, String.Format(ARGUMS_FORMATDB, Db, dbType))
         End Function
 
         Public Overrides ReadOnly Property MolTypeNucleotide As String

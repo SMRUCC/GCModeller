@@ -67,10 +67,11 @@ Namespace ComponentModel.Loci
 
     ''' <summary>
     ''' Loci segment location information on an nucleotide sequence, this object added an <see cref="NucleotideLocation.Strand"></see> 
-    ''' information on <see cref="Location"></see> data.(会自动根据LEFT和RIGHT的值来修正属性值)
+    ''' information on <see cref="Location"></see> data.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(会自动根据LEFT和RIGHT的值来修正属性值)</remarks>
     Public Class NucleotideLocation : Inherits Location
+        Implements INucleotideLocation
 
         ''' <summary>
         ''' 这个位点在哪一条DNA核酸链
@@ -84,7 +85,7 @@ Namespace ComponentModel.Loci
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Overridable Property Strand As Strands
+        <XmlAttribute> Public Overridable Property Strand As Strands Implements INucleotideLocation.Strand
         ''' <summary>
         ''' 用户对这个位点的自定义标注信息
         ''' </summary>

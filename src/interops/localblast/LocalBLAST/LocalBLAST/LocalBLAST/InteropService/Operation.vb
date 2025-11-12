@@ -72,7 +72,7 @@ Namespace LocalBLAST.InteropService
             Call MyBase.New(BlastBin)
         End Sub
 
-        Public Overrides Function Blastp(InputQuery As String, TargetSubjectDb As String, Output As String, Optional e As String = "10") As IORedirectFile
+        Public Overrides Function Blastp(InputQuery As String, TargetSubjectDb As String, Output As String, Optional e As String = "10") As IORedirect
             Dim Cmdl = DirectCast(ProgramProfile.GetCommand("blastp"), Executable.Executable_BLAST).CreateCommand(InputQuery, TargetSubjectDb, e, Output)
             MyBase._InternalLastBLASTOutputFile = Output
             Return Cmdl
@@ -127,13 +127,13 @@ Namespace LocalBLAST.InteropService
             }
         End Function
 
-        Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As IORedirectFile
+        Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As IORedirect
             Dim Cmdl = DirectCast(ProgramProfile.GetCommand("blastn"), Executable.Executable_BLAST).CreateCommand(Input, TargetDb, e, Output)
             MyBase._InternalLastBLASTOutputFile = Output
             Return Cmdl
         End Function
 
-        Public Overloads Overrides Function FormatDb(Db As String, dbType As String) As IORedirectFile
+        Public Overloads Overrides Function FormatDb(Db As String, dbType As String) As IORedirect
             Dim Cmdl = DirectCast(ProgramProfile.GetCommand("builddb"), Executable.Executable_BuildDB).CreateCommand(Db, dbType)
             Return Cmdl
         End Function

@@ -61,18 +61,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Namespace LocalBLAST.Application.BBH.Abstract
-
-    Public Interface IBlastHit
-        Property queryName As String
-        Property hitName As String
-    End Interface
-
-    Public Interface IQueryHits : Inherits IBlastHit
-        ReadOnly Property identities As Double
-    End Interface
 
     <HideModuleName> Public Module Extensions
 

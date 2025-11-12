@@ -82,6 +82,14 @@ Namespace PubMed
         <XmlText>
         Public Property ID As String
 
+        Sub New()
+        End Sub
+
+        Sub New(aid As String, type As String)
+            ID = aid
+            IdType = type
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"{IdType}: {ID}"
         End Function

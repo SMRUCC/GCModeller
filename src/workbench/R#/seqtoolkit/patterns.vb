@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -76,6 +77,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.GCModeller.Workbench.SeqFeature
 Imports SMRUCC.genomics.Model.MotifGraph
 Imports SMRUCC.genomics.SequenceModel
@@ -85,6 +87,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
@@ -93,6 +96,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' Tools for sequence patterns
 ''' </summary>
 <Package("bioseq.patterns", Category:=APICategories.ResearchTools)>
+<RTypeExport("motif_match", GetType(MotifMatch))>
 Module patterns
 
     Friend Sub Main()
@@ -261,9 +265,45 @@ Module patterns
         Return file.LoadJSON(Of SequenceMotif())
     End Function
 
+    ''' <summary>
+    ''' read the motif match scan result table file
+    ''' </summary>
+    ''' <param name="file">should be a file path to a csv table file.</param>
+    ''' <returns></returns>
     <ExportAPI("read.scans")>
     Public Function readSites(file As String) As MotifMatch()
-        Return file.LoadCsv(Of MotifMatch).ToArray
+        Return file.LoadCsv(Of MotifMatch)(mute:=True).ToArray
+    End Function
+
+    <ExportAPI("top_sites")>
+    Public Function top_sites(sites As MotifMatch(),
+                              Optional identities As Double? = Nothing,
+                              Optional pvalue As Double? = Nothing,
+                              Optional minW As Integer? = Nothing) As MotifMatch()
+
+        If identities IsNot Nothing Then
+            Dim identitiesVal As Double = CDbl(identities)
+
+            sites = (From site As MotifMatch
+                     In sites
+                     Where site.identities > identitiesVal).ToArray
+        End If
+        If pvalue IsNot Nothing Then
+            Dim pvalue_cut As Double = CDbl(pvalue)
+
+            sites = (From site As MotifMatch
+                     In sites
+                     Where site.pvalue < pvalue_cut).ToArray
+        End If
+        If minW IsNot Nothing Then
+            Dim width As Integer = CInt(minW)
+
+            sites = (From site As MotifMatch
+                     In sites
+                     Where (site.ends - site.start) >= minW).ToArray
+        End If
+
+        Return sites
     End Function
 
     ''' <summary>
@@ -316,6 +356,7 @@ Module patterns
                                Optional cutoff# = 0.6,
                                Optional minW# = 8,
                                Optional identities As Double = 0.85,
+                               Optional pvalue As Double = 0.05,
                                Optional parallel As Boolean = False,
                                Optional env As Environment = Nothing) As Object
 
@@ -324,7 +365,9 @@ Module patterns
         ElseIf TypeOf target Is FastaSeq Then
             ' scan a simple single sequence
             Return motif.region _
-                .ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities) _
+                .ScanSites(DirectCast(target, FastaSeq), cutoff, minW,
+                           pvalue_cut:=pvalue,
+                           identities:=identities) _
                 .ToArray
         Else
             Dim seqs = GetFastaSeq(target, env)
@@ -336,7 +379,7 @@ Module patterns
                 Return seqs.ToArray _
                     .Populate(parallel, App.CPUCoreNumbers) _
                     .Select(Function(seq)
-                                Return motif.ScanSites(seq, cutoff, minW, identities)
+                                Return motif.ScanSites(seq, cutoff, minW, identities, pvalue:=pvalue)
                             End Function) _
                     .IteratesALL _
                     .ToArray
@@ -587,5 +630,66 @@ Module patterns
         Next
 
         Return outputs.ToArray
+    End Function
+
+    ''' <summary>
+    ''' split the motif matches result in parts by its gene source
+    ''' </summary>
+    ''' <param name="matches"></param>
+    ''' <param name="gff"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("split_match_source")>
+    Public Function SplitMatchesSource(<RRawVectorArgument> matches As Object, Optional gff As GFFTable = Nothing, Optional env As Environment = Nothing) As Object
+        Dim matchList = pipeline.TryCreatePipeline(Of MotifMatch)(matches, env)
+
+        If matchList.isError Then
+            Dim filepath As String = CLRVector.asScalarCharacter(matches)
+
+            If Not filepath.FileExists Then
+                Return matchList.getError
+            End If
+
+            matchList = filepath _
+                .OpenHandle() _
+                .AsLinq(Of MotifMatch) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        End If
+
+        Dim sourceList As New Dictionary(Of String, List(Of MotifMatch))
+        Dim hashContextData As Boolean = Not gff Is Nothing
+
+        If hashContextData Then
+            Dim context = gff.features _
+                .GroupBy(Function(a) a.ID) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.First
+                              End Function)
+
+            For Each match As MotifMatch In matchList.populates(Of MotifMatch)(env)
+                Dim feature = context(match.title)
+                Dim source As String = feature.seqname
+
+                If Not sourceList.ContainsKey(source) Then
+                    Call sourceList.Add(source, New List(Of MotifMatch))
+                End If
+
+                Call sourceList(source).Add(match)
+            Next
+        Else
+            For Each match As MotifMatch In matchList.populates(Of MotifMatch)(env)
+                Dim title As String() = match.title.Split("|"c)
+                Dim source As String = title(0)
+
+                If Not sourceList.ContainsKey(source) Then
+                    Call sourceList.Add(source, New List(Of MotifMatch))
+                End If
+
+                Call sourceList(source).Add(match)
+            Next
+        End If
+
+        Return New list(sourceList.ToDictionary(Function(a) a.Key, Function(a) a.Value.ToArray))
     End Function
 End Module

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.GenBankAssemblyIndex</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>GenBankAssemblyIndex {SMRUCC.genomics.Data}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>GenBankAssemblyIndex</h2>
+
+        <h3>Description</h3>
+
+        <p>assembly<em>summary</em>genbank.txt
+ 
+ > See <a href='ftp://ftp.ncbi.nlm.nih.gov/genomes/README_assembly_summary.txt' title='ftp://ftp.ncbi.nlm.nih.gov/genomes/README_assembly_summary.txt'>ftp://ftp.ncbi.nlm.nih.gov/genomes/README_assembly_summary.txt</a> for a description of the columns in this file.</p>
+
+<h6></h6>
+
+<p>README for the assembly<em>summary</em>genbank.txt, assembly<em>summary</em>refseq.txt and 
+ assembly_summary.txt files found on the NCBI genomes FTP site:
+   <a href='https://ftp.ncbi.nlm.nih.gov/genomes' title='https://ftp.ncbi.nlm.nih.gov/genomes'>https://ftp.ncbi.nlm.nih.gov/genomes</a> 
+ 
+ Last updated: December 30, 2024
+ ################################################################################
+ 
+ ======================
+ ASSEMBLY SUMMARY FILES
+ ======================
+ 
+ The assembly_summary files report metadata for the genome assemblies on the 
+ NCBI genomes FTP site.
+ 
+ Four master files reporting data for either GenBank or RefSeq genome assemblies 
+ are available under;;;auto<em>url+3xxx;;; assembly</em>summary_genbank.txt            - current GenBank genome assemblies
+ assembly<em>summary</em>genbank_historical.txt - replaced and suppressed GenBank genome
+                                           assemblies
+ assembly<em>summary</em>refseq.txt             - current RefSeq genome assemblies
+ assembly<em>summary</em>refseq_historical.txt  - replaced and suppressed RefSeq genome
+                                           assemblies
+ 
+ assembly<em>summary</em>genbank.txt and assembly<em>summary</em>genbank_historical.txt are 
+ also available at:
+;;;auto<em>url+4xxx;;;;;;auto</em>url+5xxx;;; 
+ 
+ assembly<em>summary</em>refseq.txt and assembly<em>summary</em>refseq_historical.txt are 
+ also available at:
+;;;auto<em>url+6xxx;;;;;;auto</em>url+7xxx;;; 
+ The assembly_summary.txt files in the directories named for taxonomic groups or
+ species contain the relevant subsets of the data from the master files.
+ 
+ =====================================
+ HOW TO USE THE ASSEMBLY SUMMARY FILES
+ =====================================
+ 
+ The metadata provided in the assembly_summary.txt files can be used to identify
+ assemblies of interest for subsequent download. 
+ 
+ The Genomes FTP FAQ provides examples of how to use the assembly_summary.txt 
+ files to download sets of assemblies. See: 
+ 
+ How can I download only the current version of each assembly?
+ <a href='https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/#current' title='https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/#current'>https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/#current</a>
+ 
+ How can I download RefSeq data for all complete bacterial genomes?
+ <a href='https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/#allcomplete' title='https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/#allcomplete'>https://www.ncbi.nlm.nih.gov/genome/doc/ftpfaq/#allcomplete</a>
+ 
+ Other sets of assemblies of interest can be downloaded using variations on 
+ these instructions.
+ 
+ 
+
+<hr /></p>
+
+<p>National Center for Biotechnology Information (NCBI)
+ National Library of Medicine
+ National Institutes of Health
+ 8600 Rockville Pike
+ Bethesda, MD 20894, USA
+ tel: (301) 496-2475
+ fax: (301) 480-9241
+ e-mail: info@ncbi.nlm.nih.gov
+ 
+
+<hr /></p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data
+export class GenBankAssemblyIndex {
+   # Annotation date: the date that the assembly was annotated
+   annotation_date: string;
+   # Annotation name: the name of the annotation that is on the assembly
+   annotation_name: string;
+   # Annotation provider: the group that provided the annotation on the assembly
+   annotation_provider: string;
+   # Assembly name: the submitter's name for the genome assembly, when one was 
+   #     provided, otherwise a default name, in the form ASM#####v#, is provided by 
+   #     NCBI. Assembly names are not unique.
+   asm_name: string;
+   # Assembly no longer live date: the date the assembly transitioned from 
+   #  	version_status latest to either replaced or suppressed. When the assembly is
+   #  	in status latest, "na" is reported.
+   asm_not_live_date: string;
+   # Assembly submitter: the submitting consortium or first position if a list of
+   #     organizations. The full submitter information is available in the NCBI 
+   #     BioProject resource: www.ncbi.nlm.nih.gov/bioproject/
+   asm_submitter: string;
+   # Assembly accession: the assembly accession.version reported in this field is 
+   #     a unique identifier for the set of sequences in this particular version of 
+   #     the genome assembly.
+   assembly_accession: string;
+   # Assembly level: the highest level of assembly for any object in the genome 
+   #     assembly.
+   #     Values:
+   #        Complete genome - all chromosomes are gapless and have no runs of 10 or 
+   #                          more ambiguous bases (Ns), there are no unplaced or 
+   #                          unlocalized scaffolds, and all the expected chromosomes
+   #                          are present (i.e. the assembly is not noted as having 
+   #                          partial genome representation). Plasmids and organelles
+   #                          may or may not be included in the assembly but if 
+   #                          present then the sequences are gapless.
+   #        Chromosome      - there is sequence for one or more chromosomes. This 
+   #                          could be a completely sequenced chromosome without gaps
+   #                          or a chromosome containing scaffolds or contigs with 
+   #                          gaps between them. There may also be unplaced or 
+   #                          unlocalized scaffolds.
+   #        Scaffold        - some sequence contigs have been connected across gaps to
+   #                          create scaffolds, but the scaffolds are all unplaced or 
+   #                          unlocalized.
+   #        Contig          - nothing is assembled beyond the level of sequence 
+   #                          contigs
+   assembly_level: string;
+   # Assembly type: the type of assembly, including haploid, haploid-with-alt,
+   #  	diploid, unresolved-diploid, alternate-pseudohaplotype
+   assembly_type: string;
+   # BioProject: accession for the BioProject which produced the sequences in the 
+   #     genome assembly. A BioProject is a collection of biological data related to a
+   #     single initiative, originating from a single organization or from a 
+   #     consortium. A BioProject record provides users a single place to find links 
+   #     to the diverse data types generated for that project. The record can be 
+   #     retrieved from the NCBI BioProject resource:
+   #     <a href='https://www.ncbi.nlm.nih.gov/bioproject/' title='https://www.ncbi.nlm.nih.gov/bioproject/'>https://www.ncbi.nlm.nih.gov/bioproject/</a>
+   bioproject: string;
+   # BioSample: accession for the BioSample from which the sequences in the genome
+   #     assembly were obtained. A BioSample record contains a description of the 
+   #     biological source material used in experimental assays. The record can be 
+   #     retrieved from the NCBI BioSample resource:
+   #     <a href='https://www.ncbi.nlm.nih.gov/biosample/' title='https://www.ncbi.nlm.nih.gov/biosample/'>https://www.ncbi.nlm.nih.gov/biosample/</a>
+   biosample: string;
+   # Contig count: number of contigs in the primary assembly
+   contig_count: string;
+   # Excluded from RefSeq: reasons the assembly was excluded from the NCBI 
+   #     Reference Sequence (RefSeq) project, including any assembly anomalies. See:
+   #     <a href='https://www.ncbi.nlm.nih.gov/assembly/help/anomnotrefseq/' title='https://www.ncbi.nlm.nih.gov/assembly/help/anomnotrefseq/'>https://www.ncbi.nlm.nih.gov/assembly/help/anomnotrefseq/</a>
+   excluded_from_refseq: string;
+   # FTP path: the path to the directory on the NCBI genomes FTP site from which 
+   #     data for this genome assembly can be downloaded.
+   ftp_path: string;
+   # GenBank/RefSeq paired assembly: the accession.version of the GenBank assembly
+   #     that is paired to the given RefSeq assembly, or vice-versa. "na" is reported 
+   #     if the assembly is unpaired.
+   gbrs_paired_asm: string;
+   # GC%: Percent of nitrogenous bases (guanine or cytosine) in DNA submitted
+   #  	for the assembly, rounded to the nearest 0.5%
+   gc_percent: string;
+   # Genome representation: whether the goal for the assembly was to represent the
+   #     whole genome or only part of it.
+   #     Values:
+   #        Full    - the data used to generate the assembly was obtained from the 
+   #                  whole genome, as in Whole Genome Shotgun (WGS) assemblies for 
+   #                  example. There may still be gaps in the assembly.
+   #        Partial - the data used to generate the assembly came from only part of 
+   #                  the genome. 
+   #     Most assemblies have full genome representation with a minority being partial
+   #     genome representation. See the Assembly help web page 
+   #     <a href='(https://www.ncbi.nlm.nih.gov/assembly/help/' title='(https://www.ncbi.nlm.nih.gov/assembly/help/'>(https://www.ncbi.nlm.nih.gov/assembly/help/</a> for reasons that the genome 
+   #     representation would be set to partial.
+   genome_rep: string;
+   # Genome Size: total length of all top-level sequences in the primary 
+   #  	assembly
+   genome_size: string;
+   # Genome Size - Ungapped length: total length of all top-level sequences 
+   #  	in the primary assembly ignoring gaps. Any stretch of 10 or more Ns in a
+   #  	sequence is treated like a gap
+   genome_size_ungapped: string;
+   # Taxonomy Group: commonly used organism groups: 
+   #  		Eukaryota: Animals, Fungi, Plants, Protists;                           
+   #          Prokaryota: group corresponds to phylum; 
+   #          Viruses: groups defined as the first level (not ranked)                        
+   #                       below the kingdom of Viruses
+   group: string;
+   # Infraspecific name: the strain, breed, cultivar or ecotype of the organism 
+   #     from which the sequences in the genome assembly were derived. Data are 
+   #     reported in the form tag=value, e.g. strain=AF16. Strain, breed, cultivar 
+   #     and ecotype are not expected to be used together, however, if they are then 
+   #     they will be reported in a list separated by ", /". Empty if no strain, 
+   #     breed, cultivar or ecotype is specified on the genomic sequence records.
+   infraspecific_name: string;
+   # Isolate: the individual isolate from which the sequences in the genome 
+   #     assembly were derived. Empty if no isolate is specified on the genomic 
+   #     sequence records.
+   isolate: string;
+   # Non-coding gene count: the total number of non-coding genes on the assembly
+   non_coding_gene_count: string;
+   # Organism name: the scientific name of the organism from which the sequences 
+   #     in the genome assembly were derived. This name is taken from the NCBI 
+   #     Taxonomy record for the taxid specified in column 6. Some older taxids were 
+   #     assigned at the strain level and for these the organism name will include the
+   #     strain. Current practice is only to assign taxids at the species level; for 
+   #     these the organism name will be just the species, however, the strain name 
+   #     will be reported in the infraspecific_name field (column 9).
+   organism_name: string;
+   # Paired assembly comparison: whether the paired GenBank & RefSeq assemblies 
+   #     are identical or different.
+   #     Values:
+   #        identical - GenBank and RefSeq assemblies are identical
+   #        different - GenBank and RefSeq assemblies are not identical
+   #        na        - not applicable since the assembly is unpaired
+   paired_asm_comp: string;
+   # Protein coding gene count: the total number of protein coding genes on the
+   #  	assembly
+   protein_coding_gene_count: string;
+   # PubMed ID: The PubMed ID(s) that are associated with the assembly, 
+   #  	separated by commas
+   pubmed_id: string;
+   # RefSeq Category: whether the assembly is a reference genome in the NCBI
+   #     Reference Sequence (RefSeq) project classification. 
+   #     Values:
+   #             reference genome - a genome computationally or manually selected
+   #                                as a reference for the species. 
+   #             na               - no RefSeq category assigned to this assembly
+   #     Details of the selection of reference are at: 
+   #     <a href='https://www.ncbi.nlm.nih.gov/datasets/docs/v2/policies-annotation/genome-processing/reference-selection/' title='https://www.ncbi.nlm.nih.gov/datasets/docs/v2/policies-annotation/genome-processing/reference-selection/'>https://www.ncbi.nlm.nih.gov/datasets/docs/v2/policies-annotation/genome-processing/reference-selection/</a>
+   refseq_category: string;
+   # Relation to type material: contains a value if the sequences in the genome 
+   #     assembly were derived from type material.
+   #     Values:
+   #        assembly from type material - the sequences in the genome assembly were 
+   #           derived from type material
+   #        assembly from synonym type material - the sequences in the genome assembly
+   #           were derived from synonym type material
+   #        assembly from pathotype material - the sequences in the genome assembly
+   #           were derived from pathovar material
+   #        assembly designated as neotype - the sequences in the genome assembly 
+   #           were derived from neotype material
+   #        assembly designated as reftype - the sequences in the genome assembly 
+   #           were derived from reference material where type material never was 
+   #           available and is not likely to ever be available
+   #        ICTV species exemplar - the International Committee on Taxonomy of Viruses
+   #           (ICTV) designated the genome assembly as the exemplar for the virus 
+   #           species
+   #        ICTV additional isolate - the International Committee on Taxonomy of 
+   #           Viruses (ICTV) designated the genome assembly an additional isolate for
+   #           the virus species
+   relation_to_type_material: string;
+   # Release type: whether this version of the genome assembly is a major, minor 
+   #     or patch release.
+   #     Values:
+   #             Major - changes from the previous assembly version result in a 
+   #                     significant change to the coordinate system. The first 
+   #                     version of an assembly is always a major release. Most 
+   #                     subsequent genome assembly updates are also major releases.
+   #             Minor - changes from the previous assembly version are limited to the
+   #                     following changes, none of which result in a significant 
+   #                     change to the coordinate system of the primary assembly-unit:
+   #                     - adding, removing or changing a non-nuclear assembly-unit
+   #                     - dropping unplaced or unlocalized scaffolds
+   #                     - adding up to 50 unplaced or unlocalized scaffolds which are
+   #                       shorter than the current scaffold-N50 value
+   #                     - replacing a component with a gap of the same length
+   #             Patch - the only change is the addition or modification of a patch 
+   #                     assembly-unit. 
+   #     See the NCBI Assembly model web page ;;;auto<em>url+1xxx;;;    model/#asmb</em>def) for definitions of assembly-units and genome patches.
+   release_type: string;
+   # Replicon count:  total number of chromosomes, organelle genomes, and
+   #  	plasmids in the primary assembly
+   replicon_count: string;
+   # Scaffold count: number of scaffolds including placed, unlocalized, 
+   #  	unplaced, alternate loci and patch scaffolds in the primary assembly
+   scaffold_count: string;
+   # Sequence release date: the date the sequences in the genome assembly were 
+   #     released in the International Nucleotide Sequence Database Collaboration 
+   #     (INSDC) databases, i.e. DDBJ, ENA or GenBank.
+   seq_rel_date: string;
+   # Species taxonomy ID: the NCBI taxonomy identifier for the species from which 
+   #     the genome assembly was derived. The species taxid will differ from the 
+   #     organism taxid (column 6) only when the organism was reported at a sub-
+   #     species or strain level.
+   species_taxid: string;
+   # Taxonomy ID: the NCBI taxonomy identifier for the organism from which the 
+   #     genome assembly was derived. The NCBI Taxonomy Database is a curated 
+   #     classification and nomenclature for all of the organisms in the public 
+   #     sequence databases. The taxonomy record can be retrieved from the NCBI 
+   #     Taxonomy resource:
+   #     <a href='https://www.ncbi.nlm.nih.gov/taxonomy/' title='https://www.ncbi.nlm.nih.gov/taxonomy/'>https://www.ncbi.nlm.nih.gov/taxonomy/</a>
+   taxid: string;
+   # Total gene count: the total number of genes that are annotated on the
+   #  	assembly. If an assembly has no genes, or is lacking a gene count, it will 
+   #  	display "na". If an assembly has no features but is annotated, then it will
+   #  	show 0.
+   total_gene_count: string;
+   # Version status: the release status for the genome assembly version.
+   #     Values:
+   #             latest     - the most recent of all the versions for this assembly 
+   #                          chain
+   #             replaced   - this version has been replaced by a newer version of the
+   #                          assembly in the same chain
+   #             suppressed - this version of the assembly has been suppressed 
+   #     An assembly chain is the collection of all versions for the same assembly 
+   #     accession.
+   version_status: string;
+   # WGS-master: the GenBank Nucleotide accession and version for the master 
+   #     record of the Whole Genome Shotgun (WGS) project for the genome assembly. The
+   #     master record can be retrieved from the NCBI Nucleotide resource: 
+   #     <a href='https://www.ncbi.nlm.nih.gov/nuccore' title='https://www.ncbi.nlm.nih.gov/nuccore'>https://www.ncbi.nlm.nih.gov/nuccore</a>
+   #     Genome assemblies that are complete genomes, and those that are clone-based,
+   #     do not have WGS-master records in which case this field will be empty.
+   wgs_master: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

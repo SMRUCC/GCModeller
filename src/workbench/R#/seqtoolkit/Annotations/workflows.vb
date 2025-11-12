@@ -307,9 +307,19 @@ Module workflows
         End With
     End Sub
 
-    <ExportAPI("besthit.filter")>
+    ''' <summary>
+    ''' make filter of the blast best hits via the given parameter combinations
+    ''' </summary>
+    ''' <param name="besthits">is a collection of the blastp/blastn parsed result: <see cref="BestHit"/></param>
+    ''' <param name="evalue">new cutoff value of the evalue for make filter of the given hits collection</param>
+    ''' <param name="delNohits">removes ``HITS_NOT_FOUND``? default is yes.</param>
+    ''' <param name="pickTop">pick the top one hit for each query group?</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("besthit_filter")>
     Public Function FilterBesthitStream(besthits As pipeline,
-                                        Optional evalue# = 0.00001,
+                                        Optional evalue As Double? = Nothing,
+                                        Optional identities As Double? = Nothing,
                                         Optional delNohits As Boolean = True,
                                         Optional pickTop As Boolean = False,
                                         Optional env As Environment = Nothing) As pipeline
@@ -319,13 +329,21 @@ Module workflows
             Return REnv.Internal.debug.stop($"could not handle the stream data: {besthits.elementType.fullName}", env)
         End If
 
+        Dim filter_identities As Boolean = Not identities Is Nothing
+        Dim filter_evalue As Boolean = Not evalue Is Nothing
         Dim filter As Func(Of BestHit, Boolean) =
             Function(hit)
                 If delNohits AndAlso hit.HitName = "HITS_NOT_FOUND" Then
                     Return False
-                Else
-                    Return hit.evalue <= evalue
                 End If
+                If filter_identities AndAlso hit.identities < identities.Value Then
+                    Return False
+                End If
+                If filter_evalue AndAlso hit.evalue > evalue.Value Then
+                    Return False
+                End If
+
+                Return True
             End Function
         Dim stream As IEnumerable(Of BestHit) = besthits _
             .populates(Of BestHit)(env) _
@@ -345,6 +363,15 @@ Module workflows
         End If
     End Function
 
+    <ExportAPI("read.besthits")>
+    <RApiReturn(GetType(BestHit))>
+    Public Function read_besthits(file As String, Optional encoding As Encodings = Encodings.ASCII) As Object
+        Return file _
+            .OpenHandle(encoding.CodePage) _
+            .AsLinq(Of BestHit) _
+            .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
     ''' <summary>
     ''' Open result table stream writer
     ''' </summary>
@@ -362,10 +389,7 @@ Module workflows
         Select Case type
             Case TableTypes.SBH
                 If ioRead Then
-                    Return file _
-                        .OpenHandle(encoding.CodePage) _
-                        .AsLinq(Of BestHit) _
-                        .DoCall(AddressOf pipeline.CreateFromPopulator)
+                    Return read_besthits(file, encoding)
                 Else
                     Return New WriteStream(Of BestHit)(file, encoding:=encoding)
                 End If

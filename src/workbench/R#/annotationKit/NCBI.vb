@@ -52,6 +52,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
@@ -65,9 +66,34 @@ Module NCBI
     ''' </summary>
     ''' <returns></returns>
     <ExportAPI("genome_assembly_index")>
-    <RApiReturn(GetType(FtpIndex))>
+    <RApiReturn(GetType(GenBankAssemblyIndex))>
     Public Function genome_assembly_index(file As String) As Object
-        Return pipeline.CreateFromPopulator(FtpIndex.LoadIndex(file))
+        Return pipeline.CreateFromPopulator(GenBankAssemblyIndex.LoadIndex(file))
+    End Function
+
+    <ExportAPI("genbank_assemblyDb")>
+    Public Function genbank_assemblyDb(file As String, Optional qgram As Integer = 6) As AssemblySummaryGenbank
+        Return New AssemblySummaryGenbank(qgram).LoadIntoMemory(file)
+    End Function
+
+    ''' <summary>
+    ''' make the in-memory assembly summary database query by the organism name matches
+    ''' </summary>
+    ''' <param name="db"></param>
+    ''' <param name="q"></param>
+    ''' <param name="cutoff"></param>
+    ''' <returns>
+    ''' a vector of <see cref="GenBankAssemblyIndex"/>. and this vector data has the attribute data 
+    ''' of query ``index`` result with clr type <see cref="FindResult"/>.
+    ''' </returns>
+    <ExportAPI("query")>
+    <RApiReturn(GetType(GenBankAssemblyIndex))>
+    Public Function find(db As AssemblySummaryGenbank, q As String, Optional cutoff As Double = 0.8) As Object
+        Dim index As FindResult() = db.Query(q, cutoff).ToArray
+        Dim result As GenBankAssemblyIndex() = index.Select(Function(i) db(i)).ToArray
+        Dim vec As New vector(result, RType.GetRSharpType(GetType(GenBankAssemblyIndex)))
+        vec.setAttribute("index", index)
+        Return vec
     End Function
 
 End Module

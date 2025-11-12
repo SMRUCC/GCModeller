@@ -9,5 +9,6 @@ A pipeline collection for proteins' biological function
 + [blasthit.bbh](annotation.workflow/blasthit.bbh.1) 
 + [grep.names](annotation.workflow/grep.names.1) 
 + [stream.flush](annotation.workflow/stream.flush.1) 
-+ [besthit.filter](annotation.workflow/besthit.filter.1) 
++ [besthit_filter](annotation.workflow/besthit_filter.1) make filter of the blast best hits via the given parameter combinations
++ [read.besthits](annotation.workflow/read.besthits.1) 
 + [open.stream](annotation.workflow/open.stream.1) Open result table stream writer

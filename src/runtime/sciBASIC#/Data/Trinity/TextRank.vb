@@ -222,8 +222,8 @@ Public Module TextRank
     ''' <summary>
     ''' Using for generate article's <see cref="NLPExtensions.Abstract(WeightedPRGraph, Integer, Double)"/>
     ''' </summary>
-    ''' <param name="text$"></param>
-    ''' <param name="similarityCut#"></param>
+    ''' <param name="text"></param>
+    ''' <param name="similarityCut"></param>
     ''' <returns></returns>
     <Extension>
     Public Function TextGraph(text$, Optional similarityCut# = 0.05) As WeightedPRGraph
@@ -244,13 +244,13 @@ Public Module TextRank
         For Each x As Integer In Tqdm.Range(0, words.Length, bar:=bar)
             Dim refIndex = x
             Dim vector = seq(x, words.Length - 1, by:=1) _
-                    .Select(Function(y)
-                                Dim i% = CInt(y)
-                                Dim similarity# = TextRank.Similarity(words(refIndex), words(i))
-                                Return (y:=i, similarity:=similarity)
-                            End Function) _
-                    .AsParallel _
-                    .ToArray
+                .Select(Function(y)
+                            Dim i% = CInt(y)
+                            Dim similarity# = TextRank.Similarity(words(refIndex), words(i))
+                            Return (y:=i, similarity:=similarity)
+                        End Function) _
+                .AsParallel _
+                .ToArray
 
             For Each sentence As (i%, similarity#) In vector
                 Dim similarity = sentence.similarity

@@ -32,6 +32,8 @@
 export class I_BlastQueryHit {
    # 会忽略掉基因号ID的先后顺序的，重新按照字符先后进行排序
    BBH_ID: string;
+   # The functional description of <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">HitName</a>
+   description: string;
    # The subject hit.
    HitName: string;
    # 仅仅是依靠对HitName的判断来使用这个属性了解<a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">QueryName</a>是否已经和<a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/Abstract/I_BlastQueryHit.html">I_BlastQueryHit</a>.<a href="#">HitName</a>比对上了

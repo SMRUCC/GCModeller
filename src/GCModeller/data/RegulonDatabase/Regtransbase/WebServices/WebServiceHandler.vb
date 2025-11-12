@@ -137,7 +137,7 @@ Namespace Regtransbase.WebServices
                     Dim TempObject As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = Nothing
                     Dim TempObject_LocusTagList As List(Of String) = New List(Of String)
 
-                    For Each LocusId In Item.Value  'LocusId的物种是唯一的
+                    For Each LocusId As KeyValuePair(Of String, String()) In Item.Value  'LocusId的物种是唯一的
                         Dim Entries = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.HandleQuery(keyword:=LocusId.Key)
                         If Not Entries.IsNullOrEmpty Then '获得目标物种编号
                             Dim Temp As String() = (From Entry In Entries Where String.Equals(Entry.locusID, LocusId.Key) Select Entry.speciesID).ToArray

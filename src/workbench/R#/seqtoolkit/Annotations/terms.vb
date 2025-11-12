@@ -73,6 +73,9 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
+''' <summary>
+''' tools for make ontology term annotation based on the proteins sequence data
+''' </summary>
 <Package("annotation.terms", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module terms
 
@@ -111,6 +114,16 @@ Module terms
         Call sb.AppendLine("...")
 
         Return sb.ToString
+    End Function
+
+    ''' <summary>
+    ''' read the given table file as rank term object
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read_rankterms")>
+    Public Function read_rankterms(file As String) As RankTerm()
+        Return file.LoadCsv(Of RankTerm)(mute:=True).ToArray
     End Function
 
     ''' <summary>
@@ -161,6 +174,41 @@ Module terms
         Else
             Return RInternal.debug.stop(Message.InCompatibleType(GetType(MyvaCOG), alignment.GetType, env), env)
         End If
+    End Function
+
+    ''' <summary>
+    ''' assign the top term by score ranking
+    ''' </summary>
+    ''' <param name="alignment"></param>
+    ''' <param name="term_maps"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("assign_terms")>
+    <RApiReturn(GetType(RankTerm))>
+    Public Function TermAnnotations(<RRawVectorArgument> alignment As Object,
+                                    Optional term_maps As list = Nothing,
+                                    Optional top_best As Boolean = True,
+                                    Optional env As Environment = Nothing) As Object
+
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of BestHit)(alignment, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim maps As New Dictionary(Of String, String)
+
+        For Each term As KeyValuePair(Of String, Object) In term_maps.slots
+            For Each id As String In CLRVector.asCharacter(term.Value).SafeQuery
+                maps(id) = term.Key
+            Next
+        Next
+
+        Dim terms As RankTerm() = RankTerm _
+            .RankTopTerm(pull.populates(Of BestHit)(env), maps, topBest:=top_best) _
+            .ToArray
+
+        Return terms
     End Function
 
     <ExportAPI("assign.Pfam")>

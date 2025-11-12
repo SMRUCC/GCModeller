@@ -278,7 +278,7 @@ Namespace LocalBLAST.InteropService
 
 #Region "LocalBLAST"
 
-        Public Delegate Function ILocalBLAST(InputQuery As File, TargetSubjectDb As String, Output As File, e As String) As IORedirectFile
+        Public Delegate Function ILocalBLAST(InputQuery As File, TargetSubjectDb As String, Output As File, e As String) As IORedirect
 
         ''' <summary>
         ''' Generate the command line arguments of the program blastp.(生成blastp程序的命令行参数)
@@ -289,7 +289,7 @@ Namespace LocalBLAST.InteropService
         ''' <param name="e">The E-value</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public MustOverride Function Blastp(InputQuery As File, TargetSubjectDb As String, Output As File, Optional e As String = "10") As IORedirectFile
+        Public MustOverride Function Blastp(InputQuery As File, TargetSubjectDb As String, Output As File, Optional e As String = "10") As IORedirect
 
         ''' <summary>
         ''' Generate the command line arguments of the program blastn.(生成blastn程序的命令行参数)
@@ -300,7 +300,7 @@ Namespace LocalBLAST.InteropService
         ''' <param name="e">The E-value</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public MustOverride Function Blastn(Input As File, TargetDb As String, Output As File, Optional e As String = "10") As IORedirectFile
+        Public MustOverride Function Blastn(Input As File, TargetDb As String, Output As File, Optional e As String = "10") As IORedirect
 
         ''' <summary>
         ''' Format theta target fasta sequence database for the blast search.
@@ -309,7 +309,7 @@ Namespace LocalBLAST.InteropService
         ''' <param name="dbType">Database type for the target sequence database(目标序列数据库的分子类型)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public MustOverride Function FormatDb(Db As String, dbType As String) As IORedirectFile
+        Public MustOverride Function FormatDb(Db As String, dbType As String) As IORedirect
 #End Region
 
         ''' <summary>
@@ -322,11 +322,11 @@ Namespace LocalBLAST.InteropService
         ''' <param name="Output"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TryInvoke(Program As String, Query As String, Subject As String, Evalue As String, Output As String) As IORedirectFile
+        Public Function TryInvoke(Program As String, Query As String, Subject As String, Evalue As String, Output As String) As IORedirect
             Dim argvs As String = String.Format("-query ""{0}"" -subject ""{1}"" -evalue {2} -out ""{3}""", Query, Subject, Evalue, Output)
             Program = _innerBLASTBinDIR & "/" & Program
 
-            Return New IORedirectFile(Program, argvs)
+            Return New IORedirect(Program, argvs, IOredirect:=False, hide:=False)
         End Function
     End Class
 End Namespace

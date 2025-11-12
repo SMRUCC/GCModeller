@@ -1,85 +1,85 @@
 ﻿#Region "Microsoft.VisualBasic::aba995e442f245093d0385c3e0cb1bba, core\Bio.InteractionModel\RegulonModels\Regulon.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 109
-    '    Code Lines: 52 (47.71%)
-    ' Comment Lines: 39 (35.78%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 18 (16.51%)
-    '     File Size: 3.50 KB
+' Summaries:
 
 
-    '     Interface IRegulon
-    ' 
-    '         Properties: RegulatedGenes, TFlocusId
-    ' 
-    '     Interface IRegulatorRegulation
-    ' 
-    '         Properties: LocusId, Regulators
-    ' 
-    '     Class RegulatorRegulation
-    ' 
-    '         Properties: LocusId, Regulators
-    ' 
-    '     Interface ISpecificRegulation
-    ' 
-    '         Properties: LocusId, Regulator
-    ' 
-    '     Class Regulon
-    ' 
-    '         Properties: Id, RegulatedGenes, Regulator
-    ' 
-    '     Interface IRegulationDatabase
-    ' 
-    '         Function: GetRegulatesSites, GetRegulators, IsRegulates, listRegulators
-    ' 
-    '     Structure RelationshipScore
-    ' 
-    '         Properties: InteractorA, InteractorB, Score, Type
-    ' 
-    '         Function: GetConnectedId, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 109
+'    Code Lines: 52 (47.71%)
+' Comment Lines: 39 (35.78%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 18 (16.51%)
+'     File Size: 3.50 KB
+
+
+'     Interface IRegulon
+' 
+'         Properties: RegulatedGenes, TFlocusId
+' 
+'     Interface IRegulatorRegulation
+' 
+'         Properties: LocusId, Regulators
+' 
+'     Class RegulatorRegulation
+' 
+'         Properties: LocusId, Regulators
+' 
+'     Interface ISpecificRegulation
+' 
+'         Properties: LocusId, Regulator
+' 
+'     Class Regulon
+' 
+'         Properties: Id, RegulatedGenes, Regulator
+' 
+'     Interface IRegulationDatabase
+' 
+'         Function: GetRegulatesSites, GetRegulators, IsRegulates, listRegulators
+' 
+'     Structure RelationshipScore
+' 
+'         Properties: InteractorA, InteractorB, Score, Type
+' 
+'         Function: GetConnectedId, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 
 Namespace Regulon
 

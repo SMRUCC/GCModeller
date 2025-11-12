@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::2967b1852a5b328e264ab31bdede8ed4, modules\Knowledge_base\ncbi_kb\PubMed\Components\PubDate.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 25
-    '    Code Lines: 19 (76.00%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 6 (24.00%)
-    '     File Size: 804 B
+' Summaries:
 
 
-    '     Class PubDate
-    ' 
-    '         Properties: DateType, Day, Hour, Minute, Month
-    '                     PubStatus, Year
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 25
+'    Code Lines: 19 (76.00%)
+' Comment Lines: 0 (0.00%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 6 (24.00%)
+'     File Size: 804 B
+
+
+'     Class PubDate
+' 
+'         Properties: DateType, Day, Hour, Minute, Month
+'                     PubStatus, Year
+' 
+'         Function: ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Globalization
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ValueTypes
 
@@ -70,6 +71,40 @@ Namespace PubMed
         Public Property Day As String
         Public Property Hour As String
         Public Property Minute As String
+
+        Sub New()
+        End Sub
+
+        Sub New([date] As String)
+            ' 2022 Dec 27
+            Const format As String = "yyyy MMM dd"
+            Const format2 As String = "yyyy MMM"
+
+            Static provider As IFormatProvider = CultureInfo.InvariantCulture
+
+            If Not [date].StringEmpty(, True) Then
+                Dim result As DateTime
+
+                With [date].Split
+                    ' 20251108 ensure that the year has the correct value
+                    Year = CInt(Val(.First))
+
+                    Try
+                        If .Length = 2 Then
+                            result = DateTime.ParseExact([date], format2, provider)
+                        Else
+                            result = DateTime.ParseExact([date], format, provider)
+                        End If
+
+                        Year = result.Year
+                    Catch ex As Exception
+                    End Try
+                End With
+
+                Month = result.Month
+                Day = result.Day
+            End If
+        End Sub
 
         Public Overrides Function ToString() As String
             Return $"[{PubStatus}] {Year}-{Month}-{Day}"
