@@ -29,7 +29,9 @@ Namespace Metagenomics
         End Function
 
         Public Iterator Function Query(name As String, Optional cutoff As Double = 0.8) As IEnumerable(Of (genome As T, match As FindResult))
-            Dim offsets As FindResult() = qgram.FindSimilar(name, cutoff).OrderByDescending(Function(a) a.similarity).ToArray
+            Dim offsets As FindResult() = qgram.FindSimilar(name, cutoff) _
+                .OrderByDescending(Function(a) a.similarity) _
+                .ToArray
 
             For i As Integer = 0 To offsets.Length - 1
                 Yield (pool(offsets(i).index), offsets(i))
