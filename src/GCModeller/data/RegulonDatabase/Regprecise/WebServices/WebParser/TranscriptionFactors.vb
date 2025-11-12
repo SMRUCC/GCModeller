@@ -84,6 +84,10 @@ Namespace Regprecise
         Implements Enumeration(Of BacteriaRegulome)
         Implements ISaveHandle
 
+        ''' <summary>
+        ''' the reference genome of the regprecise database
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement>
         Public Property genomes As BacteriaRegulome()
         <XmlAttribute("update")>

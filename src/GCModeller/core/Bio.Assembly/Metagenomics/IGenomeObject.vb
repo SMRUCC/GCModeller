@@ -15,11 +15,17 @@ Namespace Metagenomics
         ReadOnly qgram As QGramIndex
         ReadOnly pool As New List(Of T)
 
+        Default Public ReadOnly Property Assembly(q As FindResult) As T
+            Get
+                Return pool(q.index)
+            End Get
+        End Property
+
         Sub New(Optional qgram As Integer = 6)
             Me.qgram = New QGramIndex(qgram)
         End Sub
 
-        Public Function LoadDatabase(data As IEnumerable(Of T))
+        Public Function LoadDatabase(data As IEnumerable(Of T)) As GenomeNameIndex(Of T)
             For Each genome As T In data.SafeQuery
                 Call pool.Add(genome)
                 Call qgram.AddString(genome.genome_name)

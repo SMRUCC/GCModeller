@@ -119,6 +119,11 @@ Public Module RegPrecise
         Return file.LoadXml(Of TranscriptionFactors)
     End Function
 
+    ''' <summary>
+    ''' export the raw motif site sequence in fasta file format
+    ''' </summary>
+    ''' <param name="regprecise"></param>
+    ''' <returns></returns>
     <ExportAPI("motif.raw")>
     Public Function exportRegPrecise(regprecise As TranscriptionFactors) As list
         Return regprecise _
@@ -200,5 +205,9 @@ Public Module RegPrecise
     <ExportAPI("read.motifs")>
     Public Function readMotifSites(file As String) As Regulator()
         Return RegulateGraph.ParseMotifSites(file.LineIterators).ToArray
+    End Function
+
+    Public Function match_taxonomy()
+
     End Function
 End Module
