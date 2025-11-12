@@ -10,3 +10,4 @@
 + [read.regulators](regprecise/read.regulators.1) 
 + [read.operon](regprecise/read.operon.1) 
 + [read.motifs](regprecise/read.motifs.1) 
++ [match_taxonomy](regprecise/match_taxonomy.1) 

@@ -3,11 +3,14 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FA3DB933-8FEE-4593-BDEB-227EB9FF3B68}|..\\..\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\webparser\\transcriptionfactors.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{39E79CAD-3B89-48AE-9CB9-5F0D41F0449B}|TRNtoolkit\\TRNtoolkit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\trntoolkit\\regprecise.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{39E79CAD-3B89-48AE-9CB9-5F0D41F0449B}|TRNtoolkit\\TRNtoolkit.vbproj|solutionrelative:trntoolkit\\regprecise.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA3DB933-8FEE-4593-BDEB-227EB9FF3B68}|..\\..\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\datamodels\\stats.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FA3DB933-8FEE-4593-BDEB-227EB9FF3B68}|..\\..\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\webparser\\transcriptionfactors.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\ncbi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -21,9 +24,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\assemblysummarygenbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FA3DB933-8FEE-4593-BDEB-227EB9FF3B68}|..\\..\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\datamodels\\stats.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FA3DB933-8FEE-4593-BDEB-227EB9FF3B68}|..\\..\\GCModeller\\data\\RegulonDatabase\\RegulonDatabase.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\regulondatabase\\regprecise\\webservices\\webparser\\bacteriagenome.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -78,11 +78,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 23,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "AssemblySummaryGenbank.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
               "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
@@ -95,7 +95,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "TranscriptionFactors.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\TranscriptionFactors.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\TranscriptionFactors.vb",
@@ -108,13 +108,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "Stats.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\DataModels\\Stats.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\DataModels\\Stats.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\DataModels\\Stats.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\DataModels\\Stats.vb",
-              "ViewState": "AgIAANAAAAAAAAAAAAAywPcAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAANMAAAAAAAAAAAAjwPMAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-12T08:39:29.937Z",
               "EditorCaption": ""
@@ -163,7 +163,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Genbank.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\Genbank.vb",
               "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\NCBI\\Genbank.vb",
@@ -176,7 +176,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "IGenomeObject.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\IGenomeObject.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\IGenomeObject.vb",
@@ -345,13 +345,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "RegPrecise.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
               "RelativeDocumentMoniker": "TRNtoolkit\\RegPrecise.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\TRNtoolkit\\RegPrecise.vb",
               "RelativeToolTip": "TRNtoolkit\\RegPrecise.vb",
-              "ViewState": "AgIAAMMAAAAAAAAAAAAAwOEAAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAMgAAAAAAAAAAAAUwN0AAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-12T08:27:25.684Z",
               "EditorCaption": ""
@@ -371,7 +371,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "NCBI.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\NCBI.vb",
               "RelativeDocumentMoniker": "annotationKit\\NCBI.vb",
