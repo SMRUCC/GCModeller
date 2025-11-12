@@ -74,7 +74,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ContextModel
 
@@ -114,9 +114,9 @@ Namespace ContextModel
                 Dim TGA As Integer = g.Location.right
 
                 For Each loci In TFs
-                    If stdNum.Abs(ATG - loci.Location.right) <= ranges Then
+                    If std.Abs(ATG - loci.Location.right) <= ranges Then
                         result += loci
-                    ElseIf stdNum.Abs(loci.Location.left - TGA) <= ranges Then
+                    ElseIf std.Abs(loci.Location.left - TGA) <= ranges Then
                         result += loci
                     End If
                 Next
@@ -125,9 +125,9 @@ Namespace ContextModel
                 Dim TGA As Integer = g.Location.left
 
                 For Each loci In TFs
-                    If stdNum.Abs(TGA - loci.Location.right) <= ranges Then
+                    If std.Abs(TGA - loci.Location.right) <= ranges Then
                         result += loci
-                    ElseIf stdNum.Abs(loci.Location.left - ATG) <= ranges Then
+                    ElseIf std.Abs(loci.Location.left - ATG) <= ranges Then
                         result += loci
                     End If
                 Next
