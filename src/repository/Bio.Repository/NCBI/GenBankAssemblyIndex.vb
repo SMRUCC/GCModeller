@@ -62,6 +62,7 @@
 
 Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
 ''' assembly_summary_genbank.txt
@@ -137,7 +138,7 @@ Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 ''' e-mail: info@ncbi.nlm.nih.gov
 ''' ________________________________________________________________________________
 ''' </remarks>
-Public Class GenBankAssemblyIndex
+Public Class GenBankAssemblyIndex : Implements IGenomeObject
 
     ''' <summary>
     ''' Assembly accession: the assembly accession.version reported in this field is 
@@ -198,7 +199,7 @@ Public Class GenBankAssemblyIndex
     '''    https://www.ncbi.nlm.nih.gov/taxonomy/
     ''' </summary>
     ''' <returns></returns>
-    Public Property taxid As String
+    Public Property taxid As UInteger Implements IGenomeObject.ncbi_taxid
     ''' <summary>
     ''' Species taxonomy ID: the NCBI taxonomy identifier for the species from which 
     '''    the genome assembly was derived. The species taxid will differ from the 
@@ -217,7 +218,7 @@ Public Class GenBankAssemblyIndex
     '''    will be reported in the infraspecific_name field (column 9).
     ''' </summary>
     ''' <returns></returns>
-    Public Property organism_name As String
+    Public Property organism_name As String Implements IGenomeObject.genome_name
     ''' <summary>
     ''' Infraspecific name: the strain, breed, cultivar or ecotype of the organism 
     '''    from which the sequences in the genome assembly were derived. Data are 
