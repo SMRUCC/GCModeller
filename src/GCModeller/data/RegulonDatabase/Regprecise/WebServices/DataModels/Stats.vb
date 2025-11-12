@@ -236,7 +236,7 @@ Namespace Regprecise.WebServices.JSON
         ''' genome identifier
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property genomeId As Integer
+        <XmlAttribute> Public Property genomeId As String
         ''' <summary>
         ''' genome name
         ''' </summary>
