@@ -96,13 +96,16 @@ Module UniProt
     ''' <returns></returns>
     <ExportAPI("uniprot_keywords")>
     <RApiReturn(GetType(Background))>
-    Public Function uniprotKeywords(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
+    Public Function uniprotKeywords(<RRawVectorArgument> uniprot As Object,
+                                    Optional db_xref As String = Nothing,
+                                    Optional env As Environment = Nothing) As Object
+
         Dim base = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
 
         If base.isError Then
             Return base.getError
         Else
-            Return base.populates(Of entry)(env).UniprotKeywordsModel
+            Return base.populates(Of entry)(env).UniprotKeywordsModel(db_xref)
         End If
     End Function
 
