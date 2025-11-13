@@ -29,7 +29,8 @@
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>protein.seqs</strong>(<i>uniprot</i>,
     <i>extractAll</i> = <span style='color: blue !important;'>FALSE</span>,
-    <i>KOseq</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+    <i>KOseq</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>db.xref</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -37,11 +38,11 @@
         <table>
             
 <dt>uniprot</dt>
-<dd><p>a collection of the uniprot protein <code>entry</code> data.</p></dd>
+<dd><p>a collection of the uniprot protein <a href="/vignettes/clr/SMRUCC/genomics/Assembly/Uniprot/XML/entry.html">entry</a> data.</p></dd>
 
 
 <dt>extractAll</dt>
-<dd><p>[as boolean]</p></dd>
+<dd><p>populate the sequence with all uniprot accession id. [as boolean]</p></dd>
 
 
 <dt>env</dt>
@@ -60,7 +61,10 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a></li></ul>
+        <p>a collection of the <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a> that export from the given protein set.
+ 
+ the generated fasta sequence header title in format: <code>uniprot_id|db_xref|protein function</code>.
+ the db<em>xref is optional if the parameter <strong>`db</em>xref`</strong> is not be omited.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/pipeline.html">pipeline</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

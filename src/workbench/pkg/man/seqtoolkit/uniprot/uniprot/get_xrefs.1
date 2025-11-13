@@ -3,19 +3,25 @@
 .SH NAME
 get_xrefs \- get external database reference id set
 .SH SYNOPSIS
-\fIget_xrefs(\fBprot\fR as <generic> entry);\fR
+\fIget_xrefs(\fBprot\fR as <generic> entry, 
+\fBdbname\fR as string = \fB<NULL>\fR);\fR
 .SH DESCRIPTION
 .PP
 get external database reference id set
 .PP
 .SH OPTIONS
 .PP
-\fBprot\fB \fR\- -. 
+\fBprot\fB \fR\- target protein object to extract its database corss reference id. 
+.PP
+.PP
+\fBdbname\fB \fR\- 
+ this function will returns a character vector of the db_xrefs for specific database if this db name is specificed.
+. 
 .PP
 .SH DETAILS
 .PP
 the uniprot database name will be named as: \fBUniProtKB/Swiss-Prot\fR for
- make unify with the genebank feature xrefs
+ make unify with the genebank feature xrefs.
 .PP
 .SH SEE ALSO
 uniprot
