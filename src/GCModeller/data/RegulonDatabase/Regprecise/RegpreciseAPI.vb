@@ -291,7 +291,7 @@ Rodionov, D. A.", Volume:=14)>
         Public Function ExportBySpecies(Regprecise As TranscriptionFactors,
                                         <Parameter("DIR.Export")> ExportDir As String) As Boolean
             Dim TFFamilies As String() = GetTfFamilies(Regprecise)
-            Dim TFSitesFasta = __getFastaCollection(Regprecise)
+            Dim TFSitesFasta = getFastaCollection(Regprecise)
             Dim LQuery = (From Family As String
                           In TFFamilies.AsParallel
                           Select __exportMotif(Family, TFSitesFasta, Regprecise, ExportDir)).ToArray
@@ -375,7 +375,7 @@ Rodionov, D. A.", Volume:=14)>
             }
         End Function
 
-        Private Function __getFastaCollection(Regprecise As TranscriptionFactors) As KeyValuePairData(Of Regtransbase.WebServices.MotifFasta)()
+        Private Function getFastaCollection(Regprecise As TranscriptionFactors) As KeyValuePairData(Of Regtransbase.WebServices.MotifFasta)()
             Dim ChunkBuffer As List(Of KeyValuePairData(Of Regtransbase.WebServices.MotifFasta)) =
                 New List(Of KeyValuePairData(Of Regtransbase.WebServices.MotifFasta))
 
@@ -420,7 +420,7 @@ Rodionov, D. A.", Volume:=14)>
                     If regulon.type = Types.RNA Then
                         Continue For
                     ElseIf regulon.family.StringEmpty Then
-                        Dim sites = regulon.ExportMotifs
+                        Dim sites As FastaSeq() = regulon.ExportMotifs.ToArray
                         Dim family = sites.First.Title.Matches("\[.+?\]").Last.GetStackValue("[", "]").GetTagValue("=").Name
 
                         If Not buffer.ContainsKey(family) Then
