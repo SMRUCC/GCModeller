@@ -63,7 +63,6 @@ Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -74,9 +73,9 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
 Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports protein = SMRUCC.genomics.Assembly.Uniprot.XML.entry
 Imports proteinTable = SMRUCC.genomics.Assembly.Uniprot.Web.Entry
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
-Imports protein = SMRUCC.genomics.Assembly.Uniprot.XML.entry
 
 ''' <summary>
 ''' The Universal Protein Resource (UniProt)
@@ -117,15 +116,15 @@ Title:="The Universal Protein Resource (UniProt)",
 PubMed:=540024,
 Issue:="Database issue",
 URL:="https://www.uniprot.org/")>
-<RTypeExport("uniprot_kb", GetType(Entry))>
+<RTypeExport("uniprot_kb", GetType(entry))>
 Module uniprotTools
 
     Sub Main()
-        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(Entry()), AddressOf uniprotProteinTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(entry()), AddressOf uniprotProteinTable)
     End Sub
 
     <RGenericOverloads("as.data.frame")>
-    Private Function uniprotProteinTable(uniprot As Entry(), args As list, env As Environment) As dataframe
+    Private Function uniprotProteinTable(uniprot As entry(), args As list, env As Environment) As dataframe
         Return proteinTable(uniprot, env)
     End Function
 
@@ -138,7 +137,7 @@ Module uniprotTools
     ''' this function returns a pipeline stream of the uniprot protein entries.
     ''' </returns>
     <ExportAPI("open.uniprot")>
-    <RApiReturn(GetType(IEnumerable(Of Entry)))>
+    <RApiReturn(GetType(IEnumerable(Of entry)))>
     Public Function openUniprotXmlAssembly(<RRawVectorArgument>
                                            files As Object,
                                            Optional isUniParc As Boolean = False,
@@ -177,9 +176,9 @@ Module uniprotTools
     End Function
 
     <ExportAPI("parseUniProt")>
-    Public Function parseUniProt(xml As String) As Entry()
+    Public Function parseUniProt(xml As String) As entry()
         Dim uniprot As UniProtXML = UniProtXML.LoadXml(xml)
-        Dim proteins As Entry() = uniprot.entries
+        Dim proteins As entry() = uniprot.entries
 
         Return proteins
     End Function
@@ -224,7 +223,7 @@ Module uniprotTools
             Return source.TryCast(Of Message)
         End If
 
-        Dim all As Entry() = source.TryCast(Of IEnumerable(Of Entry)).ToArray
+        Dim all As entry() = source.TryCast(Of IEnumerable(Of entry)).ToArray
         Dim orf As String() = all.Select(Function(p) p.ORF).fill
         Dim uniprotId As String() = all.Select(Function(p) p.accessions(Scan0)).fill
         Dim name As String() = all.Select(Function(p) p.name).fill
@@ -336,7 +335,7 @@ Module uniprotTools
     End Function
 
     <ExportAPI("get_sequence")>
-    Public Function get_sequence(prot As Entry) As FastaSeq
+    Public Function get_sequence(prot As entry) As FastaSeq
         Dim seq As String = DirectCast(prot, IPolymerSequenceModel).SequenceData
         Dim name As String = prot.name
         Dim fa As New FastaSeq With {.Headers = {name}, .SequenceData = seq}
@@ -344,7 +343,7 @@ Module uniprotTools
     End Function
 
     <ExportAPI("get_description")>
-    Public Function get_description(prot As Entry) As String()
+    Public Function get_description(prot As entry) As String()
         Dim fullnames = prot.proteinFullName
         Dim funcs = prot.CommentList.TryGetValue("function").SafeQuery.Select(Function(comment) comment.GetText).ToArray
         Return {fullnames}.JoinIterates(funcs).Where(Function(str) Not str.StringEmpty(, True)).ToArray
@@ -356,7 +355,7 @@ Module uniprotTools
     ''' <param name="prot"></param>
     ''' <returns></returns>
     <ExportAPI("get_subcellularlocation")>
-    Public Function get_subcellularlocation(prot As Entry) As Object
+    Public Function get_subcellularlocation(prot As entry) As Object
         Dim locs = prot.CommentList.TryGetValue("subcellular location") _
             .SafeQuery _
             .Select(Function(c) c.subcellularLocations) _
@@ -377,7 +376,7 @@ Module uniprotTools
     ''' <param name="prot"></param>
     ''' <returns></returns>
     <ExportAPI("get_pathways")>
-    Public Function get_pathwayNames(prot As Entry) As String()
+    Public Function get_pathwayNames(prot As entry) As String()
         Dim pathways = prot.CommentList _
             .TryGetValue("pathway") _
             .SafeQuery _
@@ -390,7 +389,7 @@ Module uniprotTools
     End Function
 
     <ExportAPI("get_reactions")>
-    Public Function get_reactions(prot As Entry) As Object
+    Public Function get_reactions(prot As entry) As Object
         Dim catalytic = prot.CommentList.TryGetValue("catalytic activity")
         Dim list As list = list.empty
 
@@ -421,7 +420,7 @@ Module uniprotTools
     ''' make unify with the genebank feature xrefs
     ''' </remarks>
     <ExportAPI("get_xrefs")>
-    Public Function get_xrefs(prot As Entry) As Object
+    Public Function get_xrefs(prot As entry) As Object
         Dim list As list = list.empty
         Dim xrefs As list = list.empty
 
@@ -442,7 +441,7 @@ Module uniprotTools
     End Function
 
     <ExportAPI("get_keywords")>
-    Public Function get_keywords(prot As Entry) As Object
+    Public Function get_keywords(prot As entry) As Object
         Dim labels = prot.keywords
         Dim df As New dataframe With {
             .columns = New Dictionary(Of String, Array),
@@ -460,25 +459,30 @@ Module uniprotTools
     ''' <summary>
     ''' populate all protein fasta sequence from the given uniprot database reader
     ''' </summary>
-    ''' <param name="uniprot">a collection of the uniprot protein ``entry`` data.</param>
+    ''' <param name="uniprot">a collection of the uniprot protein <see cref="entry"/> data.</param>
     ''' <param name="extractAll">populate the sequence with all uniprot accession id</param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a collection of the <see cref="FastaSeq"/> that export from the given protein set.
+    ''' 
+    ''' the generated fasta sequence header title in format: ``uniprot_id|db_xref|protein function``.
+    ''' the db_xref is optional if the parameter <paramref name="db_xref"/> is not be omited.
+    ''' </returns>
     <ExportAPI("protein.seqs")>
+    <RApiReturn(GetType(FastaSeq))>
     Public Function getProteinSeq(<RRawVectorArgument> uniprot As Object,
                                   Optional extractAll As Boolean = False,
                                   Optional KOseq As Boolean = False,
+                                  Optional db_xref As String = Nothing,
                                   Optional env As Environment = Nothing) As pipeline
 
         Dim source = getUniprotData(uniprot, env)
-        Dim protFa = Function(prot As Entry)
-
-                     End Function
+        Dim protFa = Function(prot As entry) makeFasta(prot, KOseq, extractAll, db_xref)
 
         If source Like GetType(Message) Then
             Return source.TryCast(Of Message)
         Else
-            Return source.TryCast(Of IEnumerable(Of uniprot.Entry)) _
+            Return source.TryCast(Of IEnumerable(Of protein)) _
                 .Select(Function(prot)
                             Return protFa(prot)
                         End Function) _
@@ -487,30 +491,52 @@ Module uniprotTools
         End If
     End Function
 
-    Private Iterator Function makeFasta(prot As Entry, KOseq As Boolean, extractAll As Boolean) As IEnumerable(Of FastaSeq)
+    Private Iterator Function makeFasta(prot As protein, KOseq As Boolean, extractAll As Boolean, db_xref As String) As IEnumerable(Of FastaSeq)
         Dim fullname As String = prot.proteinFullName
+        Dim db_xrefs As String() = Nothing
+        Dim prot_seq As String = prot.ProteinSequence
+
+        If Not db_xref Is Nothing Then
+            db_xrefs = prot.DbReferenceIds(db_xref).ToArray
+        End If
 
         If KOseq Then
             Dim KO As dbReference = prot.KO
 
             If Not KO Is Nothing Then
                 Yield New FastaSeq With {
-                   .Headers = {KO.id, fullname},
-                   .SequenceData = prot.ProteinSequence
+                    .Headers = {KO.id, fullname},
+                    .SequenceData = prot_seq
                 }
             End If
-        ElseIf extractAll Then
-            For Each accid As String In prot.accessions
+        ElseIf db_xrefs IsNot Nothing Then
+            If db_xrefs.IsNullOrEmpty Then
                 Yield New FastaSeq With {
-                   .Headers = {accid},
-                   .SequenceData = prot.ProteinSequence
+                    .Headers = {prot.accessions(Scan0), fullname},
+                    .SequenceData = prot_seq
                 }
-            Next
+            Else
+                For Each id As String In db_xrefs
+                    Yield New FastaSeq With {
+                        .Headers = {prot.accessions(Scan0), id, fullname},
+                        .SequenceData = prot_seq
+                    }
+                Next
+            End If
         Else
-            Yield New FastaSeq With {
-               .Headers = {prot.accessions(Scan0)},
-               .SequenceData = prot.ProteinSequence
-            }
+            If extractAll Then
+                For Each accid As String In prot.accessions
+                    Yield New FastaSeq With {
+                        .Headers = {accid, fullname},
+                        .SequenceData = prot_seq
+                    }
+                Next
+            Else
+                Yield New FastaSeq With {
+                    .Headers = {prot.accessions(Scan0), fullname},
+                    .SequenceData = prot_seq
+                }
+            End If
         End If
     End Function
 
@@ -528,14 +554,14 @@ Module uniprotTools
                             Optional target As String = Nothing,
                             Optional env As Environment = Nothing) As Object
 
-        Dim uniprotData As pipeline = pipeline.TryCreatePipeline(Of Entry)(uniprot, env)
+        Dim uniprotData As pipeline = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
 
         If uniprotData.isError Then
             Return uniprotData
         End If
 
         Dim rawIdList As String() = CLRVector.asCharacter(id)
-        Dim mapId As Func(Of String, String) = GetIDs.IdMapping(uniprotData.populates(Of Entry)(env), target)
+        Dim mapId As Func(Of String, String) = GetIDs.IdMapping(uniprotData.populates(Of entry)(env), target)
 
         Return rawIdList _
             .Select(mapId) _
@@ -544,14 +570,14 @@ Module uniprotTools
 
     <ExportAPI("metaboliteSet")>
     Public Function metaboliteSet(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
-        Dim uniprotData As pipeline = pipeline.TryCreatePipeline(Of Entry)(uniprot, env)
+        Dim uniprotData As pipeline = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
 
         If uniprotData.isError Then
             Return uniprotData
         End If
 
         Return uniprotData _
-            .populates(Of Entry)(env) _
+            .populates(Of entry)(env) _
             .ToDictionary(Function(p) p.accessions(Scan0),
                           Function(p)
                               Dim comments = p.comments _

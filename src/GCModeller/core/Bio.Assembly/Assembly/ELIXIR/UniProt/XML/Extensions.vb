@@ -94,6 +94,19 @@ Namespace Assembly.Uniprot.XML
             End If
         End Function
 
+        <Extension>
+        Public Iterator Function DbReferenceIds(prot As entry, dbName As String) As IEnumerable(Of String)
+            Dim refs As dbReference() = prot.xrefs.TryGetValue(dbName)
+
+            If Not refs Is Nothing Then
+                For Each item As dbReference In refs
+                    If Not item Is Nothing Then
+                        Yield item.id
+                    End If
+                Next
+            End If
+        End Function
+
         ''' <summary>
         ''' Get KO number of this protein
         ''' </summary>

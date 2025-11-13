@@ -74,7 +74,7 @@ Namespace Assembly.NCBI.Entrez
 
         Const REPORT As String = "<div><div class=""rprt"">.+?"
 
-        Public Function GetEntry(Keyword As String, Organism As String, Optional MaxLimited As UInteger = 5) As Entry()
+        Public Function GetEntry(Keyword As String, Organism As String, Optional MaxLimited As UInteger = 5) As EntrezEntry()
             Dim url As String = CreateQuery(Keyword, Organism)
             Dim pageContent As String = url.GET
 
