@@ -672,20 +672,38 @@ Public Module GSEABackground
     ''' </example>
     <ExportAPI("geneSet.filter")>
     <RApiReturn(GetType(Background))>
-    Public Function ClusterFilter(background As Background, <RRawVectorArgument> geneSet As Object,
+    Public Function ClusterFilter(background As Background,
+                                  <RRawVectorArgument>
+                                  Optional geneSet As Object = Nothing,
                                   Optional min_size As Integer = 3,
                                   Optional max_intersects As Integer = 500,
+                                  <RRawVectorArgument>
+                                  Optional remove_clusters As Object = Nothing,
                                   Optional env As Environment = Nothing) As Object
 
         Dim idset As String() = CLRVector.asCharacter(geneSet).SafeQuery.Distinct.ToArray
+        Dim removeClusters As Index(Of String) = CLRVector _
+            .asCharacter(remove_clusters) _
+            .Indexing
 
-        If idset.IsNullOrEmpty Then
-            Return RInternal.debug.stop("the required gene idset for test intersect should not be empty!", env)
+        If idset.IsNullOrEmpty AndAlso removeClusters.Count = 0 Then
+            Return RInternal.debug.stop("the required gene idset for test intersect or the cluster id collection for make filtered from the background should not be empty!", env)
         End If
 
         Dim filtered As Cluster() = background.clusters _
             .Where(Function(c)
-                       Return c.size >= min_size AndAlso c.Intersect(idset).Count <= max_intersects
+                       Dim test1 As Boolean = True
+                       Dim test2 As Boolean = True
+
+                       If Not idset.IsNullOrEmpty Then
+                           test1 = c.size >= min_size AndAlso
+                               c.Intersect(idset).Count <= max_intersects
+                       End If
+                       If removeClusters.Count > 0 Then
+                           test2 = Not (c.ID Like removeClusters)
+                       End If
+
+                       Return test1 AndAlso test2
                    End Function) _
             .ToArray
 
