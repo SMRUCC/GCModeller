@@ -190,6 +190,8 @@ declare namespace background {
        * 
         * @param background -
         * @param geneSet usually be a character of the gene id set.
+        * 
+        * + default value Is ``null``.
         * @param min_size the min feature size is required for each cluster. 
         *  all of the cluster that have the feature number less than this cutoff 
         *  will be removed from the background.
@@ -200,11 +202,13 @@ declare namespace background {
         *  this value will be removed from the background.
         * 
         * + default value Is ``500``.
+        * @param remove_clusters 
+        * + default value Is ``null``.
         * @param env 
         * + default value Is ``null``.
         * @return a new background model that has cluster filtered by the given rule.
       */
-      function filter(background: object, geneSet: any, min_size?: object, max_intersects?: object, env?: object): object;
+      function filter(background: object, geneSet?: any, min_size?: object, max_intersects?: object, remove_clusters?: any, env?: object): object;
       /**
        * get an intersection id list between the background
        *  model and the given gene id list.

@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{60AA6823-471A-48F4-92A7-7F154753F99E}|..\\..\\GCModeller\\annotations\\GSEA\\GSEA\\gsea-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea\\knowledgebase\\imports\\uniprotmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -17,11 +25,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "GSEA.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
+              "RelativeDocumentMoniker": "gseakit\\GSEA.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
+              "RelativeToolTip": "gseakit\\GSEA.vb",
+              "ViewState": "AgIAAJIAAAAAAAAAAAAowGcAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-13T17:36:17.637Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "GSEABackground.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "RelativeDocumentMoniker": "gseakit\\GSEABackground.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "RelativeToolTip": "gseakit\\GSEABackground.vb",
+              "ViewState": "AgIAAIECAAAAAAAAAAAowK4CAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-13T17:35:49.706Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "UniProtModel.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\KnowledgeBase\\Imports\\UniProtModel.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA\\KnowledgeBase\\Imports\\UniProtModel.vb",
@@ -50,7 +84,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "UniProt.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\UniProt.vb",
               "RelativeDocumentMoniker": "gseakit\\UniProt.vb",
