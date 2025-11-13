@@ -413,31 +413,39 @@ Module uniprotTools
     ''' <summary>
     ''' get external database reference id set
     ''' </summary>
-    ''' <param name="prot"></param>
+    ''' <param name="prot">target protein object to extract its database corss reference id</param>
+    ''' <param name="dbname">
+    ''' this function will returns a character vector of the db_xrefs for specific database if this db name is specificed.
+    ''' </param>
     ''' <returns></returns>
     ''' <remarks>
     ''' the uniprot database name will be named as: ``UniProtKB/Swiss-Prot`` for
-    ''' make unify with the genebank feature xrefs
+    ''' make unify with the genebank feature xrefs.
     ''' </remarks>
     <ExportAPI("get_xrefs")>
-    Public Function get_xrefs(prot As entry) As Object
-        Dim list As list = list.empty
-        Dim xrefs As list = list.empty
+    <RApiReturn(GetType(dataframe), GetType(String))>
+    Public Function get_xrefs(prot As entry, Optional dbname As String = Nothing) As Object
+        If dbname Is Nothing Then
+            Dim list As list = list.empty
+            Dim xrefs As list = list.empty
 
-        ' 20240804
-        ' /db_xref="UniProtKB/Swiss-Prot:P0AD65"
-        '
-        ' make unify with the genebank entry when insert into biocad_registry
-        xrefs.add("UniProtKB/Swiss-Prot", prot.accessions)
+            ' 20240804
+            ' /db_xref="UniProtKB/Swiss-Prot:P0AD65"
+            '
+            ' make unify with the genebank entry when insert into biocad_registry
+            xrefs.add("UniProtKB/Swiss-Prot", prot.accessions)
 
-        For Each link In prot.dbReferences.GroupBy(Function(r) r.type)
-            Call xrefs.add(link.Key, From i In link Select i.id)
-        Next
+            For Each link In prot.dbReferences.GroupBy(Function(r) r.type)
+                Call xrefs.add(link.Key, From i In link Select i.id)
+            Next
 
-        list.add("name", If(prot.name, prot.accessions.First))
-        list.add("xrefs", xrefs)
+            list.add("name", If(prot.name, prot.accessions.First))
+            list.add("xrefs", xrefs)
 
-        Return list
+            Return list
+        Else
+            Return prot.DbReferenceIds(dbname).ToArray
+        End If
     End Function
 
     ''' <summary>
@@ -450,7 +458,7 @@ Module uniprotTools
     <ExportAPI("get_keywords")>
     <RApiReturn(GetType(dataframe))>
     Public Function get_keywords(prot As entry) As Object
-        Dim labels = prot.keywords
+        Dim labels As value() = prot.keywords
         Dim df As New dataframe With {
             .columns = New Dictionary(Of String, Array),
             .rownames = labels.SafeQuery _
