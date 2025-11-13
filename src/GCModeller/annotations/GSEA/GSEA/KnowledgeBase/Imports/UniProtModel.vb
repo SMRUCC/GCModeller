@@ -53,6 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
@@ -169,7 +170,10 @@ Public Module UniProtModel
     End Function
 
     <Extension>
-    Friend Function uniprotGeneModel(protein As entry, Optional terms As String() = Nothing, Optional db_xref As String = Nothing) As BackgroundGene
+    Friend Function uniprotGeneModel(protein As entry,
+                                     Optional terms As String() = Nothing,
+                                     Optional db_xref As String = Nothing,
+                                     Optional trimProteinSuffix As Boolean = True) As BackgroundGene
         Dim dbxref As String()
 
         If db_xref Is Nothing Then
@@ -187,6 +191,17 @@ Public Module UniProtModel
             dbxref = protein _
                 .DbReferenceIds(db_xref) _
                 .ToArray
+
+            If trimProteinSuffix AndAlso Not db_xref Is Nothing Then
+                Const prot_idSuffix = "\.\d+$"
+
+                dbxref = dbxref _
+                    .Select(Function(id)
+                                Return Regex.Replace(id, prot_idSuffix, String.Empty)
+                            End Function) _
+                    .Distinct _
+                    .ToArray
+            End If
         End If
 
         Return New BackgroundGene With {
