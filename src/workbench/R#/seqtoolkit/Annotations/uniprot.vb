@@ -440,7 +440,15 @@ Module uniprotTools
         Return list
     End Function
 
+    ''' <summary>
+    ''' get keyword dataframe about the given protein data
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns>
+    ''' a dataframe object that with two data fields: `id` - the keyword id and `keyword` - the keyword name.
+    ''' </returns>
     <ExportAPI("get_keywords")>
+    <RApiReturn(GetType(dataframe))>
     Public Function get_keywords(prot As entry) As Object
         Dim labels = prot.keywords
         Dim df As New dataframe With {
