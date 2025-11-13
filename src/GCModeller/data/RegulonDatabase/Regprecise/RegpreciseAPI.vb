@@ -245,12 +245,11 @@ Rodionov, D. A.", Volume:=14)>
             Throw New NotImplementedException
         End Function
 
-        <ExportAPI("Write.Csv.Matches")>
-        Public Function WriteMatches(data As IEnumerable(Of RegPreciseRegulatorMatch), saveto As String) As Boolean
-            Return data.SaveTo(saveto, False)
-        End Function
-
-        <ExportAPI("Read.Xml.Regprecise")>
+        ''' <summary>
+        ''' read the local regprecise database file
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
         Public Function ReadXml(path As String) As TranscriptionFactors
             Return TranscriptionFactors.Load(path)
         End Function
