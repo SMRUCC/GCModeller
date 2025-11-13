@@ -103,6 +103,11 @@ Public Module UniProtModel
         }
     End Function
 
+    ''' <summary>
+    ''' Extract the uniprot keyword as protein function background model
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function UniprotKeywordsModel(uniprot As IEnumerable(Of entry)) As Background
         Dim words = uniprot _
@@ -133,11 +138,11 @@ Public Module UniProtModel
 
     <Extension>
     Private Iterator Function extractKeywords(protein As entry) As IEnumerable(Of NamedValue(Of BackgroundGene))
-        Dim keywords = protein.keywords
+        Dim keywords As value() = protein.keywords
         Dim gene As BackgroundGene = protein.uniprotGeneModel
 
         If Not keywords.IsNullOrEmpty Then
-            For Each word In keywords
+            For Each word As value In keywords
                 Yield New NamedValue(Of BackgroundGene) With {
                     .Description = word.value,
                     .Name = word.id,

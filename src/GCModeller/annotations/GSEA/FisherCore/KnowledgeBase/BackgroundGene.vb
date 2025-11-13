@@ -126,7 +126,15 @@ Public Class BackgroundGene : Inherits Synonym
     End Function
 
     Public Shared Iterator Function UnknownTerms(ParamArray term_ids As String()) As IEnumerable(Of NamedValue)
+        If term_ids Is Nothing Then
+            Return
+        End If
+
         For Each id As String In term_ids
+            If id Is Nothing Then
+                Continue For
+            End If
+
             Yield New NamedValue With {
                 .name = "Unknown",
                 .text = id
