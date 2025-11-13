@@ -252,7 +252,7 @@ Public Module RegPrecise
             Dim match = ncbi.GetBestMatch(target.genome.name, 0.85)
 
             If Not match Is Nothing Then
-                target.genome.genomeId = $"{match.assembly_accession} - {match.organism_name}"
+                target.genome.genomeId = $"{match.assembly_accession}_{match.asm_name} - {match.organism_name}"
                 target.genome.taxonomyId = match.taxid
             Else
                 Call $"the bacterial genome '{target.genome.name}' is not existsed inside ncbi genbank database!".warning
@@ -267,7 +267,7 @@ Public Module RegPrecise
                 Dim match = ncbi.GetBestMatch(target.genome.name, 0.85)
 
                 If Not match Is Nothing Then
-                    target.genome.genomeId = $"{match.assembly_accession} - {match.organism_name}"
+                    target.genome.genomeId = $"{match.assembly_accession}_{match.asm_name} - {match.organism_name}"
                     target.genome.taxonomyId = match.taxid
                 Else
                     Call missing.Add(target.genome.name)
