@@ -79,28 +79,19 @@ Public Module UniProtModel
     End Function
 
     <Extension>
-    Public Function SubcellularLocation(uniprot As IEnumerable(Of entry)) As Background
+    Public Function SubcellularLocation(uniprot As IEnumerable(Of entry), Optional db_xref As String = Nothing) As Background
         Dim locations = uniprot _
-            .Select(Function(i) i.extractLocations) _
+            .Select(Function(i) i.extractLocations(db_xref:=db_xref)) _
             .IteratesALL _
-            .GroupBy(Function(i) i.Name) _
             .ToArray
-        Dim clusters = locations _
-            .Select(Function(c)
-                        Return New Cluster With {
-                            .ID = c.Key,
-                            .members = c _
-                                .Select(Function(i) i.Value) _
-                                .GroupBy(Function(i) i.accessionID) _
-                                .Select(Function(a) a.First) _
-                                .ToArray
-                        }
-                    End Function) _
-            .ToArray
+        Dim clusters As Cluster() = locations.buildKeywordClusters.ToArray
 
         Return New Background With {
             .build = Now,
-            .clusters = clusters
+            .clusters = clusters,
+            .id = NameOf(SubcellularLocation),
+            .name = .id,
+            .size = .clusters.BackgroundSize
         }
     End Function
 
@@ -119,7 +110,10 @@ Public Module UniProtModel
 
         Return New Background With {
             .build = Now,
-            .clusters = clusters
+            .clusters = clusters,
+            .id = NameOf(UniprotKeywordsModel),
+            .name = .id,
+            .size = .clusters.BackgroundSize
         }
     End Function
 
@@ -205,9 +199,9 @@ Public Module UniProtModel
     End Function
 
     <Extension>
-    Private Iterator Function extractLocations(protein As entry) As IEnumerable(Of NamedValue(Of BackgroundGene))
+    Private Iterator Function extractLocations(protein As entry, db_xref As String) As IEnumerable(Of NamedValue(Of BackgroundGene))
         Dim locs As comment() = protein.CommentList.TryGetValue("subcellular location")
-        Dim gene As BackgroundGene = protein.uniprotGeneModel
+        Dim gene As BackgroundGene = protein.uniprotGeneModel(db_xref:=db_xref)
 
         If Not locs.IsNullOrEmpty Then
             For Each location As keyword In locs _
