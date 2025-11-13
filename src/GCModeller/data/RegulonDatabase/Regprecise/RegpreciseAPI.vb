@@ -496,25 +496,5 @@ Rodionov, D. A.", Volume:=14)>
 
             Return f1 And f2
         End Function
-
-        <ExportAPI("Regprecise.Compile")>
-        Public Function Compile(Regprecise As TranscriptionFactors) As Regulations
-
-        End Function
-
-        <ExportAPI("Regprecise.Compile")>
-        Public Function Compile(Regprecise As IEnumerable(Of JSON.genome), repository As String) As Regulations
-
-        End Function
-
-        ''' <summary>
-        ''' 加载自有的源之中的调控数据库
-        ''' </summary>
-        ''' <returns></returns>
-        <ExportAPI("")>
-        Public Function LoadRegulationDb() As Regulations
-            'Dim Xml As String = GCModeller.FileSystem.GetRegulations
-            'Return Xml.LoadXml(Of Regulations)
-        End Function
     End Module
 End Namespace
