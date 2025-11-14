@@ -44,7 +44,7 @@ Friend Class RunSample
                 predictedMotifs.AddRange(motifs)
             End SyncLock
 
-            Console.WriteLine(informationContent.ToString() & " :: " & s)
+            Call VBDebugger.EchoLine(informationContent.ToString() & " :: " & s)
         End If
     End Sub
 End Class

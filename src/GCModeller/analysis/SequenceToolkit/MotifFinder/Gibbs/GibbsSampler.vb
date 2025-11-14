@@ -114,13 +114,14 @@ Public Class GibbsSampler
     Public Function find(Optional maxIterations As Integer = 1000) As MSAMotif
         Dim numSamples As Integer = SequenceCount
         Dim sampler As New RunSample(Me)
+        Dim println As Action(Of String) = AddressOf VBDebugger.EchoLine
 
-        Console.WriteLine("============= Input Sequences =============")
-        Console.WriteLine(" * number of sequence samples: " & numSamples)
-        Console.WriteLine(" * min sequence length: " & m_sequenceLength)
-        Console.WriteLine(" * motif width for search: " & m_motifLength)
-        Console.WriteLine()
-        Console.WriteLine("============= Result of Gibbs Sampling Algorithm in each iteration =============")
+        Call println("============= Input Sequences =============")
+        Call println(" * number of sequence samples: " & numSamples)
+        Call println(" * min sequence length: " & m_sequenceLength)
+        Call println(" * motif width for search: " & m_motifLength)
+        Call println("")
+        Call println("============= Result of Gibbs Sampling Algorithm in each iteration =============")
 
         Call Enumerable.Range(0, numSamples) _
             .AsParallel() _
@@ -134,7 +135,7 @@ Public Class GibbsSampler
         Dim q As Double() = New Double(sampler.predictedMotifs.Count - 1) {}
         Dim eval As New Gibbs(Sequences, m_motifLength)
 
-        Console.WriteLine("======== Maximum Information Content :: " & icpc & " =========" & vbLf)
+        Call println("======== Maximum Information Content :: " & icpc & " =========" & vbLf)
 
         For i As Integer = 0 To sampler.predictedMotifs.Count - 1
             Dim pq = eval.PQ(i)
