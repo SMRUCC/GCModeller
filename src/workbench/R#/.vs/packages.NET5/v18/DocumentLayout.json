@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\multiomics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\multiomics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\terms.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\terms.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\workflows.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\workflows.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{60AA6823-471A-48F4-92A7-7F154753F99E}|..\\..\\GCModeller\\annotations\\GSEA\\GSEA\\gsea-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsea\\knowledgebase\\imports\\uniprotmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -16,6 +20,22 @@
     {
       "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\uniprot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsea.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -25,11 +45,76 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "multiOmics.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\multiOmics.vb",
+              "RelativeDocumentMoniker": "phenotype_kit\\multiOmics.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\multiOmics.vb",
+              "RelativeToolTip": "phenotype_kit\\multiOmics.vb",
+              "ViewState": "AgIAAEwAAAAAAAAAAADwv3EAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-14T02:36:05.696Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "workflows.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\workflows.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\workflows.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\workflows.vb",
+              "RelativeToolTip": "seqtoolkit\\Annotations\\workflows.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-13T20:48:18.532Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "terms.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\terms.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\terms.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\terms.vb",
+              "RelativeToolTip": "seqtoolkit\\Annotations\\terms.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGAAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-13T20:48:15.198Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "uniprot.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\uniprot.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\uniprot.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\uniprot.vb",
+              "RelativeToolTip": "seqtoolkit\\Annotations\\uniprot.vb",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-13T20:07:48.314Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "geneExpression.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
+              "RelativeDocumentMoniker": "phenotype_kit\\geneExpression.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
+              "RelativeToolTip": "phenotype_kit\\geneExpression.vb",
+              "ViewState": "AgIAANQBAAAAAAAAAAAYwPkBAABhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-13T18:10:00.456Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "GSEA.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEA.vb",
               "RelativeDocumentMoniker": "gseakit\\GSEA.vb",
@@ -42,26 +127,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 7,
               "Title": "GSEABackground.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
               "RelativeDocumentMoniker": "gseakit\\GSEABackground.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
               "RelativeToolTip": "gseakit\\GSEABackground.vb",
-              "ViewState": "AgIAAIECAAAAAAAAAAAowIoCAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAJACAAAAAAAAAAAowKgCAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-13T17:35:49.706Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "UniProtModel.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\KnowledgeBase\\Imports\\UniProtModel.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA\\KnowledgeBase\\Imports\\UniProtModel.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSEA\\KnowledgeBase\\Imports\\UniProtModel.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSEA\\KnowledgeBase\\Imports\\UniProtModel.vb",
-              "ViewState": "AgIAAJEAAAAAAAAAAAAiwNAAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAiwMoAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-13T17:18:43.041Z",
               "EditorCaption": ""
@@ -84,13 +169,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "UniProt.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\UniProt.vb",
               "RelativeDocumentMoniker": "gseakit\\UniProt.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\UniProt.vb",
               "RelativeToolTip": "gseakit\\UniProt.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFgAAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFgAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-13T13:51:36.096Z",
               "EditorCaption": ""

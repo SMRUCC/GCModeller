@@ -76,6 +76,9 @@ declare namespace annotation.terms {
    */
    function read_rankterms(file: string): object;
    /**
+   */
+   function removes_proteinIDSuffix(id: any): string;
+   /**
      * @param excludeNull default value Is ``false``.
    */
    function synonym(idlist: string, idmap: object, excludeNull?: boolean): object;

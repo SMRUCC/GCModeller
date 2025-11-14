@@ -2,6 +2,7 @@
 
 tools for make ontology term annotation based on the proteins sequence data
 
++ [removes_proteinIDSuffix](annotation.terms/removes_proteinIDSuffix.1) 
 + [read_rankterms](annotation.terms/read_rankterms.1) read the given table file as rank term object
 + [geneNames](annotation.terms/geneNames.1) try parse gene names from the product description strings
 + [assign.KO](annotation.terms/assign.KO.1) do KO number assign based on the bbh alignment result.
