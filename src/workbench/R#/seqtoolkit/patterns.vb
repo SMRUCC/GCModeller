@@ -104,6 +104,7 @@ Module patterns
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MotifMatch()), AddressOf matchTableOutput)
         Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
         Call REnv.Internal.generic.add("plot", GetType(MSAOutput), AddressOf plotMotif)
+        Call REnv.Internal.generic.add("plot", GetType(MSAMotif), AddressOf plotMotif)
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of SequenceMotif)(Function(m) DirectCast(m, SequenceMotif).patternString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MSAMotif), AddressOf gibbs_table)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(SequenceGraph()), AddressOf seqgraph_df)
@@ -596,7 +597,7 @@ Module patterns
                 Case GetType(MSAOutput), GetType(MSAMotif)
                     data = DirectCast(MSA, MSAOutput).PopulateAlignment
                 Case Else
-                    Return REnv.Internal.debug.stop(New InvalidProgramException, env)
+                    Return REnv.Internal.debug.stop(New InvalidProgramException($"un-supported clr object type for extract MSA data: {type.FullName}!"), env)
             End Select
         End If
 

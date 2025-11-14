@@ -57,10 +57,15 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 
+''' <summary>
+''' 
+''' </summary>
+''' <remarks>
+''' a sub-class of <see cref="MSAOutput"/>.
+''' </remarks>
 Public Class MSAMotif : Inherits MSAOutput
 
-    <XmlAttribute>
-    Public Property start As Integer()
+    Public Property start As ints
     <XmlElement>
     Public Property countMatrix As ints()
 

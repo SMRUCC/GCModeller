@@ -160,7 +160,7 @@ Public Class GibbsSampler
             .cost = icpc,
             .MSA = sampler.predictedMotifs.ToArray,
             .names = m_sequences.Select(Function(fa) fa.Title).ToArray,
-            .start = sampler.predictedSites.ToArray,
+            .start = New ints(sampler.predictedSites),
             .countMatrix = motifMatrix.countsMatrix _
                 .Select(Function(n) New ints(n)) _
                 .ToArray,
