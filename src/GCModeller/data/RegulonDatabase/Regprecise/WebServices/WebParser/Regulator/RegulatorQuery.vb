@@ -132,12 +132,21 @@ Namespace Regprecise
                 Dim LocusTags As String() = r _
                     .Matches(properties(++i), "href="".+?"">.+?</a>", RegexOptions.Singleline) _
                     .ToArray
-                regulator.locus_tags = LocusTags.Select(Function(str)
-                                                            Return New NamedValue With {
-                    .name = RegulomeQuery.GetsId(str),
-                    .text = str.href
-                }
-                                                        End Function).ToArray
+
+                If LocusTags.IsNullOrEmpty Then
+                    LocusTags = properties(CInt(i) - 1).Match("<td>.+?</td>").GetValue.StringSplit("[;,]")
+                    regulator.locus_tags = LocusTags.Select(Function(str)
+                                                                Return New NamedValue(str)
+                                                            End Function).ToArray
+                Else
+                    regulator.locus_tags = LocusTags.Select(Function(str)
+                                                                Return New NamedValue With {
+                        .name = RegulomeQuery.GetsId(str),
+                        .text = str.href
+                    }
+                                                            End Function).ToArray
+                End If
+
                 regulator.family = getTagValue_td(properties(++i).Replace("<td>Regulator family:</td>", ""))
             Else
                 Dim Name As String = r.Matches(properties(++i), "<td>.+?</td>", RegexICSng).ToArray.Last
