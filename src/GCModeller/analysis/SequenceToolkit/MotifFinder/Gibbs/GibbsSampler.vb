@@ -226,7 +226,11 @@ Public Class GibbsSampler
         For i As Integer = 0 To m_sequenceCount - 1
             Call Enumerable.Range(0, m_sequenceLength) _
                 .ForEach(Sub(jj, ii)
-                             P(Utils.indexOfBase(S(ii)(jj))) += 1
+                             Dim offset As Integer = Utils.indexOfBase(S(ii)(jj))
+
+                             If offset > -1 Then
+                                 P(offset) += 1
+                             End If
                          End Sub)
         Next
 
@@ -304,10 +308,13 @@ Public Class GibbsSampler
 
         For i As Integer = 0 To m_motifLength - 1
             Dim baseIdx = Utils.indexOfBase(z(x + i))
-            Dim q = q_ij.probability(i, baseIdx)
-            Dim lP = 1 / P(baseIdx)
 
-            sum += Math.Log(q / lP)
+            If baseIdx > -1 Then
+                Dim q = q_ij.probability(i, baseIdx)
+                Dim lP = 1 / P(baseIdx)
+
+                sum += Math.Log(q / lP)
+            End If
         Next
 
         Return sum
