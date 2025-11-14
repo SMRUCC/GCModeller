@@ -119,8 +119,10 @@ Namespace Regprecise
         Protected Overrides Function doParseObject(html As String, schema As Type) As Object
             Dim infoTable$ = html.Match("<table class=""proptbl"">.+?</table>", RegexOptions.Singleline)
             Dim properties$() = r.Matches(infoTable, "<tr>.+?</tr>", RegexICSng).ToArray
-            Dim i As i32 = 1
+            Dim i As i32 = 0
             Dim regulator As New Regulator
+
+            regulator.type = If(InStr(properties(++i), "RNA regulatory element") > 0, Types.RNA, Types.TF)
 
             With r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
                 If Not .StringEmpty Then
@@ -134,7 +136,8 @@ Namespace Regprecise
                     .ToArray
 
                 If LocusTags.IsNullOrEmpty Then
-                    LocusTags = properties(CInt(i) - 1).Match("<td>.+?</td>").GetValue.StringSplit("[;,]")
+                    Dim tmp As String = properties(CInt(i) - 1)
+                    LocusTags = tmp.Match("<td>.+?</td>").GetValue.StringSplit("[;,]")
                     regulator.locus_tags = LocusTags.Select(Function(str)
                                                                 Return New NamedValue(str)
                                                             End Function).ToArray
@@ -158,6 +161,7 @@ Namespace Regprecise
                 }}
                 regulator.family = r.Match(infoTable, "<td class=""[^""]+?"">RFAM:</td>[^<]+?<td>.+?</td>", RegexOptions.Singleline).Value
                 regulator.family = getTagValue_td(regulator.family)
+                i += 1
             End If
 
             regulator.regulationMode = getTagValue_td(properties(++i))
