@@ -54,9 +54,11 @@
 
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports Microsoft.VisualBasic.Math
+Imports System.Xml.Serialization
 
 Public Class MSAMotif : Inherits MSAOutput
 
+    <XmlAttribute>
     Public Property start As Integer()
     Public Property countMatrix As Integer()()
     Public Property rowSum As Integer

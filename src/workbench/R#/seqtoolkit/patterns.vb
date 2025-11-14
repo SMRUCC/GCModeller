@@ -222,7 +222,7 @@ Module patterns
             Return Nothing
         End If
 
-        Dim gibbs As New GibbsSampler(fa, If(width, CInt(fa.Average(Function(s) s.Length) * 0.8)))
+        Dim gibbs As New GibbsSampler(fa, If(width, CInt(fa.Average(Function(s) s.Length) * 0.6)))
         Dim motif As MSAMotif = gibbs.find(maxIterations:=maxitr)
 
         Return motif

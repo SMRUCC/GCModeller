@@ -14,3 +14,5 @@ seqfile
 |> xml
 |> writeLines(con = savefile)
 ;
+
+message(`motif file save to file location: ${savefile}`);
