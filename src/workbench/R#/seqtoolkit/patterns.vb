@@ -109,6 +109,7 @@ Module patterns
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(SequenceGraph()), AddressOf seqgraph_df)
     End Sub
 
+    <RGenericOverloads("as.data.frame")>
     Private Function seqgraph_df(graphs As SequenceGraph(), args As list, env As Environment) As dataframe
         Dim type As String = args.getValue({"seq_type", "type", "mol_type"}, env, [default]:="DNA")
         Dim norm As Boolean = args.getValue({"norm"}, env, [default]:=False)
@@ -129,6 +130,7 @@ Module patterns
         Return df
     End Function
 
+    <RGenericOverloads("as.data.frame")>
     Private Function gibbs_table(score As MSAMotif, args As list, env As Environment) As dataframe
         Dim df As New dataframe With {
             .columns = New Dictionary(Of String, Array),
@@ -144,11 +146,13 @@ Module patterns
         Return df
     End Function
 
+    <RGenericOverloads("plot")>
     Private Function plotMotif(motif As Object, args As list, env As Environment) As Object
         Dim title As String = args.getValue("title", env, [default]:="")
         Return DrawLogo(motif, title, env)
     End Function
 
+    <RGenericOverloads("as.data.frame")>
     Private Function matchTableOutput(scans As MotifMatch(), args As list, env As Environment) As dataframe
         Dim table As New dataframe With {
             .columns = New Dictionary(Of String, Array)
