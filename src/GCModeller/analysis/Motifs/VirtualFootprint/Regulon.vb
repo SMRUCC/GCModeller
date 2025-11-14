@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::487610a238003989b78d1787a7d2d9c1, analysis\Motifs\VirtualFootprint\Regulon.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Class RegPreciseRegulon
-    ' 
-    '     Properties: BiologicalProcess, Effectors, Family, hits, Members
-    '                 Pathway, Regulator, Sites
-    ' 
-    '     Function: __merge, Merge, Merges, ToNetwork, ToString
-    ' 
-    ' /********************************************************************************/
+' Class RegPreciseRegulon
+' 
+'     Properties: BiologicalProcess, Effectors, Family, hits, Members
+'                 Pathway, Regulator, Sites
+' 
+'     Function: __merge, Merge, Merges, ToNetwork, ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -99,17 +99,17 @@ Public Class RegPreciseRegulon
             Dim toNodes As String() = xGroup.Group.Select(Function(x) x.Members).Unlist.Distinct.ToArray
             For Each member As String In toNodes
                 Dim edge As New NetworkEdge With {
-                    .FromNode = xGroup.Regulator,
-                    .ToNode = member,
-                    .Interaction = "Regulates"
+                    .fromNode = xGroup.Regulator,
+                    .toNode = member,
+                    .interaction = "Regulates"
                 }
                 Call edges.Add(edge)
             Next
         Next
 
         Return New FileStream.NetworkTables With {
-            .Edges = edges.ToArray,
-            .Nodes = Nodes.Values.ToArray
+            .edges = edges.ToArray,
+            .nodes = Nodes.Values.ToArray
         }
     End Function
 
@@ -123,7 +123,7 @@ Public Class RegPreciseRegulon
         Dim __1st = source.First
         Dim regulates = (From x In source Select x.Regulates.Select(Function(xx) xx.locusId)).Unlist
         Dim effectors = (From x In source Select x.effector Distinct).ToArray
-        Dim hits = (From x In source Select x.locus_tag.text Distinct Order By text Ascending).ToArray
+        Dim hits = (From x In source Select text = x.locus_tags.Values.JoinBy(";") Distinct Order By text Ascending).ToArray
         Dim sites = (From x In source Select x.regulatorySites.Select(Function(xx) xx.UniqueId)).Unlist
         Dim regulon As New RegPreciseRegulon With {
             .Family = __1st.family,
