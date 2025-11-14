@@ -110,8 +110,9 @@ Namespace Regprecise
         ''' </summary>
         ''' <param name="regulator"></param>
         ''' <returns></returns>
-        <Extension> Public Function uid(regulator As Regulator) As String
-            Return $"{regulator.LocusId.NormalizePathString(True)}.{regulator.locus_tag.text.NormalizePathString(True)}"
+        <Extension>
+        Public Function uid(regulator As Regulator) As String
+            Return $"{regulator.LocusId.NormalizePathString(True)}.{regulator.locus_tags.Values.JoinBy(",").NormalizePathString(True)}"
         End Function
 
         <ExportAPI("Regulon.Reconstruct")>
@@ -220,7 +221,7 @@ Namespace Regprecise
                                               Select New Regulator With {
                                                   .regulatorySites = regulon.regulatorySites,
                                                   .regulator = regulon.regulator,
-                                                  .locus_tag = locusId,
+                                                  .locus_tags = {locusId},
                                                   .biological_process = regulon.biological_process,
                                                   .effector = regulon.effector,
                                                   .family = regulon.family,

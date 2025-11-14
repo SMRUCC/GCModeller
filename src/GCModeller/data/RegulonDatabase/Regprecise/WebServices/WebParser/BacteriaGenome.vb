@@ -57,6 +57,8 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
@@ -121,8 +123,7 @@ Namespace Regprecise
         Public Function ListRegulators() As String()
             Dim list As String() = (From x As Regulator In regulome.regulators
                                     Where x.type = Types.TF
-                                    Select x.locus_tag.name
-                                    Distinct).ToArray
+                                    Select x.locus_tags).IteratesALL.Keys.Distinct.ToArray
             Return list
         End Function
 

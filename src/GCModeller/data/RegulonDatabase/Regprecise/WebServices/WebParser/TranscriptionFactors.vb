@@ -60,9 +60,11 @@ Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
+Imports SMRUCC.genomics.Data.Regtransbase.WebServices
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Regprecise
@@ -136,7 +138,7 @@ Namespace Regprecise
             End If
 
             Dim Regulator = (From tf As Regulator In genome.regulome.regulators
-                             Where String.Equals(tf.locus_tag.name, RegulatorId, StringComparison.OrdinalIgnoreCase)
+                             Where tf.locus_tags.Any(Function(prot) String.Equals(prot.name, RegulatorId, StringComparison.OrdinalIgnoreCase))
                              Select tf).FirstOrDefault
             If Regulator Is Nothing Then
                 Regulator = CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)
@@ -176,7 +178,7 @@ Namespace Regprecise
                               Where Not Regulator.GetMotifSite(locus_tag, MotifPosition) Is Nothing
                               Select Regulator).FirstOrDefault
                 If Not LQuery Is Nothing Then
-                    Return LQuery.locus_tag.name
+                    Return LQuery.locus_tags(0).name
                 End If
             Next
 
@@ -213,8 +215,8 @@ Namespace Regprecise
         Public Function Export_TFBSInfo() As FASTA.FastaFile
             Dim TFBS_sites = (From Regulator As Regulator In Me.ListAllRegulators()
                               Where Regulator.type = Types.TF
-                              Select (From site In Regulator.regulatorySites
-                                      Select RegulatorId = Regulator.locus_tag.name,
+                              Select (From site As MotifFasta In Regulator.regulatorySites
+                                      Select RegulatorId = Regulator.locus_tags.Keys.JoinBy(","),
                                           Regulator.family,
                                           Species = Strings.Split(Regulator.regulog.name, " - ").Last,
                                           Tfbs_siteInfo = site).ToArray).ToArray.ToVector

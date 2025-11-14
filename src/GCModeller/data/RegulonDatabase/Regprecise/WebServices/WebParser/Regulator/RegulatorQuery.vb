@@ -129,22 +129,24 @@ Namespace Regprecise
             End With
 
             If regulator.type = Types.TF Then
-                Dim LocusTag As String = r _
-                    .Match(properties(++i), "href="".+?"">.+?</a>", RegexOptions.Singleline) _
-                    .Value
-                regulator.locus_tag = New NamedValue With {
-                    .name = RegulomeQuery.GetsId(LocusTag),
-                    .text = LocusTag.href
+                Dim LocusTags As String() = r _
+                    .Matches(properties(++i), "href="".+?"">.+?</a>", RegexOptions.Singleline) _
+                    .ToArray
+                regulator.locus_tags = LocusTags.Select(Function(str)
+                                                            Return New NamedValue With {
+                    .name = RegulomeQuery.GetsId(str),
+                    .text = str.href
                 }
+                                                        End Function).ToArray
                 regulator.family = getTagValue_td(properties(++i).Replace("<td>Regulator family:</td>", ""))
             Else
                 Dim Name As String = r.Matches(properties(++i), "<td>.+?</td>", RegexICSng).ToArray.Last
                 Name = Mid(Name, 5)
                 Name = Mid(Name, 1, Len(Name) - 5)
-                regulator.locus_tag = New NamedValue With {
+                regulator.locus_tags = {New NamedValue With {
                     .name = Name,
                     .text = ""
-                }
+                }}
                 regulator.family = r.Match(infoTable, "<td class=""[^""]+?"">RFAM:</td>[^<]+?<td>.+?</td>", RegexOptions.Singleline).Value
                 regulator.family = getTagValue_td(regulator.family)
             End If

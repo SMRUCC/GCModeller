@@ -158,20 +158,6 @@ Rodionov, D. A.", Volume:=14)>
             }
         End Function
 
-        ''' <summary>
-        ''' Download regprecise regulator protein sequence from kegg database.
-        ''' </summary>
-        ''' <param name="Regprecise"></param>
-        ''' <param name="EXPORT"></param>
-        ''' <returns></returns>
-        Public Function DownloadRegulatorSequence(Regprecise As TranscriptionFactors, Optional EXPORT As String = "") As FASTA.FastaFile
-            If String.IsNullOrEmpty(EXPORT) Then
-                EXPORT = TempFileSystem.TempDir
-            End If
-
-            Return WebAPI.DownloadRegulatorSequence(Regprecise, EXPORT)
-        End Function
-
         <ExportAPI("Write.Xml.Regprecise")>
         Public Function WriteRegprecise(Regprecise As TranscriptionFactors, saveXml As String) As Boolean
             Return Regprecise.GetXml.SaveTo(saveXml)

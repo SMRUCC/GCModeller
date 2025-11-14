@@ -71,37 +71,6 @@ Namespace Regprecise
                       Description:="Sequence downloader for the regulators and the regulated genes in the regprecise database from KEGG server.")>
     Public Module KEGGDownloader
 
-        ''' <summary>
-        ''' 从KEGG数据库之中下载调控因子的蛋白质序列数据
-        ''' </summary>
-        ''' <param name="Regulator"></param>
-        ''' <param name="Bacteria"></param>
-        ''' <param name="ErrLog"></param>
-        ''' <param name="DownloadDirectory"></param>
-        ''' <param name="FastaSaved"></param>
-        ''' <returns></returns>
-        '''
-        <ExportAPI("Regulator.Downloads")>
-        Public Function RegulatorDownloads(Regulator As Regulator,
-                                           Bacteria As BacteriaRegulome,
-                                           ErrLog As LogFile,
-                                           DownloadDirectory As String,
-                                           FastaSaved As String) As FASTA.FastaSeq
-
-            If FileIO.FileSystem.FileExists(FastaSaved) AndAlso FileIO.FileSystem.GetFileInfo(FastaSaved).Length > 0 Then
-                Return FASTA.FastaSeq.Load(FastaSaved)
-            End If
-
-            Dim FastaObject = RegulatorDownloads(Regulator.locus_tag.name, ErrLog, Bacteria.genome.name)
-
-            If FastaObject Is Nothing Then
-                Return Nothing
-            Else
-                Call FastaObject.SaveTo(FastaSaved)
-                Return FastaObject
-            End If
-        End Function
-
         <ExportAPI("Regulator.Downloads", Info:="Download a regulators' protein fasta sequence using the gene's locus tag")>
         Public Function RegulatorDownloads(locusTag As String,
                                            ErrLog As LogFile,

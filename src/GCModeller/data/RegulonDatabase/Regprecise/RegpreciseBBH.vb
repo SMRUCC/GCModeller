@@ -63,6 +63,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Regprecise
@@ -120,11 +121,11 @@ Namespace Regprecise
         Public Property Tfbs As String()
 
         Public Shared Iterator Function JoinTable(sbh As IEnumerable(Of BestHit), regulators As IEnumerable(Of RegulatorTable)) As IEnumerable(Of RegpreciseBBH)
-            Dim TF As Dictionary(Of String, RegulatorTable) = regulators _
+            Dim TF As Dictionary(Of String, RegulatorTable) = regulators.Select(Function(r) r.locus_tag.Select(Function(a) (locus_tag:=a, r))).IteratesALL _
                 .GroupBy(Function(r) r.locus_tag) _
                 .ToDictionary(Function(r) r.Key,
                               Function(g)
-                                  Return g.First
+                                  Return g.First.r
                               End Function)
 
             For Each hit As BestHit In sbh
@@ -159,11 +160,11 @@ Namespace Regprecise
         End Function
 
         Public Shared Iterator Function JoinTable(bbh As IEnumerable(Of BiDirectionalBesthit), regulators As IEnumerable(Of RegulatorTable)) As IEnumerable(Of RegpreciseBBH)
-            Dim TF As Dictionary(Of String, RegulatorTable) = regulators _
+            Dim TF As Dictionary(Of String, RegulatorTable) = regulators.Select(Function(r) r.locus_tag.Select(Function(a) (locus_tag:=a, r))).IteratesALL _
                 .GroupBy(Function(r) r.locus_tag) _
                 .ToDictionary(Function(r) r.Key,
                               Function(g)
-                                  Return g.First
+                                  Return g.First.r
                               End Function)
 
             For Each hit As BiDirectionalBesthit In bbh
