@@ -161,7 +161,9 @@ Public Class GibbsSampler
             .MSA = sampler.predictedMotifs.ToArray,
             .names = m_sequences.Select(Function(fa) fa.Title).ToArray,
             .start = sampler.predictedSites.ToArray,
-            .countMatrix = motifMatrix.countsMatrix.Select(Function(n) New ints(n)).toarray,
+            .countMatrix = motifMatrix.countsMatrix _
+                .Select(Function(n) New ints(n)) _
+                .ToArray,
             .rowSum = motifMatrix.rowSum,
             .p = p,
             .q = q,
