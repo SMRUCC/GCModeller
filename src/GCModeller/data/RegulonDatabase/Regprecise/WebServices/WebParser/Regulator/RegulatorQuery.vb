@@ -136,8 +136,8 @@ Namespace Regprecise
                     .ToArray
 
                 If LocusTags.IsNullOrEmpty Then
-                    Dim tmp As String = properties(CInt(i) - 1)
-                    tmp = tmp.Match("<td>.+?</td>").GetValue.Trim
+                    Dim tmp As String = properties(CInt(i) - 1).GetColumnsHTML.ElementAtOrDefault(1)
+
                     If tmp = "" Then
                         regulator.locus_tags = {}
                     Else

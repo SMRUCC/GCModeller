@@ -68,19 +68,6 @@
           "SelectedChildIndex": 5,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HtmlStrips.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
-              "ViewState": "AgIAAO0AAAAAAAAAAAAuwBMBAABIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-14T07:46:14.18Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
@@ -98,13 +85,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HtmlStrips.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Text\\Parser\\HtmlParser\\HtmlStrips.vb",
+              "ViewState": "AgIAAO0AAAAAAAAAAAAuwBMBAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-14T07:46:14.18Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "RegulatorQuery.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\Regulator\\RegulatorQuery.vb",
               "RelativeDocumentMoniker": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\Regulator\\RegulatorQuery.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\RegulonDatabase\\Regprecise\\WebServices\\WebParser\\Regulator\\RegulatorQuery.vb",
               "RelativeToolTip": "RegulonDatabase\\Regprecise\\WebServices\\WebParser\\Regulator\\RegulatorQuery.vb",
-              "ViewState": "AgIAAGMAAAAAAAAAAAAswJQAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAswIsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-14T07:34:20.765Z",
               "EditorCaption": ""
