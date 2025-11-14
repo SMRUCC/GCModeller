@@ -67,6 +67,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.Extensions
@@ -148,41 +149,13 @@ Rodionov, D. A.", Volume:=14)>
         <ExportAPI("Db.CompileGeneration")>
         Public Function GenerateDatabase(DIR As String) As TranscriptionFactors
             Dim LQuery = (From File As String In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel
-                          Let Bacteria As Regprecise.BacteriaRegulome = Distinct(File.LoadXml(Of Regprecise.BacteriaRegulome)())
+                          Let Bacteria As Regprecise.BacteriaRegulome = File.LoadXml(Of Regprecise.BacteriaRegulome)()
                           Select Bacteria
                           Order By Bacteria.genome.name Ascending).ToArray
             Return New TranscriptionFactors With {
                 .genomes = LQuery,
                 .update = Now.ToString
             }
-        End Function
-
-        Public Function Distinct(data As BacteriaRegulome) As BacteriaRegulome
-            Dim Regulators = (From reg As Regulator
-                              In data.regulome.regulators
-                              Select reg.locus_tag.name
-                              Distinct).ToArray
-            If Regulators.Length = data.numOfRegulons Then
-                Return data       '没有重复的数据，则直接返回
-            End If
-
-            Dim DistinctedRegulators = (From sId As String
-                                        In Regulators
-                                        Select RegulatorId = sId,
-                                            ddata = (From reg As Regulator In data.regulome.regulators
-                                                     Where String.Equals(reg.locus_tag.name, sId)
-                                                     Select reg).ToArray).ToArray
-            Dim LQuery = (From Line In DistinctedRegulators
-                          Let Sites = (From item In Line.ddata Select item.regulatorySites).ToVector
-                          Let DistinctedSites = (From SiteId As String In (From item In Sites Select item.UniqueId Distinct).ToArray Let site = Sites.GetItem(SiteId) Select site).ToArray
-                          Select Regulator = Line.ddata.First,
-                              DistinctedSites).ToArray
-            For i As Integer = 0 To LQuery.Length - 1
-                Dim Regulator = LQuery(i)
-                Regulator.Regulator.regulatorySites = Regulator.DistinctedSites
-            Next
-            data.regulome.regulators = (From item In LQuery Select item.Regulator).ToArray
-            Return data
         End Function
 
         ''' <summary>
