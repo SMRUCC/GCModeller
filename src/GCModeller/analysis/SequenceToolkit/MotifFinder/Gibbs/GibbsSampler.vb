@@ -85,6 +85,7 @@ Public Class GibbsSampler
     Friend ReadOnly m_sequenceLength As Integer
     Friend ReadOnly m_sequenceCount As Integer
     Friend ReadOnly m_sequences As FastaSeq()
+    Friend ReadOnly m_ignored As Integer
 
     ''' <returns> the size of the list sequences </returns>
     Public Overridable ReadOnly Property SequenceCount As Integer
@@ -96,13 +97,16 @@ Public Class GibbsSampler
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="fastaFile"></param>
+    ''' <param name="fastaFile">the un-aligned raw sequence data, any sequence object with length less than the required <paramref name="motifLength"/> will be ignored.</param>
     ''' <param name="motifLength">
     ''' recommended use value of 0.8 multiply of the average length of the fasta sequence
     ''' </param>
     Sub New(fastaFile As IEnumerable(Of FastaSeq), Optional motifLength As Integer = 8)
         m_sequences = fastaFile.ToArray
+        m_sequenceCount = m_sequences.Length
         m_motifLength = motifLength
+        m_sequences = (From seq As FastaSeq In m_sequences Where seq.Length >= motifLength).ToArray
+        m_ignored = m_sequenceCount - m_sequences.Length
         m_sequenceLength = m_sequences.Select(Function(a) a.Length).Min
         m_sequenceCount = m_sequences.Length
     End Sub
@@ -118,8 +122,9 @@ Public Class GibbsSampler
 
         Call println("============= Input Sequences =============")
         Call println(" * number of sequence samples: " & numSamples)
-        Call println(" * min sequence length: " & m_sequenceLength)
+        Call println(" * max sequence length: " & m_sequenceLength)
         Call println(" * motif width for search: " & m_motifLength)
+        Call println(" * ignores of short sequence with length less than required motif width: " & m_ignored)
         Call println("")
         Call println("============= Result of Gibbs Sampling Algorithm in each iteration =============")
 
