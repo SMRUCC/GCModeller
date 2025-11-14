@@ -1,68 +1,68 @@
 ﻿#Region "Microsoft.VisualBasic::8476f005d6bd2b5681531bc212783f0b, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 645
-    '    Code Lines: 410 (63.57%)
-    ' Comment Lines: 135 (20.93%)
-    '    - Xml Docs: 94.81%
-    ' 
-    '   Blank Lines: 100 (15.50%)
-    '     File Size: 25.65 KB
+' Summaries:
 
 
-    '     Class FastaFile
-    ' 
-    '         Properties: _innerList, Count, FilePath, IsReadOnly, MimeType
-    ' 
-    '         Constructor: (+8 Overloads) Sub New
-    ' 
-    '         Function: [Select], AddRange, AsKSource, Clone, Contains
-    '                   Distinct, (+2 Overloads) DocParser, filterNulls, Find, Generate
-    '                   GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile, LoadNucleotideData
-    '                   Match, ParseDocument, (+2 Overloads) Query, QueryAny, Read
-    '                   Remove, (+5 Overloads) Save, SaveData, SingleSequence, Take
-    '                   ToLower, ToString, ToUpper
-    ' 
-    '         Sub: Add, AppendToFile, Clear, CopyTo, Insert
-    '              RemoveAt, Split
-    ' 
-    '         Operators: (+3 Overloads) +, <, >
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 645
+'    Code Lines: 410 (63.57%)
+' Comment Lines: 135 (20.93%)
+'    - Xml Docs: 94.81%
+' 
+'   Blank Lines: 100 (15.50%)
+'     File Size: 25.65 KB
+
+
+'     Class FastaFile
+' 
+'         Properties: _innerList, Count, FilePath, IsReadOnly, MimeType
+' 
+'         Constructor: (+8 Overloads) Sub New
+' 
+'         Function: [Select], AddRange, AsKSource, Clone, Contains
+'                   Distinct, (+2 Overloads) DocParser, filterNulls, Find, Generate
+'                   GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile, LoadNucleotideData
+'                   Match, ParseDocument, (+2 Overloads) Query, QueryAny, Read
+'                   Remove, (+5 Overloads) Save, SaveData, SingleSequence, Take
+'                   ToLower, ToString, ToUpper
+' 
+'         Sub: Add, AppendToFile, Clear, CopyTo, Insert
+'              RemoveAt, Split
+' 
+'         Operators: (+3 Overloads) +, <, >
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -72,6 +72,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -378,7 +379,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
                 Where fsa.Headers.Length - 1 >= index
                 Select fsa
             Dim LQuery As FastaSeq() = LinqAPI.Exec(Of FastaSeq) <=
- _
+                                                                   _
                 From fa As FastaSeq
                 In list
                 Where InStr(fa.Headers(index), Keyword, CaseSensitive) > 0
@@ -474,14 +475,17 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
         ''' <summary>
         ''' Save the fasta file into the local filesystem.
         ''' </summary>
-        ''' <param name="Path"></param>
+        ''' <param name="path">the file path for save the fasta sequence data</param>
         ''' <param name="encoding">不同的程序会对这个由要求，例如meme程序在linux系统之中要求序列文件为unicode编码格式而windows版本的meme程序则要求ascii格式</param>
         ''' <remarks></remarks>
-        Public Overloads Function Save(LineBreak As Integer, Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
+        Public Overloads Function Save(lineBreak As Integer, Optional path As String = "", Optional deli As String = "|", Optional encoding As Encoding = Nothing) As Boolean
             Static ASCII As [Default](Of Encoding) = Encoding.ASCII
 
-            Using writer As IO.StreamWriter = (Path Or FilePath.When(Path.StringEmpty)).OpenWriter(encoding Or ASCII)
-                For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=LineBreak))
+            Using writer As IO.StreamWriter = (path Or FilePath.When(path.StringEmpty)).OpenWriter(encoding Or ASCII)
+                For Each seq As String In From fa As FastaSeq
+                                          In _innerList.AsParallel
+                                          Select fa.GenerateDocument(lineBreak:=lineBreak, delimiter:=deli)
+
                     Call writer.WriteLine(seq)
                 Next
             End Using
@@ -494,17 +498,21 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Generate() As String
-            Dim sb As New StringBuilder(10 * 1024)
-            Dim s As String
+        Public Function Generate(Optional lineBreak As Integer = 60, Optional deli As String = "|") As String
+            Dim sb As New StringBuilder(capacity:=4 * ByteSize.KB)
+            Dim text As New StringWriter(sb)
 
-            For Each fa As FastaSeq In __innerList
-                s = fa.GenerateDocument(lineBreak:=60)
-                sb.AppendLine(s)
-            Next
+            Call Write(text, lineBreak, deli)
+            Call text.Flush()
 
             Return sb.ToString
         End Function
+
+        Public Sub Write(file As TextWriter, lineBreak As Integer, delimiter As String)
+            For Each fa As FastaSeq In __innerList
+                Call file.WriteLine(fa.GenerateDocument(lineBreak:=lineBreak, delimiter:=delimiter))
+            Next
+        End Sub
 
         ''' <summary>
         '''
@@ -513,30 +521,29 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
         ''' The target FASTA file that to append this FASTA sequences.(将要拓展这些FASTA序列的目标FASTA文件)
         ''' </param>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AppendToFile(file As Path)
-            Call FileIO.FileSystem.WriteAllText(file, Generate, append:=True)
+            Call FileSystem.WriteAllText(file, Generate, append:=True)
         End Sub
 
         Public Overrides Function ToString() As String
             Return String.Format("{0}; [{1} records]", FilePath, Count)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Shadows Widening Operator CType(source As FastaSeq()) As FastaFile
-            Return New FastaFile With {
-                .__innerList = source.AsList
-            }
+            Return New FastaFile(source)
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Shadows Widening Operator CType(source As List(Of FastaSeq)) As FastaFile
-            Return New FastaFile With {
-                .__innerList = source
-            }
+            Return New FastaFile(source)
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Shadows Widening Operator CType(fa As FastaSeq) As FastaFile
-            Return New FastaFile With {
-                .__innerList = New List(Of FastaSeq) From {fa}
-            }
+            Return New FastaFile(New FastaSeq() {fa})
         End Operator
 
         Public Shadows Iterator Function GetEnumerator() As IEnumerator(Of FastaSeq) Implements IEnumerable(Of FastaSeq).GetEnumerator
@@ -552,7 +559,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
         ''' <summary>
         ''' 使用正则表达式来搜索在序列中含有特定模式的序列对象
         ''' </summary>
-        ''' <param name="regxText"></param>
+        ''' <param name="regxText">the regular expression pattern for matches of the fasta sequence data</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Iterator Function Match(regxText$, Optional options As RegexOptions = RegexOptions.Singleline) As IEnumerable(Of FastaSeq)
