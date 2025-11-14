@@ -170,6 +170,10 @@ Namespace Regprecise
                 i += 1
             End If
 
+            If regulator.family.StringEmpty() Then
+
+            End If
+
             regulator.regulationMode = getTagValue_td(properties(++i))
             regulator.biological_process = getTagValue_td(properties(++i)).StringSplit("\s*;\s*")
 
