@@ -66,9 +66,9 @@ Namespace Matrix
 
         Public Sub New(sequences As IList(Of String))
             Me.sequences = sequences
-            sequenceCount = sequences.Count
-            rowSum = sequenceCount
-            sequenceLength = sequences(0).Length
+            Me.sequenceCount = sequences.Count
+            Me.rowSum = sequenceCount
+            Me.sequenceLength = sequences(0).Length
 
             Call initMatrix(sequenceLength)
             Call initSequenceMatrix()

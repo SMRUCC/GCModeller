@@ -56,8 +56,10 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Math.GibbsSampling
 Imports Microsoft.VisualBasic.My.JavaScript
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.Matrix
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -87,9 +89,9 @@ Public Class GibbsSampler
 
     Friend ReadOnly m_motifLength As Integer
     ''' <summary>
-    ''' min length of the input sequence collection
+    ''' sequence length of the input sequence collection
     ''' </summary>
-    Friend ReadOnly m_sequenceLength As Integer
+    Friend ReadOnly m_sequenceLength As Integer()
     Friend ReadOnly m_sequenceCount As Integer
     Friend ReadOnly m_sequences As FastaSeq()
     Friend ReadOnly m_ignored As Integer
@@ -114,7 +116,9 @@ Public Class GibbsSampler
         m_motifLength = motifLength
         m_sequences = (From seq As FastaSeq In m_sequences Where seq.Length >= motifLength).ToArray
         m_ignored = m_sequenceCount - m_sequences.Length
-        m_sequenceLength = m_sequences.Select(Function(a) a.Length).Min
+        m_sequenceLength = m_sequences _
+            .Select(Function(a) a.Length) _
+            .ToArray
         m_sequenceCount = m_sequences.Length
     End Sub
 
@@ -129,7 +133,7 @@ Public Class GibbsSampler
 
         Call println("============= Input Sequences =============")
         Call println(" * number of sequence samples: " & numSamples)
-        Call println(" * min sequence length: " & m_sequenceLength)
+        Call println(" * range of sequence length: " & New DoubleRange(m_sequenceLength).MinMax.GetJson)
         Call println(" * motif width for search: " & m_motifLength)
         Call println(" * ignores of short sequence with length less than required motif width: " & m_ignored)
         Call println("")
@@ -228,14 +232,16 @@ Public Class GibbsSampler
         Dim P = New Double() {0, 0, 0, 0}
 
         For i As Integer = 0 To m_sequenceCount - 1
-            Call Enumerable.Range(0, m_sequenceLength) _
-                .ForEach(Sub(jj, ii)
-                             Dim offset As Integer = Utils.indexOfBase(S(ii)(jj))
+            Dim seq As String = S(i)
 
-                             If offset > -1 Then
-                                 P(offset) += 1
-                             End If
-                         End Sub)
+            For j As Integer = 0 To m_sequenceLength(i) - 1
+                Dim c As Char = seq(j)
+                Dim offset As Integer = Utils.indexOfBase(c)
+
+                If offset > -1 Then
+                    P(offset) += 1
+                End If
+            Next
         Next
 
         Dim sum As Double = P.Sum()
@@ -288,7 +294,7 @@ Public Class GibbsSampler
     ''' Its position then becomes the new a_z. </summary>
     ''' <param name="z">, sequence we are iterating through </param>
     Private Function samplingStep(q_ij As SequenceMatrix, z As String, P As List(Of Double)) As Integer
-        Dim A As List(Of Double) = Enumerable.Range(0, m_sequenceLength - m_motifLength) _
+        Dim A As List(Of Double) = Enumerable.Range(0, m_sequenceLength.Min - m_motifLength) _
             .AsParallel() _
             .Select(Function(x)
                         Return calculateMotifProbability(q_ij, z, x, P)
@@ -297,7 +303,7 @@ Public Class GibbsSampler
         Dim weightDistribution = smoothProbabilities(A)
         Dim choice As Double = weightedChooseIndex(weightDistribution)
 
-        Return Enumerable.Range(0, m_sequenceLength - m_motifLength) _
+        Return Enumerable.Range(0, m_sequenceLength.Min - m_motifLength) _
             .reduce(Function(i, b)
                         Return If(A(i).Equals(choice), i, b)
                     End Function, 0)
@@ -368,7 +374,7 @@ Public Class GibbsSampler
     ''' <returns> sequenceLength random ints </returns>
     Private Iterator Function getRandomSites() As IEnumerable(Of Integer)
         For i As Integer = 0 To m_sequenceCount - 1
-            Yield randf.Next(m_sequenceLength - m_motifLength)
+            Yield randf.Next(m_sequenceLength(i) - m_motifLength)
         Next
     End Function
 End Class
