@@ -194,7 +194,7 @@ Public Class GibbsSampler
     ''' <param name="maxIterations">, maximum number of iterations sampling may take </param>
     ''' <returns> Sets of int predicting the position motifs located in each sequence </returns>
     Friend Function gibbsSample(maxIterations As Integer, S As List(Of String)) As List(Of Integer)
-        Dim A = getRandomSites().ToList
+        Dim A = getRandomSites().AsList
 
         For i As Integer = 0 To maxIterations
             ' Choose the next sequence

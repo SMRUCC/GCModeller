@@ -21,7 +21,7 @@ Friend Class RunSample
         End SyncLock
 
         Dim sites As List(Of Integer) = sampler.gibbsSample(maxIterations, New List(Of String)(sequences))
-        Dim motifs As List(Of String) = sampler.getMotifStrings(sequences, sites)
+        Dim motifs As System.Collections.Generic.List(Of String) = sampler.getMotifStrings(sequences, sites)
         Dim informationContent = sampler.informationContent(motifs)
         Dim newMax As Boolean
 

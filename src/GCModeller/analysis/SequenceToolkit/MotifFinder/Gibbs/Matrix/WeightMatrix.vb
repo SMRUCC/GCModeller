@@ -84,6 +84,10 @@ Namespace Matrix
             Return countMatrix
         End Function
 
+        ''' <summary>
+        ''' create an rectangular array of <see cref="countsMatrix"/>.
+        ''' </summary>
+        ''' <param name="rows"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Friend Overridable Sub initMatrix(rows As Integer)
             countsMatrix = RectangularArray.Matrix(Of Integer)(rows, 4)
