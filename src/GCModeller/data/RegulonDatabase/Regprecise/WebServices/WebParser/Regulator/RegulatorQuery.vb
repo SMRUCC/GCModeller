@@ -171,7 +171,7 @@ Namespace Regprecise
             End If
 
             If regulator.family.StringEmpty() Then
-                regulator.family = html.Match("<span\s+class[=]""titleItem"">.*</span>").GetValue
+                regulator.family = html.Match("<span\s+class[=]""titleItem"">.*?</span>").GetValue
             End If
 
             regulator.regulationMode = getTagValue_td(properties(++i))
