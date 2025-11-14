@@ -81,9 +81,19 @@ declare namespace bioseq.patterns {
    */
    function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, significant_sites?: object, seeds?: any, debug?: boolean, env?: object): object;
    /**
-     * @param width default value Is ``12``.
-     * @param maxitr default value Is ``1000``.
-     * @param env default value Is ``null``.
+    * make a motif scan from the given sequence collection
+    * 
+    * 
+     * @param seqs -
+     * @param width -
+     * 
+     * + default value Is ``null``.
+     * @param maxitr -
+     * 
+     * + default value Is ``1000``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function gibbs_scan(seqs: any, width?: object, maxitr?: object, env?: object): object;
    module motif {

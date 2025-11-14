@@ -4,7 +4,7 @@ Tools for sequence patterns
 
 + [open.seedFile](bioseq.patterns/open.seedFile.1) 
 + [pull.all_seeds](bioseq.patterns/pull.all_seeds.1) 
-+ [gibbs_scan](bioseq.patterns/gibbs_scan.1) 
++ [gibbs_scan](bioseq.patterns/gibbs_scan.1) make a motif scan from the given sequence collection
 + [view.sites](bioseq.patterns/view.sites.1) 
 + [read.motifs](bioseq.patterns/read.motifs.1) read sequence motif json file.
 + [read.scans](bioseq.patterns/read.scans.1) read the motif match scan result table file
