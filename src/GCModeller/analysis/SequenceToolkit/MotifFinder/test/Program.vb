@@ -5,7 +5,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Module Program
     Sub Main(args As String())
         Dim data As FastaFile = FastaFile.LoadNucleotideData("G:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Staphylococcaceae_LexA___Staphylococcaceae.fasta")
-        Dim avgLen As Integer = data.Average(Function(seq) seq.Length)
+        Dim avgLen As Integer = data.Average(Function(seq) seq.Length) - 1
         Dim gibbs As New GibbsSampler(data, motifLength:=avgLen)
         Dim motif As MSAMotif = gibbs.find
 
