@@ -244,7 +244,7 @@ Rodionov, D. A.", Volume:=14)>
             Return New IO.File(array)
         End Function
 
-        Public Function FamilyStatics2(Matches As Generic.IEnumerable(Of IRegulatorMatched)) As KeyValuePair(Of String, String())()
+        Public Function FamilyStatics2(Matches As IEnumerable(Of IRegulatorMatched)) As KeyValuePair(Of String, String())()
             Dim Families As String() = (From item In Matches Select item.Family Distinct Order By Family Ascending).ToArray
             Dim LQuery As KeyValuePair(Of String, String())() = (
                 From Family As String In Families
