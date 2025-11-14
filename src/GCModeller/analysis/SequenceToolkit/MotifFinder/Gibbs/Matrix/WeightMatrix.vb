@@ -74,7 +74,7 @@ Namespace Matrix
         End Sub
 
         Private Function listsToArrays(countsLists As List(Of List(Of Integer))) As Integer()()
-            Dim countMatrix = RectangularArray.Matrix(Of Integer)(countsLists.Count, countsLists(0).Count)
+            Dim countMatrix As Integer()() = RectangularArray.Matrix(Of Integer)(countsLists.Count, countsLists(0).Count)
             Dim rows As List(Of Integer()) = countsLists.Select(Function(r) r.ToArray()).ToList()
 
             For i As Integer = 0 To countsLists.Count - 1

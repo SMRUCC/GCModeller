@@ -95,6 +95,7 @@ Public Class GibbsSampler
     Friend ReadOnly m_sequenceCount As Integer
     Friend ReadOnly m_sequences As FastaSeq()
     Friend ReadOnly m_ignored As Integer
+    Friend ReadOnly m_globalBackground As Double()
 
     ''' <returns> the size of the list sequences </returns>
     Public Overridable ReadOnly Property SequenceCount As Integer
@@ -106,7 +107,8 @@ Public Class GibbsSampler
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="fastaFile">the un-aligned raw sequence data, any sequence object with length less than the required <paramref name="motifLength"/> will be ignored.</param>
+    ''' <param name="fastaFile">the un-aligned raw sequence data, any sequence object with length less 
+    ''' than the required <paramref name="motifLength"/> will be ignored.</param>
     ''' <param name="motifLength">
     ''' recommended use value of 0.8 multiply of the average length of the fasta sequence
     ''' </param>
@@ -120,7 +122,28 @@ Public Class GibbsSampler
             .Select(Function(a) a.Length) _
             .ToArray
         m_sequenceCount = m_sequences.Length
+        ' 预计算全局背景概率
+        m_globalBackground = CalculateGlobalBackground(m_sequences)
     End Sub
+
+    Private Function CalculateGlobalBackground(sequences As FastaSeq()) As Double()
+        Dim counts = New Double() {0, 0, 0, 0}
+        Dim total As Integer = 0
+
+        For Each seq In sequences
+            For Each c In seq.SequenceData.ToUpper()
+                Dim idx = Utils.indexOfBase(c)
+                If idx > -1 Then
+                    counts(idx) += 1
+                    total += 1
+                End If
+            Next
+        Next
+
+        Return If(total > 0,
+              counts.Select(Function(c) c / total).ToArray(),
+              {0.25, 0.25, 0.25, 0.25}) ' 默认均匀分布
+    End Function
 
     ''' <summary>
     ''' Runs numSamples gibbsSamples to find a prediction on the sites
@@ -139,11 +162,16 @@ Public Class GibbsSampler
         Call println("")
         Call println("============= Result of Gibbs Sampling Algorithm in each iteration =============")
 
-        Call Enumerable.Range(0, numSamples) _
-            .AsParallel() _
-            .ForEach(Sub(j, i)
-                         Call sampler.RunOne(maxIterations)
-                     End Sub)
+        Dim parallelOptions As New ParallelOptions With {
+            .MaxDegreeOfParallelism = Environment.ProcessorCount
+        }
+
+        Call Parallel.For(fromInclusive:=0,
+                          toExclusive:=numSamples,
+                          parallelOptions,
+                          body:=Sub(j)
+                                    Call sampler.RunOne(maxIterations)
+                                End Sub)
 
         Dim motifMatrix As WeightMatrix = New SequenceMatrix(sampler.predictedMotifs)
         Dim icpc As Double = CDbl(sampler.maxInformationContent) / m_motifLength
@@ -211,7 +239,7 @@ Public Class GibbsSampler
 
             ' Run the predictive step on z
             Dim q_ij = predictiveUpdateStep(S, A)
-            Dim P = calculateP(S)
+            Dim P As List(Of Double) = m_globalBackground.ToList()
 
             ' Run the sampling step on q_ij
             Dim a_z = samplingStep(q_ij, z, P)
@@ -294,19 +322,18 @@ Public Class GibbsSampler
     ''' Its position then becomes the new a_z. </summary>
     ''' <param name="z">, sequence we are iterating through </param>
     Private Function samplingStep(q_ij As SequenceMatrix, z As String, P As List(Of Double)) As Integer
-        Dim A As List(Of Double) = Enumerable.Range(0, m_sequenceLength.Min - m_motifLength) _
+        ' 使用当前序列长度而非全局最小长度
+        Dim maxStart As Integer = z.Length - m_motifLength
+        Dim A As List(Of Double) = Enumerable.Range(0, maxStart) _
             .AsParallel() _
             .Select(Function(x)
                         Return calculateMotifProbability(q_ij, z, x, P)
                     End Function) _
             .AsList()
-        Dim weightDistribution = smoothProbabilities(A)
-        Dim choice As Double = weightedChooseIndex(weightDistribution)
 
-        Return Enumerable.Range(0, m_sequenceLength.Min - m_motifLength) _
-            .reduce(Function(i, b)
-                        Return If(A(i).Equals(choice), i, b)
-                    End Function, 0)
+        ' 直接使用原始概率（无需平滑）
+        Dim choiceIndex As Integer = weightedChooseIndex(A)
+        Return choiceIndex
     End Function
 
     ''' <summary>
@@ -321,15 +348,15 @@ Public Class GibbsSampler
                                                x As Integer,
                                                P As List(Of Double)) As Double
         Dim sum As Double = 0
+        Dim q As Double
 
         For i As Integer = 0 To m_motifLength - 1
             Dim baseIdx = Utils.indexOfBase(z(x + i))
 
             If baseIdx > -1 Then
-                Dim q = q_ij.probability(i, baseIdx)
-                Dim lP = 1 / P(baseIdx)
-
-                sum += Math.Log(q / lP)
+                q = q_ij.probability(i, baseIdx)
+                ' 直接计算似然比 log(q / P)
+                sum += Math.Log(q / P(baseIdx))
             End If
         Next
 
@@ -364,7 +391,33 @@ Public Class GibbsSampler
     ''' <param name="weightDistribution">, sequenceCount smoothed log probabilities </param>
     ''' <returns> new index of the site </returns>
     Private Function weightedChooseIndex(weightDistribution As List(Of Double)) As Double
-        Return weightDistribution.Aggregate(Double.NegativeInfinity, Function(a, b) If(a > b, a, b))
+        ' 将log概率转换为线性概率
+        Dim probabilities = weightDistribution.Select(Function(d) Math.Exp(d)).ToArray()
+        Dim total As Double = probabilities.Sum()
+
+        ' 归一化
+        If total > 0 Then
+            For i As Integer = 0 To probabilities.Length - 1
+                probabilities(i) /= total
+            Next
+        Else
+            ' 处理全零情况
+            Return randf.Next(probabilities.Length)
+        End If
+
+        ' 轮盘赌选择
+        Dim r As Double = randf.NextDouble()
+        Dim cumulative As Double = 0.0
+
+        For i As Integer = 0 To probabilities.Length - 1
+            cumulative += probabilities(i)
+
+            If r <= cumulative Then
+                Return i
+            End If
+        Next
+
+        Return probabilities.Length - 1 ' 浮点误差保护
     End Function
 
     ''' <summary>

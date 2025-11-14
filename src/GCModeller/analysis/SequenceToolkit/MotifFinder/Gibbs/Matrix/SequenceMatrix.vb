@@ -100,7 +100,9 @@ Namespace Matrix
         ''' <param name="index">, index of base </param>
         ''' <param name="base">, base in the index </param>
         Public Overridable Function probability(index As Integer, base As Integer) As Double
-            Return countsMatrix(index)(base) / rowSum
+            ' 添加伪计数（加1平滑）
+            Dim totalCount As Double = rowSum + 4 ' 4个碱基
+            Return (countsMatrix(index)(base) + 1) / totalCount
         End Function
     End Class
 
