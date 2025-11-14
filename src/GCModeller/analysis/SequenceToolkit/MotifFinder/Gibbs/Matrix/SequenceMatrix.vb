@@ -85,7 +85,11 @@ Namespace Matrix
 
                 For j As Integer = 0 To sequenceLength - 1
                     b = Utils.indexOfBase(sequence(j))
-                    countsMatrix(j)(b) += 1
+
+                    ' b = -1 means N or - these non-standard sequence chars
+                    If b > -1 Then
+                        countsMatrix(j)(b) += 1
+                    End If
                 Next
             Next
         End Sub

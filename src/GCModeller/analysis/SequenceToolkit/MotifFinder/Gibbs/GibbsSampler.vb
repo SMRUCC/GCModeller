@@ -72,9 +72,15 @@ Public Class GibbsSampler
 
     Shared ReadOnly LOG_2 As Double = Math.Log(2)
 
-    Public Overridable ReadOnly Property Sequences As IList(Of String)
+    ''' <summary>
+    ''' populate all fasta <see cref="FastaSeq.SequenceData"/> in upper case.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Overridable ReadOnly Property Sequences As IEnumerable(Of String)
         Get
-            Return m_sequences
+            Return From seq As FastaSeq
+                   In m_sequences
+                   Select seq.SequenceData.ToUpper
         End Get
     End Property
 
@@ -122,7 +128,7 @@ Public Class GibbsSampler
 
         Call println("============= Input Sequences =============")
         Call println(" * number of sequence samples: " & numSamples)
-        Call println(" * max sequence length: " & m_sequenceLength)
+        Call println(" * min sequence length: " & m_sequenceLength)
         Call println(" * motif width for search: " & m_motifLength)
         Call println(" * ignores of short sequence with length less than required motif width: " & m_ignored)
         Call println("")
@@ -138,7 +144,7 @@ Public Class GibbsSampler
         Dim icpc As Double = CDbl(sampler.maxInformationContent) / m_motifLength
         Dim p As Double() = New Double(sampler.predictedMotifs.Count - 1) {}
         Dim q As Double() = New Double(sampler.predictedMotifs.Count - 1) {}
-        Dim eval As New Gibbs(Sequences, m_motifLength)
+        Dim eval As New Gibbs(Sequences.ToArray, m_motifLength)
 
         Call println("======== Maximum Information Content :: " & icpc & " =========" & vbLf)
 

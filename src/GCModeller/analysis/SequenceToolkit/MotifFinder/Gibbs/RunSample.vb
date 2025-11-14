@@ -10,7 +10,7 @@ Friend Class RunSample
 
     Sub New(gibbs As GibbsSampler)
         sampler = gibbs
-        sequences = gibbs.m_sequences.Select(Function(fa) fa.SequenceData).ToArray
+        sequences = gibbs.Sequences.ToArray
     End Sub
 
     Public Sub RunOne(maxIterations As Integer)
