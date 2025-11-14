@@ -77,13 +77,17 @@ Namespace Matrix
         ''' Counts the occurrences of each base along each position of each sequence
         ''' </summary>
         Private Sub initSequenceMatrix()
-            Enumerable.Range(0, sequenceCount).ForEach(Sub(i, z)
-                                                           Dim sequence = sequences(i)
-                                                           Enumerable.Range(0, sequenceLength).ForEach(Sub(j, y)
-                                                                                                           Dim b = Utils.indexOfBase(sequence(j))
-                                                                                                           countsMatrix(j)(b) += 1
-                                                                                                       End Sub)
-                                                       End Sub)
+            Dim b As Integer
+            Dim sequence As String
+
+            For i As Integer = 0 To sequenceCount - 1
+                sequence = sequences(i)
+
+                For j As Integer = 0 To sequenceLength - 1
+                    b = Utils.indexOfBase(sequence(j))
+                    countsMatrix(j)(b) += 1
+                Next
+            Next
         End Sub
 
         ''' <summary>

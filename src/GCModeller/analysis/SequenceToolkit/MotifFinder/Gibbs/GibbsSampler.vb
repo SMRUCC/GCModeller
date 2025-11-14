@@ -81,23 +81,23 @@ Public Class GibbsSampler
 
     Friend motifLength As Integer
     Friend sequenceLength As Integer
-    Friend sequenceCountField As Integer
+    Friend m_sequenceCount As Integer
 
     Dim m_sequences As FastaSeq()
+
+    ''' <returns> the size of the list sequences </returns>
+    Public Overridable ReadOnly Property SequenceCount As Integer
+        Get
+            Return m_sequenceCount
+        End Get
+    End Property
 
     Sub New(fastaFile As IEnumerable(Of FastaSeq), Optional motifLength As Integer = 8)
         m_sequences = fastaFile.ToArray
         Me.motifLength = motifLength
         sequenceLength = m_sequences.Select(Function(a) a.Length).Min
-        sequenceCountField = m_sequences.Count
+        m_sequenceCount = m_sequences.Length
     End Sub
-
-    ''' <returns> the size of the list sequences </returns>
-    Public Overridable ReadOnly Property SequenceCount As Integer
-        Get
-            Return sequenceCountField
-        End Get
-    End Property
 
     ''' <summary>
     ''' Runs numSamples gibbsSamples to find a prediction on the sites
@@ -177,17 +177,20 @@ Public Class GibbsSampler
 
     Private Function informationContent(motifs As IList(Of String)) As Double
         Dim sm As New SequenceMatrix(motifs)
+        Dim sum As Double = 0
+        Dim d As Double = 0
 
-        Return Enumerable.Range(CInt(0), CInt(motifLength)) _
-            .Select(Function(i)
-                        Return Enumerable.Range(CInt(0), CInt(4)) _
-                            .Select(Function(j)
-                                        Return sm.probability(CInt(i), CInt(j)) * (Math.Log(sm.probability(CInt(i), CInt(j)) * 4) / LOG_2)
-                                    End Function) _
-                            .Where(Function(d) CBool(Not Double.IsNaN(d))) _
-                            .Sum
-                    End Function) _
-            .Sum()
+        For i As Integer = 0 To motifLength - 1
+            For j As Integer = 0 To 3
+                d = sm.probability(i, j) * (Math.Log(sm.probability(i, j) * 4) / LOG_2)
+
+                If Not d.IsNaNImaginary Then
+                    sum += d
+                End If
+            Next
+        Next
+
+        Return sum
     End Function
 
     ''' <summary>
@@ -195,12 +198,11 @@ Public Class GibbsSampler
     ''' <param name="maxIterations">, maximum number of iterations sampling may take </param>
     ''' <returns> Sets of int predicting the position motifs located in each sequence </returns>
     Private Function gibbsSample(maxIterations As Integer, S As IList(Of String)) As IList(Of Integer)
-        Dim A = getRandomSites()
-        Dim i = 0
+        Dim A = getRandomSites().ToList
 
-        While Math.Min(Threading.Interlocked.Increment(i), i - 1) < maxIterations
+        For i As Integer = 0 To maxIterations
             ' Choose the next sequence
-            Dim idx = randf.Next(sequenceCountField)
+            Dim idx = randf.Next(m_sequenceCount)
             Dim z = S(idx)
 
             ' Remove the sequence from the sequences and sites
@@ -217,7 +219,7 @@ Public Class GibbsSampler
             ' Add z back into the set of sequences and sites
             S.Insert(idx, z)
             A.Insert(idx, a_z)
-        End While
+        Next
 
         Return A
     End Function
@@ -229,7 +231,7 @@ Public Class GibbsSampler
     Private Function calculateP(S As IList(Of String)) As IList(Of Double)
         Dim P = New Double() {0, 0, 0, 0}
 
-        For i As Integer = 0 To sequenceCountField - 1
+        For i As Integer = 0 To m_sequenceCount - 1
             Call Enumerable.Range(0, sequenceLength) _
                 .ForEach(Sub(jj, ii)
                              P(Utils.indexOfBase(S(ii)(jj))) += 1
@@ -251,8 +253,7 @@ Public Class GibbsSampler
     ''' <param name="A">, the sites for the sequences other than z </param>
     Private Function predictiveUpdateStep(S As IList(Of String), A As IList(Of Integer)) As SequenceMatrix
         ' Compute q_{i,j} from the current positions a_k
-        Dim lA = getMotifStrings(S, A)
-        Return New SequenceMatrix(lA)
+        Return New SequenceMatrix(getMotifStrings(S, A))
     End Function
 
     ''' <summary>
@@ -284,7 +285,7 @@ Public Class GibbsSampler
         Dim A As IList(Of Double) = Enumerable.Range(CInt(0), CInt(sequenceLength - motifLength)) _
             .AsParallel() _
             .Select(Function(x)
-                        Return calculateMotifProbability(CType(q_ij, SequenceMatrix), CStr(z), CInt(x), CType(P, IList(Of Double)))
+                        Return calculateMotifProbability(q_ij, z, x, P)
                     End Function) _
             .AsList()
         Dim weightDistribution = smoothProbabilities(A)
@@ -304,12 +305,17 @@ Public Class GibbsSampler
     ''' <param name="P">, background frequencies </param>
     ''' <returns> log probability </returns>
     Private Function calculateMotifProbability(q_ij As SequenceMatrix, z As String, x As Integer, P As IList(Of Double)) As Double
-        Return Enumerable.Select(Enumerable.Range(CInt(0), CInt(motifLength)), CType(Function(i)
-                                                                                         Dim baseIdx = Utils.indexOfBase(CChar(z(CInt(x + i))))
-                                                                                         Dim q = q_ij.probability(CInt(i), CInt(baseIdx))
-                                                                                         Dim lP = 1 / P(CInt(baseIdx))
-                                                                                         Return Math.Log(q / lP)
-                                                                                     End Function, Func(Of Integer, Double))).Sum
+        Dim sum As Double = 0
+
+        For i As Integer = 0 To motifLength - 1
+            Dim baseIdx = Utils.indexOfBase(z(x + i))
+            Dim q = q_ij.probability(i, baseIdx)
+            Dim lP = 1 / P(baseIdx)
+
+            sum += Math.Log(q / lP)
+        Next
+
+        Return sum
     End Function
 
     ''' <summary>
@@ -324,10 +330,10 @@ Public Class GibbsSampler
 
         ' Assert that there is some non zero probability so that we may smooth
         If min <= Double.NegativeInfinity + 1 Then
-            Return A.[Select](Function(i) -100.0).ToList()
+            Return A.Select(Function(i) -100.0).ToList()
         Else
             ' Replace the 0 probability indices with (min - 1) log probability
-            Return A.[Select](Function(i) If(i.Equals(Double.NegativeInfinity), min - 1, i)).ToList()
+            Return A.Select(Function(i) If(i.Equals(Double.NegativeInfinity), min - 1, i)).ToList()
         End If
     End Function
 
@@ -345,7 +351,7 @@ Public Class GibbsSampler
     ''' using the random object supplied
     ''' the numbers are from 0 to sequenceLength-motifLength-1 inclusive </summary>
     ''' <returns> sequenceLength random ints </returns>
-    Private Function getRandomSites() As IList(Of Integer)
-        Return Enumerable.Range(0, sequenceCountField).[Select](Function(i) randf.Next(sequenceLength - motifLength)).ToList()
+    Private Function getRandomSites() As IEnumerable(Of Integer)
+        Return Enumerable.Range(0, m_sequenceCount).Select(Function(i) randf.Next(sequenceLength - motifLength))
     End Function
 End Class

@@ -41,6 +41,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
   </ItemGroup>
 
