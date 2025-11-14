@@ -137,10 +137,16 @@ Namespace Regprecise
 
                 If LocusTags.IsNullOrEmpty Then
                     Dim tmp As String = properties(CInt(i) - 1)
-                    LocusTags = tmp.Match("<td>.+?</td>").GetValue.StringSplit("[;,]")
-                    regulator.locus_tags = LocusTags.Select(Function(str)
-                                                                Return New NamedValue(str)
-                                                            End Function).ToArray
+                    tmp = tmp.Match("<td>.+?</td>").GetValue.Trim
+                    If tmp = "" Then
+                        regulator.locus_tags = {}
+                    Else
+                        LocusTags = tmp.StringSplit("[;,]")
+
+                        regulator.locus_tags = LocusTags.Select(Function(str)
+                                                                    Return New NamedValue(str)
+                                                                End Function).ToArray
+                    End If
                 Else
                     regulator.locus_tags = LocusTags.Select(Function(str)
                                                                 Return New NamedValue With {
