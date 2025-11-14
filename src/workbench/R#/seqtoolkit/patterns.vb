@@ -195,16 +195,30 @@ Module patterns
         Return seed.LoadAllSeeds.ToArray
     End Function
 
+    ''' <summary>
+    ''' make a motif scan from the given sequence collection
+    ''' </summary>
+    ''' <param name="seqs"></param>
+    ''' <param name="width"></param>
+    ''' <param name="maxitr"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("gibbs_scan")>
     <RApiReturn(GetType(MSAMotif))>
     Public Function gibbs_scans(<RRawVectorArgument>
                                 seqs As Object,
-                                Optional width As Integer = 12,
+                                Optional width As Integer? = Nothing,
                                 Optional maxitr As Integer = 1000,
                                 Optional env As Environment = Nothing) As Object
 
         Dim fa As FastaSeq() = GetFastaSeq(seqs, env).ToArray
-        Dim gibbs As New GibbsSampler(fa, width)
+
+        If fa.IsNullOrEmpty Then
+            Call "could not extract sequence source fasta data!".warning
+            Return Nothing
+        End If
+
+        Dim gibbs As New GibbsSampler(fa, If(width, CInt(fa.Average(Function(s) s.Length) * 0.8)))
         Dim motif As MSAMotif = gibbs.find(maxIterations:=maxitr)
 
         Return motif

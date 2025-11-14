@@ -93,6 +93,13 @@ Public Class GibbsSampler
         End Get
     End Property
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="fastaFile"></param>
+    ''' <param name="motifLength">
+    ''' recommended use value of 0.8 multiply of the average length of the fasta sequence
+    ''' </param>
     Sub New(fastaFile As IEnumerable(Of FastaSeq), Optional motifLength As Integer = 8)
         m_sequences = fastaFile.ToArray
         m_motifLength = motifLength
