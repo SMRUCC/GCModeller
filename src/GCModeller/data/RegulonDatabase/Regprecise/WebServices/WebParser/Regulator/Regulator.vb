@@ -80,7 +80,7 @@ Namespace Regprecise
         ''' a group of regulators in this family
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement> Public Property locus_tag As NamedValue()
+        <XmlElement("locus_tag")> Public Property locus_tags As NamedValue()
         <XmlElement> Public Property biological_process As String()
         <XmlElement> Public Property regulog As NamedValue
 
@@ -113,13 +113,17 @@ Namespace Regprecise
         ''' </summary>
         ''' <value></value>
         ''' <returns>
-        ''' id of <see cref="locus_tag"/>
+        ''' first id of <see cref="locus_tags"/>
         ''' </returns>
         ''' <remarks></remarks>
         Public ReadOnly Property LocusId As String Implements IReadOnlyId.Identity
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return locus_tag.name
+                If locus_tags.IsNullOrEmpty Then
+                    Return Nothing
+                Else
+                    Return locus_tags(0).name
+                End If
             End Get
         End Property
 

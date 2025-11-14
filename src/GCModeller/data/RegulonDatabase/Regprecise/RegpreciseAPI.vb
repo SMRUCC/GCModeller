@@ -72,6 +72,7 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.SequenceModel
@@ -452,6 +453,9 @@ Rodionov, D. A.", Volume:=14)>
         ''' 当有时候向RegulatorSequerncede Fasta文件之中添加了新的Regprecise数据库之中没有的蛋白质序列数据之后，可能会出现
         ''' TFBS序列和Regulator之间的关系无法对应的情况，则这个时候可以使用本方法来重新刷新着两个Fasta序列文件
         ''' </summary>
+        ''' <param name="Regulators">
+        ''' a directory folder that contains the regulator fasta sequence.
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks>对于调控因子序列仅仅取出LocusTAG以及Description数据，TFBS文件是重新生成的</remarks>
         ''' 
@@ -468,26 +472,24 @@ Rodionov, D. A.", Volume:=14)>
             End If
 
             For Each Bacteria In Regprecise.genomes
-                For Each Regulator In Bacteria.regulome.regulators
-                    Dim Path As String = String.Format("{0}/{1}.fasta", Regulators, Regulator.locus_tag.name)
+                For Each Regulator As Regulator In From r As Regulator In Bacteria.regulome.regulators Where r.type = Types.TF
+                    For Each prot As NamedValue In Regulator.locus_tags
+                        Dim path As String = String.Format("{0}/{1}.fasta", Regulators, prot.name)
 
-                    If Regulator.type = Types.RNA Then
-                        Continue For
-                    End If
+                        If Not FileIO.FileSystem.FileExists(path) Then
+                            Call String.Format("EMPTY!!! {0}  -  {1}", prot.name, Regulator.regulator.name).warning
+                            Continue For
+                        End If
 
-                    If Not FileIO.FileSystem.FileExists(Path) Then
-                        Call Console.WriteLine("EMPTY!!! {0}  -  {1}", Regulator.locus_tag.name, Regulator.regulator.name)
-                        Continue For
-                    End If
+                        Dim FastaSequence As FastaReaders.Regulator = FastaReaders.Regulator.LoadDocument(FASTA.FastaSeq.Load(path))
+                        Dim RegpreciseProperty As String = String.Format("[Regulog={0}] [tfbs={1}]",
+                                                                         Regulator.regulog.name,
+                                                                         String.Join(";", (From site In Regulator.regulatorySites Select String.Format("{0}:{1}", site.locus_tag, site.position)).ToArray))
+                        lcl += 1
+                        FastaSequence.Headers = New String() {String.Format("lcl{0}", lcl), FastaSequence.Headers(1), RegpreciseProperty}
 
-                    Dim FastaSequence As FastaReaders.Regulator = FastaReaders.Regulator.LoadDocument(FASTA.FastaSeq.Load(Path))
-                    Dim RegpreciseProperty As String = String.Format("[Regulog={0}] [tfbs={1}]",
-                                                                     Regulator.regulog.name,
-                                                                     String.Join(";", (From site In Regulator.regulatorySites Select String.Format("{0}:{1}", site.locus_tag, site.position)).ToArray))
-                    lcl += 1
-                    FastaSequence.Headers = New String() {String.Format("lcl{0}", lcl), FastaSequence.Headers(1), RegpreciseProperty}
-
-                    Call FileData.Add(FastaSequence)
+                        Call FileData.Add(FastaSequence)
+                    Next
                 Next
             Next
 
