@@ -58,6 +58,7 @@
 
 Imports Microsoft.VisualBasic.Math.GibbsSampling
 Imports Microsoft.VisualBasic.My.JavaScript
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.Matrix
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
@@ -160,10 +161,11 @@ Public Class GibbsSampler
             .MSA = sampler.predictedMotifs.ToArray,
             .names = m_sequences.Select(Function(fa) fa.Title).ToArray,
             .start = sampler.predictedSites.ToArray,
-            .countMatrix = motifMatrix.countsMatrix,
+            .countMatrix = motifMatrix.countsMatrix.Select(Function(n) New ints(n)).toarray,
             .rowSum = motifMatrix.rowSum,
             .p = p,
-            .q = q
+            .q = q,
+            .alphabets = Utils.ACGT
         }
     End Function
 

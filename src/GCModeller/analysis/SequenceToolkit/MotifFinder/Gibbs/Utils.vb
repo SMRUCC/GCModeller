@@ -53,7 +53,10 @@
 
 Public Class Utils
 
-    Public Shared ReadOnly ACGT As String() = New String() {"A", "C", "G", "T"}
+    ''' <summary>
+    ''' char order aligned with <see cref="indexOfBase"/>
+    ''' </summary>
+    Public Shared ReadOnly ACGT As Char() = New Char() {"A"c, "C"c, "G"c, "T"c}
 
     Shared ReadOnly LOG_2 As Double = Math.Log(2)
 
