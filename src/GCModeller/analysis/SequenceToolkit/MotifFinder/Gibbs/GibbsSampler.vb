@@ -116,6 +116,10 @@ Public Class GibbsSampler
         Dim sampler As New RunSample(Me)
 
         Console.WriteLine("============= Input Sequences =============")
+        Console.WriteLine(" * number of sequence samples: " & numSamples)
+        Console.WriteLine(" * min sequence length: " & m_sequenceLength)
+        Console.WriteLine(" * motif width for search: " & m_motifLength)
+        Console.WriteLine()
         Console.WriteLine("============= Result of Gibbs Sampling Algorithm in each iteration =============")
 
         Call Enumerable.Range(0, numSamples) _
