@@ -477,7 +477,7 @@ Module Fasta
                 .ToArray
             Dim fasta As New FastaFile(seqs)
 
-            Return fasta.Save(lineBreak, file, encoding)
+            Return fasta.Save(lineBreak, file, encoding:=encoding)
         End If
     End Function
 
