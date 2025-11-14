@@ -60,11 +60,11 @@ Public Class Utils
 
     Shared ReadOnly LOG_2 As Double = Math.Log(2)
 
-    Friend Shared Function getSequenceFromPair(sequences As IList(Of KeyValuePair(Of String, Integer))) As IList(Of String)
+    Friend Shared Function getSequenceFromPair(sequences As IEnumerable(Of KeyValuePair(Of String, Integer))) As List(Of String)
         Return sequences.Select(Function(a) a.Key).ToList()
     End Function
 
-    Friend Shared Function getSiteFromPair(sequences As IList(Of KeyValuePair(Of String, Integer))) As List(Of Integer)
+    Friend Shared Function getSiteFromPair(sequences As IEnumerable(Of KeyValuePair(Of String, Integer))) As List(Of Integer)
         Return sequences.Select(Function(a) a.Value).ToList()
     End Function
 

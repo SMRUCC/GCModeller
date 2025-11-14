@@ -60,11 +60,11 @@ Namespace Matrix
 
     Public Class SequenceMatrix : Inherits WeightMatrix
 
-        Private ReadOnly sequences As IList(Of String)
+        Private ReadOnly sequences As List(Of String)
         Private ReadOnly sequenceCount As Integer
         Private ReadOnly sequenceLength As Integer
 
-        Public Sub New(sequences As IList(Of String))
+        Public Sub New(sequences As List(Of String))
             Me.sequences = sequences
             sequenceCount = sequences.Count
             rowSum = sequenceCount

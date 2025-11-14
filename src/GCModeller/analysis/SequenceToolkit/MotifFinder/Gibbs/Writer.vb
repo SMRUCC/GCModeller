@@ -57,6 +57,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.Matrix
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Class Writer
+
     ''' <summary>
     ''' Writes all of the files that need to be written </summary>
     ''' <param name="icpc">, information content per column </param>

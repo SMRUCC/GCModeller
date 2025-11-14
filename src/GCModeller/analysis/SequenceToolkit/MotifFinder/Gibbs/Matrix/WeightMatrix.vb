@@ -66,16 +66,16 @@ Namespace Matrix
         Friend rowSum As Integer = 1000000
         Friend countsMatrix As Integer()()
 
-        Friend Sub New(countsLists As IList(Of IList(Of Integer)))
+        Friend Sub New(countsLists As List(Of List(Of Integer)))
             SetCountsMatrixProp(listsToArrays(countsLists))
         End Sub
 
         Friend Sub New()
         End Sub
 
-        Private Function listsToArrays(countsLists As IList(Of IList(Of Integer))) As Integer()()
+        Private Function listsToArrays(countsLists As List(Of List(Of Integer))) As Integer()()
             Dim countMatrix = RectangularArray.Matrix(Of Integer)(countsLists.Count, countsLists(0).Count)
-            Dim rows As IList(Of Integer()) = countsLists.Select(Function(r) r.ToArray()).ToList()
+            Dim rows As List(Of Integer()) = countsLists.Select(Function(r) r.ToArray()).ToList()
 
             For i As Integer = 0 To countsLists.Count - 1
                 countMatrix(i) = rows(i)
@@ -90,7 +90,7 @@ Namespace Matrix
         End Sub
 
         Private Sub SetCountsMatrixProp(value As Integer()())
-            Dim sumByRow As IList(Of Integer) = Enumerable.Range(0, value.Length) _
+            Dim sumByRow As List(Of Integer) = Enumerable.Range(0, value.Length) _
                 .Select(Function(i)
                             Return value(i).Sum()
                         End Function) _
