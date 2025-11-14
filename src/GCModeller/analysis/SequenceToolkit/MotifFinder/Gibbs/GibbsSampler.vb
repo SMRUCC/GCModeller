@@ -202,8 +202,8 @@ Public Class GibbsSampler
 
         For i As Integer = 0 To maxIterations
             ' Choose the next sequence
-            Dim idx = randf.Next(m_sequenceCount)
-            Dim z = S(idx)
+            Dim idx As Integer = randf.Next(m_sequenceCount)
+            Dim z As String = S(idx)
 
             ' Remove the sequence from the sequences and sites
             S.RemoveAt(idx)
@@ -231,10 +231,10 @@ Public Class GibbsSampler
     Private Function calculateP(S As List(Of String)) As List(Of Double)
         Dim P = New Double() {0, 0, 0, 0}
 
-        For i As Integer = 0 To m_sequenceCount - 1
+        For i As Integer = 0 To S.Count - 1
             Dim seq As String = S(i)
 
-            For j As Integer = 0 To m_sequenceLength(i) - 1
+            For j As Integer = 0 To seq.Length - 1
                 Dim c As Char = seq(j)
                 Dim offset As Integer = Utils.indexOfBase(c)
 
