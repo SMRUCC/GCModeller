@@ -166,6 +166,13 @@ declare namespace bioseq.patterns {
    }
    module read {
       /**
+       * read the xml motif data model output from the meme program
+       * 
+       * 
+        * @param file -
+      */
+      function meme_xml(file: string): object;
+      /**
        * read sequence motif json file.
        * 
        * > apply for search by @``M:seqtoolkit.patterns.matchSites(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.SequenceMotif,System.Object,System.Double,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
@@ -231,6 +238,13 @@ declare namespace bioseq.patterns {
      * @param minW default value Is ``null``.
    */
    function top_sites(sites: object, identities?: object, pvalue?: object, minW?: object): object;
+   /**
+    * convert the meme document to motif PWM model object
+    * 
+    * 
+     * @param meme -
+   */
+   function toPWM(meme: object): object;
    module view {
       /**
        * 
