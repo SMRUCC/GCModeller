@@ -82,7 +82,7 @@ Namespace SequenceLogo
             ' y axis
             Call g.DrawLine(Pens.Black, New PointF(X, Y - yHeight), New PointF(X, Y))
             ' x axis
-            Call g.DrawLine(Pens.Black, New PointF(X, Y), New PointF(X + model.Residues.Length * DrawingDevice.WordSize, y:=Y))
+            Call g.DrawLine(Pens.Black, New PointF(X, Y), New PointF(X + region.Width, y:=Y))
 
             ' nt 2 steps,  aa 5 steps
             Dim departs As Integer = If(maxBits = 2, 2, 5)
@@ -132,6 +132,7 @@ Namespace SequenceLogo
             ' start from x0
             X = css.GetWidth(margin.Left)
             font = New Font(font.Name, font.Size * 0.65)
+            wordSize = region.Width / model.Residues.Length
 
             For Each residue As Residue In source
                 If Not frequencyOrder Then
@@ -151,7 +152,7 @@ Namespace SequenceLogo
                 Dim loci As PointF
 
                 size = g.MeasureString(idx, font)
-                loci = New PointF(X + (DrawingDevice.WordSize - size.Width) / 2, Y + 10)
+                loci = New PointF(X + (wordSize - size.Width) / 2, Y + 10)
                 g.DrawString(idx, font, Brushes.Black, loci)
 
                 For Each alphabet As Alphabet In order
@@ -172,10 +173,10 @@ Namespace SequenceLogo
                     g.DrawImage(
                         colorSchema(alphabet.Alphabet),   ' Drawing alphabet
                         X, Y,                             ' position
-                        CSng(DrawingDevice.WordSize), H)  ' Size and relative height
+                        CSng(wordSize), H)  ' Size and relative height
                 Next
 
-                X += DrawingDevice.WordSize
+                X += wordSize
                 Call residue.AsChar.Echo
             Next
 
