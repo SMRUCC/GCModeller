@@ -130,5 +130,27 @@
     </None>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.NET5.vbproj">
+      <Project>{bc2af8a7-fa39-d2a6-403c-a982d8147de5}</Project>
+      <Name>DynamicProgramming.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj">
+      <Project>{a0cd2e3d-f04c-5f3c-5e62-dad854f416f7}</Project>
+      <Name>Math.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{9580b10c-de1b-09d3-b5ff-69b1db736cbd}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{09f9f35f-e945-3460-d42f-e33d91d6c265}</Project>
+      <Name>biocore-netcore5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MSA.NET5.vbproj">
+      <Project>{91121b34-a202-d4da-38c8-c4e2c9d29f1d}</Project>
+      <Name>MSA.NET5</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
