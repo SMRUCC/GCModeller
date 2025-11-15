@@ -55,6 +55,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 
 ''' <summary>
 ''' motif model
