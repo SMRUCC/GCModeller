@@ -65,7 +65,7 @@ Imports SMRUCC.genomics.SequenceModel.Patterns
 ''' <summary>
 ''' residue site
 ''' </summary>
-Public Structure Residue : Implements IPatternSite
+Public Class Residue : Implements IPatternSite
 
     ''' <summary>
     ''' should be sum equals to 1
@@ -160,4 +160,4 @@ Public Structure Residue : Implements IPatternSite
     Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
         index = address
     End Sub
-End Structure
+End Class
