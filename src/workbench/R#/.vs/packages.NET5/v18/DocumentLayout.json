@@ -6,6 +6,15 @@
       "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\drawing\\gdi\u002B\\imagetools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{6644804F-DC7F-40F2-AFA1-A55603FCB355}|..\\..\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Drawing-net4.8.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\drawing-net4.8\\utils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6644804F-DC7F-40F2-AFA1-A55603FCB355}|..\\..\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Drawing-net4.8.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\drawing-net4.8\\imager.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\drawing\\gdi\u002B\\graphicsextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\drawing\\bitmap\\bitmaptools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -19,15 +28,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\drawing\\netcore8.0\\brush.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\drawing\\gdi\u002B\\graphicsextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6644804F-DC7F-40F2-AFA1-A55603FCB355}|..\\..\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Drawing-net4.8.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\drawing-net4.8\\imager.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6644804F-DC7F-40F2-AFA1-A55603FCB355}|..\\..\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Drawing-net4.8.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\drawing-net4.8\\utils.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{75AC5F06-D5A3-4EDE-B092-C7662D9BB4EE}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\logo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -69,7 +69,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "BitmapBuffer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\Bitmap\\BitmapBuffer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\Bitmap\\BitmapBuffer.vb",
@@ -82,7 +82,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "BitmapTools.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\Bitmap\\BitmapTools.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\Bitmap\\BitmapTools.vb",
@@ -95,7 +95,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "BitmapScale.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\Bitmap\\BitmapScale.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\Bitmap\\BitmapScale.vb",
@@ -108,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "BitmapResizer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\Bitmap\\BitmapResizer.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\Bitmap\\BitmapResizer.vb",
@@ -121,7 +121,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Brush.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\netcore8.0\\Brush.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\netcore8.0\\Brush.vb",
@@ -134,7 +134,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "GraphicsExtensions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\GDI\u002B\\GraphicsExtensions.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\GDI\u002B\\GraphicsExtensions.vb",
@@ -153,14 +153,14 @@
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\GDI\u002B\\ImageTools.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\GDI\u002B\\ImageTools.vb",
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Drawing\\GDI\u002B\\ImageTools.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-15T17:42:01.027Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "Imager.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Imager.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Imager.vb",
@@ -173,13 +173,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 1,
               "Title": "Utils.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Utils.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Utils.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Utils.vb",
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\Drawing-net4.8\\Utils.vb",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAAwL8AAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAkwHwAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-15T17:27:37.105Z",
               "EditorCaption": ""
