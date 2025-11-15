@@ -57,7 +57,7 @@
     <ProjectReference Include="..\..\..\GCModeller\data\RCSB PDB\RCSB PDB.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\visualize\SyntenyVisual\SyntenyVisual.vbproj" />
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\interops\meme_suite\MEME.DocParser\MEME.DocParser.vbproj" />
+    <ProjectReference Include="..\..\..\interops\meme_suite\meme_data\meme_data.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\Library\shares\graphics.common_runtime\R_graphics.common_runtime.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
