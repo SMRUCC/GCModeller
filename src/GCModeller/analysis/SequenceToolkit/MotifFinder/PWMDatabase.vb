@@ -12,6 +12,15 @@ Public Class PWMDatabase : Implements IDisposable
 
     Dim disposedValue As Boolean
 
+    Public ReadOnly Property FamilyList As String()
+        Get
+            Return s.OpenFolder("/motifs/").files _
+                .OfType(Of StreamGroup) _
+                .Select(Function(dir) dir.fileName) _
+                .ToArray
+        End Get
+    End Property
+
     Sub New(s As Stream, Optional is_readonly As Boolean = True)
         Me.s = New StreamPack(s, [readonly]:=is_readonly)
     End Sub
@@ -20,7 +29,7 @@ Public Class PWMDatabase : Implements IDisposable
         For Each model As Probability In pwm.SafeQuery
             Dim json As JsonElement = model.CreateJSONElement
             Dim bson As MemoryStream = BSONFormat.SafeGetBuffer(json)
-            Dim file As String = $"/{family}/{model.name}.motif"
+            Dim file As String = $"/motifs/{family}/{model.name}.motif"
 
             Call s.Delete(file)
 
@@ -32,7 +41,7 @@ Public Class PWMDatabase : Implements IDisposable
     End Sub
 
     Public Iterator Function LoadFamilyMotifs(family As String) As IEnumerable(Of Probability)
-        Dim dir As String = $"/family/"
+        Dim dir As String = $"/motifs/{family}/"
 
         For Each file As StreamBlock In s.ListFiles(dir).OfType(Of StreamBlock)
             Dim block As Stream = s.OpenBlock(file)
@@ -41,6 +50,20 @@ Public Class PWMDatabase : Implements IDisposable
 
             Yield motif
         Next
+    End Function
+
+    Public Shared Function LoadMotifs(s As Stream) As Dictionary(Of String, Probability())
+        Using db As New PWMDatabase(s, is_readonly:=True)
+            Dim dbset As New Dictionary(Of String, Probability())
+
+            For Each name As String In db.FamilyList
+                Call dbset.Add(name, db.LoadFamilyMotifs(name).ToArray)
+            Next
+
+            Call s.Dispose()
+
+            Return dbset
+        End Using
     End Function
 
     Protected Overridable Sub Dispose(disposing As Boolean)
