@@ -61,68 +61,71 @@ Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports std = System.Math
 
-''' <summary>
-''' matched high score aligned region in two sequence pairewise alignment result
-''' </summary>
-''' <remarks>
-''' 对<see cref="LocalHSPMatch(Of Char)"/>的XML文件保存文件格式对象
-''' </remarks>
-Public Class HSP : Inherits Match
-
-    Public Property Query As String
-    Public Property Subject As String
-
-    <XmlAttribute> Public Property QueryLength As Integer
-    <XmlAttribute> Public Property SubjectLength As Integer
+Namespace BestLocalAlignment
 
     ''' <summary>
-    ''' length of the query fragment size
+    ''' matched high score aligned region in two sequence pairewise alignment result
     ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property LengthQuery As Integer
-        Get
-            Return std.Abs(toA - fromA)
-        End Get
-    End Property
+    ''' <remarks>
+    ''' 对<see cref="LocalHSPMatch(Of Char)"/>的XML文件保存文件格式对象
+    ''' </remarks>
+    Public Class HSP : Inherits Match
 
-    ''' <summary>
-    ''' length of the hit fragment size
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property LengthHit As Integer
-        Get
-            Return std.Abs(toB - fromB)
-        End Get
-    End Property
+        Public Property Query As String
+        Public Property Subject As String
 
-    Sub New()
-    End Sub
+        <XmlAttribute> Public Property QueryLength As Integer
+        <XmlAttribute> Public Property SubjectLength As Integer
 
-    Sub New(match As Match)
-        Call MyBase.New(match)
-    End Sub
+        ''' <summary>
+        ''' length of the query fragment size
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property LengthQuery As Integer
+            Get
+                Return std.Abs(toA - fromA)
+            End Get
+        End Property
 
-    Sub New(local As LocalHSPMatch(Of Char))
-        Call MyBase.New(local)
+        ''' <summary>
+        ''' length of the hit fragment size
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property LengthHit As Integer
+            Get
+                Return std.Abs(toB - fromB)
+            End Get
+        End Property
 
-        Query = New String(local.seq1)
-        Subject = New String(local.seq2)
-        QueryLength = local.QueryLength
-        SubjectLength = local.SubjectLength
-    End Sub
+        Sub New()
+        End Sub
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function CreateFrom(Of T)(local As LocalHSPMatch(Of T), toChar As Func(Of T, Char)) As HSP
-        Return New HSP(local) With {
-            .Query = local.seq1.Select(toChar).CharString,
-            .Subject = local.seq2.Select(toChar).CharString,
-            .QueryLength = local.QueryLength,
-            .SubjectLength = local.SubjectLength
-        }
-    End Function
+        Sub New(match As Match)
+            Call MyBase.New(match)
+        End Sub
 
-    Public Overrides Function ToString() As String
-        Return Me.GetJson
-    End Function
+        Sub New(local As LocalHSPMatch(Of Char))
+            Call MyBase.New(local)
 
-End Class
+            Query = New String(local.seq1)
+            Subject = New String(local.seq2)
+            QueryLength = local.QueryLength
+            SubjectLength = local.SubjectLength
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function CreateFrom(Of T)(local As LocalHSPMatch(Of T), toChar As Func(Of T, Char)) As HSP
+            Return New HSP(local) With {
+                .Query = local.seq1.Select(toChar).CharString,
+                .Subject = local.seq2.Select(toChar).CharString,
+                .QueryLength = local.QueryLength,
+                .SubjectLength = local.SubjectLength
+            }
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
+
+    End Class
+End Namespace
