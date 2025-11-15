@@ -1,7 +1,5 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices
-Imports Microsoft.VisualBasic.DataStorage.HDSPack
-Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.json
@@ -33,9 +31,9 @@ Public Class PWMDatabase : Implements IDisposable
             Dim bson As MemoryStream = BSONFormat.SafeGetBuffer(json)
             Dim file As String = $"/motifs/{family}/{model.name}.motif"
 
-            Call s.Delete(file)
+            Call fs.DeleteFile(file)
 
-            Using block As Stream = s.OpenBlock(file)
+            Using block As Stream = fs.OpenFile(file, FileMode.OpenOrCreate, FileAccess.Write)
                 Call block.Write(bson.ToArray, Scan0, bson.Length)
                 Call block.Flush()
             End Using
@@ -45,8 +43,8 @@ Public Class PWMDatabase : Implements IDisposable
     Public Iterator Function LoadFamilyMotifs(family As String) As IEnumerable(Of Probability)
         Dim dir As String = $"/motifs/{family}/"
 
-        For Each file As StreamBlock In s.ListFiles(dir).OfType(Of StreamBlock)
-            Dim block As Stream = s.OpenBlock(file)
+        For Each file As String In fs.EnumerateFiles(dir, "*.motif")
+            Dim block As Stream = fs.OpenFile(file, FileMode.Open, FileAccess.Read)
             Dim json As JsonObject = BSONFormat.Load(block, leaveOpen:=True)
             Dim motif As Probability = json.CreateObject(Of Probability)(decodeMetachar:=False)
 
@@ -54,15 +52,13 @@ Public Class PWMDatabase : Implements IDisposable
         Next
     End Function
 
-    Public Shared Function LoadMotifs(s As Stream) As Dictionary(Of String, Probability())
-        Using db As New PWMDatabase(s, is_readonly:=True)
+    Public Shared Function LoadMotifs(fs As IFileSystemEnvironment) As Dictionary(Of String, Probability())
+        Using db As New PWMDatabase(fs)
             Dim dbset As New Dictionary(Of String, Probability())
 
             For Each name As String In db.FamilyList
                 Call dbset.Add(name, db.LoadFamilyMotifs(name).ToArray)
             Next
-
-            Call s.Dispose()
 
             Return dbset
         End Using
