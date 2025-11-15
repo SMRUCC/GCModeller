@@ -61,6 +61,9 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.SequenceModel
 
+''' <summary>
+''' Create motif via the clustering of the blastn alignment result
+''' </summary>
 Public Module MotifTree
 
     ''' <summary>
