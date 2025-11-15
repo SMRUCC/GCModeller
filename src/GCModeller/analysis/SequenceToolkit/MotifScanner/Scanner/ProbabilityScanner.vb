@@ -96,6 +96,31 @@ Public Module ProbabilityScanner
         Next
     End Function
 
+    ''' <summary>
+    ''' 基于PWM的概率匹配
+    ''' </summary>
+    ''' <param name="target"></param>
+    ''' <param name="cutoff#"></param>
+    ''' <param name="minW%"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function ScanSites(motif As Probability, target As FastaSeq,
+                                       Optional cutoff# = 0.6,
+                                       Optional minW% = 6,
+                                       Optional identities As Double = 0.8,
+                                       Optional pvalue As Double = 0.05,
+                                       Optional top As Integer = 9) As IEnumerable(Of MotifMatch)
+
+        For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW,
+                                                              identities:=identities,
+                                                              pvalue_cut:=pvalue,
+                                                              top:=top)
+            scan.seeds = New String() {motif.name}
+
+            Yield scan
+        Next
+    End Function
+
     <Extension>
     Public Iterator Function LinearScan(motif As SequenceMotif, target As FastaSeq, Optional n As Integer = 1000) As IEnumerable(Of MotifMatch)
         For Each scan As MotifMatch In motif.region.LinearScan(target, n)
