@@ -12,7 +12,7 @@
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <AssemblyTitle>Sequence Alignment Tools</AssemblyTitle>
     <UseApplicationFramework>True</UseApplicationFramework>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Title>Sequence Alignment Tool</Title>
   </PropertyGroup>
 

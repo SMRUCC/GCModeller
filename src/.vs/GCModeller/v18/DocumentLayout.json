@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5D9407C2-451A-C0DD-D784-47BDA36D061C}|GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SequenceAlignment.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencealignment\\sequencealignment.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{5D9407C2-451A-C0DD-D784-47BDA36D061C}|GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SequenceAlignment.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencealignment\\sequencealignment.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,6 +31,18 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SequenceAlignment",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SequenceAlignment.vbproj",
+              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SequenceAlignment.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SequenceAlignment.vbproj",
+              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SequenceAlignment.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-11-15T20:48:55.209Z",
+              "EditorCaption": ""
             }
           ]
         },
